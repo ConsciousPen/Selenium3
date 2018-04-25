@@ -282,7 +282,7 @@ TestData_NJ: {
   Refund: [10, NONE],
   Update policy status: [1, NEXT],
   Cancellation notice: [5, PREVIOUS],
-  Cancellation: [15, NEXT],
+  Cancellation: [19, NEXT], # set [15, NEXT] in case QC 44846 fix
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],

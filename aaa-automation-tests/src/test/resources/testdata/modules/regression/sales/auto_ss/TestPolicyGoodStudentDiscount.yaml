@@ -36,15 +36,6 @@ TestData_4: {
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
-TestData_5: {
-  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab', 
-  DriverTab: '@DriverTab_5', 
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab',
-  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
-}
-
 
 CopyFromPolicyActionTab: {
   Quote Effective Date: '$<today>'
@@ -88,14 +79,6 @@ DriverTab_4: {
   Most Recent GPA: Pass  
 }
 
-DriverTab_5: { 
-  Date of Birth: $<today-24y>, 
-  Marital Status: Separated, 
-  Occupation: Homemaker, 
-  Age First Licensed: 14, 
-  Most Recent GPA: College Graduate 
-#add 1 activity in the past 3 years
-}
 
 RatingDetailReportsTab: {
   Customer Agreement: Customer Agrees,

@@ -4,12 +4,11 @@
  */
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
+import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
-import org.openqa.selenium.By;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 import toolkit.webdriver.controls.composite.table.Table;
@@ -29,15 +28,13 @@ public class GeneralTab extends Tab {
 		super(AutoSSMetaData.GeneralTab.class);
 	}
 
-    public MultiAssetList getNamedInsuredInfoAssetList() {
-        return getAssetList().getAsset(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), MultiAssetList.class);
-    }
+	public MultiAssetList getNamedInsuredInfoAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), MultiAssetList.class);
+	}
 
-    public AddressValidationDialog getValidateAddressDialogAssetList() {
-        return getAssetList().getAsset(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), MultiInstanceAfterAssetList.class)
-                .getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.VALIDATE_ADDRESS_DIALOG.getLabel(), AddressValidationDialog.class);
-    }
-
+	public AddressValidationDialog getValidateAddressDialogAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.VALIDATE_ADDRESS_DIALOG);
+	}
 
 	public AssetList getAAAProductOwnedAssetList() {
 		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AssetList.class);

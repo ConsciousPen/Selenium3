@@ -15,9 +15,12 @@ import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.xml.model.DataElementChoice;
 import aaa.helpers.xml.model.DocumentDataSection;
 import aaa.main.enums.DocGenEnum;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 
@@ -93,13 +96,57 @@ public class TestSymbolsPresenceTemplate extends PolicyBaseTest {
 		});
 	}
 
+	public void verifySymbolsPresenceInDocsAfterPremCalc() {
+		DocGenEnum.Documents selectDocument = DocGenEnum.Documents._554000;
+		DocGenEnum.Documents choiceDocument = DocGenEnum.Documents.AA11CA;
+
+		String query;
+		List<DocGenEnum.Documents> docsToCheck;
+		TestData td = getPolicyTD();
+
+		mainApp().open();
+		createCustomerIndividual();
+
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(td, PremiumAndCoveragesTab.class, true);
+		PremiumAndCoveragesTab.buttonSaveAndExit.click();
+
+		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+
+		policy.policyDocGen().start();
+		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
+			generateDocument(selectDocument, policyNumber);
+			query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "55 4000", ADHOC_DOC_ON_DEMAND_GENERATE);
+			docsToCheck = getEnumList(Arrays.asList("_55_4000"));
+		}
+		else{
+			generateDocument(choiceDocument, policyNumber);
+			query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, choiceDocument.getId(), ADHOC_DOC_ON_DEMAND_GENERATE);
+			docsToCheck = getEnumList(Arrays.asList(AA11CA.getId()));
+		}
+
+		docsToCheck.forEach(docID -> {
+			verifyCompCollSymbolsPresence(query, docID);
+		});
+	}
+
+	private void verifyCompCollSymbolsPresence(String query, DocGenEnum.Documents docID) {
+		Arrays.asList("CompDmgSymbl", "CollDmgSymbl", "VehSym").forEach(v ->
+				assertThat(DocGenHelper.getDocumentDataElemByName(v, docID, query)).isNotEmpty().isNotNull());
+	}
+
 	public void generateDocument(DocGenEnum.Documents document, String policyNumber) {
 		generateOnDemandDocumentActionTab.verify.documentsPresent(document);
 		generateOnDemandDocumentActionTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, document.getId()).getCell(SELECT).controls.checkBoxes.getFirst().verify.enabled(true);
 		generateOnDemandDocumentActionTab.generateDocuments(document);
 
 		mainApp().reopen();
-		SearchPage.openPolicy(policyNumber);
+
+		if (policyNumber.startsWith("Q")) {
+			SearchPage.openQuote(policyNumber);
+		} else {
+			SearchPage.openPolicy(policyNumber);
+		}
 	}
 
 	public void pas532_CommonChecks(String query, DocGenEnum.Documents docID) {
