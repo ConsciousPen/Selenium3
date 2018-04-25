@@ -813,11 +813,18 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * verify coverages are same like pas coverages
 	 * calculate premium save and exit
 	 * run ViewManageVehicleLevelCoverages for endorsemnt
-	 * validate they are matching with pas.
+	 * validate coverages are matching with pas and all delimators .
+	 * Go to pas and change all the coverages for vehicle
+	 * calculate primium save.
+	 * open pended endorsement go to P and C page.
+	 * get all vehicle coverages save them
+	 * hit view manage vehicle level coverages dxp
+	 * validate response aginst pas vehicle coverages.
+	 * click on
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741","PAS-11852","PAS-12601"})
 	public void pas11741_ManageVehicleLevelCoverages(@Optional("VA") String state) {
 
 		pas11741_ViewManageVehicleLevelCoverages(getPolicyType());
@@ -893,7 +900,12 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
 	/**
 	 * @author Megha Gubbala
-	 * @name
+	 * @name Validate Meta data for Vehicle
+	 * Create a va policy
+	 * Create an endorsement using DXP
+	 * Hit view vehicle service to get OID
+	 * Hit Meta data service
+	 * Validate the response
 	 * @scenario
 	 */
 	@Parameters({"state"})

@@ -2696,34 +2696,16 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected void pas12407_bigDataService(String state, boolean isNewPolicy, SoftAssertions softly) {
 		mainApp().open();
-		String policyNumber = "VASS952918545";
-		//String policyNumber = getCopiedPolicy();
+	    String policyNumber = getCopiedPolicy();
 
 		//Create pended endorsement
-		//AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		//assertThat(response.policyNumber).isEqualTo(policyNumber);
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
 
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-
-		//generalTab.getInquiryAssetList().assetFieldUnionCheck(AutoSSMetaData.GeneralTab.PolicyInformation.HAS_THE_INSURED_EVER_BEEN_ENROLLED_IN_EVALUE.getLabel(), false, false, false);
-		vehicleTab.getInquiryAssetList().assetFieldUnionCheck(TYPE.getLabel(), true, true, true);
-		vehicleTab.getInquiryAssetList().assetFieldUnionCheck(USAGE.getLabel(), true, true, true);
-
-		vehicleTab.getInquiryAssetList().assetFieldPresence(VIN.getLabel());
-		vehicleTab.getInquiryAssetList().assetFieldEnabled(VIN.getLabel());
-		//vehicleTab.getInquiryAssetList().assetFieldsMandatory(VIN.getLabel());
-		//vehicleTab.getInquiryAssetList().assetFieldUnionCheck(VIN.getLabel(), true, true, false);
-		vehicleTab.getInquiryAssetList().assetFieldUnionCheck(YEAR.getLabel(), true, true, true);
-		vehicleTab.getInquiryAssetList().assetFieldUnionCheck(MAKE.getLabel(), true, true, true);
-		vehicleTab.getInquiryAssetList().assetFieldUnionCheck(MODEL.getLabel(), true, true, true);
-		//vehicleTab.getInquiryAssetList().assetFieldUnionCheck(SERIES.getLabel(), true, true, false);
-		//vehicleTab.getInquiryAssetList().assetFieldUnionCheck(BODY_STYLE.getLabel(), true, true, false);
-		//vehicleTab.getInquiryAssetList().assetFieldUnionCheck(ANTI_THEFT.getLabel(), true, true, false);
-		//vehicleTab.getInquiryAssetList().assetFieldUnionCheck(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel(), true, true, false);
-		//vehicleTab.getInquiryAssetList().assetFieldUnionCheck(OWNERSHIP.getLabel(), true, true, false);
 
 		Vehicle[] viewVehicleResponse = HelperCommon.executeVehicleInfoValidate(policyNumber);
 		String oid = viewVehicleResponse[0].oid;
