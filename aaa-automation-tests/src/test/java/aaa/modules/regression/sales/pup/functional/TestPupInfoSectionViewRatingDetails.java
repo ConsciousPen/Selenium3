@@ -103,11 +103,7 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
         assertThat(rangeTier).contains(underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER).getValue());
 
-        // Open rating details
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
-        NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
-        premiumAndCoveragesQuoteTab.calculatePremium();
-        PropertyQuoteTab.RatingDetailsViewPUP.open();
+        openRatingDetails();
 
         // Verify That Auto tier is N/A or between 1-16. PAS-10397
         assertThat(rangeTier).contains(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier"));
@@ -174,11 +170,7 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         policy.initiate();
         policy.getDefaultView().fillUpTo(getPupTDNoAuto(policies), UnderlyingRisksPropertyTab.class);
 
-        // Open rating details
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
-        NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
-        premiumAndCoveragesQuoteTab.calculatePremium();
-        PropertyQuoteTab.RatingDetailsViewPUP.open();
+        openRatingDetails();
 
         // Verify That Auto tier is empty. PAS-10397
         assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier").isEmpty()).isTrue();
@@ -265,11 +257,7 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
         assertThat(underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER.getLabel()).getValue()).isEqualTo("N/A");
 
-        // Open rating details
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
-        NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
-        premiumAndCoveragesQuoteTab.calculatePremium();
-        PropertyQuoteTab.RatingDetailsViewPUP.open();
+        openRatingDetails();
 
         // Verify That Auto tier is N/A or between 1. PAS-10397
         assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier").contains("1")).isTrue();
@@ -350,14 +338,37 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
         assertThat(rangeTier).contains(underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER).getValue());
 
-        // Open rating details
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
-        NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
-        premiumAndCoveragesQuoteTab.calculatePremium();
-        PropertyQuoteTab.RatingDetailsViewPUP.open();
+        openRatingDetails();
 
         // Verify That Auto tier is N/A or between 1-16. PAS-10397
         assertThat(rangeTier).contains(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier"));
+        PropertyQuoteTab.RatingDetailsViewPUP.close();
+
+        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS.get());
+        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
+
+        underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.PRIMARY_AUTO_POLICY).setValue("No");
+        underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.ADD).click();
+        underlyingRisksAutoTab.fillTab(getPolicyTD());
+        underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER).setValueByIndex(2);
+        String autoTierValue = underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER).getValue();
+
+        openRatingDetails();
+
+        // Verify That Auto tier is the same as Manually added policies
+        assertThat(autoTierValue).isEqualTo(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier"));
+        PropertyQuoteTab.RatingDetailsViewPUP.close();
+
+        // Change Manually Added Auto policies tier
+        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS.get());
+        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
+        underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER).setValueByIndex(10);
+        String autoTierValue1 = underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER).getValue();
+
+        openRatingDetails();
+
+        // Verify That Auto tier is the same as Manually added policies
+        assertThat(autoTierValue1).isEqualTo(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier"));
 
         // Issue Policy
         issuePupFromPremiumTab();
@@ -370,190 +381,14 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
         assertThat(rangeTier).contains(underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER).getValue());
 
-        // Open rating details
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
-        premiumAndCoveragesQuoteTab.calculatePremium();
-        PropertyQuoteTab.RatingDetailsViewPUP.open();
+        openRatingDetails();
 
-        // Verify That Auto tier is N/A or between 1-16. PAS-10397
-        assertThat(rangeTier).contains(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier"));
+        // Verify That Auto tier is the same as Manually added policies
+        assertThat(autoTierValue1).isEqualTo(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier"));
 
         PropertyQuoteTab.RatingDetailsViewPUP.close();
         mainApp().close();
     }
-
-
-    /**
-     * @name Test PUP VRD Auto tier with manually added Auto policy Endorsement
-     * @scenario
-     * 1. Create customer
-     * 2. Create Auto policy
-     * 3. Create HO3 policy with underlying Auto from above
-     * 4. Initiate PUP Policy
-     * 5. Navigate to Underlying Risks Auto Tab
-     * 6. Validate Auto tier
-     * 7. Manually add Auto Policy
-     * 8. Select manually added auto policy as the primary
-     * 9. Navigate Premium Page
-     * 10. Calculate Premium and check Auto tier value is taken from manually added Auto Policy
-     * @details
-     */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PT-1421")
-    public void pt1421_testManuallyAddedAutoTierEndorsement(@Optional("PA") String state) {
-
-        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
-
-        List<String> rangeTier = IntStream.rangeClosed(1, 16).boxed().map(String::valueOf).collect(Collectors.toList());
-        rangeTier.add("N/A");
-
-        TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS), "DataGather", "TestData");
-        TestData tdHO3 = getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3), "DataGather", "TestData");
-
-        String otherActiveKeyPath = TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel());
-        Map<String, String> policies = new HashMap<>();
-
-        // Create Customer
-        mainApp().open();
-        createCustomerIndividual();
-
-        // Create Auto Policy
-        PolicyType.AUTO_SS.get().createPolicy(tdAuto);
-        policies.put("autoPolicy", PolicySummaryPage.getPolicyNumber());
-        TestData tdOtherActiveAuto = getTestSpecificTD("OtherActiveAAAPolicies").adjust("ActiveUnderlyingPoliciesSearch|Policy number", policies.get("autoPolicy"));
-
-        // Create HO3 Policy with underlying Auto policy
-        PolicyType.HOME_SS_HO3.get().createPolicy(tdHO3.adjust(otherActiveKeyPath, tdOtherActiveAuto));
-        policies.put("ho3Policy", PolicySummaryPage.getPolicyNumber());
-
-        // Initiate PUP and verify  in rating details dialog
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(getPupTD(policies), UnderlyingRisksPropertyTab.class);
-
-        // Check if Auto tier value is 1-16.   PAS-10391
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
-        assertThat(rangeTier).contains(underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER).getValue());
-
-        // Open rating details
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
-        NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
-        premiumAndCoveragesQuoteTab.calculatePremium();
-        PropertyQuoteTab.RatingDetailsViewPUP.open();
-
-        // Verify That Auto tier is N/A or between 1-16. PAS-10397
-        assertThat(rangeTier).contains(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier"));
-
-        // Issue Policy
-        issuePupFromPremiumTab();
-
-        // Initiate renewal and navigate to P&C Quote tab calculate premium
-        policy.renew().start().submit();
-
-        // Check if Auto tier value is 1-16.   PAS-10391
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS.get());
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
-        assertThat(rangeTier).contains(underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER).getValue());
-
-        // Open rating details
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
-        premiumAndCoveragesQuoteTab.calculatePremium();
-        PropertyQuoteTab.RatingDetailsViewPUP.open();
-
-        // Verify That Auto tier is N/A or between 1-16. PAS-10397
-        assertThat(rangeTier).contains(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier"));
-
-        PropertyQuoteTab.RatingDetailsViewPUP.close();
-        mainApp().close();
-    }
-
-    /**
-     * @name Test PUP VRD Auto tier with manually added Auto policy Renewal
-     * @scenario
-     * 1. Create customer
-     * 2. Create Auto policy
-     * 3. Create HO3 policy with underlying Auto from above
-     * 4. Initiate PUP Policy
-     * 5. Navigate to Underlying Risks Auto Tab
-     * 6. Validate Auto tier
-     * 7. Manually add Auto Policy
-     * 8. Select manually added auto policy as the primary
-     * 9. Navigate Premium Page
-     * 10. Calculate Premium and check Auto tier value is taken from manually added Auto Policy
-     * @details
-     */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PT-1421")
-    public void pt1421_testManuallyAddedAutoTierRenewal(@Optional("PA") String state) {
-
-        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
-
-        List<String> rangeTier = IntStream.rangeClosed(1, 16).boxed().map(String::valueOf).collect(Collectors.toList());
-        rangeTier.add("N/A");
-
-        TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS), "DataGather", "TestData");
-        TestData tdHO3 = getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3), "DataGather", "TestData");
-
-        String otherActiveKeyPath = TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel());
-        Map<String, String> policies = new HashMap<>();
-
-        // Create Customer
-        mainApp().open();
-        createCustomerIndividual();
-
-        // Create Auto Policy
-        PolicyType.AUTO_SS.get().createPolicy(tdAuto);
-        policies.put("autoPolicy", PolicySummaryPage.getPolicyNumber());
-        TestData tdOtherActiveAuto = getTestSpecificTD("OtherActiveAAAPolicies").adjust("ActiveUnderlyingPoliciesSearch|Policy number", policies.get("autoPolicy"));
-
-        // Create HO3 Policy with underlying Auto policy
-        PolicyType.HOME_SS_HO3.get().createPolicy(tdHO3.adjust(otherActiveKeyPath, tdOtherActiveAuto));
-        policies.put("ho3Policy", PolicySummaryPage.getPolicyNumber());
-
-        // Initiate PUP and verify  in rating details dialog
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(getPupTD(policies), UnderlyingRisksPropertyTab.class);
-
-        // Check if Auto tier value is 1-16.   PAS-10391
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
-        assertThat(rangeTier).contains(underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER).getValue());
-
-        // Open rating details
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
-        NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
-        premiumAndCoveragesQuoteTab.calculatePremium();
-        PropertyQuoteTab.RatingDetailsViewPUP.open();
-
-        // Verify That Auto tier is N/A or between 1-16. PAS-10397
-        assertThat(rangeTier).contains(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier"));
-
-        // Issue Policy
-        issuePupFromPremiumTab();
-
-        // Initiate renewal and navigate to P&C Quote tab calculate premium
-        policy.renew().start().submit();
-
-        // Check if Auto tier value is 1-16.   PAS-10391
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS.get());
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
-        assertThat(rangeTier).contains(underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER).getValue());
-
-        // Open rating details
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
-        premiumAndCoveragesQuoteTab.calculatePremium();
-        PropertyQuoteTab.RatingDetailsViewPUP.open();
-
-        // Verify That Auto tier is N/A or between 1-16. PAS-10397
-        assertThat(rangeTier).contains(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier"));
-
-        PropertyQuoteTab.RatingDetailsViewPUP.close();
-        mainApp().close();
-    }
-
 
     private TestData getPupTD(Map<String, String> policies) {
         TestData prefillTab = getTestSpecificTD("TestData_PrefillTab")
@@ -578,6 +413,13 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         bindTab.submitTab();
         purchaseTab.fillTab(getPolicyTD());
         purchaseTab.submitTab();
+    }
+
+    private void openRatingDetails(){
+        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
+        NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
+        premiumAndCoveragesQuoteTab.calculatePremium();
+        PropertyQuoteTab.RatingDetailsViewPUP.open();
     }
 
 }
