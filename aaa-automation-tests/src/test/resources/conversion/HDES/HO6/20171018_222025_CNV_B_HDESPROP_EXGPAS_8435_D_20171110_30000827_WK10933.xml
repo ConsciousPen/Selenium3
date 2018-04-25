@@ -2,8 +2,8 @@
 <Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
 	<AAAHOPolicy state="Created">
 		<agencyCd>500001005</agencyCd>
-		<agencyLocation>500005401</agencyLocation>
-		<agentCd>500006726</agentCd>
+		<agencyLocation>500005301</agencyLocation>
+		<agentCd>70683577</agentCd>
 		<agentGeneralNumber>003</agentGeneralNumber>
 		<doNotRenewInd>false</doNotRenewInd>
 		<effective>2018-01-04T00:00:00</effective>
@@ -20,7 +20,7 @@
 		<productCd>AAA_HO_CA</productCd>
 		<riskStateCd>CA</riskStateCd>
 		<sourcePolicyNum>WK10933</sourcePolicyNum>
-		<subProducerCd>500006726</subProducerCd>
+		<subProducerCd>70683577</subProducerCd>
 		<tollNumberCd>xxx</tollNumberCd>
 		<underwriterCd>CSAAIB</underwriterCd>
 		<HO438BFUNSEndorsementForm state="Created"/>

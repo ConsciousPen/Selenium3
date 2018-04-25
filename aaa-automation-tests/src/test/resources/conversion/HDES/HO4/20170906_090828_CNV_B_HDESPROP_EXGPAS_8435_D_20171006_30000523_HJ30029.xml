@@ -1,257 +1,257 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Policy rootEntityType="policy" version="1" name="AAA_HO_CA" >
-  <AAAHOPolicy state="Created">
-    <agencyCd>500001005</agencyCd>
-    <agencyLocation>500005330</agencyLocation>
-    <agentCd>70685074</agentCd>
-    <agentGeneralNumber>003</agentGeneralNumber>
-    <CaliforniaVeterans>false</CaliforniaVeterans>
-    <doNotRenewInd>false</doNotRenewInd>
-    <effective>2017-11-28T00:00:00</effective>
-    <expiration>2018-11-28T00:00:00</expiration>
-    <imported>CONV</imported>
-    <importedFrom>HDES</importedFrom>
-    <leadSourceCd>25</leadSourceCd>
-    <officeType>AZ Club Agent</officeType>
-    <policyFormCd>HO4</policyFormCd>
-    <preConversionPolicyNumber>HJ30029</preConversionPolicyNumber>
-    <preConversionPolicyPremium>201</preConversionPolicyPremium>
-    <producerCd>500001005</producerCd>
-    <productCd>AAA_HO_CA</productCd>
-    <riskStateCd>CA</riskStateCd>
-    <sourcePolicyNum>HJ30029</sourcePolicyNum>
-    <subProducerCd>70685074</subProducerCd>
-    <tollNumberCd>xxx</tollNumberCd>
-    <underwriterCd>CSAAIB</underwriterCd>
-    <AAACeaDetailsComponent state="Created">
-      <acceptCeaOffer>false</acceptCeaOffer>
-      <policyType>BASIC</policyType>
-    </AAACeaDetailsComponent>
-    <AAAFirelineReportComponent state="Created">
-      <dwellAddressCity>MONTEREY</dwellAddressCity>
-      <dwellAddressLine1>20 DEL MONTE AVE</dwellAddressLine1>
-      <dwellAddressLine2>APT 108</dwellAddressLine2>
-      <dwellAddressState>CA</dwellAddressState>
-      <dwellAddressZip>93940</dwellAddressZip>
-      <expirationDate>2018-01-04T00:00:00</expirationDate>
-      <orderDate>2017-10-06T00:00:00</orderDate>
-      <status>Valid</status>
-    </AAAFirelineReportComponent>
-    <AAAHOCommunicationInfo state="Created">
-      <phoneNumber>8313721756</phoneNumber>
-      <preferredContact>homePhone</preferredContact>
-      <workPhone>8312069978</workPhone>
-    </AAAHOCommunicationInfo>
-    <AAAHOMembership state="Created">
-      <insurerCd>No</insurerCd>
-    </AAAHOMembership>
-    <AAAHONamedInsured state="Created">
-      <aaaLegalNameIND>false</aaaLegalNameIND>
-      <dateOfBirth>1962-08-09T00:00:00</dateOfBirth>
-      <employeeType>false</employeeType>
-      <firstName>KEVIN</firstName>
-      <lastName>ARMSTEAD</lastName>
-      <occupationDesc>Unknown</occupationDesc>
-      <principalRoleCd>policyHolder</principalRoleCd>
-      <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
-      <trusteeIndicator>false</trusteeIndicator>
-      <AAAHOOrderClueReport state="Created">
-        <addressLine1>20 DEL MONTE AVE</addressLine1>
-        <addressLine2>APT 108</addressLine2>
-        <city>MONTEREY</city>
-        <dateOfBirth>1962-08-09T00:00:00</dateOfBirth>
-        <expirationDt>2017-12-05T00:00:00</expirationDt>
-        <firstName>KEVIN</firstName>
-        <lastName>ARMSTEAD</lastName>
-        <noOfClaims>0</noOfClaims>
-        <orderDate>2017-10-06T00:00:00</orderDate>
-        <postalCode>93940</postalCode>
-        <reportExpired>false</reportExpired>
-        <status>Valid</status>
-      </AAAHOOrderClueReport>
-      <AAAInsuredPrimaryAddress state="Created">
-        <addressLine1>20 DEL MONTE AVE</addressLine1>
-        <addressLine2>APT 108</addressLine2>
-        <city>MONTEREY</city>
-        <countryCd>US</countryCd>
-        <postalCode>93940</postalCode>
-        <stateProvCd>CA</stateProvCd>
-      </AAAInsuredPrimaryAddress>
-    </AAAHONamedInsured>
-    <AAAHONamedInsured state="Created">
-      <aaaLegalNameIND>false</aaaLegalNameIND>
-      <dateOfBirth>1970-01-10T00:00:00</dateOfBirth>
-      <employeeType>false</employeeType>
-      <firstName>DEANNA</firstName>
-      <lastName>ARMSTEAD</lastName>
-      <occupationDesc>Unknown</occupationDesc>
-      <relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
-      <trusteeIndicator>false</trusteeIndicator>
-      <AAAHOOrderClueReport state="Created">
-        <addressLine1>20 DEL MONTE AVE</addressLine1>
-        <addressLine2>APT 108</addressLine2>
-        <city>MONTEREY</city>
-        <dateOfBirth>1970-01-10T00:00:00</dateOfBirth>
-        <expirationDt>2017-12-05T00:00:00</expirationDt>
-        <firstName>DEANNA</firstName>
-        <lastName>ARMSTEAD</lastName>
-        <noOfClaims>0</noOfClaims>
-        <orderDate>2017-10-06T00:00:00</orderDate>
-        <postalCode>93940</postalCode>
-        <reportExpired>false</reportExpired>
-        <status>Valid</status>
-      </AAAHOOrderClueReport>
-      <AAAInsuredPrimaryAddress state="Created">
-        <addressLine1>20 DEL MONTE AVE</addressLine1>
-        <addressLine2>APT 108</addressLine2>
-        <city>MONTEREY</city>
-        <countryCd>US</countryCd>
-        <postalCode>93940</postalCode>
-        <stateProvCd>CA</stateProvCd>
-      </AAAInsuredPrimaryAddress>
-    </AAAHONamedInsured>
-    <AAAHOPaymentOption state="Created">
-      <billToAtRenewal>Insured</billToAtRenewal>
-      <paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
-      <paymentPlanCd>standardHO_CA</paymentPlanCd>
-      <recurringPayment>false</recurringPayment>
-    </AAAHOPaymentOption>
-    <AAAHOPolicyPriorCarrier state="Created">
-      <baseDate>2006-01-01T00:00:00</baseDate>
-      <carrierCd>1</carrierCd>
-      <noOfYearsWithHO>11</noOfYearsWithHO>
-      <policyType>HO4</policyType>
-    </AAAHOPolicyPriorCarrier>
-    <AAAHOPreDwellingAddrExists state="Created">
-      <yesNoAnswer>false</yesNoAnswer>
-    </AAAHOPreDwellingAddrExists>
-    <AAAPolicyPrintingInfoComponent state="Created">
-      <suppressPrint>PD</suppressPrint>
-    </AAAPolicyPrintingInfoComponent>
-    <AAAPpcReportComponent state="Created">
-      <dwellAddressCity>MONTEREY</dwellAddressCity>
-      <dwellAddressLine1>20 DEL MONTE AVE</dwellAddressLine1>
-      <dwellAddressLine2>APT 108</dwellAddressLine2>
-      <dwellAddressState>CA</dwellAddressState>
-      <dwellAddressZip>93940</dwellAddressZip>
-      <expirationDate>2017-12-05T00:00:00</expirationDate>
-      <orderDate>2017-10-06T00:00:00</orderDate>
-      <ppcValue>2</ppcValue>
-      <status>Valid</status>
-    </AAAPpcReportComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>PS</docReceivedInd>
-      <documentCd>1POSOA</documentCd>
-      <documentText>Signed policy application</documentText>
-    </AAASupportingDocComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>PS</docReceivedInd>
-      <documentCd>CEAOD</documentCd>
-      <documentText>CEA Offer Declination</documentText>
-    </AAASupportingDocComponent>
-    <AAAUnderwritingQuestionaireComponent state="Created">
-      <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
-      <EmployeesResidentsInd>false</EmployeesResidentsInd>
-      <PremisesEndrosInd>false</PremisesEndrosInd>
-      <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
-    </AAAUnderwritingQuestionaireComponent>
-    <Commissions state="Created">
-      <commissionTypeCd>R</commissionTypeCd>
-    </Commissions>
-    <AAADwellEntityComponent state="Created">
-      <aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
-      <aaaDwellingUsage>1</aaaDwellingUsage>
-      <aaaFirelineScore>0</aaaFirelineScore>
-      <aaanumberofResidents>9999</aaanumberofResidents>
-      <addressLine1>20 DEL MONTE AVE</addressLine1>
-      <addressLine2>APT 108</addressLine2>
-      <city>MONTEREY</city>
-      <numberOfFamilies>9</numberOfFamilies>
-      <postalCode>93940</postalCode>
-      <spaTubType>None</spaTubType>
-      <stateProvCd>CA</stateProvCd>
-      <swimPoolType>None</swimPoolType>
-      <trampolineType>None</trampolineType>
-      <woodStoveInd>false</woodStoveInd>
-      <AAACoverageC state="Created">
-        <coverageCd>CovC</coverageCd>
-        <limitAmount>21600</limitAmount>
-      </AAACoverageC>
-      <AAACoverageD state="Created">
-        <coverageCd>CovD</coverageCd>
-        <limitAmount>4900</limitAmount>
-      </AAACoverageD>
-      <AAACoverageE state="Created">
-        <coverageCd>CovE</coverageCd>
-        <limitAmount>300000</limitAmount>
-      </AAACoverageE>
-      <AAACoverageF state="Created">
-        <coverageCd>CovF</coverageCd>
-        <limitAmount>1000</limitAmount>
-      </AAACoverageF>
-      <AAAHOConstructionInfo state="Created">
-        <constructionTypeCd>Frame</constructionTypeCd>
-        <livingArea>9999</livingArea>
-        <numberOfStories>1</numberOfStories>
-        <personalPropertyValue>21600</personalPropertyValue>
-        <roofType>Other</roofType>
-        <yearBuilt>1970</yearBuilt>
-      </AAAHOConstructionInfo>
-      <AAAPpcDetailsInfo state="Created">
-        <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
-        <fireDepartmentType>T</fireDepartmentType>
-        <fireDistrict>MONTEREY</fireDistrict>
-        <oldPpcValue>2</oldPpcValue>
-        <ppcValue>2</ppcValue>
-      </AAAPpcDetailsInfo>
-      <AAAPropertyDeductible state="Created">
-        <coverageCd>DEDUCTIBLE</coverageCd>
-        <limitAmount>500</limitAmount>
-      </AAAPropertyDeductible>
-      <PreconfigLocation state="Created">
-        <AAAHODwellAddress state="Created">
-          <addressLine1>20 DEL MONTE AVE</addressLine1>
-          <addressLine2>APT 108</addressLine2>
-          <addressValidatedInd>Yes</addressValidatedInd>
-          <city>MONTEREY</city>
-          <county>Monterey</county>
-          <postalCode>93940</postalCode>
-          <stateProvCd>CA</stateProvCd>
-        </AAAHODwellAddress>
-      </PreconfigLocation>
-    </AAADwellEntityComponent>
-    <HO210EndorsementForm state="Created">
-      <coverageLimit>5000</coverageLimit>
-    </HO210EndorsementForm>
-    <HO29EndorsementForm state="Created"/>
-    <HO59EndorsementForm state="Created"/>
-    <HO90EndorsementForm state="Created"/>
-    <PreconfigPersonInfo state="Created">
-      <AAAHOMailingAddressComponent state="Created">
-        <addressLine1>PO BOX 6012</addressLine1>
-        <addressValidatedInd>Yes</addressValidatedInd>
-        <city>SALINAS</city>
-        <countryCd>US</countryCd>
-        <county>Monterey</county>
-        <postalCode>93912</postalCode>
-        <stateProvCd>CA</stateProvCd>
-      </AAAHOMailingAddressComponent>
-    </PreconfigPersonInfo>
-  </AAAHOPolicy>
-  <userNote>
-    <category>Other</category>
-    <confidential>false</confidential>
-    <title>Conversion: Dwelling address validated and standardized</title>
-    <updatedOn>2017-10-06T00:00:00</updatedOn>
-    <userText>Dwelling Address was validated and standardized during Conversion. Address was standardized from 20 DEL MONTE ST #108  MONTEREY CA 93940 to 20 DEL MONTE AVE APT 108 MONTEREY CA 93940</userText>
-  </userNote>
-  <userNote>
-    <category>Other</category>
-    <confidential>false</confidential>
-    <title>Conversion: Mailing address validated and standardized</title>
-    <updatedOn>2017-10-06T00:00:00</updatedOn>
-    <userText>Mailing Address was validated and standardized during Conversion. Address was standardized from PO BOX 6012  SALINAS CA 93912 to PO BOX 6012  SALINAS CA 93912</userText>
-  </userNote>
+<Policy rootEntityType="policy" version="1" name="AAA_HO_CA">
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005301</agencyLocation>
+		<agentCd>70683577</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<CaliforniaVeterans>false</CaliforniaVeterans>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2017-11-28T00:00:00</effective>
+		<expiration>2018-11-28T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>HDES</importedFrom>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>HO4</policyFormCd>
+		<preConversionPolicyNumber>HJ30029</preConversionPolicyNumber>
+		<preConversionPolicyPremium>201</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>HJ30029</sourcePolicyNum>
+		<subProducerCd>70683577</subProducerCd>
+		<tollNumberCd>xxx</tollNumberCd>
+		<underwriterCd>CSAAIB</underwriterCd>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+			<policyType>BASIC</policyType>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>MONTEREY</dwellAddressCity>
+			<dwellAddressLine1>20 DEL MONTE AVE</dwellAddressLine1>
+			<dwellAddressLine2>APT 108</dwellAddressLine2>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>93940</dwellAddressZip>
+			<expirationDate>2018-01-04T00:00:00</expirationDate>
+			<orderDate>2017-10-06T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>8313721756</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+			<workPhone>8312069978</workPhone>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>No</insurerCd>
+		</AAAHOMembership>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1962-08-09T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>KEVIN</firstName>
+			<lastName>ARMSTEAD</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>20 DEL MONTE AVE</addressLine1>
+				<addressLine2>APT 108</addressLine2>
+				<city>MONTEREY</city>
+				<dateOfBirth>1962-08-09T00:00:00</dateOfBirth>
+				<expirationDt>2017-12-05T00:00:00</expirationDt>
+				<firstName>KEVIN</firstName>
+				<lastName>ARMSTEAD</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-10-06T00:00:00</orderDate>
+				<postalCode>93940</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>20 DEL MONTE AVE</addressLine1>
+				<addressLine2>APT 108</addressLine2>
+				<city>MONTEREY</city>
+				<countryCd>US</countryCd>
+				<postalCode>93940</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1970-01-10T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>DEANNA</firstName>
+			<lastName>ARMSTEAD</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>20 DEL MONTE AVE</addressLine1>
+				<addressLine2>APT 108</addressLine2>
+				<city>MONTEREY</city>
+				<dateOfBirth>1970-01-10T00:00:00</dateOfBirth>
+				<expirationDt>2017-12-05T00:00:00</expirationDt>
+				<firstName>DEANNA</firstName>
+				<lastName>ARMSTEAD</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-10-06T00:00:00</orderDate>
+				<postalCode>93940</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>20 DEL MONTE AVE</addressLine1>
+				<addressLine2>APT 108</addressLine2>
+				<city>MONTEREY</city>
+				<countryCd>US</countryCd>
+				<postalCode>93940</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Insured</billToAtRenewal>
+			<paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>standardHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2006-01-01T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>11</noOfYearsWithHO>
+			<policyType>HO4</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>MONTEREY</dwellAddressCity>
+			<dwellAddressLine1>20 DEL MONTE AVE</dwellAddressLine1>
+			<dwellAddressLine2>APT 108</dwellAddressLine2>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>93940</dwellAddressZip>
+			<expirationDate>2017-12-05T00:00:00</expirationDate>
+			<orderDate>2017-10-06T00:00:00</orderDate>
+			<ppcValue>2</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<PremisesEndrosInd>false</PremisesEndrosInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>1</aaaDwellingUsage>
+			<aaaFirelineScore>0</aaaFirelineScore>
+			<aaanumberofResidents>9999</aaanumberofResidents>
+			<addressLine1>20 DEL MONTE AVE</addressLine1>
+			<addressLine2>APT 108</addressLine2>
+			<city>MONTEREY</city>
+			<numberOfFamilies>9</numberOfFamilies>
+			<postalCode>93940</postalCode>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<woodStoveInd>false</woodStoveInd>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>21600</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>4900</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>300000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOConstructionInfo state="Created">
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<livingArea>9999</livingArea>
+				<numberOfStories>1</numberOfStories>
+				<personalPropertyValue>21600</personalPropertyValue>
+				<roofType>Other</roofType>
+				<yearBuilt>1970</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>MONTEREY</fireDistrict>
+				<oldPpcValue>2</oldPpcValue>
+				<ppcValue>2</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>500</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>20 DEL MONTE AVE</addressLine1>
+					<addressLine2>APT 108</addressLine2>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>MONTEREY</city>
+					<county>Monterey</county>
+					<postalCode>93940</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<HO210EndorsementForm state="Created">
+			<coverageLimit>5000</coverageLimit>
+		</HO210EndorsementForm>
+		<HO29EndorsementForm state="Created"/>
+		<HO59EndorsementForm state="Created"/>
+		<HO90EndorsementForm state="Created"/>
+		<PreconfigPersonInfo state="Created">
+			<AAAHOMailingAddressComponent state="Created">
+				<addressLine1>PO BOX 6012</addressLine1>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>SALINAS</city>
+				<countryCd>US</countryCd>
+				<county>Monterey</county>
+				<postalCode>93912</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAHOMailingAddressComponent>
+		</PreconfigPersonInfo>
+	</AAAHOPolicy>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Conversion: Dwelling address validated and standardized</title>
+		<updatedOn>2017-10-06T00:00:00</updatedOn>
+		<userText>Dwelling Address was validated and standardized during Conversion. Address was standardized from 20 DEL MONTE ST #108  MONTEREY CA 93940 to 20 DEL MONTE AVE APT 108 MONTEREY CA 93940</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Conversion: Mailing address validated and standardized</title>
+		<updatedOn>2017-10-06T00:00:00</updatedOn>
+		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from PO BOX 6012  SALINAS CA 93912 to PO BOX 6012  SALINAS CA 93912</userText>
+	</userNote>
 </Policy>

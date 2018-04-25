@@ -1,441 +1,441 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Policy name="AAA_HO_CA" version="1.0" rootEntityType="policy">
-    <AAAHOPolicy state="Created">
-        <agencyCd>500001005</agencyCd>
-        <agencyLocation>500005301</agencyLocation>
-        <agentCd>103118975</agentCd>
-        <agentGeneralNumber>003</agentGeneralNumber>
-        <countryCd>US</countryCd>
-        <doNotRenewInd>false</doNotRenewInd>
-        <effective>2018-01-30T00:00:00</effective>
-        <expiration>2019-01-30T00:00:00</expiration>
-        <imported>CONV</imported>
-        <importedFrom>SIS</importedFrom>
-        <isAdditionalPolicy>false</isAdditionalPolicy>
-        <isAdditionalProppolicy>false</isAdditionalProppolicy>
-        <leadSourceCd>25</leadSourceCd>
-        <officeType>AZ Club Agent</officeType>
-        <policyFormCd>DP3</policyFormCd>
-        <preConversionPolicyNumber>DP3 3568106</preConversionPolicyNumber>
-        <preConversionPolicyPremium>563</preConversionPolicyPremium>
-        <producerCd>500001005</producerCd>
-        <productCd>AAA_HO_CA</productCd>
-        <riskStateCd>CA</riskStateCd>
-        <sourcePolicyNum>DP3 3568106</sourcePolicyNum>
-        <subProducerCd>103118975</subProducerCd>
-        <tollNumberCd>1111111111</tollNumberCd>
-        <underwriterCd>ACAIC</underwriterCd>
-        <AAACeaDetailsComponent state="Created">
-            <acceptCeaOffer>false</acceptCeaOffer>
-        </AAACeaDetailsComponent>
-        <AAAFirelineReportComponent state="Created">
-            <dwellAddressCity>FRESNO</dwellAddressCity>
-            <dwellAddressLine1>5658 N HENRY LN</dwellAddressLine1>
-            <dwellAddressState>CA</dwellAddressState>
-            <dwellAddressZip>93711</dwellAddressZip>
-            <expirationDate>2018-02-06T00:00:00</expirationDate>
-            <orderDate>2017-11-08T00:00:00</orderDate>
-            <status>Valid</status>
-        </AAAFirelineReportComponent>
-        <AAAHOCommunicationInfo state="Created">
-            <phoneNumber>5597060753</phoneNumber>
-            <preferredContact>homePhone</preferredContact>
-        </AAAHOCommunicationInfo>
-        <AAAHOMembership state="Created">
-            <insurerCd>Yes</insurerCd>
-            <insurerName>MYERS</insurerName>
-            <policyNumber>4290051057284410</policyNumber>
-        </AAAHOMembership>
-        <AAAHOMortgageeExists state="Created">
-            <yesNoAnswer>false</yesNoAnswer>
-        </AAAHOMortgageeExists>
-        <AAAHONamedInsured state="Created">
-            <aaaLegalNameIND>false</aaaLegalNameIND>
-            <dateOfBirth>1941-04-12T00:00:00</dateOfBirth>
-            <employeeType>false</employeeType>
-            <firstName>JAMES</firstName>
-            <lastName>MYERS</lastName>
-            <occupationDesc>Unknown</occupationDesc>
-            <principalRoleCd>policyHolder</principalRoleCd>
-            <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
-            <trusteeIndicator>false</trusteeIndicator>
-            <AAAHOOrderClueReport state="Created">
-                <addressLine1>5658 N HENRY LN</addressLine1>
-                <city>FRESNO</city>
-                <dateOfBirth>1941-04-12T00:00:00</dateOfBirth>
-                <expirationDt>2018-01-07T00:00:00</expirationDt>
-                <firstName>JAMES</firstName>
-                <lastName>MYERS</lastName>
-                <noOfClaims>0</noOfClaims>
-                <orderDate>2017-11-08T00:00:00</orderDate>
-                <postalCode>93711</postalCode>
-                <reportExpired>false</reportExpired>
-                <status>Valid</status>
-            </AAAHOOrderClueReport>
-            <AAAInsuredPrimaryAddress state="Created">
-                <addressLine1>5658 N HENRY LN</addressLine1>
-                <city>FRESNO</city>
-                <countryCd>US</countryCd>
-                <postalCode>93711</postalCode>
-                <stateProvCd>CA</stateProvCd>
-            </AAAInsuredPrimaryAddress>
-        </AAAHONamedInsured>
-        <AAAHONamedInsured state="Created">
-            <aaaLegalNameIND>false</aaaLegalNameIND>
-            <dateOfBirth>1960-07-18T00:00:00</dateOfBirth>
-            <employeeType>false</employeeType>
-            <firstName>KAREN</firstName>
-            <lastName>MYERS</lastName>
-            <occupationDesc>Unknown</occupationDesc>
-            <relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
-            <trusteeIndicator>false</trusteeIndicator>
-            <AAAHOOrderClueReport state="Created">
-                <addressLine1>5658 N HENRY LN</addressLine1>
-                <city>FRESNO</city>
-                <dateOfBirth>1960-07-18T00:00:00</dateOfBirth>
-                <expirationDt>2018-01-07T00:00:00</expirationDt>
-                <firstName>KAREN</firstName>
-                <lastName>MYERS</lastName>
-                <noOfClaims>0</noOfClaims>
-                <orderDate>2017-11-08T00:00:00</orderDate>
-                <postalCode>93711</postalCode>
-                <reportExpired>false</reportExpired>
-                <status>Valid</status>
-            </AAAHOOrderClueReport>
-            <AAAInsuredPrimaryAddress state="Created">
-                <addressLine1>5658 N HENRY LN</addressLine1>
-                <city>FRESNO</city>
-                <countryCd>US</countryCd>
-                <postalCode>93711</postalCode>
-                <stateProvCd>CA</stateProvCd>
-            </AAAInsuredPrimaryAddress>
-        </AAAHONamedInsured>
-        <AAAHOPaymentOption state="Created">
-            <billToAtRenewal>Insured</billToAtRenewal>
-            <paymentPlanAtRenewal>quarterlyHO_CA_R</paymentPlanAtRenewal>
-            <paymentPlanCd>quarterlyHO_CA</paymentPlanCd>
-            <recurringPayment>false</recurringPayment>
-        </AAAHOPaymentOption>
-        <AAAHOPolicyPriorCarrier state="Created">
-            <baseDate>2010-01-30T00:00:00</baseDate>
-            <carrierCd>1</carrierCd>
-            <noOfYearsWithHO>8</noOfYearsWithHO>
-            <policyType>DP3</policyType>
-        </AAAHOPolicyPriorCarrier>
-        <AAAHOPreDwellingAddrExists state="Created">
-            <yesNoAnswer>false</yesNoAnswer>
-        </AAAHOPreDwellingAddrExists>
-        <AAAIso360ReportComponent state="Created">
-            <constructionTypeCd>Frame</constructionTypeCd>
-            <dwellAddressCity>FRESNO</dwellAddressCity>
-            <dwellAddressLine1>5658 N HENRY LN</dwellAddressLine1>
-            <dwellAddressState>CA</dwellAddressState>
-            <dwellAddressZip>93711</dwellAddressZip>
-            <expirationDate>2018-02-06T00:00:00</expirationDate>
-            <isoReplacementCost>357319</isoReplacementCost>
-            <livingArea>2500</livingArea>
-            <numberOfFamilies>1</numberOfFamilies>
-            <numberOfStories>1</numberOfStories>
-            <orderDate>2017-11-08T00:00:00</orderDate>
-            <roofShape>Complex/Custom</roofShape>
-            <roofType>Concrete Tile</roofType>
-            <status>Valid</status>
-            <yearBuilt>2012</yearBuilt>
-        </AAAIso360ReportComponent>
-        <AAAMembershipOrder state="Created">
-            <lastName>MYERS</lastName>
-            <membershipNumber>4290051057284410</membershipNumber>
-            <memberSince>2009-01-01T00:00:00</memberSince>
-            <orderDate>2017-11-08T00:00:00</orderDate>
-            <receiptDate>2017-11-08T00:00:00</receiptDate>
-            <status>Active</status>
-        </AAAMembershipOrder>
-        <AAAPolicyPrintingInfoComponent state="Created">
-            <suppressPrint>PD</suppressPrint>
-        </AAAPolicyPrintingInfoComponent>
-        <AAAPpcReportComponent state="Created">
-            <dwellAddressCity>FRESNO</dwellAddressCity>
-            <dwellAddressLine1>5658 N HENRY LN</dwellAddressLine1>
-            <dwellAddressState>CA</dwellAddressState>
-            <dwellAddressZip>93711</dwellAddressZip>
-            <expirationDate>2018-01-07T00:00:00</expirationDate>
-            <orderDate>2017-11-08T00:00:00</orderDate>
-            <ppcValue>3</ppcValue>
-            <status>Valid</status>
-        </AAAPpcReportComponent>
-        <AAASupportingDocComponent state="Created">
-            <docDisplayInd>true</docDisplayInd>
-            <docReceivedInd>PS</docReceivedInd>
-            <documentCd>1POSOA</documentCd>
-            <documentText>Signed policy application</documentText>
-        </AAASupportingDocComponent>
-        <AAASupportingDocComponent state="Created">
-            <docDisplayInd>true</docDisplayInd>
-            <docReceivedInd>PS</docReceivedInd>
-            <documentCd>616530</documentCd>
-            <documentText>California Residential Property Insurance Disclosure</documentText>
-        </AAASupportingDocComponent>
-        <AAASupportingDocComponent state="Created">
-            <docDisplayInd>true</docDisplayInd>
-            <docReceivedInd>PS</docReceivedInd>
-            <documentCd>CEAOD</documentCd>
-            <documentText>CEA Offer Declination</documentText>
-        </AAASupportingDocComponent>
-        <AAAUnderwritingQuestionaireComponent state="Created">
-            <AlternativeWaterSrcAnsInd>true</AlternativeWaterSrcAnsInd>
-            <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
-            <DwellLocatedInd>false</DwellLocatedInd>
-            <EmployeesResidentsInd>false</EmployeesResidentsInd>
-            <ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
-            <GasWaterInGarageInd>false</GasWaterInGarageInd>
-            <LengthDrivewayAnsInd>true</LengthDrivewayAnsInd>
-            <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
-            <RdToHomeNDrivewayPavedAnsInd>true</RdToHomeNDrivewayPavedAnsInd>
-            <WaterHeaterHeightInd>false</WaterHeaterHeightInd>
-        </AAAUnderwritingQuestionaireComponent>
-        <Commissions state="Created">
-            <commissionTypeCd>R</commissionTypeCd>
-        </Commissions>
-        <DL0104EndorsementForm state="Created"/>
-        <DL2402EndorsementForm state="Created"/>
-        <DL2411EndorsementForm state="Created"/>
-        <DL2433EndorsementForm state="Created"/>
-        <DL2482EndorsementForm state="Created"/>
-        <DP0422EndorsementForm state="Created">
-            <coverageLimit>10000</coverageLimit>
-        </DP0422EndorsementForm>
-        <DW0420EndorsementForm state="Created">
-            <coverageLimit>50</coverageLimit>
-        </DW0420EndorsementForm>
-        <AAADwellEntityComponent state="Created">
-            <aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
-            <aaaDwellingUsage>1</aaaDwellingUsage>
-            <aaaFirelineScore>0</aaaFirelineScore>
-            <aaanumberofResidents>2</aaanumberofResidents>
-            <aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
-            <addressLine1>5658 N HENRY LN</addressLine1>
-            <city>FRESNO</city>
-            <countryCd>US</countryCd>
-            <county>FRESNO</county>
-            <crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
-            <dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
-            <dwellingCrippleWallInd>false</dwellingCrippleWallInd>
-            <dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
-            <dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
-            <firelineMatchType>Address</firelineMatchType>
-            <fullResidentialSprinklersInd>true</fullResidentialSprinklersInd>
-            <gatedCommInd>true</gatedCommInd>
-            <localAlarmInd>true</localAlarmInd>
-            <localFireAlarmInd>true</localFireAlarmInd>
-            <numberOfFamilies>1</numberOfFamilies>
-            <overrideInspectionInd>true</overrideInspectionInd>
-            <placementOrMatchType>Address</placementOrMatchType>
-            <postalCode>93711</postalCode>
-            <propMgrOccupation>3</propMgrOccupation>
-            <protectionClassCd>3</protectionClassCd>
-            <spaTubType>None</spaTubType>
-            <stateProvCd>CA</stateProvCd>
-            <swimPoolType>None</swimPoolType>
-            <trampolineType>None</trampolineType>
-            <waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
-            <woodStoveInd>false</woodStoveInd>
-            <yearFirstRented>2013</yearFirstRented>
-            <AAACoverageA state="Created">
-                <coverageCd>CovA</coverageCd>
-                <limitAmount>357319</limitAmount>
-            </AAACoverageA>
-            <AAACoverageB state="Created">
-                <coverageCd>CovB</coverageCd>
-                <limitAmount>35732</limitAmount>
-            </AAACoverageB>
-            <AAACoverageC state="Created">
-                <coverageCd>CovC</coverageCd>
-                <limitAmount>17866</limitAmount>
-            </AAACoverageC>
-            <AAACoverageD state="Created">
-                <coverageCd>CovD</coverageCd>
-                <limitAmount>71464</limitAmount>
-            </AAACoverageD>
-            <AAACoverageE state="Created">
-                <coverageCd>CovE</coverageCd>
-                <limitAmount>500000</limitAmount>
-            </AAACoverageE>
-            <AAACoverageF state="Created">
-                <coverageCd>CovF</coverageCd>
-                <limitAmount>1000</limitAmount>
-            </AAACoverageF>
-            <AAAHOConstructionInfo state="Created">
-                <aaaFoundationType>Slab</aaaFoundationType>
-                <constructionTypeCd>Frame</constructionTypeCd>
-                <isoReplacementCost>357319</isoReplacementCost>
-                <livingArea>2500</livingArea>
-                <masonryVeneer>false</masonryVeneer>
-                <numberOfStories>1</numberOfStories>
-                <replacementCost>357319</replacementCost>
-                <roofShape>Complex/Custom</roofShape>
-                <roofType>Concrete Tile</roofType>
-                <yearBuilt>2012</yearBuilt>
-            </AAAHOConstructionInfo>
-            <AAAPpcDetailsInfo state="Created">
-                <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
-                <fireDepartmentType>T</fireDepartmentType>
-                <fireDistrict>On File Conversion</fireDistrict>
-                <fireStationDistRange>1</fireStationDistRange>
-                <ppcValue>3</ppcValue>
-            </AAAPpcDetailsInfo>
-            <AAAPropertyDeductible state="Created">
-                <coverageCd>DEDUCTIBLE</coverageCd>
-                <limitAmount>5000</limitAmount>
-            </AAAPropertyDeductible>
-            <PreconfigLocation state="Created">
-                <AAAHODwellAddress state="Created">
-                    <addressLine1>5658 N HENRY LN</addressLine1>
-                    <addressValidatedInd>Yes</addressValidatedInd>
-                    <city>FRESNO</city>
-                    <countryCd>US</countryCd>
-                    <county>Fresno</county>
-                    <poBoxInd>false</poBoxInd>
-                    <postalCode>93711</postalCode>
-                    <stateProvCd>CA</stateProvCd>
-                </AAAHODwellAddress>
-            </PreconfigLocation>
-        </AAADwellEntityComponent>
-        <PreconfigPersonInfo state="Created">
-            <AAAHOMailingAddressComponent state="Created">
-                <addressLine1>PO BOX 809</addressLine1>
-                <addressValidatedInd>Yes</addressValidatedInd>
-                <city>MADERA</city>
-                <countryCd>US</countryCd>
-                <county>Madera</county>
-                <postalCode>93639</postalCode>
-                <stateProvCd>CA</stateProvCd>
-            </AAAHOMailingAddressComponent>
-        </PreconfigPersonInfo>
-    </AAAHOPolicy>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>UPDATED MAILING ADDRESS</title>
-        <updatedOn>2013-02-11T00:00:00</updatedOn>
-        <userText>PER REQ IN FASTLANE PLCY CNCLD IN ERROR SHOW REINSTATED ALSO CORRECT MAILING ADDRESS IS: PO BOX 809 MADERA, CA 93639</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Cancel</title>
-        <updatedOn>2013-02-04T00:00:00</updatedOn>
-        <userText>CANCEL POLICY - PER INSUREDS REQUEST</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>CNX POLICY...</title>
-        <updatedOn>2013-02-04T00:00:00</updatedOn>
-        <userText>PER OI KAREN SPOKE TO KAREN SHE DOES NOT OWN A PROPERTY AT THIS ADDRESS AND DIDNT PURCHASE THIS POLICY.  VERIFIED INFO AND FLAT CANCELED THIS POLICY. RDIAZ</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Reinstate</title>
-        <updatedOn>2013-02-06T00:00:00</updatedOn>
-        <userText>REINSTATED POLICY</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>REINSTATED POLICY...</title>
-        <updatedOn>2013-02-06T00:00:00</updatedOn>
-        <userText>PER MICHAEL TORRES POLICY WAS CANCELED IN ERROR AND HAS BEEN REINSTATED RDIAZ</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Conversion: Title/Header info is blank in Legacy system</title>
-        <updatedOn>2013-01-31T00:00:00</updatedOn>
-        <userText>*** Backyard Access *** If necessary, contact me at (559) 706-0753 I do not give authorization to AAA Fire &amp; Casualty, its contractor, and/or sales representatives to enter my backyard.</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>ISSUED BY BLAZE</title>
-        <updatedOn>2013-01-31T00:00:00</updatedOn>
-        <userText>ISSUED BY BLAZE</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Declaration Page</title>
-        <updatedOn>2013-01-31T00:00:00</updatedOn>
-        <userText>Policy Declaration Page</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Cancellation Notice</title>
-        <updatedOn>2013-02-04T00:00:00</updatedOn>
-        <userText>Policy Cancellation Notice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Reinstate Notice</title>
-        <updatedOn>2013-02-06T00:00:00</updatedOn>
-        <userText>Policy Reinstate Notice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Declaration Page</title>
-        <updatedOn>2013-12-08T00:00:00</updatedOn>
-        <userText>Policy Declaration Page</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Renewal Invoice</title>
-        <updatedOn>2013-12-08T00:00:00</updatedOn>
-        <userText>Renewal Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Renewal Invoice</title>
-        <updatedOn>2014-12-07T00:00:00</updatedOn>
-        <userText>Renewal Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Declaration Page</title>
-        <updatedOn>2014-12-07T00:00:00</updatedOn>
-        <userText>Policy Declaration Page</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Renewal Invoice</title>
-        <updatedOn>2015-12-06T00:00:00</updatedOn>
-        <userText>Renewal Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Declaration Page</title>
-        <updatedOn>2015-12-06T00:00:00</updatedOn>
-        <userText>Policy Declaration Page</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Renewal Invoice</title>
-        <updatedOn>2016-12-06T00:00:00</updatedOn>
-        <userText>Renewal Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Declaration Page</title>
-        <updatedOn>2016-12-06T00:00:00</updatedOn>
-        <userText>Policy Declaration Page</userText>
-    </userNote>
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005301</agencyLocation>
+		<agentCd>70683577</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<countryCd>US</countryCd>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2018-01-30T00:00:00</effective>
+		<expiration>2019-01-30T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>SIS</importedFrom>
+		<isAdditionalPolicy>false</isAdditionalPolicy>
+		<isAdditionalProppolicy>false</isAdditionalProppolicy>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>DP3</policyFormCd>
+		<preConversionPolicyNumber>DP3 3568106</preConversionPolicyNumber>
+		<preConversionPolicyPremium>563</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>DP3 3568106</sourcePolicyNum>
+		<subProducerCd>70683577</subProducerCd>
+		<tollNumberCd>1111111111</tollNumberCd>
+		<underwriterCd>ACAIC</underwriterCd>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>FRESNO</dwellAddressCity>
+			<dwellAddressLine1>5658 N HENRY LN</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>93711</dwellAddressZip>
+			<expirationDate>2018-02-06T00:00:00</expirationDate>
+			<orderDate>2017-11-08T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>5597060753</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>Yes</insurerCd>
+			<insurerName>MYERS</insurerName>
+			<policyNumber>4290051057284410</policyNumber>
+		</AAAHOMembership>
+		<AAAHOMortgageeExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOMortgageeExists>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1941-04-12T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>JAMES</firstName>
+			<lastName>MYERS</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>5658 N HENRY LN</addressLine1>
+				<city>FRESNO</city>
+				<dateOfBirth>1941-04-12T00:00:00</dateOfBirth>
+				<expirationDt>2018-01-07T00:00:00</expirationDt>
+				<firstName>JAMES</firstName>
+				<lastName>MYERS</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-11-08T00:00:00</orderDate>
+				<postalCode>93711</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>5658 N HENRY LN</addressLine1>
+				<city>FRESNO</city>
+				<countryCd>US</countryCd>
+				<postalCode>93711</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1960-07-18T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>KAREN</firstName>
+			<lastName>MYERS</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>5658 N HENRY LN</addressLine1>
+				<city>FRESNO</city>
+				<dateOfBirth>1960-07-18T00:00:00</dateOfBirth>
+				<expirationDt>2018-01-07T00:00:00</expirationDt>
+				<firstName>KAREN</firstName>
+				<lastName>MYERS</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-11-08T00:00:00</orderDate>
+				<postalCode>93711</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>5658 N HENRY LN</addressLine1>
+				<city>FRESNO</city>
+				<countryCd>US</countryCd>
+				<postalCode>93711</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Insured</billToAtRenewal>
+			<paymentPlanAtRenewal>quarterlyHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>quarterlyHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2010-01-30T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>8</noOfYearsWithHO>
+			<policyType>DP3</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAIso360ReportComponent state="Created">
+			<constructionTypeCd>Frame</constructionTypeCd>
+			<dwellAddressCity>FRESNO</dwellAddressCity>
+			<dwellAddressLine1>5658 N HENRY LN</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>93711</dwellAddressZip>
+			<expirationDate>2018-02-06T00:00:00</expirationDate>
+			<isoReplacementCost>357319</isoReplacementCost>
+			<livingArea>2500</livingArea>
+			<numberOfFamilies>1</numberOfFamilies>
+			<numberOfStories>1</numberOfStories>
+			<orderDate>2017-11-08T00:00:00</orderDate>
+			<roofShape>Complex/Custom</roofShape>
+			<roofType>Concrete Tile</roofType>
+			<status>Valid</status>
+			<yearBuilt>2012</yearBuilt>
+		</AAAIso360ReportComponent>
+		<AAAMembershipOrder state="Created">
+			<lastName>MYERS</lastName>
+			<membershipNumber>4290051057284410</membershipNumber>
+			<memberSince>2009-01-01T00:00:00</memberSince>
+			<orderDate>2017-11-08T00:00:00</orderDate>
+			<receiptDate>2017-11-08T00:00:00</receiptDate>
+			<status>Active</status>
+		</AAAMembershipOrder>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>FRESNO</dwellAddressCity>
+			<dwellAddressLine1>5658 N HENRY LN</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>93711</dwellAddressZip>
+			<expirationDate>2018-01-07T00:00:00</expirationDate>
+			<orderDate>2017-11-08T00:00:00</orderDate>
+			<ppcValue>3</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>616530</documentCd>
+			<documentText>California Residential Property Insurance Disclosure</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<AlternativeWaterSrcAnsInd>true</AlternativeWaterSrcAnsInd>
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<DwellLocatedInd>false</DwellLocatedInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+			<GasWaterInGarageInd>false</GasWaterInGarageInd>
+			<LengthDrivewayAnsInd>true</LengthDrivewayAnsInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+			<RdToHomeNDrivewayPavedAnsInd>true</RdToHomeNDrivewayPavedAnsInd>
+			<WaterHeaterHeightInd>false</WaterHeaterHeightInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<DL0104EndorsementForm state="Created"/>
+		<DL2402EndorsementForm state="Created"/>
+		<DL2411EndorsementForm state="Created"/>
+		<DL2433EndorsementForm state="Created"/>
+		<DL2482EndorsementForm state="Created"/>
+		<DP0422EndorsementForm state="Created">
+			<coverageLimit>10000</coverageLimit>
+		</DP0422EndorsementForm>
+		<DW0420EndorsementForm state="Created">
+			<coverageLimit>50</coverageLimit>
+		</DW0420EndorsementForm>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>1</aaaDwellingUsage>
+			<aaaFirelineScore>0</aaaFirelineScore>
+			<aaanumberofResidents>2</aaanumberofResidents>
+			<aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
+			<addressLine1>5658 N HENRY LN</addressLine1>
+			<city>FRESNO</city>
+			<countryCd>US</countryCd>
+			<county>FRESNO</county>
+			<crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
+			<dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
+			<dwellingCrippleWallInd>false</dwellingCrippleWallInd>
+			<dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
+			<dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
+			<firelineMatchType>Address</firelineMatchType>
+			<fullResidentialSprinklersInd>true</fullResidentialSprinklersInd>
+			<gatedCommInd>true</gatedCommInd>
+			<localAlarmInd>true</localAlarmInd>
+			<localFireAlarmInd>true</localFireAlarmInd>
+			<numberOfFamilies>1</numberOfFamilies>
+			<overrideInspectionInd>true</overrideInspectionInd>
+			<placementOrMatchType>Address</placementOrMatchType>
+			<postalCode>93711</postalCode>
+			<propMgrOccupation>3</propMgrOccupation>
+			<protectionClassCd>3</protectionClassCd>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
+			<woodStoveInd>false</woodStoveInd>
+			<yearFirstRented>2013</yearFirstRented>
+			<AAACoverageA state="Created">
+				<coverageCd>CovA</coverageCd>
+				<limitAmount>357319</limitAmount>
+			</AAACoverageA>
+			<AAACoverageB state="Created">
+				<coverageCd>CovB</coverageCd>
+				<limitAmount>35732</limitAmount>
+			</AAACoverageB>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>17866</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>71464</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>500000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOConstructionInfo state="Created">
+				<aaaFoundationType>Slab</aaaFoundationType>
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<isoReplacementCost>357319</isoReplacementCost>
+				<livingArea>2500</livingArea>
+				<masonryVeneer>false</masonryVeneer>
+				<numberOfStories>1</numberOfStories>
+				<replacementCost>357319</replacementCost>
+				<roofShape>Complex/Custom</roofShape>
+				<roofType>Concrete Tile</roofType>
+				<yearBuilt>2012</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>On File Conversion</fireDistrict>
+				<fireStationDistRange>1</fireStationDistRange>
+				<ppcValue>3</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>5000</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>5658 N HENRY LN</addressLine1>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>FRESNO</city>
+					<countryCd>US</countryCd>
+					<county>Fresno</county>
+					<poBoxInd>false</poBoxInd>
+					<postalCode>93711</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<PreconfigPersonInfo state="Created">
+			<AAAHOMailingAddressComponent state="Created">
+				<addressLine1>PO BOX 809</addressLine1>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>MADERA</city>
+				<countryCd>US</countryCd>
+				<county>Madera</county>
+				<postalCode>93639</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAHOMailingAddressComponent>
+		</PreconfigPersonInfo>
+	</AAAHOPolicy>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>UPDATED MAILING ADDRESS</title>
+		<updatedOn>2013-02-11T00:00:00</updatedOn>
+		<userText>PER REQ IN FASTLANE PLCY CNCLD IN ERROR SHOW REINSTATED ALSO CORRECT MAILING ADDRESS IS: PO BOX 809 MADERA, CA 93639</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Cancel</title>
+		<updatedOn>2013-02-04T00:00:00</updatedOn>
+		<userText>CANCEL POLICY - PER INSUREDS REQUEST</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>CNX POLICY...</title>
+		<updatedOn>2013-02-04T00:00:00</updatedOn>
+		<userText>PER OI KAREN SPOKE TO KAREN SHE DOES NOT OWN A PROPERTY AT THIS ADDRESS AND DIDNT PURCHASE THIS POLICY.  VERIFIED INFO AND FLAT CANCELED THIS POLICY. RDIAZ</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Reinstate</title>
+		<updatedOn>2013-02-06T00:00:00</updatedOn>
+		<userText>REINSTATED POLICY</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>REINSTATED POLICY...</title>
+		<updatedOn>2013-02-06T00:00:00</updatedOn>
+		<userText>PER MICHAEL TORRES POLICY WAS CANCELED IN ERROR AND HAS BEEN REINSTATED RDIAZ</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Conversion: Title/Header info is blank in Legacy system</title>
+		<updatedOn>2013-01-31T00:00:00</updatedOn>
+		<userText>*** Backyard Access *** If necessary, contact me at (559) 706-0753 I do not give authorization to AAA Fire &amp; Casualty, its contractor, and/or sales representatives to enter my backyard.</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>ISSUED BY BLAZE</title>
+		<updatedOn>2013-01-31T00:00:00</updatedOn>
+		<userText>ISSUED BY BLAZE</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2013-01-31T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Cancellation Notice</title>
+		<updatedOn>2013-02-04T00:00:00</updatedOn>
+		<userText>Policy Cancellation Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Reinstate Notice</title>
+		<updatedOn>2013-02-06T00:00:00</updatedOn>
+		<userText>Policy Reinstate Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2013-12-08T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2013-12-08T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2014-12-07T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2014-12-07T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2015-12-06T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2015-12-06T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2016-12-06T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2016-12-06T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
 </Policy>

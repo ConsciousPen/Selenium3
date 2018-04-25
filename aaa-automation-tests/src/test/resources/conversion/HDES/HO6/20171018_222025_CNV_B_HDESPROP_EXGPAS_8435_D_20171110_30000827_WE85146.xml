@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005301</agencyLocation>
+		<agentCd>70683577</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2017-12-30T00:00:00</effective>
+		<expiration>2018-12-30T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>HDES</importedFrom>
+		<isAdditionalPolicy>true</isAdditionalPolicy>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>HO6</policyFormCd>
+		<preConversionPolicyNumber>WE85146</preConversionPolicyNumber>
+		<preConversionPolicyPremium>246</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>WE85146</sourcePolicyNum>
+		<subProducerCd>70683577</subProducerCd>
+		<tollNumberCd>xxx</tollNumberCd>
+		<underwriterCd>CSAAIB</underwriterCd>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+			<policyType>BASIC</policyType>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>PETALUMA</dwellAddressCity>
+			<dwellAddressLine1>1 LIBERTY LN</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94952</dwellAddressZip>
+			<expirationDate>2018-02-08T00:00:00</expirationDate>
+			<orderDate>2017-11-10T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOAdditionalInsured state="Created">
+			<differentAddressInd>true</differentAddressInd>
+			<interest>2</interest>
+			<mainInsured>false</mainInsured>
+			<nameInfo.additionalName>WESTGATE REAL ESTATE</nameInfo.additionalName>
+		</AAAHOAdditionalInsured>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>7077667177</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>Yes</insurerCd>
+			<insurerName>TALLEY</insurerName>
+			<policyNumber>4290058537684614</policyNumber>
+		</AAAHOMembership>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1954-11-17T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>LISA</firstName>
+			<lastName>TALLEY</lastName>
+			<occupationDesc>Financial_Services</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>1 LIBERTY LN</addressLine1>
+				<city>PETALUMA</city>
+				<dateOfBirth>1954-11-17T00:00:00</dateOfBirth>
+				<expirationDt>2018-01-09T00:00:00</expirationDt>
+				<firstName>LISA</firstName>
+				<lastName>TALLEY</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-11-10T00:00:00</orderDate>
+				<postalCode>94952</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>1 LIBERTY LN</addressLine1>
+				<city>PETALUMA</city>
+				<countryCd>US</countryCd>
+				<postalCode>94952</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOOtherOrPriorPolicyComponent state="Created">
+			<autoBILimit>$500,000/$500,000</autoBILimit>
+			<autoPolicyPending>false</autoPolicyPending>
+			<policyEffectiveDate>2016-04-05T00:00:00</policyEffectiveDate>
+			<policyNumber>CAAS100522673</policyNumber>
+			<productCd>Auto</productCd>
+			<stateCd>CA</stateCd>
+		</AAAHOOtherOrPriorPolicyComponent>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Insured</billToAtRenewal>
+			<paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>standardHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2011-01-01T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>6</noOfYearsWithHO>
+			<policyType>HO6</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAIso360ReportComponent state="Created">
+			<constructionTypeCd>Frame</constructionTypeCd>
+			<dwellAddressCity>PETALUMA</dwellAddressCity>
+			<dwellAddressLine1>1 LIBERTY LN</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94952</dwellAddressZip>
+			<expirationDate>2018-01-09T00:00:00</expirationDate>
+			<isoReplacementCost>312900</isoReplacementCost>
+			<livingArea>9999</livingArea>
+			<numberOfFamilies>1</numberOfFamilies>
+			<numberOfStories>1</numberOfStories>
+			<orderDate>2017-11-10T00:00:00</orderDate>
+			<roofShape>Complex/Custom</roofShape>
+			<roofType>Other</roofType>
+			<status>Valid</status>
+			<yearBuilt>1984</yearBuilt>
+		</AAAIso360ReportComponent>
+		<AAAMembershipOrder state="Created">
+			<lastName>TALLEY</lastName>
+			<membershipNumber>4290058537684614</membershipNumber>
+			<orderDate>2017-11-10T00:00:00</orderDate>
+			<receiptDate>2017-11-10T00:00:00</receiptDate>
+			<status>Active</status>
+		</AAAMembershipOrder>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>PETALUMA</dwellAddressCity>
+			<dwellAddressLine1>1 LIBERTY LN</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94952</dwellAddressZip>
+			<expirationDate>2018-01-09T00:00:00</expirationDate>
+			<orderDate>2017-11-10T00:00:00</orderDate>
+			<ppcValue>2</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>616530</documentCd>
+			<documentText>California Residential Property Insurance Disclosure</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<DwellLocatedInd>false</DwellLocatedInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+			<GasWaterInGarageInd>false</GasWaterInGarageInd>
+			<PremisesEndrosInd>false</PremisesEndrosInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>1</aaaDwellingUsage>
+			<aaaFirelineScore>0</aaaFirelineScore>
+			<aaaInsuredTenantDiscountInfo>false</aaaInsuredTenantDiscountInfo>
+			<aaanumberofResidents>9999</aaanumberofResidents>
+			<addressLine1>1 LIBERTY LN</addressLine1>
+			<city>PETALUMA</city>
+			<firelineMatchType>Address</firelineMatchType>
+			<localFireAlarmInd>true</localFireAlarmInd>
+			<numberOfFamilies>1</numberOfFamilies>
+			<placementOrMatchType>Address</placementOrMatchType>
+			<postalCode>94952</postalCode>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<woodStoveInd>false</woodStoveInd>
+			<AAACoverageA state="Created">
+				<coverageCd>CovA</coverageCd>
+				<limitAmount>312900</limitAmount>
+			</AAACoverageA>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>6200</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>20000</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>500000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOAdditionalInterest state="Created">
+				<aaaEffectiveDate>2017-12-30T00:00:00</aaaEffectiveDate>
+				<addressLine1>120 SUNNY HILL DR</addressLine1>
+				<city>PETALUMA</city>
+				<interestTypeText>Conversion - not on file</interestTypeText>
+				<name>WESTGATE REAL ESTATE - PROP MGR </name>
+				<postalCode>94952</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAHOAdditionalInterest>
+			<AAAHOConstructionInfo state="Created">
+				<condomCoverageADwellingRequested>Interior</condomCoverageADwellingRequested>
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<isoReplacementCost>312900</isoReplacementCost>
+				<livingArea>9999</livingArea>
+				<numberOfStories>1</numberOfStories>
+				<replacementCost>312900</replacementCost>
+				<roofShape>Complex/Custom</roofShape>
+				<roofType>Other</roofType>
+				<yearBuilt>1984</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>PETALUMA</fireDistrict>
+				<oldPpcValue>2</oldPpcValue>
+				<ppcValue>2</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>2500</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>1 LIBERTY LN</addressLine1>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>PETALUMA</city>
+					<county>Sonoma</county>
+					<postalCode>94952</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<HO0410EndorsementForm state="Created"/>
+		<HO0496EndorsementForm state="Created"/>
+		<HW0915EndorsementForm state="Created"/>
+		<HO1733EndorsementForm state="Created"/>
+		<HO28EndorsementForm state="Created"/>
+		<HO41EndorsementForm state="Created"/>
+		<HO78CEndorsementForm state="Created"/>
+		<HO90EndorsementForm state="Created"/>
+		<HW0104EndorsementForm state="Created"/>
+		<HW2482EndorsementForm state="Created"/>
+		<PreconfigPersonInfo state="Created">
+			<AAAHOMailingAddressComponent state="Created">
+				<addressLine1>120 SUNNY HILL DR</addressLine1>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>PETALUMA</city>
+				<countryCd>US</countryCd>
+				<county>Sonoma</county>
+				<postalCode>94952</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAHOMailingAddressComponent>
+		</PreconfigPersonInfo>
+	</AAAHOPolicy>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Conversion: Dwelling address validated and standardized</title>
+		<updatedOn>2017-11-10T00:00:00</updatedOn>
+		<userText>Dwelling Address was validated and standardized during Conversion. Address was standardized from 1 LIBERTY LN  PETALUMA CA 94952 to 1 LIBERTY LN  PETALUMA CA 94952</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Conversion: Mailing address validated and standardized</title>
+		<updatedOn>2017-11-10T00:00:00</updatedOn>
+		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 120 SUNNY HILL DR  PETALUMA CA 94952 to 120 SUNNY HILL DR  PETALUMA CA 94952</userText>
+	</userNote>
+</Policy>

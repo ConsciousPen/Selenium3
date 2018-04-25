@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy name="AAA_HO_CA" version="1.0" rootEntityType="policy">
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005301</agencyLocation>
+		<agentCd>70683577</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<countryCd>US</countryCd>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2017-07-13T00:00:00</effective>
+		<expiration>2018-07-13T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>SIS</importedFrom>
+		<isAdditionalPolicy>false</isAdditionalPolicy>
+		<isAdditionalProppolicy>false</isAdditionalProppolicy>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>DP3</policyFormCd>
+		<preConversionPolicyNumber>DP3 3304144</preConversionPolicyNumber>
+		<preConversionPolicyPremium>890</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>DP3 3304144</sourcePolicyNum>
+		<subProducerCd>70683577</subProducerCd>
+		<tollNumberCd>1111111111</tollNumberCd>
+		<underwriterCd>ACAIC</underwriterCd>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>FRESNO</dwellAddressCity>
+			<dwellAddressLine1>5024 E KINGS CANYON RD 101</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>93727-3969</dwellAddressZip>
+			<expirationDate>2017-07-18T00:00:00</expirationDate>
+			<orderDate>2017-04-19T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>5592927808</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>Yes</insurerCd>
+			<insurerName>MOUA</insurerName>
+			<policyNumber>4290051093792517</policyNumber>
+		</AAAHOMembership>
+		<AAAHOMortgageeExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOMortgageeExists>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1953-01-05T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>NAO</firstName>
+			<lastName>MOUA</lastName>
+			<middleName>TOU</middleName>
+			<occupationDesc>Unknown</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>5024 E KINGS CANYON RD 101</addressLine1>
+				<city>FRESNO</city>
+				<dateOfBirth>1953-01-05T00:00:00</dateOfBirth>
+				<expirationDt>2017-06-18T00:00:00</expirationDt>
+				<firstName>NAO</firstName>
+				<lastName>MOUA</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-04-19T00:00:00</orderDate>
+				<postalCode>93727-3969</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>5024 E KINGS CANYON RD 101</addressLine1>
+				<city>FRESNO</city>
+				<countryCd>US</countryCd>
+				<postalCode>93727-3969</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Insured</billToAtRenewal>
+			<paymentPlanAtRenewal>quarterlyHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>quarterlyHO_CA</paymentPlanCd>
+			<recurringPayment>true</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2011-07-13T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>6</noOfYearsWithHO>
+			<policyType>DP3</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAIso360ReportComponent state="Created">
+			<constructionTypeCd>Log Home</constructionTypeCd>
+			<dwellAddressCity>FRESNO</dwellAddressCity>
+			<dwellAddressLine1>5024 E KINGS CANYON RD 101</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>93727-3969</dwellAddressZip>
+			<expirationDate>2017-07-18T00:00:00</expirationDate>
+			<isoReplacementCost>467148</isoReplacementCost>
+			<livingArea>4344</livingArea>
+			<numberOfFamilies>1</numberOfFamilies>
+			<numberOfStories>1</numberOfStories>
+			<orderDate>2017-04-19T00:00:00</orderDate>
+			<roofShape>Complex/Custom</roofShape>
+			<roofType>Asphalt / Fiberglass</roofType>
+			<status>Valid</status>
+			<yearBuilt>1942</yearBuilt>
+		</AAAIso360ReportComponent>
+		<AAAMembershipOrder state="Created">
+			<lastName>MOUA</lastName>
+			<membershipNumber>4290051093792517</membershipNumber>
+			<memberSince>2009-01-01T00:00:00</memberSince>
+			<orderDate>2017-04-19T00:00:00</orderDate>
+			<receiptDate>2017-04-19T00:00:00</receiptDate>
+			<status>Active</status>
+		</AAAMembershipOrder>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>FRESNO</dwellAddressCity>
+			<dwellAddressLine1>5024 E KINGS CANYON RD 101</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>93727-3969</dwellAddressZip>
+			<expirationDate>2017-06-18T00:00:00</expirationDate>
+			<orderDate>2017-04-19T00:00:00</orderDate>
+			<ppcValue>1</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>true</docReceivedInd>
+			<documentCd>9POPRR</documentCd>
+			<documentText>Proof of plumbing, electrical, heating/cooling system and roof renovations</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>616530</documentCd>
+			<documentText>California Residential Property Insurance Disclosure</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>AHAPXX</documentCd>
+			<documentText>AutoPay Authorization Form</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<AlternativeWaterSrcAnsInd>true</AlternativeWaterSrcAnsInd>
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<DwellLocatedInd>false</DwellLocatedInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+			<GasWaterInGarageInd>false</GasWaterInGarageInd>
+			<LengthDrivewayAnsInd>true</LengthDrivewayAnsInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+			<RdToHomeNDrivewayPavedAnsInd>true</RdToHomeNDrivewayPavedAnsInd>
+			<WaterHeaterHeightInd>false</WaterHeaterHeightInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<DL0104EndorsementForm state="Created"/>
+		<DL2402EndorsementForm state="Created"/>
+		<HO61CEndorsementForm state="Created">
+			<ScheduledPropertyCoverageBoats state="Created">
+				<ScheduledPropertyBoatsItem state="Created">
+					<amountOfInsurance>7500</amountOfInsurance>
+					<boatClass>2</boatClass>
+					<boatType>Outboard</boatType>
+					<deductible>250</deductible>
+					<hin>On file-conversion</hin>
+					<horsepower>99</horsepower>
+					<length>99</length>
+					<lossPayeeInd>false</lossPayeeInd>
+					<make>On file-conversion</make>
+					<model>On file-conversion</model>
+					<year>1938</year>
+				</ScheduledPropertyBoatsItem>
+			</ScheduledPropertyCoverageBoats>
+		</HO61CEndorsementForm>
+		<DL2411EndorsementForm state="Created"/>
+		<DL2433EndorsementForm state="Created"/>
+		<DL2482EndorsementForm state="Created"/>
+		<DP0422EndorsementForm state="Created">
+			<coverageLimit>10000</coverageLimit>
+		</DP0422EndorsementForm>
+		<DP0475EndorsementForm state="Created"/>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>1</aaaDwellingUsage>
+			<aaaFirelineScore>30</aaaFirelineScore>
+			<aaanumberofResidents>2</aaanumberofResidents>
+			<aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
+			<addressLine1>5024 E KINGS CANYON RD 101</addressLine1>
+			<city>FRESNO</city>
+			<countryCd>US</countryCd>
+			<county>FRESNO</county>
+			<crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
+			<dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
+			<dwellingCrippleWallInd>false</dwellingCrippleWallInd>
+			<dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
+			<dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
+			<firelineMatchType>Address</firelineMatchType>
+			<localFireAlarmInd>true</localFireAlarmInd>
+			<numberOfFamilies>1</numberOfFamilies>
+			<overrideInspectionInd>true</overrideInspectionInd>
+			<placementOrMatchType>Address</placementOrMatchType>
+			<postalCode>93727-3969</postalCode>
+			<propMgrOccupation>2</propMgrOccupation>
+			<protectionClassCd>1</protectionClassCd>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
+			<woodStoveInd>false</woodStoveInd>
+			<yearFirstRented>2011</yearFirstRented>
+			<AAACoverageA state="Created">
+				<coverageCd>CovA</coverageCd>
+				<limitAmount>467148</limitAmount>
+			</AAACoverageA>
+			<AAACoverageB state="Created">
+				<coverageCd>CovB</coverageCd>
+				<limitAmount>46715</limitAmount>
+			</AAACoverageB>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>23358</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>93430</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>100000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOConstructionInfo state="Created">
+				<aaaFoundationType>Slab</aaaFoundationType>
+				<constructionTypeCd>Log Home</constructionTypeCd>
+				<isAssmByLincConstructor>true</isAssmByLincConstructor>
+				<isoReplacementCost>467148</isoReplacementCost>
+				<livingArea>4344</livingArea>
+				<masonryVeneer>false</masonryVeneer>
+				<numberOfStories>1</numberOfStories>
+				<replacementCost>467148</replacementCost>
+				<roofShape>Complex/Custom</roofShape>
+				<roofType>Asphalt / Fiberglass</roofType>
+				<yearBuilt>1942</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>On File Conversion</fireDistrict>
+				<fireStationDistRange>2</fireStationDistRange>
+				<ppcValue>1</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>5024 E KINGS CANYON RD 101</addressLine1>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>FRESNO</city>
+					<countryCd>US</countryCd>
+					<county>Fresno</county>
+					<poBoxInd>false</poBoxInd>
+					<postalCode>93727-3969</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<PreconfigPersonInfo state="Created">
+			<AAAHOMailingAddressComponent state="Created">
+				<addressLine1>4244 N SUNNYSIDE AVE</addressLine1>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>FRESNO</city>
+				<countryCd>US</countryCd>
+				<county>Fresno</county>
+				<postalCode>93727</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAHOMailingAddressComponent>
+		</PreconfigPersonInfo>
+	</AAAHOPolicy>
+	<personalBillingAccount>
+		<billingInfo>
+			<defaultPaymentMethod>1</defaultPaymentMethod>
+		</billingInfo>
+		<overpaidAmountOption>nextInstallments</overpaidAmountOption>
+		<enableRecurringPayments>true</enableRecurringPayments>
+		<paymentDetailsPCICreditCard id="1">
+			<profileId>87FA36E7-E6CB-BF27-8A50-A328517D1FB6</profileId>
+			<expirationDate>2020-10-31T00:00:00</expirationDate>
+			<fullName>Oscar Green</fullName>
+			<number>4595</number>
+			<type>VISA</type>
+			<recurringEffectiveDate>2017-04-19T00:00:00</recurringEffectiveDate>
+		</paymentDetailsPCICreditCard>
+	</personalBillingAccount>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>PHOTOS OF BATHROOM REPAIR</title>
+		<updatedOn>2011-10-07T00:00:00</updatedOn>
+		<userText>RECEIVED PHOTO - NO ACTION TAKEN</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>RESCIND CNX ltr sent</title>
+		<updatedOn>2011-10-06T00:00:00</updatedOn>
+		<userText>DF03CA 01/94DP3 -003304144003-8374  -         010000000I01 NB CNX 5 - RESCIND CANCELLATION-FILL REQ'D FIELDS October 07, 2011 NAO MOUA 4244 N SUNNYSIDE AVE FRESNO  CA  93727 Rental Property Location: 5024 E KINGS CANYON RD     101 FRESNO  CA  93727 POLICY NUMBER: DP3 -003304144 CSAA/8374/GARCIA 1595 SHAW AVE CLOVIS  CA  93611 003-8374  - Dear NAO MOUA Please disregard our previous letter of 9/6/2011 notifying you of the cancellation of your policy.  The cancellation of your policy has been rescinded and your policy will continue without a lapse in coverage. We apologize for any inconvenience this may have caused. If you have any quesions, please call us at 1 (800) 207-3618.  We look forward to serving your insurance needs well into the future. Sincerely, Jennifer Jongko Underwriting Department</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Conversion: Title/Header info is blank in Legacy system</title>
+		<updatedOn>2011-07-14T00:00:00</updatedOn>
+		<userText>*** Backyard Access *** If necessary, contact me at (559) 790-1213 I do not give authorization to AAA Fire &amp; Casualty, its contractor, and/or sales representatives to enter my backyard.</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Proof received-cxl rescinded</title>
+		<updatedOn>2011-10-06T00:00:00</updatedOn>
+		<userText>Proof was received and sent to work desk. Reinstated the policy</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>ISSUED BY BLAZE</title>
+		<updatedOn>2011-07-14T00:00:00</updatedOn>
+		<userText>ISSUED BY BLAZE</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2011-07-14T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Cancellation Notice</title>
+		<updatedOn>2011-09-06T00:00:00</updatedOn>
+		<userText>Policy Cancellation Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Reinstate Notice</title>
+		<updatedOn>2011-10-06T00:00:00</updatedOn>
+		<userText>Policy Reinstate Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2012-05-20T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2012-05-20T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Expiration Notice</title>
+		<updatedOn>2012-07-18T00:00:00</updatedOn>
+		<userText>Policy Expiration Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2013-05-18T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2013-05-18T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2014-05-19T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2014-05-19T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Expiration Notice</title>
+		<updatedOn>2014-07-20T00:00:00</updatedOn>
+		<userText>Policy Expiration Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2015-05-19T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2015-05-19T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2016-05-19T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2016-05-19T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Conversion: Fireline score defaulted.</title>
+		<updatedOn>2017-09-08T04:04:34</updatedOn>
+		<userText>Fireline score defaulted to '30'  since it's not available in SIS but required for PAS.</userText>
+	</userNote>
+</Policy>

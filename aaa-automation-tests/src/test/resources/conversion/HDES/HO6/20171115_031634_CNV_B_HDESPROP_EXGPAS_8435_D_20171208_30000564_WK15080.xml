@@ -1,326 +1,326 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
-  <AAAHOPolicy state="Created">
-    <agencyCd>500001005</agencyCd>
-    <agencyLocation>500005364</agencyLocation>
-    <agentCd>70685922</agentCd>
-    <agentGeneralNumber>003</agentGeneralNumber>
-    <doNotRenewInd>false</doNotRenewInd>
-    <effective>2018-01-28T00:00:00</effective>
-    <expiration>2019-01-28T00:00:00</expiration>
-    <imported>CONV</imported>
-    <importedFrom>HDES</importedFrom>
-    <isAdditionalPolicy>true</isAdditionalPolicy>
-    <leadSourceCd>25</leadSourceCd>
-    <officeType>AZ Club Agent</officeType>
-    <policyFormCd>HO6</policyFormCd>
-    <preConversionPolicyNumber>WK15080</preConversionPolicyNumber>
-    <preConversionPolicyPremium>459</preConversionPolicyPremium>
-    <producerCd>500001005</producerCd>
-    <productCd>AAA_HO_CA</productCd>
-    <riskStateCd>CA</riskStateCd>
-    <sourcePolicyNum>WK15080</sourcePolicyNum>
-    <subProducerCd>70685922</subProducerCd>
-    <tollNumberCd>xxx</tollNumberCd>
-    <underwriterCd>CSAAIB</underwriterCd>
-    <HO438BFUNSEndorsementForm state="Created"/>
-    <AAACeaDetailsComponent state="Created">
-      <acceptCeaOffer>false</acceptCeaOffer>
-      <policyType>BASIC</policyType>
-    </AAACeaDetailsComponent>
-    <AAAFirelineReportComponent state="Created">
-      <dwellAddressCity>ANTELOPE</dwellAddressCity>
-      <dwellAddressLine1>8020 WALERGA RD</dwellAddressLine1>
-      <dwellAddressLine2>UNIT 1252</dwellAddressLine2>
-      <dwellAddressState>CA</dwellAddressState>
-      <dwellAddressZip>95843</dwellAddressZip>
-      <expirationDate>2018-03-08T00:00:00</expirationDate>
-      <orderDate>2017-12-08T00:00:00</orderDate>
-      <status>Valid</status>
-    </AAAFirelineReportComponent>
-    <AAAHOCommunicationInfo state="Created">
-      <phoneNumber>9165609968</phoneNumber>
-      <preferredContact>homePhone</preferredContact>
-      <workPhone>9164202391</workPhone>
-    </AAAHOCommunicationInfo>
-    <AAAHOMembership state="Created">
-      <insurerCd>Yes</insurerCd>
-      <insurerName>VO</insurerName>
-      <policyNumber>4290051128495417</policyNumber>
-    </AAAHOMembership>
-    <AAAHONamedInsured state="Created">
-      <aaaLegalNameIND>false</aaaLegalNameIND>
-      <dateOfBirth>1971-03-27T00:00:00</dateOfBirth>
-      <employeeType>false</employeeType>
-      <firstName>THY</firstName>
-      <lastName>VO</lastName>
-      <occupationDesc>Unknown</occupationDesc>
-      <principalRoleCd>policyHolder</principalRoleCd>
-      <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
-      <trusteeIndicator>false</trusteeIndicator>
-      <AAAHOOrderClueReport state="Created">
-        <addressLine1>8020 WALERGA RD</addressLine1>
-        <addressLine2>UNIT 1252</addressLine2>
-        <city>ANTELOPE</city>
-        <dateOfBirth>1971-03-27T00:00:00</dateOfBirth>
-        <expirationDt>2018-02-06T00:00:00</expirationDt>
-        <firstName>THY</firstName>
-        <lastName>VO</lastName>
-        <noOfClaims>0</noOfClaims>
-        <orderDate>2017-12-08T00:00:00</orderDate>
-        <postalCode>95843</postalCode>
-        <reportExpired>false</reportExpired>
-        <status>Valid</status>
-      </AAAHOOrderClueReport>
-      <AAAInsuredPrimaryAddress state="Created">
-        <addressLine1>8020 WALERGA RD</addressLine1>
-        <addressLine2>UNIT 1252</addressLine2>
-        <city>ANTELOPE</city>
-        <countryCd>US</countryCd>
-        <postalCode>95843</postalCode>
-        <stateProvCd>CA</stateProvCd>
-      </AAAInsuredPrimaryAddress>
-    </AAAHONamedInsured>
-    <AAAHONamedInsured state="Created">
-      <aaaLegalNameIND>false</aaaLegalNameIND>
-      <dateOfBirth>1971-03-27T00:00:00</dateOfBirth>
-      <employeeType>false</employeeType>
-      <firstName>THY</firstName>
-      <lastName>VO</lastName>
-      <middleName>CHY</middleName>
-      <occupationDesc>Unknown</occupationDesc>
-      <relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
-      <trusteeIndicator>false</trusteeIndicator>
-      <AAAHOOrderClueReport state="Created">
-        <addressLine1>8020 WALERGA RD</addressLine1>
-        <addressLine2>UNIT 1252</addressLine2>
-        <city>ANTELOPE</city>
-        <dateOfBirth>1971-03-27T00:00:00</dateOfBirth>
-        <expirationDt>2018-02-06T00:00:00</expirationDt>
-        <firstName>THY</firstName>
-        <lastName>VO</lastName>
-        <noOfClaims>0</noOfClaims>
-        <orderDate>2017-12-08T00:00:00</orderDate>
-        <postalCode>95843</postalCode>
-        <reportExpired>false</reportExpired>
-        <status>Valid</status>
-      </AAAHOOrderClueReport>
-      <AAAInsuredPrimaryAddress state="Created">
-        <addressLine1>8020 WALERGA RD</addressLine1>
-        <addressLine2>UNIT 1252</addressLine2>
-        <city>ANTELOPE</city>
-        <countryCd>US</countryCd>
-        <postalCode>95843</postalCode>
-        <stateProvCd>CA</stateProvCd>
-      </AAAInsuredPrimaryAddress>
-    </AAAHONamedInsured>
-    <AAAHOOtherOrPriorPolicyComponent state="Created">
-      <autoBILimit>$500,000/$500,000</autoBILimit>
-      <autoPolicyPending>false</autoPolicyPending>
-      <policyEffectiveDate>2015-10-02T00:00:00</policyEffectiveDate>
-      <policyNumber>CAAS100245569</policyNumber>
-      <productCd>Auto</productCd>
-      <stateCd>CA</stateCd>
-    </AAAHOOtherOrPriorPolicyComponent>
-    <AAAHOPaymentOption state="Created">
-      <billToAtRenewal>Mortgagee</billToAtRenewal>
-      <paymentPlanAtRenewal>mortgageeHO_CA_R</paymentPlanAtRenewal>
-      <paymentPlanCd>mortgageeHO_CA</paymentPlanCd>
-      <recurringPayment>false</recurringPayment>
-    </AAAHOPaymentOption>
-    <AAAHOPolicyPriorCarrier state="Created">
-      <baseDate>2014-01-01T00:00:00</baseDate>
-      <carrierCd>1</carrierCd>
-      <noOfYearsWithHO>4</noOfYearsWithHO>
-      <policyType>HO6</policyType>
-    </AAAHOPolicyPriorCarrier>
-    <AAAHOPreDwellingAddrExists state="Created">
-      <yesNoAnswer>false</yesNoAnswer>
-    </AAAHOPreDwellingAddrExists>
-    <AAAIso360ReportComponent state="Created">
-      <constructionTypeCd>Frame</constructionTypeCd>
-      <dwellAddressCity>ANTELOPE</dwellAddressCity>
-      <dwellAddressLine1>8020 WALERGA RD</dwellAddressLine1>
-      <dwellAddressLine2>UNIT 1252</dwellAddressLine2>
-      <dwellAddressState>CA</dwellAddressState>
-      <dwellAddressZip>95843</dwellAddressZip>
-      <expirationDate>2018-02-06T00:00:00</expirationDate>
-      <isoReplacementCost>63600</isoReplacementCost>
-      <livingArea>9999</livingArea>
-      <numberOfFamilies>1</numberOfFamilies>
-      <numberOfStories>1</numberOfStories>
-      <orderDate>2017-12-08T00:00:00</orderDate>
-      <roofShape>Complex/Custom</roofShape>
-      <roofType>Builtup Tar &amp; Gravel</roofType>
-      <status>Valid</status>
-      <yearBuilt>1999</yearBuilt>
-    </AAAIso360ReportComponent>
-    <AAAMembershipOrder state="Created">
-      <lastName>VO</lastName>
-      <membershipNumber>4290051128495417</membershipNumber>
-      <orderDate>2017-12-08T00:00:00</orderDate>
-      <receiptDate>2017-12-08T00:00:00</receiptDate>
-      <status>Active</status>
-    </AAAMembershipOrder>
-    <AAAPolicyPrintingInfoComponent state="Created">
-      <suppressPrint>PD</suppressPrint>
-    </AAAPolicyPrintingInfoComponent>
-    <AAAPpcReportComponent state="Created">
-      <dwellAddressCity>ANTELOPE</dwellAddressCity>
-      <dwellAddressLine1>8020 WALERGA RD</dwellAddressLine1>
-      <dwellAddressLine2>UNIT 1252</dwellAddressLine2>
-      <dwellAddressState>CA</dwellAddressState>
-      <dwellAddressZip>95843</dwellAddressZip>
-      <expirationDate>2018-02-06T00:00:00</expirationDate>
-      <orderDate>2017-12-08T00:00:00</orderDate>
-      <ppcValue>3</ppcValue>
-      <status>Valid</status>
-    </AAAPpcReportComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>PS</docReceivedInd>
-      <documentCd>1POSOA</documentCd>
-      <documentText>Signed policy application</documentText>
-    </AAASupportingDocComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>PS</docReceivedInd>
-      <documentCd>616530</documentCd>
-      <documentText>California Residential Property Insurance Disclosure</documentText>
-    </AAASupportingDocComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>PS</docReceivedInd>
-      <documentCd>CEAOD</documentCd>
-      <documentText>CEA Offer Declination</documentText>
-    </AAASupportingDocComponent>
-    <AAAUnderwritingQuestionaireComponent state="Created">
-      <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
-      <DwellLocatedInd>false</DwellLocatedInd>
-      <EmployeesResidentsInd>false</EmployeesResidentsInd>
-      <ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
-      <GasWaterInGarageInd>false</GasWaterInGarageInd>
-      <PremisesEndrosInd>false</PremisesEndrosInd>
-      <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
-    </AAAUnderwritingQuestionaireComponent>
-    <Commissions state="Created">
-      <commissionTypeCd>R</commissionTypeCd>
-    </Commissions>
-    <AAADwellEntityComponent state="Created">
-      <aaaDwellingOccupancyType>Owner occupied</aaaDwellingOccupancyType>
-      <aaaDwellingUsage>1</aaaDwellingUsage>
-      <aaaFirelineScore>0</aaaFirelineScore>
-      <aaaInsuredTenantDiscountInfo>false</aaaInsuredTenantDiscountInfo>
-      <aaanumberofResidents>9999</aaanumberofResidents>
-      <addressLine1>8020 WALERGA RD</addressLine1>
-      <addressLine2>UNIT 1252</addressLine2>
-      <city>ANTELOPE</city>
-      <firelineMatchType>Address</firelineMatchType>
-      <fullResidentialSprinklersInd>true</fullResidentialSprinklersInd>
-      <gatedCommInd>true</gatedCommInd>
-      <localAlarmInd>true</localAlarmInd>
-      <localFireAlarmInd>true</localFireAlarmInd>
-      <numberOfFamilies>1</numberOfFamilies>
-      <placementOrMatchType>Address</placementOrMatchType>
-      <postalCode>95843</postalCode>
-      <spaTubType>None</spaTubType>
-      <stateProvCd>CA</stateProvCd>
-      <swimPoolType>None</swimPoolType>
-      <trampolineType>None</trampolineType>
-      <woodStoveInd>false</woodStoveInd>
-      <AAACoverageA state="Created">
-        <coverageCd>CovA</coverageCd>
-        <limitAmount>63600</limitAmount>
-      </AAACoverageA>
-      <AAACoverageC state="Created">
-        <coverageCd>CovC</coverageCd>
-        <limitAmount>28700</limitAmount>
-      </AAACoverageC>
-      <AAACoverageD state="Created">
-        <coverageCd>CovD</coverageCd>
-        <limitAmount>5800</limitAmount>
-      </AAACoverageD>
-      <AAACoverageE state="Created">
-        <coverageCd>CovE</coverageCd>
-        <limitAmount>500000</limitAmount>
-      </AAACoverageE>
-      <AAACoverageF state="Created">
-        <coverageCd>CovF</coverageCd>
-        <limitAmount>1000</limitAmount>
-      </AAACoverageF>
-      <AAAHOConstructionInfo state="Created">
-        <condomCoverageADwellingRequested>Interior</condomCoverageADwellingRequested>
-        <constructionTypeCd>Frame</constructionTypeCd>
-        <isoReplacementCost>63600</isoReplacementCost>
-        <livingArea>9999</livingArea>
-        <numberOfStories>1</numberOfStories>
-        <replacementCost>63600</replacementCost>
-        <roofShape>Complex/Custom</roofShape>
-        <roofType>Builtup Tar &amp; Gravel</roofType>
-        <yearBuilt>1999</yearBuilt>
-      </AAAHOConstructionInfo>
-      <AAAHOMortgageeInfo state="Created">
-        <accountNumber>1133510267</accountNumber>
-        <addressValidatedInd>Yes</addressValidatedInd>
-        <city>FLORENCE</city>
-        <mortagageeAddressLine1>PO BOX 202028</mortagageeAddressLine1>
-        <name>CENTRAL LOAN ADMIN &amp; REPORTING, ISAOA</name>
-        <postalCode>29502</postalCode>
-        <rank>1</rank>
-        <stateProvCd>SC</stateProvCd>
-        <useLegalMortgagee>false</useLegalMortgagee>
-      </AAAHOMortgageeInfo>
-      <AAAPpcDetailsInfo state="Created">
-        <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
-        <fireDepartmentType>T</fireDepartmentType>
-        <fireDistrict>SACRAMENTO METRO FD EAST</fireDistrict>
-        <oldPpcValue>3</oldPpcValue>
-        <ppcValue>3</ppcValue>
-      </AAAPpcDetailsInfo>
-      <AAAPropertyDeductible state="Created">
-        <coverageCd>DEDUCTIBLE</coverageCd>
-        <limitAmount>1000</limitAmount>
-      </AAAPropertyDeductible>
-      <PreconfigLocation state="Created">
-        <AAAHODwellAddress state="Created">
-          <addressLine1>8020 WALERGA RD</addressLine1>
-          <addressLine2>UNIT 1252</addressLine2>
-          <addressValidatedInd>Yes</addressValidatedInd>
-          <city>ANTELOPE</city>
-          <county>Sacramento</county>
-          <postalCode>95843</postalCode>
-          <stateProvCd>CA</stateProvCd>
-        </AAAHODwellAddress>
-      </PreconfigLocation>
-    </AAADwellEntityComponent>
-    <HO0455EndorsementForm state="Created"/>
-    <HO0496EndorsementForm state="Created"/>
-    <HW0915EndorsementForm state="Created"/>
-    <HO1732EndorsementForm state="Created"/>
-    <HO28EndorsementForm state="Created"/>
-    <HO29EndorsementForm state="Created"/>
-    <HO60CEndorsementForm state="Created"/>
-    <HO90EndorsementForm state="Created"/>
-    <HW0008EndorsementForm state="Created"/>
-    <HW0104EndorsementForm state="Created"/>
-    <HW0435EndorsementForm state="Created">
-      <address1>8020 WALERGA RD</address1>
-      <address2>UNIT 1252</address2>
-      <city>ANTELOPE</city>
-      <coverageLimit>50000</coverageLimit>
-      <location>ResidencePremises</location>
-      <otherStructureDescription>ResidencePremises</otherStructureDescription>
-      <state>CA</state>
-      <zip>95843</zip>
-    </HW0435EndorsementForm>
-    <HW0906EndorsementForm state="Created"/>
-    <HW2482EndorsementForm state="Created"/>
-  </AAAHOPolicy>
-  <userNote>
-    <category>Other</category>
-    <confidential>false</confidential>
-    <title>Conversion: Mailing address validated and standardized</title>
-    <updatedOn>2017-12-08T00:00:00</updatedOn>
-    <userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 8020 WALERGA RD #1252  ANTELOPE CA 95843 to 8020 WALERGA RD UNIT 1252 ANTELOPE CA 95843</userText>
-  </userNote>
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005301</agencyLocation>
+		<agentCd>70683577</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2018-01-28T00:00:00</effective>
+		<expiration>2019-01-28T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>HDES</importedFrom>
+		<isAdditionalPolicy>true</isAdditionalPolicy>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>HO6</policyFormCd>
+		<preConversionPolicyNumber>WK15080</preConversionPolicyNumber>
+		<preConversionPolicyPremium>459</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>WK15080</sourcePolicyNum>
+		<subProducerCd>70683577</subProducerCd>
+		<tollNumberCd>xxx</tollNumberCd>
+		<underwriterCd>CSAAIB</underwriterCd>
+		<HO438BFUNSEndorsementForm state="Created"/>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+			<policyType>BASIC</policyType>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>ANTELOPE</dwellAddressCity>
+			<dwellAddressLine1>8020 WALERGA RD</dwellAddressLine1>
+			<dwellAddressLine2>UNIT 1252</dwellAddressLine2>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95843</dwellAddressZip>
+			<expirationDate>2018-03-08T00:00:00</expirationDate>
+			<orderDate>2017-12-08T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>9165609968</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+			<workPhone>9164202391</workPhone>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>Yes</insurerCd>
+			<insurerName>VO</insurerName>
+			<policyNumber>4290051128495417</policyNumber>
+		</AAAHOMembership>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1971-03-27T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>THY</firstName>
+			<lastName>VO</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>8020 WALERGA RD</addressLine1>
+				<addressLine2>UNIT 1252</addressLine2>
+				<city>ANTELOPE</city>
+				<dateOfBirth>1971-03-27T00:00:00</dateOfBirth>
+				<expirationDt>2018-02-06T00:00:00</expirationDt>
+				<firstName>THY</firstName>
+				<lastName>VO</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-12-08T00:00:00</orderDate>
+				<postalCode>95843</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>8020 WALERGA RD</addressLine1>
+				<addressLine2>UNIT 1252</addressLine2>
+				<city>ANTELOPE</city>
+				<countryCd>US</countryCd>
+				<postalCode>95843</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1971-03-27T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>THY</firstName>
+			<lastName>VO</lastName>
+			<middleName>CHY</middleName>
+			<occupationDesc>Unknown</occupationDesc>
+			<relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>8020 WALERGA RD</addressLine1>
+				<addressLine2>UNIT 1252</addressLine2>
+				<city>ANTELOPE</city>
+				<dateOfBirth>1971-03-27T00:00:00</dateOfBirth>
+				<expirationDt>2018-02-06T00:00:00</expirationDt>
+				<firstName>THY</firstName>
+				<lastName>VO</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-12-08T00:00:00</orderDate>
+				<postalCode>95843</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>8020 WALERGA RD</addressLine1>
+				<addressLine2>UNIT 1252</addressLine2>
+				<city>ANTELOPE</city>
+				<countryCd>US</countryCd>
+				<postalCode>95843</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOOtherOrPriorPolicyComponent state="Created">
+			<autoBILimit>$500,000/$500,000</autoBILimit>
+			<autoPolicyPending>false</autoPolicyPending>
+			<policyEffectiveDate>2015-10-02T00:00:00</policyEffectiveDate>
+			<policyNumber>CAAS100245569</policyNumber>
+			<productCd>Auto</productCd>
+			<stateCd>CA</stateCd>
+		</AAAHOOtherOrPriorPolicyComponent>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Mortgagee</billToAtRenewal>
+			<paymentPlanAtRenewal>mortgageeHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>mortgageeHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2014-01-01T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>4</noOfYearsWithHO>
+			<policyType>HO6</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAIso360ReportComponent state="Created">
+			<constructionTypeCd>Frame</constructionTypeCd>
+			<dwellAddressCity>ANTELOPE</dwellAddressCity>
+			<dwellAddressLine1>8020 WALERGA RD</dwellAddressLine1>
+			<dwellAddressLine2>UNIT 1252</dwellAddressLine2>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95843</dwellAddressZip>
+			<expirationDate>2018-02-06T00:00:00</expirationDate>
+			<isoReplacementCost>63600</isoReplacementCost>
+			<livingArea>9999</livingArea>
+			<numberOfFamilies>1</numberOfFamilies>
+			<numberOfStories>1</numberOfStories>
+			<orderDate>2017-12-08T00:00:00</orderDate>
+			<roofShape>Complex/Custom</roofShape>
+			<roofType>Builtup Tar &amp; Gravel</roofType>
+			<status>Valid</status>
+			<yearBuilt>1999</yearBuilt>
+		</AAAIso360ReportComponent>
+		<AAAMembershipOrder state="Created">
+			<lastName>VO</lastName>
+			<membershipNumber>4290051128495417</membershipNumber>
+			<orderDate>2017-12-08T00:00:00</orderDate>
+			<receiptDate>2017-12-08T00:00:00</receiptDate>
+			<status>Active</status>
+		</AAAMembershipOrder>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>ANTELOPE</dwellAddressCity>
+			<dwellAddressLine1>8020 WALERGA RD</dwellAddressLine1>
+			<dwellAddressLine2>UNIT 1252</dwellAddressLine2>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95843</dwellAddressZip>
+			<expirationDate>2018-02-06T00:00:00</expirationDate>
+			<orderDate>2017-12-08T00:00:00</orderDate>
+			<ppcValue>3</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>616530</documentCd>
+			<documentText>California Residential Property Insurance Disclosure</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<DwellLocatedInd>false</DwellLocatedInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+			<GasWaterInGarageInd>false</GasWaterInGarageInd>
+			<PremisesEndrosInd>false</PremisesEndrosInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Owner occupied</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>1</aaaDwellingUsage>
+			<aaaFirelineScore>0</aaaFirelineScore>
+			<aaaInsuredTenantDiscountInfo>false</aaaInsuredTenantDiscountInfo>
+			<aaanumberofResidents>9999</aaanumberofResidents>
+			<addressLine1>8020 WALERGA RD</addressLine1>
+			<addressLine2>UNIT 1252</addressLine2>
+			<city>ANTELOPE</city>
+			<firelineMatchType>Address</firelineMatchType>
+			<fullResidentialSprinklersInd>true</fullResidentialSprinklersInd>
+			<gatedCommInd>true</gatedCommInd>
+			<localAlarmInd>true</localAlarmInd>
+			<localFireAlarmInd>true</localFireAlarmInd>
+			<numberOfFamilies>1</numberOfFamilies>
+			<placementOrMatchType>Address</placementOrMatchType>
+			<postalCode>95843</postalCode>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<woodStoveInd>false</woodStoveInd>
+			<AAACoverageA state="Created">
+				<coverageCd>CovA</coverageCd>
+				<limitAmount>63600</limitAmount>
+			</AAACoverageA>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>28700</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>5800</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>500000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOConstructionInfo state="Created">
+				<condomCoverageADwellingRequested>Interior</condomCoverageADwellingRequested>
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<isoReplacementCost>63600</isoReplacementCost>
+				<livingArea>9999</livingArea>
+				<numberOfStories>1</numberOfStories>
+				<replacementCost>63600</replacementCost>
+				<roofShape>Complex/Custom</roofShape>
+				<roofType>Builtup Tar &amp; Gravel</roofType>
+				<yearBuilt>1999</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAHOMortgageeInfo state="Created">
+				<accountNumber>1133510267</accountNumber>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>FLORENCE</city>
+				<mortagageeAddressLine1>PO BOX 202028</mortagageeAddressLine1>
+				<name>CENTRAL LOAN ADMIN &amp; REPORTING, ISAOA</name>
+				<postalCode>29502</postalCode>
+				<rank>1</rank>
+				<stateProvCd>SC</stateProvCd>
+				<useLegalMortgagee>false</useLegalMortgagee>
+			</AAAHOMortgageeInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>SACRAMENTO METRO FD EAST</fireDistrict>
+				<oldPpcValue>3</oldPpcValue>
+				<ppcValue>3</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>8020 WALERGA RD</addressLine1>
+					<addressLine2>UNIT 1252</addressLine2>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>ANTELOPE</city>
+					<county>Sacramento</county>
+					<postalCode>95843</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<HO0455EndorsementForm state="Created"/>
+		<HO0496EndorsementForm state="Created"/>
+		<HW0915EndorsementForm state="Created"/>
+		<HO1732EndorsementForm state="Created"/>
+		<HO28EndorsementForm state="Created"/>
+		<HO29EndorsementForm state="Created"/>
+		<HO60CEndorsementForm state="Created"/>
+		<HO90EndorsementForm state="Created"/>
+		<HW0008EndorsementForm state="Created"/>
+		<HW0104EndorsementForm state="Created"/>
+		<HW0435EndorsementForm state="Created">
+			<address1>8020 WALERGA RD</address1>
+			<address2>UNIT 1252</address2>
+			<city>ANTELOPE</city>
+			<coverageLimit>50000</coverageLimit>
+			<location>ResidencePremises</location>
+			<otherStructureDescription>ResidencePremises</otherStructureDescription>
+			<state>CA</state>
+			<zip>95843</zip>
+		</HW0435EndorsementForm>
+		<HW0906EndorsementForm state="Created"/>
+		<HW2482EndorsementForm state="Created"/>
+	</AAAHOPolicy>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Conversion: Mailing address validated and standardized</title>
+		<updatedOn>2017-12-08T00:00:00</updatedOn>
+		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 8020 WALERGA RD #1252  ANTELOPE CA 95843 to 8020 WALERGA RD UNIT 1252 ANTELOPE CA 95843</userText>
+	</userNote>
 </Policy>

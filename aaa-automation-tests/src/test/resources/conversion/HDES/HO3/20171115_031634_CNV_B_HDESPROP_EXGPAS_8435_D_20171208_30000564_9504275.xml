@@ -1,319 +1,319 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
-  <AAAHOPolicy state="Created">
-    <agencyCd>500001005</agencyCd>
-    <agencyLocation>500005349</agencyLocation>
-    <agentCd>70680812</agentCd>
-    <agentGeneralNumber>003</agentGeneralNumber>
-    <doNotRenewInd>false</doNotRenewInd>
-    <effective>2018-01-27T00:00:00</effective>
-    <expiration>2019-01-27T00:00:00</expiration>
-    <imported>CONV</imported>
-    <importedFrom>HDES</importedFrom>
-    <isAdditionalPolicy>true</isAdditionalPolicy>
-    <leadSourceCd>25</leadSourceCd>
-    <officeType>AZ Club Agent</officeType>
-    <policyFormCd>HO3</policyFormCd>
-    <preConversionPolicyNumber>9504275</preConversionPolicyNumber>
-    <preConversionPolicyPremium>776</preConversionPolicyPremium>
-    <producerCd>500001005</producerCd>
-    <productCd>AAA_HO_CA</productCd>
-    <riskStateCd>CA</riskStateCd>
-    <sourcePolicyNum>9504275</sourcePolicyNum>
-    <subProducerCd>70680812</subProducerCd>
-    <tollNumberCd>xxx</tollNumberCd>
-    <underwriterCd>CSAAIB</underwriterCd>
-    <HO438BFUNSEndorsementForm state="Created"/>
-    <AAACeaDetailsComponent state="Created">
-      <acceptCeaOffer>false</acceptCeaOffer>
-      <policyType>BASIC</policyType>
-    </AAACeaDetailsComponent>
-    <AAAFirelineReportComponent state="Created">
-      <dwellAddressCity>PITTSBURG</dwellAddressCity>
-      <dwellAddressLine1>1210 MAPLE ST</dwellAddressLine1>
-      <dwellAddressState>CA</dwellAddressState>
-      <dwellAddressZip>94565</dwellAddressZip>
-      <expirationDate>2018-03-08T00:00:00</expirationDate>
-      <orderDate>2017-12-08T00:00:00</orderDate>
-      <status>Valid</status>
-    </AAAFirelineReportComponent>
-    <AAAHOCommunicationInfo state="Created">
-      <phoneNumber>9254272143</phoneNumber>
-      <preferredContact>homePhone</preferredContact>
-      <workPhone>9257590442</workPhone>
-    </AAAHOCommunicationInfo>
-    <AAAHOMembership state="Created">
-      <insurerCd>Yes</insurerCd>
-      <insurerName>LONGORIA</insurerName>
-      <policyNumber>4290052833710314</policyNumber>
-    </AAAHOMembership>
-    <AAAHONamedInsured state="Created">
-      <aaaLegalNameIND>false</aaaLegalNameIND>
-      <dateOfBirth>1968-07-25T00:00:00</dateOfBirth>
-      <employeeType>false</employeeType>
-      <firstName>MARIANO</firstName>
-      <lastName>LONGORIA</lastName>
-      <occupationDesc>Unknown</occupationDesc>
-      <principalRoleCd>policyHolder</principalRoleCd>
-      <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
-      <trusteeIndicator>false</trusteeIndicator>
-      <AAAHOOrderClueReport state="Created">
-        <addressLine1>1210 MAPLE ST</addressLine1>
-        <city>PITTSBURG</city>
-        <dateOfBirth>1968-07-25T00:00:00</dateOfBirth>
-        <expirationDt>2018-02-06T00:00:00</expirationDt>
-        <firstName>MARIANO</firstName>
-        <lastName>LONGORIA</lastName>
-        <noOfClaims>0</noOfClaims>
-        <orderDate>2017-12-08T00:00:00</orderDate>
-        <postalCode>94565</postalCode>
-        <reportExpired>false</reportExpired>
-        <status>Valid</status>
-      </AAAHOOrderClueReport>
-      <AAAInsuredPrimaryAddress state="Created">
-        <addressLine1>1210 MAPLE ST</addressLine1>
-        <city>PITTSBURG</city>
-        <countryCd>US</countryCd>
-        <postalCode>94565</postalCode>
-        <stateProvCd>CA</stateProvCd>
-      </AAAInsuredPrimaryAddress>
-    </AAAHONamedInsured>
-    <AAAHOOtherOrPriorPolicyComponent state="Created">
-      <autoBILimit>$500,000/$500,000</autoBILimit>
-      <autoPolicyPending>false</autoPolicyPending>
-      <policyEffectiveDate>2016-03-22T00:00:00</policyEffectiveDate>
-      <policyNumber>CAAS100502091</policyNumber>
-      <productCd>Auto</productCd>
-      <stateCd>CA</stateCd>
-    </AAAHOOtherOrPriorPolicyComponent>
-    <AAAHOPaymentOption state="Created">
-      <billToAtRenewal>Mortgagee</billToAtRenewal>
-      <paymentPlanAtRenewal>mortgageeHO_CA_R</paymentPlanAtRenewal>
-      <paymentPlanCd>mortgageeHO_CA</paymentPlanCd>
-      <recurringPayment>false</recurringPayment>
-    </AAAHOPaymentOption>
-    <AAAHOPolicyPriorCarrier state="Created">
-      <baseDate>2003-01-01T00:00:00</baseDate>
-      <carrierCd>1</carrierCd>
-      <noOfYearsWithHO>15</noOfYearsWithHO>
-      <policyType>HO3</policyType>
-    </AAAHOPolicyPriorCarrier>
-    <AAAHOPreDwellingAddrExists state="Created">
-      <yesNoAnswer>false</yesNoAnswer>
-    </AAAHOPreDwellingAddrExists>
-    <AAAIso360ReportComponent state="Created">
-      <constructionTypeCd>Frame</constructionTypeCd>
-      <dwellAddressCity>PITTSBURG</dwellAddressCity>
-      <dwellAddressLine1>1210 MAPLE ST</dwellAddressLine1>
-      <dwellAddressState>CA</dwellAddressState>
-      <dwellAddressZip>94565</dwellAddressZip>
-      <expirationDate>2018-02-06T00:00:00</expirationDate>
-      <isoReplacementCost>300400</isoReplacementCost>
-      <livingArea>9999</livingArea>
-      <numberOfFamilies>1</numberOfFamilies>
-      <numberOfStories>1</numberOfStories>
-      <orderDate>2017-12-08T00:00:00</orderDate>
-      <roofShape>Complex/Custom</roofShape>
-      <roofType>Other</roofType>
-      <status>Valid</status>
-      <yearBuilt>1962</yearBuilt>
-    </AAAIso360ReportComponent>
-    <AAAMembershipOrder state="Created">
-      <lastName>LONGORIA</lastName>
-      <membershipNumber>4290052833710314</membershipNumber>
-      <orderDate>2017-12-08T00:00:00</orderDate>
-      <receiptDate>2017-12-08T00:00:00</receiptDate>
-      <status>Active</status>
-    </AAAMembershipOrder>
-    <AAAPolicyPrintingInfoComponent state="Created">
-      <suppressPrint>PD</suppressPrint>
-    </AAAPolicyPrintingInfoComponent>
-    <AAAPpcReportComponent state="Created">
-      <dwellAddressCity>PITTSBURG</dwellAddressCity>
-      <dwellAddressLine1>1210 MAPLE ST</dwellAddressLine1>
-      <dwellAddressState>CA</dwellAddressState>
-      <dwellAddressZip>94565</dwellAddressZip>
-      <expirationDate>2018-02-06T00:00:00</expirationDate>
-      <orderDate>2017-12-08T00:00:00</orderDate>
-      <ppcValue>3</ppcValue>
-      <status>Valid</status>
-    </AAAPpcReportComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>true</docReceivedInd>
-      <documentCd>11POAAP</documentCd>
-      <documentText>Proof of active AAA auto policy</documentText>
-    </AAASupportingDocComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>true</docReceivedInd>
-      <documentCd>1POCFA</documentCd>
-      <documentText>Proof of central fire alarm</documentText>
-    </AAASupportingDocComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>PS</docReceivedInd>
-      <documentCd>1POSOA</documentCd>
-      <documentText>Signed policy application</documentText>
-    </AAASupportingDocComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>true</docReceivedInd>
-      <documentCd>2POCTA</documentCd>
-      <documentText>Proof of central theft alarm</documentText>
-    </AAASupportingDocComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>PS</docReceivedInd>
-      <documentCd>616530</documentCd>
-      <documentText>California Residential Property Insurance Disclosure</documentText>
-    </AAASupportingDocComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>PS</docReceivedInd>
-      <documentCd>CEAOD</documentCd>
-      <documentText>CEA Offer Declination</documentText>
-    </AAASupportingDocComponent>
-    <AAAUnderwritingQuestionaireComponent state="Created">
-      <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
-      <DwellLocatedInd>false</DwellLocatedInd>
-      <EmployeesResidentsInd>false</EmployeesResidentsInd>
-      <ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
-      <GasWaterInGarageInd>false</GasWaterInGarageInd>
-      <PremisesEndrosInd>false</PremisesEndrosInd>
-      <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
-    </AAAUnderwritingQuestionaireComponent>
-    <Commissions state="Created">
-      <commissionTypeCd>R</commissionTypeCd>
-    </Commissions>
-    <AAADwellEntityComponent state="Created">
-      <aaaDwellingOccupancyType>Owner occupied</aaaDwellingOccupancyType>
-      <aaaDwellingUsage>1</aaaDwellingUsage>
-      <aaaFirelineScore>0</aaaFirelineScore>
-      <aaanumberofResidents>9999</aaanumberofResidents>
-      <aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
-      <addressLine1>1210 MAPLE ST</addressLine1>
-      <centralAlarmInd>true</centralAlarmInd>
-      <centralFireAlarmInd>true</centralFireAlarmInd>
-      <city>PITTSBURG</city>
-      <crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
-      <dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
-      <dwellingCrippleWallInd>false</dwellingCrippleWallInd>
-      <dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
-      <dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
-      <firelineMatchType>Address</firelineMatchType>
-      <numberOfFamilies>1</numberOfFamilies>
-      <overrideInspectionInd>true</overrideInspectionInd>
-      <placementOrMatchType>Address</placementOrMatchType>
-      <postalCode>94565</postalCode>
-      <spaTubType>None</spaTubType>
-      <stateProvCd>CA</stateProvCd>
-      <swimPoolType>None</swimPoolType>
-      <trampolineType>None</trampolineType>
-      <waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
-      <woodStoveInd>false</woodStoveInd>
-      <AAACoverageA state="Created">
-        <coverageCd>CovA</coverageCd>
-        <limitAmount>300400</limitAmount>
-      </AAACoverageA>
-      <AAACoverageB state="Created">
-        <coverageCd>CovB</coverageCd>
-        <limitAmount>30040</limitAmount>
-      </AAACoverageB>
-      <AAACoverageC state="Created">
-        <coverageCd>CovC</coverageCd>
-        <limitAmount>225400</limitAmount>
-      </AAACoverageC>
-      <AAACoverageD state="Created">
-        <coverageCd>CovD</coverageCd>
-        <limitAmount>120400</limitAmount>
-      </AAACoverageD>
-      <AAACoverageE state="Created">
-        <coverageCd>CovE</coverageCd>
-        <limitAmount>1000000</limitAmount>
-      </AAACoverageE>
-      <AAACoverageF state="Created">
-        <coverageCd>CovF</coverageCd>
-        <limitAmount>1000</limitAmount>
-      </AAACoverageF>
-      <AAAHOConstructionInfo state="Created">
-        <aaaFoundationType>Slab</aaaFoundationType>
-        <constructionTypeCd>Frame</constructionTypeCd>
-        <isoReplacementCost>300400</isoReplacementCost>
-        <livingArea>9999</livingArea>
-        <numberOfStories>1</numberOfStories>
-        <replacementCost>300400</replacementCost>
-        <roofShape>Complex/Custom</roofShape>
-        <roofType>Other</roofType>
-        <yearBuilt>1962</yearBuilt>
-      </AAAHOConstructionInfo>
-      <AAAHOLossInfo state="Created">
-        <aaaClaim>true</aaaClaim>
-        <aaaHoClaimNo>019504275</aaaHoClaimNo>
-        <catLoss>false</catLoss>
-        <claimCategory>3</claimCategory>
-        <incidentSource>Internal Claims</incidentSource>
-        <includeToRatingInd>true</includeToRatingInd>
-        <lossAmount>49922</lossAmount>
-        <lossDate>2009-05-16T00:00:00</lossDate>
-        <lossTypeCd>1</lossTypeCd>
-        <statusOfClaim>2</statusOfClaim>
-      </AAAHOLossInfo>
-      <AAAHOLossInfo state="Created">
-        <aaaClaim>true</aaaClaim>
-        <aaaHoClaimNo>029504275</aaaHoClaimNo>
-        <catLoss>false</catLoss>
-        <claimCategory>3</claimCategory>
-        <incidentSource>Internal Claims</incidentSource>
-        <includeToRatingInd>true</includeToRatingInd>
-        <lossAmount>11235</lossAmount>
-        <lossDate>2011-08-09T00:00:00</lossDate>
-        <lossTypeCd>3</lossTypeCd>
-        <statusOfClaim>2</statusOfClaim>
-      </AAAHOLossInfo>
-      <AAAHOMortgageeInfo state="Created">
-        <accountNumber>242155474</accountNumber>
-        <addressValidatedInd>Yes</addressValidatedInd>
-        <city>FORT WORTH</city>
-        <mortagageeAddressLine1>PO BOX 961291</mortagageeAddressLine1>
-        <name>BANK OF AMERICA NA, ISAOA ATIMA</name>
-        <postalCode>76161</postalCode>
-        <rank>1</rank>
-        <stateProvCd>TX</stateProvCd>
-        <useLegalMortgagee>false</useLegalMortgagee>
-      </AAAHOMortgageeInfo>
-      <AAAPpcDetailsInfo state="Created">
-        <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
-        <fireDepartmentType>T</fireDepartmentType>
-        <fireDistrict>CONTRA COSTA CO FD</fireDistrict>
-        <oldPpcValue>3</oldPpcValue>
-        <ppcValue>3</ppcValue>
-      </AAAPpcDetailsInfo>
-      <AAAPropertyDeductible state="Created">
-        <coverageCd>DEDUCTIBLE</coverageCd>
-        <limitAmount>1000</limitAmount>
-      </AAAPropertyDeductible>
-      <PreconfigLocation state="Created">
-        <AAAHODwellAddress state="Created">
-          <addressLine1>1210 MAPLE ST</addressLine1>
-          <addressValidatedInd>Yes</addressValidatedInd>
-          <city>PITTSBURG</city>
-          <county>Contra Costa</county>
-          <postalCode>94565</postalCode>
-          <stateProvCd>CA</stateProvCd>
-        </AAAHODwellAddress>
-      </PreconfigLocation>
-    </AAADwellEntityComponent>
-    <HO28EndorsementForm state="Created"/>
-    <HO29EndorsementForm state="Created"/>
-    <HO60EndorsementForm state="Created"/>
-    <HO90EndorsementForm state="Created"/>
-  </AAAHOPolicy>
-  <userNote>
-    <category>Other</category>
-    <confidential>false</confidential>
-    <title>Conversion: Mailing address validated and standardized</title>
-    <updatedOn>2017-12-08T00:00:00</updatedOn>
-    <userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 1210 MAPLE ST  PITTSBURG CA 94565 to 1210 MAPLE ST  PITTSBURG CA 94565</userText>
-  </userNote>
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005333</agencyLocation>
+		<agentCd>70685886</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2018-01-27T00:00:00</effective>
+		<expiration>2019-01-27T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>HDES</importedFrom>
+		<isAdditionalPolicy>true</isAdditionalPolicy>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>HO3</policyFormCd>
+		<preConversionPolicyNumber>9504275</preConversionPolicyNumber>
+		<preConversionPolicyPremium>776</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>9504275</sourcePolicyNum>
+		<subProducerCd>70685886</subProducerCd>
+		<tollNumberCd>xxx</tollNumberCd>
+		<underwriterCd>CSAAIB</underwriterCd>
+		<HO438BFUNSEndorsementForm state="Created"/>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+			<policyType>BASIC</policyType>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>PITTSBURG</dwellAddressCity>
+			<dwellAddressLine1>1210 MAPLE ST</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94565</dwellAddressZip>
+			<expirationDate>2018-03-08T00:00:00</expirationDate>
+			<orderDate>2017-12-08T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>9254272143</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+			<workPhone>9257590442</workPhone>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>Yes</insurerCd>
+			<insurerName>LONGORIA</insurerName>
+			<policyNumber>4290052833710314</policyNumber>
+		</AAAHOMembership>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1968-07-25T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>MARIANO</firstName>
+			<lastName>LONGORIA</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>1210 MAPLE ST</addressLine1>
+				<city>PITTSBURG</city>
+				<dateOfBirth>1968-07-25T00:00:00</dateOfBirth>
+				<expirationDt>2018-02-06T00:00:00</expirationDt>
+				<firstName>MARIANO</firstName>
+				<lastName>LONGORIA</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-12-08T00:00:00</orderDate>
+				<postalCode>94565</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>1210 MAPLE ST</addressLine1>
+				<city>PITTSBURG</city>
+				<countryCd>US</countryCd>
+				<postalCode>94565</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOOtherOrPriorPolicyComponent state="Created">
+			<autoBILimit>$500,000/$500,000</autoBILimit>
+			<autoPolicyPending>false</autoPolicyPending>
+			<policyEffectiveDate>2016-03-22T00:00:00</policyEffectiveDate>
+			<policyNumber>CAAS100502091</policyNumber>
+			<productCd>Auto</productCd>
+			<stateCd>CA</stateCd>
+		</AAAHOOtherOrPriorPolicyComponent>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Mortgagee</billToAtRenewal>
+			<paymentPlanAtRenewal>mortgageeHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>mortgageeHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2003-01-01T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>15</noOfYearsWithHO>
+			<policyType>HO3</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAIso360ReportComponent state="Created">
+			<constructionTypeCd>Frame</constructionTypeCd>
+			<dwellAddressCity>PITTSBURG</dwellAddressCity>
+			<dwellAddressLine1>1210 MAPLE ST</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94565</dwellAddressZip>
+			<expirationDate>2018-02-06T00:00:00</expirationDate>
+			<isoReplacementCost>300400</isoReplacementCost>
+			<livingArea>9999</livingArea>
+			<numberOfFamilies>1</numberOfFamilies>
+			<numberOfStories>1</numberOfStories>
+			<orderDate>2017-12-08T00:00:00</orderDate>
+			<roofShape>Complex/Custom</roofShape>
+			<roofType>Other</roofType>
+			<status>Valid</status>
+			<yearBuilt>1962</yearBuilt>
+		</AAAIso360ReportComponent>
+		<AAAMembershipOrder state="Created">
+			<lastName>LONGORIA</lastName>
+			<membershipNumber>4290052833710314</membershipNumber>
+			<orderDate>2017-12-08T00:00:00</orderDate>
+			<receiptDate>2017-12-08T00:00:00</receiptDate>
+			<status>Active</status>
+		</AAAMembershipOrder>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>PITTSBURG</dwellAddressCity>
+			<dwellAddressLine1>1210 MAPLE ST</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94565</dwellAddressZip>
+			<expirationDate>2018-02-06T00:00:00</expirationDate>
+			<orderDate>2017-12-08T00:00:00</orderDate>
+			<ppcValue>3</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>true</docReceivedInd>
+			<documentCd>11POAAP</documentCd>
+			<documentText>Proof of active AAA auto policy</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>true</docReceivedInd>
+			<documentCd>1POCFA</documentCd>
+			<documentText>Proof of central fire alarm</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>true</docReceivedInd>
+			<documentCd>2POCTA</documentCd>
+			<documentText>Proof of central theft alarm</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>616530</documentCd>
+			<documentText>California Residential Property Insurance Disclosure</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<DwellLocatedInd>false</DwellLocatedInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+			<GasWaterInGarageInd>false</GasWaterInGarageInd>
+			<PremisesEndrosInd>false</PremisesEndrosInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Owner occupied</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>1</aaaDwellingUsage>
+			<aaaFirelineScore>0</aaaFirelineScore>
+			<aaanumberofResidents>9999</aaanumberofResidents>
+			<aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
+			<addressLine1>1210 MAPLE ST</addressLine1>
+			<centralAlarmInd>true</centralAlarmInd>
+			<centralFireAlarmInd>true</centralFireAlarmInd>
+			<city>PITTSBURG</city>
+			<crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
+			<dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
+			<dwellingCrippleWallInd>false</dwellingCrippleWallInd>
+			<dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
+			<dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
+			<firelineMatchType>Address</firelineMatchType>
+			<numberOfFamilies>1</numberOfFamilies>
+			<overrideInspectionInd>true</overrideInspectionInd>
+			<placementOrMatchType>Address</placementOrMatchType>
+			<postalCode>94565</postalCode>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
+			<woodStoveInd>false</woodStoveInd>
+			<AAACoverageA state="Created">
+				<coverageCd>CovA</coverageCd>
+				<limitAmount>300400</limitAmount>
+			</AAACoverageA>
+			<AAACoverageB state="Created">
+				<coverageCd>CovB</coverageCd>
+				<limitAmount>30040</limitAmount>
+			</AAACoverageB>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>225400</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>120400</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>1000000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOConstructionInfo state="Created">
+				<aaaFoundationType>Slab</aaaFoundationType>
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<isoReplacementCost>300400</isoReplacementCost>
+				<livingArea>9999</livingArea>
+				<numberOfStories>1</numberOfStories>
+				<replacementCost>300400</replacementCost>
+				<roofShape>Complex/Custom</roofShape>
+				<roofType>Other</roofType>
+				<yearBuilt>1962</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAHOLossInfo state="Created">
+				<aaaClaim>true</aaaClaim>
+				<aaaHoClaimNo>019504275</aaaHoClaimNo>
+				<catLoss>false</catLoss>
+				<claimCategory>3</claimCategory>
+				<incidentSource>Internal Claims</incidentSource>
+				<includeToRatingInd>true</includeToRatingInd>
+				<lossAmount>49922</lossAmount>
+				<lossDate>2009-05-16T00:00:00</lossDate>
+				<lossTypeCd>1</lossTypeCd>
+				<statusOfClaim>2</statusOfClaim>
+			</AAAHOLossInfo>
+			<AAAHOLossInfo state="Created">
+				<aaaClaim>true</aaaClaim>
+				<aaaHoClaimNo>029504275</aaaHoClaimNo>
+				<catLoss>false</catLoss>
+				<claimCategory>3</claimCategory>
+				<incidentSource>Internal Claims</incidentSource>
+				<includeToRatingInd>true</includeToRatingInd>
+				<lossAmount>11235</lossAmount>
+				<lossDate>2011-08-09T00:00:00</lossDate>
+				<lossTypeCd>3</lossTypeCd>
+				<statusOfClaim>2</statusOfClaim>
+			</AAAHOLossInfo>
+			<AAAHOMortgageeInfo state="Created">
+				<accountNumber>242155474</accountNumber>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>FORT WORTH</city>
+				<mortagageeAddressLine1>PO BOX 961291</mortagageeAddressLine1>
+				<name>BANK OF AMERICA NA, ISAOA ATIMA</name>
+				<postalCode>76161</postalCode>
+				<rank>1</rank>
+				<stateProvCd>TX</stateProvCd>
+				<useLegalMortgagee>false</useLegalMortgagee>
+			</AAAHOMortgageeInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>CONTRA COSTA CO FD</fireDistrict>
+				<oldPpcValue>3</oldPpcValue>
+				<ppcValue>3</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>1210 MAPLE ST</addressLine1>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>PITTSBURG</city>
+					<county>Contra Costa</county>
+					<postalCode>94565</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<HO28EndorsementForm state="Created"/>
+		<HO29EndorsementForm state="Created"/>
+		<HO60EndorsementForm state="Created"/>
+		<HO90EndorsementForm state="Created"/>
+	</AAAHOPolicy>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Conversion: Mailing address validated and standardized</title>
+		<updatedOn>2017-12-08T00:00:00</updatedOn>
+		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 1210 MAPLE ST  PITTSBURG CA 94565 to 1210 MAPLE ST  PITTSBURG CA 94565</userText>
+	</userNote>
 </Policy>

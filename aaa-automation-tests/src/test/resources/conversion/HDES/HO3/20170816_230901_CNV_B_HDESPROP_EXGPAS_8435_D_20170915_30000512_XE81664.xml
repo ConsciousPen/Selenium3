@@ -1,324 +1,324 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Policy version="1" name="AAA_HO_CA" rootEntityType="policy">
-  <AAAHOPolicy state="Created">
-    <agencyCd>500001005</agencyCd>
-    <agencyLocation>500005359</agencyLocation>
-    <agentCd>103863495</agentCd>
-    <agentGeneralNumber>003</agentGeneralNumber>
-    <doNotRenewInd>false</doNotRenewInd>
-    <effective>2017-11-07T00:00:00</effective>
-    <expiration>2018-11-07T00:00:00</expiration>
-    <imported>CONV</imported>
-    <importedFrom>HDES</importedFrom>
-    <isAdditionalPolicy>true</isAdditionalPolicy>
-    <leadSourceCd>25</leadSourceCd>
-    <officeType>AZ Club Agent</officeType>
-    <policyFormCd>HO3</policyFormCd>
-    <preConversionPolicyNumber>XE81664</preConversionPolicyNumber>
-    <preConversionPolicyPremium>940</preConversionPolicyPremium>
-    <producerCd>500001005</producerCd>
-    <productCd>AAA_HO_CA</productCd>
-    <riskStateCd>CA</riskStateCd>
-    <sourcePolicyNum>XE81664</sourcePolicyNum>
-    <subProducerCd>103863495</subProducerCd>
-    <tollNumberCd>xxx</tollNumberCd>
-    <underwriterCd>CSAAIB</underwriterCd>
-    <HO438BFUNSEndorsementForm state="Created"/>
-    <AAACeaDetailsComponent state="Created">
-      <acceptCeaOffer>false</acceptCeaOffer>
-      <policyType>BASIC</policyType>
-    </AAACeaDetailsComponent>
-    <AAAFirelineReportComponent state="Created">
-      <dwellAddressCity>FRESNO</dwellAddressCity>
-      <dwellAddressLine1>4123 E MASON AVE</dwellAddressLine1>
-      <dwellAddressState>CA</dwellAddressState>
-      <dwellAddressZip>93725</dwellAddressZip>
-      <expirationDate>2017-12-14T00:00:00</expirationDate>
-      <orderDate>2017-09-15T00:00:00</orderDate>
-      <status>Valid</status>
-    </AAAFirelineReportComponent>
-    <AAAHOCommunicationInfo state="Created">
-      <phoneNumber>5592176370</phoneNumber>
-      <preferredContact>homePhone</preferredContact>
-      <workPhone>5598014708</workPhone>
-    </AAAHOCommunicationInfo>
-    <AAAHOMembership state="Created">
-      <insurerCd>Yes</insurerCd>
-      <insurerName>RODRIGUEZ</insurerName>
-      <policyNumber>4290051113902013</policyNumber>
-    </AAAHOMembership>
-    <AAAHONamedInsured state="Created">
-      <aaaLegalNameIND>false</aaaLegalNameIND>
-      <dateOfBirth>1953-06-13T00:00:00</dateOfBirth>
-      <employeeType>false</employeeType>
-      <firstName>ALFREDO</firstName>
-      <lastName>RODRIGUEZ</lastName>
-      <middleName>LUVIANO</middleName>
-      <occupationDesc>Unknown</occupationDesc>
-      <principalRoleCd>policyHolder</principalRoleCd>
-      <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
-      <trusteeIndicator>false</trusteeIndicator>
-      <AAAHOOrderClueReport state="Created">
-        <addressLine1>4123 E MASON AVE</addressLine1>
-        <city>FRESNO</city>
-        <dateOfBirth>1953-06-13T00:00:00</dateOfBirth>
-        <expirationDt>2017-11-14T00:00:00</expirationDt>
-        <firstName>ALFREDO</firstName>
-        <lastName>RODRIGUEZ</lastName>
-        <noOfClaims>0</noOfClaims>
-        <orderDate>2017-09-15T00:00:00</orderDate>
-        <postalCode>93725</postalCode>
-        <reportExpired>false</reportExpired>
-        <status>Valid</status>
-      </AAAHOOrderClueReport>
-      <AAAInsuredPrimaryAddress state="Created">
-        <addressLine1>4123 E MASON AVE</addressLine1>
-        <city>FRESNO</city>
-        <countryCd>US</countryCd>
-        <postalCode>93725</postalCode>
-        <stateProvCd>CA</stateProvCd>
-      </AAAInsuredPrimaryAddress>
-    </AAAHONamedInsured>
-    <AAAHONamedInsured state="Created">
-      <aaaLegalNameIND>false</aaaLegalNameIND>
-      <dateOfBirth>1956-06-30T00:00:00</dateOfBirth>
-      <employeeType>false</employeeType>
-      <firstName>LUCINA</firstName>
-      <lastName>LUVIANO</lastName>
-      <middleName>RODRIGUEZ</middleName>
-      <occupationDesc>Unknown</occupationDesc>
-      <relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
-      <trusteeIndicator>false</trusteeIndicator>
-      <AAAHOOrderClueReport state="Created">
-        <addressLine1>4123 E MASON AVE</addressLine1>
-        <city>FRESNO</city>
-        <dateOfBirth>1956-06-30T00:00:00</dateOfBirth>
-        <expirationDt>2017-11-14T00:00:00</expirationDt>
-        <firstName>LUCINA</firstName>
-        <lastName>LUVIANO</lastName>
-        <noOfClaims>0</noOfClaims>
-        <orderDate>2017-09-15T00:00:00</orderDate>
-        <postalCode>93725</postalCode>
-        <reportExpired>false</reportExpired>
-        <status>Valid</status>
-      </AAAHOOrderClueReport>
-      <AAAInsuredPrimaryAddress state="Created">
-        <addressLine1>4123 E MASON AVE</addressLine1>
-        <city>FRESNO</city>
-        <countryCd>US</countryCd>
-        <postalCode>93725</postalCode>
-        <stateProvCd>CA</stateProvCd>
-      </AAAInsuredPrimaryAddress>
-    </AAAHONamedInsured>
-    <AAAHOOtherOrPriorPolicyComponent state="Created">
-      <autoBILimit>$500,000/$500,000</autoBILimit>
-      <autoPolicyPending>false</autoPolicyPending>
-      <policyEffectiveDate>2017-11-07T00:00:00</policyEffectiveDate>
-      <policyNumber>On File- Conversion</policyNumber>
-      <productCd>Auto</productCd>
-      <stateCd>CA</stateCd>
-    </AAAHOOtherOrPriorPolicyComponent>
-    <AAAHOPaymentOption state="Created">
-      <billToAtRenewal>Mortgagee</billToAtRenewal>
-      <paymentPlanAtRenewal>mortgageeHO_CA_R</paymentPlanAtRenewal>
-      <paymentPlanCd>mortgageeHO_CA</paymentPlanCd>
-      <recurringPayment>false</recurringPayment>
-    </AAAHOPaymentOption>
-    <AAAHOPolicyPriorCarrier state="Created">
-      <baseDate>2012-01-01T00:00:00</baseDate>
-      <carrierCd>1</carrierCd>
-      <noOfYearsWithHO>5</noOfYearsWithHO>
-      <policyType>HO3</policyType>
-    </AAAHOPolicyPriorCarrier>
-    <AAAHOPreDwellingAddrExists state="Created">
-      <yesNoAnswer>false</yesNoAnswer>
-    </AAAHOPreDwellingAddrExists>
-    <AAAIso360ReportComponent state="Created">
-      <constructionTypeCd>Frame</constructionTypeCd>
-      <dwellAddressCity>FRESNO</dwellAddressCity>
-      <dwellAddressLine1>4123 E MASON AVE</dwellAddressLine1>
-      <dwellAddressState>CA</dwellAddressState>
-      <dwellAddressZip>93725</dwellAddressZip>
-      <expirationDate>2017-11-14T00:00:00</expirationDate>
-      <isoReplacementCost>414500</isoReplacementCost>
-      <livingArea>9999</livingArea>
-      <numberOfFamilies>4</numberOfFamilies>
-      <numberOfStories>1</numberOfStories>
-      <orderDate>2017-09-15T00:00:00</orderDate>
-      <roofShape>Complex/Custom</roofShape>
-      <roofType>Other</roofType>
-      <status>Valid</status>
-      <yearBuilt>1945</yearBuilt>
-    </AAAIso360ReportComponent>
-    <AAAMembershipOrder state="Created">
-      <lastName>RODRIGUEZ</lastName>
-      <membershipNumber>4290051113902013</membershipNumber>
-      <orderDate>2017-09-15T00:00:00</orderDate>
-      <receiptDate>2017-09-15T00:00:00</receiptDate>
-      <status>Active</status>
-    </AAAMembershipOrder>
-    <AAAPolicyPrintingInfoComponent state="Created">
-      <suppressPrint>PD</suppressPrint>
-    </AAAPolicyPrintingInfoComponent>
-    <AAAPpcReportComponent state="Created">
-      <dwellAddressCity>FRESNO</dwellAddressCity>
-      <dwellAddressLine1>4123 E MASON AVE</dwellAddressLine1>
-      <dwellAddressState>CA</dwellAddressState>
-      <dwellAddressZip>93725</dwellAddressZip>
-      <expirationDate>2017-11-14T00:00:00</expirationDate>
-      <orderDate>2017-09-15T00:00:00</orderDate>
-      <ppcValue>3</ppcValue>
-      <status>Valid</status>
-    </AAAPpcReportComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>true</docReceivedInd>
-      <documentCd>11POAAP</documentCd>
-      <documentText>Proof of active AAA auto policy</documentText>
-    </AAASupportingDocComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>PS</docReceivedInd>
-      <documentCd>1POSOA</documentCd>
-      <documentText>Signed policy application</documentText>
-    </AAASupportingDocComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>PS</docReceivedInd>
-      <documentCd>616530</documentCd>
-      <documentText>California Residential Property Insurance Disclosure</documentText>
-    </AAASupportingDocComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>PS</docReceivedInd>
-      <documentCd>CEAOD</documentCd>
-      <documentText>CEA Offer Declination</documentText>
-    </AAASupportingDocComponent>
-    <AAAUnderwritingQuestionaireComponent state="Created">
-      <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
-      <DwellLocatedInd>false</DwellLocatedInd>
-      <EmployeesResidentsInd>false</EmployeesResidentsInd>
-      <ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
-      <GasWaterInGarageInd>false</GasWaterInGarageInd>
-      <PremisesEndrosInd>false</PremisesEndrosInd>
-      <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
-    </AAAUnderwritingQuestionaireComponent>
-    <Commissions state="Created">
-      <commissionTypeCd>R</commissionTypeCd>
-    </Commissions>
-    <AAADwellEntityComponent state="Created">
-      <aaaDwellingOccupancyType>Owner occupied</aaaDwellingOccupancyType>
-      <aaaDwellingUsage>1</aaaDwellingUsage>
-      <aaaFirelineScore>0</aaaFirelineScore>
-      <aaanumberofResidents>9999</aaanumberofResidents>
-      <aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
-      <addressLine1>4123 E MASON AVE</addressLine1>
-      <city>FRESNO</city>
-      <crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
-      <dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
-      <dwellingCrippleWallInd>false</dwellingCrippleWallInd>
-      <dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
-      <dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
-      <firelineMatchType>Address</firelineMatchType>
-      <localAlarmInd>true</localAlarmInd>
-      <localFireAlarmInd>true</localFireAlarmInd>
-      <numberOfFamilies>4</numberOfFamilies>
-      <overrideInspectionInd>true</overrideInspectionInd>
-      <placementOrMatchType>Address</placementOrMatchType>
-      <postalCode>93725</postalCode>
-      <spaTubType>None</spaTubType>
-      <stateProvCd>CA</stateProvCd>
-      <swimPoolType>None</swimPoolType>
-      <trampolineType>None</trampolineType>
-      <waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
-      <woodStoveInd>false</woodStoveInd>
-      <AAACoverageA state="Created">
-        <coverageCd>CovA</coverageCd>
-        <limitAmount>414500</limitAmount>
-      </AAACoverageA>
-      <AAACoverageB state="Created">
-        <coverageCd>CovB</coverageCd>
-        <limitAmount>41450</limitAmount>
-      </AAACoverageB>
-      <AAACoverageC state="Created">
-        <coverageCd>CovC</coverageCd>
-        <limitAmount>154000</limitAmount>
-      </AAACoverageC>
-      <AAACoverageD state="Created">
-        <coverageCd>CovD</coverageCd>
-        <limitAmount>165900</limitAmount>
-      </AAACoverageD>
-      <AAACoverageE state="Created">
-        <coverageCd>CovE</coverageCd>
-        <limitAmount>300000</limitAmount>
-      </AAACoverageE>
-      <AAACoverageF state="Created">
-        <coverageCd>CovF</coverageCd>
-        <limitAmount>1000</limitAmount>
-      </AAACoverageF>
-      <AAAHOConstructionInfo state="Created">
-        <aaaFoundationType>Slab</aaaFoundationType>
-        <constructionTypeCd>Frame</constructionTypeCd>
-        <isoReplacementCost>414500</isoReplacementCost>
-        <livingArea>9999</livingArea>
-        <numberOfStories>1</numberOfStories>
-        <replacementCost>414500</replacementCost>
-        <roofShape>Complex/Custom</roofShape>
-        <roofType>Other</roofType>
-        <yearBuilt>1945</yearBuilt>
-      </AAAHOConstructionInfo>
-      <AAAHOMortgageeInfo state="Created">
-        <accountNumber>0047220566</accountNumber>
-        <addressValidatedInd>Yes</addressValidatedInd>
-        <city>FORT WORTH</city>
-        <mortagageeAddressLine1>PO BOX 163529</mortagageeAddressLine1>
-        <name>MIDLAND MORTGAGE, A DIVISION OF, MIDFIRST BAN</name>
-        <postalCode>76161</postalCode>
-        <rank>1</rank>
-        <stateProvCd>TX</stateProvCd>
-        <useLegalMortgagee>false</useLegalMortgagee>
-      </AAAHOMortgageeInfo>
-      <AAAPpcDetailsInfo state="Created">
-        <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
-        <fireDepartmentType>T</fireDepartmentType>
-        <fireDistrict>FRESNO</fireDistrict>
-        <oldPpcValue>3</oldPpcValue>
-        <ppcValue>3</ppcValue>
-      </AAAPpcDetailsInfo>
-      <AAAPropertyDeductible state="Created">
-        <coverageCd>DEDUCTIBLE</coverageCd>
-        <limitAmount>1000</limitAmount>
-      </AAAPropertyDeductible>
-      <PreconfigLocation state="Created">
-        <AAAHODwellAddress state="Created">
-          <addressLine1>4123 E MASON AVE</addressLine1>
-          <addressValidatedInd>Yes</addressValidatedInd>
-          <city>FRESNO</city>
-          <county>Fresno</county>
-          <isoTerritoryCode>0</isoTerritoryCode>
-          <postalCode>93725</postalCode>
-          <stateProvCd>CA</stateProvCd>
-        </AAAHODwellAddress>
-      </PreconfigLocation>
-    </AAADwellEntityComponent>
-    <HO28EndorsementForm state="Created"/>
-    <HO29EndorsementForm state="Created"/>
-    <HO44EndorsementForm state="Created"/>
-    <HO60EndorsementForm state="Created"/>
-    <HO90EndorsementForm state="Created"/>
-  </AAAHOPolicy>
-  <userNote>
-    <category>Other</category>
-    <confidential>false</confidential>
-    <title>Conversion: Mortgagee truncated at conversion</title>
-    <updatedOn>2017-09-15T00:00:00</updatedOn>
-    <userText>Mortgagee name and/or address was truncated at conversion since the one imported from HDES is longer than the space available in PAS</userText>
-  </userNote>
-  <userNote>
-    <category>Other</category>
-    <confidential>false</confidential>
-    <title>Conversion: Form HO44 and Form HO40 or HO42 both exist</title>
-    <updatedOn>2017-09-15T00:00:00</updatedOn>
-    <userText>Map the Section II territory from the HO 44 to this field in PAS</userText>
-  </userNote>
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005333</agencyLocation>
+		<agentCd>70685886</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2017-11-07T00:00:00</effective>
+		<expiration>2018-11-07T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>HDES</importedFrom>
+		<isAdditionalPolicy>true</isAdditionalPolicy>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>HO3</policyFormCd>
+		<preConversionPolicyNumber>XE81664</preConversionPolicyNumber>
+		<preConversionPolicyPremium>940</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>XE81664</sourcePolicyNum>
+		<subProducerCd>70685886</subProducerCd>
+		<tollNumberCd>xxx</tollNumberCd>
+		<underwriterCd>CSAAIB</underwriterCd>
+		<HO438BFUNSEndorsementForm state="Created"/>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+			<policyType>BASIC</policyType>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>FRESNO</dwellAddressCity>
+			<dwellAddressLine1>4123 E MASON AVE</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>93725</dwellAddressZip>
+			<expirationDate>2017-12-14T00:00:00</expirationDate>
+			<orderDate>2017-09-15T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>5592176370</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+			<workPhone>5598014708</workPhone>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>Yes</insurerCd>
+			<insurerName>RODRIGUEZ</insurerName>
+			<policyNumber>4290051113902013</policyNumber>
+		</AAAHOMembership>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1953-06-13T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>ALFREDO</firstName>
+			<lastName>RODRIGUEZ</lastName>
+			<middleName>LUVIANO</middleName>
+			<occupationDesc>Unknown</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>4123 E MASON AVE</addressLine1>
+				<city>FRESNO</city>
+				<dateOfBirth>1953-06-13T00:00:00</dateOfBirth>
+				<expirationDt>2017-11-14T00:00:00</expirationDt>
+				<firstName>ALFREDO</firstName>
+				<lastName>RODRIGUEZ</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-09-15T00:00:00</orderDate>
+				<postalCode>93725</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>4123 E MASON AVE</addressLine1>
+				<city>FRESNO</city>
+				<countryCd>US</countryCd>
+				<postalCode>93725</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1956-06-30T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>LUCINA</firstName>
+			<lastName>LUVIANO</lastName>
+			<middleName>RODRIGUEZ</middleName>
+			<occupationDesc>Unknown</occupationDesc>
+			<relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>4123 E MASON AVE</addressLine1>
+				<city>FRESNO</city>
+				<dateOfBirth>1956-06-30T00:00:00</dateOfBirth>
+				<expirationDt>2017-11-14T00:00:00</expirationDt>
+				<firstName>LUCINA</firstName>
+				<lastName>LUVIANO</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-09-15T00:00:00</orderDate>
+				<postalCode>93725</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>4123 E MASON AVE</addressLine1>
+				<city>FRESNO</city>
+				<countryCd>US</countryCd>
+				<postalCode>93725</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOOtherOrPriorPolicyComponent state="Created">
+			<autoBILimit>$500,000/$500,000</autoBILimit>
+			<autoPolicyPending>false</autoPolicyPending>
+			<policyEffectiveDate>2017-11-07T00:00:00</policyEffectiveDate>
+			<policyNumber>On File- Conversion</policyNumber>
+			<productCd>Auto</productCd>
+			<stateCd>CA</stateCd>
+		</AAAHOOtherOrPriorPolicyComponent>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Mortgagee</billToAtRenewal>
+			<paymentPlanAtRenewal>mortgageeHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>mortgageeHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2012-01-01T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>5</noOfYearsWithHO>
+			<policyType>HO3</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAIso360ReportComponent state="Created">
+			<constructionTypeCd>Frame</constructionTypeCd>
+			<dwellAddressCity>FRESNO</dwellAddressCity>
+			<dwellAddressLine1>4123 E MASON AVE</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>93725</dwellAddressZip>
+			<expirationDate>2017-11-14T00:00:00</expirationDate>
+			<isoReplacementCost>414500</isoReplacementCost>
+			<livingArea>9999</livingArea>
+			<numberOfFamilies>4</numberOfFamilies>
+			<numberOfStories>1</numberOfStories>
+			<orderDate>2017-09-15T00:00:00</orderDate>
+			<roofShape>Complex/Custom</roofShape>
+			<roofType>Other</roofType>
+			<status>Valid</status>
+			<yearBuilt>1945</yearBuilt>
+		</AAAIso360ReportComponent>
+		<AAAMembershipOrder state="Created">
+			<lastName>RODRIGUEZ</lastName>
+			<membershipNumber>4290051113902013</membershipNumber>
+			<orderDate>2017-09-15T00:00:00</orderDate>
+			<receiptDate>2017-09-15T00:00:00</receiptDate>
+			<status>Active</status>
+		</AAAMembershipOrder>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>FRESNO</dwellAddressCity>
+			<dwellAddressLine1>4123 E MASON AVE</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>93725</dwellAddressZip>
+			<expirationDate>2017-11-14T00:00:00</expirationDate>
+			<orderDate>2017-09-15T00:00:00</orderDate>
+			<ppcValue>3</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>true</docReceivedInd>
+			<documentCd>11POAAP</documentCd>
+			<documentText>Proof of active AAA auto policy</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>616530</documentCd>
+			<documentText>California Residential Property Insurance Disclosure</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<DwellLocatedInd>false</DwellLocatedInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+			<GasWaterInGarageInd>false</GasWaterInGarageInd>
+			<PremisesEndrosInd>false</PremisesEndrosInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Owner occupied</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>1</aaaDwellingUsage>
+			<aaaFirelineScore>0</aaaFirelineScore>
+			<aaanumberofResidents>9999</aaanumberofResidents>
+			<aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
+			<addressLine1>4123 E MASON AVE</addressLine1>
+			<city>FRESNO</city>
+			<crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
+			<dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
+			<dwellingCrippleWallInd>false</dwellingCrippleWallInd>
+			<dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
+			<dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
+			<firelineMatchType>Address</firelineMatchType>
+			<localAlarmInd>true</localAlarmInd>
+			<localFireAlarmInd>true</localFireAlarmInd>
+			<numberOfFamilies>4</numberOfFamilies>
+			<overrideInspectionInd>true</overrideInspectionInd>
+			<placementOrMatchType>Address</placementOrMatchType>
+			<postalCode>93725</postalCode>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
+			<woodStoveInd>false</woodStoveInd>
+			<AAACoverageA state="Created">
+				<coverageCd>CovA</coverageCd>
+				<limitAmount>414500</limitAmount>
+			</AAACoverageA>
+			<AAACoverageB state="Created">
+				<coverageCd>CovB</coverageCd>
+				<limitAmount>41450</limitAmount>
+			</AAACoverageB>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>154000</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>165900</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>300000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOConstructionInfo state="Created">
+				<aaaFoundationType>Slab</aaaFoundationType>
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<isoReplacementCost>414500</isoReplacementCost>
+				<livingArea>9999</livingArea>
+				<numberOfStories>1</numberOfStories>
+				<replacementCost>414500</replacementCost>
+				<roofShape>Complex/Custom</roofShape>
+				<roofType>Other</roofType>
+				<yearBuilt>1945</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAHOMortgageeInfo state="Created">
+				<accountNumber>0047220566</accountNumber>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>FORT WORTH</city>
+				<mortagageeAddressLine1>PO BOX 163529</mortagageeAddressLine1>
+				<name>MIDLAND MORTGAGE, A DIVISION OF, MIDFIRST BAN</name>
+				<postalCode>76161</postalCode>
+				<rank>1</rank>
+				<stateProvCd>TX</stateProvCd>
+				<useLegalMortgagee>false</useLegalMortgagee>
+			</AAAHOMortgageeInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>FRESNO</fireDistrict>
+				<oldPpcValue>3</oldPpcValue>
+				<ppcValue>3</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>4123 E MASON AVE</addressLine1>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>FRESNO</city>
+					<county>Fresno</county>
+					<isoTerritoryCode>0</isoTerritoryCode>
+					<postalCode>93725</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<HO28EndorsementForm state="Created"/>
+		<HO29EndorsementForm state="Created"/>
+		<HO44EndorsementForm state="Created"/>
+		<HO60EndorsementForm state="Created"/>
+		<HO90EndorsementForm state="Created"/>
+	</AAAHOPolicy>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Conversion: Mortgagee truncated at conversion</title>
+		<updatedOn>2017-09-15T00:00:00</updatedOn>
+		<userText>Mortgagee name and/or address was truncated at conversion since the one imported from HDES is longer than the space available in PAS</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Conversion: Form HO44 and Form HO40 or HO42 both exist</title>
+		<updatedOn>2017-09-15T00:00:00</updatedOn>
+		<userText>Map the Section II territory from the HO 44 to this field in PAS</userText>
+	</userNote>
 </Policy>

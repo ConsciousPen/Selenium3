@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
   <AAAHOPolicy state="Created">
-    <agencyCd>0094</agencyCd>
-    <agentCd>500020662</agentCd>
-    <agentGeneralNumber>003</agentGeneralNumber>
-    <CaliforniaVeterans>false</CaliforniaVeterans>
-    <doNotRenewInd>false</doNotRenewInd>
-    <effective>2018-01-05T00:00:00</effective>
-    <expiration>2019-01-05T00:00:00</expiration>
-    <imported>CONV</imported>
-    <importedFrom>HDES</importedFrom>
-    <leadSourceCd>25</leadSourceCd>
-    <officeType>CC</officeType>
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005301</agencyLocation>
+		<agentCd>70683577</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<CaliforniaVeterans>false</CaliforniaVeterans>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2018-01-09T00:00:00</effective>
+		<expiration>2019-01-09T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>HDES</importedFrom>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
     <policyFormCd>HO4</policyFormCd>
     <preConversionPolicyNumber>GM83121</preConversionPolicyNumber>
     <preConversionPolicyPremium>160</preConversionPolicyPremium>
@@ -20,7 +21,7 @@
     <riskStateCd>CA</riskStateCd>
     <salesChannelType>2513</salesChannelType>
     <sourcePolicyNum>GM83121</sourcePolicyNum>
-    <subProducerCd>500005456</subProducerCd>
+    <subProducerCd>70683577</subProducerCd>
     <tollNumberCd>xxx</tollNumberCd>
     <underwriterCd>CSAAIB</underwriterCd>
     <AAACeaDetailsComponent state="Created">

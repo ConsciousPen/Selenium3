@@ -1,297 +1,297 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Policy rootEntityType="policy" version="1" name="AAA_HO_CA" >
-  <AAAHOPolicy state="Created">
-    <agencyCd>500001005</agencyCd>
-    <agencyLocation>500005354</agencyLocation>
-    <agentCd>94361781</agentCd>
-    <agentGeneralNumber>003</agentGeneralNumber>
-    <doNotRenewInd>false</doNotRenewInd>
-    <effective>2017-11-30T00:00:00</effective>
-    <expiration>2018-11-30T00:00:00</expiration>
-    <imported>CONV</imported>
-    <importedFrom>HDES</importedFrom>
-    <isAdditionalPolicy>true</isAdditionalPolicy>
-    <leadSourceCd>25</leadSourceCd>
-    <officeType>AZ Club Agent</officeType>
-    <policyFormCd>HO3</policyFormCd>
-    <preConversionPolicyNumber>GL92994</preConversionPolicyNumber>
-    <preConversionPolicyPremium>527</preConversionPolicyPremium>
-    <producerCd>500001005</producerCd>
-    <productCd>AAA_HO_CA</productCd>
-    <riskStateCd>CA</riskStateCd>
-    <sourcePolicyNum>GL92994</sourcePolicyNum>
-    <subProducerCd>94361781</subProducerCd>
-    <tollNumberCd>xxx</tollNumberCd>
-    <underwriterCd>CSAAIB</underwriterCd>
-    <HO438BFUNSEndorsementForm state="Created"/>
-    <AAACeaDetailsComponent state="Created">
-      <acceptCeaOffer>false</acceptCeaOffer>
-      <policyType>BASIC</policyType>
-    </AAACeaDetailsComponent>
-    <AAAFirelineReportComponent state="Created">
-      <dwellAddressCity>SACRAMENTO</dwellAddressCity>
-      <dwellAddressLine1>142 ESTES WAY</dwellAddressLine1>
-      <dwellAddressState>CA</dwellAddressState>
-      <dwellAddressZip>95838</dwellAddressZip>
-      <expirationDate>2018-01-04T00:00:00</expirationDate>
-      <orderDate>2017-10-06T00:00:00</orderDate>
-      <status>Valid</status>
-    </AAAFirelineReportComponent>
-    <AAAHOCommunicationInfo state="Created">
-      <phoneNumber>9162438284</phoneNumber>
-      <preferredContact>homePhone</preferredContact>
-    </AAAHOCommunicationInfo>
-    <AAAHOMembership state="Created">
-      <insurerCd>Yes</insurerCd>
-      <insurerName>WHEDBEE</insurerName>
-      <policyNumber>4290052440819912</policyNumber>
-    </AAAHOMembership>
-    <AAAHONamedInsured state="Created">
-      <aaaLegalNameIND>false</aaaLegalNameIND>
-      <dateOfBirth>1991-07-22T00:00:00</dateOfBirth>
-      <employeeType>false</employeeType>
-      <firstName>ALEXANDER</firstName>
-      <lastName>WHEDBEE</lastName>
-      <occupationDesc>Unknown</occupationDesc>
-      <principalRoleCd>policyHolder</principalRoleCd>
-      <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
-      <trusteeIndicator>false</trusteeIndicator>
-      <AAAHOOrderClueReport state="Created">
-        <addressLine1>142 ESTES WAY</addressLine1>
-        <city>SACRAMENTO</city>
-        <dateOfBirth>1991-07-22T00:00:00</dateOfBirth>
-        <expirationDt>2017-12-05T00:00:00</expirationDt>
-        <firstName>ALEXANDER</firstName>
-        <lastName>WHEDBEE</lastName>
-        <noOfClaims>0</noOfClaims>
-        <orderDate>2017-10-06T00:00:00</orderDate>
-        <postalCode>95838</postalCode>
-        <reportExpired>false</reportExpired>
-        <status>Valid</status>
-      </AAAHOOrderClueReport>
-      <AAAInsuredPrimaryAddress state="Created">
-        <addressLine1>142 ESTES WAY</addressLine1>
-        <city>SACRAMENTO</city>
-        <countryCd>US</countryCd>
-        <postalCode>95838</postalCode>
-        <stateProvCd>CA</stateProvCd>
-      </AAAInsuredPrimaryAddress>
-    </AAAHONamedInsured>
-    <AAAHOOtherOrPriorPolicyComponent state="Created">
-      <autoBILimit>$500,000/$500,000</autoBILimit>
-      <autoPolicyPending>false</autoPolicyPending>
-      <policyEffectiveDate>2016-04-30T00:00:00</policyEffectiveDate>
-      <policyNumber>CAAS202544723</policyNumber>
-      <productCd>Auto</productCd>
-      <stateCd>CA</stateCd>
-    </AAAHOOtherOrPriorPolicyComponent>
-    <AAAHOPaymentOption state="Created">
-      <billToAtRenewal>Mortgagee</billToAtRenewal>
-      <paymentPlanAtRenewal>mortgageeHO_CA_R</paymentPlanAtRenewal>
-      <paymentPlanCd>mortgageeHO_CA</paymentPlanCd>
-      <recurringPayment>false</recurringPayment>
-    </AAAHOPaymentOption>
-    <AAAHOPolicyPriorCarrier state="Created">
-      <baseDate>2015-01-01T00:00:00</baseDate>
-      <carrierCd>1</carrierCd>
-      <noOfYearsWithHO>2</noOfYearsWithHO>
-      <policyType>HO3</policyType>
-    </AAAHOPolicyPriorCarrier>
-    <AAAHOPreDwellingAddrExists state="Created">
-      <yesNoAnswer>false</yesNoAnswer>
-    </AAAHOPreDwellingAddrExists>
-    <AAAIso360ReportComponent state="Created">
-      <constructionTypeCd>Frame</constructionTypeCd>
-      <dwellAddressCity>SACRAMENTO</dwellAddressCity>
-      <dwellAddressLine1>142 ESTES WAY</dwellAddressLine1>
-      <dwellAddressState>CA</dwellAddressState>
-      <dwellAddressZip>95838</dwellAddressZip>
-      <expirationDate>2017-12-05T00:00:00</expirationDate>
-      <isoReplacementCost>176800</isoReplacementCost>
-      <livingArea>9999</livingArea>
-      <numberOfFamilies>1</numberOfFamilies>
-      <numberOfStories>1</numberOfStories>
-      <orderDate>2017-10-06T00:00:00</orderDate>
-      <roofShape>Complex/Custom</roofShape>
-      <roofType>Other</roofType>
-      <status>Valid</status>
-      <yearBuilt>1978</yearBuilt>
-    </AAAIso360ReportComponent>
-    <AAAMembershipOrder state="Created">
-      <lastName>WHEDBEE</lastName>
-      <membershipNumber>4290052440819912</membershipNumber>
-      <orderDate>2017-10-06T00:00:00</orderDate>
-      <receiptDate>2017-10-06T00:00:00</receiptDate>
-      <status>Active</status>
-    </AAAMembershipOrder>
-    <AAAPolicyPrintingInfoComponent state="Created">
-      <suppressPrint>PD</suppressPrint>
-    </AAAPolicyPrintingInfoComponent>
-    <AAAPpcReportComponent state="Created">
-      <dwellAddressCity>SACRAMENTO</dwellAddressCity>
-      <dwellAddressLine1>142 ESTES WAY</dwellAddressLine1>
-      <dwellAddressState>CA</dwellAddressState>
-      <dwellAddressZip>95838</dwellAddressZip>
-      <expirationDate>2017-12-05T00:00:00</expirationDate>
-      <orderDate>2017-10-06T00:00:00</orderDate>
-      <ppcValue>2</ppcValue>
-      <status>Valid</status>
-    </AAAPpcReportComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>true</docReceivedInd>
-      <documentCd>11POAAP</documentCd>
-      <documentText>Proof of active AAA auto policy</documentText>
-    </AAASupportingDocComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>true</docReceivedInd>
-      <documentCd>1POCFA</documentCd>
-      <documentText>Proof of central fire alarm</documentText>
-    </AAASupportingDocComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>PS</docReceivedInd>
-      <documentCd>1POSOA</documentCd>
-      <documentText>Signed policy application</documentText>
-    </AAASupportingDocComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>true</docReceivedInd>
-      <documentCd>2POCTA</documentCd>
-      <documentText>Proof of central theft alarm</documentText>
-    </AAASupportingDocComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>PS</docReceivedInd>
-      <documentCd>616530</documentCd>
-      <documentText>California Residential Property Insurance Disclosure</documentText>
-    </AAASupportingDocComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>PS</docReceivedInd>
-      <documentCd>CEAOD</documentCd>
-      <documentText>CEA Offer Declination</documentText>
-    </AAASupportingDocComponent>
-    <AAAUnderwritingQuestionaireComponent state="Created">
-      <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
-      <DwellLocatedInd>false</DwellLocatedInd>
-      <EmployeesResidentsInd>false</EmployeesResidentsInd>
-      <ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
-      <GasWaterInGarageInd>false</GasWaterInGarageInd>
-      <PremisesEndrosInd>false</PremisesEndrosInd>
-      <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
-    </AAAUnderwritingQuestionaireComponent>
-    <Commissions state="Created">
-      <commissionTypeCd>R</commissionTypeCd>
-    </Commissions>
-    <AAADwellEntityComponent state="Created">
-      <aaaDwellingOccupancyType>Owner occupied</aaaDwellingOccupancyType>
-      <aaaDwellingUsage>1</aaaDwellingUsage>
-      <aaaFirelineScore>0</aaaFirelineScore>
-      <aaanumberofResidents>9999</aaanumberofResidents>
-      <aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
-      <addressLine1>142 ESTES WAY</addressLine1>
-      <centralAlarmInd>true</centralAlarmInd>
-      <centralFireAlarmInd>true</centralFireAlarmInd>
-      <city>SACRAMENTO</city>
-      <crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
-      <dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
-      <dwellingCrippleWallInd>false</dwellingCrippleWallInd>
-      <dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
-      <dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
-      <firelineMatchType>Address</firelineMatchType>
-      <numberOfFamilies>1</numberOfFamilies>
-      <overrideInspectionInd>true</overrideInspectionInd>
-      <placementOrMatchType>Address</placementOrMatchType>
-      <postalCode>95838</postalCode>
-      <spaTubType>None</spaTubType>
-      <stateProvCd>CA</stateProvCd>
-      <swimPoolType>None</swimPoolType>
-      <trampolineType>None</trampolineType>
-      <waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
-      <woodStoveInd>false</woodStoveInd>
-      <AAACoverageA state="Created">
-        <coverageCd>CovA</coverageCd>
-        <limitAmount>176800</limitAmount>
-      </AAACoverageA>
-      <AAACoverageB state="Created">
-        <coverageCd>CovB</coverageCd>
-        <limitAmount>17680</limitAmount>
-      </AAACoverageB>
-      <AAACoverageC state="Created">
-        <coverageCd>CovC</coverageCd>
-        <limitAmount>132700</limitAmount>
-      </AAACoverageC>
-      <AAACoverageD state="Created">
-        <coverageCd>CovD</coverageCd>
-        <limitAmount>70800</limitAmount>
-      </AAACoverageD>
-      <AAACoverageE state="Created">
-        <coverageCd>CovE</coverageCd>
-        <limitAmount>500000</limitAmount>
-      </AAACoverageE>
-      <AAACoverageF state="Created">
-        <coverageCd>CovF</coverageCd>
-        <limitAmount>1000</limitAmount>
-      </AAACoverageF>
-      <AAAHOConstructionInfo state="Created">
-        <aaaFoundationType>Slab</aaaFoundationType>
-        <constructionTypeCd>Frame</constructionTypeCd>
-        <isoReplacementCost>176800</isoReplacementCost>
-        <livingArea>9999</livingArea>
-        <numberOfStories>1</numberOfStories>
-        <replacementCost>176800</replacementCost>
-        <roofShape>Complex/Custom</roofShape>
-        <roofType>Other</roofType>
-        <yearBuilt>1978</yearBuilt>
-      </AAAHOConstructionInfo>
-      <AAAHOMortgageeInfo state="Created">
-        <accountNumber>5216080121</accountNumber>
-        <addressValidatedInd>Yes</addressValidatedInd>
-        <city>TROY</city>
-        <mortagageeAddressLine1>PO BOX 7050</mortagageeAddressLine1>
-        <name>SHELLPOINT MORTGAGE SERVICE, ISAOA/ATIMA</name>
-        <postalCode>48007</postalCode>
-        <rank>1</rank>
-        <stateProvCd>MI</stateProvCd>
-        <useLegalMortgagee>false</useLegalMortgagee>
-      </AAAHOMortgageeInfo>
-      <AAAPpcDetailsInfo state="Created">
-        <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
-        <fireDepartmentType>T</fireDepartmentType>
-        <fireDistrict>SACRAMENTO</fireDistrict>
-        <oldPpcValue>2</oldPpcValue>
-        <ppcValue>2</ppcValue>
-      </AAAPpcDetailsInfo>
-      <AAAPropertyDeductible state="Created">
-        <coverageCd>DEDUCTIBLE</coverageCd>
-        <limitAmount>1000</limitAmount>
-      </AAAPropertyDeductible>
-      <PreconfigLocation state="Created">
-        <AAAHODwellAddress state="Created">
-          <addressLine1>142 ESTES WAY</addressLine1>
-          <addressValidatedInd>Yes</addressValidatedInd>
-          <city>SACRAMENTO</city>
-          <county>Sacramento</county>
-          <postalCode>95838</postalCode>
-          <stateProvCd>CA</stateProvCd>
-        </AAAHODwellAddress>
-      </PreconfigLocation>
-    </AAADwellEntityComponent>
-    <HO210EndorsementForm state="Created">
-      <coverageLimit>5000</coverageLimit>
-    </HO210EndorsementForm>
-    <HO28EndorsementForm state="Created"/>
-    <HO29EndorsementForm state="Created"/>
-    <HO60EndorsementForm state="Created"/>
-    <HO90EndorsementForm state="Created"/>
-  </AAAHOPolicy>
-  <userNote>
-    <category>Other</category>
-    <confidential>false</confidential>
-    <title>Conversion: Mailing address validated and standardized</title>
-    <updatedOn>2017-10-06T00:00:00</updatedOn>
-    <userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 142 ESTES WAY  SACRAMENTO CA 95838 to 142 ESTES WAY  SACRAMENTO CA 95838</userText>
-  </userNote>
+<Policy rootEntityType="policy" version="1" name="AAA_HO_CA">
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005333</agencyLocation>
+		<agentCd>70685886</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2017-11-30T00:00:00</effective>
+		<expiration>2018-11-30T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>HDES</importedFrom>
+		<isAdditionalPolicy>true</isAdditionalPolicy>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>HO3</policyFormCd>
+		<preConversionPolicyNumber>GL92994</preConversionPolicyNumber>
+		<preConversionPolicyPremium>527</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>GL92994</sourcePolicyNum>
+		<subProducerCd>70685886</subProducerCd>
+		<tollNumberCd>xxx</tollNumberCd>
+		<underwriterCd>CSAAIB</underwriterCd>
+		<HO438BFUNSEndorsementForm state="Created"/>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+			<policyType>BASIC</policyType>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>SACRAMENTO</dwellAddressCity>
+			<dwellAddressLine1>142 ESTES WAY</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95838</dwellAddressZip>
+			<expirationDate>2018-01-04T00:00:00</expirationDate>
+			<orderDate>2017-10-06T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>9162438284</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>Yes</insurerCd>
+			<insurerName>WHEDBEE</insurerName>
+			<policyNumber>4290052440819912</policyNumber>
+		</AAAHOMembership>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1991-07-22T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>ALEXANDER</firstName>
+			<lastName>WHEDBEE</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>142 ESTES WAY</addressLine1>
+				<city>SACRAMENTO</city>
+				<dateOfBirth>1991-07-22T00:00:00</dateOfBirth>
+				<expirationDt>2017-12-05T00:00:00</expirationDt>
+				<firstName>ALEXANDER</firstName>
+				<lastName>WHEDBEE</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-10-06T00:00:00</orderDate>
+				<postalCode>95838</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>142 ESTES WAY</addressLine1>
+				<city>SACRAMENTO</city>
+				<countryCd>US</countryCd>
+				<postalCode>95838</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOOtherOrPriorPolicyComponent state="Created">
+			<autoBILimit>$500,000/$500,000</autoBILimit>
+			<autoPolicyPending>false</autoPolicyPending>
+			<policyEffectiveDate>2016-04-30T00:00:00</policyEffectiveDate>
+			<policyNumber>CAAS202544723</policyNumber>
+			<productCd>Auto</productCd>
+			<stateCd>CA</stateCd>
+		</AAAHOOtherOrPriorPolicyComponent>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Mortgagee</billToAtRenewal>
+			<paymentPlanAtRenewal>mortgageeHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>mortgageeHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2015-01-01T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>2</noOfYearsWithHO>
+			<policyType>HO3</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAIso360ReportComponent state="Created">
+			<constructionTypeCd>Frame</constructionTypeCd>
+			<dwellAddressCity>SACRAMENTO</dwellAddressCity>
+			<dwellAddressLine1>142 ESTES WAY</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95838</dwellAddressZip>
+			<expirationDate>2017-12-05T00:00:00</expirationDate>
+			<isoReplacementCost>176800</isoReplacementCost>
+			<livingArea>9999</livingArea>
+			<numberOfFamilies>1</numberOfFamilies>
+			<numberOfStories>1</numberOfStories>
+			<orderDate>2017-10-06T00:00:00</orderDate>
+			<roofShape>Complex/Custom</roofShape>
+			<roofType>Other</roofType>
+			<status>Valid</status>
+			<yearBuilt>1978</yearBuilt>
+		</AAAIso360ReportComponent>
+		<AAAMembershipOrder state="Created">
+			<lastName>WHEDBEE</lastName>
+			<membershipNumber>4290052440819912</membershipNumber>
+			<orderDate>2017-10-06T00:00:00</orderDate>
+			<receiptDate>2017-10-06T00:00:00</receiptDate>
+			<status>Active</status>
+		</AAAMembershipOrder>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>SACRAMENTO</dwellAddressCity>
+			<dwellAddressLine1>142 ESTES WAY</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95838</dwellAddressZip>
+			<expirationDate>2017-12-05T00:00:00</expirationDate>
+			<orderDate>2017-10-06T00:00:00</orderDate>
+			<ppcValue>2</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>true</docReceivedInd>
+			<documentCd>11POAAP</documentCd>
+			<documentText>Proof of active AAA auto policy</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>true</docReceivedInd>
+			<documentCd>1POCFA</documentCd>
+			<documentText>Proof of central fire alarm</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>true</docReceivedInd>
+			<documentCd>2POCTA</documentCd>
+			<documentText>Proof of central theft alarm</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>616530</documentCd>
+			<documentText>California Residential Property Insurance Disclosure</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<DwellLocatedInd>false</DwellLocatedInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+			<GasWaterInGarageInd>false</GasWaterInGarageInd>
+			<PremisesEndrosInd>false</PremisesEndrosInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Owner occupied</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>1</aaaDwellingUsage>
+			<aaaFirelineScore>0</aaaFirelineScore>
+			<aaanumberofResidents>9999</aaanumberofResidents>
+			<aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
+			<addressLine1>142 ESTES WAY</addressLine1>
+			<centralAlarmInd>true</centralAlarmInd>
+			<centralFireAlarmInd>true</centralFireAlarmInd>
+			<city>SACRAMENTO</city>
+			<crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
+			<dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
+			<dwellingCrippleWallInd>false</dwellingCrippleWallInd>
+			<dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
+			<dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
+			<firelineMatchType>Address</firelineMatchType>
+			<numberOfFamilies>1</numberOfFamilies>
+			<overrideInspectionInd>true</overrideInspectionInd>
+			<placementOrMatchType>Address</placementOrMatchType>
+			<postalCode>95838</postalCode>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
+			<woodStoveInd>false</woodStoveInd>
+			<AAACoverageA state="Created">
+				<coverageCd>CovA</coverageCd>
+				<limitAmount>176800</limitAmount>
+			</AAACoverageA>
+			<AAACoverageB state="Created">
+				<coverageCd>CovB</coverageCd>
+				<limitAmount>17680</limitAmount>
+			</AAACoverageB>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>132700</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>70800</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>500000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOConstructionInfo state="Created">
+				<aaaFoundationType>Slab</aaaFoundationType>
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<isoReplacementCost>176800</isoReplacementCost>
+				<livingArea>9999</livingArea>
+				<numberOfStories>1</numberOfStories>
+				<replacementCost>176800</replacementCost>
+				<roofShape>Complex/Custom</roofShape>
+				<roofType>Other</roofType>
+				<yearBuilt>1978</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAHOMortgageeInfo state="Created">
+				<accountNumber>5216080121</accountNumber>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>TROY</city>
+				<mortagageeAddressLine1>PO BOX 7050</mortagageeAddressLine1>
+				<name>SHELLPOINT MORTGAGE SERVICE, ISAOA/ATIMA</name>
+				<postalCode>48007</postalCode>
+				<rank>1</rank>
+				<stateProvCd>MI</stateProvCd>
+				<useLegalMortgagee>false</useLegalMortgagee>
+			</AAAHOMortgageeInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>SACRAMENTO</fireDistrict>
+				<oldPpcValue>2</oldPpcValue>
+				<ppcValue>2</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>142 ESTES WAY</addressLine1>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>SACRAMENTO</city>
+					<county>Sacramento</county>
+					<postalCode>95838</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<HO210EndorsementForm state="Created">
+			<coverageLimit>5000</coverageLimit>
+		</HO210EndorsementForm>
+		<HO28EndorsementForm state="Created"/>
+		<HO29EndorsementForm state="Created"/>
+		<HO60EndorsementForm state="Created"/>
+		<HO90EndorsementForm state="Created"/>
+	</AAAHOPolicy>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Conversion: Mailing address validated and standardized</title>
+		<updatedOn>2017-10-06T00:00:00</updatedOn>
+		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 142 ESTES WAY  SACRAMENTO CA 95838 to 142 ESTES WAY  SACRAMENTO CA 95838</userText>
+	</userNote>
 </Policy>

@@ -1,265 +1,265 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
-  <AAAHOPolicy state="Created">
-    <agencyCd>500001005</agencyCd>
-    <agencyLocation>500005304</agencyLocation>
-    <agentCd>500005511</agentCd>
-    <agentGeneralNumber>003</agentGeneralNumber>
-    <doNotRenewInd>false</doNotRenewInd>
-    <effective>2018-01-13T00:00:00</effective>
-    <expiration>2019-01-13T00:00:00</expiration>
-    <imported>CONV</imported>
-    <importedFrom>HDES</importedFrom>
-    <leadSourceCd>25</leadSourceCd>
-    <officeType>AZ Club Agent</officeType>
-    <policyFormCd>HO6</policyFormCd>
-    <preConversionPolicyNumber>WH56659</preConversionPolicyNumber>
-    <preConversionPolicyPremium>789</preConversionPolicyPremium>
-    <producerCd>500001005</producerCd>
-    <productCd>AAA_HO_CA</productCd>
-    <riskStateCd>CA</riskStateCd>
-    <sourcePolicyNum>WH56659</sourcePolicyNum>
-    <subProducerCd>500005511</subProducerCd>
-    <tollNumberCd>xxx</tollNumberCd>
-    <underwriterCd>CSAAIB</underwriterCd>
-    <AAACeaDetailsComponent state="Created">
-      <acceptCeaOffer>false</acceptCeaOffer>
-      <policyType>BASIC</policyType>
-    </AAACeaDetailsComponent>
-    <AAAFirelineReportComponent state="Created">
-      <dwellAddressCity>SANTA CLARA</dwellAddressCity>
-      <dwellAddressLine1>2427 GOLF LINKS CIR</dwellAddressLine1>
-      <dwellAddressState>CA</dwellAddressState>
-      <dwellAddressZip>95050</dwellAddressZip>
-      <expirationDate>2018-02-22T00:00:00</expirationDate>
-      <orderDate>2017-11-24T00:00:00</orderDate>
-      <status>Valid</status>
-    </AAAFirelineReportComponent>
-    <AAAHOCommunicationInfo state="Created">
-      <phoneNumber>4082966271</phoneNumber>
-      <preferredContact>homePhone</preferredContact>
-    </AAAHOCommunicationInfo>
-    <AAAHOMembership state="Created">
-      <insurerCd>Yes</insurerCd>
-      <insurerName>ROVAI</insurerName>
-      <policyNumber>4290051090093711</policyNumber>
-    </AAAHOMembership>
-    <AAAHONamedInsured state="Created">
-      <aaaLegalNameIND>false</aaaLegalNameIND>
-      <dateOfBirth>1935-03-15T00:00:00</dateOfBirth>
-      <employeeType>false</employeeType>
-      <firstName>HENRIETTA</firstName>
-      <lastName>ROVAI</lastName>
-      <occupationDesc>Other</occupationDesc>
-      <principalRoleCd>policyHolder</principalRoleCd>
-      <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
-      <trusteeIndicator>false</trusteeIndicator>
-      <AAAHOOrderClueReport state="Created">
-        <addressLine1>2427 GOLF LINKS CIR</addressLine1>
-        <city>SANTA CLARA</city>
-        <dateOfBirth>1935-03-15T00:00:00</dateOfBirth>
-        <expirationDt>2018-01-23T00:00:00</expirationDt>
-        <firstName>HENRIETTA</firstName>
-        <lastName>ROVAI</lastName>
-        <noOfClaims>0</noOfClaims>
-        <orderDate>2017-11-24T00:00:00</orderDate>
-        <postalCode>95050</postalCode>
-        <reportExpired>false</reportExpired>
-        <status>Valid</status>
-      </AAAHOOrderClueReport>
-      <AAAInsuredPrimaryAddress state="Created">
-        <addressLine1>2427 GOLF LINKS CIR</addressLine1>
-        <city>SANTA CLARA</city>
-        <countryCd>US</countryCd>
-        <postalCode>95050</postalCode>
-        <stateProvCd>CA</stateProvCd>
-      </AAAInsuredPrimaryAddress>
-    </AAAHONamedInsured>
-    <AAAHOPaymentOption state="Created">
-      <billToAtRenewal>Insured</billToAtRenewal>
-      <paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
-      <paymentPlanCd>standardHO_CA</paymentPlanCd>
-      <recurringPayment>false</recurringPayment>
-    </AAAHOPaymentOption>
-    <AAAHOPolicyPriorCarrier state="Created">
-      <baseDate>1984-01-01T00:00:00</baseDate>
-      <carrierCd>1</carrierCd>
-      <noOfYearsWithHO>34</noOfYearsWithHO>
-      <policyType>HO6</policyType>
-    </AAAHOPolicyPriorCarrier>
-    <AAAHOPreDwellingAddrExists state="Created">
-      <yesNoAnswer>false</yesNoAnswer>
-    </AAAHOPreDwellingAddrExists>
-    <AAAIso360ReportComponent state="Created">
-      <constructionTypeCd>Frame</constructionTypeCd>
-      <dwellAddressCity>SANTA CLARA</dwellAddressCity>
-      <dwellAddressLine1>2427 GOLF LINKS CIR</dwellAddressLine1>
-      <dwellAddressState>CA</dwellAddressState>
-      <dwellAddressZip>95050</dwellAddressZip>
-      <expirationDate>2018-01-23T00:00:00</expirationDate>
-      <isoReplacementCost>134600</isoReplacementCost>
-      <livingArea>9999</livingArea>
-      <numberOfFamilies>1</numberOfFamilies>
-      <numberOfStories>1</numberOfStories>
-      <orderDate>2017-11-24T00:00:00</orderDate>
-      <roofShape>Complex/Custom</roofShape>
-      <roofType>Builtup Tar &amp; Gravel</roofType>
-      <status>Valid</status>
-      <yearBuilt>1979</yearBuilt>
-    </AAAIso360ReportComponent>
-    <AAAMembershipOrder state="Created">
-      <lastName>ROVAI</lastName>
-      <membershipNumber>4290051090093711</membershipNumber>
-      <orderDate>2017-11-24T00:00:00</orderDate>
-      <receiptDate>2017-11-24T00:00:00</receiptDate>
-      <status>Active</status>
-    </AAAMembershipOrder>
-    <AAAPolicyPrintingInfoComponent state="Created">
-      <suppressPrint>PD</suppressPrint>
-    </AAAPolicyPrintingInfoComponent>
-    <AAAPpcReportComponent state="Created">
-      <dwellAddressCity>SANTA CLARA</dwellAddressCity>
-      <dwellAddressLine1>2427 GOLF LINKS CIR</dwellAddressLine1>
-      <dwellAddressState>CA</dwellAddressState>
-      <dwellAddressZip>95050</dwellAddressZip>
-      <expirationDate>2018-01-23T00:00:00</expirationDate>
-      <orderDate>2017-11-24T00:00:00</orderDate>
-      <ppcValue>3</ppcValue>
-      <status>Valid</status>
-    </AAAPpcReportComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>true</docReceivedInd>
-      <documentCd>12RFIS</documentCd>
-      <documentText>Appraisals/sales receipts for scheduled personal property items</documentText>
-    </AAASupportingDocComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>PS</docReceivedInd>
-      <documentCd>1POSOA</documentCd>
-      <documentText>Signed policy application</documentText>
-    </AAASupportingDocComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>PS</docReceivedInd>
-      <documentCd>616530</documentCd>
-      <documentText>California Residential Property Insurance Disclosure</documentText>
-    </AAASupportingDocComponent>
-    <AAASupportingDocComponent state="Created">
-      <docDisplayInd>true</docDisplayInd>
-      <docReceivedInd>PS</docReceivedInd>
-      <documentCd>CEAOD</documentCd>
-      <documentText>CEA Offer Declination</documentText>
-    </AAASupportingDocComponent>
-    <AAAUnderwritingQuestionaireComponent state="Created">
-      <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
-      <DwellLocatedInd>false</DwellLocatedInd>
-      <EmployeesResidentsInd>false</EmployeesResidentsInd>
-      <ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
-      <GasWaterInGarageInd>false</GasWaterInGarageInd>
-      <PremisesEndrosInd>false</PremisesEndrosInd>
-      <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
-    </AAAUnderwritingQuestionaireComponent>
-    <Commissions state="Created">
-      <commissionTypeCd>R</commissionTypeCd>
-    </Commissions>
-    <AAADwellEntityComponent state="Created">
-      <aaaDwellingOccupancyType>Owner occupied</aaaDwellingOccupancyType>
-      <aaaDwellingUsage>1</aaaDwellingUsage>
-      <aaaFirelineScore>0</aaaFirelineScore>
-      <aaaInsuredTenantDiscountInfo>false</aaaInsuredTenantDiscountInfo>
-      <aaanumberofResidents>9999</aaanumberofResidents>
-      <addressLine1>2427 GOLF LINKS CIR</addressLine1>
-      <city>SANTA CLARA</city>
-      <firelineMatchType>Address</firelineMatchType>
-      <numberOfFamilies>1</numberOfFamilies>
-      <placementOrMatchType>Address</placementOrMatchType>
-      <postalCode>95050</postalCode>
-      <spaTubType>None</spaTubType>
-      <stateProvCd>CA</stateProvCd>
-      <swimPoolType>None</swimPoolType>
-      <trampolineType>None</trampolineType>
-      <woodStoveInd>false</woodStoveInd>
-      <AAACoverageA state="Created">
-        <coverageCd>CovA</coverageCd>
-        <limitAmount>134600</limitAmount>
-      </AAACoverageA>
-      <AAACoverageC state="Created">
-        <coverageCd>CovC</coverageCd>
-        <limitAmount>58000</limitAmount>
-      </AAACoverageC>
-      <AAACoverageD state="Created">
-        <coverageCd>CovD</coverageCd>
-        <limitAmount>11600</limitAmount>
-      </AAACoverageD>
-      <AAACoverageE state="Created">
-        <coverageCd>CovE</coverageCd>
-        <limitAmount>500000</limitAmount>
-      </AAACoverageE>
-      <AAACoverageF state="Created">
-        <coverageCd>CovF</coverageCd>
-        <limitAmount>1000</limitAmount>
-      </AAACoverageF>
-      <AAAHOConstructionInfo state="Created">
-        <condomCoverageADwellingRequested>Interior</condomCoverageADwellingRequested>
-        <constructionTypeCd>Frame</constructionTypeCd>
-        <isoReplacementCost>134600</isoReplacementCost>
-        <livingArea>9999</livingArea>
-        <numberOfStories>1</numberOfStories>
-        <replacementCost>134600</replacementCost>
-        <roofShape>Complex/Custom</roofShape>
-        <roofType>Builtup Tar &amp; Gravel</roofType>
-        <yearBuilt>1979</yearBuilt>
-      </AAAHOConstructionInfo>
-      <AAAPpcDetailsInfo state="Created">
-        <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
-        <fireDepartmentType>T</fireDepartmentType>
-        <fireDistrict>SAN JOSE</fireDistrict>
-        <oldPpcValue>3</oldPpcValue>
-        <ppcValue>3</ppcValue>
-      </AAAPpcDetailsInfo>
-      <AAAPropertyDeductible state="Created">
-        <coverageCd>DEDUCTIBLE</coverageCd>
-        <limitAmount>250</limitAmount>
-      </AAAPropertyDeductible>
-      <PreconfigLocation state="Created">
-        <AAAHODwellAddress state="Created">
-          <addressLine1>2427 GOLF LINKS CIR</addressLine1>
-          <addressValidatedInd>Yes</addressValidatedInd>
-          <city>SANTA CLARA</city>
-          <county>Santa Clara</county>
-          <postalCode>95050</postalCode>
-          <stateProvCd>CA</stateProvCd>
-        </AAAHODwellAddress>
-      </PreconfigLocation>
-    </AAADwellEntityComponent>
-    <HO0496EndorsementForm state="Created"/>
-    <HW0915EndorsementForm state="Created"/>
-    <HO28EndorsementForm state="Created"/>
-    <HO58CEndorsementForm state="Created"/>
-    <HO90EndorsementForm state="Created"/>
-    <HW0104EndorsementForm state="Created"/>
-    <HW0461EndorsementForm state="Created">
-      <ScheduledPropertyCoverageFursHO6 state="Created">
-        <ScheduledPropertyFursItemHO6 state="Created">
-          <amount>2500</amount>
-          <description>Total items = 1</description>
-        </ScheduledPropertyFursItemHO6>
-      </ScheduledPropertyCoverageFursHO6>
-      <ScheduledPropertyCoverageJewelryHO6 state="Created">
-        <ScheduledPropertyJewelryItemHO6 state="Created">
-          <amount>21259</amount>
-          <description>Total items = 1</description>
-        </ScheduledPropertyJewelryItemHO6>
-      </ScheduledPropertyCoverageJewelryHO6>
-    </HW0461EndorsementForm>
-    <HW2482EndorsementForm state="Created"/>
-  </AAAHOPolicy>
-  <userNote>
-    <category>Other</category>
-    <confidential>false</confidential>
-    <title>Conversion: Mailing address validated and standardized</title>
-    <updatedOn>2017-11-24T00:00:00</updatedOn>
-    <userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 2427 GOLF LINKS CIR  SANTA CLARA CA 95050 to 2427 GOLF LINKS CIR  SANTA CLARA CA 95050</userText>
-  </userNote>
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005301</agencyLocation>
+		<agentCd>70683577</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2018-01-13T00:00:00</effective>
+		<expiration>2019-01-13T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>HDES</importedFrom>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>HO6</policyFormCd>
+		<preConversionPolicyNumber>WH56659</preConversionPolicyNumber>
+		<preConversionPolicyPremium>789</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>WH56659</sourcePolicyNum>
+		<subProducerCd>70683577</subProducerCd>
+		<tollNumberCd>xxx</tollNumberCd>
+		<underwriterCd>CSAAIB</underwriterCd>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+			<policyType>BASIC</policyType>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>SANTA CLARA</dwellAddressCity>
+			<dwellAddressLine1>2427 GOLF LINKS CIR</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95050</dwellAddressZip>
+			<expirationDate>2018-02-22T00:00:00</expirationDate>
+			<orderDate>2017-11-24T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>4082966271</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>Yes</insurerCd>
+			<insurerName>ROVAI</insurerName>
+			<policyNumber>4290051090093711</policyNumber>
+		</AAAHOMembership>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1935-03-15T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>HENRIETTA</firstName>
+			<lastName>ROVAI</lastName>
+			<occupationDesc>Other</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>2427 GOLF LINKS CIR</addressLine1>
+				<city>SANTA CLARA</city>
+				<dateOfBirth>1935-03-15T00:00:00</dateOfBirth>
+				<expirationDt>2018-01-23T00:00:00</expirationDt>
+				<firstName>HENRIETTA</firstName>
+				<lastName>ROVAI</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-11-24T00:00:00</orderDate>
+				<postalCode>95050</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>2427 GOLF LINKS CIR</addressLine1>
+				<city>SANTA CLARA</city>
+				<countryCd>US</countryCd>
+				<postalCode>95050</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Insured</billToAtRenewal>
+			<paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>standardHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>1984-01-01T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>34</noOfYearsWithHO>
+			<policyType>HO6</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAIso360ReportComponent state="Created">
+			<constructionTypeCd>Frame</constructionTypeCd>
+			<dwellAddressCity>SANTA CLARA</dwellAddressCity>
+			<dwellAddressLine1>2427 GOLF LINKS CIR</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95050</dwellAddressZip>
+			<expirationDate>2018-01-23T00:00:00</expirationDate>
+			<isoReplacementCost>134600</isoReplacementCost>
+			<livingArea>9999</livingArea>
+			<numberOfFamilies>1</numberOfFamilies>
+			<numberOfStories>1</numberOfStories>
+			<orderDate>2017-11-24T00:00:00</orderDate>
+			<roofShape>Complex/Custom</roofShape>
+			<roofType>Builtup Tar &amp; Gravel</roofType>
+			<status>Valid</status>
+			<yearBuilt>1979</yearBuilt>
+		</AAAIso360ReportComponent>
+		<AAAMembershipOrder state="Created">
+			<lastName>ROVAI</lastName>
+			<membershipNumber>4290051090093711</membershipNumber>
+			<orderDate>2017-11-24T00:00:00</orderDate>
+			<receiptDate>2017-11-24T00:00:00</receiptDate>
+			<status>Active</status>
+		</AAAMembershipOrder>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>SANTA CLARA</dwellAddressCity>
+			<dwellAddressLine1>2427 GOLF LINKS CIR</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95050</dwellAddressZip>
+			<expirationDate>2018-01-23T00:00:00</expirationDate>
+			<orderDate>2017-11-24T00:00:00</orderDate>
+			<ppcValue>3</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>true</docReceivedInd>
+			<documentCd>12RFIS</documentCd>
+			<documentText>Appraisals/sales receipts for scheduled personal property items</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>616530</documentCd>
+			<documentText>California Residential Property Insurance Disclosure</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<DwellLocatedInd>false</DwellLocatedInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+			<GasWaterInGarageInd>false</GasWaterInGarageInd>
+			<PremisesEndrosInd>false</PremisesEndrosInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Owner occupied</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>1</aaaDwellingUsage>
+			<aaaFirelineScore>0</aaaFirelineScore>
+			<aaaInsuredTenantDiscountInfo>false</aaaInsuredTenantDiscountInfo>
+			<aaanumberofResidents>9999</aaanumberofResidents>
+			<addressLine1>2427 GOLF LINKS CIR</addressLine1>
+			<city>SANTA CLARA</city>
+			<firelineMatchType>Address</firelineMatchType>
+			<numberOfFamilies>1</numberOfFamilies>
+			<placementOrMatchType>Address</placementOrMatchType>
+			<postalCode>95050</postalCode>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<woodStoveInd>false</woodStoveInd>
+			<AAACoverageA state="Created">
+				<coverageCd>CovA</coverageCd>
+				<limitAmount>134600</limitAmount>
+			</AAACoverageA>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>58000</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>11600</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>500000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOConstructionInfo state="Created">
+				<condomCoverageADwellingRequested>Interior</condomCoverageADwellingRequested>
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<isoReplacementCost>134600</isoReplacementCost>
+				<livingArea>9999</livingArea>
+				<numberOfStories>1</numberOfStories>
+				<replacementCost>134600</replacementCost>
+				<roofShape>Complex/Custom</roofShape>
+				<roofType>Builtup Tar &amp; Gravel</roofType>
+				<yearBuilt>1979</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>SAN JOSE</fireDistrict>
+				<oldPpcValue>3</oldPpcValue>
+				<ppcValue>3</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>250</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>2427 GOLF LINKS CIR</addressLine1>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>SANTA CLARA</city>
+					<county>Santa Clara</county>
+					<postalCode>95050</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<HO0496EndorsementForm state="Created"/>
+		<HW0915EndorsementForm state="Created"/>
+		<HO28EndorsementForm state="Created"/>
+		<HO58CEndorsementForm state="Created"/>
+		<HO90EndorsementForm state="Created"/>
+		<HW0104EndorsementForm state="Created"/>
+		<HW0461EndorsementForm state="Created">
+			<ScheduledPropertyCoverageFursHO6 state="Created">
+				<ScheduledPropertyFursItemHO6 state="Created">
+					<amount>2500</amount>
+					<description>Total items = 1</description>
+				</ScheduledPropertyFursItemHO6>
+			</ScheduledPropertyCoverageFursHO6>
+			<ScheduledPropertyCoverageJewelryHO6 state="Created">
+				<ScheduledPropertyJewelryItemHO6 state="Created">
+					<amount>21259</amount>
+					<description>Total items = 1</description>
+				</ScheduledPropertyJewelryItemHO6>
+			</ScheduledPropertyCoverageJewelryHO6>
+		</HW0461EndorsementForm>
+		<HW2482EndorsementForm state="Created"/>
+	</AAAHOPolicy>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Conversion: Mailing address validated and standardized</title>
+		<updatedOn>2017-11-24T00:00:00</updatedOn>
+		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 2427 GOLF LINKS CIR  SANTA CLARA CA 95050 to 2427 GOLF LINKS CIR  SANTA CLARA CA 95050</userText>
+	</userNote>
 </Policy>

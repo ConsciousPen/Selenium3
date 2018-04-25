@@ -1,855 +1,855 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Policy name="AAA_HO_CA" version="1.0" rootEntityType="policy">
-    <AAAHOPolicy state="Created">
-        <agencyCd>500001005</agencyCd>
-        <agencyLocation>500005313</agencyLocation>
-        <agentCd>14936696</agentCd>
-        <agentGeneralNumber>003</agentGeneralNumber>
-        <countryCd>US</countryCd>
-        <doNotRenewInd>false</doNotRenewInd>
-        <effective>2017-12-31T00:00:00</effective>
-        <expiration>2018-12-31T00:00:00</expiration>
-        <imported>CONV</imported>
-        <importedFrom>SIS</importedFrom>
-        <isAdditionalPolicy>false</isAdditionalPolicy>
-        <isAdditionalProppolicy>false</isAdditionalProppolicy>
-        <leadSourceCd>25</leadSourceCd>
-        <officeType>AZ Club Agent</officeType>
-        <policyFormCd>DP3</policyFormCd>
-        <preConversionPolicyNumber>DP3 983159_abc</preConversionPolicyNumber>
-        <preConversionPolicyPremium>774</preConversionPolicyPremium>
-        <producerCd>500001005</producerCd>
-        <productCd>AAA_HO_CA</productCd>
-        <riskStateCd>CA</riskStateCd>
-        <sourcePolicyNum>DP3 983159_abc</sourcePolicyNum>
-        <subProducerCd>14936696</subProducerCd>
-        <tollNumberCd>1111111111</tollNumberCd>
-        <underwriterCd>ACAIC</underwriterCd>
-        <AAACeaDetailsComponent state="Created">
-            <aaaCeaEffectiveDt>2017-01-13T00:00:00</aaaCeaEffectiveDt>
-            <acceptCeaOffer>true</acceptCeaOffer>
-            <policyType>BASIC</policyType>
-            <status>bound</status>
-            <AAACeaCoverageA state="Created">
-                <coverageCd>CeaCovA</coverageCd>
-                <limitAmount>443295</limitAmount>
-            </AAACeaCoverageA>
-            <AAACeaCoverageADeductible state="Created">
-                <additionalLimitAmount>.15</additionalLimitAmount>
-                <coverageCd>CeaCovADed</coverageCd>
-            </AAACeaCoverageADeductible>
-            <AAACeaCoverageC state="Created">
-                <coverageCd>CeaCovC</coverageCd>
-                <limitAmount>5000</limitAmount>
-            </AAACeaCoverageC>
-            <AAACeaCoverageD state="Created">
-                <coverageCd>CeaCovD</coverageCd>
-                <limitAmount>1500</limitAmount>
-            </AAACeaCoverageD>
-            <AAACeaCoverageUpgrade state="Created">
-                <coverageCd>Upgrade</coverageCd>
-                <limitAmount>10000</limitAmount>
-            </AAACeaCoverageUpgrade>
-        </AAACeaDetailsComponent>
-        <AAAFirelineReportComponent state="Created">
-            <dwellAddressCity>KENTFIELD</dwellAddressCity>
-            <dwellAddressLine1>115 MCALLISTER AVE</dwellAddressLine1>
-            <dwellAddressState>CA</dwellAddressState>
-            <dwellAddressZip>94904-1632</dwellAddressZip>
-            <expirationDate>2018-01-22T00:00:00</expirationDate>
-            <orderDate>2017-10-24T00:00:00</orderDate>
-            <status>Valid</status>
-        </AAAFirelineReportComponent>
-        <AAAHOCommunicationInfo state="Created">
-            <phoneNumber>2099664260</phoneNumber>
-            <preferredContact>homePhone</preferredContact>
-        </AAAHOCommunicationInfo>
-        <AAAHOMembership state="Created">
-            <insurerCd>Yes</insurerCd>
-            <insurerName>DAPPRICH</insurerName>
-            <policyNumber>4290056852329910</policyNumber>
-        </AAAHOMembership>
-        <AAAHOMortgageeExists state="Created">
-            <yesNoAnswer>true</yesNoAnswer>
-        </AAAHOMortgageeExists>
-        <AAAHONamedInsured state="Created">
-            <aaaLegalNameIND>false</aaaLegalNameIND>
-            <dateOfBirth>1949-09-05T00:00:00</dateOfBirth>
-            <employeeType>false</employeeType>
-            <firstName>LISA</firstName>
-            <lastName>DAPPRICH</lastName>
-            <occupationDesc>Unknown</occupationDesc>
-            <principalRoleCd>policyHolder</principalRoleCd>
-            <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
-            <trusteeIndicator>false</trusteeIndicator>
-            <AAAHOOrderClueReport state="Created">
-                <addressLine1>115 MCALLISTER AVE</addressLine1>
-                <city>KENTFIELD</city>
-                <dateOfBirth>1949-09-05T00:00:00</dateOfBirth>
-                <expirationDt>2017-12-23T00:00:00</expirationDt>
-                <firstName>LISA</firstName>
-                <lastName>DAPPRICH</lastName>
-                <noOfClaims>0</noOfClaims>
-                <orderDate>2017-10-24T00:00:00</orderDate>
-                <postalCode>94904-1632</postalCode>
-                <reportExpired>false</reportExpired>
-                <status>Valid</status>
-            </AAAHOOrderClueReport>
-            <AAAInsuredPrimaryAddress state="Created">
-                <addressLine1>115 MCALLISTER AVE</addressLine1>
-                <city>KENTFIELD</city>
-                <countryCd>US</countryCd>
-                <postalCode>94904-1632</postalCode>
-                <stateProvCd>CA</stateProvCd>
-            </AAAInsuredPrimaryAddress>
-        </AAAHONamedInsured>
-        <AAAHONamedInsured state="Created">
-            <aaaLegalNameIND>false</aaaLegalNameIND>
-            <dateOfBirth>1951-12-12T00:00:00</dateOfBirth>
-            <employeeType>false</employeeType>
-            <firstName>VINCENT</firstName>
-            <lastName>KEHOE</lastName>
-            <occupationDesc>Unknown</occupationDesc>
-            <relationshipToPrimaryNamedInsured>Spouse</relationshipToPrimaryNamedInsured>
-            <trusteeIndicator>false</trusteeIndicator>
-            <AAAHOOrderClueReport state="Created">
-                <addressLine1>115 MCALLISTER AVE</addressLine1>
-                <city>KENTFIELD</city>
-                <dateOfBirth>1951-12-12T00:00:00</dateOfBirth>
-                <expirationDt>2017-12-23T00:00:00</expirationDt>
-                <firstName>VINCENT</firstName>
-                <lastName>KEHOE</lastName>
-                <noOfClaims>0</noOfClaims>
-                <orderDate>2017-10-24T00:00:00</orderDate>
-                <postalCode>94904-1632</postalCode>
-                <reportExpired>false</reportExpired>
-                <status>Valid</status>
-            </AAAHOOrderClueReport>
-            <AAAInsuredPrimaryAddress state="Created">
-                <addressLine1>115 MCALLISTER AVE</addressLine1>
-                <city>KENTFIELD</city>
-                <countryCd>US</countryCd>
-                <postalCode>94904-1632</postalCode>
-                <stateProvCd>CA</stateProvCd>
-            </AAAInsuredPrimaryAddress>
-        </AAAHONamedInsured>
-        <AAAHOPaymentOption state="Created">
-            <billToAtRenewal>Insured</billToAtRenewal>
-            <paymentPlanAtRenewal>quarterlyHO_CA_R</paymentPlanAtRenewal>
-            <paymentPlanCd>quarterlyHO_CA</paymentPlanCd>
-            <recurringPayment>false</recurringPayment>
-        </AAAHOPaymentOption>
-        <AAAHOPolicyPriorCarrier state="Created">
-            <baseDate>2005-01-13T00:00:00</baseDate>
-            <carrierCd>1</carrierCd>
-            <noOfYearsWithHO>12</noOfYearsWithHO>
-            <policyType>DP3</policyType>
-        </AAAHOPolicyPriorCarrier>
-        <AAAHOPreDwellingAddrExists state="Created">
-            <yesNoAnswer>false</yesNoAnswer>
-        </AAAHOPreDwellingAddrExists>
-        <AAAIso360ReportComponent state="Created">
-            <constructionTypeCd>Frame</constructionTypeCd>
-            <dwellAddressCity>KENTFIELD</dwellAddressCity>
-            <dwellAddressLine1>115 MCALLISTER AVE</dwellAddressLine1>
-            <dwellAddressState>CA</dwellAddressState>
-            <dwellAddressZip>94904-1632</dwellAddressZip>
-            <expirationDate>2018-01-22T00:00:00</expirationDate>
-            <isoReplacementCost>443295</isoReplacementCost>
-            <livingArea>1502</livingArea>
-            <numberOfFamilies>1</numberOfFamilies>
-            <numberOfStories>1</numberOfStories>
-            <orderDate>2017-10-24T00:00:00</orderDate>
-            <roofShape>Complex/Custom</roofShape>
-            <roofType>Asphalt / Fiberglass</roofType>
-            <status>Valid</status>
-            <yearBuilt>1950</yearBuilt>
-        </AAAIso360ReportComponent>
-        <AAAMembershipOrder state="Created">
-            <lastName>DAPPRICH</lastName>
-            <membershipNumber>4290056852329910</membershipNumber>
-            <memberSince>1969-01-01T00:00:00</memberSince>
-            <orderDate>2017-10-24T00:00:00</orderDate>
-            <receiptDate>2017-10-24T00:00:00</receiptDate>
-            <status>Active</status>
-        </AAAMembershipOrder>
-        <AAAPolicyPrintingInfoComponent state="Created">
-            <suppressPrint>PD</suppressPrint>
-        </AAAPolicyPrintingInfoComponent>
-        <AAAPpcReportComponent state="Created">
-            <dwellAddressCity>KENTFIELD</dwellAddressCity>
-            <dwellAddressLine1>115 MCALLISTER AVE</dwellAddressLine1>
-            <dwellAddressState>CA</dwellAddressState>
-            <dwellAddressZip>94904-1632</dwellAddressZip>
-            <expirationDate>2017-12-23T00:00:00</expirationDate>
-            <orderDate>2017-10-24T00:00:00</orderDate>
-            <ppcValue>3</ppcValue>
-            <status>Valid</status>
-        </AAAPpcReportComponent>
-        <AAASupportingDocComponent state="Created">
-            <docDisplayInd>true</docDisplayInd>
-            <docReceivedInd>PS</docReceivedInd>
-            <documentCd>1POSOA</documentCd>
-            <documentText>Signed policy application</documentText>
-        </AAASupportingDocComponent>
-        <AAASupportingDocComponent state="Created">
-            <docDisplayInd>true</docDisplayInd>
-            <docReceivedInd>PS</docReceivedInd>
-            <documentCd>616530</documentCd>
-            <documentText>California Residential Property Insurance Disclosure</documentText>
-        </AAASupportingDocComponent>
-        <AAAUnderwritingQuestionaireComponent state="Created">
-            <AlternativeWaterSrcAnsInd>true</AlternativeWaterSrcAnsInd>
-            <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
-            <DwellLocatedInd>false</DwellLocatedInd>
-            <EmployeesResidentsInd>false</EmployeesResidentsInd>
-            <ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
-            <GasWaterInGarageInd>false</GasWaterInGarageInd>
-            <LengthDrivewayAnsInd>true</LengthDrivewayAnsInd>
-            <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
-            <RdToHomeNDrivewayPavedAnsInd>true</RdToHomeNDrivewayPavedAnsInd>
-            <WaterHeaterHeightInd>false</WaterHeaterHeightInd>
-        </AAAUnderwritingQuestionaireComponent>
-        <Commissions state="Created">
-            <commissionTypeCd>R</commissionTypeCd>
-        </Commissions>
-        <DL0104EndorsementForm state="Created"/>
-        <DL2402EndorsementForm state="Created"/>
-        <DL2411EndorsementForm state="Created"/>
-        <DL2433EndorsementForm state="Created"/>
-        <DL2482EndorsementForm state="Created"/>
-        <DP0422EndorsementForm state="Created">
-            <coverageLimit>10000</coverageLimit>
-        </DP0422EndorsementForm>
-        <DP0475EndorsementForm state="Created"/>
-        <DW0420EndorsementForm state="Created">
-            <coverageLimit>50</coverageLimit>
-        </DW0420EndorsementForm>
-        <AAADwellEntityComponent state="Created">
-            <aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
-            <aaaDwellingUsage>2</aaaDwellingUsage>
-            <aaaFirelineScore>30</aaaFirelineScore>
-            <aaanumberofResidents>1</aaanumberofResidents>
-            <aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
-            <addressLine1>115 MCALLISTER AVE</addressLine1>
-            <city>KENTFIELD</city>
-            <countryCd>US</countryCd>
-            <county>MARIN</county>
-            <crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
-            <dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
-            <dwellingCrippleWallInd>false</dwellingCrippleWallInd>
-            <dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
-            <dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
-            <firelineMatchType>Address</firelineMatchType>
-            <numberOfFamilies>1</numberOfFamilies>
-            <overrideInspectionInd>true</overrideInspectionInd>
-            <placementOrMatchType>Address</placementOrMatchType>
-            <postalCode>94904-1632</postalCode>
-            <propMgrOccupation>3</propMgrOccupation>
-            <protectionClassCd>3</protectionClassCd>
-            <spaTubType>None</spaTubType>
-            <stateProvCd>CA</stateProvCd>
-            <swimPoolType>None</swimPoolType>
-            <trampolineType>None</trampolineType>
-            <waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
-            <woodStoveInd>false</woodStoveInd>
-            <yearFirstRented>2003</yearFirstRented>
-            <AAACoverageA state="Created">
-                <coverageCd>CovA</coverageCd>
-                <limitAmount>443295</limitAmount>
-            </AAACoverageA>
-            <AAACoverageB state="Created">
-                <coverageCd>CovB</coverageCd>
-                <limitAmount>44330</limitAmount>
-            </AAACoverageB>
-            <AAACoverageC state="Created">
-                <coverageCd>CovC</coverageCd>
-                <limitAmount>22165</limitAmount>
-            </AAACoverageC>
-            <AAACoverageD state="Created">
-                <coverageCd>CovD</coverageCd>
-                <limitAmount>88659</limitAmount>
-            </AAACoverageD>
-            <AAACoverageE state="Created">
-                <coverageCd>CovE</coverageCd>
-                <limitAmount>500000</limitAmount>
-            </AAACoverageE>
-            <AAACoverageF state="Created">
-                <coverageCd>CovF</coverageCd>
-                <limitAmount>1000</limitAmount>
-            </AAACoverageF>
-            <AAAHOBuildingImprovementsInfo state="Created">
-                <electricalPercentComplete>100</electricalPercentComplete>
-                <electricalRenovationMonth>0</electricalRenovationMonth>
-                <electricalRenovationType>Total_Circuit_Or_Romex</electricalRenovationType>
-                <electricalRenovationYear>1997</electricalRenovationYear>
-                <heatingOrCoolingPercentComplete>100</heatingOrCoolingPercentComplete>
-                <heatingOrCoolingRenovationMonth>0</heatingOrCoolingRenovationMonth>
-                <heatingOrCoolingRenovationType>Forced_Air</heatingOrCoolingRenovationType>
-                <heatingOrCoolingRenovationYear>1997</heatingOrCoolingRenovationYear>
-                <plumbingPercentComplete>100</plumbingPercentComplete>
-                <plumbingRenovationMonth>0</plumbingRenovationMonth>
-                <plumbingRenovationType>Total_Copper</plumbingRenovationType>
-                <plumbingRenovationYear>1997</plumbingRenovationYear>
-                <roofPercentComplete>100</roofPercentComplete>
-                <roofRenovationMonth>0</roofRenovationMonth>
-                <roofRenovationType>Total_Replace</roofRenovationType>
-                <roofRenovationYear>1997</roofRenovationYear>
-            </AAAHOBuildingImprovementsInfo>
-            <AAAHOConstructionInfo state="Created">
-                <aaaFoundationType>Other</aaaFoundationType>
-                <constructionTypeCd>Frame</constructionTypeCd>
-                <isoReplacementCost>443295</isoReplacementCost>
-                <livingArea>1502</livingArea>
-                <masonryVeneer>false</masonryVeneer>
-                <numberOfStories>1</numberOfStories>
-                <replacementCost>443295</replacementCost>
-                <roofShape>Complex/Custom</roofShape>
-                <roofType>Asphalt / Fiberglass</roofType>
-                <yearBuilt>1950</yearBuilt>
-            </AAAHOConstructionInfo>
-            <AAAHOMortgageeInfo state="Created">
-                <accountNumber>8001831547</accountNumber>
-                <addressValidatedInd>Yes</addressValidatedInd>
-                <city>FREMONT</city>
-                <countryCd>US</countryCd>
-                <mortagageeAddressLine1>PO BOX 7295</mortagageeAddressLine1>
-                <name>FREMONT BANK</name>
-                <postalCode>94537-0000</postalCode>
-                <rank>1</rank>
-                <stateProvCd>CA</stateProvCd>
-                <useLegalMortgagee>false</useLegalMortgagee>
-            </AAAHOMortgageeInfo>
-            <AAAHOMortgageeInfo state="Created">
-                <accountNumber>8001126781</accountNumber>
-                <addressValidatedInd>Yes</addressValidatedInd>
-                <city>FREMONT</city>
-                <countryCd>US</countryCd>
-                <mortagageeAddressLine1>PO BOX 7295</mortagageeAddressLine1>
-                <name>FREEMONT BANK</name>
-                <postalCode>94537-0000</postalCode>
-                <rank>2</rank>
-                <stateProvCd>CA</stateProvCd>
-                <useLegalMortgagee>false</useLegalMortgagee>
-            </AAAHOMortgageeInfo>
-            <AAAPpcDetailsInfo state="Created">
-                <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
-                <fireDepartmentType>T</fireDepartmentType>
-                <fireDistrict>On File Conversion</fireDistrict>
-                <fireStationDistRange>1</fireStationDistRange>
-                <ppcValue>3</ppcValue>
-            </AAAPpcDetailsInfo>
-            <AAAPropertyDeductible state="Created">
-                <coverageCd>DEDUCTIBLE</coverageCd>
-                <limitAmount>1000</limitAmount>
-            </AAAPropertyDeductible>
-            <PreconfigLocation state="Created">
-                <AAAHODwellAddress state="Created">
-                    <addressLine1>115 MCALLISTER AVE</addressLine1>
-                    <addressValidatedInd>Yes</addressValidatedInd>
-                    <city>KENTFIELD</city>
-                    <countryCd>US</countryCd>
-                    <county>Marin</county>
-                    <poBoxInd>false</poBoxInd>
-                    <postalCode>94904-1632</postalCode>
-                    <stateProvCd>CA</stateProvCd>
-                </AAAHODwellAddress>
-            </PreconfigLocation>
-        </AAADwellEntityComponent>
-        <HO438BFUNSEndorsementForm state="Created"/>
-        <PreconfigPersonInfo state="Created">
-            <AAAHOMailingAddressComponent state="Created">
-                <addressLine1>4677 MORNING STAR LN</addressLine1>
-                <addressValidatedInd>Yes</addressValidatedInd>
-                <city>MARIPOSA</city>
-                <countryCd>US</countryCd>
-                <county>Mariposa</county>
-                <postalCode>95338-9361</postalCode>
-                <stateProvCd>CA</stateProvCd>
-            </AAAHOMailingAddressComponent>
-        </PreconfigPersonInfo>
-    </AAAHOPolicy>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>POL INQ</title>
-        <updatedOn>2013-01-11T00:00:00</updatedOn>
-        <userText>PER NOLY WITH MORT CALLED TO REQ EOI FAX: 5105121715</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Endorse</title>
-        <updatedOn>2009-02-13T00:00:00</updatedOn>
-        <userText>AMENDED POLICY - CHANGED MORTGAGEE PER LENDERS REQUEST</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Endorse</title>
-        <updatedOn>2011-06-17T00:00:00</updatedOn>
-        <userText>AMENDED POLICY TO UPDATE MORTGAGE</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Endorse</title>
-        <updatedOn>2010-02-02T00:00:00</updatedOn>
-        <userText>AMENDED POLICY - ADDED OR CHANGED LOSS PAYEE</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Endorse</title>
-        <updatedOn>2015-11-10T00:00:00</updatedOn>
-        <userText>AMENDED POLICY - ADDED OR CHANGED LOSS PAYEE</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>FREEMONT BANK</title>
-        <updatedOn>2016-01-21T00:00:00</updatedOn>
-        <userText>AMY WITH FREEMONT BANK CALLED TO GET PROOF OF INSURANCE</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>CC PAYMENT...</title>
-        <updatedOn>2011-01-21T00:00:00</updatedOn>
-        <userText>--------------------------------------------------------------------------- ----- Confirmation #: BZ12H-650HL-1S5Z Sale Date: 1/21/2011 10:31:17 AM Amount:   $189.00 Payment Type: Monthly Policy #: DP3 983159 Agent #: 8412</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Endorse</title>
-        <updatedOn>2012-10-23T00:00:00</updatedOn>
-        <userText>AMENDED POLICY - ADDED OR CHANGED LOSS PAYEE</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>PH END UPDATE MTG...</title>
-        <updatedOn>2011-06-17T00:00:00</updatedOn>
-        <userText>PER MTG FREMONT BANK ISAOA PO BOX 7295 FREMONT, CA 94537</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>PH END UPDATED MRTGE CLAUSE</title>
-        <updatedOn>2012-10-23T00:00:00</updatedOn>
-        <userText>PER LENDER NEED TO UPDATE THE MORTGAGE CLAUSE freemont bank isaoa po box 7295 fremont ca 94537 loan # 8001126781 NON ESCROW</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>FAXED EOI</title>
-        <updatedOn>2012-10-23T00:00:00</updatedOn>
-        <userText>510-670-2440</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>EOI</title>
-        <updatedOn>2017-01-26T00:00:00</updatedOn>
-        <userText>PER FAX REQUEST</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>MEMBERSHIP VALIDATED</title>
-        <updatedOn>2006-11-01T00:00:00</updatedOn>
-        <userText>MEMBERSHIP VALIDATED</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Renewal Invoice</title>
-        <updatedOn>2006-11-19T00:00:00</updatedOn>
-        <userText>Renewal Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Expiration Notice</title>
-        <updatedOn>2007-01-18T00:00:00</updatedOn>
-        <userText>Policy Expiration Notice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2007-03-25T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2007-06-24T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2007-09-23T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Renewal Invoice</title>
-        <updatedOn>2007-11-19T00:00:00</updatedOn>
-        <userText>Renewal Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2008-03-24T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2008-06-23T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2008-09-23T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Renewal Invoice</title>
-        <updatedOn>2008-11-19T00:00:00</updatedOn>
-        <userText>Renewal Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2009-03-24T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2009-06-23T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2009-09-23T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Renewal Invoice</title>
-        <updatedOn>2009-11-19T00:00:00</updatedOn>
-        <userText>Renewal Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2010-03-24T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2010-06-23T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2010-09-23T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Renewal Invoice</title>
-        <updatedOn>2010-11-21T00:00:00</updatedOn>
-        <userText>Renewal Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Expiration Notice</title>
-        <updatedOn>2011-01-18T00:00:00</updatedOn>
-        <userText>Policy Expiration Notice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>CEA EQ - ACA0010917</title>
-        <updatedOn>2011-03-23T00:00:00</updatedOn>
-        <userText>CEA EQ - ACA0010917</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2011-03-24T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Declaration Page</title>
-        <updatedOn>2011-06-19T00:00:00</updatedOn>
-        <userText>Policy Declaration Page</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2011-06-23T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2011-09-26T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Declaration Page</title>
-        <updatedOn>2011-11-20T00:00:00</updatedOn>
-        <userText>Policy Declaration Page</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Renewal Invoice</title>
-        <updatedOn>2011-11-20T00:00:00</updatedOn>
-        <userText>Renewal Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2012-03-25T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2012-06-24T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2012-09-23T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Declaration Page</title>
-        <updatedOn>2012-10-23T00:00:00</updatedOn>
-        <userText>Policy Declaration Page</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Declaration Page</title>
-        <updatedOn>2012-11-19T00:00:00</updatedOn>
-        <userText>Policy Declaration Page</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Renewal Invoice</title>
-        <updatedOn>2012-11-19T00:00:00</updatedOn>
-        <userText>Renewal Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2013-03-24T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2013-06-23T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2013-09-23T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Declaration Page</title>
-        <updatedOn>2013-11-19T00:00:00</updatedOn>
-        <userText>Policy Declaration Page</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Renewal Invoice</title>
-        <updatedOn>2013-11-19T00:00:00</updatedOn>
-        <userText>Renewal Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2014-03-24T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2014-06-23T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2014-09-23T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Renewal Invoice</title>
-        <updatedOn>2014-11-19T00:00:00</updatedOn>
-        <userText>Renewal Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Declaration Page</title>
-        <updatedOn>2014-11-19T00:00:00</updatedOn>
-        <userText>Policy Declaration Page</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2015-03-24T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2015-06-23T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2015-09-23T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Declaration Page</title>
-        <updatedOn>2015-11-10T00:00:00</updatedOn>
-        <userText>Policy Declaration Page</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Renewal Invoice</title>
-        <updatedOn>2015-11-19T00:00:00</updatedOn>
-        <userText>Renewal Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Declaration Page</title>
-        <updatedOn>2015-11-19T00:00:00</updatedOn>
-        <userText>Policy Declaration Page</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2016-03-24T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2016-06-23T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2016-09-25T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Renewal Invoice</title>
-        <updatedOn>2016-11-20T00:00:00</updatedOn>
-        <userText>Renewal Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Declaration Page</title>
-        <updatedOn>2016-11-20T00:00:00</updatedOn>
-        <userText>Policy Declaration Page</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2017-03-26T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2017-06-25T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Conversion: Fireline score defaulted.</title>
-        <updatedOn>2017-10-25T02:13:07</updatedOn>
-        <userText>Fireline score defaulted to '30'  since it's not available in SIS but required for PAS.</userText>
-    </userNote>
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005301</agencyLocation>
+		<agentCd>70683577</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<countryCd>US</countryCd>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2017-12-31T00:00:00</effective>
+		<expiration>2018-12-31T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>SIS</importedFrom>
+		<isAdditionalPolicy>false</isAdditionalPolicy>
+		<isAdditionalProppolicy>false</isAdditionalProppolicy>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>DP3</policyFormCd>
+		<preConversionPolicyNumber>DP3 983159</preConversionPolicyNumber>
+		<preConversionPolicyPremium>774</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>DP3 983159</sourcePolicyNum>
+		<subProducerCd>70683577</subProducerCd>
+		<tollNumberCd>1111111111</tollNumberCd>
+		<underwriterCd>ACAIC</underwriterCd>
+		<AAACeaDetailsComponent state="Created">
+			<aaaCeaEffectiveDt>2017-01-13T00:00:00</aaaCeaEffectiveDt>
+			<acceptCeaOffer>true</acceptCeaOffer>
+			<policyType>BASIC</policyType>
+			<status>bound</status>
+			<AAACeaCoverageA state="Created">
+				<coverageCd>CeaCovA</coverageCd>
+				<limitAmount>443295</limitAmount>
+			</AAACeaCoverageA>
+			<AAACeaCoverageADeductible state="Created">
+				<additionalLimitAmount>.15</additionalLimitAmount>
+				<coverageCd>CeaCovADed</coverageCd>
+			</AAACeaCoverageADeductible>
+			<AAACeaCoverageC state="Created">
+				<coverageCd>CeaCovC</coverageCd>
+				<limitAmount>5000</limitAmount>
+			</AAACeaCoverageC>
+			<AAACeaCoverageD state="Created">
+				<coverageCd>CeaCovD</coverageCd>
+				<limitAmount>1500</limitAmount>
+			</AAACeaCoverageD>
+			<AAACeaCoverageUpgrade state="Created">
+				<coverageCd>Upgrade</coverageCd>
+				<limitAmount>10000</limitAmount>
+			</AAACeaCoverageUpgrade>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>KENTFIELD</dwellAddressCity>
+			<dwellAddressLine1>115 MCALLISTER AVE</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94904-1632</dwellAddressZip>
+			<expirationDate>2018-01-22T00:00:00</expirationDate>
+			<orderDate>2017-10-24T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>2099664260</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>Yes</insurerCd>
+			<insurerName>DAPPRICH</insurerName>
+			<policyNumber>4290056852329910</policyNumber>
+		</AAAHOMembership>
+		<AAAHOMortgageeExists state="Created">
+			<yesNoAnswer>true</yesNoAnswer>
+		</AAAHOMortgageeExists>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1949-09-05T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>LISA</firstName>
+			<lastName>DAPPRICH</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>115 MCALLISTER AVE</addressLine1>
+				<city>KENTFIELD</city>
+				<dateOfBirth>1949-09-05T00:00:00</dateOfBirth>
+				<expirationDt>2017-12-23T00:00:00</expirationDt>
+				<firstName>LISA</firstName>
+				<lastName>DAPPRICH</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-10-24T00:00:00</orderDate>
+				<postalCode>94904-1632</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>115 MCALLISTER AVE</addressLine1>
+				<city>KENTFIELD</city>
+				<countryCd>US</countryCd>
+				<postalCode>94904-1632</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1951-12-12T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>VINCENT</firstName>
+			<lastName>KEHOE</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<relationshipToPrimaryNamedInsured>Spouse</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>115 MCALLISTER AVE</addressLine1>
+				<city>KENTFIELD</city>
+				<dateOfBirth>1951-12-12T00:00:00</dateOfBirth>
+				<expirationDt>2017-12-23T00:00:00</expirationDt>
+				<firstName>VINCENT</firstName>
+				<lastName>KEHOE</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-10-24T00:00:00</orderDate>
+				<postalCode>94904-1632</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>115 MCALLISTER AVE</addressLine1>
+				<city>KENTFIELD</city>
+				<countryCd>US</countryCd>
+				<postalCode>94904-1632</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Insured</billToAtRenewal>
+			<paymentPlanAtRenewal>quarterlyHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>quarterlyHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2005-01-13T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>12</noOfYearsWithHO>
+			<policyType>DP3</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAIso360ReportComponent state="Created">
+			<constructionTypeCd>Frame</constructionTypeCd>
+			<dwellAddressCity>KENTFIELD</dwellAddressCity>
+			<dwellAddressLine1>115 MCALLISTER AVE</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94904-1632</dwellAddressZip>
+			<expirationDate>2018-01-22T00:00:00</expirationDate>
+			<isoReplacementCost>443295</isoReplacementCost>
+			<livingArea>1502</livingArea>
+			<numberOfFamilies>1</numberOfFamilies>
+			<numberOfStories>1</numberOfStories>
+			<orderDate>2017-10-24T00:00:00</orderDate>
+			<roofShape>Complex/Custom</roofShape>
+			<roofType>Asphalt / Fiberglass</roofType>
+			<status>Valid</status>
+			<yearBuilt>1950</yearBuilt>
+		</AAAIso360ReportComponent>
+		<AAAMembershipOrder state="Created">
+			<lastName>DAPPRICH</lastName>
+			<membershipNumber>4290056852329910</membershipNumber>
+			<memberSince>1969-01-01T00:00:00</memberSince>
+			<orderDate>2017-10-24T00:00:00</orderDate>
+			<receiptDate>2017-10-24T00:00:00</receiptDate>
+			<status>Active</status>
+		</AAAMembershipOrder>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>KENTFIELD</dwellAddressCity>
+			<dwellAddressLine1>115 MCALLISTER AVE</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94904-1632</dwellAddressZip>
+			<expirationDate>2017-12-23T00:00:00</expirationDate>
+			<orderDate>2017-10-24T00:00:00</orderDate>
+			<ppcValue>3</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>616530</documentCd>
+			<documentText>California Residential Property Insurance Disclosure</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<AlternativeWaterSrcAnsInd>true</AlternativeWaterSrcAnsInd>
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<DwellLocatedInd>false</DwellLocatedInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+			<GasWaterInGarageInd>false</GasWaterInGarageInd>
+			<LengthDrivewayAnsInd>true</LengthDrivewayAnsInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+			<RdToHomeNDrivewayPavedAnsInd>true</RdToHomeNDrivewayPavedAnsInd>
+			<WaterHeaterHeightInd>false</WaterHeaterHeightInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<DL0104EndorsementForm state="Created"/>
+		<DL2402EndorsementForm state="Created"/>
+		<DL2411EndorsementForm state="Created"/>
+		<DL2433EndorsementForm state="Created"/>
+		<DL2482EndorsementForm state="Created"/>
+		<DP0422EndorsementForm state="Created">
+			<coverageLimit>10000</coverageLimit>
+		</DP0422EndorsementForm>
+		<DP0475EndorsementForm state="Created"/>
+		<DW0420EndorsementForm state="Created">
+			<coverageLimit>50</coverageLimit>
+		</DW0420EndorsementForm>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>2</aaaDwellingUsage>
+			<aaaFirelineScore>30</aaaFirelineScore>
+			<aaanumberofResidents>1</aaanumberofResidents>
+			<aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
+			<addressLine1>115 MCALLISTER AVE</addressLine1>
+			<city>KENTFIELD</city>
+			<countryCd>US</countryCd>
+			<county>MARIN</county>
+			<crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
+			<dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
+			<dwellingCrippleWallInd>false</dwellingCrippleWallInd>
+			<dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
+			<dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
+			<firelineMatchType>Address</firelineMatchType>
+			<numberOfFamilies>1</numberOfFamilies>
+			<overrideInspectionInd>true</overrideInspectionInd>
+			<placementOrMatchType>Address</placementOrMatchType>
+			<postalCode>94904-1632</postalCode>
+			<propMgrOccupation>3</propMgrOccupation>
+			<protectionClassCd>3</protectionClassCd>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
+			<woodStoveInd>false</woodStoveInd>
+			<yearFirstRented>2003</yearFirstRented>
+			<AAACoverageA state="Created">
+				<coverageCd>CovA</coverageCd>
+				<limitAmount>443295</limitAmount>
+			</AAACoverageA>
+			<AAACoverageB state="Created">
+				<coverageCd>CovB</coverageCd>
+				<limitAmount>44330</limitAmount>
+			</AAACoverageB>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>22165</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>88659</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>500000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOBuildingImprovementsInfo state="Created">
+				<electricalPercentComplete>100</electricalPercentComplete>
+				<electricalRenovationMonth>0</electricalRenovationMonth>
+				<electricalRenovationType>Total_Circuit_Or_Romex</electricalRenovationType>
+				<electricalRenovationYear>1997</electricalRenovationYear>
+				<heatingOrCoolingPercentComplete>100</heatingOrCoolingPercentComplete>
+				<heatingOrCoolingRenovationMonth>0</heatingOrCoolingRenovationMonth>
+				<heatingOrCoolingRenovationType>Forced_Air</heatingOrCoolingRenovationType>
+				<heatingOrCoolingRenovationYear>1997</heatingOrCoolingRenovationYear>
+				<plumbingPercentComplete>100</plumbingPercentComplete>
+				<plumbingRenovationMonth>0</plumbingRenovationMonth>
+				<plumbingRenovationType>Total_Copper</plumbingRenovationType>
+				<plumbingRenovationYear>1997</plumbingRenovationYear>
+				<roofPercentComplete>100</roofPercentComplete>
+				<roofRenovationMonth>0</roofRenovationMonth>
+				<roofRenovationType>Total_Replace</roofRenovationType>
+				<roofRenovationYear>1997</roofRenovationYear>
+			</AAAHOBuildingImprovementsInfo>
+			<AAAHOConstructionInfo state="Created">
+				<aaaFoundationType>Other</aaaFoundationType>
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<isoReplacementCost>443295</isoReplacementCost>
+				<livingArea>1502</livingArea>
+				<masonryVeneer>false</masonryVeneer>
+				<numberOfStories>1</numberOfStories>
+				<replacementCost>443295</replacementCost>
+				<roofShape>Complex/Custom</roofShape>
+				<roofType>Asphalt / Fiberglass</roofType>
+				<yearBuilt>1950</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAHOMortgageeInfo state="Created">
+				<accountNumber>8001831547</accountNumber>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>FREMONT</city>
+				<countryCd>US</countryCd>
+				<mortagageeAddressLine1>PO BOX 7295</mortagageeAddressLine1>
+				<name>FREMONT BANK</name>
+				<postalCode>94537-0000</postalCode>
+				<rank>1</rank>
+				<stateProvCd>CA</stateProvCd>
+				<useLegalMortgagee>false</useLegalMortgagee>
+			</AAAHOMortgageeInfo>
+			<AAAHOMortgageeInfo state="Created">
+				<accountNumber>8001126781</accountNumber>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>FREMONT</city>
+				<countryCd>US</countryCd>
+				<mortagageeAddressLine1>PO BOX 7295</mortagageeAddressLine1>
+				<name>FREEMONT BANK</name>
+				<postalCode>94537-0000</postalCode>
+				<rank>2</rank>
+				<stateProvCd>CA</stateProvCd>
+				<useLegalMortgagee>false</useLegalMortgagee>
+			</AAAHOMortgageeInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>On File Conversion</fireDistrict>
+				<fireStationDistRange>1</fireStationDistRange>
+				<ppcValue>3</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>115 MCALLISTER AVE</addressLine1>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>KENTFIELD</city>
+					<countryCd>US</countryCd>
+					<county>Marin</county>
+					<poBoxInd>false</poBoxInd>
+					<postalCode>94904-1632</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<HO438BFUNSEndorsementForm state="Created"/>
+		<PreconfigPersonInfo state="Created">
+			<AAAHOMailingAddressComponent state="Created">
+				<addressLine1>4677 MORNING STAR LN</addressLine1>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>MARIPOSA</city>
+				<countryCd>US</countryCd>
+				<county>Mariposa</county>
+				<postalCode>95338-9361</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAHOMailingAddressComponent>
+		</PreconfigPersonInfo>
+	</AAAHOPolicy>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>POL INQ</title>
+		<updatedOn>2013-01-11T00:00:00</updatedOn>
+		<userText>PER NOLY WITH MORT CALLED TO REQ EOI FAX: 5105121715</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2009-02-13T00:00:00</updatedOn>
+		<userText>AMENDED POLICY - CHANGED MORTGAGEE PER LENDERS REQUEST</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2011-06-17T00:00:00</updatedOn>
+		<userText>AMENDED POLICY TO UPDATE MORTGAGE</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2010-02-02T00:00:00</updatedOn>
+		<userText>AMENDED POLICY - ADDED OR CHANGED LOSS PAYEE</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2015-11-10T00:00:00</updatedOn>
+		<userText>AMENDED POLICY - ADDED OR CHANGED LOSS PAYEE</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>FREEMONT BANK</title>
+		<updatedOn>2016-01-21T00:00:00</updatedOn>
+		<userText>AMY WITH FREEMONT BANK CALLED TO GET PROOF OF INSURANCE</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>CC PAYMENT...</title>
+		<updatedOn>2011-01-21T00:00:00</updatedOn>
+		<userText>--------------------------------------------------------------------------- ----- Confirmation #: BZ12H-650HL-1S5Z Sale Date: 1/21/2011 10:31:17 AM Amount:   $189.00 Payment Type: Monthly Policy #: DP3 983159 Agent #: 8412</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2012-10-23T00:00:00</updatedOn>
+		<userText>AMENDED POLICY - ADDED OR CHANGED LOSS PAYEE</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>PH END UPDATE MTG...</title>
+		<updatedOn>2011-06-17T00:00:00</updatedOn>
+		<userText>PER MTG FREMONT BANK ISAOA PO BOX 7295 FREMONT, CA 94537</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>PH END UPDATED MRTGE CLAUSE</title>
+		<updatedOn>2012-10-23T00:00:00</updatedOn>
+		<userText>PER LENDER NEED TO UPDATE THE MORTGAGE CLAUSE freemont bank isaoa po box 7295 fremont ca 94537 loan # 8001126781 NON ESCROW</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>FAXED EOI</title>
+		<updatedOn>2012-10-23T00:00:00</updatedOn>
+		<userText>510-670-2440</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>EOI</title>
+		<updatedOn>2017-01-26T00:00:00</updatedOn>
+		<userText>PER FAX REQUEST</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>MEMBERSHIP VALIDATED</title>
+		<updatedOn>2006-11-01T00:00:00</updatedOn>
+		<userText>MEMBERSHIP VALIDATED</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2006-11-19T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Expiration Notice</title>
+		<updatedOn>2007-01-18T00:00:00</updatedOn>
+		<userText>Policy Expiration Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2007-03-25T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2007-06-24T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2007-09-23T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2007-11-19T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2008-03-24T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2008-06-23T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2008-09-23T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2008-11-19T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2009-03-24T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2009-06-23T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2009-09-23T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2009-11-19T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2010-03-24T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2010-06-23T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2010-09-23T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2010-11-21T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Expiration Notice</title>
+		<updatedOn>2011-01-18T00:00:00</updatedOn>
+		<userText>Policy Expiration Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>CEA EQ - ACA0010917</title>
+		<updatedOn>2011-03-23T00:00:00</updatedOn>
+		<userText>CEA EQ - ACA0010917</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-03-24T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2011-06-19T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-06-23T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-09-26T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2011-11-20T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2011-11-20T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2012-03-25T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2012-06-24T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2012-09-23T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2012-10-23T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2012-11-19T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2012-11-19T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2013-03-24T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2013-06-23T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2013-09-23T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2013-11-19T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2013-11-19T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2014-03-24T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2014-06-23T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2014-09-23T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2014-11-19T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2014-11-19T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2015-03-24T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2015-06-23T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2015-09-23T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2015-11-10T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2015-11-19T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2015-11-19T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2016-03-24T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2016-06-23T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2016-09-25T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2016-11-20T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2016-11-20T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2017-03-26T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2017-06-25T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Conversion: Fireline score defaulted.</title>
+		<updatedOn>2017-10-25T02:13:07</updatedOn>
+		<userText>Fireline score defaulted to '30'  since it's not available in SIS but required for PAS.</userText>
+	</userNote>
 </Policy>

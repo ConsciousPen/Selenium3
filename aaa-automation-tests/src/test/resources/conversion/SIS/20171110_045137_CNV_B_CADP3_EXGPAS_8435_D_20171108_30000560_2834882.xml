@@ -1,742 +1,742 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Policy name="AAA_HO_CA" version="1.0" rootEntityType="policy">
-    <AAAHOPolicy state="Created">
-        <agencyCd>500001005</agencyCd>
-        <agencyLocation>500005340</agencyLocation>
-        <agentCd>82925887</agentCd>
-        <agentGeneralNumber>003</agentGeneralNumber>
-        <countryCd>US</countryCd>
-        <doNotRenewInd>false</doNotRenewInd>
-        <effective>2018-02-03T00:00:00</effective>
-        <expiration>2019-02-03T00:00:00</expiration>
-        <imported>CONV</imported>
-        <importedFrom>SIS</importedFrom>
-        <isAdditionalPolicy>false</isAdditionalPolicy>
-        <isAdditionalProppolicy>false</isAdditionalProppolicy>
-        <leadSourceCd>25</leadSourceCd>
-        <officeType>AZ Club Agent</officeType>
-        <policyFormCd>DP3</policyFormCd>
-        <preConversionPolicyNumber>DP3 2834882</preConversionPolicyNumber>
-        <preConversionPolicyPremium>728</preConversionPolicyPremium>
-        <producerCd>500001005</producerCd>
-        <productCd>AAA_HO_CA</productCd>
-        <riskStateCd>CA</riskStateCd>
-        <sourcePolicyNum>DP3 2834882</sourcePolicyNum>
-        <subProducerCd>82925887</subProducerCd>
-        <tollNumberCd>1111111111</tollNumberCd>
-        <underwriterCd>ACAIC</underwriterCd>
-        <AAACeaDetailsComponent state="Created">
-            <acceptCeaOffer>false</acceptCeaOffer>
-        </AAACeaDetailsComponent>
-        <AAAFirelineReportComponent state="Created">
-            <dwellAddressCity>ANTELOPE</dwellAddressCity>
-            <dwellAddressLine1>4813 CLYDEBANK WAY</dwellAddressLine1>
-            <dwellAddressState>CA</dwellAddressState>
-            <dwellAddressZip>95843</dwellAddressZip>
-            <expirationDate>2018-02-06T00:00:00</expirationDate>
-            <orderDate>2017-11-08T00:00:00</orderDate>
-            <status>Valid</status>
-        </AAAFirelineReportComponent>
-        <AAAHOCommunicationInfo state="Created">
-            <phoneNumber>9167266792</phoneNumber>
-            <preferredContact>homePhone</preferredContact>
-        </AAAHOCommunicationInfo>
-        <AAAHOMembership state="Created">
-            <insurerCd>Yes</insurerCd>
-            <insurerName>EDDINGTON</insurerName>
-            <policyNumber>4290051175523913</policyNumber>
-        </AAAHOMembership>
-        <AAAHOMortgageeExists state="Created">
-            <yesNoAnswer>false</yesNoAnswer>
-        </AAAHOMortgageeExists>
-        <AAAHONamedInsured state="Created">
-            <aaaLegalNameIND>false</aaaLegalNameIND>
-            <dateOfBirth>1944-03-06T00:00:00</dateOfBirth>
-            <employeeType>false</employeeType>
-            <firstName>SANDRA</firstName>
-            <lastName>EDDINGTON</lastName>
-            <occupationDesc>Unknown</occupationDesc>
-            <principalRoleCd>policyHolder</principalRoleCd>
-            <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
-            <trusteeIndicator>false</trusteeIndicator>
-            <AAAHOOrderClueReport state="Created">
-                <addressLine1>4813 CLYDEBANK WAY</addressLine1>
-                <city>ANTELOPE</city>
-                <dateOfBirth>1944-03-06T00:00:00</dateOfBirth>
-                <expirationDt>2018-01-07T00:00:00</expirationDt>
-                <firstName>SANDRA</firstName>
-                <lastName>EDDINGTON</lastName>
-                <noOfClaims>0</noOfClaims>
-                <orderDate>2017-11-08T00:00:00</orderDate>
-                <postalCode>95843</postalCode>
-                <reportExpired>false</reportExpired>
-                <status>Valid</status>
-            </AAAHOOrderClueReport>
-            <AAAInsuredPrimaryAddress state="Created">
-                <addressLine1>4813 CLYDEBANK WAY</addressLine1>
-                <city>ANTELOPE</city>
-                <countryCd>US</countryCd>
-                <postalCode>95843</postalCode>
-                <stateProvCd>CA</stateProvCd>
-            </AAAInsuredPrimaryAddress>
-        </AAAHONamedInsured>
-        <AAAHONamedInsured state="Created">
-            <aaaLegalNameIND>false</aaaLegalNameIND>
-            <dateOfBirth>1997-06-23T00:00:00</dateOfBirth>
-            <employeeType>false</employeeType>
-            <firstName>AUTHUR</firstName>
-            <lastName>EDDINGTON</lastName>
-            <occupationDesc>Unknown</occupationDesc>
-            <relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
-            <trusteeIndicator>false</trusteeIndicator>
-            <AAAHOOrderClueReport state="Created">
-                <addressLine1>4813 CLYDEBANK WAY</addressLine1>
-                <city>ANTELOPE</city>
-                <dateOfBirth>1997-06-23T00:00:00</dateOfBirth>
-                <expirationDt>2018-01-07T00:00:00</expirationDt>
-                <firstName>AUTHUR</firstName>
-                <lastName>EDDINGTON</lastName>
-                <noOfClaims>0</noOfClaims>
-                <orderDate>2017-11-08T00:00:00</orderDate>
-                <postalCode>95843</postalCode>
-                <reportExpired>false</reportExpired>
-                <status>Valid</status>
-            </AAAHOOrderClueReport>
-            <AAAInsuredPrimaryAddress state="Created">
-                <addressLine1>4813 CLYDEBANK WAY</addressLine1>
-                <city>ANTELOPE</city>
-                <countryCd>US</countryCd>
-                <postalCode>95843</postalCode>
-                <stateProvCd>CA</stateProvCd>
-            </AAAInsuredPrimaryAddress>
-        </AAAHONamedInsured>
-        <AAAHOOtherOrPriorDP3PolicyComponent state="Created">
-            <aaaPolicy>true</aaaPolicy>
-            <aaaPolicyActive>false</aaaPolicyActive>
-            <addressLine1>100 MAYWOOD LN</addressLine1>
-            <city>APPLEGATE</city>
-            <effective>2012-01-15T00:00:00</effective>
-            <expiration>2013-01-15T00:00:00</expiration>
-            <policyNumber>DP32826560</policyNumber>
-            <postalCode>95703</postalCode>
-            <stateProvCd>CA</stateProvCd>
-            <yearFirstRented>2009</yearFirstRented>
-        </AAAHOOtherOrPriorDP3PolicyComponent>
-        <AAAHOOtherOrPriorDP3PolicyComponent state="Created">
-            <aaaPolicy>true</aaaPolicy>
-            <aaaPolicyActive>false</aaaPolicyActive>
-            <addressLine1>6806 OUTLOOK DR</addressLine1>
-            <city>Citrus Heights</city>
-            <effective>2011-06-01T00:00:00</effective>
-            <expiration>2012-06-01T00:00:00</expiration>
-            <policyNumber>DP32264689</policyNumber>
-            <postalCode>95621</postalCode>
-            <stateProvCd>CA</stateProvCd>
-            <yearFirstRented>1991</yearFirstRented>
-        </AAAHOOtherOrPriorDP3PolicyComponent>
-        <AAAHOPaymentOption state="Created">
-            <billToAtRenewal>Insured</billToAtRenewal>
-            <paymentPlanAtRenewal>quarterlyHO_CA_R</paymentPlanAtRenewal>
-            <paymentPlanCd>quarterlyHO_CA</paymentPlanCd>
-            <recurringPayment>false</recurringPayment>
-        </AAAHOPaymentOption>
-        <AAAHOPolicyPriorCarrier state="Created">
-            <baseDate>2009-02-03T00:00:00</baseDate>
-            <carrierCd>1</carrierCd>
-            <noOfYearsWithHO>9</noOfYearsWithHO>
-            <policyType>DP3</policyType>
-        </AAAHOPolicyPriorCarrier>
-        <AAAHOPreDwellingAddrExists state="Created">
-            <yesNoAnswer>false</yesNoAnswer>
-        </AAAHOPreDwellingAddrExists>
-        <AAAIso360ReportComponent state="Created">
-            <constructionTypeCd>Frame</constructionTypeCd>
-            <dwellAddressCity>ANTELOPE</dwellAddressCity>
-            <dwellAddressLine1>4813 CLYDEBANK WAY</dwellAddressLine1>
-            <dwellAddressState>CA</dwellAddressState>
-            <dwellAddressZip>95843</dwellAddressZip>
-            <expirationDate>2018-02-06T00:00:00</expirationDate>
-            <isoReplacementCost>258535</isoReplacementCost>
-            <livingArea>1215</livingArea>
-            <numberOfFamilies>1</numberOfFamilies>
-            <numberOfStories>1</numberOfStories>
-            <orderDate>2017-11-08T00:00:00</orderDate>
-            <roofShape>Complex/Custom</roofShape>
-            <roofType>Concrete Tile</roofType>
-            <status>Valid</status>
-            <yearBuilt>1992</yearBuilt>
-        </AAAIso360ReportComponent>
-        <AAAMembershipOrder state="Created">
-            <lastName>EDDINGTON</lastName>
-            <membershipNumber>4290051175523913</membershipNumber>
-            <memberSince>1978-01-01T00:00:00</memberSince>
-            <orderDate>2017-11-08T00:00:00</orderDate>
-            <receiptDate>2017-11-08T00:00:00</receiptDate>
-            <status>Active</status>
-        </AAAMembershipOrder>
-        <AAAPolicyPrintingInfoComponent state="Created">
-            <suppressPrint>PD</suppressPrint>
-        </AAAPolicyPrintingInfoComponent>
-        <AAAPpcReportComponent state="Created">
-            <dwellAddressCity>ANTELOPE</dwellAddressCity>
-            <dwellAddressLine1>4813 CLYDEBANK WAY</dwellAddressLine1>
-            <dwellAddressState>CA</dwellAddressState>
-            <dwellAddressZip>95843</dwellAddressZip>
-            <expirationDate>2018-01-07T00:00:00</expirationDate>
-            <orderDate>2017-11-08T00:00:00</orderDate>
-            <ppcValue>4</ppcValue>
-            <status>Valid</status>
-        </AAAPpcReportComponent>
-        <AAASupportingDocComponent state="Created">
-            <docDisplayInd>true</docDisplayInd>
-            <docReceivedInd>PS</docReceivedInd>
-            <documentCd>1POSOA</documentCd>
-            <documentText>Signed policy application</documentText>
-        </AAASupportingDocComponent>
-        <AAASupportingDocComponent state="Created">
-            <docDisplayInd>true</docDisplayInd>
-            <docReceivedInd>PS</docReceivedInd>
-            <documentCd>616530</documentCd>
-            <documentText>California Residential Property Insurance Disclosure</documentText>
-        </AAASupportingDocComponent>
-        <AAASupportingDocComponent state="Created">
-            <docDisplayInd>true</docDisplayInd>
-            <docReceivedInd>PS</docReceivedInd>
-            <documentCd>CEAOD</documentCd>
-            <documentText>CEA Offer Declination</documentText>
-        </AAASupportingDocComponent>
-        <AAAUnderwritingQuestionaireComponent state="Created">
-            <AlternativeWaterSrcAnsInd>true</AlternativeWaterSrcAnsInd>
-            <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
-            <DwellLocatedInd>false</DwellLocatedInd>
-            <EmployeesResidentsInd>false</EmployeesResidentsInd>
-            <ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
-            <GasWaterInGarageInd>false</GasWaterInGarageInd>
-            <LengthDrivewayAnsInd>true</LengthDrivewayAnsInd>
-            <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
-            <RdToHomeNDrivewayPavedAnsInd>true</RdToHomeNDrivewayPavedAnsInd>
-            <WaterHeaterHeightInd>false</WaterHeaterHeightInd>
-        </AAAUnderwritingQuestionaireComponent>
-        <Commissions state="Created">
-            <commissionTypeCd>R</commissionTypeCd>
-        </Commissions>
-        <DL0104EndorsementForm state="Created"/>
-        <DL2402EndorsementForm state="Created"/>
-        <DL2411EndorsementForm state="Created"/>
-        <DL2433EndorsementForm state="Created"/>
-        <DL2482EndorsementForm state="Created"/>
-        <DP0422EndorsementForm state="Created">
-            <coverageLimit>10000</coverageLimit>
-        </DP0422EndorsementForm>
-        <DP0475EndorsementForm state="Created"/>
-        <DW0420EndorsementForm state="Created">
-            <coverageLimit>50</coverageLimit>
-        </DW0420EndorsementForm>
-        <AAADwellEntityComponent state="Created">
-            <aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
-            <aaaDwellingUsage>1</aaaDwellingUsage>
-            <aaaFirelineScore>1</aaaFirelineScore>
-            <aaanumberofResidents>2</aaanumberofResidents>
-            <aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
-            <addressLine1>4813 CLYDEBANK WAY</addressLine1>
-            <city>ANTELOPE</city>
-            <countryCd>US</countryCd>
-            <county>SACRAMENTO</county>
-            <crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
-            <dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
-            <dwellingCrippleWallInd>false</dwellingCrippleWallInd>
-            <dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
-            <dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
-            <firelineMatchType>Address</firelineMatchType>
-            <numberOfFamilies>1</numberOfFamilies>
-            <overrideInspectionInd>true</overrideInspectionInd>
-            <placementOrMatchType>Address</placementOrMatchType>
-            <postalCode>95843</postalCode>
-            <propMgrOccupation>3</propMgrOccupation>
-            <protectionClassCd>4</protectionClassCd>
-            <spaTubType>None</spaTubType>
-            <stateProvCd>CA</stateProvCd>
-            <swimPoolType>None</swimPoolType>
-            <trampolineType>None</trampolineType>
-            <waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
-            <woodStoveInd>false</woodStoveInd>
-            <yearFirstRented>2009</yearFirstRented>
-            <AAACoverageA state="Created">
-                <coverageCd>CovA</coverageCd>
-                <limitAmount>258535</limitAmount>
-            </AAACoverageA>
-            <AAACoverageB state="Created">
-                <coverageCd>CovB</coverageCd>
-                <limitAmount>25854</limitAmount>
-            </AAACoverageB>
-            <AAACoverageC state="Created">
-                <coverageCd>CovC</coverageCd>
-                <limitAmount>12927</limitAmount>
-            </AAACoverageC>
-            <AAACoverageD state="Created">
-                <coverageCd>CovD</coverageCd>
-                <limitAmount>51707</limitAmount>
-            </AAACoverageD>
-            <AAACoverageE state="Created">
-                <coverageCd>CovE</coverageCd>
-                <limitAmount>500000</limitAmount>
-            </AAACoverageE>
-            <AAACoverageF state="Created">
-                <coverageCd>CovF</coverageCd>
-                <limitAmount>1000</limitAmount>
-            </AAACoverageF>
-            <AAAHOConstructionInfo state="Created">
-                <aaaFoundationType>Other</aaaFoundationType>
-                <constructionTypeCd>Frame</constructionTypeCd>
-                <isoReplacementCost>258535</isoReplacementCost>
-                <livingArea>1215</livingArea>
-                <masonryVeneer>false</masonryVeneer>
-                <numberOfStories>1</numberOfStories>
-                <replacementCost>258535</replacementCost>
-                <roofShape>Complex/Custom</roofShape>
-                <roofType>Concrete Tile</roofType>
-                <yearBuilt>1992</yearBuilt>
-            </AAAHOConstructionInfo>
-            <AAAPpcDetailsInfo state="Created">
-                <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
-                <fireDepartmentType>T</fireDepartmentType>
-                <fireDistrict>On File Conversion</fireDistrict>
-                <fireStationDistRange>2</fireStationDistRange>
-                <ppcValue>4</ppcValue>
-            </AAAPpcDetailsInfo>
-            <AAAPropertyDeductible state="Created">
-                <coverageCd>DEDUCTIBLE</coverageCd>
-                <limitAmount>1000</limitAmount>
-            </AAAPropertyDeductible>
-            <PreconfigLocation state="Created">
-                <AAAHODwellAddress state="Created">
-                    <addressLine1>4813 CLYDEBANK WAY</addressLine1>
-                    <addressValidatedInd>Yes</addressValidatedInd>
-                    <city>ANTELOPE</city>
-                    <countryCd>US</countryCd>
-                    <county>Sacramento</county>
-                    <poBoxInd>false</poBoxInd>
-                    <postalCode>95843</postalCode>
-                    <stateProvCd>CA</stateProvCd>
-                </AAAHODwellAddress>
-            </PreconfigLocation>
-        </AAADwellEntityComponent>
-        <PreconfigPersonInfo state="Created">
-            <AAAHOMailingAddressComponent state="Created">
-                <addressLine1>5525 ELGIN HILLS WAY</addressLine1>
-                <addressValidatedInd>Yes</addressValidatedInd>
-                <city>ANTELOPE</city>
-                <countryCd>US</countryCd>
-                <county>Sacramento</county>
-                <postalCode>95843</postalCode>
-                <stateProvCd>CA</stateProvCd>
-            </AAAHOMailingAddressComponent>
-        </PreconfigPersonInfo>
-    </AAAHOPolicy>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>AA03XX Cash Adj Notice to Insd</title>
-        <updatedOn>2009-03-20T00:00:00</updatedOn>
-        <userText>AA03NV 06/06DP3 -002834882003-8459  -         010000000I01 REQUEST FOR ADDITIONAL INFORMATION -- FILL REQ'D FIELDS MARCH 23, 2009 SANDRA EDDINGTON 5525 ELGIN HILLS WAY ANTELOPE  CA  95843 POLICY NUMBER: DP3 -002834882 CSAA/8459/DAUGHERTY 8008 WALERGA RD. #400 ANTELOPE  CA  95843 003-8459  - Dear SANDRA EDDINGTON We recently removed claims on your auto policy. This change resulted in an additional $20.00 decrease in premium for the period(s) of (02/03/2009 - 03/18/2009). This amount will be applied to your policy. If you have any questions, please call (800) 959-9842 and one of our customer care representatives will be glad to assist you. Thank you for your business. Your Western United Team</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Conversion: Title/Header info is blank in Legacy system</title>
-        <updatedOn>2009-02-02T00:00:00</updatedOn>
-        <userText>*** Backyard Access *** If necessary, contact me at (916) 726-6792 No special instructions</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>EMAILED CPU...</title>
-        <updatedOn>2009-03-13T00:00:00</updatedOn>
-        <userText>EMAILED CPU TO LOOK AT QUOTE AND CURRENT COVERAGES TO DETERMINE DIFFERENCES IN PREMIUM</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>CK BY PHONE...</title>
-        <updatedOn>2010-02-10T00:00:00</updatedOn>
-        <userText>Congratulation| Your transaction has completed successfully. Here is your transaction details: Confirmation #: BYTF6-7VKW8-QWY Sale Date: 2/10/2010 1:23:08 PM Amount:   $758.00 Payment Type: Monthly Policy #: DP3 2834882 Agent #:</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>** LTR RE: NOT ENOUGH TO RENEW</title>
-        <updatedOn>2011-01-06T00:00:00</updatedOn>
-        <userText>WU03CA 01/94*POLNU        *AGN                010000000I01 January 7, 2011 SANDRA EDDINGTON 5525 ELGIN HILLS WAY ANTELOPE  CA  95843 POLICY NUMBER:  DP3 -002834882 CSAA/8459/DAUGHERTY 6109 SUNRISE BLVD CITRUS HEIGHTS  CA  95610 003-8459  - DEAR SANDRA EDDINGTON Your payment in the amount of $200.00 has been applied to the outstanding balance on your policy as it is set to cancel on 02/03/11 and it is not subject for reinstatement or renewal. If you have any questions, please contact our customer service department at 1-800-207-3618. Sincerely, ACA INSURANCE COMPANY</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>***ADJ $20.00/CREDIT***</title>
-        <updatedOn>2009-03-23T00:00:00</updatedOn>
-        <userText>PER UW SUPPORT GROUP</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>payment</title>
-        <updatedOn>2014-11-03T00:00:00</updatedOn>
-        <userText>Sales Rep Number  0    Receipt Number  21956750 District Office Number  92     Receipt Date and Time  11/03/2014 11:23 AM M Payment Summary Description Amount Dwelling Fire Installment Payment #2834882 SANDRA  EDDINGTON  $51.75 Total Paid    $51.75 Payment Method e-Check Routing Number XXXXX3742 Account Number XXXXXXXXXXXXX4095</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>** VOID REF #237470 **</title>
-        <updatedOn>2011-02-10T00:00:00</updatedOn>
-        <userText>$200.00</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>PAYMENT</title>
-        <updatedOn>2016-02-12T00:00:00</updatedOn>
-        <userText>Receipt Number  38612202 District Office Number Payment Summary Description Amount Dwelling Fire Installment Payment #2834882 SANDRA EDDINGTON    $180.75 Total Paid    $180.75 Payment Method ACH</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>CC PAY 200.00 25418193</title>
-        <updatedOn>2015-02-13T00:00:00</updatedOn>
-        <userText>Receipt Number  25418193 District Office Number  91     Receipt Date and Time  02/13/2015 01:37 P Payment Summary Description Amount Dwelling Fire Installment Payment #2834882 SANDRA EDDINGTON    $200.00 Total Paid    $200.00 Payment Method Credit Card Credit Card Type VISA Credit Card Number XXXXXXXXXXXX9317 Authorization Code 123816</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>PYMT $708.00</title>
-        <updatedOn>2017-02-04T00:00:00</updatedOn>
-        <userText>PYMT $708.00</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>CCPYMT</title>
-        <updatedOn>2014-06-09T00:00:00</updatedOn>
-        <userText>Sales Rep Number  0    Receipt Number  17179847 District Office Number  92     Receipt Date and Time  06/09/2014 01:26 PM M Payment Summary Description Amount Dwelling Fire Installment Payment #002834882 SANDRA  EDDINGTON  $187.25 Total Paid    $187.25 Payment Method Credit Card Credit Card Type Visa Credit Card Number XXXXXXXXXXXX9317 ---------------------------------------------------------------------------</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Endorse</title>
-        <updatedOn>2012-11-16T00:00:00</updatedOn>
-        <userText>AMENDED POLICY - UPDATED MEMBERSHIP INFORMATION</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>POLICY INQUIRY</title>
-        <updatedOn>2014-05-06T00:00:00</updatedOn>
-        <userText>PER AGENT VERIFIED ADDRESS, PROVIDED STATUS/NEXT DUE DATE</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2009-02-03T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Interim Invoice</title>
-        <updatedOn>2009-02-11T00:00:00</updatedOn>
-        <userText>Interim Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Cancellation Notice</title>
-        <updatedOn>2009-03-08T00:00:00</updatedOn>
-        <userText>Policy Cancellation Notice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Reinstate Notice</title>
-        <updatedOn>2009-03-17T00:00:00</updatedOn>
-        <userText>Policy Reinstate Notice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Renewal Invoice</title>
-        <updatedOn>2009-12-10T00:00:00</updatedOn>
-        <userText>Renewal Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Expiration Notice</title>
-        <updatedOn>2010-02-08T00:00:00</updatedOn>
-        <userText>Policy Expiration Notice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Renewal Invoice</title>
-        <updatedOn>2010-12-12T00:00:00</updatedOn>
-        <userText>Renewal Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Expiration Notice</title>
-        <updatedOn>2011-02-08T00:00:00</updatedOn>
-        <userText>Policy Expiration Notice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2011-02-09T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2011-04-13T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2011-05-15T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2011-06-13T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2011-07-14T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Cancellation Notice</title>
-        <updatedOn>2011-08-08T00:00:00</updatedOn>
-        <userText>Policy Cancellation Notice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Reinstate Notice</title>
-        <updatedOn>2011-08-09T00:00:00</updatedOn>
-        <userText>Policy Reinstate Notice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2011-08-14T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2011-09-13T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2011-10-16T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Declaration Page</title>
-        <updatedOn>2011-12-15T00:00:00</updatedOn>
-        <userText>Policy Declaration Page</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Renewal Invoice</title>
-        <updatedOn>2011-12-15T00:00:00</updatedOn>
-        <userText>Renewal Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2012-02-12T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2012-03-14T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2012-08-14T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2012-09-13T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Free Form Underwriting Letter</title>
-        <updatedOn>2012-11-15T00:00:00</updatedOn>
-        <userText>Free Form Underwriting Letter</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Declaration Page</title>
-        <updatedOn>2012-12-16T00:00:00</updatedOn>
-        <userText>Policy Declaration Page</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Renewal Invoice</title>
-        <updatedOn>2012-12-16T00:00:00</updatedOn>
-        <userText>Renewal Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Expiration Notice</title>
-        <updatedOn>2013-02-10T00:00:00</updatedOn>
-        <userText>Policy Expiration Notice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Declaration Page</title>
-        <updatedOn>2013-12-10T00:00:00</updatedOn>
-        <userText>Policy Declaration Page</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Renewal Invoice</title>
-        <updatedOn>2013-12-10T00:00:00</updatedOn>
-        <userText>Renewal Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Expiration Notice</title>
-        <updatedOn>2014-02-09T00:00:00</updatedOn>
-        <userText>Policy Expiration Notice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2014-10-14T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Renewal Invoice</title>
-        <updatedOn>2014-12-10T00:00:00</updatedOn>
-        <userText>Renewal Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Declaration Page</title>
-        <updatedOn>2014-12-10T00:00:00</updatedOn>
-        <userText>Policy Declaration Page</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Expiration Notice</title>
-        <updatedOn>2015-02-08T00:00:00</updatedOn>
-        <userText>Policy Expiration Notice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2015-04-13T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2015-07-14T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2015-10-14T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Renewal Invoice</title>
-        <updatedOn>2015-12-10T00:00:00</updatedOn>
-        <userText>Renewal Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Declaration Page</title>
-        <updatedOn>2015-12-10T00:00:00</updatedOn>
-        <userText>Policy Declaration Page</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Expiration Notice</title>
-        <updatedOn>2016-02-08T00:00:00</updatedOn>
-        <userText>Policy Expiration Notice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Scheduled Invoice</title>
-        <updatedOn>2016-04-13T00:00:00</updatedOn>
-        <userText>Scheduled Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Renewal Invoice</title>
-        <updatedOn>2016-12-11T00:00:00</updatedOn>
-        <userText>Renewal Invoice</userText>
-    </userNote>
-    <userNote>
-        <category>Other</category>
-        <confidential>false</confidential>
-        <title>Policy Declaration Page</title>
-        <updatedOn>2016-12-11T00:00:00</updatedOn>
-        <userText>Policy Declaration Page</userText>
-    </userNote>
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005301</agencyLocation>
+		<agentCd>70683577</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<countryCd>US</countryCd>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2018-02-03T00:00:00</effective>
+		<expiration>2019-02-03T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>SIS</importedFrom>
+		<isAdditionalPolicy>false</isAdditionalPolicy>
+		<isAdditionalProppolicy>false</isAdditionalProppolicy>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>DP3</policyFormCd>
+		<preConversionPolicyNumber>DP3 2834882</preConversionPolicyNumber>
+		<preConversionPolicyPremium>728</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>DP3 2834882</sourcePolicyNum>
+		<subProducerCd>70683577</subProducerCd>
+		<tollNumberCd>1111111111</tollNumberCd>
+		<underwriterCd>ACAIC</underwriterCd>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>ANTELOPE</dwellAddressCity>
+			<dwellAddressLine1>4813 CLYDEBANK WAY</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95843</dwellAddressZip>
+			<expirationDate>2018-02-06T00:00:00</expirationDate>
+			<orderDate>2017-11-08T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>9167266792</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>Yes</insurerCd>
+			<insurerName>EDDINGTON</insurerName>
+			<policyNumber>4290051175523913</policyNumber>
+		</AAAHOMembership>
+		<AAAHOMortgageeExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOMortgageeExists>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1944-03-06T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>SANDRA</firstName>
+			<lastName>EDDINGTON</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>4813 CLYDEBANK WAY</addressLine1>
+				<city>ANTELOPE</city>
+				<dateOfBirth>1944-03-06T00:00:00</dateOfBirth>
+				<expirationDt>2018-01-07T00:00:00</expirationDt>
+				<firstName>SANDRA</firstName>
+				<lastName>EDDINGTON</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-11-08T00:00:00</orderDate>
+				<postalCode>95843</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>4813 CLYDEBANK WAY</addressLine1>
+				<city>ANTELOPE</city>
+				<countryCd>US</countryCd>
+				<postalCode>95843</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1997-06-23T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>AUTHUR</firstName>
+			<lastName>EDDINGTON</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>4813 CLYDEBANK WAY</addressLine1>
+				<city>ANTELOPE</city>
+				<dateOfBirth>1997-06-23T00:00:00</dateOfBirth>
+				<expirationDt>2018-01-07T00:00:00</expirationDt>
+				<firstName>AUTHUR</firstName>
+				<lastName>EDDINGTON</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-11-08T00:00:00</orderDate>
+				<postalCode>95843</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>4813 CLYDEBANK WAY</addressLine1>
+				<city>ANTELOPE</city>
+				<countryCd>US</countryCd>
+				<postalCode>95843</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOOtherOrPriorDP3PolicyComponent state="Created">
+			<aaaPolicy>true</aaaPolicy>
+			<aaaPolicyActive>false</aaaPolicyActive>
+			<addressLine1>100 MAYWOOD LN</addressLine1>
+			<city>APPLEGATE</city>
+			<effective>2012-01-15T00:00:00</effective>
+			<expiration>2013-01-15T00:00:00</expiration>
+			<policyNumber>DP32826560</policyNumber>
+			<postalCode>95703</postalCode>
+			<stateProvCd>CA</stateProvCd>
+			<yearFirstRented>2009</yearFirstRented>
+		</AAAHOOtherOrPriorDP3PolicyComponent>
+		<AAAHOOtherOrPriorDP3PolicyComponent state="Created">
+			<aaaPolicy>true</aaaPolicy>
+			<aaaPolicyActive>false</aaaPolicyActive>
+			<addressLine1>6806 OUTLOOK DR</addressLine1>
+			<city>Citrus Heights</city>
+			<effective>2011-06-01T00:00:00</effective>
+			<expiration>2012-06-01T00:00:00</expiration>
+			<policyNumber>DP32264689</policyNumber>
+			<postalCode>95621</postalCode>
+			<stateProvCd>CA</stateProvCd>
+			<yearFirstRented>1991</yearFirstRented>
+		</AAAHOOtherOrPriorDP3PolicyComponent>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Insured</billToAtRenewal>
+			<paymentPlanAtRenewal>quarterlyHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>quarterlyHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2009-02-03T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>9</noOfYearsWithHO>
+			<policyType>DP3</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAIso360ReportComponent state="Created">
+			<constructionTypeCd>Frame</constructionTypeCd>
+			<dwellAddressCity>ANTELOPE</dwellAddressCity>
+			<dwellAddressLine1>4813 CLYDEBANK WAY</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95843</dwellAddressZip>
+			<expirationDate>2018-02-06T00:00:00</expirationDate>
+			<isoReplacementCost>258535</isoReplacementCost>
+			<livingArea>1215</livingArea>
+			<numberOfFamilies>1</numberOfFamilies>
+			<numberOfStories>1</numberOfStories>
+			<orderDate>2017-11-08T00:00:00</orderDate>
+			<roofShape>Complex/Custom</roofShape>
+			<roofType>Concrete Tile</roofType>
+			<status>Valid</status>
+			<yearBuilt>1992</yearBuilt>
+		</AAAIso360ReportComponent>
+		<AAAMembershipOrder state="Created">
+			<lastName>EDDINGTON</lastName>
+			<membershipNumber>4290051175523913</membershipNumber>
+			<memberSince>1978-01-01T00:00:00</memberSince>
+			<orderDate>2017-11-08T00:00:00</orderDate>
+			<receiptDate>2017-11-08T00:00:00</receiptDate>
+			<status>Active</status>
+		</AAAMembershipOrder>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>ANTELOPE</dwellAddressCity>
+			<dwellAddressLine1>4813 CLYDEBANK WAY</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95843</dwellAddressZip>
+			<expirationDate>2018-01-07T00:00:00</expirationDate>
+			<orderDate>2017-11-08T00:00:00</orderDate>
+			<ppcValue>4</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>616530</documentCd>
+			<documentText>California Residential Property Insurance Disclosure</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<AlternativeWaterSrcAnsInd>true</AlternativeWaterSrcAnsInd>
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<DwellLocatedInd>false</DwellLocatedInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+			<GasWaterInGarageInd>false</GasWaterInGarageInd>
+			<LengthDrivewayAnsInd>true</LengthDrivewayAnsInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+			<RdToHomeNDrivewayPavedAnsInd>true</RdToHomeNDrivewayPavedAnsInd>
+			<WaterHeaterHeightInd>false</WaterHeaterHeightInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<DL0104EndorsementForm state="Created"/>
+		<DL2402EndorsementForm state="Created"/>
+		<DL2411EndorsementForm state="Created"/>
+		<DL2433EndorsementForm state="Created"/>
+		<DL2482EndorsementForm state="Created"/>
+		<DP0422EndorsementForm state="Created">
+			<coverageLimit>10000</coverageLimit>
+		</DP0422EndorsementForm>
+		<DP0475EndorsementForm state="Created"/>
+		<DW0420EndorsementForm state="Created">
+			<coverageLimit>50</coverageLimit>
+		</DW0420EndorsementForm>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>1</aaaDwellingUsage>
+			<aaaFirelineScore>1</aaaFirelineScore>
+			<aaanumberofResidents>2</aaanumberofResidents>
+			<aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
+			<addressLine1>4813 CLYDEBANK WAY</addressLine1>
+			<city>ANTELOPE</city>
+			<countryCd>US</countryCd>
+			<county>SACRAMENTO</county>
+			<crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
+			<dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
+			<dwellingCrippleWallInd>false</dwellingCrippleWallInd>
+			<dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
+			<dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
+			<firelineMatchType>Address</firelineMatchType>
+			<numberOfFamilies>1</numberOfFamilies>
+			<overrideInspectionInd>true</overrideInspectionInd>
+			<placementOrMatchType>Address</placementOrMatchType>
+			<postalCode>95843</postalCode>
+			<propMgrOccupation>3</propMgrOccupation>
+			<protectionClassCd>4</protectionClassCd>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
+			<woodStoveInd>false</woodStoveInd>
+			<yearFirstRented>2009</yearFirstRented>
+			<AAACoverageA state="Created">
+				<coverageCd>CovA</coverageCd>
+				<limitAmount>258535</limitAmount>
+			</AAACoverageA>
+			<AAACoverageB state="Created">
+				<coverageCd>CovB</coverageCd>
+				<limitAmount>25854</limitAmount>
+			</AAACoverageB>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>12927</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>51707</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>500000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOConstructionInfo state="Created">
+				<aaaFoundationType>Other</aaaFoundationType>
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<isoReplacementCost>258535</isoReplacementCost>
+				<livingArea>1215</livingArea>
+				<masonryVeneer>false</masonryVeneer>
+				<numberOfStories>1</numberOfStories>
+				<replacementCost>258535</replacementCost>
+				<roofShape>Complex/Custom</roofShape>
+				<roofType>Concrete Tile</roofType>
+				<yearBuilt>1992</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>On File Conversion</fireDistrict>
+				<fireStationDistRange>2</fireStationDistRange>
+				<ppcValue>4</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>4813 CLYDEBANK WAY</addressLine1>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>ANTELOPE</city>
+					<countryCd>US</countryCd>
+					<county>Sacramento</county>
+					<poBoxInd>false</poBoxInd>
+					<postalCode>95843</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<PreconfigPersonInfo state="Created">
+			<AAAHOMailingAddressComponent state="Created">
+				<addressLine1>5525 ELGIN HILLS WAY</addressLine1>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>ANTELOPE</city>
+				<countryCd>US</countryCd>
+				<county>Sacramento</county>
+				<postalCode>95843</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAHOMailingAddressComponent>
+		</PreconfigPersonInfo>
+	</AAAHOPolicy>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>AA03XX Cash Adj Notice to Insd</title>
+		<updatedOn>2009-03-20T00:00:00</updatedOn>
+		<userText>AA03NV 06/06DP3 -002834882003-8459  -         010000000I01 REQUEST FOR ADDITIONAL INFORMATION -- FILL REQ'D FIELDS MARCH 23, 2009 SANDRA EDDINGTON 5525 ELGIN HILLS WAY ANTELOPE  CA  95843 POLICY NUMBER: DP3 -002834882 CSAA/8459/DAUGHERTY 8008 WALERGA RD. #400 ANTELOPE  CA  95843 003-8459  - Dear SANDRA EDDINGTON We recently removed claims on your auto policy. This change resulted in an additional $20.00 decrease in premium for the period(s) of (02/03/2009 - 03/18/2009). This amount will be applied to your policy. If you have any questions, please call (800) 959-9842 and one of our customer care representatives will be glad to assist you. Thank you for your business. Your Western United Team</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Conversion: Title/Header info is blank in Legacy system</title>
+		<updatedOn>2009-02-02T00:00:00</updatedOn>
+		<userText>*** Backyard Access *** If necessary, contact me at (916) 726-6792 No special instructions</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>EMAILED CPU...</title>
+		<updatedOn>2009-03-13T00:00:00</updatedOn>
+		<userText>EMAILED CPU TO LOOK AT QUOTE AND CURRENT COVERAGES TO DETERMINE DIFFERENCES IN PREMIUM</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>CK BY PHONE...</title>
+		<updatedOn>2010-02-10T00:00:00</updatedOn>
+		<userText>Congratulation| Your transaction has completed successfully. Here is your transaction details: Confirmation #: BYTF6-7VKW8-QWY Sale Date: 2/10/2010 1:23:08 PM Amount:   $758.00 Payment Type: Monthly Policy #: DP3 2834882 Agent #:</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>** LTR RE: NOT ENOUGH TO RENEW</title>
+		<updatedOn>2011-01-06T00:00:00</updatedOn>
+		<userText>WU03CA 01/94*POLNU        *AGN                010000000I01 January 7, 2011 SANDRA EDDINGTON 5525 ELGIN HILLS WAY ANTELOPE  CA  95843 POLICY NUMBER:  DP3 -002834882 CSAA/8459/DAUGHERTY 6109 SUNRISE BLVD CITRUS HEIGHTS  CA  95610 003-8459  - DEAR SANDRA EDDINGTON Your payment in the amount of $200.00 has been applied to the outstanding balance on your policy as it is set to cancel on 02/03/11 and it is not subject for reinstatement or renewal. If you have any questions, please contact our customer service department at 1-800-207-3618. Sincerely, ACA INSURANCE COMPANY</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>***ADJ $20.00/CREDIT***</title>
+		<updatedOn>2009-03-23T00:00:00</updatedOn>
+		<userText>PER UW SUPPORT GROUP</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>payment</title>
+		<updatedOn>2014-11-03T00:00:00</updatedOn>
+		<userText>Sales Rep Number  0    Receipt Number  21956750 District Office Number  92     Receipt Date and Time  11/03/2014 11:23 AM M Payment Summary Description Amount Dwelling Fire Installment Payment #2834882 SANDRA  EDDINGTON  $51.75 Total Paid    $51.75 Payment Method e-Check Routing Number XXXXX3742 Account Number XXXXXXXXXXXXX4095</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>** VOID REF #237470 **</title>
+		<updatedOn>2011-02-10T00:00:00</updatedOn>
+		<userText>$200.00</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>PAYMENT</title>
+		<updatedOn>2016-02-12T00:00:00</updatedOn>
+		<userText>Receipt Number  38612202 District Office Number Payment Summary Description Amount Dwelling Fire Installment Payment #2834882 SANDRA EDDINGTON    $180.75 Total Paid    $180.75 Payment Method ACH</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>CC PAY 200.00 25418193</title>
+		<updatedOn>2015-02-13T00:00:00</updatedOn>
+		<userText>Receipt Number  25418193 District Office Number  91     Receipt Date and Time  02/13/2015 01:37 P Payment Summary Description Amount Dwelling Fire Installment Payment #2834882 SANDRA EDDINGTON    $200.00 Total Paid    $200.00 Payment Method Credit Card Credit Card Type VISA Credit Card Number XXXXXXXXXXXX9317 Authorization Code 123816</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>PYMT $708.00</title>
+		<updatedOn>2017-02-04T00:00:00</updatedOn>
+		<userText>PYMT $708.00</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>CCPYMT</title>
+		<updatedOn>2014-06-09T00:00:00</updatedOn>
+		<userText>Sales Rep Number  0    Receipt Number  17179847 District Office Number  92     Receipt Date and Time  06/09/2014 01:26 PM M Payment Summary Description Amount Dwelling Fire Installment Payment #002834882 SANDRA  EDDINGTON  $187.25 Total Paid    $187.25 Payment Method Credit Card Credit Card Type Visa Credit Card Number XXXXXXXXXXXX9317 ---------------------------------------------------------------------------</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2012-11-16T00:00:00</updatedOn>
+		<userText>AMENDED POLICY - UPDATED MEMBERSHIP INFORMATION</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>POLICY INQUIRY</title>
+		<updatedOn>2014-05-06T00:00:00</updatedOn>
+		<userText>PER AGENT VERIFIED ADDRESS, PROVIDED STATUS/NEXT DUE DATE</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2009-02-03T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Interim Invoice</title>
+		<updatedOn>2009-02-11T00:00:00</updatedOn>
+		<userText>Interim Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Cancellation Notice</title>
+		<updatedOn>2009-03-08T00:00:00</updatedOn>
+		<userText>Policy Cancellation Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Reinstate Notice</title>
+		<updatedOn>2009-03-17T00:00:00</updatedOn>
+		<userText>Policy Reinstate Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2009-12-10T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Expiration Notice</title>
+		<updatedOn>2010-02-08T00:00:00</updatedOn>
+		<userText>Policy Expiration Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2010-12-12T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Expiration Notice</title>
+		<updatedOn>2011-02-08T00:00:00</updatedOn>
+		<userText>Policy Expiration Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-02-09T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-04-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-05-15T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-06-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-07-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Cancellation Notice</title>
+		<updatedOn>2011-08-08T00:00:00</updatedOn>
+		<userText>Policy Cancellation Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Reinstate Notice</title>
+		<updatedOn>2011-08-09T00:00:00</updatedOn>
+		<userText>Policy Reinstate Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-08-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-09-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-10-16T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2011-12-15T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2011-12-15T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2012-02-12T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2012-03-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2012-08-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2012-09-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Free Form Underwriting Letter</title>
+		<updatedOn>2012-11-15T00:00:00</updatedOn>
+		<userText>Free Form Underwriting Letter</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2012-12-16T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2012-12-16T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Expiration Notice</title>
+		<updatedOn>2013-02-10T00:00:00</updatedOn>
+		<userText>Policy Expiration Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2013-12-10T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2013-12-10T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Expiration Notice</title>
+		<updatedOn>2014-02-09T00:00:00</updatedOn>
+		<userText>Policy Expiration Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2014-10-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2014-12-10T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2014-12-10T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Expiration Notice</title>
+		<updatedOn>2015-02-08T00:00:00</updatedOn>
+		<userText>Policy Expiration Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2015-04-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2015-07-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2015-10-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2015-12-10T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2015-12-10T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Expiration Notice</title>
+		<updatedOn>2016-02-08T00:00:00</updatedOn>
+		<userText>Policy Expiration Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2016-04-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2016-12-11T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2016-12-11T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
 </Policy>

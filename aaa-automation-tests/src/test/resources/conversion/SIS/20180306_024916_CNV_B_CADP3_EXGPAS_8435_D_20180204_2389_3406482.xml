@@ -2,8 +2,8 @@
 <Policy name="AAA_HO_CA" version="1.0" rootEntityType="policy">
 	<AAAHOPolicy state="Created">
 		<agencyCd>500001005</agencyCd>
-		<agencyLocation>500005345</agencyLocation>
-		<agentCd>70683727</agentCd>
+		<agencyLocation>500005301</agencyLocation>
+		<agentCd>70683577</agentCd>
 		<agentGeneralNumber>003</agentGeneralNumber>
 		<countryCd>US</countryCd>
 		<doNotRenewInd>false</doNotRenewInd>
@@ -22,7 +22,7 @@
 		<productCd>AAA_HO_CA</productCd>
 		<riskStateCd>CA</riskStateCd>
 		<sourcePolicyNum>DP3 3406482</sourcePolicyNum>
-		<subProducerCd>70683727</subProducerCd>
+		<subProducerCd>70683577</subProducerCd>
 		<tollNumberCd>1111111111</tollNumberCd>
 		<underwriterCd>ACAIC</underwriterCd>
 		<AAACeaDetailsComponent state="Created">
@@ -310,6 +310,28 @@
 			</AAAHOMailingAddressComponent>
 		</PreconfigPersonInfo>
 	</AAAHOPolicy>
+	<personalBillingAccount>
+		<billingInfo>
+			<defaultPaymentMethod>1</defaultPaymentMethod>
+		</billingInfo>
+		<overpaidAmountOption>nextInstallments</overpaidAmountOption>
+		<enableRecurringPayments>true</enableRecurringPayments>
+		<paymentDetailsEFT id="1">
+			<profileId>06E4BB8B-76DD-F4DC-4E0E-57D2D6BA5976</profileId>
+			<accountHolderInfo>
+				<firstName>SUSAN</firstName>
+				<lastName>LINDSEY</lastName>
+			</accountHolderInfo>
+			<accountNumber>6789</accountNumber>
+			<accountTypeCd>CA</accountTypeCd>
+			<bankAccountHolderName>GINA  K  VON DAMM</bankAccountHolderName>
+			<bankName>UNIVERSITY &amp; STATE EMPLOYEES CU</bankName>
+			<transitNumber>322281691</transitNumber>
+			<recurringEffectiveDate>2017-04-19T00:00:00</recurringEffectiveDate>
+			<signatureOnFile>yes</signatureOnFile>
+			<signedAuthorizationOnFile>true</signedAuthorizationOnFile>
+		</paymentDetailsEFT>
+	</personalBillingAccount>
 	<userNote>
 		<category>Other</category>
 		<confidential>false</confidential>

@@ -2,8 +2,8 @@
 <Policy name="AAA_HO_CA" version="1.0" rootEntityType="policy">
 	<AAAHOPolicy state="Created">
 		<agencyCd>500001005</agencyCd>
-		<agencyLocation>500005345</agencyLocation>
-		<agentCd>70683727</agentCd>
+		<agencyLocation>500005301</agencyLocation>
+		<agentCd>70683577</agentCd>
 		<agentGeneralNumber>003</agentGeneralNumber>
 		<countryCd>US</countryCd>
 		<doNotRenewInd>false</doNotRenewInd>
@@ -22,7 +22,7 @@
 		<productCd>AAA_HO_CA</productCd>
 		<riskStateCd>CA</riskStateCd>
 		<sourcePolicyNum>DP3 2870565</sourcePolicyNum>
-		<subProducerCd>70683727</subProducerCd>
+		<subProducerCd>70683577</subProducerCd>
 		<tollNumberCd>1111111111</tollNumberCd>
 		<underwriterCd>ACAIC</underwriterCd>
 		<AAACeaDetailsComponent state="Created">

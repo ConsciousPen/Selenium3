@@ -2,8 +2,8 @@
 <Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
 	<AAAHOPolicy state="Created">
 		<agencyCd>500001005</agencyCd>
-		<agencyLocation>500005401</agencyLocation>
-		<agentCd>500006726</agentCd>
+		<agencyLocation>500005333</agencyLocation>
+		<agentCd>70685886</agentCd>
 		<agentGeneralNumber>003</agentGeneralNumber>
 		<doNotRenewInd>false</doNotRenewInd>
 		<effective>2018-01-25T00:00:00</effective>
@@ -19,7 +19,7 @@
 		<productCd>AAA_HO_CA</productCd>
 		<riskStateCd>CA</riskStateCd>
 		<sourcePolicyNum>2060002</sourcePolicyNum>
-		<subProducerCd>500006726</subProducerCd>
+		<subProducerCd>70685886</subProducerCd>
 		<tollNumberCd>xxx</tollNumberCd>
 		<underwriterCd>CSAAIB</underwriterCd>
 		<AAACeaDetailsComponent state="Created">
@@ -286,6 +286,23 @@
 		</AAADwellEntityComponent>
 		<HO28EndorsementForm state="Created"/>
 		<HO29EndorsementForm state="Created"/>
+		<HO61CEndorsementForm state="Created">
+			<ScheduledPropertyCoverageBoats state="Created">
+				<ScheduledPropertyBoatsItem state="Created">
+					<amountOfInsurance>7500</amountOfInsurance>
+					<boatClass>2</boatClass>
+					<boatType>Outboard</boatType>
+					<deductible>250</deductible>
+					<hin>On file-conversion</hin>
+					<horsepower>99</horsepower>
+					<length>99</length>
+					<lossPayeeInd>false</lossPayeeInd>
+					<make>On file-conversion</make>
+					<model>On file-conversion</model>
+					<year>1938</year>
+				</ScheduledPropertyBoatsItem>
+			</ScheduledPropertyCoverageBoats>
+		</HO61CEndorsementForm>
 		<HO81EndorsementForm state="Created"/>
 		<HO90EndorsementForm state="Created"/>
 	</AAAHOPolicy>
