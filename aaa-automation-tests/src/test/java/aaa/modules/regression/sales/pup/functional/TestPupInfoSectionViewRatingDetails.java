@@ -376,11 +376,6 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         // Initiate renewal and navigate to P&C Quote tab calculate premium
         policy.renew().start().submit();
 
-        // Check if Auto tier value is 1-16.   PAS-10391
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS.get());
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
-        assertThat(rangeTier).contains(underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER).getValue());
-
         openRatingDetails();
 
         // Verify That Auto tier is the same as Manually added policies
