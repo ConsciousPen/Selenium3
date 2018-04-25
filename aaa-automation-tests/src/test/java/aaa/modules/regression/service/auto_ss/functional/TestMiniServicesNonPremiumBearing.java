@@ -815,12 +815,11 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * run ViewManageVehicleLevelCoverages for endorsemnt
 	 * validate coverages are matching with pas and all delimators .
 	 * Go to pas and change all the coverages for vehicle
-	 * calculate primium save.
+	 * calculate premium save.
 	 * open pended endorsement go to P and C page.
 	 * get all vehicle coverages save them
 	 * hit view manage vehicle level coverages dxp
 	 * validate response aginst pas vehicle coverages.
-	 * click on
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
