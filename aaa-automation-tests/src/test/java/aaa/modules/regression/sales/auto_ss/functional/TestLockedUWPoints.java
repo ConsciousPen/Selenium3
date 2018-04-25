@@ -123,7 +123,6 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		verifyLockedLimitsRenewalAndEndorsement();
 
 		// Bind Endorsement. Renew Policy and Navigate to P&C Page.
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.fillTab(getTestSpecificTD("TestData_Authorized"));
 		documentsAndBindTab.submitTab();
@@ -143,7 +142,6 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		verifyLockedLimitsRenewalAndEndorsement();
 
 		// Override errors Issue Renewal
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
 		errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_200005);
@@ -332,7 +330,6 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		verifyLockedLimitsRenewalAndEndorsement();
 
 		// Bind Endorsement. Renew Policy and Navigate to P&C Page.
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
 
@@ -351,7 +348,6 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		verifyLockedLimitsRenewalAndEndorsement();
 
 		// Issue Renewal
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
 
@@ -428,5 +424,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, f)).isPresent());
 		pas9063FieldsRow2.forEach(f -> assertThat(
 				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, f).getCell(6).getValue()).isEmpty());
+
+        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
 }
