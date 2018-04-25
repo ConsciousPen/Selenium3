@@ -17,6 +17,7 @@ import java.io.*;
 import java.nio.charset.Charset;
 
 import static aaa.admin.modules.IAdmin.log;
+import static aaa.modules.BaseTest.printToDebugLog;
 import static aaa.modules.BaseTest.printToLog;
 
 /**
@@ -36,9 +37,9 @@ public class SoapClient {
         headers.addHeader("SOAPAction", _soapAction);
 
         //Print request message for debugging
-        printToLog("++++ Beginning of SOAP Request ++++");
-        printToLog(convertSoapMessageToXMLString(soapRequest));
-        printToLog("---- End of SOAP Request ----");
+        printToDebugLog("++++ Beginning of SOAP Request ++++");
+        printToDebugLog(convertSoapMessageToXMLString(soapRequest));
+        printToDebugLog("---- End of SOAP Request ----");
 
         // Added to attempt to work around error with connection. Could be due to proxies.
         System.setProperty("java.net.useSystemProxies", "true");
@@ -51,9 +52,9 @@ public class SoapClient {
         soapConnection.close();
 
         //Print request message for debugging
-        printToLog("++++ Beginning of SOAP Response ++++");
-        printToLog(convertSoapMessageToXMLString(soapResponse));
-        printToLog("---- End of SOAP Response ----");
+        printToDebugLog("++++ Beginning of SOAP Response ++++");
+        printToDebugLog(convertSoapMessageToXMLString(soapResponse));
+        printToDebugLog("---- End of SOAP Response ----");
 
         return soapResponse;
     }

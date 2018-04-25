@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static aaa.modules.BaseTest.printToLog;
+
 /**
  * @author - Tyrone C Jemison
  * @description - This class is used for parsing an XML to get a value using the associate tag name.
@@ -34,8 +36,8 @@ public class XmlParser
             _doc = _docBuilder.parse(inputFile);
             _doc.normalize();
         } catch (ParserConfigurationException e) {
-            System.out.println("Failed creating document using default location of:" + _defaultFullPath);
-            e.printStackTrace();
+            printToLog("Failed creating document using default location of:" + _defaultFullPath);
+            printToLog(e.getStackTrace().toString());
         }
 
         NodeList nodeList =  _doc.getElementsByTagName(tagName);
@@ -59,8 +61,8 @@ public class XmlParser
             _doc = _docBuilder.parse(inputFile);
             _doc.normalize();
         } catch (ParserConfigurationException e) {
-            System.out.println("Failed creating document using location of:" + filePath + xmlFileName);
-            e.printStackTrace();
+            printToLog("Failed creating document using location of:" + filePath + xmlFileName);
+            printToLog(e.getStackTrace().toString());
         }
 
         NodeList nodeList =  _doc.getElementsByTagName(tagName);
