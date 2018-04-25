@@ -2,6 +2,7 @@ package aaa.helpers.mock;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.io.File;
+import org.apache.commons.lang3.RandomStringUtils;
 import aaa.helpers.mock.model.membership.MembershipMockData;
 import aaa.helpers.mock.model.vehicle.VehicleUBIDetailsMockData;
 import aaa.helpers.ssh.RemoteHelper;
@@ -35,9 +36,9 @@ public class MockDataHelper {
 		return vehicleUBIDetailsData;
 	}
 
-	private static <M> M getMockDataObject(String mockFilename, Class<M> mockDataClass) {
+	private static synchronized <M> M getMockDataObject(String mockFilename, Class<M> mockDataClass) {
 		String mockSourcePath = SOURCE_MOCKS_FOLDER_PATTERN + "/" + mockFilename;
-		String mockTempDestinationPath = DESTINATION_TEMP_MOCKS_FOLDER + "/" + System.currentTimeMillis() + "_" + mockFilename;
+		String mockTempDestinationPath = DESTINATION_TEMP_MOCKS_FOLDER + "/" + RandomStringUtils.randomNumeric(10) + "_" + mockFilename;
 
 		RemoteHelper.downloadFile(mockSourcePath, mockTempDestinationPath);
 		File mockTempFile = new File(mockTempDestinationPath);
