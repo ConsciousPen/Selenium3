@@ -30,12 +30,6 @@ EISDEV-XXXXX3:
   failures:
     - tests: [aaa.modules.regression.sales.home_ca.dp3.TestPolicyCreation, aaa.modules.regression.sales.home_ca.dp3.TestPolicyCreationFull]
       messages: ['Unable to locate element: {"method":"id","selector":"policyDataGatherForm:premiumRecalcCov"']
-QC-44225:
-  summary: "Regression: Auto: NPE on rate Pended Endorsement after Spin/Split"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.TestPolicySplit.testPolicySplit, aaa.modules.regression.sales.auto_ss.TestPolicySpin.testPolicySpin]
-      messages: ['Unable to locate element', 'Errors: Time out. No session available.']
 QC-44326:
   summary: "Regression: IN AutoSS: The UW rule is appears wrongly for UMPD coverage of NANO policy"
   reason: PROD
@@ -48,30 +42,6 @@ QC-44846:
   failures:
     - tests: [aaa.modules.e2e.pup.TestScenario3.TC03_Generate_Cancelation_Notice, aaa.modules.e2e.home_ss.ho3.TestScenario3.TC03_Generate_Cancelation_Notice]
       messages: ['Row with values {Type=Cancellation Notice']
-QC-44890:
-  summary: "DB Lookup 'cancellationConfirmationDays' is set to 15 days instead of 18 for AAA_SS_PA in Admin application"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.e2e.auto_ss.TestScenario3.TC03_Generate_Cancelation_Notice]
-      messages: ["Row with values {Type=Cancellation Notice"]
-    - tests: [aaa.modules.e2e.auto_ss.TestScenario5.TC07_1_Generate_CancellNotice]
-      messages: ["Cannot get value of Cell {<unnamed>: <Non-existent row (Can't find row by specified parameters: {Due Date"]
-PAS-6667:
-  summary: "'WUAUCA' form is missing on 'On Demand Documents page'"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.docgen.home_ca.*.TestDocgenScenarios.testQuoteDocuments]
-      messages: ['WUAUCA']
-    - tests: [aaa.modules.docgen.home_ca.*.TestDocgenScenarios.testPolicyDocuments]
-      messages: ['WUAUCA']
-PAS-7673:
-  summary: "The 'Payment Method' section is missing on Purchase tab when 'Apply eValue Discount' is set to 'Yes'"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.document_fulfillment.auto_ss.TestScenario2.TC01_CreatePolicy]
-      messages: ["Cannot set value of AssetList {PurchaseTab"]
-    - tests: [aaa.modules.e2e]
-      messages: ["Errors: AAA_HO_SS_MEM_LASTNAME; Error; Membership Validation Failed. Please review the Membership Report and confirm"]
 OSI-1115:
   summary: "OSI: question to Karen about UMBI=No Coverage, which is not applicable for IN"
   reason: PROD
@@ -92,16 +62,6 @@ PAS-9157:
       messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
     - tests: [aaa.modules.e2e.pup.TestScenario12.TC01_createPolicy]
       messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
-PAS-9661:
-  summary: "Regression: Auto CA: Exception on changing payment plan by link on Billing tab"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.e2e.auto_ca.TestScenario10.TC01_createPolicy]
-      messages: ["Column Policy Status was not found in the table"]
-    - tests: [aaa.modules.e2e.auto_ca.TestScenario12.TC01_createPolicy]
-      messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual} in table 'Billing Account Policies' is present"]
-    - tests: [aaa.modules.e2e.auto_ca.TestScenario13.TC01_createPolicy]
-      messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual"]
 PAS-10661:
   summary: "AAA_HO_SS1290786 Error A valid insurance score report for at least one named insured is required to propose firing inspite of overriding Insurance Score"
   reason: PROD
@@ -110,23 +70,6 @@ PAS-10661:
     aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingManualRefundsACH,
     aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsACH]
       messages: ['*Cannot get value of StaticElement*', "*AAA_HO_SS67cbad46*"]
-PAS-10700:
-  summary: "Regression: MD Property: Insurance report section is absent on reports tab, but rule is fired requesting to order report"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation,
-              aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement,
-              aaa.modules.regression.sales.pup.TestPolicyCreation,
-              aaa.modules.regression.service.pup.TestPolicyEndorsement]
-      messages: ['Cannot get value of StaticElement', "Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered"]
-PAS-10702:
-  summary: "Regression: Property: Insurance report rule is fired for additional insured who is not listed on Reports tab"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.home_ss.*.TestPolicyCreationFull]
-      messages: ['Cannot get value of StaticElement', "Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered"]
-    - tests: [aaa.modules.cft.*]
-      messages: ['Cannot get value of StaticElement', "Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered"]
 PAS-10970:
   summary: "AARFIXX has empty value instead of NO for tag VehTyp for NV NANO policy"
   reason: PROD
@@ -222,3 +165,9 @@ PAS-12949:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueNsfAHDRXX.pas7454_eValueRemovedAutopayNsfDeclineRecurringPaymentResponse]
       messages: ["Checked value of Cell"]
+PAS-13094:
+  summary: "Regression: PUP: VIN resolver doesn't work for underlying auto policies"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.pup.*,aaa.modules.regression.service.pup.*]
+      messages: ["Cannot set value of AssetList {UnderlyingRisksAutoTab"]
