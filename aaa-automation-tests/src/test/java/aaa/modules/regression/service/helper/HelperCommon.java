@@ -47,6 +47,7 @@ public class HelperCommon {
 	private static final String APPLICATION_CONTEXT_HEADER = "X-ApplicationContext";
 	private static final String DXP_VIEW_VEHICLE_COVERAGES = "/api/v1/policies/%s/coverages";
 	private static final String DXP_VIEW_VEHICLE_ENDORSEMENT_COVERAGES = "/api/v1/policies/%s/endorsement/coverages";
+	private static final String DXP_BIG_META_DATA_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles/%s/metadata";
 	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
 
 	private static String urlBuilderDxp(String endpointUrlPart) {
@@ -114,6 +115,11 @@ public class HelperCommon {
 			restRequestInfo.url = restRequestInfo.url + "?endorsementDate=" + endorsementDate;
 		}
 		return runJsonRequestGetDxp(restRequestInfo);
+	}
+
+	public static AttributeMetadata[] vehicleAttributeMetaDataService(String policyNumber, String oid) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_BIG_META_DATA_ENDPOINT, policyNumber, oid));
+		return runJsonRequestGetDxp(requestUrl, AttributeMetadata[].class);
 	}
 
 	public static PolicyLockUnlockDto executePolicyLockService(String policyNumber, int status, String sessionId) {

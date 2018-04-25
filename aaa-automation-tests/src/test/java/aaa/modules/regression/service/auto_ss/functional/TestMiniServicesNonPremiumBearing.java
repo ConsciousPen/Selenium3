@@ -406,7 +406,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7082", "PAS-7145"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7082", "PAS-7145","PAS-11621"})
 	public void pas7082_AddVehicle(@Optional("AZ") String state) {
 
 		pas7082_AddVehicle(getPolicyType());
@@ -888,6 +888,20 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	public void pas12866_e2eBct(@Optional("KY") String state) {
 		assertSoftly(softly ->
 				pas12866_e2eBctBody(state, false, softly)
+		);
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name
+	 * @scenario
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12407"})
+	public void pas12407_BigMetaDataService(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas12407_bigDataService(state, true, softly)
 		);
 	}
 
