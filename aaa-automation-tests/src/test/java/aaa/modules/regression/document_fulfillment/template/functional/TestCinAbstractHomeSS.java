@@ -31,7 +31,7 @@ public class TestCinAbstractHomeSS extends TestCinAbstract {
     public static final String NAME_INSURED_LAST_NAME = TestData.makeKeyPath(
             HomeSSMetaData.ApplicantTab.class.getSimpleName(),
             HomeSSMetaData.ApplicantTab.NamedInsured.class.getSimpleName(),
-            HomeSSMetaData.ApplicantTab.NamedInsured.FIRST_NAME.getLabel());
+            HomeSSMetaData.ApplicantTab.NamedInsured.LAST_NAME.getLabel());
 
     public static final String INSURANCE_SCORE_OVERRIDE = TestData.makeKeyPath(
             HomeSSMetaData.ReportsTab.class.getSimpleName(),
@@ -49,8 +49,8 @@ public class TestCinAbstractHomeSS extends TestCinAbstract {
     public TestData adjustNameInsured(TestData testData, String nameInsuredTestData) {
         TestData nameInsuredTD = getTestSpecificTD(nameInsuredTestData);
 
-        String firstName = nameInsuredTD.getValue("First Name");
-        String lastName = nameInsuredTD.getValue("Last Name");
+        String firstName = nameInsuredTD.getValue("First name");
+        String lastName = nameInsuredTD.getValue("Last name");
 
         return testData.adjust(NAME_INSURED_FIRST_NAME, firstName)
                 .adjust(NAME_INSURED_LAST_NAME, lastName);

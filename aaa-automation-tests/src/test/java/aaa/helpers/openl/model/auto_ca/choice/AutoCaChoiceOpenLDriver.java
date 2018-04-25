@@ -37,17 +37,14 @@ public class AutoCaChoiceOpenLDriver extends AutoCaOpenLDriver {
 				'}';
 	}
 
-	@Override
 	public Boolean hasDriverTrainingDiscount() {
 		return driverTrainingDiscount;
 	}
 
-	@Override
 	public Boolean isNonSmoker() {
 		return nonSmoker;
 	}
 
-	@Override
 	public Boolean isOccasionalUse() {
 		return occasionalUse;
 	}

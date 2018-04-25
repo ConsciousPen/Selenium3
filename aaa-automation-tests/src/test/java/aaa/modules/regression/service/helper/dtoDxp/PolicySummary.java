@@ -53,4 +53,7 @@ public class PolicySummary {
 
 	@ApiModelProperty(value = "Term premium", example = "4126")
 	public String termPremium;
+
+	@ApiModelProperty(value = "The Residential Address. Address from the first of the First Named Insureds.", example = "1200")
+	public Address residentialAddress;
 }

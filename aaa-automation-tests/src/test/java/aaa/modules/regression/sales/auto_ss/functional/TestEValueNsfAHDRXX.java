@@ -63,6 +63,7 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 	private UpdateBillingAccountActionTab updateBillingAccountActionTab = new UpdateBillingAccountActionTab();
 	private PaymentCentralHelper paymentCentralHelper = new PaymentCentralHelper();
 	private AAARecurringPaymentResponseHelper aaaRecurringPaymentResponseHelper = new AAARecurringPaymentResponseHelper();
+	private TestEValueMembershipProcess testEValueMembershipProcess = new TestEValueMembershipProcess();
 
 	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public void precondJobAdding() {
@@ -93,8 +94,8 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}/*, dependsOnMethods = "precondJobAdding"*/)
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7454"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "precondJobAdding")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7454", "PAS-314", "PAS-244"})
 	public void pas7454_eValueRemovedAutopayNsfDeclineRecurringPaymentResponse(@Optional("VA") String state) {
 		pas7454_eValueRemovedAutopayNsfDecline("SUCC");
 	}
@@ -119,8 +120,8 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}/*, dependsOnMethods = "precondJobAdding"*/)
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7454"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "precondJobAdding")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7454", "PAS-314", "PAS-244"})
 	public void pas7454_eValueRemovedAutopayNsfDeclinePaymentCentralReject(@Optional("VA") String state) {
 		pas7454_eValueRemovedAutopayNsfDecline("ERR");
 	}
@@ -170,6 +171,7 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 		} else {
 			throw new IstfException("Bad Recurring Payment Response status");
 		}
+		mainApp().reopen();
 		SearchPage.openBilling(policyNumber);
 		verifyPaymentDeclinedTransactionPresent(paymentAmountPlain);
 		verifyPaymentTransactionBecameDeclined(paymentAmount);
@@ -181,16 +183,20 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 		SearchPage.openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(EVALUE_STATUS)).hasValue("");
 
-		if(TimeSetterUtil.getInstance().getCurrentTime().isBefore(policyEffectiveDate.plusDays(30))) {
+		//PAS-244 start
+		testEValueMembershipProcess.transactionHistoryRecordCountCheck(policyNumber, 2, "eValue Removed - NSF");
+		//PAS-244 end
+
+		if (TimeSetterUtil.getInstance().getCurrentTime().isBefore(policyEffectiveDate.plusDays(30))) {
 			TestEValueMembershipProcess.jobsNBplus15plus30runNoChecks(policyEffectiveDate.plusDays(30));
 		}
 
-		TestEValueMembershipProcess testEValueMembershipProcess = new TestEValueMembershipProcess();
 		testEValueMembershipProcess.checkDocumentContentAHDRXX(policyNumber, true, false, true, false, false);
 
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDRXX", "ENDORSEMENT_ISSUE");
 		assertThat(DocGenHelper.getDocumentDataElemByName("PayPlnYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()).isEqualTo("Y");
-		assertThat(DocGenHelper.getDocumentDataElemByName("PlcyPayFullAmtYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()).isEqualTo("Y");
+		assertThat(DocGenHelper.getDocumentDataElemByName("PlcyPayFullAmtYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField())
+				.isEqualTo("Y");
 	}
 
 	private void generateFileForRecurringPaymentResponseJob(String policyNumber, String billingAccount, String paymentAmountPlain, String err) {

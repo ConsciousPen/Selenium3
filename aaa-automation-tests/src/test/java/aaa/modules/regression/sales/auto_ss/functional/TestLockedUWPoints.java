@@ -24,13 +24,7 @@ import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
@@ -129,7 +123,6 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		verifyLockedLimitsRenewalAndEndorsement();
 
 		// Bind Endorsement. Renew Policy and Navigate to P&C Page.
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.fillTab(getTestSpecificTD("TestData_Authorized"));
 		documentsAndBindTab.submitTab();
@@ -149,7 +142,6 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		verifyLockedLimitsRenewalAndEndorsement();
 
 		// Override errors Issue Renewal
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
 		errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_200005);
@@ -205,7 +197,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		SearchPage.openPolicy(policyNumber);
 		policy.renew().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
 
@@ -338,7 +330,6 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		verifyLockedLimitsRenewalAndEndorsement();
 
 		// Bind Endorsement. Renew Policy and Navigate to P&C Page.
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
 
@@ -357,7 +348,6 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		verifyLockedLimitsRenewalAndEndorsement();
 
 		// Issue Renewal
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
 
@@ -391,7 +381,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	private void openVRD(){
 		// Navigate to P&C. Calculate Premium. Open VRD.
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 	}
 
@@ -434,5 +424,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, f)).isPresent());
 		pas9063FieldsRow2.forEach(f -> assertThat(
 				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, f).getCell(6).getValue()).isEmpty());
+
+        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
 }

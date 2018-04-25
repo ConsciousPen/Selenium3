@@ -318,7 +318,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "miniServicesEndorsementDeleteDelayConfigCheck")
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7332", "PAS-8785"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7332", "PAS-8785", "PAS-11622"})
 	public void pas7332_deletePendingAgentEndorsementStartNewEndorsementThroughService(@Optional("AZ") String state) {
 
 		pas7332_deletePendingEndorsementStartNewEndorsementThroughService(getPolicyType(), "Agent");
@@ -353,7 +353,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8273", "PAS-7145"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8273", "PAS-7145", "PAS-11622"})
 	public void pas8273_OnlyActiveVehiclesAreAllowed(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas8273_CheckIfOnlyActiveVehiclesAreAllowed(softly, getPolicyType())
@@ -373,7 +373,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11932"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11932", "PAS-12768" })
 	public void pas11932_viewDrivers(@Optional("VA") String state) {
 
 		pas11932_viewDriversInfo(getPolicyType(), state);
@@ -895,6 +895,15 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	public void pas12866_e2eBct(@Optional("KY") String state) {
 		assertSoftly(softly ->
 				pas12866_e2eBctBody(state, false, softly)
+		);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11684"})
+	public void pas11684_DriverAssignmentExistsForState(@Optional("AZ") String state) {
+		assertSoftly(softly ->
+				pas11684_DriverAssignmentExistsForStateBody(state, softly)
 		);
 	}
 

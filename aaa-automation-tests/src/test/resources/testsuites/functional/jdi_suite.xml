@@ -246,7 +246,8 @@
         </classes>
     </test>
 
-    <test name="DXP E2E" parallel="methods" thread-count="1024">
+    <!--Commented out to see how the tests will run in DXP suite-->
+<!--    <test name="DXP E2E" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
@@ -266,6 +267,6 @@
                 </methods>
             </class>
         </classes>
-    </test>
+    </test>-->
 
 </suite>

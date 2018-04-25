@@ -66,27 +66,27 @@
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestCinNewBusinessHomeHO3">
                 <methods>
-                    <include name="testCluePropertyChargeableDriver"/>
+                    <include name="testCinHomeSSCluePropertyViolation"/>
                 </methods>
             </class>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestCinRenewalHomeHO3">
+           <!-- <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestCinRenewalHomeHO3">
                 <methods>
                     <include name="testCluePropertyChargeableDriver"/>
                 </methods>
-            </class>
+            </class> -->
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestCinNewBusinessHomeHO4">
                 <methods>
-                    <include name="testCluePropertyChargeableDriver"/>
+                    <include name="testCinHomeSSCluePropertyViolation"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestCinNewBusinessHomeHO6">
                 <methods>
-                    <include name="testCluePropertyChargeableDriver"/>
+                    <include name="testCinHomeSSCluePropertyViolation"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestCinNewBusinessHomeDP3">
                 <methods>
-                    <include name="testCluePropertyChargeableDriver"/>
+                    <include name="testCinHomeSSCluePropertyViolation"/>
                 </methods>
             </class>
         </classes>

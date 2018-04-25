@@ -9,7 +9,7 @@ public class HomeCaOpenLForm extends OpenLForm {
 	protected Double limit;
 
 	protected Boolean applyDiscounts;
-	protected Boolean hasSupportingForm;
+	protected Boolean hasSupportingForm; 
 
 	public Boolean getApplyDiscounts() {
 		return applyDiscounts;
@@ -26,4 +26,5 @@ public class HomeCaOpenLForm extends OpenLForm {
 	public void setHasSupportingForm(Boolean hasSupportingForm) {
 		this.hasSupportingForm = hasSupportingForm;
 	}
+
 }
