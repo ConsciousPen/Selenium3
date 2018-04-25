@@ -26,6 +26,8 @@ import toolkit.exceptions.IstfException;
 
 public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 	protected static final Logger log = LoggerFactory.getLogger(OpenLRatingBaseTest.class);
+
+	private static final Object UNMARSHAL_LOCK = new Object();
 	private String testsDir;
 
 	protected String getTestsDir() {
@@ -71,10 +73,15 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 	protected abstract Dollar createAndRateQuote(TestDataGenerator<P> tdGenerator, P openLPolicy);
 
 	protected List<P> getOpenLPolicies(String openLFileName, Class<P> openLPolicyModelClass, List<Integer> policyNumbers) {
-		ExcelUnmarshaller excelUnmarshaller = new ExcelUnmarshaller(new File(getTestsDir() + "/" + openLFileName), false);
-		List<P> openLPolicies = excelUnmarshaller.unmarshalRows(openLPolicyModelClass, policyNumbers);
-		List<OpenLTest> openLTests = excelUnmarshaller.unmarshalRows(OpenLTest.class, policyNumbers);
-		excelUnmarshaller.flushCache().close();
+		List<P> openLPolicies;
+		List<OpenLTest> openLTests;
+
+		synchronized (UNMARSHAL_LOCK) { // Used to solve performance issues when parsing thousands of excel rows simultaneously in multiple threads
+			ExcelUnmarshaller excelUnmarshaller = new ExcelUnmarshaller(new File(getTestsDir() + "/" + openLFileName), false);
+			openLTests = excelUnmarshaller.unmarshalRows(OpenLTest.class, policyNumbers);
+			openLPolicies = excelUnmarshaller.unmarshalRows(openLPolicyModelClass, policyNumbers);
+			excelUnmarshaller.flushCache().close();
+		}
 
 		openLPolicies = getOpenLPoliciesWithExpectedPremiums(openLPolicies, openLTests);
 

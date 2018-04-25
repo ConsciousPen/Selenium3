@@ -16,14 +16,15 @@ public @interface ExcelColumnElement {
 	boolean isPrimaryKey() default false;
 
 	/**
-	 * Header column name to be searched in excel table. By default class field name is used as header column name in table.
+	 * Header column name to be searched in excel table (ignoring case if {@link #ignoreCase} argument is set to true). By default class field name is used as header column name in table.
+	 * If field has {@link java.util.List} type then values from all columns containing field name will be collected to the list of appropriate type.
+	 * Ignored if {@link #containsName} argument is set.
 	 */
 	String name() default DEFAULT_FIELD_VALUE_MARK;
 
 	/**
-	 * Column name substring pattern to be searched in header column names.
-	 * If field has {@link java.util.List} type then values from all columns with matched column name pattern will be collected to list of appropriate type.
-	 * Ignored if {@link #name} argument is set.
+	 * Column name substring pattern to be searched in header column names (ignoring case if {@link #ignoreCase} argument is set to true).
+	 * If field has {@link java.util.List} type then values from all columns containing column name pattern will be collected to the list of appropriate type.
 	 */
 	String containsName() default DEFAULT_FIELD_VALUE_MARK;
 

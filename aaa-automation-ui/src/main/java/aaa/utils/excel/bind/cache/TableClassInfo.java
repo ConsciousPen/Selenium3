@@ -2,7 +2,6 @@ package aaa.utils.excel.bind.cache;
 
 import java.lang.reflect.Field;
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
@@ -12,6 +11,7 @@ import aaa.utils.excel.bind.helper.ColumnFieldHelper;
 import aaa.utils.excel.bind.helper.TableClassHelper;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
+import aaa.utils.excel.io.entity.area.ExcelCell;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
 import aaa.utils.excel.io.entity.area.table.ExcelTable;
 import aaa.utils.excel.io.entity.area.table.TableCell;
@@ -26,11 +26,10 @@ public class TableClassInfo {
 	private final ExcelManager excelManager;
 	private final boolean strictMatch;
 	private final boolean isCaseIgnoredForAllColumns;
+	private final Map<Integer, Object> rowsIndexesAndCreatedObjects;
 	//private final FieldsInfoCache columnFieldsCache;
 	private Map<Integer, TableRow> primaryKeyColumnValuesAndRows;
-	private final Map<Integer, Object> rowsIndexesAndCreatedObjects;
 	//private Map<String, TableRow> primaryKeyColumnValuesAndRowIndexes2;
-
 	private List<TableFieldInfo> tableFieldsInfos;
 	private List<Integer> primaryKeyColumnsIndexesWithUnknownValues;
 	private List<Field> tableColumnsFields;
@@ -58,10 +57,6 @@ public class TableClassInfo {
 
 	public ExcelManager getExcelManager() {
 		return excelManager;
-	}
-
-	boolean isStrictMatch() {
-		return strictMatch;
 	}
 
 	public boolean isCaseIgnoredForAllColumns() {
@@ -112,6 +107,10 @@ public class TableClassInfo {
 
 	public List<String> getHeaderColumnNames() {
 		return getTableColumnsFields().stream().map(this::getHeaderColumnName).collect(Collectors.toList());
+	}
+
+	boolean isStrictMatch() {
+		return strictMatch;
 	}
 
 	/*public TableRow getRow(Integer primaryKeyExpectedValue) {
@@ -200,8 +199,16 @@ public class TableClassInfo {
 		return getFieldInfo(tableField).getHeaderColumnIndex(getExcelTable().getHeader(), isCaseIgnoredForAllColumns());
 	}
 
+	public List<Integer> getHeaderColumnsIndexes(Field tableField) {
+		return getFieldInfo(tableField).getHeaderColumnsIndexes(getExcelTable().getHeader(), isCaseIgnoredForAllColumns());
+	}
+
 	public boolean isTableField(Field tableField) {
 		return getFieldInfo(tableField).isTableField();
+	}
+
+	public boolean isMultyColumnsField(Field tableField) {
+		return getFieldInfo(tableField).isMultyColumnsField();
 	}
 
 	public Class<?> getFieldsTableClass(Field tableField) {
@@ -249,29 +256,20 @@ public class TableClassInfo {
 			}
 		}
 
-		List<String> extraTableColumnNames = table.getColumnsNames();
+		List<Integer> extraTableColumnsIndexes = table.getColumnsIndexes();
 		for (Field columnField : tableColumnsFields) {
-			String fieldColumnName = getHeaderColumnName(columnField);
-			Predicate<String> fieldColumnExistsInTable = isCaseIgnored(columnField) ? fieldColumnName::equalsIgnoreCase : fieldColumnName::equals;
-
-			if (getFieldInfo(columnField).hasHeaderColumnNamePattern()) {
-				fieldColumnExistsInTable.and(c -> c.contains(getFieldInfo(columnField).getHeaderColumnNamePattern()));
-			}
-			//TODO-dchubkov: to be continued...
-
-			extraTableColumnNames.removeIf(fieldColumnExistsInTable);
-			if (extraTableColumnNames.isEmpty()) {
-				break;
-			}
+			extraTableColumnsIndexes.removeAll(getFieldInfo(columnField).getHeaderColumnsIndexes(table.getHeader(), isCaseIgnoredForAllColumns()));
 		}
-		if (!extraTableColumnNames.isEmpty()) {
+
+		if (!extraTableColumnsIndexes.isEmpty()) {
+			List<String> extraTableColumnNames = table.getHeader().getCells().stream().filter(c -> extraTableColumnsIndexes.contains(c.getColumnIndex())).map(ExcelCell::getStringValue).collect(Collectors.toList());
 			String message = String.format("Extra header column(s) detected in excel table on sheet \"%1$s\" without binded field(s) from class \"%2$s\": %3$s.",
 					table.getSheetName(), getTableClass().getName(), extraTableColumnNames);
 			if (isStrictMatch()) {
 				throw new IstfException("Excel unmarshalling with strict match has been failed. " + message);
 			}
 			log.warn("{} Result object will not have missed field(s)", message);
-			table.excludeColumns(extraTableColumnNames.toArray(new String[extraTableColumnNames.size()]));
+			table.excludeColumns(extraTableColumnsIndexes.toArray(new Integer[extraTableColumnsIndexes.size()]));
 		}
 
 		return table;
@@ -279,10 +277,13 @@ public class TableClassInfo {
 
 	private List<Field> filterTableColumnsFields(ExcelTable table, List<Field> tableFields) {
 		List<Field> allTableColumnsFields = new ArrayList<>(tableFields);
-		List<Field> missedTableColumnsFields = new ArrayList<>(allTableColumnsFields);
+		List<Field> missedTableColumnsFields = new ArrayList<>();
 		for (Field columnField : allTableColumnsFields) {
-			if (table.hasColumn(getHeaderColumnName(columnField), isCaseIgnored(columnField))) {
+			/*if (table.hasColumn(getHeaderColumnName(columnField), isCaseIgnored(columnField))) {
 				missedTableColumnsFields.remove(columnField);
+			}*/
+			if (getFieldInfo(columnField).getHeaderColumnsIndexes(table.getHeader(), isCaseIgnoredForAllColumns()).isEmpty()) {
+				missedTableColumnsFields.add(columnField);
 			}
 		}
 

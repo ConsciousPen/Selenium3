@@ -6,7 +6,6 @@ import java.util.Objects;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
-import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 @ExcelTableElement(sheetName = OpenLFile.TESTS_SHEET_NAME, headerRowIndex = OpenLFile.TESTS_HEADER_ROW_NUMBER)
 public class OpenLTest {
@@ -14,9 +13,8 @@ public class OpenLTest {
 	@ExcelColumnElement(isPrimaryKey = true)
 	private Integer policy;
 
-	@ExcelTransient
 	@ExcelColumnElement(containsName = "usState")
-	private String state; //TODO-dchubkov: to be done...
+	private String state;
 
 	@ExcelColumnElement(containsName = "_res_")
 	private List<Integer> premiums;
