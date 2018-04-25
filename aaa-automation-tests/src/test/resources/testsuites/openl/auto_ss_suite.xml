@@ -40,7 +40,7 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
-    <test name="HomeSS [IN] Premium Calculation Test" preserve-order="true">
+    <test name="AutoSS [IN] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="IN"/>
         <parameter name="fileName" value="INTests-20170806_part1.xls"/>
         <parameter name="policyNumbers" value="1, 2"/>
