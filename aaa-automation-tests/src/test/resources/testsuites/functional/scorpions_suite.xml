@@ -60,7 +60,6 @@
                 <methods>
                     <include name="pas6203_VinAndControlTablesUpload"/>
                     <include name="pas533_newVinAdded"/>
-                    <include name="pas527_UpdatedVinRenewal"/>
                     <include name="pas2714_Endorsement"/>
                     <include name="pas4253_restrictVehicleRefreshNB"/>
                 </methods>
@@ -78,13 +77,12 @@
             </class>
         </classes>
     </test>
-    <test name="Auto Select TestVINUpload tests">
+    <test name="Auto CA TestVINUpload tests">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVINUpload">
                 <methods>
                     <include name="pas533_newVinAdded"/>
-                    <include name="pas527_UpdatedVinRenewal"/>
                     <include name="pas2714_Endorsement"/>
                     <include name="pas4253_restrictVehicleRefreshNB"/>
                 </methods>
@@ -101,15 +99,9 @@
                     <include name="pas730_vinDoesNotMatchDB"/>
                 </methods>
             </class>
-        </classes>
-    </test>
-    <test name="Auto Choice TestVINUpload tests">
-        <parameter name="state" value="CA"/>
-        <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload">
                 <methods>
                     <include name="pas533_newVinAdded"/>
-                    <include name="pas527_updatedVinRenewal"/>
                     <include name="pas2714_Endorsement"/>
                     <include name="pas4253_restrictVehicleRefreshNB"/>
                 </methods>
