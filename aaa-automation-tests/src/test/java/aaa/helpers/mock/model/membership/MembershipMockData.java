@@ -61,7 +61,7 @@ public class MembershipMockData {
 
 	public String getMembershipNumberForAvgAnnualERSperMember(LocalDateTime policyEffectiveDate, Integer memberPersistency, Double avgAnnualERSperMember) {
 		Set<String> membershipNumbersSet = getActiveAndPrimaryMembershipNumbers(policyEffectiveDate.minusYears(memberPersistency));
-		assertThat(membershipNumbersSet).as("No active and primary membership numbers were found for policyEffectiveDate=%1$s and memberPersistency=%2$s", policyEffectiveDate, memberPersistency)
+		assertThat(membershipNumbersSet).as("No active and primary membership numbers were found for policyEffectiveDate=%1$s and memberPersistency=%2$s", policyEffectiveDate.toLocalDate(), memberPersistency)
 				.isNotEmpty();
 
 		if (avgAnnualERSperMember.equals(AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE)) {
