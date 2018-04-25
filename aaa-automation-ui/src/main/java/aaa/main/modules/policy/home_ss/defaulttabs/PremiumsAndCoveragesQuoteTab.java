@@ -53,12 +53,19 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 
 	@Override
 	public void calculatePremium() {
+		
 		if (!btnCalculatePremium().isPresent()) {
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 			NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		}
-		hideHeader();
-		btnCalculatePremium().click();
-		showHeader();
+		try {
+			hideHeader();
+			btnCalculatePremium().click();
+			showHeader();
+		} catch (Exception e) {
+				hideHeader();
+				btnCalculatePremium().click();
+				showHeader();
+		}
 	}
 }
