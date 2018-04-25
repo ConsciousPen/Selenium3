@@ -2,6 +2,10 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
@@ -11,9 +15,6 @@ import aaa.modules.regression.service.helper.dtoAdmin.responses.AAABodyStyleByYe
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAMakeByYear;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAModelByYearMake;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAASeriesByYearMakeModel;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 public class TestReturnVehicleInformationApplicableVersion extends PolicyBaseTest {
@@ -32,6 +33,7 @@ public class TestReturnVehicleInformationApplicableVersion extends PolicyBaseTes
 		AAAMakeByYear aaaMakeByYearResponse =
 				HelperCommon.getMakes("2001", "AAA_SS", "UT", "", "2000-01-01");
 
+		assertThat(aaaMakeByYearResponse).isNotNull();
 		log.info("\n\nList of Makes : " + aaaMakeByYearResponse.getListMake().toString() + "\n");
 	}
 
@@ -43,6 +45,7 @@ public class TestReturnVehicleInformationApplicableVersion extends PolicyBaseTes
 		AAAModelByYearMake aaaModelByMakeYearResponse =
 				HelperCommon.getModels("2001","BMW", "AAA_SS", "AZ","", "2000-01-01" );
 
+		assertThat(aaaModelByMakeYearResponse).isNotNull();
 		log.info("\n\nList of Makes : " + aaaModelByMakeYearResponse.getModels().toString() + "\n");
 	}
 
@@ -55,6 +58,7 @@ public class TestReturnVehicleInformationApplicableVersion extends PolicyBaseTes
 		AAABodyStyleByYearMakeModelSeries aaaBodyStyleByYearMakeModelSeriesResponse =
 				HelperCommon.getBodyStyle("2001", "BMW", "740I", "740IL%20PROTECTION", "AAA_SS", "AZ","", "2017-12-31");
 
+		assertThat(aaaBodyStyleByYearMakeModelSeriesResponse).isNotNull();
 		log.info("\n\nList of Body Styles : " + aaaBodyStyleByYearMakeModelSeriesResponse.getBodyStyle() + "\n");
 	}
 
@@ -66,6 +70,7 @@ public class TestReturnVehicleInformationApplicableVersion extends PolicyBaseTes
 		AAASeriesByYearMakeModel aaaSeriesByYearMakeModel =
 				HelperCommon.getSeries("2001", "BMW", "740I", "AAA_SS", "AZ","", "2017-12-31");
 
+		assertThat(aaaSeriesByYearMakeModel).isNotNull();
 		log.info("\n\nSeries : " + aaaSeriesByYearMakeModel.getSeries() + "\n");
 	}
 
