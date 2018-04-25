@@ -2,20 +2,18 @@ package aaa.helpers.mock.model.membership;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.commons.lang.StringUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTransient;
 import toolkit.exceptions.IstfException;
 
 public class MembershipMockData {
+	@ExcelTransient
+	private static final Double AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE = 99.9;
+
 	@ExcelTableElement(sheetName = "MEMBERSHIP_REQUEST")
 	private List<MembershipRequest> membershipRequests;
 
@@ -57,12 +55,16 @@ public class MembershipMockData {
 		return membershipNembers;
 	}
 
+	public String getMembershipNumber(LocalDateTime policyEffectiveDate, Integer memberPersistency) {
+		return getMembershipNumberForAvgAnnualERSperMember(policyEffectiveDate, memberPersistency, AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE);
+	}
+
 	public String getMembershipNumberForAvgAnnualERSperMember(LocalDateTime policyEffectiveDate, Integer memberPersistency, Double avgAnnualERSperMember) {
 		Set<String> membershipNumbersSet = getActiveAndPrimaryMembershipNumbers(policyEffectiveDate.minusYears(memberPersistency));
 		assertThat(membershipNumbersSet).as("No active and primary membership numbers were found for policyEffectiveDate=%1$s and memberPersistency=%2$s", policyEffectiveDate, memberPersistency)
 				.isNotEmpty();
 
-		if (avgAnnualERSperMember.equals(99.9)) {
+		if (avgAnnualERSperMember.equals(AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE)) {
 			return membershipNumbersSet.stream().findFirst().get();
 		}
 		String membershipNumber = getMembershipNumberForAvgAnnualERSperMember(membershipNumbersSet, policyEffectiveDate, avgAnnualERSperMember);
@@ -76,19 +78,19 @@ public class MembershipMockData {
 		for (String membershipNumber : getActiveAndPrimaryMembershipNumbersWithoutFaultCodes()) {
 			for (MembershipResponse r : getMembershipResponses(membershipNumber)) {
 				//Response is valid if memberStartDate=memberSinceDate
-				if (isEqualDates(r.getMemberStartDate(), memberSinceDate)) {
+				if (isEqualYears(r.getMemberStartDate(), memberSinceDate)) {
 					validMembershipNumbers.add(membershipNumber);
 					break;
 				}
 
 				//Response is valid if memberStartDate is empty AND today - memberStartDateMonthsOffset = memberSinceDate
-				if (r.getMemberStartDate() == null && r.getMemberStartDateMonthsOffset() != null && isEqualDates(today.minusMonths(Math.abs(r.getMemberStartDateMonthsOffset())), memberSinceDate)) {
+				if (r.getMemberStartDate() == null && r.getMemberStartDateMonthsOffset() != null && isEqualYears(today.minusMonths(Math.abs(r.getMemberStartDateMonthsOffset())), memberSinceDate)) {
 					validMembershipNumbers.add(membershipNumber);
 					break;
 				}
 
 				//Response is valid if memberSinceDate == today AND memberStartDate is empty AND memberStartDateMonthsOffset is empty
-				if (isEqualDates(today, memberSinceDate) && r.getMemberStartDate() == null && r.getMemberStartDateMonthsOffset() == null) {
+				if (isEqualYears(today, memberSinceDate) && r.getMemberStartDate() == null && r.getMemberStartDateMonthsOffset() == null) {
 					validMembershipNumbers.add(membershipNumber);
 					break;
 				}
@@ -172,5 +174,9 @@ public class MembershipMockData {
 
 	private boolean isEqualDates(LocalDateTime date1, LocalDateTime date2) {
 		return Objects.equals(date1, date2) || date1 != null && date2 != null && date1.toLocalDate().equals(date2.toLocalDate());
+	}
+
+	private boolean isEqualYears(LocalDateTime date1, LocalDateTime date2) {
+		return Objects.equals(date1, date2) || date1 != null && date2 != null && date1.getYear() == date2.getYear();
 	}
 }

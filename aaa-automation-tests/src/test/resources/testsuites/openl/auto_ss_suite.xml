@@ -40,7 +40,7 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
-    <test name="HomeSS [IN] Premium Calculation Test" preserve-order="true">
+    <test name="AutoSS [IN] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="IN"/>
         <parameter name="fileName" value="INTests-20170806_part1.xls"/>
         <parameter name="policyNumbers" value="1, 2"/>
@@ -124,6 +124,14 @@
         <parameter name="state" value="PA"/>
         <parameter name="fileName" value="PATests-20180312_part1.xls"/>
         <parameter name="policyNumbers" value="2, 10"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="AutoSS [SD] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="SD"/>
+        <parameter name="fileName" value="SDTests-20170601.xls"/>
+        <parameter name="policyNumbers" value="1, 120"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
