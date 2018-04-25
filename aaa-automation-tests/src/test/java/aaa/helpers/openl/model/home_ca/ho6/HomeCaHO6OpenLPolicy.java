@@ -7,7 +7,7 @@ import aaa.helpers.openl.model.home_ca.HomeCaOpenLForm;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
-public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy {
+public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaOpenLForm> {
 	@ExcelTableElement(sheetName = DWELLING_SHEET_NAME, headerRowIndex = DWELLING_HEADER_ROW_NUMBER)
 	private List<HomeCaHO6OpenLDwelling> dwelling;
 
@@ -37,6 +37,7 @@ public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy {
 		this.dwelling = new ArrayList<>(dwelling);
 	}
 
+	@Override
 	public List<HomeCaOpenLForm> getForms() {
 		return new ArrayList<>(forms);
 	}

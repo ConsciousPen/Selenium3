@@ -1,14 +1,15 @@
 package aaa.helpers.ssh;
 
+import com.jcraft.jsch.*;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import toolkit.config.PropertyProvider;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.jcraft.jsch.*;
-import toolkit.config.PropertyProvider;
 
 @SuppressWarnings("unchecked")
 public class Ssh {
@@ -111,12 +112,14 @@ public class Ssh {
 		source = parseFileName(source);
 
 		try {
+			closeSession(); //added to avoid hanging during file removal
 			openSftpChannel();
-			sftpChannel.cd("/");
+			//sftpChannel.cd("/"); //replaced with closing session above
 			sftpChannel.cd(source);
 			Vector<ChannelSftp.LsEntry> list = sftpChannel.ls("*");
+
 			if (list.size() == 0) {
-				closeSession();
+				//closeSession();
 				log.info("SSH: No files to delete in '" + source + "'.");
 				return;
 			}
@@ -163,14 +166,13 @@ public class Ssh {
 		try {
 			openSftpChannel();
 			String[] folders = destination.split("/");
-			folders = Arrays.copyOf(folders, folders.length-1);
+			folders = Arrays.copyOf(folders, folders.length - 1);
 			sftpChannel.cd("/");
 			for (String folder : folders) {
 				if (folder.length() > 0) {
 					try {
 						sftpChannel.cd(folder);
-					}
-					catch (SftpException e) {
+					} catch (SftpException e) {
 						sftpChannel.mkdir(folder);
 						sftpChannel.cd(folder);
 					}

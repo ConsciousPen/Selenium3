@@ -226,6 +226,11 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	@Override
+	public String getUnderwriterCode() {
+		return getCappingDetails().get(0).getUnderwriterCode();
+	}
+
+	@Override
 	public String toString() {
 		return "HomeSSOpenLPolicy{" +
 				"cappingDetails=" + cappingDetails +

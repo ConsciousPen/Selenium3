@@ -1,0 +1,33 @@
+TestData_Endorsement: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage E - Personal Liability Each Occurrence: 'contains=$1,000,000',
+    Deductible: 'contains=$100'
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+}
+
+MortgageesTab: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: {
+    Name: TestName,
+    Zip code:  24541,
+    Street address 1: 265 CHIPMAN AVE,
+    Loan number: 12345678,
+    Validate Address: '',
+    Validate Address Dialog: {}
+  }
+}
+
+PremiumsAndCoveragesQuoteTab_Mortgagee: {
+  Bill to at renewal: 'Mortgagee',
+  Payment plan: 'Mortgagee Bill',
+}

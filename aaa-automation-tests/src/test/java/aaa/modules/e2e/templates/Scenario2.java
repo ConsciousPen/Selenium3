@@ -7,6 +7,7 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.TimePoints;
@@ -97,7 +98,7 @@ public class Scenario2 extends ScenarioBaseTest {
 	protected void billNotGenerated() {
 		LocalDateTime secondBillGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(2));
 		TimeSetterUtil.getInstance().nextPhase(secondBillGenDate);
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		// Verify Bill is not generated
@@ -109,7 +110,7 @@ public class Scenario2 extends ScenarioBaseTest {
 	protected void generateSecondBill() {
 		LocalDateTime secondBillGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(2));
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(2), secondBillGenDate);
@@ -183,7 +184,7 @@ public class Scenario2 extends ScenarioBaseTest {
 			billDate = DateTimeUtils.getCurrentDateTime();
 		}
 		TimeSetterUtil.getInstance().nextPhase(billDate);
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(10), billDate);
@@ -207,6 +208,9 @@ public class Scenario2 extends ScenarioBaseTest {
 
 	protected void renewalPreviewGeneration() {
 		LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
+		if (DateTimeUtils.getCurrentDateTime().isAfter(renewPreviewGenDate)) { //case: payTenthBill() is Saturday -> Monday
+			renewPreviewGenDate = DateTimeUtils.getCurrentDateTime();
+		}
 		TimeSetterUtil.getInstance().nextPhase(renewPreviewGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		mainApp().open();
@@ -257,10 +261,12 @@ public class Scenario2 extends ScenarioBaseTest {
 
 		Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
 
-		// TODO Renew premium verification was excluded, due to unexpected installment calculations
-		// if (!getState().equals(States.KY) && !getState().equals(States.WV)) {
-		verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billGenDate, pligaOrMvleFee, installmentsCount);
-		// }
+		// verify using installment amount in separate cases
+		if (getState().equals(States.KY) && getPolicyType().equals(PolicyType.AUTO_SS)) {
+			verifyRenewalOfferPaymentAmountByIntallmentAmount(policyExpirationDate, billGenDate);
+		} else {
+			verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billGenDate, pligaOrMvleFee, installmentsCount);
+		}
 		verifyRenewPremiumNotice(policyExpirationDate, billGenDate, pligaOrMvleFee);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
@@ -292,7 +298,7 @@ public class Scenario2 extends ScenarioBaseTest {
 	protected void renewalPaymentNotGenerated() {
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-		JobUtils.executeJob(Jobs.recurringPaymentsJob);
+		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDueDate).setType(PaymentsAndOtherTransactionType.PAYMENT)

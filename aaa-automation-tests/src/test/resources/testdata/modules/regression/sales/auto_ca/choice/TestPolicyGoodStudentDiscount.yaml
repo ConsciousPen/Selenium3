@@ -1,0 +1,149 @@
+TestData_1: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab', 
+  DriverTab: '@DriverTab_1', 
+  MembershipTab: '@<auto_ca_choice>@DataGather@MembershipTab', 
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ca_choice>@DataGather@PurchaseTab'
+}
+
+TestData_2: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab', 
+  DriverTab: '@DriverTab_2', 
+  MembershipTab: '@<auto_ca_choice>@DataGather@MembershipTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ca_choice>@DataGather@PurchaseTab'
+}
+
+TestData_3: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab', 
+  DriverTab: '@DriverTab_3', 
+  MembershipTab: '@<auto_ca_choice>@DataGather@MembershipTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ca_choice>@DataGather@PurchaseTab'
+}
+
+TestData_4: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab', 
+  DriverTab: '@DriverTab_4', 
+  MembershipTab: '@<auto_ca_choice>@DataGather@MembershipTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ca_choice>@DataGather@PurchaseTab'
+}
+
+TestData_5: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab', 
+  DriverTab: '@DriverTab_5', 
+  MembershipTab: '@<auto_ca_choice>@DataGather@MembershipTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ca_choice>@DataGather@PurchaseTab'
+}
+
+CopyFromPolicyActionTab: {
+  Quote Effective Date: '$<today>'
+}
+
+DriverTab_1: { 
+  Date of Birth: $<today-24y>, 
+  Marital Status: Separated, 
+  Occupation: Homemaker, 
+  Age First Licensed: 18, 
+  Most Recent GPA: College Graduate  
+}
+
+DriverTab_2: { 
+  Date of Birth: $<today-23y>, 
+  Marital Status: Single, 
+  Occupation: Farmer, 
+  Age First Licensed: 18, 
+  Most Recent GPA: College Graduate  
+}
+
+DriverTab_3: { 
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Driver Type: Available for Rating, 
+  'Rel. to First Named Insured': Other,
+  First Name: Second,
+  Last Name: Driver,
+  Date of Birth: $<today-16y>, 
+  Gender: Male,
+  Marital Status: Single, 
+  Occupation: Student, 
+  Age First Licensed: 16, 
+  Permit Before License: 'No',
+  License Type: 'Licensed (US)',
+  "License #": C1234560, 
+  Most Recent GPA: B Student
+}
+
+DriverTab_4: { 
+  Date of Birth: $<today-25y>, 
+  Marital Status: Divorced, 
+  Occupation: Student,
+Age First Licensed: 18, 
+  Most Recent GPA: Pass  
+}
+
+DriverTab_5: { 
+  Date of Birth: $<today-24y>, 
+  Marital Status: Separated, 
+  Occupation: Homemaker, 
+  Age First Licensed: 16, 
+  Most Recent GPA: College Graduate,
+  #ActivityInformation: ['@Activity1']
+}
+
+PremiumAndCoveragesTab: {
+  Product: CA Choice, 
+  Payment Plan: Annual
+}
+
+DocumentsAndBindTab: {
+  RequiredToIssue: {
+    Proof of Good Student Discount: 'Yes'
+  }
+}
+
+# --------- Driver tab ---------- 
+TestData_Activity: {
+  DriverTab: '@DriverTab_Activity'
+}
+
+DriverTab_Activity: {
+  ActivityInformation: ['@Activity1']
+}
+
+Activity1: {
+  Activity Source: Customer Input,
+  Type: Major Violation, 
+  Occurrence Date: $<today-2y>, 
+  Description: Drag Racing, 
+}
+
+# ------ TestData for Rating Details verification ------
+TestData_GSDisApplied: {
+  'Good Student': 'Yes'
+}
+
+TestData_GSDisNotApplied: {
+  'Good Student': 'None'
+}
+
+# ----- TestData for endorsement ------
+TestData_Endorsement: {
+  DriverTab: '@DriverTab_2_Endorsement' 
+}
+
+DriverTab_2_Endorsement: {
+  Marital Status: Married 
+}

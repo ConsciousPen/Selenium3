@@ -1,18 +1,8 @@
 package aaa.utils.excel.io;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.io.*;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -21,6 +11,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.ExcelCell;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
@@ -29,16 +21,16 @@ import toolkit.exceptions.IstfException;
 public class ExcelManager {
 	protected static Logger log = LoggerFactory.getLogger(ExcelManager.class);
 
+	private final File file;
 	private boolean isOpened;
-	private File file;
-	private Set<CellType<?>> allowableCellTypes;
+	private List<CellType<?>> allowableCellTypes;
 	private Workbook workbook;
 	private Map<Integer, ExcelSheet> sheets;
 
 	public ExcelManager(File file, CellType<?>... allowableCellTypes) {
 		this.isOpened = false;
 		this.file = file;
-		this.allowableCellTypes = ArrayUtils.isNotEmpty(allowableCellTypes) ? new HashSet<>(Arrays.asList(allowableCellTypes)) : ExcelCell.getBaseTypes();
+		this.allowableCellTypes = ArrayUtils.isNotEmpty(allowableCellTypes) ? ImmutableList.copyOf(new HashSet(Arrays.asList(allowableCellTypes))) : ExcelCell.getBaseTypes();
 	}
 
 	public boolean isOpened() {
@@ -49,8 +41,9 @@ public class ExcelManager {
 		return this.file;
 	}
 
-	public Set<CellType<?>> getCellTypes() {
-		return new HashSet<>(this.allowableCellTypes);
+	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
+	public List<CellType<?>> getCellTypes() {
+		return this.allowableCellTypes;
 	}
 
 	public List<ExcelSheet> getSheets() {
@@ -117,7 +110,7 @@ public class ExcelManager {
 	}
 
 	public ExcelManager registerCellType(CellType<?>... cellTypes) {
-		this.allowableCellTypes.addAll(Arrays.asList(cellTypes));
+		this.allowableCellTypes = ImmutableSet.<CellType<?>>builder().addAll(getCellTypes()).add(cellTypes).build().asList();
 		getSheets().forEach(s -> s.registerCellType(cellTypes));
 		return this;
 	}

@@ -73,6 +73,16 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.term = term;
 	}
 
+	@Override
+	public Double getPreviousPolicyPremium() {
+		return getCappingDetails().get(0).getPreviousPolicyPremium();
+	}
+
+	@Override
+	public String getUnderwriterCode() {
+		return getCappingDetails().get(0).getUnderwriterCode();
+	}
+
 	public Integer getCreditScore() {
 		return creditScore;
 	}

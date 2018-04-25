@@ -1,6 +1,6 @@
 package aaa.utils.excel.io.entity.area.table;
 
-import java.util.Set;
+import java.util.List;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.poi.ss.usermodel.Cell;
 import aaa.utils.excel.io.celltype.CellType;
@@ -11,7 +11,7 @@ public class TableCell extends ExcelCell {
 		this(cell, columnIndexInTable, columnIndexOnSheet, tableRow, tableRow.getCellTypes());
 	}
 
-	public TableCell(Cell cell, int columnIndexInTable, int columnIndexOnSheet, TableRow tableRow, Set<CellType<?>> cellTypes) {
+	public TableCell(Cell cell, int columnIndexInTable, int columnIndexOnSheet, TableRow tableRow, List<CellType<?>> cellTypes) {
 		super(cell, columnIndexInTable, columnIndexOnSheet, tableRow, cellTypes);
 	}
 

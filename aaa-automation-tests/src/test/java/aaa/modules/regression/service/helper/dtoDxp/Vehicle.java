@@ -1,7 +1,8 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
+import java.util.Comparator;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.collect.ComparisonChain;
 import aaa.modules.regression.service.helper.RestBodyRequest;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -54,62 +55,35 @@ public class Vehicle implements RestBodyRequest {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public Boolean registeredOwner;
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public String vehTypeCd;
 
+	public String garagingAddressPostalCode;
 
-	public String getModelYear() {
-		return modelYear;
+	public String addressLine1;
+
+	public String addressLine2;
+
+	public String city;
+
+	public String stateProvCd;
+
+	public static class VehicleComparator implements Comparator<Vehicle> {
+		private static final String VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO = "PPA";
+		private static final String VEHICLE_STATUS_PENDING = "pending";
+		private static final String VEHICLE_STATUS_ACTIVE = "active";
+
+		@Override
+		public int compare(Vehicle v1, Vehicle v2) {
+			return ComparisonChain.start()
+					.compareTrueFirst(VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO.equals(v1.vehTypeCd),
+							VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO.equals(v2.vehTypeCd))
+					.compareTrueFirst(VEHICLE_STATUS_PENDING.equals(v1.vehicleStatus),
+							VEHICLE_STATUS_PENDING.equals(v2.vehicleStatus))
+					.compareTrueFirst(VEHICLE_STATUS_ACTIVE.equals(v1.vehicleStatus),
+							VEHICLE_STATUS_ACTIVE.equals(v2.vehicleStatus))
+					.compare(v1.oid, v2.oid)
+					.result();
+		}
 	}
-
-	public void setModelYear(String modelYear) {
-		this.modelYear = modelYear;
-	}
-
-	public String getManufacturer() {
-		return manufacturer;
-	}
-
-	public void setManufacturer(String manufacturer) {
-		this.manufacturer = manufacturer;
-	}
-
-	public String getSeries() {
-		return series;
-	}
-
-	public void setSeries(String series) {
-		this.series = series;
-	}
-
-	public String getModel() {
-		return model;
-	}
-
-	public void setModel(String model) {
-		this.model = model;
-	}
-
-	public String getBodyStyle() {
-		return bodyStyle;
-	}
-
-	public void setBodyStyle(String bodyStyle) {
-		this.bodyStyle = bodyStyle;
-	}
-
-	public String getPurchaseDate() {
-		return purchaseDate;
-	}
-
-	public void setPurchaseDate(String purchaseDate) {
-		this.purchaseDate = purchaseDate;
-	}
-
-	public String getVehicleStatus() {
-		return vehicleStatus;
-	}
-
-	public void setVehicleStatus(String vehicleStatus) {
-		this.vehicleStatus = vehicleStatus;
-	}
-
 }

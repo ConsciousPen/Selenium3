@@ -6,6 +6,7 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
     <parameter name="testsDir" value="src/test/resources/openl/auto_ss"/>
+
     <test name="AutoSS [AZ] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="AZ"/>
         <parameter name="fileName" value="AZTests-20171101.xls"/>
@@ -14,6 +15,7 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
+
     <test name="AutoSS [CO] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="CO"/>
         <parameter name="fileName" value="COTests-20171006.xls"/>
@@ -32,10 +34,35 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
+
     <test name="AutoSS [DC] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="DC"/>
         <parameter name="fileName" value="DCTests-20180114_part1.xls"/>
         <parameter name="policyNumbers" value="2, 3"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="HomeSS [IN] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="IN"/>
+        <parameter name="fileName" value="INTests-20170806_part1.xls"/>
+        <parameter name="policyNumbers" value="1, 2"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="AutoSS [MD - ACAIC] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="MD"/>
+        <parameter name="fileName" value="MDTests-ACAIC-20170922.xls"/>
+        <parameter name="policyNumbers" value="234, 235"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="AutoSS [MD - WUIC] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="MD"/>
+        <parameter name="fileName" value="MDTests-WUIC-20171201.xls"/>
+        <parameter name="policyNumbers" value="208, 210"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
@@ -48,7 +75,38 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
-
+    <test name="AutoSS [NJ] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="NJ"/>
+        <parameter name="fileName" value="NJTests-20180401_part1.xls"/>
+        <parameter name="policyNumbers" value="1, 101"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="AutoSS [NY] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="NY"/>
+        <parameter name="fileName" value="NYTests-20171101_part1.xls"/>
+        <parameter name="policyNumbers" value="1, 7"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="AutoSS [OH] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="OH"/>
+        <parameter name="fileName" value="OHTests-20170803_part1.xls"/>
+        <parameter name="policyNumbers" value="1, 6"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="AutoSS [OK] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="OK"/>
+        <parameter name="fileName" value="OKTests-20170617.xls"/>
+        <parameter name="policyNumbers" value="1, 2"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
     <test name="AutoSS [OR] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="OR"/>
         <parameter name="fileName" value="ORTests-20170915.xls"/>
@@ -57,6 +115,7 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
+
     <test name="AutoSS [PA] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="PA"/>
         <parameter name="fileName" value="PATests-20180312_part1.xls"/>
@@ -74,7 +133,14 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
-
+    <test name="AutoSS [VA] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="VA"/>
+        <parameter name="fileName" value="VATests-20171101_part1.xls"/>
+        <parameter name="policyNumbers" value="1, 5"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
     <test name="AutoSS [WY] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="WY"/>
         <parameter name="fileName" value="WYTests-20171201.xls"/>

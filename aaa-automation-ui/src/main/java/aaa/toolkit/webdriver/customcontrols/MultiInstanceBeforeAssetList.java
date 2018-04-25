@@ -1,7 +1,6 @@
 package aaa.toolkit.webdriver.customcontrols;
 
 import org.openqa.selenium.By;
-
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.Button;
@@ -21,12 +20,10 @@ public class MultiInstanceBeforeAssetList extends MultiAssetList {
 	@Override
 	protected void addSection(int index, int size) {
 		((Button) getAssetCollection().get("Add")).click();
-
 	}
 
 	@Override
 	protected void selectSection(int index) {
-
 	}
 
 	@Override
@@ -34,5 +31,4 @@ public class MultiInstanceBeforeAssetList extends MultiAssetList {
 		selectSection(index);
 		super.setSectionValue(index, value);
 	}
-
 }

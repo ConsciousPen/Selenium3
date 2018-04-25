@@ -1,17 +1,13 @@
 TestData_AllVehicles: {
-    VehicleTab: ['@VehicleTab_First', '@VehicleTab_Other'],
+    VehicleTab: ['@VehicleTab_1', '@VehicleTab_2'],
 }
 
-VehicleTab_Other: {
-    Usage: Pleasure,
-    VIN: 2GNWGPFG9B2222222,
-    Make: 'OTHER',
-    Other Make: 'Other Make',
-    Other Model: 'Model',
-    Other Series: 'Series',
-    'Other Body Style': 'Sedan',
-    Stat Code: 'Small SUV',
-    'Stated Amount': '10000',
+TestData_Vehicle: {
+    VehicleTab: ['@VehicleTab_First','@VehicleTab_Van','@VehicleTab_Second','@VehicleTab_Motor_Home'],
+}
+
+TestData_AllVehiclesCoverage: {
+    VehicleTab: ['@VehicleTab_2018'],
 }
 
 VehicleTab_First: {
@@ -20,8 +16,83 @@ VehicleTab_First: {
     VIN: WDCYC7BB0B6729451
 }
 
+ErrorTab: {
+  ErrorsOverride: {
+  Override: 'true',
+  'Reason for override': 'index=1',
+  Duration: 'Term'
+  }
+  }
+
+VehicleTab_1: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: WDCYC7BB0B6729451,
+    'Is Garaging different from Residential?': 'Yes',
+    Zip Code: '23703',
+    'Address Line 1': '4112 Forrest Hills Dr',
+    Validate Address: Click,
+    Validate Address Dialog: {},
+    Order Prefill: click
+}
+
+VehicleTab_2: {
+    Usage: Pleasure,
+    VIN: 1FM5K8D86JGA29926,
+    'Is Garaging different from Residential?': 'Yes',
+    Zip Code: '23703',
+    'Address Line 1': '4112 Forrest Hills Dr',
+    Validate Address: Click,
+    Validate Address Dialog: {},
+   Order Prefill: click
+}
+
+VehicleTab_2018: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: 1FM5K8D86JGA29926,
+    Ownership: {
+     Ownership Type: Leased,
+     First Name: BANK OF AMERICA
+    }
+}
+
+VehicleTab_Van: {
+    Type: Conversion Van,
+    Usage: Pleasure,
+    VIN: 5FNRL5H64GB087983,
+    Make: 'OTHER',
+    Other Make: 'Other Make',
+    Other Model: 'Model',
+    Other Series: 'Series',
+   'Other Body Style': 'Sedan',
+    Stat Code: 'Cargo Van',
+   'Stated Amount': '50000',
+}
+
+VehicleTab_Motor_Home: {
+    Add Vehicle: Click,
+    Type: Motor Home,
+    Motor Home Type: Mini Motor Home (Class C),
+    Usage: Pleasure Use - Occupied Less than 30 Days a Year,
+    VIN: 5B4MP67G123353230,
+    Other Make: 'Motor',
+    Other Model: 'Motor',
+   Stated Amount: '50000',
+}
+
+VehicleTab_Second: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: 1GAZG1FG7D1145543
+}
+
 TestData_AllDrivers: {
     DriverTab: ['@Driver_one', '@Driver_two'],
+}
+
+TestData_ThreeDrivers: {
+    DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three'],
 }
 
 Driver_one: {
@@ -38,13 +109,36 @@ Driver_two: {
    "Policy #": '123456789',
     Rel. to First Named Insured: Child,
     First Name: 'John',
+    Middle Name: 'Sam',
     Last Name: 'Smith',
     Date of Birth: '12/12/1980',
     Gender: 'Male',
+    Suffix: 'II',
     Marital Status: Married,
     Occupation: 'index=1',
     License Type: 'Licensed (US)',
     Age First Licensed: '18',
     License Number: 'T60355298',
+    License Status: 'Licensed (US)'
+}
+
+Driver_three: {
+   Add drivers: 'Yes',
+    DriverSearchDialog: {},
+   "Policy #": '123456788',
+    Rel. to First Named Insured: Child,
+    Driver Type: 'Not Available for Rating',
+    Reason: 'Other',
+    First Name: 'Laura',
+    Middle Name: 'Sara',
+    Last Name: 'Smith',
+    Suffix: 'III',
+    Date of Birth: '12/12/1991',
+    Gender: 'Female',
+    Marital Status: Single,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: 'T60355777',
     License Status: 'Licensed (US)'
 }

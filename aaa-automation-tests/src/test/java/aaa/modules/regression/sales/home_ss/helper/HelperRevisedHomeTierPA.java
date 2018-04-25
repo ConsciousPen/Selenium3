@@ -1,5 +1,9 @@
 package aaa.modules.regression.sales.home_ss.helper;
 
+import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.INSURANCE_SCORE_REPORT;
+import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.InsuranceScoreReportRow.CUSTOMER_AGREEMENT;
+import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.InsuranceScoreReportRow.ORDER_INSURANCE_SCORE;
+import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.SALES_AGENT_AGREEMENT;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -17,23 +21,24 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.home_ss.dp3.functional.TestPARevisedHomeTierAutoNA;
+import aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport;
+import aaa.toolkit.webdriver.customcontrols.FillableTable;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.RadioGroup;
 
 public class HelperRevisedHomeTierPA extends PolicyBaseTest {
 
     private ApplicantTab applicantTab = new ApplicantTab();
     private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
     private PurchaseTab purchaseTab = new PurchaseTab();
+    private ReportsTab reportsTab = new ReportsTab();
+    private BindTab bindTab = new BindTab();
     private Range<String> rangeMarketTier = Range.between("A", "J");
 
     private ComboBox policyTier = applicantTab.getAssetList()
@@ -45,13 +50,15 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
             .getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES)
             .getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_SEARCH);
 
+    private final LocalDateTime algoDate = LocalDateTime.of(2018, Month.JUNE, 1, 0, 0);
+
 
     public void pas6849_TestDisplayAutoTierOnApplicantTab(PolicyType policyType) {
 
         TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData");
 
         // TODO This can be removed after 5/28/18 (effective date requirement for new rating algo)
-        verifyAlgoDate();
+        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         // Create the customer
         mainApp().open();
@@ -91,7 +98,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
                 .adjust(PrefillTab.class.getSimpleName(), testDataManager.getDefault(TestPARevisedHomeTierAutoNA.class).getTestData("TestData_PrefillTab_OH"));
 
         // TODO This can be removed after 5/28/18 (effective date requirement for new rating algo)
-        verifyAlgoDate();
+        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         // Create the customer
         mainApp().open();
@@ -138,7 +145,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         rangeAutoTier.add("N/A");
 
         // TODO This needs to be removed after 5/28/18 (new algo implementation)
-        verifyAlgoDate();
+        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         mainApp().open();
         createCustomerIndividual();
@@ -206,7 +213,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
     public void pas6829_TestPrivelegeToEditCompanionAutoTier(PolicyType policyType) {
 
         // TODO This needs to be removed after 5/28/18 (new algo implementation)
-        verifyAlgoDate();
+        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         // Log in with default User with privilege to edit policy tier
         mainApp().open();
@@ -276,7 +283,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
     public void pas6829_TestPrivelegeToEditManualCompanionAutoTier(PolicyType policyType) {
 
         // TODO This needs to be removed after 5/28/18 (new algo implementation)
-        verifyAlgoDate();
+        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         // Log in with default User with privilege to edit policy tier
         mainApp().open();
@@ -342,6 +349,61 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         mainApp().close();
     }
 
+    public void pas6795_disableReorderReportEndorsement(PolicyType policyType) {
+
+        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
+
+        mainApp().open();
+        createPolicyVerifyOverrideLink(policyType);
+
+        // Initiate Endorsement and verify Override Link
+        policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(policyType).getTestData("Endorsement"), "TestData"));
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
+        assertThat(reportsTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst()).isPresent(false);
+
+        // Navigate to Applicant tab and add another named insured
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
+        applicantTab.fillTab(testDataManager.getDefault(TestDisableReorderReport.class).getTestData("TestData"));
+
+        // Navigate to Reports tab; verify 'Reorder Report' radio and 'Override Score' link
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
+        reportsTab.tblInsuranceScoreReport.getRow(2).getCell(ORDER_INSURANCE_SCORE.getLabel()).controls.radioGroups.get(1).setValue("Yes");
+        reportsTab.getAssetList().getAsset(INSURANCE_SCORE_REPORT.getLabel(), FillableTable.class).getAsset(CUSTOMER_AGREEMENT.getLabel(), RadioGroup.class).setValue("Customer agrees");
+        reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
+        assertThat(reportsTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst()).isPresent(false);
+        assertThat(reportsTab.tblInsuranceScoreReport.getRow(2).getCell("Report").controls.links.getFirst()).isPresent(false);
+
+        // Bind the policy
+        reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.get("Re-order report").click();
+        premiumsAndCoveragesQuoteTab.calculatePremium();
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+        bindTab.submitTab();
+
+        // Verify the policy was bound without rules
+        assertThat(PolicySummaryPage.labelPolicyNumber).isPresent();
+    }
+
+    public void pas6827_disableReorderReportRenewal(PolicyType policyType) {
+
+        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
+
+        // Create HO Policy
+        mainApp().open();
+        createPolicyVerifyOverrideLink(policyType);
+
+        // Initiate Renewal, navigate to Reports Tab
+        policyType.get().renew().perform();
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
+
+        // Verify 'Override Score' link is disabled
+        assertThat(reportsTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst()).isPresent(false);
+
+        // Verify 'View report' link is displayed (instead of Reorder report) and enabled
+        assertThat(reportsTab.tblInsuranceScoreReport.getRow(1).getCell("Report").getValue()).isEqualTo("View report");
+        assertThat(reportsTab.tblInsuranceScoreReport.getRow(1).getCell("Report").controls.links.getFirst()).isPresent(true);
+        
+    }
+
 
     private TestData getTdWithAutoPolicy(TestData tdAuto, PolicyType policyType) {
         PolicyType.AUTO_SS.get().createPolicy(tdAuto);
@@ -351,16 +413,22 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
                 .adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()), tdOtherActive);
     }
 
-    public void verifyAlgoDate() {
-        LocalDateTime algoEffectiveDate = LocalDateTime.of(2018, Month.JUNE, 1, 0, 0);
-        if (TimeSetterUtil.getInstance().getCurrentTime().isBefore(algoEffectiveDate)) {
-            TimeSetterUtil.getInstance().nextPhase(algoEffectiveDate);
-        }
-    }
 
     private void loginA30(){
         TestData loginTD = initiateLoginTD().adjust("Groups", "A30");
         loginTD.adjust("User", "qa_roles");
         mainApp().open(loginTD);
+    }
+
+    private void createPolicyVerifyOverrideLink(PolicyType policyType) {
+        TestData tdHO = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData");
+
+        createCustomerIndividual();
+        policyType.get().initiate();
+        policyType.get().getDefaultView().fillUpTo(tdHO, ReportsTab.class, true);
+        assertThat(reportsTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst()).isEnabled();
+        reportsTab.submitTab();
+        policyType.get().getDefaultView().fillFromTo(tdHO, PropertyInfoTab.class, PurchaseTab.class, true);
+        purchaseTab.submitTab();
     }
 }

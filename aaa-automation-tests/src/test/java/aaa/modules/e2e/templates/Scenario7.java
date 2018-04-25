@@ -11,22 +11,13 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.billing.BillingAccountPoliciesVerifier;
-import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
-import aaa.helpers.billing.BillingHelper;
-import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
-import aaa.helpers.billing.RemittancePaymentsHelper;
+import aaa.helpers.billing.*;
 import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
-import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
-import aaa.main.enums.BillingConstants.BillsAndStatementsType;
-import aaa.main.enums.BillingConstants.ExternalPaymentSystem;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionStatus;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
+import aaa.main.enums.BillingConstants.*;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.MyWorkConstants;
 import aaa.main.enums.PolicyConstants.PolicyRenewalsTable;
@@ -41,9 +32,10 @@ import aaa.main.pages.summary.MyWorkSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
-//import toolkit.verification.CustomAssert;
 import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.composite.table.Table;
+
+//import toolkit.verification.CustomAssert;
 
 public class Scenario7 extends ScenarioBaseTest {
 
@@ -133,7 +125,7 @@ public class Scenario7 extends ScenarioBaseTest {
 	protected void generateThirdBill() {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(3));
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -159,7 +151,7 @@ public class Scenario7 extends ScenarioBaseTest {
 	protected void generateTenthBill() {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(10));
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -373,7 +365,16 @@ public class Scenario7 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 
 		Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
-		verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billDate, pligaOrMvleFee, installmentsCount);
+		
+		// verify using installment amount in separate cases
+		if ((getState().equals(States.OK) && getPolicyType().equals(PolicyType.PUP)) ||
+			(getState().equals(States.KY) && getPolicyType().equals(PolicyType.AUTO_SS)) ||
+			(getState().equals(States.NJ) && getPolicyType().equals(PolicyType.AUTO_SS))) {
+			verifyRenewalOfferPaymentAmountByIntallmentAmount(policyExpirationDate, billDate);
+		} else {
+			verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billDate, pligaOrMvleFee, installmentsCount);
+		}
+		
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE).verifyPresent();
 		if (getState().equals(States.NY)) {
 			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(pligaOrMvleFeeLastTransactionDate).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.MVLE_FEE).verifyPresent();
@@ -411,7 +412,7 @@ public class Scenario7 extends ScenarioBaseTest {
 	protected void generateFirstRenewalBill() {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(1).plusYears(1));
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);

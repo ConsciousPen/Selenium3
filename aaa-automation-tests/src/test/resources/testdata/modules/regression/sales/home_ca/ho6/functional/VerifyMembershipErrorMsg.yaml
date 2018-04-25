@@ -419,14 +419,14 @@ TestData_OtherPerson: {
 GeneralTab: {
   PolicyInfo: {
     Policy type: 'HO6',
-    Effective date: '/today:MM/dd/yyyy',
+    Effective date: '$<today:MM/dd/yyyy>',
     Lead source: 'AAA Magazines',
     },
   CurrentCarrier: {
     Carrier name: 'AAA - NCNU',
     Policy type: 'HO6',
     Continuous years with HO insurance: '5',
-    Base date with AAA: '/today:MM/dd/yyyy',
+    Base date with AAA: '$<today:MM/dd/yyyy>',
     }
 }
 
@@ -727,7 +727,7 @@ AdditionalInterest: {
   Zip code: '90201',
   Street address 1: '265 CHIPMAN AVE',
   Description of interest: test,
-  Effective date: '/today:MM/dd/yyyy'
+  Effective date: '$<today:MM/dd/yyyy>'
 }
 
 TestData_AddForm_HO75: {

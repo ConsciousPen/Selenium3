@@ -245,7 +245,7 @@ InitiateRenewalEntryActionTab_MD: {
   Previous Policy Number: '$<rx:\d{10}>',
   Previous Source System: MAIG,
   Risk State: MD,
-  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Effective Date: '$<today+60d:MM/dd/yyyy>',
   Policy Term: Annual,
   Enrolled in Autopay: 'No'
 }
