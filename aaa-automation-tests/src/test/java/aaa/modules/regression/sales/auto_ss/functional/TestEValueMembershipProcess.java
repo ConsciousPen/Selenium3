@@ -1329,7 +1329,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		}
 	}
 
-	private void transactionHistoryRecordCountCheck(String policyNumber, int rowCount, String value) {
+	public void transactionHistoryRecordCountCheck(String policyNumber, int rowCount, String value) {
 		PolicySummaryPage.buttonTransactionHistory.click();
 		CustomAssert.assertEquals(PolicySummaryPage.tableTransactionHistory.getRowsCount(), rowCount);
 		String valueShort = "";
@@ -1353,7 +1353,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	private void lastTransactionHistoryExit() {
 		if (Tab.buttonCancel.isPresent()) {
 			premiumAndCoveragesTab.cancel();
-			Tab.buttonCancel.click();
+			if (Tab.buttonCancel.isPresent()) {
+				Tab.buttonCancel.click();
+			}
 		}
 	}
 

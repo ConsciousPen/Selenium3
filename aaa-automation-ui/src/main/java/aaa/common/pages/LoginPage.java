@@ -16,11 +16,7 @@ import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.ListBox;
-import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.TextBox;
+import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -59,7 +55,7 @@ public class LoginPage extends Page implements ILogin {
 		try {
 			if (!BrowserController.get().driver().findElements(By.xpath(NavigationPage.LINKS_NAVIGATION_VIEW_TREE)).isEmpty()) {
 				BrowserController.get().executeScript("$(\'#headerForm\').show();");
-				if(Tab.buttonSaveAndExit.isPresent()&&Tab.buttonSaveAndExit.isVisible()){
+				if (Tab.buttonSaveAndExit.isPresent() && Tab.buttonSaveAndExit.isVisible()) {
 					Tab.buttonSaveAndExit.click();
 				}
 			}
