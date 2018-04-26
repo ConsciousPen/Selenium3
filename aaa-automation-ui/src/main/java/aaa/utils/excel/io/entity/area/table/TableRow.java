@@ -91,7 +91,7 @@ public class TableRow extends ExcelRow<TableCell> {
 	}
 
 	public int getIndex(String headerColumnName, boolean ignoreCase) {
-		return getTable().getHeader().getColumnIndex(headerColumnName);
+		return getTable().getHeader().getColumnIndex(headerColumnName, ignoreCase);
 	}
 
 	public int getIndexOnSheet(String headerColumnName) {
@@ -104,6 +104,15 @@ public class TableRow extends ExcelRow<TableCell> {
 
 	public String getColumnName(int columnIndex) {
 		return getTable().getHeader().getColumnName(columnIndex);
+	}
+
+	public List<TableCell> getCellsByHeaderColumnNames(List<String> headerColumnsNames) {
+		return getCellsByHeaderColumnNames(headerColumnsNames, false);
+	}
+
+	public List<TableCell> getCellsByHeaderColumnNames(List<String> headerColumnsNames, boolean ignoreCase) {
+		List<Integer> headerColumnsIndexes = headerColumnsNames.stream().map(columnName -> getIndex(columnName, ignoreCase)).collect(Collectors.toList());
+		return getCellsByIndexes(headerColumnsIndexes);
 	}
 
 	public List<TableCell> getCellsContains(String headerColumnNamePattern) {

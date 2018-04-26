@@ -8,11 +8,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
+import org.apache.commons.lang3.ArrayUtils;
 import com.google.common.collect.ImmutableSet;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.Writable;
 import aaa.utils.excel.io.entity.iterator.CellIterator;
+import toolkit.exceptions.IstfException;
 
 public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, Iterable<CELL> {
 	private final int queueIndexInArea;
@@ -50,6 +52,27 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 			this.cells = gatherCells(getCellsIndexesOnSheet(), getCellTypes());
 		}
 		return Collections.unmodifiableList(this.cells);
+	}
+
+	public abstract List<CELL> getCellsByIndexes(List<Integer> cellsIndexesInQueue);
+
+	public CELL getCellByValue(Object expectedValue) {
+		for (CELL cell : getCells()) {
+			if (cell.hasValue(expectedValue)) {
+				return cell;
+			}
+		}
+		throw new IstfException(String.format("There is no cell with \"%1$s\" value in %2$s", expectedValue, this));
+	}
+
+	public <T> CELL getCellByValue(T expectedValue, CellType<T> cellType, DateTimeFormatter... formatters) {
+		for (CELL cell : getCells()) {
+			if (cell.hasValue(expectedValue, cellType, formatters)) {
+				return cell;
+			}
+		}
+		throw new IstfException(String.format("There is no cell with \"%1$s\" value of %2$s type%3$s in %3$s",
+				expectedValue, cellType, ArrayUtils.isNotEmpty(formatters) ? " with date formatters: " + Arrays.asList(formatters) : "", this));
 	}
 
 

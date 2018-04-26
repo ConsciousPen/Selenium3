@@ -180,12 +180,16 @@ public abstract class ExcelCell implements Writable {
 				'}';
 	}
 
-	public LocalDateTime getDateValue(DateTimeFormatter... formatters) {
-		return ((LocalDateTimeCellType) LOCAL_DATE_TIME_TYPE).getValueFrom(this, formatters);
+	public LocalDateTime getDateValue() {
+		return LOCAL_DATE_TIME_TYPE.getValueFrom(this);
 	}
 
-	public boolean isDate(DateTimeFormatter... formatters) {
-		return ((LocalDateTimeCellType) LOCAL_DATE_TIME_TYPE).isTypeOf(this, formatters);
+	public LocalDateTime getDateValue(List<DateTimeFormatter> dateTimeFormatters) {
+		return ((LocalDateTimeCellType) LOCAL_DATE_TIME_TYPE).getValueFrom(this, dateTimeFormatters);
+	}
+
+	public boolean isDate(List<DateTimeFormatter> dateTimeFormatters) {
+		return ((LocalDateTimeCellType) LOCAL_DATE_TIME_TYPE).isTypeOf(this, dateTimeFormatters);
 	}
 
 	public <T> T getValue(CellType<T> cellType) {
@@ -201,9 +205,9 @@ public abstract class ExcelCell implements Writable {
 		return hasValue(expectedValue, getType(expectedValue));
 	}
 
-	public <T> boolean hasValue(T expectedValue, CellType<T> cellType, DateTimeFormatter... formatters) {
-		if (isDate(formatters)) {
-			return Objects.equals(getDateValue(formatters), expectedValue);
+	public <T> boolean hasValue(T expectedValue, CellType<T> cellType, DateTimeFormatter... dateTimeFormatters) {
+		if (isDate(dateTimeFormatters)) {
+			return Objects.equals(getDateValue(dateTimeFormatters), expectedValue);
 		}
 		//return getCellTypes().stream().anyMatch(cType -> Objects.equals(getValue(cType), expectedValue));
 		return cellType != null ? Objects.equals(getValue(cellType), expectedValue) : Objects.equals(getValue(), expectedValue);

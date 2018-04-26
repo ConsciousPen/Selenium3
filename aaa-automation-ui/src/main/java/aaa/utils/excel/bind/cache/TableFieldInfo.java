@@ -4,9 +4,9 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import aaa.utils.excel.bind.BindHelper;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
-import aaa.utils.excel.bind.helper.BindHelper;
-import aaa.utils.excel.bind.helper.ColumnFieldHelper;
 import aaa.utils.excel.io.entity.area.table.TableCell;
 import aaa.utils.excel.io.entity.area.table.TableHeader;
 
@@ -15,13 +15,12 @@ public final class TableFieldInfo {
 	private final List<Integer> headerColumnsIndexes;
 
 	private Boolean isCaseIgnored;
-	private Boolean isMultyColumnsField;
-	private Boolean isTableField;
 	private Boolean isPrimaryKeyField;
 	private Boolean hasHeaderColumnNamePattern;
+	private String primaryKeysSeparator;
 	private String headerColumnName;
-	private String headerColumnNamePattern;
 	private Class<?> tableClass;
+	private BindType bindType;
 
 	public TableFieldInfo(Field tableField) {
 		this.tableField = tableField;
@@ -34,37 +33,12 @@ public final class TableFieldInfo {
 
 	public boolean isCaseIgnored() {
 		if (this.isCaseIgnored == null) {
-			this.isCaseIgnored = ColumnFieldHelper.isCaseIgnored(tableField);
+			if (tableField.isAnnotationPresent(ExcelColumnElement.class)) {
+				this.isCaseIgnored = tableField.getAnnotation(ExcelColumnElement.class).ignoreCase();
+			}
+			return ExcelColumnElement.DEFAULT_CASE_IGNORED;
 		}
 		return this.isCaseIgnored;
-	}
-
-	public String getHeaderColumnName() {
-		if (this.headerColumnName == null) {
-			this.headerColumnName = hasHeaderColumnNamePattern() ? ColumnFieldHelper.getHeaderColumnNamePattern(tableField) : ColumnFieldHelper.getHeaderColumnName(tableField);
-		}
-		return this.headerColumnName;
-	}
-
-	public boolean isMultyColumnsField() {
-		if (this.isMultyColumnsField == null) {
-			this.isMultyColumnsField = List.class.equals(tableField.getType()) && !isTableField();
-		}
-		return this.isMultyColumnsField;
-	}
-
-	public boolean isTableField() {
-		if (this.isTableField == null) {
-			this.isTableField = BindHelper.isTableClassField(getTableField());
-		}
-		return this.isTableField;
-	}
-
-	public Class<?> getTableClass() {
-		if (this.tableClass == null) {
-			this.tableClass = BindHelper.getTableClass(getTableField());
-		}
-		return this.tableClass;
 	}
 
 	public boolean isPrimaryKeyField() {
@@ -74,13 +48,48 @@ public final class TableFieldInfo {
 		return this.isPrimaryKeyField;
 	}
 
-	/*public boolean hasHeaderColumnIndexesListByContainsPattern() {
-		return hasHeaderColumnNamePattern() && List.class.equals(tableField.getType());
-	}*/
+	public String getPrimaryKeySeparator() {
+		if (this.primaryKeysSeparator == null) {
+			if (tableField.isAnnotationPresent(ExcelColumnElement.class)) {
+				this.primaryKeysSeparator = tableField.getAnnotation(ExcelColumnElement.class).primaryKeysSeparator();
+			} else {
+				this.primaryKeysSeparator = ExcelColumnElement.DEFAULT_PRIMARY_KEY_SEPARATOR;
+			}
+		}
+		return this.primaryKeysSeparator;
+	}
+
+	public String getHeaderColumnName() {
+		if (this.headerColumnName == null) {
+			this.headerColumnName = hasHeaderColumnNamePattern() ? getHeaderColumnNamePattern(tableField) : getHeaderColumnName(tableField);
+		}
+		return this.headerColumnName;
+	}
+
+	public Class<?> getTableClass() {
+		if (this.tableClass == null) {
+			this.tableClass = BindHelper.getTableClass(getTableField());
+		}
+		return this.tableClass;
+	}
+
+	public BindType getBindType() {
+		if (this.bindType == null) {
+			if (BindHelper.isTableClassField(getTableField())) {
+				this.bindType = BindType.TABLE;
+			} else if (List.class.equals(tableField.getType())) {
+				this.bindType = BindType.MULTY_COLUMNS;
+			} else {
+				this.bindType = BindType.REGULAR;
+			}
+		}
+		return this.bindType;
+	}
 
 	public boolean hasHeaderColumnNamePattern() {
 		if (this.hasHeaderColumnNamePattern == null) {
-			this.hasHeaderColumnNamePattern = ColumnFieldHelper.hasHeaderColumnNamePattern(tableField);
+			this.hasHeaderColumnNamePattern = tableField.isAnnotationPresent(ExcelColumnElement.class)
+					&& !Objects.equals(tableField.getAnnotation(ExcelColumnElement.class).containsName(), ExcelColumnElement.DEFAULT_COLUMN_NAME);
 		}
 		return this.hasHeaderColumnNamePattern;
 	}
@@ -109,15 +118,30 @@ public final class TableFieldInfo {
 				if (isColumnFound) {
 					headerColumnsIndexes.add(cell.getColumnIndex());
 					isColumnFound = false;
-					if (!isMultyColumnsField()) {
+					if (!getBindType().equals(BindType.MULTY_COLUMNS)) {
 						break;
 					}
 				}
 			}
-			/*assertThat(this.headerColumnsIndexes).as("There are no header column names which %1$s: \"%2$s\"%3$s in %4$s",
-					hasHeaderColumnNamePattern() ? "contains pattern" : "equals to", getHeaderColumnName(), ignoreCase ? " with ignored case" : "", header).isNotEmpty();*/
 		}
 
 		return Collections.unmodifiableList(this.headerColumnsIndexes);
+	}
+
+	private String getHeaderColumnNamePattern(Field field) {
+		return field.getAnnotation(ExcelColumnElement.class).containsName();
+	}
+
+	private String getHeaderColumnName(Field field) {
+		if (field.isAnnotationPresent(ExcelColumnElement.class) && !field.getAnnotation(ExcelColumnElement.class).name().equals(ExcelColumnElement.DEFAULT_COLUMN_NAME)) {
+			return field.getAnnotation(ExcelColumnElement.class).name();
+		}
+		return field.getName();
+	}
+
+	public enum BindType {
+		REGULAR,
+		MULTY_COLUMNS,
+		TABLE
 	}
 }

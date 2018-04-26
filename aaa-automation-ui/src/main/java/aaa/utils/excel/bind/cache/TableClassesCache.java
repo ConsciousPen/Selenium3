@@ -3,22 +3,22 @@ package aaa.utils.excel.bind.cache;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
-import aaa.utils.excel.bind.helper.BindHelper;
+import aaa.utils.excel.bind.BindHelper;
 import aaa.utils.excel.io.ExcelManager;
 
 public class TableClassesCache {
 	private final ExcelManager excelManager;
-	private final boolean strictMatch;
+	private final boolean strictMatchBinding;
 	private final Map<Class<?>, TableClassInfo> tableClassesMap;
 
-	public TableClassesCache(ExcelManager excelManager, boolean strictMatch) {
+	public TableClassesCache(ExcelManager excelManager, boolean strictMatchBinding) {
 		this.excelManager = excelManager;
-		this.strictMatch = strictMatch;
+		this.strictMatchBinding = strictMatchBinding;
 		this.tableClassesMap = new HashMap<>();
 	}
 
-	public boolean isStrictMatch() {
-		return this.strictMatch;
+	public boolean isStrictMatchBinding() {
+		return this.strictMatchBinding;
 	}
 
 	public TableClassInfo of(Field field) {
@@ -27,7 +27,7 @@ public class TableClassesCache {
 
 	public TableClassInfo of(Class<?> tableClass) {
 		if (!this.tableClassesMap.containsKey(tableClass)) {
-			TableClassInfo tableClassInfo = new TableClassInfo(tableClass, this.excelManager, this.strictMatch);
+			TableClassInfo tableClassInfo = new TableClassInfo(tableClass, this.excelManager, this.strictMatchBinding);
 			this.tableClassesMap.put(tableClass, tableClassInfo);
 			return tableClassInfo;
 		}

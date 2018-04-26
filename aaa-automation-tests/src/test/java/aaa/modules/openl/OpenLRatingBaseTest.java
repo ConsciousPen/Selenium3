@@ -1,21 +1,15 @@
 package aaa.modules.openl;
 
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.common.Tab;
-import aaa.common.pages.SearchPage;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.model.OpenLTest;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
@@ -48,7 +42,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		//TODO-dchubkov: assert that date in openLFileName is valid
 		List<P> openLPolicies = getOpenLPolicies(openLFileName, openLPolicyModelClass, policyNumbers);
 
-		mainApp().open();
+		/*mainApp().open();
 		String customerNumber = createCustomerIndividual();
 		assertSoftly(softly -> {
 			for (P openLPolicy : openLPolicies) {
@@ -67,7 +61,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 				log.info("Premium calculation verification for policy #{} has been {}", Tab.labelPolicyNumber.getValue(), actualPremium.equals(openLPolicy.getExpectedPremium()) ? "passed" : "failed");
 				Tab.buttonSaveAndExit.click();
 			}
-		});
+		});*/
 	}
 
 	protected abstract Dollar createAndRateQuote(TestDataGenerator<P> tdGenerator, P openLPolicy);
@@ -83,10 +77,10 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 			excelUnmarshaller.flushCache().close();
 		}
 
-		openLPolicies = getOpenLPoliciesWithExpectedPremiums(openLPolicies, openLTests);
+		//openLPolicies = getOpenLPoliciesWithExpectedPremiums(openLPolicies, openLTests);
 
 		//Sort policies list by effective date for further valid time shifts
-		openLPolicies = openLPolicies.stream().sorted(Comparator.comparing(OpenLPolicy::getEffectiveDate)).collect(Collectors.toList());
+		//openLPolicies = openLPolicies.stream().sorted(Comparator.comparing(OpenLPolicy::getEffectiveDate)).collect(Collectors.toList());
 		return openLPolicies;
 	}
 

@@ -29,6 +29,11 @@ public abstract class ExcelRow<CELL extends ExcelCell> extends CellsQueue<CELL> 
 	}
 
 	@Override
+	public List<CELL> getCellsByIndexes(List<Integer> columnsIndexesInRow) {
+		return getCells().stream().filter(c -> columnsIndexesInRow.contains(c.getColumnIndex())).collect(Collectors.toList());
+	}
+
+	@Override
 	public boolean hasCell(int columnIndexInRow) {
 		//return getCells().stream().anyMatch(c -> c.getColumnIndex() == columnIndexInRow);
 		for (CELL cell : getCells()) {

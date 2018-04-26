@@ -6,12 +6,9 @@ import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import aaa.utils.excel.bind.helper.BindHelper;
-import aaa.utils.excel.bind.helper.ColumnFieldHelper;
-import aaa.utils.excel.bind.helper.TableClassHelper;
+import aaa.utils.excel.bind.BindHelper;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.io.ExcelManager;
-import aaa.utils.excel.io.celltype.CellType;
-import aaa.utils.excel.io.entity.area.ExcelCell;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
 import aaa.utils.excel.io.entity.area.table.ExcelTable;
 import aaa.utils.excel.io.entity.area.table.TableCell;
@@ -24,31 +21,23 @@ public class TableClassInfo {
 
 	private final Class<?> tableClass;
 	private final ExcelManager excelManager;
-	private final boolean strictMatch;
-	private final boolean isCaseIgnoredForAllColumns;
+	private final boolean strictMatchBinding;
 	private final Map<Integer, Object> rowsIndexesAndCreatedObjects;
-	//private final FieldsInfoCache columnFieldsCache;
-	private Map<Integer, TableRow> primaryKeyColumnValuesAndRows;
-	//private Map<String, TableRow> primaryKeyColumnValuesAndRowIndexes2;
+
+	private Boolean isCaseIgnoredForAllColumns;
 	private List<TableFieldInfo> tableFieldsInfos;
-	private List<Integer> primaryKeyColumnsIndexesWithUnknownValues;
 	private List<Field> tableColumnsFields;
+	private Map<Integer, TableRow> primaryKeyColumnValuesAndRows;
 	private ExcelTable excelTable;
 	private String primaryKeysSeparator;
 	private Field primaryKeyColumnField;
 	private Integer primaryKeyColumnIndex;
-	private CellType<?> primaryKeyCellType;
 
-	TableClassInfo(Class<?> tableClass, ExcelManager excelManager, boolean strictMatch) {
+	TableClassInfo(Class<?> tableClass, ExcelManager excelManager, boolean strictMatchBinding) {
 		this.tableClass = tableClass;
 		this.excelManager = excelManager;
-		this.strictMatch = strictMatch;
-		this.isCaseIgnoredForAllColumns = TableClassHelper.isCaseIgnored(tableClass);
-		//this.columnFieldsCache = new FieldsInfoCache<>(excelManager, strictMatch);
-		//this.primaryKeyColumnValuesAndRows = new HashMap<>();
-		//this.primaryKeyColumnValuesAndRowIndexes2 = new HashMap<>();
+		this.strictMatchBinding = strictMatchBinding;
 		this.rowsIndexesAndCreatedObjects = new HashMap<>();
-		this.primaryKeyColumnsIndexesWithUnknownValues = new ArrayList<>();
 	}
 
 	public Class<?> getTableClass() {
@@ -60,6 +49,9 @@ public class TableClassInfo {
 	}
 
 	public boolean isCaseIgnoredForAllColumns() {
+		if (this.isCaseIgnoredForAllColumns == null) {
+			this.isCaseIgnoredForAllColumns = tableClass.getAnnotation(ExcelTableElement.class).ignoreCase();
+		}
 		return isCaseIgnoredForAllColumns;
 	}
 
@@ -80,22 +72,21 @@ public class TableClassInfo {
 
 	public String getPrimaryKeysSeparator() {
 		if (this.primaryKeysSeparator == null) {
-			this.primaryKeysSeparator = ColumnFieldHelper.getPrimaryKeysSeparator(getPrimaryKeyColumnField());
+			this.primaryKeysSeparator = getFieldInfo(getPrimaryKeyColumnField()).getPrimaryKeySeparator();
 		}
 		return this.primaryKeysSeparator;
 	}
 
 	public Field getPrimaryKeyColumnField() {
 		if (this.primaryKeyColumnField == null) {
-			this.primaryKeyColumnField = TableClassHelper.getPrimaryKeyField(getTableClass(), getTableColumnsFields());
+			this.primaryKeyColumnField = getTableFieldsInfos().stream().filter(TableFieldInfo::isPrimaryKeyField).findFirst()
+					.orElseThrow(() -> new IstfException(String.format("\"%s\" class does not have any primary key field", tableClass.getName()))).getTableField();
 		}
 		return this.primaryKeyColumnField;
 	}
 
 	public Integer getPrimaryKeyColumnIndex() {
 		if (this.primaryKeyColumnIndex == null) {
-			//boolean ignoreCase = isCaseIgnoredForAllColumns() || isCaseIgnored(getPrimaryKeyColumnField());
-			//this.primaryKeyColumnIndex = getExcelTable().getColumnIndex(getHeaderColumnName(getPrimaryKeyColumnField()), ignoreCase);
 			this.primaryKeyColumnIndex = getHeaderColumnIndex(getPrimaryKeyColumnField());
 		}
 		return this.primaryKeyColumnIndex;
@@ -109,33 +100,13 @@ public class TableClassInfo {
 		return getTableColumnsFields().stream().map(this::getHeaderColumnName).collect(Collectors.toList());
 	}
 
-	boolean isStrictMatch() {
-		return strictMatch;
+	boolean isStrictMatchBinding() {
+		return strictMatchBinding;
 	}
-
-	/*public TableRow getRow(Integer primaryKeyExpectedValue) {
-		if (!this.primaryKeyColumnValuesAndRows.containsKey(primaryKeyExpectedValue)) {
-			List<Integer> rowsIndexes = new ArrayList<>(getRowsIndexesWithUnknownPrimaryKeyValues());
-			for (Integer index : rowsIndexes) {
-				TableRow row = getExcelTable().getRow(index);
-				Integer cellValue = row.getCell(getPrimaryKeyColumnIndex()).getIntValue();
-				this.primaryKeyColumnValuesAndRows.put(cellValue, row);
-				getRowsIndexesWithUnknownPrimaryKeyValues().remove(index);
-				if (Objects.equals(cellValue, primaryKeyExpectedValue)) {
-					return row;
-				}
-			}
-		}
-
-		return this.primaryKeyColumnValuesAndRows.get(primaryKeyExpectedValue);
-	}*/
 
 	public TableRow getRow(Integer primaryKeyExpectedValue) {
 		if (this.primaryKeyColumnValuesAndRows == null) {
 			this.primaryKeyColumnValuesAndRows = new HashMap<>(getExcelTable().getRows().size());
-			/*for (TableRow row : getExcelTable().getRows()) {
-				this.primaryKeyColumnValuesAndRows.put(row.getCell(getPrimaryKeyColumnIndex()).getIntValue(), row);
-			}*/
 			TableColumn column = getExcelTable().getColumn(getPrimaryKeyColumnIndex());
 			for (TableCell cell : column.getCells()) {
 				this.primaryKeyColumnValuesAndRows.put(cell.getIntValue(), cell.getRow());
@@ -160,23 +131,6 @@ public class TableClassInfo {
 		}
 		return foundRows;
 	}
-
-	/*public List<TableRow> getRows(String... valuesInPrimaryKeyColumnField) {
-		List<TableRow> foundRows = new ArrayList<>(valuesInPrimaryKeyColumnField.length);
-		if (this.primaryKeyColumnValuesAndRowIndexes2.isEmpty()) {
-			for (TableRow row : getExcelTable()) {
-				String cellValue = row.getStringValue(getPrimaryKeyColumnIndex());
-				if (cellValue != null) {
-					this.primaryKeyColumnValuesAndRowIndexes2.put(cellValue, row);
-				}
-			}
-		}
-
-		for (String expectedValue : valuesInPrimaryKeyColumnField) {
-			foundRows.add(this.primaryKeyColumnValuesAndRowIndexes2.get(expectedValue));
-		}
-		return foundRows;
-	}*/
 
 	public TableFieldInfo getFieldInfo(Field tableField) {
 		for (TableFieldInfo tableFieldInfo : getTableFieldsInfos()) {
@@ -203,12 +157,16 @@ public class TableClassInfo {
 		return getFieldInfo(tableField).getHeaderColumnsIndexes(getExcelTable().getHeader(), isCaseIgnoredForAllColumns());
 	}
 
-	public boolean isTableField(Field tableField) {
+	/*public boolean isTableField(Field tableField) {
 		return getFieldInfo(tableField).isTableField();
-	}
+	}*/
 
-	public boolean isMultyColumnsField(Field tableField) {
+	/*public boolean isMultyColumnsField(Field tableField) {
 		return getFieldInfo(tableField).isMultyColumnsField();
+	}*/
+
+	public TableFieldInfo.BindType getBindType(Field tableField) {
+		return getFieldInfo(tableField).getBindType();
 	}
 
 	public Class<?> getFieldsTableClass(Field tableField) {
@@ -217,7 +175,6 @@ public class TableClassInfo {
 
 	public boolean hasObject(int rowIndex) {
 		return this.rowsIndexesAndCreatedObjects.containsKey(rowIndex);
-		//return false;
 	}
 
 	public Object getObject(Integer rowIndex) {
@@ -240,16 +197,15 @@ public class TableClassInfo {
 	}
 
 	private ExcelTable findTable() {
-		int headerRowIndex = TableClassHelper.getHeaderRowIndex(tableClass);
+		int headerRowIndex = tableClass.getAnnotation(ExcelTableElement.class).headerRowIndex();
 		ExcelTable table;
-		List<Field> tableColumnsFields = getTableColumnsFields();
 
-		ExcelSheet sheet = getExcelManager().getSheet(TableClassHelper.getSheetName(getTableClass()));
 		List<String> headerColumnNames = getHeaderColumnNames();
+		ExcelSheet sheet = getExcelManager().getSheet(tableClass.getAnnotation(ExcelTableElement.class).sheetName());
 		if (headerRowIndex < 0) {
 			table = sheet.getTable(isCaseIgnoredInAnyColumnField(), headerColumnNames.toArray(new String[headerColumnNames.size()]));
 		} else {
-			if (isStrictMatch()) {
+			if (isStrictMatchBinding()) {
 				table = sheet.getTable(headerRowIndex, null, isCaseIgnoredInAnyColumnField(), headerColumnNames.toArray(new String[headerColumnNames.size()]));
 			} else {
 				table = sheet.getTable(headerRowIndex);
@@ -257,16 +213,16 @@ public class TableClassInfo {
 		}
 
 		List<Integer> extraTableColumnsIndexes = table.getColumnsIndexes();
-		for (Field columnField : tableColumnsFields) {
+		for (Field columnField : getTableColumnsFields()) {
 			extraTableColumnsIndexes.removeAll(getFieldInfo(columnField).getHeaderColumnsIndexes(table.getHeader(), isCaseIgnoredForAllColumns()));
 		}
 
 		if (!extraTableColumnsIndexes.isEmpty()) {
-			List<String> extraTableColumnNames = table.getHeader().getCells().stream().filter(c -> extraTableColumnsIndexes.contains(c.getColumnIndex())).map(ExcelCell::getStringValue).collect(Collectors.toList());
+			List<String> extraTableColumnNames = table.getHeader().getCellsByIndexes(extraTableColumnsIndexes).stream().map(TableCell::getStringValue).collect(Collectors.toList());
 			String message = String.format("Extra header column(s) detected in excel table on sheet \"%1$s\" without binded field(s) from class \"%2$s\": %3$s.",
 					table.getSheetName(), getTableClass().getName(), extraTableColumnNames);
-			if (isStrictMatch()) {
-				throw new IstfException("Excel unmarshalling with strict match has been failed. " + message);
+			if (isStrictMatchBinding()) {
+				throw new IstfException("Excel unmarshalling with strict match binding has been failed. " + message);
 			}
 			log.warn("{} Result object will not have missed field(s)", message);
 			table.excludeColumns(extraTableColumnsIndexes.toArray(new Integer[extraTableColumnsIndexes.size()]));
@@ -276,12 +232,9 @@ public class TableClassInfo {
 	}
 
 	private List<Field> filterTableColumnsFields(ExcelTable table, List<Field> tableFields) {
-		List<Field> allTableColumnsFields = new ArrayList<>(tableFields);
+		List<Field> filteredTableColumnsFields = new ArrayList<>(tableFields);
 		List<Field> missedTableColumnsFields = new ArrayList<>();
-		for (Field columnField : allTableColumnsFields) {
-			/*if (table.hasColumn(getHeaderColumnName(columnField), isCaseIgnored(columnField))) {
-				missedTableColumnsFields.remove(columnField);
-			}*/
+		for (Field columnField : filteredTableColumnsFields) {
 			if (getFieldInfo(columnField).getHeaderColumnsIndexes(table.getHeader(), isCaseIgnoredForAllColumns()).isEmpty()) {
 				missedTableColumnsFields.add(columnField);
 			}
@@ -291,7 +244,7 @@ public class TableClassInfo {
 			List<String> missedFieldColumnNames = new ArrayList<>(missedTableColumnsFields.size());
 			for (Field f : missedTableColumnsFields) {
 				StringBuilder missedTypeAndFieldName = new StringBuilder(f.getType().getSimpleName());
-				if (isTableField(f)) {
+				if (getBindType(f).equals(TableFieldInfo.BindType.TABLE)) {
 					missedTypeAndFieldName.append("<").append(getFieldsTableClass(f).getSimpleName()).append(">");
 				}
 				missedFieldColumnNames.add(missedTypeAndFieldName.append(" ").append(getHeaderColumnName(f)).toString());
@@ -299,20 +252,13 @@ public class TableClassInfo {
 			String message = String.format("Missed header column(s) detected in excel table on sheet \"%1$s\" for field(s) from class \"%2$s\": %3$s.",
 					table.getSheet().getSheetName(), getTableClass().getName(), missedFieldColumnNames);
 
-			if (isStrictMatch()) {
-				throw new IstfException("Excel unmarshalling with strict match has been failed." + message);
+			if (isStrictMatchBinding()) {
+				throw new IstfException("Excel unmarshalling with strict match binding has been failed." + message);
 			}
 			log.warn("{} Field(s) with missed column(s) in result object will have default value(s) of appropriate type(s)", message);
 		}
 
-		allTableColumnsFields.removeAll(missedTableColumnsFields);
-		return allTableColumnsFields;
-	}
-
-	private List<Integer> getRowsIndexesWithUnknownPrimaryKeyValues() {
-		if (this.primaryKeyColumnsIndexesWithUnknownValues.isEmpty()) {
-			this.primaryKeyColumnsIndexesWithUnknownValues = getExcelTable().getRowsIndexes();
-		}
-		return this.primaryKeyColumnsIndexesWithUnknownValues;
+		filteredTableColumnsFields.removeAll(missedTableColumnsFields);
+		return filteredTableColumnsFields;
 	}
 }

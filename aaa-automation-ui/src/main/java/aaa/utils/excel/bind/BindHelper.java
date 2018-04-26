@@ -1,13 +1,13 @@
-package aaa.utils.excel.bind.helper;
+package aaa.utils.excel.bind;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 import toolkit.exceptions.IstfException;
@@ -55,14 +55,6 @@ public class BindHelper {
 		return allSuperClasses;
 	}
 
-	public static Object getAnnotationDefaultValue(Class<? extends Annotation> annotationClass, String methodName) {
-		try {
-			return annotationClass.getDeclaredMethod(methodName).getDefaultValue();
-		} catch (NoSuchMethodException e) {
-			throw new IstfException(String.format("\"%1$s\" annotation does not have \"%2$s\" method.", annotationClass.getName(), methodName), e);
-		}
-	}
-
 	public static boolean isTableClassField(Field field) {
 		return getTableClass(field).isAnnotationPresent(ExcelTableElement.class);
 	}
@@ -81,24 +73,17 @@ public class BindHelper {
 		return (Class<T>) parameterizedType.getActualTypeArguments()[0];
 	}
 
-	public static Object getInstance(Class<?> clazz) {
-		try {
-			return clazz.getConstructor().newInstance();
-		} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-			throw new IstfException(String.format("Failed to create instance of \"%s\" class.", clazz.getName()), e);
+	public static DateTimeFormatter[] getFormatters(Field field) {
+		List<DateTimeFormatter> dateTimeFormatters = new ArrayList<>();
+		if (field.isAnnotationPresent(ExcelColumnElement.class)) {
+			for (String datePattern : field.getAnnotation(ExcelColumnElement.class).dateFormatPatterns()) {
+				try {
+					dateTimeFormatters.add(DateTimeFormatter.ofPattern(datePattern));
+				} catch (IllegalArgumentException e) {
+					throw new IstfException(String.format("Unable to get valid DateTimeFormatter for field \"%1$s\" with date pattern \"%2$s\"", field.getName(), datePattern), e);
+				}
+			}
 		}
-	}
-
-	public static void setFieldValue(Field field, Object classInstance, Object value) {
-		if (!field.isAccessible()) {
-			//TODO-dchubkov: find appropriate setter method and use it for set value
-			field.setAccessible(true);
-		}
-		try {
-			//TODO check set null value to primitive type
-			field.set(classInstance, value);
-		} catch (IllegalAccessException | IllegalArgumentException e) {
-			throw new IstfException(String.format("Unable set value \"%1$s\" to the field \"%2$s\" in class \"%3$s\"", value.toString(), field.getName(), classInstance.getClass().getName()), e);
-		}
+		return dateTimeFormatters.toArray(new DateTimeFormatter[dateTimeFormatters.size()]);
 	}
 }
