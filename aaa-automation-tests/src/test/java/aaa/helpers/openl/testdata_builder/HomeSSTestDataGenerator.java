@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
+
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -203,7 +204,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		if (Boolean.TRUE.equals(openLPolicy.getPolicyDiscountInformation().get(0).isCurrAAAMember())) {
 			aaaMembershipData = DataProviderFactory.dataOf(
 					HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes",
-					//HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), "1111222200020182",
+//					HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), "1111222200020125",
 					HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), MockDataHelper.getMembershipData().getMembershipNumber(openLPolicy.getEffectiveDate(), openLPolicy.getPolicyDiscountInformation().get(0).getMemberPersistency()),
 					HomeSSMetaData.ApplicantTab.AAAMembership.LAST_NAME.getLabel(), "Smith"
 			);
@@ -312,9 +313,9 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		);
 
 		TestData constructionData = DataProviderFactory.dataOf(
-				HomeSSMetaData.PropertyInfoTab.Construction.YEAR_BUILT.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDwellingRatingInfo().get(0).getHomeAge()).getYear(),
+				HomeSSMetaData.PropertyInfoTab.Construction.YEAR_BUILT.getLabel(), String.format("%d", openLPolicy.getPolicyDwellingRatingInfo().get(0).getYearBuilt()),
 				HomeSSMetaData.PropertyInfoTab.Construction.ROOF_TYPE.getLabel(), openLPolicy.getPolicyDwellingRatingInfo().get(0).getRoofType(),
-				HomeSSMetaData.PropertyInfoTab.Construction.CONSTRUCTION_TYPE.getLabel(), openLPolicy.getPolicyConstructionInfo().get(0).getConstructionType(),
+				HomeSSMetaData.PropertyInfoTab.Construction.CONSTRUCTION_TYPE.getLabel(), "contains=" + openLPolicy.getPolicyConstructionInfo().get(0).getConstructionType().split(" ")[0],
 				HomeSSMetaData.PropertyInfoTab.Construction.MASONRY_VENEER.getLabel(),
 				"Masonry Veneer".equals(openLPolicy.getPolicyConstructionInfo().get(0).getConstructionType()) ? "Yes" : "No"
 		);
@@ -651,8 +652,18 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			case "Fenced with no accessories":
 				swimmingPoolType = "Restricted access with no accessories";
 				break;
+			case "Fenced with slide and diving board":
+				swimmingPoolType = "Restricted access with slide and diving board";
+				break;
+			case "Fenced with slide only":
+				swimmingPoolType = "Restricted access with slide only";
+				break;
+			case "Fenced with diving board only":
+				swimmingPoolType = "Restricted access with diving board only";
+				break;
 			case "Not fenced or no locking gate":
 				swimmingPoolType = "Unrestricted access";
+				break;
 			default:
 				swimmingPoolType = "None";
 		}
@@ -683,26 +694,31 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		int totalPoints = aaaPoints + notAaaPoints;
 		boolean isFirstClaim = true;
 
-		if (totalPoints == 0) {
+//		if (totalPoints == 0) {
 			claimsDataList.add(claim);
-		}
+//		}
 
-		if (notAaaPoints != 0) {
-			for (int i = 0; i < notAaaPoints; i++) {
-				claim = addClaimData(openLPolicy, isFirstClaim);
-				isFirstClaim = false;
-				claimsDataList.add(claim);
-			}
-		}
+//		if (notAaaPoints != 0) {
+//
+//		}
 
-		if (aaaPoints != 0) {
-			for (int i = 0; i < aaaPoints; i++) {
-				claim = addClaimData(openLPolicy, isFirstClaim);
-				claim.adjust(DataProviderFactory.dataOf(HomeSSMetaData.PropertyInfoTab.ClaimHistory.AAA_CLAIM.getLabel(), "Yes"));
-				isFirstClaim = false;
-				claimsDataList.add(claim);
-			}
-		}
+
+//		if (notAaaPoints != 0) {
+//			for (int i = 0; i < notAaaPoints; i++) {
+//				claim = addClaimData(openLPolicy, isFirstClaim);
+//				isFirstClaim = false;
+//				claimsDataList.add(claim);
+//			}
+//		}
+//
+//		if (aaaPoints != 0) {
+//			for (int i = 0; i < aaaPoints; i++) {
+//				claim = addClaimData(openLPolicy, isFirstClaim);
+//				claim.adjust(DataProviderFactory.dataOf(HomeSSMetaData.PropertyInfoTab.ClaimHistory.AAA_CLAIM.getLabel(), "Yes"));
+//				isFirstClaim = false;
+//				claimsDataList.add(claim);
+//			}
+//		}
 
 		return claimsDataList;
 	}
@@ -711,7 +727,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		return DataProviderFactory.dataOf(
 				HomeSSMetaData.PropertyInfoTab.ClaimHistory.ADD_A_CLAIM.getLabel(), isFirstClaim ? "Yes" : null,
 				HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS.getLabel(),
-				openLPolicy.getEffectiveDate().minusYears(RandomUtils.nextInt(openLPolicy.getPolicyLossInformation().get(0).getRecentYCF(), 4)).minusDays(1).format(DateTimeUtils.MM_DD_YYYY),
+				openLPolicy.getEffectiveDate().minusYears(RandomUtils.nextInt(openLPolicy.getPolicyLossInformation().get(0).getRecentYCF(), 3)).plusDays(1).format(DateTimeUtils.MM_DD_YYYY),
 				HomeSSMetaData.PropertyInfoTab.ClaimHistory.CAUSE_OF_LOSS.getLabel(), AdvancedComboBox.RANDOM_MARK,
 				HomeSSMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS.getLabel(), RandomUtils.nextInt(10000, 20000),
 				HomeSSMetaData.PropertyInfoTab.ClaimHistory.CLAIM_STATUS.getLabel(), "Closed");
