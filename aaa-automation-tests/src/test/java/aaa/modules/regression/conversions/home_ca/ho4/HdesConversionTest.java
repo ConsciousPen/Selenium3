@@ -14,21 +14,21 @@ public class HdesConversionTest extends HdesConversionTestTemplate {
 	@Parameters({"state", "file"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_HO3)
-	public void hdesCAHO4ConversionTest1(@Optional("CA") String state, String file, ITestContext context) {
+	public void hdesCAHO4ConversionTest(@Optional("CA") String state, String file, ITestContext context) {
 		hdesCAConversion(file, context);
 	}
 
 	@Parameters({"state", "file"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_HO3)
-	public void hdesCAHO4ConversionTest_renewWithLapse1(@Optional("CA") String state, String file, ITestContext context) {
+	public void hdesCAHO4ConversionTest_renewWithLapse(@Optional("CA") String state, String file, ITestContext context) {
 		hdesCAConversion_renewWithLapse(file, context);
 	}
 
 	@Parameters({"state", "file"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_HO3)
-	public void hdesCAHO4ConversionTest_renewAfterPayment1(@Optional("CA") String state, String file, ITestContext context) {
+	public void hdesCAHO4ConversionTest_renewAfterPayment(@Optional("CA") String state, String file, ITestContext context) {
 		hdesCAConversion_renewAfterPayment(file, context);
 	}
 }
