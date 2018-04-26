@@ -7,7 +7,7 @@ public interface AaaDocGenEntityQueries {
             "and data like '%%%s%%' " +
             "and data like '%%%s%%' " +
             "and eventname like '%s' " +
-            "order by id desc) " +
+            "order by creationdate desc) " +
             "where rownum=1 ";
 
     String GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME = "select count(*) from aaadocgenentity " +
@@ -24,14 +24,14 @@ public interface AaaDocGenEntityQueries {
             + "FROM ( SELECT data \n"
             + "FROM aaadocgenentity doc INNER JOIN policysummary s ON s.id = doc.entityid\n"
             + "WHERE  s.policynumber = '%s' AND doc.eventname LIKE '%s'\n"
-            + "ORDER BY doc.id DESC\n"
+            + "ORDER BY doc.creationdate DESC\n"
             + " ) WHERE ROWNUM = 1 ";
 
     String GET_ALL_DOCUMENTS_BY_POLICY_NUMBER = "SELECT  data\n"
             + "FROM ( SELECT data \n"
             + "FROM aaadocgenentity doc INNER JOIN policysummary s ON s.id = doc.entityid\n"
             + "WHERE  s.policynumber = '%s' AND doc.eventname LIKE '%s'\n"
-            + "ORDER BY doc.id DESC\n"
+            + "ORDER BY doc.creationdate DESC\n"
             + " )";
 
     enum EventNames {

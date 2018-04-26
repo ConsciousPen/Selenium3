@@ -45,5 +45,7 @@ public class TestCFTScenario17 extends ControlledFinancialBaseTest {
 			"PremiumsAndCoveragesQuoteTab_DataGather").getValue(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()));
 		td.adjust(PurchaseTab.class.getSimpleName(), getTestSpecificTD("PurchaseTab_DataGather"));
 		return td.resolveLinks();
+
 	}
 }
+

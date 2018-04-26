@@ -9,8 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-import org.testng.ITestContext;
-import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
@@ -209,8 +207,13 @@ public class BaseTest {
 		log.info(String.format(msg, inputValues));
 	}
 
+	public static void printToDebugLog(String message) {
+		log.debug("----------------------------------------------------------------");
+		log.debug(message);
+	}
+
 	@BeforeMethod(alwaysRun = true)
-	public void beforeMethodStateConfiguration(Object[] parameters, ITestResult result, ITestContext context) {
+	public void beforeMethodStateConfiguration(Object[] parameters) {
 		if (parameters != null && parameters.length != 0 && StringUtils.isNotBlank(parameters[0].toString())) {
 			setState(parameters[0].toString());
 		} else if (isStateCA()) {
