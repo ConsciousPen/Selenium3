@@ -297,14 +297,22 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
      * 6. Validate Auto tier
      * 7. Manually add Auto Policy
      * 8. Select manually added auto policy as the primary
-     * 9. Navigate Premium Page
+     * 9. Navigate Premium And Coverages Page
      * 10. Calculate Premium and check Auto tier value is taken from manually added Auto Policy
+     * 11. Navigate to Underlying Risks Auto Tab
+     * 12. Change Primary Auto Policies tier
+     * 13. Navigate Premium And Coverages Page
+     * 14. Calculate Premium and check Auto tier value is taken from manually added Auto Policy
+     * 15. Issue Policy
+     * 16. Initiate Renewal
+     * 17. Navigate Premium And Coverages Page
+     * 18. Calculate Premium and check Auto tier value is taken from manually added Auto Policy
      * @details
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PT-1421")
-    public void pt1421_testManuallyAddedAutoTierNB(@Optional("PA") String state) {
+    public void pt1421_testManuallyAddedAutoTier(@Optional("PA") String state) {
 
         TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
 

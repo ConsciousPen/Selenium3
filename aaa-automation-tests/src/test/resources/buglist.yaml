@@ -179,3 +179,9 @@ PAS-12478:
   failures:
     - tests: [aaa.modules.regression.conversions.home_ss.*]
       messages: ["AssetList {OilFuelOrPropaneStorageTank", "ComboBox {Oil Fuel or Propane Storage Tank"]
+PT-1421:
+  summary: "PA PUP - View Rating Details Page - Wrong Auto Tier is displayed"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails.pt1421_testManuallyAddedAutoTier]
+      messages: ["org.junit.ComparisonFailure: Expected :"[7]" Actual   :"[2]""]
