@@ -9,7 +9,9 @@ import org.apache.commons.lang3.RandomUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 
 import aaa.helpers.TestDataHelper;
+import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLForm;
 import aaa.helpers.openl.model.home_ca.ho6.HomeCaHO6OpenLDwelling;
+import aaa.helpers.openl.model.home_ca.ho6.HomeCaHO6OpenLForm;
 import aaa.helpers.openl.model.home_ca.ho6.HomeCaHO6OpenLPolicy;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
@@ -120,6 +122,24 @@ public class HomeCaHO6TestDataGenerator extends TestDataGenerator<HomeCaHO6OpenL
 	}
 	
 	private TestData getPropertyInfoTabData(HomeCaHO6OpenLPolicy openLPolicy) { 
+		boolean isHO42C = false; 
+		for (HomeCaHO6OpenLForm form: openLPolicy.getForms()) {
+			if ("HO-42C".equals(form.getFormCode())) {
+				isHO42C = true;	
+			}
+		}
+		
+		TestData dwellingAddressData;
+		if (isHO42C) {
+			dwellingAddressData = DataProviderFactory.dataOf(
+					HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(), 
+						"contains=" + openLPolicy.getForms().stream().filter(n -> "HO-42C".equals(n.getFormCode())).findFirst().get().getTerritoryCode()); 
+		}
+		else {
+			dwellingAddressData = DataProviderFactory.dataOf(
+					HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(), "");
+		}
+				
 		TestData ppcData = DataProviderFactory.dataOf(
 				HomeCaMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS.getLabel(), openLPolicy.getDwellings().get(0).getPpcValue());
 		
@@ -172,6 +192,7 @@ public class HomeCaHO6TestDataGenerator extends TestDataGenerator<HomeCaHO6OpenL
 		List<TestData> claimHistoryData = getClaimsHistoryData(openLPolicy, openLPolicy.getExpClaimPoints(), openLPolicy.getClaimPoints());
 		
 		return DataProviderFactory.dataOf(
+				HomeCaMetaData.PropertyInfoTab.DWELLING_ADDRESS.getLabel(), dwellingAddressData,
 				HomeCaMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS.getLabel(), ppcData,
 				HomeCaMetaData.PropertyInfoTab.PROPERTY_VALUE.getLabel(), propertyValueData,
 				HomeCaMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), constructionData, 

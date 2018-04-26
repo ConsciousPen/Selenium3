@@ -10,7 +10,7 @@
         <suite-file path="./auto_ca_suite.xml"/>
         <suite-file path="./auto_ss_suite.xml"/>
         <suite-file path="./home_ss_suite.xml"/>
-        <!--<suite-file path="./home_ca_suite.xml"/>-->
+        <suite-file path="./home_ca_suite.xml"/>
         <suite-file path="./pup_suite.xml"/>
     </suite-files>
 </suite>

@@ -57,7 +57,7 @@ public class MembershipMockData {
 
 	public String getMembershipNumberForAvgAnnualERSperMember(LocalDateTime policyEffectiveDate, Integer memberPersistency, Double avgAnnualERSperMember) {
 		Set<String> membershipNumbersSet = getActiveAndPrimaryMembershipNumbers(policyEffectiveDate.minusYears(memberPersistency));
-		assertThat(membershipNumbersSet).as("No active and primary membership numbers were found for policyEffectiveDate=%1$s and memberPersistency=%2$s", policyEffectiveDate, memberPersistency)
+		assertThat(membershipNumbersSet).as("No active and primary membership numbers were found for policyEffectiveDate=%1$s and memberPersistency=%2$s", policyEffectiveDate.toLocalDate(), memberPersistency)
 				.isNotEmpty();
 
 		if (avgAnnualERSperMember.equals(AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE)) {
@@ -74,19 +74,19 @@ public class MembershipMockData {
 		for (String membershipNumber : getActiveAndPrimaryMembershipNumbersWithoutFaultCodes()) {
 			for (MembershipResponse r : getMembershipResponses(membershipNumber)) {
 				//Response is valid if memberStartDate=memberSinceDate
-				if (isEqualYears(r.getMemberStartDate(), memberSinceDate)) {
+				if (isEqualDates(r.getMemberStartDate(), memberSinceDate)) {
 					validMembershipNumbers.add(membershipNumber);
 					break;
 				}
 
 				//Response is valid if memberStartDate is empty AND today - memberStartDateMonthsOffset = memberSinceDate
-				if (r.getMemberStartDate() == null && r.getMemberStartDateMonthsOffset() != null && isEqualYears(today.minusMonths(Math.abs(r.getMemberStartDateMonthsOffset())), memberSinceDate)) {
+				if (r.getMemberStartDate() == null && r.getMemberStartDateMonthsOffset() != null && isEqualDates(today.minusMonths(Math.abs(r.getMemberStartDateMonthsOffset())), memberSinceDate)) {
 					validMembershipNumbers.add(membershipNumber);
 					break;
 				}
 
 				//Response is valid if memberSinceDate == today AND memberStartDate is empty AND memberStartDateMonthsOffset is empty
-				if (isEqualYears(today, memberSinceDate) && r.getMemberStartDate() == null && r.getMemberStartDateMonthsOffset() == null) {
+				if (isEqualDates(today, memberSinceDate) && r.getMemberStartDate() == null && r.getMemberStartDateMonthsOffset() == null) {
 					validMembershipNumbers.add(membershipNumber);
 					break;
 				}
@@ -172,7 +172,7 @@ public class MembershipMockData {
 		return Objects.equals(date1, date2) || date1 != null && date2 != null && date1.toLocalDate().equals(date2.toLocalDate());
 	}
 
-	private boolean isEqualYears(LocalDateTime date1, LocalDateTime date2) {
+	/*private boolean isEqualYears(LocalDateTime date1, LocalDateTime date2) {
 		return Objects.equals(date1, date2) || date1 != null && date2 != null && date1.getYear() == date2.getYear();
-	}
+	}*/
 }
