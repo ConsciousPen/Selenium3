@@ -169,7 +169,7 @@ PAS-13094:
   summary: "Regression: PUP: VIN resolver doesn't work for underlying auto policies"
   reason: PROD
   failures:
-    - tests: [aaa.modules.regression.sales.pup.*,aaa.modules.regression.service.pup.*,aaa.modules.regression.conversions.pup.*]
+    - tests: [aaa.modules.regression.sales.pup.*,aaa.modules.regression.service.pup.*,aaa.modules.regression.conversions.pup.*, aaa.modules.regression.document_fulfillment.pup.*]
       messages: ["Cannot set value of AssetList {UnderlyingRisksAutoTab"]
     - tests: [aaa.modules.regression.service.pup.*]
       messages: ["Cannot set value of AssetList {UnderlyingRisksAutoTab", "Errors: 'Make' is required; 'Model' is required"]
