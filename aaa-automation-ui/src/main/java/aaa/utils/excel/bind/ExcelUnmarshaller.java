@@ -180,7 +180,7 @@ public class ExcelUnmarshaller {
 				break;
 			case "java.util.List":
 				String linkedRowsIds = cell.getStringValue();
-				if (linkedRowsIds == null && linkedRowsIds.isEmpty()) {
+				if (linkedRowsIds == null || linkedRowsIds.isEmpty()) {
 					break;
 				}
 				Class<?> tableRowClass = BindHelper.getTableRowType(tableColumnField);
