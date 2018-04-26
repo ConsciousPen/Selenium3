@@ -101,7 +101,7 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-550")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-550", "PAS-2872"})
 	public void pas550_membershipEligibilityConfigurationTrueForActiveMembership(@Optional("CA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -138,7 +138,7 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-550")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-550", "PAS-2872"})
 	public void pas550_membershipEligibilityConfigurationTrueForPendingMembership(@Optional("CA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -175,7 +175,7 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-550")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-550", "PAS-2872"})
 	public void pas550_membershipEligibilityConfigurationTrueForCancelledMembership(@Optional("CA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -212,7 +212,7 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-550")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-550", "PAS-2872"})
 	public void pas550_membershipEligibilityConfigurationTrueForNotActiveMembership(@Optional("CA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -308,11 +308,11 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 	}
 
 	//@Test
-	static void jobsNBplus15plus30runNoChecks() {
+	private static void jobsNBplus15plus30runNoChecks() {
 		jobsNBplus15plus30runNoChecks(DateTimeUtils.getCurrentDateTime().plusDays(15));
 	}
 
-	static void jobsNBplus15plus30runNoChecks(LocalDateTime dateToShiftTo) {
+	private static void jobsNBplus15plus30runNoChecks(LocalDateTime dateToShiftTo) {
 		TimeSetterUtil.getInstance().nextPhase(dateToShiftTo);
 		//JobUtils.executeJob(Jobs.aaaBatchMarkerJob); //OSI: job is not required
 		JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
@@ -370,20 +370,20 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 		return DocGenHelper.getDocumentDataElemByName("DiscNm", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().toString().contains(discountTag);
 	}
 
-	void checkDocumentContentAHDRXX(String policyNumber, boolean isGenerated, boolean isMembershipDataPresent, boolean isEvalueDataPresent, boolean isPaperlessDiscDataPresent,
+	private void checkDocumentContentAHDRXX(String policyNumber, boolean isGenerated, boolean isMembershipDataPresent, boolean isEvalueDataPresent, boolean isPaperlessDiscDataPresent,
 			boolean isPaperlessDlvryDataPresent) {
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDRXX", "ENDORSEMENT_ISSUE");
 
 		if (isGenerated) {
 			if (isMembershipDataPresent) {
 				CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Advantage Program"));
-				//PAS-1549 Start
+				//PAS-1549, PAS-2872} Start
 				CustomAssert.assertTrue("5%"
 						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
 								.getTextField()));
-				//PAS-1549 End
 				CustomAssert.assertTrue("Y"
 						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
+				//PAS-1549, PAS-2872 End
 			} else {
 				CustomAssert.assertFalse(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Advantage Program"));
 				CustomAssert.assertTrue("N"
@@ -392,11 +392,11 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 
 			if (isEvalueDataPresent) {
 				CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount"));
-				//PAS-1549 Start
+				//PAS-1549, PAS-310 Start
 				CustomAssert.assertTrue("13.5%"
 						.equals(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
 								.getTextField()));
-				//PAS-1549 End
+				//PAS-1549, PAS-310 Start
 			} else {
 				CustomAssert.assertFalse(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount"));
 			}

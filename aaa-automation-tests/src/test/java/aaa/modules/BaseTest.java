@@ -482,4 +482,9 @@ public class BaseTest {
 		String msg = String.format("Message: %1$s", message);
 		log.info(String.format(msg, inputValues));
 	}
+
+	public static void printToDebugLog(String message) {
+		log.debug("----------------------------------------------------------------");
+		log.debug(message);
+	}
 }
