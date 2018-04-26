@@ -240,7 +240,7 @@ public interface EvalueInsertSetupPreConditions {
 			+ "and productCd = '%s'\n"
 			+ "and riskstatecd = '%s'";
 
-	String PAPERLESS_PREFERENCES_ELIGIBILITY_INSERT_FOR_PRODUCT = "INSERT ALL\\n\"\n"
+	String PAPERLESS_PREFERENCES_ELIGIBILITY_INSERT_FOR_PRODUCT = "INSERT ALL \n"
 			+ " INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id) \n"
 			+ " values ('AAARolloutEligibilityLookupValue', 'PaperlessPreferences', 'TRUE', '%s', '%s',(select SYSDATE-27 from dual), (select SYSDATE-23 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))\n"
 			+ " Select * from dual";

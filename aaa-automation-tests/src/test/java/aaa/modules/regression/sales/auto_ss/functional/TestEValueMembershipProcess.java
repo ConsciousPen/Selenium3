@@ -1458,11 +1458,11 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 			if (isEvalueDataPresent) {
 				CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount"));
-				//PAS-1549 Start
+				//PAS-1549, PAS-310 Start
 				CustomAssert.assertTrue("13.5%"
 						.equals(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
 								.getTextField()));
-				//PAS-1549 End
+				//PAS-1549, PAS-310 Start
 			} else {
 				CustomAssert.assertFalse(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount"));
 			}
@@ -1521,11 +1521,11 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			if (isEvalueDataPresent) {
 				//BUG no evalue info in AHDEXX
 				CustomAssert.assertTrue(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
-				//PAS-1549 Start
+				//PAS-1549, PAS-310 Start
 				CustomAssert.assertTrue("13.5%"
 						.equals(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
 								.getTextField()));
-				//PAS-1549 End
+				//PAS-1549, PAS-310 End
 			} else {
 				CustomAssert.assertFalse(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
 			}
@@ -1554,7 +1554,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 				}
 			}
 			//PAS-1928 start
-			CustomAssert.assertTrue("0210".equals(DocGenHelper.getDocumentDataElemByName("PlcyTransCd", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
+			CustomAssert.assertTrue("0210".equals(DocGenHelper.getDocumentDataElemByName("PlcyTransCd", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
 			//PAS-1928 end
 		} else {
 			CustomAssert.assertFalse(DBService.get().getValue(query).isPresent());
