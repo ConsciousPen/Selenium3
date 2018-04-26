@@ -1552,7 +1552,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-333", "PAS-336", "PAS-238"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-333", "PAS-336", "PAS-238", "PAS-313"})
 	public void pas333_eValueDiscountRemovedBySystem(@Optional("VA") String state) {
 
 		String agentExpirationDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(1).format(DateTimeUtils.MM_DD_YYYY);
@@ -1993,7 +1993,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		return policyNumber;
 	}
 
-	public void eValueQuoteCreationFromZero() {
+	private void eValueQuoteCreationFromZero() {
 		TestData defaultTestData = getPolicyTD("DataGather", "TestData");
 		TestData policyInformationSectionAdjusted = getTestSpecificTD("PolicyInformation").adjust("TollFree Number", "1");
 		TestData currentCarrierSectionTestSpecific = getTestSpecificTD("CurrentCarrierInformation");
