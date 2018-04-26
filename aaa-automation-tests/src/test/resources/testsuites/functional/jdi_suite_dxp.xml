@@ -122,6 +122,7 @@
                     <include name="pas10449_ViewVehicleServiceOrderOfVehicle"/>
                     <include name="pas11741_ManageVehicleLevelCoverages"/>
                     <include name="pas11633_ViewDriverAssignmentAutoAssign"/>
+                    <include name="pas12407_BigMetaDataService"/>
                 </methods>
             </class>
         </classes>
@@ -150,7 +151,6 @@
             </class>
         </classes>
     </test>
-
     <test name="DXP E2E" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
@@ -161,7 +161,6 @@
             </class>
         </classes>
     </test>
-
     <test name="DXP E2E BCT" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ, KY"/>
         <classes>
@@ -172,7 +171,6 @@
             </class>
         </classes>
     </test>
-
     <test name="DriverAssignmentExistsForState CA" parallel="methods" thread-count="1024">
         <classes>
             <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing">
@@ -187,7 +185,6 @@
             </class>
         </classes>
     </test>
-
     <test name="DriverAssignmentExistsForState SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ, KY, MD, NY, NJ, VA"/>
         <classes>
@@ -198,5 +195,4 @@
             </class>
         </classes>
     </test>
-
 </suite>

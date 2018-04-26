@@ -18,7 +18,6 @@ import org.apache.xerces.impl.dv.util.Base64;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
-
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -60,6 +59,7 @@ public class HelperCommon {
 	private static final String DXP_SERIES_BY_YEAR_MAKE_MODEL = AAA_VEHICLE_INFO_RS_PREFIX + "series-by-make-year-model?year=%s&make=%s&model=%s&productCd=%s&stateCd=%s&formType=%s&effectiveDate=%s";
 	private static final String DXP_RETRIEVE_BODYSTYLE_BY_YEAR_MAKE_MODEL_SERIES = AAA_VEHICLE_INFO_RS_PREFIX + "bodystyle-by-make-year-model?year=%s&make=%s&model=%s&Series=%s&productCd=%s&stateCd=%s&formType=%s&effectiveDate=%s";
 
+	private static final String DXP_BIG_META_DATA_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles/%s/metadata";
 	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
 
 	private static String urlBuilderDxp(String endpointUrlPart) {
@@ -127,6 +127,11 @@ public class HelperCommon {
 			restRequestInfo.url = restRequestInfo.url + "?endorsementDate=" + endorsementDate;
 		}
 		return runJsonRequestGetDxp(restRequestInfo);
+	}
+
+	public static AttributeMetadata[] vehicleAttributeMetaDataService(String policyNumber, String oid) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_BIG_META_DATA_ENDPOINT, policyNumber, oid));
+		return runJsonRequestGetDxp(requestUrl, AttributeMetadata[].class);
 	}
 
 	public static PolicyLockUnlockDto executePolicyLockService(String policyNumber, int status, String sessionId) {
