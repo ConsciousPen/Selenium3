@@ -1,6 +1,7 @@
 package aaa.helpers.openl.testdata_builder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -9,6 +10,7 @@ import aaa.helpers.openl.model.home_ca.ho4.HomeCaHO4OpenLPolicy;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.exceptions.IstfException;
 
 public class HomeCaHO4FormTestDataGenerator {
 	
@@ -23,7 +25,7 @@ public class HomeCaHO4FormTestDataGenerator {
 	}; 
 	
 	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO42DataFunction = (openLPolicy) -> {
-		//TODO clarify Territory code for this form
+		//TODO clarify Territory code = Office for this form
 		List<TestData> tdList = new ArrayList<>();
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", "Add",
@@ -72,16 +74,58 @@ public class HomeCaHO4FormTestDataGenerator {
 		return tdList;
 	}; 
 	
+	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO58DataFunction = (openLPolicy) -> {
+		return null;
+	};
+	
+	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO59DataFunction = (openLPolicy) -> {
+		return null;
+	};
+	
+	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO60DataFunction = (openLPolicy) -> {
+		return null;
+	};
+	
+	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO61DataFunction = (openLPolicy) -> {
+		List<TestData> tdList = new ArrayList<>();
+		Integer instanceNum = 1;
+		for(HomeCaHO4OpenLForm form: openLPolicy.getForms()) {
+			if ("HO-61".equals(form.getFormCode())) {
+				if (instanceNum.equals(1)) {
+					tdList.add(DataProviderFactory.dataOf("Action", "Add"));
+					instanceNum++;					
+				} 
+			}
+		}
+		return tdList;
+	};
+	
+	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO61CDataFunction = (openLPolicy) -> {
+		List<TestData> tdList = new ArrayList<>();
+		Integer instanceNum = 1;
+		for(HomeCaHO4OpenLForm form: openLPolicy.getForms()) {
+			if ("HO-61C".equals(form.getFormCode())) {
+				if (instanceNum.equals(1)) {
+					tdList.add(DataProviderFactory.dataOf("Action", "Add"));
+					instanceNum++;					
+				} 
+				else 
+					tdList.add(null);
+			}
+		}
+		return tdList;
+	};
+	
 	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO70DataFunction =  (openLPolicy) -> {
 		List<TestData> tdList = new ArrayList<>();
-		int instanceNum = 1;
+		Integer instanceNum = 1;
 		for(HomeCaHO4OpenLForm form: openLPolicy.getForms()) {
 			if ("HO-70".equals(form.getFormCode())) {
 				tdList.add(DataProviderFactory.dataOf(
 						"Action", "Add",
 						HomeCaMetaData.EndorsementTab.EndorsementHO70.NUMBER_OF_FAMILY_UNITS.getLabel(), form.getNumOfFamilies(), 
 						HomeCaMetaData.EndorsementTab.EndorsementHO70.ZIP_CODE.getLabel(), "90255", 
-						HomeCaMetaData.EndorsementTab.EndorsementHO70.STREET_ADDRESS_1.getLabel(), "111 Test street", 
+						HomeCaMetaData.EndorsementTab.EndorsementHO70.STREET_ADDRESS_1.getLabel(), "11" + instanceNum.toString() + " Test street", 
 						HomeCaMetaData.EndorsementTab.EndorsementHO70.CITY.getLabel(), "Beverly Hills", 
 						HomeCaMetaData.EndorsementTab.EndorsementHO70.STATE.getLabel(), "CA", 
 						HomeCaMetaData.EndorsementTab.EndorsementHO70.SECTION_II_TERRITORY.getLabel(), "index=2"));
@@ -105,19 +149,47 @@ public class HomeCaHO4FormTestDataGenerator {
 	
 	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO75DataFunction = (openLPolicy) -> {
 		List<TestData> tdList = new ArrayList<>();
-		int instanceNum = 1;
+		Integer instanceNum = 1;
 		for(HomeCaHO4OpenLForm form: openLPolicy.getForms()) {
 			if ("HO-75".equals(form.getFormCode())) {
 				tdList.add(DataProviderFactory.dataOf(
 						"Action", "Add", 
 						HomeCaMetaData.EndorsementTab.EndorsementHO75.BOAT_TYPE.getLabel(), form.getFormClass(),
 						HomeCaMetaData.EndorsementTab.EndorsementHO75.HORSEPOWER.getLabel(), "1000", 
-						HomeCaMetaData.EndorsementTab.EndorsementHO75.LENGTH.getLabel(), "30", 
+						HomeCaMetaData.EndorsementTab.EndorsementHO75.LENGTH.getLabel(), "3" + instanceNum.toString(), 
 						HomeCaMetaData.EndorsementTab.EndorsementHO75.MAXIMUM_SPEED.getLabel(), "250"));
 				instanceNum++;
 			}
 		}
 		return tdList;
+	};
+	
+	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO76DataFunction = (openLPolicy) -> {
+		return null;
+	};
+	
+	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO77DataFunction = (openLPolicy) -> {
+		return null;
+	};
+	
+	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO78DataFunction = (openLPolicy) -> {
+		return null;
+	};
+	
+	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO79DataFunction = (openLPolicy) -> {
+		return null;
+	};
+	
+	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO80DataFunction = (openLPolicy) -> {
+		return null;
+	};
+	
+	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO81DataFunction = (openLPolicy) -> {
+		return null;
+	};
+	
+	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO82DataFunction = (openLPolicy) -> {
+		return null;
 	};
 	
 	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO90DataFunction = (openLPolicy) -> {
@@ -168,15 +240,38 @@ public class HomeCaHO4FormTestDataGenerator {
 		return tdList;
 	}; 
 	
+	public static List<TestData> getFormTestData(HomeCaHO4OpenLPolicy openLPolicy, String formCode) {
+		return getFormEnum(formCode).getTestData(openLPolicy);
+	}
+	
+	public static String getFormMetaKey(String formCode) {
+		return getFormEnum(formCode).getMetaKey();
+	}
+	
+	private static Forms getFormEnum(String formCode) {
+		return Arrays.stream(Forms.values()).filter(f -> f.getFormCode().equals(formCode)).findFirst().orElseThrow(() -> new IstfException("There is no Form enum with form code: " + formCode));
+	}
 	
 	public enum Forms {
 		HO29(HomeCaMetaData.EndorsementTab.HO_29.getLabel(), "HO-29", formHO29DataFunction), 
 		HO42(HomeCaMetaData.EndorsementTab.HO_42.getLabel(), "HO-42", formHO42DataFunction), 
 		HO43(HomeCaMetaData.EndorsementTab.HO_43.getLabel(), "HO-43", formHO43DataFunction), 
 		HO51(HomeCaMetaData.EndorsementTab.HO_51.getLabel(), "HO-51", formHO51DataFunction), 
+		HO58(HomeCaMetaData.EndorsementTab.HO_58.getLabel(), "HO-58", formHO58DataFunction), 
+		HO59(HomeCaMetaData.EndorsementTab.HO_59.getLabel(), "HO-59", formHO59DataFunction), 
+		HO60(HomeCaMetaData.EndorsementTab.HO_60.getLabel(), "HO-60", formHO60DataFunction), 
+		HO61(HomeCaMetaData.EndorsementTab.HO_61.getLabel(), "HO-61", formHO61DataFunction), 
+		HO61C(HomeCaMetaData.EndorsementTab.HO_61C.getLabel(), "HO-61C", formHO61CDataFunction), 
 		HO70(HomeCaMetaData.EndorsementTab.HO_70.getLabel(), "HO-70", formHO70DataFunction), 
 		HO71(HomeCaMetaData.EndorsementTab.HO_71.getLabel(), "HO-71", formHO71DataFunction), 
 		HO75(HomeCaMetaData.EndorsementTab.HO_75.getLabel(), "HO-75", formHO75DataFunction), 
+		HO76(HomeCaMetaData.EndorsementTab.HO_76.getLabel(), "HO-76", formHO76DataFunction), 
+		HO77(HomeCaMetaData.EndorsementTab.HO_77.getLabel(), "HO-77", formHO77DataFunction), 
+		HO78(HomeCaMetaData.EndorsementTab.HO_78.getLabel(), "HO-78", formHO78DataFunction), 
+		HO79(HomeCaMetaData.EndorsementTab.HO_79.getLabel(), "HO-79", formHO79DataFunction), 
+		HO80(HomeCaMetaData.EndorsementTab.HO_80.getLabel(), "HO-80", formHO80DataFunction), 
+		HO81(HomeCaMetaData.EndorsementTab.HO_81.getLabel(), "HO-81", formHO81DataFunction), 
+		HO82(HomeCaMetaData.EndorsementTab.HO_82.getLabel(), "HO-82", formHO82DataFunction), 
 		HO90(HomeCaMetaData.EndorsementTab.HO_90.getLabel(), "HO-90", formHO90DataFunction), 
 		HO164(HomeCaMetaData.EndorsementTab.HO_164.getLabel(), "HO-164", formHO164DataFunction), 
 		HO210(HomeCaMetaData.EndorsementTab.HO_210.getLabel(), "HO-210", formHO210DataFunction), 

@@ -803,8 +803,8 @@ public final class HomeCaMetaData {
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_57 = declare("HO-57", HomeCAEndorsementsMultiAssetList.class, EndorsementHO57.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		// public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_58 = declare("HO-58",
-		// HomeCAEndorsementsMultiAssetList.class, EndorsementHO58.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_58 = declare("HO-58", HomeCAEndorsementsMultiAssetList.class, EndorsementHO58.class, By
+				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		// public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_58C = declare("HO-58C",
 		// HomeCAEndorsementsMultiAssetList.class, EndorsementHO58C.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_59 = declare("HO-59", HomeCAEndorsementsMultiAssetList.class, EndorsementHO59.class, By
@@ -1159,7 +1159,8 @@ public final class HomeCaMetaData {
 		}
 
 		public static final class EndorsementHO90 extends MetaData {}
-		public static final class EndorsementHO57 extends MetaData {} 		
+		public static final class EndorsementHO57 extends MetaData {} 
+		public static final class EndorsementHO58 extends MetaData {} 
 		public static final class EndorsementHO59 extends MetaData {}		
 		public static final class EndorsementHO60 extends MetaData {}
 		public static final class EndorsementHO76 extends MetaData {}
@@ -1171,8 +1172,7 @@ public final class HomeCaMetaData {
 		public static final class EndorsementHO82 extends MetaData {}
 		public static final class EndorsementHO177 extends MetaData {}
 		
-		public static final class EndorsementHO61C extends MetaData {}
-		
+		public static final class EndorsementHO61C extends MetaData {}		
 		public static final class EndorsementHO61 extends MetaData {}
 		
 		public static final class EndorsementHO1732 extends MetaData {}

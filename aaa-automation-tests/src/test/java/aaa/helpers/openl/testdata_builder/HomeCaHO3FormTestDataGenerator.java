@@ -135,14 +135,14 @@ public class HomeCaHO3FormTestDataGenerator {
 	
 	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO70DataFunction =  (openLPolicy) -> {
 		List<TestData> tdList = new ArrayList<>();
-		int instanceNum = 1;
+		Integer instanceNum = 1;
 		for(HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
 			if ("HO-70".equals(form.getFormCode())) {
 				tdList.add(DataProviderFactory.dataOf(
 						"Action", "Add",
 						HomeCaMetaData.EndorsementTab.EndorsementHO70.NUMBER_OF_FAMILY_UNITS.getLabel(), form.getNumOfFamilies(), 
 						HomeCaMetaData.EndorsementTab.EndorsementHO70.ZIP_CODE.getLabel(), "90255", 
-						HomeCaMetaData.EndorsementTab.EndorsementHO70.STREET_ADDRESS_1.getLabel(), "111 Test street", 
+						HomeCaMetaData.EndorsementTab.EndorsementHO70.STREET_ADDRESS_1.getLabel(), "11" + instanceNum.toString() + " Test street", 
 						HomeCaMetaData.EndorsementTab.EndorsementHO70.CITY.getLabel(), "Beverly Hills", 
 						HomeCaMetaData.EndorsementTab.EndorsementHO70.STATE.getLabel(), "CA", 
 						HomeCaMetaData.EndorsementTab.EndorsementHO70.SECTION_II_TERRITORY.getLabel(), "index=2"));
@@ -165,14 +165,14 @@ public class HomeCaHO3FormTestDataGenerator {
 	
 	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO75DataFunction = (openLPolicy) -> {
 		List<TestData> tdList = new ArrayList<>();
-		int instanceNum = 1;
+		Integer instanceNum = 1;
 		for(HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
 			if ("HO-75".equals(form.getFormCode())) {
 				tdList.add(DataProviderFactory.dataOf(
 						"Action", "Add", 
 						HomeCaMetaData.EndorsementTab.EndorsementHO75.BOAT_TYPE.getLabel(), form.getFormClass(),
 						HomeCaMetaData.EndorsementTab.EndorsementHO75.HORSEPOWER.getLabel(), "1000", 
-						HomeCaMetaData.EndorsementTab.EndorsementHO75.LENGTH.getLabel(), "30", 
+						HomeCaMetaData.EndorsementTab.EndorsementHO75.LENGTH.getLabel(), "3" + instanceNum.toString(), 
 						HomeCaMetaData.EndorsementTab.EndorsementHO75.MAXIMUM_SPEED.getLabel(), "250"));
 				instanceNum++;
 			}
