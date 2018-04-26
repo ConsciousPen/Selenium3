@@ -1,15 +1,18 @@
 package aaa.helpers.openl.testdata_builder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
+
 import aaa.helpers.openl.model.home_ca.ho6.HomeCaHO6OpenLForm;
 import aaa.helpers.openl.model.home_ca.ho6.HomeCaHO6OpenLPolicy;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.exceptions.IstfException;
 
 public class HomeCaHO6FormTestDataGenerator {
 	
@@ -163,7 +166,6 @@ public class HomeCaHO6FormTestDataGenerator {
 	};
 
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHW0008DataFunction = (openLPolicy) -> {
-		//TODO 
 		return null;
 	};
 	
@@ -217,6 +219,17 @@ public class HomeCaHO6FormTestDataGenerator {
 	};
 	
 	
+	public static List<TestData> getFormTestData(HomeCaHO6OpenLPolicy openLPolicy, String formCode) {
+		return getFormEnum(formCode).getTestData(openLPolicy);
+	}
+	
+	public static String getFormMetaKey(String formCode) {
+		return getFormEnum(formCode).getMetaKey();
+	}
+	
+	private static Forms getFormEnum(String formCode) {
+		return Arrays.stream(Forms.values()).filter(f -> f.getFormCode().equals(formCode)).findFirst().orElseThrow(() -> new IstfException("There is no Form enum with form code: " + formCode));
+	}
 	
 	public enum Forms {
 		HO29(HomeCaMetaData.EndorsementTab.HO_29.getLabel(), "HO-29", formHO29DataFunction), 
