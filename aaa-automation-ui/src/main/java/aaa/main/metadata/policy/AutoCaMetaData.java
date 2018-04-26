@@ -633,6 +633,10 @@ public final class AutoCaMetaData {
 				.xpath(".//div[@id='policyDataGatherForm:componentView_MandatorySupportingDocuments']"));
 		public static final AssetDescriptor<VehicleMultiInstanceBeforeAssetList> VEHICLE_INFORMATION = declare("VehicleInformation", VehicleMultiInstanceBeforeAssetList.class,
 				VehicleInformation.class);
+		public static final AssetDescriptor<AssetList> PAPERLESS_PREFERENCES =
+				declare("PaperlessPreferences", AssetList.class, AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAPaperlessPreferences']"));
+		public static final AssetDescriptor<AssetList> DOCUMENT_PRINTING_DETAILS =
+				declare("DocumentPrintingDetails", AssetList.class, AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_PurchaseAction']"));
 
 		// public static final AssetDescriptor<RadioGroup> AGREEMENT = declare("Agreement", RadioGroup.class, Waiters.AJAX, false,
 		// By.xpath("//table[@id='policyDataGatherForm:AAADocAgreement_agreement']"));
@@ -660,6 +664,10 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<TextBox> MOBILE_PHONE_NUM = declare("Mobile Phone #", TextBox.class);
 
 		public static final AssetDescriptor<TextBox> CASE_NUMBER = declare("Case Number", TextBox.class);
+		public static final AssetDescriptor<ComboBox> SUPPRESS_PRINT = declare("Suppress Print", ComboBox.class);
+		public static final AssetDescriptor<TextBox> ISSUE_DATE = declare("Issue Date", TextBox.class);
+		public static final AssetDescriptor<ComboBox> METHOD_OF_DELIVERY = declare("Method Of Delivery", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> INCLUDE_WITH_EMAIL = declare("Include with Email", ComboBox.class);
 		public static final AssetDescriptor<TextBox> AUTHORIZED_BY = declare("Authorized By", TextBox.class, By.id("policyDataGatherForm:sedit_AAAInsuredBindInformation_authorizedBy"));
 
 		public static final class DocumentsForPrinting extends MetaData {
@@ -707,6 +715,18 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<RadioGroup> POLICY_APPLICATION = declare("Policy Application", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> AUTO_BILLING_PLAN_EXPLANATION = declare("Auto Billing Plan Explanation", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> PROOF_OF_GOOD_STUDENT_DISCOUNT = declare("Proof of Good Student Discount", RadioGroup.class);
+		}
+
+		public static final class PaperlessPreferences extends MetaData {
+			public static final AssetDescriptor<TextBox> ENROLLED_IN_PAPERLESS = declare("Enrolled in Paperless?", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<Button> BTN_MANAGE_PAPERLESS_PREFERENCES = declare("Manage Paperless Preferences", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:paperlessPreferenceButton_AAAPaperlessPreferences"));
+			public static final AssetDescriptor<Button> EDIT_PAPERLESS_PREFERENCES_BTN_DONE = declare("Done", Button.class, By.xpath("//input[@id='policyDataGatherForm:preferencesPopupCancel']"));
+		}
+
+		public static final class DocumentPrintingDetails extends MetaData {
+			public static final AssetDescriptor<TextBox> ISSUE_DATE = declare("Issue Date", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> METHOD_OF_DELIVERY = declare("Method Of Delivery", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> INCLUDE_WITH_EMAIL = declare("Include with Email", ComboBox.class, Waiters.AJAX);
 		}
 
 		public static final class VehicleInformation extends MetaData {

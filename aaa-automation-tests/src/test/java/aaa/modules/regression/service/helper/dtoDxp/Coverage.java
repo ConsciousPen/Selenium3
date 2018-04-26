@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -26,4 +27,5 @@ public class Coverage {
 	@ApiModelProperty(value = "Customer Displayed?", example = "false")
 	public Boolean customerDisplayed;
 
+	public List<CoverageLimit> availableLimits;
 }
