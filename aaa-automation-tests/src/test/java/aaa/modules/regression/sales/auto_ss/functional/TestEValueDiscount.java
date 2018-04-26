@@ -26,6 +26,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.EntitiesHolder;
+import aaa.helpers.TestDataManager;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -369,7 +370,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-305")
 	public void pas305_eValueDiscountApplied(@Optional("VA") String state) {
-
 		eValueQuoteCreation();
 
 		CustomAssert.enableSoftMode();
@@ -430,11 +430,11 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		CustomAssert.assertTrue(totalPremiumWithoutEvalueDiscount.moreThan(totalPremiumWithEvalueDiscount));
 		//PAS-2053 eValue Status on Policy Summary Page - Don't Show it When not enabled
 
-		//PAS-305 start
+		//PAS-305, PAS-310 start
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, E_VALUE_DISCOUNT).getCell(4).verify.value("Yes");
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-		//PAS-305 end
+		//PAS-305, PAS-310 end
 
 		//PAS-2053
 		premiumAndCoveragesTab.saveAndExit();
@@ -807,7 +807,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-278", "PAS-721"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-278", "PAS-721", "PAS-3647"})
 	public void pas278_eValueeSignedPledgeDocumentAHEVAXX(@Optional("VA") String state) {
 
 		eValueQuoteCreation();
@@ -908,7 +908,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValuePriorBiConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-232"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-232", "PAS-437", "PAS-3008"})
 	public void pas232_eValuePriorBiConfigurationDependency(@Optional("OR") String state) {
 		eValueQuoteCreation();
 		CustomAssert.enableSoftMode();
@@ -1304,7 +1304,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-294")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-12294", "PAS-3008"})
 	public void pas12294_PriorCarrierWithLapsePriorCarrierRequired(@Optional("VA") String state) {
 		eValueQuoteCreation();
 
@@ -1551,7 +1551,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-333", "PAS-336", "PAS-238"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-333", "PAS-336", "PAS-238", "PAS-313"})
 	public void pas333_eValueDiscountRemovedBySystem(@Optional("VA") String state) {
 
 		String agentExpirationDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(1).format(DateTimeUtils.MM_DD_YYYY);
@@ -1570,7 +1570,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-294")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-12294", "PAS-3008"})
 	public void pas12294_PriorCarrierWithLapsePriorCarrierNotRequired(@Optional("OR") String state) {
 		eValueQuoteCreation();
 
@@ -1581,7 +1581,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-294")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-12294", "PAS-3008"})
 	public void pas12294_PriorCarrierLessThanSixMonthsPriorCarrierRequired(@Optional("VA") String state) {
 		eValueQuoteCreation();
 
@@ -1598,7 +1598,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-294")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-12294", "PAS-3008"})
 	public void pas12294_PriorCarrierLessThanSixMonthsPriorCarrierNotRequired(@Optional("OR") String state) {
 		eValueQuoteCreation();
 
@@ -1609,7 +1609,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-294")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-12294", "PAS-3008"})
 	public void pas12294_PriorCarrierNone(@Optional("VA") String state) {
 		eValueQuoteCreation();
 
@@ -1992,7 +1992,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		return policyNumber;
 	}
 
-	public void eValueQuoteCreationFromZero() {
+	private void eValueQuoteCreationFromZero() {
 		TestData defaultTestData = getPolicyTD("DataGather", "TestData");
 		TestData policyInformationSectionAdjusted = getTestSpecificTD("PolicyInformation").adjust("TollFree Number", "1");
 		TestData currentCarrierSectionTestSpecific = getTestSpecificTD("CurrentCarrierInformation");
@@ -2045,14 +2045,20 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		}
 
 		TestData purchaseTabData = getPolicyTD("DataGather", "TestData");
+		if (null==purchaseTabData){
+			purchaseTabData = new TestDataManager().policy.get(PolicyType.AUTO_SS).getTestData("DataGather", "TestData_AZ");
+		}
 		if (!StringUtils.isEmpty(paymentMethod)) {
 			purchaseTabData.adjust("PurchaseTab", getTestSpecificTD("PurchaseTab_" + paymentMethod));
 		}
 		new PurchaseTab().fillTab(purchaseTabData).submitTab();
+		if(Page.dialogConfirmation.isPresent()){
+			Page.dialogConfirmation.confirm();
+		}
 		return PolicySummaryPage.getPolicyNumber();
 	}
 
-	public void simplifiedPendedEndorsementIssue() {
+	public String simplifiedPendedEndorsementIssue() {
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
@@ -2073,6 +2079,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			DocumentsAndBindTab.btnPurchase.click();
 			Page.dialogConfirmation.confirm();
 		}
+		return PolicySummaryPage.getPolicyNumber();
 	}
 
 	private void checkBlueBoxMessages(String topic, List<String> messages) {

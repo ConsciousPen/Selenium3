@@ -246,7 +246,8 @@
         </classes>
     </test>
 
-    <test name="DXP E2E" parallel="methods" thread-count="1024">
+    <!--Commented out to see how the tests will run in DXP suite-->
+<!--    <test name="DXP E2E" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
@@ -266,6 +267,41 @@
                 </methods>
             </class>
         </classes>
-    </test>
+    </test>-->
 
+    <test name="pas283_paperlessPreferencesForAllStatesProducts SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferencesAllProducts">
+                <methods>
+                    <include name="pas283_paperlessPreferencesForAllStatesProducts"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPaperlessPreferencesAllProducts">
+                <methods>
+                    <include name="pas283_paperlessPreferencesForAllStatesProducts"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.pup.functional.TestPaperlessPreferencesAllProducts">
+                <methods>
+                    <include name="pas283_paperlessPreferencesForAllStatesProducts"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas283_paperlessPreferencesForAllStatesProducts CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestPaperlessPreferencesAllProducts">
+                <methods>
+                    <include name="pas283_paperlessPreferencesForAllStatesProducts"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestPaperlessPreferencesAllProducts">
+                <methods>
+                    <include name="pas283_paperlessPreferencesForAllStatesProducts"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

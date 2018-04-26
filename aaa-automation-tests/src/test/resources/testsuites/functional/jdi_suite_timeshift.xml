@@ -298,4 +298,18 @@
             </class>
         </classes>
     </test>
+    <test name="Memebership Discount and AHDRXX CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas550_membershipEligibilityConfigurationTrueForActiveMembership"/>
+                    <include name="pas550_membershipEligibilityConfigurationTrueForCancelledMembership"/>
+                    <include name="pas550_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
+                    <include name="pas550_membershipEligibilityConfigurationTrueForPendingMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

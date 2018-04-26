@@ -122,7 +122,9 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSHO6Ba
 		activeFirstRenewal();
 		initiateSecondRenewal();
 
-		PolicySummaryPage.buttonRenewals.click();
+		if (PolicySummaryPage.buttonRenewals.isPresent()) {
+			PolicySummaryPage.buttonRenewals.click();
+		}
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
 

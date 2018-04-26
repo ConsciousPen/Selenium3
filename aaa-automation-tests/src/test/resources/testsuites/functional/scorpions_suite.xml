@@ -198,4 +198,24 @@
             </class>
         </classes>
     </test>
+    <test name="pas9064_MapCompAndCollSymbolsForDCS Select CA">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.TestSymbolsPresenceApplicationFormForPremCalcQuote">
+                <methods>
+                    <include name="pas9064_MapCompAndCollSymbolsForDCS"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas9064_MapCompAndCollSymbolsForDCS Choice CA">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.TestSymbolsPresenceApplicationFormForPremCalcQuote">
+                <methods>
+                    <include name="pas9064_MapCompAndCollSymbolsForDCS"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

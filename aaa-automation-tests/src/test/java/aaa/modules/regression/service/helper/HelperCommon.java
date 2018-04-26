@@ -1,26 +1,31 @@
 package aaa.modules.regression.service.helper;
 
-import static aaa.admin.modules.IAdmin.log;
-import java.util.HashMap;
-import java.util.Map;
-import javax.ws.rs.client.*;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import aaa.helpers.config.CustomTestProperties;
+import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
+import aaa.modules.regression.service.helper.dtoAdmin.responses.AAABodyStyleByYearMakeModelSeries;
+import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAMakeByYear;
+import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAModelByYearMake;
+import aaa.modules.regression.service.helper.dtoAdmin.responses.AAASeriesByYearMakeModel;
+import aaa.modules.regression.service.helper.dtoDxp.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import com.sun.jna.platform.win32.Guid;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
 import org.apache.xerces.impl.dv.util.Base64;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import com.sun.jna.platform.win32.Guid;
-import aaa.helpers.config.CustomTestProperties;
-import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
-import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
+import javax.ws.rs.client.*;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.HashMap;
+import java.util.Map;
+
+import static aaa.admin.modules.IAdmin.log;
 
 public class HelperCommon {
 	private static final String ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT = "/aaa-admin/services/aaa-policy-rs/v1/documents/rfi-documents/";
@@ -47,6 +52,14 @@ public class HelperCommon {
 	private static final String APPLICATION_CONTEXT_HEADER = "X-ApplicationContext";
 	private static final String DXP_VIEW_VEHICLE_COVERAGES = "/api/v1/policies/%s/coverages";
 	private static final String DXP_VIEW_VEHICLE_ENDORSEMENT_COVERAGES = "/api/v1/policies/%s/endorsement/coverages";
+
+	private static final String AAA_VEHICLE_INFO_RS_PREFIX = "/aaa-admin/services/aaa-vehicle-info-rs/v1/vin-info/";
+	private static final String DXP_RETRIEVE_MAKE_BY_YEAR = AAA_VEHICLE_INFO_RS_PREFIX + "make-by-year?year=%s&productCd=%s&stateCd=%s&formType=%s&effectiveDate=%s";
+	private static final String DXP_RETRIEVE_MODEL_BY_YEAR_MAKE = AAA_VEHICLE_INFO_RS_PREFIX + "model-by-make-year?year=%s&make=%s&productCd=%s&stateCd=%s&formType=%s&effectiveDate=%s";
+	private static final String DXP_SERIES_BY_YEAR_MAKE_MODEL = AAA_VEHICLE_INFO_RS_PREFIX + "series-by-make-year-model?year=%s&make=%s&model=%s&productCd=%s&stateCd=%s&formType=%s&effectiveDate=%s";
+	private static final String DXP_RETRIEVE_BODYSTYLE_BY_YEAR_MAKE_MODEL_SERIES = AAA_VEHICLE_INFO_RS_PREFIX + "bodystyle-by-make-year-model?year=%s&make=%s&model=%s&Series=%s&productCd=%s&stateCd=%s&formType=%s&effectiveDate=%s";
+
+	private static final String DXP_BIG_META_DATA_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles/%s/metadata";
 	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
 
 	private static String urlBuilderDxp(String endpointUrlPart) {
@@ -116,6 +129,11 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(restRequestInfo);
 	}
 
+	public static AttributeMetadata[] vehicleAttributeMetaDataService(String policyNumber, String oid) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_BIG_META_DATA_ENDPOINT, policyNumber, oid));
+		return runJsonRequestGetDxp(requestUrl, AttributeMetadata[].class);
+	}
+
 	public static PolicyLockUnlockDto executePolicyLockService(String policyNumber, int status, String sessionId) {
 		final RestRequestInfo<PolicyLockUnlockDto> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = urlBuilderDxp(String.format(DXP_LOCK_UNLOCK_SERVICES, policyNumber));
@@ -165,6 +183,11 @@ public class HelperCommon {
 	public static DriverAssignmentDto[] pendedEndorsementDriverAssignmentInfo(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_ENDORSEMENT_DRIVER_ASSIGNMENT, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, DriverAssignmentDto[].class);
+	}
+
+	public static ErrorResponseDto pendedEndorsementDriverAssignmentInfoError(String policyNumber, int status) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_ENDORSEMENT_DRIVER_ASSIGNMENT, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, ErrorResponseDto.class, status);
 	}
 
 	public static PolicyPremiumInfo[] viewPremiumInfo(String policyNumber) {
@@ -475,4 +498,57 @@ public class HelperCommon {
 			throw new IstfException("Failed to create application context");
 		}
 	}
+
+	/**
+	 * @param year
+	 * @param productCd
+	 * @param stateCd
+	 * @param formType  can be null or empty
+	 * @param effectiveDate
+	 * @return
+	 */
+	public static AAAMakeByYear getMakes(String year, String productCd, String stateCd, String formType, String effectiveDate) {
+		String url = urlBuilderAdmin(String.format(DXP_RETRIEVE_MAKE_BY_YEAR, year, productCd, stateCd, formType, effectiveDate));
+
+		return runJsonRequestGetAdmin(cutFormType(formType, url), AAAMakeByYear.class);
+	}
+
+	public static String cutFormType(String formType, String url) {
+		if (formType.isEmpty() || formType == null) {
+			url = url.replaceAll("&formType=", "");
+		}
+		return url;
+	}
+
+	public static AAAModelByYearMake getModels(String year, String make, String productCd, String stateCd, String formType, String effectiveDate) {
+		String url = urlBuilderAdmin(String.format(DXP_RETRIEVE_MODEL_BY_YEAR_MAKE, year, make, productCd, stateCd, formType, effectiveDate));
+
+		return runJsonRequestGetAdmin(cutFormType(formType, url), AAAModelByYearMake.class);
+	}
+
+	/**
+	 *
+	 * @param year
+	 * @param make
+	 * @param model
+	 * @param series
+	 * @param productCd
+	 * @param stateCd
+	 * @param formType can be null or empty
+	 * @param effectiveDate
+	 * @return
+	 */
+
+	public static AAABodyStyleByYearMakeModelSeries getBodyStyle(String year, String make, String model, String series, String productCd, String stateCd, String formType, String effectiveDate) {
+		String url = urlBuilderAdmin(String.format(DXP_RETRIEVE_BODYSTYLE_BY_YEAR_MAKE_MODEL_SERIES, year, make, model, series, productCd, stateCd, formType, effectiveDate));
+
+		return runJsonRequestGetAdmin(cutFormType(formType, url), AAABodyStyleByYearMakeModelSeries.class);
+	}
+
+	public static AAASeriesByYearMakeModel getSeries(String year, String make, String model, String productCd, String stateCd, String formType, String effectiveDate) {
+		String url = urlBuilderAdmin(String.format(DXP_SERIES_BY_YEAR_MAKE_MODEL, year, make, model, productCd, stateCd, formType, effectiveDate));
+
+		return runJsonRequestGetAdmin(url, AAASeriesByYearMakeModel.class);
+	}
+
 }

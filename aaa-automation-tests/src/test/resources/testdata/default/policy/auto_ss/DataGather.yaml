@@ -1204,7 +1204,7 @@ PremiumAndCoveragesTab_VA: {
   Payment Plan: Annual,
   Policy Term: Annual,
   Bodily Injury Liability: 'contains=$100,000/$300,000',
-  Comprehensive Deductible: 'contains=$750',
+  Other Than Collision: 'contains=$750',
   Collision Deductible: 'contains=$500'
 }
 
