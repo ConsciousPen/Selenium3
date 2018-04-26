@@ -1197,7 +1197,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyPending.residentialAddress.city).isEqualTo(city1);
 			softly.assertThat(responsePolicyPending.residentialAddress.stateProvCd).isEqualTo(state1);
 
-
 			PolicySummary responsePolicyPendingRenewal = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", Response.Status.NOT_FOUND.getStatusCode());
 			assertThat(responsePolicyPendingRenewal.errorCode).isEqualTo(ErrorDxpEnum.Errors.RENEWAL_DOES_NOT_EXIST.getCode());
 			assertThat(responsePolicyPendingRenewal.message).contains(ErrorDxpEnum.Errors.RENEWAL_DOES_NOT_EXIST.getMessage() + policyNumber);
@@ -2783,7 +2782,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected void pas12407_bigDataService(String state, boolean isNewPolicy, SoftAssertions softly) {
 		mainApp().open();
-	    String policyNumber = getCopiedPolicy();
+		String policyNumber = getCopiedPolicy();
 
 		//Create pended endorsement
 		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -2825,47 +2824,45 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(response2[2].visible).isEqualTo(true);
 		softly.assertThat(response2[2].required).isEqualTo(false);
 		softly.assertThat(response2[2].maxLength).isEqualTo("20");
-		softly.assertThat(response2[2].valueRange).isEqualTo("");
+		softly.assertThat(String.valueOf(response2[2].valueRange)).isEqualTo("{}");
 
 		softly.assertThat(response2[3].attributeName).isEqualTo("modelYear");
 		softly.assertThat(response2[3].enabled).isEqualTo(false);
 		softly.assertThat(response2[3].visible).isEqualTo(true);
 		softly.assertThat(response2[3].required).isEqualTo(true);
 		softly.assertThat(response2[3].maxLength).isEqualTo("5");
-		softly.assertThat(response2[3].valueRange).isEqualTo("");
+		softly.assertThat(String.valueOf(response2[3].valueRange)).isEqualTo("{}");
 
-		softly.assertThat(response2[4].attributeName).isEqualTo("modelYear");
+		softly.assertThat(response2[4].attributeName).isEqualTo("manufacturer");
 
-		softly.assertThat(response2[5].attributeName).isEqualTo("manufacturer");
+		softly.assertThat(response2[5].attributeName).isEqualTo("model");
 
-		softly.assertThat(response2[6].attributeName).isEqualTo("model");
+		softly.assertThat(response2[6].attributeName).isEqualTo("series");
 
-		softly.assertThat(response2[7].attributeName).isEqualTo("series");
+		softly.assertThat(response2[7].attributeName).isEqualTo("bodyStyle");
+		softly.assertThat(response2[7].enabled).isEqualTo(false);
+		softly.assertThat(response2[7].visible).isEqualTo(true);
+		softly.assertThat(response2[7].required).isEqualTo(false);
+		softly.assertThat(response2[7].maxLength).isEqualTo(null);
+		softly.assertThat(response2[7].valueRange.get("")).isEqualTo("");
+		softly.assertThat(response2[7].valueRange.get("SPORT VAN")).isEqualTo("SPORT VAN");
+		softly.assertThat(response2[7].valueRange.get("OTHER")).isEqualTo("OTHER");
 
-		softly.assertThat(response2[8].attributeName).isEqualTo("bodyStyle");
-		softly.assertThat(response2[8].enabled).isEqualTo(false);
+		softly.assertThat(response2[8].attributeName).isEqualTo("salvaged");
+		softly.assertThat(response2[8].enabled).isEqualTo(true);
 		softly.assertThat(response2[8].visible).isEqualTo(true);
 		softly.assertThat(response2[8].required).isEqualTo(false);
 		softly.assertThat(response2[8].maxLength).isEqualTo(null);
-		softly.assertThat(response2[8].valueRange.get("")).isEqualTo("");
-		softly.assertThat(response2[8].valueRange.get("SPORT VAN")).isEqualTo("SPORT VAN");
-		softly.assertThat(response2[8].valueRange.get("OTHER")).isEqualTo("OTHER");
+		softly.assertThat(response2[8].valueRange.get("")).isEqualTo(null);
 
-		softly.assertThat(response2[9].attributeName).isEqualTo("salvaged");
+		softly.assertThat(response2[9].attributeName).isEqualTo("antiTheft");
 		softly.assertThat(response2[9].enabled).isEqualTo(true);
 		softly.assertThat(response2[9].visible).isEqualTo(true);
 		softly.assertThat(response2[9].required).isEqualTo(false);
 		softly.assertThat(response2[9].maxLength).isEqualTo(null);
 		softly.assertThat(response2[9].valueRange.get("")).isEqualTo("");
-
-		softly.assertThat(response2[10].attributeName).isEqualTo("antiTheft");
-		softly.assertThat(response2[10].enabled).isEqualTo(true);
-		softly.assertThat(response2[10].visible).isEqualTo(true);
-		softly.assertThat(response2[10].required).isEqualTo(false);
-		softly.assertThat(response2[10].maxLength).isEqualTo(null);
-		softly.assertThat(response2[10].valueRange.get("")).isEqualTo("");
-		softly.assertThat(response2[10].valueRange.get("NONE")).isEqualTo("NONE");
-		softly.assertThat(response2[10].valueRange.get("STD")).isEqualTo("Vehicle Recovery Device");
+		softly.assertThat(response2[9].valueRange.get("NONE")).isEqualTo("None");
+		softly.assertThat(response2[9].valueRange.get("STD")).isEqualTo("Vehicle Recovery Device");
 	}
 
 	/**
