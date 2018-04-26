@@ -36,9 +36,8 @@ import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 
 public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
-	private static final Object UNMARSHAL_LOCK = new Object();
-
 	protected static final Logger log = LoggerFactory.getLogger(OpenLRatingBaseTest.class);
+	private static final Object UNMARSHAL_LOCK = new Object();
 	private String testsDir;
 
 	protected String getTestsDir() {
@@ -84,23 +83,23 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 	protected abstract Dollar createAndRateQuote(TestDataGenerator<P> tdGenerator, P openLPolicy);
 
 	protected <O extends OpenLFile<P>> List<P> getOpenLPolicies(String openLFileName, Class<O> openLFileModelClass, List<Integer> policyNumbers) {
-		ExcelManager openLFileManager = new ExcelManager(new File(getTestsDir() + "/" + openLFileName));
-
-		if (CollectionUtils.isNotEmpty(policyNumbers)) {
-			String policySheetName = OpenLFile.POLICY_SHEET_NAME;
-			if (getPolicyType().equals(PolicyType.AUTO_SS)) {
-				policySheetName = AutoSSOpenLFile.POLICY_SHEET_NAME;
-			} else if (getPolicyType().equals(PolicyType.PUP)) {
-				policySheetName = PUPOpenLFile.PUP_POLICY_SHEET_NAME;
-			}
-			// Find policies table and exclude not needed test rows and store it in ExcelManager instance to reduce time required for further excel unmarshalling of this table
-			ExcelTable policiesTable = ((ExcelSheet) openLFileManager.getSheet(policySheetName).considerRowsOnComparison(false)).getTable(OpenLFile.POLICY_HEADER_ROW_NUMBER);
-			Integer[] rowsIndexesToExclude = policiesTable.getRows().stream().filter(r -> !policyNumbers.contains(r.getIntValue(OpenLFile.PRIMARY_KEY_COLUMN_NAME))).map(CellsQueue::getIndex).toArray(Integer[]::new);
-			policiesTable.excludeRows(rowsIndexesToExclude);
-		}
-
 		List<P> openLPoliciesList;
+
 		synchronized (UNMARSHAL_LOCK) {
+			ExcelManager openLFileManager = new ExcelManager(new File(getTestsDir() + "/" + openLFileName));
+			if (CollectionUtils.isNotEmpty(policyNumbers)) {
+				String policySheetName = OpenLFile.POLICY_SHEET_NAME;
+				if (getPolicyType().equals(PolicyType.AUTO_SS)) {
+					policySheetName = AutoSSOpenLFile.POLICY_SHEET_NAME;
+				} else if (getPolicyType().equals(PolicyType.PUP)) {
+					policySheetName = PUPOpenLFile.PUP_POLICY_SHEET_NAME;
+				}
+				// Find policies table and exclude not needed test rows and store it in ExcelManager instance to reduce time required for further excel unmarshalling of this table
+				ExcelTable policiesTable = ((ExcelSheet) openLFileManager.getSheet(policySheetName).considerRowsOnComparison(false)).getTable(OpenLFile.POLICY_HEADER_ROW_NUMBER);
+				Integer[] rowsIndexesToExclude = policiesTable.getRows().stream().filter(r -> !policyNumbers.contains(r.getIntValue(OpenLFile.PRIMARY_KEY_COLUMN_NAME))).map(CellsQueue::getIndex).toArray(Integer[]::new);
+				policiesTable.excludeRows(rowsIndexesToExclude);
+			}
+
 			ExcelUnmarshaller eUnmarshaller = new ExcelUnmarshaller();
 			OpenLFile<P> openLFile = eUnmarshaller.unmarshal(openLFileManager, openLFileModelClass, false, false);
 
