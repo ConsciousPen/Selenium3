@@ -131,6 +131,8 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 	private TestData getPropertyInfoTabData(HomeCaHO3OpenLPolicy openLPolicy) {
 		Dollar coverageA = new Dollar(openLPolicy.getCovALimit());
 		
+		//TODO add Section II Territory for HO-42
+		
 		boolean isHO44 = false; 
 		for (HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
 			if ("HO-44".equals(form.getFormCode())) {
