@@ -1,9 +1,7 @@
 package aaa.main.modules.policy.abstract_tabs;
 
-import aaa.common.Tab;
-import aaa.main.enums.ErrorEnum;
-import aaa.toolkit.webdriver.WebDriverHelper;
-import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.assertj.core.api.SoftAssertions;
@@ -11,6 +9,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByChained;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import aaa.common.Tab;
+import aaa.main.enums.ErrorEnum;
+import aaa.toolkit.webdriver.WebDriverHelper;
+import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
@@ -18,15 +20,11 @@ import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.composite.table.Row;
 
-import java.util.*;
-
-import static toolkit.verification.CustomAssertions.assertThat;
-
 /**
  * Created by lkazarnovskiy on 8/8/2017.
  */
 public abstract class CommonErrorTab extends Tab {
-	private static final String KEY_ERRORS = "Errors";
+	public static final String KEY_ERRORS = "Errors";
 	public Button buttonOverride = new Button(By.id("errorsForm:overrideRules"));
 	public Button buttonApproval = new Button(By.id("errorsForm:referForApproval"));
 	public Verify verify = new Verify();
@@ -44,8 +42,9 @@ public abstract class CommonErrorTab extends Tab {
 	@Override
 	public Tab fillTab(TestData td) {
 		//TestData errorsTD = td.getTestData(getMetaKey());
-		if (td != null && td.containsKey(KEY_ERRORS)) {
-			List<String> values = td.getList(KEY_ERRORS);
+		if (td != null && td.containsKey(getMetaKey()) && td.getTestData(getMetaKey()).containsKey(KEY_ERRORS)) {
+			List<String> values = td.getTestData(getMetaKey()).getList(KEY_ERRORS);
+			//List<String> values = td.getTestData("ErrorTab").getList(KEY_ERRORS);
 			if (values.contains("All")) {
 				overrideAllErrors();
 			} else {

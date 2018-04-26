@@ -55,7 +55,7 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSDP3
 
     @Override
     protected PolicyType getPolicyType() {
-        return PolicyType.HOME_CA_DP3;
+        return PolicyType.HOME_SS_DP3;
     }
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})

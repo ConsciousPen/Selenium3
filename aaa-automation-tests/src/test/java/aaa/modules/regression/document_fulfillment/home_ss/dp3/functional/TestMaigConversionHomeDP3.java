@@ -262,4 +262,19 @@ public class TestMaigConversionHomeDP3 extends TestMaigConversionHomeAbstract {
         return PolicyType.HOME_SS_DP3;
     }
 
+    /**
+     * @name Test Conversion Document generation
+     * @scenario
+     * 1. Create Customer
+     * 2. Initiate Renewal Entry
+     * 3. Fill Conversion Policy data for Home - MD
+     * 4. Check that HS65MD documents are getting generated
+     * @details
+     */
+    @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-2662"})
+    public void pas12047_noticeOfNonRenewalLetterHS65MD(@Optional("MD") String state) throws NoSuchFieldException {
+        super.pas12047_noticeOfNonRenewalLetterHS65MD(state);
+    }
 }
