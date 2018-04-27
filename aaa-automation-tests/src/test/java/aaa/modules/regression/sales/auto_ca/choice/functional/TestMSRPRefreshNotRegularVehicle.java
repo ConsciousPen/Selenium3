@@ -1,7 +1,11 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
 import static aaa.helpers.db.queries.MsrpQueries.CA_CHOICE_MOTORHOME_VEH_MSRP_VERSION;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
@@ -71,6 +75,8 @@ public class TestMSRPRefreshNotRegularVehicle extends TestMSRPRefreshTemplate{
 	 * this after method should be updated. But such updates are not supposed to be done.
 	 * Please refer to the files with appropriate names in each test in /resources/uploadingfiles/vinUploadFiles.
 	 */
+
+	//todo
 	@AfterMethod(alwaysRun = true)
 	protected void resetMSRPTables() {
 		pas730_ChoiceCleanDataBase(CA_CHOICE_MOTORHOME_VEH_MSRP_VERSION, vehicleTypeMotorHome);

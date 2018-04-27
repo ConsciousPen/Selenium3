@@ -3,12 +3,16 @@ package aaa.modules.regression.sales.auto_ss.functional;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.Map;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.product.DatabaseCleanHelper;
+import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
@@ -21,7 +25,7 @@ import toolkit.utils.TestInfo;
 
 public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
-	VehicleTab vehicleTab = new VehicleTab();
+	private VehicleTab vehicleTab = new VehicleTab();
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -44,7 +48,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	public void pas730_PartialMatch(@Optional("UT") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
-		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get());
 
 		String vehYear = "2015";
 		String vehMake = "VOLKSWAGEN";
@@ -188,7 +192,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
-		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get());
 
 		String vinNumber = "7MSRP15H5V1011111";
 		TestData testData = getPolicyTD()
@@ -206,7 +210,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		String compSymbolBeforeRenewal = policyInfoBeforeRenewal.get("COMPSYMBOL");
 		String collSymbolBeforeRenewal = policyInfoBeforeRenewal.get("COLLSYMBOL");
 		// Preconditions to to vin is not match
-		DatabaseCleanHelper.cleanVinUploadTables("('SYMBOL_2000_SS_TEST')", getState());
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable("('SYMBOL_2000_SS_TEST')", getState());
 
 		// Move time to get refresh
 		moveTimeAndRunRenewJobs(policyExpirationDate);
@@ -217,31 +221,15 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		pas730_commonChecks(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
 
 	}
-
-	/**
-	 * Info in each xml file for this test could be used only once, so for running of tests properly DB should be cleaned after
-	 * each test method. So newly added values should be deleted from Vehiclerefdatavin, Vehiclerefdatamodel and VEHICLEREFDATAVINCONTROL
-	 * tables. Default values should be set for EXPIRATIONDATE field for default rows in VEHICLEREFDATAVINCONTROL table.
-	 * <p>
-	 * 'SYMBOL_2000_SS_TEST' are names of configurations which are used and listed in excel
-	 * files for each product (choice config, select config and Signature Series config ONLY for UT state). So if they will be changed there
-	 * this after method should be updated. But such updates are not supposed to be done.
-	 * Please refer to the files with appropriate names in each test in /resources/``ingfiles/vinUploadFiles.
-	 */
-	@AfterTest(alwaysRun = true)
-	protected void resetMSRPTables() {
-		resetMsrpPPAVeh();
-	}
-
-	@AfterClass(alwaysRun = true)
-	protected void resetVinUploadTables() {
-		// pas730_PartialMatch clean
-		DatabaseCleanHelper.cleanVinUploadTables("('SYMBOL_2000_SS_TEST')", getState());
-	}
-
+	//todo
 	@AfterSuite(alwaysRun = true)
 	protected void resetVinControlTable() {
+		// pas730_PartialMatch clean
+		//DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN,"");
+		resetMsrpPPAVeh();
 		// Reset to the default state  MSRP_2000
 		resetDefaultMSRPVersionValuesVinControlTable();
+
 	}
+
 }

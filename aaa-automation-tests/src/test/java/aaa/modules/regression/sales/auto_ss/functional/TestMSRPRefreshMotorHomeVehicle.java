@@ -2,7 +2,12 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import java.time.LocalDateTime;
 import java.util.Map;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -129,11 +134,11 @@ public class TestMSRPRefreshMotorHomeVehicle extends VinUploadAutoSSHelper {
 	protected void resetMSRPTables() {
 		resetMsrpHomeVehHelper();
 	}
-
+	//todo
 	@AfterClass(alwaysRun = true)
 	protected void resetVinUploadTables() {
 		// pas730_PartialMatch clean
-		DatabaseCleanHelper.cleanVinUploadTables("('SYMBOL_2000_SS_TEST')", getState());
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable("('SYMBOL_2000_SS_TEST')", getState());
 	}
 
 	@AfterSuite(alwaysRun = true)

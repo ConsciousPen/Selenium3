@@ -17,7 +17,14 @@ import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.modules.policy.auto_ca.defaulttabs.*;
+import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.DefaultMarkupParser;
@@ -103,7 +110,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 
 		//open Admin application and navigate to Administration tab
 		adminApp().open();
-		new VinUploadHelper(getPolicyType(), getState()).uploadFiles(vinTableFile);
+		new VinUploadHelper(getPolicyType(), getState()).uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);
@@ -317,7 +324,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 		String policyNumber = createPolicyPreconds(testData);
 
 		adminApp().reopen();
-		new VinUploadHelper(getPolicyType(), getState()).uploadFiles(vinTableFile);
+		new VinUploadHelper(getPolicyType(), getState()).uploadVinTable(vinTableFile);
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -401,7 +408,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 
 		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
 		adminApp().reopen();
-		new VinUploadHelper(getPolicyType(), getState()).uploadFiles(vinTableFile);
+		new VinUploadHelper(getPolicyType(), getState()).uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);
@@ -440,7 +447,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 
 		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
 		adminApp().reopen();
-		new VinUploadHelper(getPolicyType(), getState()).uploadFiles(vinTableFile);
+		new VinUploadHelper(getPolicyType(), getState()).uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);
@@ -461,7 +468,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("Gt");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel()).getValue()).isEqualTo("TEST");
 			// PAS-1487  No Match to Match but Year Doesn't Match
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.YEAR.getLabel()).getValue()).isEqualTo("2005");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.YEAR.getLabel()).getValue()).isEqualTo("2018");
 			// PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("Yes");
 		});
@@ -501,7 +508,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 		testData
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MAKE.getLabel()), "OTHER")
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.YEAR.getLabel()), "2005")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.YEAR.getLabel()), "2018")
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.OTHER_MAKE.getLabel()), "Other Make")
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()), "Other Model")
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.OTHER_SERIES.getLabel()), "Other Series")

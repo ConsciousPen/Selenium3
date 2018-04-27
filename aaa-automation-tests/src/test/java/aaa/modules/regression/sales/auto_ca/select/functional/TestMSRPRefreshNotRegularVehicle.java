@@ -1,15 +1,18 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
+import static aaa.helpers.db.queries.MsrpQueries.CA_SELECT_MOTORHOME_VEH_MSRP_VERSION;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.regression.sales.template.functional.TestMSRPRefreshTemplate;
-import org.testng.annotations.*;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
-import static aaa.helpers.db.queries.MsrpQueries.CA_SELECT_MOTORHOME_VEH_MSRP_VERSION;
 
 public class TestMSRPRefreshNotRegularVehicle extends TestMSRPRefreshTemplate{
 	PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
@@ -76,7 +79,7 @@ public class TestMSRPRefreshNotRegularVehicle extends TestMSRPRefreshTemplate{
 	protected void resetMSRPTables() {
 		pas730_SelectCleanDataBase(CA_SELECT_MOTORHOME_VEH_MSRP_VERSION,vehicleTypeMotorHome);
 	}
-
+	//todo
 	@AfterSuite(alwaysRun = true)
 	protected void resetVinControlTable() {
 		// Reset to the default state  MSRP_2000

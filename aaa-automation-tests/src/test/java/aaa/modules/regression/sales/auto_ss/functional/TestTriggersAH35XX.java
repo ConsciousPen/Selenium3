@@ -5,7 +5,9 @@ package aaa.modules.regression.sales.auto_ss.functional;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
 import static aaa.main.enums.BillingConstants.BillingAccountPoliciesTable.POLICY_NUM;
-import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.*;
+import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.MAKE;
+import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.MODEL;
+import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.YEAR;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -14,6 +16,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.DbAwaitHelper;
+import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
@@ -36,14 +39,12 @@ import toolkit.webdriver.controls.ComboBox;
 public class TestTriggersAH35XX extends AutoSSBaseTest {
     private VehicleTab vehicleTab = new VehicleTab();
 
-    private static final String PAYMENT_CENTRAL_CONFIG_CHECK = "select value from PROPERTYCONFIGURERENTITY\n" +
-            "where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')\n";
 
     @Test(description = "Preconditions")
     private void paymentCentralConfigCheck() {
         String appHost = PropertyProvider.getProperty("app.host");
         CustomAssert.assertTrue("Adding Payment methods will not be possible because PaymentCentralEndpoints are looking at real service. Please run paymentCentralConfigUpdate", DBService.get()
-                .getValue(PAYMENT_CENTRAL_CONFIG_CHECK).get().contains(appHost));
+                .getValue(VehicleQueries.PAYMENT_CENTRAL_CONFIG_CHECK).get().contains(appHost));
     }
 
     /**

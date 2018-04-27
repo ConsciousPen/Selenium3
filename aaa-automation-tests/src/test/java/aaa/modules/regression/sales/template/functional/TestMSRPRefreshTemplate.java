@@ -1,6 +1,15 @@
 package aaa.modules.regression.sales.template.functional;
 
-import static aaa.helpers.db.queries.MsrpQueries.*;
+import static aaa.helpers.db.queries.MsrpQueries.CA_CHOICE_MOTORHOME_VEH_MSRP_VERSION;
+import static aaa.helpers.db.queries.MsrpQueries.CA_CHOICE_REGULAR_VEH_MSRP_VERSION;
+import static aaa.helpers.db.queries.MsrpQueries.CA_SELECT_MOTORHOME_VEH_MSRP_VERSION;
+import static aaa.helpers.db.queries.MsrpQueries.CA_SELECT_REGULAR_VEH_MSRP_VERSION;
+import static aaa.helpers.db.queries.MsrpQueries.DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY;
+import static aaa.helpers.db.queries.MsrpQueries.DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_VERSION_STATECD;
+import static aaa.helpers.db.queries.MsrpQueries.INSERT_MSRPCOMPCOLLCONTROL_VERSION;
+import static aaa.helpers.db.queries.MsrpQueries.UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX_BY_KEY_VEHICLEYEARMIN;
+import static aaa.helpers.db.queries.MsrpQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION_FORMTYPE;
+import static aaa.helpers.db.queries.MsrpQueries.getAvailableIdFromVehicleDataVinControl;
 import static aaa.helpers.db.queries.VehicleQueries.UPDATE_CHOICE_VEHICLEREFDATAVINCONTROL_BY_MSRP_VERSION;
 import static aaa.helpers.db.queries.VehicleQueries.UPDATE_SELECT_VEHICLEREFDATAVINCONTROL_BY_MSRP_VERSION;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
@@ -13,11 +22,16 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.product.DatabaseCleanHelper;
+import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.defaulttabs.*;
+import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -25,6 +39,9 @@ import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 
 public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
+
+	public static String NEW_VIN = "1FDEU15H7KL055795";
+
 	protected final String INSERT_VEHICLEREFDATAVINCONTROL_BY_VERSION =
 			"Insert into VEHICLEREFDATAVINCONTROL (ID,PRODUCTCD,FORMTYPE,STATECD,VERSION,EFFECTIVEDATE,EXPIRATIONDATE,MSRP_VERSION) values"
 					+ "(%1$d,'%2$s','%3$s','%4$s','%5$s','%6$d','%7$d','%8$s')";
@@ -163,9 +180,11 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		String collSymbolBeforeRenewal = policyInfoBeforeRenewal.get("COLLSYMBOL");
 		// Preconditions to to vin is not match
 		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
-			DatabaseCleanHelper.cleanVinUploadTables("('SYMBOL_2000_CA_SELECT')", getState());
+			//todo
+			DatabaseCleanHelper.cleanVehicleRefDataVinTable("('SYMBOL_2000_CA_SELECT')", getState());
 		} else {
-			DatabaseCleanHelper.cleanVinUploadTables("('SYMBOL_2000_CHOICE_T')", getState());
+			//todo
+			DatabaseCleanHelper.cleanVehicleRefDataVinTable("('SYMBOL_2000_CHOICE_T')", getState());
 		}
 
 		// Move time to get refresh
@@ -222,7 +241,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		// Vin control table has version which overrides VERSION_2000, it is needed and important to get symbols for next steps
 		adminApp().open();
-		vinMethods.uploadFiles(vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get()));
+		vinMethods.uploadFiles(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get()));
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);

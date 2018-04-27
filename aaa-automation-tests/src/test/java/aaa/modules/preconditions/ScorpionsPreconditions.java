@@ -1,6 +1,10 @@
 package aaa.modules.preconditions;
 
-import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.*;
+import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.AAA_RETRIEVE_AGREEMENT_WEB_CLIENT;
+import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.AAA_RETRIEVE_DOCUMENT_WEB_CLIENT;
+import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.DOC_GEN_WEB_CLIENT;
+import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.PAYMENT_CENTRAL_STUB_ENDPOINT_UPDATE;
+import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Arrays;
 import java.util.List;
@@ -10,19 +14,12 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.db.queries.VehicleQueries;
 import aaa.modules.BaseTest;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 
 public class ScorpionsPreconditions extends BaseTest {
-	/* Vin refresh enable/disable queries */
-	private static final String SELECT_LOOKUP_ROW_FROM_AAAROLLOUTELIGIBILITYLOOKUP_BY_CODE = "select * from LOOKUPVALUE where LOOKUPLIST_ID in"
-			+ "(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'vinRefresh'";
-
-	private static final String UPDATE_DISPLAYVALUE_BY_CODE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = '%1$s' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST "
-			+ "WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'vinRefresh'";
-
-	private static final String PAYMENT_CENTRAL_CONFIG_CHECK = "select value from PROPERTYCONFIGURERENTITY where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')";
 
 	private String propertyAppHost = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
 	private String propertyAppStubURLTemplate = PropertyProvider.getProperty(CustomTestProperties.APP_STUB_URL_TEMPLATE);
@@ -37,8 +34,8 @@ public class ScorpionsPreconditions extends BaseTest {
 	}
 
 	@Test(groups = {Groups.FUNCTIONAL, Groups.PRECONDITION},description = "Enable vin refresh")
-	public void enableVinRefresh() {
-		int result = DBService.get().executeUpdate(String.format(UPDATE_DISPLAYVALUE_BY_CODE, "true"));
+	public static void enableVinRefresh() {
+		int result = DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_DISPLAYVALUE_BY_CODE, "true"));
 		assertThat(result).isGreaterThan(0);
 	}
 
