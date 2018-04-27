@@ -335,8 +335,11 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     private void verifyUIMVRD(String value) {
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
         String euim = "Enhanced UIM";
-        assertThat(premiumAndCoveragesTab.getRatingDetailsVehiclesData().get(0).getValue(euim)).isEqualTo(value);
-        List<String> vrdKeys = new ArrayList<>(premiumAndCoveragesTab.getRatingDetailsVehiclesData().get(0).getKeys());
+        List<TestData> vrdData = premiumAndCoveragesTab.getRatingDetailsVehiclesData();
+        if (!vrdData.get(0).getValue(euim).equals(value)) {
+            assertThat(vrdData.get(1).getValue(euim)).isEqualTo(value);
+        }
+        List<String> vrdKeys = new ArrayList<>(vrdData.get(0).getKeys());
         int euimIndex = IntStream.range(0, vrdKeys.size() - 1).filter(i -> vrdKeys.get(i).equals(euim)).findFirst().orElse(-3);
         assertThat(vrdKeys.get(euimIndex + 1)).isEqualTo("Uninsured Motorist/Underinsured Motorist");
         assertThat(vrdKeys.get(euimIndex + 2)).isEqualTo("Uninsured Motorist Property Damage Limit");
