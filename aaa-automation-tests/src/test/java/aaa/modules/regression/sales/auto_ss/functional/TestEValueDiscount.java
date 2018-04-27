@@ -109,6 +109,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	private static final List<String> PAY_PLAN_FALSE_YES = Arrays.asList(MESSAGE_BULLET_11, MESSAGE_BULLET_4_A, MESSAGE_BULLET_10, MESSAGE_BULLET_3);
 	private static final List<String> PAPERLESS_AND_PRIOR_INS_FALSE_YES = Arrays.asList(MESSAGE_BULLET_11, MESSAGE_BULLET_4_A, MESSAGE_BULLET_1, MESSAGE_BULLET_10);
 	private static final List<String> ALL_FALSE = Arrays.asList(MESSAGE_BULLET_10);
+	private static final String AUTOPAY_KEEP_EVALUE = "To keep the eValue discount, the customer must choose AutoPay to make recurring payments via a checking/savings account or debit card.";
 
 	private static List<String> requestIdList = new LinkedList<>();
 	private GeneralTab generalTab = new GeneralTab();
@@ -793,6 +794,44 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		DocumentsAndBindTab.btnPurchase.click();
 		errorTab.getErrorsControl().getTable().getRowContains("Code", "AAA_SS6591343").verify.present(false);
 		//PAS-276 end
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test there is a message, when Autopay is nto set and Payment Plan <> Annual
+	 * @scenario 1. Create new eValue policy
+	 * 2. Start endorsement, set Payment plan to non-Annual
+	 * 3. Check Message
+	 * 4. Start renewal, set Payment plan to non-Annual
+	 * 5. Check Message
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-295")
+	public void pas295_autopayKeepValueMessage(@Optional("VA") String state) {
+		eValueQuoteCreation();
+
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		premiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.submitTab();
+		premiumAndCoveragesTab.saveAndExit();
+		simplifiedQuoteIssue();
+
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		autopayKeepValueMessageCheck();
+
+		policy.renew().start().submit();
+		autopayKeepValueMessageCheck();
+	}
+
+	private void autopayKeepValueMessageCheck() {
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN).setValue("contains=Standard");
+		assertThat(PremiumAndCoveragesTab.tableeMemberMessageGrid.getRow(1).getCell(4)).hasValue(AUTOPAY_KEEP_EVALUE);
+		premiumAndCoveragesTab.saveAndExit();
 	}
 
 	/**
