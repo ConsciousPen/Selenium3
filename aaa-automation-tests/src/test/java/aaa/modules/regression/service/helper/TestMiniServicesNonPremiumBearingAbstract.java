@@ -1648,7 +1648,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//Check that View Vehicle service returns the same veh OID, that was added
 		Vehicle[] viewVehicleResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
 		List<Vehicle> sortedVehicles = Arrays.asList(viewVehicleResponse);
-		sortedVehicles.sort(new Vehicle.VehicleComparator());
+		sortedVehicles.sort(Vehicle.ACTIVE_POLICY_COMPARATOR);
 		assertThat(viewVehicleResponse).containsAll(sortedVehicles);
 		Vehicle newVehicle = Arrays.stream(viewVehicleResponse).filter(veh -> newVehOid.equals(veh.oid)).findFirst().orElse(null);
 		assertThat(newVehicle.vehIdentificationNo).isEqualTo(newVin);
@@ -2109,7 +2109,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		List<Vehicle> sortedVehicles = Arrays.asList(viewVehicleResponse);
 
-		sortedVehicles.sort(new Vehicle.VehicleComparator());
+		sortedVehicles.sort(Vehicle.ACTIVE_POLICY_COMPARATOR);
 
 		assertSoftly(softly -> {
 
@@ -2135,22 +2135,39 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(vehicle4.vehicleStatus).isEqualTo("active");
 			softly.assertThat(vehicle4.vehTypeCd).isEqualTo("Conversion");
 
-			// Perform endorsement
-			AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			assertThat(response.policyNumber).isEqualTo(policyNumber);
+		});
 
-			SearchPage.openPolicy(policyNumber);
+		// Perform endorsement
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
 
-			//Add new vehicle to have pending vehicle
-			String purchaseDate = "2013-02-22";
-			String vin2 = "1HGFA16526L081415";
-			Vehicle addVehicleResponse = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin2);
-			assertThat(addVehicleResponse.oid).isNotEmpty();
+		SearchPage.openPolicy(policyNumber);
 
-			Vehicle[] viewVehicleEndorsementResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
-			List<Vehicle> sortedVehicles1 = Arrays.asList(viewVehicleEndorsementResponse);
-			sortedVehicles1.sort(new Vehicle.VehicleComparator());
-			softly.assertThat(viewVehicleEndorsementResponse).containsAll(sortedVehicles1);
+		//Add new vehicle to have pending vehicle
+		String purchaseDate = "2013-02-22";
+		String vin2 = "1HGFA16526L081415";
+		Vehicle addVehicleResponse = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin2);
+		assertThat(addVehicleResponse.oid).isNotEmpty();
+
+		String vin3 = "2GTEC19K8S1525936";
+		Vehicle addVehicleResponse2 = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin3);
+		assertThat(addVehicleResponse2.oid).isNotEmpty();
+
+		Vehicle[] viewVehicleEndorsementResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
+		List<Vehicle> sortedVehicles1 = Arrays.asList(viewVehicleEndorsementResponse);
+		sortedVehicles1.sort(Vehicle.PENDING_ENDORSEMENT_COMPARATOR);
+		assertSoftly(softly -> {
+
+			Vehicle vehicle1 = Arrays.stream(viewVehicleEndorsementResponse).filter(veh -> "2GTEC19K8S1525936".equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+			softly.assertThat(vehicle1).isNotNull();
+			softly.assertThat(vehicle1.vehicleStatus).isEqualTo("pending");
+			softly.assertThat(vehicle1.vehTypeCd).isEqualTo("PPA");
+
+			Vehicle vehicle2 = Arrays.stream(viewVehicleEndorsementResponse).filter(veh -> "1HGFA16526L081415".equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+			softly.assertThat(vehicle2).isNotNull();
+			softly.assertThat(vehicle2.vehicleStatus).isEqualTo("pending");
+			softly.assertThat(vehicle2.vehTypeCd).isEqualTo("PPA");
+
 		});
 	}
 
@@ -2824,45 +2841,47 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(response2[2].visible).isEqualTo(true);
 		softly.assertThat(response2[2].required).isEqualTo(false);
 		softly.assertThat(response2[2].maxLength).isEqualTo("20");
-		softly.assertThat(String.valueOf(response2[2].valueRange)).isEqualTo("{}");
+		softly.assertThat(response2[2].valueRange).isEqualTo("");
 
 		softly.assertThat(response2[3].attributeName).isEqualTo("modelYear");
 		softly.assertThat(response2[3].enabled).isEqualTo(false);
 		softly.assertThat(response2[3].visible).isEqualTo(true);
 		softly.assertThat(response2[3].required).isEqualTo(true);
 		softly.assertThat(response2[3].maxLength).isEqualTo("5");
-		softly.assertThat(String.valueOf(response2[3].valueRange)).isEqualTo("{}");
+		softly.assertThat(response2[3].valueRange).isEqualTo("");
 
-		softly.assertThat(response2[4].attributeName).isEqualTo("manufacturer");
+		softly.assertThat(response2[4].attributeName).isEqualTo("modelYear");
 
-		softly.assertThat(response2[5].attributeName).isEqualTo("model");
+		softly.assertThat(response2[5].attributeName).isEqualTo("manufacturer");
 
-		softly.assertThat(response2[6].attributeName).isEqualTo("series");
+		softly.assertThat(response2[6].attributeName).isEqualTo("model");
 
-		softly.assertThat(response2[7].attributeName).isEqualTo("bodyStyle");
-		softly.assertThat(response2[7].enabled).isEqualTo(false);
-		softly.assertThat(response2[7].visible).isEqualTo(true);
-		softly.assertThat(response2[7].required).isEqualTo(false);
-		softly.assertThat(response2[7].maxLength).isEqualTo(null);
-		softly.assertThat(response2[7].valueRange.get("")).isEqualTo("");
-		softly.assertThat(response2[7].valueRange.get("SPORT VAN")).isEqualTo("SPORT VAN");
-		softly.assertThat(response2[7].valueRange.get("OTHER")).isEqualTo("OTHER");
+		softly.assertThat(response2[7].attributeName).isEqualTo("series");
 
-		softly.assertThat(response2[8].attributeName).isEqualTo("salvaged");
-		softly.assertThat(response2[8].enabled).isEqualTo(true);
+		softly.assertThat(response2[8].attributeName).isEqualTo("bodyStyle");
+		softly.assertThat(response2[8].enabled).isEqualTo(false);
 		softly.assertThat(response2[8].visible).isEqualTo(true);
 		softly.assertThat(response2[8].required).isEqualTo(false);
 		softly.assertThat(response2[8].maxLength).isEqualTo(null);
-		softly.assertThat(response2[8].valueRange.get("")).isEqualTo(null);
+		softly.assertThat(response2[8].valueRange.get("")).isEqualTo("");
+		softly.assertThat(response2[8].valueRange.get("SPORT VAN")).isEqualTo("SPORT VAN");
+		softly.assertThat(response2[8].valueRange.get("OTHER")).isEqualTo("OTHER");
 
-		softly.assertThat(response2[9].attributeName).isEqualTo("antiTheft");
+		softly.assertThat(response2[9].attributeName).isEqualTo("salvaged");
 		softly.assertThat(response2[9].enabled).isEqualTo(true);
 		softly.assertThat(response2[9].visible).isEqualTo(true);
 		softly.assertThat(response2[9].required).isEqualTo(false);
 		softly.assertThat(response2[9].maxLength).isEqualTo(null);
 		softly.assertThat(response2[9].valueRange.get("")).isEqualTo("");
-		softly.assertThat(response2[9].valueRange.get("NONE")).isEqualTo("None");
-		softly.assertThat(response2[9].valueRange.get("STD")).isEqualTo("Vehicle Recovery Device");
+
+		softly.assertThat(response2[10].attributeName).isEqualTo("antiTheft");
+		softly.assertThat(response2[10].enabled).isEqualTo(true);
+		softly.assertThat(response2[10].visible).isEqualTo(true);
+		softly.assertThat(response2[10].required).isEqualTo(false);
+		softly.assertThat(response2[10].maxLength).isEqualTo(null);
+		softly.assertThat(response2[10].valueRange.get("")).isEqualTo("");
+		softly.assertThat(response2[10].valueRange.get("NONE")).isEqualTo("NONE");
+		softly.assertThat(response2[10].valueRange.get("STD")).isEqualTo("Vehicle Recovery Device");
 	}
 
 	/**
@@ -2984,7 +3003,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//View endorsement vehicles
 		Vehicle[] viewEndorsementVehicleResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
 		List<Vehicle> sortedVehicles = Arrays.asList(viewEndorsementVehicleResponse);
-		sortedVehicles.sort(new Vehicle.VehicleComparator());
+		sortedVehicles.sort(Vehicle.ACTIVE_POLICY_COMPARATOR);
 		assertThat(viewEndorsementVehicleResponse).containsAll(sortedVehicles);
 		Vehicle newVehicle = Arrays.stream(viewEndorsementVehicleResponse).filter(veh -> newVehicleOid.equals(veh.oid)).findFirst().orElse(null);
 		assertThat(newVehicle.vehIdentificationNo).isEqualTo(vin);
