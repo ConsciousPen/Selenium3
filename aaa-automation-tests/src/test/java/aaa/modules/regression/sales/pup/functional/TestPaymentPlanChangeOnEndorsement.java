@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ss.ho4.functional;
+package aaa.modules.regression.sales.pup.functional;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -6,16 +6,15 @@ import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.BillingConstants;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.modules.policy.HomeSSHO4BaseTest;
+import aaa.main.modules.policy.pup.defaulttabs.BindTab;
+import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
+import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import aaa.modules.regression.sales.home_ss.helper.HelperTestPaymentPlanChangeOnEndorsement;
 import toolkit.utils.TestInfo;
 
-public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO4BaseTest {
-
+public class TestPaymentPlanChangeOnEndorsement extends PersonalUmbrellaBaseTest {
 	private HelperTestPaymentPlanChangeOnEndorsement helper = new HelperTestPaymentPlanChangeOnEndorsement();
-	private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
+	private PremiumAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumAndCoveragesQuoteTab();
 	private BindTab bindTab = new BindTab();
 
 	//-----------Tests with 'Monthly Low Down' payment plan--------------
@@ -33,10 +32,11 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO4BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-11338")
-	public void pas11338_AC1_monthlyLowDown(@Optional("") String state) {
+	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-11338")
+	public void pas11785_AC1_monthlyLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN;
 		helper.pas11338_pas11785_AC1(getPolicyType(), paymentPlan);
+
 	}
 
 	/**
@@ -63,8 +63,8 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO4BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-11338")
-	public void pas11338_AC2_AC3_monthlyLowDown(@Optional("") String state) {
+	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-11338")
+	public void pas11785_AC2_AC3_monthlyLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN;
 		helper.pas11338_pas11785_AC2_AC3(getPolicyType(), paymentPlan);
 	}
@@ -83,9 +83,9 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO4BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-11338")
+	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-11338")
 
-	public void pas11338_AC2_negative_monthlyLowDown(@Optional("") String state) {
+	public void pas11785_AC2_negative_monthlyLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.PAY_IN_FULL; //other than Low Down
 		helper.pas11338_pas11785_AC2_negative(getPolicyType(), paymentPlan);
 
@@ -106,9 +106,9 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO4BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "2018 Production Defects Delivered via Stories")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-11338")
+	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-11338")
 
-	public void pas11338_AC3_AC6_Renewal_monthlyLowDown(@Optional("") String state) {
+	public void pas11785_AC3_AC6_Renewal_monthlyLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN;
 		helper.pas11338_pas11785_AC3_AC6_Renewal(getPolicyType(), paymentPlan, getTimePoints());
 	}
@@ -135,9 +135,9 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO4BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "2018 Production Defects Delivered via Stories")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-11338")
+	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-11338")
 
-	public void pas11338_AC4_monthlyLowDown(@Optional("") String state) {
+	public void pas11785_AC4_monthlyLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN;
 		helper.pas11338_pas11785_AC4(getPolicyType(), paymentPlan, getTimePoints());
 
@@ -156,9 +156,9 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO4BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "2018 Production Defects Delivered via Stories")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-11338")
+	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-11338")
 
-	public void pas11338_AC5_monthlyLowDown(@Optional("") String state) {
+	public void pas11785_AC5_monthlyLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN;
 		helper.pas11338_pas11785_AC5(getPolicyType(), paymentPlan, getTimePoints());
 	}
@@ -178,8 +178,8 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO4BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-11338")
-	public void pas11338_AC1_elevenPayLowDown(@Optional("") String state) {
+	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-11338")
+	public void pas11785_AC1_elevenPayLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN;
 		helper.pas11338_pas11785_AC1(getPolicyType(), paymentPlan);
 	}
@@ -208,8 +208,8 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO4BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-11338")
-	public void pas11338_AC2_AC3_elevenPayLowDown(@Optional("") String state) {
+	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-11338")
+	public void pas11785_AC2_AC3_elevenPayLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN;
 		helper.pas11338_pas11785_AC2_AC3(getPolicyType(), paymentPlan);
 	}
@@ -228,9 +228,9 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO4BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-11338")
+	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-11338")
 
-	public void pas11338_AC2_negative_elevenPayLowDown(@Optional("") String state) {
+	public void pas11785_AC2_negative_elevenPayLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.PAY_IN_FULL; //other than Low Down
 		helper.pas11338_pas11785_AC2_negative(getPolicyType(), paymentPlan);
 
@@ -251,9 +251,9 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO4BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "2018 Production Defects Delivered via Stories")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-11338")
+	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-11338")
 
-	public void pas11338_AC3_AC6_Renewal_elevenPayLowDow(@Optional("") String state) {
+	public void pas11785_AC3_AC6_Renewal_elevenPayLowDow(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN;
 		helper.pas11338_pas11785_AC3_AC6_Renewal(getPolicyType(), paymentPlan, getTimePoints());
 	}
@@ -280,9 +280,9 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO4BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "2018 Production Defects Delivered via Stories")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-11338")
+	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-11338")
 
-	public void pas11338_AC4_elevenPayLowDow(@Optional("") String state) {
+	public void pas11785_AC4_elevenPayLowDow(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN;
 		helper.pas11338_pas11785_AC4(getPolicyType(), paymentPlan, getTimePoints());
 
@@ -301,9 +301,9 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO4BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "2018 Production Defects Delivered via Stories")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-11338")
+	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-11338")
 
-	public void pas11338_AC5_elevenPayLowDow(@Optional("") String state) {
+	public void pas11785_AC5_elevenPayLowDow(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN;
 		helper.pas11338_pas11785_AC5(getPolicyType(), paymentPlan, getTimePoints());
 	}
