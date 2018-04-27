@@ -344,10 +344,11 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     }
 
     private void verifyPolicySummaryPage(String value) {
-        String euim = "Enhanced UIM";
+        String euim = "Enhanced UIM Selected";
         String firstVehicle = PolicySummaryPage.getAutoCoveragesSummaryTextAt(1, 1);
-        assertThat(PolicySummaryPage.getAutoCoveragesSummaryTestData().getTestData(firstVehicle).getTestData(euim).getValue("Limit")).isEqualTo(value);
-        List<String> summaryKeys = new ArrayList<>(PolicySummaryPage.getAutoCoveragesSummaryTestData().getTestData(firstVehicle).getKeys());
+        TestData coveragesSummary = PolicySummaryPage.getAutoCoveragesSummaryTestData();
+        assertThat(coveragesSummary.getTestData(firstVehicle).getTestData(euim).getValue("Limit")).isEqualTo(value);
+        List<String> summaryKeys = new ArrayList<>(coveragesSummary.getTestData(firstVehicle).getKeys());
         int euimIndex = IntStream.range(0, summaryKeys.size() - 1).filter(i -> summaryKeys.get(i).equals(euim)).findFirst().orElse(-3);
         assertThat(summaryKeys.get(euimIndex + 1)).isEqualTo("Uninsured/Underinsured Motorist Bodily Injury");
         assertThat(summaryKeys.get(euimIndex + 2)).isEqualTo("Uninsured Motorist Property Damage");
