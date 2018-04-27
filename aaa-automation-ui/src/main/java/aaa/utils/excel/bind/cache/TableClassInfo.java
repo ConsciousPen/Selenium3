@@ -1,6 +1,7 @@
 package aaa.utils.excel.bind.cache;
 
 import java.lang.reflect.Field;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
@@ -157,20 +158,20 @@ public class TableClassInfo {
 		return getFieldInfo(tableField).getHeaderColumnsIndexes(getExcelTable().getHeader(), isCaseIgnoredForAllColumns());
 	}
 
-	/*public boolean isTableField(Field tableField) {
-		return getFieldInfo(tableField).isTableField();
-	}*/
-
-	/*public boolean isMultyColumnsField(Field tableField) {
-		return getFieldInfo(tableField).isMultyColumnsField();
-	}*/
-
 	public TableFieldInfo.BindType getBindType(Field tableField) {
 		return getFieldInfo(tableField).getBindType();
 	}
 
 	public Class<?> getFieldsTableClass(Field tableField) {
 		return getFieldInfo(tableField).getTableClass();
+	}
+
+	public boolean isDateField(Field tableField) {
+		return getFieldInfo(tableField).isDateField();
+	}
+
+	public List<DateTimeFormatter> getDateTimeFormatters(Field tableField) {
+		return getFieldInfo(tableField).getDateTimeFormatters();
 	}
 
 	public boolean hasObject(int rowIndex) {

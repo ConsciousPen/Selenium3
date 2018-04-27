@@ -1,6 +1,8 @@
 package aaa.utils.excel.bind.cache;
 
 import java.lang.reflect.Field;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,6 +11,7 @@ import aaa.utils.excel.bind.BindHelper;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.io.entity.area.table.TableCell;
 import aaa.utils.excel.io.entity.area.table.TableHeader;
+import toolkit.exceptions.IstfException;
 
 public final class TableFieldInfo {
 	private final Field tableField;
@@ -21,6 +24,8 @@ public final class TableFieldInfo {
 	private String headerColumnName;
 	private Class<?> tableClass;
 	private BindType bindType;
+	private Boolean isDateField;
+	private List<DateTimeFormatter> dateTimeFormatters;
 
 	public TableFieldInfo(Field tableField) {
 		this.tableField = tableField;
@@ -84,6 +89,29 @@ public final class TableFieldInfo {
 			}
 		}
 		return this.bindType;
+	}
+
+	public boolean isDateField() {
+		if (this.isDateField == null) {
+			this.isDateField = tableField.getType().isAssignableFrom(Temporal.class);
+		}
+		return this.isDateField;
+	}
+
+	public List<DateTimeFormatter> getDateTimeFormatters() {
+		if (this.dateTimeFormatters == null) {
+			this.dateTimeFormatters = new ArrayList<>();
+			if (tableField.isAnnotationPresent(ExcelColumnElement.class)) {
+				for (String datePattern : tableField.getAnnotation(ExcelColumnElement.class).dateFormatPatterns()) {
+					try {
+						dateTimeFormatters.add(DateTimeFormatter.ofPattern(datePattern));
+					} catch (IllegalArgumentException e) {
+						throw new IstfException(String.format("Unable to get valid DateTimeFormatter for field \"%1$s\" with date pattern \"%2$s\"", tableField.getName(), datePattern), e);
+					}
+				}
+			}
+		}
+		return Collections.unmodifiableList(this.dateTimeFormatters);
 	}
 
 	public boolean hasHeaderColumnNamePattern() {

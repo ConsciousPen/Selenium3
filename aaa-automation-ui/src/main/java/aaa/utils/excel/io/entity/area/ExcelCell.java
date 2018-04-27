@@ -3,13 +3,13 @@ package aaa.utils.excel.io.entity.area;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.api.Assertions.assertThat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
+import java.time.temporal.Temporal;
+import java.util.*;
 import java.util.stream.Stream;
+import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
@@ -24,9 +24,10 @@ import toolkit.exceptions.IstfException;
 public abstract class ExcelCell implements Writable {
 	public static final CellType<Boolean> BOOLEAN_TYPE = new BooleanCellType(Boolean.class);
 	public static final CellType<String> STRING_TYPE = new StringCellType(String.class);
-	public static final CellType<Integer> INTEGER_TYPE = new IntegerCellType(Integer.class);
-	public static final CellType<Double> DOUBLE_TYPE = new DoubleCellType(Double.class);
-	public static final CellType<LocalDateTime> LOCAL_DATE_TIME_TYPE = new LocalDateTimeCellType(LocalDateTime.class);
+	public static final NumberCellType<Integer> INTEGER_TYPE = new IntegerCellType(Integer.class);
+	public static final NumberCellType<Double> DOUBLE_TYPE = new DoubleCellType(Double.class);
+	public static final DateCellType<LocalDate> LOCAL_DATE_TYPE = new LocalDateCellType(LocalDate.class);
+	public static final DateCellType<LocalDateTime> LOCAL_DATE_TIME_TYPE = new LocalDateTimeCellType(LocalDateTime.class);
 
 	private static List<CellType<?>> baseCellTypes;
 
@@ -96,6 +97,16 @@ public abstract class ExcelCell implements Writable {
 		return Collections.unmodifiableList(this.cellTypes);
 	}
 
+	public List<DateCellType<?>> getDateCellTypes() {
+		List<DateCellType<?>> dateCellTypes = new ArrayList<>();
+		for (CellType<?> cellType : getCellTypes()) {
+			if (cellType instanceof DateCellType) {
+				dateCellTypes.add((DateCellType<?>) cellType);
+			}
+		}
+		return dateCellTypes;
+	}
+
 	ExcelCell setCellTypes(List<CellType<?>> allowableCellTypes) {
 		this.allowableCellTypes = ImmutableList.copyOf(allowableCellTypes);
 		this.cellTypes = null;
@@ -157,8 +168,34 @@ public abstract class ExcelCell implements Writable {
 		return getValue(DOUBLE_TYPE);
 	}
 
+	public LocalDateTime getDateValue() {
+		return getDateValue(LOCAL_DATE_TIME_TYPE);
+	}
+
+	public <T extends Temporal> T getDateValue(DateCellType<T> dateCellType) {
+		return dateCellType.getValueFrom(this);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T extends Temporal> T getDateValue(List<DateTimeFormatter> dateTimeFormatters) {
+		DateCellType<?> dateCellType = getDateCellTypes().stream().filter(t -> t.isTypeOf(this, dateTimeFormatters)).findFirst().get();
+		return (T) dateCellType.getValueFrom(this, dateTimeFormatters);
+	}
+
+	public <T extends Temporal> T getDateValue(DateCellType<T> dateCellType, List<DateTimeFormatter> dateTimeFormatters) {
+		return dateCellType.getValueFrom(this, dateTimeFormatters);
+	}
+
 	public boolean isNumeric() {
 		return getCellTypes().stream().anyMatch(t -> t instanceof NumberCellType);
+	}
+
+	public boolean isDate() {
+		return getDateCellTypes().stream().anyMatch(t -> t.isTypeOf(this));
+	}
+
+	public boolean isDate(List<DateTimeFormatter> dateTimeFormatters) {
+		return getDateCellTypes().stream().anyMatch(t -> t.isTypeOf(this, dateTimeFormatters));
 	}
 
 	protected int getColumnIndexOnSheet() {
@@ -180,17 +217,6 @@ public abstract class ExcelCell implements Writable {
 				'}';
 	}
 
-	public LocalDateTime getDateValue() {
-		return LOCAL_DATE_TIME_TYPE.getValueFrom(this);
-	}
-
-	public LocalDateTime getDateValue(List<DateTimeFormatter> dateTimeFormatters) {
-		return ((LocalDateTimeCellType) LOCAL_DATE_TIME_TYPE).getValueFrom(this, dateTimeFormatters);
-	}
-
-	public boolean isDate(List<DateTimeFormatter> dateTimeFormatters) {
-		return ((LocalDateTimeCellType) LOCAL_DATE_TIME_TYPE).isTypeOf(this, dateTimeFormatters);
-	}
 
 	public <T> T getValue(CellType<T> cellType) {
 		//assertThat(hasType(cellType)).as("Unable to get value with type %s from cell %s", cellType.getEndType(), this).isTrue();
@@ -202,16 +228,31 @@ public abstract class ExcelCell implements Writable {
 	}
 
 	public boolean hasValue(Object expectedValue) {
-		return hasValue(expectedValue, getType(expectedValue));
+		return getCellTypes().stream().anyMatch(cType -> Objects.equals(getValue(cType), expectedValue));
 	}
 
-	public <T> boolean hasValue(T expectedValue, CellType<T> cellType, DateTimeFormatter... dateTimeFormatters) {
-		if (isDate(dateTimeFormatters)) {
+	public <T> boolean hasValue(T expectedValue, CellType<T> cellType) {
+		//return getCellTypes().stream().anyMatch(cType -> Objects.equals(getValue(cType), expectedValue));
+		return Objects.equals(getValue(cellType), expectedValue);
+	}
+
+	public <T extends Temporal> boolean hasDateValue(T expectedValue, DateCellType<T> cellType) {
+		return getDateCellTypes().stream().anyMatch(cType -> Objects.equals(getValue(cType), expectedValue));
+		//return cellType != null ? Objects.equals(getValue(cellType), expectedValue) : Objects.equals(getValue(), expectedValue);
+	}
+
+	public <T extends Temporal> boolean hasDateValue(T expectedValue, DateCellType<T> cellType, List<DateTimeFormatter> dateTimeFormatters) {
+		return getDateCellTypes().stream().anyMatch(cType -> Objects.equals(getDateValue(cType, dateTimeFormatters), expectedValue));
+		//return cellType != null ? Objects.equals(getValue(cellType), expectedValue) : Objects.equals(getValue(), expectedValue);
+	}
+
+	/*public <T> boolean hasValue(T expectedValue, CellType<T> cellType, DateTimeFormatter... dateTimeFormatters) {
+		if (ArrayUtils.isNotEmpty()isDate(dateTimeFormatters)) {
 			return Objects.equals(getDateValue(dateTimeFormatters), expectedValue);
 		}
 		//return getCellTypes().stream().anyMatch(cType -> Objects.equals(getValue(cType), expectedValue));
 		return cellType != null ? Objects.equals(getValue(cellType), expectedValue) : Objects.equals(getValue(), expectedValue);
-	}
+	}*/
 
 	public boolean hasStringValue(String expectedValue) {
 		return hasStringValue(expectedValue, false);
@@ -227,7 +268,7 @@ public abstract class ExcelCell implements Writable {
 
 	@SuppressWarnings("unchecked")
 	public <T> CellType<T> getType(T value) {
-		return (CellType<T>) getCellTypes().stream().filter(t -> t.getEndType().isAssignableFrom(value.getClass())).findFirst().orElse(null);
+		return (CellType<T>) getCellTypes().stream().filter(t -> ClassUtils.isAssignable(t.getEndType(), value.getClass(), true)).findFirst().orElse(null);
 	}
 
 	public ExcelCell registerCellType(CellType<?>... cellTypes) {

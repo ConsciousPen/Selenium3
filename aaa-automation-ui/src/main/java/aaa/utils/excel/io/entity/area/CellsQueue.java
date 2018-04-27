@@ -5,13 +5,14 @@ import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.Temporal;
 import java.util.*;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
-import org.apache.commons.lang3.ArrayUtils;
 import com.google.common.collect.ImmutableSet;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
+import aaa.utils.excel.io.celltype.DateCellType;
 import aaa.utils.excel.io.entity.Writable;
 import aaa.utils.excel.io.entity.iterator.CellIterator;
 import toolkit.exceptions.IstfException;
@@ -20,11 +21,10 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 	private final int queueIndexInArea;
 	private final int queueIndexOnSheet;
 	private final ExcelArea<CELL, ?, ?> excelArea;
-
-	private List<CellType<?>> cellTypes;
-	private List<Integer> cellsIndexesOnSheet;
 	//private ImmutableSortedMap<Integer, CELL> queueIndexesAndCellsMap;
 	protected List<CELL> cells;
+	private List<CellType<?>> cellTypes;
+	private List<Integer> cellsIndexesOnSheet;
 
 	protected CellsQueue(int queueIndexInArea, int queueIndexOnSheet, List<Integer> cellsIndexesOnSheet, ExcelArea<CELL, ?, ?> excelArea) {
 		this(queueIndexInArea, queueIndexOnSheet, cellsIndexesOnSheet, excelArea, excelArea.getCellTypes());
@@ -54,33 +54,6 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 		return Collections.unmodifiableList(this.cells);
 	}
 
-	public abstract List<CELL> getCellsByIndexes(List<Integer> cellsIndexesInQueue);
-
-	public CELL getCellByValue(Object expectedValue) {
-		for (CELL cell : getCells()) {
-			if (cell.hasValue(expectedValue)) {
-				return cell;
-			}
-		}
-		throw new IstfException(String.format("There is no cell with \"%1$s\" value in %2$s", expectedValue, this));
-	}
-
-	public <T> CELL getCellByValue(T expectedValue, CellType<T> cellType, DateTimeFormatter... formatters) {
-		for (CELL cell : getCells()) {
-			if (cell.hasValue(expectedValue, cellType, formatters)) {
-				return cell;
-			}
-		}
-		throw new IstfException(String.format("There is no cell with \"%1$s\" value of %2$s type%3$s in %3$s",
-				expectedValue, cellType, ArrayUtils.isNotEmpty(formatters) ? " with date formatters: " + Arrays.asList(formatters) : "", this));
-	}
-
-
-	/*public List<Integer> getCellsIndexes() {
-		//return getQueueIndexesAndCellsMap().keySet().asList();
-		return getCells().stream().map(c -> c.getr)
-	}*/
-
 	public abstract List<Integer> getCellsIndexes();
 
 	public int getFirstCellIndex() {
@@ -96,6 +69,12 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 	public CELL getFirstCell() {
 		return getCell(getFirstCellIndex());
 	}
+
+
+	/*public List<Integer> getCellsIndexes() {
+		//return getQueueIndexesAndCellsMap().keySet().asList();
+		return getCells().stream().map(c -> c.getr)
+	}*/
 
 	public CELL getLastCell() {
 		return getCell(getLastCellIndex());
@@ -174,6 +153,36 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 				'}';
 	}
 
+	public abstract List<CELL> getCellsByIndexes(List<Integer> cellsIndexesInQueue);
+
+	public CELL getCellByValue(Object expectedValue) {
+		for (CELL cell : getCells()) {
+			if (cell.hasValue(expectedValue)) {
+				return cell;
+			}
+		}
+		throw new IstfException(String.format("There is no cell with \"%1$s\" value in %2$s", expectedValue, this));
+	}
+
+	public <T> CELL getCellByValue(T expectedValue, CellType<T> cellType) {
+		for (CELL cell : getCells()) {
+			if (cell.hasValue(expectedValue, cellType)) {
+				return cell;
+			}
+		}
+		throw new IstfException(String.format("There is no cell with \"%1$s\" value of %2$s type in %3$s", expectedValue, cellType, this));
+	}
+
+	public <T extends Temporal> CELL getCellWithDate(T expectedValue, DateCellType<T> cellType, List<DateTimeFormatter> dateTimeFormatters) {
+		for (CELL cell : getCells()) {
+			if (cell.hasDateValue(expectedValue, cellType, dateTimeFormatters)) {
+				return cell;
+			}
+		}
+		throw new IstfException(String.format("There is no cell with \"%1$s\" value of %2$s type%3$s in %4$s",
+				expectedValue, cellType, dateTimeFormatters.isEmpty() ? "" : " with date formatters: " + dateTimeFormatters, this));
+	}
+
 	public int getSum(Integer... cellsIndexesInQueue) {
 		List<Integer> cellsIndexesList = Arrays.asList(cellsIndexesInQueue);
 		return getCells().stream().filter(c -> cellsIndexesList.contains(c.getColumnIndex()) && !c.isEmpty() && c.hasType(ExcelCell.INTEGER_TYPE)).mapToInt(ExcelCell::getIntValue).sum();
@@ -210,8 +219,12 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 		return getCell(cellIndexInQueue).getDoubleValue();
 	}
 
-	public LocalDateTime getDateValue(int cellIndexInQueue, DateTimeFormatter... formatters) {
-		return getCell(cellIndexInQueue).getDateValue(formatters);
+	public LocalDateTime getDateValue(int cellIndexInQueue) {
+		return getCell(cellIndexInQueue).getDateValue();
+	}
+
+	public LocalDateTime getDateValue(int cellIndexInQueue, List<DateTimeFormatter> dateTimeFormatters) {
+		return getCell(cellIndexInQueue).getDateValue(dateTimeFormatters);
 	}
 
 	public CellsQueue<CELL> setValue(int cellIndexInQueue, Object value) {

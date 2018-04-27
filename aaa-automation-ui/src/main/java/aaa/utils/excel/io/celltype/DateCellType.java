@@ -6,20 +6,19 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.Temporal;
 import java.util.*;
 import java.util.stream.Collectors;
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.utils.excel.io.entity.area.ExcelCell;
 
 public abstract class DateCellType<T extends Temporal> extends AbstractCellType<T> {
 	private List<DateTimeFormatter> dateTimeFormatters;
 
-	public DateCellType(Class<T> endType, DateTimeFormatter... formatters) {
+	public DateCellType(Class<T> endType, DateTimeFormatter... dateTimeFormatters) {
 		super(endType);
-		if (ArrayUtils.isNotEmpty(formatters)) {
-			this.dateTimeFormatters = new ArrayList<>(Arrays.stream(formatters).collect(Collectors.toSet())); // collect to set to remove possible duplicates
+		if (ArrayUtils.isNotEmpty(dateTimeFormatters)) {
+			this.dateTimeFormatters = new ArrayList<>(Arrays.stream(dateTimeFormatters).collect(Collectors.toSet())); // collect to set to remove possible duplicates
 		}
 	}
 
@@ -38,12 +37,17 @@ public abstract class DateCellType<T extends Temporal> extends AbstractCellType<
 
 	@Override
 	public void setValueTo(ExcelCell cell, T value) {
-		cell.getPoiCell().setCellValue(convertToDate(value));
+		cell.getPoiCell().setCellValue(convertToJavaDate(value));
 	}
 
 	@Override
 	public T getValueFrom(ExcelCell cell) {
 		return getValueFrom(cell, getFormatters());
+	}
+
+	@Override
+	public boolean hasValueInTextFormat(ExcelCell cell) {
+		return hasValueInTextFormat(cell, getFormatters());
 	}
 
 	public boolean isTypeOf(ExcelCell cell, List<DateTimeFormatter> dateTimeFormatters) {
@@ -52,28 +56,32 @@ public abstract class DateCellType<T extends Temporal> extends AbstractCellType<
 	}
 
 	public boolean hasValueInTextFormat(ExcelCell cell, List<DateTimeFormatter> dateTimeFormatters) {
-		return hasValueInTextFormat(cell) && getValidFormatter(cell, dateTimeFormatters) != null;
+		return hasStringValue(cell) && getValidFormatter(cell, dateTimeFormatters) != null;
 	}
 
 	public T getValueFrom(ExcelCell cell, List<DateTimeFormatter> dateTimeFormatters) {
-		assertThat(isTypeOf(cell, dateTimeFormatters)).as("Unable to get value with \"%1$s\" type from %2$s", getEndType(), cell).isTrue();
+		assertThat(isTypeOf(cell, dateTimeFormatters)).as("Unable to get value with \"%1$s\" type from %2$s using %3$s date formatter", getEndType(), cell, dateTimeFormatters).isTrue();
 		if (cell.getPoiCell() == null) {
 			return null;
 		}
-		if (hasValueInTextFormat(cell)) {
+		if (hasStringValue(cell)) {
 			DateTimeFormatter formatter = getValidFormatter(cell, dateTimeFormatters);
 			if (formatter != null) {
-				//return TimeSetterUtil.getInstance().parse(getText(cell), formatter);
 				return parseText(getText(cell), formatter);
 			}
 		}
-		//return cell.getPoiCell().getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-		return getDateValue(cell);
+		return getDate(cell);
 	}
 
-	protected abstract T parseText(String dateInTextFormat, DateTimeFormatter dateTimeFormatters);
+	protected abstract T parseText(String dateInTextFormat, DateTimeFormatter dateTimeFormatter) throws DateTimeParseException;
 
-	protected abstract T getDateValue(ExcelCell cell);
+	protected abstract T getDate(ExcelCell cell);
+
+	protected abstract Date convertToJavaDate(T value);
+
+	protected boolean hasStringValue(ExcelCell cell) {
+		return cell.getPoiCell() != null && cell.getPoiCell().getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.STRING;
+	}
 
 	protected DateTimeFormatter getValidFormatter(ExcelCell cell, List<DateTimeFormatter> dateTimeFormatters) {
 		String text = getText(cell);
@@ -81,16 +89,14 @@ public abstract class DateCellType<T extends Temporal> extends AbstractCellType<
 			return null;
 		}
 		List<DateTimeFormatter> availableFormatters = CollectionUtils.isNotEmpty(dateTimeFormatters) ? dateTimeFormatters : getFormatters();
-		for (DateTimeFormatter dateTimeFormatter : availableFormatters) {
+		for (DateTimeFormatter formatter : availableFormatters) {
 			try {
-				TimeSetterUtil.getInstance().parse(text, dateTimeFormatter);
-				return dateTimeFormatter;
+				parseText(text, formatter);
+				return formatter;
 			} catch (DateTimeParseException ignore) {
 			}
 		}
 		return null;
 	}
-
-	protected abstract Date convertToDate(T value);
 
 }

@@ -148,7 +148,11 @@ public class TableRow extends ExcelRow<TableCell> {
 		return getDoubleValue(getIndex(headerColumnName));
 	}
 
-	public LocalDateTime getDateValue(String headerColumnName, DateTimeFormatter... formatters) {
+	public LocalDateTime getDateValue(String headerColumnName) {
+		return getDateValue(getIndex(headerColumnName));
+	}
+
+	public LocalDateTime getDateValue(String headerColumnName, List<DateTimeFormatter> formatters) {
 		return getDateValue(getIndex(headerColumnName), formatters);
 	}
 
