@@ -2051,11 +2051,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		SearchPage.openPolicy(policyNumber);
 
 		//Update Vehicle with proper Usage and Registered Owner
-		VehicleUpdateDto updateVehicleUsageRequest = new VehicleUpdateDto();
-		updateVehicleUsageRequest.usage = "Pleasure";
-		updateVehicleUsageRequest.registeredOwner = true;
-		Vehicle updateVehicleUsageResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleUsageRequest);
-		assertThat(updateVehicleUsageResponse.usage).isEqualTo("Pleasure");
+		updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
 
 		//Check premium after new vehicle was added
 		PolicyPremiumInfo[] rateResponse2 = HelperCommon.executeEndorsementRate(policyNumber, Response.Status.OK.getStatusCode());
@@ -2956,11 +2952,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		SearchPage.openPolicy(policyNumber);
 
 		//Update Vehicle with proper Usage and Registered Owner
-		VehicleUpdateDto updateVehicleUsageRequest = new VehicleUpdateDto();
-		updateVehicleUsageRequest.usage = "Pleasure";
-		updateVehicleUsageRequest.registeredOwner = true;
-		Vehicle updateVehicleUsageResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleUsageRequest);
-		assertThat(updateVehicleUsageResponse.usage).isEqualTo("Pleasure");
+		updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
 
 		//Check vehicle update service when  garage address is different
 		String zipCodeGarage = "23703";
@@ -3054,6 +3046,191 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		endorsementRateAndBind(policyNumber);
 	}
 
+	protected void pas11618_AddVehicleLeasedFinancedInfoBody(SoftAssertions softly) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+		//Create pended endorsement
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, endorsementDate);
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		String purchaseDate = "2013-02-22";
+		String vin = "1HGFA16526L081415";
+		String zipCodeGarage = "23703";
+		String addressGarage = "4112 FORREST HILLS DR";
+		String cityGarage = "PORTSMOUTH";
+		String stateGarage = "VA";
+
+		//Add vehicle with specific info
+		Vehicle vehicleAddRequest = new Vehicle();
+		vehicleAddRequest.purchaseDate = purchaseDate;
+		vehicleAddRequest.vehIdentificationNo = vin;
+		vehicleAddRequest.garagingDifferent = true;
+		vehicleAddRequest.garagingAddressPostalCode = zipCodeGarage;
+		vehicleAddRequest.addressLine1 = addressGarage;
+		vehicleAddRequest.city = cityGarage;
+		vehicleAddRequest.stateProvCd = stateGarage;
+
+		//Add new vehicle
+		String newVehicleOid = vehicleAddWithCheck(policyNumber, vehicleAddRequest);
+
+		SearchPage.openPolicy(policyNumber);
+		updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
+
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		VehicleTab.tableVehicleList.selectRow(2);
+		//TODO Leased FInanced here
+		//vehicleTab.getOwnershipAssetList().getAsset(Ownership.ADDRESS_LINE_1).getValue();
+		//assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.VALIDATE_ADDRESS_BTN)).isDisabled();
+		mainApp().close();
+		endorsementRateAndBind(policyNumber);
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		softly.assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		secondEndorsementIssueCheck();
+	}
+
+	protected void pas11618_UpdateVehicleLeasedFinancedInfoBody(SoftAssertions softly) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+		//Create pended endorsement
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, endorsementDate);
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		String purchaseDate = "2013-02-22";
+		String vin = "1HGFA16526L081415";
+
+
+		//Add vehicle with specific info
+		Vehicle vehicleAddRequest = new Vehicle();
+		vehicleAddRequest.purchaseDate = purchaseDate;
+		vehicleAddRequest.vehIdentificationNo = vin;
+		String newVehicleOid = vehicleAddWithCheck(policyNumber, vehicleAddRequest);
+
+		updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
+
+		String zipCodeGarage = "23703";
+		String addressGarage = "4112 FORREST HILLS DR";
+		String cityGarage = "PORTSMOUTH";
+		String stateGarage = "VA";
+		//Update vehicle Leased Financed Info
+		VehicleUpdateDto updateVehicleLeasedFinanced = new VehicleUpdateDto();
+		updateVehicleLeasedFinanced.garagingAddressPostalCode=zipCodeGarage;
+		updateVehicleLeasedFinanced.garagingDifferent = true;
+		updateVehicleLeasedFinanced.garagingAddressPostalCode = zipCodeGarage;
+		updateVehicleLeasedFinanced.addressLine1 = addressGarage;
+		updateVehicleLeasedFinanced.city = cityGarage;
+		updateVehicleLeasedFinanced.stateProvCd = stateGarage;
+		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
+
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		VehicleTab.tableVehicleList.selectRow(2);
+		//TODO Leased FInanced here
+		//vehicleTab.getOwnershipAssetList().getAsset(Ownership.ADDRESS_LINE_1).getValue();
+		//assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.VALIDATE_ADDRESS_BTN)).isDisabled();
+		mainApp().close();
+		endorsementRateAndBind(policyNumber);
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		softly.assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		secondEndorsementIssueCheck();
+	}
+
+	protected void pas13252_UpdateVehicleGaragingAddressProblemBody(SoftAssertions softly) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+		//Create pended endorsement
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, endorsementDate);
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		String purchaseDate = "2013-02-22";
+		String vin = "1HGFA16526L081415";
+
+
+		//Add vehicle with specific info
+		Vehicle vehicleAddRequest = new Vehicle();
+		vehicleAddRequest.purchaseDate = purchaseDate;
+		vehicleAddRequest.vehIdentificationNo = vin;
+		String newVehicleOid = vehicleAddWithCheck(policyNumber, vehicleAddRequest);
+
+		String zipCodeGarage = "23703";
+		String addressGarage = "4112 FORREST HILLS DR";
+		String cityGarage = "PORTSMOUTH";
+		String stateGarage = "VA";
+		//Update vehicle Leased Financed Info
+		VehicleUpdateDto updateVehicleLeasedFinanced = new VehicleUpdateDto();
+		updateVehicleLeasedFinanced.garagingAddressPostalCode=zipCodeGarage;
+		updateVehicleLeasedFinanced.garagingDifferent = true;
+		updateVehicleLeasedFinanced.garagingAddressPostalCode = zipCodeGarage;
+		updateVehicleLeasedFinanced.addressLine1 = addressGarage;
+		updateVehicleLeasedFinanced.city = cityGarage;
+		updateVehicleLeasedFinanced.stateProvCd = stateGarage;
+		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
+
+		updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
+
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		VehicleTab.tableVehicleList.selectRow(2);
+		//TODO Leased FInanced here
+		//vehicleTab.getOwnershipAssetList().getAsset(Ownership.ADDRESS_LINE_1).getValue();
+		//assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.VALIDATE_ADDRESS_BTN)).isDisabled();
+		mainApp().close();
+		endorsementRateAndBind(policyNumber);
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		softly.assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		secondEndorsementIssueCheck();
+	}
+
+	private String vehicleAddWithCheck(String policyNumber, Vehicle vehicleAddRequest) {
+		Vehicle responseAddVehicle = HelperCommon.executeVehicleAddVehicle(policyNumber, vehicleAddRequest);
+		assertThat(responseAddVehicle.oid).isNotEmpty();
+		String newVehicleOid = responseAddVehicle.oid;
+		printToLog("newVehicleOid: " + newVehicleOid);
+		return newVehicleOid;
+	}
+
+	private void updateVehicleUsageRegisteredOwner(String policyNumber, String newVehicleOid) {
+		//Update Vehicle with proper Usage and Registered Owner
+		VehicleUpdateDto updateVehicleUsageRequest = new VehicleUpdateDto();
+		updateVehicleUsageRequest.usage = "Pleasure";
+		updateVehicleUsageRequest.registeredOwner = true;
+		Vehicle updateVehicleUsageResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleUsageRequest);
+		assertThat(updateVehicleUsageResponse.usage).isEqualTo("Pleasure");
+	}
+
 	private void endorsePolicyAddEvalue() {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -3073,6 +3250,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 			//Bind endorsement
 			HelperCommon.executeEndorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode());
+			mainApp().open();
 			SearchPage.openPolicy(policyNumber);
 			softly.assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 			softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");

@@ -1,5 +1,21 @@
 package aaa.modules.regression.service.helper;
 
+import static aaa.admin.modules.IAdmin.log;
+import java.util.HashMap;
+import java.util.Map;
+import javax.ws.rs.client.*;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.entity.ContentType;
+import org.apache.xerces.impl.dv.util.Base64;
+import org.glassfish.jersey.client.HttpUrlConnectorProvider;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import com.sun.jna.platform.win32.Guid;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAABodyStyleByYearMakeModelSeries;
@@ -7,25 +23,8 @@ import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAMakeByYear;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAModelByYearMake;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAASeriesByYearMakeModel;
 import aaa.modules.regression.service.helper.dtoDxp.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import com.sun.jna.platform.win32.Guid;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.http.entity.ContentType;
-import org.apache.xerces.impl.dv.util.Base64;
-import org.glassfish.jersey.client.HttpUrlConnectorProvider;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
-import javax.ws.rs.client.*;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.Map;
-
-import static aaa.admin.modules.IAdmin.log;
 
 public class HelperCommon {
 	private static final String ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT = "/aaa-admin/services/aaa-policy-rs/v1/documents/rfi-documents/";
@@ -172,6 +171,11 @@ public class HelperCommon {
 		Vehicle request = new Vehicle();
 		request.purchaseDate = purchaseDate;
 		request.vehIdentificationNo = vin;
+		return runJsonRequestPostDxp(requestUrl, request, Vehicle.class, 201);
+	}
+
+	public static Vehicle executeVehicleAddVehicle(String policyNumber, Vehicle request) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_ADD_VEHICLE_ENDPOINT, policyNumber));
 		return runJsonRequestPostDxp(requestUrl, request, Vehicle.class, 201);
 	}
 
