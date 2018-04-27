@@ -4,11 +4,12 @@
  */
 package aaa.main.modules.policy.auto_ca.defaulttabs;
 
-import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
+import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
+import org.openqa.selenium.By;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;

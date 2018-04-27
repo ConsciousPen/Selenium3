@@ -112,7 +112,7 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSDP3Ba
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_DP3, testCaseId = "PAS-10703")
-	public void testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal(@Optional("PA") String state) {
+	public void testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal(@Optional("AZ") String state) {
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -122,7 +122,9 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSDP3Ba
 		activeFirstRenewal();
 		initiateSecondRenewal();
 
-		PolicySummaryPage.buttonRenewals.click();
+		if (PolicySummaryPage.buttonRenewals.isPresent()) {
+			PolicySummaryPage.buttonRenewals.click();
+		}
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
 
