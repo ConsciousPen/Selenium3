@@ -4,8 +4,6 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.testng.annotations.Optional;
@@ -44,6 +42,8 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private FormsTab formsTab = new FormsTab();
 	private CheckBox enhancedUIM = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UIM);
+	private final String formId = DocGenEnum.Documents.AAEUIMMD.getId().substring(0, DocGenEnum.Documents.AAEUIMMD.getId().indexOf(" "));
+	private final String formDesc = DocGenEnum.Documents.AAEUIMMD.getName();
 
 	/**
 	 *@author Josh Carpenter
@@ -75,8 +75,8 @@ public class TestEUIMForms extends AutoSSBaseTest {
 
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(tdEUIM, PremiumAndCoveragesTab.class, true);
-		verifyFormsAndAmount();
-
+		verifyFormsAndAmnt();
+		mainApp().close();
 	}
 
 	/**
@@ -109,8 +109,8 @@ public class TestEUIMForms extends AutoSSBaseTest {
 
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
 		policy.getDefaultView().fillUpTo(tdEUIM, PremiumAndCoveragesTab.class, true);
-		verifyFormsAndAmount();
-
+		verifyFormsAndAmnt();
+		mainApp().close();
 	}
 
 	/**
@@ -140,8 +140,8 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		//Perform mid-term endorsement and switch to EUIM coverage
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
 		switchToEUIMCoverage();
-		verifyFormsAndAmount();
-
+		verifyFormsAndAmnt();
+		mainApp().close();
 	}
 
 	/**
@@ -172,8 +172,8 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		// Create renewal and switch to EUIM coverage
 		policy.renew().perform();
 		switchToEUIMCoverage();
-		verifyFormsAndAmount();
-
+		verifyFormsAndAmnt();
+		mainApp().close();
 	}
 	////////////////////////////////Start PAS-12466 ///////////////////////////////////////////
 
@@ -486,23 +486,17 @@ public class TestEUIMForms extends AutoSSBaseTest {
 
 	////////////////////////////////End PAS-12466 ///////////////////////////////////////////
 
-	private void verifyFormsAndAmount() {
-		List<String> formsList = new ArrayList<>(Arrays.asList(
-				DocGenEnum.Documents.AAEUIMMD.getIdInXml(),
-				DocGenEnum.Documents.AAIQMD.getId(),
-				DocGenEnum.Documents.AA11MD.getId(),
-				DocGenEnum.Documents.AA02MD.getId()));
-
+	private void verifyFormsAndAmnt() {
 		//PAS-11302 AC1
 		TestData formsData = premiumAndCoveragesTab.getFormsData();
-		assertThat(formsData.getKeys()).containsAll(formsList);
-		assertThat(formsData.getValue(DocGenEnum.Documents.AAEUIMMD.getIdInXml())).isEqualTo("$0.00");
+		assertThat(formsData.getKeys()).contains(formId);
+		assertThat(formsData.getValue(formId)).isEqualTo("$0.00");
 
 		//PAS-11302 AC2
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
 		AutoSSForms.AutoSSPolicyFormsController policyForms = formsTab.getAssetList().getAsset(AutoSSMetaData.FormsTab.POLICY_FORMS);
-		assertThat(policyForms.tableSelectedForms.getRowContains("Name", DocGenEnum.Documents.AAEUIMMD.getIdInXml()).getCell(2).getValue()).isEqualTo(DocGenEnum.Documents.AAEUIMMD.getName());
-		assertThat(policyForms.getRemoveLink(DocGenEnum.Documents.AAEUIMMD.getIdInXml())).isPresent(false);
+		assertThat(policyForms.tableSelectedForms.getRowContains("Name", formId).getCell(2).getValue()).isEqualTo(formDesc);
+		assertThat(policyForms.getRemoveLink(formId)).isPresent(false);
 	}
 
 	private void switchToEUIMCoverage() {
