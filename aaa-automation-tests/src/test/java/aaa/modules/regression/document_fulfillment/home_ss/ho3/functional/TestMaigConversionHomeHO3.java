@@ -289,6 +289,24 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
         super.pas12047_noticeOfNonRenewalLetterHS65MD(state);
     }
 
+    /**
+     * @name Test Conversion Document generation
+     * @scenario
+     * 1. Create Customer
+     * 2. Initiate Renewal Entry
+     * 3. Fill Conversion Policy data for Home - MD
+     * 4. Check that HSFLDMD documents are getting generated
+     * @details
+     */
+    @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-12589"})
+    public void pas11772_importantNoticeRegardingFloodInsuranceHSFLDMD(@Optional("MD") String state) throws NoSuchFieldException {
+        super.pas11772_importantNoticeRegardingFloodInsuranceHSFLDMD(state);
+    }
+
+
+
     @Override
     protected PolicyType getPolicyType() {
         return PolicyType.HOME_SS_HO3;
