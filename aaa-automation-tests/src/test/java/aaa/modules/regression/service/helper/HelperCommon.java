@@ -1,5 +1,21 @@
 package aaa.modules.regression.service.helper;
 
+import static aaa.admin.modules.IAdmin.log;
+import java.util.HashMap;
+import java.util.Map;
+import javax.ws.rs.client.*;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.entity.ContentType;
+import org.apache.xerces.impl.dv.util.Base64;
+import org.glassfish.jersey.client.HttpUrlConnectorProvider;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import com.sun.jna.platform.win32.Guid;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAABodyStyleByYearMakeModelSeries;
@@ -7,28 +23,12 @@ import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAMakeByYear;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAModelByYearMake;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAASeriesByYearMakeModel;
 import aaa.modules.regression.service.helper.dtoDxp.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import com.sun.jna.platform.win32.Guid;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.http.entity.ContentType;
-import org.apache.xerces.impl.dv.util.Base64;
-import org.glassfish.jersey.client.HttpUrlConnectorProvider;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
-import javax.ws.rs.client.*;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.Map;
-
-import static aaa.admin.modules.IAdmin.log;
 
 public class HelperCommon {
 	private static final String ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT = "/aaa-admin/services/aaa-policy-rs/v1/documents/rfi-documents/";
+	private static final String ADMIN_UPDATE_POLICY_PREFERENCES_ENDPOINT = "/aaa-admin/services/aaa-policy-rs/v1/endorsements/update-policy-preferences/";
 	private static final String DXP_CONTACT_INFO_UPDATE_ENDPOINT = "/api/v1/policies/%s/contact-info";
 	private static final String DXP_ENDORSEMENTS_VALIDATE_ENDPOINT = "/api/v1/policies/%s/start-endorsement-info";
 	private static final String DXP_VIN_VALIDATE_ENDPOINT = "/api/v1/policies/%s/vin-info/%s";
@@ -84,6 +84,11 @@ public class HelperCommon {
 		request.authorizedBy = authorizedBy;
 		String requestUrl = urlBuilderDxp(String.format(DXP_CONTACT_INFO_UPDATE_ENDPOINT, policyNumber));
 		runJsonRequestPostDxp(requestUrl, request);
+	}
+
+	public static String executeUpdatePolicyPreferences(String policyNumber) {
+		String requestUrl = urlBuilderAdmin(ADMIN_UPDATE_POLICY_PREFERENCES_ENDPOINT+policyNumber);
+		return runJsonRequestPostAdmin(requestUrl,null, String.class, 200);
 	}
 
 	public static ValidateEndorsementResponse executeEndorsementsValidate(String policyNumber, String endorsementDate) {
@@ -347,6 +352,35 @@ public class HelperCommon {
 		}
 	}
 
+	public static <T> T runJsonRequestPostAdmin(String url, RestBodyRequest request, Class<T> responseType, int status) {
+		Client client = null;
+		Response response = null;
+		try {
+			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
+			WebTarget target = client.target(url);
+
+			response = target
+					.request()
+					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("qa:qa".getBytes()))
+					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+					.method("POST", Entity.json(request));
+			T responseObj = response.readEntity(responseType);
+			log.info(response.toString());
+			if (response.getStatus() != status) {
+				//handle error
+				throw new IstfException("POST?PATCH? json response failed");
+			}
+			return responseObj;
+		} finally {
+			if (response != null) {
+				response.close();
+			}
+			if (client != null) {
+				client.close();
+			}
+		}
+	}
+
 	public static <T> T runJsonRequestDeleteDxp(String url, Class<T> responseType) {
 		return runJsonRequestDeleteDxp(url, responseType, Response.Status.OK.getStatusCode());
 	}
@@ -446,6 +480,7 @@ public class HelperCommon {
 			}
 		}
 	}
+
 
 	private static Invocation.Builder createJsonRequest(Client client, String url, String sessionId) {
 		Invocation.Builder builder = client.target(url).request().header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
