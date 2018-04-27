@@ -524,6 +524,10 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_PAYMENTS.getLabel(), "starts=No Coverage");
 		}
 
+		if (getState().equals(Constants.States.ID)) {
+			policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel(), "starts=No Coverage");
+		}
+
 		if (getState().equals(Constants.States.NV)) {
 			for (int i = 0; i < openLPolicy.getVehicles().size(); i++) {
 				if (!isTrailerType(getStatCode(openLPolicy.getVehicles().get(i)))) {
