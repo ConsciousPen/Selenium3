@@ -331,28 +331,8 @@
             </class>
         </classes>
     </test>
-    <test name="pas240_installmentFeesService VA" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestInstallmentFees">
-                <methods>
-                    <include name="pas240_installmentFeesService"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.service.home_ss.ho3.functional.TestInstallmentFees">
-                <methods>
-                    <include name="pas240_installmentFeesService"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.service.pup.functional.TestInstallmentFees">
-                <methods>
-                    <include name="pas240_installmentFeesService"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas240_installmentFeesService PA" parallel="methods" thread-count="1024">
-        <parameter name="state" value="PA"/>
+    <test name="pas240_installmentFeesService VA PA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA, PA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestInstallmentFees">
                 <methods>
