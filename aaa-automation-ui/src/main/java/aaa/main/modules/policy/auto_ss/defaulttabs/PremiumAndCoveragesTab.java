@@ -4,14 +4,18 @@
  */
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import org.openqa.selenium.By;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.toolkit.webdriver.customcontrols.RatingDetailsTable;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import org.openqa.selenium.By;
+import aaa.toolkit.webdriver.customcontrols.RatingDetailsTable;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.verification.CustomAssert;
@@ -23,11 +27,6 @@ import toolkit.webdriver.controls.composite.table.Cell;
 import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -51,6 +50,7 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Table tablePolicyLevelLiabilityCoveragesPremium = new Table(By.xpath("//table[@id='policyDataGatherForm:policyTableTotalVehiclePremium']"));
 	public static Table tableEValueMessages = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAEMemberDetailMVOComponent']//table"));
 	public static Table autoPaySetupSavingMessage = new Table(By.id("policyDataGatherForm:installmentFeeAmountSavedPanel"));
+	public static Table tableeMemberMessageGrid = new Table (By.id("policyDataGatherForm:eMemberMessageGrid"));
 
 	public static Button buttonViewCappingDetails = new Button(By.id("policyDataGatherForm:viewCappingDetails_Link_1"), Waiters.AJAX);
 	public static Button buttonReturnToPremiumAndCoverages = new Button(By.id("cappingDetailsPopupPanel:cappingReturnTo"), Waiters.AJAX);

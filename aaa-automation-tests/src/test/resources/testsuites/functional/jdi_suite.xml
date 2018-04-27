@@ -63,6 +63,7 @@
                     <include name="pas12294_PriorCarrierLessThanSixMonthsPriorCarrierRequired"/>
                     <include name="pas12294_PriorCarrierNone"/>
                     <include name="pas297_MidTermOptInNotificationToAgentAboutPaperlessPreferences"/>
+                    <include name="pas295_autopayKeepValueMessage"/>
                 </methods>
             </class>
         </classes>
@@ -269,4 +270,39 @@
         </classes>
     </test>-->
 
+    <test name="pas283_paperlessPreferencesForAllStatesProducts SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferencesAllProducts">
+                <methods>
+                    <include name="pas283_paperlessPreferencesForAllStatesProducts"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPaperlessPreferencesAllProducts">
+                <methods>
+                    <include name="pas283_paperlessPreferencesForAllStatesProducts"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.pup.functional.TestPaperlessPreferencesAllProducts">
+                <methods>
+                    <include name="pas283_paperlessPreferencesForAllStatesProducts"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas283_paperlessPreferencesForAllStatesProducts CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestPaperlessPreferencesAllProducts">
+                <methods>
+                    <include name="pas283_paperlessPreferencesForAllStatesProducts"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestPaperlessPreferencesAllProducts">
+                <methods>
+                    <include name="pas283_paperlessPreferencesForAllStatesProducts"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

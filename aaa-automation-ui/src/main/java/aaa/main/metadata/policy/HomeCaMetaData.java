@@ -1603,6 +1603,24 @@ public final class HomeCaMetaData {
 	}
 
 	public static final class BindTab extends MetaData {
+		public static final AssetDescriptor<AssetList> PAPERLESS_PREFERENCES =
+				declare("PaperlessPreferences", AssetList.class, PersonalUmbrellaMetaData.BindTab.PaperlessPreferences.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAPaperlessPreferences']"));
+		public static final AssetDescriptor<AssetList> DOCUMENT_PRINTING_DETAILS =
+				declare("DocumentPrintingDetails", AssetList.class, PersonalUmbrellaMetaData.BindTab.DocumentPrintingDetails.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_PurchaseAction']"));
+
+		public static final class PaperlessPreferences extends MetaData {
+			public static final AssetDescriptor<TextBox> ENROLLED_IN_PAPERLESS = declare("Enrolled in Paperless?", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<Button> BTN_MANAGE_PAPERLESS_PREFERENCES = declare("Manage Paperless Preferences", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:paperlessPreferenceButton_AAAPaperlessPreferences"));
+			public static final AssetDescriptor<Button> EDIT_PAPERLESS_PREFERENCES_BTN_DONE = declare("Done", Button.class, By.xpath("//input[@id='policyDataGatherForm:preferencesPopupCancel']"));
+		}
+
+		public static final class DocumentPrintingDetails extends MetaData {
+			public static final AssetDescriptor<TextBox> ISSUE_DATE = declare("Issue Date", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> METHOD_OF_DELIVERY = declare("Method Of Delivery", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> INCLUDE_WITH_EMAIL = declare("Include with Email", ComboBox.class, Waiters.AJAX);
+		}
+
+		public static final AssetDescriptor<ComboBox> SUPPRESS_PRINT = declare("Suppress Print", ComboBox.class, Waiters.AJAX);
 	}
 
 	public static final class ErrorTab extends MetaData {

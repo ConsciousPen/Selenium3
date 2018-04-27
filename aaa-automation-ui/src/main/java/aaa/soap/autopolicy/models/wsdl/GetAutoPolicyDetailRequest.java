@@ -1,14 +1,14 @@
 
 package aaa.soap.autopolicy.models.wsdl;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.xml.bind.annotation.*;
-import javax.xml.datatype.XMLGregorianCalendar;
-
 import aaa.rest.IModel;
 import aaa.soap.autopolicy.models.common.ApplicationContext;
 import aaa.soap.autopolicy.models.getautopolicydetail.AgentSummary;
+
+import javax.xml.bind.annotation.*;
+import javax.xml.datatype.XMLGregorianCalendar;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**

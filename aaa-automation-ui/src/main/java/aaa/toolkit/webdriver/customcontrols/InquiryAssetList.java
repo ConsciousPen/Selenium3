@@ -17,7 +17,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 import java.util.Arrays;
 import java.util.List;
 
-public class InquiryAssetList extends AssetList{
+public class InquiryAssetList extends AssetList {
 	public InquiryAssetList(By locator) {
 		super(locator);
 	}
@@ -55,7 +55,6 @@ public class InquiryAssetList extends AssetList{
 		}
 		return new StaticElement(By.xpath(xpath1 + postfix));
 	}
-
 
 	/**
 	 * Verifies section label is present in AssetList (form).
@@ -235,6 +234,34 @@ public class InquiryAssetList extends AssetList{
 		assetFieldMandatory(message, assetLabel, isMandatory, getActualXpathValue(assetLabel, X_PATH_1, X_PATH_2, isMandatory));
 	}
 
+	public void assetFieldEnabled(String label) {
+		assetFieldEnabled(label, true);
+	}
+
+	/**
+	 * Verifies is Control from assetList present, enabled and mandatory.
+	 * Sensitive to {@link CustomAssert} softMode.
+	 *
+	 * @param label       text to find By or "@id->labelName"
+	 * @param isEnabled   is element Enabled
+	 * @throws AssertionError
+	 */
+	public void assetFieldEnabled(String label, boolean isEnabled) {
+		try {
+			getControl(label).verify.enabled(isEnabled);
+		} catch (RuntimeException e) {
+			if (isElementPresent(String.format(X_PATH_1, label))) {
+				TextBox field = new TextBox(By.xpath(String.format(X_PATH_1, label)), Waiters.AJAX);
+				field.verify.enabled(isEnabled);
+			}
+		}
+		if (label.contains("->")) {
+			String[] query = label.split("\\->");
+			TextBox field = new TextBox(By.xpath(String.format(getQueryXPath(X_PATH_2, query), query[0])), Waiters.AJAX);
+			field.verify.enabled(isEnabled);
+
+		}
+	}
 
 	/**
 	 * Verifies is Control from assetList present, enabled and mandatory.
@@ -271,7 +298,6 @@ public class InquiryAssetList extends AssetList{
 			}
 		}
 	}
-
 
 	private void assetFieldMandatory(String assetLabel, boolean isMandatory, String actualXpath) {
 		if (isMandatory) {
