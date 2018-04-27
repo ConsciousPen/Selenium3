@@ -214,38 +214,8 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * @details
 	 */
 	public void pas11772_importantNoticeRegardingFloodInsuranceHSFLDMD(String state) throws NoSuchFieldException {
-		int numberOfLetters = renewalCoverLetterFormsGenerationHSFLDMD(getConversionPolicyDefaultTD(), HSFLDMD, false, state);
+		int numberOfLetters = renewalCoverLetterFormsGeneration(getConversionPolicyDefaultTD(), HSFLD, false, state);
 		assertThat(numberOfLetters).isEqualTo(1);
-	}
-
-
-	/**
-	 * @name Creation converted policy for checking Renewal Cover letters
-	 * @scenario 1. Create Customer
-	 * 2. Initiate Renewal Entry
-	 * 3. Fill Conversion Policy data based on Test Data
-	 * 4. Check that forms are getting generated with correct content
-	 * @details
-	 * @return number of documents
-	 */
-	private int renewalCoverLetterFormsGenerationHSFLDMD(TestData testData, DocGenEnum.Documents form, boolean isPupPresent, String state) throws NoSuchFieldException {
-		String policyNumber = createPolicyForTD(testData);
-		LocalDateTime effectiveDate = PolicySummaryPage.getEffectiveDate();
-		String legacyPolicyNumber = policy.policyInquiry().start().getView().getTab(GeneralTab.class).getInquiryAssetList().
-				getAsset(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER.getLabel()).getValue().toString();
-		log.info("Conversion Home policy number: " + policyNumber + " with legacy number: " + legacyPolicyNumber);
-
-		renewalOfferCoverLetterJobExecution(effectiveDate, policyNumber);
-
-		Document organicDocument = DocGenHelper.waitForDocumentsAppearanceInDB(HSFLDMD, policyNumber, RENEWAL_OFFER, false);
-		assertThat(organicDocument).isEqualTo(null);
-
-		List<Document> documents = DocGenHelper.waitForMultipleDocumentsAppearanceInDB(form, policyNumber, RENEWAL_OFFER);
-		verifyPackageTagData(legacyPolicyNumber, policyNumber, RENEWAL_OFFER);
-		for (Document document : documents) {
-			verifyRenewalDocumentTagDataConvFlgYN(document, testData, isPupPresent, RENEWAL_OFFER);
-		}
-		return documents.size();
 	}
 
 	/**

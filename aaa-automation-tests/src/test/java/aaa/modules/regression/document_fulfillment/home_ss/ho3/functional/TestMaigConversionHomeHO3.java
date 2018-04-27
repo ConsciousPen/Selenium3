@@ -305,8 +305,6 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
         super.pas11772_importantNoticeRegardingFloodInsuranceHSFLDMD(state);
     }
 
-
-
     @Override
     protected PolicyType getPolicyType() {
         return PolicyType.HOME_SS_HO3;
