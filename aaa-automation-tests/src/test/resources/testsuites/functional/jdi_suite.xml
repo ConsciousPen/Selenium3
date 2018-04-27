@@ -63,6 +63,7 @@
                     <include name="pas12294_PriorCarrierLessThanSixMonthsPriorCarrierRequired"/>
                     <include name="pas12294_PriorCarrierNone"/>
                     <include name="pas297_MidTermOptInNotificationToAgentAboutPaperlessPreferences"/>
+                    <include name="pas295_autopayKeepValueMessage"/>
                 </methods>
             </class>
         </classes>
