@@ -392,10 +392,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			}
 
 			if (vehicle.getSafetyScore() != null) {
-				//TODO-dchubkov: for ID this is possible, to be investigated
-				if (!getState().equals(Constants.States.ID)) {
-					assertThat(vehicle.isTelematic()).as("\"isTelematic\" should be false if \"safetyScore\" is not null").isFalse();
-				}
+				assertThat(vehicle.isTelematic()).as("\"isTelematic\" should be false if \"safetyScore\" is not null").isFalse();
 				vehicleData.adjust(getVehicleTabVehicleDetailsData(String.valueOf(vehicle.getSafetyScore())));
 			}
 
