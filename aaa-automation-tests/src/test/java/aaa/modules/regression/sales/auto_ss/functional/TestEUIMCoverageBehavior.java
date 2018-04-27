@@ -13,16 +13,22 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
+import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ErrorEnum;
+import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.ComboBox;
 
@@ -45,6 +51,13 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      * 1. Create Customer
      * 2. Initiate Auto SS MD Quote after 07/01/2018
      * 3. Verify all conditions in Verify Behavior of EUIM/BI and EUIM/PD fields - verifyEnhancedUIMCoverage()
+     * 4. Save and Exit
+     * 5. Verify That Enhanced UIM in Coverages section on Policy Consolidated View is set to Yes
+     * 6. Initiate Data gather for the policy
+     * 7. Change EUIM to false
+     * 8. Calculate Premium
+     * 9. Issue Policy
+     * 10. Verify That Enhanced UIM in Coverages section on Policy Consolidated View is set to No
      *@details
      */
     @Parameters({"state"})
@@ -62,6 +75,22 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
         // Verify Behavior of EUIM/BI and EUIM/PD fields
         verifyEnhancedUIMCoverage();
+        premiumAndCoveragesTab.saveAndExit();
+
+        // AC2 PAS-11209. Display EUIM UIPD/UIMBI in Policy Consolidated view Coverages section.
+        verifyPolicySummaryPage("Yes");
+
+        // Issue Policy. Change EUIM to false.
+        policy.dataGather().start();
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        enhancedUIM.setValue(false);
+        new PremiumAndCoveragesTab().calculatePremium();
+        new PremiumAndCoveragesTab().submitTab();
+        policy.getDefaultView().fillFromTo(getPolicyTD(), DriverActivityReportsTab.class, PurchaseTab.class, true);
+        new PurchaseTab().submitTab();
+
+        // AC2 PAS-11209. Display EUIM UIPD/UIMBI in Policy Consolidated view Coverages section.
+        verifyPolicySummaryPage("No");
     }
 
     /**
@@ -72,6 +101,8 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      * 2. Create Auto SS MD Policy after 07/01/2018
      * 3. Endorse Policy and Navigate to P&C View Rating Details
      * 4. Verify all conditions in Verify Behavior of EUIM/BI and EUIM/PD fields - verifyEnhancedUIMCoverage()
+     * 5. Issue Policy.
+     * 6. Verify That Enhanced UIM in Coverages section on Policy Consolidated View is set to Yes.
      *@details
      */
     @Parameters({"state"})
@@ -88,10 +119,16 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         // Initiate Mid-Term Endorsement and Navigate to P&C Page.
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        premiumAndCoveragesTab.calculatePremium();
 
         // Verify Behavior of EUIM/BI and EUIM/PD fields
         verifyEnhancedUIMCoverage();
+
+        // Issue Policy.
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        new DocumentsAndBindTab().submitTab();
+
+        // AC2 PAS-11209. Display EUIM UIPD/UIMBI in Policy Consolidated view Coverages section.
+        verifyPolicySummaryPage("Yes");
     }
 
     /**
@@ -100,9 +137,13 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      *@scenario
      * 1. Create Customer
      * 2. Create Auto SS MD Policy after 07/01/2018
-     * 3. Initiate Renewal
-     * 4. Navigate to P&C
-     * 5. Verify all conditions in Verify Behavior of EUIM/BI and EUIM/PD fields - verifyEnhancedUIMCoverage()
+     * 3. Verify That Enhanced UIM in Coverages section on Policy Consolidated View is set to No
+     * 4. Initiate Renewal
+     * 5. Navigate to P&C
+     * 6. Verify all conditions in Verify Behavior of EUIM/BI and EUIM/PD fields - verifyEnhancedUIMCoverage()
+     * 7. Purchase Renewal
+     * 8. Navigate to renewed policy
+     * 9. Verify That Enhanced UIM in Coverages section on Policy Consolidated View is set to Yes.
      *@details
      */
     @Parameters({"state"})
@@ -115,14 +156,35 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         // Create customer & policy
         mainApp().open();
         getCopiedPolicy();
+        String policyNum = PolicySummaryPage.getPolicyNumber();
+
+        // Change Date to policies renewals proposal date
+        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
+
+        // open app search for policy
+        mainApp().open();
+        SearchPage.openPolicy(policyNum);
+
+        // AC2 PAS-11209. Display EUIM UIPD/UIMBI in Policy Consolidated view Coverages section.
+        verifyPolicySummaryPage("No");
 
         // Initiate Renewal
         policy.renew().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        premiumAndCoveragesTab.calculatePremium();
 
         // Verify Behavior of EUIM/BI and EUIM/PD fields
         verifyEnhancedUIMCoverage();
+
+        // Issue Policy.
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        new DocumentsAndBindTab().submitTab();
+        purchaseRenewal(policyNum);
+
+        // Navigate to Renewal
+        PolicySummaryPage.buttonRenewals.click();
+
+        // AC2 PAS-11209. Display EUIM UIPD/UIMBI in Policy Consolidated view Coverages section.
+        verifyPolicySummaryPage("Yes");
     }
 
     /**
@@ -133,6 +195,9 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      * 2. Initiate Auto SS MD Conversion Policy after 07/01/2018
      * 3. Fill up to P&C Tab
      * 4. Verify all conditions in Verify Behavior of EUIM/BI and EUIM/PD fields - verifyEnhancedUIMCoverage()
+     * 5. Issue Policy
+     * 6. Purchase conversion policy
+     * 7. Verify That Enhanced UIM in Coverages section on Policy Consolidated View is set to Yes.
      *@details
      */
     @Parameters({"state"})
@@ -142,16 +207,33 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
         TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
+        String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
+        TestData tdManualConversionInitiation = getManualConversionInitiationTd().adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
+                CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel()), today);
+
         // Create customer
         mainApp().open();
         createCustomerIndividual();
 
         // Initiate Conversion and fill up to P & C Tab
-        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
+        customer.initiateRenewalEntry().perform(tdManualConversionInitiation);
         policy.getDefaultView().fillUpTo(getConversionPolicyDefaultTD(), PremiumAndCoveragesTab.class);
 
         // Verify Behavior of EUIM/BI and EUIM/PD fields
         verifyEnhancedUIMCoverage();
+
+        // Issue Policy
+        new PremiumAndCoveragesTab().submitTab();
+        policy.getDefaultView().fillFromTo(getConversionPolicyDefaultTD(), DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
+        new DocumentsAndBindTab().submitTab();
+        errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_CSACN0100);
+        errorTab.override();
+        new DocumentsAndBindTab().submitTab();
+        String policyNum = PolicySummaryPage.getPolicyNumber();
+        purchaseRenewal(policyNum);
+
+        // AC2 PAS-11209. Display EUIM UIPD/UIMBI in Policy Consolidated view Coverages section.
+        verifyPolicySummaryPage("Yes");
     }
 
     private void verifyEnhancedUIMCoverage() {
@@ -230,6 +312,9 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         assertThat(PremiumAndCoveragesTab.uimBIHelpText.getAttribute("innerText")).contains(uimBIHelpText);
         assertThat(PremiumAndCoveragesTab.uimPDHelpText.getAttribute("innerText")).contains(uimPDHelpText);
 
+        // AC1 PAS-11209. Display EUIM UIMPD/UIMBI in VRD page.
+        verifyUIMVRD("No");
+
         //PAS-11204. Display 'Enhanced UIM Selected' in 'Total Term Premium' section P&C Page.
         String euimSelectedText = "Enhanced UIM Selected";
         assertThat(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getKeys()).doesNotContain(euimSelectedText);
@@ -245,16 +330,6 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
         // PAS-11209. Display EUIM UIMPD/UIMBI on VRD and Policy Consolidated view Coverages section
         verifyUIMVRD("Yes");
-        PremiumAndCoveragesTab.buttonSaveAndExit.click();
-        verifyPolicySummaryPage("Yes");
-
-        policy.dataGather().start();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        enhancedUIM.setValue(false);
-        premiumAndCoveragesTab.calculatePremium();
-        verifyUIMVRD("No");
-        PremiumAndCoveragesTab.buttonSaveAndExit.click();
-        verifyPolicySummaryPage("No");
     }
 
     private void verifyUIMVRD(String value) {
@@ -276,5 +351,16 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         int euimIndex = IntStream.range(0, summaryKeys.size() - 1).filter(i -> summaryKeys.get(i).equals(euim)).findFirst().orElse(-3);
         assertThat(summaryKeys.get(euimIndex + 1)).isEqualTo("Uninsured/Underinsured Motorist Bodily Injury");
         assertThat(summaryKeys.get(euimIndex + 2)).isEqualTo("Uninsured Motorist Property Damage");
+    }
+
+    private void purchaseRenewal(String policyNumber){
+        // Open Billing account and Pay min due for the renewal
+        LocalDateTime minDueDate = TimeSetterUtil.getInstance().getCurrentTime();
+        SearchPage.openBilling(policyNumber);
+        Dollar minDue = new Dollar(BillingHelper.getBillCellValue(minDueDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
+        new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+
+        // Open Policy
+        SearchPage.openPolicy(policyNumber);
     }
 }
