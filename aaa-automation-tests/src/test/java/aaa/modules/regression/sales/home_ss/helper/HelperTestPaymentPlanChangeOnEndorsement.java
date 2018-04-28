@@ -82,7 +82,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
 
 			assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN))
-					.hasValue(BillingConstants.PaymentPlan.MONTHLY_RENEWAL); //Must be payment plan for Renewal as in AC#6
+					.hasValue(getExpectedPaymentPlanForRenewal(paymentPlan)); //At NB 'Payment plan at renewal' gets defaulted to MONTHLY_RENEWAL / ELEVEN_PAY_RENEWAL (existing functionality)
 			assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
 					.doesNotContain(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN);
 		} else {
@@ -90,7 +90,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 
 			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN))
-					.hasValue(BillingConstants.PaymentPlan.MONTHLY_RENEWAL); //Must be payment plan for Renewal as in AC#6
+					.hasValue(getExpectedPaymentPlanForRenewal(paymentPlan)); //At NB 'Payment plan at renewal' gets defaulted to MONTHLY_RENEWAL / ELEVEN_PAY_RENEWAL (existing functionality)
 			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
 					.doesNotContain(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN);
 
@@ -334,5 +334,16 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+	}
+
+	private String getExpectedPaymentPlanForRenewal(String paymentPlan){
+		String expectedPaymentPlanAtRenewal=null;
+		if (paymentPlan.equals(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN) ){
+			expectedPaymentPlanAtRenewal= BillingConstants.PaymentPlan.MONTHLY_RENEWAL;
+
+		}else if (paymentPlan.equals(BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN)){
+			expectedPaymentPlanAtRenewal= BillingConstants.PaymentPlan.ELEVEN_PAY_RENEWAL;
+		}
+		return expectedPaymentPlanAtRenewal;
 	}
 }
