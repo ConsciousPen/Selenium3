@@ -2,13 +2,12 @@ package aaa.modules.regression.sales.auto_ca.choice.functional;
 
 import java.time.LocalDateTime;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
@@ -16,15 +15,15 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.preconditions.ScorpionsPreconditions;
 import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
 public class TestVINUpload extends TestVINUploadTemplate {
 	private static final String NEW_VIN = "1FDEU15H7KL055795";
 	private static final String REFRESHABLE_VIN = "4T1BE30K46U656311";
+	private static final String bbbkn3DD0E0114466 = "BBBKN3DD0E0114466";
+
 	private VehicleTab vehicleTab = new VehicleTab();
 
 	@Override
@@ -32,13 +31,9 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		return PolicyType.AUTO_CA_CHOICE;
 	}
 
-	@BeforeClass
+	@BeforeSuite
 	private void checkVinRefresh(){
-		String isVinRefreshEnabled = DBService.get().getValue(VehicleQueries.SELECT_VALUE_VIN_REFRESH).get();
-
-		if(isVinRefreshEnabled.equalsIgnoreCase("false")){
-			ScorpionsPreconditions.enableVinRefresh();
-		}
+		enableVinIfDisabled();
 	}
 
 	/**
@@ -105,11 +100,10 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-2714")
-	public void pas2714_Endorsement(@Optional("") String state) {
-		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
-		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),NEW_VIN);
+	public void pas2714_Endorsement(@Optional("CA") String state) {
+		TestData testData = getNonExistingVehicleTestData(getPolicyTD(), bbbkn3DD0E0114466);
 
-		endorsement(testData,vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get()),NEW_VIN);
+		endorsement(testData,bbbkn3DD0E0114466);
 	}
 
 	/**
@@ -121,7 +115,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-4253")
-	public void pas4253_restrictVehicleRefreshNB(@Optional("") String state) {
+	public void pas4253_restrictVehicleRefreshNB(@Optional("CA") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
 
 		pas4253_restrictVehicleRefreshNB(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get()), NEW_VIN);
@@ -228,6 +222,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 
 	@AfterSuite(alwaysRun = true)
 	protected void vinTablesCleaner() {
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN,"SYMBOL_2000_CHOICE_T");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN,"SYMBOL_2000_CHOICE");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(bbbkn3DD0E0114466,"SYMBOL_2000_CHOICE");
 	}
 }

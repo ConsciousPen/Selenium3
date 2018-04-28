@@ -85,7 +85,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		// Vin control table has version which overrides VERSION_2000, it is needed and important to get symbols for next steps
 		adminApp().open();
-		vinMethods.uploadFiles(vinTableFile);
+		vinMethods.uploadVinTable(vinTableFile);
 
 		findAndRateQuote(testData, quoteNumber);
 
@@ -200,7 +200,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		// Vin control table has version which overrides VERSION_2000, it is needed and important to get symbols for next steps
 		adminApp().open();
-		vinMethods.uploadFiles(vinTableFile);
+		vinMethods.uploadVinTable(vinTableFile);
 
 		String quoteNumber = createPreconds(testData);
 

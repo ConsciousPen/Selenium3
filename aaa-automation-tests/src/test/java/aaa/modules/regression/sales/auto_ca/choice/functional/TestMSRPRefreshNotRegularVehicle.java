@@ -1,7 +1,6 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
 import static aaa.helpers.db.queries.MsrpQueries.CA_CHOICE_MOTORHOME_VEH_MSRP_VERSION;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -33,7 +32,7 @@ public class TestMSRPRefreshNotRegularVehicle extends TestMSRPRefreshTemplate{
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
-	public void pas730_VehicleTypeNotRegular(@Optional("") String state) {
+	public void pas730_VehicleTypeNotRegular(@Optional("CA") String state) {
 		TestData testDataVehicleTabMotorHome = getVehicleMotorHomeTestData();
 
 		TestData testData = getPolicyTD().adjust(new VehicleTab().getMetaKey(), testDataVehicleTabMotorHome).resolveLinks();
@@ -76,15 +75,12 @@ public class TestMSRPRefreshNotRegularVehicle extends TestMSRPRefreshTemplate{
 	 * Please refer to the files with appropriate names in each test in /resources/uploadingfiles/vinUploadFiles.
 	 */
 
-	//todo
-	@AfterMethod(alwaysRun = true)
-	protected void resetMSRPTables() {
-		pas730_ChoiceCleanDataBase(CA_CHOICE_MOTORHOME_VEH_MSRP_VERSION, vehicleTypeMotorHome);
-	}
-
 	@AfterSuite(alwaysRun = true)
 	protected void resetVinControlTable() {
 		// Reset to the default state  MSRP_2000
-		resetChoiceDefaultMSRPVersionValuesVinControlTable();
+
+		pas730_ChoiceCleanDataBase(CA_CHOICE_MOTORHOME_VEH_MSRP_VERSION, vehicleTypeMotorHome);
+
+		resetChoiceDefaultVEHICLEREFDATAVINCONTROL();
 	}
 }

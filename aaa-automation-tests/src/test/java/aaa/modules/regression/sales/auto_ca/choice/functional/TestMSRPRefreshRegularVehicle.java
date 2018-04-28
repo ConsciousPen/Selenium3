@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
+import static aaa.helpers.db.queries.MsrpQueries.CA_CHOICE_REGULAR_VEH_MSRP_VERSION;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -54,8 +55,8 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
 	public void pas730_VehicleTypeRegular(@Optional("CA") String state) {
 		TestData testData = new TestVINUploadTemplate().getNonExistingVehicleTestData(getPolicyTD(),"");
-		// required to match MSRP version which will be added later
-		testData.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(),AutoCaMetaData.VehicleTab.YEAR.getLabel()), "2018");
+		// required to match MSRP version which will be added later, 2025 is important
+		testData.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(),AutoCaMetaData.VehicleTab.YEAR.getLabel()), "2025");
 
 		vehicleTypeRegular(testData);
 	}
@@ -110,14 +111,8 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		renewalVINDoesMatchNBandNoMatchOnRenewal(testData);
 	}
 
-
 	@AfterSuite(alwaysRun = true)
 	protected void resetVinControlTable() {
-		// Reset to the default state  MSRP_2000
-		resetChoiceDefaultMSRPVersionValuesVinControlTable();
-		//todo
-		//pas730_ChoiceCleanDataBase(CA_CHOICE_REGULAR_VEH_MSRP_VERSION, vehicleTypeRegular);
-		//DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN,"");
-
+		pas730_ChoiceCleanDataBase(CA_CHOICE_REGULAR_VEH_MSRP_VERSION, VEHICLETYPE_Regular);
 	}
 }

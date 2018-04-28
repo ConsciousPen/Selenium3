@@ -5,9 +5,9 @@ import static aaa.helpers.db.queries.MsrpQueries.CA_CHOICE_REGULAR_VEH_MSRP_VERS
 import static aaa.helpers.db.queries.MsrpQueries.CA_SELECT_MOTORHOME_VEH_MSRP_VERSION;
 import static aaa.helpers.db.queries.MsrpQueries.CA_SELECT_REGULAR_VEH_MSRP_VERSION;
 import static aaa.helpers.db.queries.MsrpQueries.DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY;
-import static aaa.helpers.db.queries.MsrpQueries.DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_VERSION_STATECD;
 import static aaa.helpers.db.queries.MsrpQueries.INSERT_MSRPCOMPCOLLCONTROL_VERSION;
-import static aaa.helpers.db.queries.MsrpQueries.UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX_BY_KEY_VEHICLEYEARMIN;
+import static aaa.helpers.db.queries.MsrpQueries.UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_BY_VERSION_VEHICLEYEARMIN;
+import static aaa.helpers.db.queries.MsrpQueries.UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX_BY_VEHICLEYEARMIN_KEY;
 import static aaa.helpers.db.queries.MsrpQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION_FORMTYPE;
 import static aaa.helpers.db.queries.MsrpQueries.getAvailableIdFromVehicleDataVinControl;
 import static aaa.helpers.db.queries.VehicleQueries.UPDATE_CHOICE_VEHICLEREFDATAVINCONTROL_BY_MSRP_VERSION;
@@ -47,12 +47,23 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 					+ "(%1$d,'%2$s','%3$s','%4$s','%5$s','%6$d','%7$d','%8$s')";
 	protected final String DELETE_VEHICLEREFDATAVINCONTROL_BY_VERSION_VEHICLETYPE =
 			"DELETE from MSRPCompCollCONTROL WHERE VEHICLETYPE = '%1$s' AND MSRPVERSION = '%2$s'";
+	String DELETE_FROM_VEHICLEREFDATAVINCONTROL  = "DELETE FROM VEHICLEREFDATAVINCONTROL WHERE FORMTYPE = '%s' AND VERSION = '%s' AND EFFECTIVEDATE = %d AND EXPIRATIONDATE = %d";
 
 	protected static final int EXPECTED_MSRP_KEY = 4;
 	protected static final int COMP_COLL_SYMBOL_KEY = 44;
 
+	protected static int VEHICLYEARMIN_ADDED = 2025;
+	protected static int VEHICLYEARMAX_ADDED = 9999;
+
+	protected static int DEFAULT_MSRPCOMPCOLLCONTROL_VEHICLYEARMIN_ADDED = 2011;
+	protected static int DEFAULT_MSRPCOMPCOLLCONTROL_VEHICLYEARMAX_ADDED = 2024;
+
+	int DEFAULT_VEHREFVERSION_EXPIRATIONDATE = 20250101;
+	int NEW_VEHREFVERSION_EFFECTIVEDATE = 20250102;
+	int NEW_VEHREFVERSION_EXPIRATIONDATE = 20500102;
+
 	protected String vehicleTypeMotorHome = "Motor";
-	protected String vehicleTypeRegular = "Regular";
+	protected String VEHICLETYPE_Regular = "Regular";
 	protected String formTypeSelect = "SELECT";
 	protected String formTypeChoice = "CHOICE";
 	protected String productTypeAAACSA = "AAA_CSA";
@@ -87,7 +98,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		premiumAndCoveragesTab.saveAndExit();
 	}
 
-	protected void  vehicleTypeNotRegular(TestData testData) {
+	protected void vehicleTypeNotRegular(TestData testData) {
 
 		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
@@ -110,7 +121,6 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		pas730_commonChecks(compSymbol, collSymbol);
 
 		premiumAndCoveragesTab.saveAndExit();
-
 
 	}
 
@@ -241,7 +251,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		// Vin control table has version which overrides VERSION_2000, it is needed and important to get symbols for next steps
 		adminApp().open();
-		vinMethods.uploadFiles(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get()));
+		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get()));
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);
@@ -313,62 +323,70 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 	}
 
 	private void pas730_addMotorHomeVehicleToDBSelect() {
-		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION_FORMTYPE, 20150101, getState(), "MSRP_2000_SELECT", formTypeSelect));
+		// Expire MSRP_2000_SELECT for AAA_CA Choice product
+		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION_FORMTYPE, 20250101, getState(), "MSRP_2000_SELECT", formTypeSelect));
 
 		// Add new VEHICLEREFDATAVINCONTROL version
 		BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
-
+		// Insert Vehicle with needed type
 		DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_BY_VERSION,
-				getUniqId, productTypeAAACSA, formTypeSelect, getState(), "SYMBOL_2000", 20150102, 20500102, CA_SELECT_MOTORHOME_VEH_MSRP_VERSION));
+				getUniqId, productTypeAAACSA, formTypeSelect, getState(), "SYMBOL_2000", NEW_VEHREFVERSION_EFFECTIVEDATE, NEW_VEHREFVERSION_EXPIRATIONDATE, CA_SELECT_MOTORHOME_VEH_MSRP_VERSION));
 
 		// Add New  msrp version
 		DBService.get()
-				.executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, vehicleTypeMotorHome, CA_SELECT_MOTORHOME_VEH_MSRP_VERSION, EXPECTED_MSRP_KEY));
-	}
-
-	private void pas730_addRegularVehicleToDBSelect() {
-		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION_FORMTYPE, 20150101, getState(), "MSRP_2000_SELECT", formTypeSelect));
-
-		// Add new VEHICLEREFDATAVINCONTROL version
-		BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
-
-		DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_BY_VERSION,
-				getUniqId, productTypeAAACSA, formTypeSelect, getState(), "SYMBOL_2000", 20150102, 20500102, CA_SELECT_REGULAR_VEH_MSRP_VERSION));
-
-		// Add New  msrp version
-		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, vehicleTypeRegular, CA_SELECT_REGULAR_VEH_MSRP_VERSION, EXPECTED_MSRP_KEY));
+				.executeUpdate(String
+						.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, VEHICLYEARMIN_ADDED, VEHICLYEARMAX_ADDED, vehicleTypeMotorHome, CA_SELECT_MOTORHOME_VEH_MSRP_VERSION, EXPECTED_MSRP_KEY));
 	}
 
 	private void pas730_addMotorHomeVehicleToDBChoice() {
 		// Expire MSRP_2000 for AAA_CA Choice product
-		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION_FORMTYPE, 20150101, getState(), "MSRP_2000_CHOICE", formTypeChoice));
+		//DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION_FORMTYPE, 20150101, getState(), "MSRP_2000_CHOICE", formTypeChoice));
 
 		// Add new VEHICLEREFDATAVINCONTROL version
 		BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
 
-		DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_BY_VERSION,
-				getUniqId, productTypeAAACSA, formTypeChoice, getState(), "SYMBOL_2000_CHOICE", 20150102, 20500102, CA_CHOICE_MOTORHOME_VEH_MSRP_VERSION));
+		DBService.get().executeUpdate(String.format(
+				INSERT_VEHICLEREFDATAVINCONTROL_BY_VERSION,getUniqId, productTypeAAACSA, formTypeChoice, getState(), "SYMBOL_2000_CHOICE", 20150102, 20500102, CA_CHOICE_MOTORHOME_VEH_MSRP_VERSION));
 
 		// Update needed msrp version
-		DBService.get().executeUpdate(String.format(UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX_BY_KEY_VEHICLEYEARMIN, 2015, 2011, 4));
+		DBService.get().executeUpdate(String.format(
+				UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX_BY_VEHICLEYEARMIN_KEY, DEFAULT_MSRPCOMPCOLLCONTROL_VEHICLYEARMAX_ADDED, DEFAULT_MSRPCOMPCOLLCONTROL_VEHICLYEARMIN_ADDED, 4));
 		// Add New  msrp version
-		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, vehicleTypeMotorHome, CA_CHOICE_MOTORHOME_VEH_MSRP_VERSION, COMP_COLL_SYMBOL_KEY));
+		DBService.get().executeUpdate(String.format(
+						INSERT_MSRPCOMPCOLLCONTROL_VERSION, VEHICLYEARMIN_ADDED, VEHICLYEARMAX_ADDED, vehicleTypeMotorHome, CA_CHOICE_MOTORHOME_VEH_MSRP_VERSION, COMP_COLL_SYMBOL_KEY));
+	}
+
+	private void pas730_addRegularVehicleToDBSelect() {
+		// Expire MSRP_2000_SELECT for AAA_CA Choice product
+		DBService.get().executeUpdate(String.format(
+				UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION_FORMTYPE, DEFAULT_VEHREFVERSION_EXPIRATIONDATE, getState(), "MSRP_2000_SELECT", formTypeSelect));
+
+		// Add new VEHICLEREFDATAVINCONTROL version
+		BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
+
+		DBService.get().executeUpdate(String.format(
+				INSERT_VEHICLEREFDATAVINCONTROL_BY_VERSION,getUniqId, productTypeAAACSA, formTypeSelect, getState(), "SYMBOL_2000", NEW_VEHREFVERSION_EFFECTIVEDATE, NEW_VEHREFVERSION_EXPIRATIONDATE, CA_SELECT_REGULAR_VEH_MSRP_VERSION));
+
+		// Add New  msrp version
+		DBService.get().executeUpdate(String.format(
+				INSERT_MSRPCOMPCOLLCONTROL_VERSION, VEHICLYEARMIN_ADDED, VEHICLYEARMAX_ADDED, VEHICLETYPE_Regular, CA_SELECT_REGULAR_VEH_MSRP_VERSION, EXPECTED_MSRP_KEY));
 	}
 
 	private void pas730_addRegularVehicleToDBChoice() {
-		// Expire MSRP_2000 for AAA_CA Choice product
-		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION_FORMTYPE, 20150101, getState(), "MSRP_2000_CHOICE", formTypeChoice));
+		// Expire default VEHICLEREFDATAVINCONTROL for MSRP_2000_CHOICE
+		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION_FORMTYPE, DEFAULT_VEHREFVERSION_EXPIRATIONDATE, getState(), "MSRP_2000_CHOICE", formTypeChoice));
 
 		// Add new VEHICLEREFDATAVINCONTROL version
 		BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
 
-		DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_BY_VERSION,
-				getUniqId, productTypeAAACSA, formTypeChoice, getState(), "SYMBOL_2000_CHOICE", 20150102, 20500102, CA_CHOICE_REGULAR_VEH_MSRP_VERSION));
+		DBService. get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_BY_VERSION,
+				getUniqId, productTypeAAACSA, formTypeChoice, getState(), "SYMBOL_2000_CHOICE", NEW_VEHREFVERSION_EFFECTIVEDATE, NEW_VEHREFVERSION_EXPIRATIONDATE, CA_CHOICE_REGULAR_VEH_MSRP_VERSION));
 
 		// Expire original msrp version
-		DBService.get().executeUpdate(String.format(UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX_BY_KEY_VEHICLEYEARMIN, 2015, 2011, 4));
+		DBService.get().executeUpdate(String.format(UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX_BY_VEHICLEYEARMIN_KEY, DEFAULT_MSRPCOMPCOLLCONTROL_VEHICLYEARMAX_ADDED, DEFAULT_MSRPCOMPCOLLCONTROL_VEHICLYEARMIN_ADDED, 4));
 		// Add New  msrp version
-		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, vehicleTypeRegular, CA_CHOICE_REGULAR_VEH_MSRP_VERSION, COMP_COLL_SYMBOL_KEY));
+		DBService.get().executeUpdate(String
+				.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, VEHICLYEARMIN_ADDED, VEHICLYEARMAX_ADDED, VEHICLETYPE_Regular, CA_CHOICE_REGULAR_VEH_MSRP_VERSION, COMP_COLL_SYMBOL_KEY));
 	}
 
 	private void findQuoteAndOpenRenewal(String quoteNumber) {
@@ -389,28 +407,44 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 	protected void pas730_commonChecks(String compSymbol, String collSymbol) {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertSoftly(softly -> {
-			softly.assertThat(getCompSymbolFromVRD()).isNotEqualTo(compSymbol);
-			softly.assertThat(getCollSymbolFromVRD()).isNotEqualTo(collSymbol);
 			softly.assertThat(getCompSymbolFromVRD()).isNotEmpty();
 			softly.assertThat(getCollSymbolFromVRD()).isNotEmpty();
+			softly.assertThat(getCompSymbolFromVRD()).isNotEqualTo(compSymbol);
+			softly.assertThat(getCollSymbolFromVRD()).isNotEqualTo(collSymbol);
 		});
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
 
+	/**
+	 * Clean after pas730_addRegularVehicleToDBChoice
+	 * @param vehicleTypeMSRPVersion
+	 * @param vehicleType
+	 */
+
 	protected void pas730_ChoiceCleanDataBase(String vehicleTypeMSRPVersion, String vehicleType) {
-		// Reset 'default' msrp version
-		DBService.get().executeUpdate(String.format(UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX_BY_KEY_VEHICLEYEARMIN, 9999, 2011, EXPECTED_MSRP_KEY));
-		// DELETE new VEHICLEREFDATAVINCONTROL version
-		deleteVersionFromVehicleControlTable(vehicleTypeMSRPVersion,getState());
+		// Delete added version from VEHICLE REF DATA VIN
+		DBService.get().executeUpdate(String.format(
+				DELETE_FROM_VEHICLEREFDATAVINCONTROL,formTypeChoice,"SYMBOL_2000_CHOICE",NEW_VEHREFVERSION_EFFECTIVEDATE,NEW_VEHREFVERSION_EXPIRATIONDATE));
+		// Reset default version in VEHICLE REF DATA VIN
+		resetChoiceDefaultVEHICLEREFDATAVINCONTROL();
 		// DELETE new MSRP version pas730_VehicleTypeNotPPA
 		deleteAddedMsrpVersionFormMsrpControlTable(vehicleTypeMSRPVersion, COMP_COLL_SYMBOL_KEY, vehicleType);
+		// RESET MSRP default version
+		DBService.get().executeUpdate(String.format(
+				UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_BY_VERSION_VEHICLEYEARMIN,9999,"MSRP_2000_CHOICE",DEFAULT_MSRPCOMPCOLLCONTROL_VEHICLYEARMIN_ADDED));
 	}
 
+	/**
+	 * Clean after pas730_addRegularVehicleToDBSelect
+	 * @param vehicleTypeMSRPVersion
+	 * @param vehicleType
+	 */
 	protected void pas730_SelectCleanDataBase(String vehicleTypeMSRPVersion, String vehicleType) {
-		// DELETE_VEHICLEREFDATAVINCONTROL_BY_VERSION_VEHICLETYPE
-		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVINCONTROL_BY_VERSION_VEHICLETYPE, vehicleType, vehicleTypeMSRPVersion));
-		// DELETE new VEHICLEREFDATAVINCONTROL version
-		deleteVersionFromVehicleControlTable(vehicleTypeMSRPVersion,getState());
+		// Delete added version from VEHICLE REF DATA VIN
+		DBService.get().executeUpdate(String.format(DELETE_FROM_VEHICLEREFDATAVINCONTROL,formTypeSelect,"SYMBOL_2000",NEW_VEHREFVERSION_EFFECTIVEDATE,NEW_VEHREFVERSION_EXPIRATIONDATE));
+		resetSelectDefaultVEHICLEREFDATAVINCONTROL();
+		// Reset default version in VEHICLE REF DATA VIN
+		resetDefaultVehicleDataVinVersion(vehicleTypeMSRPVersion);
 		// DELETE new MSRP version pas730_VehicleTypeRegular
 		deleteAddedMsrpVersionFormMsrpControlTable(vehicleTypeMSRPVersion, EXPECTED_MSRP_KEY, vehicleType);
 	}
@@ -419,16 +453,16 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		DBService.get().executeUpdate(String.format(DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY, vehicleTypeMSRPVersion, compCollSymbolKey, vehicleType2));
 	}
 
-	private void deleteVersionFromVehicleControlTable(String vehicleTypeMSRPVersion, String state) {
-		DBService.get().executeUpdate(String.format(DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_VERSION_STATECD, vehicleTypeMSRPVersion, state));
+	private void resetDefaultVehicleDataVinVersion(String vehicleTypeMSRPVersion) {
+		DBService.get().executeUpdate(String.format("UPDATE VEHICLEREFDATAVINCONTROL SET EFFECTIVEDATE = '20000101',EXPIRATIONDATE = '99999999' WHERE MSRP_VERSION = '%s'",vehicleTypeMSRPVersion));
 	}
 
 	// Used in After suite method, cause of cross-test interruptions
-	public void resetChoiceDefaultMSRPVersionValuesVinControlTable() {
+	public void resetChoiceDefaultVEHICLEREFDATAVINCONTROL() {
 		DBService.get().executeUpdate(UPDATE_CHOICE_VEHICLEREFDATAVINCONTROL_BY_MSRP_VERSION);
 	}
 
-	public void resetSelectDefaultMSRPVersionValuesVinControlTable() {
+	public void resetSelectDefaultVEHICLEREFDATAVINCONTROL() {
 		DBService.get().executeUpdate(UPDATE_SELECT_VEHICLEREFDATAVINCONTROL_BY_MSRP_VERSION);
 	}
 }

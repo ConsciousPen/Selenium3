@@ -110,7 +110,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		log.info("Quote {} is successfully saved for further use", quoteNumber);
 
 		adminApp().open();
-		vinMethods.uploadFiles(vinTableFile);
+		vinMethods.uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);
@@ -207,7 +207,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		log.info("Policy {} is successfully saved for further use", policyNumber);
 		adminApp().open();
-		vinMethods.uploadFiles(vinTableFile);
+		vinMethods.uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, find created policy, initiate Renewal, verify if VIN value is applied
 		createAndRateRenewal(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
@@ -261,7 +261,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
 		adminApp().open();
-		vinMethods.uploadFiles(vinTableFile);
+		vinMethods.uploadVinTable(vinTableFile);
 
 		// Go back to MainApp, find created policy, create Renewal image and verify if VIN was updated and new values are applied
 		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
@@ -338,7 +338,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		String policyNumber = createPreconds(testData);
 
 		adminApp().open();
-		vinMethods.uploadFiles(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get()));
+		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get()));
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -422,7 +422,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		log.info("Quote {} is successfully saved for further use", quoteNumber);
 
 		adminApp().open();
-		vinMethods.uploadFiles(vinTableFile);
+		vinMethods.uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is NOT applied
 		findAndRateQuote(testData, quoteNumber);
@@ -507,7 +507,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		//2. Generate automated renewal image (in data gather status) according to renewal timeline
 		adminApp().open();
-		vinMethods.uploadFiles(pas2716ControlTableFileName, pas2716VinTableFileName);
+		vinMethods.uploadVinTable( pas2716VinTableFileName);
 		pas2716_CommonSteps(NEW_VIN, policyNumber, policyExpirationDate);
 	}
 
@@ -542,7 +542,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		//2. Generate automated renewal image (in data gather status) according to renewal timeline
 		adminApp().open();
-		vinMethods.uploadFiles(pas2716ControlTableFileName, pas2716VinTableFileName);
+		vinMethods.uploadVinTable( pas2716VinTableFileName);
 		pas2716_CommonSteps(NEW_VIN, policyNumber, policyExpirationDate.minusDays(45));
 	}
 
@@ -747,7 +747,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		//2. Generate automated renewal image (in data gather status) according to renewal timeline
 		adminApp().open();
-		vinMethods.uploadFiles(pas2716ControlTableFileName, pas2716VinTableFileName);
+		vinMethods.uploadVinTable(pas2716VinTableFileName);
 		pas2716_CommonSteps(NEW_VIN, policyNumber, policyExpirationDate.minusDays(35));
 	}
 
@@ -783,7 +783,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 
 		adminApp().open();
-		//vinMethods.uploadFiles(controlTableFile, vinTableFile);
+		vinMethods.uploadFiles(controlTableFile, vinTableFile);
 
 		// 2. Renewal term is inforce) R-35
 		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
