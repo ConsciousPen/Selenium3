@@ -336,13 +336,13 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 	}
 
-	private String getExpectedPaymentPlanForRenewal(String paymentPlan){
-		String expectedPaymentPlanAtRenewal=null;
-		if (paymentPlan.equals(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN) ){
-			expectedPaymentPlanAtRenewal= BillingConstants.PaymentPlan.MONTHLY_RENEWAL;
+	private String getExpectedPaymentPlanForRenewal(String paymentPlan) {
+		String expectedPaymentPlanAtRenewal = null;
+		if (paymentPlan.equals(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN)) {
+			expectedPaymentPlanAtRenewal = BillingConstants.PaymentPlan.MONTHLY_RENEWAL;
 
-		}else if (paymentPlan.equals(BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN)){
-			expectedPaymentPlanAtRenewal= BillingConstants.PaymentPlan.ELEVEN_PAY_RENEWAL;
+		} else if (paymentPlan.equals(BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN)) {
+			expectedPaymentPlanAtRenewal = BillingConstants.PaymentPlan.ELEVEN_PAY_RENEWAL;
 		}
 		return expectedPaymentPlanAtRenewal;
 	}
