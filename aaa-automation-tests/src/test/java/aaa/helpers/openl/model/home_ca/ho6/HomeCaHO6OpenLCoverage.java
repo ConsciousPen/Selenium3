@@ -3,13 +3,13 @@ package aaa.helpers.openl.model.home_ca.ho6;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLCoverage;
 
 public class HomeCaHO6OpenLCoverage extends HomeCaOpenLCoverage {
-	private Integer deductibleAmount;
+	private Double deductibleAmount;
 
-	public Integer getDeductibleAmount() {
+	public Double getDeductibleAmount() {
 		return deductibleAmount;
 	}
 
-	public void setDeductibleAmount(Integer deductibleAmount) {
+	public void setDeductibleAmount(Double deductibleAmount) {
 		this.deductibleAmount = deductibleAmount;
 	}
 
