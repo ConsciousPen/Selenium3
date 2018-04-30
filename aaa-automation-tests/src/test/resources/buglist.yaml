@@ -169,7 +169,7 @@ PAS-13094:
   summary: "Regression: PUP: VIN resolver doesn't work for underlying auto policies"
   reason: PROD
   failures:
-    - tests: [aaa.modules.regression.sales.pup.*,aaa.modules.regression.service.pup.*,aaa.modules.regression.conversions.pup.*]
+    - tests: [aaa.modules.regression.sales.pup.*,aaa.modules.regression.service.pup.*,aaa.modules.regression.conversions.pup.*,aaa.modules.regression.document_fulfillment.pup.*,aaa.modules.docgen.pup.*]
       messages: ["Cannot set value of AssetList {UnderlyingRisksAutoTab"]
     - tests: [aaa.modules.regression.service.pup.*]
       messages: ["Cannot set value of AssetList {UnderlyingRisksAutoTab", "Errors: 'Make' is required; 'Model' is required"]
@@ -178,4 +178,22 @@ PAS-12478:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.conversions.home_ss.*]
-      messages: ["AssetList {OilFuelOrPropaneStorageTank", "ComboBox {Oil Fuel or Propane Storage Tank"]
+      messages: ["AssetList {OilFuelOrPropaneStorageTank"]
+    - tests: [aaa.modules.regression.conversions.home_ss.*]
+      messages: ["ComboBox {Oil Fuel or Propane Storage Tank"]
+PAS-13203:
+  summary: "Regression: Auto: Birthday value is not returned from stub"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports.*]
+      messages: ["Cannot set value of AssetList {RatingDetailReportsTab", "Errors: 'Date of Birth' is required"]
+    - tests: [aaa.modules.regression.sales.auto_ca.select.TestQuotePrefill.*]
+      messages: ["Cannot get value of CheckBox"]
+    - tests: [aaa.modules.regression.sales.auto_ca.select.TestQuotePrefill.*]
+      messages: ['expected:<"[07/08/1976]"> but was:<"[]"']
+PT-1421:
+  summary: "PA PUP - View Rating Details Page - Wrong Auto Tier is displayed"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails.pt1421_testManuallyAddedAutoTier]
+      messages: ['org.junit.ComparisonFailure: Expected :"[7]" Actual   :"[2]"']
