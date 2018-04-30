@@ -48,6 +48,14 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
+    <test name="AutoSS [ID] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="ID"/>
+        <parameter name="fileName" value="IDTests-20170915.xls"/>
+        <parameter name="policyNumbers" value="1, 4"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
     <test name="AutoSS [IN] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="IN"/>
         <parameter name="fileName" value="INTests-20170806_part1.xls"/>

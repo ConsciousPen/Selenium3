@@ -16,9 +16,9 @@ public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm> 
 	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
 	private List<HomeCaHO6OpenLCoverage> coverages;
 
-	private Integer covALimit;
-	private Integer covELimit;
-	private Integer deductible;
+	private Double covALimit;
+	private Double covELimit;
+	private Double deductible;
 	private Boolean hasEmployeeDiscount;
 	private Integer ageOfOldestInsured;
 	private Boolean hasPolicySupportingForm;
@@ -53,27 +53,27 @@ public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm> 
 		this.coverages = new ArrayList<>(coverages);
 	}
 
-	public Integer getCovALimit() {
+	public Double getCovALimit() {
 		return covALimit;
 	}
 
-	public void setCovALimit(Integer covALimit) {
+	public void setCovALimit(Double covALimit) {
 		this.covALimit = covALimit;
 	}
 
-	public Integer getCovELimit() {
+	public Double getCovELimit() {
 		return covELimit;
 	}
 
-	public void setCovELimit(Integer covELimit) {
+	public void setCovELimit(Double covELimit) {
 		this.covELimit = covELimit;
 	}
 
-	public Integer getDeductible() {
+	public Double getDeductible() {
 		return deductible;
 	}
 
-	public void setDeductible(Integer deductible) {
+	public void setDeductible(Double deductible) {
 		this.deductible = deductible;
 	}
 

@@ -1411,7 +1411,7 @@ public final class HomeCaMetaData {
 
 		public enum HomeCaCoverages {
 			COVERAGE_A("Coverage A - Dwelling limit"), COVERAGE_B("Coverage B - Other Structures limit"), COVERAGE_C("Coverage C - Personal Property limit"), COVERAGE_D(
-					"Coverage D - Loss of Use limit"), COVERAGE_E("Coverage E - Personal Liability Each Occurrence"), COVERAGE_F("Coverage F - Medical Payments to Others"), DEDUCTIBLE("Deductible"),;
+					"Coverage D - Loss of Use limit"), COVERAGE_E("Coverage E - Personal Liability Each Occurrence"), COVERAGE_F("Coverage F - Medical Payment to Others"), DEDUCTIBLE("Deductible"),;
 
 			private String value;
 
