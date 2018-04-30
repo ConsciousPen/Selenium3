@@ -49,21 +49,30 @@
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
                 <methods>
                     <include name="pas12047_noticeOfNonRenewalLetterHS65MD" />
+                    <include name="pas11772_importantNoticeRegardingFloodInsuranceHSFLD" />
+
+
                 </methods>
             </class>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigConversionHomeHO4">
                 <methods>
                     <include name="pas12047_noticeOfNonRenewalLetterHS65MD" />
+                    <include name="pas11772_importantNoticeRegardingFloodInsuranceHSFLD" />
+
                 </methods>
             </class>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigConversionHomeHO6">
                 <methods>
                     <include name="pas12047_noticeOfNonRenewalLetterHS65MD" />
+                    <include name="pas11772_importantNoticeRegardingFloodInsuranceHSFLD" />
+
                 </methods>
             </class>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigConversionHomeDP3">
                 <methods>
                     <include name="pas12047_noticeOfNonRenewalLetterHS65MD" />
+                    <include name="pas11772_importantNoticeRegardingFloodInsuranceHSFLD" />
+
                 </methods>
             </class>
         </classes>

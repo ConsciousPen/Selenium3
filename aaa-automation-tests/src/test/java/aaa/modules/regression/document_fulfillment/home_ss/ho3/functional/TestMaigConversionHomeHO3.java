@@ -301,8 +301,8 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-12589"})
-    public void pas11772_importantNoticeRegardingFloodInsuranceHSFLDMD(@Optional("MD") String state) throws NoSuchFieldException {
-        super.pas11772_importantNoticeRegardingFloodInsuranceHSFLDMD(state);
+    public void pas11772_importantNoticeRegardingFloodInsuranceHSFLD(@Optional("MD") String state) throws NoSuchFieldException {
+        super.pas11772_importantNoticeRegardingFloodInsuranceHSFLD(state);
     }
 
     @Override

@@ -213,7 +213,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * 4. Check that HSFLDMD documents are getting generated
 	 * @details
 	 */
-	public void pas11772_importantNoticeRegardingFloodInsuranceHSFLDMD(String state) throws NoSuchFieldException {
+	public void pas11772_importantNoticeRegardingFloodInsuranceHSFLD(String state) throws NoSuchFieldException {
 		int numberOfLetters = renewalCoverLetterFormsGeneration(getConversionPolicyDefaultTD(), HSFLD, false, state);
 		assertThat(numberOfLetters).isEqualTo(1);
 	}

@@ -291,7 +291,7 @@ public class TestMaigConversionHomeDP3 extends TestMaigConversionHomeAbstract {
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-12589"})
     public void pas11772_importantNoticeRegardingFloodInsuranceHSFLD(@Optional("MD") String state) throws NoSuchFieldException {
-        super.pas11772_importantNoticeRegardingFloodInsuranceHSFLDMD(state);
+        super.pas11772_importantNoticeRegardingFloodInsuranceHSFLD(state);
     }
 
 }
