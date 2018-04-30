@@ -27,16 +27,30 @@ public class HomeCaHO6FormTestDataGenerator {
 	}; 
 	
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHO42CDataFunction = (openLPolicy) -> {
-		List<TestData> tdList = new ArrayList<>();
-		tdList.add(DataProviderFactory.dataOf(
-				"Action", "Add",
-				HomeCaMetaData.EndorsementTab.EndorsementHO42C.OFFICE_TYPE.getLabel(), "index=1", 
-				HomeCaMetaData.EndorsementTab.EndorsementHO42C.DESCRIPTION_OF_BUSINESS_EQUIPMENT.getLabel(), "test", 
-				HomeCaMetaData.EndorsementTab.EndorsementHO42C.BUSINESS_EQUIPMENT_OVER_50_000.getLabel(), "No", 
-				HomeCaMetaData.EndorsementTab.EndorsementHO42C.FOOT_TRAFFIC_EXCEEDING_2_CUSTOMERS_PER_WEEK.getLabel(), "No", 
-				HomeCaMetaData.EndorsementTab.EndorsementHO42C.EMPLOYEES_WORKING_ON_THE_PREMISES.getLabel(), "No", 
-				HomeCaMetaData.EndorsementTab.EndorsementHO42C.BUSINESS_INVOLVING_HAZARDOUS_SITUATIONS_OR_MATERIALS.getLabel(), "No", 
-				HomeCaMetaData.EndorsementTab.EndorsementHO42C.BUSINESS_INVOLVING_THE_MANUFACTURING_OR_REPAIRING_OF_GOODS_OR_PRODUCTS.getLabel(), "No"));
+		List<TestData> tdList = new ArrayList<>(); 
+		String territoryCode = openLPolicy.getForms().stream().filter(c -> "HO-42C".equals(c.getFormCode())).findFirst().get().getTerritoryCode(); 
+		if (territoryCode.equals("Office")) {
+			tdList.add(DataProviderFactory.dataOf(
+					"Action", "Add",
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.OFFICE_TYPE.getLabel(), "Incidental Office", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.DESCRIPTION_OF_BUSINESS_EQUIPMENT.getLabel(), "test", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.BUSINESS_EQUIPMENT_OVER_50_000.getLabel(), "No", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.FOOT_TRAFFIC_EXCEEDING_2_CUSTOMERS_PER_WEEK.getLabel(), "No", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.EMPLOYEES_WORKING_ON_THE_PREMISES.getLabel(), "No", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.BUSINESS_INVOLVING_HAZARDOUS_SITUATIONS_OR_MATERIALS.getLabel(), "No", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.BUSINESS_INVOLVING_THE_MANUFACTURING_OR_REPAIRING_OF_GOODS_OR_PRODUCTS.getLabel(), "No"));
+		}
+		else {
+			tdList.add(DataProviderFactory.dataOf(
+					"Action", "Add",
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.OFFICE_TYPE.getLabel(), "Professional Instruction", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.DESCRIPTION_OF_BUSINESS_EQUIPMENT.getLabel(), "test", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.BUSINESS_EQUIPMENT_OVER_50_000.getLabel(), "No", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.FOOT_TRAFFIC_EXCEEDING_2_CUSTOMERS_PER_WEEK.getLabel(), "No", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.EMPLOYEES_WORKING_ON_THE_PREMISES.getLabel(), "No", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.BUSINESS_INVOLVING_HAZARDOUS_SITUATIONS_OR_MATERIALS.getLabel(), "No", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.BUSINESS_INVOLVING_THE_MANUFACTURING_OR_REPAIRING_OF_GOODS_OR_PRODUCTS.getLabel(), "No"));
+		}
 		return tdList;
 	};
 	
