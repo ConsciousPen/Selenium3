@@ -37,9 +37,9 @@ public class SoapClient {
         headers.addHeader("SOAPAction", _soapAction);
 
         //Print request message for debugging
-        printToDebugLog("++++ Beginning of SOAP Request ++++");
-        printToDebugLog(convertSoapMessageToXMLString(soapRequest));
-        printToDebugLog("---- End of SOAP Request ----");
+        printToLog("++++ Beginning of SOAP Request ++++");
+        printToLog(convertSoapMessageToXMLString(soapRequest));
+        printToLog("---- End of SOAP Request ----");
 
         // Added to attempt to work around error with connection. Could be due to proxies.
         System.setProperty("java.net.useSystemProxies", "true");
@@ -52,9 +52,9 @@ public class SoapClient {
         soapConnection.close();
 
         //Print request message for debugging
-        printToDebugLog("++++ Beginning of SOAP Response ++++");
-        printToDebugLog(convertSoapMessageToXMLString(soapResponse));
-        printToDebugLog("---- End of SOAP Response ----");
+        printToLog("++++ Beginning of SOAP Response ++++");
+        printToLog(convertSoapMessageToXMLString(soapResponse));
+        printToLog("---- End of SOAP Response ----");
 
         return soapResponse;
     }
