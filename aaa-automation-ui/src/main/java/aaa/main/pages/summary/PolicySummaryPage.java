@@ -2,21 +2,27 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.pages.summary;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.main.enums.PolicyConstants;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
@@ -320,5 +326,34 @@ public class PolicySummaryPage extends SummaryPage {
 
 			return content;
 		}
+	}
+
+	public static void lastTransactionHistoryOpen() {
+		if (buttonTransactionHistory.isPresent()) {
+			buttonTransactionHistory.click();
+		}
+		tableTransactionHistory.getRow(1).getCell(2).controls.links.get(1).click();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+	}
+
+	public static void transactionHistoryRecordCountCheck(String policyNumber, int rowCount, String value) {
+		buttonTransactionHistory.click();
+		CustomAssert.assertEquals(tableTransactionHistory.getRowsCount(), rowCount);
+		String valueShort = "";
+		if (!StringUtils.isEmpty(value)) {
+			valueShort = value.substring(0, 20);
+			assertThat(tableTransactionHistory.getRow(1).getCell("Reason").getHintValue()).contains(value);
+		}
+		assertThat(tableTransactionHistory.getRow(1).getCell("Reason").getValue()).contains(valueShort);
+
+		String transactionHistoryQuery = "select * from(\n"
+				+ "select pt.TXREASONTEXT\n"
+				+ "from PolicyTransaction pt\n"
+				+ "where POLICYID in \n"
+				+ "        (select id from POLICYSUMMARY \n"
+				+ "        where POLICYNUMBER = '%s')\n"
+				+ "    order by pt.TXDATE desc)\n"
+				+ "    where rownum=1";
+		assertThat(DBService.get().getValue(String.format(transactionHistoryQuery, policyNumber)).orElse(StringUtils.EMPTY)).isEqualTo(value);
 	}
 }
