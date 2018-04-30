@@ -1389,8 +1389,8 @@ public final class HomeCaMetaData {
 				"//table[@id='policyDataGatherForm:coverageSummaryTable']//tr[td[.='%s']]//input", HomeCaCoverages.COVERAGE_D.get())));
 		public static final AssetDescriptor<ComboBox> COVERAGE_E = declare(HomeCaCoverages.COVERAGE_E.get(), ComboBox.class, Waiters.AJAX, false, By.xpath(String.format(
 				"//table[@id='policyDataGatherForm:coverageSummaryTable']//tr[td[.='%s']]//select", HomeCaCoverages.COVERAGE_E.get())));
-		public static final AssetDescriptor<StaticElement> COVERAGE_F = declare(HomeCaCoverages.COVERAGE_F.get(), StaticElement.class, Waiters.AJAX, false, By.xpath(String.format(
-				"//table[@id='policyDataGatherForm:coverageSummaryTable']//tr[td[.='%s']]//td[3]", HomeCaCoverages.COVERAGE_F.get())));
+		public static final AssetDescriptor<ComboBox> COVERAGE_F = declare(HomeCaCoverages.COVERAGE_F.get(), ComboBox.class, Waiters.AJAX, false, By.xpath(String.format(
+				"//table[@id='policyDataGatherForm:coverageSummaryTable']//tr[td[.='%s']]//select", HomeCaCoverages.COVERAGE_F.get())));
 		public static final AssetDescriptor<ComboBox> DEDUCTIBLE = declare(HomeCaCoverages.DEDUCTIBLE.get(), ComboBox.class, Waiters.AJAX, false, By.xpath(String.format(
 				"//table[@id='policyDataGatherForm:coverageSummaryTable']//tr[td[.='%s']]//select", HomeCaCoverages.DEDUCTIBLE.get())));
 

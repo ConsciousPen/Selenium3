@@ -300,7 +300,7 @@ public class HomeCaHO6TestDataGenerator extends TestDataGenerator<HomeCaHO6OpenL
 				if (!endorsementData.containsKey(HomeCaHO6FormTestDataGenerator.getFormMetaKey(formCode))) {
 					List<TestData> tdList = HomeCaHO6FormTestDataGenerator.getFormTestData(openLPolicy, formCode);
 					if (tdList != null) {
-						TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeCaHO3FormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeCaHO3FormTestDataGenerator.getFormMetaKey(formCode), tdList);
+						TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeCaHO6FormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeCaHO6FormTestDataGenerator.getFormMetaKey(formCode), tdList);
 						endorsementData.adjust(td);
 					}
 				}
@@ -423,7 +423,7 @@ public class HomeCaHO6TestDataGenerator extends TestDataGenerator<HomeCaHO6OpenL
 				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(), covC.toString().split("\\.")[0], 
 				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D.getLabel(), covD.toString().split("\\.")[0], 
 				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), "contains=" + new Dollar(covE).toString().split("\\.")[0], 
-				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_F.getLabel(), new Dollar(covF).toString().split("\\.")[0], 
+				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_F.getLabel(), "contains=" + new Dollar(covF).toString().split("\\.")[0], 
 				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE.getLabel(), "contains=" + new Dollar(openLPolicy.getDeductible()).toString().split("\\.")[0]);
 	}
 	

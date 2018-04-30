@@ -158,7 +158,9 @@ public class HomeCaHO6FormTestDataGenerator {
 	};
 	
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHO1732DataFunction = (openLPolicy) -> {
-		return null;
+		List<TestData> tdList = new ArrayList<>();
+		tdList.add(DataProviderFactory.dataOf("Action", "Add"));
+		return tdList;
 	};
 	
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHO1733DataFunction = (openLPolicy) -> {
@@ -170,22 +172,23 @@ public class HomeCaHO6FormTestDataGenerator {
 	};
 	
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHW0435DataFunction = (openLPolicy) -> {
+		//TODO hasSupportingForm
 		List<TestData> tdList = new ArrayList<>();
-		Integer instanceNum = 1;
-		for (HomeCaHO6OpenLForm form: openLPolicy.getForms()) {
+		for (HomeCaHO6OpenLForm form: openLPolicy.getForms()) { 
 			if ("HW 04 35".equals(form.getFormCode())) {
-				if (form.getPercentage().equals(2.0)) {
-					tdList.add(DataProviderFactory.dataOf(
-							"Action", "Add",
-							HomeCaMetaData.EndorsementTab.EndorsementHW0435.LOCATION_TYPE.getLabel(), "contains=Other Building", 
-							HomeCaMetaData.EndorsementTab.EndorsementHW0435.STREET_ADDRESS_2.getLabel(), "111 Test street"));
-				}
 				if (form.getPercentage().equals(0.0)) {
 					tdList.add(DataProviderFactory.dataOf(
 							"Action", "Add",
 							HomeCaMetaData.EndorsementTab.EndorsementHW0435.LOCATION_TYPE.getLabel(), "Residence Premises"));
 				}
-				instanceNum++;
+				if (form.getPercentage().equals(2.0)) {
+					for (int i = 0; i < 2; i++) {
+						tdList.add(DataProviderFactory.dataOf(
+								"Action", "Add",
+								HomeCaMetaData.EndorsementTab.EndorsementHW0435.LOCATION_TYPE.getLabel(), "contains=Other Building", 
+								HomeCaMetaData.EndorsementTab.EndorsementHW0435.STREET_ADDRESS_2.getLabel(), "11" + i + " Test street"));
+					}
+				}
 			}
 		}
 		return tdList;
