@@ -409,17 +409,13 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
 
         // Verify links
-        assertThat(reportsTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst()).isPresent(false);
-        assertThat(reportsTab.tblInsuranceScoreReport.getRow(1).getCell("Report").getValue()).isEqualTo("View report");
-        assertThat(reportsTab.tblInsuranceScoreReport.getRow(1).getCell("Report").controls.links.getFirst()).isPresent(true);
+        verifyLinks();
 
         // Adjust First Name of Primary Insured and verify links
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
         applicantTab.getNamedInsuredAssetList().getAsset(HomeSSMetaData.ApplicantTab.NamedInsured.FIRST_NAME).setValue("Test");
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        assertThat(reportsTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst()).isPresent(false);
-        assertThat(reportsTab.tblInsuranceScoreReport.getRow(1).getCell("Report").getValue()).isEqualTo("View report");
-        assertThat(reportsTab.tblInsuranceScoreReport.getRow(1).getCell("Report").controls.links.getFirst()).isPresent(true);
+        verifyLinks();
 
         // Navigate to Applicant tab, add another named insured, and verify links
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
@@ -427,9 +423,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
         reportsTab.getAssetList().getAsset(INSURANCE_SCORE_REPORT.getLabel(), FillableTable.class).getAsset(CUSTOMER_AGREEMENT.getLabel(), RadioGroup.class).setValue("Customer agrees");
         reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
-        reportsTab.tblInsuranceScoreOverride.getRows().forEach(i -> assertThat(i.getCell(6).controls.links.getFirst()).isPresent(false));
-        assertThat(reportsTab.tblInsuranceScoreReport.getRow(1).getCell("Report").getValue()).isEqualTo("View report");
-        assertThat(reportsTab.tblInsuranceScoreReport.getRow(1).getCell("Report").controls.links.getFirst()).isPresent(true);
+        verifyLinks();
         assertThat(reportsTab.tblInsuranceScoreReport.getRow(2).getCell("Report").controls.links.getFirst()).isPresent(false);
 
         // Bind policy and confirm policy summary page
@@ -438,6 +432,12 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.submitTab();
         assertThat(PolicySummaryPage.labelPolicyNumber).isPresent();
+    }
+
+    private void verifyLinks() {
+        reportsTab.tblInsuranceScoreOverride.getRows().forEach(i -> assertThat(i.getCell(6).controls.links.getFirst()).isPresent(false));
+        assertThat(reportsTab.tblInsuranceScoreReport.getRow(1).getCell("Report").getValue()).isEqualTo("View report");
+        assertThat(reportsTab.tblInsuranceScoreReport.getRow(1).getCell("Report").controls.links.getFirst()).isPresent(true);
     }
 
 
