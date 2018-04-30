@@ -206,7 +206,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 	protected void partialMatch() {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
-		String vehYear = "2015";
+		String vehYear = "2018";
 		String vehMake = "VOLKSWAGEN";
 		String vehModel = "GOLF";
 		String vehSeries = "GOLF";
