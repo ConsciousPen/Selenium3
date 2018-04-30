@@ -184,7 +184,7 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 		assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(EVALUE_STATUS)).hasValue("");
 
 		//PAS-244 start
-		testEValueMembershipProcess.transactionHistoryRecordCountCheck(policyNumber, 2, "eValue Removed - NSF");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "eValue Removed - NSF");
 		//PAS-244 end
 
 		if (TimeSetterUtil.getInstance().getCurrentTime().isBefore(policyEffectiveDate.plusDays(30))) {
