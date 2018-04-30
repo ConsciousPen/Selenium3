@@ -99,6 +99,9 @@ public class TestPolicyRenewalMembershipDiscount extends HomeSSDP3BaseTest {
         mainApp().reopen();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         BillingSummaryPage.open();
+        if(BillingSummaryPage.tableBillingAccounts.isPresent()) {
+            BillingSummaryPage.tableBillingAccounts.getRow(1).getCell(BillingConstants.BillingAccountsTable.BILLING_ACCOUNT).controls.links.get(2).click();
+        }
         Dollar totDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies
                 .getRow(BillingConstants.BillingAccountPoliciesTable.POLICY_NUM, policyNumber)
                 .getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue());
