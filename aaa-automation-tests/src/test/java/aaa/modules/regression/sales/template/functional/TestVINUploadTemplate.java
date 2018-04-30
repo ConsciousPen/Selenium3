@@ -395,7 +395,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 	 * @details
 	 */
 	protected void pas4253_restrictVehicleRefreshNB(String vinTableFile, String vinNumber) {
-		TestData testData = getPolicyTD().adjust(vehicleTab.getMetaKey(), TestMSRPRefreshTemplate.getVehicleMotorHomeTestData());
+		TestData testData = getPolicyTD().adjust(vehicleTab.getMetaKey(), TestMSRPRefreshTemplate.getVehicleMotorHomeTestData("2018"));
 		// Add Vin to test data
 		testData.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber);
 		// Mask Vehicle from DriverVehicleRelationshipTable

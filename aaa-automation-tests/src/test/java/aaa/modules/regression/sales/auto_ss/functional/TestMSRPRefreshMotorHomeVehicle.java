@@ -2,9 +2,7 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import java.time.LocalDateTime;
 import java.util.Map;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -12,7 +10,6 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
@@ -24,8 +21,6 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 public class TestMSRPRefreshMotorHomeVehicle extends VinUploadAutoSSHelper {
-
-	private VehicleTab vehicleTab = new VehicleTab();
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -54,7 +49,7 @@ public class TestMSRPRefreshMotorHomeVehicle extends VinUploadAutoSSHelper {
 				.adjust(AutoSSMetaData.VehicleTab.TYPE.getLabel(), "Motor Home")
 				.adjust(AutoSSMetaData.VehicleTab.MOTOR_HOME_TYPE.getLabel(), "index=2")
 				.adjust(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "index=1")
-				.adjust(AutoSSMetaData.VehicleTab.YEAR.getLabel(), "2018")
+				.adjust(AutoSSMetaData.VehicleTab.YEAR.getLabel(), "2025")
 				.adjust(AutoSSMetaData.VehicleTab.OTHER_MAKE.getLabel(), "Other Make")
 				.adjust(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel(), "Other Model")
 				.adjust(AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel(), "10000");
@@ -120,30 +115,10 @@ public class TestMSRPRefreshMotorHomeVehicle extends VinUploadAutoSSHelper {
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 	}
 
-	/**
-	 * Info in each xml file for this test could be used only once, so for running of tests properly DB should be cleaned after
-	 * each test method. So newly added values should be deleted from Vehiclerefdatavin, Vehiclerefdatamodel and VEHICLEREFDATAVINCONTROL
-	 * tables. Default values should be set for EXPIRATIONDATE field for default rows in VEHICLEREFDATAVINCONTROL table.
-	 * <p>
-	 * 'SYMBOL_2000_SS_TEST' are names of configurations which are used and listed in excel
-	 * files for each product (choice config, select config and Signature Series config ONLY for UT state). So if they will be changed there
-	 * this after method should be updated. But such updates are not supposed to be done.
-	 * Please refer to the files with appropriate names in each test in /resources/``ingfiles/vinUploadFiles.
-	 */
-	@AfterTest(alwaysRun = true)
-	protected void resetMSRPTables() {
-		resetMsrpHomeVehHelper();
-	}
-	//todo
-	@AfterClass(alwaysRun = true)
-	protected void resetVinUploadTables() {
-		// pas730_PartialMatch clean
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable("('SYMBOL_2000_SS_TEST')", getState());
-	}
 
 	@AfterSuite(alwaysRun = true)
 	protected void resetVinControlTable() {
 		// Reset to the default state  MSRP_2000
-		resetDefaultMSRPVersionValuesVinControlTable();
+		resetMsrpHomeVehHelper();
 	}
 }

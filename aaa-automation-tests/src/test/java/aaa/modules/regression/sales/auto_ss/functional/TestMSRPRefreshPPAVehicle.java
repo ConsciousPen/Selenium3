@@ -14,6 +14,7 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
@@ -50,7 +51,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get());
 
-		String vehYear = "2015";
+		String vehYear = "2018";
 		String vehMake = "VOLKSWAGEN";
 		String vehModel = "GOLF";
 		String vehSeries = "GOLF";
@@ -116,6 +117,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	public void pas730_VehicleTypePPA(@Optional("UT") String state) {
 		TestData testDataVehicleTab = testDataManager.getDefault(TestVINUpload.class).getTestData("TestData").getTestData(vehicleTab.getMetaKey()).mask("VIN");
 		TestData testData = getPolicyTD().adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks();
+		testData.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(),AutoCaMetaData.VehicleTab.YEAR.getLabel()), "2025");
 
 		createAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
@@ -210,7 +212,8 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		String compSymbolBeforeRenewal = policyInfoBeforeRenewal.get("COMPSYMBOL");
 		String collSymbolBeforeRenewal = policyInfoBeforeRenewal.get("COLLSYMBOL");
 		// Preconditions to to vin is not match
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable("('SYMBOL_2000_SS_TEST')", getState());
+		//todo can be affected by partial match, use different vin number to resolve
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable("7MSRP15H5V1011111", "SYMBOL_2000");
 
 		// Move time to get refresh
 		moveTimeAndRunRenewJobs(policyExpirationDate);
@@ -221,14 +224,14 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		pas730_commonChecks(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
 
 	}
-	//todo
+
 	@AfterSuite(alwaysRun = true)
 	protected void resetVinControlTable() {
 		// pas730_PartialMatch clean
 		//DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN,"");
 		resetMsrpPPAVeh();
 		// Reset to the default state  MSRP_2000
-		resetDefaultMSRPVersionValuesVinControlTable();
+		//resetDefaultMSRPVersionAtVinControlTable();
 
 	}
 

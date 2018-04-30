@@ -24,7 +24,7 @@ public class VehicleQueries {
 	public static final String UPDATE_CHOICE_VEHICLEREFDATAVINCONTROL_BY_MSRP_VERSION =
 			"UPDATE vehiclerefdatavincontrol VC SET expirationdate='99999999' WHERE MSRP_VERSION = 'MSRP_2000_CHOICE' AND FORMTYPE='CHOICE'";
 	public static final String UPDATE_SELECT_VEHICLEREFDATAVINCONTROL_BY_MSRP_VERSION =
-			"UPDATE vehiclerefdatavincontrol VC SET expirationdate='99999999' WHERE MSRP_VERSION = 'MSRP_2000' AND FORMTYPE='SELECT'";
+			"UPDATE vehiclerefdatavincontrol VC SET expirationdate='99999999' WHERE MSRP_VERSION = 'MSRP_2000_SELECT' AND FORMTYPE='SELECT'";
 	public static final String UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE_FORMTYPE =
 			"UPDATE vehiclerefdatavincontrol VC SET expirationdate='99999999' WHERE VC.STATECD='%1$s' AND FORMTYPE = '%2$s'";
 

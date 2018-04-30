@@ -24,14 +24,11 @@ public class MsrpQueries {
 	public static final String DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY = "DELETE from MSRPCompCollCONTROL WHERE MSRPVERSION = '%1$s' AND KEY = %2$d AND VEHICLETYPE = '%3$s'";
 	public static final String DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_VERSION_STATECD = "DELETE FROM VEHICLEREFDATAVINCONTROL WHERE MSRP_VERSION = '%1$s' AND STATECD = '%2$s'";
 
-	public static final String AUTO_SS_PPA_VEH_MSRP_VERSION = "MSRP_2000_SS";
-	public static final String AUTO_SS_MOTORHOME_VEH_MSRP_VERSION = "MSRP_2000_MOTORHOME_SS";
+	public static final String AUTO_SS_PPA_VEH_MSRP_VERSION = "MSRP_2000";
 
 	public static final String CA_CHOICE_REGULAR_VEH_MSRP_VERSION = "MSRP_2000_CHOICE";
-	public static final String CA_CHOICE_MOTORHOME_VEH_MSRP_VERSION = "MSRP_2000_MOTORHOME_CHOICE_TEST";
 
 	public static final String CA_SELECT_REGULAR_VEH_MSRP_VERSION = "MSRP_2000_SELECT";
-	public static final String CA_SELECT_MOTORHOME_VEH_MSRP_VERSION = "MSRP_2000_MOTORHOME_SELECT_TEST";
 
 	public static BigInteger getAvailableIdFromVehicleDataVinControl() {
 		Long uniqId = Long.parseLong(getQueryResult(SELECT_VEHICLEREFDATAVINCONTROL_MAX_ID, 5));
