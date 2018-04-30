@@ -2,7 +2,7 @@
 <suite name="Home SS OpenL Rating Tests" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <!--<listener class-name="aaa.helpers.listeners.AlterSuiteListener"/> -->
-        <!--<listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>-->
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
     <parameter name="testsDir" value="src/test/resources/openl/home_ss"/>
@@ -25,10 +25,19 @@
     <!--</classes>-->
     <!--</test>-->
 
+    <!--<test name="HomeSS [DC] Premium Calculation Test" preserve-order="true">-->
+    <!--<parameter name="state" value="DC"/>-->
+    <!--<parameter name="fileName" value="DCTests.xls"/>-->
+    <!--<parameter name="policyNumbers" value="2"/>-->
+    <!--<classes>-->
+    <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
+    <!--</classes>-->
+    <!--</test>-->
+
     <test name="HomeSS [MT] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="MT"/>
         <parameter name="fileName" value="MTTests-20170501.xls"/>
-        <parameter name="policyNumbers" value="10, 50"/>
+        <parameter name="policyNumbers" value="10,20,30,40,50"/>
         <classes>
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
