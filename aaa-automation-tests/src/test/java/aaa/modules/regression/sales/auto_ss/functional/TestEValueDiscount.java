@@ -109,6 +109,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	private static final List<String> PAY_PLAN_FALSE_YES = Arrays.asList(MESSAGE_BULLET_11, MESSAGE_BULLET_4_A, MESSAGE_BULLET_10, MESSAGE_BULLET_3);
 	private static final List<String> PAPERLESS_AND_PRIOR_INS_FALSE_YES = Arrays.asList(MESSAGE_BULLET_11, MESSAGE_BULLET_4_A, MESSAGE_BULLET_1, MESSAGE_BULLET_10);
 	private static final List<String> ALL_FALSE = Arrays.asList(MESSAGE_BULLET_10);
+	private static final String AUTOPAY_KEEP_EVALUE = "To keep the eValue discount, the customer must choose AutoPay to make recurring payments via a checking/savings account or debit card.";
 
 	private static List<String> requestIdList = new LinkedList<>();
 	private GeneralTab generalTab = new GeneralTab();
@@ -666,21 +667,21 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		//Endorsement doesn't show the field
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		generalTab.getInquiryAssetList().assetFieldUnionCheck(AutoSSMetaData.GeneralTab.PolicyInformation.HAS_THE_INSURED_EVER_BEEN_ENROLLED_IN_EVALUE.getLabel(), false, false, false);
-		//PAS-306, PAS-320, PAS-323 start
+		//PAS-306, PAS-320, PAS-323, PAS-289 start
 		commissionTypeCheck(expectedEvalueCommissionTypeOptions, "No", "eValue New Business");//because the issue happened with eValue Discount = True
 		commissionTypeCheck(expectedEvalueCommissionTypeOptions, "Yes", "eValue New Business");
 		pas316_eValueRemovalPopUpCheck();
-		//PAS-306, PAS-320, PAS-323 end
+		//PAS-306, PAS-320, PAS-323, PAS-289 end
 		generalTab.cancel();
 		Page.dialogConfirmation.buttonDeleteEndorsement.click();
 
 		//Renewal doesn't show the field
 		policy.renew().start();
 		generalTab.getInquiryAssetList().assetFieldUnionCheck(AutoSSMetaData.GeneralTab.PolicyInformation.HAS_THE_INSURED_EVER_BEEN_ENROLLED_IN_EVALUE.getLabel(), false, false, false);
-		//PAS-306, PAS-320, PAS-323, PAS-318 - Renewal is not covered by this story
+		//PAS-306, PAS-320, PAS-323, PAS-318, PAS-292 start
 		commissionTypeCheck(expectedEvalueCommissionTypeOptions, "No", "eValue Renewal");
 		commissionTypeCheck(expectedEvalueCommissionTypeOptions, "Yes", "eValue Renewal");
-		//PAS-306, PAS-320, PAS-323, PAS-318 end
+		//PAS-306, PAS-320, PAS-323, PAS-318, PAS-292 end
 		pas316_eValueRemovalPopUpCheck();
 		generalTab.saveAndExit();
 
@@ -797,6 +798,44 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	/**
 	 * @author Oleg Stasyuk
+	 * @name Test there is a message, when Autopay is nto set and Payment Plan <> Annual
+	 * @scenario 1. Create new eValue policy
+	 * 2. Start endorsement, set Payment plan to non-Annual
+	 * 3. Check Message
+	 * 4. Start renewal, set Payment plan to non-Annual
+	 * 5. Check Message
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-295")
+	public void pas295_autopayKeepValueMessage(@Optional("VA") String state) {
+		eValueQuoteCreation();
+
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		premiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.submitTab();
+		premiumAndCoveragesTab.saveAndExit();
+		simplifiedQuoteIssue();
+
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		autopayKeepValueMessageCheck();
+
+		policy.renew().start().submit();
+		autopayKeepValueMessageCheck();
+	}
+
+	private void autopayKeepValueMessageCheck() {
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN).setValue("contains=Standard");
+		assertThat(PremiumAndCoveragesTab.tableeMemberMessageGrid.getRow(1).getCell(4)).hasValue(AUTOPAY_KEEP_EVALUE);
+		premiumAndCoveragesTab.saveAndExit();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
 	 * @name Test AHEVAXX eValue Acknowledgement document is can be generated with Generate eSignature Documents
 	 * @scenario 1. Create new eValue eligible quote for VA
 	 * 2. set eValue Discount = true in P&C
@@ -841,6 +880,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				.getAllValues().containsAll(expectedValues));
 
 		DocumentsAndBindTab.btnPurchase.click();
+		//PAS-293 start
 		errorTab.getErrorsControl().getTable().getRowContains("Code", "AAA_SS8120577").getCell("Message").verify
 				.value("A signed eValue Acknowledgement must be received prior to issuing this transa...");
 		errorTab.getErrorsControl().getTable().getRowContains("Code", "AAA_SS8120577").getCell("Code").controls.links.get(1).click();
@@ -854,6 +894,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		} else if (Page.dialogConfirmation.isPresent()) {
 			Page.dialogConfirmation.reject();
 		}
+		//PAS-293 end
 		//PAS-264 end
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");

@@ -6,6 +6,22 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
+    <test name="PAS-2247, PAS-2248 - Lock Membership and Auto Ins Persistency, Not at Fault and Comp Claims">
+        <parameter name="state" value="CT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAutoPoliciesLock"/>
+        </classes>
+    </test>
+    <test name="pas2704_DeclarationPage AA02NY">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestSymbolsPresenceDeclarationPage">
+                <methods>
+                    <include name="pas2704_DeclarationPage"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="PAS-3805, PAS-4244 DE_NJ No Prior Insurance Message and Error">
         <parameter name="state" value="DE, NJ"/>
         <classes>
@@ -31,12 +47,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipValidationError"/>
         </classes>
     </test>
-    <test name="PAS-2247, PAS-2248 - Lock Membership and Auto Ins Persistency, Not at Fault and Comp Claims">
-        <parameter name="state" value="CT"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAutoPoliciesLock"/>
-        </classes>
-    </test>
     <test name="PAS-6166-Verify STAT Code Symbol Pre-Ffx is Removed from STAT Code Selections on vehicle page">
         <parameter name="state" value="UT"/>
         <classes>
@@ -50,7 +60,6 @@
                 <methods>
                     <include name="pas6203_VinAndControlTablesUpload"/>
                     <include name="pas533_newVinAdded"/>
-                    <include name="pas527_UpdatedVinRenewal"/>
                     <include name="pas2714_Endorsement"/>
                     <include name="pas4253_restrictVehicleRefreshNB"/>
                 </methods>
@@ -68,13 +77,12 @@
             </class>
         </classes>
     </test>
-    <test name="Auto Select TestVINUpload tests">
+    <test name="Auto CA TestVINUpload tests">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVINUpload">
                 <methods>
                     <include name="pas533_newVinAdded"/>
-                    <include name="pas527_UpdatedVinRenewal"/>
                     <include name="pas2714_Endorsement"/>
                     <include name="pas4253_restrictVehicleRefreshNB"/>
                 </methods>
@@ -91,15 +99,9 @@
                     <include name="pas730_vinDoesNotMatchDB"/>
                 </methods>
             </class>
-        </classes>
-    </test>
-    <test name="Auto Choice TestVINUpload tests">
-        <parameter name="state" value="CA"/>
-        <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload">
                 <methods>
                     <include name="pas533_newVinAdded"/>
-                    <include name="pas527_updatedVinRenewal"/>
                     <include name="pas2714_Endorsement"/>
                     <include name="pas4253_restrictVehicleRefreshNB"/>
                 </methods>
@@ -174,16 +176,6 @@
             <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.TestSymbolsPresenceApplicationForm">
                 <methods>
                     <include name="pas2713_ApplicationFormStatCodeNotNA"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas2704_DeclarationPage AA02NY">
-        <parameter name="state" value="NY"/>
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestSymbolsPresenceDeclarationPage">
-                <methods>
-                    <include name="pas2704_DeclarationPage"/>
                 </methods>
             </class>
         </classes>
