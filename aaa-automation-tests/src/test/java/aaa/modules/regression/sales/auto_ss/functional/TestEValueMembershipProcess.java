@@ -1227,7 +1227,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
-	//sitas man neveikia
 
 	/**
 	 * @author Oleg Stasyuk
@@ -1238,7 +1237,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * 3. Execute UpdatePolicyPreferences Service
 	 * 4. Check Transaction history and that eValue was removed
 	 * 5. Run NB+15 jobs
-	 * 6. Check if discount in Jeopardy email was send.
+	 * 6. Check if discount in Jeopardy email wasn't send.
 	 * 7. Run NB+30 jobs
 	 * 8. Check AHDRXX is not generated
 	 * @details
@@ -1269,16 +1268,13 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "eValue Removed - Paperless Preferences Removed - External");
 		lastTransactionHistoryEValueDiscountCheck(false);
 
-
 		jobsNBplus15plus30runNoChecks();
 		//implementEmailCheck from Admin Log?
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
 		//Start PAS-12822
-
-		//ISSIAISKINTI KODEL NERANDA NOTES CIA
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Discount in Jeopardy email sent")).isPresent(true);
+		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Discount in Jeopardy email sent")).isPresent(false);
 		//End PAS-12822
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "eValue Removed - Paperless Preferences Removed - External");
 		lastTransactionHistoryEValueDiscountCheck(false);
