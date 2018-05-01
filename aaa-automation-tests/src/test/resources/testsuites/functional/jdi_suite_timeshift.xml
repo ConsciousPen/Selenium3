@@ -312,4 +312,14 @@
             </class>
         </classes>
     </test>
+    <test name="pas1451_eValueRemovedByServiceNoAHDRXX VA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="pas1451_eValueRemovedByServiceNoAHDRXX"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

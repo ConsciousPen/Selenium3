@@ -68,6 +68,36 @@
             </class>
         </classes>
     </test>
+    <test name="PAS-12344: Insurance Renewal Bill - MD/PA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="MD, PA"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
+                <methods>
+                    <include name="pas8789_insuranceRenewalBillHomeAHRBXX" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigConversionHomeHO4">
+                <methods>
+                    <include name="pas8789_insuranceRenewalBillHomeAHRBXX" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigConversionHomeHO6">
+                <methods>
+                    <include name="pas8789_insuranceRenewalBillHomeAHRBXX" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigConversionHomeDP3">
+                <methods>
+                    <include name="pas8789_insuranceRenewalBillHomeAHRBXX" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionPup">
+                <methods>
+                    <include name="pas8789_insuranceRenewalBillHomeAHRBXX" />
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="PAS-10704, PAS-10512 Enable Fuel related and Masonry Vaneer fields on the Property info tab " parallel="methods" thread-count="1024">
         <parameter name="state" value="VA, DE, NJ, MD, PA, CT"/>
         <classes>
