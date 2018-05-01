@@ -678,10 +678,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(vehicleSt.antiTheft).isEqualTo(antiTheft1);
 		softly.assertThat(vehicleSt.vehTypeCd).isEqualTo(vehType1);
 		softly.assertThat(vehicleSt.oid).isNotEmpty();
-		softly.assertThat(vehicleSt.garagingAddressPostalCode).isEqualTo(zipCode1);
-		softly.assertThat(vehicleSt.addressLine1).isEqualTo(address1);
-		softly.assertThat(vehicleSt.stateProvCd).isEqualTo(state1);
-		softly.assertThat(vehicleSt.city).isEqualTo(city1);
+		softly.assertThat(vehicleSt.garagingAddress.postalCode).isEqualTo(zipCode1);
+		softly.assertThat(vehicleSt.garagingAddress.addressLine1).isEqualTo(address1);
+		softly.assertThat(vehicleSt.garagingAddress.stateProvCd).isEqualTo(state1);
+		softly.assertThat(vehicleSt.garagingAddress.city).isEqualTo(city1);
 
 		softly.assertThat(vehicleNd).isNotNull();
 		softly.assertThat(vehicleNd.modelYear).isEqualTo(modelYear2);
@@ -697,10 +697,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(vehicleNd.antiTheft).isEqualTo(antiTheft2);
 		softly.assertThat(vehicleNd.vehTypeCd).isEqualTo(vehType2);
 		softly.assertThat(vehicleNd.oid).isNotEmpty();
-		softly.assertThat(vehicleNd.garagingAddressPostalCode).isEqualTo(zipCode2);
-		softly.assertThat(vehicleNd.addressLine1).isEqualTo(address2);
-		softly.assertThat(vehicleNd.stateProvCd).isEqualTo(state2);
-		softly.assertThat(vehicleNd.city).isEqualTo(city2);
+		softly.assertThat(vehicleNd.garagingAddress.postalCode).isEqualTo(zipCode2);
+		softly.assertThat(vehicleNd.garagingAddress.addressLine1).isEqualTo(address2);
+		softly.assertThat(vehicleNd.garagingAddress.stateProvCd).isEqualTo(state2);
+		softly.assertThat(vehicleNd.garagingAddress.city).isEqualTo(city2);
 
 		VehicleTab.buttonCancel.click();
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -730,10 +730,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(vehicleSt1.antiTheft).isEqualTo(antiTheft1);
 		softly.assertThat(vehicleSt1.vehTypeCd).isEqualTo(vehType1);
 		softly.assertThat(vehicleSt1.oid).isNotEmpty();
-		softly.assertThat(vehicleSt1.garagingAddressPostalCode).isEqualTo(zipCode1);
-		softly.assertThat(vehicleSt1.addressLine1).isEqualTo(address1);
-		softly.assertThat(vehicleSt1.stateProvCd).isEqualTo(state1);
-		softly.assertThat(vehicleSt1.city).isEqualTo(city1);
+		softly.assertThat(vehicleSt1.garagingAddress.postalCode).isEqualTo(zipCode1);
+		softly.assertThat(vehicleSt1.garagingAddress.addressLine1).isEqualTo(address1);
+		softly.assertThat(vehicleSt1.garagingAddress.stateProvCd).isEqualTo(state1);
+		softly.assertThat(vehicleSt1.garagingAddress.city).isEqualTo(city1);
 
 		softly.assertThat(vehicleNd1).isNotNull();
 		softly.assertThat(vehicleNd1.modelYear).isEqualTo(modelYear2);
@@ -749,10 +749,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(vehicleNd1.antiTheft).isEqualTo(antiTheft2);
 		softly.assertThat(vehicleNd1.vehTypeCd).isEqualTo(vehType2);
 		softly.assertThat(vehicleNd1.oid).isNotEmpty();
-		softly.assertThat(vehicleNd1.garagingAddressPostalCode).isEqualTo(zipCode2);
-		softly.assertThat(vehicleNd1.addressLine1).isEqualTo(address2);
-		softly.assertThat(vehicleNd1.stateProvCd).isEqualTo(state2);
-		softly.assertThat(vehicleNd1.city).isEqualTo(city2);
+		softly.assertThat(vehicleNd1.garagingAddress.postalCode).isEqualTo(zipCode2);
+		softly.assertThat(vehicleNd1.garagingAddress.addressLine1).isEqualTo(address2);
+		softly.assertThat(vehicleNd1.garagingAddress.stateProvCd).isEqualTo(state2);
+		softly.assertThat(vehicleNd1.garagingAddress.city).isEqualTo(city2);
 
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
 
@@ -795,10 +795,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(vehicleSt2.antiTheft).isEqualTo(antiTheft1);
 		softly.assertThat(vehicleSt2.vehTypeCd).isEqualTo(vehType1);
 		softly.assertThat(vehicleSt2.oid).isNotEmpty();
-		softly.assertThat(vehicleSt2.garagingAddressPostalCode).isEqualTo(zipCode1);
-		softly.assertThat(vehicleSt2.addressLine1).isEqualTo(address1);
-		softly.assertThat(vehicleSt2.stateProvCd).isEqualTo(state1);
-		softly.assertThat(vehicleSt2.city).isEqualTo(city1);
+		softly.assertThat(vehicleSt2.garagingAddress.postalCode).isEqualTo(zipCode1);
+		softly.assertThat(vehicleSt2.garagingAddress.addressLine1).isEqualTo(address1);
+		softly.assertThat(vehicleSt2.garagingAddress.stateProvCd).isEqualTo(state1);
+		softly.assertThat(vehicleSt2.garagingAddress.city).isEqualTo(city1);
 
 		softly.assertThat(vehicleRd2).isNotNull();
 		softly.assertThat(vehicleRd2.modelYear).isEqualTo(modelYear3);
@@ -814,10 +814,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(vehicleRd2.antiTheft).isEqualTo(antiTheft3);
 		softly.assertThat(vehicleRd2.vehTypeCd).isEqualTo(vehType3);
 		softly.assertThat(vehicleRd2.oid).isNotEmpty();
-		softly.assertThat(vehicleRd2.garagingAddressPostalCode).isEqualTo(zipCode3);
-		softly.assertThat(vehicleRd2.addressLine1).isEqualTo(address3);
-		softly.assertThat(vehicleRd2.stateProvCd).isEqualTo(state3);
-		softly.assertThat(vehicleRd2.city).isEqualTo(city3);
+		softly.assertThat(vehicleRd2.garagingAddress.postalCode).isEqualTo(zipCode3);
+		softly.assertThat(vehicleRd2.garagingAddress.addressLine1).isEqualTo(address3);
+		softly.assertThat(vehicleRd2.garagingAddress.stateProvCd).isEqualTo(state3);
+		softly.assertThat(vehicleRd2.garagingAddress.city).isEqualTo(city3);
 	}
 
 	protected void pas11932_viewDriversInfo(PolicyType policyType, String state) {
@@ -1090,10 +1090,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 					softly.assertThat(response1.vehIdentificationNo).isEqualTo(vin2);
 					softly.assertThat(response1.garagingDifferent).isEqualTo(false);
 					softly.assertThat(response1.vehTypeCd).isEqualTo("PPA");
-					softly.assertThat(response1.garagingAddressPostalCode).isEqualTo(zipCodeDefault);
-					softly.assertThat(response1.addressLine1).isEqualTo(addressDefault);
-					softly.assertThat(response1.city).isEqualTo(cityDefault);
-					softly.assertThat(response1.stateProvCd).isEqualTo(stateDefault);
+					softly.assertThat(response1.garagingAddress.postalCode).isEqualTo(zipCodeDefault);
+					softly.assertThat(response1.garagingAddress.addressLine1).isEqualTo(addressDefault);
+					softly.assertThat(response1.garagingAddress.city).isEqualTo(cityDefault);
+					softly.assertThat(response1.garagingAddress.stateProvCd).isEqualTo(stateDefault);
 				}
 		);
 
@@ -2207,10 +2207,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].antiTheft).isEqualTo("STD");
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].registeredOwner).isEqualTo(false);
 
-			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].garagingAddressPostalCode).isEqualTo(zipCodeDefault);
-			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].addressLine1).isEqualTo(addressDefault);
-			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].stateProvCd).isEqualTo(stateDefault);
-			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].city).isEqualTo(cityDefault);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].garagingAddress.postalCode).isEqualTo(zipCodeDefault);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].garagingAddress.addressLine1).isEqualTo(addressDefault);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].garagingAddress.stateProvCd).isEqualTo(stateDefault);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].garagingAddress.city).isEqualTo(cityDefault);
 		});
 
 		//PAS-7145 Start
@@ -2229,10 +2229,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		updateGaragingAddressVehicleRequest.antiTheft = "STD";
 		updateGaragingAddressVehicleRequest.registeredOwner = false;
 		updateGaragingAddressVehicleRequest.garagingDifferent = true;
-		updateGaragingAddressVehicleRequest.garagingAddressPostalCode = zipCodeGarage;
-		updateGaragingAddressVehicleRequest.addressLine1 = addressGarage;
-		updateGaragingAddressVehicleRequest.city = cityGarage;
-		updateGaragingAddressVehicleRequest.stateProvCd = stateGarage;
+		updateGaragingAddressVehicleRequest.garagingAddress.postalCode = zipCodeGarage;
+		updateGaragingAddressVehicleRequest.garagingAddress.addressLine1 = addressGarage;
+		updateGaragingAddressVehicleRequest.garagingAddress.city = cityGarage;
+		updateGaragingAddressVehicleRequest.garagingAddress.stateProvCd = stateGarage;
 
 		Vehicle updateVehicleResponseGaragingAddress = HelperCommon.updateVehicle(policyNumber, oid, updateGaragingAddressVehicleRequest);
 		assertSoftly(softly -> {
@@ -2242,10 +2242,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(updateVehicleResponseGaragingAddress.garagingDifferent).isEqualTo(true);
 			softly.assertThat(updateVehicleResponseGaragingAddress.antiTheft).isEqualTo("STD");
 			softly.assertThat(updateVehicleResponseGaragingAddress.registeredOwner).isEqualTo(false);
-			softly.assertThat(updateVehicleResponseGaragingAddress.garagingAddressPostalCode).isEqualTo(zipCodeGarage);
-			softly.assertThat(updateVehicleResponseGaragingAddress.addressLine1).isEqualTo(addressGarage);
-			softly.assertThat(updateVehicleResponseGaragingAddress.city).isEqualTo(cityGarage);
-			softly.assertThat(updateVehicleResponseGaragingAddress.stateProvCd).isEqualTo(stateGarage);
+			softly.assertThat(updateVehicleResponseGaragingAddress.garagingAddress.postalCode).isEqualTo(zipCodeGarage);
+			softly.assertThat(updateVehicleResponseGaragingAddress.garagingAddress.addressLine1).isEqualTo(addressGarage);
+			softly.assertThat(updateVehicleResponseGaragingAddress.garagingAddress.city).isEqualTo(cityGarage);
+			softly.assertThat(updateVehicleResponseGaragingAddress.garagingAddress.stateProvCd).isEqualTo(stateGarage);
 
 			Vehicle[] pendedEndorsementValidateVehicleResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].modelYear).isEqualTo(updateVehicleResponse.modelYear);
@@ -2264,10 +2264,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].antiTheft).isEqualTo("STD");
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].registeredOwner).isEqualTo(false);
 
-			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].garagingAddressPostalCode).isEqualTo(zipCodeGarage);
-			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].addressLine1).isEqualTo(addressGarage);
-			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].stateProvCd).isEqualTo(stateGarage);
-			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].city).isEqualTo(cityGarage);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].garagingAddress.postalCode).isEqualTo(zipCodeGarage);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].garagingAddress.addressLine1).isEqualTo(addressGarage);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].garagingAddress.stateProvCd).isEqualTo(stateGarage);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].garagingAddress.city).isEqualTo(cityGarage);
 		});
 	}
 
@@ -2961,16 +2961,16 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String stateGarage = "VA";
 		VehicleUpdateDto updateGaragingAddressVehicleRequest = new VehicleUpdateDto();
 		updateGaragingAddressVehicleRequest.garagingDifferent = true;
-		updateGaragingAddressVehicleRequest.garagingAddressPostalCode = zipCodeGarage;
-		updateGaragingAddressVehicleRequest.addressLine1 = addressGarage;
-		updateGaragingAddressVehicleRequest.city = cityGarage;
-		updateGaragingAddressVehicleRequest.stateProvCd = stateGarage;
+		updateGaragingAddressVehicleRequest.garagingAddress.postalCode = zipCodeGarage;
+		updateGaragingAddressVehicleRequest.garagingAddress.addressLine1 = addressGarage;
+		updateGaragingAddressVehicleRequest.garagingAddress.city = cityGarage;
+		updateGaragingAddressVehicleRequest.garagingAddress.stateProvCd = stateGarage;
 		Vehicle updateVehicleGaragingAddressResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateGaragingAddressVehicleRequest);
 		softly.assertThat(updateVehicleGaragingAddressResponse.garagingDifferent).isEqualTo(true);
-		softly.assertThat(updateVehicleGaragingAddressResponse.garagingAddressPostalCode).isEqualTo(zipCodeGarage);
-		softly.assertThat(updateVehicleGaragingAddressResponse.addressLine1).isEqualTo(addressGarage);
-		softly.assertThat(updateVehicleGaragingAddressResponse.city).isEqualTo(cityGarage);
-		softly.assertThat(updateVehicleGaragingAddressResponse.stateProvCd).isEqualTo(stateGarage);
+		softly.assertThat(updateVehicleGaragingAddressResponse.garagingAddress.postalCode).isEqualTo(zipCodeGarage);
+		softly.assertThat(updateVehicleGaragingAddressResponse.garagingAddress.addressLine1).isEqualTo(addressGarage);
+		softly.assertThat(updateVehicleGaragingAddressResponse.garagingAddress.city).isEqualTo(cityGarage);
+		softly.assertThat(updateVehicleGaragingAddressResponse.garagingAddress.stateProvCd).isEqualTo(stateGarage);
 		SearchPage.openPolicy(policyNumber);
 
 		//View endorsement vehicles
@@ -3069,10 +3069,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		vehicleAddRequest.purchaseDate = purchaseDate;
 		vehicleAddRequest.vehIdentificationNo = vin;
 		vehicleAddRequest.garagingDifferent = true;
-		vehicleAddRequest.garagingAddressPostalCode = zipCodeGarage;
-		vehicleAddRequest.addressLine1 = addressGarage;
-		vehicleAddRequest.city = cityGarage;
-		vehicleAddRequest.stateProvCd = stateGarage;
+		vehicleAddRequest.garagingAddress.postalCode = zipCodeGarage;
+		vehicleAddRequest.garagingAddress.addressLine1 = addressGarage;
+		vehicleAddRequest.garagingAddress.city = cityGarage;
+		vehicleAddRequest.garagingAddress.stateProvCd = stateGarage;
 
 		//Add new vehicle
 		String newVehicleOid = vehicleAddWithCheck(policyNumber, vehicleAddRequest);
@@ -3129,12 +3129,12 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String stateGarage = "VA";
 		//Update vehicle Leased Financed Info
 		VehicleUpdateDto updateVehicleLeasedFinanced = new VehicleUpdateDto();
-		updateVehicleLeasedFinanced.garagingAddressPostalCode=zipCodeGarage;
+		updateVehicleLeasedFinanced.garagingAddress.postalCode=zipCodeGarage;
 		updateVehicleLeasedFinanced.garagingDifferent = true;
-		updateVehicleLeasedFinanced.garagingAddressPostalCode = zipCodeGarage;
-		updateVehicleLeasedFinanced.addressLine1 = addressGarage;
-		updateVehicleLeasedFinanced.city = cityGarage;
-		updateVehicleLeasedFinanced.stateProvCd = stateGarage;
+		updateVehicleLeasedFinanced.garagingAddress.postalCode = zipCodeGarage;
+		updateVehicleLeasedFinanced.garagingAddress.addressLine1 = addressGarage;
+		updateVehicleLeasedFinanced.garagingAddress.city = cityGarage;
+		updateVehicleLeasedFinanced.garagingAddress.stateProvCd = stateGarage;
 		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
 
 		SearchPage.openPolicy(policyNumber);
@@ -3184,12 +3184,12 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String stateGarage = "VA";
 		//Update vehicle Leased Financed Info
 		VehicleUpdateDto updateVehicleLeasedFinanced = new VehicleUpdateDto();
-		updateVehicleLeasedFinanced.garagingAddressPostalCode=zipCodeGarage;
+		updateVehicleLeasedFinanced.garagingAddress.postalCode=zipCodeGarage;
 		updateVehicleLeasedFinanced.garagingDifferent = true;
-		updateVehicleLeasedFinanced.garagingAddressPostalCode = zipCodeGarage;
-		updateVehicleLeasedFinanced.addressLine1 = addressGarage;
-		updateVehicleLeasedFinanced.city = cityGarage;
-		updateVehicleLeasedFinanced.stateProvCd = stateGarage;
+		updateVehicleLeasedFinanced.garagingAddress.postalCode = zipCodeGarage;
+		updateVehicleLeasedFinanced.garagingAddress.addressLine1 = addressGarage;
+		updateVehicleLeasedFinanced.garagingAddress.city = cityGarage;
+		updateVehicleLeasedFinanced.garagingAddress.stateProvCd = stateGarage;
 		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
 
 		updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);

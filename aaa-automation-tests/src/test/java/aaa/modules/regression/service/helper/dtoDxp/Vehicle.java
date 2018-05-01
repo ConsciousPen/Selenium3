@@ -5,39 +5,28 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.collect.ComparisonChain;
 import aaa.modules.regression.service.helper.RestBodyRequest;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(description = "Vehicle Information")
 public class Vehicle implements RestBodyRequest {
 
-	@ApiModelProperty(value = "Model year", example = "2002")
 	public String modelYear;
 
-	@ApiModelProperty(value = "Manufacturer", example = "Ferrari")
 	public String manufacturer;
 
-	@ApiModelProperty(value = "Series", example = "Enzo")
 	public String series;
 
-	@ApiModelProperty(value = "Model", example = "Enzo")
 	public String model;
 
-	@ApiModelProperty(value = "Body style", example = "Coupe")
 	public String bodyStyle;
 
-	@ApiModelProperty(value = "OID", example = "moNsX3IYP-LrcTxUBUpGjQ")
 	public String oid;
 
-	@ApiModelProperty(value = "Purchase Date", example = "2012-02-21")
 	public String purchaseDate;
 
-	@ApiModelProperty(value = "VIN", example = "ZFFCW56A830133118")
 	public String vehIdentificationNo;
 
-	@ApiModelProperty(value = "Vehicle status", example = "Active")
 	public String vehicleStatus;
 
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public String ownership;
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -58,15 +47,9 @@ public class Vehicle implements RestBodyRequest {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public String vehTypeCd;
 
-	public String garagingAddressPostalCode;
+	public Address garagingAddress;
 
-	public String addressLine1;
-
-	public String addressLine2;
-
-	public String city;
-
-	public String stateProvCd;
+	public Address ownerAddress;
 
 	public static class VehicleComparator implements Comparator<Vehicle> {
 		private static final String VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO = "PPA";
