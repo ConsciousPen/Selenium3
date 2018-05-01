@@ -1166,7 +1166,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-1451"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-1451", "PAS-335"})
 	public void pas1451_eValueRemovedByServiceNoAHDRXX(@Optional("VA") String state) {
 
 		testEValueDiscount.eValueQuoteCreation(true);
