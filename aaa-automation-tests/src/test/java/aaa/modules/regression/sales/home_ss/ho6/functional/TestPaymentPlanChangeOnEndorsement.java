@@ -100,7 +100,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO6BaseTest {
 	 * 2. Create Home SS policy with 'Low Down' payment plan option
 	 * 3. Generate Renewal Image
 	 * 4. Retrieve Renewal Image in Data Gathering Mode
-	 * 5. Validate that "Payment plan" is changed to "Monthly" (AC#6)//TODO: update pas11338_AC3_AC6* tests with correct payment plan for Renewal when clarified. (AC#6)
+	 * 5. Validate that "Payment plan" is changed to MONTHLY_RENEWAL / ELEVEN_PAY_RENEWAL (AC#6). Note:  At NB 'Payment plan at renewal' gets defaulted to MONTHLY_RENEWAL / ELEVEN_PAY_RENEWAL (existing functionality) (AC#6)
 	 * 6. Validate that 'Low Down' payment plan option is NOT available in dropdown (AC#3)
 	 * @details
 	 */
@@ -245,7 +245,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO6BaseTest {
 	 * 2. Create Home SS policy with 'Low Down' payment plan option
 	 * 3. Generate Renewal Image
 	 * 4. Retrieve Renewal Image in Data Gathering Mode
-	 * 5. Validate that "Payment plan" is changed to "Monthly" (AC#6)//TODO: update pas11338_AC3_AC6* tests with correct payment plan for Renewal when clarified. (AC#6)
+	 * 5. Validate that "Payment plan" is changed to MONTHLY_RENEWAL / ELEVEN_PAY_RENEWAL (AC#6). Note:  At NB 'Payment plan at renewal' gets defaulted to MONTHLY_RENEWAL / ELEVEN_PAY_RENEWAL (existing functionality) (AC#6)
 	 * 6. Validate that 'Low Down' payment plan option is NOT available in dropdown (AC#3)
 	 * @details
 	 */
