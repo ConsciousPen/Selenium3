@@ -49,7 +49,7 @@ public class Vehicle implements RestBodyRequest {
 
 	public Address garagingAddress;
 
-	public Address ownerAddress;
+	public Address ownershipAddress;
 
 	public static class VehicleComparator implements Comparator<Vehicle> {
 		private static final String VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO = "PPA";

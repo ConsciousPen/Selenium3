@@ -3059,22 +3059,21 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		String purchaseDate = "2013-02-22";
 		String vin = "1HGFA16526L081415";
-		String zipCodeGarage = "23703";
-		String addressGarage = "4112 FORREST HILLS DR";
-		String cityGarage = "PORTSMOUTH";
-		String stateGarage = "VA";
+		String zipCode = "23703";
+		String addressLine1 = "4112 FORREST HILLS DR";
+		String city = "PORTSMOUTH";
+		String state = "VA";
 
 		//Add vehicle with specific info
 		Vehicle vehicleAddRequest = new Vehicle();
 		vehicleAddRequest.purchaseDate = purchaseDate;
 		vehicleAddRequest.vehIdentificationNo = vin;
-		vehicleAddRequest.garagingDifferent = true;
-		vehicleAddRequest.garagingAddress.postalCode = zipCodeGarage;
-		vehicleAddRequest.garagingAddress.addressLine1 = addressGarage;
-		vehicleAddRequest.garagingAddress.city = cityGarage;
-		vehicleAddRequest.garagingAddress.stateProvCd = stateGarage;
-
-		//Add new vehicle
+		vehicleAddRequest.ownership = "LSD";
+		vehicleAddRequest.ownershipAddress = new Address();
+		vehicleAddRequest.ownershipAddress.postalCode = zipCode;
+		vehicleAddRequest.ownershipAddress.addressLine1 = addressLine1;
+		vehicleAddRequest.ownershipAddress.city = city;
+		vehicleAddRequest.ownershipAddress.stateProvCd = state;
 		String newVehicleOid = vehicleAddWithCheck(policyNumber, vehicleAddRequest);
 
 		SearchPage.openPolicy(policyNumber);
@@ -3102,7 +3101,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected void pas11618_UpdateVehicleLeasedFinancedInfoBody(SoftAssertions softly) {
 		mainApp().open();
-		String policyNumber = getCopiedPolicy();
+		/*		String policyNumber = getCopiedPolicy();*/
+		String policyNumber = "VASS952918564";
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
@@ -3114,7 +3114,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String purchaseDate = "2013-02-22";
 		String vin = "1HGFA16526L081415";
 
-
 		//Add vehicle with specific info
 		Vehicle vehicleAddRequest = new Vehicle();
 		vehicleAddRequest.purchaseDate = purchaseDate;
@@ -3123,18 +3122,18 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
 
-		String zipCodeGarage = "23703";
-		String addressGarage = "4112 FORREST HILLS DR";
-		String cityGarage = "PORTSMOUTH";
-		String stateGarage = "VA";
+		String zipCode = "23703";
+		String addressLine1 = "4112 FORREST HILLS DR";
+		String city = "PORTSMOUTH";
+		String state = "VA";
 		//Update vehicle Leased Financed Info
 		VehicleUpdateDto updateVehicleLeasedFinanced = new VehicleUpdateDto();
-		updateVehicleLeasedFinanced.garagingAddress.postalCode=zipCodeGarage;
-		updateVehicleLeasedFinanced.garagingDifferent = true;
-		updateVehicleLeasedFinanced.garagingAddress.postalCode = zipCodeGarage;
-		updateVehicleLeasedFinanced.garagingAddress.addressLine1 = addressGarage;
-		updateVehicleLeasedFinanced.garagingAddress.city = cityGarage;
-		updateVehicleLeasedFinanced.garagingAddress.stateProvCd = stateGarage;
+		updateVehicleLeasedFinanced.ownership = "LSD";
+		updateVehicleLeasedFinanced.ownershipAddress = new Address();
+		updateVehicleLeasedFinanced.ownershipAddress.postalCode = zipCode;
+		updateVehicleLeasedFinanced.ownershipAddress.addressLine1 = addressLine1;
+		updateVehicleLeasedFinanced.ownershipAddress.city = city;
+		updateVehicleLeasedFinanced.ownershipAddress.stateProvCd = state;
 		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
 
 		SearchPage.openPolicy(policyNumber);
@@ -3159,7 +3158,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected void pas13252_UpdateVehicleGaragingAddressProblemBody(SoftAssertions softly) {
 		mainApp().open();
-		String policyNumber = getCopiedPolicy();
+/*		String policyNumber = getCopiedPolicy();*/
+String policyNumber = "VASS952918564";
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
@@ -3171,26 +3171,25 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String purchaseDate = "2013-02-22";
 		String vin = "1HGFA16526L081415";
 
-
 		//Add vehicle with specific info
 		Vehicle vehicleAddRequest = new Vehicle();
 		vehicleAddRequest.purchaseDate = purchaseDate;
 		vehicleAddRequest.vehIdentificationNo = vin;
 		String newVehicleOid = vehicleAddWithCheck(policyNumber, vehicleAddRequest);
 
-		String zipCodeGarage = "23703";
-		String addressGarage = "4112 FORREST HILLS DR";
-		String cityGarage = "PORTSMOUTH";
-		String stateGarage = "VA";
+		String zipCode = "23703";
+		String addressLine1 = "4112 FORREST HILLS DR";
+		String city = "PORTSMOUTH";
+		String state = "VA";
 		//Update vehicle Leased Financed Info
-		VehicleUpdateDto updateVehicleLeasedFinanced = new VehicleUpdateDto();
-		updateVehicleLeasedFinanced.garagingAddress.postalCode=zipCodeGarage;
-		updateVehicleLeasedFinanced.garagingDifferent = true;
-		updateVehicleLeasedFinanced.garagingAddress.postalCode = zipCodeGarage;
-		updateVehicleLeasedFinanced.garagingAddress.addressLine1 = addressGarage;
-		updateVehicleLeasedFinanced.garagingAddress.city = cityGarage;
-		updateVehicleLeasedFinanced.garagingAddress.stateProvCd = stateGarage;
-		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
+		VehicleUpdateDto updateVehicleGaraging = new VehicleUpdateDto();
+		updateVehicleGaraging.garagingDifferent = true;
+		updateVehicleGaraging.garagingAddress = new Address();
+		updateVehicleGaraging.garagingAddress.postalCode = zipCode;
+		updateVehicleGaraging.garagingAddress.addressLine1 = addressLine1;
+		updateVehicleGaraging.garagingAddress.city = city;
+		updateVehicleGaraging.garagingAddress.stateProvCd = state;
+		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleGaraging);
 
 		updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
 
