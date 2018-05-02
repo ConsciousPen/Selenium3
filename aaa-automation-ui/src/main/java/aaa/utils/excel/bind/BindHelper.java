@@ -53,19 +53,19 @@ public class BindHelper {
 	}
 
 	public static boolean isTableClassField(Field field) {
-		return getTableClass(field).isAnnotationPresent(ExcelTableElement.class);
+		return getFieldType(field).isAnnotationPresent(ExcelTableElement.class);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> Class<T> getTableClass(Field field) {
+	public static <T> Class<T> getFieldType(Field field) {
 		if (List.class.equals(field.getType())) {
-			return getGenericTypeClass(field);
+			return getGenericType(field);
 		}
 		return (Class<T>) field.getType();
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> Class<T> getGenericTypeClass(Field field) {
+	public static <T> Class<T> getGenericType(Field field) {
 		ParameterizedType parameterizedType = (ParameterizedType) field.getGenericType();
 		return (Class<T>) parameterizedType.getActualTypeArguments()[0];
 	}

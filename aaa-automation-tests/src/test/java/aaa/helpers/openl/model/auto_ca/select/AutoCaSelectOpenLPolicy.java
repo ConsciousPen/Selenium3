@@ -1,6 +1,6 @@
 package aaa.helpers.openl.model.auto_ca.select;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
@@ -13,7 +13,7 @@ public class AutoCaSelectOpenLPolicy extends AutoCaOpenLPolicy<AutoCaSelectOpenL
 	private List<AutoCaSelectOpenLDriver> drivers;
 	private List<AutoCaSelectOpenLVehicle> vehicles;
 
-	private LocalDateTime effectiveDate;
+	private LocalDate effectiveDate;
 	private Integer baseYear;
 	private Boolean aaaMember;
 	private Boolean goodDriverPolicy;
@@ -84,11 +84,11 @@ public class AutoCaSelectOpenLPolicy extends AutoCaOpenLPolicy<AutoCaSelectOpenL
 	}
 
 	@Override
-	public LocalDateTime getEffectiveDate() {
+	public LocalDate getEffectiveDate() {
 		return effectiveDate;
 	}
 
-	public void setEffectiveDate(LocalDateTime effectiveDate) {
+	public void setEffectiveDate(LocalDate effectiveDate) {
 		this.effectiveDate = effectiveDate;
 	}
 

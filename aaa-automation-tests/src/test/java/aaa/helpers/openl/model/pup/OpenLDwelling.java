@@ -1,7 +1,5 @@
 package aaa.helpers.openl.model.pup;
 
-import java.util.ArrayList;
-import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
@@ -11,8 +9,8 @@ public class OpenLDwelling {
 	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	private Integer number;
 
-	private List<PUPOpenLAddress> address;
-	private List<OpenLRecEquipmentInfo> recEquipmentInfo;
+	private PUPOpenLAddress address;
+	private OpenLRecEquipmentInfo recEquipmentInfo;
 
 	private Integer firearmsCount;
 	private Boolean retirementCommunityInd;
@@ -26,20 +24,20 @@ public class OpenLDwelling {
 		this.number = number;
 	}
 
-	public List<PUPOpenLAddress> getAddress() {
-		return new ArrayList<>(address);
+	public PUPOpenLAddress getAddress() {
+		return address;
 	}
 
-	public void setAddress(List<PUPOpenLAddress> address) {
-		this.address = new ArrayList<>(address);
+	public void setAddress(PUPOpenLAddress address) {
+		this.address = address;
 	}
 
-	public List<OpenLRecEquipmentInfo> getRecEquipmentInfo() {
-		return new ArrayList<>(recEquipmentInfo);
+	public OpenLRecEquipmentInfo getRecEquipmentInfo() {
+		return recEquipmentInfo;
 	}
 
-	public void setRecEquipmentInfo(List<OpenLRecEquipmentInfo> recEquipmentInfo) {
-		this.recEquipmentInfo = new ArrayList<>(recEquipmentInfo);
+	public void setRecEquipmentInfo(OpenLRecEquipmentInfo recEquipmentInfo) {
+		this.recEquipmentInfo = recEquipmentInfo;
 	}
 
 	public Integer getFirearmsCount() {

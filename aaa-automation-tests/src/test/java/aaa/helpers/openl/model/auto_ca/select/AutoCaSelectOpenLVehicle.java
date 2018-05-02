@@ -11,8 +11,8 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 
 	private List<AutoCaSelectOpenLCoverage> coverages;
-	private List<AutoCaSelectOpenLDriver> primaryDriver;
-	private List<AutoCaSelectOpenLDriver> manuallyAssignedDriver;
+	private AutoCaSelectOpenLDriver primaryDriver;
+	private AutoCaSelectOpenLDriver manuallyAssignedDriver;
 
 	@SuppressWarnings({"FieldNameHidesFieldInSuperclass"})
 	@ExcelColumnElement(name = "umbiLiabilitySymbol")
@@ -32,20 +32,20 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 	private Boolean manuallyAssignedUndesignatedDriverInd;
 	private String optionalCoverages; // TODO-dchubkov: double check type, column in test is empty
 
-	public List<AutoCaSelectOpenLDriver> getPrimaryDriver() {
-		return new ArrayList<>(primaryDriver);
+	public AutoCaSelectOpenLDriver getPrimaryDriver() {
+		return primaryDriver;
 	}
 
-	public void setPrimaryDriver(List<AutoCaSelectOpenLDriver> primaryDriver) {
-		this.primaryDriver = new ArrayList<>(primaryDriver);
+	public void setPrimaryDriver(AutoCaSelectOpenLDriver primaryDriver) {
+		this.primaryDriver = primaryDriver;
 	}
 
-	public List<AutoCaSelectOpenLDriver> getManuallyAssignedDriver() {
-		return manuallyAssignedDriver != null ? new ArrayList<>(manuallyAssignedDriver) : null;
+	public AutoCaSelectOpenLDriver getManuallyAssignedDriver() {
+		return manuallyAssignedDriver;
 	}
 
-	public void setManuallyAssignedDriver(List<AutoCaSelectOpenLDriver> manuallyAssignedDriver) {
-		this.manuallyAssignedDriver = new ArrayList<>(manuallyAssignedDriver);
+	public void setManuallyAssignedDriver(AutoCaSelectOpenLDriver manuallyAssignedDriver) {
+		this.manuallyAssignedDriver = manuallyAssignedDriver;
 	}
 
 	public Boolean isAaaMembership() {

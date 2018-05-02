@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -58,7 +59,7 @@ public abstract class ExcelCell implements Writable {
 	//@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
 	public static synchronized List<CellType<?>> getBaseTypes() {
 		if (baseCellTypes == null) {
-			baseCellTypes = Stream.of(INTEGER_TYPE, DOUBLE_TYPE, BOOLEAN_TYPE, LOCAL_DATE_TIME_TYPE, STRING_TYPE).collect(ImmutableList.toImmutableList());
+			baseCellTypes = Stream.of(INTEGER_TYPE, DOUBLE_TYPE, BOOLEAN_TYPE, LOCAL_DATE_TYPE, LOCAL_DATE_TIME_TYPE, STRING_TYPE).collect(Collectors.toList());
 		}
 		return Collections.unmodifiableList(baseCellTypes);
 	}

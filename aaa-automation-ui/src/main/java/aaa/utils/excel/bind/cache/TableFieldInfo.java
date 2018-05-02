@@ -2,13 +2,15 @@ package aaa.utils.excel.bind.cache;
 
 import java.lang.reflect.Field;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import org.apache.commons.lang3.ClassUtils;
 import aaa.utils.excel.bind.BindHelper;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
+import aaa.utils.excel.io.celltype.CellType;
+import aaa.utils.excel.io.celltype.DateCellType;
 import aaa.utils.excel.io.entity.area.table.TableCell;
 import aaa.utils.excel.io.entity.area.table.TableHeader;
 import toolkit.exceptions.IstfException;
@@ -16,20 +18,23 @@ import toolkit.exceptions.IstfException;
 public final class TableFieldInfo {
 	private final Field tableField;
 	private final List<Integer> headerColumnsIndexes;
+	private final List<CellType<?>> availableCellTypes;
 
 	private Boolean isCaseIgnored;
 	private Boolean isPrimaryKeyField;
 	private Boolean hasHeaderColumnNamePattern;
 	private String primaryKeysSeparator;
 	private String headerColumnName;
-	private Class<?> tableClass;
+	private Class<?> fieldType;
 	private BindType bindType;
 	private Boolean isDateField;
 	private List<DateTimeFormatter> dateTimeFormatters;
+	private CellType<?> cellType;
 
-	public TableFieldInfo(Field tableField) {
+	public TableFieldInfo(Field tableField, List<CellType<?>> availableCellTypes) {
 		this.tableField = tableField;
 		this.headerColumnsIndexes = new ArrayList<>();
+		this.availableCellTypes = new ArrayList<>(availableCellTypes);
 	}
 
 	public Field getTableField() {
@@ -71,11 +76,11 @@ public final class TableFieldInfo {
 		return this.headerColumnName;
 	}
 
-	public Class<?> getTableClass() {
-		if (this.tableClass == null) {
-			this.tableClass = BindHelper.getTableClass(getTableField());
+	public Class<?> getFieldType() {
+		if (this.fieldType == null) {
+			this.fieldType = BindHelper.getFieldType(this.tableField);
 		}
-		return this.tableClass;
+		return this.fieldType;
 	}
 
 	public BindType getBindType() {
@@ -93,7 +98,7 @@ public final class TableFieldInfo {
 
 	public boolean isDateField() {
 		if (this.isDateField == null) {
-			this.isDateField = tableField.getType().isAssignableFrom(Temporal.class);
+			this.isDateField = getCellType(this.availableCellTypes).getClass().isAssignableFrom(DateCellType.class);
 		}
 		return this.isDateField;
 	}
@@ -112,6 +117,20 @@ public final class TableFieldInfo {
 			}
 		}
 		return Collections.unmodifiableList(this.dateTimeFormatters);
+	}
+
+	public CellType<?> getCellType(List<CellType<?>> availableCellTypes) {
+		if (this.cellType == null) {
+			for (CellType<?> cellType : availableCellTypes) {
+				if (ClassUtils.isAssignable(cellType.getEndType(), getFieldType(), true)) {
+					this.cellType = cellType;
+					return cellType;
+				}
+			}
+			throw new IstfException(String.format("Field type \"%1$s\" is not supported for unmarshalling, available cell types are: %2$s", fieldType.getName(), availableCellTypes));
+		}
+
+		return this.cellType;
 	}
 
 	public boolean hasHeaderColumnNamePattern() {

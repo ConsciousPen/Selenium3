@@ -9,7 +9,7 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 @ExcelTableElement(sheetName = OpenLFile.POLICY_SHEET_NAME, headerRowIndex = OpenLFile.POLICY_HEADER_ROW_NUMBER)
 public class HomeCaDP3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaDP3OpenLForm> {
 
-	private List<HomeCaDP3OpenLDwelling> dwelling;
+	private HomeCaDP3OpenLDwelling dwelling;
 	private List<HomeCaDP3OpenLForm> forms;
 	private List<HomeCaDP3OpenLCoverage> coverages;
 
@@ -25,12 +25,12 @@ public class HomeCaDP3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaDP3OpenLForm> 
 	private Integer yearsOwned;
 	private Integer yearsSinceLoan;
 
-	public List<HomeCaDP3OpenLDwelling> getDwellings() {
-		return new ArrayList<>(dwelling);
+	public HomeCaDP3OpenLDwelling getDwelling() {
+		return dwelling;
 	}
 
-	public void setDwellings(List<HomeCaDP3OpenLDwelling> dwelling) {
-		this.dwelling = new ArrayList<>(dwelling);
+	public void setDwelling(HomeCaDP3OpenLDwelling dwelling) {
+		this.dwelling = dwelling;
 	}
 
 	public List<HomeCaDP3OpenLCoverage> getCoverages() {

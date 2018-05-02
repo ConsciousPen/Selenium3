@@ -107,7 +107,7 @@ public class HomeSSOpenLFile extends OpenLFile<HomeSSOpenLPolicy> {
 	}
 
 	public List<OpenLRiskMeterData> getRiskMeterData() {
-		return new ArrayList<>(riskMeterData);
+		return riskMeterData != null ? new ArrayList<>(riskMeterData) : null;
 	}
 
 	public void setRiskMeterData(List<OpenLRiskMeterData> riskMeterData) {

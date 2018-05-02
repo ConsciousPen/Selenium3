@@ -1,5 +1,6 @@
 package aaa.helpers.mock.model.membership;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
@@ -37,19 +38,19 @@ public class MembershipResponse {
 	private String faultString;
 
 	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
-	private LocalDateTime membershipEndDate;
+	private LocalDate membershipEndDate;
 
 	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
-	private LocalDateTime membershipEffectiveDate;
+	private LocalDate membershipEffectiveDate;
 
 	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
-	private LocalDateTime memberStartDate;
+	private LocalDate memberStartDate;
 
 	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
-	private LocalDateTime serviceDate;
+	private LocalDate serviceDate;
 
 	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
-	private LocalDateTime birthDate;
+	private LocalDate birthDate;
 
 	@ExcelColumnElement(dateFormatPatterns = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
 	private LocalDateTime errorTimeStamp;
@@ -145,19 +146,19 @@ public class MembershipResponse {
 		this.faultString = faultString;
 	}
 
-	public LocalDateTime getMembershipEndDate() {
+	public LocalDate getMembershipEndDate() {
 		return membershipEndDate;
 	}
 
-	public void setMembershipEndDate(LocalDateTime membershipEndDate) {
+	public void setMembershipEndDate(LocalDate membershipEndDate) {
 		this.membershipEndDate = membershipEndDate;
 	}
 
-	public LocalDateTime getMembershipEffectiveDate() {
+	public LocalDate getMembershipEffectiveDate() {
 		return membershipEffectiveDate;
 	}
 
-	public void setMembershipEffectiveDate(LocalDateTime membershipEffectiveDate) {
+	public void setMembershipEffectiveDate(LocalDate membershipEffectiveDate) {
 		this.membershipEffectiveDate = membershipEffectiveDate;
 	}
 
@@ -185,11 +186,11 @@ public class MembershipResponse {
 		this.membershipNumber = membershipNumber;
 	}
 
-	public LocalDateTime getMemberStartDate() {
+	public LocalDate getMemberStartDate() {
 		return memberStartDate;
 	}
 
-	public void setMemberStartDate(LocalDateTime memberStartDate) {
+	public void setMemberStartDate(LocalDate memberStartDate) {
 		this.memberStartDate = memberStartDate;
 	}
 
@@ -209,11 +210,11 @@ public class MembershipResponse {
 		this.memberType = memberType;
 	}
 
-	public LocalDateTime getServiceDate() {
+	public LocalDate getServiceDate() {
 		return serviceDate;
 	}
 
-	public void setServiceDate(LocalDateTime serviceDate) {
+	public void setServiceDate(LocalDate serviceDate) {
 		this.serviceDate = serviceDate;
 	}
 
@@ -281,11 +282,11 @@ public class MembershipResponse {
 		this.prefixTitle = prefixTitle;
 	}
 
-	public LocalDateTime getBirthDate() {
+	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(LocalDateTime birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 

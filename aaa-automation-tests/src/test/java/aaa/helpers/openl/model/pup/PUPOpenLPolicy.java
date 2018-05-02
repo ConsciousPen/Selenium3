@@ -1,7 +1,7 @@
 package aaa.helpers.openl.model.pup;
 
 import static aaa.helpers.openl.model.pup.PUPOpenLFile.PUP_POLICY_SHEET_NAME;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLPolicy;
@@ -11,14 +11,14 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 public class PUPOpenLPolicy extends OpenLPolicy {
 
 	private List<PUPOpenLCoverage> coverages;
-	private List<OpenLDwelling> dwelling;
+	private OpenLDwelling dwelling;
 	private List<OpenLRiskItem> riskItems;
 
 	private String autoTier;
 	private Boolean businessPursuitsInd;
 	private Integer daycareChildrenCount;
 	private Boolean dropDownInd;
-	private LocalDateTime effectiveDate;
+	private LocalDate effectiveDate;
 	private String homeTier;
 	private Boolean incidentalFarmingInd;
 	private Integer numOfAccidents;
@@ -40,12 +40,12 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 		this.coverages = new ArrayList<>(coverages);
 	}
 
-	public List<OpenLDwelling> getDwelling() {
-		return new ArrayList<>(dwelling);
+	public OpenLDwelling getDwelling() {
+		return dwelling;
 	}
 
-	public void setDwelling(List<OpenLDwelling> dwelling) {
-		this.dwelling = new ArrayList<>(dwelling);
+	public void setDwelling(OpenLDwelling dwelling) {
+		this.dwelling = dwelling;
 	}
 
 	public List<OpenLRiskItem> getRiskItems() {
@@ -89,11 +89,11 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 	}
 
 	@Override
-	public LocalDateTime getEffectiveDate() {
+	public LocalDate getEffectiveDate() {
 		return effectiveDate;
 	}
 
-	public void setEffectiveDate(LocalDateTime effectiveDate) {
+	public void setEffectiveDate(LocalDate effectiveDate) {
 		this.effectiveDate = effectiveDate;
 	}
 

@@ -22,7 +22,7 @@ public class TableClassesCache {
 	}
 
 	public TableClassInfo of(Field field) {
-		return of(BindHelper.getTableClass(field));
+		return of(BindHelper.getFieldType(field));
 	}
 
 	public TableClassInfo of(Class<?> tableClass) {

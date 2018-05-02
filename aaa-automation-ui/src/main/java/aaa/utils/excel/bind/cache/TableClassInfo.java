@@ -1,5 +1,6 @@
 package aaa.utils.excel.bind.cache;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import java.lang.reflect.Field;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import aaa.utils.excel.bind.BindHelper;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.io.ExcelManager;
+import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
 import aaa.utils.excel.io.entity.area.table.ExcelTable;
 import aaa.utils.excel.io.entity.area.table.TableCell;
@@ -162,8 +164,8 @@ public class TableClassInfo {
 		return getFieldInfo(tableField).getBindType();
 	}
 
-	public Class<?> getFieldsTableClass(Field tableField) {
-		return getFieldInfo(tableField).getTableClass();
+	public Class<?> getFieldType(Field tableField) {
+		return getFieldInfo(tableField).getFieldType();
 	}
 
 	public boolean isDateField(Field tableField) {
@@ -172,6 +174,10 @@ public class TableClassInfo {
 
 	public List<DateTimeFormatter> getDateTimeFormatters(Field tableField) {
 		return getFieldInfo(tableField).getDateTimeFormatters();
+	}
+
+	public CellType<?> getCellType(Field tableField) {
+		return getFieldInfo(tableField).getCellType(this.excelManager.getCellTypes());
 	}
 
 	public boolean hasObject(int rowIndex) {
@@ -191,13 +197,17 @@ public class TableClassInfo {
 			List<Field> tableColumnsFields = getTableColumnsFields();
 			this.tableFieldsInfos = new ArrayList<>(tableColumnsFields.size());
 			for (Field tableField : tableColumnsFields) {
-				this.tableFieldsInfos.add(new TableFieldInfo(tableField));
+				this.tableFieldsInfos.add(new TableFieldInfo(tableField, getExcelManager().getCellTypes()));
 			}
 		}
 		return this.tableFieldsInfos;
 	}
 
 	private ExcelTable findTable() {
+		assertThat(tableClass.isPrimitive()).as("\"%s\" is primitive type. Only non-primitive types are supported for excel table model definition", tableClass.getSimpleName()).isFalse();
+		assertThat(tableClass).as("Unable to find excel table for \"%1$s\" class, it is not annotated with \"%2$s\"", tableClass.getSimpleName(), ExcelTableElement.class.getSimpleName())
+				.hasAnnotation(ExcelTableElement.class);
+
 		int headerRowIndex = tableClass.getAnnotation(ExcelTableElement.class).headerRowIndex();
 		ExcelTable table;
 
@@ -244,13 +254,9 @@ public class TableClassInfo {
 		if (!missedTableColumnsFields.isEmpty()) {
 			List<String> missedFieldColumnNames = new ArrayList<>(missedTableColumnsFields.size());
 			for (Field f : missedTableColumnsFields) {
-				StringBuilder missedTypeAndFieldName = new StringBuilder(f.getType().getSimpleName());
-				if (getBindType(f).equals(TableFieldInfo.BindType.TABLE)) {
-					missedTypeAndFieldName.append("<").append(getFieldsTableClass(f).getSimpleName()).append(">");
-				}
-				missedFieldColumnNames.add(missedTypeAndFieldName.append(" ").append(getHeaderColumnName(f)).toString());
+				missedFieldColumnNames.add(getFieldType(f).getSimpleName() + " " + f.getName());
 			}
-			String message = String.format("Missed header column(s) detected in excel table on sheet \"%1$s\" for field(s) from class \"%2$s\": %3$s.",
+			String message = String.format("Missed header column(s) in excel table on sheet \"%1$s\" for field(s) from class \"%2$s\": %3$s.",
 					table.getSheet().getSheetName(), getTableClass().getName(), missedFieldColumnNames);
 
 			if (isStrictMatchBinding()) {

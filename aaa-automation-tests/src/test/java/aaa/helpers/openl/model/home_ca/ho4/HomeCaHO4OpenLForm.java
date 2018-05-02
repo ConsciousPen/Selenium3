@@ -1,7 +1,5 @@
 package aaa.helpers.openl.model.home_ca.ho4;
 
-import java.util.ArrayList;
-import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLForm;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLScheduledPropertyItem;
@@ -10,8 +8,7 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 @ExcelTableElement(sheetName = OpenLFile.FORM_SHEET_NAME, headerRowIndex = HomeCaHO4OpenLFile.FORM_HEADER_ROW_NUMBER)
 public class HomeCaHO4OpenLForm extends HomeCaOpenLForm {
 
-	private List<HomeCaOpenLScheduledPropertyItem> scheduledPropertyItems;
-
+	private HomeCaOpenLScheduledPropertyItem scheduledPropertyItem;
 	private Integer age;
 	private Integer deductible;
 	private String formClass;
@@ -60,12 +57,12 @@ public class HomeCaHO4OpenLForm extends HomeCaOpenLForm {
 		this.numOfFamilies = numOfFamilies;
 	}
 
-	public List<HomeCaOpenLScheduledPropertyItem> getScheduledPropertyItems() {
-		return scheduledPropertyItems != null ? new ArrayList<>(scheduledPropertyItems) : null;
+	public HomeCaOpenLScheduledPropertyItem getScheduledPropertyItem() {
+		return scheduledPropertyItem;
 	}
 
-	public void setScheduledPropertyItems(List<HomeCaOpenLScheduledPropertyItem> scheduledPropertyItems) {
-		this.scheduledPropertyItems = new ArrayList<>(scheduledPropertyItems);
+	public void setScheduledPropertyItem(HomeCaOpenLScheduledPropertyItem scheduledPropertyItem) {
+		this.scheduledPropertyItem = scheduledPropertyItem;
 	}
 
 	public String getTerritoryCode() {
@@ -87,7 +84,7 @@ public class HomeCaHO4OpenLForm extends HomeCaOpenLForm {
 	@Override
 	public String toString() {
 		return "HomeCaHO4OpenLForm{" +
-				"scheduledPropertyItems=" + scheduledPropertyItems +
+				"scheduledPropertyItems=" + scheduledPropertyItem +
 				", age=" + age +
 				", deductible=" + deductible +
 				", formClass='" + formClass + '\'' +

@@ -1,14 +1,12 @@
 package aaa.helpers.openl.model.home_ca;
 
-import java.util.ArrayList;
-import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 @ExcelTableElement(sheetName = OpenLFile.DWELLING_SHEET_NAME, headerRowIndex = OpenLFile.DWELLING_HEADER_ROW_NUMBER)
 public class HomeCaOpenLDwelling {
-	protected List<HomeCaOpenLAddress> address;
+	protected HomeCaOpenLAddress address;
 
 	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	protected Integer number;
@@ -23,12 +21,12 @@ public class HomeCaOpenLDwelling {
 		this.number = number;
 	}
 
-	public List<HomeCaOpenLAddress> getAddress() {
-		return new ArrayList<>(address);
+	public HomeCaOpenLAddress getAddress() {
+		return address;
 	}
 
-	public void setAddress(List<HomeCaOpenLAddress> address) {
-		this.address = new ArrayList<>(address);
+	public void setAddress(HomeCaOpenLAddress address) {
+		this.address = address;
 	}
 
 	public Integer getPpcValue() {

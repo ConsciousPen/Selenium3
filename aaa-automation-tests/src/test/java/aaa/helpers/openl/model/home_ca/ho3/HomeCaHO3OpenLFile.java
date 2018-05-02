@@ -25,7 +25,7 @@ public class HomeCaHO3OpenLFile extends HomeCaOpenLFile<HomeCaHO3OpenLPolicy> {
 		this.forms = new ArrayList<>(forms);
 	}
 
-	public List<HomeCaHO3OpenLDwelling> getDwellings() {
+	public List<HomeCaHO3OpenLDwelling> getDwelling() {
 		return new ArrayList<>(dwelling);
 	}
 

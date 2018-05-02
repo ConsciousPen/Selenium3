@@ -10,8 +10,7 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 public class AutoSSOpenLVehicle extends OpenLVehicle {
 
 	protected List<AutoSSOpenLCoverage> coverages;
-	private List<AutoSSOpenLDriver> ratedDriver;
-
+	private AutoSSOpenLDriver ratedDriver;
 	private String airbagCode;
 	private String antiTheftString;
 	private Boolean isHybrid;
@@ -67,12 +66,12 @@ public class AutoSSOpenLVehicle extends OpenLVehicle {
 		this.vehicleAge = vehicleAge;
 	}
 
-	public List<AutoSSOpenLDriver> getRatedDriver() {
-		return new ArrayList<>(ratedDriver);
+	public AutoSSOpenLDriver getRatedDriver() {
+		return ratedDriver;
 	}
 
-	public void setRatedDriver(List<AutoSSOpenLDriver> ratedDriver) {
-		this.ratedDriver = new ArrayList<>(ratedDriver);
+	public void setRatedDriver(AutoSSOpenLDriver ratedDriver) {
+		this.ratedDriver = ratedDriver;
 	}
 
 	public String getFirstOrAddlVehicle() {

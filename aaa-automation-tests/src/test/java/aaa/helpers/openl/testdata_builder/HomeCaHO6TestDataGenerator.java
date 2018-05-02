@@ -2,24 +2,15 @@ package aaa.helpers.openl.testdata_builder;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomUtils;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
-
 import aaa.helpers.TestDataHelper;
-import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLForm;
 import aaa.helpers.openl.model.home_ca.ho6.HomeCaHO6OpenLDwelling;
 import aaa.helpers.openl.model.home_ca.ho6.HomeCaHO6OpenLForm;
 import aaa.helpers.openl.model.home_ca.ho6.HomeCaHO6OpenLPolicy;
 import aaa.main.metadata.policy.HomeCaMetaData;
-import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -85,7 +76,7 @@ public class HomeCaHO6TestDataGenerator extends TestDataGenerator<HomeCaHO6OpenL
 			aaaMembership.adjust(HomeCaMetaData.ApplicantTab.AAAMembership.LAST_NAME.getLabel(), "Smith");
 		}		
 		TestData dwellingAddress = DataProviderFactory.dataOf(
-				HomeCaMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel(), openLPolicy.getDwellings().get(0).getAddress().get(0).getZipCode()); 
+				HomeCaMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel(), openLPolicy.getDwelling().getAddress().getZipCode());
 		
 		TestData otherActiveAAAPolicies = DataProviderFactory.emptyData();
 		if (openLPolicy.getHasAutoPolicy() || openLPolicy.getHasCeaPolicy()) {
@@ -141,7 +132,7 @@ public class HomeCaHO6TestDataGenerator extends TestDataGenerator<HomeCaHO6OpenL
 		}
 				
 		TestData ppcData = DataProviderFactory.dataOf(
-				HomeCaMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS.getLabel(), openLPolicy.getDwellings().get(0).getPpcValue());
+				HomeCaMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS.getLabel(), openLPolicy.getDwelling().getPpcValue());
 		
 		Dollar coverageA = new Dollar(openLPolicy.getCovALimit());
 		TestData propertyValueData = DataProviderFactory.dataOf(
@@ -150,12 +141,12 @@ public class HomeCaHO6TestDataGenerator extends TestDataGenerator<HomeCaHO6OpenL
 				HomeCaMetaData.PropertyInfoTab.PropertyValue.REASON_REPLACEMENT_COST_DIFFERS_FROM_THE_TOOL_VALUE.getLabel(), "Mortgagee requirements");
 		
 		TestData constructionData = DataProviderFactory.dataOf(
-				HomeCaMetaData.PropertyInfoTab.Construction.YEAR_BUILT.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getDwellings().get(0).getAgeOfHome()).getYear(),
-				HomeCaMetaData.PropertyInfoTab.Construction.CONSTRUCTION_TYPE.getLabel(), "contains=" + openLPolicy.getDwellings().get(0).getConstructionType());
-		
-		TestData interiorData = DataProviderFactory.emptyData();
+				HomeCaMetaData.PropertyInfoTab.Construction.YEAR_BUILT.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getDwelling().getAgeOfHome()).getYear(),
+				HomeCaMetaData.PropertyInfoTab.Construction.CONSTRUCTION_TYPE.getLabel(), "contains=" + openLPolicy.getDwelling().getConstructionType());
+
+		TestData interiorData;
 		TestData rentalInformationData = DataProviderFactory.emptyData();
-		if (openLPolicy.getDwellings().get(0).getSecondaryHome()) {
+		if (openLPolicy.getDwelling().getSecondaryHome()) {
 			interiorData = DataProviderFactory.dataOf(HomeCaMetaData.PropertyInfoTab.Interior.DWELLING_USAGE.getLabel(), "Secondary"); 
 		}
 		else {
@@ -176,15 +167,15 @@ public class HomeCaHO6TestDataGenerator extends TestDataGenerator<HomeCaHO6OpenL
 					HomeCaMetaData.PropertyInfoTab.Interior.NUMBER_OF_RESIDENTS.getLabel(), "3", 
 					HomeCaMetaData.PropertyInfoTab.Interior.NUMBER_OF_STORIES_INCLUDING_BASEMENT.getLabel(), "1"));
 		}
-		
-		TestData theftProtectiveDeviceData = getTheftProtectiveDevice(openLPolicy.getDwellings().get(0)); 
-		if (openLPolicy.getDwellings().get(0).getGatedCommunity()) {
+
+		TestData theftProtectiveDeviceData = getTheftProtectiveDevice(openLPolicy.getDwelling());
+		if (openLPolicy.getDwelling().getGatedCommunity()) {
 			theftProtectiveDeviceData.adjust(DataProviderFactory.dataOf(
 					HomeCaMetaData.PropertyInfoTab.TheftProtectiveTPDD.GATED_COMMUNITY.getLabel(), Boolean.TRUE));
 		}
-		
-		TestData fireProtectiveDeviceData = getFireProtectiveDevice(openLPolicy.getDwellings().get(0)); 
-		if (openLPolicy.getDwellings().get(0).getHasSprinklers()) {
+
+		TestData fireProtectiveDeviceData = getFireProtectiveDevice(openLPolicy.getDwelling());
+		if (openLPolicy.getDwelling().getHasSprinklers()) {
 			fireProtectiveDeviceData.adjust(DataProviderFactory.dataOf(
 					HomeCaMetaData.PropertyInfoTab.FireProtectiveDD.FULL_RESIDENTIAL_SPRINKLERS.getLabel(), Boolean.TRUE));
 		}
@@ -263,7 +254,7 @@ public class HomeCaHO6TestDataGenerator extends TestDataGenerator<HomeCaHO6OpenL
 	}
 	
 	private TestData addClaimData(HomeCaHO6OpenLPolicy openLPolicy, boolean isFirstClaim) {
-		TestData claimData = DataProviderFactory.emptyData(); 
+		TestData claimData;
 		if (isFirstClaim) {
 			claimData = DataProviderFactory.dataOf(
 					HomeCaMetaData.PropertyInfoTab.ClaimHistory.ADD_A_CLAIM.getLabel(), "Yes", 

@@ -1,6 +1,6 @@
 package aaa.helpers.openl.model.auto_ca.choice;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -16,7 +16,7 @@ public class AutoCaChoiceOpenLPolicy extends AutoCaOpenLPolicy<AutoCaChoiceOpenL
 	private List<AutoCaChoiceOpenLVehicle> vehicles;
 
 	@ExcelTransient
-	private LocalDateTime effectiveDate;
+	private LocalDate effectiveDate;
 
 	private Integer term;
 	private Integer monsOfPriorIns; // unknown type, it's always empty in excel
@@ -57,14 +57,14 @@ public class AutoCaChoiceOpenLPolicy extends AutoCaOpenLPolicy<AutoCaChoiceOpenL
 	}
 
 	@Override
-	public LocalDateTime getEffectiveDate() {
+	public LocalDate getEffectiveDate() {
 		if (effectiveDate == null) {
-			return TimeSetterUtil.getInstance().getCurrentTime();
+			return TimeSetterUtil.getInstance().getCurrentTime().toLocalDate();
 		}
 		return effectiveDate;
 	}
 
-	public void setEffectiveDate(LocalDateTime effectiveDate) {
+	public void setEffectiveDate(LocalDate effectiveDate) {
 		this.effectiveDate = effectiveDate;
 	}
 

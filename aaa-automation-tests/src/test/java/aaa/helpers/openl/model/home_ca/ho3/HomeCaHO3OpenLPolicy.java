@@ -11,7 +11,7 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 @ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
 public class HomeCaHO3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO3OpenLForm> {
 
-	private List<HomeCaHO3OpenLDwelling> dwelling;
+	private HomeCaHO3OpenLDwelling dwelling;
 	private List<HomeCaHO3OpenLForm> forms;
 	private List<HomeCaOpenLCoverage> coverages;
 
@@ -22,12 +22,12 @@ public class HomeCaHO3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO3OpenLForm> 
 	private Boolean hasPolicySupportingForm;
 	private Boolean hasSeniorDiscount;
 
-	public List<HomeCaHO3OpenLDwelling> getDwellings() {
-		return new ArrayList<>(dwelling);
+	public HomeCaHO3OpenLDwelling getDwelling() {
+		return dwelling;
 	}
 
-	public void setDwellings(List<HomeCaHO3OpenLDwelling> dwelling) {
-		this.dwelling = new ArrayList<>(dwelling);
+	public void setDwelling(HomeCaHO3OpenLDwelling dwelling) {
+		this.dwelling = dwelling;
 	}
 
 	@Override

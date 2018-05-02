@@ -1,15 +1,15 @@
 package aaa.helpers.openl.model.home_ca.ho6;
 
-import static aaa.helpers.openl.model.OpenLFile.*;
+import static aaa.helpers.openl.model.OpenLFile.POLICY_HEADER_ROW_NUMBER;
+import static aaa.helpers.openl.model.OpenLFile.POLICY_SHEET_NAME;
 import java.util.ArrayList;
 import java.util.List;
-import aaa.helpers.openl.model.home_ca.HomeCaOpenLForm;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 @ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
 public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm> {
-	private List<HomeCaHO6OpenLDwelling> dwelling;
+	private HomeCaHO6OpenLDwelling dwelling;
 	private List<HomeCaHO6OpenLForm> forms;
 	private List<HomeCaHO6OpenLCoverage> coverages;
 
@@ -25,12 +25,12 @@ public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm> 
 	private Boolean isRented;
 	private String occupation;
 
-	public List<HomeCaHO6OpenLDwelling> getDwellings() {
-		return new ArrayList<>(dwelling);
+	public HomeCaHO6OpenLDwelling getDwelling() {
+		return dwelling;
 	}
 
-	public void setDwellings(List<HomeCaHO6OpenLDwelling> dwelling) {
-		this.dwelling = new ArrayList<>(dwelling);
+	public void setDwelling(HomeCaHO6OpenLDwelling dwelling) {
+		this.dwelling = dwelling;
 	}
 
 	@Override

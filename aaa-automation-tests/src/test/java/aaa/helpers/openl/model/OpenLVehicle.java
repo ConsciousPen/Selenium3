@@ -1,6 +1,5 @@
 package aaa.helpers.openl.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 
@@ -8,8 +7,7 @@ public abstract class OpenLVehicle {
 	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	protected Integer number;
 
-	protected List<OpenLAddress> address;
-
+	protected OpenLAddress address;
 	protected Integer annualMileage;
 	protected Integer collSymbol;
 	protected Integer compSymbol;
@@ -120,12 +118,12 @@ public abstract class OpenLVehicle {
 		this.umLiabilitySymbol = umLiabilitySymbol;
 	}
 
-	public List<OpenLAddress> getAddress() {
-		return new ArrayList<>(address);
+	public OpenLAddress getAddress() {
+		return address;
 	}
 
-	public void setAddress(List<OpenLAddress> address) {
-		this.address = new ArrayList<>(address);
+	public void setAddress(OpenLAddress address) {
+		this.address = address;
 	}
 
 	@Override

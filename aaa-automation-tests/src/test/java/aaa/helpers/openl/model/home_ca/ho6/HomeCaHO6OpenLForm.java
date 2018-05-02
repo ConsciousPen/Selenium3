@@ -1,13 +1,11 @@
 package aaa.helpers.openl.model.home_ca.ho6;
 
-import java.util.ArrayList;
-import java.util.List;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLForm;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLScheduledPropertyItem;
 
 public class HomeCaHO6OpenLForm extends HomeCaOpenLForm {
-	private List<HomeCaOpenLScheduledPropertyItem> scheduledPropertyItems;
 
+	private HomeCaOpenLScheduledPropertyItem scheduledPropertyItem;
 	private Integer age;
 	private String coApplicantClass;
 	private Double deductible;
@@ -74,12 +72,12 @@ public class HomeCaHO6OpenLForm extends HomeCaOpenLForm {
 		this.percentage = percentage;
 	}
 
-	public List<HomeCaOpenLScheduledPropertyItem> getScheduledPropertyItems() {
-		return scheduledPropertyItems != null ? new ArrayList<>(scheduledPropertyItems) : null;
+	public HomeCaOpenLScheduledPropertyItem getScheduledPropertyItem() {
+		return scheduledPropertyItem;
 	}
 
-	public void setScheduledPropertyItems(List<HomeCaOpenLScheduledPropertyItem> scheduledPropertyItems) {
-		this.scheduledPropertyItems = new ArrayList<>(scheduledPropertyItems);
+	public void setScheduledPropertyItems(HomeCaOpenLScheduledPropertyItem scheduledPropertyItem) {
+		this.scheduledPropertyItem = scheduledPropertyItem;
 	}
 
 	public String getTerritoryCode() {
@@ -111,7 +109,7 @@ public class HomeCaHO6OpenLForm extends HomeCaOpenLForm {
 	@Override
 	public String toString() {
 		return "HomeCaHO6OpenLForm{" +
-				"scheduledPropertyItems=" + scheduledPropertyItems +
+				"scheduledPropertyItems=" + scheduledPropertyItem +
 				", age=" + age +
 				", deductible=" + deductible +
 				", coApplicantClass" + coApplicantClass +

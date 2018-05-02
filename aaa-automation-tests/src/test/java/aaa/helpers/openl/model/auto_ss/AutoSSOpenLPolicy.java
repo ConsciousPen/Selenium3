@@ -1,6 +1,6 @@
 package aaa.helpers.openl.model.auto_ss;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
@@ -14,7 +14,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	private List<AutoSSOpenLVehicle> vehicles;
 	private List<AutoSSOpenLDriver> drivers;
 
-	private LocalDateTime effectiveDate;
+	private LocalDate effectiveDate;
 	private Integer term;
 	private Boolean isHomeOwner;
 	private Integer creditScore;
@@ -369,11 +369,11 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	@Override
-	public LocalDateTime getEffectiveDate() {
+	public LocalDate getEffectiveDate() {
 		return effectiveDate;
 	}
 
-	public void setEffectiveDate(LocalDateTime effectiveDate) {
+	public void setEffectiveDate(LocalDate effectiveDate) {
 		this.effectiveDate = effectiveDate;
 	}
 

@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.utils.excel.bind.cache.TableClassesCache;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
+import aaa.utils.excel.io.celltype.DateCellType;
 import aaa.utils.excel.io.entity.area.ExcelCell;
 import aaa.utils.excel.io.entity.area.table.TableCell;
 import aaa.utils.excel.io.entity.area.table.TableRow;
@@ -44,14 +44,8 @@ public class ExcelUnmarshaller {
 		return strictMatchBinding;
 	}
 
-	public ExcelUnmarshaller registerCellType(CellType<?>... cellTypes) {
-		excelManager.registerCellType(cellTypes);
-		return this;
-	}
-
 	@SuppressWarnings("unchecked")
 	public <T> T unmarshal(Class<T> excelFileModel) {
-		//TODO-dchubkov: check excelFileModel is valid class (not primitive, etc...)
 		log.info(String.format("Getting excel file object of \"%1$s\" model from file \"%2$s\" %3$s strict match binding",
 				excelFileModel.getSimpleName(), getExcelFile().getAbsolutePath(), isStrictMatchBinding() ? "with" : "without"));
 
@@ -70,7 +64,6 @@ public class ExcelUnmarshaller {
 	}
 
 	public <T> List<T> unmarshalRows(Class<T> excelTableModel, List<Integer> rowsWithPrimaryKeyValues) {
-		//TODO-dchubkov: check excelTableModel is valid class (is table class, not primitive, etc...)
 		log.info(String.format("Getting list of table row objects of \"%1$s\" model from excel file \"%2$s\"%3$s %4$s strict match binding",
 				excelTableModel.getSimpleName(),
 				getExcelFile().getAbsolutePath(),
@@ -118,12 +111,7 @@ public class ExcelUnmarshaller {
 			Object value = null;
 			switch (cache.of(tableClass).getBindType(tableColumnField)) {
 				case REGULAR:
-					TableCell cell = row.getCell(cache.of(tableClass).getHeaderColumnIndex(tableColumnField));
-					if (cache.of(tableClass).isDateField(tableColumnField)) {
-						value = cell.getDateValue(cache.of(tableClass).getDateTimeFormatters(tableColumnField));
-					} else {
-						value = getFieldValue(tableColumnField, cell);
-					}
+					value = getFieldValue(tableClass, tableColumnField, row.getCell(cache.of(tableClass).getHeaderColumnIndex(tableColumnField)));
 					break;
 				case TABLE:
 					value = getTableValue(tableColumnField, row.getCell(cache.of(tableClass).getHeaderColumnIndex(tableColumnField)));
@@ -139,49 +127,32 @@ public class ExcelUnmarshaller {
 		return tableObject;
 	}
 
-	private Object getFieldValue(Field field, TableCell cell) {
+	private Object getFieldValue(Class<?> tableClass, Field field, TableCell cell) {
 		if (cell.isEmpty()) {
 			return null;
 		}
-
-		/*if (cell.isDate(cache.of(tableClass).getDateTimeFormatters(field))) {
-			return cell.getDateValue(cache.of(tableClass).getDateTimeFormatters(field));
-		}*/
-
-		/*if (cache.of(tableClass).isDateField(field)) {
-			return cell.getDateValue(cType, cache.of(field). for)
-		}*/
-
-		Class<?> fieldType = List.class.equals(field.getType()) ? BindHelper.getGenericTypeClass(field) : field.getType();
-		for (CellType<?> cType : excelManager.getCellTypes()) {
-			/*if (cType instanceof DateCellType) {
-				return cell.getDateValue(cType, cache.of(field). for)
-			}*/
-
-			if (ClassUtils.isAssignable(cType.getEndType(), fieldType, true)) {
-				return cell.getValue(cType);
-			}
-
-			/*if (cell.hasType(cType)) {
-				return cell.getValue(cType);
-			}*/
+		if (cache.of(tableClass).isDateField(field)) {
+			return cell.getDateValue((DateCellType<?>) cache.of(tableClass).getCellType(field), cache.of(tableClass).getDateTimeFormatters(field));
 		}
-
-		throw new IstfException(String.format("Field type \"%s\" is not supported for unmarshalling", fieldType.getName()));
+		return cell.getValue(cache.of(tableClass).getCellType(field));
 	}
 
 	private Object getTableValue(Field field, TableCell cell) {
 		if (!List.class.equals(field.getType())) {
 			return getTableRowObject(cache.of(field).getTableClass(), cache.of(field).getRow(cell.getIntValue()));
 		}
-		List<Integer> linkedTableRowIds;
+
+		List<Integer> linkedTableRowIds = null;
 		if (cell.hasType(ExcelCell.INTEGER_TYPE)) {
 			linkedTableRowIds = Collections.singletonList(cell.getIntValue());
 		} else {
-			String[] linkedTableRowStringIds = cell.getStringValue().split(cache.of(field).getPrimaryKeysSeparator());
-			linkedTableRowIds = new ArrayList<>(linkedTableRowStringIds.length);
-			for (String id : linkedTableRowStringIds) {
-				linkedTableRowIds.add(Integer.valueOf(id));
+			String linkedTableRowStringIdsString = cell.getStringValue();
+			if (linkedTableRowStringIdsString != null) {
+				String[] linkedTableRowStringIds = linkedTableRowStringIdsString.split(cache.of(field).getPrimaryKeysSeparator());
+				linkedTableRowIds = new ArrayList<>(linkedTableRowStringIds.length);
+				for (String id : linkedTableRowStringIds) {
+					linkedTableRowIds.add(Integer.valueOf(id));
+				}
 			}
 		}
 
@@ -191,7 +162,7 @@ public class ExcelUnmarshaller {
 	private List<Object> getMultyColumnsFieldValue(Class<?> tableClass, Field field, TableRow row) {
 		List<Object> multyColumnsValues = new ArrayList<>(cache.of(tableClass).getHeaderColumnsIndexes(field).size());
 		for (Integer columnIndex : cache.of(tableClass).getHeaderColumnsIndexes(field)) {
-			multyColumnsValues.add(getFieldValue(field, row.getCell(columnIndex)));
+			multyColumnsValues.add(getFieldValue(tableClass, field, row.getCell(columnIndex)));
 		}
 		return multyColumnsValues;
 	}
@@ -201,7 +172,7 @@ public class ExcelUnmarshaller {
 	}
 
 	private List<Object> getTableObjectValues(Class<?> tableClass, List<Integer> tableRowsIds) {
-		if (tableRowsIds.isEmpty()) {
+		if (CollectionUtils.isEmpty(tableRowsIds)) {
 			return null;
 		}
 		List<TableRow> tableRows = cache.of(tableClass).getRows(tableRowsIds);

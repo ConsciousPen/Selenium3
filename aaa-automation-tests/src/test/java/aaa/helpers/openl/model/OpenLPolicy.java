@@ -1,6 +1,6 @@
 package aaa.helpers.openl.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
@@ -46,7 +46,7 @@ public abstract class OpenLPolicy {
 
 	public abstract String getUnderwriterCode();
 
-	public abstract LocalDateTime getEffectiveDate();
+	public abstract LocalDate getEffectiveDate();
 
 	@Override
 	public String toString() {
