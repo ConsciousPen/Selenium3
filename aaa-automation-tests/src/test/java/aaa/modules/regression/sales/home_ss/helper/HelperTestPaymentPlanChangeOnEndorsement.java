@@ -30,6 +30,7 @@ import toolkit.datax.TestData;
 
 public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 
+	private static final String[] ALL_LOW_DOWN_PAYMENT_PLANS = {BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN};
 	private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTabHo = new PremiumsAndCoveragesQuoteTab();
 	private PremiumAndCoveragesQuoteTab premiumsAndCoveragesQuoteTabPup = new PremiumAndCoveragesQuoteTab();
 
@@ -59,12 +60,12 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 		if (policyType.equals(PolicyType.PUP)) {
 			assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlan);
 			assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-					.doesNotContain(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN);
+					.doesNotContain(ALL_LOW_DOWN_PAYMENT_PLANS);
 
 		} else {
 			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlan);
 			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-					.doesNotContain(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN);
+					.doesNotContain(ALL_LOW_DOWN_PAYMENT_PLANS);
 
 		}
 
@@ -84,7 +85,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 			assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN))
 					.hasValue(getExpectedPaymentPlanForRenewal(paymentPlan)); //At NB 'Payment plan at renewal' gets defaulted to MONTHLY_RENEWAL / ELEVEN_PAY_RENEWAL (existing functionality)
 			assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-					.doesNotContain(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN);
+					.doesNotContain(ALL_LOW_DOWN_PAYMENT_PLANS);
 		} else {
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
@@ -92,7 +93,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN))
 					.hasValue(getExpectedPaymentPlanForRenewal(paymentPlan)); //At NB 'Payment plan at renewal' gets defaulted to MONTHLY_RENEWAL / ELEVEN_PAY_RENEWAL (existing functionality)
 			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-					.doesNotContain(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN);
+					.doesNotContain(ALL_LOW_DOWN_PAYMENT_PLANS);
 
 		}
 
@@ -170,16 +171,28 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 
 		if (policyType.equals(PolicyType.PUP)) {
 			assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlan);//
+			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
+					.contains(ALL_LOW_DOWN_PAYMENT_PLANS);
+
 			premiumsAndCoveragesQuoteTabHo.btnCalculatePremium().click();
+
 			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlan);//
+			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
+					.contains(ALL_LOW_DOWN_PAYMENT_PLANS);
 
 			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
 			bindTabPup.btnPurchase.click();
 			bindTabPup.confrimEndorsementPurchase.buttonYes.click();
 		} else {
 			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlan);//
+			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
+					.contains(ALL_LOW_DOWN_PAYMENT_PLANS);
+
 			premiumsAndCoveragesQuoteTabHo.btnCalculatePremium().click();
+
 			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlan);//
+			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
+					.contains(ALL_LOW_DOWN_PAYMENT_PLANS);
 
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
 			bindTabHo.btnPurchase.click();
@@ -191,14 +204,14 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 
 	//The same method as initiateEndorsementAndValidatePaymentPlanWithChangingPup(), but for HO
 	private void initiateEndorsementAndValidatePaymentPlanWithChangingHo(PolicyType policyType, String paymentPlan) {
-		final String paymentPlanChangeTo = BillingConstants.PaymentPlan.PAY_IN_FULL; //change to this Payment plan during endorsement
+		String paymentPlanChangeTo = BillingConstants.PaymentPlan.PAY_IN_FULL; //change to this Payment plan during endorsement
 
 		initiateEndorsementAndNavigateToQuoteTab(policyType);
 
 		assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlan);//
 		premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).setValue(paymentPlanChangeTo);
 		assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-				.contains(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN);
+				.contains(ALL_LOW_DOWN_PAYMENT_PLANS);
 
 		//Navigate to different Tab and back to Quote Tab
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
@@ -207,13 +220,13 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 
 		assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlanChangeTo);
 		assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-				.contains(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN);//both Low Down pay plans
+				.contains(ALL_LOW_DOWN_PAYMENT_PLANS);//both Low Down pay plans
 
 		//Calculate premium and 'Save and Exit'
 		premiumsAndCoveragesQuoteTabHo.btnCalculatePremium().click();
 		assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlanChangeTo);
 		assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-				.contains(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN);//both Low Down pay plans
+				.contains(ALL_LOW_DOWN_PAYMENT_PLANS);//both Low Down pay plans
 		premiumsAndCoveragesQuoteTabHo.saveAndExit();
 
 		//Retrieve Pended endorsement
@@ -225,7 +238,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlanChangeTo);
 		assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-				.contains(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN);
+				.contains(ALL_LOW_DOWN_PAYMENT_PLANS);
 
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
 		bindTabHo.btnPurchase.click();
@@ -250,7 +263,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 
 		assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlanChangeTo);
 		assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-				.doesNotContain(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN);
+				.doesNotContain(ALL_LOW_DOWN_PAYMENT_PLANS);
 
 		PremiumsAndCoveragesQuoteTab.buttonCancel.click();
 		PremiumsAndCoveragesQuoteTab.dialogCancelAction.buttonYes.click();
@@ -259,14 +272,14 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 
 	//The same method as initiateEndorsementAndValidatePaymentPlanWithChangingHo(), but for PUP
 	private void initiateEndorsementAndValidatePaymentPlanWithChangingPup(PolicyType policyType, String paymentPlan) {
-		final String paymentPlanChangeTo = BillingConstants.PaymentPlan.PAY_IN_FULL; //change to this Payment plan during endorsement
+		String paymentPlanChangeTo = BillingConstants.PaymentPlan.PAY_IN_FULL; //change to this Payment plan during endorsement
 
 		initiateEndorsementAndNavigateToQuoteTab(policyType);
 
 		assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlan);//
 		premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).setValue(paymentPlanChangeTo);
 		assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-				.contains(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN);
+				.contains(ALL_LOW_DOWN_PAYMENT_PLANS);
 
 		//Navigate to different Tab and back to Quote Tab
 		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.GENERAL.get());
@@ -275,13 +288,13 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 
 		assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlanChangeTo);
 		assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-				.contains(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN);//both Low Down pay plans
+				.contains(ALL_LOW_DOWN_PAYMENT_PLANS);//both Low Down pay plans
 
 		//Calculate premium and 'Save and Exit'
 		premiumsAndCoveragesQuoteTabPup.calculatePremium();
 		assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlanChangeTo);
 		assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-				.contains(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN);//both Low Down pay plans
+				.contains(ALL_LOW_DOWN_PAYMENT_PLANS);//both Low Down pay plans
 		premiumsAndCoveragesQuoteTabHo.saveAndExit();
 
 		//Retrieve Pended endorsement
@@ -293,7 +306,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
 		assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlanChangeTo);
 		assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-				.contains(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN);
+				.contains(ALL_LOW_DOWN_PAYMENT_PLANS);
 
 		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
 		bindTabPup.btnPurchase.click();
@@ -318,7 +331,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 
 		assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlanChangeTo);
 		assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-				.doesNotContain(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN);
+				.doesNotContain(ALL_LOW_DOWN_PAYMENT_PLANS);
 
 		premiumsAndCoveragesQuoteTabPup.calculatePremium();
 		PremiumsAndCoveragesQuoteTab.dialogCancelAction.buttonYes.click();//TODO-mstrazds:possibly will not work
