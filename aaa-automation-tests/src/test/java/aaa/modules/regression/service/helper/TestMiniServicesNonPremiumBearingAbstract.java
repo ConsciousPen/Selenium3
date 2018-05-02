@@ -2229,6 +2229,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		updateGaragingAddressVehicleRequest.antiTheft = "STD";
 		updateGaragingAddressVehicleRequest.registeredOwner = false;
 		updateGaragingAddressVehicleRequest.garagingDifferent = true;
+		updateGaragingAddressVehicleRequest.garagingAddress = new Address();
 		updateGaragingAddressVehicleRequest.garagingAddress.postalCode = zipCodeGarage;
 		updateGaragingAddressVehicleRequest.garagingAddress.addressLine1 = addressGarage;
 		updateGaragingAddressVehicleRequest.garagingAddress.city = cityGarage;
@@ -2961,6 +2962,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String stateGarage = "VA";
 		VehicleUpdateDto updateGaragingAddressVehicleRequest = new VehicleUpdateDto();
 		updateGaragingAddressVehicleRequest.garagingDifferent = true;
+		updateGaragingAddressVehicleRequest.garagingAddress = new Address();
 		updateGaragingAddressVehicleRequest.garagingAddress.postalCode = zipCodeGarage;
 		updateGaragingAddressVehicleRequest.garagingAddress.addressLine1 = addressGarage;
 		updateGaragingAddressVehicleRequest.garagingAddress.city = cityGarage;
