@@ -752,37 +752,45 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 * Prior BI is required - same as VA
 	 * No payment plan is required
 	 * No current BI requirement
-	 * South Jersey is not included.
+	 * South Jersey is not included - Used Mid-Atlantic/AAA Agent
 	 * @details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12972")
-	public void pas12972_eValueCommissionRelatedFields(@Optional("PA") String state) {
+	public void pas12972_defaultConfigPA(@Optional("PA") String state) {
 		String EVALUE_CURRENT_BI_CONFIG_ACKNOWLEDGEMENT_INSERT = "INSERT ALL\n"
 				+ " INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
-				+ " values ('BaseProductLookupValue', 'currentBIRequired', 'FALSE', 'AAA_SS', 'PA',(select SYSDATE-27 from dual), (select SYSDATE-23 from dual) ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeValueQualifications'))\n"
+				+ " values ('BaseProductLookupValue', 'currentBIRequired', 'FALSE', 'AAA_SS', 'PA',(select to_char(to_date(SYSDATE-27, 'DD-MM-YYYY')) from dual), (select to_char(to_date(SYSDATE-23, 'DD-MM-YYYY')) from dual) ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeValueQualifications'))\n"
 				+ "INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwritercd, EFFECTIVE, EXPIRATION, lookuplist_id) \n"
-				+ "values ('AAARolloutEligibilityLookupValue', 'eValue', 'FALSE', 'AAA_SS', 'PA','212', 'AZ Club Agent', null, (select SYSDATE-27 from dual), (select SYSDATE-23 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))\n"
+				+ "values ('AAARolloutEligibilityLookupValue', 'eValue', 'TRUE', 'AAA_SS', 'PA',null, null, null, (select to_char(to_date(SYSDATE-27, 'DD-MM-YYYY')) from dual), (select to_char(to_date(SYSDATE-23, 'DD-MM-YYYY')) from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))\n"
 				+ "INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwritercd, EFFECTIVE, EXPIRATION, lookuplist_id) \n"
-				+ "values ('AAARolloutEligibilityLookupValue', 'eValue', 'TRUE', 'AAA_SS', 'PA',null, null, null, (select SYSDATE-27 from dual), (select SYSDATE-23 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))\n"
+				+ "values ('AAARolloutEligibilityLookupValue', 'eValue', 'FALSE', 'AAA_SS', 'PA','212', 'AZ Club Agent', null, (select to_char(to_date(SYSDATE-27, 'DD-MM-YYYY')) from dual), (select to_char(to_date(SYSDATE-23, 'DD-MM-YYYY')) from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))\n"
 				+ "INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
-				+ "values ('AAARolloutEligibilityLookupValue', 'PaperlessPreferences', 'TRUE', 'AAA_SS', 'PA',(select SYSDATE-27 from dual), (select SYSDATE-23 from dual) ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))    \n"
+				+ "values ('AAARolloutEligibilityLookupValue', 'PaperlessPreferences', 'TRUE', 'AAA_SS', 'PA',(select to_char(to_date(SYSDATE-27, 'DD-MM-YYYY')) from dual), (select to_char(to_date(SYSDATE-23, 'DD-MM-YYYY')) from dual) ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))    \n"
 				+ "Select * from dual";
 
-		//DBService.get().executeUpdate(EVALUE_CURRENT_BI_CONFIG_ACKNOWLEDGEMENT_INSERT);
+		DBService.get().executeUpdate(EVALUE_CURRENT_BI_CONFIG_ACKNOWLEDGEMENT_INSERT);
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
 
-		//eValueQuoteCreation();
+		eValueQuoteCreation();
 
-		mainApp().open();
-		SearchPage.openQuote("QPASS952918542");
-
-		//precondition
+		//Precondition for test
 		policy.dataGather().start();
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.present(false);
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().minusDays(26).format(DateTimeUtils.MM_DD_YYYY));
+
+		//Agent/Agency config check
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.CHANNEL_TYPE).setValue("AAA Agent");
+		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.AGENCY).setValue("contains=Mid-Atlantic");
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.present(false);
+
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.CHANNEL_TYPE).setValue("Independent Agent");
+		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.AGENCY).setValue("index=1");
+		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.AGENT).setValue("index=1");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.present();
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled();

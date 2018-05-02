@@ -18,7 +18,7 @@ public interface TestEValueDiscountPreConditions {
 
 	String EVALUE_STATUS_CHECK = "select evaluestatus from(\n"
 			+ "select ps.id, em.EVALUESTATUS from policysummary ps\n"
-			+ "join AAAeValueDetailsEntity em on em.id = ps.eValueDETAIL_ID\n"
+			+ "join AAAEMemberDetailsEntity em on em.id = ps.EMEMBERDETAIL_ID\n"
 			+ "where ps.policynumber = '%s'\n"
 			+ "order by ps.id desc)\n"
 			+ "where rownum=1";
