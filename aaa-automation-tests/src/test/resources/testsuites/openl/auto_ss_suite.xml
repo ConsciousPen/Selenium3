@@ -64,6 +64,14 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
+    <test name="AutoSS [KS] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="KS"/>
+        <parameter name="fileName" value="KSTests-20171001.xls"/>
+        <parameter name="policyNumbers" value="1, 7"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
     <test name="AutoSS [MD - ACAIC] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="MD"/>
         <parameter name="fileName" value="MDTests-ACAIC-20170922.xls"/>
