@@ -221,7 +221,7 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-8847")
 
-	public void testCappingLockNotSelected(@Optional("NJ") String state) {
+	public void testCappingLockNotSelected(@Optional("MD") String state) {
 
 		TestData td = initTestData();
 		TestData initiateRenewalEntry = initInitiateRenewalEntry();
