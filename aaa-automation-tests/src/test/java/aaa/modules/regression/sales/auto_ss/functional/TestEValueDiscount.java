@@ -122,25 +122,25 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	private UpdateBillingAccountActionTab updateBillingAccountActionTab = new UpdateBillingAccountActionTab();
 
 	private static final String EVALUE_MEMBERSHIP_ACKNOWLEDGEMENT_CHECK =
-			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "membershipEligibility", "FALSE");
+			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeValueQualifications", "membershipEligibility", "FALSE");
 
 	private static final String EVALUE_CURRENT_BI_ACKNOWLEDGEMENT_CHECK =
-			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "currentBIRequired", "FALSE");
+			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeValueQualifications", "currentBIRequired", "FALSE");
 
 	private static final String EVALUE_PAYPLAN_ACKNOWLEDGEMENT_CHECK =
-			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "paymentPlanRequired", "FALSE");
+			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeValueQualifications", "paymentPlanRequired", "FALSE");
 
 	private static final String EVALUE_MYPOLICY_ACKNOWLEDGEMENT_CHECK =
-			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "myPolicyRequired", "FALSE");
+			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeValueQualifications", "myPolicyRequired", "FALSE");
 
 	private static final String EVALUE_CREDITCARD_ACKNOWLEDGEMENT_CHECK =
 			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeValueQualifyingPaymentMethods", "pciCreditCard", "TRUE");
 
 	private static final String EVALUE_PAPERLESS_PREFERENCES_BLUE_BOX_CHECK =
-			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "paperlessPreferencesRequired", "FALSE");
+			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeValueQualifications", "paperlessPreferencesRequired", "FALSE");
 
 	private static final String EVALUE_PRIOR_INSURANCE_BLUE_BOX_CHECK =
-			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "priorInsurance", "FALSE");
+			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeValueQualifications", "priorInsurance", "FALSE");
 
 	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void paperlessPreferencesStubEndpointConfigCheck() {
@@ -321,16 +321,16 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "pciCreditCard", "FALSE", "AAA_SS", "AAAeValueQualifyingPaymentMethods")).isPresent());
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "eft", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentMethods")).isPresent());
 
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "priorBILimits", "25000/50000", "AAA_SS", "AAAeMemberQualifications")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "currentBILimits", "50000/100000", "AAA_SS", "AAAeMemberQualifications")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "priorInsurance", "TRUE", "AAA_SS", "AAAeMemberQualifications")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "membershipEligibility", "TRUE", "AAA_SS", "AAAeMemberQualifications")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "currentBIRequired", "TRUE", "AAA_SS", "AAAeMemberQualifications")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "paymentPlanRequired", "TRUE", "AAA_SS", "AAAeMemberQualifications")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "myPolicyRequired", "TRUE", "AAA_SS", "AAAeMemberQualifications")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "paperlessPreferencesRequired", "TRUE", "AAA_SS", "AAAeMemberQualifications")).isPresent());
+		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "priorBILimits", "25000/50000", "AAA_SS", "AAAeValueQualifications")).isPresent());
+		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "currentBILimits", "50000/100000", "AAA_SS", "AAAeValueQualifications")).isPresent());
+		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "priorInsurance", "TRUE", "AAA_SS", "AAAeValueQualifications")).isPresent());
+		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "membershipEligibility", "TRUE", "AAA_SS", "AAAeValueQualifications")).isPresent());
+		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "currentBIRequired", "TRUE", "AAA_SS", "AAAeValueQualifications")).isPresent());
+		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "paymentPlanRequired", "TRUE", "AAA_SS", "AAAeValueQualifications")).isPresent());
+		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "myPolicyRequired", "TRUE", "AAA_SS", "AAAeValueQualifications")).isPresent());
+		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "paperlessPreferencesRequired", "TRUE", "AAA_SS", "AAAeValueQualifications")).isPresent());
 
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "AAARolloutEligibilityLookupValue", "eMember", "TRUE", "AAA_SS", state, "AAARolloutEligibilityLookup")).isPresent());
+		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "AAARolloutEligibilityLookupValue", "eValue", "TRUE", "AAA_SS", state, "AAARolloutEligibilityLookup")).isPresent());
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHDRXX", "TRUE", "AAARolloutEligibilityLookup")).isPresent());
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHDEXX", "TRUE", "AAARolloutEligibilityLookup")).isPresent());
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "AAARolloutEligibilityLookupValue", "PaperlessPreferences", "TRUE", "AAA_SS", state, "AAARolloutEligibilityLookup")).isPresent());
@@ -338,18 +338,18 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHMVXX2", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHMVNBXX", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
 
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eMember", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
+		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eValue", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "PaperlessPreferences", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eRefunds", "TRUE", "AAARolloutEligibilityLookup")).isPresent());
+		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eRefunds", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "pcDisbursementEngine", "TRUE", "AAARolloutEligibilityLookup")).isPresent());
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eValueNotification", "TRUE", "AAARolloutEligibilityLookup")).isPresent());
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "vinRefresh", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
 
 		//new state specific configs for NJ/NY/MD- PAS-10359
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "BaseProductLookupValue", "membershipEligibility", "FALSE", "AAA_SS", "NJ", "AAAeMemberQualifications")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "BaseProductLookupValue", "priorInsurance", "FALSE", "AAA_SS", "NJ", "AAAeMemberQualifications")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "BaseProductLookupValue", "priorInsurance", "FALSE", "AAA_SS", "NY", "AAAeMemberQualifications")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "BaseProductLookupValue", "currentBIRequired", "FALSE", "AAA_SS", "NJ", "AAAeMemberQualifications")).isPresent());
+		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "BaseProductLookupValue", "membershipEligibility", "FALSE", "AAA_SS", "NJ", "AAAeValueQualifications")).isPresent());
+		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "BaseProductLookupValue", "priorInsurance", "FALSE", "AAA_SS", "NJ", "AAAeValueQualifications")).isPresent());
+		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "BaseProductLookupValue", "priorInsurance", "FALSE", "AAA_SS", "NY", "AAAeValueQualifications")).isPresent());
+		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "BaseProductLookupValue", "currentBIRequired", "FALSE", "AAA_SS", "NJ", "AAAeValueQualifications")).isPresent());
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "BaseProductLookupValue", "pciCreditCard", "TRUE", "AAA_SS", "MD", "AAAeValueQualifyingPaymentMethods")).isPresent());
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -463,12 +463,12 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 * @name Test eValue Status
 	 * @scenario 1. Create new eValue eligible policy with membership pending and paperless preferences yes evalue no
 	 * 2. Check policy consolidated view.
-	 * 3. See if eMember status = No
+	 * 3. See if eValue status = No
 	 * 4. DB check for evalue status in the Database NOTENROLLED
 	 * @details
 	 * @scenario 3. Create new eValue eligible policy with membership yes and paperless preferences yes evalue yes
 	 * 2. Check policy consolidated view.
-	 * 3. See if eMember status = active
+	 * 3. See if eValue status = active
 	 * 4. DB check for evalue status in the Database Pending
 	 * @scenario 4. Create new eValue eligible policy with membership yes and paperless preferences yes evalue yes
 	 * 2. while doing endorsment set evalue no
@@ -526,7 +526,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 * @name Test eValue Status
 	 * @scenario 2. Create new eValue eligible policy with membership pending and paperless preferences yes evalue yes
 	 * 2. Check policy consolidated view.
-	 * 3. See if eMember status = Pending
+	 * 3. See if eValue status = Pending
 	 * 4. DB check for evalue status in the Database Pending
 	 * @details
 	 */
@@ -565,7 +565,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 * @name Test eValue Status
 	 * @scenario 1. Create new eValue eligible policy with membership pending and paperless preferences Pending
 	 * 2. Check policy consolidated view.
-	 * 3. See if eMember status = Pending
+	 * 3. See if eValue status = Pending
 	 * @details
 	 **/
 	@Parameters({"state"})
@@ -740,6 +740,101 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		Page.dialogConfirmation.reject();
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("Yes");
 		//PAS-316 end
+	}
+
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name PA Default Config
+	 * @scenario 1. Create new eValue eligible quote but for PA Eligible state (PA)
+	 *
+	 * Membership is required
+	 * Prior BI is required - same as VA
+	 * No payment plan is required
+	 * No current BI requirement
+	 * South Jersey is not included - Used Mid-Atlantic/AAA Agent
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12972")
+	public void pas12972_defaultConfigPA(@Optional("PA") String state) {
+		String EVALUE_CURRENT_BI_CONFIG_ACKNOWLEDGEMENT_INSERT = "INSERT ALL\n"
+				+ " INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
+				+ " values ('BaseProductLookupValue', 'currentBIRequired', 'FALSE', 'AAA_SS', 'PA',(select to_char(to_date(SYSDATE-27, 'DD-MM-YYYY')) from dual), (select to_char(to_date(SYSDATE-23, 'DD-MM-YYYY')) from dual) ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeValueQualifications'))\n"
+				+ "INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwritercd, EFFECTIVE, EXPIRATION, lookuplist_id) \n"
+				+ "values ('AAARolloutEligibilityLookupValue', 'eValue', 'TRUE', 'AAA_SS', 'PA',null, null, null, (select to_char(to_date(SYSDATE-27, 'DD-MM-YYYY')) from dual), (select to_char(to_date(SYSDATE-23, 'DD-MM-YYYY')) from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))\n"
+				+ "INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwritercd, EFFECTIVE, EXPIRATION, lookuplist_id) \n"
+				+ "values ('AAARolloutEligibilityLookupValue', 'eValue', 'FALSE', 'AAA_SS', 'PA','212', 'AZ Club Agent', null, (select to_char(to_date(SYSDATE-27, 'DD-MM-YYYY')) from dual), (select to_char(to_date(SYSDATE-23, 'DD-MM-YYYY')) from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))\n"
+				+ "INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
+				+ "values ('AAARolloutEligibilityLookupValue', 'PaperlessPreferences', 'TRUE', 'AAA_SS', 'PA',(select to_char(to_date(SYSDATE-27, 'DD-MM-YYYY')) from dual), (select to_char(to_date(SYSDATE-23, 'DD-MM-YYYY')) from dual) ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))    \n"
+				+ "Select * from dual";
+
+		DBService.get().executeUpdate(EVALUE_CURRENT_BI_CONFIG_ACKNOWLEDGEMENT_INSERT);
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
+
+		eValueQuoteCreation();
+
+		//Precondition for test
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().minusDays(26).format(DateTimeUtils.MM_DD_YYYY));
+
+		//Agent/Agency config check
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.CHANNEL_TYPE).setValue("AAA Agent");
+		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.AGENCY).setValue("contains=Mid-Atlantic");
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.present(false);
+
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.CHANNEL_TYPE).setValue("Independent Agent");
+		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.AGENCY).setValue("index=1");
+		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.AGENT).setValue("index=1");
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.present();
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled();
+
+		//Current BI check
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		ComboBox biAsset = premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY);
+		ComboBox pdAsset = premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY);
+		biAsset.setValueByIndex(0);
+		pdAsset.setValueByIndex(0);
+		premiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.present();
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled();
+
+		//Membership check
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("No");
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled(false);
+
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
+		generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("4290023667710001");
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled();
+
+		//PriorBi
+		pas232_eValuePriorBiConfigurationDependencyCheck("$15,000/$30,000", "$25,000/$50,000");
+		pas232_eValuePriorBiNoneConfigurationDependencyCheck();
+
+
+
+	}
+
+	private void pas232_eValuePriorBiNoneConfigurationDependencyCheck() {
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER).setValue("None");
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled(false);
+
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.OVERRIDE_CURRENT_CARRIER).setValue("No");
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled(false);
 	}
 
 	/**
@@ -960,6 +1055,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(TimeSetterUtil
 				.getInstance().getCurrentTime().minusDays(8).format(DateTimeUtils.MM_DD_YYYY));
 		pas232_eValuePriorBiConfigurationDependencyCheck("$20,000/$40,000", "$25,000/$50,000");
+		pas232_eValuePriorBiNoneConfigurationDependencyCheck();
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
