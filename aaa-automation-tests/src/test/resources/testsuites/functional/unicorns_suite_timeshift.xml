@@ -24,7 +24,7 @@
         </classes>
     </test>
 
-    <test name="pas12808_insuranceRenewalBillHomeMortgageeAHRBXX" parallel="methods" thread-count="1024">
+    <test name="PAS-12808 : Insurance Renewal Bill - Mortgagee billed versions - MD/PA" parallel="methods" thread-count="1024">
         <parameter name="state" value="PA, MD"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
