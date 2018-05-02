@@ -4,7 +4,6 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -61,6 +60,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	private static final String MESSAGE_INFO_1 = "This customer is not eligible for eValue discount due to one or more of the following reasons:";
 	private static final String MESSAGE_BULLET_8 = "Does not have an active AAA membership";
 	private static final String MESSAGE_INFO_4 = "eValue Discount Requirements:";
+	private static final String MESSAGE_JEOPARDY = "Discount in Jeopardy email sent";
 	private static List<String> requestIdList = new LinkedList<>();
 	private Random random = new Random();
 	private GeneralTab generalTab = new GeneralTab();
@@ -168,8 +168,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		//Start PAS-12822
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Discount in Jeopardy email sent")).isPresent(false);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
 		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
@@ -215,8 +214,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		//Start PAS-12822
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Discount in Jeopardy email sent")).isPresent(true);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true);
 		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(false, "no records created");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
@@ -263,8 +261,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		//Start PAS-12822
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Discount in Jeopardy email sent")).isPresent(true);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true);
 		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(true, "Membership information was updated for the policy based on best membership logic");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "");
@@ -310,8 +307,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		//Start PAS-12822
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Discount in Jeopardy email sent")).isPresent(false);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
 		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
@@ -356,8 +352,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		//Start PAS-12822
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Discount in Jeopardy email sent")).isPresent(false);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
 		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
@@ -403,8 +398,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		//Start PAS-12822
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Discount in Jeopardy email sent")).isPresent(false);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
 		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "");
@@ -742,8 +736,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		//Start PAS-12822
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Discount in Jeopardy email sent")).isPresent(true);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true);
 		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
@@ -795,8 +788,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		//Start PAS-12822
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Discount in Jeopardy email sent")).isPresent(true);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
 		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
@@ -847,8 +839,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		//Start PAS-12822
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Discount in Jeopardy email sent")).isPresent(false);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
 		//End PAS-12822
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
@@ -901,8 +892,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		//Start PAS-12822
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Discount in Jeopardy email sent")).isPresent(true);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true);
 		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
@@ -954,8 +944,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		//Start PAS-12822
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Discount in Jeopardy email sent")).isPresent(false);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
 		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
@@ -1007,8 +996,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		//Start PAS-12822
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Discount in Jeopardy email sent")).isPresent(true);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true);
 		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "");
@@ -1058,8 +1046,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		//Start PAS-12822
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Discount in Jeopardy email sent")).isPresent(true);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true);
 		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
@@ -1113,8 +1100,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		//Start PAS-12822
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Discount in Jeopardy email sent")).isPresent(false);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
 		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
@@ -1151,7 +1137,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-5837", "PAS-3697", "PAS-327", "PAS-329", "PAS-12822"})
-	public void pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending(@Optional("VA") String state) {
+	public void pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending(@Optional("DC") String state) {
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -1164,8 +1150,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		//Start PAS-12822
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Discount in Jeopardy email sent")).isPresent(true);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true);
 		//End PAS-12822
 
 		membershipLogicActivitiesAndNotesCheck(false, "no changes");
@@ -1273,8 +1258,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
 		//Start PAS-12822
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Discount in Jeopardy email sent")).isPresent(false);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
 		//End PAS-12822
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "eValue Removed - Paperless Preferences Removed - External");
 		lastTransactionHistoryEValueDiscountCheck(false);
