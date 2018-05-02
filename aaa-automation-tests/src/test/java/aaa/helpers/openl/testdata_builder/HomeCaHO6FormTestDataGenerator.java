@@ -121,6 +121,7 @@ public class HomeCaHO6FormTestDataGenerator {
 				HomeCaMetaData.EndorsementTab.EndorsementHO71.NAME_OF_BUSINESS.getLabel(), "Test", 
 				HomeCaMetaData.EndorsementTab.EndorsementHO71.DESCRIPTION_OF_BUSINESS.getLabel(), "test", 
 				HomeCaMetaData.EndorsementTab.EndorsementHO71.CLASSIFICATION_OCCUPATION.getLabel(), "index=2", 
+				HomeCaMetaData.EndorsementTab.EndorsementHO71.CO_APPLICANT_CLASSIFICATION_OCCUPATION.getLabel(), "index=1", 
 				HomeCaMetaData.EndorsementTab.EndorsementHO71.IS_THE_INSURED_SELF_EMPLOYED_A_PARTNER_IN_THE_BUSINESS.getLabel(), "No"));
 		return tdList;
 	};
