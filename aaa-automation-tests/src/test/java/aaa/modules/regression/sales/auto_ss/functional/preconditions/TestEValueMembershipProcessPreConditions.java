@@ -4,7 +4,7 @@ public interface TestEValueMembershipProcessPreConditions {
 
 	String RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_CHECK = "select  value\n"
 			+ "from PROPERTYCONFIGURERENTITY\n"
-			+ "where propertyname ='retrieveValueshipSummaryServiceImpl.endpointRetrieveValueshipSummaryUri'";
+			+ "where propertyname ='retrieveMembershipSummaryServiceImpl.endpointRetrieveMembershipSummaryUri'";
 
 	String MEMBERSHIP_ELIGIBILITY_CHECK_FOR_VA_EXISTS = "SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n"
 			+ "FROM LOOKUPVALUE WHERE LOOKUPLIST_ID IN \n"

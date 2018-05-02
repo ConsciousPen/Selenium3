@@ -149,7 +149,7 @@ public interface EvalueInsertSetupPreConditions {
 
 	String RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
 			+ "set value = 'http://%s%sws/membershipsummary'\n"
-			+ "where propertyname = 'retrieveValueshipSummaryServiceImpl.endpointRetrieveValueshipSummaryUri'";
+			+ "where propertyname = 'retrieveMembershipSummaryServiceImpl.endpointRetrieveMembershipSummaryUri'";
 
 	String EVALUE_MEMBERSHIP_CONFIG_ACKNOWLEDGEMENT_INSERT = "INSERT ALL\n"
 			+ "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
