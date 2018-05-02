@@ -100,7 +100,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	boolean isPrivatePassengerAutoType(String statCode) {
-		List<String> codes = Arrays.asList("AP", "AH", "AU", "AW", "AV", "AN", "AI", "AQ", "AY", "AD", "AJ", "AC", "AK", "AE", "AR", "AO", "AX", "AZ");
+		List<String> codes = Arrays.asList("AA", "AP", "AH", "AU", "AV", "AN", "AI", "AQ", "AY", "AD", "AJ", "AC", "AK", "AE", "AR", "AO", "AX", "AZ");
 		return codes.contains(statCode);
 	}
 
@@ -157,6 +157,8 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		Map<String, String> statCodesMap = new HashMap<>();
 
 		// Private Passenger Auto stat codes
+		statCodesMap.put("AA", "Small car"); //TODO-dchubkov: to be double checked
+		statCodesMap.put("AH", "Small car"); //TODO-dchubkov: to be double checked
 		statCodesMap.put("AN", "Small car");
 		statCodesMap.put("AI", "Midsize car");
 		statCodesMap.put("AQ", "Large car");
@@ -288,6 +290,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		coveragesMap.put("APIP", AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PIP.getLabel());
 		coveragesMap.put("TOWING", AutoSSMetaData.PremiumAndCoveragesTab.TOWING_AND_LABOR_COVERAGE.getLabel());
 		coveragesMap.put("RENTAL", AutoSSMetaData.PremiumAndCoveragesTab.RENTAL_REIMBURSEMENT.getLabel());
+		coveragesMap.put("LOAN", "TO BE SET (MD specific)");  //TODO-dchubkov: set valid coverage name
 
 		//AutoCa Choice
 		coveragesMap.put("UM", AutoCaMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel());
