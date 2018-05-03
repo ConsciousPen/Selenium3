@@ -1,8 +1,6 @@
 package aaa.helpers.openl.testdata_builder;
 
 import java.util.*;
-
-import com.typesafe.config.ConfigException;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -103,7 +101,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		if ("Central".equals(openLPolicy.getPolicyDiscountInformation().getFireAlarmType())) {
 			documentsToBindData.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().getProofCentralFireAlarm()));
 		}
-		if (openLPolicy.getPolicyDwellingRatingInfo().get(0).getHomeAge() >= 10) {
+		if (openLPolicy.getPolicyDwellingRatingInfo().getHomeAge() >= 10) {
 			documentsToBindData.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().getProofOfPEHCR()));
 		}
 		TestData adjustmentData = DataProviderFactory.dataOf(
@@ -220,7 +218,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		List<TestData> otherActiveAAAPoliciesData = new ArrayList<>();
 		boolean isFirstOtherActiveAAAPolicy = true;
 
-		if (Boolean.TRUE.equals(openLPolicy.getPolicyDiscountInformation().get(0).isPUPPolicyInd())) {
+		if (Boolean.TRUE.equals(openLPolicy.getPolicyDiscountInformation().isPUPPolicyInd())) {
 			TestData pupPolicyData = DataProviderFactory.dataOf(
 					HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OTHER_ACTIVE_AAA_POLICIES.getLabel(), isFirstOtherActiveAAAPolicy ? "Yes" : null,
 					HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ADD_BTN.getLabel(), isFirstOtherActiveAAAPolicy ? "click" : null,
@@ -256,7 +254,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			isFirstOtherActiveAAAPolicy = false;
 		}
 
-		if (Boolean.TRUE.equals(openLPolicy.getPolicyDiscountInformation().get(0).isLifePolicyInd())) {
+		if (Boolean.TRUE.equals(openLPolicy.getPolicyDiscountInformation().isLifePolicyInd())) {
 			TestData lifePolicyData = DataProviderFactory.dataOf(
 					HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OTHER_ACTIVE_AAA_POLICIES.getLabel(), isFirstOtherActiveAAAPolicy ? "Yes" : null,
 					HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ADD_BTN.getLabel(), isFirstOtherActiveAAAPolicy ? "click" : null,
@@ -289,7 +287,6 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			);
 			otherActiveAAAPoliciesData.add(dp3PolicyData);
 		}
-
 
 		if (otherActiveAAAPoliciesData.isEmpty()) {
 			otherActiveAAAPoliciesData.add(DataProviderFactory.dataOf(
@@ -344,12 +341,12 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		);
 
 		TestData constructionData = DataProviderFactory.dataOf(
-				HomeSSMetaData.PropertyInfoTab.Construction.YEAR_BUILT.getLabel(), String.format("%d", openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDwellingRatingInfo().get(0).getHomeAge()).getYear()),
-				HomeSSMetaData.PropertyInfoTab.Construction.ROOF_TYPE.getLabel(), openLPolicy.getPolicyDwellingRatingInfo().get(0).getRoofType(),
-				HomeSSMetaData.PropertyInfoTab.Construction.CONSTRUCTION_TYPE.getLabel(), "contains=" + openLPolicy.getPolicyConstructionInfo().get(0).getConstructionType().split(" ")[0],
+				HomeSSMetaData.PropertyInfoTab.Construction.YEAR_BUILT.getLabel(), String.format("%d", openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDwellingRatingInfo().getHomeAge()).getYear()),
+				HomeSSMetaData.PropertyInfoTab.Construction.ROOF_TYPE.getLabel(), openLPolicy.getPolicyDwellingRatingInfo().getRoofType(),
+				HomeSSMetaData.PropertyInfoTab.Construction.CONSTRUCTION_TYPE.getLabel(), "contains=" + openLPolicy.getPolicyConstructionInfo().getConstructionType().split(" ")[0],
 				HomeSSMetaData.PropertyInfoTab.Construction.MASONRY_VENEER.getLabel(),
 				"Masonry Veneer".equals(openLPolicy.getPolicyConstructionInfo().getConstructionType()) ? "Yes" : "No",
-				HomeSSMetaData.PropertyInfoTab.Construction.IS_THIS_A_LOG_HOME_ASSEMBLED_BY_A_LICENSED_BUILDING_CONTRACTOR.getLabel(), "Log Home".equals(openLPolicy.getPolicyConstructionInfo().get(0).getConstructionType()) ? "Yes" : null
+				HomeSSMetaData.PropertyInfoTab.Construction.IS_THIS_A_LOG_HOME_ASSEMBLED_BY_A_LICENSED_BUILDING_CONTRACTOR.getLabel(), "Log Home".equals(openLPolicy.getPolicyConstructionInfo().getConstructionType()) ? "Yes" : null
 		);
 
 		TestData interiorData = DataProviderFactory.dataOf(
@@ -400,44 +397,43 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 
 		TestData petsOrAnimalsData = null;
 		// TODO clarify logic
-		if (openLPolicy.getPolicyConstructionInfo().get(0).getDogType() == 1) {
+		if (openLPolicy.getPolicyConstructionInfo().getDogType() == 1) {
 			petsOrAnimalsData = DataProviderFactory.dataOf(
 					HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ARE_ANY_PETS_OR_ANIMALS_KEPT_ON_THE_PROPERTY.getLabel(), "Yes",
 					HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_TYPE.getLabel(), "Dog - Other breed",
 					HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.OTHER_SPECIFY.getLabel(), "Pooch",
-					HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_COUNT.getLabel(), openLPolicy.getPolicyConstructionInfo().get(0).getLiveStkNo()>0?  String.format("%d",openLPolicy.getPolicyConstructionInfo().get(0).getLiveStkNo()): "1"
+					HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_COUNT.getLabel(), openLPolicy.getPolicyConstructionInfo().getLiveStkNo() > 0 ? String.format("%d", openLPolicy.getPolicyConstructionInfo().getLiveStkNo()) : "1"
 			);
 		}
 
-
-//		List<TestData> petsOrAnimalsData = new ArrayList<>();
-//		boolean isFirstPetOrAnimal = true;
-//
-//		if (openLPolicy.getPolicyConstructionInfo().get(0).getLiveStkNo() > 0) {
-//			LinkedHashMap<String, String> liveStockAnimals = new LinkedHashMap<>();
-//			liveStockAnimals.put(HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ARE_ANY_PETS_OR_ANIMALS_KEPT_ON_THE_PROPERTY.getLabel(), "Yes");
-//			liveStockAnimals.put(HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_TYPE.getLabel(), "Livestock - cow");
-//			liveStockAnimals.put(HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_COUNT.getLabel(), String.format("%d", openLPolicy.getPolicyConstructionInfo().get(0).getLiveStkNo()));
-//			petsOrAnimalsData.add(new SimpleDataProvider(liveStockAnimals));
-//			isFirstPetOrAnimal = false;
-//		}
-//
-//		if (openLPolicy.getPolicyConstructionInfo().get(0).getDogType() == 1) {
-//			LinkedHashMap<String, String> pets = new LinkedHashMap<>();
-//			if (isFirstPetOrAnimal) {
-//				pets.put(HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ARE_ANY_PETS_OR_ANIMALS_KEPT_ON_THE_PROPERTY.getLabel(), "Yes");
-//			} else {
-//				pets.put(HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.BTN_ADD.getLabel(), "click");
-//			}
-//			pets.put(HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_TYPE.getLabel(), "Dog - Other breed");
-//			pets.put(HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.OTHER_SPECIFY.getLabel(), "Pooch");
-//			pets.put(HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_COUNT.getLabel(), "1");
-//			petsOrAnimalsData.add(new SimpleDataProvider(pets));
-//		}
-//
-//		if (petsOrAnimalsData.size()==0){
-//			petsOrAnimalsData.add(DataProviderFactory.emptyData());
-//		}
+		//		List<TestData> petsOrAnimalsData = new ArrayList<>();
+		//		boolean isFirstPetOrAnimal = true;
+		//
+		//		if (openLPolicy.getPolicyConstructionInfo().get(0).getLiveStkNo() > 0) {
+		//			LinkedHashMap<String, String> liveStockAnimals = new LinkedHashMap<>();
+		//			liveStockAnimals.put(HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ARE_ANY_PETS_OR_ANIMALS_KEPT_ON_THE_PROPERTY.getLabel(), "Yes");
+		//			liveStockAnimals.put(HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_TYPE.getLabel(), "Livestock - cow");
+		//			liveStockAnimals.put(HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_COUNT.getLabel(), String.format("%d", openLPolicy.getPolicyConstructionInfo().get(0).getLiveStkNo()));
+		//			petsOrAnimalsData.add(new SimpleDataProvider(liveStockAnimals));
+		//			isFirstPetOrAnimal = false;
+		//		}
+		//
+		//		if (openLPolicy.getPolicyConstructionInfo().get(0).getDogType() == 1) {
+		//			LinkedHashMap<String, String> pets = new LinkedHashMap<>();
+		//			if (isFirstPetOrAnimal) {
+		//				pets.put(HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ARE_ANY_PETS_OR_ANIMALS_KEPT_ON_THE_PROPERTY.getLabel(), "Yes");
+		//			} else {
+		//				pets.put(HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.BTN_ADD.getLabel(), "click");
+		//			}
+		//			pets.put(HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_TYPE.getLabel(), "Dog - Other breed");
+		//			pets.put(HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.OTHER_SPECIFY.getLabel(), "Pooch");
+		//			pets.put(HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_COUNT.getLabel(), "1");
+		//			petsOrAnimalsData.add(new SimpleDataProvider(pets));
+		//		}
+		//
+		//		if (petsOrAnimalsData.size()==0){
+		//			petsOrAnimalsData.add(DataProviderFactory.emptyData());
+		//		}
 
 		TestData recreationalEquipmentData = DataProviderFactory.dataOf(
 				HomeSSMetaData.PropertyInfoTab.RecreationalEquipment.SWIMMING_POOL.getLabel(), getSwimmingPoolType(openLPolicy),
@@ -762,7 +758,6 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		int totalPoints = aaaPoints + notAaaPoints;
 		boolean isFirstClaim = true;
 
-
 		if (totalPoints == 0) {
 			claimsDataList.add(claim);
 		}
@@ -776,22 +771,22 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			claimsDataList.addAll(getClaims(openLPolicy, isFirstClaim, true));
 		}
 
-//		if (notAaaPoints != 0) {
-//			for (int i = 0; i < notAaaPoints; i++) {
-//				claim = addClaimData(openLPolicy, isFirstClaim);
-//				isFirstClaim = false;
-//				claimsDataList.add(claim);
-//			}
-//		}
-//
-//		if (aaaPoints != 0) {
-//			for (int i = 0; i < aaaPoints; i++) {
-//				claim = addClaimData(openLPolicy, isFirstClaim);
-//				claim.adjust(DataProviderFactory.dataOf(HomeSSMetaData.PropertyInfoTab.ClaimHistory.AAA_CLAIM.getLabel(), "Yes"));
-//				isFirstClaim = false;
-//				claimsDataList.add(claim);
-//			}
-//		}
+		//		if (notAaaPoints != 0) {
+		//			for (int i = 0; i < notAaaPoints; i++) {
+		//				claim = addClaimData(openLPolicy, isFirstClaim);
+		//				isFirstClaim = false;
+		//				claimsDataList.add(claim);
+		//			}
+		//		}
+		//
+		//		if (aaaPoints != 0) {
+		//			for (int i = 0; i < aaaPoints; i++) {
+		//				claim = addClaimData(openLPolicy, isFirstClaim);
+		//				claim.adjust(DataProviderFactory.dataOf(HomeSSMetaData.PropertyInfoTab.ClaimHistory.AAA_CLAIM.getLabel(), "Yes"));
+		//				isFirstClaim = false;
+		//				claimsDataList.add(claim);
+		//			}
+		//		}
 
 		return claimsDataList;
 	}
@@ -801,9 +796,9 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		//"AAAHOExperienceClaimPoint" AAA
 		List<TestData> claimsDataList = new ArrayList<>();
 		TestData claim = DataProviderFactory.emptyData();
-		String state = openLPolicy.getPolicyAddress().get(0).getState();
+		String state = openLPolicy.getPolicyAddress().getState();
 		String claimPointLookupName = isAAAClaimPoint ? "AAAHOExperienceClaimPoint" : "AAAHOPriorClaimPoint";
-		int claimPoints = isAAAClaimPoint ? openLPolicy.getPolicyLossInformation().get(0).getExpClaimPoint() : openLPolicy.getPolicyLossInformation().get(0).getPriorClaimPoint();
+		int claimPoints = isAAAClaimPoint ? openLPolicy.getPolicyLossInformation().getExpClaimPoint() : openLPolicy.getPolicyLossInformation().getPriorClaimPoint();
 
 		String sqlMaxCode = "select max(code) from lookupvalue where lookuplist_id in (select id from lookuplist where lookupname='%s') and productcd='AAA_HO_SS' and (riskstatecd is null or riskstatecd = '%s')";
 		String sqlMaxValue = "select max(displayvalue) from lookupvalue where lookuplist_id in (select id from lookuplist where lookupname='%s') and productcd='AAA_HO_SS' and (riskstatecd is null or riskstatecd = '%s') and code = %d";

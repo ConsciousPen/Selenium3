@@ -172,7 +172,7 @@ public class HomeCaHO4TestDataGenerator extends TestDataGenerator<HomeCaHO4OpenL
 	}
 	
 	private TestData addClaimData(HomeCaHO4OpenLPolicy openLPolicy, boolean isFirstClaim) {
-		TestData claimData = DataProviderFactory.emptyData(); 
+		TestData claimData;
 		if (isFirstClaim) {
 			claimData = DataProviderFactory.dataOf(
 					HomeCaMetaData.PropertyInfoTab.ClaimHistory.ADD_A_CLAIM.getLabel(), "Yes", 
@@ -220,60 +220,60 @@ public class HomeCaHO4TestDataGenerator extends TestDataGenerator<HomeCaHO4OpenL
 		TestData personalPropertyTabData = new SimpleDataProvider();
 		for (HomeCaHO4OpenLForm form: openLPolicy.getForms()) {
 			if ("HO-61".equals(form.getFormCode())) {
-				switch (form.getScheduledPropertyItems().get(0).getPropertyType()){
+				switch (form.getScheduledPropertyItem().getPropertyType()) {
 				case "Cameras":
 					TestData camerasData = DataProviderFactory.dataOf(
-							HomeCaMetaData.PersonalPropertyTab.Cameras.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItems().get(0).getLimit().toString(),
+							HomeCaMetaData.PersonalPropertyTab.Cameras.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItem().getLimit().toString(),
 							HomeCaMetaData.PersonalPropertyTab.Cameras.DESCRIPTION.getLabel(), "test");
 					personalPropertyTabData.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.CAMERAS.getLabel(), camerasData));
 					break;
 				case "Coins":
 					TestData coinsData = DataProviderFactory.dataOf(
-							HomeCaMetaData.PersonalPropertyTab.Coins.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItems().get(0).getLimit().toString(),
+							HomeCaMetaData.PersonalPropertyTab.Coins.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItem().getLimit().toString(),
 							HomeCaMetaData.PersonalPropertyTab.Coins.DESCRIPTION.getLabel(), "test");
 					personalPropertyTabData.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.COINS.getLabel(), coinsData));
 					break;
 				case "Fine Art":
 					TestData fineArtData = DataProviderFactory.dataOf(
-							HomeCaMetaData.PersonalPropertyTab.FineArts.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItems().get(0).getLimit().toString(),
+							HomeCaMetaData.PersonalPropertyTab.FineArts.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItem().getLimit().toString(),
 							HomeCaMetaData.PersonalPropertyTab.FineArts.DESCRIPTION.getLabel(), "test");
 					personalPropertyTabData.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.FINE_ARTS.getLabel(), fineArtData));
 					break;
 				case "Furs":
 					TestData fursData = DataProviderFactory.dataOf(
-							HomeCaMetaData.PersonalPropertyTab.Furs.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItems().get(0).getLimit().toString(),
+							HomeCaMetaData.PersonalPropertyTab.Furs.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItem().getLimit().toString(),
 							HomeCaMetaData.PersonalPropertyTab.Furs.DESCRIPTION.getLabel(), "test");
 					personalPropertyTabData.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.FURS.getLabel(), fursData));
 					break;
 				case "Golf Equipment":
 					TestData golfEquipmentData = DataProviderFactory.dataOf(
-							HomeCaMetaData.PersonalPropertyTab.GolfEquipment.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItems().get(0).getLimit().toString(),
+							HomeCaMetaData.PersonalPropertyTab.GolfEquipment.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItem().getLimit().toString(),
 							HomeCaMetaData.PersonalPropertyTab.GolfEquipment.DESCRIPTION.getLabel(), "test",
 							HomeCaMetaData.PersonalPropertyTab.GolfEquipment.LEFT_OR_RIGHT_HANDED_CLUB.getLabel(), "index=1");
 					personalPropertyTabData.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.GOLF_EQUIPMENT.getLabel(), golfEquipmentData));
 					break;
 				case "Jewelry":
 					TestData jewerlyData = DataProviderFactory.dataOf(
-							HomeCaMetaData.PersonalPropertyTab.Jewelry.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItems().get(0).getLimit().toString(),
+							HomeCaMetaData.PersonalPropertyTab.Jewelry.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItem().getLimit().toString(),
 							HomeCaMetaData.PersonalPropertyTab.Jewelry.JEWELRY_CATEGORY.getLabel(), "index=1",
 							HomeCaMetaData.PersonalPropertyTab.Jewelry.DESCRIPTION.getLabel(), "test");
 					personalPropertyTabData.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.JEWELRY.getLabel(), jewerlyData));
 					break;
 				case "Musical Instruments":
 					TestData musicalInstrumentsData = DataProviderFactory.dataOf(
-							HomeCaMetaData.PersonalPropertyTab.MusicalInstruments.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItems().get(0).getLimit().toString(),
+							HomeCaMetaData.PersonalPropertyTab.MusicalInstruments.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItem().getLimit().toString(),
 							HomeCaMetaData.PersonalPropertyTab.MusicalInstruments.DESCRIPTION.getLabel(), "test");
 					personalPropertyTabData.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.MUSICAL_INSTRUMENTS.getLabel(), musicalInstrumentsData));
 					break;
 				case "Stamps":
 					TestData stampsData = DataProviderFactory.dataOf(
-							HomeCaMetaData.PersonalPropertyTab.PostageStamps.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItems().get(0).getLimit().toString(),
+							HomeCaMetaData.PersonalPropertyTab.PostageStamps.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItem().getLimit().toString(),
 							HomeCaMetaData.PersonalPropertyTab.PostageStamps.DESCRIPTION.getLabel(), "test");
 					personalPropertyTabData.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.POSTAGE_STAMPS.getLabel(), stampsData));
 					break;
 				case "Silverware":
 					TestData silverwareData = DataProviderFactory.dataOf(
-							HomeCaMetaData.PersonalPropertyTab.Silverware.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItems().get(0).getLimit().toString(),
+							HomeCaMetaData.PersonalPropertyTab.Silverware.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItem().getLimit().toString(),
 							HomeCaMetaData.PersonalPropertyTab.Silverware.DESCRIPTION.getLabel(), "test",
 							HomeCaMetaData.PersonalPropertyTab.Silverware.SET_OR_INDIVIDUAL_PIECE.getLabel(), "index=1");
 					personalPropertyTabData.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.SILVERWARE.getLabel(), silverwareData));
@@ -311,34 +311,34 @@ public class HomeCaHO4TestDataGenerator extends TestDataGenerator<HomeCaHO4OpenL
 		
 		for(HomeCaHO4OpenLForm form: openLPolicy.getForms()) {
 			if (form.getFormCode().equals("HO-58")){
-				deductible = "contains=" + new Dollar(250).toString().split("\\.")[0]; 
+				deductible = "contains=" + new Dollar(250).toString().split("\\.")[0];
 			}
 			else if (form.getFormCode().equals("HO-59")) {
 				deductible = "contains=" + new Dollar(500).toString().split("\\.")[0];
 			}
 			else if (form.getFormCode().equals("HO-60")) {
-				deductible = "contains=" + new Dollar(1000).toString().split("\\.")[0]; 
+				deductible = "contains=" + new Dollar(1000).toString().split("\\.")[0];
 			}
 			else if (form.getFormCode().equals("HO-76")) {
-				deductible = "contains=" + new Dollar(1500).toString().split("\\.")[0]; 
+				deductible = "contains=" + new Dollar(1500).toString().split("\\.")[0];
 			}
 			else if (form.getFormCode().equals("HO-77")) {
-				deductible = "contains=" + new Dollar(2000).toString().split("\\.")[0]; 
+				deductible = "contains=" + new Dollar(2000).toString().split("\\.")[0];
 			}
 			else if (form.getFormCode().equals("HO-78")) {
-				deductible = "contains=" + new Dollar(2500).toString().split("\\.")[0]; 
+				deductible = "contains=" + new Dollar(2500).toString().split("\\.")[0];
 			}
 			else if (form.getFormCode().equals("HO-79")) {
-				deductible = "contains=" + new Dollar(3000).toString().split("\\.")[0]; 
+				deductible = "contains=" + new Dollar(3000).toString().split("\\.")[0];
 			}
 			else if (form.getFormCode().equals("HO-80")) {
-				deductible = "contains=" + new Dollar(4000).toString().split("\\.")[0]; 
+				deductible = "contains=" + new Dollar(4000).toString().split("\\.")[0];
 			}
 			else if (form.getFormCode().equals("HO-81")) {
-				deductible = "contains=" + new Dollar(5000).toString().split("\\.")[0]; 
+				deductible = "contains=" + new Dollar(5000).toString().split("\\.")[0];
 			}
 			else if (form.getFormCode().equals("HO-82")) {
-				deductible = "contains=" + new Dollar(7500).toString().split("\\.")[0]; 
+				deductible = "contains=" + new Dollar(7500).toString().split("\\.")[0];
 			}
 			else if (form.getFormCode().equals("HO-177")) {
 				deductible = "contains=Theft";
