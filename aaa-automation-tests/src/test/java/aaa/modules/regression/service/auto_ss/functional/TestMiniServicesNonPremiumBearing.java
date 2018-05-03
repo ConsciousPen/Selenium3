@@ -671,10 +671,14 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * 5.add new vehicle (that will be pending)
 	 * 6.hit view vehicle service
 	 * 7.validate response shows pending vehicle first.
+	 * Added Pas 12244
+	 * Add 2 PPA vehicle
+	 * hit view vehicle service on pended endorsement
+	 * verify order of vehicle
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10449"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10449","PAS-12244"})
 	public void pas10449_ViewVehicleServiceOrderOfVehicle(@Optional("VA") String state) {
 
 		pas10449_ViewVehicleServiceCheckOrderOfVehicle(getPolicyType(), state);

@@ -358,29 +358,8 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
 
         // Initiate Endorsement and verify Override Link
         policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(policyType).getTestData("Endorsement"), "TestData"));
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        assertThat(reportsTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst()).isPresent(false);
+        verifyReportsTabAndBindPolicy();
 
-        // Navigate to Applicant tab and add another named insured
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
-        applicantTab.fillTab(testDataManager.getDefault(TestDisableReorderReport.class).getTestData("TestData"));
-
-        // Navigate to Reports tab; verify 'Reorder Report' radio and 'Override Score' link
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        reportsTab.tblInsuranceScoreReport.getRow(2).getCell(ORDER_INSURANCE_SCORE.getLabel()).controls.radioGroups.get(1).setValue("Yes");
-        reportsTab.getAssetList().getAsset(INSURANCE_SCORE_REPORT.getLabel(), FillableTable.class).getAsset(CUSTOMER_AGREEMENT.getLabel(), RadioGroup.class).setValue("Customer agrees");
-        reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
-        assertThat(reportsTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst()).isPresent(false);
-        assertThat(reportsTab.tblInsuranceScoreReport.getRow(2).getCell("Report").controls.links.getFirst()).isPresent(false);
-
-        // Bind the policy
-        reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.get("Re-order report").click();
-        premiumsAndCoveragesQuoteTab.calculatePremium();
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-        bindTab.submitTab();
-
-        // Verify the policy was bound without rules
-        assertThat(PolicySummaryPage.labelPolicyNumber).isPresent();
     }
 
     public void pas6827_disableReorderReportRenewal(PolicyType policyType) {
@@ -393,14 +372,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
 
         // Initiate Renewal, navigate to Reports Tab
         policyType.get().renew().perform();
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-
-        // Verify 'Override Score' link is disabled
-        assertThat(reportsTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst()).isPresent(false);
-
-        // Verify 'View report' link is displayed (instead of Reorder report) and enabled
-        assertThat(reportsTab.tblInsuranceScoreReport.getRow(1).getCell("Report").getValue()).isEqualTo("View report");
-        assertThat(reportsTab.tblInsuranceScoreReport.getRow(1).getCell("Report").controls.links.getFirst()).isPresent(true);
+        verifyReportsTabAndBindPolicy();
         
     }
 
@@ -431,4 +403,43 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         policyType.get().getDefaultView().fillFromTo(tdHO, PropertyInfoTab.class, PurchaseTab.class, true);
         purchaseTab.submitTab();
     }
+
+    private void verifyReportsTabAndBindPolicy() {
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
+        reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
+
+        // Verify links
+        verifyLinks();
+
+        // Adjust First Name of Primary Insured and verify links
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
+        applicantTab.getNamedInsuredAssetList().getAsset(HomeSSMetaData.ApplicantTab.NamedInsured.FIRST_NAME).setValue("Test");
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
+        verifyLinks();
+
+        // Navigate to Applicant tab, add another named insured, and verify links
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
+        applicantTab.fillTab(testDataManager.getDefault(TestDisableReorderReport.class).getTestData("TestData"));
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
+        reportsTab.getAssetList().getAsset(INSURANCE_SCORE_REPORT.getLabel(), FillableTable.class).getAsset(CUSTOMER_AGREEMENT.getLabel(), RadioGroup.class).setValue("Customer agrees");
+        reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
+        verifyLinks();
+        assertThat(reportsTab.tblInsuranceScoreReport.getRow(2).getCell("Report").controls.links.getFirst()).isPresent(false);
+
+        // Bind policy and confirm policy summary page
+        reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.get("Re-order report").click();
+        premiumsAndCoveragesQuoteTab.calculatePremium();
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+        bindTab.submitTab();
+        assertThat(PolicySummaryPage.labelPolicyNumber).isPresent();
+    }
+
+    private void verifyLinks() {
+        reportsTab.tblInsuranceScoreOverride.getRows().forEach(i -> assertThat(i.getCell(6).controls.links.getFirst()).isPresent(false));
+        assertThat(reportsTab.tblInsuranceScoreReport.getRow(1).getCell("Report").getValue()).isEqualTo("View report");
+        assertThat(reportsTab.tblInsuranceScoreReport.getRow(1).getCell("Report").controls.links.getFirst()).isPresent(true);
+    }
+
+
+
 }

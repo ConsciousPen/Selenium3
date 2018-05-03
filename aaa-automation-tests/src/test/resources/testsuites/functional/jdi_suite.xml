@@ -113,6 +113,7 @@
                     <include name="eValueConfigCheck"/>
                     <include name="pas305_eValueNotApplicableForState"/>
                     <include name="pas3708_eValueStatusConsViewNotConfigured"/>
+                    <include name="pas12972_defaultConfigPA"/>
                 </methods>
             </class>
         </classes>
@@ -301,6 +302,52 @@
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestPaperlessPreferencesAllProducts">
                 <methods>
                     <include name="pas283_paperlessPreferencesForAllStatesProducts"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="pas240_installmentFeesService CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestInstallmentFees">
+                <methods>
+                    <include name="pas240_installmentFeesService"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestInstallmentFees">
+                <methods>
+                    <include name="pas240_installmentFeesService"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.service.home_ca.ho3.functional.TestInstallmentFees">
+                <methods>
+                    <include name="pas240_installmentFeesService"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.service.pup.functional.TestInstallmentFees">
+                <methods>
+                    <include name="pas240_installmentFeesService"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas240_installmentFeesService VA PA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA, PA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestInstallmentFees">
+                <methods>
+                    <include name="pas240_installmentFeesService"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.service.home_ss.ho3.functional.TestInstallmentFees">
+                <methods>
+                    <include name="pas240_installmentFeesService"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.service.pup.functional.TestInstallmentFees">
+                <methods>
+                    <include name="pas240_installmentFeesService"/>
                 </methods>
             </class>
         </classes>

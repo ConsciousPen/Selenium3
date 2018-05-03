@@ -205,6 +205,20 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	}
 
 	/**
+	 /**
+	 * @name Test Conversion Document generation (Non Renewal cover letters)
+	 * @scenario 1. Create Customer
+	 * 2. Initiate Renewal Entry
+	 * 3. Fill Conversion Policy data for Home
+	 * 4. Check that HSFLDMD documents are getting generated
+	 * @details
+	 */
+	public void pas11772_importantNoticeRegardingFloodInsuranceHSFLD(String state) throws NoSuchFieldException {
+		int numberOfLetters = renewalCoverLetterFormsGeneration(getConversionPolicyDefaultTD(), HSFLD, false, state);
+		assertThat(numberOfLetters).isEqualTo(1);
+	}
+
+	/**
 	 * @name Creation converted policy for checking Renewal Cover letters
 	 * @scenario 1. Create Customer
 	 * 2. Initiate Renewal Entry
@@ -228,7 +242,9 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		List<Document> documents = DocGenHelper.waitForMultipleDocumentsAppearanceInDB(form, policyNumber, RENEWAL_OFFER);
 		verifyPackageTagData(legacyPolicyNumber, policyNumber, RENEWAL_OFFER);
 		for (Document document : documents) {
-			verifyRenewalDocumentTagDataConvFlgYN(document, testData, isPupPresent, RENEWAL_OFFER);
+			if (form!=HSFLD) {
+				verifyRenewalDocumentTagDataConvFlgYN(document, testData, isPupPresent, RENEWAL_OFFER);
+			}
 		}
 		return documents.size();
 	}

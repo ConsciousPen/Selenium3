@@ -1,6 +1,7 @@
 package aaa.modules.regression.service.helper;
 
 import aaa.helpers.config.CustomTestProperties;
+import aaa.modules.regression.service.helper.dtoAdmin.InstallmentFeesResponse;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAABodyStyleByYearMakeModelSeries;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAMakeByYear;
@@ -29,6 +30,8 @@ import static aaa.admin.modules.IAdmin.log;
 
 public class HelperCommon {
 	private static final String ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT = "/aaa-admin/services/aaa-policy-rs/v1/documents/rfi-documents/";
+	private static final String ADMIN_UPDATE_POLICY_PREFERENCES_ENDPOINT = "/aaa-admin/services/aaa-policy-rs/v1/endorsements/update-policy-preferences/";
+	private static final String ADMIN_INSTALLMENT_FEES_ENDPOINT = "/aaa-admin/services/aaa-billing-rs/v1/fees/installment-fees";
 	private static final String DXP_CONTACT_INFO_UPDATE_ENDPOINT = "/api/v1/policies/%s/contact-info";
 	private static final String DXP_ENDORSEMENTS_VALIDATE_ENDPOINT = "/api/v1/policies/%s/start-endorsement-info";
 	private static final String DXP_VIN_VALIDATE_ENDPOINT = "/api/v1/policies/%s/vin-info/%s";
@@ -78,12 +81,22 @@ public class HelperCommon {
 		return runJsonRequestGetAdmin(requestUrl, RfiDocumentResponse[].class);
 	}
 
+	public static InstallmentFeesResponse[] executeInstallmentFeesRequest(String productCode, String state, String date) {
+		String requestUrl = urlBuilderAdmin(ADMIN_INSTALLMENT_FEES_ENDPOINT) + "?productCode=" +productCode + "&riskState=" + state +"&effectiveDate="+date;
+		return runJsonRequestGetAdmin(requestUrl, InstallmentFeesResponse[].class);
+	}
+
 	public static void executeContactInfoRequest(String policyNumber, String emailAddressChanged, String authorizedBy) {
 		UpdateContactInfoRequest request = new UpdateContactInfoRequest();
 		request.email = emailAddressChanged;
 		request.authorizedBy = authorizedBy;
 		String requestUrl = urlBuilderDxp(String.format(DXP_CONTACT_INFO_UPDATE_ENDPOINT, policyNumber));
 		runJsonRequestPostDxp(requestUrl, request);
+	}
+
+	public static String executeUpdatePolicyPreferences(String policyNumber) {
+		String requestUrl = urlBuilderAdmin(ADMIN_UPDATE_POLICY_PREFERENCES_ENDPOINT+policyNumber);
+		return runJsonRequestPostAdmin(requestUrl,null, String.class, 200);
 	}
 
 	public static ValidateEndorsementResponse executeEndorsementsValidate(String policyNumber, String endorsementDate) {
@@ -330,6 +343,35 @@ public class HelperCommon {
 					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("admin:admin".getBytes()))
 					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
 					.method("PATCH", Entity.json(request));
+			T responseObj = response.readEntity(responseType);
+			log.info(response.toString());
+			if (response.getStatus() != status) {
+				//handle error
+				throw new IstfException("POST?PATCH? json response failed");
+			}
+			return responseObj;
+		} finally {
+			if (response != null) {
+				response.close();
+			}
+			if (client != null) {
+				client.close();
+			}
+		}
+	}
+
+	public static <T> T runJsonRequestPostAdmin(String url, RestBodyRequest request, Class<T> responseType, int status) {
+		Client client = null;
+		Response response = null;
+		try {
+			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
+			WebTarget target = client.target(url);
+
+			response = target
+					.request()
+					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("qa:qa".getBytes()))
+					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+					.method("POST", Entity.json(request));
 			T responseObj = response.readEntity(responseType);
 			log.info(response.toString());
 			if (response.getStatus() != status) {
