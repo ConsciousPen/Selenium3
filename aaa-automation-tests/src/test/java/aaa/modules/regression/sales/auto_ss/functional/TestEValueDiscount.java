@@ -18,6 +18,7 @@ import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
+import aaa.admin.modules.administration.generateproductschema.defaulttabs.CacheManager;
 import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.Tab;
 import aaa.common.efolder.Efolder;
@@ -824,12 +825,17 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		//PriorBi
 		pas232_eValuePriorBiConfigurationDependencyCheck("$15,000/$30,000", "$25,000/$50,000");
 		pas232_eValuePriorBiNoneConfigurationDependencyCheck();
-
-
-
 	}
 
-	private void pas232_eValuePriorBiNoneConfigurationDependencyCheck() {
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-325")
+	public void clearCache(@Optional("VA") String state) {
+		mainApp().open();
+		CacheManager.clearCache();
+	}
+
+		private void pas232_eValuePriorBiNoneConfigurationDependencyCheck() {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER).setValue("None");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -2297,5 +2303,16 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		premiumAndCoveragesTab.saveAndExit();
 
 		simplifiedPendedEndorsementIssue();
+	}
+
+	/**
+	 * example to clear cache for the product
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.LOW})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-111")
+	public void pas111_clearCache(@Optional("") String state) {
+		mainApp().open();
+		CacheManager.clearCache();
 	}
 }
