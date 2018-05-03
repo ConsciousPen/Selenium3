@@ -646,7 +646,15 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			default:
 				throw new IstfException("Unknown mapping for usage: " + vehicle.getUsage());
 		}
-		return new SimpleDataProvider(vehicleInformation);
+
+		TestData td = new SimpleDataProvider(vehicleInformation);
+		if (vehicle.getCoverages().stream().anyMatch(c -> "LOAN".equals(c.getCoverageCd()))) {
+			TestData ownershipData = DataProviderFactory.dataOf(AutoSSMetaData.VehicleTab.OWNERSHIP.getLabel(),
+					DataProviderFactory.dataOf(DataProviderFactory.dataOf(AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE.getLabel(), "Leased")));
+			td.adjust(ownershipData);
+		}
+
+		return td;
 	}
 
 	private String getZipCodeFromDb(String locationCode) {

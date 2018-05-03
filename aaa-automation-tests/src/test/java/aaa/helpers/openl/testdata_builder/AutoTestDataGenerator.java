@@ -157,8 +157,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		Map<String, String> statCodesMap = new HashMap<>();
 
 		// Private Passenger Auto stat codes
-		statCodesMap.put("AA", "Small car"); //TODO-dchubkov: to be double checked
-		statCodesMap.put("AH", "Small car"); //TODO-dchubkov: to be double checked
+		statCodesMap.put("AA", "Antique"); //not used
 		statCodesMap.put("AN", "Small car");
 		statCodesMap.put("AI", "Midsize car");
 		statCodesMap.put("AQ", "Large car");
@@ -168,7 +167,10 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		statCodesMap.put("AX", "Passenger Van");
 		statCodesMap.put("AZ", "Crossover/Station Wagon");
 		statCodesMap.put("AR", "Small pickup or Utility Truck");
+		statCodesMap.put("AP", "Passenger Vehicle");
+		statCodesMap.put("AU", "Trucks");
 		statCodesMap.put("AO", "Standard pickup or Utility Truck");
+		statCodesMap.put("AH", "High exposure Vehicle");
 		statCodesMap.put("AY", "Small High Exposure Vehicle");
 		statCodesMap.put("AD", "Midsize High Exposure Vehicle");
 		statCodesMap.put("AJ", "Large High Exposure Vehicle");
@@ -290,7 +292,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		coveragesMap.put("APIP", AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PIP.getLabel());
 		coveragesMap.put("TOWING", AutoSSMetaData.PremiumAndCoveragesTab.TOWING_AND_LABOR_COVERAGE.getLabel());
 		coveragesMap.put("RENTAL", AutoSSMetaData.PremiumAndCoveragesTab.RENTAL_REIMBURSEMENT.getLabel());
-		coveragesMap.put("LOAN", "TO BE SET (MD specific)");  //TODO-dchubkov: set valid coverage name
+		coveragesMap.put("LOAN", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.VEHICLE_LOAN_OR_LEASE_PROTECTION.getLabel());
 
 		//AutoCa Choice
 		coveragesMap.put("UM", AutoCaMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel());
