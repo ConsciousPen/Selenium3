@@ -2,7 +2,9 @@ package aaa.modules.regression.sales.home_ss.helper;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.Random;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -46,9 +48,9 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 		createPolicyWithSpecificPaymentPlan(policyType, paymentPlan);
 
 		if (policyType.equals(PolicyType.PUP)) {
-			initiateEndorsementAndValidatePaymentPlanWithChangingPup(policyType, paymentPlan);
+			initiateEndorsementAndValidatePaymentPlanWithChangingPup(policyType, paymentPlan, false);
 		} else {
-			initiateEndorsementAndValidatePaymentPlanWithChangingHo(policyType, paymentPlan);
+			initiateEndorsementAndValidatePaymentPlanWithChangingHo(policyType, paymentPlan, false);
 		}
 
 	}
@@ -104,9 +106,9 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 		generateRenewalImageAndRetrievePolicy(timePoints);
 
 		if (policyType.equals(PolicyType.PUP)) {
-			initiateEndorsementAndValidatePaymentPlanWithChangingPup(policyType, paymentPlan);
+			initiateEndorsementAndValidatePaymentPlanWithChangingPup(policyType, paymentPlan, false);
 		} else {
-			initiateEndorsementAndValidatePaymentPlanWithChangingHo(policyType, paymentPlan);
+			initiateEndorsementAndValidatePaymentPlanWithChangingHo(policyType, paymentPlan, false);
 		}
 
 	}
@@ -115,6 +117,16 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 		createPolicyWithSpecificPaymentPlan(policyType, paymentPlan);
 		generateRenewalImageAndRetrievePolicy(timePoints);
 		initiateEndorsementAndValidatePaymentPlanWithoutChanging(policyType, paymentPlan);
+	}
+
+	public void pas11338_pas11785_AC2_randomLowDown(PolicyType policyType, String paymentPlan) {
+		createPolicyWithSpecificPaymentPlan(policyType, paymentPlan);
+		if (policyType.equals(PolicyType.PUP)) {
+			initiateEndorsementAndValidatePaymentPlanWithChangingPup(policyType, paymentPlan, true);
+		} else {
+			initiateEndorsementAndValidatePaymentPlanWithChangingHo(policyType, paymentPlan, true);
+		}
+
 	}
 
 	private void createPolicyWithSpecificPaymentPlan(PolicyType policyType, String paymentPlan) {
@@ -203,8 +215,20 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 	}
 
 	//The same method as initiateEndorsementAndValidatePaymentPlanWithChangingPup(), but for HO
-	private void initiateEndorsementAndValidatePaymentPlanWithChangingHo(PolicyType policyType, String paymentPlan) {
-		String paymentPlanChangeTo = BillingConstants.PaymentPlan.PAY_IN_FULL; //change to this Payment plan during endorsement
+	private void initiateEndorsementAndValidatePaymentPlanWithChangingHo(PolicyType policyType, String paymentPlan, boolean changeToAnotherLowDown) {
+		String paymentPlanChangeTo = null; //change to this Payment plan during endorsement
+
+		// IF changeToAnotherLowDown is TRUE, change payment plan to Different Low Down payment plan, else change to non Low Down plan
+		if (changeToAnotherLowDown) {
+			if (paymentPlan.equals(BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN)) {
+				paymentPlanChangeTo = BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN;//change to this Payment plan during endorsement
+
+			} else if (paymentPlan.equals(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN)) {
+				paymentPlanChangeTo = BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN;//change to this Payment plan during endorsement
+			} else {
+				paymentPlanChangeTo = BillingConstants.PaymentPlan.PAY_IN_FULL; //change to this Payment plan during endorsement
+			}
+		}
 
 		initiateEndorsementAndNavigateToQuoteTab(policyType);
 
@@ -244,11 +268,14 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 		bindTabHo.btnPurchase.click();
 		bindTabHo.confirmEndorsementPurchase.buttonYes.click();
 
-		//get Test Data to fill Purchase Tab
-		TestData tdPurchase = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData").resolveLinks();
-		policyType.get().getDefaultView().fillFromTo(tdPurchase, PurchaseTab.class, PurchaseTab.class, true);
-		PurchaseTab.btnApplyPayment.click();
-		PurchaseTab.confirmPurchase.buttonYes.click();
+		//fill Purchase tab if it is present
+		if (PurchaseTab.btnApplyPayment.isPresent()) {
+			//get Test Data to fill Purchase Tab
+			TestData tdPurchase = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData").resolveLinks();
+			policyType.get().getDefaultView().fillFromTo(tdPurchase, PurchaseTab.class, PurchaseTab.class, true);
+			PurchaseTab.btnApplyPayment.click();
+			PurchaseTab.confirmPurchase.buttonYes.click();
+		}
 
 		if (RollOnChangesActionTab.buttonCancel.isPresent()) {
 			RollOnChangesActionTab.buttonCancel.click();
@@ -262,8 +289,15 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 
 		assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlanChangeTo);
-		assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-				.doesNotContain(ALL_LOW_DOWN_PAYMENT_PLANS);
+
+		//IF during midterm endorsement changing payment plan from one Low Down plan to another Low down plan, Low Down plans still should be available during next endorsement
+		if (changeToAnotherLowDown) {
+			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
+					.doesNotContain(ALL_LOW_DOWN_PAYMENT_PLANS);
+		} else {
+			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
+					.contains(ALL_LOW_DOWN_PAYMENT_PLANS);
+		}
 
 		PremiumsAndCoveragesQuoteTab.buttonCancel.click();
 		PremiumsAndCoveragesQuoteTab.dialogCancelAction.buttonYes.click();
@@ -271,8 +305,20 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 	}
 
 	//The same method as initiateEndorsementAndValidatePaymentPlanWithChangingHo(), but for PUP
-	private void initiateEndorsementAndValidatePaymentPlanWithChangingPup(PolicyType policyType, String paymentPlan) {
-		String paymentPlanChangeTo = BillingConstants.PaymentPlan.PAY_IN_FULL; //change to this Payment plan during endorsement
+	private void initiateEndorsementAndValidatePaymentPlanWithChangingPup(PolicyType policyType, String paymentPlan, boolean changeToAnotherLowDown) {
+		String paymentPlanChangeTo = null; //change to this Payment plan during endorsement
+
+		// IF changeToAnotherLowDown is TRUE, change payment plan to Different Low Down payment plan, else change to non Low Down plan
+		if (changeToAnotherLowDown) {
+			if (paymentPlan.equals(BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN)) {
+				paymentPlanChangeTo = BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN;//change to this Payment plan during endorsement
+
+			} else if (paymentPlan.equals(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN)) {
+				paymentPlanChangeTo = BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN;//change to this Payment plan during endorsement
+			} else {
+				paymentPlanChangeTo = BillingConstants.PaymentPlan.PAY_IN_FULL; //change to this Payment plan during endorsement
+			}
+		}
 
 		initiateEndorsementAndNavigateToQuoteTab(policyType);
 
@@ -312,26 +358,36 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 		bindTabPup.btnPurchase.click();
 		bindTabPup.confrimEndorsementPurchase.buttonYes.click();
 
-		//get Test Data to fill Purchase Tab
-		TestData tdPurchase = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData").resolveLinks();
-		policyType.get().getDefaultView().fillFromTo(tdPurchase, PurchaseTab.class, PurchaseTab.class, true);
-		PurchaseTab.btnApplyPayment.click();
-		PurchaseTab.confirmPurchase.buttonYes.click();
+		//fill Purchase tab if it is present
+		if (PurchaseTab.btnApplyPayment.isVisible()) {
+			//get Test Data to fill Purchase Tab
+			TestData tdPurchase = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData").resolveLinks();
+			policyType.get().getDefaultView().fillFromTo(tdPurchase, PurchaseTab.class, PurchaseTab.class, true);
+			PurchaseTab.btnApplyPayment.click();
+			PurchaseTab.confirmPurchase.buttonYes.click();
+		}
 
 		if (RollOnChangesActionTab.buttonCancel.isPresent()) {
 			RollOnChangesActionTab.buttonCancel.click();
 		}
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		//Initiate endorsement for the policy and validate that 'Low Down' payment plan option is NOT available in dropdown anymore
+		//Initiate endorsement for the policy and validate 'Low Down' payment plan option in dropdown anymore
 		TestData testData = getStateTestData(testDataManager.policy.get(policyType).getTestData("Endorsement"), "TestData_Plus10Day");
 		policyType.get().endorse().perform(testData);
 		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
 
 		assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlanChangeTo);
-		assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-				.doesNotContain(ALL_LOW_DOWN_PAYMENT_PLANS);
+
+		//IF during midterm endorsement changing payment plan from one Low Down plan to another Low down plan, Low Down plans still should be available during next endorsement
+		if (changeToAnotherLowDown) {
+			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
+					.doesNotContain(ALL_LOW_DOWN_PAYMENT_PLANS);
+		} else {
+			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
+					.contains(ALL_LOW_DOWN_PAYMENT_PLANS);
+		}
 
 		premiumsAndCoveragesQuoteTabPup.calculatePremium();
 		PremiumsAndCoveragesQuoteTab.dialogCancelAction.buttonYes.click();//TODO-mstrazds:possibly will not work
@@ -362,5 +418,17 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 			expectedPaymentPlanAtRenewal = BillingConstants.PaymentPlan.ELEVEN_PAY_RENEWAL;
 		}
 		return expectedPaymentPlanAtRenewal;
+	}
+
+	public String getRandomLowDownPaymentPlan() {
+		ArrayList<String> lowDownPaymentPlans = new ArrayList<String>();
+
+		lowDownPaymentPlans.add(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN);
+		lowDownPaymentPlans.add(BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN);
+
+		// Get Random Low Down payment plan from Arraylist using Random().nextInt()
+		String lowDownPaymentPlan = lowDownPaymentPlans.get(new Random().nextInt(lowDownPaymentPlans.size()));
+		log.info("====Randomly selected Low Down payment plan to use for NB: " + lowDownPaymentPlan);
+		return lowDownPaymentPlan;
 	}
 }

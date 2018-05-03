@@ -308,4 +308,29 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO4BaseTest {
 		helper.pas11338_pas11785_AC5(getPolicyType(), paymentPlan, getTimePoints());
 	}
 
+	///-----------Test randomly with 'Monthly Low Down' or "Eleven Pay Low Down" payment plan--------------
+
+	/**
+	 * @author Maris Strazds
+	 * @name Do not force payment plan change on mid-term changes - SS_HO (AC#2)
+	 * @scenario
+	 * 1. Create Customer.
+	 * 2. Create Home SS policy with 'Low Down' payment plan option
+	 * 3. Initiate endorsement for the policy
+	 * 4. Change payment plan to another Low Down payment plan
+	 * 5. Calculate Premium and Bind the policy.
+	 * 6. Initiate new Midterm Endorsement
+	 * 7. Validate that "Payment Plan" still is selected as in step 4.
+	 * 8. Validate that Low Down payment plans still are listed in "Payment Plan" dropdown
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-11338")
+
+	public void pas11338_AC2_randomLowDown(@Optional("") String state) {
+		String paymentPlan = helper.getRandomLowDownPaymentPlan();
+		helper.pas11338_pas11785_AC2_randomLowDown(getPolicyType(), paymentPlan);
+	}
+
 }
