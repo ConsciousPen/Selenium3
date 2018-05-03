@@ -35,7 +35,6 @@ public abstract class ExcelRow<CELL extends ExcelCell> extends CellsQueue<CELL> 
 
 	@Override
 	public boolean hasCell(int columnIndexInRow) {
-		//return getCells().stream().anyMatch(c -> c.getColumnIndex() == columnIndexInRow);
 		for (CELL cell : getCells()) {
 			if (cell.getColumnIndex() == columnIndexInRow) {
 				return true;
@@ -46,9 +45,6 @@ public abstract class ExcelRow<CELL extends ExcelCell> extends CellsQueue<CELL> 
 
 	@Override
 	public CELL getCell(int columnIndexInRow) {
-		//assertThat(hasCell(cellIndexInQueue)).as("There is no cell with %1$s index in %2$s", cellIndexInQueue, this).isTrue();
-		/*return getCells().stream().filter(c -> c.getColumnIndex() == columnIndexInRow).findFirst()
-				.orElseThrow(() -> new IstfException(String.format("There is no cell with %1$s index in %2$s", columnIndexInRow, this)));*/
 		for (CELL cell : getCells()) {
 			if (cell.getColumnIndex() == columnIndexInRow) {
 				return cell;

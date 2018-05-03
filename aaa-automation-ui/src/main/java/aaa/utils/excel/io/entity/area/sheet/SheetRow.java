@@ -20,17 +20,6 @@ public class SheetRow extends ExcelRow<SheetCell> {
 		return (ExcelSheet) getArea();
 	}
 
-	/*@Override
-	protected ImmutableSortedMap<Integer, SheetCell> gatherQueueIndexesAndCellsMap(List<Integer> columnsIndexes, List<CellType<?>> cellTypes) {
-		ImmutableSortedMap.Builder<Integer, SheetCell> queueIndexesAndCellsBuilder = ImmutableSortedMap.naturalOrder();
-		for (Integer columnIndex : columnsIndexes) {
-			Cell poiCell = getPoiRow() != null ? getPoiRow().getCell(columnIndex - 1) : null;
-			SheetCell cell = new SheetCell(poiCell, columnIndex, this, cellTypes);
-			queueIndexesAndCellsBuilder.put(columnIndex, cell);
-		}
-		return queueIndexesAndCellsBuilder.build();
-	}*/
-
 	@Override
 	protected List<SheetCell> gatherCells(List<Integer> columnsIndexes, List<CellType<?>> cellTypes) {
 		List<SheetCell> rowCells = new ArrayList<>(columnsIndexes.size());

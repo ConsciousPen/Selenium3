@@ -1,15 +1,18 @@
 package aaa.modules.openl;
 
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.Tab;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.model.OpenLTest;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
@@ -40,15 +43,15 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		return getPolicyTD();
 	}
 
-	protected CellType<?>[] getUnmarshallingCellTypes() {
-		return new CellType<?>[] {ExcelCell.INTEGER_TYPE, ExcelCell.DOUBLE_TYPE, ExcelCell.BOOLEAN_TYPE, ExcelCell.LOCAL_DATE_TYPE, ExcelCell.STRING_TYPE, ExcelCell.DOLLAR_CELL_TYPE};
+	protected List<CellType<?>> getUnmarshallingCellTypes() {
+		return Arrays.asList(ExcelCell.INTEGER_TYPE, ExcelCell.DOUBLE_TYPE, ExcelCell.BOOLEAN_TYPE, ExcelCell.LOCAL_DATE_TYPE, ExcelCell.STRING_TYPE, ExcelCell.DOLLAR_CELL_TYPE);
 	}
 
 	protected void verifyPremiums(String openLFileName, Class<P> openLPolicyModelClass, TestDataGenerator<P> tdGenerator, List<Integer> policyNumbers) {
 		//TODO-dchubkov: assert that date in openLFileName is valid
 		List<P> openLPolicies = getOpenLPolicies(openLFileName, openLPolicyModelClass, policyNumbers);
 
-		/*mainApp().open();
+		mainApp().open();
 		String customerNumber = createCustomerIndividual();
 		assertSoftly(softly -> {
 			for (P openLPolicy : openLPolicies) {
@@ -56,8 +59,8 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 						openLPolicy.getNumber(), openLPolicy.getExpectedPremium(), openLFileName);
 
 				//TODO-dchubkov: add assertion that Effective date cannot be more than ? months/years prior to current date (each product/state has it's own value)
-				if (openLPolicy.getEffectiveDate().isAfter(TimeSetterUtil.getInstance().getCurrentTime())) {
-					TimeSetterUtil.getInstance().nextPhase(openLPolicy.getEffectiveDate());
+				if (openLPolicy.getEffectiveDate().isAfter(TimeSetterUtil.getInstance().getCurrentTime().toLocalDate())) {
+					TimeSetterUtil.getInstance().nextPhase(openLPolicy.getEffectiveDate().atStartOfDay());
 					mainApp().reopen();
 					SearchPage.openCustomer(customerNumber);
 				}
@@ -67,7 +70,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 				log.info("Premium calculation verification for policy #{} has been {}", Tab.labelPolicyNumber.getValue(), actualPremium.equals(openLPolicy.getExpectedPremium()) ? "passed" : "failed");
 				Tab.buttonSaveAndExit.click();
 			}
-		});*/
+		});
 	}
 
 	protected abstract Dollar createAndRateQuote(TestDataGenerator<P> tdGenerator, P openLPolicy);
@@ -86,7 +89,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		openLPolicies = getOpenLPoliciesWithExpectedPremiums(openLPolicies, openLTests);
 
 		//Sort policies list by effective date for further valid time shifts
-		//openLPolicies = openLPolicies.stream().sorted(Comparator.comparing(OpenLPolicy::getEffectiveDate)).collect(Collectors.toList());
+		openLPolicies = openLPolicies.stream().sorted(Comparator.comparing(OpenLPolicy::getEffectiveDate)).collect(Collectors.toList());
 		return openLPolicies;
 	}
 

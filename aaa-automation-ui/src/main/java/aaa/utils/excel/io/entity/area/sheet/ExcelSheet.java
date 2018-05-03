@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.poi.ss.usermodel.Sheet;
-import com.google.common.collect.ImmutableList;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.ExcelArea;
@@ -29,7 +28,7 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 	public ExcelSheet(Sheet sheet, int sheetIndex, List<Integer> columnsIndexes, List<Integer> rowsIndexes, ExcelManager excelManager, List<CellType<?>> cellTypes) {
 		super(sheet, columnsIndexes, rowsIndexes, excelManager, cellTypes);
 		this.sheetIndex = sheetIndex;
-		this.tables = ImmutableList.of();
+		this.tables = new ArrayList<>();
 	}
 
 	public int getSheetIndex() {
@@ -39,30 +38,9 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 	/**
 	 * @return only previously added tables by {@link #addTable(ExcelTable)} or found by {@link #getTable(String...)}, {@link #getTable(boolean, String...)} and  {@link #getTable(int, List, boolean, String...)} methods
 	 */
-	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
 	public List<ExcelTable> getTables() {
-		return this.tables;
+		return Collections.unmodifiableList(this.tables);
 	}
-
-	/*@Override
-	protected ImmutableSortedMap<Integer, SheetRow> gatherAreaIndexesAndRowsMap(List<Integer> rowsIndexes, List<Integer> columnsIndexes, List<CellType<?>> cellTypes) {
-		ImmutableSortedMap.Builder<Integer, SheetRow> indexesAndRowsBuilder = ImmutableSortedMap.naturalOrder();
-		for (int rowIndex : rowsIndexes) {
-			SheetRow row = new SheetRow(getPoiSheet().getRow(rowIndex - 1), rowIndex, columnsIndexes, this, cellTypes);
-			indexesAndRowsBuilder.put(rowIndex, row);
-		}
-		return indexesAndRowsBuilder.build();
-	}*/
-
-	/*@Override
-	protected ImmutableSortedMap<Integer, SheetColumn> gatherAreaIndexesAndColumnsMap(List<Integer> rowsIndexes, List<Integer> columnsIndexes, List<CellType<?>> cellTypes) {
-		ImmutableSortedMap.Builder<Integer, SheetColumn> indexesAndColumnsBuilder = ImmutableSortedMap.naturalOrder();
-		for (Integer columnIndex : columnsIndexes) {
-			SheetColumn column = new SheetColumn(columnIndex, rowsIndexes, this, cellTypes);
-			indexesAndColumnsBuilder.put(columnIndex, column);
-		}
-		return indexesAndColumnsBuilder.build();
-	}*/
 
 	@Override
 	protected List<SheetRow> gatherRows(List<Integer> rowsIndexes, List<Integer> columnsIndexes, List<CellType<?>> cellTypes) {
@@ -88,7 +66,7 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 	 * Register cell types for next found ExcelTables and ExcelRows and update cell types for found {@link #tables}
 	 */
 	@Override
-	public ExcelSheet registerCellType(CellType<?>... cellTypes) {
+	public ExcelSheet registerCellType(List<CellType<?>> cellTypes) {
 		super.registerCellType(cellTypes);
 		getTables().forEach(t -> t.registerCellType(cellTypes));
 		return this;
@@ -160,19 +138,22 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 		}
 
 		ExcelTable t = new ExcelTable(headerRow.getPoiRow(), columnsIndexesOnSheet, rowsIndexesOnSheet, this, getCellTypes());
-		t.considerRowsOnComparison(isRowsComparisonRuleSet());
-		t.considerColumnsOnComparison(isColumnsComparisonRuleSet());
 		return addTable(t).getTable(t);
 	}
 
 	protected ExcelSheet addTable(ExcelTable table) {
 		if (!getTables().contains(table)) {
-			this.tables = ImmutableList.<ExcelTable>builder().addAll(getTables()).add(table).build();
+			this.tables.add(table);
 		}
 		return this;
 	}
 
 	protected ExcelTable getTable(ExcelTable table) {
-		return this.tables.stream().filter(t -> t.equals(table)).findFirst().orElseThrow(() -> new IstfException("Internal tables collection does not contain: " + table));
+		for (ExcelTable t : getTables()) {
+			if (t.equals(table)) {
+				return t;
+			}
+		}
+		throw new IstfException("Internal tables collection does not contain: " + table);
 	}
 }

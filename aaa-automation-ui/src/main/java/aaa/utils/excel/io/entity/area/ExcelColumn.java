@@ -28,7 +28,6 @@ public abstract class ExcelColumn<CELL extends ExcelCell> extends CellsQueue<CEL
 
 	@Override
 	public boolean hasCell(int rowIndexInColumn) {
-		//return getCells().stream().anyMatch(c -> c.getRowIndex() == rowIndexInColumn);
 		for (CELL cell : getCells()) {
 			if (cell.getRowIndex() == rowIndexInColumn) {
 				return true;
@@ -39,9 +38,6 @@ public abstract class ExcelColumn<CELL extends ExcelCell> extends CellsQueue<CEL
 
 	@Override
 	public CELL getCell(int rowIndexInColumn) {
-		//assertThat(hasCell(cellIndexInQueue)).as("There is no cell with %1$s index in %2$s", cellIndexInQueue, this).isTrue();
-		/*return getCells().stream().filter(c -> c.getRowIndex() == rowIndexInColumn).findFirst()
-				.orElseThrow(() -> new IstfException(String.format("There is no cell with %1$s index in %2$s", rowIndexInColumn, this)));*/
 		for (CELL cell : getCells()) {
 			if (cell.getRowIndex() == rowIndexInColumn) {
 				return cell;
@@ -78,16 +74,6 @@ public abstract class ExcelColumn<CELL extends ExcelCell> extends CellsQueue<CEL
 				", values=" + getStringValues() +
 				'}';
 	}
-
-	/*@Override
-	protected ImmutableSortedMap<Integer, CELL> gatherQueueIndexesAndCellsMap(List<Integer> rowsIndexesOnSheet, List<CellType<?>> cellTypes) {
-		ImmutableSortedMap.Builder<Integer, CELL> queueIndexesAndCellsBuilder = ImmutableSortedMap.naturalOrder();
-		List<? extends ExcelRow<CELL>> areaRows = getArea().getRows();
-		for (ExcelRow<CELL> row : areaRows) {
-			queueIndexesAndCellsBuilder.put(row.getIndex(), row.getCell(getIndex()));
-		}
-		return queueIndexesAndCellsBuilder.build();
-	}*/
 
 	@Override
 	protected List<CELL> gatherCells(List<Integer> rowsIndexesOnSheet, List<CellType<?>> cellTypes) {

@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import aaa.utils.excel.bind.cache.TableClassesCache;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
-import aaa.utils.excel.io.celltype.DateCellType;
 import aaa.utils.excel.io.entity.area.ExcelCell;
 import aaa.utils.excel.io.entity.area.table.TableCell;
 import aaa.utils.excel.io.entity.area.table.TableRow;
@@ -27,10 +26,10 @@ public class ExcelUnmarshaller {
 	private Logger log = LoggerFactory.getLogger(ExcelUnmarshaller.class);
 
 	public ExcelUnmarshaller(File excelFile) {
-		this(excelFile, true);
+		this(excelFile, true, ExcelCell.getBaseTypes());
 	}
 
-	public ExcelUnmarshaller(File excelFile, boolean strictMatchBinding, CellType<?>... allowableCellTypes) {
+	public ExcelUnmarshaller(File excelFile, boolean strictMatchBinding, List<CellType<?>> allowableCellTypes) {
 		this.excelManager = new ExcelManager(excelFile, allowableCellTypes);
 		this.strictMatchBinding = strictMatchBinding;
 		this.cache = new TableClassesCache(excelManager, strictMatchBinding);
@@ -131,10 +130,7 @@ public class ExcelUnmarshaller {
 		if (cell.isEmpty()) {
 			return null;
 		}
-		if (cache.of(tableClass).isDateField(field)) {
-			return cell.getDateValue((DateCellType<?>) cache.of(tableClass).getCellType(field), cache.of(tableClass).getDateTimeFormatters(field));
-		}
-		return cell.getValue(cache.of(tableClass).getCellType(field));
+		return cell.getValue(cache.of(tableClass).getCellType(field), cache.of(tableClass).getDateTimeFormatters(field));
 	}
 
 	private Object getTableValue(Field field, TableCell cell) {

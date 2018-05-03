@@ -10,7 +10,6 @@ import org.apache.commons.lang3.ClassUtils;
 import aaa.utils.excel.bind.BindHelper;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.io.celltype.CellType;
-import aaa.utils.excel.io.celltype.DateCellType;
 import aaa.utils.excel.io.entity.area.table.TableCell;
 import aaa.utils.excel.io.entity.area.table.TableHeader;
 import toolkit.exceptions.IstfException;
@@ -28,8 +27,7 @@ public final class TableFieldInfo {
 	private String headerColumnName;
 	private Class<?> fieldType;
 	private BindType bindType;
-	private Boolean isDateField;
-	private List<DateTimeFormatter> dateTimeFormatters;
+	private DateTimeFormatter[] dateTimeFormatters;
 	private CellType<?> cellType;
 
 	public TableFieldInfo(Field tableField, Class<?> tableClass, List<CellType<?>> availableCellTypes) {
@@ -102,27 +100,24 @@ public final class TableFieldInfo {
 		return this.bindType;
 	}
 
-	public boolean isDateField() {
-		if (this.isDateField == null) {
-			this.isDateField = getCellType(this.availableCellTypes).getClass().isAssignableFrom(DateCellType.class);
-		}
-		return this.isDateField;
-	}
-
-	public List<DateTimeFormatter> getDateTimeFormatters() {
+	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
+	public DateTimeFormatter[] getDateTimeFormatters() {
 		if (this.dateTimeFormatters == null) {
-			this.dateTimeFormatters = new ArrayList<>();
+			List<DateTimeFormatter> dateTimeFormattersList = new ArrayList<>();
+
 			if (tableField.isAnnotationPresent(ExcelColumnElement.class)) {
 				for (String datePattern : tableField.getAnnotation(ExcelColumnElement.class).dateFormatPatterns()) {
 					try {
-						dateTimeFormatters.add(DateTimeFormatter.ofPattern(datePattern));
+						dateTimeFormattersList.add(DateTimeFormatter.ofPattern(datePattern));
 					} catch (IllegalArgumentException e) {
 						throw new IstfException(String.format("Unable to get valid DateTimeFormatter for field \"%1$s\" with date pattern \"%2$s\"", tableField.getName(), datePattern), e);
 					}
 				}
 			}
+
+			this.dateTimeFormatters = dateTimeFormattersList.toArray(new DateTimeFormatter[dateTimeFormattersList.size()]);
 		}
-		return Collections.unmodifiableList(this.dateTimeFormatters);
+		return this.dateTimeFormatters;
 	}
 
 	public CellType<?> getCellType(List<CellType<?>> availableCellTypes) {

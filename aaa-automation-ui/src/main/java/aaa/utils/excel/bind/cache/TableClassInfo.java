@@ -168,11 +168,7 @@ public class TableClassInfo {
 		return getFieldInfo(tableField).getFieldType();
 	}
 
-	public boolean isDateField(Field tableField) {
-		return getFieldInfo(tableField).isDateField();
-	}
-
-	public List<DateTimeFormatter> getDateTimeFormatters(Field tableField) {
+	public DateTimeFormatter[] getDateTimeFormatters(Field tableField) {
 		return getFieldInfo(tableField).getDateTimeFormatters();
 	}
 
