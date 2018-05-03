@@ -293,10 +293,10 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 		//IF during midterm endorsement changing payment plan from one Low Down plan to another Low down plan, Low Down plans still should be available during next endorsement
 		if (changeToAnotherLowDown) {
 			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-					.doesNotContain(ALL_LOW_DOWN_PAYMENT_PLANS);
+					.contains(ALL_LOW_DOWN_PAYMENT_PLANS);
 		} else {
 			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-					.contains(ALL_LOW_DOWN_PAYMENT_PLANS);
+					.doesNotContain(ALL_LOW_DOWN_PAYMENT_PLANS);
 		}
 
 		PremiumsAndCoveragesQuoteTab.buttonCancel.click();
@@ -383,10 +383,10 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 		//IF during midterm endorsement changing payment plan from one Low Down plan to another Low down plan, Low Down plans still should be available during next endorsement
 		if (changeToAnotherLowDown) {
 			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-					.doesNotContain(ALL_LOW_DOWN_PAYMENT_PLANS);
+					.contains(ALL_LOW_DOWN_PAYMENT_PLANS);
 		} else {
 			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-					.contains(ALL_LOW_DOWN_PAYMENT_PLANS);
+					.doesNotContain(ALL_LOW_DOWN_PAYMENT_PLANS);
 		}
 
 		premiumsAndCoveragesQuoteTabPup.calculatePremium();
@@ -428,7 +428,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 
 		// Get Random Low Down payment plan from Arraylist using Random().nextInt()
 		String lowDownPaymentPlan = lowDownPaymentPlans.get(new Random().nextInt(lowDownPaymentPlans.size()));
-		log.info("====Randomly selected Low Down payment plan to use for NB: " + lowDownPaymentPlan);
+		log.info("==== Randomly selected Low Down payment plan to use for NB: " + lowDownPaymentPlan);
 		return lowDownPaymentPlan;
 	}
 }
