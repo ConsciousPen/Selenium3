@@ -225,9 +225,10 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 
 			} else if (paymentPlan.equals(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN)) {
 				paymentPlanChangeTo = BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN;//change to this Payment plan during endorsement
-			} else {
-				paymentPlanChangeTo = BillingConstants.PaymentPlan.PAY_IN_FULL; //change to this Payment plan during endorsement
 			}
+
+		} else {
+			paymentPlanChangeTo = BillingConstants.PaymentPlan.PAY_IN_FULL; //change to this Payment plan during endorsement
 		}
 
 		initiateEndorsementAndNavigateToQuoteTab(policyType);
@@ -315,9 +316,10 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 
 			} else if (paymentPlan.equals(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN)) {
 				paymentPlanChangeTo = BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN;//change to this Payment plan during endorsement
-			} else {
-				paymentPlanChangeTo = BillingConstants.PaymentPlan.PAY_IN_FULL; //change to this Payment plan during endorsement
 			}
+
+		} else {
+			paymentPlanChangeTo = BillingConstants.PaymentPlan.PAY_IN_FULL; //change to this Payment plan during endorsement
 		}
 
 		initiateEndorsementAndNavigateToQuoteTab(policyType);
