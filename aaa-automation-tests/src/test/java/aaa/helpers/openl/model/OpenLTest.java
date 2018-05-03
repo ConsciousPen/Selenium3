@@ -17,10 +17,10 @@ public class OpenLTest {
 	private String state;
 
 	@ExcelColumnElement(containsName = "_res_")
-	private List<Integer> premiums;
+	private List<Dollar> premiums;
 
 	@ExcelColumnElement(name = "Total Premium")
-	private Integer totalPremium;
+	private Dollar totalPremium;
 
 	public Integer getPolicy() {
 		return this.policy;
@@ -38,20 +38,19 @@ public class OpenLTest {
 		this.state = state;
 	}
 
-	public List<Integer> getPremiums() {
-		return new ArrayList<>(this.premiums);
+	public List<Dollar> getPremiums() {
+		return this.premiums != null ? new ArrayList<>(this.premiums) : null;
 	}
 
-	public void setPremiums(List<Integer> premiums) {
+	public void setPremiums(List<Dollar> premiums) {
 		this.premiums = new ArrayList<>(premiums);
 	}
 
 	public Dollar getTotalPremium() {
-		Integer totalPremium = this.totalPremium != null ? this.totalPremium : getPremiums().stream().filter(Objects::nonNull).mapToInt(Integer::intValue).sum();
-		return new Dollar(totalPremium);
+		return this.totalPremium != null ? this.totalPremium : getPremiums().stream().filter(Objects::nonNull).reduce(Dollar::add).get();
 	}
 
-	public void setTotalPremium(int totalPremium) {
+	public void setTotalPremium(Dollar totalPremium) {
 		this.totalPremium = totalPremium;
 	}
 

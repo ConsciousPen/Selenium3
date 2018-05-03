@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import aaa.utils.excel.io.ExcelManager;
@@ -29,6 +30,7 @@ public abstract class ExcelCell implements Writable {
 	public static final NumberCellType<Double> DOUBLE_TYPE = new DoubleCellType(Double.class);
 	public static final DateCellType<LocalDate> LOCAL_DATE_TYPE = new LocalDateCellType(LocalDate.class);
 	public static final DateCellType<LocalDateTime> LOCAL_DATE_TIME_TYPE = new LocalDateTimeCellType(LocalDateTime.class);
+	public static final CellType<Dollar> DOLLAR_CELL_TYPE = new DollarCellType(Dollar.class);
 
 	private static List<CellType<?>> baseCellTypes;
 

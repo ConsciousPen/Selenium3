@@ -17,6 +17,7 @@ import toolkit.exceptions.IstfException;
 
 public final class TableFieldInfo {
 	private final Field tableField;
+	private final Class<?> tableClass;
 	private final List<Integer> headerColumnsIndexes;
 	private final List<CellType<?>> availableCellTypes;
 
@@ -31,14 +32,19 @@ public final class TableFieldInfo {
 	private List<DateTimeFormatter> dateTimeFormatters;
 	private CellType<?> cellType;
 
-	public TableFieldInfo(Field tableField, List<CellType<?>> availableCellTypes) {
+	public TableFieldInfo(Field tableField, Class<?> tableClass, List<CellType<?>> availableCellTypes) {
 		this.tableField = tableField;
+		this.tableClass = tableClass;
 		this.headerColumnsIndexes = new ArrayList<>();
 		this.availableCellTypes = new ArrayList<>(availableCellTypes);
 	}
 
 	public Field getTableField() {
 		return tableField;
+	}
+
+	public Class<?> getTableClass() {
+		return tableClass;
 	}
 
 	public boolean isCaseIgnored() {
@@ -127,7 +133,8 @@ public final class TableFieldInfo {
 					return cellType;
 				}
 			}
-			throw new IstfException(String.format("Field type \"%1$s\" is not supported for unmarshalling, available cell types are: %2$s", fieldType.getName(), availableCellTypes));
+			throw new IstfException(String.format("Field type \"%1$s\" from \"%2$s\" class is not supported for unmarshalling, available cell types are: %3$s",
+					fieldType.getName(), getTableClass().getName(), availableCellTypes));
 		}
 
 		return this.cellType;

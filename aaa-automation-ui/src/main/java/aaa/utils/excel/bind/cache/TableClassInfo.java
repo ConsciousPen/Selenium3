@@ -197,7 +197,7 @@ public class TableClassInfo {
 			List<Field> tableColumnsFields = getTableColumnsFields();
 			this.tableFieldsInfos = new ArrayList<>(tableColumnsFields.size());
 			for (Field tableField : tableColumnsFields) {
-				this.tableFieldsInfos.add(new TableFieldInfo(tableField, getExcelManager().getCellTypes()));
+				this.tableFieldsInfos.add(new TableFieldInfo(tableField, getTableClass(), getExcelManager().getCellTypes()));
 			}
 		}
 		return this.tableFieldsInfos;

@@ -15,6 +15,8 @@ import aaa.helpers.openl.model.OpenLTest;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
+import aaa.utils.excel.io.celltype.CellType;
+import aaa.utils.excel.io.entity.area.ExcelCell;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 
@@ -36,6 +38,10 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 
 	protected TestData getRatingDataPattern() {
 		return getPolicyTD();
+	}
+
+	protected CellType<?>[] getUnmarshallingCellTypes() {
+		return new CellType<?>[] {ExcelCell.INTEGER_TYPE, ExcelCell.DOUBLE_TYPE, ExcelCell.BOOLEAN_TYPE, ExcelCell.LOCAL_DATE_TYPE, ExcelCell.STRING_TYPE, ExcelCell.DOLLAR_CELL_TYPE};
 	}
 
 	protected void verifyPremiums(String openLFileName, Class<P> openLPolicyModelClass, TestDataGenerator<P> tdGenerator, List<Integer> policyNumbers) {
@@ -71,13 +77,13 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		List<OpenLTest> openLTests;
 
 		synchronized (UNMARSHAL_LOCK) { // Used to solve performance issues when parsing thousands of excel rows simultaneously in multiple threads
-			ExcelUnmarshaller excelUnmarshaller = new ExcelUnmarshaller(new File(getTestsDir() + "/" + openLFileName), false);
+			ExcelUnmarshaller excelUnmarshaller = new ExcelUnmarshaller(new File(getTestsDir() + "/" + openLFileName), false, getUnmarshallingCellTypes());
 			openLTests = excelUnmarshaller.unmarshalRows(OpenLTest.class, policyNumbers);
 			openLPolicies = excelUnmarshaller.unmarshalRows(openLPolicyModelClass, policyNumbers);
 			excelUnmarshaller.flushCache().close();
 		}
 
-		//openLPolicies = getOpenLPoliciesWithExpectedPremiums(openLPolicies, openLTests);
+		openLPolicies = getOpenLPoliciesWithExpectedPremiums(openLPolicies, openLTests);
 
 		//Sort policies list by effective date for further valid time shifts
 		//openLPolicies = openLPolicies.stream().sorted(Comparator.comparing(OpenLPolicy::getEffectiveDate)).collect(Collectors.toList());
