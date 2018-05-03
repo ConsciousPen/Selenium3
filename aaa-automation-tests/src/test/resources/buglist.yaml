@@ -218,3 +218,11 @@ PT-1421:
   failures:
     - tests: [aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails.pt1421_testManuallyAddedAutoTier]
       messages: ['expected:<"[7]"> but was:<"[2]">']
+PAS-13338:
+  summary: "Unable to rate Home_SS PA conversion policies"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.conversions.home_ss.*]
+      messages: ["no such element: Unable to locate element: {"]
+    - tests: [aaa.modules.regression.document_fulfillment.home_ss.*]
+      messages: ["Errors: Error; Failed to rate policy"]
