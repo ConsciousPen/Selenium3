@@ -37,7 +37,8 @@
     <test name="HomeSS [MT] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="MT"/>
         <parameter name="fileName" value="MTTests-20170501.xls"/>
-        <parameter name="policyNumbers" value="10,20,30,40,50"/>
+        <!--<parameter name="policyNumbers" value="10,20,30,40,50"/>-->
+        <parameter name="policyNumbers" value="10,30"/>
         <classes>
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
