@@ -17,7 +17,7 @@ public class HomeCaHO4OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO4OpenLForm> 
 	private List<HomeCaOpenLCoverage> coverages;
 
 	private String constructionGroup;
-	private Integer covELimit;
+	private Double covELimit;
 	private Boolean hasEmployeeDiscount;
 	private Boolean hasPolicySupportingForm;
 	private Boolean hasSeniorDiscount;
@@ -56,11 +56,11 @@ public class HomeCaHO4OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO4OpenLForm> 
 		this.constructionGroup = constructionGroup;
 	}
 
-	public Integer getCovELimit() {
+	public Double getCovELimit() {
 		return covELimit;
 	}
 
-	public void setCovELimit(Integer covELimit) {
+	public void setCovELimit(Double covELimit) {
 		this.covELimit = covELimit;
 	}
 

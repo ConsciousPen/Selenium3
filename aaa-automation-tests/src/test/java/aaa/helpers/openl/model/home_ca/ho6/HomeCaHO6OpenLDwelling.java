@@ -9,7 +9,6 @@ public class HomeCaHO6OpenLDwelling extends HomeCaOpenLDwelling {
 	private Integer ageOfHome;
 	private String burglarAlarmType;
 	private String constructionType;
-	private Integer firelineScore;
 	private String fireAlarmType;
 	private Boolean hasSprinklers;
 	private Boolean isGatedCommunity;
@@ -37,14 +36,6 @@ public class HomeCaHO6OpenLDwelling extends HomeCaOpenLDwelling {
 
 	public void setConstructionType(String constructionType) {
 		this.constructionType = constructionType;
-	}
-
-	public Integer getFirelineScore() {
-		return firelineScore;
-	}
-
-	public void setFirelineScore(Integer firelineScore) {
-		this.firelineScore = firelineScore;
 	}
 
 	public String getFireAlarmType() {
@@ -85,7 +76,6 @@ public class HomeCaHO6OpenLDwelling extends HomeCaOpenLDwelling {
 				"ageOfHome=" + ageOfHome +
 				", burglarAlarmType='" + burglarAlarmType + '\'' +
 				", constructionType='" + constructionType + '\'' +
-				", firelineScore=" + firelineScore +
 				", fireAlarmType='" + fireAlarmType + '\'' +
 				", hasSprinklers=" + hasSprinklers +
 				", isGatedCommunity=" + isGatedCommunity +

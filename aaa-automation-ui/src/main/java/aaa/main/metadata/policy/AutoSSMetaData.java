@@ -695,6 +695,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<ComboBox> NEW_CAR_ADDED_PROTECTION = declare("New Car Added Protection", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> UNINSURED_MOTORIST_PROPERTY_DAMAGE = declare("Uninsured Motorist Property Damage", ComboBox.class);
 			public static final AssetDescriptor<TextBox> PURCHASE_DATE = declare("Purchase Date", TextBox.class);
+			public static final AssetDescriptor<ComboBox> VEHICLE_LOAN_OR_LEASE_PROTECTION = declare("Vehicle Loan/Lease Protection", ComboBox.class);
 			// *** DO NOT DECLARE "Waive Liability" and "Vehicle Coverage" controls in this MetaData. They are added within DetailedVehicleCoveragesRepeatAssetList.class ***
 		}
 	}

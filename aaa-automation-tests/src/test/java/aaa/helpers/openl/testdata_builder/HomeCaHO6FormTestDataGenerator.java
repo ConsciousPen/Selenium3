@@ -1,15 +1,18 @@
 package aaa.helpers.openl.testdata_builder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
+
 import aaa.helpers.openl.model.home_ca.ho6.HomeCaHO6OpenLForm;
 import aaa.helpers.openl.model.home_ca.ho6.HomeCaHO6OpenLPolicy;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.exceptions.IstfException;
 
 public class HomeCaHO6FormTestDataGenerator {
 	
@@ -24,16 +27,30 @@ public class HomeCaHO6FormTestDataGenerator {
 	}; 
 	
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHO42CDataFunction = (openLPolicy) -> {
-		List<TestData> tdList = new ArrayList<>();
-		tdList.add(DataProviderFactory.dataOf(
-				"Action", "Add",
-				HomeCaMetaData.EndorsementTab.EndorsementHO42C.OFFICE_TYPE.getLabel(), "index=1", 
-				HomeCaMetaData.EndorsementTab.EndorsementHO42C.DESCRIPTION_OF_BUSINESS_EQUIPMENT.getLabel(), "test", 
-				HomeCaMetaData.EndorsementTab.EndorsementHO42C.BUSINESS_EQUIPMENT_OVER_50_000.getLabel(), "No", 
-				HomeCaMetaData.EndorsementTab.EndorsementHO42C.FOOT_TRAFFIC_EXCEEDING_2_CUSTOMERS_PER_WEEK.getLabel(), "No", 
-				HomeCaMetaData.EndorsementTab.EndorsementHO42C.EMPLOYEES_WORKING_ON_THE_PREMISES.getLabel(), "No", 
-				HomeCaMetaData.EndorsementTab.EndorsementHO42C.BUSINESS_INVOLVING_HAZARDOUS_SITUATIONS_OR_MATERIALS.getLabel(), "No", 
-				HomeCaMetaData.EndorsementTab.EndorsementHO42C.BUSINESS_INVOLVING_THE_MANUFACTURING_OR_REPAIRING_OF_GOODS_OR_PRODUCTS.getLabel(), "No"));
+		List<TestData> tdList = new ArrayList<>(); 
+		String territoryCode = openLPolicy.getForms().stream().filter(c -> "HO-42C".equals(c.getFormCode())).findFirst().get().getTerritoryCode(); 
+		if (territoryCode.equals("Office")) {
+			tdList.add(DataProviderFactory.dataOf(
+					"Action", "Add",
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.OFFICE_TYPE.getLabel(), "Incidental Office", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.DESCRIPTION_OF_BUSINESS_EQUIPMENT.getLabel(), "test", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.BUSINESS_EQUIPMENT_OVER_50_000.getLabel(), "No", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.FOOT_TRAFFIC_EXCEEDING_2_CUSTOMERS_PER_WEEK.getLabel(), "No", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.EMPLOYEES_WORKING_ON_THE_PREMISES.getLabel(), "No", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.BUSINESS_INVOLVING_HAZARDOUS_SITUATIONS_OR_MATERIALS.getLabel(), "No", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.BUSINESS_INVOLVING_THE_MANUFACTURING_OR_REPAIRING_OF_GOODS_OR_PRODUCTS.getLabel(), "No"));
+		}
+		else {
+			tdList.add(DataProviderFactory.dataOf(
+					"Action", "Add",
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.OFFICE_TYPE.getLabel(), "Professional Instruction", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.DESCRIPTION_OF_BUSINESS_EQUIPMENT.getLabel(), "test", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.BUSINESS_EQUIPMENT_OVER_50_000.getLabel(), "No", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.FOOT_TRAFFIC_EXCEEDING_2_CUSTOMERS_PER_WEEK.getLabel(), "No", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.EMPLOYEES_WORKING_ON_THE_PREMISES.getLabel(), "No", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.BUSINESS_INVOLVING_HAZARDOUS_SITUATIONS_OR_MATERIALS.getLabel(), "No", 
+					HomeCaMetaData.EndorsementTab.EndorsementHO42C.BUSINESS_INVOLVING_THE_MANUFACTURING_OR_REPAIRING_OF_GOODS_OR_PRODUCTS.getLabel(), "No"));
+		}
 		return tdList;
 	};
 	
@@ -79,14 +96,14 @@ public class HomeCaHO6FormTestDataGenerator {
 	
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHO70DataFunction = (openLPolicy) -> {
 		List<TestData> tdList = new ArrayList<>();
-		int instanceNum = 1;
+		Integer instanceNum = 1;
 		for(HomeCaHO6OpenLForm form: openLPolicy.getForms()) {
 			if ("HO-70".equals(form.getFormCode())) {
 				tdList.add(DataProviderFactory.dataOf(
 						"Action", "Add",
 						HomeCaMetaData.EndorsementTab.EndorsementHO70.NUMBER_OF_FAMILY_UNITS.getLabel(), form.getNumOfFamilies(), 
 						HomeCaMetaData.EndorsementTab.EndorsementHO70.ZIP_CODE.getLabel(), "90255", 
-						HomeCaMetaData.EndorsementTab.EndorsementHO70.STREET_ADDRESS_1.getLabel(), "111 Test street", 
+						HomeCaMetaData.EndorsementTab.EndorsementHO70.STREET_ADDRESS_1.getLabel(), "11" + instanceNum.toString() + " Test street", 
 						HomeCaMetaData.EndorsementTab.EndorsementHO70.CITY.getLabel(), "Beverly Hills", 
 						HomeCaMetaData.EndorsementTab.EndorsementHO70.STATE.getLabel(), "CA", 
 						HomeCaMetaData.EndorsementTab.EndorsementHO70.SECTION_II_TERRITORY.getLabel(), "index=2"));
@@ -104,20 +121,21 @@ public class HomeCaHO6FormTestDataGenerator {
 				HomeCaMetaData.EndorsementTab.EndorsementHO71.NAME_OF_BUSINESS.getLabel(), "Test", 
 				HomeCaMetaData.EndorsementTab.EndorsementHO71.DESCRIPTION_OF_BUSINESS.getLabel(), "test", 
 				HomeCaMetaData.EndorsementTab.EndorsementHO71.CLASSIFICATION_OCCUPATION.getLabel(), "index=2", 
+				HomeCaMetaData.EndorsementTab.EndorsementHO71.CO_APPLICANT_CLASSIFICATION_OCCUPATION.getLabel(), "index=1", 
 				HomeCaMetaData.EndorsementTab.EndorsementHO71.IS_THE_INSURED_SELF_EMPLOYED_A_PARTNER_IN_THE_BUSINESS.getLabel(), "No"));
 		return tdList;
 	};
 	
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHO75DataFunction = (openLPolicy) -> {
 		List<TestData> tdList = new ArrayList<>();
-		int instanceNum = 1;
+		Integer instanceNum = 1;
 		for(HomeCaHO6OpenLForm form: openLPolicy.getForms()) {
 			if ("HO-75".equals(form.getFormCode())) {
 				tdList.add(DataProviderFactory.dataOf(
 						"Action", "Add", 
 						HomeCaMetaData.EndorsementTab.EndorsementHO75.BOAT_TYPE.getLabel(), form.getFormClass(),
 						HomeCaMetaData.EndorsementTab.EndorsementHO75.HORSEPOWER.getLabel(), "1000", 
-						HomeCaMetaData.EndorsementTab.EndorsementHO75.LENGTH.getLabel(), "30", 
+						HomeCaMetaData.EndorsementTab.EndorsementHO75.LENGTH.getLabel(), "3" + instanceNum.toString(), 
 						HomeCaMetaData.EndorsementTab.EndorsementHO75.MAXIMUM_SPEED.getLabel(), "250"));
 				instanceNum++;
 			}
@@ -155,7 +173,9 @@ public class HomeCaHO6FormTestDataGenerator {
 	};
 	
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHO1732DataFunction = (openLPolicy) -> {
-		return null;
+		List<TestData> tdList = new ArrayList<>();
+		tdList.add(DataProviderFactory.dataOf("Action", "Add"));
+		return tdList;
 	};
 	
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHO1733DataFunction = (openLPolicy) -> {
@@ -163,27 +183,27 @@ public class HomeCaHO6FormTestDataGenerator {
 	};
 
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHW0008DataFunction = (openLPolicy) -> {
-		//TODO 
 		return null;
 	};
 	
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHW0435DataFunction = (openLPolicy) -> {
+		//TODO hasSupportingForm
 		List<TestData> tdList = new ArrayList<>();
-		Integer instanceNum = 1;
-		for (HomeCaHO6OpenLForm form: openLPolicy.getForms()) {
+		for (HomeCaHO6OpenLForm form: openLPolicy.getForms()) { 
 			if ("HW 04 35".equals(form.getFormCode())) {
-				if (form.getPercentage().equals(2.0)) {
-					tdList.add(DataProviderFactory.dataOf(
-							"Action", "Add",
-							HomeCaMetaData.EndorsementTab.EndorsementHW0435.LOCATION_TYPE.getLabel(), "contains=Other Building", 
-							HomeCaMetaData.EndorsementTab.EndorsementHW0435.STREET_ADDRESS_2.getLabel(), "111 Test street"));
-				}
 				if (form.getPercentage().equals(0.0)) {
 					tdList.add(DataProviderFactory.dataOf(
 							"Action", "Add",
 							HomeCaMetaData.EndorsementTab.EndorsementHW0435.LOCATION_TYPE.getLabel(), "Residence Premises"));
 				}
-				instanceNum++;
+				if (form.getPercentage().equals(2.0)) {
+					for (int i = 0; i < 2; i++) {
+						tdList.add(DataProviderFactory.dataOf(
+								"Action", "Add",
+								HomeCaMetaData.EndorsementTab.EndorsementHW0435.LOCATION_TYPE.getLabel(), "contains=Other Building", 
+								HomeCaMetaData.EndorsementTab.EndorsementHW0435.STREET_ADDRESS_2.getLabel(), "11" + i + " Test street"));
+					}
+				}
 			}
 		}
 		return tdList;
@@ -217,6 +237,17 @@ public class HomeCaHO6FormTestDataGenerator {
 	};
 	
 	
+	public static List<TestData> getFormTestData(HomeCaHO6OpenLPolicy openLPolicy, String formCode) {
+		return getFormEnum(formCode).getTestData(openLPolicy);
+	}
+	
+	public static String getFormMetaKey(String formCode) {
+		return getFormEnum(formCode).getMetaKey();
+	}
+	
+	private static Forms getFormEnum(String formCode) {
+		return Arrays.stream(Forms.values()).filter(f -> f.getFormCode().equals(formCode)).findFirst().orElseThrow(() -> new IstfException("There is no Form enum with form code: " + formCode));
+	}
 	
 	public enum Forms {
 		HO29(HomeCaMetaData.EndorsementTab.HO_29.getLabel(), "HO-29", formHO29DataFunction), 

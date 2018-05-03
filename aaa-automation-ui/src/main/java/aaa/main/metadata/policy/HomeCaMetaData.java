@@ -799,12 +799,12 @@ public final class HomeCaMetaData {
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_48 = declare("HO-48", HomeCAEndorsementsMultiAssetList.class, EndorsementHO48.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		// public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_51 = declare("HO-51",
-		// HomeCAEndorsementsMultiAssetList.class, EndorsementHO51.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_51 = declare("HO-51", HomeCAEndorsementsMultiAssetList.class, EndorsementHO51.class, By
+				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_57 = declare("HO-57", HomeCAEndorsementsMultiAssetList.class, EndorsementHO57.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		// public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_58 = declare("HO-58",
-		// HomeCAEndorsementsMultiAssetList.class, EndorsementHO58.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_58 = declare("HO-58", HomeCAEndorsementsMultiAssetList.class, EndorsementHO58.class, By
+				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		// public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_58C = declare("HO-58C",
 		// HomeCAEndorsementsMultiAssetList.class, EndorsementHO58C.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_59 = declare("HO-59", HomeCAEndorsementsMultiAssetList.class, EndorsementHO59.class, By
@@ -1080,6 +1080,10 @@ public final class HomeCaMetaData {
 			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> COVERAGE_LIMIT = declare("Coverage Limit", TextBox.class, Waiters.AJAX);
 		}
+		
+		public static final class EndorsementHO51 extends MetaData {
+			public static final AssetDescriptor<TextBox> COVERAGE_LIMIT = declare("Coverage limit", TextBox.class, Waiters.AJAX);
+		}
 
 		public static final class EndorsementHO43 extends MetaData {
 			public static final AssetDescriptor<TextBox> DESCRIPTION_OF_BUSINESS_EQUIPMENT = declare("Description of business/equipment", TextBox.class, Waiters.AJAX);
@@ -1155,7 +1159,8 @@ public final class HomeCaMetaData {
 		}
 
 		public static final class EndorsementHO90 extends MetaData {}
-		public static final class EndorsementHO57 extends MetaData {} 		
+		public static final class EndorsementHO57 extends MetaData {} 
+		public static final class EndorsementHO58 extends MetaData {} 
 		public static final class EndorsementHO59 extends MetaData {}		
 		public static final class EndorsementHO60 extends MetaData {}
 		public static final class EndorsementHO76 extends MetaData {}
@@ -1167,8 +1172,7 @@ public final class HomeCaMetaData {
 		public static final class EndorsementHO82 extends MetaData {}
 		public static final class EndorsementHO177 extends MetaData {}
 		
-		public static final class EndorsementHO61C extends MetaData {}
-		
+		public static final class EndorsementHO61C extends MetaData {}		
 		public static final class EndorsementHO61 extends MetaData {}
 		
 		public static final class EndorsementHO1732 extends MetaData {}
@@ -1180,23 +1184,36 @@ public final class HomeCaMetaData {
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> BOATS = declare("Boats", PersonalPropertyMultiAssetList.class, Boats.class, By
 				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyBoatsItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> CAMERAS = declare("Cameras", PersonalPropertyMultiAssetList.class, Cameras.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyCamerasItem']"));
+				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyCamerasItem' "
+						+ "or @id='policyDataGatherForm:componentView_ScheduledPropertyCamerasItemHO6']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> COINS = declare("Coins", PersonalPropertyMultiAssetList.class, Coins.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyCoinsItem']"));
+				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyCoinsItem' "
+						+ "or @id='policyDataGatherForm:componentView_ScheduledPropertyCoinsItemHO6']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> FINE_ARTS = declare("Fine arts", PersonalPropertyMultiAssetList.class, FineArts.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyFineArtsItem']"));
+				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyFineArtsItem' " 
+						+ "or @id='policyDataGatherForm:componentView_ScheduledPropertyFineArtsItemHO6']"));
+		public static final AssetDescriptor<PersonalPropertyMultiAssetList> FIREARMS = declare("Firearms", PersonalPropertyMultiAssetList.class, Firearms.class, By
+				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyFirearmsItemHO6']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> FURS = declare("Furs", PersonalPropertyMultiAssetList.class, Furs.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyFursItem']"));
+				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyFursItem' " 
+						+ "or @id='policyDataGatherForm:componentView_ScheduledPropertyFursItemHO6']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> GOLF_EQUIPMENT = declare("Golf equipment", PersonalPropertyMultiAssetList.class, GolfEquipment.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyGolfItem']"));
+				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyGolfItem' " 
+						+ "or @id='policyDataGatherForm:componentView_ScheduledPropertyGolfItemHO6']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> JEWELRY = declare("Jewelry", PersonalPropertyMultiAssetList.class, Jewelry.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyJewelryItemHO3HO4']"));
+				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyJewelryItemHO3HO4' "
+						+ "or @id='policyDataGatherForm:componentView_ScheduledPropertyJewelryItemHO6']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> MUSICAL_INSTRUMENTS = declare("Musical instruments", PersonalPropertyMultiAssetList.class, MusicalInstruments.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyMusicalItem']"));
+				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyMusicalItem' " 
+						+ "or @id='policyDataGatherForm:componentView_ScheduledPropertyMusicalItemHO6']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> POSTAGE_STAMPS = declare("Postage stamps", PersonalPropertyMultiAssetList.class, PostageStamps.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyPostageItem']"));
+				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyPostageItem' "
+						+ "or @id='policyDataGatherForm:componentView_ScheduledPropertyPostageItemHO6']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> SILVERWARE = declare("Silverware", PersonalPropertyMultiAssetList.class, Silverware.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertySilverwareItem']"));
+				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertySilverwareItem' " 
+						+ "or @id='policyDataGatherForm:componentView_ScheduledPropertySilverwareItemHO6']"));
+		public static final AssetDescriptor<PersonalPropertyMultiAssetList> TRADING_CARDS_OR_COMICS = declare("Trading cards or comics", PersonalPropertyMultiAssetList.class, TradingCardsOrComics.class, By
+				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyTradingCardsItemHO6']"));
 
 		public static final class Boats extends MetaData {
 			public static final AssetDescriptor<ComboBox> BOAT_TYPE = declare("Boat type", ComboBox.class, Waiters.AJAX);
@@ -1238,6 +1255,11 @@ public final class HomeCaMetaData {
 			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.AJAX);
 		}
+		
+		public static final class Firearms extends MetaData {
+			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX); 
+			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.AJAX);
+		}
 
 		public static final class GolfEquipment extends MetaData {
 			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
@@ -1265,6 +1287,13 @@ public final class HomeCaMetaData {
 		public static final class Silverware extends MetaData {
 			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> SET_OR_INDIVIDUAL_PIECE = declare("Set or individual piece", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.AJAX);
+		}
+		
+		public static final class TradingCardsOrComics extends MetaData {
+			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> NUMBER_OF_COMIC_BOOKS_OR_CARDS = declare("Number of comic books or cards", TextBox.class, Waiters.AJAX); 
+			public static final AssetDescriptor<RadioGroup> CERTIFICATE_OF_AUTHENTICITY_RECEIIVED = declare("Certificate of authenticity received", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.AJAX);
 		}
 
@@ -1360,8 +1389,8 @@ public final class HomeCaMetaData {
 				"//table[@id='policyDataGatherForm:coverageSummaryTable']//tr[td[.='%s']]//input", HomeCaCoverages.COVERAGE_D.get())));
 		public static final AssetDescriptor<ComboBox> COVERAGE_E = declare(HomeCaCoverages.COVERAGE_E.get(), ComboBox.class, Waiters.AJAX, false, By.xpath(String.format(
 				"//table[@id='policyDataGatherForm:coverageSummaryTable']//tr[td[.='%s']]//select", HomeCaCoverages.COVERAGE_E.get())));
-		public static final AssetDescriptor<StaticElement> COVERAGE_F = declare(HomeCaCoverages.COVERAGE_F.get(), StaticElement.class, Waiters.AJAX, false, By.xpath(String.format(
-				"//table[@id='policyDataGatherForm:coverageSummaryTable']//tr[td[.='%s']]//td[3]", HomeCaCoverages.COVERAGE_F.get())));
+		public static final AssetDescriptor<ComboBox> COVERAGE_F = declare(HomeCaCoverages.COVERAGE_F.get(), ComboBox.class, Waiters.AJAX, false, By.xpath(String.format(
+				"//table[@id='policyDataGatherForm:coverageSummaryTable']//tr[td[.='%s']]//select", HomeCaCoverages.COVERAGE_F.get())));
 		public static final AssetDescriptor<ComboBox> DEDUCTIBLE = declare(HomeCaCoverages.DEDUCTIBLE.get(), ComboBox.class, Waiters.AJAX, false, By.xpath(String.format(
 				"//table[@id='policyDataGatherForm:coverageSummaryTable']//tr[td[.='%s']]//select", HomeCaCoverages.DEDUCTIBLE.get())));
 
@@ -1382,7 +1411,7 @@ public final class HomeCaMetaData {
 
 		public enum HomeCaCoverages {
 			COVERAGE_A("Coverage A - Dwelling limit"), COVERAGE_B("Coverage B - Other Structures limit"), COVERAGE_C("Coverage C - Personal Property limit"), COVERAGE_D(
-					"Coverage D - Loss of Use limit"), COVERAGE_E("Coverage E - Personal Liability Each Occurrence"), COVERAGE_F("Coverage F - Medical Payments to Others"), DEDUCTIBLE("Deductible"),;
+					"Coverage D - Loss of Use limit"), COVERAGE_E("Coverage E - Personal Liability Each Occurrence"), COVERAGE_F("Coverage F - Medical Payment to Others"), DEDUCTIBLE("Deductible"),;
 
 			private String value;
 

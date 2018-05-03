@@ -71,9 +71,9 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 				"Action", isFormAdded("HS0442", policyLevel) ? "Edit" : "Add",
 				HomeSSMetaData.EndorsementTab.EndorsementHS0442.DESCRIPTION_OF_BUSINESS.getLabel(), "Description",
 				HomeSSMetaData.EndorsementTab.EndorsementHS0442.LOCATION_OF_BUSINESS.getLabel(), form.getType(),
-				HomeSSMetaData.EndorsementTab.EndorsementHS0442.LIMIT_OF_LIABILITY.getLabel(),form.getLimit(),
+				HomeSSMetaData.EndorsementTab.EndorsementHS0442.LIMIT_OF_LIABILITY.getLabel(), form.getLimit(),
 				HomeSSMetaData.EndorsementTab.EndorsementHS0442.DESCRIPTION_OF_OTHER_STRUCTURE.getLabel(), "Description",
-				HomeSSMetaData.EndorsementTab.EndorsementHS0442.SECTION_I_COVERAGE.getLabel(),"No"));
+				HomeSSMetaData.EndorsementTab.EndorsementHS0442.SECTION_I_COVERAGE.getLabel(), "No"));
 		return tdList;
 	};
 
@@ -173,6 +173,9 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 							td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0465.TRAILERS.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]);
 						}
 						break;
+					case "Watercraft":
+						td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0465.WATERCRAFT.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]);
+						break;
 					//TODO add all Special Limits
 					default:
 						CustomAssertions.assertThat(Boolean.TRUE).as("Unknown Type of Special Limit: %s", form.getType()).isFalse();
@@ -219,11 +222,18 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 		return tdList;
 	};
 
+	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0493DataFunction = (openLPolicy, policyLevel) -> {
+		List<TestData> tdList = new ArrayList();
+		tdList.add(DataProviderFactory.dataOf(
+				"Action", isFormAdded("HS0493", policyLevel) ? "Edit" : "Add"));
+		return tdList;
+	};
+
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0495DataFunction = (openLPolicy, policyLevel) -> {
 		List<TestData> tdList = new ArrayList<>();
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", isFormAdded("HS0495", policyLevel) ? "Edit" : "Add",  //new Dollar(form.getLimit()).toString().split("\\.")[0]));
-				HomeSSMetaData.EndorsementTab.EndorsementHS0495.COVERAGE_LIMIT.getLabel(),   new Dollar(openLPolicy.getForms().stream().filter(c -> "HS0495".equals(c.getFormCode())).findFirst().get().getLimit()).toString().split("\\.")[0]));
+				HomeSSMetaData.EndorsementTab.EndorsementHS0495.COVERAGE_LIMIT.getLabel(), new Dollar(openLPolicy.getForms().stream().filter(c -> "HS0495".equals(c.getFormCode())).findFirst().get().getLimit()).toString().split("\\.")[0]));
 		return tdList;
 	};
 
@@ -312,10 +322,10 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 						HomeSSMetaData.EndorsementTab.EndorsementHS0988.EFFECTIVE_DATE.getLabel(), TimeSetterUtil.getInstance().getCurrentTime().plusDays(3).format(DateTimeUtils.MM_DD_YYYY),
 						HomeSSMetaData.EndorsementTab.EndorsementHS0988.EXPIRATION_DATE.getLabel(), TimeSetterUtil.getInstance().getCurrentTime().plusDays(4).format(DateTimeUtils.MM_DD_YYYY),
 						HomeSSMetaData.EndorsementTab.EndorsementHS0988.COVERAGE_E_LIMIT.getLabel(), form.getLimit().toString().split("\\.")[0],
-						HomeSSMetaData.EndorsementTab.EndorsementHS0988.ADDITIONAL_COMMENTS_ABOUT_THE_EVENT.getLabel(), "Comment"+ String.format("%d", instanceNum),
+						HomeSSMetaData.EndorsementTab.EndorsementHS0988.ADDITIONAL_COMMENTS_ABOUT_THE_EVENT.getLabel(), "Comment" + String.format("%d", instanceNum),
 						HomeSSMetaData.EndorsementTab.EndorsementHS0988.WILL_THERE_BE_ALCOHOLIC_BEVERAGES_AT_THE_EVENT.getLabel(), "No",
 						HomeSSMetaData.EndorsementTab.EndorsementHS0988.WILL_THERE_BE_A_SWIMMING_POOL_BOUNCE_HOUSE_OR_TRAMPOLINE_AT_THE_EVENT_LOCATION.getLabel(), "No",
-						HomeSSMetaData.EndorsementTab.EndorsementHS0988.WILL_THERE_BE_HIRED_OR_VOLUNTEER_STAFF_AT_THE_EVENT.getLabel(),"No",
+						HomeSSMetaData.EndorsementTab.EndorsementHS0988.WILL_THERE_BE_HIRED_OR_VOLUNTEER_STAFF_AT_THE_EVENT.getLabel(), "No",
 						HomeSSMetaData.EndorsementTab.EndorsementHS0988.EVENT_LOCATION.getLabel(), "index=1",
 						HomeSSMetaData.EndorsementTab.EndorsementHS0988.IS_A_PERMIT_OR_LICENSE_REQUIRED_FOR_THE_EVENT.getLabel(), "No",
 						HomeSSMetaData.EndorsementTab.EndorsementHS0988.IS_THE_EVENT_BEING_HELD_FOR_BUSINESS_PURPOSES.getLabel(), "No",
@@ -353,22 +363,25 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS2471DataFunction = (openLPolicy, policyLevel) -> {
 		List<TestData> tdList = new ArrayList<>();
-				tdList.add(DataProviderFactory.dataOf(
-						"Action", isFormAdded("HS2471", policyLevel) ? "Edit" : "Add",
-						HomeSSMetaData.EndorsementTab.EndorsementHS2471.NAME_OF_BUSINESS.getLabel(), "Name",
-						HomeSSMetaData.EndorsementTab.EndorsementHS2471.DESCRIPTION_OF_BUSINESS.getLabel(), "Description",
-						HomeSSMetaData.EndorsementTab.EndorsementHS2471.CLASSIFICATION_OCCUPATION.getLabel(), "Office clerical",
-						HomeSSMetaData.EndorsementTab.EndorsementHS2471.IS_THE_INSURED_SELF_EMPLOYED_A_PARTNER_IN_THE_BUSINESS_OR_MAINTAIN_ANY_FINANCIAL_CONTROL_IN_THIS_BUSINESS.getLabel(), "No"));
+		tdList.add(DataProviderFactory.dataOf(
+				"Action", isFormAdded("HS2471", policyLevel) ? "Edit" : "Add",
+				HomeSSMetaData.EndorsementTab.EndorsementHS2471.NAME_OF_BUSINESS.getLabel(), "Name",
+				HomeSSMetaData.EndorsementTab.EndorsementHS2471.DESCRIPTION_OF_BUSINESS.getLabel(), "Description",
+				HomeSSMetaData.EndorsementTab.EndorsementHS2471.CLASSIFICATION_OCCUPATION.getLabel(), "Office clerical",
+				HomeSSMetaData.EndorsementTab.EndorsementHS2471.IS_THE_INSURED_SELF_EMPLOYED_A_PARTNER_IN_THE_BUSINESS_OR_MAINTAIN_ANY_FINANCIAL_CONTROL_IN_THIS_BUSINESS.getLabel(), "No"));
 		return tdList;
 	};
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS2472DataFunction = (openLPolicy, policyLevel) -> {
 		List<TestData> tdList = new ArrayList<>();
 		HomeSSOpenLForm form = openLPolicy.getForms().stream().filter(c -> "HS2472".equals(c.getFormCode())).findFirst().get();
+		boolean isOnTheResidencePremises = "On the Residence Premises".equals(form.getType());
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", isFormAdded("HS2472", policyLevel) ? "Edit" : "Add",
 				HomeSSMetaData.EndorsementTab.EndorsementHS2472.DESCRIPTION_OF_THE_NATURE_OF_THE_FARMING.getLabel(), "Description",
-				HomeSSMetaData.EndorsementTab.EndorsementHS2472.IS_THE_FARMING_LOCATED_AT_THE_RESIDENCE_PREMISES.getLabel(), "On the Residence Premises".equals(form.getType()) ? "Yes" : "No",
+				HomeSSMetaData.EndorsementTab.EndorsementHS2472.IS_THE_FARMING_LOCATED_AT_THE_RESIDENCE_PREMISES.getLabel(), isOnTheResidencePremises ? "Yes" : "No",
+				HomeSSMetaData.EndorsementTab.EndorsementHS2472.ZIP_CODE.getLabel(), !isOnTheResidencePremises ? openLPolicy.getPolicyAddress().get(0).getZip() : null,
+				HomeSSMetaData.EndorsementTab.EndorsementHS2472.STREET_ADDRESS_1.getLabel(), !isOnTheResidencePremises ? "Street Address 1" : null,
 				HomeSSMetaData.EndorsementTab.EndorsementHS2472.IS_THE_INCOME_DERIVED_FROM_THE_FARMING_A_PRIMARY_SOURCE_OF_INCOME.getLabel(), "No",
 				HomeSSMetaData.EndorsementTab.EndorsementHS2472.IS_THE_FARMING_LOCATION_USED_FOR_RACING_PURPOSES.getLabel(), "No"));
 		return tdList;
@@ -428,6 +441,7 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 		HS0477(HomeSSMetaData.EndorsementTab.HS_04_77.getLabel(), "HS0477", formHS0477DataFunction),
 		HS0490(HomeSSMetaData.EndorsementTab.HS_04_90.getLabel(), "HS0490", formHS0490DataFunction),
 		HS0492(HomeSSMetaData.EndorsementTab.HS_04_92.getLabel(), "HS0492", formHS0492DataFunction),
+		HS0493(HomeSSMetaData.EndorsementTab.HS_04_93.getLabel(), "HS0493", formHS0493DataFunction),
 		HS0495(HomeSSMetaData.EndorsementTab.HS_04_95.getLabel(), "HS0495", formHS0495DataFunction),
 		HS0614(HomeSSMetaData.EndorsementTab.HS_06_14.getLabel(), "HS0614", formHS0614DataFunction),
 		HS0904(HomeSSMetaData.EndorsementTab.HS_09_04.getLabel(), "HS0904", formHS0904DataFunction),

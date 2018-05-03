@@ -390,10 +390,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			}
 
 			if (vehicle.getSafetyScore() != null) {
-				//TODO-dchubkov: for ID this is possible, to be investigated
-				if (!getState().equals(Constants.States.ID)) {
-					assertThat(vehicle.isTelematic()).as("\"isTelematic\" should be false if \"safetyScore\" is not null").isFalse();
-				}
+				assertThat(vehicle.isTelematic()).as("\"isTelematic\" should be false if \"safetyScore\" is not null").isFalse();
 				vehicleData.adjust(getVehicleTabVehicleDetailsData(String.valueOf(vehicle.getSafetyScore())));
 			}
 
@@ -525,6 +522,10 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_PAYMENTS.getLabel(), "starts=No Coverage");
 		}
 
+		if (getState().equals(Constants.States.ID)) {
+			policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel(), "starts=No Coverage");
+		}
+
 		if (getState().equals(Constants.States.NV)) {
 			for (int i = 0; i < openLPolicy.getVehicles().size(); i++) {
 				if (!isTrailerType(getStatCode(openLPolicy.getVehicles().get(i)))) {
@@ -642,7 +643,15 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			default:
 				throw new IstfException("Unknown mapping for usage: " + vehicle.getUsage());
 		}
-		return new SimpleDataProvider(vehicleInformation);
+
+		TestData td = new SimpleDataProvider(vehicleInformation);
+		if (vehicle.getCoverages().stream().anyMatch(c -> "LOAN".equals(c.getCoverageCd()))) {
+			TestData ownershipData = DataProviderFactory.dataOf(AutoSSMetaData.VehicleTab.OWNERSHIP.getLabel(),
+					DataProviderFactory.dataOf(DataProviderFactory.dataOf(AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE.getLabel(), "Leased")));
+			td.adjust(ownershipData);
+		}
+
+		return td;
 	}
 
 	private String getZipCodeFromDb(String locationCode) {
