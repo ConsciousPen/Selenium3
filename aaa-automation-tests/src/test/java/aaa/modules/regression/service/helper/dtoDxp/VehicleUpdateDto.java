@@ -8,30 +8,23 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  */
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-
 public class VehicleUpdateDto  implements RestBodyRequest {
 
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public String ownership;
 
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public String usage;
 
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public Boolean salvaged;
 
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public Boolean garagingDifferent;
 
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public String antiTheft;
 
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public Boolean registeredOwner;
 
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public Address garagingAddress;
 
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public Address ownershipAddress;
+
+	public String purchaseDate;
 }
