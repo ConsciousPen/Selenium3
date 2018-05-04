@@ -835,7 +835,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741","PAS-11852","PAS-12601"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12769"})
 	public void pas12769_ViewVehicleLevelCoveragesOneVehicle(@Optional("VA") String state) {
 
 		pas11741_ViewVehicleLevelCoverages(getPolicyType());

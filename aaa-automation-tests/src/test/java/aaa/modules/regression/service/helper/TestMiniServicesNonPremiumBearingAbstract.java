@@ -2741,18 +2741,33 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected void pas11741_ViewVehicleLevelCoverages(PolicyType policyType) {
 		mainApp().open();
-		createCustomerIndividual();
-		PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
-		TestData td = getPolicyTD("DataGather", "TestData");
-		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_AllVehiclesCoverage").getTestDataList("VehicleTab")).resolveLinks();
-		policyType.get().createPolicy(testData);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		//String policyNumber="VASS952918540";
+		//createCustomerIndividual();
+		//PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+		//TestData td = getPolicyTD("DataGather", "TestData");
+		//TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_AllVehiclesCoverage").getTestDataList("VehicleTab")).resolveLinks();
+	//	policyType.get().createPolicy(testData);
+		//String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber="VASS952918542";
 		SearchPage.openPolicy(policyNumber);
 
 		//Perform Endorsement
-		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
+	//	AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+	//	assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
+
+        //add  vehicle1
+		String purchaseDate = "2012-02-21";
+		String vin = "SHHFK7H41JU201444";
+		VehicleTab vehicleTab = new VehicleTab();
+		Vehicle addVehicle = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
+		assertThat(addVehicle.oid).isNotEmpty();
+		String newVehicleOid = addVehicle.oid;
+
+		VehicleUpdateDto updateVehicleUsageRequest = new VehicleUpdateDto();
+		updateVehicleUsageRequest.usage = "Pleasure";
+		updateVehicleUsageRequest.ownership="";
+		updateVehicleUsageRequest.registeredOwner = true;
+		Vehicle updateVehicleUsageResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleUsageRequest);
+		assertThat(updateVehicleUsageResponse.usage).isEqualTo("Pleasure");
 
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
