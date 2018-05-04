@@ -64,7 +64,13 @@ public class TestDataHelper {
 	 * With different testdata element types you can't use TestData adjust(String keyPath, List<?> list) due to "Lists of mixed types are not allowed!" (probably ISTF defect)
 	 */
 	public static TestData convertToSimpleDataProviderTypeAndResolveLinks(TestData td) {
-		td = td.resolveLinks();
+		//to prevent TestDataException: Lists of mixed types are not allowed!
+		//TODO-dchubkov: find the way how to check whether test data has mixed types or not instead of exception catching
+		try {
+			td = td.resolveLinks();
+		} catch (TestDataException ignore) {
+		}
+
 		if (!td.getClass().isAssignableFrom(SimpleDataProvider.class)) {
 			SimpleDataProvider convertedTd = new SimpleDataProvider();
 			return convertedTd.adjust(td);
