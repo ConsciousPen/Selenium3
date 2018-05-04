@@ -833,6 +833,14 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 		pas11741_ViewManageVehicleLevelCoverages(getPolicyType());
 	}
 
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741","PAS-11852","PAS-12601"})
+	public void pas12769_ViewVehicleLevelCoveragesOneVehicle(@Optional("VA") String state) {
+
+		pas11741_ViewVehicleLevelCoverages(getPolicyType());
+	}
+
 	/**
 	 * @author Oleg Stasyuk
 	 * @name Validation on Update/Rate/Bind for vehicle use = Business
