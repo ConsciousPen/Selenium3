@@ -229,7 +229,7 @@ public abstract class ExcelCell implements Writable {
 	}
 
 	public <T> T getValue(CellType<T> cellType, DateTimeFormatter... dateTimeFormatters) {
-		if (ArrayUtils.isNotEmpty(dateTimeFormatters)) {
+		if (cellType instanceof DateCellType<?>) {
 			((DateCellType<?>) cellType).getValueFrom(this, dateTimeFormatters);
 		}
 		return cellType.getValueFrom(this);

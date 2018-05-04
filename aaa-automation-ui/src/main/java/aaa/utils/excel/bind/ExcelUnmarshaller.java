@@ -134,6 +134,9 @@ public class ExcelUnmarshaller {
 	}
 
 	private Object getTableValue(Field field, TableCell cell) {
+		if (cell.isEmpty()) {
+			return null;
+		}
 		if (!List.class.equals(field.getType())) {
 			return getTableRowObject(cache.of(field).getTableClass(), cache.of(field).getRow(cell.getIntValue()));
 		}

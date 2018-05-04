@@ -49,8 +49,9 @@ public final class TableFieldInfo {
 		if (this.isCaseIgnored == null) {
 			if (tableField.isAnnotationPresent(ExcelColumnElement.class)) {
 				this.isCaseIgnored = tableField.getAnnotation(ExcelColumnElement.class).ignoreCase();
+			} else {
+				this.isCaseIgnored = ExcelColumnElement.DEFAULT_CASE_IGNORED;
 			}
-			return ExcelColumnElement.DEFAULT_CASE_IGNORED;
 		}
 		return this.isCaseIgnored;
 	}
