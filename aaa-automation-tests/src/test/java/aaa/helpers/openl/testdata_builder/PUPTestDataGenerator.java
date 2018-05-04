@@ -20,7 +20,6 @@ import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomUtils;
-import toolkit.datax.DataFormat;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
@@ -298,12 +297,7 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	}
 
 	private TestData getUnderlyingRisksAutoData(PUPOpenLPolicy openLPolicy) {
-		/*int numOfMotorhomes = openLPolicy.getRiskItems().stream().filter(c -> "Motorhome".equals(c.getRiskItemCd())).findFirst().get().getRiskItemCount();*/
 		int numOfMotorhomes = openLPolicy.getRiskItems().stream().filter(c -> "Motorhome".equals(c.getRiskItemCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
-		/*int numOfMotorcycles = openLPolicy.getRiskItems().stream().filter(c -> "Motorcycle".equals(c.getRiskItemCd())).findFirst().get().getRiskItemCount();
-		int numOfAntique = openLPolicy.getRiskItems().stream().filter(c -> "Antique".equals(c.getRiskItemCd())).findFirst().get().getRiskItemCount();
-		int numOfAddlAuto = openLPolicy.getRiskItems().stream().filter(c -> "AddlAuto".equals(c.getRiskItemCd())).findFirst().get().getRiskItemCount();
-		int numOfAutoCredit = openLPolicy.getRiskItems().stream().filter(c -> "AutoCredit".equals(c.getRiskItemCd())).findFirst().get().getRiskItemCount();*/
 		int numOfMotorcycles = openLPolicy.getRiskItems().stream().filter(c -> "Motorcycle".equals(c.getRiskItemCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
 		int numOfAntique = openLPolicy.getRiskItems().stream().filter(c -> "Antique".equals(c.getRiskItemCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
 		int numOfAddlAuto = openLPolicy.getRiskItems().stream().filter(c -> "AddlAuto".equals(c.getRiskItemCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
@@ -317,7 +311,13 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		List<TestData> tdMotorCycles = new ArrayList<>();
 		List<TestData> tdAutomobiles = new ArrayList<>();
 
-		tdDrivers.add(new DataProviderFactory().applyConfiguration(DataFormat.YAML.name()).get("modules/regression/sales/pup").getTestData("TestPolicyCreationFull", "UnderlyingRisksAutoTab").getTestData("Drivers"));
+		//add default driver
+		Map<String, Object> defaultDriver = new HashMap<>();
+		defaultDriver.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Drivers.ADD_DRIVERS.getLabel(), "Yes");
+		defaultDriver.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Drivers.FIRST_NAME.getLabel(), "John" + RandomUtils.nextInt(1001, 9999));
+		defaultDriver.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Drivers.LAST_NAME.getLabel(), "Smith" + RandomUtils.nextInt(1001, 9999));
+		defaultDriver.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Drivers.DATE_OF_BIRTH.getLabel(), DateTimeUtils.getCurrentDateTime().minusYears(36).format(DateTimeUtils.MM_DD_YYYY));
+		tdDrivers.add(new SimpleDataProvider(defaultDriver));
 
 		if (numOfSeniorDriver + numOfYouthDriver > 0) {
 			if (numOfSeniorDriver > 0) {
@@ -433,14 +433,6 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	private TestData getUnderlyingRisksOtherVehiclesData(PUPOpenLPolicy openLPolicy) {
 		List<TestData> tdWaterCrafts = new ArrayList<>();
 		List<TestData> tdRecreationVehicles = new ArrayList<>();
-		/*int numOfWaterCraftI = openLPolicy.getRiskItems().stream().filter(c -> "I".equals(c.getRiskItemCategoryCd())).findFirst().get().getRiskItemCount();
-		int numOfWaterCraftII = openLPolicy.getRiskItems().stream().filter(c -> "II".equals(c.getRiskItemCategoryCd())).findFirst().get().getRiskItemCount();
-		int numOfWaterCraftIII = openLPolicy.getRiskItems().stream().filter(c -> "III".equals(c.getRiskItemCategoryCd())).findFirst().get().getRiskItemCount();
-		int numOfWaterCraftIV = openLPolicy.getRiskItems().stream().filter(c -> "IV".equals(c.getRiskItemCategoryCd())).findFirst().get().getRiskItemCount();
-		int numOfWaterCraftV = openLPolicy.getRiskItems().stream().filter(c -> "V".equals(c.getRiskItemCategoryCd())).findFirst().get().getRiskItemCount();
-		int numOfWaterCraftVI = openLPolicy.getRiskItems().stream().filter(c -> "VI".equals(c.getRiskItemCategoryCd())).findFirst().get().getRiskItemCount();
-		int numOfWaterCraftPERS = openLPolicy.getRiskItems().stream().filter(c -> "PERS".equals(c.getRiskItemCategoryCd())).findFirst().get().getRiskItemCount();
-		int numOfAtv = openLPolicy.getRiskItems().stream().filter(c -> "ATV".equals(c.getRiskItemCd())).findFirst().get().getRiskItemCount();*/
 		int numOfWaterCraftI = openLPolicy.getRiskItems().stream().filter(c -> "I".equals(c.getRiskItemCategoryCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
 		int numOfWaterCraftII = openLPolicy.getRiskItems().stream().filter(c -> "II".equals(c.getRiskItemCategoryCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
 		int numOfWaterCraftIII = openLPolicy.getRiskItems().stream().filter(c -> "III".equals(c.getRiskItemCategoryCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
