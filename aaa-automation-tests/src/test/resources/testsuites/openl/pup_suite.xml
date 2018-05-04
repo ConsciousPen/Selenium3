@@ -2,15 +2,23 @@
 <suite name="PUP OpenL Rating Tests" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <!--<listener class-name="aaa.helpers.listeners.AlterSuiteListener"/> -->
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <!--<listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>-->
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
     <parameter name="testsDir" value="src/test/resources/openl/pup"/>
 
     <test name="PUP [AZ] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="AZ"/>
-        <parameter name="fileName" value="AZTests-20170920.xls"/>
+        <parameter name="fileName" value="AZTests-20170920_one_address.xls"/>
         <parameter name="policyNumbers" value="41,139"/>
+        <classes>
+            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="PUP [UT] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="UT"/>
+        <parameter name="fileName" value="UTTests-20150808.xls"/>
+        <parameter name="policyNumbers" value="23"/>
         <classes>
             <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
         </classes>
