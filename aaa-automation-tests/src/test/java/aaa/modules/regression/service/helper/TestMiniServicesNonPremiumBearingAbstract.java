@@ -2975,6 +2975,14 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(updateVehicleGaragingAddressResponse.garagingAddress.stateProvCd).isEqualTo(stateGarage);
 		SearchPage.openPolicy(policyNumber);
 
+		//PAS-13252 start
+		String purchaseDate2 = "2014-03-22";
+		VehicleUpdateDto updatePurchaseDateVehicleRequest = new VehicleUpdateDto();
+		updatePurchaseDateVehicleRequest.purchaseDate = purchaseDate2;
+		Vehicle updatePurchaseDateVehicleResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updatePurchaseDateVehicleRequest);
+		softly.assertThat(updatePurchaseDateVehicleResponse.purchaseDate).isEqualTo(purchaseDate2);
+		//PAS-13252 end
+
 		//View endorsement vehicles
 		Vehicle[] viewEndorsementVehicleResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
 		List<Vehicle> sortedVehicles = Arrays.asList(viewEndorsementVehicleResponse);
