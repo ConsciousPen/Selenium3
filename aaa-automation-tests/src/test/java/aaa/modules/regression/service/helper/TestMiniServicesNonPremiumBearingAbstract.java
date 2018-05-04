@@ -3048,62 +3048,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		endorsementRateAndBind(policyNumber);
 	}
 
-	protected void pas11618_AddVehicleLeasedFinancedInfoBody(SoftAssertions softly) {
+
+	protected void pas11618_UpdateVehicleLeasedFinancedInfoBody(SoftAssertions softly, String ownershipType) {
 		mainApp().open();
-		String policyNumber = getCopiedPolicy();
-
-		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-
-		//Create pended endorsement
-		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, endorsementDate);
-		assertThat(response.policyNumber).isEqualTo(policyNumber);
-		SearchPage.openPolicy(policyNumber);
-
-		String purchaseDate = "2013-02-22";
-		String vin = "1HGFA16526L081415";
-		String zipCode = "23703";
-		String addressLine1 = "4112 FORREST HILLS DR";
-		String city = "PORTSMOUTH";
-		String state = "VA";
-
-		//Add vehicle with specific info
-		Vehicle vehicleAddRequest = new Vehicle();
-		vehicleAddRequest.purchaseDate = purchaseDate;
-		vehicleAddRequest.vehIdentificationNo = vin;
-		vehicleAddRequest.ownership = "LSD";
-		vehicleAddRequest.ownershipAddress = new Address();
-		vehicleAddRequest.ownershipAddress.postalCode = zipCode;
-		vehicleAddRequest.ownershipAddress.addressLine1 = addressLine1;
-		vehicleAddRequest.ownershipAddress.city = city;
-		vehicleAddRequest.ownershipAddress.stateProvCd = state;
-		String newVehicleOid = vehicleAddWithCheck(policyNumber, vehicleAddRequest);
-
-		SearchPage.openPolicy(policyNumber);
-		updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
-
-		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.buttonPendedEndorsement.click();
-		policy.dataGather().start();
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		VehicleTab.tableVehicleList.selectRow(2);
-		//TODO Leased FInanced here
-		//vehicleTab.getOwnershipAssetList().getAsset(Ownership.ADDRESS_LINE_1).getValue();
-		//assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.VALIDATE_ADDRESS_BTN)).isDisabled();
-		mainApp().close();
-		endorsementRateAndBind(policyNumber);
-
-		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
-		softly.assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
-
-		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
-		secondEndorsementIssueCheck();
-	}
-
-	protected void pas11618_UpdateVehicleLeasedFinancedInfoBody(SoftAssertions softly) {
-		mainApp().open();
-		/*		String policyNumber = getCopiedPolicy();*/
+		//String policyNumber = getCopiedPolicy();
 		String policyNumber = "VASS952918564";
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -3126,14 +3074,16 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		String zipCode = "23703";
 		String addressLine1 = "4112 FORREST HILLS DR";
+		String addressLine2 = "Apt. 202";
 		String city = "PORTSMOUTH";
 		String state = "VA";
 		//Update vehicle Leased Financed Info
 		VehicleUpdateDto updateVehicleLeasedFinanced = new VehicleUpdateDto();
-		updateVehicleLeasedFinanced.ownership = "LSD";
+		updateVehicleLeasedFinanced.ownership = ownershipType;
 		updateVehicleLeasedFinanced.ownershipAddress = new Address();
 		updateVehicleLeasedFinanced.ownershipAddress.postalCode = zipCode;
 		updateVehicleLeasedFinanced.ownershipAddress.addressLine1 = addressLine1;
+		updateVehicleLeasedFinanced.ownershipAddress.addressLine2 = addressLine2;
 		updateVehicleLeasedFinanced.ownershipAddress.city = city;
 		updateVehicleLeasedFinanced.ownershipAddress.stateProvCd = state;
 		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
@@ -3143,10 +3093,19 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(2);
-		//TODO Leased FInanced here
-		//vehicleTab.getOwnershipAssetList().getAsset(Ownership.ADDRESS_LINE_1).getValue();
-		//assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.VALIDATE_ADDRESS_BTN)).isDisabled();
+		if("LSD".equals(ownershipType)) {
+			assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.OWNERSHIP_TYPE)).hasValue("Leased");
+		} if ("FNC".equals(ownershipType)){
+			assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.OWNERSHIP_TYPE)).hasValue("Financed");
+		}
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.FIRST_NAME)).hasValue("Other");
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.ADDITIONAL_OWNER_FIRST_LAST_NAME)).hasValue("someFirst Name");
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.SECOND_NAME)).hasValue("someSecond Name");
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.ADDRESS_LINE_1)).hasValue(addressLine1);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.CITY)).hasValue(city);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.STATE)).hasValue(state);
 		mainApp().close();
+
 		endorsementRateAndBind(policyNumber);
 
 		mainApp().open();

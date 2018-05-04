@@ -939,9 +939,9 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11618"})
-	public void pas11618_AddVehicleLeasedFinancedInfo(@Optional("VA") String state) {
+	public void pas11618_UpdateVehicleLeasedInfo(@Optional("VA") String state) {
 		assertSoftly(softly ->
-				pas11618_AddVehicleLeasedFinancedInfoBody(softly)
+				pas11618_UpdateVehicleLeasedFinancedInfoBody(softly, "LSD")
 		);
 	}
 
@@ -960,9 +960,9 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11618"})
-	public void pas11618_UpdateVehicleLeasedFinancedInfo(@Optional("VA") String state) {
+	public void pas11618_UpdateVehicleFinancedInfo(@Optional("VA") String state) {
 		assertSoftly(softly ->
-				pas11618_UpdateVehicleLeasedFinancedInfoBody(softly)
+				pas11618_UpdateVehicleLeasedFinancedInfoBody(softly, "FNC")
 		);
 	}
 
