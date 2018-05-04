@@ -3160,8 +3160,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected void pas13252_UpdateVehicleGaragingAddressProblemBody(SoftAssertions softly) {
 		mainApp().open();
-/*		String policyNumber = getCopiedPolicy();*/
-String policyNumber = "VASS952918564";
+		//String policyNumber = getCopiedPolicy();
+String policyNumber = "VASS952918560";
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
@@ -3200,9 +3200,12 @@ String policyNumber = "VASS952918564";
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(2);
-		//TODO Leased FInanced here
-		//vehicleTab.getOwnershipAssetList().getAsset(Ownership.ADDRESS_LINE_1).getValue();
-		//assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.VALIDATE_ADDRESS_BTN)).isDisabled();
+		vehicleTab.getAssetList().getAsset(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL).verify.value("Yes");
+		vehicleTab.getAssetList().getAsset(ZIP_CODE).verify.value(zipCode);
+		vehicleTab.getAssetList().getAsset(ADDRESS_LINE_1).verify.value(addressLine1);
+		vehicleTab.getAssetList().getAsset(CITY).verify.value(city);
+		vehicleTab.getAssetList().getAsset(STATE).verify.value(state);
+
 		mainApp().close();
 		endorsementRateAndBind(policyNumber);
 
