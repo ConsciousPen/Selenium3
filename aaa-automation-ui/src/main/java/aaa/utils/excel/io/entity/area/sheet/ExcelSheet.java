@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.poi.ss.usermodel.Sheet;
 import aaa.utils.excel.io.ExcelManager;
@@ -115,11 +114,11 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 		SheetRow headerRow = getRow(headerRowIndexOnSheet);
 		assertThat(headerRow.isEmpty()).as("Header row should not be empty").isFalse();
 		List<Integer> columnsIndexesOnSheet = null;
-		List<Integer> rowsIndexesOnSheet = CollectionUtils.isNotEmpty(rowsIndexesInTable) ? rowsIndexesInTable.stream().map(r -> r + headerRowIndexOnSheet).collect(Collectors.toList()) : null;
+		List<Integer> rowsIndexesOnSheet = rowsIndexesInTable != null ? rowsIndexesInTable.stream().map(r -> r + headerRowIndexOnSheet).collect(Collectors.toList()) : null;
 
 		if (ArrayUtils.isNotEmpty(headerColumnsNames)) {
 			Set<String> missedHeaderColumnsNames = new HashSet<>(Arrays.asList(headerColumnsNames));
-			columnsIndexesOnSheet = new LinkedList<>();
+			columnsIndexesOnSheet = new ArrayList<>();
 			for (SheetCell cell : headerRow) {
 				String cellValue = cell.getStringValue();
 				if (cellValue == null) {

@@ -1,6 +1,7 @@
 package aaa.helpers.openl.model.home_ss;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLCappingDetails;
 import aaa.helpers.openl.model.OpenLFile;
@@ -13,18 +14,23 @@ public class HomeSSOpenLFile extends OpenLFile<HomeSSOpenLPolicy> {
 	@ExcelTransient
 	public static final String TESTS_SHEET_NAME = "FinalTest";
 
+	@SuppressWarnings("FieldNameHidesFieldInSuperclass")
+	protected List<OpenLFinalTest> tests;
+
 	private List<HomeSSOpenLPolicy> policies;
-	private List<OpenLNamedInsured> policyNamedInsured;
-	private List<OpenLConstructionInfo> policyConstructionInfo;
-	private List<HomeSSOpenLCoverage> coverages;
 	private List<HomeSSOpenLForm> forms;
-	private List<OpenLLossInformation> policyLossInformation;
-	private List<OpenLDwellingRatingInfo> policyDwellingRatingInfo;
-	private List<HomeSSOpneLCappingDetails> cappingDetails;
-	private List<HomeSSOpenLAddress> policyAddress;
 	private List<OpenLCoverageDeductible> policyCoverageDeductible;
+	private List<OpenLConstructionInfo> policyConstructionInfo;
+	private List<HomeSSOpenLAddress> policyAddress;
+	private List<OpenLNamedInsured> policyNamedInsured;
+	private List<HomeSSOpneLCappingDetails> cappingDetails;
 	private List<OpenLDiscountInformation> policyDiscountInformation;
+	private List<OpenLDwellingRatingInfo> policyDwellingRatingInfo;
+	private List<HomeSSOpenLCoverage> coverages;
+	private List<OpenLLossInformation> policyLossInformation;
+	private List<OpenLClaim> claims;
 	private List<OpenLRiskMeterData> riskMeterData; // NJ Specific
+	private List<OpenLVariationType> variationType;
 
 	public List<OpenLNamedInsured> getPolicyNamedInsured() {
 		return new ArrayList<>(policyNamedInsured);
@@ -114,6 +120,27 @@ public class HomeSSOpenLFile extends OpenLFile<HomeSSOpenLPolicy> {
 		this.riskMeterData = new ArrayList<>(riskMeterData);
 	}
 
+	public List<OpenLVariationType> getVariationType() {
+		return variationType != null ? new ArrayList<>(variationType) : null;
+	}
+
+	public void setVariationType(List<OpenLVariationType> variationType) {
+		this.variationType = new ArrayList<>(variationType);
+	}
+
+	public List<OpenLClaim> getClaims() {
+		return claims != null ? new ArrayList<>(claims) : null;
+	}
+
+	public void setClaims(List<OpenLClaim> claims) {
+		this.claims = new ArrayList<>(claims);
+	}
+
+	@Override
+	public List<OpenLFinalTest> getTests() {
+		return Collections.unmodifiableList(tests);
+	}
+
 	@Override
 	public List<HomeSSOpenLPolicy> getPolicies() {
 		return new ArrayList<>(policies);
@@ -124,30 +151,22 @@ public class HomeSSOpenLFile extends OpenLFile<HomeSSOpenLPolicy> {
 	}
 
 	@Override
-	public String getTestsSheetName() {
-		return TESTS_SHEET_NAME;
-	}
-
-	@Override
-	public String getTestsPolicyHeaderColumnName() {
-		return "p";
-	}
-
-	@Override
 	public String toString() {
 		return "HomeSSOpenLFile{" +
 				"policies=" + policies +
-				", policyNamedInsured=" + policyNamedInsured +
-				", policyConstructionInfo=" + policyConstructionInfo +
-				", coverages=" + coverages +
 				", forms=" + forms +
-				", policyLossInformation=" + policyLossInformation +
-				", policyDwellingRatingInfo=" + policyDwellingRatingInfo +
-				", cappingDetails=" + cappingDetails +
-				", policyAddress=" + policyAddress +
 				", policyCoverageDeductible=" + policyCoverageDeductible +
+				", policyConstructionInfo=" + policyConstructionInfo +
+				", policyAddress=" + policyAddress +
+				", policyNamedInsured=" + policyNamedInsured +
+				", cappingDetails=" + cappingDetails +
 				", policyDiscountInformation=" + policyDiscountInformation +
+				", policyDwellingRatingInfo=" + policyDwellingRatingInfo +
+				", coverages=" + coverages +
+				", policyLossInformation=" + policyLossInformation +
+				", claims=" + claims +
 				", riskMeterData=" + riskMeterData +
+				", variationType=" + variationType +
 				", tests=" + tests +
 				'}';
 	}

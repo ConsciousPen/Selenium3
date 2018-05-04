@@ -66,7 +66,7 @@ public class ExcelUnmarshaller {
 		log.info(String.format("Getting list of table row objects of \"%1$s\" model from excel file \"%2$s\"%3$s %4$s strict match binding",
 				excelTableModel.getSimpleName(),
 				getExcelFile().getAbsolutePath(),
-				CollectionUtils.isNotEmpty(rowsWithPrimaryKeyValues) ? ", containing values in primary key column: " + rowsWithPrimaryKeyValues : "",
+				CollectionUtils.isNotEmpty(rowsWithPrimaryKeyValues) ? ", containing values in primary key columns: " + rowsWithPrimaryKeyValues : "",
 				isStrictMatchBinding() ? "with" : "without"));
 
 		List<TableRow> rows = cache.of(excelTableModel).getRows(rowsWithPrimaryKeyValues);

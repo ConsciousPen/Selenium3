@@ -64,7 +64,11 @@ public class TestDataHelper {
 	 * With different testdata element types you can't use TestData adjust(String keyPath, List<?> list) due to "Lists of mixed types are not allowed!" (probably ISTF defect)
 	 */
 	public static TestData convertToSimpleDataProviderTypeAndResolveLinks(TestData td) {
-		td = td.resolveLinks();
+		try {
+			td = td.resolveLinks();
+		} catch (TestDataException ignore) {
+		}
+
 		if (!td.getClass().isAssignableFrom(SimpleDataProvider.class)) {
 			SimpleDataProvider convertedTd = new SimpleDataProvider();
 			return convertedTd.adjust(td);
@@ -154,7 +158,12 @@ public class TestDataHelper {
 			}
 		}
 
-		return adjustWithNewValues(resultData, tdRight).resolveLinks();
+		TestData adjustedData = adjustWithNewValues(resultData, tdRight);
+		try {
+			adjustedData = adjustedData.resolveLinks();
+		} catch (TestDataException ignore) {
+		}
+		return adjustedData;
 	}
 
 	private static boolean isConvertibleToStringList(TestData.Type valueTypeLeft, TestData.Type valueTypeRight) {

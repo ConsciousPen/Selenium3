@@ -4,12 +4,13 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.openl.model.OpenLTest;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLPolicy;
 import aaa.helpers.openl.testdata_builder.HomeCaHO3TestDataGenerator;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
 
-public class HomeCaHO3PremiumCalculationTest extends HomeCaPremiumCalculationTest<HomeCaHO3OpenLPolicy> {
+public class HomeCaHO3PremiumCalculationTest extends HomeCaPremiumCalculationTest<HomeCaHO3OpenLPolicy, OpenLTest> {
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -20,6 +21,6 @@ public class HomeCaHO3PremiumCalculationTest extends HomeCaPremiumCalculationTes
 	@Test(groups = {Groups.OPENL, Groups.HIGH})
 	public void premiumCalculationTest(@Optional("") String state, String fileName, @Optional("") String policyNumbers) {
 		TestDataGenerator<HomeCaHO3OpenLPolicy> tdGenerator = new HomeCaHO3TestDataGenerator(getState(), getRatingDataPattern());
-		verifyPremiums(fileName, HomeCaHO3OpenLPolicy.class, tdGenerator, getPolicyNumbers(policyNumbers));
+		verifyPremiums(fileName, HomeCaHO3OpenLPolicy.class, OpenLTest.class, tdGenerator, getPolicyNumbers(policyNumbers));
 	}
 }

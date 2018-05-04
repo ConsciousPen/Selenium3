@@ -11,16 +11,16 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 public class OpenLTest {
 
 	@ExcelColumnElement(isPrimaryKey = true)
-	private Integer policy;
+	protected Integer policy;
 
 	@ExcelColumnElement(containsName = "usState")
-	private String state;
+	protected String state;
 
 	@ExcelColumnElement(containsName = "_res_")
-	private List<Dollar> premiums;
+	protected List<Dollar> premiums;
 
 	@ExcelColumnElement(name = "Total Premium")
-	private Dollar totalPremium;
+	protected Dollar totalPremium;
 
 	public Integer getPolicy() {
 		return this.policy;

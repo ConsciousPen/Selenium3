@@ -23,7 +23,7 @@ import aaa.utils.excel.io.entity.area.ExcelCell;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 
-public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
+public abstract class OpenLRatingBaseTest<P extends OpenLPolicy, T extends OpenLTest> extends PolicyBaseTest {
 	protected static final Logger log = LoggerFactory.getLogger(OpenLRatingBaseTest.class);
 
 	private static final Object UNMARSHAL_LOCK = new Object();
@@ -47,9 +47,9 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		return Arrays.asList(ExcelCell.INTEGER_TYPE, ExcelCell.DOUBLE_TYPE, ExcelCell.BOOLEAN_TYPE, ExcelCell.LOCAL_DATE_TYPE, ExcelCell.STRING_TYPE, ExcelCell.DOLLAR_CELL_TYPE);
 	}
 
-	protected void verifyPremiums(String openLFileName, Class<P> openLPolicyModelClass, TestDataGenerator<P> tdGenerator, List<Integer> policyNumbers) {
+	protected void verifyPremiums(String openLFileName, Class<P> openLPolicyModelClass, Class<T> openLTestModelClass, TestDataGenerator<P> tdGenerator, List<Integer> policyNumbers) {
 		//TODO-dchubkov: assert that date in openLFileName is valid
-		List<P> openLPolicies = getOpenLPolicies(openLFileName, openLPolicyModelClass, policyNumbers);
+		List<P> openLPolicies = getOpenLPolicies(openLFileName, openLPolicyModelClass, openLTestModelClass, policyNumbers);
 
 		mainApp().open();
 		String customerNumber = createCustomerIndividual();
@@ -75,14 +75,14 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 
 	protected abstract Dollar createAndRateQuote(TestDataGenerator<P> tdGenerator, P openLPolicy);
 
-	protected List<P> getOpenLPolicies(String openLFileName, Class<P> openLPolicyModelClass, List<Integer> policyNumbers) {
+	protected List<P> getOpenLPolicies(String openLFileName, Class<P> openLPolicyModelClass, Class<T> openLTestModelClass, List<Integer> policyNumbers) {
 		List<P> openLPolicies;
-		List<OpenLTest> openLTests;
+		List<T> openLTests;
 
 		synchronized (UNMARSHAL_LOCK) { // Used to solve performance issues when parsing thousands of excel rows simultaneously in multiple threads
 			ExcelUnmarshaller excelUnmarshaller = new ExcelUnmarshaller(new File(getTestsDir() + "/" + openLFileName), false, getUnmarshallingCellTypes());
-			openLTests = excelUnmarshaller.unmarshalRows(OpenLTest.class, policyNumbers);
 			openLPolicies = excelUnmarshaller.unmarshalRows(openLPolicyModelClass, policyNumbers);
+			openLTests = excelUnmarshaller.unmarshalRows(openLTestModelClass, policyNumbers);
 			excelUnmarshaller.flushCache().close();
 		}
 
@@ -93,7 +93,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		return openLPolicies;
 	}
 
-	protected List<P> getOpenLPoliciesWithExpectedPremiums(List<P> openLPolicies, List<OpenLTest> openLTests) {
+	protected List<P> getOpenLPoliciesWithExpectedPremiums(List<P> openLPolicies, List<T> openLTests) {
 		for (P policy : openLPolicies) {
 			Dollar expectedPremium = openLTests.stream().filter(t -> t.getPolicy().equals(policy.getNumber())).findFirst().get().getTotalPremium();
 			if (policy.getTerm() == 6) {

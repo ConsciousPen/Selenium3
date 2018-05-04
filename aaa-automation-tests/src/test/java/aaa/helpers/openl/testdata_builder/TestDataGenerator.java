@@ -54,25 +54,26 @@ public abstract class TestDataGenerator<P extends OpenLPolicy> {
 	public TestData getRenewalEntryData(P openLPolicy) {
 		List<String> maigSourceSystemStates = Arrays.asList(Constants.States.MD, Constants.States.PA, Constants.States.DE, Constants.States.NJ, Constants.States.VA);
 		String underwritingCompany;
-		switch (openLPolicy.getUnderwriterCode()) {
-			case "WUIC":
-				underwritingCompany = "CSAA General Insurance Company";
-				break;
-			case "ACAIC":
-				underwritingCompany = "CSAA Fire & Casualty Insurance Company";
-				break;
-			case "CSAAIB":
-				underwritingCompany = "CSAA Interinsurance Bureau";
-				break;
-			case "KICO":
-				underwritingCompany = "CSAA Affinity Insurance Company";
-				break;
-			default:
-				if (StringUtils.isBlank(openLPolicy.getUnderwriterCode())) {
-					underwritingCompany = AdvancedComboBox.RANDOM_MARK;
+
+		if (StringUtils.isBlank(openLPolicy.getUnderwriterCode())) {
+			underwritingCompany = AdvancedComboBox.RANDOM_MARK;
+		} else {
+			switch (openLPolicy.getUnderwriterCode()) {
+				case "WUIC":
+					underwritingCompany = "CSAA General Insurance Company";
 					break;
-				}
-				throw new IstfException("Unknown maping for underwriterCode=" + openLPolicy.getUnderwriterCode());
+				case "ACAIC":
+					underwritingCompany = "CSAA Fire & Casualty Insurance Company";
+					break;
+				case "CSAAIB":
+					underwritingCompany = "CSAA Interinsurance Bureau";
+					break;
+				case "KICO":
+					underwritingCompany = "CSAA Affinity Insurance Company";
+					break;
+				default:
+					throw new IstfException("Unknown maping for underwriterCode=" + openLPolicy.getUnderwriterCode());
+			}
 		}
 
 		TestData initiateRenewalEntryActionData = DataProviderFactory.dataOf(

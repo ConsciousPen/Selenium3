@@ -7,7 +7,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import javax.annotation.Nonnull;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.poi.ss.usermodel.Row;
@@ -35,8 +34,8 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 
 	protected ExcelArea(Sheet sheet, List<Integer> columnsIndexesOnSheet, List<Integer> rowsIndexesOnSheet, ExcelManager excelManager, List<CellType<?>> cellTypes) {
 		this.sheet = sheet;
-		this.columnsIndexesOnSheet = CollectionUtils.isNotEmpty(columnsIndexesOnSheet) ? columnsIndexesOnSheet.stream().distinct().sorted().collect(Collectors.toList()) : getColumnsIndexes(sheet);
-		this.rowsIndexesOnSheet = CollectionUtils.isNotEmpty(rowsIndexesOnSheet) ? rowsIndexesOnSheet.stream().distinct().sorted().collect(Collectors.toList()) : getRowsIndexes(sheet);
+		this.columnsIndexesOnSheet = columnsIndexesOnSheet != null ? columnsIndexesOnSheet.stream().distinct().sorted().collect(Collectors.toList()) : getColumnsIndexes(sheet);
+		this.rowsIndexesOnSheet = rowsIndexesOnSheet != null ? rowsIndexesOnSheet.stream().distinct().sorted().collect(Collectors.toList()) : getRowsIndexes(sheet);
 		this.excelManager = excelManager;
 		this.cellTypes = cellTypes.stream().distinct().collect(Collectors.toList());
 	}

@@ -96,8 +96,8 @@ public class MembershipMockData {
 	}
 
 	public List<MembershipResponse> getMembershipResponses(String membershipRequestNumber) {
-		String membershipRequestId = getMembershipRequests().stream().filter(m -> m.getMembershipNumber().equals(membershipRequestNumber)).map(MembershipRequest::getId).findFirst().get();
-		return getMembershipResponses().stream().filter(m -> m.getId().equals(membershipRequestId)).collect(Collectors.toList());
+		String membershipRequestId = getMembershipRequests().stream().filter(m -> Objects.equals(m.getMembershipNumber(), membershipRequestNumber)).map(MembershipRequest::getId).findFirst().get();
+		return getMembershipResponses().stream().filter(m -> Objects.equals(m.getId(), membershipRequestId)).collect(Collectors.toList());
 	}
 
 	public String getMembershipRequestNumber(String id) {

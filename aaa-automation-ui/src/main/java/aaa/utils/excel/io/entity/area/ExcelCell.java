@@ -228,9 +228,10 @@ public abstract class ExcelCell implements Writable {
 		return dateCellType.getValueFrom(this, dateTimeFormatters);
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T> T getValue(CellType<T> cellType, DateTimeFormatter... dateTimeFormatters) {
 		if (cellType instanceof DateCellType<?>) {
-			((DateCellType<?>) cellType).getValueFrom(this, dateTimeFormatters);
+			return (T) ((DateCellType<?>) cellType).getValueFrom(this, dateTimeFormatters);
 		}
 		return cellType.getValueFrom(this);
 	}

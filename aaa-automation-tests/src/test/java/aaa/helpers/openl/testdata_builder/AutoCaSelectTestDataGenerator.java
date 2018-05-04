@@ -56,7 +56,7 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 			LocalDate newDriverCourseCompletionMinDate = driversDateOfBirth.plusYears(16);
 			LocalDate newDriverCourseCompletionMaxDate = driversDateOfBirth.plusYears(19).isBefore(policyEffectiveDate) ? driversDateOfBirth.plusYears(19) : policyEffectiveDate;
 			assertThat(newDriverCourseCompletionMinDate).as("Calculated minimum allowable New Driver Course Completion Date should be less than maximum one").isBefore(newDriverCourseCompletionMaxDate);
-			int duration = Math.abs(Math.toIntExact(Duration.between(newDriverCourseCompletionMinDate, newDriverCourseCompletionMaxDate).toDays()));
+			int duration = Math.abs(Math.toIntExact(Duration.between(newDriverCourseCompletionMinDate.atStartOfDay(), newDriverCourseCompletionMaxDate.atStartOfDay()).toDays()));
 			LocalDate newDriverCourseCompletionDate = duration == 0 ? newDriverCourseCompletionMinDate : newDriverCourseCompletionMinDate.plusDays(new Random().nextInt(duration));
 
 			driverData

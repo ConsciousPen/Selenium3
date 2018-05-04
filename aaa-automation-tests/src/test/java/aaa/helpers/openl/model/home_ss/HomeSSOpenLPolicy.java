@@ -11,31 +11,38 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 @ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
 public class HomeSSOpenLPolicy extends OpenLPolicy {
-
-	private HomeSSOpneLCappingDetails cappingDetails;
-	private List<HomeSSOpenLCoverage> coverages;
-	private List<HomeSSOpenLForm> forms;
-	private HomeSSOpenLAddress policyAddress;
-	private OpenLConstructionInfo policyConstructionInfo;
-	private OpenLCoverageDeductible policyCoverageDeductible;
-	private OpenLDiscountInformation policyDiscountInformation;
-	private OpenLDwellingRatingInfo policyDwellingRatingInfo;
-	private OpenLLossInformation policyLossInformation;
-	private OpenLNamedInsured policyNamedInsured;
-	private OpenLRiskMeterData riskMeterData; // NJ Specific
-
 	@SuppressWarnings({"FieldNameHidesFieldInSuperclass"})
 	@ExcelColumnElement(name = "id")
 	private String policyNumber;
 
-	private LocalDate effectiveDate;
-	private Boolean isVariationRequest;
-	private String level;
 	private String policyType;
+	private String level;
 	private String prevLevel;
-	private String transactionType;
-	private String chamberOfCommerce; // NJ specific ?
+	private List<HomeSSOpenLCoverage> coverages;
+	private HomeSSOpenLAddress policyAddress;
+	private OpenLNamedInsured policyNamedInsured;
+	private OpenLDwellingRatingInfo policyDwellingRatingInfo;
+	private OpenLConstructionInfo policyConstructionInfo;
+	private OpenLCoverageDeductible policyCoverageDeductible;
+	private OpenLLossInformation policyLossInformation;
+	private OpenLDiscountInformation policyDiscountInformation;
 	private String profession; // OK specific ?
+	private String transactionType;
+	private LocalDate effectiveDate;
+	private List<HomeSSOpenLForm> forms;
+	private OpenLRiskMeterData riskMeterData; // NJ Specific
+	private String chamberOfCommerce; // NJ specific ?
+	private LocalDate previousEffectiveDate;
+	private HomeSSOpneLCappingDetails cappingDetails;
+	private Boolean isVariationRequest;
+	private String riskState;
+	private String policyId;
+	private String lob;
+	private String productCd;
+	private Boolean ignorable;
+	private String renewalCycle;
+	private String policyVersion;
+	private List<OpenLVariationType> paymentPlanVariations;
 
 	public HomeSSOpneLCappingDetails getCappingDetails() {
 		return cappingDetails;
@@ -125,12 +132,12 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 		this.riskMeterData = riskMeterData;
 	}
 
-	public Boolean getVariationRequest() {
+	public Boolean isVariationRequest() {
 		return isVariationRequest;
 	}
 
-	public void setVariationRequest(Boolean variationRequest) {
-		isVariationRequest = variationRequest;
+	public void setVariationRequest(Boolean isVariationRequest) {
+		this.isVariationRequest = isVariationRequest;
 	}
 
 	public String getLevel() {
@@ -181,6 +188,78 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 		this.profession = profession;
 	}
 
+	public LocalDate getPreviousEffectiveDate() {
+		return previousEffectiveDate;
+	}
+
+	public void setPreviousEffectiveDate(LocalDate previousEffectiveDate) {
+		this.previousEffectiveDate = previousEffectiveDate;
+	}
+
+	public String getRiskState() {
+		return riskState;
+	}
+
+	public void setRiskState(String riskState) {
+		this.riskState = riskState;
+	}
+
+	public String getPolicyId() {
+		return policyId;
+	}
+
+	public void setPolicyId(String policyId) {
+		this.policyId = policyId;
+	}
+
+	public String getLob() {
+		return lob;
+	}
+
+	public void setLob(String lob) {
+		this.lob = lob;
+	}
+
+	public String getProductCd() {
+		return productCd;
+	}
+
+	public void setProductCd(String productCd) {
+		this.productCd = productCd;
+	}
+
+	public Boolean getIgnorable() {
+		return ignorable;
+	}
+
+	public void setIgnorable(Boolean ignorable) {
+		this.ignorable = ignorable;
+	}
+
+	public String getRenewalCycle() {
+		return renewalCycle;
+	}
+
+	public void setRenewalCycle(String renewalCycle) {
+		this.renewalCycle = renewalCycle;
+	}
+
+	public String getPolicyVersion() {
+		return policyVersion;
+	}
+
+	public void setPolicyVersion(String policyVersion) {
+		this.policyVersion = policyVersion;
+	}
+
+	public List<OpenLVariationType> getPaymentPlanVariations() {
+		return paymentPlanVariations;
+	}
+
+	public void setPaymentPlanVariations(List<OpenLVariationType> paymentPlanVariations) {
+		this.paymentPlanVariations = paymentPlanVariations;
+	}
+
 	@Override
 	public LocalDate getEffectiveDate() {
 		return effectiveDate;
@@ -215,26 +294,35 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	@Override
 	public String toString() {
 		return "HomeSSOpenLPolicy{" +
-				"cappingDetails=" + cappingDetails +
+				"policyNumber='" + policyNumber + '\'' +
+				", policyType='" + policyType + '\'' +
+				", level='" + level + '\'' +
+				", prevLevel='" + prevLevel + '\'' +
 				", coverages=" + coverages +
-				", forms=" + forms +
 				", policyAddress=" + policyAddress +
+				", policyNamedInsured=" + policyNamedInsured +
+				", policyDwellingRatingInfo=" + policyDwellingRatingInfo +
 				", policyConstructionInfo=" + policyConstructionInfo +
 				", policyCoverageDeductible=" + policyCoverageDeductible +
-				", policyDiscountInformation=" + policyDiscountInformation +
-				", policyDwellingRatingInfo=" + policyDwellingRatingInfo +
 				", policyLossInformation=" + policyLossInformation +
-				", policyNamedInsured=" + policyNamedInsured +
-				", riskMeterData=" + riskMeterData +
-				", policyNumber='" + policyNumber + '\'' +
-				", effectiveDate=" + effectiveDate +
-				", isVariationRequest=" + isVariationRequest +
-				", level='" + level + '\'' +
-				", policyType='" + policyType + '\'' +
-				", prevLevel='" + prevLevel + '\'' +
-				", transactionType='" + transactionType + '\'' +
-				", chamberOfCommerce='" + chamberOfCommerce + '\'' +
+				", policyDiscountInformation=" + policyDiscountInformation +
 				", profession='" + profession + '\'' +
+				", transactionType='" + transactionType + '\'' +
+				", effectiveDate=" + effectiveDate +
+				", forms=" + forms +
+				", riskMeterData=" + riskMeterData +
+				", chamberOfCommerce='" + chamberOfCommerce + '\'' +
+				", previousEffectiveDate=" + previousEffectiveDate +
+				", cappingDetails=" + cappingDetails +
+				", isVariationRequest=" + isVariationRequest +
+				", riskState='" + riskState + '\'' +
+				", policyId='" + policyId + '\'' +
+				", lob='" + lob + '\'' +
+				", productCd='" + productCd + '\'' +
+				", ignorable=" + ignorable +
+				", renewalCycle='" + renewalCycle + '\'' +
+				", policyVersion='" + policyVersion + '\'' +
+				", paymentPlanVariations=" + paymentPlanVariations +
 				", number=" + number +
 				", policyNumber='" + policyNumber + '\'' +
 				'}';

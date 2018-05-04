@@ -21,6 +21,9 @@ public abstract class OpenLFile<P extends OpenLPolicy> {
 	public static final int LOSS_INFORMATION_HEADER_ROW_NUMBER = 3;
 
 	@ExcelTransient
+	public static final int CLAIM_HEADER_ROW_NUMBER = 3;
+
+	@ExcelTransient
 	public static final int COVERAGE_DEDUCTIBLE_HEADER_ROW_NUMBER = 3;
 
 	@ExcelTransient
@@ -28,6 +31,9 @@ public abstract class OpenLFile<P extends OpenLPolicy> {
 
 	@ExcelTransient
 	public static final int RISK_METER_DATA_HEADER_ROW_NUMBER = 3;
+
+	@ExcelTransient
+	public static final int VARIATION_TYPE_HEADER_ROW_NUMBER = 3;
 
 	@ExcelTransient
 	public static final int DWELLING_RATING_INFO_HEADER_ROW_NUMBER = 3;
@@ -69,6 +75,9 @@ public abstract class OpenLFile<P extends OpenLPolicy> {
 	public static final String LOSS_INFORMATION_SHEET_NAME = "Batch- LossInformation";
 
 	@ExcelTransient
+	public static final String CLAIM_SHEET_NAME = "Batch- Claim";
+
+	@ExcelTransient
 	public static final String COVERAGE_DEDUCTIBLE_SHEET_NAME = "Batch- CoverageDeductible";
 
 	@ExcelTransient
@@ -76,6 +85,9 @@ public abstract class OpenLFile<P extends OpenLPolicy> {
 
 	@ExcelTransient
 	public static final String RISK_METER_DATA_SHEET_NAME = "Batch- RiskMeterData";
+
+	@ExcelTransient
+	public static final String VARIATION_TYPE_SHEET_NAME = "Batch- VariationType";
 
 	@ExcelTransient
 	public static final String DWELLING_RATING_INFO_SHEET_NAME = "Batch- DwellingRatingInfo";
@@ -104,22 +116,14 @@ public abstract class OpenLFile<P extends OpenLPolicy> {
 	@ExcelTransient
 	public static final String PRIMARY_KEY_COLUMN_NAME = "_PK_";
 
-	protected List<OpenLTest> tests;
+	protected List<? extends OpenLTest> tests;
 
-	public List<OpenLTest> getTests() {
+	public List<? extends OpenLTest> getTests() {
 		return new ArrayList<>(tests);
 	}
 
-	public void setTests(List<OpenLTest> tests) {
+	public void setTests(List<? extends OpenLTest> tests) {
 		this.tests = new ArrayList<>(tests);
-	}
-
-	public String getTestsSheetName() {
-		return TESTS_SHEET_NAME;
-	}
-
-	public String getTestsPolicyHeaderColumnName() {
-		return "policy";
 	}
 
 	public abstract List<P> getPolicies();

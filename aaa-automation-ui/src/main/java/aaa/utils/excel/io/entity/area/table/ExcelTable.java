@@ -3,7 +3,6 @@ package aaa.utils.excel.io.entity.area.table;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.*;
 import java.util.stream.Collectors;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
@@ -33,8 +32,8 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 
 	public ExcelTable(Row headerRow, List<Integer> columnsIndexesOnSheet, List<Integer> rowsIndexesOnSheet, ExcelSheet excelSheet, List<CellType<?>> cellTypes) {
 		super(excelSheet.getPoiSheet(),
-				CollectionUtils.isNotEmpty(columnsIndexesOnSheet) ? columnsIndexesOnSheet : getHeaderColumnsIndexes(headerRow),
-				CollectionUtils.isNotEmpty(rowsIndexesOnSheet) ? rowsIndexesOnSheet : getTableRowsIndexes(headerRow, columnsIndexesOnSheet),
+				columnsIndexesOnSheet != null ? columnsIndexesOnSheet : getHeaderColumnsIndexes(headerRow),
+				rowsIndexesOnSheet != null ? rowsIndexesOnSheet : getTableRowsIndexes(headerRow, columnsIndexesOnSheet),
 				excelSheet.getExcelManager(), cellTypes);
 		this.headerRow = headerRow;
 		this.excelSheet = excelSheet;
@@ -87,7 +86,7 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 
 	private static List<Integer> getTableRowsIndexes(Row headerRow, List<Integer> columnsIndexesOnSheet) {
 		List<Integer> rIndexes = new ArrayList<>();
-		List<Integer> cIndexes = CollectionUtils.isNotEmpty(columnsIndexesOnSheet) ? columnsIndexesOnSheet : getHeaderColumnsIndexes(headerRow);
+		List<Integer> cIndexes = columnsIndexesOnSheet != null ? columnsIndexesOnSheet : getHeaderColumnsIndexes(headerRow);
 
 		for (int rowIndex = headerRow.getRowNum() + 1; rowIndex <= headerRow.getSheet().getLastRowNum(); rowIndex++) {
 			if (isRowEmpty(headerRow.getSheet().getRow(rowIndex), cIndexes)) {

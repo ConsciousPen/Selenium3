@@ -10,14 +10,14 @@ import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 
-public class HomeCaPremiumCalculationTest<P extends HomeCaOpenLPolicy<?>> extends OpenLRatingBaseTest<P> {
+public class HomeCaPremiumCalculationTest<P extends HomeCaOpenLPolicy<?>, T extends OpenLTest> extends OpenLRatingBaseTest<P, T> {
 	@Override
 	protected TestData getRatingDataPattern() {
 		return getPolicyTD("DataGather", "TestData_CA").mask(new PurchaseTab().getMetaKey());
 	}
 
 	@Override
-	protected List<P> getOpenLPoliciesWithExpectedPremiums(List<P> openLPolicies, List<OpenLTest> openLTests) {
+	protected List<P> getOpenLPoliciesWithExpectedPremiums(List<P> openLPolicies, List<T> openLTests) {
 		List<P> openLPoliciesList = super.getOpenLPoliciesWithExpectedPremiums(openLPolicies, openLTests);
 		for (P openLPolicy : openLPoliciesList) {
 			double premiumLimit = ((HomeCaOpenLPolicy<?>) openLPolicy).getForms().stream().filter(f -> "premium".equals(f.getFormCode())).findFirst()

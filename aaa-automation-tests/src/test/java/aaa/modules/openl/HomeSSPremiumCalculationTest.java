@@ -8,6 +8,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
+import aaa.helpers.openl.model.home_ss.OpenLFinalTest;
 import aaa.helpers.openl.testdata_builder.HomeSSTestDataGenerator;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.enums.ErrorEnum;
@@ -19,7 +20,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 
-public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpenLPolicy> {
+public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpenLPolicy, OpenLFinalTest> {
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -81,6 +82,6 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 	@Test(groups = {Groups.OPENL, Groups.HIGH})
 	public void premiumCalculationTest(@Optional("") String state, String fileName, @Optional("") String policyNumbers) {
 		TestDataGenerator<HomeSSOpenLPolicy> tdGenerator = new HomeSSTestDataGenerator(getState(), getRatingDataPattern());
-		verifyPremiums(fileName, HomeSSOpenLPolicy.class, tdGenerator, getPolicyNumbers(policyNumbers));
+		verifyPremiums(fileName, HomeSSOpenLPolicy.class, OpenLFinalTest.class, tdGenerator, getPolicyNumbers(policyNumbers));
 	}
 }
