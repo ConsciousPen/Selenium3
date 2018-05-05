@@ -183,13 +183,13 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 
 		if (policyType.equals(PolicyType.PUP)) {
 			assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlan);//
-			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
+			assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
 					.contains(ALL_LOW_DOWN_PAYMENT_PLANS);
 
-			premiumsAndCoveragesQuoteTabHo.btnCalculatePremium().click();
+			premiumsAndCoveragesQuoteTabPup.calculatePremium();
 
-			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlan);//
-			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
+			assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlan);//
+			assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
 					.contains(ALL_LOW_DOWN_PAYMENT_PLANS);
 
 			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
@@ -325,8 +325,8 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 		initiateEndorsementAndNavigateToQuoteTab(policyType);
 
 		assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlan);//
-		premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).setValue(paymentPlanChangeTo);
-		assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
+		premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).setValue(paymentPlanChangeTo);
+		assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
 				.contains(ALL_LOW_DOWN_PAYMENT_PLANS);
 
 		//Navigate to different Tab and back to Quote Tab
@@ -335,7 +335,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
 
 		assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlanChangeTo);
-		assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
+		assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
 				.contains(ALL_LOW_DOWN_PAYMENT_PLANS);//both Low Down pay plans
 
 		//Calculate premium and 'Save and Exit'
@@ -360,13 +360,14 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 		bindTabPup.btnPurchase.click();
 		bindTabPup.confrimEndorsementPurchase.buttonYes.click();
 
+		aaa.main.modules.policy.pup.defaulttabs.PurchaseTab purchaseTabPup=new aaa.main.modules.policy.pup.defaulttabs.PurchaseTab();
 		//fill Purchase tab if it is present
-		if (PurchaseTab.btnApplyPayment.isVisible()) {
+		if (purchaseTabPup.isVisible()) {
 			//get Test Data to fill Purchase Tab
 			TestData tdPurchase = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData").resolveLinks();
-			policyType.get().getDefaultView().fillFromTo(tdPurchase, PurchaseTab.class, PurchaseTab.class, true);
-			PurchaseTab.btnApplyPayment.click();
-			PurchaseTab.confirmPurchase.buttonYes.click();
+			policyType.get().getDefaultView().fillFromTo(tdPurchase, aaa.main.modules.policy.pup.defaulttabs.PurchaseTab.class, aaa.main.modules.policy.pup.defaulttabs.PurchaseTab.class, true);
+			purchaseTabPup.btnApplyPayment.click();
+			purchaseTabPup.confirmPurchase.buttonYes.click();
 		}
 
 		if (RollOnChangesActionTab.buttonCancel.isPresent()) {
@@ -384,15 +385,15 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 
 		//IF during midterm endorsement changing payment plan from one Low Down plan to another Low down plan, Low Down plans still should be available during next endorsement
 		if (changeToAnotherLowDown) {
-			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
+			assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
 					.contains(ALL_LOW_DOWN_PAYMENT_PLANS);
 		} else {
-			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
+			assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
 					.doesNotContain(ALL_LOW_DOWN_PAYMENT_PLANS);
 		}
 
 		premiumsAndCoveragesQuoteTabPup.calculatePremium();
-		PremiumsAndCoveragesQuoteTab.dialogCancelAction.buttonYes.click();//TODO-mstrazds:possibly will not work
+		PremiumAndCoveragesQuoteTab.dialogCancelAction.buttonYes.click(); //TODO-mstrazds:possibly will not work
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 

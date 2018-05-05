@@ -149,9 +149,10 @@ public class TestPaymentPlanChangeOnEndorsement extends PersonalUmbrellaBaseTest
 	 * @scenario
 	 * 1. Create Customer.
 	 * 2. Create Home SS policy with 'Low Down' payment plan option
-	 * 3. Initiate endorsement for the policy
-	 * 4. Validate that "Payment plan" hasn't changed and still is 'Low Down'
-	 * 5. Calculate Premium and Bind the policy.
+	 * 3. Generate renewal Image
+	 * 4. Initiate endorsement for the current term
+	 * 5. Validate that "Payment plan" hasn't changed and still is 'Low Down'
+	 * 6. Calculate Premium and Bind the policy.
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -294,9 +295,10 @@ public class TestPaymentPlanChangeOnEndorsement extends PersonalUmbrellaBaseTest
 	 * @scenario
 	 * 1. Create Customer.
 	 * 2. Create Home SS policy with 'Low Down' payment plan option
-	 * 3. Initiate endorsement for the policy
-	 * 4. Validate that "Payment plan" hasn't changed and still is 'Low Down'
-	 * 5. Calculate Premium and Bind the policy.
+	 * 3.Generate renewal Image
+	 * 4. Initiate endorsement for the current term
+	 * 5. Validate that "Payment plan" hasn't changed and still is 'Low Down'
+	 * 6. Calculate Premium and Bind the policy.
 	 * @details
 	 */
 	@Parameters({"state"})
