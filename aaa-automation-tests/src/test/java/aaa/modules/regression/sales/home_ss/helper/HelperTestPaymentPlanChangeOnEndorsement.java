@@ -360,14 +360,14 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 		bindTabPup.btnPurchase.click();
 		bindTabPup.confrimEndorsementPurchase.buttonYes.click();
 
-		aaa.main.modules.policy.pup.defaulttabs.PurchaseTab purchaseTabPup=new aaa.main.modules.policy.pup.defaulttabs.PurchaseTab();
+		aaa.main.modules.policy.pup.defaulttabs.PurchaseTab purchaseTabPup = new aaa.main.modules.policy.pup.defaulttabs.PurchaseTab();
 		//fill Purchase tab if it is present
 		if (purchaseTabPup.isVisible()) {
 			//get Test Data to fill Purchase Tab
 			TestData tdPurchase = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData").resolveLinks();
 			policyType.get().getDefaultView().fillFromTo(tdPurchase, aaa.main.modules.policy.pup.defaulttabs.PurchaseTab.class, aaa.main.modules.policy.pup.defaulttabs.PurchaseTab.class, true);
-			purchaseTabPup.btnApplyPayment.click();
-			purchaseTabPup.confirmPurchase.buttonYes.click();
+			PurchaseTab.btnApplyPayment.click();
+			aaa.main.modules.policy.pup.defaulttabs.PurchaseTab.confirmPurchase.buttonYes.click();
 		}
 
 		if (RollOnChangesActionTab.buttonCancel.isPresent()) {
