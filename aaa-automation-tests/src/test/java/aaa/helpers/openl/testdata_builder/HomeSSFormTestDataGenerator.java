@@ -232,9 +232,11 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0495DataFunction = (openLPolicy, policyLevel) -> {
 		List<TestData> tdList = new ArrayList<>();
+		HomeSSOpenLForm form = openLPolicy.getForms().stream().filter(c -> "HS0495".equals(c.getFormCode())).findFirst().get();
+		String limit = (form.getLimit()== 5000.0)? "$5000": new Dollar(form.getLimit()).toString().split("\\.")[0];
 		tdList.add(DataProviderFactory.dataOf(
-				"Action", isFormAdded("HS0495", policyLevel) ? "Edit" : "Add",  //new Dollar(form.getLimit()).toString().split("\\.")[0]));
-				HomeSSMetaData.EndorsementTab.EndorsementHS0495.COVERAGE_LIMIT.getLabel(), new Dollar(openLPolicy.getForms().stream().filter(c -> "HS0495".equals(c.getFormCode())).findFirst().get().getLimit()).toString().split("\\.")[0]));
+				"Action", isFormAdded("HS0495", policyLevel) ? "Edit" : "Add",
+				HomeSSMetaData.EndorsementTab.EndorsementHS0495.COVERAGE_LIMIT.getLabel(), limit));
 		return tdList;
 	};
 
