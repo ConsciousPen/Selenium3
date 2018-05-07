@@ -11,6 +11,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import toolkit.datax.TestData;
@@ -53,8 +54,8 @@ public class TestMiniServicesDiscounts extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-9495"})
-	public void pas9495_miniServicesDiscounts(@Optional("VA") String state) {
-		createQuoteWithCustomData();
+	public void pas9495_miniServicesDiscounts(@Optional("AZ") String state) {
+		createQuoteWithCustomData(state);
 
 		CustomAssert.enableSoftMode();
 		String policyNumber = testEValueDiscount.simplifiedQuoteIssue("ACH");
@@ -63,17 +64,22 @@ public class TestMiniServicesDiscounts extends AutoSSBaseTest {
 		CustomAssert.assertAll();
 	}
 
-	private void createQuoteWithCustomData() {
+	private void createQuoteWithCustomData(String state) {
+		TestData td = getTestSpecificTD("TestData").adjust(TestData.makeKeyPath("GeneralTab",
+				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
+				AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()), "$<today+9d:MM/dd/yyyy>");
+
+		if(!state.equals("VA")){
+			td.mask( "AssignmentTab")
+			.mask(TestData.makeKeyPath(new PremiumAndCoveragesTab().getMetaKey(),AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT.getLabel()));
+		}
 
 		mainApp().open();
 		createCustomerIndividual();
 		//SearchPage.openCustomer("700032251");
 
 		policy.initiate();
-		policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData").adjust(TestData.makeKeyPath("GeneralTab",
-				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
-				AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()), "$<today+9d:MM/dd/yyyy>")
-				, DocumentsAndBindTab.class, false);
+		policy.getDefaultView().fillUpTo(td, DocumentsAndBindTab.class, false);
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
 		documentsAndBindTab.saveAndExit();
