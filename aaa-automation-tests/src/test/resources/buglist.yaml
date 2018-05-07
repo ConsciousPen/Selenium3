@@ -223,4 +223,4 @@ PAS-13338:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.conversions.home_ss.*,aaa.modules.regression.document_fulfillment.home_ss.*]
-      messages: ["no such element:"]
+      messages: ["no such element: Unable to locate element: {", "Errors: Error; Failed to rate policy"]
