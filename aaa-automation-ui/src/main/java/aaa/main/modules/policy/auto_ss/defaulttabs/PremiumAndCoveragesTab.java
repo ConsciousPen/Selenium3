@@ -45,6 +45,7 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Table tableFormsSummary = new Table(By.id("policyDataGatherForm:formSummaryTable"));
 	public static Table tablefeesSummary = new Table(By.id("policyDataGatherForm:feesSummaryTable"));
 	public static Table tableInstallmentFeeDetails = new Table(By.id("policyDataGatherForm:installmentFeeDetailsTable"));
+	public static Table tableStateAndLocalTaxesSummary = new Table(By.id("policyDataGatherForm:taxTable"));
 	public static Table tableAAAPremiumSummary = new Table(By.id("policyDataGatherForm:AAAPremiumSummary"));
 	public static Table tableTermPremiumbyVehicle = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table"));
 	public static Table tablePolicyLevelLiabilityCoveragesPremium = new Table(By.xpath("//table[@id='policyDataGatherForm:policyTableTotalVehiclePremium']"));
@@ -88,6 +89,14 @@ public class PremiumAndCoveragesTab extends Tab {
 
 	public static Dollar getActualPremium() {
 		return new Dollar(tableAAAPremiumSummary.getRow(1).getCell(tableAAAPremiumSummary.getColumnsCount()).getValue());
+	}
+
+	public static Dollar getTotalTermPremium() {
+		return new Dollar(totalTermPremium.getValue());
+	}
+
+	public static Dollar getStateAndLocalTaxesAndPremiumSurchargesPremium() {
+		return new Dollar(tableStateAndLocalTaxesSummary.getRow(1).getCell(tableStateAndLocalTaxesSummary.getColumnsCount()).getValue());
 	}
 
 	public TestData getRatingDetailsQuoteInfoData() {
@@ -235,6 +244,13 @@ public class PremiumAndCoveragesTab extends Tab {
 	}
 
 	public Dollar getVehicleCoveragePremiumByVehicle(int index) {
+		String xpathForVehicle = "//table[@id='policyDataGatherForm:subtotalVehiclePremium_%s']";
+		String xpathForVehicleFormatted = String.format(xpathForVehicle, index);
+		Table vehcilePremiumTable = new Table(By.xpath(xpathForVehicleFormatted));
+		return new Dollar(vehcilePremiumTable.getRow(1).getCell(3).getValue());
+	}
+
+	public Dollar getVehicleCoveragePremiumByVehicle1(int index) {
 		Table vehiclePremiumTable = new Table(tableVehicleCoveragePremium.format(index));
 		return new Dollar(vehiclePremiumTable.getRow(1).getCell(3).getValue());
 	}
@@ -288,12 +304,12 @@ public class PremiumAndCoveragesTab extends Tab {
 					continue; // empty column means absent vehicle
 				}
 
-				List<String> _values = new ArrayList<>();
-				_values.addAll(values);
-				_values.removeIf(s -> "No Coverage".equals(s));
-				_values.removeIf(s -> "Unstacked".equals(s));
-				_values.removeIf(s -> "Yes".equals(s));
-				if (_values.stream().allMatch(String::isEmpty)) {
+				List<String> tempValues = new ArrayList<>();
+				tempValues.addAll(values);
+				tempValues.removeIf("No Coverage"::equals);
+				tempValues.removeIf("Unstacked"::equals);
+				tempValues.removeIf("Yes"::equals);
+				if (tempValues.stream().allMatch(String::isEmpty)) {
 					continue; // skip column with only "No Coverage"
 				}
 

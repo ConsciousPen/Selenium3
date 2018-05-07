@@ -1,6 +1,6 @@
 package aaa.helpers.openl.model.home_ca;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.openl.model.OpenLPolicy;
@@ -15,7 +15,7 @@ public abstract class HomeCaOpenLPolicy<F extends HomeCaOpenLForm> extends OpenL
 	protected Integer yearsWithCsaa;
 
 	@ExcelTransient
-	private LocalDateTime effectiveDate;
+	private LocalDate effectiveDate;
 
 	public Integer getClaimPoints() {
 		return claimPoints;
@@ -66,14 +66,14 @@ public abstract class HomeCaOpenLPolicy<F extends HomeCaOpenLForm> extends OpenL
 	}
 
 	@Override
-	public LocalDateTime getEffectiveDate() {
+	public LocalDate getEffectiveDate() {
 		if (effectiveDate == null) {
-			return TimeSetterUtil.getInstance().getCurrentTime();
+			return TimeSetterUtil.getInstance().getCurrentTime().toLocalDate();
 		}
 		return effectiveDate;
 	}
 
-	public void setEffectiveDate(LocalDateTime effectiveDate) {
+	public void setEffectiveDate(LocalDate effectiveDate) {
 		this.effectiveDate = effectiveDate;
 	}
 

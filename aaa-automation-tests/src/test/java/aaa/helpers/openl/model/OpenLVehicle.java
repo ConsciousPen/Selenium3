@@ -1,14 +1,13 @@
 package aaa.helpers.openl.model;
 
-import java.util.ArrayList;
 import java.util.List;
-import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
-import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 
 public abstract class OpenLVehicle {
-	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	protected Integer number;
 
+	protected OpenLAddress address;
 	protected Integer annualMileage;
 	protected Integer collSymbol;
 	protected Integer compSymbol;
@@ -20,9 +19,6 @@ public abstract class OpenLVehicle {
 	protected String pdLiabilitySymbol;
 	protected String mpLiabilitySymbol;
 	protected String umLiabilitySymbol;
-
-	@ExcelTableElement(sheetName = OpenLFile.ADDRESS_SHEET_NAME, headerRowIndex = OpenLFile.ADDRESS_HEADER_ROW_NUMBER)
-	protected List<OpenLAddress> address;
 
 	public abstract List<? extends AutoOpenLCoverage> getCoverages();
 
@@ -122,12 +118,12 @@ public abstract class OpenLVehicle {
 		this.umLiabilitySymbol = umLiabilitySymbol;
 	}
 
-	public List<OpenLAddress> getAddress() {
-		return new ArrayList<>(address);
+	public OpenLAddress getAddress() {
+		return address;
 	}
 
-	public void setAddress(List<OpenLAddress> address) {
-		this.address = new ArrayList<>(address);
+	public void setAddress(OpenLAddress address) {
+		this.address = address;
 	}
 
 	@Override
