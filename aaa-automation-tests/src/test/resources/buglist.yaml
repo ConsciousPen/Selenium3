@@ -229,7 +229,5 @@ PAS-13338:
   summary: "Unable to rate Home_SS PA conversion policies"
   reason: PROD
   failures:
-    - tests: [aaa.modules.regression.conversions.home_ss.*]
-      messages: ["no such element: Unable to locate element: {"]
-    - tests: [aaa.modules.regression.document_fulfillment.home_ss.*]
-      messages: ["Errors: Error; Failed to rate policy"]
+    - tests: [aaa.modules.regression.conversions.home_ss.*,aaa.modules.regression.document_fulfillment.home_ss.*]
+      messages: ["no such element: Unable to locate element: {", "Errors: Error; Failed to rate policy"]
