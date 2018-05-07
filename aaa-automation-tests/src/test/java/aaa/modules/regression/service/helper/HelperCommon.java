@@ -54,6 +54,8 @@ public class HelperCommon {
 	private static final String DXP_ENDORSEMENT_VIEW_DRIVERS = "/api/v1/policies/%s/endorsement/drivers";
 	private static final String APPLICATION_CONTEXT_HEADER = "X-ApplicationContext";
 	private static final String DXP_VIEW_VEHICLE_COVERAGES = "/api/v1/policies/%s/coverages";
+	private static final String DXP_VIEW_VEHICLE_ONE_COVERAGES_ENDORSEMENT = "/api/v1/policies/%s/endorsement/vehicles/%s/coverages";
+	private static final String DXP_VIEW_VEHICLE_ONE_COVERAGES="/api/v1/policies/%s/vehicles/%s/coverages";
 	private static final String DXP_VIEW_VEHICLE_ENDORSEMENT_COVERAGES = "/api/v1/policies/%s/endorsement/coverages";
 
 	private static final String AAA_VEHICLE_INFO_RS_PREFIX = "/aaa-admin/services/aaa-vehicle-info-rs/v1/vin-info/";
@@ -215,6 +217,16 @@ public class HelperCommon {
 
 	static PolicyCoverageInfo viewCoverageInfo(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_VEHICLE_COVERAGES, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, PolicyCoverageInfo.class);
+	}
+
+	static PolicyCoverageInfo pendedEndorsementViewCoverageInfoForOneVehicle(String policyNumber,String newVehicleOid) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_VEHICLE_ONE_COVERAGES_ENDORSEMENT, policyNumber,newVehicleOid));
+		return runJsonRequestGetDxp(requestUrl, PolicyCoverageInfo.class);
+	}
+
+	static PolicyCoverageInfo viewCoverageInfoForOneVehicle(String policyNumber,String oid) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_VEHICLE_ONE_COVERAGES, policyNumber,oid));
 		return runJsonRequestGetDxp(requestUrl, PolicyCoverageInfo.class);
 	}
 
