@@ -689,9 +689,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8275"})
 	public void pas111_paperlessMockTest(@Optional("VA") String state) {
-		String policyNumber = "VASS926232072";
+		String policyNumber = "VASS952918556";
 
-		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
 		//Always need to delete the added request ot stub
 		deleteSinglePaperlessPreferenceRequest(requestId);
 
