@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.function.Function;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
-
-//import aaa.helpers.openl.model.home_ca.HomeCaOpenLForm;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLForm;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLPolicy;
 import aaa.main.metadata.policy.HomeCaMetaData;
@@ -15,31 +13,7 @@ import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 
-public class HomeCAFormTestDataGenerator {	
-	/*
-	private static List<String> includedForms = new ArrayList<>();
-	static {
-		includedForms.add("HO-28");
-		includedForms.add("HO-29");
-		includedForms.add("HO-40");
-		includedForms.add("HO-44");
-		includedForms.add("HO-48");
-		// --- Deductible forms ----
-		includedForms.add("HO-57"); 
-		includedForms.add("HO-59");
-		includedForms.add("HO-60");
-		includedForms.add("HO-76");
-		includedForms.add("HO-77");
-		includedForms.add("HO-78");
-		includedForms.add("HO-79");
-		includedForms.add("HO-80");
-		includedForms.add("HO-81");
-		includedForms.add("HO-82");
-		// -------------------------
-		includedForms.add("HO-90");
-	}
-	*/
-	
+public class HomeCAFormTestDataGenerator {		
 	//Form is included
 	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO29DataFunction =  (openLPolicy) -> {
 		if (Boolean.FALSE.equals(openLPolicy.getHasPolicySupportingForm())) {

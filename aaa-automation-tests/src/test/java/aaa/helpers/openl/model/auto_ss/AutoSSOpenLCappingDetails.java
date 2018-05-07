@@ -1,7 +1,10 @@
 package aaa.helpers.openl.model.auto_ss;
 
 import aaa.helpers.openl.model.OpenLCappingDetails;
+import aaa.helpers.openl.model.OpenLFile;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = OpenLFile.CAPPINGDETAILS_SHEET_NAME, headerRowIndex = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
 public class AutoSSOpenLCappingDetails extends OpenLCappingDetails {
 	private String state;
 	private Integer term;

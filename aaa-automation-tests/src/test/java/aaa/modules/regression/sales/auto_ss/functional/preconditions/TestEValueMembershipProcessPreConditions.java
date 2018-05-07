@@ -10,7 +10,7 @@ public interface TestEValueMembershipProcessPreConditions {
 			+ "FROM LOOKUPVALUE WHERE LOOKUPLIST_ID IN \n"
 			+ "    (SELECT ID \n"
 			+ "    FROM LOOKUPLIST \n"
-			+ "    WHERE LOOKUPNAME='AAAeMemberQualifications')\n"
+			+ "    WHERE LOOKUPNAME='AAAeValueQualifications')\n"
 			+ "and riskstatecd = 'VA'\n"
 			+ "and productCD = 'AAA_SS'\n"
 			+ "and code = 'membershipEligibility'\n"
@@ -21,7 +21,7 @@ public interface TestEValueMembershipProcessPreConditions {
 			+ "FROM LOOKUPVALUE WHERE LOOKUPLIST_ID IN \n"
 			+ "    (SELECT ID \n"
 			+ "    FROM LOOKUPLIST \n"
-			+ "    WHERE LOOKUPNAME='AAAeMemberQualifications')\n"
+			+ "    WHERE LOOKUPNAME='AAAeValueQualifications')\n"
 			+ "and riskstatecd = 'VA'\n"
 			+ "and productCD = 'AAA_SS'\n"
 			+ "and code = 'membershipEligibility'\n"
@@ -30,14 +30,14 @@ public interface TestEValueMembershipProcessPreConditions {
 	String EVALUE_MEMBERSHIP_ELIGIBILITY_CONFIG_INSERT = "INSERT INTO LOOKUPVALUE\n" +
 			"(dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n" +
 			"values\n" +
-			"('BaseProductLookupValue', 'membershipEligibility', 'TRUE', 'AAA_SS', 'VA', null, null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n";
+			"('BaseProductLookupValue', 'membershipEligibility', 'TRUE', 'AAA_SS', 'VA', null, null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeValueQualifications'))\n";
 
 	String MEMBERSHIP_ELIGIBILITY_SWITCH_FOR_VA_UPDATE = "update LOOKUPVALUE\n"
 			+ "set displayValue = '%s'\n"
 			+ "WHERE LOOKUPLIST_ID IN \n"
 			+ "    (SELECT ID \n"
 			+ "    FROM LOOKUPLIST \n"
-			+ "    WHERE LOOKUPNAME='AAAeMemberQualifications')\n"
+			+ "    WHERE LOOKUPNAME='AAAeValueQualifications')\n"
 			+ "and riskstatecd = 'VA'\n"
 			+ "and productCD = 'AAA_SS'\n"
 			+ "and code = 'membershipEligibility'\n"
