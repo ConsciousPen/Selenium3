@@ -4,9 +4,9 @@
  */
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
-import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import org.openqa.selenium.By;
 import toolkit.webdriver.controls.Button;
 
 /**
@@ -16,7 +16,7 @@ import toolkit.webdriver.controls.Button;
  * @category Generated
  */
 public class AssignmentTab extends Tab {
-	public Button btnContinue = new Button(By.id("policyDataGatherForm:continueBtn_AAAAssignmentContinueAction_footer"));
+	public Button btnContinue = new Button(By.xpath("//input[@id='policyDataGatherForm:continueBtn_AAAAssignmentContinueAction_footer' or @id='policyDataGatherForm:nextInquiry_footer']"));
 	public Button btnAssign = new Button(By.xpath("//input[@value='Assign']"));
 
 	public AssignmentTab() {

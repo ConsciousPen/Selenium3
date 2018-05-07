@@ -1,6 +1,9 @@
 package aaa.modules.regression.conversions.home_ss.ho4.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -67,6 +70,12 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO4BaseTe
         //Fill Quote
         policy.getDefaultView().fillUpTo(td,PremiumsAndCoveragesQuoteTab.class, true);
 
+	    //Check that coverages are rounded to dollar value
+	    List<String> currentValues = new ArrayList<>();
+	    currentValues.addAll(Arrays.asList(premiumsAndCoveragesQuoteTab.tableCoverages.getRow(2).getCell("Percentage of Coverage C").getValue()));
+	    for(String value : currentValues.toString().split("\n")) {
+		    assertThat(value).as("Coverages should be rounded to dollar value").contains(".00");
+	    }
 	    String ceilingCap = PolicyHelper.getCeilingByPolicyNumber(premiumsAndCoveragesQuoteTab.getPolicyNumberForConversion());
 	    String floorCap = PolicyHelper.getFloorByPolicyNumber(premiumsAndCoveragesQuoteTab.getPolicyNumberForConversion());
         //View Capping Details
