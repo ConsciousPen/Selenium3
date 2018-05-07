@@ -43,8 +43,7 @@ public class TestDocumentDeliverySection extends HomeSSHO3BaseTest {
 	public void pas12458_documentDeliverySectionDuringEndorsement (@Optional("VA") String state) {
 
 		mainApp().open();
-		createCustomerIndividual();
-		createPolicy();
+		getCopiedPolicy();
 
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
