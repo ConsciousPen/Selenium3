@@ -310,7 +310,7 @@ public class HomeCaHO6TestDataGenerator extends TestDataGenerator<HomeCaHO6OpenL
 		TestData personalPropertyTabData = new SimpleDataProvider();
 
 		for (HomeCaHO6OpenLForm form: openLPolicy.getForms()) {
-			if ("HW 04 61".equals(form.getFormCode())) {
+			if ("HW 04 61".equals(form.getFormCode()) && form.getScheduledPropertyItem() != null) {
 				switch (form.getScheduledPropertyItem().getPropertyType()) {
 				case "Cameras":
 					TestData camerasData = DataProviderFactory.dataOf(
