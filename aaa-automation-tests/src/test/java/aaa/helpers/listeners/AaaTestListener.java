@@ -61,11 +61,17 @@ public class AaaTestListener extends TestngTestListener2 {
 		Object[] params = result.getParameters();
 		if (params != null && StringUtils.isNotBlank(params[0].toString())) {
 			return new Object[] {params[0]};
+		} else if (isCAProduct(result)) {
+			return new Object[] {Constants.States.CA};
 		} else if (StringUtils.isNotBlank(PropertyProvider.getProperty("test.usstate"))) {
 			String state = PropertyProvider.getProperty("test.usstate");
 			return new Object[] {state};
 		} else {
 			return new Object[] {Constants.States.UT};
 		}
+	}
+
+	private Boolean isCAProduct(ITestResult result) {
+		return result.getMethod() != null && result.getMethod().getTestClass().getName().contains("_ca.");
 	}
 }
