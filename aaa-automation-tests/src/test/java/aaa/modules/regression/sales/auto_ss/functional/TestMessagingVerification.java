@@ -42,7 +42,7 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
 
 	private static final String EVALUE_PAYPLAN_ACKNOWLEDGEMENT_CHECK =
-			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "paymentPlanRequired", "FALSE");
+			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeValueQualifications", "paymentPlanRequired", "FALSE");
 
 	@Test(description = "Precondition")
 	public static void eValueAcknowledgementConfigCheck() {

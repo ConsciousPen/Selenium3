@@ -75,7 +75,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@Test(description = "Check membership endpoint", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void retrieveMembershipSummaryEndpointCheck() {
 		CustomAssert.assertTrue("retrieveMembershipSummary doesn't use stub endpoint. Please run retrieveMembershipSummaryStubEndpointUpdate", DBService.get()
-				.getValue(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_CHECK).get().contains(APP_HOST));
+				.getValue(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_CHECK).get().toLowerCase().contains(APP_HOST));
 	}
 
 	@Test(description = "Renewal job adding", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
