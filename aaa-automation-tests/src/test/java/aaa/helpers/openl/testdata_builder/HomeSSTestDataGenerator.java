@@ -731,40 +731,49 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 
 	private String getSwimmingPoolType(HomeSSOpenLPolicy openLPolicy) {
 		String swimmingPoolType;
-		switch (openLPolicy.getPolicyConstructionInfo().getSwimmingPoolType()) {
-			case "Fenced with no accessories":
-				swimmingPoolType = "Restricted access with no accessories";
-				break;
-			case "Fenced with slide and diving board":
-				swimmingPoolType = "Restricted access with slide and diving board";
-				break;
-			case "Fenced with slide only":
-				swimmingPoolType = "Restricted access with slide only";
-				break;
-			case "Fenced with diving board only":
-				swimmingPoolType = "Restricted access with diving board only";
-				break;
-			case "Not fenced or no locking gate":
-				swimmingPoolType = "Unrestricted access";
-				break;
-			default:
-				swimmingPoolType = "None";
+		if (StringUtils.isBlank(openLPolicy.getPolicyConstructionInfo().getSwimmingPoolType())) {
+			swimmingPoolType = "None";
+		} else {
+			switch (openLPolicy.getPolicyConstructionInfo().getSwimmingPoolType()) {
+				case "Fenced with no accessories":
+					swimmingPoolType = "Restricted access with no accessories";
+					break;
+				case "Fenced with slide and diving board":
+					swimmingPoolType = "Restricted access with slide and diving board";
+					break;
+				case "Fenced with slide only":
+					swimmingPoolType = "Restricted access with slide only";
+					break;
+				case "Fenced with diving board only":
+					swimmingPoolType = "Restricted access with diving board only";
+					break;
+				case "Not fenced or no locking gate":
+					swimmingPoolType = "Unrestricted access";
+					break;
+				default:
+					throw new IstfException("Unknown mapping for swimmingPoolType=" + openLPolicy.getPolicyConstructionInfo().getSwimmingPoolType());
+			}
 		}
 		return swimmingPoolType;
 	}
 
 	private String getTrampolineType(HomeSSOpenLPolicy openLPolicy) {
 		String trampolineType;
-		switch (openLPolicy.getPolicyConstructionInfo().getTrampoline()) {
-			case "Fenced above ground with safety net":
-				trampolineType = "Restricted access above ground with safety net";
-				break;
-			case "Fenced above ground without safety net":
-				trampolineType = "Restricted access above ground without safety net";
-				break;
-			default:
-				trampolineType = "None";
+		if (StringUtils.isBlank(openLPolicy.getPolicyConstructionInfo().getTrampoline())) {
+			trampolineType = "None";
+		} else {
+			switch (openLPolicy.getPolicyConstructionInfo().getTrampoline()) {
+				case "Fenced above ground with safety net":
+					trampolineType = "Restricted access above ground with safety net";
+					break;
+				case "Fenced above ground without safety net":
+					trampolineType = "Restricted access above ground without safety net";
+					break;
+				default:
+					throw new IstfException("Unknown mapping for trampoline=" + openLPolicy.getPolicyConstructionInfo().getTrampoline());
+			}
 		}
+
 		return trampolineType;
 	}
 

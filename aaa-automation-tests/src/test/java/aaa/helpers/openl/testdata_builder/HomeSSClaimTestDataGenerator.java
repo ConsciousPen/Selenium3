@@ -1,14 +1,11 @@
 package aaa.helpers.openl.testdata_builder;
 
-import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
-import scala.util.parsing.combinator.testing.Str;
-import toolkit.datax.TestData;
-import toolkit.db.DBService;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
+import toolkit.datax.TestData;
+import toolkit.db.DBService;
 
 public class HomeSSClaimTestDataGenerator {
 
@@ -24,12 +21,12 @@ public class HomeSSClaimTestDataGenerator {
 
     public HomeSSClaimTestDataGenerator(HomeSSOpenLPolicy openLPolicy) {
         this.openLPolicy = openLPolicy;
-        state = openLPolicy.getPolicyAddress().get(0).getState();
+        state = openLPolicy.getPolicyAddress().getState();
     }
 
     public TestData getClaimTestData(boolean isAAAClaim) {
         lookupName = isAAAClaim ? AAA_CLAIM_POINT : NOT_AAA_CLAIM_POINT;
-        int claimPoints = isAAAClaim ? openLPolicy.getPolicyLossInformation().get(0).getPriorClaimPoint() : openLPolicy.getPolicyLossInformation().get(0).getExpClaimPoint();
+        int claimPoints = isAAAClaim ? openLPolicy.getPolicyLossInformation().getPriorClaimPoint() : openLPolicy.getPolicyLossInformation().getExpClaimPoint();
         maxCode = Integer.parseInt(DBService.get().getValue(String.format(sqlMaxCode, lookupName, state)).get());
         getClaimList(claimPoints, 1);
         return null;
