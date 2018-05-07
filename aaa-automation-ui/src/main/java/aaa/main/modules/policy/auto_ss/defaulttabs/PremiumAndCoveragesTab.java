@@ -258,7 +258,6 @@ public class PremiumAndCoveragesTab extends Tab {
 		Table vehicleCoverageDetailsTable = new Table(tableVehicleCoverageDetails.format(index));
 		Row coverageRow = vehicleCoverageDetailsTable.getRowContains(1, coverageName);
 		Cell cell = coverageRow.getCell(2);
-		//cell.controls.comboBoxes.getFirst().setValueContains(value);
 		if (cell.controls.comboBoxes.getFirst().isPresent()) {
 			cell.controls.comboBoxes.getFirst().setValueContains(value);
 		} else if (cell.controls.textBoxes.getFirst().isPresent()) {

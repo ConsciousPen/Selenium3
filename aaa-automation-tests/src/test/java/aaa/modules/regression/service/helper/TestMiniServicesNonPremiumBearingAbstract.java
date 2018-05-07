@@ -3331,7 +3331,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(6).customerDisplayed).isEqualTo(false);
 
 		});
-
 		//vehicle2
 		Dollar comprehensiveDeductiblePendingV2 = new Dollar(premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(2, AutoSSMetaData.PremiumAndCoveragesTab.OTHER_THAN_COLLISION.getLabel()).replace("  (+$0.00)", ""));
 		Dollar collisionDeductiblePendingV2 = new Dollar(premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(2, AutoSSMetaData.PremiumAndCoveragesTab.COLLISION_DEDUCTIBLE.getLabel()).replace("  (+$0.00)", ""));
