@@ -393,7 +393,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 		}
 
 		premiumsAndCoveragesQuoteTabPup.calculatePremium();
-		PremiumAndCoveragesQuoteTab.dialogCancelAction.buttonYes.click(); //TODO-mstrazds:possibly will not work
+		PremiumAndCoveragesQuoteTab.dialogCancelAction.buttonYes.click();
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 

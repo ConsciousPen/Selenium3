@@ -6,16 +6,12 @@ import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.BillingConstants;
-import aaa.main.modules.policy.pup.defaulttabs.BindTab;
-import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import aaa.modules.regression.sales.home_ss.helper.HelperTestPaymentPlanChangeOnEndorsement;
 import toolkit.utils.TestInfo;
 
 public class TestPaymentPlanChangeOnEndorsement extends PersonalUmbrellaBaseTest {
 	private HelperTestPaymentPlanChangeOnEndorsement helper = new HelperTestPaymentPlanChangeOnEndorsement();
-	private PremiumAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumAndCoveragesQuoteTab();
-	private BindTab bindTab = new BindTab();
 
 	//-----------Tests with 'Monthly Low Down' payment plan--------------
 
