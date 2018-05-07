@@ -13,8 +13,8 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
-import aaa.helpers.openl.model.OpenLTest;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
@@ -23,7 +23,7 @@ import aaa.utils.excel.io.entity.area.ExcelCell;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 
-public abstract class OpenLRatingBaseTest<P extends OpenLPolicy, T extends OpenLTest> extends PolicyBaseTest {
+public abstract class OpenLRatingBaseTest<P extends OpenLPolicy, F extends OpenLFile<P>> extends PolicyBaseTest {
 	protected static final Logger log = LoggerFactory.getLogger(OpenLRatingBaseTest.class);
 
 	private static final Object UNMARSHAL_LOCK = new Object();
@@ -47,9 +47,9 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy, T extends OpenL
 		return Arrays.asList(ExcelCell.INTEGER_TYPE, ExcelCell.DOUBLE_TYPE, ExcelCell.BOOLEAN_TYPE, ExcelCell.LOCAL_DATE_TYPE, ExcelCell.STRING_TYPE, ExcelCell.DOLLAR_CELL_TYPE);
 	}
 
-	protected void verifyPremiums(String openLFileName, Class<P> openLPolicyModelClass, Class<T> openLTestModelClass, TestDataGenerator<P> tdGenerator, List<Integer> policyNumbers) {
+	protected void verifyPremiums(String openLFileName, Class<F> openLFileModelClass, TestDataGenerator<P> tdGenerator, List<Integer> policyNumbers) {
 		//TODO-dchubkov: assert that date in openLFileName is valid
-		List<P> openLPolicies = getOpenLPolicies(openLFileName, openLPolicyModelClass, openLTestModelClass, policyNumbers);
+		List<P> openLPolicies = getOpenLPolicies(openLFileName, openLFileModelClass, policyNumbers);
 
 		mainApp().open();
 		String customerNumber = createCustomerIndividual();
@@ -75,27 +75,25 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy, T extends OpenL
 
 	protected abstract Dollar createAndRateQuote(TestDataGenerator<P> tdGenerator, P openLPolicy);
 
-	protected List<P> getOpenLPolicies(String openLFileName, Class<P> openLPolicyModelClass, Class<T> openLTestModelClass, List<Integer> policyNumbers) {
-		List<P> openLPolicies;
-		List<T> openLTests;
-
+	protected List<P> getOpenLPolicies(String openLFileName, Class<F> openLFileModelClass, List<Integer> policyNumbers) {
+		F openLFile;
 		synchronized (UNMARSHAL_LOCK) { // Used to solve performance issues when parsing thousands of excel rows simultaneously in multiple threads
 			ExcelUnmarshaller excelUnmarshaller = new ExcelUnmarshaller(new File(getTestsDir() + "/" + openLFileName), false, getUnmarshallingCellTypes());
-			openLPolicies = excelUnmarshaller.unmarshalRows(openLPolicyModelClass, policyNumbers);
-			openLTests = excelUnmarshaller.unmarshalRows(openLTestModelClass, policyNumbers);
+			openLFile = excelUnmarshaller.unmarshal(openLFileModelClass);
 			excelUnmarshaller.flushCache().close();
 		}
 
-		openLPolicies = getOpenLPoliciesWithExpectedPremiums(openLPolicies, openLTests);
+		List<P> openLPolicies = getOpenLPoliciesWithExpectedPremiums(openLFile, policyNumbers);
 
 		//Sort policies list by effective date for further valid time shifts
 		openLPolicies = openLPolicies.stream().sorted(Comparator.comparing(OpenLPolicy::getEffectiveDate)).collect(Collectors.toList());
 		return openLPolicies;
 	}
 
-	protected List<P> getOpenLPoliciesWithExpectedPremiums(List<P> openLPolicies, List<T> openLTests) {
+	protected List<P> getOpenLPoliciesWithExpectedPremiums(F openLFile, List<Integer> policyNumbers) {
+		List<P> openLPolicies = openLFile.getPolicies(policyNumbers);
 		for (P policy : openLPolicies) {
-			Dollar expectedPremium = openLTests.stream().filter(t -> t.getPolicy().equals(policy.getNumber())).findFirst().get().getTotalPremium();
+			Dollar expectedPremium = openLFile.getTest(policy.getNumber()).getTotalPremium();
 			if (policy.getTerm() == 6) {
 				expectedPremium = expectedPremium.divide(2);
 			}

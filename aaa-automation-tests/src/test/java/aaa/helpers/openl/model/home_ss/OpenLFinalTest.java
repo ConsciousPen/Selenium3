@@ -17,7 +17,8 @@ public class OpenLFinalTest extends OpenLTest {
 		return policy;
 	}
 
-	public void setPolicy(Integer policy) {
+	@Override
+	public void setPolicy(int policy) {
 		this.policy = policy;
 	}
 

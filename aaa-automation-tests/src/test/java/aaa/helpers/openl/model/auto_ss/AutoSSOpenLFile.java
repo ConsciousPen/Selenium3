@@ -11,10 +11,16 @@ public class AutoSSOpenLFile extends OpenLFile<AutoSSOpenLPolicy> {
 	public static final String POLICY_SHEET_NAME = OpenLFile.POLICY_SHEET_NAME + "AZ";
 
 	private List<AutoSSOpenLPolicy> policies;
+
+	@ExcelTransient
 	private List<AutoSSOpenLCappingDetails> cappingDetails;
+	@ExcelTransient
 	private List<AutoSSOpenLVehicle> vehicles;
+	@ExcelTransient
 	private List<OpenLAddress> address;
+	@ExcelTransient
 	private List<AutoSSOpenLDriver> drivers;
+	@ExcelTransient
 	private List<AutoSSOpenLCoverage> coverages;
 
 	public List<AutoSSOpenLCappingDetails> getCappingDetails() {

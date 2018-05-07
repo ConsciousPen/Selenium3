@@ -7,7 +7,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.openl.model.OpenLTest;
+import aaa.helpers.openl.model.auto_ss.AutoSSOpenLFile;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLPolicy;
 import aaa.helpers.openl.testdata_builder.AutoSSTestDataGenerator;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
@@ -17,7 +17,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import toolkit.datax.TestData;
 
-public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpenLPolicy, OpenLTest> {
+public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpenLPolicy, AutoSSOpenLFile> {
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_SS;
@@ -57,6 +57,6 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 	@Test(groups = {Groups.OPENL, Groups.HIGH})
 	public void premiumCalculationTest(@Optional("") String state, String fileName, @Optional("") String policyNumbers) {
 		TestDataGenerator<AutoSSOpenLPolicy> tdGenerator = new AutoSSTestDataGenerator(getState(), getRatingDataPattern());
-		verifyPremiums(fileName, AutoSSOpenLPolicy.class, OpenLTest.class, tdGenerator, getPolicyNumbers(policyNumbers));
+		verifyPremiums(fileName, AutoSSOpenLFile.class, tdGenerator, getPolicyNumbers(policyNumbers));
 	}
 }

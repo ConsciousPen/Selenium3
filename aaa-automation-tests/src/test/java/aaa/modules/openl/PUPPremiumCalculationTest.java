@@ -5,7 +5,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.openl.model.OpenLTest;
+import aaa.helpers.openl.model.pup.PUPOpenLFile;
 import aaa.helpers.openl.model.pup.PUPOpenLPolicy;
 import aaa.helpers.openl.testdata_builder.PUPTestDataGenerator;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
@@ -15,7 +15,7 @@ import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
 import toolkit.datax.TestData;
 
-public class PUPPremiumCalculationTest extends OpenLRatingBaseTest<PUPOpenLPolicy, OpenLTest> {
+public class PUPPremiumCalculationTest extends OpenLRatingBaseTest<PUPOpenLPolicy, PUPOpenLFile> {
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -40,6 +40,6 @@ public class PUPPremiumCalculationTest extends OpenLRatingBaseTest<PUPOpenLPolic
 	@Test(groups = {Groups.OPENL, Groups.HIGH})
 	public void premiumCalculationTest(@Optional("") String state, String fileName, @Optional("") String policyNumbers) {
 		TestDataGenerator<PUPOpenLPolicy> tdGenerator = new PUPTestDataGenerator(getState(), getRatingDataPattern());
-		verifyPremiums(fileName, PUPOpenLPolicy.class, OpenLTest.class, tdGenerator, getPolicyNumbers(policyNumbers));
+		verifyPremiums(fileName, PUPOpenLFile.class, tdGenerator, getPolicyNumbers(policyNumbers));
 	}
 }

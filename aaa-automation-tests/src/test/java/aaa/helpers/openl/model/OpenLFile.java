@@ -2,7 +2,10 @@ package aaa.helpers.openl.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import org.apache.commons.collections4.CollectionUtils;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
+import toolkit.exceptions.IstfException;
 
 public abstract class OpenLFile<P extends OpenLPolicy> {
 	@ExcelTransient
@@ -116,7 +119,7 @@ public abstract class OpenLFile<P extends OpenLPolicy> {
 	@ExcelTransient
 	public static final String PRIMARY_KEY_COLUMN_NAME = "_PK_";
 
-	protected List<? extends OpenLTest> tests;
+	protected List<OpenLTest> tests;
 
 	public List<? extends OpenLTest> getTests() {
 		return new ArrayList<>(tests);
@@ -133,5 +136,16 @@ public abstract class OpenLFile<P extends OpenLPolicy> {
 		return "OpenLFile{" +
 				"tests=" + tests +
 				'}';
+	}
+
+	public List<P> getPolicies(List<Integer> policyNumbers) {
+		if (CollectionUtils.isEmpty(policyNumbers)) {
+			return getPolicies();
+		}
+		return getPolicies().stream().filter(p -> policyNumbers.contains(p.getNumber())).collect(Collectors.toList());
+	}
+
+	public OpenLTest getTest(int policyNumber) {
+		return getTests().stream().filter(t -> t.getPolicy() == policyNumber).findFirst().orElseThrow(() -> new IstfException("There is no test for policy number = " + policyNumber));
 	}
 }

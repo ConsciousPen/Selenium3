@@ -3,11 +3,13 @@ package aaa.utils.excel.bind;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
+import toolkit.exceptions.IstfException;
 
 public class BindHelper {
 	public static List<Field> getAllAccessibleFields(Class<?> tableClass, boolean onlyTables) {
@@ -53,7 +55,7 @@ public class BindHelper {
 	}
 
 	public static boolean isTableClassField(Field field) {
-		return getFieldType(field).isAnnotationPresent(ExcelTableElement.class);
+		return getThisAndAllSuperClasses(getFieldType(field)).stream().anyMatch(clazz -> clazz.isAnnotationPresent(ExcelTableElement.class));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -67,6 +69,11 @@ public class BindHelper {
 	@SuppressWarnings("unchecked")
 	public static <T> Class<T> getGenericType(Field field) {
 		ParameterizedType parameterizedType = (ParameterizedType) field.getGenericType();
-		return (Class<T>) parameterizedType.getActualTypeArguments()[0];
+		Type[] typeArgs = parameterizedType.getActualTypeArguments();
+		try {
+			return (Class<T>) typeArgs[0];
+		} catch (ClassCastException e) {
+			throw new IstfException("Can't get generic type of field " + field.getClass().getName(), e);
+		}
 	}
 }

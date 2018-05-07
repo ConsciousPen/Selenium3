@@ -27,6 +27,7 @@ public class TableClassInfo {
 	private final boolean strictMatchBinding;
 	private final Map<Integer, Object> rowsIndexesAndCreatedObjects;
 
+	private Class<?> annotatedTableClass;
 	private Boolean isCaseIgnoredForAllColumns;
 	private List<TableFieldInfo> tableFieldsInfos;
 	private List<Field> tableColumnsFields;
@@ -47,13 +48,21 @@ public class TableClassInfo {
 		return tableClass;
 	}
 
+	public Class<?> getAnnotatedTableClass() {
+		if (this.annotatedTableClass == null) {
+			this.annotatedTableClass = BindHelper.getThisAndAllSuperClasses(tableClass).stream().filter(clazz -> clazz.isAnnotationPresent(ExcelTableElement.class)).findFirst().orElseThrow(
+					() -> new IstfException(String.format("Unable to find excel table for \"%1$s\" class, neither it nor any super class has \"%2$s\" annotation", tableClass.getSimpleName(), ExcelTableElement.class.getSimpleName())));
+		}
+		return this.annotatedTableClass;
+	}
+
 	public ExcelManager getExcelManager() {
 		return excelManager;
 	}
 
 	public boolean isCaseIgnoredForAllColumns() {
 		if (this.isCaseIgnoredForAllColumns == null) {
-			this.isCaseIgnoredForAllColumns = tableClass.getAnnotation(ExcelTableElement.class).ignoreCase();
+			this.isCaseIgnoredForAllColumns = getAnnotatedTableClass().getAnnotation(ExcelTableElement.class).ignoreCase();
 		}
 		return isCaseIgnoredForAllColumns;
 	}
@@ -201,14 +210,11 @@ public class TableClassInfo {
 
 	private ExcelTable findTable() {
 		assertThat(tableClass.isPrimitive()).as("\"%s\" is primitive type. Only non-primitive types are supported for excel table model definition", tableClass.getSimpleName()).isFalse();
-		assertThat(tableClass).as("Unable to find excel table for \"%1$s\" class, it is not annotated with \"%2$s\"", tableClass.getSimpleName(), ExcelTableElement.class.getSimpleName())
-				.hasAnnotation(ExcelTableElement.class);
-
-		int headerRowIndex = tableClass.getAnnotation(ExcelTableElement.class).headerRowIndex();
+		int headerRowIndex = getAnnotatedTableClass().getAnnotation(ExcelTableElement.class).headerRowIndex();
 		ExcelTable table;
 
 		List<String> headerColumnNames = getHeaderColumnNames();
-		ExcelSheet sheet = getExcelManager().getSheet(tableClass.getAnnotation(ExcelTableElement.class).sheetName());
+		ExcelSheet sheet = getExcelManager().getSheet(getAnnotatedTableClass().getAnnotation(ExcelTableElement.class).sheetName());
 		if (headerRowIndex < 0) {
 			table = sheet.getTable(isCaseIgnoredInAnyColumnField(), headerColumnNames.toArray(new String[headerColumnNames.size()]));
 		} else {

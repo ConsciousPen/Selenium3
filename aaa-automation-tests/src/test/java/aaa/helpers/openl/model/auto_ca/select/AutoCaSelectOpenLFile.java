@@ -4,13 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLAddress;
 import aaa.helpers.openl.model.OpenLFile;
+import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public class AutoCaSelectOpenLFile extends OpenLFile<AutoCaSelectOpenLPolicy> {
 
 	private List<AutoCaSelectOpenLPolicy> policies;
+
+	@ExcelTransient
 	private List<AutoCaSelectOpenLVehicle> vehicles;
+	@ExcelTransient
 	private List<OpenLAddress> address;
+	@ExcelTransient
 	private List<AutoCaSelectOpenLDriver> drivers;
+	@ExcelTransient
 	private List<AutoCaSelectOpenLCoverage> coverages;
 
 	public List<AutoCaSelectOpenLVehicle> getVehicles() {
