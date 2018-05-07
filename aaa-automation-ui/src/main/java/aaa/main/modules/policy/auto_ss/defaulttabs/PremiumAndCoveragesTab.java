@@ -258,7 +258,15 @@ public class PremiumAndCoveragesTab extends Tab {
 		Table vehicleCoverageDetailsTable = new Table(tableVehicleCoverageDetails.format(index));
 		Row coverageRow = vehicleCoverageDetailsTable.getRowContains(1, coverageName);
 		Cell cell = coverageRow.getCell(2);
-		cell.controls.comboBoxes.getFirst().setValueContains(value);
+		//cell.controls.comboBoxes.getFirst().setValueContains(value);
+		if (cell.controls.comboBoxes.getFirst().isPresent()) {
+			cell.controls.comboBoxes.getFirst().setValueContains(value);
+		} else if (cell.controls.textBoxes.getFirst().isPresent()) {
+			cell.controls.textBoxes.getFirst().setValue(value);
+		} else {
+			cell.controls.radioGroups.getFirst().setValue(value);
+		}
+
 	}
 
 	public String getVehicleCoverageDetailsTermPremiumByVehicle(int index, String coverageName) {
