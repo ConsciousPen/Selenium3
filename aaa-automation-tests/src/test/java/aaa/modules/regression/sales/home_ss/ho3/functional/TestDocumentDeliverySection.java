@@ -40,7 +40,7 @@ public class TestDocumentDeliverySection extends HomeSSHO3BaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3,testCaseId = "PAS-12458")
 
-	public void DocumentDeliverySectionDuringEndorsement (@Optional("VA") String state) {
+	public void pas12458_documentDeliverySectionDuringEndorsement (@Optional("VA") String state) {
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -87,7 +87,7 @@ public class TestDocumentDeliverySection extends HomeSSHO3BaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3,testCaseId = "PAS-12458")
 
-	public void DocumentDeliverySectionPaperlessPreferencesOptInPending (@Optional("VA") String state) {
+	public void pas12458_documentDeliverySectionDataGatherMode (@Optional("VA") String state) {
 
 		mainApp().open();
 		createCustomerIndividual();
