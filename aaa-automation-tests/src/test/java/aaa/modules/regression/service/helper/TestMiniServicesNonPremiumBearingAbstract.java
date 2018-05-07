@@ -671,7 +671,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(vehicleSt.model).isEqualTo(model1);
 		softly.assertThat(vehicleSt.bodyStyle).isEqualTo(bodyStyle1);
 		softly.assertThat(vehicleSt.vehicleStatus).isEqualTo("active");
-		softly.assertThat(vehicleSt.ownership).isEqualTo(ownership1);
+		softly.assertThat(vehicleSt.vehicleOwnership.ownership).isEqualTo(ownership1);
 		softly.assertThat(vehicleSt.usage).isEqualTo(usage1);
 		softly.assertThat(vehicleSt.salvaged).isEqualTo(false);
 		softly.assertThat(BooleanUtils.toStringYesNo(vehicleSt.garagingDifferent)).isEqualTo(garagingDifferent1);
@@ -690,7 +690,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(vehicleNd.model).isEqualTo(model2);
 		softly.assertThat(vehicleNd.bodyStyle).isEqualTo(bodyStyle2);
 		softly.assertThat(vehicleNd.vehicleStatus).isEqualTo("active");
-		softly.assertThat(vehicleNd.ownership).isEqualTo(ownership2);
+		softly.assertThat(vehicleNd.vehicleOwnership.ownership).isEqualTo(ownership2);
 		softly.assertThat(vehicleNd.usage).isEqualTo(usage2);
 		softly.assertThat(vehicleNd.salvaged).isEqualTo(false);
 		softly.assertThat(BooleanUtils.toStringYesNo(vehicleNd.garagingDifferent)).isEqualTo(garagingDifferent2);
@@ -723,7 +723,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(vehicleSt1.model).isEqualTo(model1);
 		softly.assertThat(vehicleSt1.bodyStyle).isEqualTo(bodyStyle1);
 		softly.assertThat(vehicleSt1.vehicleStatus).isEqualTo("active");
-		softly.assertThat(vehicleSt1.ownership).isEqualTo(ownership1);
+		softly.assertThat(vehicleSt1.vehicleOwnership.ownership).isEqualTo(ownership1);
 		softly.assertThat(vehicleSt1.usage).isEqualTo(usage1);
 		softly.assertThat(vehicleSt1.salvaged).isEqualTo(false);
 		softly.assertThat(BooleanUtils.toStringYesNo(vehicleSt1.garagingDifferent)).isEqualTo(garagingDifferent1);
@@ -742,7 +742,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(vehicleNd1.model).isEqualTo(model2);
 		softly.assertThat(vehicleNd1.bodyStyle).isEqualTo(bodyStyle2);
 		softly.assertThat(vehicleNd1.vehicleStatus).isEqualTo("active");
-		softly.assertThat(vehicleNd1.ownership).isEqualTo(ownership2);
+		softly.assertThat(vehicleNd1.vehicleOwnership.ownership).isEqualTo(ownership2);
 		softly.assertThat(vehicleNd1.usage).isEqualTo(usage2);
 		softly.assertThat(vehicleNd1.salvaged).isEqualTo(false);
 		softly.assertThat(BooleanUtils.toStringYesNo(vehicleNd1.garagingDifferent)).isEqualTo(garagingDifferent2);
@@ -788,7 +788,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(vehicleSt2.model).isEqualTo(model1);
 		softly.assertThat(vehicleSt2.bodyStyle).isEqualTo(bodyStyle1);
 		softly.assertThat(vehicleSt2.vehicleStatus).isEqualTo("active");
-		softly.assertThat(vehicleSt2.ownership).isEqualTo(ownership1);
+		softly.assertThat(vehicleSt2.vehicleOwnership.ownership).isEqualTo(ownership1);
 		softly.assertThat(vehicleSt2.usage).isEqualTo(usage1);
 		softly.assertThat(vehicleSt2.salvaged).isEqualTo(false);
 		softly.assertThat(BooleanUtils.toStringYesNo(vehicleSt2.garagingDifferent)).isEqualTo(garagingDifferent2);
@@ -807,7 +807,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(vehicleRd2.model).isEqualTo(model3);
 		softly.assertThat(vehicleRd2.bodyStyle).isEqualTo(bodyStyle3);
 		softly.assertThat(vehicleRd2.vehicleStatus).isEqualTo("active");
-		softly.assertThat(vehicleRd2.ownership).isEqualTo(ownership3);
+		softly.assertThat(vehicleRd2.vehicleOwnership.ownership).isEqualTo(ownership3);
 		softly.assertThat(vehicleRd2.usage).isEqualTo(usage3);
 		softly.assertThat(vehicleRd2.salvaged).isEqualTo(false);
 		softly.assertThat(BooleanUtils.toStringYesNo(vehicleRd2.garagingDifferent)).isEqualTo(garagingDifferent3);
@@ -2182,7 +2182,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
 		assertSoftly(softly -> {
-			softly.assertThat(updateVehicleResponse.ownership).isEqualTo("OWN");
+			softly.assertThat(updateVehicleResponse.vehicleOwnership.ownership).isEqualTo("OWN");
 			softly.assertThat(updateVehicleResponse.usage).isEqualTo("Pleasure");
 			softly.assertThat(updateVehicleResponse.salvaged).isEqualTo(false);
 			softly.assertThat(updateVehicleResponse.garagingDifferent).isEqualTo(false);
@@ -2199,7 +2199,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].bodyStyle).isEqualTo(updateVehicleResponse.bodyStyle);
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].vehIdentificationNo).isEqualTo(updateVehicleResponse.vehIdentificationNo);
 
-			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].ownership).isEqualTo("OWN");
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].vehicleOwnership.ownership).isEqualTo("OWN");
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].usage).isEqualTo("Pleasure");
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].salvaged).isEqualTo(false);
 
@@ -2237,7 +2237,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		Vehicle updateVehicleResponseGaragingAddress = HelperCommon.updateVehicle(policyNumber, oid, updateGaragingAddressVehicleRequest);
 		assertSoftly(softly -> {
-			softly.assertThat(updateVehicleResponseGaragingAddress.ownership).isEqualTo("OWN");
+			softly.assertThat(updateVehicleResponseGaragingAddress.vehicleOwnership.ownership).isEqualTo("OWN");
 			softly.assertThat(updateVehicleResponseGaragingAddress.usage).isEqualTo("Pleasure");
 			softly.assertThat(updateVehicleResponseGaragingAddress.salvaged).isEqualTo(false);
 			softly.assertThat(updateVehicleResponseGaragingAddress.garagingDifferent).isEqualTo(true);
@@ -2257,7 +2257,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].bodyStyle).isEqualTo(updateVehicleResponse.bodyStyle);
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].vehIdentificationNo).isEqualTo(updateVehicleResponse.vehIdentificationNo);
 
-			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].ownership).isEqualTo("OWN");
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].vehicleOwnership.ownership).isEqualTo("OWN");
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].usage).isEqualTo("Pleasure");
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].salvaged).isEqualTo(false);
 
@@ -3060,7 +3060,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	protected void pas11618_UpdateVehicleLeasedFinancedInfoBody(SoftAssertions softly, String ownershipType) {
 		mainApp().open();
 		//String policyNumber = getCopiedPolicy();
-		String policyNumber = "VASS952918564";
+		String policyNumber = "VASS952918544";
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
