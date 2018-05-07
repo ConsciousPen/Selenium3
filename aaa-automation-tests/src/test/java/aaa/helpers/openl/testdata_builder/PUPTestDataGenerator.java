@@ -1,5 +1,10 @@
 package aaa.helpers.openl.testdata_builder;
 
+import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.util.*;
+import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang3.RandomUtils;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -18,17 +23,11 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.pup.defaulttabs.*;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import org.apache.commons.lang3.NotImplementedException;
-import org.apache.commons.lang3.RandomUtils;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
-
-import java.text.NumberFormat;
-import java.time.LocalDateTime;
-import java.util.*;
 
 public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	public PUPTestDataGenerator(String state) {
@@ -90,8 +89,8 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 
 	private TestData getApplicantTabPrimaryPolicyData(PUPOpenLPolicy openLPolicy) {
 		TestData dwellingAddressData = new SimpleDataProvider();
-		dwellingAddressData.adjust(HomeSSMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel(), openLPolicy.getDwelling().get(0).getAddress().get(0).getZipCode());
-		if (Boolean.TRUE.equals(openLPolicy.getDwelling().get(0).getRetirementCommunityInd())) {
+		dwellingAddressData.adjust(HomeSSMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel(), openLPolicy.getDwelling().getAddress().getZipCode());
+		if (Boolean.TRUE.equals(openLPolicy.getDwelling().getRetirementCommunityInd())) {
 			dwellingAddressData.adjust(HomeSSMetaData.ApplicantTab.DwellingAddress.RETIREMENT_COMMUNITY.getLabel(), "MountainBrook Village");
 		}
 		return DataProviderFactory.dataOf(
@@ -129,23 +128,23 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	}
 
 	private Boolean getPoolInd(PUPOpenLPolicy openLPolicy) {
-		return openLPolicy.getDwelling().get(0).getRecEquipmentInfo().get(0).getPoolInd();
+		return openLPolicy.getDwelling().getRecEquipmentInfo().getPoolInd();
 	}
 
 	private Boolean getTrampoline(PUPOpenLPolicy openLPolicy) {
-		return openLPolicy.getDwelling().get(0).getRecEquipmentInfo().get(0).getTrampolineInd();
+		return openLPolicy.getDwelling().getRecEquipmentInfo().getTrampolineInd();
 	}
 
 	private Boolean getSpaInd(PUPOpenLPolicy openLPolicy) {
-		return openLPolicy.getDwelling().get(0).getRecEquipmentInfo().get(0).getSpaInd();
+		return openLPolicy.getDwelling().getRecEquipmentInfo().getSpaInd();
 	}
 
 	private Boolean getSlideInd(PUPOpenLPolicy openLPolicy) {
-		return openLPolicy.getDwelling().get(0).getRecEquipmentInfo().get(0).getSlideInd();
+		return openLPolicy.getDwelling().getRecEquipmentInfo().getSlideInd();
 	}
 
 	private Boolean getDivingBoardInd(PUPOpenLPolicy openLPolicy) {
-		return openLPolicy.getDwelling().get(0).getRecEquipmentInfo().get(0).getDivingBoardInd();
+		return openLPolicy.getDwelling().getRecEquipmentInfo().getDivingBoardInd();
 	}
 
 	protected TestData getStateTestData(TestData td, String fileName, String tdName) {
@@ -182,7 +181,7 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 				if (residency.size() < 1) {
 					residency.put(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.ADD.getLabel(), "Yes");
 				}
-				residency.put(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.ZIP_CODE.getLabel(), openLPolicy.getDwelling().get(0).getAddress().get(0).getZipCode());
+				residency.put(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.ZIP_CODE.getLabel(), openLPolicy.getDwelling().getAddress().getZipCode());
 				residency.put(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.STREET_ADDRESS_1.getLabel(), RandomUtils.nextInt(1001, 9999) + " S LAST CHANCE TRL");
 				residency.put(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.POLICY_NUMBER.getLabel(), RandomUtils.nextInt(100001, 999999));
 				residency.put(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.LIMIT_OF_LIABILITY.getLabel(), "$100.000");
@@ -255,7 +254,7 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		int numOfViolations = openLPolicy.getNumOfViolations();
 		int numOfAccidents = openLPolicy.getNumOfAccidents();
 		List<TestData> violationsTestDataList = new ArrayList<>();
-		LocalDateTime occurrenceDate = openLPolicy.getEffectiveDate().minusYears(1);
+		LocalDate occurrenceDate = openLPolicy.getEffectiveDate().minusYears(1);
 		if (numOfViolations > 0 || numOfAccidents > 0) {
 			if (numOfViolations > 0) {
 				for (int i = 0; i < numOfViolations; i++) {

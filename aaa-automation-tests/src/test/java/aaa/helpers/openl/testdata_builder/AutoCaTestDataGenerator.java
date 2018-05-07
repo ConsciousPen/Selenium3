@@ -1,7 +1,7 @@
 package aaa.helpers.openl.testdata_builder;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.*;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -38,7 +38,7 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 		return driversTestDataList;
 	}
 
-	protected TestData getDriverTabInformationData(D openLDriver, boolean isFirstDriver, LocalDateTime policyEffectiveDate) {
+	protected TestData getDriverTabInformationData(D openLDriver, boolean isFirstDriver, LocalDate policyEffectiveDate) {
 		int driverAge = getDriverAge(openLDriver);
 
 		TestData driverData = DataProviderFactory.dataOf(
@@ -72,7 +72,7 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 		return driverData;
 	}
 
-	protected abstract List<TestData> getDriverTabActivityInformationData(D openLDriver, LocalDateTime policyEffectiveDate);
+	protected abstract List<TestData> getDriverTabActivityInformationData(D openLDriver, LocalDate policyEffectiveDate);
 
 	protected abstract int getDriverAge(D openLDriver);
 
@@ -97,7 +97,6 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 	}
 
 	protected TestData getVehicleTabInformationData(V openLVehicle) {
-		assertThat(openLVehicle.getAddress()).as("Vehicle's address list should have only one address").hasSize(1);
 		Map<String, Object> vehicleInformation = new HashMap<>();
 		String vehicleType = getVehicleTabType(openLVehicle);
 
@@ -134,9 +133,9 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 		int streetNumber = RandomUtils.nextInt(100, 1000);
 		String streetName = RandomStringUtils.randomAlphabetic(10).toUpperCase() + " St";
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel(), "Yes");
-		vehicleInformation.put(AutoCaMetaData.VehicleTab.ZIP_CODE.getLabel(), openLVehicle.getAddress().get(0).getZip());
+		vehicleInformation.put(AutoCaMetaData.VehicleTab.ZIP_CODE.getLabel(), openLVehicle.getAddress().getZip());
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.ADDRESS_LINE_1.getLabel(), streetNumber + " " + streetName);
-		vehicleInformation.put(AutoCaMetaData.VehicleTab.STATE.getLabel(), openLVehicle.getAddress().get(0).getState());
+		vehicleInformation.put(AutoCaMetaData.VehicleTab.STATE.getLabel(), openLVehicle.getAddress().getState());
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.VALIDATE_ADDRESS_BTN.getLabel(), "click");
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.emptyData());
 
@@ -192,17 +191,17 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 		return RandomUtils.nextInt(minAgeInclusive, maxAgeInclusive + 1);
 	}
 
-	protected TestData get3ViolationPointsActivityInformationData(LocalDateTime effectiveDate, Integer totalYearsAaccidentsFree) {
+	protected TestData get3ViolationPointsActivityInformationData(LocalDate effectiveDate, Integer totalYearsAaccidentsFree) {
 		String description = getRandom("Child seat belt violation", "Disregard police", "Driving left of center", "Driving on sidewalk");
 		return getActivityInformationData(effectiveDate, "Minor Violation", description, totalYearsAaccidentsFree);
 	}
 
-	protected TestData get4ViolationPointsActivityInformationData(LocalDateTime effectiveDate, Boolean hasDriverTrainingDiscount, Integer totalYearsAaccidentsFree) {
+	protected TestData get4ViolationPointsActivityInformationData(LocalDate effectiveDate, Boolean hasDriverTrainingDiscount, Integer totalYearsAaccidentsFree) {
 		String incidentType = Boolean.TRUE.equals(hasDriverTrainingDiscount) ? "10-yr Major Violation" : "Major Violation";
 		return getActivityInformationData(effectiveDate, incidentType, AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|", totalYearsAaccidentsFree);
 	}
 
-	protected TestData getActivityInformationData(LocalDateTime effectiveDate, String type, String description, Integer totalYearsAaccidentsFree) {
+	protected TestData getActivityInformationData(LocalDate effectiveDate, String type, String description, Integer totalYearsAaccidentsFree) {
 		// Incident should be not older than 33 month from effective date to affect premium;
 		int maxIncidentFreeInMonth = maxIncidentFreeInMonthsToAffectRating;
 

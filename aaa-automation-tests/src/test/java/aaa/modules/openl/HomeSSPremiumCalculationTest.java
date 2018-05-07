@@ -18,7 +18,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 
-public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpenLPolicy> {
+public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpenLPolicy, HomeSSOpenLFile> {
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -28,7 +28,7 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 	@Override
 	protected Dollar createAndRateQuote(TestDataGenerator<HomeSSOpenLPolicy> tdGenerator, HomeSSOpenLPolicy openLPolicy) {
 		boolean isLegacyConvPolicy = false;
-		if (TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(openLPolicy.getCappingDetails().get(0).getProgramCode())) {
+		if (TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(openLPolicy.getCappingDetails().getProgramCode())) {
 			isLegacyConvPolicy = true;
 			TestData renewalEntryData = tdGenerator.getRenewalEntryData(openLPolicy);
 			if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())) {
@@ -52,7 +52,7 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 		PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 		premiumsAndCoveragesQuoteTab.fillTab(quoteRatingData);
 
-		if (openLPolicy.getForms().stream().anyMatch(c -> "HS0904".equals(c.getFormCode())) && !TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(openLPolicy.getCappingDetails().get(0).getProgramCode())) {
+		if (openLPolicy.getForms().stream().anyMatch(c -> "HS0904".equals(c.getFormCode())) && !TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(openLPolicy.getCappingDetails().getProgramCode())) {
 			premiumsAndCoveragesQuoteTab.submitTab();
 			TestData policyIssueData = ((HomeSSTestDataGenerator) tdGenerator).getPolicyIssueData(openLPolicy);
 

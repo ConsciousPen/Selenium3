@@ -1,7 +1,10 @@
 package aaa.helpers.openl.model.home_ca.ho6;
 
+import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLDwelling;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = OpenLFile.DWELLING_SHEET_NAME, headerRowIndex = OpenLFile.DWELLING_HEADER_ROW_NUMBER)
 public class HomeCaHO6OpenLDwelling extends HomeCaOpenLDwelling {
 	private Integer ageOfHome;
 	private String burglarAlarmType;

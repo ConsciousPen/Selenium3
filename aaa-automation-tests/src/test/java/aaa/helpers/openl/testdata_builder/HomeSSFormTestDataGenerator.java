@@ -42,7 +42,7 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 					tdList.add(DataProviderFactory.dataOf(
 							"Action", "Add",
 							HomeSSMetaData.EndorsementTab.EndorsementHS0435.LOCATION_TYPE.getLabel(), "Residential".equals(form.getType()) ? "Residence Premises" : "Other Structure off Premises",
-							HomeSSMetaData.EndorsementTab.EndorsementHS0435.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().get(0).getZip(),
+							HomeSSMetaData.EndorsementTab.EndorsementHS0435.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().getZip(),
 							HomeSSMetaData.EndorsementTab.EndorsementHS0435.STREET_ADDRESS_1.getLabel(), "Street address 1",
 							HomeSSMetaData.EndorsementTab.EndorsementHS0435.DESCRIPTION_OF_STRUCTURE.getLabel(), "index=2",
 							HomeSSMetaData.EndorsementTab.EndorsementHS0435.COVERAGE_LIMIT.getLabel(), new Dollar(form.getLimit()).toString().split("\\.")[0]));
@@ -133,7 +133,7 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 						HomeSSMetaData.EndorsementTab.EndorsementHS0459.NAME_OF_RELATIVE.getLabel(), "Name of relative",
 						HomeSSMetaData.EndorsementTab.EndorsementHS0459.DOES_THE_FACILITY_PROVIDE_LIVING_SERVICES_SUCH_AS_DINING_THERAPY_MEDICAL_SUPERVISION_HOUSEKEEPING_AND_SOCIAL_ACTIVITIES.getLabel(), "Yes",
 						HomeSSMetaData.EndorsementTab.EndorsementHS0459.NAME_OF_FACILITY.getLabel(), "Name of facility",
-						HomeSSMetaData.EndorsementTab.EndorsementHS0459.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().get(0).getZip(),
+						HomeSSMetaData.EndorsementTab.EndorsementHS0459.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().getZip(),
 						HomeSSMetaData.EndorsementTab.EndorsementHS0459.STREET_ADDRESS_1.getLabel(), "Street Address 1",
 						HomeSSMetaData.EndorsementTab.EndorsementHS0459.COVERAGE_C_LIMIT.getLabel(), form.getLimit().toString().split("\\.")[0],
 						HomeSSMetaData.EndorsementTab.EndorsementHS0459.COVERAGE_E_LIMIT.getLabel(), "$" + form.getOptionalValue().toString().split("\\.")[0]));
@@ -157,9 +157,6 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 		for (HomeSSOpenLForm form : openLPolicy.getForms()) {
 			if ("HS0465".equals(form.getFormCode())) {
 				switch (form.getType()) {
-					case "Firearms":
-						td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0465.LOSS_OF_FIREARMS.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]);
-						break;
 					case "Money":
 						if ("Heritage".equals(policyLevel)) {
 							td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0465.MONEY_AND_BANK_NOTES.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]);
@@ -213,7 +210,7 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 				tdList.add(DataProviderFactory.dataOf(
 						"Action", instanceNum == 1 ? isFormAdded("HS0492", policyLevel) ? "Edit" : "Add" : "Add",
 						HomeSSMetaData.EndorsementTab.EndorsementHS0492.DESCRIPTION_OF_STRUCTURE.getLabel(), "Description of Structure",
-						HomeSSMetaData.EndorsementTab.EndorsementHS0492.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().get(0).getZip(),
+						HomeSSMetaData.EndorsementTab.EndorsementHS0492.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().getZip(),
 						HomeSSMetaData.EndorsementTab.EndorsementHS0492.STREET_ADDRESS_1.getLabel(), "000 Street Address",
 						HomeSSMetaData.EndorsementTab.EndorsementHS0492.LIMIT_OF_LIABILITY.getLabel(), form.getLimit().toString().split("\\.")[0],
 						HomeSSMetaData.EndorsementTab.EndorsementHS0492.IS_THE_STRUCTURE_USED_AS_A_DWELLING_OR_CAPABLE_OF_BEING_USED_AS_A_DWELLING.getLabel(), "No",
@@ -246,14 +243,14 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 		List<TestData> tdList = new ArrayList<>();
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", isFormAdded("HS0614", policyLevel) ? "Edit" : "Add",
-				HomeSSMetaData.EndorsementTab.EndorsementHS0614.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().get(0).getZip(),
+				HomeSSMetaData.EndorsementTab.EndorsementHS0614.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().getZip(),
 				HomeSSMetaData.EndorsementTab.EndorsementHS0614.STREET_ADDRESS_1.getLabel(), "Street Address 1",
 				HomeSSMetaData.EndorsementTab.EndorsementHS0614.COVERAGE_LIMIT.getLabel(), openLPolicy.getForms().stream().filter(c -> "HS0614".equals(c.getFormCode())).findFirst().get().getLimit().toString().split("\\.")[0]));
 		return tdList;
 	};
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0904DataFunction = (openLPolicy, policyLevel) -> {
-		if (TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(openLPolicy.getCappingDetails().get(0).getProgramCode())) {
+		if (TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(openLPolicy.getCappingDetails().getProgramCode())) {
 			List tdList = new ArrayList();
 			tdList.add(DataProviderFactory.dataOf(
 					"Action", isFormAdded("HS0904", policyLevel) ? "Edit" : "Add",
@@ -321,11 +318,11 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 				tdList.add(DataProviderFactory.dataOf(
 						"Action", instanceNum == 1 ? isFormAdded("HS0988", policyLevel) ? "Edit" : "Add" : "Add",
 						HomeSSMetaData.EndorsementTab.EndorsementHS0988.NAME_OF_PERSON_OR_ORGANIZATION.getLabel(), "Name" + String.format("%d", instanceNum),
-						HomeSSMetaData.EndorsementTab.EndorsementHS0988.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().get(0).getZip(),
+						HomeSSMetaData.EndorsementTab.EndorsementHS0988.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().getZip(),
 						HomeSSMetaData.EndorsementTab.EndorsementHS0988.STREET_ADDRESS_1.getLabel(), "Address" + String.format("%d", instanceNum),
 						HomeSSMetaData.EndorsementTab.EndorsementHS0988.DESCRIPTION_OF_INSURABLE_INTEREST.getLabel(), "Interest" + String.format("%d", instanceNum),
 						HomeSSMetaData.EndorsementTab.EndorsementHS0988.DESCRIPTION_OF_EVENT.getLabel(), "Event" + String.format("%d", instanceNum),
-						HomeSSMetaData.EndorsementTab.EndorsementHS0988.EVENT_ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().get(0).getZip(),
+						HomeSSMetaData.EndorsementTab.EndorsementHS0988.EVENT_ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().getZip(),
 						HomeSSMetaData.EndorsementTab.EndorsementHS0988.EVENT_STREET_ADDRESS_1.getLabel(), "Address" + String.format("%d", instanceNum),
 						HomeSSMetaData.EndorsementTab.EndorsementHS0988.EFFECTIVE_DATE.getLabel(), TimeSetterUtil.getInstance().getCurrentTime().plusDays(3).format(DateTimeUtils.MM_DD_YYYY),
 						HomeSSMetaData.EndorsementTab.EndorsementHS0988.EXPIRATION_DATE.getLabel(), TimeSetterUtil.getInstance().getCurrentTime().plusDays(4).format(DateTimeUtils.MM_DD_YYYY),
@@ -349,7 +346,7 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", isFormAdded("HS2443", policyLevel) ? "Edit" : "Add",
 				HomeSSMetaData.EndorsementTab.EndorsementHS2443.DESCRIPTION_OF_BUSINESS.getLabel(), "Description of business",
-				HomeSSMetaData.EndorsementTab.EndorsementHS2443.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().get(0).getZip(),
+				HomeSSMetaData.EndorsementTab.EndorsementHS2443.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().getZip(),
 				HomeSSMetaData.EndorsementTab.EndorsementHS2443.STREET_ADDRESS_1.getLabel(), "Street address 1"));
 		return tdList;
 	};
@@ -388,7 +385,7 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 				"Action", isFormAdded("HS2472", policyLevel) ? "Edit" : "Add",
 				HomeSSMetaData.EndorsementTab.EndorsementHS2472.DESCRIPTION_OF_THE_NATURE_OF_THE_FARMING.getLabel(), "Description",
 				HomeSSMetaData.EndorsementTab.EndorsementHS2472.IS_THE_FARMING_LOCATED_AT_THE_RESIDENCE_PREMISES.getLabel(), isOnTheResidencePremises ? "Yes" : "No",
-				HomeSSMetaData.EndorsementTab.EndorsementHS2472.ZIP_CODE.getLabel(), !isOnTheResidencePremises ? openLPolicy.getPolicyAddress().get(0).getZip() : null,
+				HomeSSMetaData.EndorsementTab.EndorsementHS2472.ZIP_CODE.getLabel(), !isOnTheResidencePremises ? openLPolicy.getPolicyAddress().getZip() : null,
 				HomeSSMetaData.EndorsementTab.EndorsementHS2472.STREET_ADDRESS_1.getLabel(), !isOnTheResidencePremises ? "Street Address 1" : null,
 				HomeSSMetaData.EndorsementTab.EndorsementHS2472.IS_THE_INCOME_DERIVED_FROM_THE_FARMING_A_PRIMARY_SOURCE_OF_INCOME.getLabel(), "No",
 				HomeSSMetaData.EndorsementTab.EndorsementHS2472.IS_THE_FARMING_LOCATION_USED_FOR_RACING_PURPOSES.getLabel(), "No"));

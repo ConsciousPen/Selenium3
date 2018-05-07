@@ -21,12 +21,12 @@ public class HomeSSClaimTestDataGenerator {
 
 	public HomeSSClaimTestDataGenerator(HomeSSOpenLPolicy openLPolicy) {
 		this.openLPolicy = openLPolicy;
-		state = openLPolicy.getPolicyAddress().get(0).getState();
+		state = openLPolicy.getPolicyAddress().getState();
 	}
 
 	public TestData getClaimTestData(boolean isAAAClaim) {
 		lookupName = isAAAClaim ? AAA_CLAIM_POINT : NOT_AAA_CLAIM_POINT;
-		int claimPoints = isAAAClaim ? openLPolicy.getPolicyLossInformation().get(0).getPriorClaimPoint() : openLPolicy.getPolicyLossInformation().get(0).getExpClaimPoint();
+		int claimPoints = isAAAClaim ? openLPolicy.getPolicyLossInformation().getPriorClaimPoint() : openLPolicy.getPolicyLossInformation().getExpClaimPoint();
 		maxCode = Integer.parseInt(DBService.get().getValue(String.format(sqlMaxCode, lookupName, state)).get());
 		getClaimList(claimPoints, 1);
 		return null;
@@ -53,7 +53,6 @@ public class HomeSSClaimTestDataGenerator {
 				claimList.addAll(getClaimList(claimPoints, code < maxCode ? code++ : code));
 			}
 		}
-
 		return null;
 	}
 }

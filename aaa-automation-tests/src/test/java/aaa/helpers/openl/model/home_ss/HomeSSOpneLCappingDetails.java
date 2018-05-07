@@ -1,7 +1,10 @@
 package aaa.helpers.openl.model.home_ss;
 
 import aaa.helpers.openl.model.OpenLCappingDetails;
+import aaa.helpers.openl.model.OpenLFile;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = OpenLFile.CAPPINGDETAILS_SHEET_NAME, headerRowIndex = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
 public class HomeSSOpneLCappingDetails extends OpenLCappingDetails {
 	private Double agePremium;
 	private Integer cappingCalculatedForTerm;

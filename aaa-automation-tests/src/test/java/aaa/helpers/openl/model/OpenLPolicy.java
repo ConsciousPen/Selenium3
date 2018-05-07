@@ -1,12 +1,12 @@
 package aaa.helpers.openl.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import com.exigen.ipb.etcsa.utils.Dollar;
-import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public abstract class OpenLPolicy {
-	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	protected Integer number;
 
 	protected String policyNumber;
@@ -46,7 +46,7 @@ public abstract class OpenLPolicy {
 
 	public abstract String getUnderwriterCode();
 
-	public abstract LocalDateTime getEffectiveDate();
+	public abstract LocalDate getEffectiveDate();
 
 	@Override
 	public String toString() {

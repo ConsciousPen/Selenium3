@@ -1,12 +1,12 @@
 package aaa.helpers.openl.model;
 
-import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 
 public class OpenLCoverage {
-	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	protected Integer number;
 
-	@ExcelTableColumnElement(ignoreCase = true)
+	@ExcelColumnElement(ignoreCase = true)
 	protected String coverageCd;
 
 	protected String limit;
