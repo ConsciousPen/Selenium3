@@ -646,9 +646,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		TestData td = new SimpleDataProvider(vehicleInformation);
 		if (vehicle.getCoverages().stream().anyMatch(c -> "LOAN".equals(c.getCoverageCd()))) {
-			TestData ownershipData = DataProviderFactory.dataOf(AutoSSMetaData.VehicleTab.OWNERSHIP.getLabel(),
-					DataProviderFactory.dataOf(DataProviderFactory.dataOf(AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE.getLabel(), "Leased")));
-			td.adjust(ownershipData);
+			TestData ownershipData = DataProviderFactory.dataOf(AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE.getLabel(), "Leased");
+			td.adjust(AutoSSMetaData.VehicleTab.OWNERSHIP.getLabel(), ownershipData);
 		}
 
 		return td;

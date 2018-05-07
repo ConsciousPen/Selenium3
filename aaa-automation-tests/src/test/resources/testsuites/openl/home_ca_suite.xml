@@ -19,29 +19,29 @@
 
     <test name="Home CA HO3 Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="CA"/>
-        <parameter name="fileName" value="HO3Tests_eff_09142017.xls"/>
+        <parameter name="fileName" value="HO3Tests_eff_09142017_new.xls"/>
         <parameter name="policyNumbers" value="3323, 3333"/>
         <classes>
             <class name="aaa.modules.openl.HomeCaHO3PremiumCalculationTest"/>
         </classes>
-    </test>
+    </test> 
 
 	<!-- 
     <test name="Home CA HO4 Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="CA"/>
         <parameter name="fileName" value="HO4Tests_eff_01012018.xls"/>
-        <parameter name="policyNumbers" value="1"/>
+        <parameter name="policyNumbers" value="3781"/>
         <classes>
             <class name="aaa.modules.openl.HomeCaHO4PremiumCalculationTest"/>
         </classes>
-    </test>
-
+    </test> -->
+  
     <test name="Home CA HO6 Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="CA"/>
-        <parameter name="fileName" value="HO6Tests_eff_01012018.xls"/>
-        <parameter name="policyNumbers" value="1"/>
+        <parameter name="fileName" value="HO6Tests.xls"/>
+        <parameter name="policyNumbers" value="1, 3288, 3319, 3329, 3449, 3515, 3491, 3492"/> 
         <classes>
             <class name="aaa.modules.openl.HomeCaHO6PremiumCalculationTest"/>
         </classes>
-    </test> -->
+    </test>
 </suite>

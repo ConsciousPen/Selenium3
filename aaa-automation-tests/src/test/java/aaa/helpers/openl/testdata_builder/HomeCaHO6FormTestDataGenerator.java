@@ -211,7 +211,9 @@ public class HomeCaHO6FormTestDataGenerator {
 	
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHW0461DataFunction = (openLPolicy) -> {
 		//TODO	Scheduled Personal Property tab should be filled next
-		return null;
+		List<TestData> tdList = new ArrayList<>();
+		tdList.add(DataProviderFactory.dataOf("Action", "Add"));
+		return tdList;
 	};
 	
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHW0495DataFunction = (openLPolicy) -> {
