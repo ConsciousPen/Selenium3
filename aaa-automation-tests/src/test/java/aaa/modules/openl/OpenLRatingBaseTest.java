@@ -60,6 +60,8 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 
 		mainApp().open();
 		String customerNumber = createCustomerIndividual();
+		//String customerNumber = "700032481";
+		//SearchPage.openCustomer(customerNumber);
 		assertSoftly(softly -> {
 			for (P openLPolicy : openLPolicies) {
 				log.info("Premium calculation verification initiated for test with policy number {} and expected premium {} from {} OpenL file",
