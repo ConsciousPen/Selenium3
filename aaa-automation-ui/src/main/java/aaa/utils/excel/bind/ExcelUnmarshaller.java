@@ -166,10 +166,6 @@ public class ExcelUnmarshaller {
 		return multyColumnsValues;
 	}
 
-	private List<Object> getTableObjectValues(Class<?> tableClass) {
-		return getTableObjectValues(tableClass, null);
-	}
-
 	private List<Object> getTableObjectValues(Class<?> tableClass, List<Integer> tableRowsIds) {
 		if (CollectionUtils.isEmpty(tableRowsIds)) {
 			return null;

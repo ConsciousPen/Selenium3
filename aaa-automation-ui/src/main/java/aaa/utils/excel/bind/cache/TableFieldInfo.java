@@ -17,9 +17,9 @@ import toolkit.exceptions.IstfException;
 public final class TableFieldInfo {
 	private final Field tableField;
 	private final Class<?> tableClass;
-	private final List<Integer> headerColumnsIndexes;
 	private final List<CellType<?>> availableCellTypes;
 
+	private List<Integer> headerColumnsIndexes;
 	private Boolean isCaseIgnored;
 	private Boolean isPrimaryKeyField;
 	private Boolean hasHeaderColumnNamePattern;
@@ -33,8 +33,8 @@ public final class TableFieldInfo {
 	public TableFieldInfo(Field tableField, Class<?> tableClass, List<CellType<?>> availableCellTypes) {
 		this.tableField = tableField;
 		this.tableClass = tableClass;
-		this.headerColumnsIndexes = new ArrayList<>();
 		this.availableCellTypes = new ArrayList<>(availableCellTypes);
+		this.headerColumnsIndexes = new ArrayList<>();
 	}
 
 	public Field getTableField() {
@@ -150,6 +150,7 @@ public final class TableFieldInfo {
 
 	public List<Integer> getHeaderColumnsIndexes(TableHeader header, boolean isCaseIgnoredForAllColumns) {
 		if (this.headerColumnsIndexes.isEmpty()) {
+			List<Integer> columnsIndexes = new ArrayList<>();
 			boolean ignoreCase = isCaseIgnoredForAllColumns || isCaseIgnored();
 			boolean isColumnFound = false;
 
@@ -166,13 +167,14 @@ public final class TableFieldInfo {
 				}
 
 				if (isColumnFound) {
-					headerColumnsIndexes.add(cell.getColumnIndex());
+					columnsIndexes.add(cell.getColumnIndex());
 					isColumnFound = false;
 					if (!getBindType().equals(BindType.MULTY_COLUMNS)) {
 						break;
 					}
 				}
 			}
+			this.headerColumnsIndexes = columnsIndexes;
 		}
 
 		return Collections.unmodifiableList(this.headerColumnsIndexes);
