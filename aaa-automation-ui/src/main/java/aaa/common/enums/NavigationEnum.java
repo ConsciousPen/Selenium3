@@ -88,6 +88,7 @@ public class NavigationEnum {
 	        GENERAL_NOTES("Notes", ""),
 	        GENERAL_NUMBER_RANGES("# Ranges", ""),
 	        GENERAL_SCHEDULER("Scheduler", ""),
+		    CACHE_MANAGER("Cache manager", ""),
 	        PC_COMMISSION_COMMISSION_STRATEGY("P&C Commission Strategy", ""),
 	        PRODUCT_AUTOMATED_PROCESSING("Automated Processing", ""),
 	        PRODUCT_ENDORSEMENT_FORM_RELATIONSHIP("Endorsement Form Relationship", ""),

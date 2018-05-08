@@ -1,29 +1,24 @@
 package aaa.helpers.openl.model.pup;
 
-import static aaa.helpers.openl.model.OpenLFile.COVERAGE_HEADER_ROW_NUMBER;
-import static aaa.helpers.openl.model.OpenLFile.DWELLING_HEADER_ROW_NUMBER;
-import static aaa.helpers.openl.model.pup.PUPOpenLFile.*;
-import java.time.LocalDateTime;
+import static aaa.helpers.openl.model.pup.PUPOpenLFile.PUP_POLICY_SHEET_NAME;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = PUP_POLICY_SHEET_NAME, headerRowIndex = PUPOpenLFile.POLICY_HEADER_ROW_NUMBER)
 public class PUPOpenLPolicy extends OpenLPolicy {
-	@ExcelTableElement(sheetName = PUP_COVERAGE_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
+
 	private List<PUPOpenLCoverage> coverages;
-
-	@ExcelTableElement(sheetName = PUP_DWELLING_SHEET_NAME, headerRowIndex = DWELLING_HEADER_ROW_NUMBER)
-	private List<OpenLDwelling> dwelling;
-
-	@ExcelTableElement(sheetName = PUP_RISK_ITEM_SHEET_NAME, headerRowIndex = PUP_RISK_ITEM_HEADER_ROW_NUMBER)
+	private OpenLDwelling dwelling;
 	private List<OpenLRiskItem> riskItems;
 
 	private String autoTier;
 	private Boolean businessPursuitsInd;
 	private Integer daycareChildrenCount;
 	private Boolean dropDownInd;
-	private LocalDateTime effectiveDate;
+	private LocalDate effectiveDate;
 	private String homeTier;
 	private Boolean incidentalFarmingInd;
 	private Integer numOfAccidents;
@@ -45,12 +40,12 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 		this.coverages = new ArrayList<>(coverages);
 	}
 
-	public List<OpenLDwelling> getDwelling() {
-		return new ArrayList<>(dwelling);
+	public OpenLDwelling getDwelling() {
+		return dwelling;
 	}
 
-	public void setDwelling(List<OpenLDwelling> dwelling) {
-		this.dwelling = new ArrayList<>(dwelling);
+	public void setDwelling(OpenLDwelling dwelling) {
+		this.dwelling = dwelling;
 	}
 
 	public List<OpenLRiskItem> getRiskItems() {
@@ -94,11 +89,11 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 	}
 
 	@Override
-	public LocalDateTime getEffectiveDate() {
+	public LocalDate getEffectiveDate() {
 		return effectiveDate;
 	}
 
-	public void setEffectiveDate(LocalDateTime effectiveDate) {
+	public void setEffectiveDate(LocalDate effectiveDate) {
 		this.effectiveDate = effectiveDate;
 	}
 

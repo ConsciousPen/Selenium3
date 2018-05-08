@@ -42,7 +42,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private FormsTab formsTab = new FormsTab();
 	private CheckBox enhancedUIM = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UIM);
-	private final String formId = DocGenEnum.Documents.AAEUIMMD.getId().substring(0, DocGenEnum.Documents.AAEUIMMD.getId().indexOf(" "));
+	private final String formId = DocGenEnum.Documents.AAEUIMMD.getIdInXml();
 	private final String formDesc = DocGenEnum.Documents.AAEUIMMD.getName();
 
 	/**
@@ -75,8 +75,8 @@ public class TestEUIMForms extends AutoSSBaseTest {
 
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(tdEUIM, PremiumAndCoveragesTab.class, true);
-		verifyFormsAndAmnt();
-		mainApp().close();
+		verifyFormsAndAmount();
+
 	}
 
 	/**
@@ -109,8 +109,8 @@ public class TestEUIMForms extends AutoSSBaseTest {
 
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
 		policy.getDefaultView().fillUpTo(tdEUIM, PremiumAndCoveragesTab.class, true);
-		verifyFormsAndAmnt();
-		mainApp().close();
+		verifyFormsAndAmount();
+
 	}
 
 	/**
@@ -140,8 +140,8 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		//Perform mid-term endorsement and switch to EUIM coverage
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
 		switchToEUIMCoverage();
-		verifyFormsAndAmnt();
-		mainApp().close();
+		verifyFormsAndAmount();
+
 	}
 
 	/**
@@ -172,8 +172,8 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		// Create renewal and switch to EUIM coverage
 		policy.renew().perform();
 		switchToEUIMCoverage();
-		verifyFormsAndAmnt();
-		mainApp().close();
+		verifyFormsAndAmount();
+
 	}
 	////////////////////////////////Start PAS-12466 ///////////////////////////////////////////
 
@@ -486,7 +486,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 
 	////////////////////////////////End PAS-12466 ///////////////////////////////////////////
 
-	private void verifyFormsAndAmnt() {
+	private void verifyFormsAndAmount() {
 		//PAS-11302 AC1
 		TestData formsData = premiumAndCoveragesTab.getFormsData();
 		assertThat(formsData.getKeys()).contains(formId);

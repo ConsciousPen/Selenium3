@@ -52,6 +52,7 @@
                     <include name="pas10227_ViewPremiumServicePendedEndorsement"/>
                     <include name="pas508_BindManualEndorsement"/>
                     <include name="pas508_BindServiceEndorsement"/>
+                    <include name="pas11741_ManageVehicleLevelCoveragesOtherThanVA"/>
                     <include name="pas11618_UpdateVehicleLeasedInfo"/>
                     <include name="pas11618_UpdateVehicleFinancedInfo"/>
                     <include name="pas13252_UpdateVehicleGaragingAddressProblemBody"/>
@@ -126,6 +127,7 @@
                     <include name="pas11741_ManageVehicleLevelCoverages"/>
                     <include name="pas11633_ViewDriverAssignmentAutoAssign"/>
                     <include name="pas12407_BigMetaDataService"/>
+                    <include name="pas12769_ViewVehicleLevelCoveragesOneVehicle"/>
                 </methods>
             </class>
         </classes>

@@ -1,5 +1,18 @@
 package aaa.modules.bct;
 
+import aaa.common.pages.SearchPage;
+import aaa.helpers.jobs.Job;
+import aaa.helpers.jobs.JobUtils;
+import aaa.main.modules.policy.IPolicy;
+import aaa.main.modules.policy.PolicyType;
+import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.BaseTest;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.testng.SkipException;
+import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.db.DBService;
+import toolkit.verification.CustomAssert;
+
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
@@ -7,16 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-import org.testng.SkipException;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.helpers.jobs.Job;
-import aaa.helpers.jobs.JobUtils;
-import aaa.main.modules.policy.IPolicy;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.BaseTest;
-import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.db.DBService;
-import toolkit.verification.CustomAssert;
 
 public class BackwardCompatibilityBaseTest extends BaseTest {
 
@@ -110,4 +113,14 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 			policy.deletePendedTransaction().perform(new SimpleDataProvider());
 		}
 	}
+
+	protected IPolicy findAndOpenPolicy(String queryName, PolicyType policyType) {
+		mainApp().open();
+		String policyNumber = getPoliciesByQuery(queryName, "SelectPolicy").get(0);
+		log.info(String.format("Policy #%s has been selected for test using %s query", policyNumber, queryName));
+		IPolicy policy = policyType.get();
+		SearchPage.openPolicy(policyNumber);
+		return policy;
+	}
+
 }

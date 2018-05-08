@@ -55,7 +55,9 @@ public abstract class Purchase extends Tab {
 			DocumentsAndBindTab.confirmPurchase.buttonYes.click();
 		}
 		String value = remainingBalanceDueToday.getValue();
+		String total = totalRemainingTermPremium.getValue();
 		td.adjust(TestData.makeKeyPath(getAssetList().getName(), PurchaseMetaData.PurchaseTab.PAYMENT_ALLOCATION.getLabel(), PaymentMethodAllocationControl.BALANCE_DUE_KEY), value);
+		td.adjust(TestData.makeKeyPath(getAssetList().getName(), PurchaseMetaData.PurchaseTab.PAYMENT_ALLOCATION.getLabel(), PaymentMethodAllocationControl.TOTAL_PREMIUM_KEY), total);
 		super.fillTab(td);
 		return this;
 	}
@@ -66,7 +68,7 @@ public abstract class Purchase extends Tab {
 
 	public Tab payRemainingBalance(String paymentMethod) {
 		TestData payRemainingBalanceTD = DataProviderFactory.dataOf(getMetaKey(), DataProviderFactory.dataOf(PurchaseMetaData.PurchaseTab.PAYMENT_ALLOCATION.getLabel(),
-				DataProviderFactory.dataOf(paymentMethod, PaymentMethodAllocationControl.REST_KEY)));
+				DataProviderFactory.dataOf(paymentMethod, PaymentMethodAllocationControl.REST_VALUE)));
 		fillTab(payRemainingBalanceTD);
 		return this;
 	}

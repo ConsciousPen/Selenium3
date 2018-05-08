@@ -671,10 +671,14 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * 5.add new vehicle (that will be pending)
 	 * 6.hit view vehicle service
 	 * 7.validate response shows pending vehicle first.
+	 * Added Pas 12244
+	 * Add 2 PPA vehicle
+	 * hit view vehicle service on pended endorsement
+	 * verify order of vehicle
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10449"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10449","PAS-12244"})
 	public void pas10449_ViewVehicleServiceOrderOfVehicle(@Optional("VA") String state) {
 
 		pas10449_ViewVehicleServiceCheckOrderOfVehicle(getPolicyType(), state);
@@ -807,7 +811,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
 	/**
 	 * @author Megha Gubbala
-	 * Create a active policy with 2008 vehicle
+	 * Create a active policy with 2018 vehicle
 	 * Get vehicle coverages from Pas
 	 * run Dxp ViewManageVehicleLevelCoverages
 	 * verify coverages are same like pas coverages
@@ -827,6 +831,41 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	public void pas11741_ManageVehicleLevelCoverages(@Optional("VA") String state) {
 
 		pas11741_ViewManageVehicleLevelCoverages(getPolicyType());
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741","PAS-11852","PAS-12601"})
+	public void pas11741_ManageVehicleLevelCoveragesOtherThanVA(@Optional("AZ") String state) {
+
+		pas11741_ViewManageVehicleLevelCoveragesForAZ(getPolicyType());
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * Create a active policy with 2018 vehicle
+	 * add pending vehicle on policy
+	 * update pending vehicle usage as pleasure and ownership as leased
+	 * Get vehicle coverages from Pas for both the vehicles using policy number and oid
+	 * run Dxp ViewManageVehicleLevelCoveragesone vehicle
+	 * verify coverages are same like pas coverages
+	 * calculate premium save and exit
+	 * run ViewManageVehicleLevelCoverages for endorsemnt
+	 * validate coverages are matching with pas and all delimators .
+	 * Go to pas and change all the coverages for vehicle
+	 * calculate premium save.
+	 * open pended endorsement go to P and C page.
+	 * get all vehicle coverages save them
+	 * hit view manage vehicle level coverages dxp
+	 * validate response aginst pas vehicle coverages.
+	 * bind the endorsement
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12769"})
+	public void pas12769_ViewVehicleLevelCoveragesOneVehicle(@Optional("VA") String state) {
+
+		pas11741_ViewVehicleLevelCoverages(getPolicyType());
 	}
 
 	/**
