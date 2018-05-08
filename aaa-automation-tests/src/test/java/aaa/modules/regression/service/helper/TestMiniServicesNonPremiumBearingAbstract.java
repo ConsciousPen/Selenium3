@@ -2434,7 +2434,11 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	protected void pas11741_ViewManageVehicleLevelCoveragesForAZ(PolicyType policyType) {
 		mainApp().open();
 		createCustomerIndividual();
-		String policyNumber = createPolicy(getPolicyTD());
+		PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_AllVehiclesCoverage").getTestDataList("VehicleTab")).resolveLinks();
+		policyType.get().createPolicy(testData);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		//Perform Endorsement
 		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));

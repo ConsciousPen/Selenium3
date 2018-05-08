@@ -689,9 +689,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8275"})
 	public void pas111_paperlessMockTest(@Optional("VA") String state) {
-		String policyNumber = "VASS926232072";
+		String policyNumber = "VASS952918556";
 
-		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
 		//Always need to delete the added request ot stub
 		deleteSinglePaperlessPreferenceRequest(requestId);
 
@@ -788,7 +788,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		//Start PAS-12822
-		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true);
 		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
@@ -839,7 +839,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		//Start PAS-12822
-		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true);
 		//End PAS-12822
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
@@ -944,7 +944,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		//Start PAS-12822
-		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true);
 		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
