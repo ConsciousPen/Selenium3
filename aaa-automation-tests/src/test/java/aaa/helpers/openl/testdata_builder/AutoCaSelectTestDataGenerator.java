@@ -2,9 +2,8 @@ package aaa.helpers.openl.testdata_builder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.*;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -48,17 +47,17 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	}
 
 	@Override
-	protected TestData getDriverTabInformationData(AutoCaSelectOpenLDriver openLDriver, boolean isFirstDriver, LocalDateTime policyEffectiveDate) {
+	protected TestData getDriverTabInformationData(AutoCaSelectOpenLDriver openLDriver, boolean isFirstDriver, LocalDate policyEffectiveDate) {
 		TestData driverData = super.getDriverTabInformationData(openLDriver, isFirstDriver, policyEffectiveDate);
 		assertThat(openLDriver.getYaf()).as("\"yaf\" openl field should have maximum 7 Years activity (accidents) free").isLessThanOrEqualTo(7);
 
 		if (Boolean.TRUE.equals(openLDriver.isNewDriver())) {
-			LocalDateTime driversDateOfBirth = TimeSetterUtil.getInstance().parse(driverData.getValue(AutoCaMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), DateTimeUtils.MM_DD_YYYY);
-			LocalDateTime newDriverCourseCompletionMinDate = driversDateOfBirth.plusYears(16);
-			LocalDateTime newDriverCourseCompletionMaxDate = driversDateOfBirth.plusYears(19).isBefore(policyEffectiveDate) ? driversDateOfBirth.plusYears(19) : policyEffectiveDate;
+			LocalDate driversDateOfBirth = TimeSetterUtil.getInstance().parse(driverData.getValue(AutoCaMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), DateTimeUtils.MM_DD_YYYY).toLocalDate();
+			LocalDate newDriverCourseCompletionMinDate = driversDateOfBirth.plusYears(16);
+			LocalDate newDriverCourseCompletionMaxDate = driversDateOfBirth.plusYears(19).isBefore(policyEffectiveDate) ? driversDateOfBirth.plusYears(19) : policyEffectiveDate;
 			assertThat(newDriverCourseCompletionMinDate).as("Calculated minimum allowable New Driver Course Completion Date should be less than maximum one").isBefore(newDriverCourseCompletionMaxDate);
-			int duration = Math.abs(Math.toIntExact(Duration.between(newDriverCourseCompletionMinDate, newDriverCourseCompletionMaxDate).toDays()));
-			LocalDateTime newDriverCourseCompletionDate = duration == 0 ? newDriverCourseCompletionMinDate : newDriverCourseCompletionMinDate.plusDays(new Random().nextInt(duration));
+			int duration = Math.abs(Math.toIntExact(Duration.between(newDriverCourseCompletionMinDate.atStartOfDay(), newDriverCourseCompletionMaxDate.atStartOfDay()).toDays()));
+			LocalDate newDriverCourseCompletionDate = duration == 0 ? newDriverCourseCompletionMinDate : newDriverCourseCompletionMinDate.plusDays(new Random().nextInt(duration));
 
 			driverData
 					.adjust(AutoCaMetaData.DriverTab.DRIVER_TYPE.getLabel(), "Available for Rating")
@@ -70,7 +69,7 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	}
 
 	@Override
-	protected List<TestData> getDriverTabActivityInformationData(AutoCaSelectOpenLDriver openLDriver, LocalDateTime policyEffectiveDate) {
+	protected List<TestData> getDriverTabActivityInformationData(AutoCaSelectOpenLDriver openLDriver, LocalDate policyEffectiveDate) {
 		List<TestData> activityInformationList = new ArrayList<>();
 		switch (openLDriver.getDsr()) {
 			//TODO-dchubkov: implement logic to add incidents with any violation points number
@@ -300,19 +299,17 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	private TestData getAssignmentTabData(AutoCaSelectOpenLPolicy openLPolicy) {
 		List<TestData> driverVehicleRelationshipTable = new ArrayList<>(openLPolicy.getVehicles().size());
 		for (AutoCaSelectOpenLVehicle vehicle : openLPolicy.getVehicles()) {
-			assertThat(vehicle.getPrimaryDriver()).as("Vehicle's \"primaryDriver\" field should be not empty and have only one assigned driver").isNotNull().hasSize(1);
-			assertThat(vehicle.getPrimaryDriver().get(0).getType()).as("Vehicle's primary driver should have type=P").isEqualTo("P");
+			assertThat(vehicle.getPrimaryDriver().getType()).as("Vehicle's primary driver should have type=P").isEqualTo("P");
 
-			String driverId = vehicle.getPrimaryDriver().get(0).getId();
+			String driverId = vehicle.getPrimaryDriver().getId();
 			String primaryDriver = driverId.startsWith("Dr1") ? "contains=Smith" : driverId + DRIVER_FN_POSTFIX + " " + driverId + DRIVER_LN_POSTFIX;
 			String manuallyRatedDriver = "";
 
-			if (CollectionUtils.isNotEmpty(vehicle.getManuallyAssignedDriver())) {
-				assertThat(vehicle.getManuallyAssignedDriver()).as("Vehicle's \"manuallyAssignedDriver\" field should have only one assigned driver").hasSize(1);
-				assertThat(vehicle.getManuallyAssignedDriver().get(0).getType()).as("Vehicle's manually assigned driver should have type=U or type=O").isIn("U", "O");
+			if (vehicle.getManuallyAssignedDriver() != null) {
+				assertThat(vehicle.getManuallyAssignedDriver().getType()).as("Vehicle's manually assigned driver should have type=U or type=O").isIn("U", "O");
 				assertThat(vehicle.istManuallyAssignedUndesignatedDriverInd()).as("Vehicle's \"manuallyAssignedUndesignatedDriverInd\" should be TRUE if \"manuallyAssignedDriver\" is not empty").isTrue();
 
-				if ("U".equals(vehicle.getManuallyAssignedDriver().get(0).getType())) {
+				if ("U".equals(vehicle.getManuallyAssignedDriver().getType())) {
 					manuallyRatedDriver = "Undesignated";
 				} else { // O is other (just driver which is not mentioned in Primary Driver combobox)
 					manuallyRatedDriver = AdvancedComboBox.RANDOM_EXCEPT_CONTAINS_MARK + "=|Undesignated|" + primaryDriver.replace("contains=", "");
@@ -329,7 +326,7 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	}
 
 	private TestData getGeneralTabData(AutoCaSelectOpenLPolicy openLPolicy) {
-		LocalDateTime baseDate = LocalDateTime.of(openLPolicy.getBaseYear(), openLPolicy.getEffectiveDate().getMonth(), openLPolicy.getEffectiveDate().getDayOfMonth(), 0, 0);
+		LocalDate baseDate = LocalDate.of(openLPolicy.getBaseYear(), openLPolicy.getEffectiveDate().getMonth(), openLPolicy.getEffectiveDate().getDayOfMonth());
 		TestData namedInsuredInformationData = DataProviderFactory.dataOf(AutoCaMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel(), baseDate.format(DateTimeUtils.MM_DD_YYYY));
 
 		TestData policyInformationData = DataProviderFactory.dataOf(
