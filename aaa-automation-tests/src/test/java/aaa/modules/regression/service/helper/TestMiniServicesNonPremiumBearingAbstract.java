@@ -2173,7 +2173,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		//send request to update vehicle service
 		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
-		updateVehicleRequest.ownership = "OWN";
+		updateVehicleRequest.vehicleOwnership.ownership = "OWN";
 		updateVehicleRequest.usage = "Pleasure";
 		updateVehicleRequest.salvaged = false;
 		updateVehicleRequest.garagingDifferent = false;
@@ -2222,7 +2222,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		//send request to update vehicle service
 		VehicleUpdateDto updateGaragingAddressVehicleRequest = new VehicleUpdateDto();
-		updateGaragingAddressVehicleRequest.ownership = "OWN";
+		updateGaragingAddressVehicleRequest.vehicleOwnership.ownership = "OWN";
 		updateGaragingAddressVehicleRequest.usage = "Pleasure";
 		updateGaragingAddressVehicleRequest.salvaged = false;
 		updateGaragingAddressVehicleRequest.garagingDifferent = false;
@@ -2579,8 +2579,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		Dollar transportationExpense1 =
 				new Dollar(premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.TRANSPORTATION_EXPENSE.getLabel()).replace(" (Included)", "")
 						.replace(" (+$0.00)", "").replace("$", ""));
-		String towingAndLabor1 = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.TOWING_AND_LABOR_COVERAGE.getLabel()).replace(" (Included)", "")
-				.replace(" (+$0.00)", "").replace("$", "");
+		String towingAndLabor1 =
+				premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.TOWING_AND_LABOR_COVERAGE.getLabel()).replace(" (Included)", "")
+						.replace(" (+$0.00)", "").replace("$", "");
 		Dollar excessElectronicEquipment1 = new Dollar(premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.EXCESS_ELECTRONIC_EQUIPMENT.getLabel()));
 
 		PolicyCoverageInfo coverageEndorsementResponse = HelperCommon.viewCoverageInfoEndorsement(policyNumber);
@@ -3056,11 +3057,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		endorsementRateAndBind(policyNumber);
 	}
 
-
 	protected void pas11618_UpdateVehicleLeasedFinancedInfoBody(SoftAssertions softly, String ownershipType) {
 		mainApp().open();
 		//String policyNumber = getCopiedPolicy();
-		String policyNumber = "VASS952918544";
+		String policyNumber = "VASS952918548";
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
@@ -3085,15 +3085,25 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String addressLine2 = "Apt. 202";
 		String city = "PORTSMOUTH";
 		String state = "VA";
+		String otherName = "other name";
+		String secondName = "Second Name";
+
 		//Update vehicle Leased Financed Info
 		VehicleUpdateDto updateVehicleLeasedFinanced = new VehicleUpdateDto();
-		updateVehicleLeasedFinanced.ownership = ownershipType;
-		updateVehicleLeasedFinanced.ownershipAddress = new Address();
-		updateVehicleLeasedFinanced.ownershipAddress.postalCode = zipCode;
-		updateVehicleLeasedFinanced.ownershipAddress.addressLine1 = addressLine1;
-		updateVehicleLeasedFinanced.ownershipAddress.addressLine2 = addressLine2;
-		updateVehicleLeasedFinanced.ownershipAddress.city = city;
-		updateVehicleLeasedFinanced.ownershipAddress.stateProvCd = state;
+		updateVehicleLeasedFinanced.vehicleOwnership = new VehicleOwnership();
+		updateVehicleLeasedFinanced.vehicleOwnership.addressLine1 = addressLine1;
+		updateVehicleLeasedFinanced.vehicleOwnership.addressLine2 = addressLine2;
+		updateVehicleLeasedFinanced.vehicleOwnership.city = city;
+		updateVehicleLeasedFinanced.vehicleOwnership.stateProvCd = state;
+		updateVehicleLeasedFinanced.vehicleOwnership.postalCode = zipCode;
+		updateVehicleLeasedFinanced.vehicleOwnership.ownership = ownershipType;
+		updateVehicleLeasedFinanced.vehicleOwnership.name = otherName;
+		updateVehicleLeasedFinanced.vehicleOwnership.secondName = secondName;
+		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
+
+		//TODO Vadim to investigate
+		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
+		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
 		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
 
 		SearchPage.openPolicy(policyNumber);
@@ -3101,18 +3111,62 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(2);
-		if("LSD".equals(ownershipType)) {
+		if ("LSD".equals(ownershipType)) {
 			assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.OWNERSHIP_TYPE)).hasValue("Leased");
-		} if ("FNC".equals(ownershipType)){
+		}
+		if ("FNC".equals(ownershipType)) {
 			assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.OWNERSHIP_TYPE)).hasValue("Financed");
 		}
 		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.FIRST_NAME)).hasValue("Other");
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.ADDITIONAL_OWNER_FIRST_LAST_NAME)).hasValue("someFirst Name");
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.SECOND_NAME)).hasValue("someSecond Name");
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.OWNER_NO_LABEL)).hasValue(otherName); //can't take the value of the field with no label
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.SECOND_NAME)).hasValue(secondName);
 		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.ADDRESS_LINE_1)).hasValue(addressLine1);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.ADDRESS_LINE_2)).hasValue(addressLine2);
 		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.CITY)).hasValue(city);
 		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.STATE)).hasValue(state);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.ZIP_CODE)).hasValue(zipCode);
 		mainApp().close();
+
+		Vehicle[] pendedEndorsementValidateVehicleInfoResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
+		Vehicle vehicleSt1 = Arrays.stream(pendedEndorsementValidateVehicleInfoResponse).filter(vehicle -> vin.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
+		assertThat(vehicleSt1).isNotNull();
+		vehicleSt1.vehicleOwnership = new VehicleOwnership();
+		assertThat(vehicleSt1.oid).isEqualTo(newVehicleOid);
+		softly.assertThat(vehicleSt1.vehicleOwnership.ownership).isEqualTo(ownershipType);
+		softly.assertThat(vehicleSt1.vehicleOwnership.addressLine1).isEqualTo(addressLine1);
+		softly.assertThat(vehicleSt1.vehicleOwnership.addressLine2).isEqualTo(addressLine2);
+		softly.assertThat(vehicleSt1.vehicleOwnership.city).isEqualTo(city);
+		softly.assertThat(vehicleSt1.vehicleOwnership.stateProvCd).isEqualTo(state);
+		softly.assertThat(vehicleSt1.vehicleOwnership.postalCode).isEqualTo(zipCode);
+		softly.assertThat(vehicleSt1.vehicleOwnership.name).isEqualTo(otherName);
+		softly.assertThat(vehicleSt1.vehicleOwnership.secondName).isEqualTo(secondName);
+
+		AttributeMetadata[] metaDataResponse = HelperCommon.vehicleAttributeMetaDataService(policyNumber, newVehicleOid);
+		AttributeMetadata metaDataFieldResponse = getAttributeMetadata(metaDataResponse, "AAAVehicleOwnership.ownership", true, true, false, null);
+		softly.assertThat(metaDataFieldResponse.valueRange.get("OWN")).isEqualTo("Owned");
+		softly.assertThat(metaDataFieldResponse.valueRange.get("FNC")).isEqualTo("Financed");
+		softly.assertThat(metaDataFieldResponse.valueRange.get("LSD")).isEqualTo("Leased");
+
+		getAttributeMetadata(metaDataResponse, "AAAVehicleOwnership.name", true, true, false, "100");
+		getAttributeMetadata(metaDataResponse, "AAAVehicleOwnership.secondName", true, true, false, "100");
+		getAttributeMetadata(metaDataResponse, "AAAVehicleOwnership.postalCode", true, true, false, "10");
+		getAttributeMetadata(metaDataResponse, "AAAVehicleOwnership.addressLine1", true, true, false, "40");
+		getAttributeMetadata(metaDataResponse, "AAAVehicleOwnership.addressLine2", true, true, false, "40");
+		getAttributeMetadata(metaDataResponse, "AAAVehicleOwnership.city", true, true, false, "30");
+		getAttributeMetadata(metaDataResponse, "AAAVehicleOwnership.stateProvCd", true, true, false, null);
+
+		Vehicle[] policyValidateVehicleInfoResponse = HelperCommon.executeVehicleInfoValidate(policyNumber);
+		String oldVehicleOid = policyValidateVehicleInfoResponse[0].oid;
+		AttributeMetadata[] metaDataResponseOwned = HelperCommon.vehicleAttributeMetaDataService(policyNumber, oldVehicleOid);
+		getAttributeMetadata(metaDataResponseOwned, "AAAVehicleOwnership.ownership", true, true, false, null);
+		getAttributeMetadata(metaDataResponseOwned, "AAAVehicleOwnership.name", false, false, false, "100");
+		getAttributeMetadata(metaDataResponseOwned, "AAAVehicleOwnership.secondName", false, false,  false, "100");
+		getAttributeMetadata(metaDataResponseOwned, "AAAVehicleOwnership.postalCode", false, false,  false, "10");
+		getAttributeMetadata(metaDataResponseOwned, "AAAVehicleOwnership.addressLine1", false, false, false, "40");
+		getAttributeMetadata(metaDataResponseOwned, "AAAVehicleOwnership.addressLine2", false, false,  false, "40");
+		getAttributeMetadata(metaDataResponseOwned, "AAAVehicleOwnership.city", false, false, false, "30");
+		getAttributeMetadata(metaDataResponseOwned, "AAAVehicleOwnership.stateProvCd", false, false,  false, null);
+
 
 		endorsementRateAndBind(policyNumber);
 
@@ -3125,10 +3179,19 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		secondEndorsementIssueCheck();
 	}
 
+	private AttributeMetadata getAttributeMetadata(AttributeMetadata[] metaDataResponse, String fieldName, boolean enabled, boolean visible, boolean required, String maxLength) {
+		AttributeMetadata metaDataFieldResponse = Arrays.stream(metaDataResponse).filter(attributeMetadata -> fieldName.equals(attributeMetadata.attributeName)).findFirst().orElse(null);
+		assertThat(metaDataFieldResponse.enabled).isEqualTo(enabled);
+		assertThat(metaDataFieldResponse.visible).isEqualTo(visible);
+		assertThat(metaDataFieldResponse.required).isEqualTo(required);
+		assertThat(metaDataFieldResponse.maxLength).isEqualTo(maxLength);
+		return metaDataFieldResponse;
+	}
+
 	protected void pas13252_UpdateVehicleGaragingAddressProblemBody(SoftAssertions softly) {
 		mainApp().open();
 		//String policyNumber = getCopiedPolicy();
-String policyNumber = "VASS952918560";
+		String policyNumber = "VASS952918560";
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 

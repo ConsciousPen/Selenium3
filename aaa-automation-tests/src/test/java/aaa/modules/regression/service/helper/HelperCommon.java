@@ -14,6 +14,7 @@ import org.apache.xerces.impl.dv.util.Base64;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.sun.jna.platform.win32.Guid;
 import aaa.helpers.config.CustomTestProperties;
@@ -60,6 +61,10 @@ public class HelperCommon {
 
 	private static final String DXP_BIG_META_DATA_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles/%s/metadata";
 	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
+	private static final ObjectMapper PRETTY_PRINT_OBJECT_MAPPER = new ObjectMapper();
+	static {
+		PRETTY_PRINT_OBJECT_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
+	}
 
 	private static String urlBuilderDxp(String endpointUrlPart) {
 		if (Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
@@ -297,6 +302,7 @@ public class HelperCommon {
 	public static <T> T runJsonRequestPostDxp(RestRequestInfo<T> request) {
 		Client client = null;
 		Response response = null;
+		log.info("Request: " + asJson(request));
 		try {
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
 			response = createJsonRequest(client, request.url, request.sessionId).post(Entity.json(request.bodyRequest));
@@ -305,6 +311,7 @@ public class HelperCommon {
 				//handle error
 				throw new IstfException("POST json request failed");
 			}
+			log.info("Response: " + asJson(responseObj));
 			return responseObj;
 		} finally {
 			if (response != null) {
@@ -323,6 +330,7 @@ public class HelperCommon {
 	public static <T> T runJsonRequestPatchDxp(String url, RestBodyRequest request, Class<T> responseType, int status) {
 		Client client = null;
 		Response response = null;
+		log.info("Request: " + asJson(request));
 		try {
 			client = ClientBuilder.newClient()
 					.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true)
@@ -402,6 +410,7 @@ public class HelperCommon {
 		Client client = null;
 		Response response = null;
 		try {
+			log.info("Request: " + asJson(request));
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
 			response = createJsonRequest(client, request.url, request.sessionId).get();
 			T result = response.readEntity(request.responseType);
@@ -410,7 +419,7 @@ public class HelperCommon {
 				//handle error
 				throw new IstfException("GET json request failed");
 			}
-
+			log.info("Response: " + asJson(result));
 			return result;
 		} finally {
 			if (response != null) {
@@ -553,6 +562,15 @@ public class HelperCommon {
 		String url = urlBuilderAdmin(String.format(DXP_SERIES_BY_YEAR_MAKE_MODEL, year, make, model, productCd, stateCd, formType, effectiveDate));
 
 		return runJsonRequestGetAdmin(url, AAASeriesByYearMakeModel.class);
+	}
+
+	private static String asJson(Object object) {
+		try {
+			return PRETTY_PRINT_OBJECT_MAPPER.writeValueAsString(object);
+		} catch (JsonProcessingException e) {
+			log.error("Failed to parse request/response as json", e);
+			return null;
+		}
 	}
 
 }

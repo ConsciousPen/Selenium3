@@ -11,22 +11,29 @@ import io.swagger.annotations.ApiModelProperty;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class VehicleUpdateDto  implements RestBodyRequest {
 
-	public String ownership;
 
+	@ApiModelProperty(value = "Usage", example = "Pleasure")
 	public String usage;
 
+	@ApiModelProperty(value = "Salvaged", example = "false")
 	public Boolean salvaged;
 
+	@ApiModelProperty(value = "Garaging different than the Residential?", example = "false")
 	public Boolean garagingDifferent;
 
+	@ApiModelProperty(value = "Anti-Theft", example = "NONE")
 	public String antiTheft;
 
+	@ApiModelProperty(value = "Registered Owner?", example = "false")
 	public Boolean registeredOwner;
 
+	@ApiModelProperty(value = "Garaging address", dataType = "com.eisgroup.aaa.policy.services.dto.Address")
 	public Address garagingAddress;
 
 	@ApiModelProperty(value = "Ownership info", dataType = "com.eisgroup.aaa.policy.services.dto.VehicleOwnership")
-	public VehicleOwnership vehicleOwnership;public Address ownershipAddress;
+	public VehicleOwnership vehicleOwnership;
 
+	@ApiModelProperty(value = "Vehicle purchase date", example = "2018-02-28")
 	public String purchaseDate;
+
 }
