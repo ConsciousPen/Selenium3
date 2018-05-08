@@ -1,15 +1,9 @@
 package aaa.helpers.openl.testdata_builder;
 
-import java.text.NumberFormat;
-import java.time.LocalDate;
-import java.util.*;
-import org.apache.commons.lang3.NotImplementedException;
-import org.apache.commons.lang3.RandomUtils;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.EntitiesHolder;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.TestDataManager;
 import aaa.helpers.openl.model.pup.OpenLRiskItem;
@@ -23,11 +17,17 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.pup.defaulttabs.*;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
+import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang3.RandomUtils;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
+
+import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.util.*;
 
 public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	public PUPTestDataGenerator(String state) {
@@ -53,7 +53,7 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		return TestDataHelper.merge(getRatingDataPattern(), td);
 	}
 
-	private Map<String, String> getPrimaryPolicyForPup(TestData td) {
+	private Map<String, String> getPrimaryPolicyForPup(TestData td, PUPOpenLPolicy openLPolicy) {
 		if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())) {
 			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
 		}
@@ -61,22 +61,41 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		Map<String, String> returnValue = new LinkedHashMap<>();
 		String state = getState().intern();
 		synchronized (state) {
-			PolicyType type;
-			if (state.equals(Constants.States.CA)) {
-				type = PolicyType.HOME_CA_HO3;
-			} else {
-				type = PolicyType.HOME_SS_HO3;
-			}
-			String key = EntitiesHolder.makeDefaultPolicyKey(type, state);
+			PolicyType type = openLPolicy.getRentalUnitsCount() > 0 ? PolicyType.HOME_SS_HO6 : PolicyType.HOME_SS_HO3;
+			String policyType = openLPolicy.getRentalUnitsCount() > 0 ? "HO6" : "HO3";
 			type.get().createPolicy(td);
-			EntitiesHolder.addNewEntity(key, PolicySummaryPage.labelPolicyNumber.getValue());
-			returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
+			returnValue.put("Policy Number", PolicySummaryPage.labelPolicyNumber.getValue());
+			returnValue.put("Policy Type", policyType);
 			//open Customer that was created in test
 			if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())) {
 				SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, customerNum);
 			}
 			return returnValue;
 		}
+	}
+
+	private TestData getPrefillTabData(PUPOpenLPolicy openLPolicy) {
+		TestData tdPUP = getStateTestData(new TestDataManager().policy.get(PolicyType.PUP), "DataGather", "TestData");
+		PolicyType policyType = openLPolicy.getRentalUnitsCount() > 0 ? PolicyType.HOME_SS_HO6 : PolicyType.HOME_SS_HO3;
+		TestData tdHO = getPrimaryPolicyData(openLPolicy, getStateTestData(new TestDataManager().policy.get(policyType), "DataGather", "TestData"));
+		TestData preFillTabTd = adjustWithRealPolicies(tdPUP, getPrimaryPolicyForPup(tdHO, openLPolicy));
+		return preFillTabTd.getTestData(new PrefillTab().getMetaKey());
+	}
+
+	private TestData adjustWithRealPolicies(TestData td, Map<String, String> policies) {
+		String pathToList = TestData.makeKeyPath(new PrefillTab().getMetaKey(), PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel());
+		String pathToValue = PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ACTIVE_UNDERLYING_POLICIES_SEARCH.getLabel();
+		String policyNumberKey = PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ActiveUnderlyingPoliciesSearch.POLICY_NUMBER.getLabel();
+		String policyTypeKey = PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ActiveUnderlyingPoliciesSearch.POLICY_TYPE.getLabel();
+		List<TestData> td2 = td.getTestData(new PrefillTab().getMetaKey()).getTestDataList(PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel());
+		for (TestData tempTD : td2) {
+			if (tempTD.getTestData(pathToValue) != null) {
+				tempTD.adjust(TestData.makeKeyPath(pathToValue, policyNumberKey), policies.get(policyNumberKey));
+				tempTD.adjust(TestData.makeKeyPath(pathToValue, policyTypeKey), policies.get(policyTypeKey));
+			}
+		}
+		td.adjust(pathToList, td2);
+		return td;
 	}
 
 	private TestData getPrimaryPolicyData(PUPOpenLPolicy openLPolicy, TestData primaryPolicyTd) {
@@ -100,6 +119,9 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 
 	private TestData getPropertyInfoTabPrimaryPolicyData(PUPOpenLPolicy openLPolicy) {
 		TestData recreationalEquipment = new SimpleDataProvider();
+		TestData dwellingAddress = new SimpleDataProvider();
+		TestData interior = new SimpleDataProvider();
+		TestData rentalInformation = new SimpleDataProvider();
 
 		if (Boolean.TRUE.equals(getTrampoline(openLPolicy))) {
 			recreationalEquipment.adjust(HomeSSMetaData.PropertyInfoTab.RecreationalEquipment.TRAMPOLINE.getLabel(), "Restricted access in-ground with safety net");
@@ -122,8 +144,29 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 				recreationalEquipment.adjust(HomeSSMetaData.PropertyInfoTab.RecreationalEquipment.SWIMMING_POOL.getLabel(), "Restricted access with no accessories");
 			}
 		}
+
+		int rentalUnitsCount = openLPolicy.getRentalUnitsCount();
+		if (rentalUnitsCount > 0) {
+			interior.adjust(HomeSSMetaData.PropertyInfoTab.Interior.OCCUPANCY_TYPE.getLabel(), "Tenant occupied");
+			rentalInformation.adjust(HomeSSMetaData.PropertyInfoTab.RentalInformation.NUMBER_OF_CONSECUTIVE_YEARS_INSURED_HAS_OWNED_ANY_RENTAL_PROPERTIES.getLabel(), "1");
+			rentalInformation.adjust(HomeSSMetaData.PropertyInfoTab.RentalInformation.PROPERTY_MANAGER.getLabel(), "regex=.*\\S.*");
+			rentalInformation.adjust(HomeSSMetaData.PropertyInfoTab.RentalInformation.DOES_THE_TENANT_HAVE_AN_UNDERLYING_HO4_POLICY.getLabel(), "No");
+			if (rentalUnitsCount == 1) {
+				dwellingAddress.adjust(HomeSSMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel(), "1-Single Family");
+			}
+			if (rentalUnitsCount == 2) {
+				dwellingAddress.adjust(HomeSSMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel(), "2-Duplex");
+			}
+			if (rentalUnitsCount == 3) {
+				dwellingAddress.adjust(HomeSSMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel(), "3-Triplex");
+			}
+		}
+
 		return DataProviderFactory.dataOf(
-				HomeSSMetaData.PropertyInfoTab.RECREATIONAL_EQUIPMENT.getLabel(), recreationalEquipment
+				HomeSSMetaData.PropertyInfoTab.RECREATIONAL_EQUIPMENT.getLabel(), recreationalEquipment,
+				HomeSSMetaData.PropertyInfoTab.DWELLING_ADDRESS.getLabel(), dwellingAddress,
+				HomeSSMetaData.PropertyInfoTab.INTERIOR.getLabel(), interior,
+				HomeSSMetaData.PropertyInfoTab.RENTAL_INFORMATION.getLabel(), rentalInformation
 		);
 	}
 
@@ -227,13 +270,6 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		return td;
 	}
 
-	private TestData getPrefillTabData(PUPOpenLPolicy openLPolicy) {
-		TestData tdPUP = getStateTestData(new TestDataManager().policy.get(PolicyType.PUP), "DataGather", "TestData");
-		TestData tdHO3 = getPrimaryPolicyData(openLPolicy, getStateTestData(new TestDataManager().policy.get(PolicyType.HOME_SS_HO3), "DataGather", "TestData"));
-		TestData preFillTabTd = new PrefillTab().adjustWithRealPolicies(tdPUP, getPrimaryPolicyForPup(tdHO3));
-		return preFillTabTd.getTestData(new PrefillTab().getMetaKey());
-	}
-
 	private void getWatercraftData(List<TestData> tdWaterCrafts, int numOfWaterCrafts, String[] listOfValues) {
 		Map<String, Object> waterCrafts = new HashMap<>();
 		for (int i = 0; i < numOfWaterCrafts; i++) {
@@ -260,8 +296,7 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 				for (int i = 0; i < numOfViolations; i++) {
 					Map<String, Object> autoViolationsData = new HashMap<>();
 					autoViolationsData.put(PersonalUmbrellaMetaData.ClaimsTab.AutoViolationsClaims.SELECT_DRIVER.getLabel(), "regex=.*\\S.*");
-					autoViolationsData.put(PersonalUmbrellaMetaData.ClaimsTab.AutoViolationsClaims.TYPE
-							.getLabel(), getRandom("Major Violation", "Minor Violation", "Speeding Violation", "Alcohol-Related Violation"));
+					autoViolationsData.put(PersonalUmbrellaMetaData.ClaimsTab.AutoViolationsClaims.TYPE.getLabel(), "Speeding Violation");
 					autoViolationsData.put(PersonalUmbrellaMetaData.ClaimsTab.AutoViolationsClaims.DESCRIPTION.getLabel(), "Other");
 					autoViolationsData.put(PersonalUmbrellaMetaData.ClaimsTab.AutoViolationsClaims.OCCURRENCE_DATE.getLabel(), occurrenceDate.format(DateTimeUtils.MM_DD_YYYY));
 					if (violationsTestDataList.size() < 1) {
@@ -440,6 +475,7 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		int numOfWaterCraftVI = openLPolicy.getRiskItems().stream().filter(c -> "VI".equals(c.getRiskItemCategoryCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
 		int numOfWaterCraftPERS = openLPolicy.getRiskItems().stream().filter(c -> "PERS".equals(c.getRiskItemCategoryCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
 		int numOfAtv = openLPolicy.getRiskItems().stream().filter(c -> "ATV".equals(c.getRiskItemCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
+		int numOfSnowmobile = openLPolicy.getRiskItems().stream().filter(c -> "Snowmobile".equals(c.getRiskItemCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
 
 		if (numOfWaterCraftI > 0) {
 			String[] listOfWatercraftIFieldValues = {"Inboard Powerboat", "14-25 ft", "0-100 hp"};
@@ -506,6 +542,21 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 					atv.put(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RecreationalVehicle.ADD_RECREATIONAL_VEHICLE.getLabel(), "Yes");
 				}
 				tdRecreationVehicles.add(new SimpleDataProvider(atv));
+			}
+		}
+
+		if (numOfSnowmobile > 0) {
+			for (int i = 0; i < numOfSnowmobile; i++) {
+				Map<String, Object> snowmobile = new HashMap<>();
+				snowmobile.put(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RecreationalVehicle.TYPE.getLabel(), "Snowmobile");
+				snowmobile.put(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RecreationalVehicle.YEAR.getLabel(), RandomUtils.nextInt(1999, 2017));
+				snowmobile.put(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RecreationalVehicle.MAKE.getLabel(), "BMW");
+				snowmobile.put(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RecreationalVehicle.MODEL.getLabel(), "Test Snowmobile");
+				snowmobile.put(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RecreationalVehicle.CURRENT_CARRIER.getLabel(), "regex=.*\\S.*");
+				if (tdRecreationVehicles.size() < 1) {
+					snowmobile.put(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RecreationalVehicle.ADD_RECREATIONAL_VEHICLE.getLabel(), "Yes");
+				}
+				tdRecreationVehicles.add(new SimpleDataProvider(snowmobile));
 			}
 		}
 
