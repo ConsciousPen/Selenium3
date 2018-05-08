@@ -10,13 +10,22 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 
+	private ErrorTab errorTab = new ErrorTab();
+	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+	private DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
 
 	/**
 	* @author Dominykas Razgunas
@@ -56,7 +65,6 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		// Assert That two drivers have license status = Predicted Valid
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(3).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
-
 	}
 
 
@@ -85,27 +93,21 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 
 		policy.initiate();
 
-		// Add 4 Drivers 2 of them with age>83 and Driving exp>62
-		policy.getDefaultView().fillUpTo(testData, DriverTab.class, true);
+		// Add 1 Driver who is eligible for mvr status predicted valid
+		// Add 5 Drivers who are not eligible for mvr status predicted valid with following violations  alcohol-related violation, major violation, minor violation, non-moving violation, speeding violation
+	 	policy.getDefaultView().fillUpTo(testData, DriverTab.class, true);
 		policy.getDefaultView().fill(getTestSpecificTD("TestData_DriverTabViolations").resolveLinks());
 
+		// Fill remaining policy to drivers activity reports tab
 		policy.getDefaultView().fillFromTo(testData, RatingDetailReportsTab.class, PremiumAndCoveragesTab.class, true);
+		premiumAndCoveragesTab.submitTab();
+		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_200005, ErrorEnum.Errors.ERROR_AAA_200009);
+		errorTab.overrideAllErrors();
+		errorTab.override();
+		premiumAndCoveragesTab.submitTab();
+		driverActivityReportsTab.fillTab(testData);
 
-		new PremiumAndCoveragesTab().submitTab();
-		new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_200005, ErrorEnum.Errors.ERROR_AAA_200009);
-		new ErrorTab().overrideAllErrors();
-		new ErrorTab().override();
-		new PremiumAndCoveragesTab().submitTab();
-
-
-		// Assert That driver with no violations has license status = Predicted Valid
-		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(1).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
-		// Assert That drivers with violations do not have license status = Predicted Valid
-		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
-		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(3).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
-		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(4).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
-		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(5).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
-		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(6).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
+		assertMVRResponse();
 	}
 
 	/**
@@ -134,29 +136,25 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 
 		policy.initiate();
 
-		// Add 4 Drivers 2 of them with age>83 and Driving exp>62
+		// Add 1 Driver who is eligible for mvr status predicted valid
+		// Add 5 Drivers who are not eligible for mvr status predicted valid with following violations  alcohol-related violation, major violation, minor violation, non-moving violation, speeding violation
 		policy.getDefaultView().fillUpTo(testData, DriverTab.class, true);
 		policy.getDefaultView().fill(getTestSpecificTD("TestData_DriverTabAccidents").resolveLinks());
 
-		//		// Add 4 Vehicles
-		//		policy.getDefaultView().fillFromTo(testData, RatingDetailReportsTab.class, VehicleTab.class, true);
-		//		policy.getDefaultView().fill(getTestSpecificTD("TestData_VehicleTab").resolveLinks());
-		//
-		//
-		//
-		//		policy.getDefaultView().fillFromTo(testData, FormsTab.class, DriverActivityReportsTab.class, true);
-
-
 		policy.getDefaultView().fillFromTo(testData, RatingDetailReportsTab.class, DriverActivityReportsTab.class, true);
 
-		// Assert That driver with no violations has license status = Predicted Valid
-		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(1).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
-		// Assert That drivers with violations do not have license status = Predicted Valid
-		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
-		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(3).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
-		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(4).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
-		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(5).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
-		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(6).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
-	}
+		assertMVRResponse();
+		}
 
+		private void assertMVRResponse(){
+			// Assert That driver with no violations has license status = Predicted Valid
+			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(1).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
+			// Assert That drivers with violations do not have license status = Predicted Valid
+			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
+			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(3).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
+			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(4).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
+			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(5).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
+			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(6).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
+
+		}
 }

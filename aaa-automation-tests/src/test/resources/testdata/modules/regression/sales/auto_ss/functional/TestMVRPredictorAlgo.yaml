@@ -240,9 +240,11 @@ Driver3a: {
   Age First Licensed: 18,
      ActivityInformation: {
        Activity Source : 'Company Input',
-       Type: 'Major Violation',
+       Type: 'Comprehensive Claim',
        Description: index=1,
        Occurrence Date: '$<today-1d:MM/dd/yyyy>',
+       Loss Payment Amount: 10000,
+       'Include in Points and/or Tier?': 'Yes'
       }
 }
 
@@ -262,7 +264,7 @@ Driver4a: {
   Age First Licensed: 18,
      ActivityInformation: {
        Activity Source : 'Company Input',
-       Type: 'Minor Violation',
+       Type: 'Glass Only Loss',
        Description: index=1,
        Occurrence Date: '$<today-1d:MM/dd/yyyy>'
       }
@@ -284,7 +286,7 @@ Driver5a: {
   Age First Licensed: 18,
      ActivityInformation: {
        Activity Source : 'Company Input',
-       Type: 'Non-Moving Violation',
+       Type: 'Non-Fault Accident',
        Description: index=1,
        Occurrence Date: '$<today-1d:MM/dd/yyyy>'
       }
@@ -306,8 +308,9 @@ Driver6a: {
   Age First Licensed: 18,
      ActivityInformation: {
        Activity Source : 'Company Input',
-       Type: 'Speeding Violation',
-       Description: index=1,
-       Occurrence Date: '$<today-1d:MM/dd/yyyy>'
+       Type: 'Principally At-Fault Accident',
+       Description: index=2,
+       Occurrence Date: '$<today-1d:MM/dd/yyyy>',
+       Loss Payment Amount: 10000
       }
 }
