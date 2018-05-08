@@ -28,6 +28,7 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import aaa.toolkit.webdriver.customcontrols.PaymentMethodAllocationControl;
 import toolkit.datax.TestData;
 
 public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
@@ -139,6 +140,9 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 					paymentPlan);
 
 			testData.adjust(TestData.makeKeyPath(PurchaseMetaData.PurchaseTab.class.getSimpleName()), "@home_ss_ho3@DataGather@PurchaseTab_WithAutopay");
+			testData.adjust(TestData
+					.makeKeyPath(PurchaseMetaData.PurchaseTab.class.getSimpleName(), PurchaseMetaData.PurchaseTab.PAYMENT_ALLOCATION
+							.getLabel(), "Visa"), PaymentMethodAllocationControl.FULL_TERM_KEY); //this line is workaround of PAS-13502
 
 		} else {
 			testData.adjust(TestData.makeKeyPath(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(),
@@ -393,6 +397,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 		}
 
 		premiumsAndCoveragesQuoteTabPup.calculatePremium();
+		PremiumAndCoveragesQuoteTab.buttonCancel.click();
 		PremiumAndCoveragesQuoteTab.dialogCancelAction.buttonYes.click();
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
