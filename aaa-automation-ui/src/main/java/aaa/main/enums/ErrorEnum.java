@@ -123,6 +123,7 @@ public final class ErrorEnum {
 
 		// Auto Errors
 		ERROR_AAA_200005("200005", "Driver with a narcotics, drug or felony conviction involving a motor vehicle ..."),
+		ERROR_AAA_200009("200009", "Driver with a Major violation, including a DUI is unacceptable (200009) [for ..."),
 		ERROR_AAA__200009_PA("200009_PA", "Driver with a Major violation, including a DUI is unacceptable (200009) [for ..."),
 		ERROR_AAA_SS171018("AAA_SS171018", "Non-members are ineligible for coverage."),
 		ERROR_AAA_SS171018_DE("AAA_SS171018_DE", "Policies with unsuccessful membership validation results require prior approval."),
