@@ -70,17 +70,17 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 
 		//left overs of previous functionality. Showing Hiding rules will change with new story
 		//getDocumentsAndBindTabElement().getAssetList().getAsset(getSuppressPrint()).verify.present(); //TODO not for PUP, if uncomment, then  add "if ProductType"
-		//getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
+		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
 		getDocumentPrintingDetailsAssetList().getAsset(getIncludeWithEmail()).verify.present(false);
 		//left overs of previous functionality. Lookup list will change with new story
 
 		//PAS-3097 remove the Issue Date field from Bind tab (VA state)
-		//inquiryAssetList.assetFieldsAbsence( "Issue Date");
-		//getDocumentPrintingDetailsAssetList().getAsset(getIssueDate()).verify.present(false);
+		inquiryAssetList.assetFieldsAbsence( "Issue Date");
+		getDocumentPrintingDetailsAssetList().getAsset(getIssueDate()).verify.present(false);
 		//PAS-3097 end
 
-		//inquiryAssetList.assetFieldsAbsence( "Method Of Delivery");
-		//getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
+		inquiryAssetList.assetFieldsAbsence( "Method Of Delivery");
+		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
 		inquiryAssetList.assetFieldsAbsence( "Include with Email");
 		getDocumentPrintingDetailsAssetList().getAsset(getIncludeWithEmail()).verify.present(false);
 
@@ -97,7 +97,7 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 
 		//PAS-277 start
 		inquiryAssetList.assetSectionPresence("Document Delivery Details", false);
-		//inquiryAssetList.assetFieldsAbsence("Send To", "Country", "Zip/Postal Code", "Address Line 1", "Address Line 2", "Address Line 3", "City", "State / Province", "Notes", "Issue Date");
+		inquiryAssetList.assetFieldsAbsence("Send To", "Country", "Zip/Postal Code", "Address Line 1", "Address Line 2", "Address Line 3", "City", "State / Province", "Notes", "Issue Date");
 		//PAS-277 end
 
 		getDocumentsAndBindTabElement().saveAndExit();
@@ -109,8 +109,8 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		getPaperlessPreferencesAssetList().getAsset(getButtonManagePaperlessPreferences()).verify.present();
 		getPaperlessPreferencesAssetList().getAsset(getButtonManagePaperlessPreferences()).verify.enabled(false);
 		inquiryAssetList.getStaticElement(getEnrolledInPaperless().getLabel()).verify.present();
-		//inquiryAssetList.getStaticElement(getIssueDate().getLabel()).verify.present(false);
-		//inquiryAssetList.getStaticElement(getMethodOfDelivery().getLabel()).verify.present(false);
+		inquiryAssetList.getStaticElement(getIssueDate().getLabel()).verify.present(false);
+		inquiryAssetList.getStaticElement(getMethodOfDelivery().getLabel()).verify.present(false);
 		inquiryAssetList.getStaticElement(getIncludeWithEmail().getLabel()).verify.present(false);//will change based on View/Hide rules
 		getDocumentsAndBindTabElement().cancel();
 		//PAS-269 end
