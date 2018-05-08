@@ -2,7 +2,7 @@
 <suite name="Home CA OpenL Rating Tests" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <!--<listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>-->
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/> 
+        <!-- <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/> -->
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
     <parameter name="testsDir" value="src/test/resources/openl/home_ca"/>
@@ -16,7 +16,7 @@
             <class name="aaa.modules.openl.HomeCaDP3PremiumCalculationTest"/>
         </classes>
     </test> -->
- 
+  
     <test name="Home CA HO3 Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="CA"/>
         <parameter name="fileName" value="HO3Tests_eff_09142017.xls"/>
@@ -24,7 +24,7 @@
         <classes>
             <class name="aaa.modules.openl.HomeCaHO3PremiumCalculationTest"/>
         </classes>
-    </test>
+    </test> 
     <!--
     <test name="Home CA HO4 Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="CA"/>
@@ -34,11 +34,12 @@
             <class name="aaa.modules.openl.HomeCaHO4PremiumCalculationTest"/>
         </classes>
     </test> -->
+    
     <test name="Home CA HO6 Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="CA"/>
         <parameter name="fileName" value="HO6Tests.xls"/>
         <!-- parameter name="policyNumbers" value="1, 3288, 3319, 3329, 3449, 3515, 3491, 3492"/ -->
-        <parameter name="policyNumbers" value="1, 3492"/>
+        <parameter name="policyNumbers" value="3492"/>
         <classes>
             <class name="aaa.modules.openl.HomeCaHO6PremiumCalculationTest"/>
         </classes>
