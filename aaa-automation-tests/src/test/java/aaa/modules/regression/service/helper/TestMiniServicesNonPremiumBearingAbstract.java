@@ -3059,8 +3059,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected void pas11618_UpdateVehicleLeasedFinancedInfoBody(SoftAssertions softly, String ownershipType) {
 		mainApp().open();
-		//String policyNumber = getCopiedPolicy();
-		String policyNumber = "VASS952918548";
+		String policyNumber = getCopiedPolicy();
+		//String policyNumber = "VASS952918548";
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
