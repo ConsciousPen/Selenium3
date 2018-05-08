@@ -2173,6 +2173,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		//send request to update vehicle service
 		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
+		updateVehicleRequest.vehicleOwnership = new VehicleOwnership();
 		updateVehicleRequest.vehicleOwnership.ownership = "OWN";
 		updateVehicleRequest.usage = "Pleasure";
 		updateVehicleRequest.salvaged = false;
@@ -2222,6 +2223,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		//send request to update vehicle service
 		VehicleUpdateDto updateGaragingAddressVehicleRequest = new VehicleUpdateDto();
+		updateGaragingAddressVehicleRequest.vehicleOwnership = new VehicleOwnership();
 		updateGaragingAddressVehicleRequest.vehicleOwnership.ownership = "OWN";
 		updateGaragingAddressVehicleRequest.usage = "Pleasure";
 		updateGaragingAddressVehicleRequest.salvaged = false;
@@ -2981,7 +2983,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		VehicleUpdateDto updatePurchaseDateVehicleRequest = new VehicleUpdateDto();
 		updatePurchaseDateVehicleRequest.purchaseDate = purchaseDate2;
 		Vehicle updatePurchaseDateVehicleResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updatePurchaseDateVehicleRequest);
+		//BUG PAS-13524 UpdateVehicle response contains NULLs for some fields
 		softly.assertThat(updatePurchaseDateVehicleResponse.purchaseDate).isEqualTo(purchaseDate2);
+		softly.assertThat(updatePurchaseDateVehicleResponse.oid).isEqualTo(newVehicleOid);
+		softly.assertThat(updatePurchaseDateVehicleResponse.salvaged).isEqualTo("No");
 		//PAS-13252 end
 
 		//View endorsement vehicles
@@ -3130,7 +3135,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		Vehicle[] pendedEndorsementValidateVehicleInfoResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
 		Vehicle vehicleSt1 = Arrays.stream(pendedEndorsementValidateVehicleInfoResponse).filter(vehicle -> vin.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
 		assertThat(vehicleSt1).isNotNull();
-		vehicleSt1.vehicleOwnership = new VehicleOwnership();
 		assertThat(vehicleSt1.oid).isEqualTo(newVehicleOid);
 		softly.assertThat(vehicleSt1.vehicleOwnership.ownership).isEqualTo(ownershipType);
 		softly.assertThat(vehicleSt1.vehicleOwnership.addressLine1).isEqualTo(addressLine1);
