@@ -103,7 +103,7 @@ public class TestPaperlessPreferencesAllProducts extends TestPaperlessPreference
 
 	@Override
 	protected String getDocumentsAndBindTab() {
-		return NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get();
+		return NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get();
 	}
 
 	@Override
