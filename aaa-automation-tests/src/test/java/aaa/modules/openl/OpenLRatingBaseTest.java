@@ -110,7 +110,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy, F extends OpenL
 				}
 
 				Dollar actualPremium = createAndRateQuote(tdGenerator, openLPolicy);
-				softly.assertThat(actualPremium).as("Total premium is not equal to expected one").isEqualTo(openLPolicy.getExpectedPremium());
+				softly.assertThat(actualPremium).as("Total premium for policy number %s is not equal to expected one", openLPolicy.getNumber()).isEqualTo(openLPolicy.getExpectedPremium());
 				log.info("Premium calculation verification for policy #{} has been {}", Tab.labelPolicyNumber.getValue(), actualPremium.equals(openLPolicy.getExpectedPremium()) ? "passed" : "failed");
 				Tab.buttonSaveAndExit.click();
 			}
