@@ -4,6 +4,13 @@
 #  failures:
 #    - tests: [aaa.modules.regression.common.TestSearchPageFillingAndWarnings.testSearchWarnings]
 #      messages: ["Unexpeted warning message(s) is(are) present on search page: [Maximum criteria length for 'Underwriting Company #' is 255]"]
+PAS-0000:
+  summary: "Selected State is not applicable to the test"
+  reason: AUTO
+  failures:
+    - tests: aaa.*
+      messages: 'is not applicable to this test'
+
 QC-E2ECOMMON:
   summary: "Common dummy ticket for all dependent e2e tests to mark them yellow if they are skipped due to failed 1st policy creation test"
   reason: PROD

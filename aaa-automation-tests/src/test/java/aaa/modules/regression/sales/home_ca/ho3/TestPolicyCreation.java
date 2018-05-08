@@ -3,7 +3,6 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -37,5 +36,5 @@ public class TestPolicyCreation extends HomeCaHO3BaseTest {
 		policy.createPolicy(getPolicyTD("DataGather", "TestData"));
 
 		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-    }
+	}
 }

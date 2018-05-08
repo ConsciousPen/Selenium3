@@ -24,11 +24,66 @@
     <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
     <!--</classes>-->
     <!--</test>-->
-
+    <!--<test name="HomeSS [CT] Premium Calculation Test" preserve-order="true">-->
+    <!--<parameter name="state" value="CT"/>-->
+    <!--<parameter name="fileName" value="CTTests-20171101.xls"/>-->
+    <!--<parameter name="policyNumbers" value="1"/>-->
+    <!--<classes>-->
+    <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
+    <!--</classes>-->
+    <!--</test>-->
     <!--<test name="HomeSS [DC] Premium Calculation Test" preserve-order="true">-->
     <!--<parameter name="state" value="DC"/>-->
-    <!--<parameter name="fileName" value="DCTests.xls"/>-->
+    <!--<parameter name="fileName" value="DCTests-20170126.xls"/>-->
     <!--<parameter name="policyNumbers" value="2"/>-->
+    <!--<classes>-->
+    <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
+    <!--</classes>-->
+    <!--</test>-->
+    <!--<test name="HomeSS [DE] Premium Calculation Test" preserve-order="true">-->
+    <!--<parameter name="state" value="DE"/>-->
+    <!--<parameter name="fileName" value="DETests-20170528.xls"/>-->
+    <!--<parameter name="policyNumbers" value="1"/>-->
+    <!--<classes>-->
+    <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
+    <!--</classes>-->
+    <!--</test>-->
+    <!--<test name="HomeSS [ID] Premium Calculation Test" preserve-order="true">-->
+    <!--<parameter name="state" value="ID"/>-->
+    <!--<parameter name="fileName" value="IDTests-20170807.xls"/>-->
+    <!--<parameter name="policyNumbers" value="1"/>-->
+    <!--<classes>-->
+    <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
+    <!--</classes>-->
+    <!--</test>-->
+    <!--<test name="HomeSS [IN] Premium Calculation Test" preserve-order="true">-->
+    <!--<parameter name="state" value="IN"/>-->
+    <!--<parameter name="fileName" value="INTests-20170508.xls"/>-->
+    <!--<parameter name="policyNumbers" value="1"/>-->
+    <!--<classes>-->
+    <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
+    <!--</classes>-->
+    <!--</test>-->
+    <!--<test name="HomeSS [KS] Premium Calculation Test" preserve-order="true">-->
+    <!--<parameter name="state" value="KS"/>-->
+    <!--<parameter name="fileName" value="KSTests+-+20171001.xls"/>-->
+    <!--<parameter name="policyNumbers" value="3"/>-->
+    <!--<classes>-->
+    <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
+    <!--</classes>-->
+    <!--</test>-->
+    <!--<test name="HomeSS [KY] Premium Calculation Test" preserve-order="true">-->
+    <!--<parameter name="state" value="KY"/>-->
+    <!--<parameter name="fileName" value="KYTests-20160901.xls"/>-->
+    <!--<parameter name="policyNumbers" value="1"/>-->
+    <!--<classes>-->
+    <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
+    <!--</classes>-->
+    <!--</test>-->
+    <!--<test name="HomeSS [MD] Premium Calculation Test" preserve-order="true">-->
+    <!--<parameter name="state" value="MD"/>-->
+    <!--<parameter name="fileName" value="MDTests-20171001.xls"/>-->
+    <!--<parameter name="policyNumbers" value="1"/>-->
     <!--<classes>-->
     <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
     <!--</classes>-->
