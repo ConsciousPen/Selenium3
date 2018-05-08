@@ -8,7 +8,7 @@ import org.testng.ITestResult;
 import org.testng.SkipException;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
-import aaa.utils.StatesList;
+import aaa.utils.StateList;
 import toolkit.config.PropertyProvider;
 import toolkit.utils.teststoragex.listeners.TestngTestListener2;
 import toolkit.utils.teststoragex.models.Attachment;
@@ -39,11 +39,11 @@ public class AaaTestListener extends TestngTestListener2 {
 
 		Method method = result.getMethod().getConstructorOrMethod().getMethod();
 
-		StatesList statesAnn = null;
-		if (method.isAnnotationPresent(StatesList.class)) {
-			statesAnn = method.getAnnotation(StatesList.class);
-		} else if (method.getDeclaringClass().isAnnotationPresent(StatesList.class)) {
-			statesAnn = method.getDeclaringClass().getAnnotation(StatesList.class);
+		StateList statesAnn = null;
+		if (method.isAnnotationPresent(StateList.class)) {
+			statesAnn = method.getAnnotation(StateList.class);
+		} else if (method.getDeclaringClass().isAnnotationPresent(StateList.class)) {
+			statesAnn = method.getDeclaringClass().getAnnotation(StateList.class);
 		}
 		if (statesAnn != null) {
 			List<String> applStates = Arrays.asList(statesAnn.states());
