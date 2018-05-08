@@ -142,7 +142,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 			testData.adjust(TestData.makeKeyPath(PurchaseMetaData.PurchaseTab.class.getSimpleName()), "@home_ss_ho3@DataGather@PurchaseTab_WithAutopay");
 			testData.adjust(TestData
 					.makeKeyPath(PurchaseMetaData.PurchaseTab.class.getSimpleName(), PurchaseMetaData.PurchaseTab.PAYMENT_ALLOCATION
-							.getLabel(), "Visa"), PaymentMethodAllocationControl.FULL_TERM_KEY); //this line is workaround of PAS-13502
+							.getLabel(), "Visa"), PaymentMethodAllocationControl.FULL_TERM_VALUE); //this line is workaround of PAS-13502
 
 		} else {
 			testData.adjust(TestData.makeKeyPath(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(),
