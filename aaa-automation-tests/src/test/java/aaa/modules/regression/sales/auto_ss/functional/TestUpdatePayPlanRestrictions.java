@@ -81,12 +81,7 @@ public class TestUpdatePayPlanRestrictions extends AutoSSBaseTest {
         policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, false);
 
         checkExpectedPaymentPlans();
-
-        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN)
-                .setValue("Monthly");
-
-        new PremiumAndCoveragesTab().calculatePremium();
-
+        setMonthlyPaymentPlan();
         clickPaymentPlanLink();
         verifyMonthlyPaymentPlanFigures();
     }
@@ -127,12 +122,7 @@ public class TestUpdatePayPlanRestrictions extends AutoSSBaseTest {
         policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, false);
 
         checkExpectedPaymentPlans();
-
-        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN)
-                .setValue("Monthly");
-
-        new PremiumAndCoveragesTab().calculatePremium();
-
+        setMonthlyPaymentPlan();
         clickPaymentPlanLink();
         verifyMonthlyPaymentPlanFigures();
     }
@@ -169,7 +159,6 @@ public class TestUpdatePayPlanRestrictions extends AutoSSBaseTest {
         policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, false);
 
         checkExpectedUnrestrictedPaymentPlans();
-
     }
 
 
@@ -199,8 +188,15 @@ public class TestUpdatePayPlanRestrictions extends AutoSSBaseTest {
                 .getAllValues().containsAll(expectedValuesOfUnrestrictedPaymentPlanForAnnual)).isTrue();
     }
 
-    protected void clickPaymentPlanLink() {
-        PremiumAndCoveragesTab.linkPaymentPlan.click();
+    private void setMonthlyPaymentPlan() {
+
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN)
+                .setValue("Monthly");
+        premiumAndCoveragesTab.calculatePremium();
+    }
+
+    private void clickPaymentPlanLink() {
+        premiumAndCoveragesTab.linkPaymentPlan.click();
     }
 
     private void verifyMonthlyPaymentPlanFigures() {
