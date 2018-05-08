@@ -2,6 +2,7 @@ package aaa.helpers.openl.testdata_builder;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -307,74 +308,74 @@ public class HomeCaHO6TestDataGenerator extends TestDataGenerator<HomeCaHO6OpenL
 		TestData personalPropertyTabData = DataProviderFactory.emptyData();
 
 		for (HomeCaHO6OpenLForm form : openLPolicy.getForms()) {
-			if ("HW 04 61".equals(form.getFormCode()) && form.getScheduledPropertyItem() != null && form.getScheduledPropertyItem().getPropertyType() != null) {
-				switch (form.getScheduledPropertyItem().getPropertyType()) {
+			if ("HW 04 61".equals(form.getFormCode()) && CollectionUtils.isNotEmpty(form.getScheduledPropertyItems())) {
+				switch (form.getScheduledPropertyItems().get(0).getPropertyType()) {
 					case "Cameras":
 						TestData camerasData = DataProviderFactory.dataOf(
-								HomeCaMetaData.PersonalPropertyTab.Cameras.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItem().getLimit().toString(),
+								HomeCaMetaData.PersonalPropertyTab.Cameras.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItems().get(0).getLimit().toString(),
 								HomeCaMetaData.PersonalPropertyTab.Cameras.DESCRIPTION.getLabel(), "test");
 						personalPropertyTabData.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.CAMERAS.getLabel(), camerasData));
 						break;
 					case "Coins":
 						TestData coinsData = DataProviderFactory.dataOf(
-								HomeCaMetaData.PersonalPropertyTab.Coins.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItem().getLimit().toString(),
+								HomeCaMetaData.PersonalPropertyTab.Coins.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItems().get(0).getLimit().toString(),
 								HomeCaMetaData.PersonalPropertyTab.Coins.DESCRIPTION.getLabel(), "test");
 						personalPropertyTabData.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.COINS.getLabel(), coinsData));
 						break;
 					case "Fine Art":
 						TestData fineArtData = DataProviderFactory.dataOf(
-								HomeCaMetaData.PersonalPropertyTab.FineArts.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItem().getLimit().toString(),
+								HomeCaMetaData.PersonalPropertyTab.FineArts.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItems().get(0).getLimit().toString(),
 								HomeCaMetaData.PersonalPropertyTab.FineArts.DESCRIPTION.getLabel(), "test");
 						personalPropertyTabData.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.FINE_ARTS.getLabel(), fineArtData));
 						break;
 					case "Furs":
 						TestData fursData = DataProviderFactory.dataOf(
-								HomeCaMetaData.PersonalPropertyTab.Furs.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItem().getLimit().toString(),
+								HomeCaMetaData.PersonalPropertyTab.Furs.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItems().get(0).getLimit().toString(),
 								HomeCaMetaData.PersonalPropertyTab.Furs.DESCRIPTION.getLabel(), "test");
 						personalPropertyTabData.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.FURS.getLabel(), fursData));
 						break;
 					case "Firearms":
 						TestData firearmsData = DataProviderFactory.dataOf(
-								HomeCaMetaData.PersonalPropertyTab.Firearms.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItem().getLimit().toString(),
+								HomeCaMetaData.PersonalPropertyTab.Firearms.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItems().get(0).getLimit().toString(),
 								HomeCaMetaData.PersonalPropertyTab.Firearms.DESCRIPTION.getLabel(), "test");
 						personalPropertyTabData.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.FIREARMS.getLabel(), firearmsData));
 						break;
 					case "Golf Equipment":
 						TestData golfEquipmentData = DataProviderFactory.dataOf(
-								HomeCaMetaData.PersonalPropertyTab.GolfEquipment.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItem().getLimit().toString(),
+								HomeCaMetaData.PersonalPropertyTab.GolfEquipment.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItems().get(0).getLimit().toString(),
 								HomeCaMetaData.PersonalPropertyTab.GolfEquipment.DESCRIPTION.getLabel(), "test",
 								HomeCaMetaData.PersonalPropertyTab.GolfEquipment.LEFT_OR_RIGHT_HANDED_CLUB.getLabel(), "index=1");
 						personalPropertyTabData.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.GOLF_EQUIPMENT.getLabel(), golfEquipmentData));
 						break;
 					case "Jewelry":
 						TestData jewerlyData = DataProviderFactory.dataOf(
-								HomeCaMetaData.PersonalPropertyTab.Jewelry.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItem().getLimit().toString(),
+								HomeCaMetaData.PersonalPropertyTab.Jewelry.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItems().get(0).getLimit().toString(),
 								HomeCaMetaData.PersonalPropertyTab.Jewelry.JEWELRY_CATEGORY.getLabel(), "index=1",
 								HomeCaMetaData.PersonalPropertyTab.Jewelry.DESCRIPTION.getLabel(), "test");
 						personalPropertyTabData.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.JEWELRY.getLabel(), jewerlyData));
 						break;
 					case "Musical Instruments":
 						TestData musicalInstrumentsData = DataProviderFactory.dataOf(
-								HomeCaMetaData.PersonalPropertyTab.MusicalInstruments.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItem().getLimit().toString(),
+								HomeCaMetaData.PersonalPropertyTab.MusicalInstruments.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItems().get(0).getLimit().toString(),
 								HomeCaMetaData.PersonalPropertyTab.MusicalInstruments.DESCRIPTION.getLabel(), "test");
 						personalPropertyTabData.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.MUSICAL_INSTRUMENTS.getLabel(), musicalInstrumentsData));
 						break;
 					case "Stamps":
 						TestData stampsData = DataProviderFactory.dataOf(
-								HomeCaMetaData.PersonalPropertyTab.PostageStamps.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItem().getLimit().toString(),
+								HomeCaMetaData.PersonalPropertyTab.PostageStamps.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItems().get(0).getLimit().toString(),
 								HomeCaMetaData.PersonalPropertyTab.PostageStamps.DESCRIPTION.getLabel(), "test");
 						personalPropertyTabData.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.POSTAGE_STAMPS.getLabel(), stampsData));
 						break;
 					case "Silverware":
 						TestData silverwareData = DataProviderFactory.dataOf(
-								HomeCaMetaData.PersonalPropertyTab.Silverware.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItem().getLimit().toString(),
+								HomeCaMetaData.PersonalPropertyTab.Silverware.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItems().get(0).getLimit().toString(),
 								HomeCaMetaData.PersonalPropertyTab.Silverware.DESCRIPTION.getLabel(), "test",
 								HomeCaMetaData.PersonalPropertyTab.Silverware.SET_OR_INDIVIDUAL_PIECE.getLabel(), "index=1");
 						personalPropertyTabData.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.SILVERWARE.getLabel(), silverwareData));
 						break;
 					case "Comics":
 						TestData comicsData = DataProviderFactory.dataOf(
-								HomeCaMetaData.PersonalPropertyTab.TradingCardsOrComics.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItem().getLimit().toString(),
+								HomeCaMetaData.PersonalPropertyTab.TradingCardsOrComics.LIMIT_OF_LIABILITY.getLabel(), form.getScheduledPropertyItems().get(0).getLimit().toString(),
 								HomeCaMetaData.PersonalPropertyTab.TradingCardsOrComics.NUMBER_OF_COMIC_BOOKS_OR_CARDS.getLabel(), "10",
 								HomeCaMetaData.PersonalPropertyTab.TradingCardsOrComics.CERTIFICATE_OF_AUTHENTICITY_RECEIIVED.getLabel(), "Yes",
 								HomeCaMetaData.PersonalPropertyTab.TradingCardsOrComics.DESCRIPTION.getLabel(), "test");
