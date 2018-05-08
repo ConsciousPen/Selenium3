@@ -15,7 +15,6 @@ import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
-import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
 
 public class HomeCaHO6TestDataGenerator extends TestDataGenerator<HomeCaHO6OpenLPolicy> {
@@ -283,7 +282,7 @@ public class HomeCaHO6TestDataGenerator extends TestDataGenerator<HomeCaHO6OpenL
 	}
 
 	private TestData getEndorsementTabData(HomeCaHO6OpenLPolicy openLPolicy) {
-		TestData endorsementData = new SimpleDataProvider();
+		TestData endorsementData = DataProviderFactory.emptyData();
 		for (HomeCaHO6OpenLForm openLForm : openLPolicy.getForms()) {
 			String formCode = openLForm.getFormCode();
 			if (!"premium".equals(formCode)) {
@@ -306,7 +305,7 @@ public class HomeCaHO6TestDataGenerator extends TestDataGenerator<HomeCaHO6OpenL
 	}
 
 	private TestData getPersonalPropertyTabData(HomeCaHO6OpenLPolicy openLPolicy) {
-		TestData personalPropertyTabData = new SimpleDataProvider();
+		TestData personalPropertyTabData = DataProviderFactory.emptyData();
 
 		for (HomeCaHO6OpenLForm form : openLPolicy.getForms()) {
 			if ("HW 04 61".equals(form.getFormCode()) && CollectionUtils.isNotEmpty(form.getScheduledPropertyItems())) {
