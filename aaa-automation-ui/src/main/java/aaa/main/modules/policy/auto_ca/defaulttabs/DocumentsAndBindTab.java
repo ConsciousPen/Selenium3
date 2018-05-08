@@ -4,6 +4,7 @@
  */
 package aaa.main.modules.policy.auto_ca.defaulttabs;
 
+import aaa.main.metadata.policy.AutoSSMetaData;
 import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
@@ -74,5 +75,12 @@ public class DocumentsAndBindTab extends Tab {
 		} else if (confirmRenewalPurchase.isPresent() && confirmRenewalPurchase.isVisible()) {
 			confirmRenewalPurchase.confirm();
 		}
+	}
+
+	public AssetList getPaperlessPreferencesAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PAPERLESS_PREFERENCES.getLabel(), AssetList.class);
+	}
+	public AssetList getDocumentPrintingDetailsAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENT_PRINTING_DETAILS.getLabel(), AssetList.class);
 	}
 }

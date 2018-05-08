@@ -126,7 +126,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-349", "PAS-341"})
-    public void pas349_rfiNano(@Optional("OH") String state) {
+    public void pas349_rfiNano(@Optional("OK") String state) {
         createQuoteWithCustomDataNano(state);
 
         CustomAssert.enableSoftMode();
