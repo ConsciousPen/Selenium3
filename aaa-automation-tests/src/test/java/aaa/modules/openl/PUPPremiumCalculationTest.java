@@ -15,7 +15,7 @@ import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
 import toolkit.datax.TestData;
 
-public class PUPPremiumCalculationTest extends OpenLRatingBaseTest<PUPOpenLPolicy> {
+public class PUPPremiumCalculationTest extends OpenLRatingBaseTest<PUPOpenLPolicy, PUPOpenLFile> {
 
 	@Override
 	protected PolicyType getPolicyType() {

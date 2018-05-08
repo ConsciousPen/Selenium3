@@ -1,16 +1,11 @@
 package aaa.helpers.openl.model.home_ca.ho6;
 
-import java.util.ArrayList;
-import java.util.List;
-import aaa.helpers.openl.model.home_ca.HomeCaOpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLForm;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLScheduledPropertyItem;
-import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 public class HomeCaHO6OpenLForm extends HomeCaOpenLForm {
-	@ExcelTableElement(sheetName = HomeCaOpenLFile.SCHEDULED_PROPERTY_ITEM_SHEET_NAME, headerRowIndex = HomeCaOpenLFile.SCHEDULED_PROPERTY_ITEM_HEADER_ROW_NUMBER)
-	private List<HomeCaOpenLScheduledPropertyItem> scheduledPropertyItems;
 
+	private HomeCaOpenLScheduledPropertyItem scheduledPropertyItem;
 	private Integer age;
 	private String coApplicantClass;
 	private Double deductible;
@@ -28,11 +23,11 @@ public class HomeCaHO6OpenLForm extends HomeCaOpenLForm {
 	public void setAge(Integer age) {
 		this.age = age;
 	}
-	
+
 	public String getCoApplicantClass() {
 		return coApplicantClass;
 	}
-	
+
 	public void setCoApplicantClass(String coApplicantClass) {
 		this.coApplicantClass = coApplicantClass;
 	}
@@ -53,16 +48,6 @@ public class HomeCaHO6OpenLForm extends HomeCaOpenLForm {
 		this.formClass = formClass;
 	}
 
-	@Override
-	public Double getLimit() {
-		return limit;
-	}
-
-	@Override
-	public void setLimit(Double limit) {
-		this.limit = limit;
-	}
-	
 	public Boolean getHasCoApplicant() {
 		return hasCoApplicant;
 	}
@@ -78,7 +63,7 @@ public class HomeCaHO6OpenLForm extends HomeCaOpenLForm {
 	public void setNumOfFamilies(Integer numOfFamilies) {
 		this.numOfFamilies = numOfFamilies;
 	}
-	
+
 	public Double getPercentage() {
 		return percentage;
 	}
@@ -87,12 +72,12 @@ public class HomeCaHO6OpenLForm extends HomeCaOpenLForm {
 		this.percentage = percentage;
 	}
 
-	public List<HomeCaOpenLScheduledPropertyItem> getScheduledPropertyItems() {
-		return scheduledPropertyItems != null ? new ArrayList<>(scheduledPropertyItems) : null;
+	public HomeCaOpenLScheduledPropertyItem getScheduledPropertyItem() {
+		return scheduledPropertyItem;
 	}
 
-	public void setScheduledPropertyItems(List<HomeCaOpenLScheduledPropertyItem> scheduledPropertyItems) {
-		this.scheduledPropertyItems = new ArrayList<>(scheduledPropertyItems);
+	public void setScheduledPropertyItems(HomeCaOpenLScheduledPropertyItem scheduledPropertyItem) {
+		this.scheduledPropertyItem = scheduledPropertyItem;
 	}
 
 	public String getTerritoryCode() {
@@ -112,9 +97,19 @@ public class HomeCaHO6OpenLForm extends HomeCaOpenLForm {
 	}
 
 	@Override
+	public Double getLimit() {
+		return limit;
+	}
+
+	@Override
+	public void setLimit(Double limit) {
+		this.limit = limit;
+	}
+
+	@Override
 	public String toString() {
 		return "HomeCaHO6OpenLForm{" +
-				"scheduledPropertyItems=" + scheduledPropertyItems +
+				"scheduledPropertyItems=" + scheduledPropertyItem +
 				", age=" + age +
 				", deductible=" + deductible +
 				", coApplicantClass" + coApplicantClass +

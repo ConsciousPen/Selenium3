@@ -42,10 +42,11 @@ public class MockDataHelper {
 
 		RemoteHelper.downloadFile(mockSourcePath, mockTempDestinationPath);
 		File mockTempFile = new File(mockTempDestinationPath);
-		ExcelUnmarshaller excelUnmarshaller = new ExcelUnmarshaller();
 		M mockObject;
 		try {
-			mockObject = excelUnmarshaller.unmarshal(mockTempFile, mockDataClass);
+			ExcelUnmarshaller excelUnmarshaller = new ExcelUnmarshaller(mockTempFile);
+			mockObject = excelUnmarshaller.unmarshal(mockDataClass);
+			excelUnmarshaller.flushCache().close();
 		} finally {
 			assertThat(mockTempFile.delete()).as("Unambe to delete temp mock file: %s", mockTempDestinationPath).isTrue();
 		}
