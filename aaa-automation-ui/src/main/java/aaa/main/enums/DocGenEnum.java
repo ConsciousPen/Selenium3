@@ -243,6 +243,7 @@ public final class DocGenEnum {
 		HSEQNJ("New Jersey Earthquake Insurance Availability Notice"),
 		HSES("HSES", "HSESXX", "Property Insurance Invoice"),
 		HSFLDNJ("Important Flood Information for New Jersey Policyholders"),
+		HSFLD("Important Flood Information for MD Policyholders"),
 		HSHU2NJ("New Jersey Policyholder Hurricane Percentage Deductible Consumer Guide"),
 		HSHUVA("Virginia Adverse Action Underwriting Decision Notice"),
 		HSILXX("Property Inventory List"),
