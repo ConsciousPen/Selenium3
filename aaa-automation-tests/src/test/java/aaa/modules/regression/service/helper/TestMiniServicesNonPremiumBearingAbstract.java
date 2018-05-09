@@ -7,6 +7,7 @@ import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
 import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.*;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.security.acl.Owner;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -3708,7 +3709,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//BUG PAS-13524 UpdateVehicle response contains NULLs for some fields
 		softly.assertThat(updatePurchaseDateVehicleResponse.purchaseDate.replace("T00:00:00Z","")).isEqualTo(purchaseDate2);
 		softly.assertThat(updatePurchaseDateVehicleResponse.oid).isEqualTo(newVehicleOid);
-		softly.assertThat(updatePurchaseDateVehicleResponse.salvaged).isEqualTo("false");
+		softly.assertThat(updatePurchaseDateVehicleResponse.salvaged.toString()).isEqualTo("false");
 		//PAS-13252 end
 
 		//View endorsement vehicles
