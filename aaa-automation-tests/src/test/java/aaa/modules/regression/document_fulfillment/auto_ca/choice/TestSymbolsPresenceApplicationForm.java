@@ -33,5 +33,4 @@ public class TestSymbolsPresenceApplicationForm extends TestSymbolsPresenceTempl
 		verifySymbolsPresenceInDocs();
 	}
 
-
 }
