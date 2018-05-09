@@ -3708,7 +3708,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//BUG PAS-13524 UpdateVehicle response contains NULLs for some fields
 		softly.assertThat(updatePurchaseDateVehicleResponse.purchaseDate.replace("T00:00:00Z","")).isEqualTo(purchaseDate2);
 		softly.assertThat(updatePurchaseDateVehicleResponse.oid).isEqualTo(newVehicleOid);
-		softly.assertThat(updatePurchaseDateVehicleResponse.salvaged).isEqualTo("No");
+		softly.assertThat(updatePurchaseDateVehicleResponse.salvaged).isEqualTo("false");
 		//PAS-13252 end
 
 		//View endorsement vehicles
