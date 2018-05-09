@@ -8,19 +8,28 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class Address {
 
-	@ApiModelProperty(value = "The Residential Address. Address from the first of the First Named Insureds.", example = "4742 S Laburnum Ave")
+	@ApiModelProperty(value = "Address Line 1", example ="123 Main St")
 	public String addressLine1;
 
-	@ApiModelProperty(value = "The Residential Address.", example = "Unit 20")
+	@ApiModelProperty(value = "Address Line 2", example ="P.O. Box 12")
 	public String addressLine2;
 
-	@ApiModelProperty(value = "The Residential Address. City", example = "GOLD CANYON")
+	@ApiModelProperty(value = "City", example ="Phoenix")
 	public String city;
 
-	@ApiModelProperty(value = "The Residential Address. State", example = "VA")
+	@ApiModelProperty(value = "State", example ="AZ")
 	public String stateProvCd;
 
-	@ApiModelProperty(value = "The Residential Address. Zip code", example = "4126")
+	@ApiModelProperty(value = "Postal Code", example ="85020")
 	public String postalCode;
 
+	public Address(){}
+
+	public Address(String postalCode, String addressLine1, String addressLine2, String city, String stateProvCd) {
+		this.postalCode = postalCode;
+		this.addressLine1 = addressLine1;
+		this.addressLine2 = addressLine2;
+		this.city = city;
+		this.stateProvCd = stateProvCd;
+	}
 }

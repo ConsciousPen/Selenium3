@@ -1,7 +1,6 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
 import java.util.Comparator;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.collect.ComparisonChain;
 import aaa.modules.regression.service.helper.RestBodyRequest;
 import io.swagger.annotations.ApiModel;
@@ -10,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "Vehicle Information")
 public class Vehicle implements RestBodyRequest {
 
+	@ApiModelProperty(value = "Model year", example = "2003")
 	private static final String VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO = "PPA";
 	private static final String VEHICLE_STATUS_PENDING = "pending";
 	private static final String VEHICLE_STATUS_ACTIVE = "active";
@@ -26,6 +26,7 @@ public class Vehicle implements RestBodyRequest {
 	@ApiModelProperty(value = "Model", example = "Enzo")
 	public String model;
 
+
 	@ApiModelProperty(value = "Body style", example = "Coupe")
 	public String bodyStyle;
 
@@ -38,39 +39,33 @@ public class Vehicle implements RestBodyRequest {
 	@ApiModelProperty(value = "VIN", example = "ZFFCW56A830133118")
 	public String vehIdentificationNo;
 
-	@ApiModelProperty(value = "Vehicle status", example = "Active")
+	@ApiModelProperty(value = "vehicleStatus", example = "pending")
 	public String vehicleStatus;
 
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	public String ownership;
-
-	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@ApiModelProperty(value = "Usage", example = "Pleasure")
 	public String usage;
 
-	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@ApiModelProperty(value = "Salvaged", example = "false")
 	public Boolean salvaged;
 
-	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@ApiModelProperty(value = "Garaging different than the Residential?", example = "false")
 	public Boolean garagingDifferent;
 
-	@JsonInclude(JsonInclude.Include.NON_NULL)
+
+	@ApiModelProperty(value = "Anti-Theft", example = "NONE")
 	public String antiTheft;
 
-	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@ApiModelProperty(value = "Registered Owner?", example = "false")
 	public Boolean registeredOwner;
 
-	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@ApiModelProperty(value = "Vehicle code type", example = "PPA")
 	public String vehTypeCd;
 
-	public String garagingAddressPostalCode;
+	@ApiModelProperty(value = "Garaging address", dataType = "com.eisgroup.aaa.policy.services.dto.Address")
+	public Address garagingAddress;
 
-	public String addressLine1;
-
-	public String addressLine2;
-
-	public String city;
-
-	public String stateProvCd;
+	@ApiModelProperty(value = "Ownership info", dataType = "com.eisgroup.aaa.policy.services.dto.VehicleOwnership")
+	public VehicleOwnership vehicleOwnership;
 
 	public static final Comparator<Vehicle> ACTIVE_POLICY_COMPARATOR = (vehicle1, vehicle2) -> ComparisonChain.start()
 			.compareTrueFirst(VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO.equals(vehicle1.vehTypeCd),
