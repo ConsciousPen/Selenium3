@@ -168,7 +168,7 @@ TestData_Conversion: {
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab_MD',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Conversion',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -203,7 +203,7 @@ DriverTab_Conversion: {
   License Number: S123456789999
 }
 
-DocumentsAndBindTab_MD: {
+DocumentsAndBindTab_Conversion: {
   RequiredToBind: {
     Notice And Waiver Of Increased Limits Of Uninsured Motorists Coverage: Physically Signed,
     Maryland Notice And Waiver Of Personal Injury Protection (PIP) Coverage: Physically Signed,

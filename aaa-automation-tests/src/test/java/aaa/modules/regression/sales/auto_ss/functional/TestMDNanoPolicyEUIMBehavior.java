@@ -151,7 +151,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
 
         TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
-	    TestData tdPolicy = getTestSpecificTD("TestData_MD");
+        TestData tdPolicy = getTestSpecificTD("TestData_MD");
         // Initiate Policy, calculate premium
         mainApp().open();
         createCustomerIndividual();
@@ -177,6 +177,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
 
         // AC2 PAS-11209. Display EUIM UIPD/UIMBI in Policy Consolidated view Coverages section.
         verifyPolicySummaryPage("No");
+
     }
 
     /**
@@ -336,16 +337,16 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
 
         // Quotes and Policies created on or after 2018/07/01 EUIM should be present and EUIM BI and PD limits are defaulted to BI/PD limits
         enhancedUIM.setValue(true);
-        assertThat(uninsuredPropertyDamage.getValue()).isEqualTo("No Coverage");
+        assertThat(uninsuredPropertyDamage.getValue()).isEqualTo("No Coverage (+$0.00)");
         assertThat(uninsuredBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
 
         // Changing BI/PD limits also changes EUIM BI/PD.
         propertyDamage.setValueByIndex(2);
-        assertThat(uninsuredPropertyDamage.getValue()).isEqualTo("No Coverage");
+        assertThat(uninsuredPropertyDamage.getValue()).isEqualTo("No Coverage (+$0.00)");
         bodilyInjury.setValueByIndex(2);
         assertThat(uninsuredBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
         propertyDamage.setValueByIndex(4);
-        assertThat(uninsuredPropertyDamage.getValue()).isEqualTo("No Coverage");
+        assertThat(uninsuredPropertyDamage.getValue()).isEqualTo("No Coverage (+$0.00)");
         bodilyInjury.setValueByIndex(4);
         assertThat(uninsuredBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
 
