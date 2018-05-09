@@ -96,11 +96,8 @@ public class TestTierCalculation extends AutoSSBaseTest {
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         premiumCovTab.submitTab();
 
-        //Finish policy, override error 2001027, and save/exit
+        //Finish policy and save/exit
         policy.getDefaultView().fillFromTo(tdAutoConv, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
-        documentsTab.submitTab();
-        errorTab.overrideErrors(ErrorEnum.Errors.ERROR_200127);
-        errorTab.override();
         documentsTab.submitTab();
         policyNumberConv = PolicySummaryPage.linkPolicy.getValue();
 
