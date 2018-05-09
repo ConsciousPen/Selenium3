@@ -3,6 +3,7 @@ package aaa.modules.regression.sales.home_ca.ho3;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.helpers.constants.ComponentConstant;
@@ -18,10 +19,11 @@ import java.time.LocalDateTime;
 
 /**
  * @author Tyrone C Jemison
+ * @name Test CA Fair Plan Companion
  */
 public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
     // Class Variables
-    TestData defaultPolicyData = getPolicyTD();
+    TestData defaultPolicyData;
     HelperCommon myHelper = new HelperCommon();
 
     /**
@@ -36,13 +38,13 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
     public void AC1AC4_Quote_VisibleFPCECA(@Optional("") String state) {
-        // Test Variables
+        defaultPolicyData = getPolicyTD();
 
         // Open App, Create Customer and Initiate Quote
         mainApp().open();
         createCustomerIndividual();
         policy.initiate();
-        policy.getDefaultView().fillUpTo(defaultPolicyData, PremiumsAndCoveragesQuoteTab.class, false);
+        policy.getDefaultView().fillUpTo(defaultPolicyData, EndorsementTab.class, false);
 
         // TODO: Validate FPCECA is visible.
         // TODO: Add FPCECA Endorsement
@@ -65,7 +67,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
     public void AC2AC5_Endorsement_VisibleFPCECA(@Optional("") String state) {
 
-        TestData endorsementTestData = getTestSpecificTD("Endorsement_AC2AC5").resolveLinks();;
+        TestData endorsementTestData = getTestSpecificTD("Endorsement_AC2AC5").resolveLinks();
 
         // Open App, Create customer and Policy.
         mainApp().open();
