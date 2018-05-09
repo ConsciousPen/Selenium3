@@ -40,6 +40,7 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 	public static Table tableDiscounts = new Table(By.xpath("//table[@id='policyDataGatherForm:discountInfoTable']"));
 	public static RatingDetailsTable tableCappedPolicyPremium = new RatingDetailsTable ("//div[@id='cappingDetailsPopupPanel:vehicleCapPanel_body']//table");
 	public static Table autoPaySetupSavingMessage = new Table (By.id("policyDataGatherForm:installmentFeeAmountSavedPanel"));
+	public static Table tableCoverages = new Table(By.xpath("//table[@id='policyDataGatherForm:coverageSummaryTable']"));
 
 
 	public static Link linkPaymentPlan = new Link(By.id("policyDataGatherForm:paymentPlansTogglePanel:header"), Waiters.AJAX);

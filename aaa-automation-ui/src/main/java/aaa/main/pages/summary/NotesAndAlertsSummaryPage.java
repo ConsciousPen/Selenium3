@@ -14,10 +14,13 @@ import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.common.metadata.NotesAndAlertsMetaData;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+
 public class NotesAndAlertsSummaryPage extends SummaryPage {
 
     public static ActivitiesAndUserNotes activitiesAndUserNotes = new ActivitiesAndUserNotes(By.xpath("//div[@id='activityCommandsForm:activityTable']//table"));
     public static StaticElement alert = new StaticElement(By.id("alertArchiveForm:alerts:0:arhiveAlert_id"));
+    public static StaticElement alert2 = new StaticElement(By.id("alertArchiveForm:alerts:1:arhiveAlert_id"));
     public static StaticElement alertConfirmPolicyCancellation = new StaticElement(By.id("confirmDialog_msg"));
 
     public static AssetList assetListAddNoteOrAlert = new AssetList(By.xpath("//form[@id='createNote_form']"), NotesAndAlertsMetaData.NotesAndAlertsTab.class);
@@ -46,6 +49,11 @@ public class NotesAndAlertsSummaryPage extends SummaryPage {
         activitiesAndUserNotes.getRow(row).getCell(1).controls.links.getFirst().click();
         assetListUpdateNote.fill(td);
         Tab.buttonSave.click();
+    }
+
+    public static void checkActivitiesAndUserNotes (String note, Boolean present) {
+        activitiesAndUserNotes.expand();
+        assertThat(activitiesAndUserNotes.getRowContains("Description", note)).isPresent(present);
     }
 
     public static void deleteNoteByRow(int row) {

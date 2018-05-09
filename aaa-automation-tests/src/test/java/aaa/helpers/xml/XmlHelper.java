@@ -1,9 +1,6 @@
 package aaa.helpers.xml;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import toolkit.exceptions.IstfException;
-
+import java.io.StringReader;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -12,7 +9,9 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.stream.StreamSource;
-import java.io.StringReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import toolkit.exceptions.IstfException;
 
 public class XmlHelper {
 	private static Logger log = LoggerFactory.getLogger(XmlHelper.class);
@@ -21,14 +20,14 @@ public class XmlHelper {
 		return xmlToModel(xmlContent, modelClass, true);
 	}
 
-	public static <T> T xmlToModel(String xmlContent, Class<T> modelClass, boolean strictMatch) {
+	public static <T> T xmlToModel(String xmlContent, Class<T> modelClass, boolean strictMatchBinding) {
 		T model;
 		StreamSource source = new StreamSource(new StringReader(xmlContent));
 
-		log.debug(String.format("Getting \"%1$s\" object model from provided xml content%2$s.", modelClass.getSimpleName(), strictMatch ? " with strict match parsing" : ""));
+		log.debug(String.format("Getting \"%1$s\" object model from provided xml content%2$s.", modelClass.getSimpleName(), strictMatchBinding ? " with strict match binding" : ""));
 		try {
 			Unmarshaller jaxbUnmarshaller = getUnmarshaller(modelClass);
-			if (strictMatch) {
+			if (strictMatchBinding) {
 				jaxbUnmarshaller.setEventHandler(event -> false);
 			}
 

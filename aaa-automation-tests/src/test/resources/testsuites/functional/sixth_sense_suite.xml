@@ -6,7 +6,7 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
-                                                          <!--Tests for Auto-->
+                                        <!--Tests for Auto-->
 
     <test name="Test Major Violation Validation">
         <parameter name="state" value="CA"/>
@@ -57,17 +57,11 @@
       </classes>
     </test>
 
-    <!-- Commented out until dev feature branch is merged
-    <test name="Test Enhanced UIM Coverage Behavior">
+    <!-- Commented out until dev feature branch is merged in 18.5
+    <test name="Test Enhanced UIM Coverage Behavior and Forms">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior"/>
-        </classes>
-    </test>
-
-    <test name="Test Enhanced UIM Coverage Forms">
-        <parameter name="state" value="MD"/>
-        <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms"/>
         </classes>
     </test>
@@ -80,7 +74,7 @@
         </classes>
     </test>
 
-                                                          <!--Tests for Property-->
+                                        <!--Tests for Property-->
 
     <test name="Test Renovation Discount for KS DP3, HO3">
         <parameter name="state" value="KS"/>
@@ -148,7 +142,7 @@
         </classes>
     </test>
 
-                                                          <!--Tests for PUP-->
+                                        <!--Tests for PUP-->
 
      <test name=" Test Pup Info Section View Rating Details">
          <parameter name="state" value="PA"/>
@@ -213,7 +207,7 @@
         </classes>
     </test>
 
-                                                          <!--Tests for Defects-->
+                                        <!--Tests for Defects-->
 
     <test name="Test PUP policies rate correctly when underlying DP3 has multiple units for SS states">
         <parameter name="state" value="CO, OH, UT"/>
@@ -237,13 +231,13 @@
         </classes>
     </test>
 
-    <!--- Commented until PAS-11404 is fixed.
- <test name="Remove Vehicle on Current Term Endorsement">
-     <parameter name="state" value="VA"/>
-     <classes>
-         <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveVehicleOnEndorsement"/>
-     </classes>
- </test>
+<!--- Commented until PAS-11404 is fixed.
+    <test name="Remove Vehicle on Current Term Endorsement">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveVehicleOnEndorsement"/>
+        </classes>
+    </test>
 -->
 
 </suite>

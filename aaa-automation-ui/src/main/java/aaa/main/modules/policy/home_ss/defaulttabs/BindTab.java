@@ -10,6 +10,7 @@ import aaa.common.components.Dialog;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
@@ -56,5 +57,13 @@ public class BindTab extends Tab {
 		} else if (confirmPurchase.isPresent() && confirmPurchase.isVisible()) {
 			confirmPurchase.confirm();
 		}
+	}
+
+	public AssetList getPaperlessPreferencesAssetList() {
+		return getAssetList().getAsset(HomeSSMetaData.BindTab.PAPERLESS_PREFERENCES.getLabel(), AssetList.class);
+	}
+
+	public AssetList getDocumentPrintingDetailsAssetList() {
+		return getAssetList().getAsset(HomeSSMetaData.BindTab.DOCUMENT_PRINTING_DETAILS.getLabel(), AssetList.class);
 	}
 }

@@ -538,6 +538,7 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<ComboBox> ANIMAL_TYPE = declare("Animal type", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> OTHER_SPECIFY = declare("Other - specify", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> ANIMAL_COUNT = declare("Animal count", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<Button> BTN_ADD = declare("Add", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:addAAADwellAnimalInfoComponent"));
 		}
 
 		public static final class Stoves extends MetaData {
@@ -562,7 +563,7 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<Button> BTN_ADD = declare("Add", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:addAAAHOLossInfo"));
 			public static final AssetDescriptor<ComboBox> SOURCE = declare("Source", ComboBox.class);
 			public static final AssetDescriptor<TextBox> DATE_OF_LOSS = declare("Date of loss", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> CAUSE_OF_LOSS = declare("Cause of loss", ComboBox.class);
+			public static final AssetDescriptor<AdvancedComboBox> CAUSE_OF_LOSS = declare("Cause of loss", AdvancedComboBox.class);
 			public static final AssetDescriptor<TextBox> AMOUNT_OF_LOSS = declare("Amount of loss", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> CLAIM_STATUS = declare("Claim status", ComboBox.class);
 			public static final AssetDescriptor<RadioGroup> AAA_CLAIM = declare("AAA Claim", RadioGroup.class);
@@ -740,8 +741,8 @@ public final class HomeSSMetaData {
 				By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_92 = declare("HS 04 92", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0492.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		// public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_93 = declare("HS 04 93", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0493.class,
-		// By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		 public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_93 = declare("HS 04 93", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0493.class,
+		 By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_95 = declare("HS 04 95", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0495.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		// public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_99 = declare("HS 04 99", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0499.class,
@@ -1007,6 +1008,8 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<ComboBox> DISTANCE_TO_FIRE_HYDRANT = declare("Distance to fire hydrant", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> FIRE_PROTECTION_AREA = declare("Fire protection area", TextBox.class, Waiters.AJAX);
 		}
+
+		public static final class EndorsementHS0493 extends MetaData {}
 
 		public static final class EndorsementHS0495 extends MetaData {
 			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class, Waiters.AJAX);

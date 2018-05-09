@@ -113,6 +113,7 @@
                     <include name="eValueConfigCheck"/>
                     <include name="pas305_eValueNotApplicableForState"/>
                     <include name="pas3708_eValueStatusConsViewNotConfigured"/>
+                    <include name="pas12972_defaultConfigPA"/>
                 </methods>
             </class>
         </classes>
@@ -153,6 +154,7 @@
             </class>
         </classes>
     </test>
+
     <test name="TestTriggersAH35XX" parallel="methods" thread-count="1024">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestTriggersAH35XX"/>
@@ -276,11 +278,15 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferencesAllProducts">
                 <methods>
                     <include name="pas283_paperlessPreferencesForAllStatesProducts"/>
+                    <include name="pas12458_documentDeliverySectionDuringEndorsement"/>
+                    <include name="pas12458_documentDeliverySectionDataGatherMode"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPaperlessPreferencesAllProducts">
                 <methods>
                     <include name="pas283_paperlessPreferencesForAllStatesProducts"/>
+                    <include name="pas12458_documentDeliverySectionDuringEndorsement"/>
+                    <include name="pas12458_documentDeliverySectionDataGatherMode"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.pup.functional.TestPaperlessPreferencesAllProducts">

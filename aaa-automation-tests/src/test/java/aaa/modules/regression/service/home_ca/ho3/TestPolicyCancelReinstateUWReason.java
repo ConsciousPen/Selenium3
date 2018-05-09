@@ -1,6 +1,9 @@
 package aaa.modules.regression.service.home_ca.ho3;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.HashMap;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -133,8 +136,13 @@ public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
 
         // 11. Navigate to Policy Summary page and check that policy consolidated screen contains an alert with cancellation reason
         BillingSummaryPage.openPolicy(1);
-        NotesAndAlertsSummaryPage.alert.verify.contains(cancellationReason);
-
+        if (NotesAndAlertsSummaryPage.alert2.isPresent()) 
+             assertThat(
+            		 ((NotesAndAlertsSummaryPage.alert.getValue()).contains(cancellationReason)) || 
+            		 ((NotesAndAlertsSummaryPage.alert2.getValue()).contains(cancellationReason))); 
+         else
+        	 assertThat(NotesAndAlertsSummaryPage.alert.getValue()).contains(cancellationReason);	 
+        
         // 12. Start policy Reinstatement process and verify fields 'Cancellation effective date' and 'Reinstate date'
         new HomeCaPolicyActions.Reinstate().start();
         verifyFieldsPresentAndEnabled(reinstatementActionTab.getAssetList(), false, HomeCaMetaData.ReinstatementActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel());

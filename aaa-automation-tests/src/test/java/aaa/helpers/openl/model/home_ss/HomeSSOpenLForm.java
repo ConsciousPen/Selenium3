@@ -1,7 +1,10 @@
 package aaa.helpers.openl.model.home_ss;
 
+import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLForm;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = OpenLFile.FORM_SHEET_NAME, headerRowIndex = OpenLFile.FORM_HEADER_ROW_NUMBER)
 public class HomeSSOpenLForm extends OpenLForm {
 	private Integer covPercentage;
 	private Integer formOid;
