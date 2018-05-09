@@ -62,6 +62,7 @@ public class BindTab extends Tab {
 	public AssetList getPaperlessPreferencesAssetList() {
 		return getAssetList().getAsset(HomeSSMetaData.BindTab.PAPERLESS_PREFERENCES.getLabel(), AssetList.class);
 	}
+
 	public AssetList getDocumentPrintingDetailsAssetList() {
 		return getAssetList().getAsset(HomeSSMetaData.BindTab.DOCUMENT_PRINTING_DETAILS.getLabel(), AssetList.class);
 	}
