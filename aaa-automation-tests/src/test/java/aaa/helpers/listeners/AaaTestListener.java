@@ -1,14 +1,9 @@
 package aaa.helpers.listeners;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.ITestResult;
-import org.testng.SkipException;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
-import aaa.utils.StateList;
 import toolkit.config.PropertyProvider;
 import toolkit.utils.teststoragex.listeners.TestngTestListener2;
 import toolkit.utils.teststoragex.models.Attachment;
@@ -32,7 +27,7 @@ public class AaaTestListener extends TestngTestListener2 {
 		}
 	}
 
-	@Override
+	/*@Override
 	public void onTestStart(ITestResult result) {
 		result.setParameters(getState(result));
 		super.onTestStart(result);
@@ -54,7 +49,7 @@ public class AaaTestListener extends TestngTestListener2 {
 				result.setThrowable(new SkipException(String.format("State '%s' is not applicable to this test", state)));
 			}
 		}
-	}
+	}*/
 
 	private Object[] getState(ITestResult result) {
 		String stateParam = "state";
