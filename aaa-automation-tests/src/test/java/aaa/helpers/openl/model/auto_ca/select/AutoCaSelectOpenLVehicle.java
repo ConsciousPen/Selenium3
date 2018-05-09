@@ -4,21 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLVehicle;
-import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = OpenLFile.VEHICLE_SHEET_NAME, headerRowIndex = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
 public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
-	@ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME, headerRowIndex = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
-	protected List<AutoCaSelectOpenLCoverage> coverages;
 
-	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME, headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
-	private List<AutoCaSelectOpenLDriver> primaryDriver;
-
-	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME, headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
-	private List<AutoCaSelectOpenLDriver> manuallyAssignedDriver;
+	private List<AutoCaSelectOpenLCoverage> coverages;
+	private AutoCaSelectOpenLDriver primaryDriver;
+	private AutoCaSelectOpenLDriver manuallyAssignedDriver;
 
 	@SuppressWarnings({"FieldNameHidesFieldInSuperclass"})
-	@ExcelTableColumnElement(name = "umbiLiabilitySymbol")
+	@ExcelColumnElement(name = "umbiLiabilitySymbol")
 	private String umLiabilitySymbol;
 
 	private Boolean aaaMembership;
@@ -35,20 +32,20 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 	private Boolean manuallyAssignedUndesignatedDriverInd;
 	private String optionalCoverages; // TODO-dchubkov: double check type, column in test is empty
 
-	public List<AutoCaSelectOpenLDriver> getPrimaryDriver() {
-		return new ArrayList<>(primaryDriver);
+	public AutoCaSelectOpenLDriver getPrimaryDriver() {
+		return primaryDriver;
 	}
 
-	public void setPrimaryDriver(List<AutoCaSelectOpenLDriver> primaryDriver) {
-		this.primaryDriver = new ArrayList<>(primaryDriver);
+	public void setPrimaryDriver(AutoCaSelectOpenLDriver primaryDriver) {
+		this.primaryDriver = primaryDriver;
 	}
 
-	public List<AutoCaSelectOpenLDriver> getManuallyAssignedDriver() {
-		return manuallyAssignedDriver != null ? new ArrayList<>(manuallyAssignedDriver) : null;
+	public AutoCaSelectOpenLDriver getManuallyAssignedDriver() {
+		return manuallyAssignedDriver;
 	}
 
-	public void setManuallyAssignedDriver(List<AutoCaSelectOpenLDriver> manuallyAssignedDriver) {
-		this.manuallyAssignedDriver = new ArrayList<>(manuallyAssignedDriver);
+	public void setManuallyAssignedDriver(AutoCaSelectOpenLDriver manuallyAssignedDriver) {
+		this.manuallyAssignedDriver = manuallyAssignedDriver;
 	}
 
 	public Boolean isAaaMembership() {

@@ -1,6 +1,7 @@
 package com.exigen.ipb.etcsa.base.app;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.exigen.ipb.etcsa.base.config.CustomTestProperties;
@@ -128,7 +129,9 @@ public abstract class Application {
 	}
 
 	private void closeSession() {
-		BrowserController.get().driver().quit();
+		WebDriver driver = BrowserController.get().driver();
+		driver.getWindowHandles().forEach(handle -> driver.switchTo().window(handle).close());
+		driver.quit();
 	}
 
 	private void setApplicationOpened(boolean status) {

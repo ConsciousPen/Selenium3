@@ -1,25 +1,19 @@
 package aaa.helpers.mock.model.membership;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.commons.lang.StringUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTransient;
 import toolkit.exceptions.IstfException;
 
 public class MembershipMockData {
-	@ExcelTableElement(sheetName = "MEMBERSHIP_REQUEST")
-	private List<MembershipRequest> membershipRequests;
+	@ExcelTransient
+	private static final Double AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE = 99.9;
 
-	@ExcelTableElement(sheetName = "MEMBERSHIP_RESPONSE")
+	private List<MembershipRequest> membershipRequests;
 	private List<MembershipResponse> membershipResponses;
 
 	public List<MembershipRequest> getMembershipRequests() {
@@ -57,12 +51,16 @@ public class MembershipMockData {
 		return membershipNembers;
 	}
 
-	public String getMembershipNumberForAvgAnnualERSperMember(LocalDateTime policyEffectiveDate, Integer memberPersistency, Double avgAnnualERSperMember) {
+	public String getMembershipNumber(LocalDate policyEffectiveDate, Integer memberPersistency) {
+		return getMembershipNumberForAvgAnnualERSperMember(policyEffectiveDate, memberPersistency, AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE);
+	}
+
+	public String getMembershipNumberForAvgAnnualERSperMember(LocalDate policyEffectiveDate, Integer memberPersistency, Double avgAnnualERSperMember) {
 		Set<String> membershipNumbersSet = getActiveAndPrimaryMembershipNumbers(policyEffectiveDate.minusYears(memberPersistency));
 		assertThat(membershipNumbersSet).as("No active and primary membership numbers were found for policyEffectiveDate=%1$s and memberPersistency=%2$s", policyEffectiveDate, memberPersistency)
 				.isNotEmpty();
 
-		if (avgAnnualERSperMember.equals(99.9)) {
+		if (avgAnnualERSperMember.equals(AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE)) {
 			return membershipNumbersSet.stream().findFirst().get();
 		}
 		String membershipNumber = getMembershipNumberForAvgAnnualERSperMember(membershipNumbersSet, policyEffectiveDate, avgAnnualERSperMember);
@@ -70,25 +68,25 @@ public class MembershipMockData {
 		return membershipNumber;
 	}
 
-	public Set<String> getActiveAndPrimaryMembershipNumbers(LocalDateTime memberSinceDate) {
-		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
+	public Set<String> getActiveAndPrimaryMembershipNumbers(LocalDate memberSinceDate) {
+		LocalDate today = TimeSetterUtil.getInstance().getCurrentTime().toLocalDate();
 		Set<String> validMembershipNumbers = new HashSet<>();
 		for (String membershipNumber : getActiveAndPrimaryMembershipNumbersWithoutFaultCodes()) {
 			for (MembershipResponse r : getMembershipResponses(membershipNumber)) {
 				//Response is valid if memberStartDate=memberSinceDate
-				if (isEqualDates(r.getMemberStartDate(), memberSinceDate)) {
+				if (Objects.equals(r.getMemberStartDate(), memberSinceDate)) {
 					validMembershipNumbers.add(membershipNumber);
 					break;
 				}
 
 				//Response is valid if memberStartDate is empty AND today - memberStartDateMonthsOffset = memberSinceDate
-				if (r.getMemberStartDate() == null && r.getMemberStartDateMonthsOffset() != null && isEqualDates(today.minusMonths(Math.abs(r.getMemberStartDateMonthsOffset())), memberSinceDate)) {
+				if (r.getMemberStartDate() == null && r.getMemberStartDateMonthsOffset() != null && Objects.equals(today.minusMonths(Math.abs(r.getMemberStartDateMonthsOffset())), memberSinceDate)) {
 					validMembershipNumbers.add(membershipNumber);
 					break;
 				}
 
 				//Response is valid if memberSinceDate == today AND memberStartDate is empty AND memberStartDateMonthsOffset is empty
-				if (isEqualDates(today, memberSinceDate) && r.getMemberStartDate() == null && r.getMemberStartDateMonthsOffset() == null) {
+				if (Objects.equals(today, memberSinceDate) && r.getMemberStartDate() == null && r.getMemberStartDateMonthsOffset() == null) {
 					validMembershipNumbers.add(membershipNumber);
 					break;
 				}
@@ -98,8 +96,8 @@ public class MembershipMockData {
 	}
 
 	public List<MembershipResponse> getMembershipResponses(String membershipRequestNumber) {
-		String membershipRequestId = getMembershipRequests().stream().filter(m -> m.getMembershipNumber().equals(membershipRequestNumber)).map(MembershipRequest::getId).findFirst().get();
-		return getMembershipResponses().stream().filter(m -> m.getId().equals(membershipRequestId)).collect(Collectors.toList());
+		String membershipRequestId = getMembershipRequests().stream().filter(m -> Objects.equals(m.getMembershipNumber(), membershipRequestNumber)).map(MembershipRequest::getId).findFirst().get();
+		return getMembershipResponses().stream().filter(m -> Objects.equals(m.getId(), membershipRequestId)).collect(Collectors.toList());
 	}
 
 	public String getMembershipRequestNumber(String id) {
@@ -107,42 +105,16 @@ public class MembershipMockData {
 				.orElseThrow(() -> new IstfException("There is no request membership number with id=" + id)).getMembershipNumber();
 	}
 
-	private String getMembershipNumberForAvgAnnualERSperMember(Set<String> membershipNumbers, LocalDateTime policyEffectiveDate, Double avgAnnualERSperMember) {
-		//double defaultAvgAnnualERSperMember = 99.9;
-		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
+	private String getMembershipNumberForAvgAnnualERSperMember(Set<String> membershipNumbers, LocalDate policyEffectiveDate, Double avgAnnualERSperMember) {
+		LocalDate today = TimeSetterUtil.getInstance().getCurrentTime().toLocalDate();
 		for (String mNumber : membershipNumbers) {
 			int ersCount = 0;
 			int totalYearsCount = 0;
 
-			List<MembershipResponse> membershipResponses = getMembershipResponses(mNumber);
-			/*if (membershipResponses.stream().anyMatch(m -> StringUtils.isNotBlank(m.getFaultCode()))) {
-				if (avgAnnualERSperMember.equals(defaultAvgAnnualERSperMember)) {
-					return mNumber;
-				}
-				continue;
-			}
-
-			MembershipResponse activeAndPrimaryResponse = membershipResponses.stream().filter(this::isActiveAndPrimary).findFirst().orElse(null);
-			if (activeAndPrimaryResponse != null) {
-				LocalDateTime memberStartDate = activeAndPrimaryResponse.getMemberStartDate() != null ? activeAndPrimaryResponse.getMemberStartDate() : today;
-				int primMemTotalYears = Math.abs(policyEffectiveDate.getYear() - memberStartDate.getYear());
-				if (primMemTotalYears < 2) {
-					if (avgAnnualERSperMember.equals(defaultAvgAnnualERSperMember)) {
-						return mNumber;
-					}
-					continue;
-				}
-			} else {
-				if (avgAnnualERSperMember.equals(defaultAvgAnnualERSperMember)) {
-					return mNumber;
-				}
-				continue;
-			}*/
-
-			for (MembershipResponse mResponse : membershipResponses) {
+			for (MembershipResponse mResponse : getMembershipResponses(mNumber)) {
 				if ("Active".equals(mResponse.getStatus())) {
-					LocalDateTime serviceDate = mResponse.getServiceDate() != null ? mResponse.getServiceDate() : today;
-					LocalDateTime memberStartDate = mResponse.getMemberStartDate() != null ? mResponse.getMemberStartDate() : today;
+					LocalDate serviceDate = mResponse.getServiceDate() != null ? mResponse.getServiceDate() : today;
+					LocalDate memberStartDate = mResponse.getMemberStartDate() != null ? mResponse.getMemberStartDate() : today;
 					if (Math.abs(policyEffectiveDate.getYear() - serviceDate.getYear()) <= 3) {
 						ersCount++;
 					}
@@ -168,9 +140,5 @@ public class MembershipMockData {
 		// Response is valid if Status=Active AND memberType=Primary or empty or does not belong to group "Resident Adult Associate", "Dependent Associate"
 		List<String> nonPrimaryTypes = Arrays.asList("Resident Adult Associate", "Dependent Associate");
 		return "Active".equals(membershipResponse.getStatus()) && !nonPrimaryTypes.contains(membershipResponse.getMemberType());
-	}
-
-	private boolean isEqualDates(LocalDateTime date1, LocalDateTime date2) {
-		return Objects.equals(date1, date2) || date1 != null && date2 != null && date1.toLocalDate().equals(date2.toLocalDate());
 	}
 }

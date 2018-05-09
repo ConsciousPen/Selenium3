@@ -1,7 +1,7 @@
 package aaa.helpers.openl.testdata_builder;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +27,7 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	public TestData getRatingData(AutoCaChoiceOpenLPolicy openLPolicy) {
 		String defaultEffectiveDate = getRatingDataPattern().getValue(
 				new GeneralTab().getMetaKey(), AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel());
-		openLPolicy.setEffectiveDate(TimeSetterUtil.getInstance().parse(defaultEffectiveDate, DateTimeUtils.MM_DD_YYYY));
+		openLPolicy.setEffectiveDate(TimeSetterUtil.getInstance().parse(defaultEffectiveDate, DateTimeUtils.MM_DD_YYYY).toLocalDate());
 
 		TestData td = DataProviderFactory.dataOf(
 				new DriverTab().getMetaKey(), getDriverTabData(openLPolicy),
@@ -38,14 +38,14 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	}
 
 	@Override
-	protected TestData getDriverTabInformationData(AutoCaChoiceOpenLDriver openLDriver, boolean isFirstDriver, LocalDateTime policyEffectiveDate) {
+	protected TestData getDriverTabInformationData(AutoCaChoiceOpenLDriver openLDriver, boolean isFirstDriver, LocalDate policyEffectiveDate) {
 		TestData driverData = super.getDriverTabInformationData(openLDriver, isFirstDriver, policyEffectiveDate);
 		driverData.adjust(AutoCaMetaData.DriverTab.SMOKER_CIGARETTES_OR_PIPES.getLabel(), Boolean.TRUE.equals(openLDriver.isNonSmoker()) ? "No" : "Yes");
 		return driverData;
 	}
 
 	@Override
-	protected List<TestData> getDriverTabActivityInformationData(AutoCaChoiceOpenLDriver openLDriver, LocalDateTime policyEffectiveDate) {
+	protected List<TestData> getDriverTabActivityInformationData(AutoCaChoiceOpenLDriver openLDriver, LocalDate policyEffectiveDate) {
 		List<TestData> activityInformationList = new ArrayList<>();
 
 		if (Boolean.TRUE.equals(openLDriver.hasDriverTrainingDiscount())) {

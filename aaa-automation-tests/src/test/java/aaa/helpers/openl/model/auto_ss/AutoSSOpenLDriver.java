@@ -1,7 +1,10 @@
 package aaa.helpers.openl.model.auto_ss;
 
 import aaa.helpers.openl.model.OpenLDriver;
+import aaa.helpers.openl.model.OpenLFile;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME + "AZ", headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
 public class AutoSSOpenLDriver extends OpenLDriver {
 	private String name;
 	private Boolean hasSR22;
