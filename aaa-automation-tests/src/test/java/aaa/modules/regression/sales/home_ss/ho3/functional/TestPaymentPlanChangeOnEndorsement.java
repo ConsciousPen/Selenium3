@@ -7,12 +7,12 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.BillingConstants;
 import aaa.modules.policy.HomeSSHO3BaseTest;
-import aaa.modules.regression.sales.home_ss.helper.HelperTestPaymentPlanChangeOnEndorsement;
+import aaa.modules.regression.sales.template.functional.PaymentPlanChangeOnEndorsementTemplate;
 import toolkit.utils.TestInfo;
 
 public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO3BaseTest {
 
-	private HelperTestPaymentPlanChangeOnEndorsement helper = new HelperTestPaymentPlanChangeOnEndorsement();
+	private PaymentPlanChangeOnEndorsementTemplate helper = new PaymentPlanChangeOnEndorsementTemplate(getPolicyType());
 
 	//-----------Tests with 'Monthly Low Down' payment plan--------------
 
@@ -32,7 +32,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-11338")
 	public void pas11338_AC1_monthlyLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN;
-		helper.pas11338_pas11785_AC1(getPolicyType(), paymentPlan);
+		helper.pas11338_pas11785_AC1(paymentPlan);
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-11338")
 	public void pas11338_AC2_AC3_monthlyLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN;
-		helper.pas11338_pas11785_AC2_AC3(getPolicyType(), paymentPlan);
+		helper.pas11338_pas11785_AC2_AC3(paymentPlan);
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO3BaseTest {
 
 	public void pas11338_AC2_negative_monthlyLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.PAY_IN_FULL; //other than Low Down
-		helper.pas11338_pas11785_AC2_negative(getPolicyType(), paymentPlan);
+		helper.pas11338_pas11785_AC2_negative(paymentPlan);
 
 	}
 
@@ -106,7 +106,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO3BaseTest {
 
 	public void pas11338_AC3_AC6_Renewal_monthlyLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN;
-		helper.pas11338_pas11785_AC3_AC6_Renewal(getPolicyType(), paymentPlan, getTimePoints());
+		helper.pas11338_pas11785_AC3_AC6_Renewal(paymentPlan, getTimePoints());
 	}
 
 	/**
@@ -135,7 +135,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO3BaseTest {
 
 	public void pas11338_AC4_monthlyLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN;
-		helper.pas11338_pas11785_AC4(getPolicyType(), paymentPlan, getTimePoints());
+		helper.pas11338_pas11785_AC4(paymentPlan, getTimePoints());
 
 	}
 
@@ -157,7 +157,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO3BaseTest {
 
 	public void pas11338_AC5_monthlyLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN;
-		helper.pas11338_pas11785_AC5(getPolicyType(), paymentPlan, getTimePoints());
+		helper.pas11338_pas11785_AC5(paymentPlan, getTimePoints());
 	}
 
 	//-----------Tests with 'Eleven Pay Low Down' payment plan--------------
@@ -178,7 +178,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-11338")
 	public void pas11338_AC1_elevenPayLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN;
-		helper.pas11338_pas11785_AC1(getPolicyType(), paymentPlan);
+		helper.pas11338_pas11785_AC1(paymentPlan);
 	}
 
 	/**
@@ -208,7 +208,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-11338")
 	public void pas11338_AC2_AC3_elevenPayLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN;
-		helper.pas11338_pas11785_AC2_AC3(getPolicyType(), paymentPlan);
+		helper.pas11338_pas11785_AC2_AC3(paymentPlan);
 	}
 
 	/**
@@ -229,7 +229,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO3BaseTest {
 
 	public void pas11338_AC2_negative_elevenPayLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.PAY_IN_FULL; //other than Low Down
-		helper.pas11338_pas11785_AC2_negative(getPolicyType(), paymentPlan);
+		helper.pas11338_pas11785_AC2_negative(paymentPlan);
 
 	}
 
@@ -252,7 +252,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO3BaseTest {
 
 	public void pas11338_AC3_AC6_Renewal_elevenPayLowDow(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN;
-		helper.pas11338_pas11785_AC3_AC6_Renewal(getPolicyType(), paymentPlan, getTimePoints());
+		helper.pas11338_pas11785_AC3_AC6_Renewal(paymentPlan, getTimePoints());
 	}
 
 	/**
@@ -281,7 +281,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO3BaseTest {
 
 	public void pas11338_AC4_elevenPayLowDow(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN;
-		helper.pas11338_pas11785_AC4(getPolicyType(), paymentPlan, getTimePoints());
+		helper.pas11338_pas11785_AC4(paymentPlan, getTimePoints());
 
 	}
 
@@ -303,7 +303,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO3BaseTest {
 
 	public void pas11338_AC5_elevenPayLowDow(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN;
-		helper.pas11338_pas11785_AC5(getPolicyType(), paymentPlan, getTimePoints());
+		helper.pas11338_pas11785_AC5(paymentPlan, getTimePoints());
 	}
 
 	///-----------Test randomly with 'Monthly Low Down' or "Eleven Pay Low Down" payment plan--------------
@@ -328,7 +328,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO3BaseTest {
 
 	public void pas11338_AC2_randomLowDown(@Optional("") String state) {
 		String paymentPlan = helper.getRandomLowDownPaymentPlan();
-		helper.pas11338_pas11785_AC2_randomLowDown(getPolicyType(), paymentPlan);
+		helper.pas11338_pas11785_AC2_randomLowDown(paymentPlan);
 	}
 
 }

@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ss.helper;
+package aaa.modules.regression.sales.template.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
@@ -31,7 +31,7 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.toolkit.webdriver.customcontrols.PaymentMethodAllocationControl;
 import toolkit.datax.TestData;
 
-public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
+public class PaymentPlanChangeOnEndorsementTemplate extends PolicyBaseTest {
 
 	private static final String[] ALL_LOW_DOWN_PAYMENT_PLANS = {BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN};
 	private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTabHo = new PremiumsAndCoveragesQuoteTab();
@@ -39,26 +39,32 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 
 	private aaa.main.modules.policy.home_ss.defaulttabs.BindTab bindTabHo = new aaa.main.modules.policy.home_ss.defaulttabs.BindTab();
 	private BindTab bindTabPup = new BindTab();
+	private PolicyType policyType;
 
-	public void pas11338_pas11785_AC1(PolicyType policyType, String paymentPlan) {
-		createPolicyWithSpecificPaymentPlan(policyType, paymentPlan);
-		initiateEndorsementAndValidatePaymentPlanWithoutChanging(policyType, paymentPlan);
+	private PaymentPlanChangeOnEndorsementTemplate(){};
+	public PaymentPlanChangeOnEndorsementTemplate (PolicyType policyType){
+		this.policyType = policyType;
 	}
 
-	public void pas11338_pas11785_AC2_AC3(PolicyType policyType, String paymentPlan) {
-		createPolicyWithSpecificPaymentPlan(policyType, paymentPlan);
+	public void pas11338_pas11785_AC1(String paymentPlan) {
+		createPolicyWithSpecificPaymentPlan(paymentPlan);
+		initiateEndorsementAndValidatePaymentPlanWithoutChanging(paymentPlan);
+	}
+
+	public void pas11338_pas11785_AC2_AC3(String paymentPlan) {
+		createPolicyWithSpecificPaymentPlan(paymentPlan);
 
 		if (policyType.equals(PolicyType.PUP)) {
-			initiateEndorsementAndValidatePaymentPlanWithChangingPup(policyType, paymentPlan, false);
+			initiateEndorsementAndValidatePaymentPlanWithChangingPup(paymentPlan, false);
 		} else {
-			initiateEndorsementAndValidatePaymentPlanWithChangingHo(policyType, paymentPlan, false);
+			initiateEndorsementAndValidatePaymentPlanWithChangingHo(paymentPlan, false);
 		}
 
 	}
 
-	public void pas11338_pas11785_AC2_negative(PolicyType policyType, String paymentPlan) {
-		createPolicyWithSpecificPaymentPlan(policyType, paymentPlan);
-		initiateEndorsementAndNavigateToQuoteTab(policyType);
+	public void pas11338_pas11785_AC2_negative(String paymentPlan) {
+		createPolicyWithSpecificPaymentPlan(paymentPlan);
+		initiateEndorsementAndNavigateToQuoteTab();
 
 		if (policyType.equals(PolicyType.PUP)) {
 			assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlan);
@@ -74,8 +80,8 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 
 	}
 
-	public void pas11338_pas11785_AC3_AC6_Renewal(PolicyType policyType, String paymentPlan, TimePoints timePoints) {
-		createPolicyWithSpecificPaymentPlan(policyType, paymentPlan);
+	public void pas11338_pas11785_AC3_AC6_Renewal(String paymentPlan, TimePoints timePoints) {
+		createPolicyWithSpecificPaymentPlan(paymentPlan);
 		generateRenewalImageAndRetrievePolicy(timePoints);
 
 		PolicySummaryPage.buttonRenewals.click();
@@ -102,35 +108,35 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 
 	}
 
-	public void pas11338_pas11785_AC4(PolicyType policyType, String paymentPlan, TimePoints timePoints) {
-		createPolicyWithSpecificPaymentPlan(policyType, paymentPlan);
+	public void pas11338_pas11785_AC4(String paymentPlan, TimePoints timePoints) {
+		createPolicyWithSpecificPaymentPlan(paymentPlan);
 		generateRenewalImageAndRetrievePolicy(timePoints);
 
 		if (policyType.equals(PolicyType.PUP)) {
-			initiateEndorsementAndValidatePaymentPlanWithChangingPup(policyType, paymentPlan, false);
+			initiateEndorsementAndValidatePaymentPlanWithChangingPup(paymentPlan, false);
 		} else {
-			initiateEndorsementAndValidatePaymentPlanWithChangingHo(policyType, paymentPlan, false);
+			initiateEndorsementAndValidatePaymentPlanWithChangingHo(paymentPlan, false);
 		}
 
 	}
 
-	public void pas11338_pas11785_AC5(PolicyType policyType, String paymentPlan, TimePoints timePoints) {
-		createPolicyWithSpecificPaymentPlan(policyType, paymentPlan);
+	public void pas11338_pas11785_AC5(String paymentPlan, TimePoints timePoints) {
+		createPolicyWithSpecificPaymentPlan(paymentPlan);
 		generateRenewalImageAndRetrievePolicy(timePoints);
-		initiateEndorsementAndValidatePaymentPlanWithoutChanging(policyType, paymentPlan);
+		initiateEndorsementAndValidatePaymentPlanWithoutChanging(paymentPlan);
 	}
 
-	public void pas11338_pas11785_AC2_randomLowDown(PolicyType policyType, String paymentPlan) {
-		createPolicyWithSpecificPaymentPlan(policyType, paymentPlan);
+	public void pas11338_pas11785_AC2_randomLowDown(String paymentPlan) {
+		createPolicyWithSpecificPaymentPlan(paymentPlan);
 		if (policyType.equals(PolicyType.PUP)) {
-			initiateEndorsementAndValidatePaymentPlanWithChangingPup(policyType, paymentPlan, true);
+			initiateEndorsementAndValidatePaymentPlanWithChangingPup(paymentPlan, true);
 		} else {
-			initiateEndorsementAndValidatePaymentPlanWithChangingHo(policyType, paymentPlan, true);
+			initiateEndorsementAndValidatePaymentPlanWithChangingHo(paymentPlan, true);
 		}
 
 	}
 
-	private void createPolicyWithSpecificPaymentPlan(PolicyType policyType, String paymentPlan) {
+	private void createPolicyWithSpecificPaymentPlan(String paymentPlan) {
 		TestData testData = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData");
 
 		//adjust test data with Specific payment plan
@@ -166,7 +172,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 
 	}
 
-	private void initiateEndorsementAndNavigateToQuoteTab(PolicyType policyType) {
+	private void initiateEndorsementAndNavigateToQuoteTab() {
 		TestData testData = getStateTestData(testDataManager.policy.get(policyType).getTestData("Endorsement"), "TestData_Plus10Day");
 
 		policyType.get().endorse().perform(testData);
@@ -182,8 +188,8 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 
 	}
 
-	private void initiateEndorsementAndValidatePaymentPlanWithoutChanging(PolicyType policyType, String paymentPlan) {
-		initiateEndorsementAndNavigateToQuoteTab(policyType);
+	private void initiateEndorsementAndValidatePaymentPlanWithoutChanging(String paymentPlan) {
+		initiateEndorsementAndNavigateToQuoteTab();
 
 		if (policyType.equals(PolicyType.PUP)) {
 			assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlan);//
@@ -219,7 +225,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 	}
 
 	//The same method as initiateEndorsementAndValidatePaymentPlanWithChangingPup(), but for HO
-	private void initiateEndorsementAndValidatePaymentPlanWithChangingHo(PolicyType policyType, String paymentPlan, boolean changeToAnotherLowDown) {
+	private void initiateEndorsementAndValidatePaymentPlanWithChangingHo(String paymentPlan, boolean changeToAnotherLowDown) {
 		String paymentPlanChangeTo = null; //change to this Payment plan during endorsement
 
 		// IF changeToAnotherLowDown is TRUE, change payment plan to Different Low Down payment plan, else change to non Low Down plan
@@ -235,7 +241,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 			paymentPlanChangeTo = BillingConstants.PaymentPlan.PAY_IN_FULL; //change to this Payment plan during endorsement
 		}
 
-		initiateEndorsementAndNavigateToQuoteTab(policyType);
+		initiateEndorsementAndNavigateToQuoteTab();
 
 		assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlan);//
 		premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).setValue(paymentPlanChangeTo);
@@ -310,7 +316,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 	}
 
 	//The same method as initiateEndorsementAndValidatePaymentPlanWithChangingHo(), but for PUP
-	private void initiateEndorsementAndValidatePaymentPlanWithChangingPup(PolicyType policyType, String paymentPlan, boolean changeToAnotherLowDown) {
+	private void initiateEndorsementAndValidatePaymentPlanWithChangingPup(String paymentPlan, boolean changeToAnotherLowDown) {
 		String paymentPlanChangeTo = null; //change to this Payment plan during endorsement
 
 		// IF changeToAnotherLowDown is TRUE, change payment plan to Different Low Down payment plan, else change to non Low Down plan
@@ -326,7 +332,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 			paymentPlanChangeTo = BillingConstants.PaymentPlan.PAY_IN_FULL; //change to this Payment plan during endorsement
 		}
 
-		initiateEndorsementAndNavigateToQuoteTab(policyType);
+		initiateEndorsementAndNavigateToQuoteTab();
 
 		assertThat(premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlan);//
 		premiumsAndCoveragesQuoteTabPup.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN).setValue(paymentPlanChangeTo);
