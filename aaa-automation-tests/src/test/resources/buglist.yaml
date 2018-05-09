@@ -153,7 +153,7 @@ PAS-12257:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForConversion]
-      messages: ["Cannot set value of ComboBox"]
+      messages: ["Cannot set value of ComboBox","Response file MAIG"]
 BUG-10001:
   summary: "VDMs frequently fail prefilling address"
   reason: PROD
@@ -172,7 +172,10 @@ PAS-11810:
   failures:
     - tests: [
     aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForLapsedRenewal,
-    aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForActiveRenewal]
+    aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForActiveRenewal,
+    aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForLapsedRenewal,
+    aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForActiveRenewal
+    ]
       messages: ["expected:<null> but was:<"]
 PAS-12464:
   summary: "Comp symbol error appears when VIN is returned from prefill for CA quote or policy"

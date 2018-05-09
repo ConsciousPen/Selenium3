@@ -960,7 +960,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12407"})
 	public void pas12407_BigMetaDataService(@Optional("VA") String state) {
 		assertSoftly(softly ->
-				pas12407_bigDataService(state, true, softly)
+				pas12407_bigDataService(softly)
 		);
 	}
 

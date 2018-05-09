@@ -2908,14 +2908,14 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//add  vehicle1
 		String purchaseDate = "2012-02-21";
 		String vin = "SHHFK7H41JU201444";
-		VehicleTab vehicleTab = new VehicleTab();
 		Vehicle addVehicle = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
 		assertThat(addVehicle.oid).isNotEmpty();
 		String newVehicleOid = addVehicle.oid;
 
 		VehicleUpdateDto updateVehicleUsageRequest = new VehicleUpdateDto();
+		updateVehicleUsageRequest.vehicleOwnership = new VehicleOwnership();
 		updateVehicleUsageRequest.usage = "Pleasure";
-		updateVehicleUsageRequest.ownership = "LSD";
+		updateVehicleUsageRequest.vehicleOwnership.ownership = "LSD";
 		updateVehicleUsageRequest.registeredOwner = true;
 		Vehicle updateVehicleUsageResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleUsageRequest);
 		assertThat(updateVehicleUsageResponse.usage).isEqualTo("Pleasure");
@@ -3537,7 +3537,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		assertThat(bindResponse.entrySet().toString()).contains(ErrorDxpEnum.Errors.VALIDATION_ERROR_HAPPENED_DURING_BIND.getMessage());
 	}
 
-	protected void pas12407_bigDataService(String state, boolean isNewPolicy, SoftAssertions softly) {
+	protected void pas12407_bigDataService(SoftAssertions softly) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
@@ -3553,73 +3553,38 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		Vehicle[] viewVehicleResponse = HelperCommon.executeVehicleInfoValidate(policyNumber);
 		String oid = viewVehicleResponse[0].oid;
 
-		AttributeMetadata[] response2 = HelperCommon.vehicleAttributeMetaDataService(policyNumber, oid);
-		softly.assertThat(response2[0].attributeName).isEqualTo("vehTypeCd");
-		softly.assertThat(response2[0].enabled).isEqualTo(true);
-		softly.assertThat(response2[0].visible).isEqualTo(true);
-		softly.assertThat(response2[0].required).isEqualTo(true);
-		softly.assertThat(response2[0].maxLength).isEqualTo(null);
-		softly.assertThat(response2[0].valueRange.get("PPA")).isEqualTo("Private Passenger Auto");
-		softly.assertThat(response2[0].valueRange.get("Conversion")).isEqualTo("Conversion Van");
-		softly.assertThat(response2[0].valueRange.get("Motor")).isEqualTo("Motor Home");
-		softly.assertThat(response2[0].valueRange.get("Trailer")).isEqualTo("Trailer");
-		softly.assertThat(response2[0].valueRange.get("AC")).isEqualTo("Limited Production/Antique");
+		AttributeMetadata[] metaDataResponse = HelperCommon.vehicleAttributeMetaDataService(policyNumber, oid);
+		AttributeMetadata metaDataFieldResponseVehTypeCd = getAttributeMetadata(metaDataResponse, "vehTypeCd", true, true, true, null);
+		softly.assertThat(metaDataFieldResponseVehTypeCd.valueRange.get("PPA")).isEqualTo("Private Passenger Auto");
+		softly.assertThat(metaDataFieldResponseVehTypeCd.valueRange.get("Conversion")).isEqualTo("Conversion Van");
+		softly.assertThat(metaDataFieldResponseVehTypeCd.valueRange.get("Motor")).isEqualTo("Motor Home");
+		softly.assertThat(metaDataFieldResponseVehTypeCd.valueRange.get("Trailer")).isEqualTo("Trailer");
+		softly.assertThat(metaDataFieldResponseVehTypeCd.valueRange.get("AC")).isEqualTo("Limited Production/Antique");
 
-		softly.assertThat(response2[1].attributeName).isEqualTo("usage");
-		softly.assertThat(response2[1].enabled).isEqualTo(true);
-		softly.assertThat(response2[1].visible).isEqualTo(true);
-		softly.assertThat(response2[1].required).isEqualTo(true);
-		softly.assertThat(response2[1].maxLength).isEqualTo(null);
-		softly.assertThat(response2[1].valueRange.get("Pleasure")).isEqualTo("Pleasure");
-		softly.assertThat(response2[1].valueRange.get("WorkCommute")).isEqualTo("Commute");
-		softly.assertThat(response2[1].valueRange.get("Business")).isEqualTo("Business");
-		softly.assertThat(response2[1].valueRange.get("Artisan")).isEqualTo("Artisan");
-		softly.assertThat(response2[1].valueRange.get("Farm")).isEqualTo("Farm");
+		AttributeMetadata metaDataFieldResponseUsage = getAttributeMetadata(metaDataResponse, "usage", true, true, true, null);
+		softly.assertThat(metaDataFieldResponseUsage.valueRange.get("Pleasure")).isEqualTo("Pleasure");
+		softly.assertThat(metaDataFieldResponseUsage.valueRange.get("WorkCommute")).isEqualTo("Commute");
+		softly.assertThat(metaDataFieldResponseUsage.valueRange.get("Business")).isEqualTo("Business");
+		softly.assertThat(metaDataFieldResponseUsage.valueRange.get("Artisan")).isEqualTo("Artisan");
+		softly.assertThat(metaDataFieldResponseUsage.valueRange.get("Farm")).isEqualTo("Farm");
 
-		softly.assertThat(response2[2].attributeName).isEqualTo("vehIdentificationNo");
-		softly.assertThat(response2[2].enabled).isEqualTo(true);
-		softly.assertThat(response2[2].visible).isEqualTo(true);
-		softly.assertThat(response2[2].required).isEqualTo(false);
-		softly.assertThat(response2[2].maxLength).isEqualTo("20");
-		softly.assertThat(String.valueOf(response2[2].valueRange)).isEqualTo("{}");
+		getAttributeMetadata(metaDataResponse, "vehIdentificationNo", true, true, false, "20");
+		getAttributeMetadata(metaDataResponse, "modelYear", false, true, true, "5");
+		getAttributeMetadata(metaDataResponse, "manufacturer", false, true, true, null);
+		getAttributeMetadata(metaDataResponse, "model", false, true, true, null);
+		getAttributeMetadata(metaDataResponse, "series", false, true, false, null);
 
-		softly.assertThat(response2[3].attributeName).isEqualTo("modelYear");
-		softly.assertThat(response2[3].enabled).isEqualTo(false);
-		softly.assertThat(response2[3].visible).isEqualTo(true);
-		softly.assertThat(response2[3].required).isEqualTo(true);
-		softly.assertThat(response2[3].maxLength).isEqualTo("5");
-		softly.assertThat(String.valueOf(response2[3].valueRange)).isEqualTo("{}");
+		AttributeMetadata metaDataFieldResponseBodyStyle = getAttributeMetadata(metaDataResponse, "bodyStyle", false, true, false, null);
+		softly.assertThat(metaDataFieldResponseBodyStyle.valueRange.get("")).isEqualTo("");
+		softly.assertThat(metaDataFieldResponseBodyStyle.valueRange.get("SPORT VAN")).isEqualTo("SPORT VAN");
+		softly.assertThat(metaDataFieldResponseBodyStyle.valueRange.get("OTHER")).isEqualTo("OTHER");
 
-		softly.assertThat(response2[4].attributeName).isEqualTo("manufacturer");
+		getAttributeMetadata(metaDataResponse, "salvaged", true, true, false, null);
 
-		softly.assertThat(response2[5].attributeName).isEqualTo("model");
-
-		softly.assertThat(response2[6].attributeName).isEqualTo("series");
-
-		softly.assertThat(response2[7].attributeName).isEqualTo("bodyStyle");
-		softly.assertThat(response2[7].enabled).isEqualTo(false);
-		softly.assertThat(response2[7].visible).isEqualTo(true);
-		softly.assertThat(response2[7].required).isEqualTo(false);
-		softly.assertThat(response2[7].maxLength).isEqualTo(null);
-		softly.assertThat(response2[7].valueRange.get("")).isEqualTo("");
-		softly.assertThat(response2[7].valueRange.get("SPORT VAN")).isEqualTo("SPORT VAN");
-		softly.assertThat(response2[7].valueRange.get("OTHER")).isEqualTo("OTHER");
-
-		softly.assertThat(response2[8].attributeName).isEqualTo("salvaged");
-		softly.assertThat(response2[8].enabled).isEqualTo(true);
-		softly.assertThat(response2[8].visible).isEqualTo(true);
-		softly.assertThat(response2[8].required).isEqualTo(false);
-		softly.assertThat(response2[8].maxLength).isEqualTo(null);
-		softly.assertThat(response2[8].valueRange.get("")).isEqualTo(null);
-
-		softly.assertThat(response2[9].attributeName).isEqualTo("antiTheft");
-		softly.assertThat(response2[9].enabled).isEqualTo(true);
-		softly.assertThat(response2[9].visible).isEqualTo(true);
-		softly.assertThat(response2[9].required).isEqualTo(false);
-		softly.assertThat(response2[9].maxLength).isEqualTo(null);
-		softly.assertThat(response2[9].valueRange.get("")).isEqualTo("");
-		softly.assertThat(response2[9].valueRange.get("NONE")).isEqualTo("None");
-		softly.assertThat(response2[9].valueRange.get("STD")).isEqualTo("Vehicle Recovery Device");
+		AttributeMetadata metaDataFieldResponseAntiTheft = getAttributeMetadata(metaDataResponse, "antiTheft", true, true, false, null);
+		softly.assertThat(metaDataFieldResponseAntiTheft.valueRange.get("")).isEqualTo("");
+		softly.assertThat(metaDataFieldResponseAntiTheft.valueRange.get("NONE")).isEqualTo("None");
+		softly.assertThat(metaDataFieldResponseAntiTheft.valueRange.get("STD")).isEqualTo("Vehicle Recovery Device");
 	}
 
 	/**
@@ -3656,7 +3621,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			if ("AZ".equals(state)) {
 				policyNumber = "AZSS926232005";
 			} else if ("KY".equals(state)) {
-				policyNumber = "KYSS926232030";
+				policyNumber = "AZSS926232030";
 			}
 		}
 
@@ -3793,6 +3758,12 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		PolicyLockUnlockDto responseUnlock = HelperCommon.executePolicyUnlockService(policyNumber, Response.Status.OK.getStatusCode(), SESSION_ID_1);
 		assertThat(responseUnlock.policyNumber).isEqualTo(policyNumber);
 		assertThat(responseUnlock.status).isEqualTo("Unlocked");
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		//BUG PAS-13652 When Endorsmenet screen shows Endorsement Date field twice, if creating endorsement after endorsmeent created/issued through service
+		//BUG PAS-13651 Instantiate state specific coverages
+		secondEndorsementIssueCheck();
 	}
 
 	protected void pas11684_DriverAssignmentExistsForStateBody(String state, SoftAssertions softly) {
@@ -3863,7 +3834,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		updateVehicleLeasedFinanced.vehicleOwnership.secondName = secondName;
 		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
 
-		//TODO Vadim to investigate
+		//BUG PAS-13545 not all ownership fields are updated from first service call
 		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
 		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
 		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
@@ -3903,30 +3874,30 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(vehicleSt1.vehicleOwnership.secondName).isEqualTo(secondName);
 
 		AttributeMetadata[] metaDataResponse = HelperCommon.vehicleAttributeMetaDataService(policyNumber, newVehicleOid);
-		AttributeMetadata metaDataFieldResponse = getAttributeMetadata(metaDataResponse, "AAAVehicleOwnership.ownership", true, true, false, null);
+		AttributeMetadata metaDataFieldResponse = getAttributeMetadata(metaDataResponse, "vehicleOwnership.ownership", true, true, false, null);
 		softly.assertThat(metaDataFieldResponse.valueRange.get("OWN")).isEqualTo("Owned");
 		softly.assertThat(metaDataFieldResponse.valueRange.get("FNC")).isEqualTo("Financed");
 		softly.assertThat(metaDataFieldResponse.valueRange.get("LSD")).isEqualTo("Leased");
 
-		getAttributeMetadata(metaDataResponse, "AAAVehicleOwnership.name", true, true, false, "100");
-		getAttributeMetadata(metaDataResponse, "AAAVehicleOwnership.secondName", true, true, false, "100");
-		getAttributeMetadata(metaDataResponse, "AAAVehicleOwnership.postalCode", true, true, false, "10");
-		getAttributeMetadata(metaDataResponse, "AAAVehicleOwnership.addressLine1", true, true, false, "40");
-		getAttributeMetadata(metaDataResponse, "AAAVehicleOwnership.addressLine2", true, true, false, "40");
-		getAttributeMetadata(metaDataResponse, "AAAVehicleOwnership.city", true, true, false, "30");
-		getAttributeMetadata(metaDataResponse, "AAAVehicleOwnership.stateProvCd", true, true, false, null);
+		getAttributeMetadata(metaDataResponse, "vehicleOwnership.name", true, true, false, "100");
+		getAttributeMetadata(metaDataResponse, "vehicleOwnership.secondName", true, true, false, "100");
+		getAttributeMetadata(metaDataResponse, "vehicleOwnership.postalCode", true, true, false, "10");
+		getAttributeMetadata(metaDataResponse, "vehicleOwnership.addressLine1", true, true, false, "40");
+		getAttributeMetadata(metaDataResponse, "vehicleOwnership.addressLine2", true, true, false, "40");
+		getAttributeMetadata(metaDataResponse, "vehicleOwnership.city", true, true, false, "30");
+		getAttributeMetadata(metaDataResponse, "vehicleOwnership.stateProvCd", true, true, false, null);
 
 		Vehicle[] policyValidateVehicleInfoResponse = HelperCommon.executeVehicleInfoValidate(policyNumber);
 		String oldVehicleOid = policyValidateVehicleInfoResponse[0].oid;
 		AttributeMetadata[] metaDataResponseOwned = HelperCommon.vehicleAttributeMetaDataService(policyNumber, oldVehicleOid);
-		getAttributeMetadata(metaDataResponseOwned, "AAAVehicleOwnership.ownership", true, true, false, null);
-		getAttributeMetadata(metaDataResponseOwned, "AAAVehicleOwnership.name", false, false, false, "100");
-		getAttributeMetadata(metaDataResponseOwned, "AAAVehicleOwnership.secondName", false, false,  false, "100");
-		getAttributeMetadata(metaDataResponseOwned, "AAAVehicleOwnership.postalCode", false, false,  false, "10");
-		getAttributeMetadata(metaDataResponseOwned, "AAAVehicleOwnership.addressLine1", false, false, false, "40");
-		getAttributeMetadata(metaDataResponseOwned, "AAAVehicleOwnership.addressLine2", false, false,  false, "40");
-		getAttributeMetadata(metaDataResponseOwned, "AAAVehicleOwnership.city", false, false, false, "30");
-		getAttributeMetadata(metaDataResponseOwned, "AAAVehicleOwnership.stateProvCd", false, false,  false, null);
+		getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.ownership", true, true, false, null);
+		getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.name", false, false, false, "100");
+		getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.secondName", false, false,  false, "100");
+		getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.postalCode", false, false,  false, "10");
+		getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.addressLine1", false, false, false, "40");
+		getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.addressLine2", false, false,  false, "40");
+		getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.city", false, false, false, "30");
+		getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.stateProvCd", false, false,  false, null);
 
 
 		endorsementRateAndBind(policyNumber);
