@@ -3621,7 +3621,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			if ("AZ".equals(state)) {
 				policyNumber = "AZSS926232005";
 			} else if ("KY".equals(state)) {
-				policyNumber = "AZSS926232030";
+				policyNumber = "KYSS926232030";
 			}
 		}
 
@@ -3706,7 +3706,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		updatePurchaseDateVehicleRequest.purchaseDate = purchaseDate2;
 		Vehicle updatePurchaseDateVehicleResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updatePurchaseDateVehicleRequest);
 		//BUG PAS-13524 UpdateVehicle response contains NULLs for some fields
-		softly.assertThat(updatePurchaseDateVehicleResponse.purchaseDate).isEqualTo(purchaseDate2);
+		softly.assertThat(updatePurchaseDateVehicleResponse.purchaseDate.replace("T00:00:00Z","")).isEqualTo(purchaseDate2);
 		softly.assertThat(updatePurchaseDateVehicleResponse.oid).isEqualTo(newVehicleOid);
 		softly.assertThat(updatePurchaseDateVehicleResponse.salvaged).isEqualTo("No");
 		//PAS-13252 end
