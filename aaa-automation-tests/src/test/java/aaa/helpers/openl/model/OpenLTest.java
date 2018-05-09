@@ -3,22 +3,24 @@ package aaa.helpers.openl.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
-import aaa.utils.excel.bind.annotation.ExcelTransient;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import aaa.utils.excel.bind.annotation.ExcelColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = OpenLFile.TESTS_SHEET_NAME, headerRowIndex = OpenLFile.TESTS_HEADER_ROW_NUMBER)
 public class OpenLTest {
-	@ExcelTransient
-	public static final String TOTAL_PREMIUM_COLUMN_NAME = "Total Premium";
 
-	@ExcelTableColumnElement(isPrimaryKey = true)
-	private Integer policy;
+	@ExcelColumnElement(isPrimaryKey = true)
+	protected Integer policy;
 
-	//@ExcelTableColumnElement(listByContains = "_res_.$Value") //TODO-dchubkov: to be done...
-	@ExcelTransient
-	private List<Integer> premiums;
+	@ExcelColumnElement(containsName = "usState")
+	protected String state;
 
-	@ExcelTableColumnElement(name = TOTAL_PREMIUM_COLUMN_NAME)
-	private Integer totalPremium;
+	@ExcelColumnElement(containsName = "_res_")
+	protected List<Dollar> premiums;
+
+	@ExcelColumnElement(name = "Total Premium")
+	protected Dollar totalPremium;
 
 	public Integer getPolicy() {
 		return this.policy;
@@ -28,19 +30,27 @@ public class OpenLTest {
 		this.policy = policy;
 	}
 
-	public List<Integer> getPremiums() {
-		return new ArrayList<>(this.premiums);
+	public String getState() {
+		return state;
 	}
 
-	public void setPremiums(List<Integer> premiums) {
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public List<Dollar> getPremiums() {
+		return this.premiums != null ? new ArrayList<>(this.premiums) : null;
+	}
+
+	public void setPremiums(List<Dollar> premiums) {
 		this.premiums = new ArrayList<>(premiums);
 	}
 
-	public Integer getTotalPremium() {
-		return this.totalPremium != null ? this.totalPremium : getPremiums().stream().filter(Objects::nonNull).mapToInt(Integer::intValue).sum();
+	public Dollar getTotalPremium() {
+		return this.totalPremium != null ? this.totalPremium : getPremiums().stream().filter(Objects::nonNull).reduce(Dollar::add).get();
 	}
 
-	public void setTotalPremium(int totalPremium) {
+	public void setTotalPremium(Dollar totalPremium) {
 		this.totalPremium = totalPremium;
 	}
 

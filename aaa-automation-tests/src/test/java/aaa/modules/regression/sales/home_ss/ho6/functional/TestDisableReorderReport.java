@@ -46,7 +46,7 @@ public class TestDisableReorderReport extends HomeSSHO6BaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-    @TestInfo(component = ComponentConstant.Renewal.HOME_SS_HO6, testCaseId = "PAS-6827")
+    @TestInfo(component = ComponentConstant.Renewal.HOME_SS_HO6, testCaseId = "PAS-6827, PAS-12770")
     public void pas6827_disableReorderReportRenewal(@Optional("PA") String state) {
 
         new HelperRevisedHomeTierPA().pas6827_disableReorderReportRenewal(getPolicyType());

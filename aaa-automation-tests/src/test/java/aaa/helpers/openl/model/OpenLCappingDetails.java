@@ -1,13 +1,13 @@
 package aaa.helpers.openl.model;
 
-import java.time.LocalDateTime;
-import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
+import java.time.LocalDate;
+import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 
 public class OpenLCappingDetails {
-	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	protected Integer number;
 
-	protected LocalDateTime plcyInceptionDate;
+	protected LocalDate plcyInceptionDate;
 
 	public Integer getNumber() {
 		return number;
@@ -17,11 +17,11 @@ public class OpenLCappingDetails {
 		this.number = number;
 	}
 
-	public LocalDateTime getPlcyInceptionDate() {
+	public LocalDate getPlcyInceptionDate() {
 		return plcyInceptionDate;
 	}
 
-	public void setPlcyInceptionDate(LocalDateTime plcyInceptionDate) {
+	public void setPlcyInceptionDate(LocalDate plcyInceptionDate) {
 		this.plcyInceptionDate = plcyInceptionDate;
 	}
 

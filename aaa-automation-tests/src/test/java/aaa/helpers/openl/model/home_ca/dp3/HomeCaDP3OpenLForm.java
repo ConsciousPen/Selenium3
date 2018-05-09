@@ -1,7 +1,10 @@
 package aaa.helpers.openl.model.home_ca.dp3;
 
+import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLForm;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = OpenLFile.FORM_SHEET_NAME, headerRowIndex = OpenLFile.FORM_HEADER_ROW_NUMBER)
 public class HomeCaDP3OpenLForm extends HomeCaOpenLForm {
 	private Integer percentage;
 

@@ -98,6 +98,9 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSDP3
 
         mainApp().reopen();
         SearchPage.openBilling(policyNumber);
+        if(BillingSummaryPage.tableBillingAccounts.isPresent()) {
+            BillingSummaryPage.tableBillingAccounts.getRow(1).getCell(BillingConstants.BillingAccountsTable.BILLING_ACCOUNT).controls.links.get(2).click();
+        }
         Dollar totalDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies
                 .getRow(BillingConstants.BillingAccountPoliciesTable.POLICY_NUM, policyNumber)
                 .getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue());
@@ -137,5 +140,4 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSDP3
         mainApp().reopen();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
     }
-
 }

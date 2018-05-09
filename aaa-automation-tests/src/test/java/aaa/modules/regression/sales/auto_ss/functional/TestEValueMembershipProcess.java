@@ -60,6 +60,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	private static final String MESSAGE_INFO_1 = "This customer is not eligible for eValue discount due to one or more of the following reasons:";
 	private static final String MESSAGE_BULLET_8 = "Does not have an active AAA membership";
 	private static final String MESSAGE_INFO_4 = "eValue Discount Requirements:";
+	private static final String MESSAGE_JEOPARDY = "Discount in Jeopardy email sent";
 	private static List<String> requestIdList = new LinkedList<>();
 	private Random random = new Random();
 	private GeneralTab generalTab = new GeneralTab();
@@ -74,7 +75,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@Test(description = "Check membership endpoint", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void retrieveMembershipSummaryEndpointCheck() {
 		CustomAssert.assertTrue("retrieveMembershipSummary doesn't use stub endpoint. Please run retrieveMembershipSummaryStubEndpointUpdate", DBService.get()
-				.getValue(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_CHECK).get().contains(APP_HOST));
+				.getValue(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_CHECK).get().toLowerCase().contains(APP_HOST));
 	}
 
 	@Test(description = "Renewal job adding", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
@@ -145,14 +146,15 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @name Test eValue Discount and Membership Discount are NOT removed when Membership is required for eValue and membership status = Active.
 	 * @scenario
 	 * 0. Check no email record present in admin log (no "eValue Discount Pending Notification Url:") on NB+15
-	 * 1. Check Membership discount is not removed on NB+30
-	 * 2. Check eValue discount is not removed on NB+30
-	 * 3. Check AHDRXX is not produced on NB+30
+	 * 1. Check if discount in Jeopardy email wasn't send.
+	 * 2. Check Membership discount is not removed on NB+30
+	 * 3. Check eValue discount is not removed on NB+30
+	 * 4. Check AHDRXX is not produced on NB+30
 	 * @details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928", "PAS-12822"})
 	public void pas3697_membershipEligibilityConfigurationTrueForActiveMembership(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -165,6 +167,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
+		//Start PAS-12822
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
+		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
@@ -188,13 +193,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @scenario
 	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
 	 * 1. Check Membership discount is removed on NB+30
-	 * 2. Check eValue discount is removed on NB+30
-	 * 3. Check AHDRXX is produced on NB+30 and contains both eValue and Membership discount info
+	 * 2. Check if discount in Jeopardy email was send.
+	 * 3. Check eValue discount is removed on NB+30
+	 * 4. Check AHDRXX is produced on NB+30 and contains both eValue and Membership discount info
 	 * @details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928", "PAS-12822"})
 	public void pas3697_membershipEligibilityConfigurationTrueForPendingMembership(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -207,6 +213,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
+		//Start PAS-12822
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true);
+		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(false, "no records created");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
@@ -230,14 +239,15 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @name Test eValue Discount and Membership Discount are removed when Membership is required for eValue and membership status = Not Active.
 	 * @scenario
 	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
-	 * 1. Check Membership discount is removed on NB+30
-	 * 2. Check eValue discount is removed on NB+30
-	 * 3. Check AHDRXX is produced on NB+30 and contains both eValue and Membership discount info
+	 * 1. Check if discount in Jeopardy email was send.
+	 * 2. Check Membership discount is removed on NB+30
+	 * 3. Check eValue discount is removed on NB+30
+	 * 4. Check AHDRXX is produced on NB+30 and contains both eValue and Membership discount info
 	 * @details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928", "PAS-12822"})
 	public void pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -250,6 +260,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
+		//Start PAS-12822
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true);
+		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(true, "Membership information was updated for the policy based on best membership logic");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
@@ -272,14 +285,15 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @name Test eValue Discount and Membership Discount NOT removed when Membership is NOT required for eValue and membership status = Active.
 	 * @scenario
 	 * 0. Check no email record present in admin log (no "eValue Discount Pending Notification Url:") on NB+15
-	 * 1. Check Membership discount is not removed on NB+30
-	 * 2. Check eValue discount is not removed on NB+30
-	 * 3. Check AHDRXX is not produced on NB+30
+	 * 1. Check if discount in Jeopardy email wasn't send.
+	 * 2. Check Membership discount is not removed on NB+30
+	 * 3. Check eValue discount is not removed on NB+30
+	 * 4. Check AHDRXX is not produced on NB+30
 	 * @details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-12822"})
 	public void pas3697_membershipEligibilityConfigurationFalseForActiveMembership(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -292,6 +306,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
+		//Start PAS-12822
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
+		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
 
@@ -313,9 +330,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @name eValue Discount not removed and Membership Discount is removed when Membership is NOT required for eValue and membership status = Pending.
 	 * @scenario
 	 * 0. Check email record is NOT present in admin log (no "eValue Discount Pending Notification Url:") on NB+15
-	 * 1. Check Membership discount is removed on NB+30
-	 * 2. Check eValue discount is NOT removed on NB+30
-	 * 3. Check AHDRXX is produced on NB+30 and contains only Membership discount info
+	 * 1. Check if discount in Jeopardy email wasn't send.
+	 * 2. Check Membership discount is removed on NB+30
+	 * 3. Check eValue discount is NOT removed on NB+30
+	 * 4. Check AHDRXX is produced on NB+30 and contains only Membership discount info
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -333,6 +351,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
+		//Start PAS-12822
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
+		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
 
@@ -355,14 +376,15 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @name Test eValue Discount not removed and Membership Discount is removed when Membership is NOT required for eValue and membership status = Not Active.
 	 * @scenario
 	 * 0. Check email record is NOT present in admin log (no "eValue Discount Pending Notification Url:") on NB+15
-	 * 1. Check Membership discount is removed on NB+30
-	 * 2. Check eValue discount NOT removed on NB+30
-	 * 3. Check AHDRXX is produced on NB+30 and contains only Membership discount info
+	 * 1. Check if discount in Jeopardy email wasn't send.
+	 * 2. Check Membership discount is removed on NB+30
+	 * 3. Check eValue discount NOT removed on NB+30
+	 * 4. Check AHDRXX is produced on NB+30 and contains only Membership discount info
 	 * @details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928", "PAS-12822"})
 	public void pas3697_membershipEligibilityConfigurationFalseForNotActiveMembership(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -375,6 +397,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
+		//Start PAS-12822
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
+		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
@@ -664,9 +689,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8275"})
 	public void pas111_paperlessMockTest(@Optional("VA") String state) {
-		String policyNumber = "VASS926232072";
+		String policyNumber = "VASS952918556";
 
-		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
 		//Always need to delete the added request ot stub
 		deleteSinglePaperlessPreferenceRequest(requestId);
 
@@ -685,9 +710,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * and membership status = Active, but PaperlessPreferences = Pending.
 	 * @scenario
 	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
-	 * 1. Check Membership discount is not removed on NB+30
-	 * 2. Check eValue discount removed on NB+30
-	 * 3. Check AHDRXX is produced on NB+30:
+	 * 1. Check if discount in Jeopardy email was send.
+	 * 2. Check Membership discount is not removed on NB+30
+	 * 3. Check eValue discount removed on NB+30
+	 * 4. Check AHDRXX is produced on NB+30:
 	 * Membership discount tag - not present in the document
 	 * Evalue discount tag - present
 	 * Paperless info tag - present
@@ -695,7 +721,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329", "PAS-12822"})
 	public void pas3697_membershipEligConfTrueForActiveMembershipPendingPaperless(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -709,6 +735,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
+		//Start PAS-12822
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true);
+		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
@@ -733,9 +762,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * and membership status = Pending, but PaperlessPreferences = Pending.
 	 * @scenario
 	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
-	 * 1. Check Membership discount is removed on NB+30
-	 * 2. Check eValue discount removed on NB+30
-	 * 3. Check AHDRXX is produced on NB+30:
+	 * 1. Check if discount in Jeopardy email was send.
+	 * 2. Check Membership discount is removed on NB+30
+	 * 3. Check eValue discount removed on NB+30
+	 * 4. Check AHDRXX is produced on NB+30:
 	 * Membership discount tag - present
 	 * Evalue discount tag - present
 	 * Paperless info tag - present
@@ -743,7 +773,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329", "PAS-1928"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329", "PAS-1928", "PAS-12822"})
 	public void pas3697_membershipEligConfTrueForPendingMembershipPendingPaperless(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -757,6 +787,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
+		//Start PAS-12822
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true);
+		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
@@ -781,9 +814,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * and membership status = Not Active, but PaperlessPreferences = Pending.
 	 * @scenario
 	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
-	 * 1. Check Membership discount is removed on NB+30
-	 * 2. Check eValue discount removed on NB+30
-	 * 3. Check AHDRXX is produced on NB+30:
+	 * 1. Check if discount in Jeopardy email was send.
+	 * 2. Check Membership discount is removed on NB+30
+	 * 3. Check eValue discount removed on NB+30
+	 * 4. Check AHDRXX is produced on NB+30:
 	 * Membership discount tag - present
 	 * Evalue discount tag - present
 	 * Paperless info tag - present
@@ -791,7 +825,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329", "PAS-1928"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329", "PAS-1928", "PAS-12822"})
 	public void pas3697_membershipEligConfTrueForNotActiveMembershipPendingPaperless(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -804,6 +838,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		//implementEmailCheck from Admin Log?
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		//Start PAS-12822
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true);
+		//End PAS-12822
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "");
@@ -829,9 +866,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * and membership status = Active, but PaperlessPreferences = Pending.
 	 * @scenario
 	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
-	 * 1. Check Membership discount is removed on NB+30
-	 * 2. Check eValue discount removed on NB+30
-	 * 3. Check AHDRXX is produced on NB+30:
+	 * 1. Check if discount in Jeopardy email was send.
+	 * 2. Check Membership discount is removed on NB+30
+	 * 3. Check eValue discount removed on NB+30
+	 * 4. Check AHDRXX is produced on NB+30:
 	 * Membership discount tag - not present in the document
 	 * Evalue discount tag - present
 	 * Paperless info tag - present
@@ -839,7 +877,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329", "PAS-12822"})
 	public void pas3697_membershipEligConfFalseForActiveMembershipPendingPaperless(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -853,6 +891,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
+		//Start PAS-12822
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true);
+		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
@@ -877,9 +918,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * and membership status = Pending, but PaperlessPreferences = Pending.
 	 * @scenario
 	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
-	 * 1. Check Membership discount is removed on NB+30
-	 * 2. Check eValue discount removed on NB+30
-	 * 3. Check AHDRXX is produced on NB+30:
+	 * 1. Check if discount in Jeopardy email was send.
+	 * 2. Check Membership discount is removed on NB+30
+	 * 3. Check eValue discount removed on NB+30
+	 * 4. Check AHDRXX is produced on NB+30:
 	 * Membership discount tag - present?
 	 * Evalue discount tag - present
 	 * Paperless info tag - present
@@ -887,7 +929,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329", "PAS-12822"})
 	public void pas3697_membershipEligConfFalseForPendingMembershipPendingPaperless(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -901,6 +943,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
+		//Start PAS-12822
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true);
+		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
@@ -925,9 +970,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * and membership status = Not-Active, but PaperlessPreferences = Pending.
 	 * @scenario
 	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
-	 * 1. Check Membership discount is removed on NB+30
-	 * 2. Check eValue discount removed on NB+30
-	 * 3. Check AHDRXX is produced on NB+30:
+	 * 1. Check if discount in Jeopardy email was send.
+	 * 2. Check Membership discount is removed on NB+30
+	 * 3. Check eValue discount removed on NB+30
+	 * 4. Check AHDRXX is produced on NB+30:
 	 * Membership discount tag - not present in the document
 	 * Evalue discount tag - present
 	 * Paperless info tag - present
@@ -935,7 +981,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329", "PAS-12822"})
 	public void pas3697_membershipEligConfFalseForNotActiveMembershipPendingPaperless(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -949,6 +995,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
+		//Start PAS-12822
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true);
+		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
@@ -973,15 +1022,16 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @scenario
 	 * 1. Create a policy with eValue discount with Paperless Preferences = Pending
 	 * 2. Run NB+15 jobs, in admin log there is ("eValue Discount Pending Notification Url:") on NB+15
-	 * 3. Before NB + 30 change Paperless Preferences = Yes
-	 * 4. Run NB+30 jobs
-	 * 5. Check eValue discount is not removed
-	 * 6. Check No AHDRXX is produced
+	 * 3. Check if discount in Jeopardy email was send.
+	 * 4. Before NB + 30 change Paperless Preferences = Yes
+	 * 5. Run NB+30 jobs
+	 * 6. Check eValue discount is not removed
+	 * 7. Check No AHDRXX is produced
 	 * @details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329", "PAS-12822"})
 	public void pas3697_membershipEligConfTrueForActiveMembershipNoPaperlessChangedToYesBeforeNB30(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -995,6 +1045,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
+		//Start PAS-12822
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true);
+		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
@@ -1022,6 +1075,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * 1. Create a policy with eValue discount with Paperless Preferences = Pending
 	 * 2. Before NB + 15 change Paperless Preferences = Yes
 	 * 3. Run NB+15 jobs, in admin log there is no("eValue Discount Pending Notification Url:") on NB+15
+	 * 4. Check if discount in Jeopardy email wasn't send.
 	 * 4. Run NB+30 jobs
 	 * 5. Check eValue discount is not removed
 	 * 6. Check No AHDRXX is produced
@@ -1029,7 +1083,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329", "PAS-12822"})
 	public void pas3697_membershipEligConfTrueForActiveMembershipNoPaperlessChangedToYesBeforeNB15(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -1045,6 +1099,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
+		//Start PAS-12822
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
+		//End PAS-12822
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
@@ -1068,16 +1125,18 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @name Test eValue Discount is removed on NB+30 when PaperlessPreferences is set to Pending
 	 * @scenario
 	 * 0. Create a policy with eValue = Yes and Paperless Preferences = Pending (DC state)
-	 * 1. change date to NB+15 and run NB+15jobs
-	 * 2. Check admin log contains email that eValue will be removed (manual action) ( "eValue Discount Pending Notification Url:")
-	 * 3. change date to NB+30 and run NB+30jobs (same as NV+15jobs)
-	 * 4. Check eValue Discount = No in P&C tab
-	 * 5. Check AHDRXX is produced and contains eValue information
+	 * 1. Change date to NB+15 and run NB+15jobs
+	 * 2. Check if discount in Jeopardy email wasn't send.
+	 * 3. Check admin log contains email that eValue will be removed (manual action) ( "eValue Discount Pending Notification Url:")
+	 * 4. Change date to NB+30 and run NB+30jobs (same as NV+15jobs)
+	 * 5. Check eValue Discount = No in P&C tab
+	 * 6. Check AHDRXX is produced and contains eValue information
 	 * @details
 	 */
+
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-5837", "PAS-3697", "PAS-327", "PAS-329"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-5837", "PAS-3697", "PAS-327", "PAS-329", "PAS-12822"})
 	public void pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending(@Optional("DC") String state) {
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -1090,6 +1149,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
+		//Start PAS-12822
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true);
+		//End PAS-12822
+
 		membershipLogicActivitiesAndNotesCheck(false, "no changes");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
@@ -1150,7 +1213,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		CustomAssert.assertAll();
 	}
 
-
 	/**
 	 * @author Oleg Stasyuk
 	 * @name Update Policy Preferences Service and AHDRXX check
@@ -1160,8 +1222,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * 3. Execute UpdatePolicyPreferences Service
 	 * 4. Check Transaction history and that eValue was removed
 	 * 5. Run NB+15 jobs
-	 * 6. Run NB+30 jobs
-	 * 7. Check AHDRXX is not generated
+	 * 6. Check if discount in Jeopardy email wasn't send.
+	 * 7. Run NB+30 jobs
+	 * 8. Check AHDRXX is not generated
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -1190,11 +1253,13 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "eValue Removed - Paperless Preferences Removed - External");
 		lastTransactionHistoryEValueDiscountCheck(false);
 
-
 		jobsNBplus15plus30runNoChecks();
 		//implementEmailCheck from Admin Log?
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
+		//Start PAS-12822
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
+		//End PAS-12822
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "eValue Removed - Paperless Preferences Removed - External");
 		lastTransactionHistoryEValueDiscountCheck(false);
 
@@ -1211,16 +1276,12 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		CustomAssert.assertAll();
 	}
 
-
-
-
 	private void renewalMembershipProcessCheck(String membershipEligibilitySwitch, String membershipStatus) {
 		membershipEligibilityPolicyCreation(membershipStatus, true, false);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
 		membershipEligibilityEndorsementCreation(membershipStatus);
-
 		cancelReinstateToAvoidNbPlus15Plus30Jobs(policyNumber);
 
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); //-96
@@ -1230,7 +1291,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
 
 		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);
-
 		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
 
 		mainApp().reopen();
@@ -1305,7 +1365,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 				Page.dialogConfirmation.confirm();
 			}
-
 			printToLog("Membership number used: " + ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
 					.getCell(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.MEMBERSHIP_NO.getLabel()).getValue());
 			printToLog("Member Since Date used or returned: " + ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
@@ -1391,8 +1450,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			}
 		}
 	}
-
-
 
 	private void lastTransactionHistoryExit() {
 		if (Tab.buttonCancel.isPresent()) {

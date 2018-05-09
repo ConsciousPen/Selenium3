@@ -4,27 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLAddress;
 import aaa.helpers.openl.model.OpenLFile;
-import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public class AutoCaSelectOpenLFile extends OpenLFile<AutoCaSelectOpenLPolicy> {
-	@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
-	protected List<AutoCaSelectOpenLPolicy> policies;
+
+	private List<AutoCaSelectOpenLPolicy> policies;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = VEHICLE_SHEET_NAME, headerRowIndex = VEHICLE_HEADER_ROW_NUMBER)
 	private List<AutoCaSelectOpenLVehicle> vehicles;
-
 	@ExcelTransient
-	@ExcelTableElement(sheetName = ADDRESS_SHEET_NAME, headerRowIndex = ADDRESS_HEADER_ROW_NUMBER)
 	private List<OpenLAddress> address;
-
 	@ExcelTransient
-	@ExcelTableElement(sheetName = DRIVER_SHEET_NAME, headerRowIndex = DRIVER_HEADER_ROW_NUMBER)
 	private List<AutoCaSelectOpenLDriver> drivers;
-
 	@ExcelTransient
-	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
 	private List<AutoCaSelectOpenLCoverage> coverages;
 
 	public List<AutoCaSelectOpenLVehicle> getVehicles() {

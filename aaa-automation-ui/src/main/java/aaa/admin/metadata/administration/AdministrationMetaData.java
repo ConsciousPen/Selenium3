@@ -27,4 +27,7 @@ public class AdministrationMetaData {
 		public static final AssetDescriptor<ComboBox> SELECT_CONFIGURATION = declare("Select Configuration:", ComboBox.class, Waiters.DEFAULT);
 	}
 
+	public static final class CacheManager extends MetaData {
+	}
+
 }
