@@ -19,4 +19,5 @@ VehicleTab_UnmatchedVIN: {
      'Special Equipment': 'Yes',
          Special Equipment Value: '300',
          Special Equipment Description: 'special',
+
  }
