@@ -3586,6 +3586,28 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(metaDataFieldResponseAntiTheft.valueRange.get("")).isEqualTo("");
 		softly.assertThat(metaDataFieldResponseAntiTheft.valueRange.get("NONE")).isEqualTo("None");
 		softly.assertThat(metaDataFieldResponseAntiTheft.valueRange.get("STD")).isEqualTo("Vehicle Recovery Device");
+
+		getAttributeMetadata(metaDataResponse, "vehicleStatus", true, false, false, null);
+		getAttributeMetadata(metaDataResponse, "registeredOwner", true, false, false, null);
+		getAttributeMetadata(metaDataResponse, "garagingAddress.postalCode", true, false, true, "10");
+		getAttributeMetadata(metaDataResponse, "garagingAddress.addressLine1", true, false, true, "40");
+		getAttributeMetadata(metaDataResponse, "garagingAddress.addressLine2", true, false, false, "40");
+		getAttributeMetadata(metaDataResponse, "garagingAddress.city", true, false, true, "30");
+		getAttributeMetadata(metaDataResponse, "garagingAddress.stateProvCd", true, false, true, null);
+
+		AttributeMetadata metaDataFieldResponseOwnership = getAttributeMetadata(metaDataResponse, "vehicleOwnership.ownership", true, true, false, null);
+		softly.assertThat(metaDataFieldResponseOwnership.valueRange.get("")).isEqualTo("");
+		softly.assertThat(metaDataFieldResponseOwnership.valueRange.get("OWN")).isEqualTo("Owned");
+		softly.assertThat(metaDataFieldResponseOwnership.valueRange.get("FNC")).isEqualTo("Financed");
+		softly.assertThat(metaDataFieldResponseOwnership.valueRange.get("LSD")).isEqualTo("Leased");
+
+		getAttributeMetadata(metaDataResponse, "vehicleOwnership.name", false, false, false, "100");
+		getAttributeMetadata(metaDataResponse, "vehicleOwnership.secondName", false, false, false, "100");
+		getAttributeMetadata(metaDataResponse, "vehicleOwnership.postalCode", false, false, false, "10");
+		getAttributeMetadata(metaDataResponse, "vehicleOwnership.addressLine1", false, false, false, "40");
+		getAttributeMetadata(metaDataResponse, "vehicleOwnership.addressLine2", false, false, false, "40");
+		getAttributeMetadata(metaDataResponse, "vehicleOwnership.city", false, false, false, "30");
+		getAttributeMetadata(metaDataResponse, "vehicleOwnership.stateProvCd", false, false, false, null);
 	}
 
 	/**
