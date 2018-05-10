@@ -3588,6 +3588,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		getAttributeMetadata(metaDataResponse, "vehicleStatus", true, false, false, null);
 		getAttributeMetadata(metaDataResponse, "registeredOwner", true, false, false, null);
+		//Defect PAS-13252: "Is Garaging different from Residential?" radio button doesn't exist
+		//getAttributeMetadata(metaDataResponse, "garagingAddress.different", true, true, true, null);
 		getAttributeMetadata(metaDataResponse, "garagingAddress.postalCode", true, false, true, "10");
 		getAttributeMetadata(metaDataResponse, "garagingAddress.addressLine1", true, false, true, "40");
 		getAttributeMetadata(metaDataResponse, "garagingAddress.addressLine2", true, false, false, "40");
@@ -3619,6 +3621,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		vehicleTab.saveAndExit();
 
 		AttributeMetadata[] metaDataResponse2 = HelperCommon.vehicleAttributeMetaDataService(policyNumber, oid);
+		//Defect PAS-13252: "Is Garaging different from Residential?" radio button doesn't exist
+		//getAttributeMetadata(metaDataResponse, "garagingAddress.different", true, true, true, null);
 		getAttributeMetadata(metaDataResponse2, "garagingAddress.postalCode", true, true, true, "10");
 		getAttributeMetadata(metaDataResponse2, "garagingAddress.addressLine1", true, true, true, "40");
 		getAttributeMetadata(metaDataResponse2, "garagingAddress.addressLine2", true, true, false, "40");
