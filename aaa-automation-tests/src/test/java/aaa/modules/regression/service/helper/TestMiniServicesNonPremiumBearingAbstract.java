@@ -7,7 +7,6 @@ import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
 import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.*;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.security.acl.Owner;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -3586,6 +3585,57 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(metaDataFieldResponseAntiTheft.valueRange.get("")).isEqualTo("");
 		softly.assertThat(metaDataFieldResponseAntiTheft.valueRange.get("NONE")).isEqualTo("None");
 		softly.assertThat(metaDataFieldResponseAntiTheft.valueRange.get("STD")).isEqualTo("Vehicle Recovery Device");
+
+		getAttributeMetadata(metaDataResponse, "vehicleStatus", true, false, false, null);
+		getAttributeMetadata(metaDataResponse, "registeredOwner", true, false, false, null);
+		//Defect PAS-13252: "Is Garaging different from Residential?" radio button doesn't exist
+		//getAttributeMetadata(metaDataResponse, "garagingAddress.different", true, true, true, null);
+		getAttributeMetadata(metaDataResponse, "garagingAddress.postalCode", true, false, true, "10");
+		getAttributeMetadata(metaDataResponse, "garagingAddress.addressLine1", true, false, true, "40");
+		getAttributeMetadata(metaDataResponse, "garagingAddress.addressLine2", true, false, false, "40");
+		getAttributeMetadata(metaDataResponse, "garagingAddress.city", true, false, true, "30");
+		getAttributeMetadata(metaDataResponse, "garagingAddress.stateProvCd", true, false, true, null);
+
+		AttributeMetadata metaDataFieldResponseOwnership = getAttributeMetadata(metaDataResponse, "vehicleOwnership.ownership", true, true, false, null);
+		softly.assertThat(metaDataFieldResponseOwnership.valueRange.get("")).isEqualTo("");
+		softly.assertThat(metaDataFieldResponseOwnership.valueRange.get("OWN")).isEqualTo("Owned");
+		softly.assertThat(metaDataFieldResponseOwnership.valueRange.get("FNC")).isEqualTo("Financed");
+		softly.assertThat(metaDataFieldResponseOwnership.valueRange.get("LSD")).isEqualTo("Leased");
+
+		getAttributeMetadata(metaDataResponse, "vehicleOwnership.name", false, false, false, "100");
+		getAttributeMetadata(metaDataResponse, "vehicleOwnership.secondName", false, false, false, "100");
+		getAttributeMetadata(metaDataResponse, "vehicleOwnership.postalCode", false, false, false, "10");
+		getAttributeMetadata(metaDataResponse, "vehicleOwnership.addressLine1", false, false, false, "40");
+		getAttributeMetadata(metaDataResponse, "vehicleOwnership.addressLine2", false, false, false, "40");
+		getAttributeMetadata(metaDataResponse, "vehicleOwnership.city", false, false, false, "30");
+		getAttributeMetadata(metaDataResponse, "vehicleOwnership.stateProvCd", false, false, false, null);
+
+		//edit pending endorsement
+		vehicleTab.getAssetList().getAsset(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL).setValue("Yes");
+		vehicleTab.getAssetList().getAsset(ZIP_CODE).setValue("23703");
+		vehicleTab.getAssetList().getAsset(ADDRESS_LINE_1).setValue("4112 FORREST HILLS DR");
+		vehicleTab.getAssetList().getAsset(CITY).setValue("PORTSMOUTH");
+		vehicleTab.getAssetList().getAsset(STATE).setValue("VA");
+		vehicleTab.getOwnershipAssetList().getAsset(Ownership.OWNERSHIP_TYPE).setValue("Leased");
+		vehicleTab.getOwnershipAssetList().getAsset(Ownership.FIRST_NAME).setValue("GMAC");
+		vehicleTab.saveAndExit();
+
+		AttributeMetadata[] metaDataResponse2 = HelperCommon.vehicleAttributeMetaDataService(policyNumber, oid);
+		//Defect PAS-13252: "Is Garaging different from Residential?" radio button doesn't exist
+		//getAttributeMetadata(metaDataResponse, "garagingAddress.different", true, true, true, null);
+		getAttributeMetadata(metaDataResponse2, "garagingAddress.postalCode", true, true, true, "10");
+		getAttributeMetadata(metaDataResponse2, "garagingAddress.addressLine1", true, true, true, "40");
+		getAttributeMetadata(metaDataResponse2, "garagingAddress.addressLine2", true, true, false, "40");
+		getAttributeMetadata(metaDataResponse2, "garagingAddress.city", true, true, true, "30");
+		getAttributeMetadata(metaDataResponse2, "garagingAddress.stateProvCd", true, true, true, null);
+
+		getAttributeMetadata(metaDataResponse2, "vehicleOwnership.name", true, true, false, "100");
+		getAttributeMetadata(metaDataResponse2, "vehicleOwnership.secondName", false, true, false, "100");
+		getAttributeMetadata(metaDataResponse2, "vehicleOwnership.postalCode", true, true, false, "10");
+		getAttributeMetadata(metaDataResponse2, "vehicleOwnership.addressLine1", true, true, false, "40");
+		getAttributeMetadata(metaDataResponse2, "vehicleOwnership.addressLine2", true, true, false, "40");
+		getAttributeMetadata(metaDataResponse2, "vehicleOwnership.city", true, true, false, "30");
+		getAttributeMetadata(metaDataResponse2, "vehicleOwnership.stateProvCd", true, true, false, null);
 	}
 
 	/**
