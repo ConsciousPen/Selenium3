@@ -28,7 +28,4 @@ VehicleTab_UnmatchedVIN: {
     Odometer Reading: 1,
     'Salvaged?': 'No',
     'Existing Damage': 'Rust',
-    'Special Equipment': 'Yes',
-        Special Equipment Value: '300',
-        Special Equipment Description: 'special',
 }
