@@ -339,11 +339,11 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         assertThat(uninsuredBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
         propertyDamage.setValueByIndex(4);
         assertThat(uninsuredPropertyDamage.getValue()).isEqualTo(propertyDamage.getValue());
-        bodilyInjury.setValueByIndex(4);
+        bodilyInjury.setValueContains("$500,000/$500,000");
         assertThat(uninsuredBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
 
         //AC2 PAS-11620. Rating Error if EUIM BI limits do not match BI limits.
-        uninsuredBodilyInjury.setValueByIndex(1);
+        uninsuredBodilyInjury.setValueContains("$500,000/$1,000,000");
         premiumAndCoveragesTab.calculatePremium();
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800882_MD);
         errorTab.cancel();
