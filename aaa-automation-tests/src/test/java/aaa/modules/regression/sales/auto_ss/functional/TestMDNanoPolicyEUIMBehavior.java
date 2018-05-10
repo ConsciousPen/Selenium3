@@ -313,7 +313,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
         policy.getDefaultView().fillUpTo(tdPolicy, PremiumAndCoveragesTab.class);
 
         // Verify Behavior of EUIM/BI and EUIM/PD fields
-//        verifyEnhancedUIMCoverage();
+        verifyEnhancedUIMCoverage();
 
         // Issue Policy
         new PremiumAndCoveragesTab().submitTab();

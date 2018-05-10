@@ -96,7 +96,7 @@ DocumentsAndBindTab_without_NANO: {
   RequiredToBind: {
     Auto Insurance Application: Physically Signed
   },
-  Agreement: I agree
+  Agreement: 'I agree'
 }
 
 PurchaseTab: {
@@ -154,7 +154,7 @@ DocumentsAndBindTab_MD: {
     Maryland Notice And Waiver Of Personal Injury Protection (PIP) Coverage: Physically Signed,
     Maryland Auto Insurance Application: Physically Signed
   },
-  Agreement: I agree
+  Agreement: 'I agree'
 }
 
 # ------- Conversion ------
@@ -167,8 +167,8 @@ TestData_Conversion: {
   VehicleTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab_Conversion',
+  DriverActivityReportsTab: '@DriverActivityReportsTab_Conversion',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_MD',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -203,7 +203,14 @@ DriverTab_Conversion: {
   License Number: S123456789999
 }
 
-DocumentsAndBindTab_Conversion: {
+DriverActivityReportsTab_Conversion: {
+  Validate Driving History: click,
+  OrderCLUEReport: [{}],
+  OrderMVRReport: [{}],
+  OrderInternalClaimsReport: [{}]
+}
+
+DocumentsAndBindTab_Conv: {
   RequiredToBind: {
     Notice And Waiver Of Increased Limits Of Uninsured Motorists Coverage: Physically Signed,
     Maryland Notice And Waiver Of Personal Injury Protection (PIP) Coverage: Physically Signed,
