@@ -320,7 +320,7 @@
                 <methods>
                     <include name="pas1451_eValueRemovedByServiceNoAHDRXX"/>
                     <include name="pas13528_membershipEligConfTrueForActiveMembershipCancelledPolicy"/>
-                    <include name="pas13528_eValueRemovedByServiceNoAHDRXXforCancelledPolicy"/>
+                    <include name="pas13528_eValueNotRemovedByServiceNoAHDRXXforCancelledPolicy"/>
                 </methods>
             </class>
         </classes>
