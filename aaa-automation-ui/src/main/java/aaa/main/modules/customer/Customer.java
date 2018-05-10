@@ -2,22 +2,17 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.modules.customer;
 
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.exigen.ipb.etcsa.base.config.CustomTestProperties;
 import aaa.common.Workspace;
 import aaa.common.pages.MainPage;
 import aaa.common.pages.SearchPage;
-import aaa.main.metadata.CustomerMetaData;
 import aaa.main.modules.customer.views.DefaultView;
-import aaa.rest.customer.CustomerCoreRESTMethods;
 import aaa.utils.EntityLogger;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
-import toolkit.rest.ResponseWrapper;
 
 public class Customer implements ICustomer {
 
@@ -55,22 +50,6 @@ public class Customer implements ICustomer {
 
     @Override
     public void createViaREST(TestData td) {
-        ResponseWrapper response;
-        try {
-            CustomerCoreRESTMethods restCustomer = new CustomerCoreRESTMethods();
-
-	        if (td.getTestData(CustomerMetaData.GeneralTab.class.getSimpleName()).containsKey(CustomerMetaData.GeneralTab.NON_INDIVIDUAL_TYPE.getLabel())) {
-                response = restCustomer.postCustomersNonIndividual(td.resolveLinks());
-            } else {
-                response = restCustomer.postCustomersIndividual(td.resolveLinks());
-            }
-
-            JSONObject object = (JSONObject) JSONValue.parse(response.getResponse().readEntity(String.class));
-            MainPage.QuickSearch.search(object.get("customerNumber").toString());
-	        log.info("Created {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.CUSTOMER));
-        } catch (RuntimeException e) {
-            throw new IstfException(e);
-        }
     }
 
     @Override
