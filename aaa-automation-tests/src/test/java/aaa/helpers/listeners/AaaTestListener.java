@@ -1,14 +1,21 @@
 package aaa.helpers.listeners;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 import org.apache.commons.lang3.StringUtils;
-import org.testng.ITestResult;
+import org.testng.*;
+import com.exigen.ipb.etcsa.utils.RetrySuiteGenerator;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
+import aaa.utils.StateList;
 import toolkit.config.PropertyProvider;
 import toolkit.utils.teststoragex.listeners.TestngTestListener2;
 import toolkit.utils.teststoragex.models.Attachment;
+import toolkit.utils.teststoragex.utils.TestNGUtils;
 
-public class AaaTestListener extends TestngTestListener2 {
+public class AaaTestListener extends TestngTestListener2 implements IExecutionListener {
+	private static RetrySuiteGenerator suiteGenerator = new RetrySuiteGenerator();
 
 	@Override
 	public void onTestFailure(ITestResult result) {
@@ -27,46 +34,74 @@ public class AaaTestListener extends TestngTestListener2 {
 		}
 	}
 
-	/*@Override
-	public void onTestStart(ITestResult result) {
-		result.setParameters(getState(result));
-		super.onTestStart(result);
+	@Override
+	public void beforeInvocation(IInvokedMethod method, ITestResult result) {
+		if (method.isTestMethod()) {
+			method.getTestResult().setParameters(getState(result));
+			Method testMethod = result.getMethod().getConstructorOrMethod().getMethod();
 
-		Method method = result.getMethod().getConstructorOrMethod().getMethod();
-
-		StateList statesAnn = null;
-		if (method.isAnnotationPresent(StateList.class)) {
-			statesAnn = method.getAnnotation(StateList.class);
-		} else if (method.getDeclaringClass().isAnnotationPresent(StateList.class)) {
-			statesAnn = method.getDeclaringClass().getAnnotation(StateList.class);
-		}
-		if (statesAnn != null) {
-			List<String> applStates = Arrays.asList(statesAnn.states());
-			List<String> exclStates = Arrays.asList(statesAnn.statesExcept());
-			String state = result.getParameters()[0].toString();
-			if (applStates.size() > 0 && !applStates.contains(state) || exclStates.size() > 0 && exclStates.contains(state)) {
-				result.setStatus(3);
-				result.setThrowable(new SkipException(String.format("State '%s' is not applicable to this test", state)));
+			StateList statesAnn = null;
+			if (testMethod.isAnnotationPresent(StateList.class)) {
+				statesAnn = testMethod.getAnnotation(StateList.class);
+			} else if (testMethod.getDeclaringClass().isAnnotationPresent(StateList.class)) {
+				statesAnn = testMethod.getDeclaringClass().getAnnotation(StateList.class);
+			}
+			if (statesAnn != null) {
+				List<String> applStates = Arrays.asList(statesAnn.states());
+				List<String> exclStates = Arrays.asList(statesAnn.statesExcept());
+				String state = result.getParameters()[0].toString();
+				if (!applStates.isEmpty() && !applStates.contains(state) || !exclStates.isEmpty() && exclStates.contains(state)) {
+					throw new SkipException(String.format("State '%s' is not applicable to this test", state));
+				}
 			}
 		}
-	}*/
+	}
+
+	@Override
+	public void afterInvocation(IInvokedMethod method, ITestResult testResult) {
+		super.afterInvocation(method, testResult);
+		if (method.isTestMethod()) {
+			suiteGenerator.collectFailedTests(testResult, isFailureCovered());
+		}
+	}
+
+	@Override
+	public void onFinish(ISuite suite) {
+		super.onFinish(suite);
+		suiteGenerator.setRootSuiteData(TestNGUtils.getRootSuite(suite));
+	}
+
+	@Override
+	public void onExecutionStart() {
+	}
+
+	@Override
+	public void onExecutionFinish() {
+		suiteGenerator.generateSuite();
+	}
 
 	private Object[] getState(ITestResult result) {
-		String stateParam = "state";
 		Object[] params = result.getParameters();
-		if (params != null && StringUtils.isNotBlank(params[0].toString())) {
-			return new Object[] {params[0]};
-		} else if (isCAProduct(result)) {
-			return new Object[] {Constants.States.CA};
-		} else if (StringUtils.isNotBlank(PropertyProvider.getProperty("test.usstate"))) {
-			String state = PropertyProvider.getProperty("test.usstate");
-			return new Object[] {state};
-		} else {
-			return new Object[] {Constants.States.UT};
+		if (params != null && params.length != 0 && "".equals(Arrays.asList(params[0]).get(0))) {
+			if (isCAProduct(result)) {
+				params = createParams(params, Constants.States.CA);
+			} else if (StringUtils.isNotBlank(PropertyProvider.getProperty("test.usstate"))) {
+				String state = PropertyProvider.getProperty("test.usstate");
+				params = createParams(params, state);
+			} else {
+				params = createParams(params, Constants.States.UT);
+			}
 		}
+		return params;
 	}
 
 	private Boolean isCAProduct(ITestResult result) {
 		return result.getMethod() != null && result.getMethod().getTestClass().getName().contains("_ca.");
+	}
+
+	private Object[] createParams(Object[] inputParams, String state) {
+		List<Object> list = Arrays.asList(inputParams);
+		list.set(0, state);
+		return list.toArray();
 	}
 }
