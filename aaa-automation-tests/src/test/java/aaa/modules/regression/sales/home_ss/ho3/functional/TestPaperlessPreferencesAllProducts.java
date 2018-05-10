@@ -68,6 +68,41 @@ public class TestPaperlessPreferencesAllProducts extends TestPaperlessPreference
 		pas283_paperlessPreferencesForAllStatesProducts();
 	}
 
+	/**
+	 * * @author Jovita Pukenaite
+	 *
+	 * PAS-12458
+	 *
+	 * See detailed steps in template file
+	 * {@link TestPaperlessPreferencesAbstract}
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-12458"})
+	public void pas12458_documentDeliverySectionDuringEndorsement(@Optional("VA") String state) {
+		mainApp().open();
+		getCopiedPolicy();
+		pas12458_documentDeliverySectionDuringEndorsement();
+	}
+
+	/**
+	 * * @author Jovita Pukenaite
+	 *
+	 * PAS-12458
+	 *
+	 * See detailed steps in template file
+	 * {@link TestPaperlessPreferencesAbstract}
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-12458"})
+	public void pas12458_documentDeliverySectionDataGatherMode(@Optional("VA") String state) {
+		mainApp().open();
+		createCustomerIndividual();
+		getCopiedQuote();
+		pas12458_documentDeliverySectionDataGatherMode();
+	}
+
 	@Override
 	protected String getDocumentsAndBindTab() {
 		return NavigationEnum.PersonalUmbrellaTab.BIND.get();
@@ -84,34 +119,34 @@ public class TestPaperlessPreferencesAllProducts extends TestPaperlessPreference
 	}
 
 	@Override
-	protected AssetDescriptor<TextBox> getEnrolledInPaperless() { return PersonalUmbrellaMetaData.BindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS; }
+	protected AssetDescriptor<TextBox> getEnrolledInPaperless() { return HomeSSMetaData.BindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS; }
 
 	@Override
-	protected AssetDescriptor<Button> getButtonManagePaperlessPreferences() { return PersonalUmbrellaMetaData.BindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES; }
+	protected AssetDescriptor<Button> getButtonManagePaperlessPreferences() { return HomeSSMetaData.BindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES; }
 
 	@Override
-	protected AssetDescriptor<Button> getEditPaperlessPreferencesButtonDone() { return PersonalUmbrellaMetaData.BindTab.PaperlessPreferences.EDIT_PAPERLESS_PREFERENCES_BTN_DONE; }
+	protected AssetDescriptor<Button> getEditPaperlessPreferencesButtonDone() { return HomeSSMetaData.BindTab.PaperlessPreferences.EDIT_PAPERLESS_PREFERENCES_BTN_DONE; }
 
 	@Override
 	public AssetList getPaperlessPreferencesAssetList() {
-		return new DocumentsAndBindTab().getAssetList().getAsset(PersonalUmbrellaMetaData.BindTab.PAPERLESS_PREFERENCES.getLabel(), AssetList.class);
+		return new DocumentsAndBindTab().getAssetList().getAsset(HomeSSMetaData.BindTab.PAPERLESS_PREFERENCES.getLabel(), AssetList.class);
 	}
 
 	@Override
-	protected AssetDescriptor<ComboBox> getMethodOfDelivery() { return PersonalUmbrellaMetaData.BindTab.DocumentPrintingDetails.METHOD_OF_DELIVERY; }
+	protected AssetDescriptor<ComboBox> getMethodOfDelivery() { return HomeSSMetaData.BindTab.DocumentPrintingDetails.METHOD_OF_DELIVERY; }
 
 	@Override
-	protected AssetDescriptor<ComboBox> getIncludeWithEmail() { return PersonalUmbrellaMetaData.BindTab.DocumentPrintingDetails.INCLUDE_WITH_EMAIL; }
+	protected AssetDescriptor<ComboBox> getIncludeWithEmail() { return HomeSSMetaData.BindTab.DocumentPrintingDetails.INCLUDE_WITH_EMAIL; }
 
 	@Override
-	protected AssetDescriptor<TextBox> getIssueDate() { return PersonalUmbrellaMetaData.BindTab.DocumentPrintingDetails.ISSUE_DATE; }
+	protected AssetDescriptor<TextBox> getIssueDate() { return HomeSSMetaData.BindTab.DocumentPrintingDetails.ISSUE_DATE; }
 
 	@Override
 	public AssetList getDocumentPrintingDetailsAssetList() {
-		return new DocumentsAndBindTab().getAssetList().getAsset(PersonalUmbrellaMetaData.BindTab.DOCUMENT_PRINTING_DETAILS.getLabel(), AssetList.class);
+		return new DocumentsAndBindTab().getAssetList().getAsset(HomeSSMetaData.BindTab.DOCUMENT_PRINTING_DETAILS.getLabel(), AssetList.class);
 	}
 
 	@Override
-	protected AssetDescriptor<ComboBox> getSuppressPrint() { return PersonalUmbrellaMetaData.BindTab.SUPPRESS_PRINT; }
+	protected AssetDescriptor<ComboBox> getSuppressPrint() { return HomeSSMetaData.BindTab.SUPPRESS_PRINT; }
 
 }
