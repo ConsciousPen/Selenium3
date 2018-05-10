@@ -172,7 +172,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		// Add 5 Drivers who are not eligible for GSD
 		preconditionAddedDrivers(testData, driverTab);
 
-		// Fill remaining policy to drivers activity reports tab
+		// Fill remaining policy to P&C tab
 		policy.getDefaultView().fillFromTo(testData, RatingDetailReportsTab.class, PremiumAndCoveragesTab.class, true);
 
 		// Assert 1 Driver who is eligible for GSD
