@@ -155,15 +155,16 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		}
 
 		if (Boolean.TRUE.equals(getPoolInd(openLPolicy))) {
-			if (Boolean.TRUE.equals(getSlideInd(openLPolicy) && getDivingBoardInd(openLPolicy))) {
+			if (getSlideInd(openLPolicy) && getDivingBoardInd(openLPolicy)) {
 				recreationalEquipment.adjust(HomeSSMetaData.PropertyInfoTab.RecreationalEquipment.SWIMMING_POOL.getLabel(), "Restricted access with slide and diving board");
 			}
-			if (Boolean.TRUE.equals(getSlideInd(openLPolicy) && Boolean.FALSE.equals(getDivingBoardInd(openLPolicy)))) {
+			if (getSlideInd(openLPolicy) && !getDivingBoardInd(openLPolicy)) {
 				recreationalEquipment.adjust(HomeSSMetaData.PropertyInfoTab.RecreationalEquipment.SWIMMING_POOL.getLabel(), "Restricted access with slide only");
 			}
-			if (Boolean.TRUE.equals(getDivingBoardInd(openLPolicy) && Boolean.FALSE.equals(getSlideInd(openLPolicy)))) {
+			if (getDivingBoardInd(openLPolicy) && !getSlideInd(openLPolicy)) {
 				recreationalEquipment.adjust(HomeSSMetaData.PropertyInfoTab.RecreationalEquipment.SWIMMING_POOL.getLabel(), "Restricted access with diving board only");
-			} else {
+			}
+			if (!getDivingBoardInd(openLPolicy) && !getSlideInd(openLPolicy)) {
 				recreationalEquipment.adjust(HomeSSMetaData.PropertyInfoTab.RecreationalEquipment.SWIMMING_POOL.getLabel(), "Restricted access with no accessories");
 			}
 		}
@@ -431,6 +432,9 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		if (numOfAddlAuto >= maxAutoCount) {
 			numOfAutoToAdd = numOfAddlAuto + maxAutoCount;
 		}
+		if (numOfAddlAuto == 1) {
+			numOfAutoToAdd = 1 + maxAutoCount;
+		}
 		for (int i = 0; i < numOfAutoToAdd; i++) {
 			Map<String, Object> addlAuto = new HashMap<>();
 			addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.CAR_TYPE.getLabel(), "Private Passenger Auto");
@@ -568,7 +572,7 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	private TestData getPremiumAndCoveragesData(PUPOpenLPolicy openLPolicy) {
 		TestData premiumAndCoverageTabData = new SimpleDataProvider();
 		if (openLPolicy.getCoverages().get(0).getLimit() != null) {
-			premiumAndCoverageTabData.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA.getLabel(), "$" + NumberFormat.getInstance(Locale.US).format(new Integer(openLPolicy.getCoverages().get(0).getLimit())));
+			premiumAndCoverageTabData.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA.getLabel(), new Dollar(openLPolicy.getCoverages().get(0).getLimit()).toString().replaceAll("\\.00", ""));
 		}
 		return premiumAndCoverageTabData;
 	}
@@ -577,5 +581,11 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		String state = getState();
 		tdName = tdName + "_" + state;
 		return tdName;
+	}
+
+	@Override
+	public void setRatingDataPattern(TestData ratingDataPattern) {
+		//TODO-dchubkov: to be implemented
+		throw new NotImplementedException("setRatingDataPattern(TestData ratingDataPattern) not implemented yet");
 	}
 }
