@@ -12,8 +12,8 @@ import toolkit.utils.datetime.DateTimeUtils;
 
 public class HomeSSClaimTestDataGenerator {
 
-	private final String AAA_CLAIM_POINT = "AAAHOPriorClaimPoint";
-	private final String NOT_AAA_CLAIM_POINT = "AAAHOExperienceClaimPoint";
+	private final String AAA_CLAIM_POINT = "AAAHOExperienceClaimPoint";
+	private final String NOT_AAA_CLAIM_POINT = "AAAHOPriorClaimPoint";
 	private String lookupName;
 	private String state;
 	private String sqlMaxCode = "select max(code) from lookupvalue where lookuplist_id in (select id from lookuplist where lookupname='%s') and productcd='AAA_HO_SS' and (riskstatecd is null or riskstatecd = '%s')";
@@ -31,7 +31,7 @@ public class HomeSSClaimTestDataGenerator {
 	public List<TestData> getClaimTestData(boolean isAAAClaim, boolean isFirstClaim) {
 		this.isAAAClaim = isAAAClaim;
 		lookupName = isAAAClaim ? AAA_CLAIM_POINT : NOT_AAA_CLAIM_POINT;
-		int claimPoints = isAAAClaim ? openLPolicy.getPolicyLossInformation().getPriorClaimPoint() : openLPolicy.getPolicyLossInformation().getExpClaimPoint();
+		int claimPoints = isAAAClaim ? openLPolicy.getPolicyLossInformation().getExpClaimPoint() : openLPolicy.getPolicyLossInformation().getPriorClaimPoint();
 		maxCode = Integer.parseInt(DBService.get().getValue(String.format(sqlMaxCode, lookupName, state)).get());
 		List<TestData> claimList = getClaimList(claimPoints, 1);
 		if (isFirstClaim){

@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import org.apache.commons.lang3.NotImplementedException;
-import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.Constants;
@@ -18,7 +17,6 @@ import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
-import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
@@ -58,7 +56,6 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	}
 
 	public TestData getRatingData(HomeSSOpenLPolicy openLPolicy, boolean isLegacyConvPolicy) {
-
 		TestData td = DataProviderFactory.dataOf(
 				new GeneralTab().getMetaKey(), getGeneralTabData(openLPolicy),
 				new ApplicantTab().getMetaKey(), getApplicantTabData(openLPolicy),
@@ -690,7 +687,6 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 					throw new IstfException("Unknown mapping for trampoline=" + openLPolicy.getPolicyConstructionInfo().getTrampoline());
 			}
 		}
-
 		return trampolineType;
 	}
 
@@ -713,11 +709,9 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	}
 
 	private List<TestData> getClaimsHistoryData(HomeSSOpenLPolicy openLPolicy) {
-
 		List<TestData> claimsDataList = new ArrayList<>();
-
-		int aaaPoints = openLPolicy.getPolicyLossInformation().getPriorClaimPoint();
-		int notAAAPoints = openLPolicy.getPolicyLossInformation().getExpClaimPoint();
+		int aaaPoints = openLPolicy.getPolicyLossInformation().getExpClaimPoint();
+		int notAAAPoints = openLPolicy.getPolicyLossInformation().getPriorClaimPoint();
 		boolean isFirstClaim = true;
 
 		if (aaaPoints + notAAAPoints == 0) {
@@ -726,24 +720,12 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			HomeSSClaimTestDataGenerator claimTestDataGenerator = new HomeSSClaimTestDataGenerator(openLPolicy);
 			if (aaaPoints != 0) {
 				claimsDataList.addAll(claimTestDataGenerator.getClaimTestData(true, isFirstClaim));
-				//claimsDataList.addAll(getClaims(openLPolicy, isFirstClaim, false));
 				isFirstClaim = false;
 			}
-
 			if (notAAAPoints != 0) {
 				claimsDataList.addAll(claimTestDataGenerator.getClaimTestData(false, isFirstClaim));
 			}
 		}
 		return claimsDataList;
-	}
-
-	private TestData addClaimData(HomeSSOpenLPolicy openLPolicy, boolean isFirstClaim) {
-		return DataProviderFactory.dataOf(
-				HomeSSMetaData.PropertyInfoTab.ClaimHistory.ADD_A_CLAIM.getLabel(), isFirstClaim ? "Yes" : null,
-				HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS.getLabel(),
-				openLPolicy.getEffectiveDate().minusYears(RandomUtils.nextInt(openLPolicy.getPolicyLossInformation().getRecentYCF(), 3)).plusDays(1).format(DateTimeUtils.MM_DD_YYYY),
-				HomeSSMetaData.PropertyInfoTab.ClaimHistory.CAUSE_OF_LOSS.getLabel(), AdvancedComboBox.RANDOM_MARK,
-				HomeSSMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS.getLabel(), RandomUtils.nextInt(10000, 20000),
-				HomeSSMetaData.PropertyInfoTab.ClaimHistory.CLAIM_STATUS.getLabel(), "Closed");
 	}
 }

@@ -362,9 +362,10 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 	};
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS2452DataFunction = (openLPolicy, policyLevel) -> {
-		List tdList = new ArrayList();
-		tdList.add(DataProviderFactory.dataOf("Action", isFormAdded("HS2452", policyLevel) ? "Edit" : "Add"));
-		return tdList;
+		//		List tdList = new ArrayList();
+		//		tdList.add(DataProviderFactory.dataOf("Action", isFormAdded("HS2452", policyLevel) ? "Edit" : "Add"));
+		//		return tdList;
+		return null;
 	};
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS2464DataFunction = (openLPolicy, policyLevel) -> {
