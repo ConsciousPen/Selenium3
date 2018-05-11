@@ -1,10 +1,14 @@
 package aaa.modules.regression.sales.home_ca.dp3;
 
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.main.enums.PolicyConstants;
+import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.modules.policy.HomeCaDP3BaseTest;
 import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
@@ -14,8 +18,11 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.webdriver.controls.composite.table.Table;
 
 import java.time.LocalDateTime;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
  * @author Tyrone C Jemison
@@ -40,9 +47,14 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
-    public void AC1AC4_Quote_VisibleFPCECA(@Optional("") String state) {
+    public void AC1AC4_Quote_VisibleFPCECADP(@Optional("") String state) {
 
+        // Must adjust DP3 Data on Applicant Tab.
         defaultPolicyData = getPolicyTD();
+        TestData adjustedDP3ApplicantData = getTestSpecificTD("ApplicantTab_DP3").resolveLinks();
+        TestData adjustedDP3ReportsData = getTestSpecificTD("ReportsTab_DP3").resolveLinks();
+        defaultPolicyData.adjust("ApplicantTab", adjustedDP3ApplicantData);
+        defaultPolicyData.adjust("ReportsTab", adjustedDP3ReportsData);
         ho3TestData = getTestSpecificTD("HO3PolicyData");
 
         // Open App, Create Customer and Initiate Quote
@@ -54,10 +66,16 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
         policy.initiate();
         policy.getDefaultView().fillUpTo(defaultPolicyData, EndorsementTab.class, false);
 
-        // TODO: Validate FPCECA is visible.
-        // TODO: Add FPCECA Endorsement
-        // TODO: Verify FPCECA no longer in Optional Endorsements
-        // TODO: Verify FPCECA now present on Documents Tab & Quote Tab
+        // Click FPCECA Endorsement
+        addEndorsement();
+
+        // Verify FPCECA now present on Documents Tab & Quote Tab
+        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+        verifySelectedEndorsementsPresent(PremiumsAndCoveragesQuoteTab.tableEndorsementForms, PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, "FPCECADP");
+
+        // TODO: Verify Document Tab populates Endorsement
+        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
+        assertThat(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FPCECADP.getLocator()).isNotNull();
     }
 
     /**
@@ -77,15 +95,28 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
 
         TestData endorsementTestData = getTestSpecificTD("Endorsement_AC2AC5").resolveLinks();
 
-        // Open App, Create customer and Policy.
+        // Must adjust DP3 Data on Applicant Tab.
+        defaultPolicyData = getPolicyTD();
+        TestData adjustedDP3ApplicantData = getTestSpecificTD("ApplicantTab_DP3").resolveLinks();
+        TestData adjustedDP3ReportsData = getTestSpecificTD("ReportsTab_DP3").resolveLinks();
+        defaultPolicyData.adjust("ApplicantTab", adjustedDP3ApplicantData);
+        defaultPolicyData.adjust("ReportsTab", adjustedDP3ReportsData);
+        ho3TestData = getTestSpecificTD("HO3PolicyData");
+
+        // Open App, Create Customer and Initiate Quote
         mainApp().open();
         createCustomerIndividual();
-        createPolicy(defaultPolicyData);
-        policy.endorse().perform(endorsementTestData.adjust(getPolicyTD("Endorsement", "TestData")));
-        policy.getDefaultView().fillUpTo(endorsementTestData, PremiumsAndCoveragesQuoteTab.class, false);
+        createPolicy(ho3TestData);
 
-        // TODO: Validate FPCECA is visible
-        // TODO: Add FPCECA Endorsement
+        createPolicy(defaultPolicyData);
+
+        policy.endorse().perform(endorsementTestData.adjust(getPolicyTD("Endorsement", "TestData")));
+        policy.getDefaultView().fillUpTo(endorsementTestData, EndorsementTab.class, false);
+        verifySelectedEndorsementsPresent(PremiumsAndCoveragesQuoteTab.tableEndorsementForms, PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, "FPCECADP");
+
+        // Click FPCECADP Endorsement
+        addEndorsement();
+
         // TODO: Verify Message appears and it matches Mock-Up.
     }
 
@@ -103,6 +134,21 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
     public void AC3_Renewal_VisibleFPCECA(@Optional("") String state) {
+
+        // Must adjust DP3 Data on Applicant Tab.
+        defaultPolicyData = getPolicyTD();
+        TestData adjustedDP3ApplicantData = getTestSpecificTD("ApplicantTab_DP3").resolveLinks();
+        TestData adjustedDP3ReportsData = getTestSpecificTD("ReportsTab_DP3").resolveLinks();
+        defaultPolicyData.adjust("ApplicantTab", adjustedDP3ApplicantData);
+        defaultPolicyData.adjust("ReportsTab", adjustedDP3ReportsData);
+        ho3TestData = getTestSpecificTD("HO3PolicyData");
+
+        // Open App, Create Customer and Initiate Quote
+        mainApp().open();
+        createCustomerIndividual();
+        createPolicy(ho3TestData);
+
+        createPolicy(defaultPolicyData);
 
         // Open App, Create Customer and Policy.
         mainApp().open();
@@ -148,5 +194,13 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
         printToDebugLog(" -- Renewal Offer Generation Jobs Completed -- ");
     }
 
+    private void verifySelectedEndorsementsPresent(Table tableForms, String columnName, String endorsementToFind) {
+        assertThat(tableForms.getRowContains(columnName, endorsementToFind)).isNotNull();
+    }
 
+    private void addEndorsement() {
+        // Click FPCECA Endorsement
+        EndorsementTab endorsementTab = new EndorsementTab();
+        endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECADP.getLabel()).click();
+    }
 }

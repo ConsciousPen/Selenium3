@@ -29,7 +29,7 @@ ApplicantTab_HO3: {
   NamedInsured: '@NamedInsured_HO3',
   AAAMembership: '@AAAMembership_HO3',
   DwellingAddress: '@DwellingAddress_HO3',
-  PreviousDwellingAddress: '@PreviousDwellingAddress_Ho3',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_HO3',
   MailingAddress: '@MailingAddress_HO3',
   NamedInsuredInformation: '@NamedInsuredInformation_HO3',
   AgentInfo: '@AgentInfo_HO3',
@@ -45,7 +45,7 @@ NamedInsured_HO3: {
   Relationship to primary named insured:  Primary Insured,
 }
 AAAMembership_HO3: {
-  Current AAA Member: 'No'
+  Current AAA Member: 'No',
 }
 DwellingAddress_HO3: {
   Zip code: '90255',
@@ -81,7 +81,6 @@ OtherActiveAAAPolicies_HO3: {
 #------------------- Reports Tab --------------------------
 ReportsTab_HO3: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Order report'}],
   FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
   CLUEreport: [{Report: 'Order report'}],
@@ -193,4 +192,22 @@ PurchaseTab_HO3: {
  PaymentAllocation: {
   Cash: /rest
  },
+}
+
+#----------------------------------------------------------------
+ApplicantTab_DP3: {
+  NamedInsured: '@NamedInsured_HO3',
+  AAAMembership: '@AAAMembership_HO3',
+  DwellingAddress: '@DwellingAddress_HO3',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation_HO3',
+  AgentInfo: '@AgentInfo_HO3',
+  OtherActiveAAAPolicies: {}
+}
+ReportsTab_DP3: {
+  Sales Agent Agreement: 'I Agree',
+  DwellingAddress:[{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
 }

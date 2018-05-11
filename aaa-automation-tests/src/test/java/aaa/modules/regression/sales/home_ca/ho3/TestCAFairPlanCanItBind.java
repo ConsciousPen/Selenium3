@@ -2,8 +2,10 @@ package aaa.modules.regression.sales.home_ca.ho3;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -26,8 +28,12 @@ public class TestCAFairPlanCanItBind extends HomeCaHO3BaseTest {
         policy.initiate();
         policy.getDefaultView().fillUpTo(DEFAULTPOLICYDATA, EndorsementTab.class, false);
 
-        // TODO: Add FPCECA Endorsement
-        // TODO: Complete Bind Quote
+        // Click FPCECA Endorsement
+        EndorsementTab endorsementTab = new EndorsementTab();
+        endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel()).click();
+
+        // Complete Bind Quote
+        policy.getDefaultView().fillFromTo(DEFAULTPOLICYDATA, EndorsementTab.class, PurchaseTab.class);
     }
 
     @Parameters({"state"})

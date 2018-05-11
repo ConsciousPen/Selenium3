@@ -866,6 +866,10 @@ public final class HomeCaMetaData {
 
 		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HW_09_34 = declare("HW 09 34", HomeCAEndorsementsMultiAssetList.class, EndorsementHW0934.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> FPCECA = declare("FPCECA", HomeCAEndorsementsMultiAssetList.class, EndorsementFPCECA.class, By
+				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> FPCECADP = declare("FPCECADP", HomeCAEndorsementsMultiAssetList.class, EndorsementFPCECA.class, By
+				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		// public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HW_24_82 = declare("HW 24 82",
 		// HomeCAEndorsementsMultiAssetList.class, EndorsementHW2482.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		// public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HW_28 = declare("HW-28",
@@ -1178,6 +1182,8 @@ public final class HomeCaMetaData {
 		public static final class EndorsementHO1732 extends MetaData {}
 		
 		public static final class EndorsementHO1733 extends MetaData {}
+		public static final class EndorsementFPCECA extends MetaData {}
+		public static final class EndorsementFPCECADP extends MetaData {}
 	}
 
 	public static final class PersonalPropertyTab extends MetaData {
@@ -1639,6 +1645,8 @@ public final class HomeCaMetaData {
 					Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> SIGNED_POLICY_APPLICATION = declare("Signed policy application", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> AUTOPAY_AUTHORIZATION_FORM = declare("AutoPay Authorization Form", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<RadioGroup> FPCECA = declare("FPCECA FAIR Plan Companion Endorsement", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<RadioGroup> FPCECADP = declare("FPCECA FAIR Plan Companion Endorsement", RadioGroup.class, Waiters.AJAX);
 		}
 	}
 
