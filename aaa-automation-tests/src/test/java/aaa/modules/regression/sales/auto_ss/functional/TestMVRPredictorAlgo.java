@@ -47,7 +47,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for 2 of 4 Drivers")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9723")
-	public void pas9723_MVRPredictorNewBusiness(@Optional("CT") String state) {
+	public void pas9723_MVRPredictorNewBusiness(@Optional("") String state) {
 
 		TestData testData = getPolicyTD();
 		TestData driverTab = getTestSpecificTD("TestData_DriverTab").resolveLinks();
@@ -85,7 +85,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Bypass MVR Predictor Algo for drivers with violations")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9723")
-	public void pas9723_BypassMVRPredictorManuallyAddedViolations(@Optional("CT") String state) {
+	public void pas9723_BypassMVRPredictorManuallyAddedViolations(@Optional("") String state) {
 
 		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933");
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabViolations").resolveLinks();
@@ -123,7 +123,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Bypass MVR Predictor Algo for drivers with accidents")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9723")
-	public void pas9723_BypassMVRPredictorManuallyAddedAccidents(@Optional("CT") String state) {
+	public void pas9723_BypassMVRPredictorManuallyAddedAccidents(@Optional("") String state) {
 
 		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933");
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabAccidents").resolveLinks();
@@ -157,7 +157,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for Good Student Discount NB")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10108")
-	public void pas10108_GoodStudentDiscountMVRPredictorNB(@Optional("CT") String state) {
+	public void pas10108_GoodStudentDiscountMVRPredictorNB(@Optional("") String state) {
 
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabGSD").resolveLinks();
 
@@ -190,7 +190,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for Good Student Discount Endorsement")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10108")
-	public void pas10108_GoodStudentDiscountMVRPredictorEndorsement(@Optional("CT") String state) {
+	public void pas10108_GoodStudentDiscountMVRPredictorEndorsement(@Optional("") String state) {
 
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabGSD").resolveLinks();
 
@@ -228,7 +228,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for Good Student Discount Renewal")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10108")
-	public void pas10108_GoodStudentDiscountMVRPredictorRenewal(@Optional("CT") String state) {
+	public void pas10108_GoodStudentDiscountMVRPredictorRenewal(@Optional("") String state) {
 
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabGSD").resolveLinks();
 
@@ -257,7 +257,6 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).getValue()).doesNotContain("Good Student Discount(Driver4 LastName4)");
 		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).getValue()).doesNotContain("Good Student Discount(Driver5 LastName5)");
 		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).getValue()).doesNotContain("Good Student Discount(Driver6 LastName6)");
-
 	}
 
 	private void preconditionAddedDrivers(TestData policyTestData, TestData driverTabTD){
@@ -279,7 +278,6 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.MOST_RECENT_GPA.getLabel()), "A Student")
 				.adjust(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel(), AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT.getLabel()), "Yes");
 	}
-
 
 	private void assertMVRResponse(){
 		// Assert That driver with no violations has license status = Predicted Valid
