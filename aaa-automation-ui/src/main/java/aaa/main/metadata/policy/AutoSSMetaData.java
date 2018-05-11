@@ -182,8 +182,8 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<ComboBox> CURRENT_AAA_MEMBER = declare("Current AAA Member", ComboBox.class);
 			public static final AssetDescriptor<TextBox> OTHER_CARRIER = declare("Other Carrier", TextBox.class);
 			public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy Number", TextBox.class);
-			public static final AssetDescriptor<TextBox> INCEPTION_DATE = declare("Inception Date", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> EXPIRATION_DATE = declare("Expiration Date", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> INCEPTION_DATE = declare("Inception Date", TextBox.class);
+			public static final AssetDescriptor<TextBox> EXPIRATION_DATE = declare("Expiration Date", TextBox.class);
 			public static final AssetDescriptor<TextBox> MONTHS_WITH_CARRIER = declare("Months with Carrier", TextBox.class);
 			public static final AssetDescriptor<TextBox> DAYS_LAPSED = declare("Days Lapsed", TextBox.class);
 			public static final AssetDescriptor<ComboBox> BI_LIMITS = declare("BI Limits", ComboBox.class);
@@ -659,10 +659,8 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<ComboBox> PRIMARY_INSURER = declare("Primary Insurer", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> INSURER_NAME = declare("Insurer Name", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> POLICY_GROUP_NUM_CERTIFICATE_NUM = declare("Policy / Group # /Certificate #", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<RadioGroup> INSURER_NAME2 =
-					declare("Insurer Name 2", RadioGroup.class, Waiters.AJAX, By.id("policyDataGatherForm:policy_level_pip_coverage:3:coveragevaluesInsName2_id"));
-			public static final AssetDescriptor<TextBox> POLICY_GROUP_NUM_CERTIFICATE_NUM2 =
-					declare("Policy / Group # /Certificate # 2", TextBox.class, Waiters.AJAX, By.id("policyDataGatherForm:policy_level_pip_coverage:4:coveragevaluesCertNum2_id"));
+			public static final AssetDescriptor<RadioGroup> INSURER_NAME2 = declare("Insurer Name 2", RadioGroup.class, Waiters.AJAX, By.id("policyDataGatherForm:policy_level_pip_coverage:3:coveragevaluesInsName2_id"));
+			public static final AssetDescriptor<TextBox> POLICY_GROUP_NUM_CERTIFICATE_NUM2 = declare("Policy / Group # /Certificate # 2", TextBox.class, Waiters.AJAX, By.id("policyDataGatherForm:policy_level_pip_coverage:4:coveragevaluesCertNum2_id"));
 			public static final AssetDescriptor<ComboBox> MEDICAL_EXPENSE = declare("Medical Expense", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> MEDICAL_EXPENSE_DEDUCTIBLE = declare("Medical Expense Deductible", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> EXTENDED_MEDICAL_PAYMENTS = declare("Extended Medical Payments", ComboBox.class, Waiters.AJAX);
@@ -671,33 +669,24 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<ComboBox> WEEKLY_INCOME_CONTINUATION_BENEFITS = declare("Weekly Income Continuation Benefits", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> LENGTH_OF_INCOME_CONTINUATION = declare("Length of Income Continuation", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> COVERAGE_INCLUDES = declare("Coverage Includes", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> RELATIVES_NAME1 =
-					declare("Relative's Name 1", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:9:coveragevaluesRelName1_id"));
-			public static final AssetDescriptor<TextBox> RELATIVES_NAME2 =
-					declare("Relative's Name 2", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:9:coveragevaluesRelName22_id"));
-			public static final AssetDescriptor<TextBox> RELATIVES_NAME3 =
-					declare("Relative's Name 3", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:10:coveragevaluesRelName3_id"));
-			public static final AssetDescriptor<TextBox> RELATIVES_NAME4 =
-					declare("Relative's Name 4", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:10:coveragevaluesRelName44_id"));
-			public static final AssetDescriptor<TextBox> RELATIVES_NAME5 =
-					declare("Relative's Name 5", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:11:coveragevaluesRelName5_id"));
-			public static final AssetDescriptor<TextBox> RELATIVES_NAME6 =
-					declare("Relative's Name 6", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:11:coveragevaluesRelName66_id"));
+			public static final AssetDescriptor<TextBox> RELATIVES_NAME1 = declare("Relative's Name 1", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:9:coveragevaluesRelName1_id"));
+			public static final AssetDescriptor<TextBox> RELATIVES_NAME2 = declare("Relative's Name 2", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:9:coveragevaluesRelName22_id"));
+			public static final AssetDescriptor<TextBox> RELATIVES_NAME3 = declare("Relative's Name 3", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:10:coveragevaluesRelName3_id"));
+			public static final AssetDescriptor<TextBox> RELATIVES_NAME4 = declare("Relative's Name 4", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:10:coveragevaluesRelName44_id"));
+			public static final AssetDescriptor<TextBox> RELATIVES_NAME5 = declare("Relative's Name 5", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:11:coveragevaluesRelName5_id"));
+			public static final AssetDescriptor<TextBox> RELATIVES_NAME6 = declare("Relative's Name 6", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:11:coveragevaluesRelName66_id"));
 		}
 
 		public static final class OverridePremiumDialog extends MetaData {
-			public static final AssetDescriptor<Button> BUTTON_OPEN_POPUP =
-					declare(AbstractDialog.DEFAULT_POPUP_OPENER_NAME, Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:overridePremiumLink"));
+			public static final AssetDescriptor<Button> BUTTON_OPEN_POPUP = declare(AbstractDialog.DEFAULT_POPUP_OPENER_NAME, Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:overridePremiumLink"));
 			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for Override", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> OTHER_REASON = declare("Other Reason", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> ORIGINAL_BODILY_INJURY_OVERRIDE_PREMIUM_BY_FLAT_AMOUNT =
-					declare("Bodily Injury Liability By Flat Amount", TextBox.class, Waiters.AJAX, By.id("premiumOverrideInfoForm:deltaPremiumAmt0"));
-			public static final AssetDescriptor<TextBox> ORIGINAL_BODILY_INJURY_OVERRIDE_PREMIUM_BY_PERCENTAGE =
-					declare("Bodily Injury Liability By Percentage", TextBox.class, Waiters.AJAX, By.id("premiumOverrideInfoForm:percentageAmt0"));
-			public static final AssetDescriptor<Button> BUTTON_SUBMIT_POPUP =
-					declare(AbstractDialog.DEFAULT_POPUP_SUBMITTER_NAME, Button.class, Waiters.AJAX, false, By.id("premiumOverrideInfoForm:premiumOverrideSaveBtn"));
-			public static final AssetDescriptor<Button> BUTTON_CANCEL_POPUP =
-					declare(AbstractDialog.DEFAULT_POPUP_CLOSER_NAME, Button.class, Waiters.DEFAULT, false, By.id("premiumOverrideInfoForm:premiumOverrideCancelBtn"));
+			public static final AssetDescriptor<TextBox> ORIGINAL_BODILY_INJURY_OVERRIDE_PREMIUM_BY_FLAT_AMOUNT = declare("Bodily Injury Liability By Flat Amount", TextBox.class, Waiters.AJAX,
+					By.xpath("//div[@id='premiumOverridePopup_content']//td[contains(.,'Bodily Injury Liability') and contains(.,'Original')]//following-sibling::td//input[contains(@id,'premiumOverrideInfoForm:deltaPremiumAmt')]"));
+			public static final AssetDescriptor<TextBox> ORIGINAL_BODILY_INJURY_OVERRIDE_PREMIUM_BY_PERCENTAGE = declare("Bodily Injury Liability By Percentage", TextBox.class, Waiters.AJAX,
+					By.xpath("//div[@id='premiumOverridePopup_content']//td[contains(.,'Bodily Injury Liability') and contains(.,'Original')]//following-sibling::td//input[contains(@id,'premiumOverrideInfoForm:percentageAmt')]"));
+			public static final AssetDescriptor<Button> BUTTON_SUBMIT_POPUP = declare(AbstractDialog.DEFAULT_POPUP_SUBMITTER_NAME, Button.class, Waiters.AJAX, false, By.id("premiumOverrideInfoForm:premiumOverrideSaveBtn"));
+			public static final AssetDescriptor<Button> BUTTON_CANCEL_POPUP = declare(AbstractDialog.DEFAULT_POPUP_CLOSER_NAME, Button.class, Waiters.DEFAULT, false, By.id("premiumOverrideInfoForm:premiumOverrideCancelBtn"));
 		}
 
 		public static final class DetailedVehicleCoverages extends MetaData {
