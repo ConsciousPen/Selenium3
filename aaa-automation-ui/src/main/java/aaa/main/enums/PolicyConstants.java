@@ -206,6 +206,7 @@ public final class PolicyConstants {
         public static final String PLAN = "Plan";
         public static final String PREMIUM = "Premium";
         public static final String MINIMUM_DOWNPAYMENT = "Minimum Downpayment";
+        public static final String MINIMUM_DOWN_PAYMENT = "Minimum Down Payment";
         public static final String INSTALLMENT_AMOUNT = "Installment Amount (w/o fees)";
         public static final String NUMBER_OF_REMAINING_INSTALLMENTS = "# of Remaining Installments";
     }
