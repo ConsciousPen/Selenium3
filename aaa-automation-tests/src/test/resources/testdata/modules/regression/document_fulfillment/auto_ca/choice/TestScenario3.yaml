@@ -1,6 +1,6 @@
 TestData_Reinstate: {
   ReinstatementActionTab: {
-    Reinstate Date: $<today>,
+    Reinstate Date: $<today+4d>,
     Authorized By: QA
   }
 }
