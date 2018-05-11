@@ -1,9 +1,8 @@
 package aaa.modules.regression.service.helper.dtoAdmin.responses;
 
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class AAASeriesByYearMakeModel {
 
@@ -22,4 +21,3 @@ public class AAASeriesByYearMakeModel {
 		this.series = series;
 	}
 }
-;
