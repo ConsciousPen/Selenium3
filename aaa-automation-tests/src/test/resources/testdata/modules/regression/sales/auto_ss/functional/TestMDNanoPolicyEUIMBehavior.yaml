@@ -168,7 +168,7 @@ TestData_Conversion: {
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab_Conversion',
-  DocumentsAndBindTab: '@DocumentsAndBindTab_MD',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Conv',
   PurchaseTab: '@PurchaseTab'
 }
 

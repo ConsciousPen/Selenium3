@@ -28,6 +28,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
@@ -41,6 +42,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
     private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
     private PurchaseTab purchaseTab = new PurchaseTab();
     private ErrorTab errorTab = new ErrorTab();
+    private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 
     private ComboBox bodilyInjury = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY);
     private ComboBox propertyDamage = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY);
@@ -91,16 +93,16 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
 
         // Assert that Enhanced UIM Total Premium > Standard UIM Total Premium during New Business
         enhancedUIM.setValue(true);
-        new PremiumAndCoveragesTab().calculatePremium();
+        premiumAndCoveragesTab.calculatePremium();
         Dollar enhancedUIMNBvalue = new Dollar(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium"));
         assertThat(standardUIMNBvalue.lessThan(enhancedUIMNBvalue)).as(standardUIMNBvalue + "Should be less than" + enhancedUIMNBvalue).isTrue();
 
         // Issue Policy. Change EUIM to false.
         enhancedUIM.setValue(false);
-        new PremiumAndCoveragesTab().calculatePremium();
-        new PremiumAndCoveragesTab().submitTab();
+        premiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.submitTab();
         policy.getDefaultView().fillFromTo(tdPolicy, DriverActivityReportsTab.class, PurchaseTab.class, true);
-        new PurchaseTab().submitTab();
+        purchaseTab.submitTab();
 
         // Initiate Mid-Term Endorsement and Navigate to P&C Page.
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
@@ -108,7 +110,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
 
         // Assert that Enhanced UIM Total Premium > Standard UIM Total Premium during Endorsement
         enhancedUIM.setValue(true);
-        new PremiumAndCoveragesTab().calculatePremium();
+        premiumAndCoveragesTab.calculatePremium();
         Dollar enhancedUIMNBvalue1 = new Dollar(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium"));
         assertThat(standardUIMNBvalue.lessThan(enhancedUIMNBvalue1)).as(standardUIMNBvalue + "Should be less than" + enhancedUIMNBvalue1).isTrue();
 
@@ -116,14 +118,14 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
         premiumAndCoveragesTab.saveAndExit();
         policy.renew().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        new PremiumAndCoveragesTab().calculatePremium();
+        premiumAndCoveragesTab.calculatePremium();
 
         // Save Standard UIM Total Premium value
         Dollar standardUIMRvalue = new Dollar(new PremiumAndCoveragesTab().getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium"));
 
         // Assert that Enhanced UIM Total Premium > Standard UIM Total Premium during Renewal
         enhancedUIM.setValue(true);
-        new PremiumAndCoveragesTab().calculatePremium();
+        premiumAndCoveragesTab.calculatePremium();
         Dollar enhancedUIMRvalue = new Dollar(new PremiumAndCoveragesTab().getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium"));
         assertThat(standardUIMRvalue.lessThan(enhancedUIMRvalue)).as(standardUIMRvalue + "Should be less than" + enhancedUIMRvalue).isTrue();
     }
@@ -170,10 +172,10 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
         policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         enhancedUIM.setValue(false);
-        new PremiumAndCoveragesTab().calculatePremium();
-        new PremiumAndCoveragesTab().submitTab();
+        premiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.submitTab();
         policy.getDefaultView().fillFromTo(tdPolicy, DriverActivityReportsTab.class, PurchaseTab.class, true);
-        new PurchaseTab().submitTab();
+        purchaseTab.submitTab();
 
         // AC2 PAS-11209. Display EUIM UIPD/UIMBI in Policy Consolidated view Coverages section.
         verifyPolicySummaryPage("No");
@@ -214,7 +216,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
 
         // Issue Policy.
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-        new DocumentsAndBindTab().submitTab();
+        documentsAndBindTab.submitTab();
 
         // AC2 PAS-11209. Display EUIM UIPD/UIMBI in Policy Consolidated view Coverages section.
         verifyPolicySummaryPage("Yes");
@@ -269,7 +271,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
 
         // Issue Policy.
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-        new DocumentsAndBindTab().submitTab();
+        documentsAndBindTab.submitTab();
         purchaseRenewal(policyNum);
 
         // Navigate to Renewal
@@ -316,12 +318,12 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
         verifyEnhancedUIMCoverage();
 
         // Issue Policy
-        new PremiumAndCoveragesTab().submitTab();
+        premiumAndCoveragesTab.submitTab();
         policy.getDefaultView().fillFromTo(tdPolicy, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
-        new DocumentsAndBindTab().submitTab();
+        documentsAndBindTab.submitTab();
         errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_CSACN0100);
         errorTab.override();
-        new DocumentsAndBindTab().submitTab();
+        documentsAndBindTab.submitTab();
         String policyNum = PolicySummaryPage.getPolicyNumber();
         purchaseRenewal(policyNum);
 
@@ -402,8 +404,8 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
         // Verify the next 2 lines in the Total Term Premium are UIM/BI and PD
         List<String> totalTermPremiumKeys = new ArrayList<>(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getKeys());
         int euimIndex = IntStream.range(0, totalTermPremiumKeys.size() - 1).filter(i -> totalTermPremiumKeys.get(i).equals(euimSelectedText)).findFirst().orElse(-3);
-        assertThat(totalTermPremiumKeys.get(euimIndex + 1)).isEqualTo("Uninsured/Underinsured Motorist Bodily Injury");
-        assertThat(totalTermPremiumKeys.get(euimIndex + 2)).isEqualTo("Uninsured Motorist Property Damage");
+        assertThat(totalTermPremiumKeys.get(euimIndex + 1)).isEqualTo(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+        assertThat(totalTermPremiumKeys.get(euimIndex + 2)).isEqualTo(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
 
         // Display EUIM UIMPD/UIMBI in VRD page.
         verifyUIMVRD("Yes");
@@ -436,9 +438,12 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
 
     private void purchaseRenewal(String policyNumber){
         // Open Billing account and Pay min due for the renewal
-        LocalDateTime minDueDate = TimeSetterUtil.getInstance().getCurrentTime();
+//        LocalDateTime minDueDate = TimeSetterUtil.getInstance().getCurrentTime();
         SearchPage.openBilling(policyNumber);
-        Dollar minDue = new Dollar(BillingHelper.getBillCellValue(minDueDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
+        Dollar minDue = new Dollar(BillingSummaryPage.tableBillsStatements
+                .getRowContains(BillingConstants.BillingBillsAndStatmentsTable.TYPE, BillingConstants.BillsAndStatementsType.BILL)
+                .getCell(BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
+//        Dollar minDue = new Dollar(BillingHelper.getBillCellValue(minDueDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
         new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
 
         // Open Policy
