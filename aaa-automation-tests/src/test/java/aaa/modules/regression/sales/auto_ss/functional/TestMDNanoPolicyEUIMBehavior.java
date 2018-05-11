@@ -438,12 +438,10 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
 
     private void purchaseRenewal(String policyNumber){
         // Open Billing account and Pay min due for the renewal
-//        LocalDateTime minDueDate = TimeSetterUtil.getInstance().getCurrentTime();
         SearchPage.openBilling(policyNumber);
         Dollar minDue = new Dollar(BillingSummaryPage.tableBillsStatements
                 .getRowContains(BillingConstants.BillingBillsAndStatmentsTable.TYPE, BillingConstants.BillsAndStatementsType.BILL)
                 .getCell(BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
-//        Dollar minDue = new Dollar(BillingHelper.getBillCellValue(minDueDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
         new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
 
         // Open Policy
