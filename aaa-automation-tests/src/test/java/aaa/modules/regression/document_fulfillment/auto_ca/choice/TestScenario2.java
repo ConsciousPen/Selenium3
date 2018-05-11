@@ -9,7 +9,7 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.main.enums.DocGenEnum.Documents;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.IBillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
@@ -24,7 +24,7 @@ public class TestScenario2 extends AutoCaChoiceBaseTest {
 	
 	@Parameters({"state"})
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void testRefundCheckDocument(String state) throws Exception {
+	public void testRefundCheckDocument(String state) {
 		Dollar amount = new Dollar(1234);
 
 		mainApp().open();
@@ -40,6 +40,6 @@ public class TestScenario2 extends AutoCaChoiceBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Issued").verifyPresent();
 
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents._55_3500);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._55_3500);
 	}
 }

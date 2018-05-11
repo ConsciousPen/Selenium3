@@ -11,9 +11,7 @@ import aaa.helpers.openl.model.home_ss.HomeSSOpenLFile;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
 import aaa.helpers.openl.testdata_builder.HomeSSTestDataGenerator;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
-import aaa.main.enums.ErrorEnum;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
@@ -61,9 +59,8 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 			policy.getDefaultView().fillUpTo(policyIssueData, PurchaseTab.class, false);
 			ErrorTab errorTab = new ErrorTab();
 			if (errorTab.isVisible()) {
-				errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_HO_SS3230000);
-				errorTab.override();
-				new BindTab().submitTab();
+				errorTab.overrideAllErrors();
+				errorTab.submitTab();
 			}
 			policy.getDefaultView().fill(DataProviderFactory.dataOf(PurchaseTab.class.getSimpleName(), getPolicyTD().getTestData(PurchaseTab.class.getSimpleName())));
 

@@ -2,8 +2,6 @@ package aaa.helpers.http.impl;
 
 import org.apache.commons.lang.StringUtils;
 
-import aaa.helpers.http.impl.HttpQueryParam;
-
 public class HttpQueryParam {
 
 	private static final String MACROS_LEFT_DELIMITER = "{{";
@@ -79,7 +77,8 @@ public class HttpQueryParam {
 		FIELD("Field");
 
 		String id;
-		private Element(String id) {
+
+		Element(String id) {
 			this.id = id;
 		}
 

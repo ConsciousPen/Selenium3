@@ -10,7 +10,7 @@ import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.main.enums.DocGenEnum.Documents;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 
@@ -25,7 +25,7 @@ public class TestScenario2 extends HomeSSHO3BaseTest {
 	
 	@Parameters({"state"})
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void TC01_CreatePolicy(String state) throws Exception {
+	public void TC01_CreatePolicy(String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
@@ -62,6 +62,6 @@ public class TestScenario2 extends HomeSSHO3BaseTest {
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		// TODO 581579	PROD : REG:HSRMXX Form not getting generated at R-20.
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents.HSRMXX);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, DocGenEnum.Documents.HSRMXX);
 	}
 }

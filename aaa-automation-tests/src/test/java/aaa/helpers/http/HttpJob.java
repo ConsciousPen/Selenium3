@@ -211,7 +211,7 @@ public class HttpJob {
 		return null;
 	}
 
-	private static void checkAsyncTask() throws IOException, InterruptedException {
+	private static void checkAsyncTask() throws IOException {
 		HttpAAARequestor httpRequestor2 = HttpLogin.loginAd();
 		String waiting, processing;
 		String request = "/aaa-admin/admin/flow?_flowId=async-task-statistics-flow";
