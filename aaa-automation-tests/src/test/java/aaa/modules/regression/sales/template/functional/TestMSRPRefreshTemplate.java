@@ -94,7 +94,6 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 		premiumAndCoveragesTab.saveAndExit();
 
-
 	}
 
 	protected void renewalVehicleTypeRegular(TestData testData) {
@@ -203,7 +202,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
-		PremiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		// Values from VIN comp and coll symbol in excel sheet
@@ -268,7 +267,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		return DataProviderFactory.emptyData()
 				.adjust(AutoCaMetaData.VehicleTab.TYPE.getLabel(), "Motor Home")
 				.adjust(AutoCaMetaData.VehicleTab.YEAR.getLabel(), "2018")
-				.adjust(AutoCaMetaData.VehicleTab.MAKE.getLabel(), "index=1")
+				.adjust(AutoCaMetaData.VehicleTab.MAKE.getLabel(), "OTHER")
 				.adjust(AutoCaMetaData.VehicleTab.OTHER_MAKE.getLabel(), "Other Make")
 				.adjust(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel(), "Other Model")
 				.adjust(AutoCaMetaData.VehicleTab.OTHER_SERIES.getLabel(), "OTHER SERIES")
@@ -308,7 +307,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 	}
 
 	private void pas730_addRegularVehicleToDBSelect() {
-		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION_FORMTYPE, 20150101, getState(), "MSRP_2000", formTypeSelect));
+		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION_FORMTYPE, 20150101, getState(), "MSRP_2000_SELECT", formTypeSelect));
 
 		// Add new VEHICLEREFDATAVINCONTROL version
 		BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
@@ -328,7 +327,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
 
 		DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_BY_VERSION,
-				getUniqId, productTypeAAACSA, formTypeChoice, getState(), "SYMBOL_2000_CHOICE", 20150102, 20500102, CA_CHOICE_MOTORHOME_VEH_MSRP_VERSION));
+				getUniqId, productTypeAAACSA, formTypeChoice, getState(), "SYMBOL_2000_CHOICE", 20150102, 99999999, CA_CHOICE_MOTORHOME_VEH_MSRP_VERSION));
 
 		// Update needed msrp version
 		DBService.get().executeUpdate(String.format(UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX_BY_KEY_VEHICLEYEARMIN, 2015, 2011, 4));

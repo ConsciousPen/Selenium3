@@ -128,7 +128,7 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
 		LocalDateTime cancellationDate = TimeSetterUtil.getInstance().parse(PolicySummaryPage.tableGeneralInformation
-				.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.CANCELLATION_EFFECTIVE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
+				.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.CANCELLATION_EFF_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
 
 		String reinstatementKey = TestData.makeKeyPath(reinstatementTab.getMetaKey(), HomeSSMetaData.ReinstatementActionTab.REINSTATE_DATE.getLabel());
 

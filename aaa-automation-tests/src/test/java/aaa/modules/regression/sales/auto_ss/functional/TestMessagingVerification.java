@@ -42,7 +42,7 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
 
 	private static final String EVALUE_PAYPLAN_ACKNOWLEDGEMENT_CHECK =
-			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "paymentPlanRequired", "FALSE");
+			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeValueQualifications", "paymentPlanRequired", "FALSE");
 
 	@Test(description = "Precondition")
 	public static void eValueAcknowledgementConfigCheck() {
@@ -312,7 +312,7 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.POLICY_TERM).setValue(payTerm);
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN).setValue(payPlan);
-		PremiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 	}
 
 	private void fillGeneralTab(int days) {

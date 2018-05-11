@@ -1,21 +1,19 @@
 package aaa.soap.autopolicy;
 
+import static aaa.admin.modules.IAdmin.log;
+import java.time.format.DateTimeFormatter;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.rest.IRestClient;
 import aaa.soap.AAAMarshaller;
 import aaa.soap.autopolicy.models.wsdl.ErrorInfo;
 import aaa.soap.autopolicy.models.wsdl.GetAutoPolicyDetail;
 import aaa.soap.autopolicy.models.wsdl.GetAutoPolicyDetailRequest;
 import aaa.soap.autopolicy.models.wsdl.GetAutoPolicyDetailResponse;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.rest.RestServiceUtil;
-
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
-import java.time.format.DateTimeFormatter;
-
-import static aaa.admin.modules.IAdmin.log;
 
 public class GetAutoPolicyDetailsWSClient implements IRestClient {
 	private GetAutoPolicyDetailService service;
@@ -26,7 +24,7 @@ public class GetAutoPolicyDetailsWSClient implements IRestClient {
 		autoPolicyDetail = service.getGetAutoPolicyDetailSOAPPort();
 	}
 
-	public GetAutoPolicyDetailResponse getAutoPolicyDetailResponse(TestData testData) throws ErrorInfo, DatatypeConfigurationException {
+	public GetAutoPolicyDetailResponse getAutoPolicyDetailResponse(TestData testData) throws DatatypeConfigurationException {
 		GetAutoPolicyDetailRequest vr = getAutoPolicyDetailRequest(testData);
 		log.info("SOAP: REQUEST");
 		log.info(AAAMarshaller.modelToXml(vr));

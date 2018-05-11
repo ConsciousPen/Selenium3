@@ -1,22 +1,15 @@
 package aaa.modules.cft;
 
-import aaa.helpers.constants.Groups;
-import aaa.modules.cft.report.ReportAccountEntry;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Test;
-import toolkit.db.DBService;
-import toolkit.utils.TestInfo;
-
+import static aaa.helpers.cft.CFTHelper.checkFile;
 import java.io.File;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import static aaa.helpers.cft.CFTHelper.checkDirectory;
-import static aaa.helpers.cft.CFTHelper.checkFile;
+import org.testng.annotations.Test;
+import aaa.helpers.constants.Groups;
+import aaa.modules.cft.report.ReportAccountEntry;
+import toolkit.db.DBService;
+import toolkit.utils.TestInfo;
 
 public class TestCFTLedgerAccount extends ControlledFinancialBaseTest {
 	private static final String CFT_LEDGER_ACCOUNT_REPORT = "CFT_Account1065Entries.xls";
@@ -25,7 +18,7 @@ public class TestCFTLedgerAccount extends ControlledFinancialBaseTest {
 
 	@Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
-	public void ledgerAccountValidation() throws IOException {
+	public void ledgerAccountValidation() {
 		File cftResultDir = new File(CFT_VALIDATION_DIRECTORY);
 		checkFile(CFT_VALIDATION_DIRECTORY, CFT_LEDGER_ACCOUNT_REPORT);
 		List<List<Map<String, String>>> accNumberTable = new ArrayList<>();

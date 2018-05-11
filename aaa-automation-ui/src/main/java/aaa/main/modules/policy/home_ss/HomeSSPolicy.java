@@ -5,8 +5,6 @@ package aaa.main.modules.policy.home_ss;
 import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import aaa.utils.EntityLogger;
 import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -16,11 +14,12 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.modules.policy.home_ss.views.DefaultView;
 import aaa.main.pages.summary.QuoteSummaryPage;
+import aaa.utils.EntityLogger;
 import toolkit.datax.TestData;
 
 /**
  * Concrete implementation for a specific entity type.
- * 
+ *
  * @category Generated
  */
 public class HomeSSPolicy implements IPolicy {
@@ -37,14 +36,13 @@ public class HomeSSPolicy implements IPolicy {
 	@Override
 	public void initiate() {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.QUOTE.get());
-		QuoteSummaryPage.comboBoxProduct.setValue(PolicyType.HOME_SS_HO3.getName());
-		QuoteSummaryPage.buttonAddNewQuote.click();
+		new QuoteSummaryPage().initiateQuote(PolicyType.HOME_SS_HO3);
 	}
 
 	@Override
 	public void createQuote(TestData td) {
 		initiate();
-		getDefaultView().fillUpTo(td, BindTab.class, false);
+		getDefaultView().fillUpTo(td, BindTab.class, true);
 		BindTab.buttonSaveAndExit.click();
 
 		log.info("QUOTE CREATED: " + EntityLogger.getEntityHeader(EntityLogger.EntityType.QUOTE));
@@ -74,7 +72,7 @@ public class HomeSSPolicy implements IPolicy {
 
 	@Override
 	public void purchase(TestData td) {
-	    dataGather().start();
+		dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
 		new BindTab().submitTab();
 		new PurchaseTab().fillTab(td).submitTab();
@@ -92,7 +90,7 @@ public class HomeSSPolicy implements IPolicy {
 
 	@Override
 	public void calculatePremiumAndPurchase(TestData td) {
-	    calculatePremium(td);
+		calculatePremium(td);
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.UNDERWRITING_AND_APPROVAL.get());
 		new UnderwritingAndApprovalTab().fillTab(td);
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.DOCUMENTS.get());
@@ -100,7 +98,7 @@ public class HomeSSPolicy implements IPolicy {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
 		new BindTab().submitTab();
 		new PurchaseTab().fillTab(td).submitTab();
-    }
+	}
 
 	@Override
 	public void copyPolicy(TestData td) {
@@ -183,7 +181,7 @@ public class HomeSSPolicy implements IPolicy {
 	public PolicyActions.DeletePendedTransaction deletePendedTransaction() {
 		return new HomeSSPolicyActions.DeletePendedTransaction();
 	}
-	
+
 	@Override
 	public PolicyActions.DeletePendingRenwals deletePendingRenwals() {
 		return new HomeSSPolicyActions.DeletePendingRenwals();
@@ -238,7 +236,7 @@ public class HomeSSPolicy implements IPolicy {
 	public PolicyActions.PolicyDocGen policyDocGen() {
 		return new HomeSSPolicyActions.PolicyDocGenFlow();
 	}
-	
+
 	@Override
 	public PolicyActions.Propose propose() {
 		return new HomeSSPolicyActions.Propose();

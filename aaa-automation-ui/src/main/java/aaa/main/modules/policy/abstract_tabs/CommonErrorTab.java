@@ -1,11 +1,7 @@
 package aaa.main.modules.policy.abstract_tabs;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.assertj.core.api.SoftAssertions;
@@ -28,7 +24,7 @@ import toolkit.webdriver.controls.composite.table.Row;
  * Created by lkazarnovskiy on 8/8/2017.
  */
 public abstract class CommonErrorTab extends Tab {
-	private static final String KEY_ERRORS = "Errors";
+	public static final String KEY_ERRORS = "Errors";
 	public Button buttonOverride = new Button(By.id("errorsForm:overrideRules"));
 	public Button buttonApproval = new Button(By.id("errorsForm:referForApproval"));
 	public Verify verify = new Verify();
@@ -46,8 +42,9 @@ public abstract class CommonErrorTab extends Tab {
 	@Override
 	public Tab fillTab(TestData td) {
 		//TestData errorsTD = td.getTestData(getMetaKey());
-		if (td != null && td.containsKey(KEY_ERRORS)) {
-			List<String> values = td.getList(KEY_ERRORS);
+		if (td != null && td.containsKey(getMetaKey()) && td.getTestData(getMetaKey()).containsKey(KEY_ERRORS)) {
+			List<String> values = td.getTestData(getMetaKey()).getList(KEY_ERRORS);
+			//List<String> values = td.getTestData("ErrorTab").getList(KEY_ERRORS);
 			if (values.contains("All")) {
 				overrideAllErrors();
 			} else {
@@ -207,6 +204,9 @@ public abstract class CommonErrorTab extends Tab {
 	}
 
 	private boolean isMessagePresentInTableAndHintPopup(List<Pair<String, String>> actualTableAndHintErrorMessagePairs, String expectedMessage) {
+		if (actualTableAndHintErrorMessagePairs == null || actualTableAndHintErrorMessagePairs.size() == 0 || actualTableAndHintErrorMessagePairs.get(0) == null) {
+			return false;
+		}
 		int maxMessageLengthInTableWithoutDots = 77;
 		if (expectedMessage.length() > maxMessageLengthInTableWithoutDots) {
 			String expectedTruncatedMessage = StringUtils.removeEnd(expectedMessage, "...").trim();

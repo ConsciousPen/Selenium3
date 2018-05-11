@@ -9,6 +9,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
+import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.table.Table;
@@ -32,15 +33,25 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 		super(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.class);
 	}
 
+    public JavaScriptButton btnCalculatePremium() {
+        return getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM_BUTTON.getLabel(), JavaScriptButton.class);
+    }
+
 	@Override
 	public void calculatePremium() {
 		if (!btnCalculatePremium().isPresent()) {
 			NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
 			NavigationPage.toViewSubTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		}
-		hideHeader();
-		btnCalculatePremium().click();
-		showHeader();
+		try {
+			hideHeader();
+			btnCalculatePremium().click();
+			showHeader();
+		} catch (Exception e) {
+				hideHeader();
+				btnCalculatePremium().click();
+				showHeader();
+		}
 	}
 
 	@Override
@@ -54,9 +65,5 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 			}
 		}
 		return td;
-	}
-
-	public Button btnCalculatePremium() {
-		return getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM_BUTTON.getLabel(), Button.class);
 	}
 }

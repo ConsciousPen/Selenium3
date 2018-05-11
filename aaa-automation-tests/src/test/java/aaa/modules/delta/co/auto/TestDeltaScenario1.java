@@ -222,7 +222,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		vTab.submitTab();
 
 		Tab.buttonNext.click();
-		PremiumAndCoveragesTab.buttonCalculatePremium.click();
+		new PremiumAndCoveragesTab().btnCalculatePremium().click();
 		//in old test this verification was skipped with comment 'PAS12:AS per RSG, commenting premium rating verifications'
 		//PremiumAndCoveragesTab.totalTermPremium.verify.value(new Dollar("3,409.00").toString());
 
@@ -283,7 +283,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		gTab.submitTab();
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.buttonCalculatePremium.click();
+		new PremiumAndCoveragesTab().btnCalculatePremium().click();
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		CustomAssert.assertEquals(pacTab.getRatingDetailsQuoteInfoData().getValue("Adversely Impacted Applied"), "No");
 		pacTab.submitTab();
@@ -296,7 +296,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		gTab.submitTab();
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.buttonCalculatePremium.click();
+		new PremiumAndCoveragesTab().btnCalculatePremium().click();
 
 		Tab.buttonSaveAndExit.click();
 	}
@@ -320,7 +320,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE).verify.present(false);
 
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_PAYMENTS).setValueByRegex("No Coverage.*");
-		PremiumAndCoveragesTab.buttonCalculatePremium.click();
+		new PremiumAndCoveragesTab().btnCalculatePremium().click();
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_SAVINGS_OPTIONS).setValue("Yes");
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.MOTORCYCLE).verify.present(false);
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_SAVINGS_OPTIONS).setValue("No");

@@ -1,11 +1,18 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
+import java.util.Comparator;
+import com.google.common.collect.ComparisonChain;
 import aaa.modules.regression.service.helper.RestBodyRequest;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(description = "Vehicle Information")
 public class Vehicle implements RestBodyRequest {
+
+	@ApiModelProperty(value = "Model year", example = "2003")
+	private static final String VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO = "PPA";
+	private static final String VEHICLE_STATUS_PENDING = "pending";
+	private static final String VEHICLE_STATUS_ACTIVE = "active";
 
 	@ApiModelProperty(value = "Model year", example = "2002")
 	public String modelYear;
@@ -19,6 +26,7 @@ public class Vehicle implements RestBodyRequest {
 	@ApiModelProperty(value = "Model", example = "Enzo")
 	public String model;
 
+
 	@ApiModelProperty(value = "Body style", example = "Coupe")
 	public String bodyStyle;
 
@@ -31,52 +39,51 @@ public class Vehicle implements RestBodyRequest {
 	@ApiModelProperty(value = "VIN", example = "ZFFCW56A830133118")
 	public String vehIdentificationNo;
 
-	public String getModelYear() {
-		return modelYear;
-	}
+	@ApiModelProperty(value = "vehicleStatus", example = "pending")
+	public String vehicleStatus;
 
-	public void setModelYear(String modelYear) {
-		this.modelYear = modelYear;
-	}
+	@ApiModelProperty(value = "Usage", example = "Pleasure")
+	public String usage;
 
-	public String getManufacturer() {
-		return manufacturer;
-	}
+	@ApiModelProperty(value = "Salvaged", example = "false")
+	public Boolean salvaged;
 
-	public void setManufacturer(String manufacturer) {
-		this.manufacturer = manufacturer;
-	}
+	@ApiModelProperty(value = "Garaging different than the Residential?", example = "false")
+	public Boolean garagingDifferent;
 
-	public String getSeries() {
-		return series;
-	}
 
-	public void setSeries(String series) {
-		this.series = series;
-	}
+	@ApiModelProperty(value = "Anti-Theft", example = "NONE")
+	public String antiTheft;
 
-	public String getModel() {
-		return model;
-	}
+	@ApiModelProperty(value = "Registered Owner?", example = "false")
+	public Boolean registeredOwner;
 
-	public void setModel(String model) {
-		this.model = model;
-	}
+	@ApiModelProperty(value = "Vehicle code type", example = "PPA")
+	public String vehTypeCd;
 
-	public String getBodyStyle() {
-		return bodyStyle;
-	}
+	@ApiModelProperty(value = "Garaging address", dataType = "com.eisgroup.aaa.policy.services.dto.Address")
+	public Address garagingAddress;
 
-	public void setBodyStyle(String bodyStyle) {
-		this.bodyStyle = bodyStyle;
-	}
+	@ApiModelProperty(value = "Ownership info", dataType = "com.eisgroup.aaa.policy.services.dto.VehicleOwnership")
+	public VehicleOwnership vehicleOwnership;
 
-	public String getPurchaseDate() {
-		return purchaseDate;
-	}
+	public static final Comparator<Vehicle> ACTIVE_POLICY_COMPARATOR = (vehicle1, vehicle2) -> ComparisonChain.start()
+			.compareTrueFirst(VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO.equals(vehicle1.vehTypeCd),
+					VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO.equals(vehicle2.vehTypeCd))
+			.compareTrueFirst(VEHICLE_STATUS_PENDING.equals(vehicle1.vehicleStatus),
+					VEHICLE_STATUS_PENDING.equals(vehicle2.vehicleStatus))
+			.compareTrueFirst(VEHICLE_STATUS_ACTIVE.equals(vehicle1.vehicleStatus),
+					VEHICLE_STATUS_ACTIVE.equals(vehicle2.vehicleStatus))
+			.compare(vehicle1.oid, vehicle2.oid)
+			.result();
 
-	public void setPurchaseDate(String purchaseDate) {
-		this.purchaseDate = purchaseDate;
-	}
-
+	public static final Comparator<Vehicle> PENDING_ENDORSEMENT_COMPARATOR = (vehicle1, vehicle2) -> ComparisonChain.start()
+			.compareTrueFirst(VEHICLE_STATUS_PENDING.equals(vehicle1.vehicleStatus),
+					VEHICLE_STATUS_PENDING.equals(vehicle2.vehicleStatus))
+			.compareTrueFirst(VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO.equals(vehicle1.vehTypeCd),
+					VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO.equals(vehicle2.vehTypeCd))
+			.compareTrueFirst(VEHICLE_STATUS_ACTIVE.equals(vehicle1.vehicleStatus),
+					VEHICLE_STATUS_ACTIVE.equals(vehicle2.vehicleStatus))
+			.compare(vehicle1.oid, vehicle2.oid)
+			.result();
 }

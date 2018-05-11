@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ca.choice.functional;
 
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -16,9 +17,9 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.modules.regression.service.helper.TestMiniServicesNonPremiumBearingAbstract;
+import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiumBearingAbstract {
@@ -47,9 +48,80 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	public void pas1441_emailChangeOutOfPas(@Optional("CA") String state) {
 
 		CustomAssert.enableSoftMode();
-		pas1441_emailChangeOutOfPasTestBody(getPolicyType());
+		pas1441_emailChangeOutOfPasTestBody();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Check Policy Details service for Pending and Active policies
+	 * @scenario
+	 * 1. Create pending policy
+	 * 2. Check policy details
+	 * 3. Change date, run policyStatusUpdate
+	 * 4. Check policy details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
+	public void pas9716_policySummaryForPolicy(@Optional("CA") String state) {
+
+		pas9716_policySummaryForPolicy(getPolicyType(), state);
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Check Policy Details service for Active renewal
+	 * @scenario
+	 * 1. Create active policy
+	 * 2. Run Renewal Part1
+	 * 3. Check policy and renewal details
+	 * 4. Run Renewal Part2
+	 * 5. Check policy and renewal details
+	 * 6. Make a payment for the renewal amount for the next term
+	 * 7. change date to R, run policy status update job
+	 * 8. Check policy and renewal details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
+	public void pas9716_policySummaryForActiveRenewal(@Optional("CA") String state) {
+
+		pas9716_policySummaryForActiveRenewalBody(state);
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Check Policy Details service for Lapsed renewal
+	 * @scenario
+	 * 1. Create active policy
+	 * 2. Run Renewal Part1
+	 * 3. Check policy and renewal details
+	 * 4. Run Renewal Part2
+	 * 5. Check policy and renewal details
+	 * 6. DONT Make a payment for the renewal amount for the next term
+	 * 6.5. Check policy and renewal details
+	 * 7. change date to R, run policy status update job
+	 * 8. Check policy and renewal details
+	 * 9. change date to R+15, run lapse job
+	 * 10. Check policy and renewal details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
+	public void pas9716_policySummaryForLapsedRenewal(@Optional("CA") String state) {
+
+		pas9716_policySummaryForLapsedRenewal(getPolicyType(), state);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11684"})
+	public void pas11684_DriverAssignmentExistsForState(@Optional("CA") String state) {
+		assertSoftly(softly ->
+				pas11684_DriverAssignmentExistsForStateBody(state, softly)
+		);
 	}
 
 	@Override
@@ -93,7 +165,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	}
 
 	@Override
-	protected AssetDescriptor<Button> getCalculatePremium() {
+	protected AssetDescriptor<JavaScriptButton> getCalculatePremium() {
 		return AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM;
 	}
 

@@ -3,7 +3,6 @@
 package aaa.modules.regression.sales.auto_ss;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import java.util.HashMap;
 import java.util.Map;
 import org.testng.annotations.Optional;
@@ -21,7 +20,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -42,7 +40,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyRulesOverride extends AutoSSBaseTest {
 
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testPolicyRulesOverride(@Optional("") String state) {
 
@@ -59,7 +57,7 @@ public class TestPolicyRulesOverride extends AutoSSBaseTest {
 		new ErrorTab().buttonOverride.click();
 
 		Tab.buttonSaveAndExit.click();
-        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
+		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
 
 		//override rule for quote
 		policy.updateRulesOverride().start();
@@ -78,7 +76,7 @@ public class TestPolicyRulesOverride extends AutoSSBaseTest {
 		new PurchaseTab().fillTab(class_td);
 		new PurchaseTab().submitTab();
 
-        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		//override rule for policy
 		policy.updateRulesOverride().perform(getTestSpecificTD("UpdateRulesTestData_2"));
@@ -87,7 +85,7 @@ public class TestPolicyRulesOverride extends AutoSSBaseTest {
 		checkRuleIsPresent("Life", "Temporary Issue");
 
 		//create renewal and check overridden for life rule
-		policy.createRenewal(DataProviderFactory.emptyData());
+		policy.renew().performAndExit();
 
 		PolicySummaryPage.buttonRenewals.click();
 		PolicySummaryPage.tableRenewals.getRow(1).getCell("Action").controls.comboBoxes.getFirst().setValue("Update Rules Override");
@@ -103,10 +101,10 @@ public class TestPolicyRulesOverride extends AutoSSBaseTest {
 		query.put("Status", "overridden");
 		query.put("Rule name", "200040");
 
-        assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).isPresent());
+		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).isPresent());
 
-        assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Duration").controls.radioGroups.getFirst().getValue()).isEqualTo(duration);
-        assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Reason for override").controls.comboBoxes.getFirst().getValue()).isEqualTo(reason);
+		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Duration").controls.radioGroups.getFirst().getValue()).isEqualTo(duration);
+		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Reason for override").controls.comboBoxes.getFirst().getValue()).isEqualTo(reason);
 
 		UpdateRulesOverrideActionTab.btnCancel.click();
 

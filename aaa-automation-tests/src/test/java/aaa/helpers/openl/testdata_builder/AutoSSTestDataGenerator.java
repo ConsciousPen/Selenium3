@@ -529,7 +529,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		if (getState().equals(Constants.States.NV)) {
 			for (int i = 0; i < openLPolicy.getVehicles().size(); i++) {
 				if (!isTrailerType(getStatCode(openLPolicy.getVehicles().get(i)))) {
-					detailedVehicleCoveragesList.get(i).adjust(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.UMPD_CDW.getLabel(), "starts=No Coverage");
+					detailedVehicleCoveragesList.get(i).adjust(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel(), "starts=No Coverage");
 				}
 			}
 		}

@@ -6,8 +6,7 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
-    <!--Tests for Auto-->
-
+                                        <!--Tests for Auto-->
 
     <test name="Test Major Violation Validation">
         <parameter name="state" value="CA"/>
@@ -45,26 +44,43 @@
     </test>
 
     <test name="MVR Predictor Algo for 2 of 4 Drivers">
-        <parameter name="state" value="CT"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo"/>
-        </classes>
+      <parameter name="state" value="CT"/>
+      <classes>
+          <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo"/>
+      </classes>
     </test>
 
     <test name="Remove Distant Driver Discount">
-        <parameter name="state" value="NJ"/>
+      <parameter name="state" value="NJ"/>
+      <classes>
+          <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveDistantDriverDiscount"/>
+      </classes>
+    </test>
+
+    <!-- Commented out until dev feature branch is merged in 18.5
+    <test name="Test Enhanced UIM Coverage Behavior and Forms">
+        <parameter name="state" value="MD"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveDistantDriverDiscount"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms"/>
+        </classes>
+    </test>
+-->
+
+    <test name="Test Locked BI Limits And UW Points">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints"/>
         </classes>
     </test>
 
-    <!--Tests for Property-->
+                                        <!--Tests for Property-->
 
-
-    <test name="Test Renovation Discount for KS DP3">
+    <test name="Test Renovation Discount for KS DP3, HO3">
         <parameter name="state" value="KS"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestRenovationDiscounts"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestRenovationDiscounts"/>
         </classes>
     </test>
 
@@ -86,28 +102,7 @@
         </classes>
     </test>
 
-<!-- Commenting out below lines until PA Revised Home Tier feature branch is merged with master (PAS 18.4)
-    <test name="PA View Rating Details Auto Tier value 1-16">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPAViewRatingDetailsAutoTier"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPAViewRatingDetailsAutoTier"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPAViewRatingDetailsAutoTier"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPAViewRatingDetailsAutoTier"/>
-        </classes>
-    </test>
-
-    <test name="PA View Rating Details Market Tier value A-J">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPaTierChangePropertyInformation"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPaTierChangePropertyInformation"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPaTierChangePropertyInformation"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPaTierChangePropertyInformation"/>
-        </classes>
-    </test>
-
-    <test name="PA Revised Home Tier: Auto Tier Assignment of value N/A and UI Display" parallel="methods" thread-count="200">
+    <test name="PA Revised Home Tier: Auto Tier Assignment of value N/A and UI Display">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPARevisedHomeTierAutoNA"/>
@@ -120,13 +115,41 @@
     <test name="Test Disable Reorder Report at Mid Term and Renewal">
         <parameter name="state" value="PA"/>
         <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestDisableReorderReport"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestDisableReorderReport"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestDisableReorderReport"/>
         </classes>
     </test>
--->
 
-    <!--Tests for PUP-->
+    <test name="Test that the Home Value Section has new rating implementation">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPAViewRatingDetails"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPAViewRatingDetails"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPAViewRatingDetails"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPAViewRatingDetails"/>
+        </classes>
+    </test>
 
+    <test name="Test PA Privilege to Edit Auto Companion Tier">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPrivilegeToEditCompanionAutoTier"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPrivilegeToEditCompanionAutoTier"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPrivilegeToEditCompanionAutoTier"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPrivilegeToEditCompanionAutoTier"/>
+        </classes>
+    </test>
+
+                                        <!--Tests for PUP-->
+
+     <test name=" Test Pup Info Section View Rating Details">
+         <parameter name="state" value="PA"/>
+         <classes>
+             <class name="aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails"/>
+         </classes>
+     </test>
 
     <test name="Test Override Liability Losses">
         <parameter name="state" value="NJ"/>
@@ -184,12 +207,10 @@
         </classes>
     </test>
 
-
-    <!--Tests for Defects-->
-
+                                        <!--Tests for Defects-->
 
     <test name="Test PUP policies rate correctly when underlying DP3 has multiple units for SS states">
-        <parameter name="state" value="CO, OH, MD"/>
+        <parameter name="state" value="CO, OH, UT"/>
         <classes>
             <class name = "aaa.modules.regression.sales.pup.functional.TestPupRatingWithMultipleUnits">
                 <methods>
@@ -209,5 +230,14 @@
             </class>
         </classes>
     </test>
+
+<!--- Commented until PAS-11404 is fixed.
+    <test name="Remove Vehicle on Current Term Endorsement">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveVehicleOnEndorsement"/>
+        </classes>
+    </test>
+-->
 
 </suite>

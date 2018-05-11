@@ -3,7 +3,6 @@ package aaa.modules.regression.sales.auto_ss;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -11,14 +10,8 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.product.ProductRenewalsVerifier;
-import aaa.main.enums.ProductConstants.PolicyStatus;
-import aaa.main.modules.policy.auto_ss.defaulttabs.AssignmentTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
+import aaa.main.enums.ProductConstants;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
@@ -117,7 +110,7 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
         }
         
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
         softly.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Good Student Discount"); 
               
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
@@ -128,50 +121,50 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
         new DriverActivityReportsTab().fillTab(td_quote).submitTab();
 	    new DocumentsAndBindTab().fillTab(td_quote).submitTab();
         new PurchaseTab().fillTab(td_quote).submitTab();
-        
-        softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
+
+		softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         return PolicySummaryPage.labelPolicyNumber.getValue();
 	}
 
 	private void verifyGoodStudentDiscountOnEndorsement(String policyNum, TestData td, TestData td_ratingDetails) {
 		SearchPage.openPolicy(policyNum);
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
-		
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get()); 
-		new DriverTab().fillTab(td).submitTab(); 
-		
+
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+		new DriverTab().fillTab(td).submitTab();
+
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.calculatePremium();
-        softly.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Good Student Discount"); 
-        
+		new PremiumAndCoveragesTab().calculatePremium();
+		softly.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Good Student Discount");
+
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-        softly.assertThat(new PremiumAndCoveragesTab().getRatingDetailsDriversData()).contains(td_ratingDetails); 
+		softly.assertThat(new PremiumAndCoveragesTab().getRatingDetailsDriversData()).contains(td_ratingDetails);
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-        
+
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         new DocumentsAndBindTab().submitTab();
-        
-        softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
+
+		softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         log.info("TEST: Endorsement is created for policy with #" + policyNum2);
 	}
-	
+
 	private void verifyGoodStudentDiscountOnRenewal(String policyNum, TestData td_ratingDetails) {
 		SearchPage.openPolicy(policyNum);
 		log.info("TEST: Verifying Good Student discount for renewal of " + policyNum);
-		
+
 		policy.renew().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.calculatePremium();		
-		softly.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Good Student Discount"); 		
-        PremiumAndCoveragesTab.buttonViewRatingDetails.click();	        
-        softly.assertThat(new PremiumAndCoveragesTab().getRatingDetailsDriversData()).contains(td_ratingDetails); 
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click(); 
+		new PremiumAndCoveragesTab().calculatePremium();
+		softly.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Good Student Discount");
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		softly.assertThat(new PremiumAndCoveragesTab().getRatingDetailsDriversData()).contains(td_ratingDetails);
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         new PremiumAndCoveragesTab().saveAndExit();
-		
-        softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
+
+		softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         softly.assertThat(PolicySummaryPage.buttonRenewals.isEnabled()).isTrue();
         PolicySummaryPage.buttonRenewals.click();
-		new ProductRenewalsVerifier().setStatus(PolicyStatus.PREMIUM_CALCULATED).verify(1);
+		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 		
 		policy.policyInquiry().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());

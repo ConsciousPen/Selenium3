@@ -7,12 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
-
-import aaa.helpers.http.impl.HtmlParser;
-import aaa.helpers.http.impl.HttpQueryParam;
 import toolkit.utils.logging.CustomLogger;
 
 public class HttpQueryBuilder {
@@ -55,7 +51,7 @@ public class HttpQueryBuilder {
 		return buildQueryString(index, mapping, null);
 	}
 
-	public String buildQueryString(int index, Map<String, String> mapping, String content) throws IOException {
+	public String buildQueryString(int index, Map<String, String> mapping, String content) {
 		List<String> mergedParams = new ArrayList<String>();
 
 		for (HttpQueryParam queryParam : params.get(index)) {

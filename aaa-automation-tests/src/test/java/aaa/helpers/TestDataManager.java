@@ -3,13 +3,7 @@
 package aaa.helpers;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import aaa.modules.bct.BctType;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import aaa.admin.modules.agencyvendor.AgencyVendorType;
 import aaa.admin.modules.cem.campaigns.CampaignType;
@@ -34,7 +28,7 @@ import aaa.main.modules.account.AccountType;
 import aaa.main.modules.billing.paymentsmaintenance.PaymentsMaintenanceType;
 import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.PolicyType;
-import aaa.rest.RESTServiceType;
+import aaa.modules.bct.BctType;
 import toolkit.datax.DataFormat;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -67,7 +61,6 @@ public final class TestDataManager {
 	public EnumMap<FeeStrategyType, TestData> feeStrategy = new EnumMap<>(FeeStrategyType.class);
 	public EnumMap<TaxStrategyType, TestData> taxStrategy = new EnumMap<>(TaxStrategyType.class);
 	public EnumMap<FeeGroupType, TestData> feeGroup = new EnumMap<>(FeeGroupType.class);
-	public EnumMap<RESTServiceType, TestData> rest = new EnumMap<>(RESTServiceType.class);
 	public Map<PolicyType, TestData> timepoint = new HashMap<>();
 	public EnumMap<BctType, TestData> bct = new EnumMap<>(BctType.class);
 	protected DataProviderFactory dataProvider = new DataProviderFactory().applyConfiguration(DataFormat.YAML.name());
@@ -116,12 +109,6 @@ public final class TestDataManager {
 		agency.put(AgencyVendorType.AGENCY, dataProvider.get("default/platform/admin/agencyvendor/agency"));
 		agency.put(AgencyVendorType.VENDOR, dataProvider.get("default/platform/admin/agencyvendor/vendor"));
 		agency.put(AgencyVendorType.BRAND, dataProvider.get("default/platform/admin/agencyvendor/brand"));
-
-		rest.put(RESTServiceType.NOTES, dataProvider.get("default/platform/notes"));
-		rest.put(RESTServiceType.BPM, dataProvider.get("default/mywork"));
-		rest.put(RESTServiceType.PARTY_SEARCH, dataProvider.get("default/party/partysearch"));
-		rest.put(RESTServiceType.CUSTOMERS, dataProvider.get("default/cem/customer"));
-		rest.put(RESTServiceType.BILLING, dataProvider.get("default/billing"));
 
 		bulkAdjustment.put(BulkAdjustmentType.BULK_ADJUSTMENT, dataProvider.get("default/commission/bulkadjustment"));
 

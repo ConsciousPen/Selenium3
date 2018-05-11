@@ -1,0 +1,15 @@
+TestData_Endorsement: {
+  PrefillTab: {},
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {},
+  UnderlyingRisksOtherVehiclesTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {
+    Personal Umbrella: 'contains=$5,000,000'
+  },
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+}

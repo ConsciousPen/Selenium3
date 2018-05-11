@@ -8,15 +8,15 @@ import aaa.common.metadata.EfolderMataData;
 import toolkit.webdriver.controls.Button;
 
 public class AddDocumentTab extends Tab {
-    public static Button buttonOk = new Button(By.id("addDocumentForm:okBtn"));
+	public static Button buttonOk = new Button(By.id("addDocumentForm:okBtn"));
 
-    public AddDocumentTab() {
-        super(EfolderMataData.AddDocumentTab.class);
-    }
+	public AddDocumentTab() {
+		super(EfolderMataData.AddDocumentTab.class);
+	}
 
-    @Override
-    public Tab submitTab() {
-        buttonOk.click();
-        return this;
-    }
+	@Override
+	public Tab submitTab() {
+		buttonOk.click();
+		return this;
+	}
 }

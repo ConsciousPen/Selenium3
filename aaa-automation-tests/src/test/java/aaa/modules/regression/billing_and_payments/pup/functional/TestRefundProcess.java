@@ -70,7 +70,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.BillingAndPayments.PUP, testCaseId = {"PAS-7039", "PAS-7196"})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.PUP, testCaseId = {"PAS-7039", "PAS-7196", "PAS-450"})
 	public void pas7039_newDataElementsDeceasedYes(@Optional("VA") String state) throws SftpException, JSchException, IOException {
 		String manualRefundAmount = "100";
 		String automatedRefundAmount = "101";
@@ -112,7 +112,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.BillingAndPayments.PUP, testCaseId = {"PAS-7039", "PAS-7196"})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.PUP, testCaseId = {"PAS-7039", "PAS-7196", "PAS-450"})
 	public void pas7039_newDataElementsDeceasedNo(@Optional("VA") String state) throws SftpException, JSchException, IOException {
 		String manualRefundAmount = "100";
 		String automatedRefundAmount = "101";
@@ -151,7 +151,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String paymentMethod = "contains=Credit Card";
 
 		String policyNumber = preconditionPolicyCreationPup();
-		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber,PENDING_REFUND_AMOUNT);
+		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, PENDING_REFUND_AMOUNT);
 		requestIdList.add(stubRequestCC);
 
 		CustomAssert.enableSoftMode();
@@ -185,7 +185,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String paymentMethod = "Credit Card";
 
 		String policyNumber = preconditionPolicyCreationPup();
-		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber,PENDING_REFUND_AMOUNT);
+		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, PENDING_REFUND_AMOUNT);
 		requestIdList.add(stubRequestCC);
 
 		CustomAssert.enableSoftMode();
@@ -213,6 +213,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 	private String preconditionPolicyCreationPup() {
 		mainApp().open();
+		createCustomerIndividual();
 		String policyNumber = getCopiedPolicy();
 		log.info("policyNumber: {}", policyNumber);
 		return policyNumber;
@@ -225,4 +226,5 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		}
 		requestIdList.clear();
 	}
+
 }

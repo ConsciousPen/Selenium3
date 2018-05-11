@@ -1,8 +1,5 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -14,6 +11,9 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.waiters.Waiters;
@@ -70,7 +70,7 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         log.info("Membership Full Validation for NB Quote Started..");
         fullMembershipMatchValidation(tdPolicy, tdMembershipOverride, tdMembershipSecondMember, tdMembershipThirdMember);
         log.info("Membership Full Validation for NB Quote Completed.");
-
+        //BUG PAS-12369: Membership Validation UW eligibility rule is not fired at Midterm Endorsement/Renewal
         // Renewal Quote Membership Validation
         policy.renew().perform(tdRenewalStart);
         log.info("Membership Full Validation for Renewal Quote Started..");
@@ -83,7 +83,7 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         log.info("Membership Validation for Renewal Quote with Dummy Number Started..");
         verifyDummyNumber(tdMembershipDummy);
         log.info("Membership Validation for Renewal Quote with Dummy Number Completed..");
-
+        //BUG PAS-12369: Membership Validation UW eligibility rule is not fired at Midterm Endorsement/Renewal
         // Endorsement Quote Membership Validation
         createPolicy(tdPolicy);
         policy.endorse().perform(tdEndorsementStart);

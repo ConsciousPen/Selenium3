@@ -2,7 +2,6 @@ package com.exigen.ipb.etcsa.base.app;
 
 import java.util.HashMap;
 import java.util.function.Function;
-
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -10,7 +9,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
-
 import toolkit.config.PropertyProvider;
 
 public class CSAACapabilityModifier implements Function<DesiredCapabilities, DesiredCapabilities> {
@@ -35,6 +33,7 @@ public class CSAACapabilityModifier implements Function<DesiredCapabilities, Des
 				ChromeOptions options = new ChromeOptions();
 				options.addArguments("--no-sandbox");
 				options.setExperimentalOption("useAutomationExtension", false);
+				options.addArguments("--start-maximized");
 				HashMap<String, Object> chromePrefs = new HashMap<>();
 				chromePrefs.put("profile.default_content_settings.popups", 0);
 				chromePrefs.put("download.prompt_for_download", "false");

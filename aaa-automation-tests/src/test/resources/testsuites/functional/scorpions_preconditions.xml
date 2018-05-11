@@ -16,11 +16,11 @@
         </classes>
     </test>
 
-    <test name="Renewal job adding">
+    <test name="enable Vin Refresh">
         <classes>
             <class name="aaa.modules.preconditions.ScorpionsPreconditions">
                 <methods>
-                    <include name="renewalJobAdding"/>
+                    <include name="enableVinRefresh"/>
                 </methods>
             </class>
         </classes>

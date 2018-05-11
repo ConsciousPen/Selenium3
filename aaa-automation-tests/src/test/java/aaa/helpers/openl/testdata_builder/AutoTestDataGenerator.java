@@ -267,7 +267,12 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 				break;
 		}
 
-		coveragesMap.put("COMP", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COMPREGENSIVE_DEDUCTIBLE.getLabel());
+		if (getState().equals(Constants.States.VA)) {
+			coveragesMap.put("COMP", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.OTHER_THAN_COLLISION.getLabel());
+		} else {
+			coveragesMap.put("COMP", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COMPREGENSIVE_DEDUCTIBLE.getLabel());
+		}
+
 		coveragesMap.put("COLL", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel());
 		if (getState().equals(Constants.States.MT) || getState().equals(Constants.States.WV)) {
 			coveragesMap.put("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_BODILY_INJURY.getLabel());

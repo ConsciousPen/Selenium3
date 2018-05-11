@@ -3,16 +3,10 @@ package aaa.modules.regression.sales.home_ss.ho3;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import toolkit.datax.TestData;
-import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.TextBox;
-import toolkit.webdriver.controls.composite.table.Row;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -20,12 +14,11 @@ import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.BillingConstants;
-import aaa.main.enums.BillingConstants.BillingInstallmentScheduleTable;
-import aaa.main.enums.BillingConstants.InstallmentDescription;
 import aaa.main.enums.PolicyConstants;
-import aaa.main.enums.ProductConstants.PolicyStatus;
+import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.metadata.policy.PurchaseMetaData;
+import aaa.main.modules.policy.abstract_tabs.Purchase;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
@@ -33,8 +26,11 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
+import toolkit.datax.TestData;
+import toolkit.utils.TestInfo;
+import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.TextBox;
+import toolkit.webdriver.controls.composite.table.Row;
 
 public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 
@@ -185,20 +181,20 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 
 		policy.getDefaultView().fillUpTo(getPolicyTD(), PurchaseTab.class);
 
-		Dollar origMinimumRequiredDownPayment = new Dollar(purchaseTab.remainingBalanceDueToday.getValue());
+		Dollar origMinimumRequiredDownPayment = new Dollar(Purchase.remainingBalanceDueToday.getValue());
 		purchaseTab.fillTab(getTestSpecificTD("TestData_IncorrectValue").adjust(
 			TestData.makeKeyPath(PurchaseTab.class.getSimpleName(), PurchaseMetaData.PurchaseTab.MINIMUM_REQUIRED_DOWNPAYMENT.getLabel()), origMinimumRequiredDownPayment.add(excessAmount).toString())
 			.adjust(TestData.makeKeyPath(PurchaseTab.class.getSimpleName(), PurchaseMetaData.PurchaseTab.PAYMENT_ALLOCATION.getLabel(), PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH.getLabel()),
 				origMinimumRequiredDownPayment.add(excessAmount).toString()));
-		purchaseTab.btnApplyPayment.verify.enabled(false);
+		Purchase.btnApplyPayment.verify.enabled(false);
 		purchaseTab.getBottomWarning().verify.contains(expectedErrorMessage);
 		purchaseTab.fillTab(getTestSpecificTD("TestData_CorrectValue").adjust(
 			TestData.makeKeyPath(PurchaseTab.class.getSimpleName(), PurchaseMetaData.PurchaseTab.PAYMENT_ALLOCATION.getLabel(), PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH.getLabel()),
 			origMinimumRequiredDownPayment.toString()));
-		purchaseTab.btnApplyPayment.verify.enabled(true);
-		purchaseTab.btnApplyPayment.click();
-		purchaseTab.confirmPurchase.confirm();
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		Purchase.btnApplyPayment.verify.enabled(true);
+		Purchase.btnApplyPayment.click();
+		Purchase.confirmPurchase.confirm();
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	/**
@@ -249,27 +245,28 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 	}
 
 	private void verifyFigures(double percentOfTotalPremium, int numberOfPayments, boolean isMoreThenNull) {
-		Dollar premium = new Dollar(purchaseTab.tablePaymentPlan.getRow(1).getCell(PolicyConstants.PolicyPaymentPlanTable.PREMIUM).getValue());
+		Dollar premium = new Dollar(Purchase.tablePaymentPlan.getRow(1).getCell(PolicyConstants.PolicyPaymentPlanTable.PREMIUM).getValue());
 		Dollar downPayment = premium.multiply(percentOfTotalPremium).divide(100.0);
-		new Dollar(purchaseTab.tablePaymentPlan.getRow(1).getCell(PolicyConstants.PolicyPaymentPlanTable.MINIMUM_DOWNPAYMENT).getValue()).verify.equals(downPayment);
-		purchaseTab.tablePaymentPlan.getRow(1).getCell(PolicyConstants.PolicyPaymentPlanTable.NUMBER_OF_REMAINING_INSTALLMENTS).verify.value(String.valueOf(numberOfPayments));
+		new Dollar(Purchase.tablePaymentPlan.getRow(1).getCell(PolicyConstants.PolicyPaymentPlanTable.MINIMUM_DOWNPAYMENT).getValue()).verify.equals(downPayment);
+		Purchase.tablePaymentPlan.getRow(1).getCell(PolicyConstants.PolicyPaymentPlanTable.NUMBER_OF_REMAINING_INSTALLMENTS).verify.value(String.valueOf(numberOfPayments));
 
-		if (isMoreThenNull)
-			new Dollar(purchaseTab.tablePaymentPlan.getRow(1).getCell(PolicyConstants.PolicyPaymentPlanTable.INSTALLMENT_AMOUNT).getValue()).verify.moreThan(new Dollar(0));
-		else
-			new Dollar(purchaseTab.tablePaymentPlan.getRow(1).getCell(PolicyConstants.PolicyPaymentPlanTable.INSTALLMENT_AMOUNT).getValue()).verify.equals(new Dollar(0));
+		if (isMoreThenNull) {
+			new Dollar(Purchase.tablePaymentPlan.getRow(1).getCell(PolicyConstants.PolicyPaymentPlanTable.INSTALLMENT_AMOUNT).getValue()).verify.moreThan(new Dollar(0));
+		} else {
+			new Dollar(Purchase.tablePaymentPlan.getRow(1).getCell(PolicyConstants.PolicyPaymentPlanTable.INSTALLMENT_AMOUNT).getValue()).verify.equals(new Dollar(0));
+		}
 
 		Dollar fee = new Dollar();
 		if (getState().equals(Constants.States.NJ)) {
 			fee = new Dollar(purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PLIGA_FEE.getLabel(), TextBox.class).getValue());
 		}
-		Dollar remainingBalance = new Dollar(purchaseTab.remainingBalanceDueToday.getValue());
+		Dollar remainingBalance = new Dollar(Purchase.remainingBalanceDueToday.getValue());
 		if (remainingBalance.moreThan(new Dollar(0))) {
 			remainingBalance = remainingBalance.subtract(fee);
 		}
 		remainingBalance.verify.equals(downPayment);
 		purchaseTab.fillTab(getPolicyTD().ksam(PurchaseTab.class.getSimpleName()));
-		Dollar totalRemainingTermPremium = new Dollar(purchaseTab.totalRemainingTermPremium.getValue());
+		Dollar totalRemainingTermPremium = new Dollar(Purchase.totalRemainingTermPremium.getValue());
 		if (remainingBalance.equals(new Dollar(0))) {
 			totalRemainingTermPremium = totalRemainingTermPremium.subtract(fee);
 		}
@@ -279,8 +276,8 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 	}
 
 	private void endorsePolicyWithNewPlanAndVerify(String policyNumber, String plan, int numberOfInstallment) {
-		Dollar origDepositAmount = new Dollar(BillingSummaryPage.getInstallmentAmount(BillingSummaryPage.tableInstallmentSchedule.getRow(BillingInstallmentScheduleTable.DESCRIPTION,
-			InstallmentDescription.DEPOSIT).getIndex()));
+		Dollar origDepositAmount = new Dollar(BillingSummaryPage.getInstallmentAmount(BillingSummaryPage.tableInstallmentSchedule.getRow(BillingConstants.BillingInstallmentScheduleTable.DESCRIPTION,
+				BillingConstants.InstallmentDescription.DEPOSIT).getIndex()));
 		BillingSummaryPage.openPolicy(BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingConstants.BillingAccountPoliciesTable.POLICY_NUM, policyNumber).getIndex());
 
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -289,16 +286,17 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 
 		HashMap<String, String> query = new HashMap<>();
-		query.put(BillingInstallmentScheduleTable.DESCRIPTION, InstallmentDescription.INSTALLMENT);
+		query.put(BillingConstants.BillingInstallmentScheduleTable.DESCRIPTION, BillingConstants.InstallmentDescription.INSTALLMENT);
 		BillingSummaryPage.tableInstallmentSchedule.verify.rowsCount(numberOfInstallment, query);
 
-		BillingSummaryPage.tableInstallmentSchedule.getRow(BillingInstallmentScheduleTable.DESCRIPTION, InstallmentDescription.DEPOSIT).getCell(BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT).verify
+		BillingSummaryPage.tableInstallmentSchedule.getRow(BillingConstants.BillingInstallmentScheduleTable.DESCRIPTION, BillingConstants.InstallmentDescription.DEPOSIT)
+				.getCell(BillingConstants.BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT).verify
 			.value(origDepositAmount.toString());
 
 		Dollar totalAmount = new Dollar(0);
 		List<Row> installments = BillingSummaryPage.tableInstallmentSchedule.getRows();
 		for (Row installment : installments) {
-			totalAmount = totalAmount.add(new Dollar(installment.getCell(BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT).getValue()));
+			totalAmount = totalAmount.add(new Dollar(installment.getCell(BillingConstants.BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT).getValue()));
 		}
 		totalAmount = totalAmount.add(BillingHelper.getFeesValue(policyEffectiveDate));
 
