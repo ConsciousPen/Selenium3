@@ -87,8 +87,8 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 		return values;
 	}
 
-	public int getSum() {
-		return getSum(getCellsIndexes().toArray(new Integer[getCellsNumber()]));
+	public int getIntSum() {
+		return getIntSum(getCellsIndexes().toArray(new Integer[getCellsNumber()]));
 	}
 
 	public int getMaxIntValue() {
@@ -163,7 +163,7 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 				expectedValue, ArrayUtils.isEmpty(dateTimeFormatters) ? "" : " using date formatters: " + Arrays.asList(dateTimeFormatters), cellType, this));
 	}
 
-	public int getSum(Integer... cellsIndexesInQueue) {
+	public int getIntSum(Integer... cellsIndexesInQueue) {
 		List<Integer> cellsIndexesList = Arrays.asList(cellsIndexesInQueue);
 		return getCells().stream().filter(c -> cellsIndexesList.contains(c.getColumnIndex()) && !c.isEmpty() && c.hasType(ExcelCell.INTEGER_TYPE)).mapToInt(ExcelCell::getIntValue).sum();
 	}

@@ -184,21 +184,21 @@ public class TableRow extends ExcelRow<TableCell> {
 		return cells;
 	}
 
-	public int getSum(String... headerColumnNames) {
-		return getSum(false, headerColumnNames);
+	public int getIntSum(String... headerColumnNames) {
+		return getIntSum(false, headerColumnNames);
 	}
 
-	public int getSum(boolean ignoreCase, String... headerColumnNames) {
+	public int getIntSum(boolean ignoreCase, String... headerColumnNames) {
 		Integer[] indexes = getCells(ignoreCase, headerColumnNames).stream().map(ExcelCell::getColumnIndex).toArray(Integer[]::new);
-		return getSum(indexes);
+		return getIntSum(indexes);
 	}
 
-	public int getSumContains(String headerColumnNamePattern) {
-		return getSumContains(false, headerColumnNamePattern);
+	public int getIntSumContains(String headerColumnNamePattern) {
+		return getIntSumContains(false, headerColumnNamePattern);
 	}
 
-	public int getSumContains(boolean ignoreCase, String headerColumnNamePattern) {
+	public int getIntSumContains(boolean ignoreCase, String headerColumnNamePattern) {
 		Integer[] indexes = getCellsContains(headerColumnNamePattern, ignoreCase).stream().map(TableCell::getColumnIndex).toArray(Integer[]::new);
-		return getSum(indexes);
+		return getIntSum(indexes);
 	}
 }

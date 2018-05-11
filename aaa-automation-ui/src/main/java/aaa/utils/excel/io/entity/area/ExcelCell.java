@@ -180,7 +180,7 @@ public abstract class ExcelCell implements Writable {
 	}
 
 	public Object getValue(DateTimeFormatter... dateTimeFormatters) {
-		List<CellType<?>> typesToCheck = getCellTypes();
+		List<CellType<?>> typesToCheck = new ArrayList<>(getCellTypes());
 
 		// Let's try to obtain date value if dateTimeFormatters array is not null and not empty
 		if (ArrayUtils.isNotEmpty(dateTimeFormatters)) {
