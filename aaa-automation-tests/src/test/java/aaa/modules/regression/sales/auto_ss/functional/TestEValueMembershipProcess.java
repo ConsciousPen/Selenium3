@@ -1484,7 +1484,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
-		//TODO Question to Nauris
+		//BUG PAS-13884 When running PaperlessPreferences update for policy with Future Dated Cancellation, no eValue removal happens and no task is created
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 3, "");
 		lastTransactionHistoryEValueDiscountCheck(true);
 
@@ -1612,7 +1612,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 
 		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+		HelperCommon.executeUpdatePolicyPreferences(policyNumber, 422);
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
