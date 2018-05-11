@@ -1,24 +1,19 @@
 package aaa.helpers.soap;
 
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
+import static aaa.admin.modules.IAdmin.log;
+import static aaa.modules.BaseTest.printToLog;
+import java.io.*;
+import java.nio.charset.Charset;
 import javax.xml.parsers.DocumentBuilder;
-
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.soap.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import java.io.*;
-import java.nio.charset.Charset;
-
-import static aaa.admin.modules.IAdmin.log;
-import static aaa.modules.BaseTest.printToDebugLog;
-import static aaa.modules.BaseTest.printToLog;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 /**
  * @author - Tyrone C Jemison
@@ -27,7 +22,7 @@ import static aaa.modules.BaseTest.printToLog;
  */
 public class SoapClient {
 
-    public static SOAPMessage callSoapWebService(SOAPMessage soapRequest, String _soapEndpointURL, String _soapAction) throws SOAPException, IOException {
+    public static SOAPMessage callSoapWebService(SOAPMessage soapRequest, String _soapEndpointURL, String _soapAction) throws SOAPException {
 
         // Create Soap Connection
         SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
@@ -63,7 +58,7 @@ public class SoapClient {
     {
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         InputStream inputStream = new FileInputStream(new File(fileName));
-        org.w3c.dom.Document doc = documentBuilderFactory.newDocumentBuilder().parse(inputStream);
+        Document doc = documentBuilderFactory.newDocumentBuilder().parse(inputStream);
         StringWriter stw = new StringWriter();
         Transformer serializer = TransformerFactory.newInstance().newTransformer();
         serializer.transform(new DOMSource(doc), new StreamResult(stw));

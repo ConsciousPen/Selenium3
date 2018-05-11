@@ -324,6 +324,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	}
 
 	private TestData getReportsTabData(HomeSSOpenLPolicy openLPolicy) {
+
 		TestData insuranceScoreOverrideData = DataProviderFactory.dataOf(
 				HomeSSMetaData.ReportsTab.InsuranceScoreOverrideRow.ACTION.getLabel(), "Override Score",
 				HomeSSMetaData.ReportsTab.InsuranceScoreOverrideRow.EDIT_INSURANCE_SCORE.getLabel(), DataProviderFactory.dataOf(
@@ -332,10 +333,8 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 						HomeSSMetaData.ReportsTab.EditInsuranceScoreDialog.BTN_SAVE.getLabel(), "click"
 				)
 		);
-
-		return DataProviderFactory.dataOf(
-				HomeSSMetaData.ReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel(), insuranceScoreOverrideData
-		);
+		return insuranceScoreReport(openLPolicy.getPolicyAddress().getState()) ?
+				DataProviderFactory.dataOf(HomeSSMetaData.ReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel(), insuranceScoreOverrideData) : null;
 	}
 
 	private TestData getPropertyInfoTabData(HomeSSOpenLPolicy openLPolicy) {
@@ -434,8 +433,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				HomeSSMetaData.PropertyInfoTab.RecreationalEquipment.TRAMPOLINE.getLabel(), getTrampolineType(openLPolicy)
 		);
 
-		//        List<TestData> claimHistoryData = openLPolicy.getPolicyLossInformation().getRecentYCF() <= 3 ? getClaimsHistoryData(openLPolicy) : null;
-		List<TestData> claimHistoryData = null;
+		List<TestData> claimHistoryData = openLPolicy.getPolicyLossInformation().getRecentYCF() < 3 ? getClaimsHistoryData(openLPolicy) : null;
 		return DataProviderFactory.dataOf(
 				HomeSSMetaData.PropertyInfoTab.DWELLING_ADDRESS.getLabel(), dwellingAddressData,
 				HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS.getLabel(), publicProtectionClassData,
@@ -685,6 +683,9 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				case "Fenced above ground without safety net":
 					trampolineType = "Restricted access above ground without safety net";
 					break;
+				case "Fenced in-ground without safety net":
+					trampolineType = "Restricted access above ground without safety net";
+					break;
 				default:
 					throw new IstfException("Unknown mapping for trampoline=" + openLPolicy.getPolicyConstructionInfo().getTrampoline());
 			}
@@ -696,6 +697,8 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	private boolean addressContainsCounty(String state) {
 		return "IN".equals(state);
 	}
+
+	private boolean insuranceScoreReport(String state) {return !"MD".equals(state);}
 
 	private boolean isVisibleProofOfPEHCR(HomeSSOpenLPolicy openLPolicy) {
 		boolean isVisibleProofOfPEHCR = false;
@@ -713,8 +716,8 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 
 		List<TestData> claimsDataList = new ArrayList<>();
 
-		int aaaPoints = openLPolicy.getPolicyLossInformation().getExpClaimPoint();
-		int notAAAPoints = openLPolicy.getPolicyLossInformation().getPriorClaimPoint();
+		int aaaPoints = openLPolicy.getPolicyLossInformation().getPriorClaimPoint();
+		int notAAAPoints = openLPolicy.getPolicyLossInformation().getExpClaimPoint();
 		boolean isFirstClaim = true;
 
 		if (aaaPoints + notAAAPoints == 0) {
@@ -722,13 +725,13 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		} else {
 			HomeSSClaimTestDataGenerator claimTestDataGenerator = new HomeSSClaimTestDataGenerator(openLPolicy);
 			if (aaaPoints != 0) {
-				claimTestDataGenerator.getClaimTestData(true);
+				claimsDataList.addAll(claimTestDataGenerator.getClaimTestData(true, isFirstClaim));
 				//claimsDataList.addAll(getClaims(openLPolicy, isFirstClaim, false));
 				isFirstClaim = false;
 			}
 
 			if (notAAAPoints != 0) {
-				claimTestDataGenerator.getClaimTestData(false);
+				claimsDataList.addAll(claimTestDataGenerator.getClaimTestData(false, isFirstClaim));
 			}
 		}
 		return claimsDataList;
