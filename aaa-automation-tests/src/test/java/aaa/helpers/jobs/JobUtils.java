@@ -121,7 +121,7 @@ public class JobUtils {
 
 		Callable<Boolean> jobCallback = new Callable<Boolean>() {
 			@Override
-			public Boolean call() throws Exception {
+			public Boolean call() {
 				long curThreadId = Thread.currentThread().getId();
 				try {
 					log.info("Attempt to execute job '{}' in callback (testName='{}',testThreadId={},curThreadId={})", job.getJobName(), testName, testThreadId, curThreadId);

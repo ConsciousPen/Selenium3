@@ -30,6 +30,7 @@ public final class BillingConstants {
 		public static final String MONTHLY = "Monthly";
 		public static final String MONTHLY_RENEWAL = "Monthly (Renewal)";
 		public static final String STANDARD_MONTHLY_RENEWAL = "Standard Monthly (Renewal)";
+		public static  final String ELEVEN_PAY_LOW_DOWN = "Eleven Pay Low Down";
 	}
 
 	public static final class PolicyTerm {

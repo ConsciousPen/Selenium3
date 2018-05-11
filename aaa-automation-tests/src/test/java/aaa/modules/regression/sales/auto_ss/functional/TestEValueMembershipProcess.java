@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import javax.ws.rs.core.Response;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -1246,7 +1247,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		CustomAssert.enableSoftMode();
 		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
 
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber);
+		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
@@ -1271,6 +1272,104 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
 
 		deleteSinglePaperlessPreferenceRequest(requestId);
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Update Policy Preferences Service for Cancelled policy and AHDRXX check
+	 * @scenario
+	 * 1. Create a VA E Value Policy
+	 * 2. Set Paperless Preferences to No via stub
+	 * 3. Execute UpdatePolicyPreferences Service can't update cancelled policy
+	 * 4. Check Transaction history no new transactions appeared
+	 * 5. Run NB+15 jobs
+	 * 6. Check if discount in Jeopardy email wasn't send.
+	 * 7. Run NB+30 jobs
+	 * 8. Check AHDRXX is not generated
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-1451", "PAS-335"})
+	public void pas13528_eValueRemovedByServiceNoAHDRXXforCancelledPolicy(@Optional("VA") String state) {
+
+		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
+
+		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+		mainApp().close();
+
+		CustomAssert.enableSoftMode();
+		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+
+		HelperCommon.executeUpdatePolicyPreferences(policyNumber, 422);
+
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Membership not Wanted");
+		lastTransactionHistoryEValueDiscountCheck(true);
+
+		jobsNBplus15plus30runNoChecks();
+		//implementEmailCheck from Admin Log?
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		//Start PAS-12822
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
+		//End PAS-12822
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Membership not Wanted");
+		lastTransactionHistoryEValueDiscountCheck(true);
+
+		jobsNBplus15plus30runNoChecks();
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Membership not Wanted");
+		lastTransactionHistoryEValueDiscountCheck(true);
+		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
+
+		deleteSinglePaperlessPreferenceRequest(requestId);
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test eValue Cancelled policy is not picked up by NB+15, NB+30 jobs
+	 * @scenario
+	 * 0. upload configuration to require Membership for eValue
+	 * 1. Create a policy with eValue with Active mebership
+	 * 2. Cancel policy
+	 * 3. Run NB+15
+	 * 4. Run NB+30
+	 * 5. Check eValue discount is still in pace in the cancelled policy transaction
+	 * 6. Check AHDRXX is not generated
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11740")
+	public void pas13528_membershipEligConfTrueForActiveMembershipCancelledPolicy(@Optional("VA") String state) {
+		String membershipDiscountEligibilitySwitch = "TRUE";
+		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
+		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
+		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+
+		CustomAssert.enableSoftMode();
+		jobsNBplus15plus30runNoChecks();
+		//implementEmailCheck from Admin Log?
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Membership not Wanted");
+		lastTransactionHistoryEValueDiscountCheck(true);
+
+		jobsNBplus15plus30runNoChecks();
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Membership not Wanted");
+		lastTransactionHistoryEValueDiscountCheck(true);
+		checkDocumentContentAHDRXX(policyNumber, false, true, false, false, false);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();

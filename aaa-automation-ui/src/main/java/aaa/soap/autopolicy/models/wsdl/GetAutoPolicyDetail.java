@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 @XmlSeeAlso({
     aaa.soap.autopolicy.models.common.ObjectFactory.class,
     aaa.soap.autopolicy.models.getautopolicydetail.ObjectFactory.class,
-    aaa.soap.autopolicy.models.wsdl.ObjectFactory.class
+		ObjectFactory.class
 })
 public interface GetAutoPolicyDetail {
 
@@ -34,9 +34,9 @@ public interface GetAutoPolicyDetail {
      */
     @WebMethod(operationName = "GetAutoPolicyDetail", action = "http://www.aaancnuit.com.getAutoPolicyDetail")
     @WebResult(name = "getAutoPolicyDetailResponse", targetNamespace = "http://www.aaancnuit.com.AAANCNU_WSDL_GetAutoPolicyDetail_version2", partName = "getAutoPolicyDetail")
-    public GetAutoPolicyDetailResponse getAutoPolicyDetail(
-        @WebParam(name = "getAutoPolicyDetailRequest", targetNamespace = "http://www.aaancnuit.com.AAANCNU_WSDL_GetAutoPolicyDetail_version2", partName = "getAutoPolicyDetail")
-        GetAutoPolicyDetailRequest getAutoPolicyDetail)
+    GetAutoPolicyDetailResponse getAutoPolicyDetail(
+		    @WebParam(name = "getAutoPolicyDetailRequest", targetNamespace = "http://www.aaancnuit.com.AAANCNU_WSDL_GetAutoPolicyDetail_version2", partName = "getAutoPolicyDetail")
+				    GetAutoPolicyDetailRequest getAutoPolicyDetail)
         throws ErrorInfo
     ;
 

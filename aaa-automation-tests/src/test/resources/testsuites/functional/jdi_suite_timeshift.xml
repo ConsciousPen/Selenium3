@@ -154,6 +154,7 @@
                     <include name="pas10229_membershipEligConfigurationTrueForInActiveMembershipNotActiveEValueRenewalMinus63"/>
                     <include name="pas10229_membershipEligibilityConfigurationTrueForActiveMembershipActiveEValueRenewal"/>
                     <include name="pas10229_membershipEligibilityConfigurationTrueForActiveMembershipInActiveEValueRenewal"/>
+
                 </methods>
             </class>
         </classes>
@@ -318,6 +319,8 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
                 <methods>
                     <include name="pas1451_eValueRemovedByServiceNoAHDRXX"/>
+                    <include name="pas13528_membershipEligConfTrueForActiveMembershipCancelledPolicy"/>
+                    <include name="pas13528_eValueRemovedByServiceNoAHDRXXforCancelledPolicy"/>
                 </methods>
             </class>
         </classes>

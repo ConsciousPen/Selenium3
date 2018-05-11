@@ -100,9 +100,9 @@ public class HelperCommon {
 		runJsonRequestPostDxp(requestUrl, request);
 	}
 
-	public static String executeUpdatePolicyPreferences(String policyNumber) {
+	public static String executeUpdatePolicyPreferences(String policyNumber, int status) {
 		String requestUrl = urlBuilderAdmin(ADMIN_UPDATE_POLICY_PREFERENCES_ENDPOINT+policyNumber);
-		return runJsonRequestPostAdmin(requestUrl,null, String.class, 200);
+		return runJsonRequestPostAdmin(requestUrl,null, String.class, status);
 	}
 
 	public static ValidateEndorsementResponse executeEndorsementsValidate(String policyNumber, String endorsementDate) {
