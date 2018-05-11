@@ -3,7 +3,6 @@
 package aaa.main.modules.account.actiontabs;
 
 import org.openqa.selenium.By;
-
 import aaa.common.ActionTab;
 import aaa.common.Tab;
 import aaa.main.enums.AccountConstants;
@@ -27,7 +26,7 @@ public class SelectContactTab extends ActionTab {
     @Override
     public Tab fillTab(TestData td) {
         buttonSelectContact.click();
-        ((AssetList) assetList).fill(td);
+        assetList.fill(td);
         buttonContactSearch.click();
         tableContactSeachResults.getColumn(AccountConstants.AccountContactSeachResultsTable.NAME).getCell(1).controls.links.getFirst().click();
         return this;
