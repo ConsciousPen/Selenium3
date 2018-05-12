@@ -45,11 +45,7 @@ import toolkit.webdriver.controls.composite.assets.AssetList;
 
 public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements TestEValueMembershipProcessPreConditions {
 
-	private static final String E_VALUE_DISCOUNT = "eValue Discount"; //PAS-440 - rumors have it, that discount might be renamed
 	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
-	private static final String MESSAGE_INFO_1 = "This customer is not eligible for eValue discount due to one or more of the following reasons:";
-	private static final String MESSAGE_BULLET_8 = "Does not have an active AAA membership";
-	private static final String MESSAGE_INFO_4 = "eValue Discount Requirements:";
 	private static List<String> requestIdList = new LinkedList<>();
 	private Random random = new Random();
 	private GeneralTab generalTab = new GeneralTab();

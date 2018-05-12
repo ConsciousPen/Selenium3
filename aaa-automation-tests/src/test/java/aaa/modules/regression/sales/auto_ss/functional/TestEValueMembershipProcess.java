@@ -1325,7 +1325,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-1451", "PAS-335"})
 	public void pas1451_eValueRemovedByServiceNoAHDRXX(@Optional("VA") String state) {
-
 		testEValueDiscount.eValueQuoteCreation(true);
 
 		policy.dataGather().start();
@@ -1388,7 +1387,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
 	public void pas13528_eValueNotRemovedByServiceNoAHDRXXforCancelledPolicy(@Optional("VA") String state) {
-
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 		mainApp().close();
@@ -1560,7 +1558,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
 	public void pas13528_eValueRemovedByServicePendingPolicy(@Optional("VA") String state) {
-
 		testEValueDiscount.eValueQuoteCreation(true);
 
 		policy.dataGather().start();
@@ -1647,7 +1644,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
 	public void pas13528_eValueNotRemovedByServiceExpiredPolicy(@Optional("VA") String state) {
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
-		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
@@ -1689,7 +1685,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
 	public void pas13528_eValueNotRemovedByServiceLapsedPolicy(@Optional("VA") String state) {
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
-		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
@@ -1732,7 +1727,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
 	public void pas13528_eValueRemovedByServiceProposedRenewal(@Optional("VA") String state) {
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
-		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
@@ -1752,8 +1746,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		renewalTransactionEValueDiscountCheck(false);
 
 		deleteSinglePaperlessPreferenceRequest(requestId);
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	/**
@@ -1772,7 +1764,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
 	public void pas13528_eValueRemovedByServiceInForceRenewal(@Optional("VA") String state) {
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
-		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
@@ -1798,11 +1789,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Task Created").getCell("Date/Time").verify.contains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
 
-
 		deleteSinglePaperlessPreferenceRequest(requestId);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	private void renewalMembershipProcessCheck(String membershipEligibilitySwitch, String membershipStatus) {
