@@ -195,6 +195,53 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	/**
 	 * @author Oleg Stasyuk
+	 * @name Test eValue Discount and Membership Discount are NOT removed when Membership is required for eValue and membership status = Active.
+	 * @scenario
+	 * 0. Check no email record present in admin log (no "eValue Discount Pending Notification Url:") on NB+15
+	 * 1. Check if discount in Jeopardy email wasn't send.
+	 * 2. Check Membership discount is not removed on NB+30
+	 * 3. Check eValue discount is not removed on NB+30
+	 * 4. Check AHDRXX is not produced on NB+30
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928", "PAS-12822"})
+	public void pas331_membershipEligibilityConfigurationTrueForErredMembership(@Optional("VA") String state) {
+		String membershipDiscountEligibilitySwitch = "TRUE";
+		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
+
+		String policyNumber = membershipEligibilityPolicyCreation("Error", true);
+
+		CustomAssert.enableSoftMode();
+		jobsNBplus15plus30runNoChecks();
+		//implementEmailCheck from Admin Log?
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "PENDING");
+		//Start PAS-12822
+		//BUG PAS-13891 Jeopardy Email is generated for Policy which has Membership order response = Error
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
+		//End PAS-12822
+		membershipLogicActivitiesAndNotesCheck(false, "");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
+		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
+
+		jobsNBplus15plus30runNoChecks();
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
+		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "");
+		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
+		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
 	 * @name Test eValue Discount and Membership Discount are removed when Membership is required for eValue and membership status = Pending.
 	 * @scenario
 	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
@@ -1815,6 +1862,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		} else if ("Cancelled".equals(membershipStatus)) {
 			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
 			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("3111111111111121");
+		} else if ("Error".equals(membershipStatus)) {
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("5610591081018250");
 		} else {
 			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");//Membership Pending
 			List<String> inactiveMembershipNumberList = new ArrayList<>();

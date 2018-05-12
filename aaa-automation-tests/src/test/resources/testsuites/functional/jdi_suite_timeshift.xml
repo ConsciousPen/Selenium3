@@ -155,6 +155,8 @@
                     <include name="pas10229_membershipEligibilityConfigurationTrueForActiveMembershipActiveEValueRenewal"/>
                     <include name="pas10229_membershipEligibilityConfigurationTrueForActiveMembershipInActiveEValueRenewal"/>
 
+                    <include name="pas331_membershipEligibilityConfigurationTrueForErredMembership"/>
+
                 </methods>
             </class>
         </classes>
@@ -299,7 +301,7 @@
             </class>
         </classes>
     </test>
-    <test name="Memebership Discount and AHDRXX CA" parallel="methods" thread-count="1024">
+    <test name="Membership Discount and AHDRXX CA" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestEValueMembershipProcess">
@@ -309,6 +311,20 @@
                     <include name="pas550_membershipEligibilityConfigurationTrueForCancelledMembership"/>
                     <include name="pas550_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
                     <include name="pas550_membershipEligibilityConfigurationTrueForPendingMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Membership Discount and AHDRXX HO SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas356_membershipEligibilityConfigurationTrueForActiveMembership"/>
+                    <include name="pas356_membershipEligibilityConfigurationTrueForCancelledMembership"/>
+                    <include name="pas356_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
+                    <include name="pas356_membershipEligibilityConfigurationTrueForPendingMembership"/>
                 </methods>
             </class>
         </classes>
