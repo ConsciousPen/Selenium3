@@ -488,8 +488,9 @@ public final class AutoSSMetaData {
 
 			public static final AssetDescriptor<ComboBox> OWNERSHIP_TYPE = declare("Ownership Type", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> FIRST_NAME = declare("First Name", ComboBox.class);
+			public static final AssetDescriptor<TextBox> OWNER_NO_LABEL = declare("", TextBox.class,  By.id("policyDataGatherForm:sedit_AAAVehicleOwnership_otherName"));
 			public static final AssetDescriptor<TextBox> SECOND_NAME = declare("Second Name", TextBox.class);
-			public static final AssetDescriptor<RadioGroup> ZIP_CODE = declare("Zip Code", RadioGroup.class);
+			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip Code", TextBox.class);
 			public static final AssetDescriptor<TextBox> ADDRESS_LINE_1 = declare("Address Line 1", TextBox.class);
 			public static final AssetDescriptor<TextBox> ADDRESS_LINE_2 = declare("Address Line 2", TextBox.class);
 			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class);
@@ -1141,6 +1142,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<TextBox> DAYS_OF_NOTICE = declare("Days of notice", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> SUPPORTING_DATA = declare("Supporting Data", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<RadioGroup> PRINT_NOTICE = declare("Print Notice", RadioGroup.class);
+		public static final AssetDescriptor<RadioGroup> CANCELLATION_DUE_TO_CONSUMER_REPORT_INFORMATION = declare("Cancellation due to Consumer Report Information", RadioGroup.class);
 	}
 
 	public static final class SpinActionTab extends MetaData {
