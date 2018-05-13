@@ -179,7 +179,10 @@ PAS-11810:
   failures:
     - tests: [
     aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForLapsedRenewal,
-    aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForActiveRenewal]
+    aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForActiveRenewal,
+    aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForLapsedRenewal,
+    aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForActiveRenewal
+    ]
       messages: ["expected:<null> but was:<"]
 PAS-12464:
   summary: "Comp symbol error appears when VIN is returned from prefill for CA quote or policy"
@@ -231,3 +234,10 @@ PAS-13338:
   failures:
     - tests: [aaa.modules.regression.conversions.home_ss.*,aaa.modules.regression.document_fulfillment.home_ss.*]
       messages: ["no such element: Unable to locate element: {", "Errors: Error; Failed to rate policy"]
+PAS-13651:
+  summary: "Instantiate state specific coverages"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas12866_e2eBct,
+    ]
+      messages: ["no such element: Unable to locate element: {", "Error 500"]
