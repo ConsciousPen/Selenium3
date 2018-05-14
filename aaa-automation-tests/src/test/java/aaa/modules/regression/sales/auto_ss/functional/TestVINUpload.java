@@ -74,7 +74,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	}
 
 	/**
-	 * @author Lev Kazarnovskiy
+	 * @author Lev Kazarnovskiy, Team Scorpions
 	 * <p>
 	 *
 	 * PAS-533 Quote Refresh -Add New VIN
