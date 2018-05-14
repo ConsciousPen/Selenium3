@@ -42,7 +42,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for 2 of 4 Drivers")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9723")
-	public void pas9723_MVRPredictorNewBusiness(@Optional("CT") String state) {
+	public void pas9723_MVRPredictorNewBusiness(@Optional("") String state) {
 
 		TestData testData = getPolicyTD();
 		TestData driverTab = getTestSpecificTD("TestData_DriverTab").resolveLinks();
@@ -80,7 +80,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Bypass MVR Predictor Algo for drivers with violations")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9723")
-	public void pas9723_BypassMVRPredictorManuallyAddedViolations(@Optional("NV") String state) {
+	public void pas9723_BypassMVRPredictorManuallyAddedViolations(@Optional("") String state) {
 
 		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933");
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabViolations").resolveLinks();
