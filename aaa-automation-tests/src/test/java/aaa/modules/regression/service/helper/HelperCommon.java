@@ -1,5 +1,22 @@
 package aaa.modules.regression.service.helper;
 
+import static aaa.admin.modules.IAdmin.log;
+import java.util.HashMap;
+import java.util.Map;
+import javax.ws.rs.client.*;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.entity.ContentType;
+import org.apache.xerces.impl.dv.util.Base64;
+import org.glassfish.jersey.client.HttpUrlConnectorProvider;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import com.sun.jna.platform.win32.Guid;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.modules.regression.service.helper.dtoAdmin.InstallmentFeesResponse;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
@@ -8,25 +25,8 @@ import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAMakeByYear;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAModelByYearMake;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAASeriesByYearMakeModel;
 import aaa.modules.regression.service.helper.dtoDxp.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import com.sun.jna.platform.win32.Guid;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.http.entity.ContentType;
-import org.apache.xerces.impl.dv.util.Base64;
-import org.glassfish.jersey.client.HttpUrlConnectorProvider;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
-import javax.ws.rs.client.*;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.Map;
-
-import static aaa.admin.modules.IAdmin.log;
 
 public class HelperCommon {
 	private static final String ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT = "/aaa-admin/services/aaa-policy-rs/v1/documents/rfi-documents/";
@@ -66,6 +66,10 @@ public class HelperCommon {
 
 	private static final String DXP_BIG_META_DATA_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles/%s/metadata";
 	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
+	private static final ObjectMapper PRETTY_PRINT_OBJECT_MAPPER = new ObjectMapper();
+	static {
+		PRETTY_PRINT_OBJECT_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
+	}
 
 	private static String urlBuilderDxp(String endpointUrlPart) {
 		if (Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
@@ -96,9 +100,9 @@ public class HelperCommon {
 		runJsonRequestPostDxp(requestUrl, request);
 	}
 
-	public static String executeUpdatePolicyPreferences(String policyNumber) {
+	public static String executeUpdatePolicyPreferences(String policyNumber, int status) {
 		String requestUrl = urlBuilderAdmin(ADMIN_UPDATE_POLICY_PREFERENCES_ENDPOINT+policyNumber);
-		return runJsonRequestPostAdmin(requestUrl,null, String.class, 200);
+		return runJsonRequestPostAdmin(requestUrl,null, String.class, status);
 	}
 
 	public static ValidateEndorsementResponse executeEndorsementsValidate(String policyNumber, String endorsementDate) {
@@ -187,6 +191,11 @@ public class HelperCommon {
 		Vehicle request = new Vehicle();
 		request.purchaseDate = purchaseDate;
 		request.vehIdentificationNo = vin;
+		return runJsonRequestPostDxp(requestUrl, request, Vehicle.class, 201);
+	}
+
+	public static Vehicle executeVehicleAddVehicle(String policyNumber, Vehicle request) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_ADD_VEHICLE_ENDPOINT, policyNumber));
 		return runJsonRequestPostDxp(requestUrl, request, Vehicle.class, 201);
 	}
 
@@ -318,6 +327,7 @@ public class HelperCommon {
 	public static <T> T runJsonRequestPostDxp(RestRequestInfo<T> request) {
 		Client client = null;
 		Response response = null;
+		log.info("Request: " + asJson(request));
 		try {
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
 			response = createJsonRequest(client, request.url, request.sessionId).post(Entity.json(request.bodyRequest));
@@ -326,6 +336,7 @@ public class HelperCommon {
 				//handle error
 				throw new IstfException("POST json request failed");
 			}
+			log.info("Response: " + asJson(responseObj));
 			return responseObj;
 		} finally {
 			if (response != null) {
@@ -344,6 +355,7 @@ public class HelperCommon {
 	public static <T> T runJsonRequestPatchDxp(String url, RestBodyRequest request, Class<T> responseType, int status) {
 		Client client = null;
 		Response response = null;
+		log.info("Request: " + asJson(request));
 		try {
 			client = ClientBuilder.newClient()
 					.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true)
@@ -452,6 +464,7 @@ public class HelperCommon {
 		Client client = null;
 		Response response = null;
 		try {
+			log.info("Request: " + asJson(request));
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
 			response = createJsonRequest(client, request.url, request.sessionId).get();
 			T result = response.readEntity(request.responseType);
@@ -460,7 +473,7 @@ public class HelperCommon {
 				//handle error
 				throw new IstfException("GET json request failed");
 			}
-
+			log.info("Response: " + asJson(result));
 			return result;
 		} finally {
 			if (response != null) {
@@ -603,6 +616,15 @@ public class HelperCommon {
 		String url = urlBuilderAdmin(String.format(DXP_SERIES_BY_YEAR_MAKE_MODEL, year, make, model, productCd, stateCd, formType, effectiveDate));
 
 		return runJsonRequestGetAdmin(url, AAASeriesByYearMakeModel.class);
+	}
+
+	private static String asJson(Object object) {
+		try {
+			return PRETTY_PRINT_OBJECT_MAPPER.writeValueAsString(object);
+		} catch (JsonProcessingException e) {
+			log.error("Failed to parse request/response as json", e);
+			return null;
+		}
 	}
 
 }
