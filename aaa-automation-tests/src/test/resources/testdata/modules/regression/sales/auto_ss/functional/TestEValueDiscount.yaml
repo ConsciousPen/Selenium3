@@ -101,7 +101,7 @@ PurchaseTab_CC: {
 CC_MasterCard: {
   Payment Method: 'Credit/Debit Card',
   Type: 'Master Card',
-  Number: '5555555555554444',
+  Number: '5111005111051128',
   'Expiration Month/Year': ['$<today:M>', '$<today+4y:yyyy>']
 }
 
@@ -116,7 +116,7 @@ PurchaseTab_DC: {
 
 DC_Visa: {
   Payment Method: 'Credit/Debit Card',
-  Type: 'MasterCard',
+  Type: 'Visa',
   Number: '4539343326426984',
   'Expiration Month/Year': ['$<today:M>', '$<today+4y:yyyy>']
 }
