@@ -1,9 +1,12 @@
 package aaa.utils.excel.io.entity.area.sheet;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.poi.ss.usermodel.Sheet;
 import aaa.utils.excel.io.ExcelManager;
@@ -117,7 +120,7 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 		List<Integer> rowsIndexesOnSheet = rowsIndexesInTable != null ? rowsIndexesInTable.stream().map(r -> r + headerRowIndexOnSheet).collect(Collectors.toList()) : null;
 
 		if (ArrayUtils.isNotEmpty(headerColumnsNames)) {
-			Set<String> missedHeaderColumnsNames = new HashSet<>(Arrays.asList(headerColumnsNames));
+			List<String> missedHeaderColumnsNames = Stream.of(headerColumnsNames).distinct().collect(Collectors.toList());
 			columnsIndexesOnSheet = new ArrayList<>();
 			for (SheetCell cell : headerRow) {
 				String cellValue = cell.getStringValue();

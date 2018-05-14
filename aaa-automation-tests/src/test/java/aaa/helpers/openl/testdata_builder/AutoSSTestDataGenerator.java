@@ -515,7 +515,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		}
 
 		if (getState().equals(Constants.States.VA)) {
-			policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.INCOME_LOSS_BENEFIT.getLabel(), "starts=No Coverage");
+			policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.INCOME_LOSS.getLabel(), "starts=No Coverage");
 		}
 
 		if (getState().equals(Constants.States.SD)) {

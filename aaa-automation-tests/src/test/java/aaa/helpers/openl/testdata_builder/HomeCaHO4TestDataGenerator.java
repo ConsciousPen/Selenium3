@@ -204,7 +204,7 @@ public class HomeCaHO4TestDataGenerator extends TestDataGenerator<HomeCaHO4OpenL
 				if (!endorsementData.containsKey(HomeCaHO4FormTestDataGenerator.getFormMetaKey(formCode))) {
 					List<TestData> tdList = HomeCaHO4FormTestDataGenerator.getFormTestData(openLPolicy, formCode);
 					if (tdList != null) {
-						TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeCaHO3FormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeCaHO3FormTestDataGenerator.getFormMetaKey(formCode), tdList);
+						TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeCaHO4FormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeCaHO4FormTestDataGenerator.getFormMetaKey(formCode), tdList);
 						endorsementData.adjust(td);
 					}
 				}

@@ -12,7 +12,7 @@ import aaa.utils.excel.io.entity.area.ExcelCell;
 public class LocalDateCellType extends DateCellType<LocalDate> {
 
 	public LocalDateCellType(Class<LocalDate> endType, DateTimeFormatter... dateTimeFormatters) {
-		super(endType);
+		super(endType, dateTimeFormatters);
 		if (ArrayUtils.isEmpty(dateTimeFormatters)) {
 			List<DateTimeFormatter> defaultFormatters = new ArrayList<>();
 			defaultFormatters.add(DateTimeFormatter.ofPattern("MM/dd/yyyy"));

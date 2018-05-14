@@ -142,14 +142,22 @@ public abstract class ExcelCell implements Writable {
 		return numberCellTypes;
 	}
 
-	protected List<DateCellType<?>> getDateCellTypes() {
-		List<DateCellType<?>> dateCellTypes = new ArrayList<>();
-		for (CellType<?> cellType : getCellTypes()) {
-			if (cellType instanceof DateCellType) {
-				dateCellTypes.add((DateCellType<?>) cellType);
+	protected DateCellType<?> getDateCellType(DateTimeFormatter... dateTimeFormatters) {
+		if (ArrayUtils.isNotEmpty(dateTimeFormatters)) {
+			for (CellType<?> type : this.allowableCellTypes) {
+				if (type instanceof DateCellType && ((DateCellType<?>) type).isTypeOf(this, dateTimeFormatters)) {
+					return (DateCellType<?>) type;
+				}
 			}
 		}
-		return dateCellTypes;
+
+		for (CellType<?> type : getCellTypes()) {
+			if (type instanceof DateCellType) {
+				return (DateCellType<?>) type;
+			}
+		}
+
+		return null;
 	}
 
 	protected int getColumnIndexOnSheet() {
@@ -175,23 +183,18 @@ public abstract class ExcelCell implements Writable {
 		return !getNumberCellTypes().isEmpty();
 	}
 
-	public boolean hasDate() {
-		return !getDateCellTypes().isEmpty();
+	public boolean hasDate(DateTimeFormatter... dateTimeFormatters) {
+		return getDateCellType(dateTimeFormatters) != null;
 	}
 
 	public Object getValue(DateTimeFormatter... dateTimeFormatters) {
-		List<CellType<?>> typesToCheck = getCellTypes();
-
-		// Let's try to obtain date value if dateTimeFormatters array is not null and not empty
-		if (ArrayUtils.isNotEmpty(dateTimeFormatters)) {
-			List<DateCellType<?>> dateCellTypes = getDateCellTypes();
-			for (DateCellType<?> cellType : dateCellTypes) {
-				if (cellType.isTypeOf(this, dateTimeFormatters)) {
-					return getValue(cellType, dateTimeFormatters);
-				}
-			}
-			typesToCheck.removeAll(dateCellTypes);
+		// Let's try to obtain date value
+		DateCellType<?> dateCellType = getDateCellType(dateTimeFormatters);
+		if (dateCellType != null) {
+			return getDateValue(dateCellType, dateTimeFormatters);
 		}
+
+		List<CellType<?>> typesToCheck = new ArrayList<>(getCellTypes());
 
 		// Then let's try to obtain numeric value first
 		List<NumberCellType<?>> numberCellTypes = getNumberCellTypes();
@@ -220,7 +223,9 @@ public abstract class ExcelCell implements Writable {
 
 	@SuppressWarnings("unchecked")
 	public <T extends Temporal> T getDateValue(DateTimeFormatter... dateTimeFormatters) {
-		DateCellType<?> dateCellType = getDateCellTypes().stream().filter(t -> t.isTypeOf(this, dateTimeFormatters)).findFirst().get();
+		DateCellType<?> dateCellType = getDateCellType(dateTimeFormatters);
+		assertThat(dateCellType).as("There are no valid date cell types to retrieve value from %1$s%2$s", this,
+				ArrayUtils.isNotEmpty(dateTimeFormatters) ? " using formatters " + Arrays.asList(dateTimeFormatters) : "").isNotNull();
 		return (T) getDateValue(dateCellType, dateTimeFormatters);
 	}
 
@@ -327,7 +332,13 @@ public abstract class ExcelCell implements Writable {
 	public abstract ExcelCell delete();
 
 	protected List<CellType<?>> filterAndGetValidCellTypes(List<CellType<?>> cellTypes) {
-		return cellTypes.stream().filter(t -> t.isTypeOf(this)).distinct().collect(Collectors.toList());
+		List<CellType<?>> filteredCellTypes = new ArrayList<>();
+		for (CellType<?> type : cellTypes) {
+			if (type.isTypeOf(this)) {
+				filteredCellTypes.add(type);
+			}
+		}
+		return filteredCellTypes;
 	}
 
 	@SuppressWarnings("resource")

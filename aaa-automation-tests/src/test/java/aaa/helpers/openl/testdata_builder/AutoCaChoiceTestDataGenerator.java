@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.TestDataHelper;
+import aaa.helpers.openl.model.AutoOpenLCoverage;
 import aaa.helpers.openl.model.auto_ca.choice.AutoCaChoiceOpenLDriver;
 import aaa.helpers.openl.model.auto_ca.choice.AutoCaChoiceOpenLPolicy;
 import aaa.helpers.openl.model.auto_ca.choice.AutoCaChoiceOpenLVehicle;
@@ -182,6 +183,15 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 			default:
 				throw new IstfException(String.format("Unknown UI \"Stat Code\" combo box value for openl statCode %s", statCode));
 		}
+	}
+
+	@Override
+	protected String getPremiumAndCoveragesTabLimitOrDeductible(AutoOpenLCoverage coverage) {
+		String[] limitRange = getLimitOrDeductibleRange(coverage);
+		if ("RENTAL".equals(coverage.getCoverageCd()) || "TOWING".equals(coverage.getCoverageCd())) {
+			return "1".equals(limitRange[0]) ? "starts=Yes" : "starts=No Coverage";
+		}
+		return super.getPremiumAndCoveragesTabLimitOrDeductible(coverage);
 	}
 
 	private TestData getAssignmentTabData(AutoCaChoiceOpenLPolicy openLPolicy) {
