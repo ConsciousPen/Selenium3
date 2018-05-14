@@ -1530,7 +1530,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
 		//BUG PAS-13884 When running PaperlessPreferences update for policy with Future Dated Cancellation, no eValue removal happens and no task is created
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 3, "");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "");
 		lastTransactionHistoryEValueDiscountCheck(true);
 
 		//there is no eValue removal transaction. Instead a task for OOSE is create.
