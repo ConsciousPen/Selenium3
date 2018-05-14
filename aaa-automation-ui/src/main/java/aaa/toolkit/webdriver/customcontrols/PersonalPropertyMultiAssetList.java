@@ -5,18 +5,14 @@ import org.openqa.selenium.support.pagefactory.ByChained;
 import aaa.common.pages.Page;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.BaseElement;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.TextBox;
+import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 public class PersonalPropertyMultiAssetList extends MultiAssetList {
-	private final By siblingLocator = new ByChained(locator, By.xpath(".//preceding-sibling::span[1]"));
+	private final By siblingLocator = new ByChained(locator, By.xpath("./ancestor::span[1]//preceding-sibling::span[1]"));
 
 	private Link linkExpandOrCollapseSection = new Link(new ByChained(siblingLocator, By.xpath(".//a[contains(@name, '_expand') or contains(@name, '_collapse')]")), Waiters.AJAX);
 	private TextBox totalLimit = new TextBox(new ByChained(siblingLocator, By.xpath(".//input[contains(@id, 'limitAmount')]")), Waiters.AJAX);
