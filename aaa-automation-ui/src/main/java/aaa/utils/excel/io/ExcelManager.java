@@ -17,6 +17,10 @@ import aaa.utils.excel.io.entity.area.ExcelCell;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
 import toolkit.exceptions.IstfException;
 
+/**
+ * Convenient utility to manipulate with Excel files built on top of Apache POI's library.
+ * Commonly used for getting/editing cell values within excel tables but besides that has variety useful features
+ */
 public class ExcelManager {
 	protected static Logger log = LoggerFactory.getLogger(ExcelManager.class);
 

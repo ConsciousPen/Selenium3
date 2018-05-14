@@ -62,7 +62,8 @@ public abstract class DateCellType<T extends Temporal> extends AbstractCellType<
 	}
 
 	public T getValueFrom(ExcelCell cell, DateTimeFormatter... dateTimeFormatters) {
-		assertThat(isTypeOf(cell, dateTimeFormatters)).as("Unable to get value with \"%1$s\" type from %2$s using %3$s date formatter", getEndType(), cell, Arrays.asList(dateTimeFormatters)).isTrue();
+		assertThat(isTypeOf(cell, dateTimeFormatters)).as("Unable to get value with \"%1$s\" type from %2$s%3$s", getEndType(), cell,
+				ArrayUtils.isNotEmpty(dateTimeFormatters) ? " using date formatters: " + Arrays.asList(dateTimeFormatters) : "").isTrue();
 		if (cell.getPoiCell() == null) {
 			return null;
 		}
