@@ -210,7 +210,11 @@ public class HomeCaHO4FormTestDataGenerator {
 			}
 		}
 		return tdList;
-	};  	
+	};  
+	
+	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO177DataFunction = (openLPolicy) -> {
+		return null;
+	};
 	
 	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO210DataFunction =  (openLPolicy) -> {
 		List<TestData> tdList = new ArrayList<>();
@@ -274,6 +278,7 @@ public class HomeCaHO4FormTestDataGenerator {
 		HO82(HomeCaMetaData.EndorsementTab.HO_82.getLabel(), "HO-82", formHO82DataFunction), 
 		HO90(HomeCaMetaData.EndorsementTab.HO_90.getLabel(), "HO-90", formHO90DataFunction), 
 		HO164(HomeCaMetaData.EndorsementTab.HO_164.getLabel(), "HO-164", formHO164DataFunction), 
+		HO177(HomeCaMetaData.EndorsementTab.HO_177.getLabel(), "HO-177", formHO177DataFunction), 
 		HO210(HomeCaMetaData.EndorsementTab.HO_210.getLabel(), "HO-210", formHO210DataFunction), 
 		HARI(HomeCaMetaData.EndorsementTab.HARI.getLabel(), "HARI", formHARIDataFunction);
 		private final String metaKey;
