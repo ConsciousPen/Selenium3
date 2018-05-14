@@ -50,8 +50,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	protected TestData tdBilling = testDataManager.billingAccount;
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 
-	private static final String NEW_VIN = "1FDEU15H7KL055795";
-	private static final String NEW_VIN2 = "1GPGP11111G111111";
+	private static final String NEW_VIN =  "CCCKN3DD0E0344466";
+	private static final String NEW_VIN2 = "AAAKN3DD0E0344466";
 	private static final String NEW_VIN3 = "BBBKN3DD0E0344466";
 	private static final String NEW_VIN4 = "KLTKL3TKL0T0456920";
 	private static final String NEW_VIN5 = "BBBKN3DD0E0344466";
@@ -222,7 +222,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		VehicleTab.buttonSaveAndExit.click();
 
-		vinMethods.verifyActivitiesAndUserNotes(NEW_VIN);
+		vinMethods.verifyActivitiesAndUserNotes(NEW_VIN2);
 	}
 
 	/**
@@ -358,7 +358,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		});
 
 		// add Vehicle
-		TestData twoVehicles = addSecondVehicle(NEW_VIN, testData)
+		TestData twoVehicles = addSecondVehicle(NEW_VIN3, testData)
 				.adjust("DriverActivityReportsTab", DataProviderFactory.emptyData());
 		policy.getDefaultView().fillFromTo(twoVehicles, VehicleTab.class, PremiumAndCoveragesTab.class);
 
