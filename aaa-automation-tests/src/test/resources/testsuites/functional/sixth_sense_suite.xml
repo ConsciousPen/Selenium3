@@ -43,11 +43,18 @@
         </classes>
     </test>
 
-    <test name="MVR Predictor Algo for 2 of 4 Drivers">
-      <parameter name="state" value="IN,KY,MD,NJ,NV,PA,OK,CT"/>
+    <test name="MVR Predictor Algo">
+      <parameter name="state" value="IN,KY,MD,NJ,PA,CT"/>
       <classes>
           <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo"/>
       </classes>
+    </test>
+
+    <test name="Good Student Discount">
+        <parameter name="state" value="IN,KY,MD,NJ,NV,PA,OK,VA,CT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestGoodStudentDiscount"/>
+        </classes>
     </test>
 
     <test name="Remove Distant Driver Discount">
