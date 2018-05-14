@@ -50,13 +50,13 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	protected TestData tdBilling = testDataManager.billingAccount;
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 
-	private static final String NEW_VIN =  "CCCKN3DD0E0344466";
-	private static final String NEW_VIN2 = "AAAKN3DD0E0344466";
-	private static final String NEW_VIN3 = "BBBKN3DD0E0344466";
-	private static final String NEW_VIN4 = "KLTKL3TKL0T0456920";
-	private static final String NEW_VIN5 = "BBBKN3DD0E0344466";
-	private static final String NEW_VIN6 = "ZZZZN3DD0E0344466";
-	private static final String NEW_VIN7 = "YYYYN3DD0E0344466";
+	private static final String NEW_VIN = "AAAKN3DD0E0344466";
+	private static final String NEW_VIN2 = "BBBKN3DD0E0344466";
+	private static final String NEW_VIN3 = "CCCKN3DD0E0344466";
+	private static final String NEW_VIN4 = "DDDKN3DD0E0344466";
+	private static final String NEW_VIN5 = "EEEKN3DD0E0344466";
+	private static final String NEW_VIN6 = "FFFKN3DD0E0344466";
+	private static final String NEW_VIN7 = "GGGKN3DD0E0344466";
 	private static final String REFRESHABLE_VIN = "1HGEM215140028445";
 
 	@Override
