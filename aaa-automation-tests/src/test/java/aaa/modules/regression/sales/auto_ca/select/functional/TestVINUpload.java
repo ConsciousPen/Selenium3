@@ -36,10 +36,9 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	private static final String NEW_VIN2 = "BBBNK3CC0F0455583";
 	private static final String NEW_VIN3 = "CCCNK3CC4F9455583";
 	private static final String NEW_VIN4 = "DDDNK3CC3F9455583";
-	private static final String NEW_VIN5 = "EEENK2CC3F9455583";
-
-
-
+	private static final String NEW_VIN5 = "EEENK2CCXF9455583";
+	private static final String NEW_VIN6 = "FFFNK2CC9F9455583";
+	private static final String NEW_VIN7 = "GGGNK2CC8F9455583";
 	private static final String REFRESHABLE_VIN = "1HGEM215140028445";
 	private static final String bbbkn3DD0E0114466 = "BBBKN3DD0E0114466";
 
@@ -214,16 +213,16 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-2716")
 	public void pas2716_AutomatedRenewal_ExpirationDateMinus35(@Optional("") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
-		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),NEW_VIN);
+		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),NEW_VIN6);
 
 		String policyNumber = createPolicyPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		adminApp().open();
-		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get()));
+		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN6.get()));
 		/*
 		 * Automated Renewal R-35 Expiration Date
 		 */
-		pas2716_AutomatedRenewal(policyNumber, policyExpirationDate.minusDays(35), NEW_VIN);
+		pas2716_AutomatedRenewal(policyNumber, policyExpirationDate.minusDays(35), NEW_VIN6);
 	}
 
 	@Parameters({"state"})
@@ -263,7 +262,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		String vinTableFile = "backdatedVinTable_CA_SS.xlsx";
 		String controlTableFile = "backdatedControlTable_UT_SS.xlsx";
 
-		TestData testData = getNonExistingVehicleTestData(getPolicyTD(), NEW_VIN).resolveLinks();
+		TestData testData = getNonExistingVehicleTestData(getPolicyTD(), NEW_VIN7).resolveLinks();
 
 		// 1. Create Auto policy with 2 vehicles
 		String policyNumber = createPolicyPreconds(testData);
@@ -313,6 +312,8 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN3,"SYMBOL_2000");
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN4,"SYMBOL_2000");
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN5,"SYMBOL_2000");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN6,"SYMBOL_2000");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN7,"SYMBOL_2000");
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(bbbkn3DD0E0114466,"SYMBOL_2000");
 	}
 }
