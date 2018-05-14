@@ -9,7 +9,6 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
@@ -35,7 +34,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	* @author Dominykas Razgunas
 	* @name MVR Predictor Algo for 2 of 4 Drivers
 	* @scenario 1. Create Customer1.
-	* 2. Create Auto SS CT Quote.
+	* 2. Create Auto SS Quote.
 	* 3. Add 4 Drivers 2 of who are eligible for mvr status predicted valid . eligibility = age>83 and Driving exp>62
 	* 4. Add 4 Vehicles
 	 * 5. Calculate Premium
@@ -73,7 +72,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	 * @author Dominykas Razgunas
 	 * @name Bypass MVR Predictor Algo for drivers with violations
 	 * @scenario 1. Create Customer1.
-	 * 2. Create Auto SS CT Quote.
+	 * 2. Create Auto SS Quote.
 	 * 3. Add 1 Driver who is eligible for mvr status predicted valid
 	 * 4. Add 5 Drivers who are not eligible for mvr status predicted valid with following violations  alcohol-related violation, major violation, minor violation, non-moving violation, speeding violation
 	 * 5. Calculate Premium
@@ -85,7 +84,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Bypass MVR Predictor Algo for drivers with violations")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9723")
-	public void pas9723_BypassMVRPredictorManuallyAddedViolations(@Optional("") String state) {
+	public void pas9723_BypassMVRPredictorManuallyAddedViolations(@Optional("NV") String state) {
 
 		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933");
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabViolations").resolveLinks();
@@ -97,7 +96,6 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		// Fill remaining policy to drivers activity reports tab
 		policy.getDefaultView().fillFromTo(testData, RatingDetailReportsTab.class, PremiumAndCoveragesTab.class, true);
 		premiumAndCoveragesTab.submitTab();
-		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_200005, ErrorEnum.Errors.ERROR_AAA_200009);
 		errorTab.overrideAllErrors();
 		errorTab.override();
 		premiumAndCoveragesTab.submitTab();
@@ -110,7 +108,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	 * @author Dominykas Razgunas
 	 * @name Bypass MVR Predictor Algo for drivers with accidents
 	 * @scenario 1. Create Customer1.
-	 * 2. Create Auto SS CT Quote.
+	 * 2. Create Auto SS Quote.
 	 * 3. Add 1 Driver who is eligible for mvr status predicted valid
 	 * 4. Add 5 Drivers who are not eligible for mvr status predicted valid with following violations  at-fault accident, comprehensive claim, glass only loss, non-fault accident, principally at-fault accident
 	 * 5. Add 4 Vehicles
@@ -142,7 +140,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	 * @author Dominykas Razgunas
 	 * @name MVR Predictor Algo for drivers viable for Good Student Discount NB
 	 * @scenario 1. Create Customer1.
-	 * 2. Create Auto SS CT Quote.
+	 * 2. Create Auto SS Quote.
 	 * 3. Add 1 Driver who is eligible for GSD
 	 * 4. Add 5 Drivers who are not eligible for GSD with following:
 	1. Driver is a rated driver AND
@@ -157,7 +155,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for Good Student Discount NB")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10108")
-	public void pas10108_GoodStudentDiscountMVRPredictorNB(@Optional("") String state) {
+	public void pas10108_GoodStudentDiscountMVRPredictorNB(@Optional("NV") String state) {
 
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabGSD").resolveLinks();
 
@@ -175,7 +173,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	 * @author Dominykas Razgunas
 	 * @name MVR Predictor Algo for drivers viable for Good Student Discount Endorsement
 	 * @scenario 1. Create Customer1.
-	 * 2. Create Auto SS CT Policy. Initiate Endorsement
+	 * 2. Create Auto SS Policy. Initiate Endorsement
 	 * 3. Add 1 Driver who is eligible for GSD
 	 * 4. Add 5 Drivers who are not eligible for GSD with following:
 	1. Driver is a rated driver AND
@@ -213,7 +211,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	 * @author Dominykas Razgunas
 	 * @name MVR Predictor Algo for drivers viable for Good Student Discount Renewal
 	 * @scenario 1. Create Customer1.
-	 * 2. Create Auto SS CT Policy. Initiate Renewal.
+	 * 2. Create Auto SS Policy. Initiate Renewal.
 	 * 3. Add 1 Driver who is eligible for GSD
 	 * 4. Add 5 Drivers who are not eligible for GSD with following:
 	1. Driver is a rated driver AND
