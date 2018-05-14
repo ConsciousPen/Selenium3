@@ -1,6 +1,6 @@
 /* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
-package aaa.modules.regression.sales.auto_ca.select.functional;
+package aaa.modules.regression.sales.home_ss.ho3.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static toolkit.verification.CustomAssertions.assertThat;
@@ -26,12 +26,10 @@ import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum;
-import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
+import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoCaSelectBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueMembershipProcessPreConditions;
 import toolkit.config.PropertyProvider;
@@ -43,14 +41,15 @@ import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 
-public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements TestEValueMembershipProcessPreConditions {
+public class TestEValueMembershipProcess extends HomeSSHO3BaseTest implements TestEValueMembershipProcessPreConditions {
 
 	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
 	private static List<String> requestIdList = new LinkedList<>();
 	private Random random = new Random();
-	private GeneralTab generalTab = new GeneralTab();
-	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
-	private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
+	private ApplicantTab applicantTab = new ApplicantTab();
+	private UnderwritingAndApprovalTab underwritingAndApprovalTab = new UnderwritingAndApprovalTab();
+	private PremiumsAndCoveragesQuoteTab premiumAndCoveragesTab = new PremiumsAndCoveragesQuoteTab();
+	private ReportsTab reportsTab = new ReportsTab();
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private SSHController sshControllerRemote = new SSHController(
 			PropertyProvider.getProperty(CustomTestProperties.APP_HOST),
@@ -97,8 +96,8 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-550", "PAS-2872"})
-	public void pas550_membershipEligibilityConfigurationTrueForActiveMembership(@Optional("CA") String state) {
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-356", "PAS-2872"})
+	public void pas356_membershipEligibilityConfigurationTrueForActiveMembership(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -134,8 +133,8 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-550", "PAS-2872"})
-	public void pas550_membershipEligibilityConfigurationTrueForPendingMembership(@Optional("CA") String state) {
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-356", "PAS-2872"})
+	public void pas356_membershipEligibilityConfigurationTrueForPendingMembership(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -153,8 +152,8 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "");
-		transactionHistoryRecordCountCheck(policyNumber, 1, "");
-		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
+		transactionHistoryRecordCountCheck(policyNumber, 2, "Membership Discount Removed");
+		checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -171,8 +170,8 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-550", "PAS-2872"})
-	public void pas550_membershipEligibilityConfigurationTrueForCancelledMembership(@Optional("CA") String state) {
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-356", "PAS-2872"})
+	public void pas356_membershipEligibilityConfigurationTrueForCancelledMembership(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -208,8 +207,8 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-550", "PAS-2872"})
-	public void pas550_membershipEligibilityConfigurationTrueForNotActiveMembership(@Optional("CA") String state) {
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-356", "PAS-2872"})
+	public void pas356_membershipEligibilityConfigurationTrueForNotActiveMembership(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -236,39 +235,41 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 	}
 
 	private void setMembershipAndRate(String membershipStatus, boolean eValueSet) {
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.APPLICANT.get());
 		if ("Active".equals(membershipStatus)) {
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("5251111111111118");
+			applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
+			applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("5251111111111118");
 		} else if ("Pending".equals(membershipStatus)) {
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("4290061311384005");
+			applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Membership Pending");
+			//applicantTab.getAssetList().getAsset(HomeSSMetaData.applicantTab.AAA_MEMBERSHIP).getAsset(HomeSSMetaData.applicantTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("4290061311384005");
 		} else if ("Cancelled".equals(membershipStatus)) {
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("3111111111111121");
+			applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
+			applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("3111111111111121");
 		} else {
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");//Membership Pending
+			applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");//Membership Pending
 			List<String> inactiveMembershipNumberList = new ArrayList<>();
 			inactiveMembershipNumberList.add("4343433333333335");//FutureDated
 			String randomInactiveMembershipNumber = inactiveMembershipNumberList.get(random.nextInt(inactiveMembershipNumberList.size()));
 			printToLog("Value used " + randomInactiveMembershipNumber);
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER)
+			applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER)
 					.setValue(randomInactiveMembershipNumber);
 		}
 
-		NavigationPage.toViewSubTab(NavigationEnum.AutoCaTab.MEMBERSHIP.get());
-		ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.ORDER_REPORT).click();
-		if (ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).isPresent()) {
-			if ("".equals(ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
-					.getCell(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.MEMBER_SINCE_DATE.getLabel()).getValue())) {
+		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.REPORTS.get());
+		reportsTab.getAssetList().getAsset(HomeSSMetaData.ReportsTab.SALES_AGENT_AGREEMENT).setValue("I Agree");
+		if(!"Pending".equals(membershipStatus)) {
+			reportsTab.getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
+					.getCell(HomeSSMetaData.ReportsTab.AaaMembershipReportRow.REPORT.getLabel()).controls.links.get(1).click();
+		}
+		if (reportsTab.getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).isPresent()) {
+			if ("".equals(reportsTab.getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
+					.getCell(HomeSSMetaData.ReportsTab.AaaMembershipReportRow.MEMBER_SINCE_DATE.getLabel()).getValue())) {
 
-				ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
-						.getCell(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.ACTION.getLabel()).controls.links.get(1).click();
+				reportsTab.getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1).getCell(8).controls.links.get(1).click();
 
-				ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT)
-						.getAsset(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.ADD_MEMBER_SINCE_DIALOG.getLabel(), AssetList.class)
-						.getAsset(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), TextBox.class).setValue("11/14/2016");
+				reportsTab.getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT)
+						.getAsset(HomeSSMetaData.ReportsTab.AaaMembershipReportRow.ADD_MEMBER_SINCE_DIALOG.getLabel(), AssetList.class)
+						.getAsset(HomeSSMetaData.ReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), TextBox.class).setValue("11/14/2016");
 
 				Page.dialogConfirmation.confirm();
 			}
@@ -276,21 +277,22 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 				Page.dialogConfirmation.reject();
 			}
 
-			printToLog("Membership number used: " + ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
-					.getCell(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.MEMBERSHIP_NO.getLabel()).getValue());
-			printToLog("Member Since Date used or returned: " + ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
-					.getCell(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.MEMBER_SINCE_DATE.getLabel()).getValue());
-			printToLog("Membership Status returned: " + ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
-					.getCell(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.STATUS.getLabel()).getValue());
+			printToLog("Membership number used: " + reportsTab.getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
+					.getCell(HomeSSMetaData.ReportsTab.AaaMembershipReportRow.MEMBERSHIP_NO.getLabel()).getValue());
+			printToLog("Member Since Date used or returned: " + reportsTab.getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
+					.getCell(HomeSSMetaData.ReportsTab.AaaMembershipReportRow.MEMBER_SINCE_DATE.getLabel()).getValue());
+			printToLog("Membership Status returned: " + reportsTab.getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
+					.getCell(HomeSSMetaData.ReportsTab.AaaMembershipReportRow.STATUS.getLabel()).getValue());
 		}
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		if (eValueSet) {
-			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+		//TODO eValue is currently not applicable for HO_SS
+		/*		if (eValueSet) {
+			premiumAndCoveragesTab.getAssetList().getAsset(HomeSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
 		} else {
-			if (premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).isPresent()) {
-				premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("No");
+			if (premiumAndCoveragesTab.getAssetList().getAsset(HomeSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).isPresent()) {
+				premiumAndCoveragesTab.getAssetList().getAsset(HomeSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("No");
 			}
-		}
+		}*/
 		premiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
 	}
@@ -298,8 +300,21 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 	private String membershipPolicyCreation(String status) {
 		mainApp().open();
 		getCopiedQuote();
+
+		//SearchPage.openQuote("QVAH3952918547");
+
 		policy.dataGather().start();
 		setMembershipAndRate(status, false);
+
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.UNDERWRITING_AND_APPROVAL.get());
+		if (underwritingAndApprovalTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.UNDERWRITER_SELECTED_INSPECTION_TYPE).isPresent() && underwritingAndApprovalTab.getAssetList()
+				.getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.UNDERWRITER_SELECTED_INSPECTION_TYPE).isVisible()) {
+			underwritingAndApprovalTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.UNDERWRITER_SELECTED_INSPECTION_TYPE).setValue("index=1");
+		}
+		policy.dataGather().getView().fillFromTo(getPolicyDefaultTD(), UnderwritingAndApprovalTab.class, BindTab.class, true);
+		premiumAndCoveragesTab.saveAndExit();
+
 		return testEValueDiscount.simplifiedQuoteIssue();
 	}
 
@@ -372,9 +387,9 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 
 		if (isGenerated) {
 			if (isMembershipDataPresent) {
-				CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Advantage Program"));
+				CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
 				//PAS-1549, PAS-2872} Start
-				CustomAssert.assertTrue("5%"
+				CustomAssert.assertTrue("5.0%"
 						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
 								.getTextField()));
 				CustomAssert.assertTrue("Y"
