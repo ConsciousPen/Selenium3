@@ -1293,13 +1293,13 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		//implementEmailCheck from Admin Log?
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Membership not Wanted");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
 		lastTransactionHistoryEValueDiscountCheck(true);
 
 		jobsNBplus15plus30runNoChecks();
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Membership not Wanted");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
 		lastTransactionHistoryEValueDiscountCheck(true);
 		checkDocumentContentAHDRXX(policyNumber, false, true, false, false, false);
 
@@ -1398,7 +1398,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Membership not Wanted");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
 		lastTransactionHistoryEValueDiscountCheck(true);
 
 		jobsNBplus15plus30runNoChecks();
@@ -1408,13 +1408,13 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		//Start PAS-12822
 		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
 		//End PAS-12822
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Membership not Wanted");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
 		lastTransactionHistoryEValueDiscountCheck(true);
 
 		jobsNBplus15plus30runNoChecks();
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Membership not Wanted");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
 		lastTransactionHistoryEValueDiscountCheck(true);
 		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
 
