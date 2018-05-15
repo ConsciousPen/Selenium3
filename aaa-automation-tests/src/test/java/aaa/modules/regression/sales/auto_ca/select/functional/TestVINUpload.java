@@ -15,6 +15,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
@@ -28,6 +29,7 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
 import toolkit.datax.TestData;
+import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
 public class TestVINUpload extends TestVINUploadTemplate {
@@ -39,7 +41,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	private static final String NEW_VIN5 = "EEENK2CCXF9455583";
 	private static final String NEW_VIN6 = "FFFNK2CC9F9455583";
 	private static final String NEW_VIN7 = "GGGNK2CC8F9455583";
-	private static final String REFRESHABLE_VIN = "1HGEM215140028445";
+	private static final String REFRESHABLE_VIN = "1HGEM215150028445";
 	private static final String bbbkn3DD0E0114466 = "BBBKN3DD0E0114466";
 
 	private VehicleTab vehicleTab = new VehicleTab();
@@ -292,7 +294,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 
 		List<TestData> renewalVerrsionVehicleTab = new ArrayList<>();
 		renewalVerrsionVehicleTab.add(getPolicyTD()
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), NEW_VIN).getTestData("VehicleTab"));
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), NEW_VIN7).getTestData("VehicleTab"));
 		renewalVerrsionVehicleTab.add(renewalVersionVehicle);
 
 		TestData testDataRenewalVersion = getPolicyTD().adjust(vehicleTab.getMetaKey(), renewalVerrsionVehicleTab)
@@ -315,5 +317,6 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN6,"SYMBOL_2000");
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN7,"SYMBOL_2000");
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(bbbkn3DD0E0114466,"SYMBOL_2000");
+		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_CAS);
 	}
 }
