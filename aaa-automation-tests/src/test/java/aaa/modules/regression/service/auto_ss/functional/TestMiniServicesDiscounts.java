@@ -14,6 +14,8 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
+import aaa.modules.regression.service.helper.HelperCommon;
+import aaa.modules.regression.service.helper.dtoDxp.DiscountSummary;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
@@ -55,10 +57,15 @@ public class TestMiniServicesDiscounts extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-9495"})
 	public void pas9495_miniServicesDiscounts(@Optional("AZ") String state) {
-		createQuoteWithCustomData(state);
+		/*createQuoteWithCustomData(state);*/
 
-		CustomAssert.enableSoftMode();
-		String policyNumber = testEValueDiscount.simplifiedQuoteIssue("ACH");
+		//CustomAssert.enableSoftMode();
+		/*String policyNumber = testEValueDiscount.simplifiedQuoteIssue("ACH");*/
+
+		String policyNumber = "KYSS926232030";
+
+		DiscountSummary policyDiscountsResponse = HelperCommon.executeDiscounts(policyNumber, "policy", 200);
+		policyDiscountsResponse.driverDiscounts.get(1);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
