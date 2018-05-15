@@ -1,8 +1,8 @@
 package aaa.utils.excel.io.entity.area;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.Temporal;
 import java.util.*;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
@@ -87,8 +87,8 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 		return values;
 	}
 
-	public int getSum() {
-		return getSum(getCellsIndexes().toArray(new Integer[getCellsNumber()]));
+	public int getIntSum() {
+		return getIntSum(getCellsIndexes().toArray(new Integer[getCellsNumber()]));
 	}
 
 	public int getMaxIntValue() {
@@ -163,7 +163,7 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 				expectedValue, ArrayUtils.isEmpty(dateTimeFormatters) ? "" : " using date formatters: " + Arrays.asList(dateTimeFormatters), cellType, this));
 	}
 
-	public int getSum(Integer... cellsIndexesInQueue) {
+	public int getIntSum(Integer... cellsIndexesInQueue) {
 		List<Integer> cellsIndexesList = Arrays.asList(cellsIndexesInQueue);
 		return getCells().stream().filter(c -> cellsIndexesList.contains(c.getColumnIndex()) && !c.isEmpty() && c.hasType(ExcelCell.INTEGER_TYPE)).mapToInt(ExcelCell::getIntValue).sum();
 	}
@@ -198,8 +198,9 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 		return getCell(cellIndexInQueue).getDoubleValue();
 	}
 
-	public LocalDateTime getDateValue(int cellIndexInQueue, DateTimeFormatter... dateTimeFormatters) {
-		return getCell(cellIndexInQueue).getDateValue(ExcelCell.LOCAL_DATE_TIME_TYPE, dateTimeFormatters);
+	@SuppressWarnings("unchecked")
+	public <T extends Temporal> T getDateValue(int cellIndexInQueue, DateTimeFormatter... dateTimeFormatters) {
+		return (T) getCell(cellIndexInQueue).getDateValue(ExcelCell.LOCAL_DATE_TIME_TYPE, dateTimeFormatters);
 	}
 
 	public CellsQueue<CELL> setValue(int cellIndexInQueue, Object value) {

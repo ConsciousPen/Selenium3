@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -17,6 +18,10 @@ import aaa.utils.excel.io.entity.area.ExcelCell;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
 import toolkit.exceptions.IstfException;
 
+/**
+ * Convenient utility to manipulate with Excel files built on top of Apache POI's library.
+ * Commonly used for getting/editing cell values within excel tables but besides that has variety useful features
+ */
 public class ExcelManager {
 	protected static Logger log = LoggerFactory.getLogger(ExcelManager.class);
 
@@ -25,6 +30,7 @@ public class ExcelManager {
 	private List<CellType<?>> allowableCellTypes;
 	private Workbook workbook;
 	private List<ExcelSheet> sheets;
+	private FormulaEvaluator evaluator;
 
 	public ExcelManager(File file) {
 		this(file, ExcelCell.getBaseTypes());
@@ -58,6 +64,13 @@ public class ExcelManager {
 			}
 		}
 		return Collections.unmodifiableList(this.sheets);
+	}
+
+	public FormulaEvaluator getFormulaEvaluator() {
+		if (this.evaluator == null) {
+			this.evaluator = getWorkbook().getCreationHelper().createFormulaEvaluator();
+		}
+		return evaluator;
 	}
 
 	public List<String> getSheetsNames() {

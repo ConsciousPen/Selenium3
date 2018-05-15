@@ -7,6 +7,7 @@ import java.time.temporal.Temporal;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.ArrayUtils;
@@ -30,6 +31,28 @@ public abstract class DateCellType<T extends Temporal> extends AbstractCellType<
 
 	protected final void setFormatters(List<DateTimeFormatter> dateTimeFormatters) {
 		this.dateTimeFormatters = dateTimeFormatters.toArray(new DateTimeFormatter[0]);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		if (!super.equals(o)) {
+			return false;
+		}
+		DateCellType<?> cellType = (DateCellType<?>) o;
+		return Objects.equals(endType, cellType.getEndType()) && Arrays.equals(dateTimeFormatters, cellType.dateTimeFormatters);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = super.hashCode();
+		result = 31 * result + Arrays.hashCode(dateTimeFormatters);
+		return result;
 	}
 
 	@Override
@@ -62,7 +85,8 @@ public abstract class DateCellType<T extends Temporal> extends AbstractCellType<
 	}
 
 	public T getValueFrom(ExcelCell cell, DateTimeFormatter... dateTimeFormatters) {
-		assertThat(isTypeOf(cell, dateTimeFormatters)).as("Unable to get value with \"%1$s\" type from %2$s using %3$s date formatter", getEndType(), cell, Arrays.asList(dateTimeFormatters)).isTrue();
+		assertThat(isTypeOf(cell, dateTimeFormatters)).as("Unable to get value with \"%1$s\" type from %2$s%3$s", getEndType(), cell,
+				ArrayUtils.isNotEmpty(dateTimeFormatters) ? " using date formatters: " + Arrays.asList(dateTimeFormatters) : "").isTrue();
 		if (cell.getPoiCell() == null) {
 			return null;
 		}

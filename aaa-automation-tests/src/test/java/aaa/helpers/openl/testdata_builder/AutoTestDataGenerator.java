@@ -12,7 +12,6 @@ import aaa.common.enums.Constants;
 import aaa.helpers.openl.model.AutoOpenLCoverage;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.model.OpenLVehicle;
-import aaa.helpers.openl.model.auto_ca.select.AutoCaSelectOpenLCoverage;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
@@ -398,31 +397,15 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 	}
 
-	String getPremiumAndCoveragesTabLimitOrDeductible(AutoOpenLCoverage coverage) {
+	protected <C extends AutoOpenLCoverage> String getPremiumAndCoveragesTabLimitOrDeductible(C coverage) {
 		String coverageCd = coverage.getCoverageCd();
 		if ("SP EQUIP".equals(coverageCd)) {
 			return new Dollar(coverage.getLimit()).toString();
 		}
-
-		String limitOrDeductible;
-		if ("COMP".equals(coverageCd) || "COLL".equals(coverageCd) || "MAINT".equals(coverageCd) || getState().equals(Constants.States.NY) && "PIP".equals(coverageCd)) {
-			limitOrDeductible = coverage.getDeductible();
-		} else if ("ETEC".equals(coverageCd) && coverage instanceof AutoCaSelectOpenLCoverage) {
-			limitOrDeductible = String.valueOf(((AutoCaSelectOpenLCoverage) coverage).getLimitCode());
-		} else {
-			limitOrDeductible = coverage.getLimit();
-		}
-
-		String[] limitRange = limitOrDeductible.split("/");
-		assertThat(limitRange.length).as("Unknown mapping for limit/deductible: %s", limitOrDeductible).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(2);
+		String[] limitRange = getLimitOrDeductibleRange(coverage);
 
 		if ("EMB".equals(coverageCd)) {
 			return "1000000".equals(limitRange[0]) ? "starts=Yes" : "starts=No";
-		}
-
-		//for AutoCA Choice
-		if ("RENTAL".equals(coverageCd) || "TOWING".equals(coverageCd)) {
-			return "1".equals(limitRange[0]) ? "starts=Yes" : "starts=No Coverage";
 		}
 
 		StringBuilder returnLimit = new StringBuilder();
@@ -440,6 +423,20 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			}
 		}
 		return returnLimit.toString();
+	}
+
+	protected String[] getLimitOrDeductibleRange(AutoOpenLCoverage coverage) {
+		String coverageCd = coverage.getCoverageCd();
+		String limitOrDeductible;
+		if ("COMP".equals(coverageCd) || "COLL".equals(coverageCd) || "MAINT".equals(coverageCd) || getState().equals(Constants.States.NY) && "PIP".equals(coverageCd)) {
+			limitOrDeductible = coverage.getDeductible();
+		} else {
+			limitOrDeductible = coverage.getLimit();
+		}
+
+		String[] limitRange = limitOrDeductible.split("/");
+		assertThat(limitRange.length).as("Unknown mapping for limit/deductible: %s", limitOrDeductible).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(2);
+		return limitRange;
 	}
 
 	String getFormattedCoverageLimit(String coverageLimit, String coverageCD) {
