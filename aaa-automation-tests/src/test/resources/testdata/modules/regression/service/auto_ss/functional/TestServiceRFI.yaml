@@ -696,7 +696,7 @@ DriverTab4_PA: {
 TestData_WV: {
   PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
   GeneralTab: '@GeneralTab',
-  DriverTab: ['@DriverTab1_WV', '@DriverTab2_WV', '@DriverTab3_WV', '@DriverTab4_PAWV'],
+  DriverTab: ['@DriverTab1_WV', '@DriverTab2_WV', '@DriverTab3_WV', '@DriverTab4_WV'],
   RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
   FormsTab: '@<auto_ss>@DataGather@FormsTab',
@@ -770,4 +770,125 @@ DriverTab4_WV: {
   Age First Licensed: 16,
   License Type: 'Licensed (US)',
   License Number: S123484
+}
+
+################ NY test data
+TestData_NY: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab1', '@DriverTab2', '@DriverTab3', '@DriverTab4'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1_NY', '@VehicleTab2_NY'],
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+VehicleTab1_NY: {
+  Usage: Pleasure,
+  VIN: 1GGYL2D7XG5100001,
+  Year: '$<today:yyyy>',
+  Make: OTHER,
+  Other Make: KIA,
+  Other Model: vehicle,
+  Other Body Style: Sedan,
+  Stat Code: 'Small car',
+  Stated Amount: 1000,
+  'Salvaged?': 'Yes',
+  'Less Than 3,000 Miles': 'Yes'
+}
+
+VehicleTab2_NY: {
+  Usage: Pleasure,
+  VIN: 1GGYL2D7XG5100002,
+  Year: '$<today:yyyy>',
+  Make: OTHER,
+  Other Make: FORD,
+  Other Model: Model,
+  Other Body Style: Sedan,
+  Stat Code: 'Small SUV',
+  Stated Amount: 30000,
+  'Less Than 3,000 Miles': 'Yes'
+}
+
+################ WY test data
+TestData_WY: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab1_WY', '@DriverTab2_WY', '@DriverTab3_WY', '@DriverTab4_WY'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+DriverTab1_WY: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  Date of Birth: '$<today-60y:MM/dd/yyyy>',
+  License Type: 'Licensed (US)',
+  License Number: 400064771,
+  'Defensive Driver Course Completed?': 'Yes',
+  'Defensive Driver Course Completion Date': '$<today-10d:MM/dd/yyyy>',
+  'Defensive Driver Course Certificate Number': 'OSI123'
+}
+
+DriverTab2_WY: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Child,
+  Date of Birth: '$<today-19y:MM/dd/yyyy>',
+  Gender: Female,
+  Marital Status: Single,
+  Occupation: Student,
+  Age First Licensed: 17,
+  License Type: 'Licensed (Canadian)',
+  License Number: 400064772,
+  Most Recent GPA: A Student,
+  'Smart Driver Course Completed?': 'Yes',
+  Smart Driver Course Completion Date: '$<today-10d:MM/dd/yyyy>',
+  Smart Driver Course Certificate Number: 'OSI123'
+}
+
+DriverTab3_WY: {
+  DriverSearchDialog: {},
+  Named Insured: 'contains=not a Named Insured',
+  Driver Type: 'Not Available for Rating',
+  Reason: 'Insured with another carrier',
+  Carrier: 'index=4',
+  Policy Number: '12345',
+  Rel. to First Named Insured: Child,
+  First Name: 'not available',
+  Last Name: 'For Rating',
+  Date of Birth: 01/01/1999,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: 400064773
+}
+
+DriverTab4_WY: {
+  DriverSearchDialog: {},
+  Named Insured: 'contains=not a Named Insured',
+  Driver Type: 'Not Available for Rating',
+  Reason: 'Insured with another carrier',
+  Carrier: 'index=4',
+  Policy Number: '12345',
+  Rel. to First Named Insured: Child,
+  First Name: 'to be excluded',
+  Last Name: 'driver',
+  Date of Birth: 01/01/1994,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: 400064774
 }
