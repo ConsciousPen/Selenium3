@@ -29,7 +29,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	private static final String NEW_VIN5 = "EEEVB2CCXW9455583";
 	private static final String NEW_VIN6 = "FFFVB2CC9W9455583";
 	private static final String REFRESHABLE_VIN = "4T1BE30K46U656311";
-	private static final String bbbkn3DD0E0114466 = "BBBKN3DD0E0114466";
+	private static final String GGGVB2CC8W9455583 = "GGGVB2CC8W9455583";
 
 	private VehicleTab vehicleTab = new VehicleTab();
 
@@ -108,9 +108,9 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-2714")
 	public void pas2714_Endorsement(@Optional("CA") String state) {
-		TestData testData = getNonExistingVehicleTestData(getPolicyTD(), bbbkn3DD0E0114466);
+		TestData testData = getNonExistingVehicleTestData(getPolicyTD(), GGGVB2CC8W9455583);
 
-		endorsement(testData,bbbkn3DD0E0114466);
+		endorsement(testData,GGGVB2CC8W9455583);
 	}
 
 	/**
@@ -235,7 +235,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN4,"SYMBOL_2000_CHOICE");
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN5,"SYMBOL_2000_CHOICE");
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN6,"SYMBOL_2000_CHOICE");
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(bbbkn3DD0E0114466,"SYMBOL_2000_CHOICE");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(GGGVB2CC8W9455583,"SYMBOL_2000_CHOICE");
 		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_CAC);
 	}
 }
