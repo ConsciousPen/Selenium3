@@ -1,0 +1,7 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Sixth Sense Nightly Run" verbose="1" parallel="none" thread-count="1024">
+    <suite-files>
+        <suite-file path="sixth_sense_suite.xml"/>
+        <suite-file path="sixth_sense_suite_timeshift.xml"/>
+    </suite-files>
+</suite>
