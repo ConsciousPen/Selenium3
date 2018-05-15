@@ -38,4 +38,28 @@
             <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
         </classes>
     </test>
+    <test name="PUP [DC] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="DC"/>
+        <parameter name="fileName" value="DCTests-20161201.xls"/>
+        <parameter name="policyNumbers" value="2526,2531"/>
+        <classes>
+            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="PUP [CO] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="CO"/>
+        <parameter name="fileName" value="COTests-20150301.xls"/>
+        <parameter name="policyNumbers" value="6,22"/>
+        <classes>
+            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="PUP [CT] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="CT"/>
+        <parameter name="fileName" value="CTTests.xls"/>
+        <parameter name="policyNumbers" value="93,120"/>
+        <classes>
+            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
+        </classes>
+    </test>
 </suite>
