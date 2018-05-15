@@ -373,7 +373,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11932", "PAS-12768" })
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11932", "PAS-12768"})
 	public void pas11932_viewDrivers(@Optional("VA") String state) {
 
 		pas11932_viewDriversInfo(getPolicyType(), state);
@@ -406,7 +406,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7082", "PAS-7145","PAS-11621"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7082", "PAS-7145", "PAS-11621"})
 	public void pas7082_AddVehicle(@Optional("AZ") String state) {
 
 		pas7082_AddVehicle(getPolicyType());
@@ -827,7 +827,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741","PAS-11852","PAS-12601"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741", "PAS-11852", "PAS-12601"})
 	public void pas11741_ManageVehicleLevelCoverages(@Optional("VA") String state) {
 
 		pas11741_ViewManageVehicleLevelCoverages(getPolicyType());
@@ -953,6 +953,9 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * Hit view vehicle service to get OID
 	 * Hit Meta data service
 	 * Validate the response
+	 * Add garage address different than Residential
+	 * Hit Meta Data service again.
+	 * Validate the garage address response.
 	 * @scenario
 	 */
 	@Parameters({"state"})
@@ -960,7 +963,57 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12407"})
 	public void pas12407_BigMetaDataService(@Optional("VA") String state) {
 		assertSoftly(softly ->
-				pas12407_bigDataService(state, true, softly)
+				pas12407_bigDataService(softly)
+		);
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Validation on Update/Rate/Bind for vehicle use = Registered Owner
+	 * @scenario 1) Create a policy
+	 * 2) Start an endorsement
+	 * 3) Add a vehicle with Ownership info = Leased or Financed
+	 * 3.1) check field values in ui, check address is validated
+	 * 5) rate
+	 * 6) bind
+	 * 7) do an endorsement in PAS, rate bind
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11618"})
+	public void pas11618_UpdateVehicleLeasedInfo(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas11618_UpdateVehicleLeasedFinancedInfoBody(softly, "LSD")
+		);
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Validation on Update/Rate/Bind for vehicle use = Registered Owner
+	 * @scenario 1) Create a policy
+	 * 2) Start an endorsement
+	 * 3) Add a vehicle
+	 * 4) update vehicle adding Ownership info = Leased or Financed
+	 * 4.1) check field values in ui, check address is validated
+	 * 5) rate
+	 * 6) bind
+	 * 7) do an endorsement in PAS, rate bind
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11618"})
+	public void pas11618_UpdateVehicleFinancedInfo(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas11618_UpdateVehicleLeasedFinancedInfoBody(softly, "FNC")
+		);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13252"})
+	public void pas13252_UpdateVehicleGaragingAddressProblem(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas13252_UpdateVehicleGaragingAddressProblemBody(softly)
 		);
 	}
 

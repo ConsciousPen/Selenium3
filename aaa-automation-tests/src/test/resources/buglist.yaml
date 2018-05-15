@@ -161,12 +161,6 @@ PAS-12257:
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForConversion]
       messages: ["Cannot set value of ComboBox"]
-BUG-10001:
-  summary: "VDMs frequently fail prefilling address"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.*]
-      messages: ["Cannot set value of AssetList {PrefillTab: By.xpath: //div[@id='contentWrapper']} to '{Validate Address=click, Validate Address Dialog={}, Order Prefill=click}'"]
 PT-1576:
   summary: "Auto SS Defensive Driver Discount is not displayed correctly"
   reason: PROD

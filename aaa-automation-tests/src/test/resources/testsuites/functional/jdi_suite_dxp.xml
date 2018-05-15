@@ -53,6 +53,9 @@
                     <include name="pas508_BindManualEndorsement"/>
                     <include name="pas508_BindServiceEndorsement"/>
                     <include name="pas11741_ManageVehicleLevelCoveragesOtherThanVA"/>
+                    <include name="pas11618_UpdateVehicleLeasedInfo"/>
+                    <include name="pas11618_UpdateVehicleFinancedInfo"/>
+                    <include name="pas13252_UpdateVehicleGaragingAddressProblemBody"/>
                 </methods>
             </class>
         </classes>
