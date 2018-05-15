@@ -20,7 +20,6 @@ import aaa.common.pages.NavigationPage;
 import aaa.main.enums.PolicyConstants;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
@@ -345,7 +344,7 @@ public class PolicySummaryPage extends SummaryPage {
 			assertThat(tableTransactionHistory.getRow(1).getCell("Reason").getHintValue()).contains(value);
 		}
 		assertThat(tableTransactionHistory.getRow(1).getCell("Reason").getValue()).contains(valueShort);
-
+		/*not needed, because  getHint value already works
 		String transactionHistoryQuery = "select * from(\n"
 				+ "select pt.TXREASONTEXT\n"
 				+ "from PolicyTransaction pt\n"
@@ -354,6 +353,6 @@ public class PolicySummaryPage extends SummaryPage {
 				+ "        where POLICYNUMBER = '%s')\n"
 				+ "    order by pt.TXDATE desc)\n"
 				+ "    where rownum=1";
-		assertThat(DBService.get().getValue(String.format(transactionHistoryQuery, policyNumber)).orElse(StringUtils.EMPTY)).isEqualTo(value);
+		assertThat(DBService.get().getValue(String.format(transactionHistoryQuery, policyNumber)).orElse(StringUtils.EMPTY)).isEqualTo(value);*/
 	}
 }
