@@ -418,16 +418,16 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				HomeSSMetaData.PropertyInfoTab.HomeRenovation.HEATING_COOLING_YEAR_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovHeatOrCooling() * 12 + 1).getYear()
 		);
 
-		TestData petsOrAnimalsData = null;
-		// TODO clarify logic
-		if (openLPolicy.getPolicyConstructionInfo().getDogType() == 1) {
-			petsOrAnimalsData = DataProviderFactory.dataOf(
-					HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ARE_ANY_PETS_OR_ANIMALS_KEPT_ON_THE_PROPERTY.getLabel(), "Yes",
-					HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_TYPE.getLabel(), "Dog - Other breed",
-					HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.OTHER_SPECIFY.getLabel(), "Pooch",
-					HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_COUNT.getLabel(), openLPolicy.getPolicyConstructionInfo().getLiveStkNo() > 0 ? String.format("%d", openLPolicy.getPolicyConstructionInfo().getLiveStkNo()) : "1"
-			);
-		}
+		List<TestData> petsOrAnimalsData = getPetsOrAnimalsData(openLPolicy);
+		//		// TODO clarify logic
+		//		if (openLPolicy.getPolicyConstructionInfo().getDogType() == 1) {
+		//			petsOrAnimalsData = DataProviderFactory.dataOf(
+		//					HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ARE_ANY_PETS_OR_ANIMALS_KEPT_ON_THE_PROPERTY.getLabel(), "Yes",
+		//					HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_TYPE.getLabel(), "Dog - Other breed",
+		//					HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.OTHER_SPECIFY.getLabel(), "Pooch",
+		//					HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_COUNT.getLabel(), openLPolicy.getPolicyConstructionInfo().getLiveStkNo() > 0 ? String.format("%d", openLPolicy.getPolicyConstructionInfo().getLiveStkNo()) : "1"
+		//			);
+		//		}
 
 		TestData recreationalEquipmentData = DataProviderFactory.dataOf(
 				HomeSSMetaData.PropertyInfoTab.RecreationalEquipment.SWIMMING_POOL.getLabel(), getSwimmingPoolType(openLPolicy),
@@ -445,6 +445,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		}
 
 		List<TestData> claimHistoryData = openLPolicy.getPolicyLossInformation().getRecentYCF() < 3 ? getClaimsHistoryData(openLPolicy) : null;
+
 		return DataProviderFactory.dataOf(
 				HomeSSMetaData.PropertyInfoTab.DWELLING_ADDRESS.getLabel(), dwellingAddressData,
 				HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS.getLabel(), publicProtectionClassData,
@@ -764,6 +765,43 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			isVisibleProofOfPEHCR = true;
 		}
 		return isVisibleProofOfPEHCR;
+	}
+
+	private List<TestData> getPetsOrAnimalsData(HomeSSOpenLPolicy openLPolicy) {
+		List<TestData> petsOrAnimalsData = new ArrayList<>();
+		if (openLPolicy.getPolicyConstructionInfo().getDogType() == null) {
+			// only Live Stock Animals
+			if (openLPolicy.getPolicyConstructionInfo().getLiveStkNo() > 0) {
+				petsOrAnimalsData.add(DataProviderFactory.dataOf(
+						HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ARE_ANY_PETS_OR_ANIMALS_KEPT_ON_THE_PROPERTY.getLabel(), "Yes",
+						HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_TYPE.getLabel(), "Cows",
+						HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_COUNT.getLabel(), openLPolicy.getPolicyConstructionInfo().getLiveStkNo()
+				));
+			}
+		} else {
+			switch (openLPolicy.getPolicyConstructionInfo().getDogType()) {
+				case 1:
+					if (openLPolicy.getPolicyConstructionInfo().getLiveStkNo() > 0) {
+						petsOrAnimalsData.add(DataProviderFactory.dataOf(
+								HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_TYPE.getLabel(), "Livestock - Cow",
+								HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_COUNT.getLabel(), openLPolicy.getPolicyConstructionInfo().getLiveStkNo()
+						));
+					}
+					petsOrAnimalsData.add(DataProviderFactory.dataOf(
+							HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_TYPE.getLabel(), "Dog - Other breed",
+							HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.OTHER_SPECIFY.getLabel(), "Pooch",
+							HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_COUNT.getLabel(), "1"
+					));
+					petsOrAnimalsData.get(0).adjust(DataProviderFactory.dataOf(HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ARE_ANY_PETS_OR_ANIMALS_KEPT_ON_THE_PROPERTY.getLabel(), "Yes"));
+					break;
+				case 2:
+					throw new IstfException("Dog type = 2, Applicants/Insureds with vicious dogs or exotic animals are ineligible");
+				default:
+					throw new IstfException("Unknown mapping for dog type = " + openLPolicy.getPolicyConstructionInfo().getDogType());
+
+			}
+		}
+		return petsOrAnimalsData;
 	}
 
 	private List<TestData> getClaimsHistoryData(HomeSSOpenLPolicy openLPolicy) {
