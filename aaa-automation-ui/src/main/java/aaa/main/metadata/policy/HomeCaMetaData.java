@@ -868,6 +868,8 @@ public final class HomeCaMetaData {
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> FPCECA = declare("FPCECA", HomeCAEndorsementsMultiAssetList.class, EndorsementFPCECA.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> FPCECADP = declare("FPCECADP", HomeCAEndorsementsMultiAssetList.class, EndorsementFPCECADP.class, By
+				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		// public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HW_24_82 = declare("HW 24 82",
 		// HomeCAEndorsementsMultiAssetList.class, EndorsementHW2482.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		// public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HW_28 = declare("HW-28",
@@ -1182,6 +1184,11 @@ public final class HomeCaMetaData {
 		public static final class EndorsementHO1733 extends MetaData {}
 
 		public static final class EndorsementFPCECA extends MetaData {
+			public static final AssetDescriptor<AssetListConfirmationDialog> CONFIRM_OBJECT_ADDITION = declare("Confirm Object Addition", AssetListConfirmationDialog.class, Waiters.AJAX, false, By
+					.xpath("//div[@id='policyDataGatherForm:dataObjectAddPopup_AAAHoPolicyEndorsementFormManager_container']"));
+		}
+
+		public static final class EndorsementFPCECADP extends MetaData {
 			public static final AssetDescriptor<AssetListConfirmationDialog> CONFIRM_OBJECT_ADDITION = declare("Confirm Object Addition", AssetListConfirmationDialog.class, Waiters.AJAX, false, By
 					.xpath("//div[@id='policyDataGatherForm:dataObjectAddPopup_AAAHoPolicyEndorsementFormManager_container']"));
 		}
