@@ -81,9 +81,8 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			td.mask("AssignmentTab").resolveLinks();
 		}
 
-
-		if("ID, KS, KY, MT, NV, NY, OR, UT, WY, MD".contains(state)) {
-          	 td = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_No_UBI").getTestDataList("VehicleTab")).resolveLinks();
+		if ("ID, KS, KY, MT, NV, NY, OR, UT, WY, MD".contains(state)) {
+			td = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_No_UBI").getTestDataList("VehicleTab")).resolveLinks();
 		}
 
 		mainApp().open();
@@ -103,7 +102,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		//PAS-341 Start
 		RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel(), "NBA", "NS");
-		if(!"ID, KS, KY, MT, NV, NY, OR, UT, WY, MD".contains(state)) {
+		if (!"ID, KS, KY, MT, NV, NY, OR, UT, WY, MD".contains(state)) {
 			HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS.getLabel(), "DISC", "NS");
 		}
 		//HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE.getLabel(), "COVCHG", "NS");
@@ -125,7 +124,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		endorseRateDocuments();
 		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION).verify.value("Pending Review (Uploaded " + today + ")");
-		if(!"ID, KS, KY, MT, NV, NY, OR, UT, WY, MD".contains(state)) {
+		if (!"ID, KS, KY, MT, NV, NY, OR, UT, WY, MD".contains(state)) {
 			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS).verify
 					.value("Pending Review (Uploaded " + today + ")");
 		}
@@ -135,14 +134,16 @@ public class TestServiceRFI extends AutoSSBaseTest {
 				.value("Pending Review (Uploaded " + today + ")");
 
 		//check Upload Pending is present after value is changed
-		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS)
-				.setValue("Physically Signed");
+		if (!"ID, KS, KY, MT, NV, NY, OR, UT, WY, MD".contains(state)) {
+			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS)
+					.setValue("Physically Signed");
+		}
 		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION).setValue("Yes");
 		documentsAndBindTab.submitTab();
 
 		endorseRateDocuments();
 		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION).verify.value("Pending Review (Uploaded " + today + ")");
-		if(!"ID, KS, KY, MT, NV, NY, OR, UT, WY, MD".contains(state)) {
+		if (!"ID, KS, KY, MT, NV, NY, OR, UT, WY, MD".contains(state)) {
 			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS).verify
 					.value("Physically Signed");
 		}
@@ -189,7 +190,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	private void createQuoteWithCustomData(String state) {
 
 		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION).verify.value("Not Signed");
-		if(!"ID, KS, KY, MT, NV, NY, OR, UT, WY, MD".contains(state)) {
+		if (!"ID, KS, KY, MT, NV, NY, OR, UT, WY, MD".contains(state)) {
 			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS).verify
 					.value("Not Signed");
 		}
@@ -228,7 +229,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 		RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel(), "NBA", "PS");
-		if(!"ID, KS, KY, MT, NV, NY, OR, UT, WY, MD".contains(state)) {
+		if (!"ID, KS, KY, MT, NV, NY, OR, UT, WY, MD".contains(state)) {
 			HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS.getLabel(), "DISC", "PS");
 		}
 		//HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE.getLabel(), "COVCHG", "NS");
@@ -258,7 +259,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		HelperRfi.rfiTagCheck(query, "SalvVehYN", "Y");
 		HelperRfi.rfiTagCheck(query, "PsnlAutoApplYN", "Y");
 		HelperRfi.rfiTagCheck(query, "CanMVRYN", "Y");
-		if(!"ID, KS, KY, MT, NV, NY, OR, UT, WY, MD".contains(state)) {
+		if (!"ID, KS, KY, MT, NV, NY, OR, UT, WY, MD".contains(state)) {
 			//TODO UBITrmCndtnYN is N, but the RFI contains it. Kinda illogical
 			HelperRfi.rfiTagCheck(query, "UBITrmCndtnYN", "N");
 		}
