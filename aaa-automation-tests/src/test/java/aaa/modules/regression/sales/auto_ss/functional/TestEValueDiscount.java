@@ -1294,7 +1294,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3694", "PAS-2789", "PAS-299"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3694", "PAS-2789", "PAS-299", "PAS-2794"})
 	public void pas3694_eValueBlueBoxAndStaticText(@Optional("OR") String state) {
 
 		eValueQuoteCreation();
@@ -1603,7 +1603,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794"})
 	public void pas3693_eValueConfiguration1(@Optional("OR") String state) {
 		CustomAssert.enableSoftMode();
 		verifyEvalueAcknowledgement(8, "N", "Y", "Y", "Y", "Y");
@@ -1614,7 +1614,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794"})
 	public void pas3693_eValueConfiguration2(@Optional("OR") String state) {
 		CustomAssert.enableSoftMode();
 		verifyEvalueAcknowledgement(12, "Y", "N", "Y", "N", "Y");
@@ -1625,7 +1625,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794"})
 	public void pas3693_eValueConfiguration3(@Optional("OR") String state) {
 		CustomAssert.enableSoftMode();
 		verifyEvalueAcknowledgement(18, "Y", "Y", "N", "Y", "Y");
@@ -1636,7 +1636,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794"})
 	public void pas3693_eValueConfiguration4(@Optional("OR") String state) {
 		CustomAssert.enableSoftMode();
 		verifyEvalueAcknowledgement(15, "Y", "Y", "Y", "Y", "N");
@@ -1647,7 +1647,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794"})
 	public void pas3693_eValueConfiguration5(@Optional("OR") String state) {
 		CustomAssert.enableSoftMode();
 		verifyEvalueAcknowledgement(3, "N", "N", "N", "Y", "N");

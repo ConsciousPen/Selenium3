@@ -150,7 +150,7 @@ AssignedDriver2: {
 
 PremiumAndCoveragesTab: {
   Bodily Injury Liability: 'contains=$50,000/$100,000',
-  'Uninsured/Underinsured Motorist Bodily Injury': 'index=0',
+  #'Uninsured/Underinsured Motorist Bodily Injury': 'index=0',
   DetailedVehicleCoverages: [
     {
       New Car Added Protection: 'Yes',
