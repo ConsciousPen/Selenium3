@@ -12,12 +12,16 @@ TestData: {
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
+TestData_No_UBI: {
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2_No_UBI'],
+}
+
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
   AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA',
-  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation'
+  CurrentCarrierInformation: '@CurrentCarrierInformation'
 }
 
 NamedInsuredInformation1: {
@@ -36,6 +40,13 @@ NamedInsuredInformation2: {
   Residence: Own Home,
 }
 
+CurrentCarrierInformation: {
+  "Override Prefilled Current Carrier?": 'Yes',
+  Agent Entered Current/Prior Carrier: 'AAA-SoCal (ACSC)',
+  Agent Entered Inception Date: '$<today-1y:MM/dd/yyyy>',
+  Agent Entered Expiration Date: '$<today:MM/dd/yyyy>',
+  Agent Entered BI Limits: '$300,000/$500,000',
+}
 DriverTab1: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
@@ -69,7 +80,7 @@ DriverTab3: {
   Named Insured: 'contains=not a Named Insured',
   Driver Type: 'Not Available for Rating',
   Reason: 'Insured with another carrier',
-  Carrier: 'Allstate',
+  Carrier: 'index=4',
   Policy Number: '12345',
   Rel. to First Named Insured: Child,
   First Name: 'not available',
@@ -88,7 +99,7 @@ DriverTab4: {
   Named Insured: 'contains=not a Named Insured',
   Driver Type: 'Not Available for Rating',
   Reason: 'Insured with another carrier',
-  Carrier: 'Allstate',
+  Carrier: 'index=4',
   Policy Number: '12345',
   Rel. to First Named Insured: Child,
   First Name: 'to be excluded',
@@ -133,6 +144,18 @@ VehicleTab2: {
       Grant Participation Discount: click
 }
 
+VehicleTab2_No_UBI: {
+  Usage: Pleasure,
+  VIN: 1GGYL2D7XG5100002,
+  Year: '$<today:yyyy>',
+  Make: OTHER,
+  Other Make: FORD,
+  Other Model: Model,
+  Other Body Style: Sedan,
+  Stat Code: 'Small SUV',
+  Stated Amount: 30000
+}
+
 AssignmentTab_VA: {
   DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver2']
 }
@@ -161,4 +184,270 @@ PremiumAndCoveragesTab: {
       Purchase Date: '$<today-40d>'
     }
   ]
+}
+################ CT test data
+TestData_CT: {
+  PrefillTab: '@PrefillTab_CT',
+  GeneralTab: '@GeneralTab_CT',
+  DriverTab: ['@DriverTab1_CT', '@DriverTab2_CT', '@DriverTab3_CT', '@DriverTab4_CT'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+PrefillTab_CT: {
+  "County / Township": 'New Haven / Middlebury',
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
+
+GeneralTab_CT: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2_CT'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation'
+}
+
+NamedInsuredInformation2_CT: {
+  InsuredSearchDialog: {},
+  First Name: Jenny,
+  Last Name: Smith,
+   "County / Township": 'New Haven / Middlebury',
+  Base Date: $<today>,
+  Social Security Number: 223456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+DriverTab1_CT: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  Date of Birth: '$<today-60y:MM/dd/yyyy>',
+  License Type: 'Licensed (US)',
+  License Number: 156773434,
+  'Defensive Driver Course Completed?': 'Yes',
+  'Defensive Driver Course Completion Date': '$<today-10d:MM/dd/yyyy>',
+  'Defensive Driver Course Certificate Number': 'OSI123'
+}
+
+DriverTab2_CT: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Child,
+  Date of Birth: '$<today-19y:MM/dd/yyyy>',
+  Gender: Female,
+  Marital Status: Single,
+  Occupation: Student,
+  Age First Licensed: 17,
+  License Type: 'Licensed (Canadian)',
+  License Number: 156773435,
+  Most Recent GPA: A Student,
+  'Smart Driver Course Completed?': 'Yes',
+  Smart Driver Course Completion Date: '$<today-10d:MM/dd/yyyy>',
+  Smart Driver Course Certificate Number: 'OSI123'
+}
+
+DriverTab3_CT: {
+  DriverSearchDialog: {},
+  Named Insured: 'contains=not a Named Insured',
+  Driver Type: 'Not Available for Rating',
+  Reason: 'Insured with another carrier',
+  Carrier: 'index=2',
+  Policy Number: '12345',
+  Rel. to First Named Insured: Child,
+  First Name: 'not available',
+  Last Name: 'For Rating',
+  Date of Birth: 01/01/1999,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: 156773436
+}
+
+DriverTab4_CT: {
+  DriverSearchDialog: {},
+  Named Insured: 'contains=not a Named Insured',
+  Driver Type: 'Not Available for Rating',
+  Reason: 'Insured with another carrier',
+  Carrier: 'index=3',
+  Policy Number: '12345',
+  Rel. to First Named Insured: Child,
+  First Name: 'to be excluded',
+  Last Name: 'driver',
+  Date of Birth: 01/01/1994,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: 156773437
+}
+
+
+################ DE test data
+TestData_DE: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab1_DE', '@DriverTab2_DE', '@DriverTab3_DE', '@DriverTab4_DE'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+DriverTab1_DE: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  Date of Birth: '$<today-60y:MM/dd/yyyy>',
+  License Type: 'Licensed (US)',
+  License Number: 9992611,
+  'Defensive Driver Course Completed?': 'Yes',
+  'Defensive Driver Course Completion Date': '$<today-10d:MM/dd/yyyy>',
+  'Defensive Driver Course Certificate Number': 'OSI123'
+}
+
+DriverTab2_DE: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Child,
+  Date of Birth: '$<today-19y:MM/dd/yyyy>',
+  Gender: Female,
+  Marital Status: Single,
+  Occupation: Student,
+  Age First Licensed: 17,
+  License Type: 'Licensed (Canadian)',
+  License Number: 9992612,
+  Most Recent GPA: A Student,
+  'Smart Driver Course Completed?': 'Yes',
+  Smart Driver Course Completion Date: '$<today-10d:MM/dd/yyyy>',
+  Smart Driver Course Certificate Number: 'OSI123'
+}
+
+DriverTab3_DE: {
+  DriverSearchDialog: {},
+  Named Insured: 'contains=not a Named Insured',
+  Driver Type: 'Not Available for Rating',
+  Reason: 'Insured with another carrier',
+  Carrier: 'index=4',
+  Policy Number: '12345',
+  Rel. to First Named Insured: Child,
+  First Name: 'not available',
+  Last Name: 'For Rating',
+  Date of Birth: 01/01/1999,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: 9992613
+}
+
+DriverTab4_DE: {
+  DriverSearchDialog: {},
+  Named Insured: 'contains=not a Named Insured',
+  Driver Type: 'Not Available for Rating',
+  Reason: 'Insured with another carrier',
+  Carrier: 'index=4',
+  Policy Number: '12345',
+  Rel. to First Named Insured: Child,
+  First Name: 'to be excluded',
+  Last Name: 'driver',
+  Date of Birth: 01/01/1994,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: 9992614
+}
+
+################ MD test data
+TestData_MD: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab1_MD', '@DriverTab2_MD', '@DriverTab3_MD', '@DriverTab4_MD'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+DriverTab1_MD: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  Date of Birth: '$<today-60y:MM/dd/yyyy>',
+  License Type: 'Licensed (US)',
+  License Number: S123456789991,
+  'Defensive Driver Course Completed?': 'Yes',
+  'Defensive Driver Course Completion Date': '$<today-10d:MM/dd/yyyy>',
+  'Defensive Driver Course Certificate Number': 'OSI123'
+}
+
+DriverTab2_MD: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Child,
+  Date of Birth: '$<today-19y:MM/dd/yyyy>',
+  Gender: Female,
+  Marital Status: Single,
+  Occupation: Student,
+  Age First Licensed: 17,
+  License Type: 'Licensed (Canadian)',
+  License Number: S123456789992,
+  Most Recent GPA: A Student,
+  'Smart Driver Course Completed?': 'Yes',
+  Smart Driver Course Completion Date: '$<today-10d:MM/dd/yyyy>',
+  Smart Driver Course Certificate Number: 'OSI123'
+}
+
+DriverTab3_MD: {
+  DriverSearchDialog: {},
+  Named Insured: 'contains=not a Named Insured',
+  Driver Type: 'Not Available for Rating',
+  Reason: 'Insured with another carrier',
+  Carrier: 'index=5',
+  Policy Number: '12345',
+  Rel. to First Named Insured: Child,
+  First Name: 'not available',
+  Last Name: 'For Rating',
+  Date of Birth: 01/01/1999,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: S123456789993
+}
+
+DriverTab4_MD: {
+  DriverSearchDialog: {},
+  Named Insured: 'contains=not a Named Insured',
+  Driver Type: 'Not Available for Rating',
+  Reason: 'Insured with another carrier',
+  Carrier: 'index=5',
+  Policy Number: '12345',
+  Rel. to First Named Insured: Child,
+  First Name: 'to be excluded',
+  Last Name: 'driver',
+  Date of Birth: 01/01/1994,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: S123456789994
 }

@@ -19,6 +19,7 @@ import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
@@ -32,224 +33,264 @@ import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 
 public class TestServiceRFI extends AutoSSBaseTest {
-    private final DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
-    private final TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+	private final DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+	private final TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 
-    /**
-     * @author Oleg Stasyuk
-     * @name RFI
-     * @scenario
-     * 1.Initiate quote creation.
-     * Insured1
-     * Proof of Prior Insurance (including original inception date of policy and prior BI limits)	Prior BI overridden by agent
-     *
-     * Driver1
-     * Proof of Good Student
-     *
-     * Driver2
-     * DL - Foreign
-     * Smart Driver Course Completed?
-     *
-     * Driver3 - Not Available for Rating, insured with other carrier
-     * Proof of Current Insurance for all "Not Available for Rating" drivers
-     *
-     * Driver4 - Not Available for Rating
-     *
-     *
-     * Vehicle1 -
-     * Photos showing all 4 sides of salvaged vehicles	select salvaged
-     * Proof of purchase date (bill of sale) for new vehicle(s) - less than 30 days
-     *
-     * Vehicle2 -
-     * Proof of equivalent new car added protection coverage with prior carrier for new vehicle(s)	new car added protection; date is more than 30 days ago
-     * @details
-     */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-349", "PAS-341"})
-    public void pas349_rfiAuto(@Optional("VA") String state) {
-        String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
+	/**
+	 * @author Oleg Stasyuk
+	 * @name RFI
+	 * @scenario
+	 * 1.Initiate quote creation.
+	 * Insured1
+	 * Proof of Prior Insurance (including original inception date of policy and prior BI limits)	Prior BI overridden by agent
+	 *
+	 * Driver1
+	 * Proof of Good Student
+	 *
+	 * Driver2
+	 * DL - Foreign
+	 * Smart Driver Course Completed?
+	 *
+	 * Driver3 - Not Available for Rating, insured with other carrier
+	 * Proof of Current Insurance for all "Not Available for Rating" drivers
+	 *
+	 * Driver4 - Not Available for Rating
+	 *
+	 *
+	 * Vehicle1 -
+	 * Photos showing all 4 sides of salvaged vehicles	select salvaged
+	 * Proof of purchase date (bill of sale) for new vehicle(s) - less than 30 days
+	 *
+	 * Vehicle2 -
+	 * Proof of equivalent new car added protection coverage with prior carrier for new vehicle(s)	new car added protection; date is more than 30 days ago
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-349", "PAS-341"})
+	public void pas349_rfiAuto(@Optional("MD") String state) {
+		String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 
-        createQuoteWithCustomData(state);
+		TestData td;
+		if (null == getTestSpecificTD("TestData_" + state)) {
+			td = getTestSpecificTD("TestData");
+		} else {
+			td = getTestSpecificTD("TestData_" + state);
+		}
+		if (!("VA".equals(state) || "CA".equals(state) || "NY".equals(state))) {
+			td.mask("AssignmentTab").resolveLinks();
+		}
 
-        CustomAssert.enableSoftMode();
-        String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
-        rfiDocumentContentCheck(policyNumber);
 
-        //PAS-341 Start
-        RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel(), "NBA", "NS");
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS.getLabel(), "DISC", "NS");
-        //HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE.getLabel(), "COVCHG", "NS");
+		if("ID, KS, KY, MT, NV, NY, OR, UT, WY, MD".contains(state)) {
+          	 td = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_No_UBI").getTestDataList("VehicleTab")).resolveLinks();
+		}
 
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_CURRENT_INSURANCE_FOR.getLabel(), "POI", "NS");
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT.getLabel(), "DISC", "NS");
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION.getLabel(), "DISC", "NS");
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PRIOR_INSURANCE.getLabel(), "POI", "NS");
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PURCHASE_DATE_BILL_OF_SALE_FOR_NEW_VEHICLES.getLabel(), "DVUD", "NS");
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES.getLabel(), "DISC", "NS");
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.CANADIAN_MVR_FOR_DRIVER.getLabel(), "DVUD", "NS");
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PHOTOS_FOR_SALVATAGE_VEHICLE_WITH_PHYSICAL_DAMAGE_COVERAGE.getLabel(), "INSPP", "NS");
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_DEFENSIVE_DRIVER_COURSE_COMPLETION.getLabel(), "POI", "NS");
-        //PAS-341 End
+		mainApp().open();
+		createCustomerIndividual();
+		//SearchPage.openCustomer("700032527");
 
-        uploadDocuments(policyNumber);
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(td, DocumentsAndBindTab.class, false);
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-        endorseRateDocuments();
-        documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION).verify.value("Pending Review (Uploaded " + today + ")");
-        documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS).verify.value("Pending Review (Uploaded " + today + ")");
-        documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT).verify.value("Pending Review (Uploaded " + today + ")");
-        documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION).verify.value("Pending Review (Uploaded " + today + ")");
+		createQuoteWithCustomData(state);
 
-        //check Upload Pending is present after value is changed
-        documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS).setValue("Physically Signed");
-        documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION).setValue("Yes");
-        documentsAndBindTab.submitTab();
+		CustomAssert.enableSoftMode();
+		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
+		rfiDocumentContentCheck(policyNumber, state);
 
-        endorseRateDocuments();
-        documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION).verify.value("Pending Review (Uploaded " + today + ")");
-        documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS).verify.value("Physically Signed");
-        documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT).verify.value("Pending Review (Uploaded " + today + ")");
-        documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION).verify.value("Yes");
+		//PAS-341 Start
+		RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel(), "NBA", "NS");
+		if(!"ID, KS, KY, MT, NV, NY, OR, UT, WY, MD".contains(state)) {
+			HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS.getLabel(), "DISC", "NS");
+		}
+		//HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE.getLabel(), "COVCHG", "NS");
 
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
-    }
+		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_CURRENT_INSURANCE_FOR.getLabel(), "POI", "NS");
+		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT.getLabel(), "DISC", "NS");
+		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION.getLabel(), "DISC", "NS");
+		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PRIOR_INSURANCE.getLabel(), "POI", "NS");
+		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PURCHASE_DATE_BILL_OF_SALE_FOR_NEW_VEHICLES.getLabel(), "DVUD", "NS");
+		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES
+				.getLabel(), "DISC", "NS");
+		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.CANADIAN_MVR_FOR_DRIVER.getLabel(), "DVUD", "NS");
+		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PHOTOS_FOR_SALVATAGE_VEHICLE_WITH_PHYSICAL_DAMAGE_COVERAGE.getLabel(), "INSPP", "NS");
+		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_DEFENSIVE_DRIVER_COURSE_COMPLETION.getLabel(), "POI", "NS");
+		//PAS-341 End
 
-    /**
-     * @author Oleg Stasyuk
-     * @name RFI
-     * @scenario
-     * Valid only for  <parameter name="state" value="AZ, IN, OH, OK, NV"/>
-     * 1.Initiate quote creation.
-     * Auto Insurance Application
-     * Non-Owner Automobile Endorsement
-     * @details
-     */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-349", "PAS-341"})
-    public void pas349_rfiNano(@Optional("OH") String state) {
-        createQuoteWithCustomDataNano(state);
+		uploadDocuments(policyNumber, state);
 
-        CustomAssert.enableSoftMode();
-        //TODO Question to Karen: IN has Uninsured Property Damage = No COverage, disabled, but required to have at least 25k
-        String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
-        rfiDocumentContentCheckNano(policyNumber);
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		endorseRateDocuments();
+		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION).verify.value("Pending Review (Uploaded " + today + ")");
+		if(!"ID, KS, KY, MT, NV, NY, OR, UT, WY, MD".contains(state)) {
+			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS).verify
+					.value("Pending Review (Uploaded " + today + ")");
+		}
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT).verify
+				.value("Pending Review (Uploaded " + today + ")");
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION).verify
+				.value("Pending Review (Uploaded " + today + ")");
 
-        //PAS-341 Start
-        RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel(), "NBA", "NS");
-        //TODO Question to Karen: NV returns "Non-Owner Automobile Endorsement Form" instead of "Non-Owner Automobile Endorsement"
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NON_OWNER_AUTOMOBILE_ENDORSEMENT.getLabel(), "MISC", "NS");
-        //PAS-341 End
+		//check Upload Pending is present after value is changed
+		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS)
+				.setValue("Physically Signed");
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION).setValue("Yes");
+		documentsAndBindTab.submitTab();
 
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
-    }
+		endorseRateDocuments();
+		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION).verify.value("Pending Review (Uploaded " + today + ")");
+		if(!"ID, KS, KY, MT, NV, NY, OR, UT, WY, MD".contains(state)) {
+			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS).verify
+					.value("Physically Signed");
+		}
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT).verify
+				.value("Pending Review (Uploaded " + today + ")");
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION).verify.value("Yes");
 
-    private void createQuoteWithCustomData(String state) {
-        mainApp().open();
-        createCustomerIndividual();
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
 
-        TestData td = getTestSpecificTD("TestData");
-            if (!("VA".equals(state) || "CA".equals(state) || "NY".equals(state))) {
-                td.mask("AssignmentTab");
-            }
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(td, DocumentsAndBindTab.class, false);
-        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+	/**
+	 * @author Oleg Stasyuk
+	 * @name RFI
+	 * @scenario
+	 * Valid only for  <parameter name="state" value="AZ, IN, OH, OK, NV"/>
+	 * 1.Initiate quote creation.
+	 * Auto Insurance Application
+	 * Non-Owner Automobile Endorsement
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-349", "PAS-341"})
+	public void pas349_rfiNano(@Optional("OH") String state) {
+		createQuoteWithCustomDataNano(state);
 
-        documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION).verify.value("Not Signed");
-        documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS).verify.value("Not Signed");
-        //documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE).verify.value("Not Signed");
+		CustomAssert.enableSoftMode();
+		//TODO Question to Karen: IN has Uninsured Property Damage = No COverage, disabled, but required to have at least 25k
+		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
+		rfiDocumentContentCheckNano(policyNumber);
 
-        documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_CURRENT_INSURANCE_FOR).verify.value("No");
-        documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT).verify.value("No");
-        documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION).verify.value("No");
-        documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PRIOR_INSURANCE).verify.value("No");
-        documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PURCHASE_DATE_BILL_OF_SALE_FOR_NEW_VEHICLES).verify.value("No");
-        documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES).verify.value("No");
-        documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.CANADIAN_MVR_FOR_DRIVER).verify.value("No");
-        documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PHOTOS_FOR_SALVATAGE_VEHICLE_WITH_PHYSICAL_DAMAGE_COVERAGE).verify.value("No");
-        documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_DEFENSIVE_DRIVER_COURSE_COMPLETION).verify.value("No");
+		//PAS-341 Start
+		RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel(), "NBA", "NS");
+		//TODO Question to Karen: NV returns "Non-Owner Automobile Endorsement Form" instead of "Non-Owner Automobile Endorsement"
+		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NON_OWNER_AUTOMOBILE_ENDORSEMENT.getLabel(), "MISC", "NS");
+		//PAS-341 End
 
-        documentsAndBindTab.saveAndExit();
-    }
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
 
-    private void uploadDocuments(String policyNumber) {
-        LocalDateTime uploadDate = DateTimeUtils.getCurrentDateTime();
-        String formattedDate = uploadDate.format(DateTimeUtils.MM_DD_YYYY);
-        DBService.get().executeUpdate(String.format(HelperRfi.UPDATE_DOCUMENT_STATUS, formattedDate, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel(), policyNumber));
-        DBService.get().executeUpdate(String.format(HelperRfi.UPDATE_DOCUMENT_STATUS, formattedDate, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS.getLabel(), policyNumber));
-        DBService.get().executeUpdate(String.format(HelperRfi.UPDATE_DOCUMENT_STATUS, formattedDate, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT.getLabel(), policyNumber));
-        DBService.get().executeUpdate(String.format(HelperRfi.UPDATE_DOCUMENT_STATUS, formattedDate, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION.getLabel(), policyNumber));
+	private void createQuoteWithCustomData(String state) {
 
-        String currentVersion = DBService.get().getValue(String.format(HelperRfi.GET_POLICY_SUMMARY_FIELD, "version", policyNumber)).get();
-        String latestPolicySummaryId = DBService.get().getValue(String.format(HelperRfi.GET_POLICY_SUMMARY_FIELD, "id", policyNumber)).get();
-        DBService.get().executeUpdate(String.format(HelperRfi.UPDATE_POLICY_VERSION, String.valueOf(Integer.valueOf(currentVersion) + 1), latestPolicySummaryId));
+		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION).verify.value("Not Signed");
+		if(!"ID, KS, KY, MT, NV, NY, OR, UT, WY, MD".contains(state)) {
+			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS).verify
+					.value("Not Signed");
+		}
+		//documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE).verify.value("Not Signed");
 
-        RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel(), "NBA", "PS");
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS.getLabel(), "DISC", "PS");
-        //HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE.getLabel(), "COVCHG", "NS");
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_CURRENT_INSURANCE_FOR.getLabel(), "POI", "NS");
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT.getLabel(), "DISC", "PS");
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION.getLabel(), "DISC", "PS");
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PRIOR_INSURANCE.getLabel(), "POI", "NS");
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PURCHASE_DATE_BILL_OF_SALE_FOR_NEW_VEHICLES.getLabel(), "DVUD", "NS");
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES.getLabel(), "DISC", "NS");
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.CANADIAN_MVR_FOR_DRIVER.getLabel(), "DVUD", "NS");
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PHOTOS_FOR_SALVATAGE_VEHICLE_WITH_PHYSICAL_DAMAGE_COVERAGE.getLabel(), "INSPP", "NS");
-        HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_DEFENSIVE_DRIVER_COURSE_COMPLETION.getLabel(), "POI", "NS");
-    }
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_CURRENT_INSURANCE_FOR).verify.value("No");
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT).verify.value("No");
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION).verify.value("No");
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PRIOR_INSURANCE).verify.value("No");
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PURCHASE_DATE_BILL_OF_SALE_FOR_NEW_VEHICLES).verify.value("No");
+		documentsAndBindTab.getRequiredToIssueAssetList()
+				.getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES).verify.value("No");
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.CANADIAN_MVR_FOR_DRIVER).verify.value("No");
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PHOTOS_FOR_SALVATAGE_VEHICLE_WITH_PHYSICAL_DAMAGE_COVERAGE).verify.value("No");
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_DEFENSIVE_DRIVER_COURSE_COMPLETION).verify.value("No");
 
-    private static void rfiDocumentContentCheck(String policyNum) {
-        String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNum, "AARFIXX", "POLICY_ISSUE");
-        //BUG PAS-7702 When issuing some policies, documents are not generated
-        DocGenHelper.getDocumentDataSectionsByName("CoverageDetails", DocGenEnum.Documents.AARFIXX, query).get(0).getDocumentDataElements();
+		documentsAndBindTab.saveAndExit();
+	}
 
-        HelperRfi.rfiTagCheck(query, "PrevInsDiscYN", "Y");
-        HelperRfi.rfiTagCheck(query, "GoodStuDiscYN", "Y");
-        HelperRfi.rfiTagCheck(query, "VehNwAddPrtcYN", "Y");
-        HelperRfi.rfiTagCheck(query, "CurInsDrvrYN", "Y");
-        HelperRfi.rfiTagCheck(query, "SmrtDrvrCrseCertYN", "Y");
-        HelperRfi.rfiTagCheck(query, "VehNwAddPrtcPrevCrirYN", "Y");
-        HelperRfi.rfiTagCheck(query, "SalvVehYN", "Y");
-        HelperRfi.rfiTagCheck(query, "PsnlAutoApplYN", "Y");
-        HelperRfi.rfiTagCheck(query, "CanMVRYN", "Y");
-        //TODO UBITrmCndtnYN is N, but the RFI contains it. Kinda illogical
-        HelperRfi.rfiTagCheck(query, "UBITrmCndtnYN", "N");
-        HelperRfi.rfiTagCheck(query, "DfnsDrvrCmplYN", "Y");
-        //HelperRfi.rfiTagCheck(query, "UMUIMRjctFlg", "Y");
-    }
+	private void uploadDocuments(String policyNumber, String state) {
+		LocalDateTime uploadDate = DateTimeUtils.getCurrentDateTime();
+		String formattedDate = uploadDate.format(DateTimeUtils.MM_DD_YYYY);
+		DBService.get()
+				.executeUpdate(String.format(HelperRfi.UPDATE_DOCUMENT_STATUS, formattedDate, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel(), policyNumber));
+		DBService.get().executeUpdate(String
+				.format(HelperRfi.UPDATE_DOCUMENT_STATUS, formattedDate, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS
+						.getLabel(), policyNumber));
+		DBService.get().executeUpdate(String
+				.format(HelperRfi.UPDATE_DOCUMENT_STATUS, formattedDate, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT.getLabel(), policyNumber));
+		DBService.get().executeUpdate(String
+				.format(HelperRfi.UPDATE_DOCUMENT_STATUS, formattedDate, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION.getLabel(), policyNumber));
 
-    private static void rfiDocumentContentCheckNano(String policyNum) {
-        String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNum, "AARFIXX", "POLICY_ISSUE");
-        DocGenHelper.getDocumentDataSectionsByName("CoverageDetails", DocGenEnum.Documents.AARFIXX, query).get(0).getDocumentDataElements();
+		String currentVersion = DBService.get().getValue(String.format(HelperRfi.GET_POLICY_SUMMARY_FIELD, "version", policyNumber)).get();
+		String latestPolicySummaryId = DBService.get().getValue(String.format(HelperRfi.GET_POLICY_SUMMARY_FIELD, "id", policyNumber)).get();
+		DBService.get().executeUpdate(String.format(HelperRfi.UPDATE_POLICY_VERSION, String.valueOf(Integer.valueOf(currentVersion) + 1), latestPolicySummaryId));
 
-        HelperRfi.rfiTagCheck(query, "PsnlAutoApplYN", "Y");
-        //Non-Owner Automobile Endorsement tag
-        HelperRfi.rfiTagCheck(query, "VehTyp", "NO");
-    }
+		RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel(), "NBA", "PS");
+		if(!"ID, KS, KY, MT, NV, NY, OR, UT, WY, MD".contains(state)) {
+			HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS.getLabel(), "DISC", "PS");
+		}
+		//HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE.getLabel(), "COVCHG", "NS");
+		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_CURRENT_INSURANCE_FOR.getLabel(), "POI", "NS");
+		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT.getLabel(), "DISC", "PS");
+		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION.getLabel(), "DISC", "PS");
+		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PRIOR_INSURANCE.getLabel(), "POI", "NS");
+		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PURCHASE_DATE_BILL_OF_SALE_FOR_NEW_VEHICLES.getLabel(), "DVUD", "NS");
+		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES
+				.getLabel(), "DISC", "NS");
+		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.CANADIAN_MVR_FOR_DRIVER.getLabel(), "DVUD", "NS");
+		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PHOTOS_FOR_SALVATAGE_VEHICLE_WITH_PHYSICAL_DAMAGE_COVERAGE.getLabel(), "INSPP", "NS");
+		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_DEFENSIVE_DRIVER_COURSE_COMPLETION.getLabel(), "POI", "NS");
+	}
 
-    private void createQuoteWithCustomDataNano(String state) {
-        mainApp().open();
-        createCustomerIndividual();
+	private static void rfiDocumentContentCheck(String policyNum, String state) {
+		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNum, "AARFIXX", "POLICY_ISSUE");
+		//BUG PAS-7702 When issuing some policies, documents are not generated
+		DocGenHelper.getDocumentDataSectionsByName("CoverageDetails", DocGenEnum.Documents.AARFIXX, query).get(0).getDocumentDataElements();
 
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(testDataManager.getDefault(TestPolicyNano.class).getTestData("TestData_" + state), DocumentsAndBindTab.class, false);
-        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		HelperRfi.rfiTagCheck(query, "PrevInsDiscYN", "Y");
+		HelperRfi.rfiTagCheck(query, "GoodStuDiscYN", "Y");
+		HelperRfi.rfiTagCheck(query, "VehNwAddPrtcYN", "Y");
+		HelperRfi.rfiTagCheck(query, "CurInsDrvrYN", "Y");
+		HelperRfi.rfiTagCheck(query, "SmrtDrvrCrseCertYN", "Y");
+		HelperRfi.rfiTagCheck(query, "VehNwAddPrtcPrevCrirYN", "Y");
+		HelperRfi.rfiTagCheck(query, "SalvVehYN", "Y");
+		HelperRfi.rfiTagCheck(query, "PsnlAutoApplYN", "Y");
+		HelperRfi.rfiTagCheck(query, "CanMVRYN", "Y");
+		if(!"ID, KS, KY, MT, NV, NY, OR, UT, WY, MD".contains(state)) {
+			//TODO UBITrmCndtnYN is N, but the RFI contains it. Kinda illogical
+			HelperRfi.rfiTagCheck(query, "UBITrmCndtnYN", "N");
+		}
+		HelperRfi.rfiTagCheck(query, "DfnsDrvrCmplYN", "Y");
+		//HelperRfi.rfiTagCheck(query, "UMUIMRjctFlg", "Y");
+	}
 
-        documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION).verify.value("Not Signed");
-        documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NON_OWNER_AUTOMOBILE_ENDORSEMENT).verify.value("Not Signed");
-        documentsAndBindTab.saveAndExit();
-    }
+	private static void rfiDocumentContentCheckNano(String policyNum) {
+		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNum, "AARFIXX", "POLICY_ISSUE");
+		DocGenHelper.getDocumentDataSectionsByName("CoverageDetails", DocGenEnum.Documents.AARFIXX, query).get(0).getDocumentDataElements();
 
-    private void endorseRateDocuments() {
-        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-    }
+		HelperRfi.rfiTagCheck(query, "PsnlAutoApplYN", "Y");
+		//Non-Owner Automobile Endorsement tag
+		HelperRfi.rfiTagCheck(query, "VehTyp", "NO");
+	}
+
+	private void createQuoteWithCustomDataNano(String state) {
+		mainApp().open();
+		createCustomerIndividual();
+
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(testDataManager.getDefault(TestPolicyNano.class).getTestData("TestData_" + state), DocumentsAndBindTab.class, false);
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+
+		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION).verify.value("Not Signed");
+		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NON_OWNER_AUTOMOBILE_ENDORSEMENT).verify.value("Not Signed");
+		documentsAndBindTab.saveAndExit();
+	}
+
+	private void endorseRateDocuments() {
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+	}
 }
