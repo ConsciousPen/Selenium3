@@ -161,12 +161,6 @@ PAS-12257:
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForConversion]
       messages: ["Cannot set value of ComboBox"]
-BUG-10001:
-  summary: "VDMs frequently fail prefilling address"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.*]
-      messages: ["Cannot set value of AssetList {PrefillTab: By.xpath: //div[@id='contentWrapper']} to '{Validate Address=click, Validate Address Dialog={}, Order Prefill=click}'"]
 PT-1576:
   summary: "Auto SS Defensive Driver Discount is not displayed correctly"
   reason: PROD
@@ -233,7 +227,7 @@ PAS-13338:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.conversions.home_ss.*,aaa.modules.regression.document_fulfillment.home_ss.*]
-      messages: ["no such element: Unable to locate element: {", "Errors: Error; Failed to rate policy"]
+      messages: ["no such element: Unable to locate element: {", "Errors: Error; Failed to rate policy", "Cannot get value of Cell {", "Column Percentage of Coverage C was not found in the table", "Column Percentage of Coverage A was not found in the table"]
 PAS-13651:
   summary: "Instantiate state specific coverages"
   reason: PROD

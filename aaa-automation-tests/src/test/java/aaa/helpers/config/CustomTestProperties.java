@@ -20,4 +20,6 @@ public class CustomTestProperties extends TestProperties {
 	public static final String DXP_CLIENT_ID = "dxp.clientId";
 	public static final String DXP_CLIENT_SECRET = "dxp.clientSecret";
 	public static final String DXP_GRANT_TYPE = "dxp.grantType";
+	public static final String SOAP_BATCHJOB_TEMLATE = "soap.batchjob.template";
+	public static final String BATCHJOB_RUN_MODE = "batchjob.run.mode"; // available values: http, soap
 }

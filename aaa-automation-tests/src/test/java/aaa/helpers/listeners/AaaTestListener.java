@@ -19,7 +19,11 @@ public class AaaTestListener extends TestngTestListener2 implements IExecutionLi
 
 	@Override
 	public void onTestFailure(ITestResult result) {
-		log.info("Test failure date/time: {}", TimeSetterUtil.getInstance().getCurrentTime());
+		try {
+			log.info("Test failure date/time: {}", TimeSetterUtil.getInstance().getCurrentTime());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		super.onTestFailure(result);
 	}
 

@@ -39,9 +39,12 @@ NamedInsuredInformation2: {
 DriverTab1: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
-  Date of Birth: '$<today-21y:MM/dd/yyyy>',
+  Date of Birth: '$<today-60y:MM/dd/yyyy>',
   License Type: 'Licensed (US)',
-  License Number: 400064773
+  License Number: 400064773,
+  'Defensive Driver Course Completed?': 'Yes',
+  'Defensive Driver Course Completion Date': '$<today-10d:MM/dd/yyyy>',
+  'Defensive Driver Course Certificate Number': 'OSI123'
 }
 
 DriverTab2: {
@@ -147,6 +150,7 @@ AssignedDriver2: {
 
 PremiumAndCoveragesTab: {
   Bodily Injury Liability: 'contains=$50,000/$100,000',
+  #'Uninsured/Underinsured Motorist Bodily Injury': 'index=0',
   DetailedVehicleCoverages: [
     {
       New Car Added Protection: 'Yes',

@@ -1,22 +1,17 @@
 package aaa.modules.cft;
 
-import aaa.helpers.constants.Groups;
-import aaa.modules.cft.report.ReportFutureDatedPolicy;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Test;
-import toolkit.db.DBService;
-import toolkit.utils.TestInfo;
-
-import java.io.File;
-import java.io.IOException;
+import static aaa.helpers.cft.CFTHelper.checkFile;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import static aaa.helpers.cft.CFTHelper.checkDirectory;
-import static aaa.helpers.cft.CFTHelper.checkFile;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.helpers.constants.Groups;
+import aaa.modules.cft.report.ReportFutureDatedPolicy;
+import toolkit.db.DBService;
+import toolkit.utils.TestInfo;
 
 public class TestCFTFutureDatedPolicy extends ControlledFinancialBaseTest{
 	private static final String CFT_FUTURE_DATED_REPORT = "CFT_FutureDatedPolicies.xls";
@@ -25,7 +20,7 @@ public class TestCFTFutureDatedPolicy extends ControlledFinancialBaseTest{
 
 	@Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
-	public void futureDatedPolicyValidation() throws IOException {
+	public void futureDatedPolicyValidation() {
 		checkFile(CFT_VALIDATION_DIRECTORY, CFT_FUTURE_DATED_REPORT);
 		List<List<Map<String, String>>> accNumberTable = new ArrayList<>();
 		List<Map<String, String>> dbResult = DBService.get().getRows(query1);
