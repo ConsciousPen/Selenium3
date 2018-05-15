@@ -111,18 +111,38 @@ public class HomeCaHO6FormTestDataGenerator {
 		return tdList;
 	};
 	
-	//TODO clarify Co-applicant class and Form class for HO-71
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHO71DataFunction = openLPolicy -> {
-		List<TestData> tdList = new ArrayList<>();
+		List<TestData> tdList = new ArrayList<>(); 
+		String formClass = openLPolicy.getForms().stream().filter(f -> "HO-71".equals(f.getFormCode())).findFirst().get().getFormClass(); 
+		String coApplicantClass = openLPolicy.getForms().stream().filter(f -> "HO-71".equals(f.getFormCode())).findFirst().get().getCoApplicantClass();
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", "Add",
 				HomeCaMetaData.EndorsementTab.EndorsementHO71.NAME_OF_BUSINESS.getLabel(), "Test", 
 				HomeCaMetaData.EndorsementTab.EndorsementHO71.DESCRIPTION_OF_BUSINESS.getLabel(), "test", 
-				HomeCaMetaData.EndorsementTab.EndorsementHO71.CLASSIFICATION_OCCUPATION.getLabel(), "index=2", 
-				HomeCaMetaData.EndorsementTab.EndorsementHO71.CO_APPLICANT_CLASSIFICATION_OCCUPATION.getLabel(), "index=1", 
+				HomeCaMetaData.EndorsementTab.EndorsementHO71.CLASSIFICATION_OCCUPATION.getLabel(), getClassificationOccupation(formClass), 
+				HomeCaMetaData.EndorsementTab.EndorsementHO71.CO_APPLICANT_CLASSIFICATION_OCCUPATION.getLabel(), getClassificationOccupation(coApplicantClass), 
 				HomeCaMetaData.EndorsementTab.EndorsementHO71.IS_THE_INSURED_SELF_EMPLOYED_A_PARTNER_IN_THE_BUSINESS.getLabel(), "No"));
 		return tdList;
 	};
+	
+	private static String getClassificationOccupation(String className) {
+		//TODO clarify "Class E" UI value
+		switch (className) {
+		case "Class A": 
+			return "Office clerical";
+		case "Class B": 
+			return "Sales";
+		case "Class C": 
+			return "Teacher - athletic/physical training, labratory/manual training"; 
+		case "Class D": 
+			return "Teacher - Other";
+		case "Class E":
+		case "Class null": 
+			return "";
+		default: 
+			return "index=2";
+		}
+	}
 
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHO75DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
@@ -208,7 +228,6 @@ public class HomeCaHO6FormTestDataGenerator {
 	};
 
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHW0461DataFunction = openLPolicy -> {
-		//TODO	Scheduled Personal Property tab should be filled next
 		List<TestData> tdList = new ArrayList<>();
 		tdList.add(DataProviderFactory.dataOf("Action", "Add"));
 		return tdList;

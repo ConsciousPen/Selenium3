@@ -372,7 +372,7 @@ public final class HomeSSMetaData {
 		public static final AssetDescriptor<AssetList> FIRE_PROTECTIVE_DD = declare("FireProtectiveDD", AssetList.class, FireProtectiveDD.class);
 		public static final AssetDescriptor<AssetList> THEFT_PROTECTIVE_DD = declare("TheftProtectiveTPDD", AssetList.class, TheftProtectiveTPDD.class);
 		public static final AssetDescriptor<AssetList> HOME_RENOVATION = declare("HomeRenovation", AssetList.class, HomeRenovation.class);
-		public static final AssetDescriptor<AssetList> PETS_OR_ANIMALS = declare("PetsOrAnimals", AssetList.class, PetsOrAnimals.class);
+		public static final AssetDescriptor<MultiInstanceAfterAssetList> PETS_OR_ANIMALS = declare("PetsOrAnimals", MultiInstanceAfterAssetList.class, PetsOrAnimals.class);
 		public static final AssetDescriptor<AssetList> STOVES = declare("Stoves", AssetList.class, Stoves.class);
 		public static final AssetDescriptor<AssetList> RECREATIONAL_EQUIPMENT = declare("RecreationalEquipment", AssetList.class, RecreationalEquipment.class);
 		public static final AssetDescriptor<AssetList> OIL_FUEL_OR_PROPANE_STORAGE_TANK = declare("OilFuelOrPropaneStorageTank", AssetList.class, OilPropaneStorageTank.class);
@@ -719,8 +719,6 @@ public final class HomeSSMetaData {
 				By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_50 = declare("HS 04 50", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0450.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_52 = declare("HS 04 52", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0452.class,
-				By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_53 = declare("HS 04 53", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0453.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_54 = declare("HS 04 54", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0454.class, By
@@ -753,8 +751,8 @@ public final class HomeSSMetaData {
 		// By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_05_46 = declare("HS 05 46", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0546.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		// public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_05_78 = declare("HS 05 78", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0578.class,
-		// By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_05_78 = declare("HS 05 78", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0578.class,
+				By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_06_14 = declare("HS 06 14", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0614.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_09_04 = declare("HS 09 04", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0904.class, By
@@ -803,6 +801,8 @@ public final class HomeSSMetaData {
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_24_73 = declare("HS 24 73", HomeSSEndorsementsMultiAssetList.class, EndorsementHS2473.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_52 = declare("HS 04 52", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0452.class,
+				By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_24_94 = declare("HS 24 94", HomeSSEndorsementsMultiAssetList.class, EndorsementHS2494.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		// public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_MS_I2 = declare("HS MS I2", HomeSSEndorsementsMultiAssetList.class, EndorsementHSMSI2.class,
@@ -943,8 +943,6 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.AJAX);
 		}
 
-		public static final class EndorsementHS0452 extends MetaData {}
-
 		public static final class EndorsementHS0453 extends MetaData {
 			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class);
 		}
@@ -1019,6 +1017,8 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<TextBox> DESCRIPTION_OF_RENTED_UNIT = declare("Description of rented unit", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> COVERAGE_AMOUNT = declare("Coverage amount", ComboBox.class, Waiters.AJAX);
 		}
+
+		public static final class EndorsementHS0578 extends MetaData {}
 
 		public static final class EndorsementHS0614 extends MetaData {
 			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
@@ -1190,6 +1190,11 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<RadioGroup> IS_THE_FARM_INCORPORATED = declare("Is the farm incorporated?", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> IS_ANY_OTHER_BUSINESS_ACTIVITY_CONDUCTED_AT_THE_FARM_LOCATION = declare("Is any other business activity conducted at the farm location?",
 					RadioGroup.class, Waiters.AJAX);
+		}
+
+		// Don't move, should be after HS2472/HS2473
+		public static final class EndorsementHS0452 extends MetaData {
+			public static final AssetDescriptor<TextBox> TOTAL_NUMBER_OF_LIVESTOCK = declare("Total number of livestock", TextBox.class);
 		}
 
 		public static final class EndorsementHS2494 extends MetaData {
