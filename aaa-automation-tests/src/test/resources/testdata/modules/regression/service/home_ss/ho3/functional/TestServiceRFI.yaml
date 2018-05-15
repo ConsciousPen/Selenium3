@@ -1,29 +1,11 @@
-TestData1_VA: {
-  GeneralTab: '@<home_ss_ho3>@DataGather@GeneralTab_VA',
-  ApplicantTab: '@<home_ss_ho3>@DataGather@ApplicantTab_VA',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_VA',
+TestData1: {
   PropertyInfoTab: '@PropertyInfoTab',
-  ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
-  EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@<home_ss_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
-  MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@DocumentsTab1',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
 }
 
-TestData2_VA: {
-  GeneralTab: '@<home_ss_ho3>@DataGather@GeneralTab_VA',
-  ApplicantTab: '@<home_ss_ho3>@DataGather@ApplicantTab_VA',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_VA',
+TestData2: {
   PropertyInfoTab: '@PropertyInfoTab',
-  ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
-  EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@<home_ss_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
-  MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@DocumentsTab2',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
 }
 
 # ------------------ Tabs --------------------
