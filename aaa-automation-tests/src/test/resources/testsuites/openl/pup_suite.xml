@@ -54,4 +54,12 @@
             <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
         </classes>
     </test>
+    <test name="PUP [CT] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="CT"/>
+        <parameter name="fileName" value="CTTests.xls"/>
+        <parameter name="policyNumbers" value="93,120"/>
+        <classes>
+            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
+        </classes>
+    </test>
 </suite>
