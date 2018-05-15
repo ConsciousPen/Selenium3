@@ -57,7 +57,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	}
 
 	/**
-	 * @author Lev Kazarnovskiy
+	 * @author Lev Kazarnovskiy, Team Scorpions
 	 * PAS-533 Quote Refresh -Add New VIN
 	 * PAS-1406 ata Refresh
 	 *
