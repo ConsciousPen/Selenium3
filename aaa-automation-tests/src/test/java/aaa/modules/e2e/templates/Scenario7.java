@@ -368,10 +368,12 @@ public class Scenario7 extends ScenarioBaseTest {
 		
 		// verify using installment amount in separate cases
 		if ((getState().equals(States.OK) && getPolicyType().equals(PolicyType.PUP)) ||
-			(getState().equals(States.KY) && getPolicyType().equals(PolicyType.AUTO_SS)) ||
-			(getState().equals(States.NJ) && getPolicyType().equals(PolicyType.AUTO_SS))) {
+			(getState().equals(States.KY) && getPolicyType().equals(PolicyType.AUTO_SS))) {
 			verifyRenewalOfferPaymentAmountByIntallmentAmount(policyExpirationDate, billDate);
-		} else {
+		} else if (getState().equals(States.NJ) && getPolicyType().equals(PolicyType.AUTO_SS)) {
+			 // PLIGA fee should be added. Now PLIGA Fee is $5.00 after last 'Renewal - Policy Renewal Proposal' ($913.00) - changeable accordingly to premium 
+			verifyRenewalOfferPaymentAmountByIntallmentAmount(policyExpirationDate, billDate, new Dollar(5));
+		}else {
 			verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billDate, pligaOrMvleFee, installmentsCount);
 		}
 		

@@ -160,7 +160,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928", "PAS-12822"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928", "PAS-12822", "PAS-312"})
 	public void pas3697_membershipEligibilityConfigurationTrueForActiveMembership(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -206,7 +206,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928", "PAS-12822"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928", "PAS-12822", "PAS-331"})
 	public void pas331_membershipEligibilityConfigurationTrueForErredMembership(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -300,7 +300,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928", "PAS-12822"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928", "PAS-12822", "PAS-312"})
 	public void pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -1530,7 +1530,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
 		//BUG PAS-13884 When running PaperlessPreferences update for policy with Future Dated Cancellation, no eValue removal happens and no task is created
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 3, "");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "");
 		lastTransactionHistoryEValueDiscountCheck(true);
 
 		//there is no eValue removal transaction. Instead a task for OOSE is create.
