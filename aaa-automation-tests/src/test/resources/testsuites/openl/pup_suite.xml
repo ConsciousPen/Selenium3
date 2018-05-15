@@ -62,4 +62,20 @@
             <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
         </classes>
     </test>
+    <test name="PUP [ID] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="ID"/>
+        <parameter name="fileName" value="IDTests.xls"/>
+        <parameter name="policyNumbers" value="93,246"/>
+        <classes>
+            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="PUP [KS] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="KS"/>
+        <parameter name="fileName" value="KSTests.xls"/>
+        <parameter name="policyNumbers" value="22,28"/>
+        <classes>
+            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
+        </classes>
+    </test>
 </suite>
