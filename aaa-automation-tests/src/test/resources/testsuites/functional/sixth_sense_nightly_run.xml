@@ -3,6 +3,9 @@
 
     <suite-files>
         <suite-file path="sixth_sense_suite.xml"/>
+    </suite-files>
+
+    <suite-files>
         <suite-file path="sixth_sense_suite_timeshift.xml"/>
     </suite-files>
 
