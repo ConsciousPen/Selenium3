@@ -5,6 +5,13 @@ TestData: {
   }
 }
 
+TestData_Plus10Days: {
+  ReinstatementActionTab: {
+    Reinstate Date: $<today+10d>,
+    Authorized By: QA
+  }
+}
+
 TestData_Plus14Days: {
   ReinstatementActionTab: {
     Reinstate Date: $<today+14d>,

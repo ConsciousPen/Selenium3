@@ -1,5 +1,9 @@
 package aaa.helpers.openl.testdata_builder;
 
+import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.util.*;
+import org.apache.commons.lang3.RandomUtils;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -17,17 +21,11 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.pup.defaulttabs.*;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import org.apache.commons.lang3.NotImplementedException;
-import org.apache.commons.lang3.RandomUtils;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
-
-import java.text.NumberFormat;
-import java.time.LocalDate;
-import java.util.*;
 
 public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	public PUPTestDataGenerator(String state) {
@@ -51,6 +49,31 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 				new PremiumAndCoveragesQuoteTab().getMetaKey(), getPremiumAndCoveragesData(openLPolicy)
 		);
 		return TestDataHelper.merge(getRatingDataPattern(), td);
+	}
+
+	protected TestData getStateTestData(TestData td, String fileName, String tdName) {
+		if (!td.containsKey(fileName)) {
+			throw new TestDataException("Can't get test data file " + fileName);
+		}
+		return getStateTestData(td.getTestData(fileName), tdName);
+	}
+
+	protected TestData getStateTestData(TestData td, String tdName) {
+		if (td == null) {
+			throw new RuntimeException(String.format("Can't get TestData '%s', parrent TestData is null", tdName));
+		}
+		if (td.containsKey(getStateTestDataName(tdName))) {
+			td = td.getTestData(getStateTestDataName(tdName));
+			log.info(String.format("==== %s Test Data is used: %s ====", getState(), getStateTestDataName(tdName)));
+		} else {
+			td = td.getTestData(tdName);
+			if (getState().equals(Constants.States.CA)) {
+				log.info(String.format("==== CA Test Data is used: %s ====", getStateTestDataName(tdName)));
+			} else {
+				log.info(String.format("==== Default state UT Test Data is used. Requested Test Data: %s is missing ====", getStateTestDataName(tdName)));
+			}
+		}
+		return td;
 	}
 
 	private Map<String, String> getPrimaryPolicyForPup(TestData td, PUPOpenLPolicy openLPolicy) {
@@ -190,13 +213,6 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		return openLPolicy.getDwelling().getRecEquipmentInfo().getDivingBoardInd();
 	}
 
-	protected TestData getStateTestData(TestData td, String fileName, String tdName) {
-		if (!td.containsKey(fileName)) {
-			throw new TestDataException("Can't get test data file " + fileName);
-		}
-		return getStateTestData(td.getTestData(fileName), tdName);
-	}
-
 	private TestData getGeneralTabData() {
 		return DataProviderFactory.emptyData();
 	}
@@ -250,24 +266,6 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 			map.put(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.BusinessOrFarmingCoverage.ADD_BUSINESS_OR_FARMING_COVERAGES.getLabel(), "Yes");
 		}
 		return map;
-	}
-
-	protected TestData getStateTestData(TestData td, String tdName) {
-		if (td == null) {
-			throw new RuntimeException(String.format("Can't get TestData '%s', parrent TestData is null", tdName));
-		}
-		if (td.containsKey(getStateTestDataName(tdName))) {
-			td = td.getTestData(getStateTestDataName(tdName));
-			log.info(String.format("==== %s Test Data is used: %s ====", getState(), getStateTestDataName(tdName)));
-		} else {
-			td = td.getTestData(tdName);
-			if (getState().equals(Constants.States.CA)) {
-				log.info(String.format("==== CA Test Data is used: %s ====", getStateTestDataName(tdName)));
-			} else {
-				log.info(String.format("==== Default state UT Test Data is used. Requested Test Data: %s is missing ====", getStateTestDataName(tdName)));
-			}
-		}
-		return td;
 	}
 
 	private void getWatercraftData(List<TestData> tdWaterCrafts, int numOfWaterCrafts, String[] listOfValues) {
@@ -336,7 +334,7 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		int numOfAntique = openLPolicy.getRiskItems().stream().filter(c -> "Antique".equals(c.getRiskItemCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
 		int numOfAddlAuto = openLPolicy.getRiskItems().stream().filter(c -> "AddlAuto".equals(c.getRiskItemCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
 		int numOfAutoCredit = openLPolicy.getRiskItems().stream().filter(c -> "AutoCredit".equals(c.getRiskItemCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
-		int maxAutoCount = getState().equals("CA") ? 1 : 2;
+		int maxAutoCount = getState().equals(Constants.States.CA) ? 1 : 2;
 
 		int numOfSeniorDriver = openLPolicy.getNumOfSeniorOps();
 		int numOfYouthDriver = openLPolicy.getNumOfYouthfulOps();
@@ -579,11 +577,5 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		String state = getState();
 		tdName = tdName + "_" + state;
 		return tdName;
-	}
-
-	@Override
-	public void setRatingDataPattern(TestData ratingDataPattern) {
-		//TODO-dchubkov: to be implemented
-		throw new NotImplementedException("setRatingDataPattern(TestData ratingDataPattern) not implemented yet");
 	}
 }

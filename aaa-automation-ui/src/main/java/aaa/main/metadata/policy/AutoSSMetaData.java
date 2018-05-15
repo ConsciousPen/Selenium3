@@ -596,6 +596,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<ComboBox> ACCIDENTAL_DEATH_BENEFITS = declare("Accidental Death Benefits (ADB)", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> FUNERAL_BENEFITS = declare("Funeral Benefits", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> INCOME_LOSS_BENEFIT = declare("Income Loss Benefit", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> INCOME_LOSS = declare("Income Loss", ComboBox.class);
 		public static final AssetDescriptor<AdvancedRadioGroup> EXTRAORDINARY_MEDICAL_EXPENSE_BENEFITS = declare("Extraordinary Medical Expense Benefits", AdvancedRadioGroup.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> UNINSURED_MOTORIST_PROPERTY_DAMAGE_LIMIT = declare("Uninsured Motorist Property Damage Limit", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY = declare("Uninsured/Underinsured Motorist Bodily Injury", ComboBox.class);
@@ -695,6 +696,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_COVERAGE = declare("Special Equipment Coverage", TextBox.class);
 			public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT = declare("Special Equipment", TextBox.class); // MD state
 			public static final AssetDescriptor<ComboBox> COMPREGENSIVE_DEDUCTIBLE = declare("Comprehensive Deductible", ComboBox.class);
+			public static final AssetDescriptor<ComboBox> OTHER_THAN_COLLISION = declare("Other Than Collision", ComboBox.class); // VA state
 			public static final AssetDescriptor<ComboBox> FULL_SAFETY_GLASS = declare("Full Safety Glass", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> RENTAL_REIMBURSEMENT = declare("Rental Reimbursement", ComboBox.class);
 			public static final AssetDescriptor<TextBox> EXCESS_ELECTRONIC_EQUIPMENT = declare("Excess Electronic Equipment", TextBox.class);
@@ -885,7 +887,9 @@ public final class AutoSSMetaData {
 					declare("Uninsured/Underinsured Coverage - Rejection or Election of Lower Limits", RadioGroup.class, Waiters.AJAX);
 			// VA
 			public static final AssetDescriptor<RadioGroup> EVALUE_ACKNOWLEDGEMENT = declare("eValue Acknowledgement", RadioGroup.class, Waiters.AJAX, false, By
-					.xpath("//table[@id='policyDataGatherForm:document_AHEVAXX']")); // OK
+					.xpath("//table[@id='policyDataGatherForm:document_AHEVAXX']"));
+			public static final AssetDescriptor<RadioGroup> IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE = declare("IMPORTANT NOTICE - Uninsured Motorist Coverage", RadioGroup.class, Waiters.AJAX);
+			// OK
 			public static final AssetDescriptor<RadioGroup> UNINSURED_UNDERINSURED_LIMIT_SELECTION_FORM = declare("Uninsured/Underinsured Limit Selection Form", RadioGroup.class, Waiters.AJAX);
 			// AZ
 			public static final AssetDescriptor<RadioGroup> UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION =
@@ -1142,6 +1146,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<TextBox> DAYS_OF_NOTICE = declare("Days of notice", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> SUPPORTING_DATA = declare("Supporting Data", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<RadioGroup> PRINT_NOTICE = declare("Print Notice", RadioGroup.class);
+		public static final AssetDescriptor<RadioGroup> CANCELLATION_DUE_TO_CONSUMER_REPORT_INFORMATION = declare("Cancellation due to Consumer Report Information", RadioGroup.class);
 	}
 
 	public static final class SpinActionTab extends MetaData {

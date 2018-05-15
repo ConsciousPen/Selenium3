@@ -30,4 +30,12 @@
             <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
         </classes>
     </test>
+    <test name="PUP [NV] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="NV"/>
+        <parameter name="fileName" value="NVTests-20170522.xls"/>
+        <parameter name="policyNumbers" value="7,318"/>
+        <classes>
+            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
+        </classes>
+    </test>
 </suite>

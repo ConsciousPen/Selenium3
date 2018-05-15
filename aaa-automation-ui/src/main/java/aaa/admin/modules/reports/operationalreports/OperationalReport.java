@@ -1,14 +1,14 @@
 package aaa.admin.modules.reports.operationalreports;
 
+import org.openqa.selenium.By;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.etcsa.base.app.LoginPage;
+import com.exigen.ipb.etcsa.base.config.CustomTestProperties;
 import aaa.admin.modules.reports.operationalreports.views.DefaultView;
 import aaa.common.Tab;
 import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
-import com.exigen.ipb.etcsa.base.app.LoginPage;
-import com.exigen.ipb.etcsa.base.config.CustomTestProperties;
-import org.openqa.selenium.By;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
@@ -61,13 +61,13 @@ public class OperationalReport implements IOperationalReport {
     private void loginToReports() {
         if (!Tab.labelLoggedUser.isPresent()) {
             if (PropertyProvider.getProperty(CustomTestProperties.OR_URL_TEMPLATE).isEmpty()) {
-                LoginPage.textBoxLogin.setValue(PropertyProvider.getProperty(TestProperties.EU_USER));
-                LoginPage.textBoxPassword.setValue(PropertyProvider.getProperty(TestProperties.EU_PASSWORD));
+	            LoginPage.textBoxLogin.setValue(PropertyProvider.getProperty(TestProperties.APP_USER));
+	            LoginPage.textBoxPassword.setValue(PropertyProvider.getProperty(TestProperties.APP_PASSWORD));
                 LoginPage.buttonLogin.click();
             } else {
                 CSAAApplicationFactory.get().opReportApp(new LoginPage(
-                        PropertyProvider.getProperty(TestProperties.EU_USER),
-                        PropertyProvider.getProperty(TestProperties.EU_PASSWORD))).getLogin().login();
+		                PropertyProvider.getProperty(TestProperties.APP_USER),
+		                PropertyProvider.getProperty(TestProperties.APP_PASSWORD))).getLogin().login();
             }
         }
     }

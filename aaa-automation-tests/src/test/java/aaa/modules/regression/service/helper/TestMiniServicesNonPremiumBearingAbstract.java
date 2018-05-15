@@ -3627,11 +3627,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		updateVehicleLeasedFinanced.vehicleOwnership.secondName = secondName;
 		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
 
-		//BUG PAS-13545 not all ownership fields are updated from first service call
-		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
-		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
-		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
-
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
