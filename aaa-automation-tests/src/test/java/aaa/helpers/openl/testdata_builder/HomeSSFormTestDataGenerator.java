@@ -88,8 +88,6 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 		List<TestData> tdList = new ArrayList<>();
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", isFormAdded("HS0452", policyLevel) ? "Edit" : "Add"));
-		//				HomeSSMetaData.EndorsementTab.EndorsementHS0452.COVERAGE_LIMIT.getLabel(),
-		//				openLPolicy.getForms().stream().filter(c -> "HS0453".equals(c.getFormCode())).findFirst().get().getLimit().toString().split("\\.")[0]));
 		return tdList;
 	};
 
@@ -196,10 +194,11 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 	};
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0490DataFunction = (openLPolicy, policyLevel) -> {
-		List<TestData> tdList = new ArrayList();
-		tdList.add(DataProviderFactory.dataOf(
-				"Action", isFormAdded("HS0490", policyLevel) ? "Edit" : "Add"));
-		return tdList;
+		//		List<TestData> tdList = new ArrayList();
+		//		tdList.add(DataProviderFactory.dataOf(
+		//				"Action", isFormAdded("HS0490", policyLevel) ? "Edit" : "Add"));
+		//		return tdList;
+		return null;
 	};
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0492DataFunction = (openLPolicy, policyLevel) -> {
@@ -237,6 +236,10 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 				"Action", isFormAdded("HS0495", policyLevel) ? "Edit" : "Add",
 				HomeSSMetaData.EndorsementTab.EndorsementHS0495.COVERAGE_LIMIT.getLabel(), limit));
 		return tdList;
+	};
+
+	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0578DataFunction = (openLPolicy, policyLevel) -> {
+		return null;
 	};
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0614DataFunction = (openLPolicy, policyLevel) -> {
@@ -362,9 +365,10 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 	};
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS2452DataFunction = (openLPolicy, policyLevel) -> {
-		List tdList = new ArrayList();
-		tdList.add(DataProviderFactory.dataOf("Action", isFormAdded("HS2452", policyLevel) ? "Edit" : "Add"));
-		return tdList;
+		//		List tdList = new ArrayList();
+		//		tdList.add(DataProviderFactory.dataOf("Action", isFormAdded("HS2452", policyLevel) ? "Edit" : "Add"));
+		//		return tdList;
+		return null;
 	};
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS2464DataFunction = (openLPolicy, policyLevel) -> {
@@ -464,6 +468,7 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 		HS0492(HomeSSMetaData.EndorsementTab.HS_04_92.getLabel(), "HS0492", formHS0492DataFunction),
 		HS0493(HomeSSMetaData.EndorsementTab.HS_04_93.getLabel(), "HS0493", formHS0493DataFunction),
 		HS0495(HomeSSMetaData.EndorsementTab.HS_04_95.getLabel(), "HS0495", formHS0495DataFunction),
+		HS0578(HomeSSMetaData.EndorsementTab.HS_05_78.getLabel(), "HS0578", formHS0578DataFunction),
 		HS0614(HomeSSMetaData.EndorsementTab.HS_06_14.getLabel(), "HS0614", formHS0614DataFunction),
 		HS0904(HomeSSMetaData.EndorsementTab.HS_09_04.getLabel(), "HS0904", formHS0904DataFunction),
 		HS0906(HomeSSMetaData.EndorsementTab.HS_09_06.getLabel(), "HS0906", formHS0906DataFunction),

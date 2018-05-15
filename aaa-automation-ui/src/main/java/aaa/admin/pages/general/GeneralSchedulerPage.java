@@ -8,7 +8,7 @@ import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import com.exigen.ipb.etcsa.base.app.LoginPage;
 import aaa.admin.pages.AdminPage;
 import aaa.common.Tab;
-import aaa.common.enums.NavigationEnum.AdminAppLeftMenu;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.utils.JobRunner;
@@ -77,7 +77,7 @@ public class GeneralSchedulerPage extends AdminPage {
 	}
 
 	public static void runJob(Job jobName) {
-		NavigationPage.toViewLeftMenu(AdminAppLeftMenu.GENERAL_SCHEDULER.get());
+		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
 		log.info("[JOBS] Job " + jobName.get() + " will be executed");
 
 		if (createJob(jobName)) {
@@ -98,7 +98,7 @@ public class GeneralSchedulerPage extends AdminPage {
 			waitForJob();
 
 			int counterAfter = getJobCounter(jobName);
-			if (getJobStatus(jobName).equals("Idle") & (counterAfter > counterBefore)) {
+			if (getJobStatus(jobName).equals("Idle") & counterAfter > counterBefore) {
 				if (getJobResult(jobName).equals("Success")) {
 					log.info(String.format("[JOBS] Job %s running time: %s seconds", jobName.get(), (System.currentTimeMillis() - startTime) / 1000));
 					return;
@@ -107,7 +107,7 @@ public class GeneralSchedulerPage extends AdminPage {
 						jobName.get(), getJobResult(jobName), (System.currentTimeMillis() - startTime) / 1000));
 			}
 
-			if ((System.currentTimeMillis() - startTime) > MAX_JOB_RUN_TIMEOUT) {
+			if (System.currentTimeMillis() - startTime > MAX_JOB_RUN_TIMEOUT) {
 				throw new IstfException(String.format("[JOBS] Job %s was timed out. Job running time is more than %s seconds",
 						jobName.get(), MAX_JOB_RUN_TIMEOUT / 1000));
 			}
@@ -156,13 +156,12 @@ public class GeneralSchedulerPage extends AdminPage {
 		Page.dialogConfirmation.confirm();
 	}
 
-	private static void waitForJob() {
-		Application.wait(JOB_RUN_RETRIES_SLEEP);
-		try {
-			NavigationPage.toViewLeftMenu(AdminAppLeftMenu.GENERAL_SCHEDULER.get());
-		} catch (Exception e) {
-			log.error("Cannot click Scheduler link: " + e.getMessage() + ". Retrying ...", e);
-		}
+	//TODO(vmarkouski): workaround for EISDEV-119304
+	public static void reopenGeneralScheduler() {
+		CSAAApplicationFactory.get().adminApp(new LoginPage(
+				PropertyProvider.getProperty(TestProperties.APP_USER),
+				PropertyProvider.getProperty(TestProperties.APP_PASSWORD))).open();
+		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
 	}
 
 	//TODO(vmarkouski): workaround for EISDEV-119304
@@ -181,12 +180,13 @@ public class GeneralSchedulerPage extends AdminPage {
 		}
 	}
 
-	//TODO(vmarkouski): workaround for EISDEV-119304
-	public static void reopenGeneralScheduler() {
-		CSAAApplicationFactory.get().adminApp(new LoginPage(
-				PropertyProvider.getProperty(TestProperties.EU_USER),
-				PropertyProvider.getProperty(TestProperties.EU_PASSWORD))).open();
-		NavigationPage.toViewLeftMenu(AdminAppLeftMenu.GENERAL_SCHEDULER.get());
+	private static void waitForJob() {
+		Application.wait(JOB_RUN_RETRIES_SLEEP);
+		try {
+			NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
+		} catch (Exception e) {
+			log.error("Cannot click Scheduler link: " + e.getMessage() + ". Retrying ...", e);
+		}
 	}
 
 	//TODO(pkaziuchyts): workaround for rerun of a newly created job to support execution

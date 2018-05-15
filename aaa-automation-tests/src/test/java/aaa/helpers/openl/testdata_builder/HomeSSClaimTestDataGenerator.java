@@ -1,5 +1,6 @@
 package aaa.helpers.openl.testdata_builder;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,14 +13,15 @@ import toolkit.utils.datetime.DateTimeUtils;
 
 public class HomeSSClaimTestDataGenerator {
 
-	private final String AAA_CLAIM_POINT = "AAAHOPriorClaimPoint";
-	private final String NOT_AAA_CLAIM_POINT = "AAAHOExperienceClaimPoint";
+	private final String AAA_CLAIM_POINT = "AAAHOExperienceClaimPoint";
+	private final String NOT_AAA_CLAIM_POINT = "AAAHOPriorClaimPoint";
 	private String lookupName;
 	private String state;
 	private String sqlMaxCode = "select max(code) from lookupvalue where lookuplist_id in (select id from lookuplist where lookupname='%s') and productcd='AAA_HO_SS' and (riskstatecd is null or riskstatecd = '%s')";
 	private String sqlMaxValue = "select max(displayvalue) from lookupvalue where lookuplist_id in (select id from lookuplist where lookupname='%s') and productcd='AAA_HO_SS' and (riskstatecd is null or riskstatecd = '%s') and code = %d";
 	private String sqlClaimData = "select causeOfLoss, minPremiumOvr from lookupvalue where lookuplist_id in (select id from lookuplist where lookupname='%s') and productcd='AAA_HO_SS' and (riskstatecd is null or riskstatecd = '%s') and code = %d and displayvalue = %d";
 	private HomeSSOpenLPolicy openLPolicy;
+	private LocalDate dateOfLoss;
 	private int maxCode;
 	private boolean isAAAClaim;
 
@@ -31,7 +33,8 @@ public class HomeSSClaimTestDataGenerator {
 	public List<TestData> getClaimTestData(boolean isAAAClaim, boolean isFirstClaim) {
 		this.isAAAClaim = isAAAClaim;
 		lookupName = isAAAClaim ? AAA_CLAIM_POINT : NOT_AAA_CLAIM_POINT;
-		int claimPoints = isAAAClaim ? openLPolicy.getPolicyLossInformation().getPriorClaimPoint() : openLPolicy.getPolicyLossInformation().getExpClaimPoint();
+		dateOfLoss = openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyLossInformation().getRecentYCF());
+		int claimPoints = isAAAClaim ? openLPolicy.getPolicyLossInformation().getExpClaimPoint() : openLPolicy.getPolicyLossInformation().getPriorClaimPoint();
 		maxCode = Integer.parseInt(DBService.get().getValue(String.format(sqlMaxCode, lookupName, state)).get());
 		List<TestData> claimList = getClaimList(claimPoints, 1);
 		if (isFirstClaim){
@@ -48,14 +51,14 @@ public class HomeSSClaimTestDataGenerator {
 		if (claimPoints < value) {
 			row = DBService.get().getRow(String.format(sqlClaimData, lookupName, state, code, claimPoints));
 			if (row.isEmpty()) {
-				claimList.add(getClaim(dateOfLoss, DBService.get().getRow(String.format(sqlClaimData, lookupName, state, code, 1))));
+				claimList.add(getClaim(DBService.get().getRow(String.format(sqlClaimData, lookupName, state, code, 1))));
 				claimList.addAll(getClaimList(--claimPoints, code < maxCode ? ++code : code));
 			} else {
-				claimList.add(getClaim(dateOfLoss, row));
+				claimList.add(getClaim(row));
 			}
 		} else {
 			row = DBService.get().getRow(String.format(sqlClaimData, lookupName, state, code, value));
-			claimList.add(getClaim(dateOfLoss, row));
+			claimList.add(getClaim(row));
 			if (claimPoints > value) {
 				claimPoints -= value;
 				claimList.addAll(getClaimList(claimPoints, code < maxCode ? ++code : code));
@@ -64,9 +67,10 @@ public class HomeSSClaimTestDataGenerator {
 		return claimList;
 	}
 
-	private TestData getClaim(String dateOfLoss, Map<String, String> row) {
+	private TestData getClaim(Map<String, String> row) {
+		dateOfLoss = dateOfLoss.minusDays(1);
 		return DataProviderFactory.dataOf(
-				HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS.getLabel(), dateOfLoss,
+				HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS.getLabel(), dateOfLoss.format(DateTimeUtils.MM_DD_YYYY),
 				HomeSSMetaData.PropertyInfoTab.ClaimHistory.CAUSE_OF_LOSS.getLabel(), row.get("CAUSEOFLOSS"),
 				HomeSSMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS.getLabel(), row.get("MINPREMIUMOVR"),
 				HomeSSMetaData.PropertyInfoTab.ClaimHistory.CLAIM_STATUS.getLabel(), "Closed",
