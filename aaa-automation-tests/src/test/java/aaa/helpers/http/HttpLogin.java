@@ -16,24 +16,22 @@ public class HttpLogin {
 
 	private static final String PARAMS_FILENAME = "login.txt";
 	protected static Logger log = LoggerFactory.getLogger(HttpLogin.class);
-	private static String euUser = PropertyProvider.getProperty(TestProperties.EU_USER);
-	private static String adUser = PropertyProvider.getProperty(TestProperties.AD_USER);
-	private static String euPassword = PropertyProvider.getProperty(TestProperties.EU_PASSWORD);
-	private static String adPassword = PropertyProvider.getProperty(TestProperties.AD_PASSWORD);
+	private static String user = PropertyProvider.getProperty(TestProperties.APP_USER);
+	private static String password = PropertyProvider.getProperty(TestProperties.APP_PASSWORD);
 
 	private HttpLogin() {
 	}
 
 	public static HttpAAARequestor loginEu() throws IOException {
-		return loginEu(euUser, euPassword, BaseTest.getState());
+		return loginEu(user, password, BaseTest.getState());
 
 	}
 
 	public static HttpAAARequestor loginAd() throws IOException {
 		try {
-			return loginAd(adUser, adPassword, BaseTest.getState());
+			return loginAd(user, password, BaseTest.getState());
 		} catch (Exception e) {
-			return loginAd(adUser, adPassword, BaseTest.getState());
+			return loginAd(user, password, BaseTest.getState());
 		}
 	}
 
