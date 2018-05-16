@@ -62,7 +62,7 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-349", "PAS-341"})
-	public void pas349_rfiHO3_1(@Optional("CT") String state) {
+	public void pas349_rfiHO3_1(@Optional("IN") String state) {
 		String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		TestData adjustedTd = rfiTestData(state, "TestData1", "1939");
 
@@ -146,7 +146,7 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-349", "PAS-341"})
-	public void pas349_rfiHO3_2(@Optional("SD") String state) {
+	public void pas349_rfiHO3_2(@Optional("KY") String state) {
 		TestData adjustedTd = rfiTestData(state, "TestData2", "1941");
 
 		mainApp().open();

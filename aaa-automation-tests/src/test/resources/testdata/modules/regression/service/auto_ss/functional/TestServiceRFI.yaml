@@ -157,15 +157,15 @@ VehicleTab2_No_UBI: {
 }
 
 AssignmentTab_VA: {
-  DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver2']
+  DriverVehicleRelationshipTable: ['@AssignedDriver1_VA', '@AssignedDriver2_VA']
 }
 
-AssignedDriver1: {
-    Driver: 'contains=Ben',
+AssignedDriver1_VA: {
+    Driver: 'contains=e',
     Select Vehicle: 'index=1'
 }
 
-AssignedDriver2: {
+AssignedDriver2_VA: {
     Driver: 'contains=Jenny',
     Select Vehicle: 'index=2'
 }
@@ -815,15 +815,15 @@ VehicleTab2_NY: {
 }
 
 AssignmentTab_NY: {
-  DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver2']
+  DriverVehicleRelationshipTable: ['@AssignedDriver1_NY', '@AssignedDriver2_NY']
 }
 
-AssignedDriver1: {
-    Driver: 'contains=Fernando',
+AssignedDriver1_NY: {
+    Driver: 'contains=e',
     Select Vehicle: 'index=1'
 }
 
-AssignedDriver2: {
+AssignedDriver2_NY: {
     Driver: 'contains=Jenny',
     Select Vehicle: 'index=2'
 }
