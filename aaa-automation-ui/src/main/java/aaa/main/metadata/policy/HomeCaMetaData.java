@@ -872,6 +872,10 @@ public final class HomeCaMetaData {
 		// HomeCAEndorsementsMultiAssetList.class, EndorsementHW28.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		// public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HW_A6_00 = declare("HW A6 00",
 		// HomeCAEndorsementsMultiAssetList.class, EndorsementHWA600.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> FPCECA = declare("FPCECA", HomeCAEndorsementsMultiAssetList.class, EndorsementFPCECA.class,
+				By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> FPCECADP = declare("FPCECADP", HomeCAEndorsementsMultiAssetList.class, EndorsementFPCECA.class,
+				By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 
 		public enum IncludedAndSelectedEndorsementsTblHeaders {
 
@@ -1178,6 +1182,9 @@ public final class HomeCaMetaData {
 		public static final class EndorsementHO1732 extends MetaData {}
 		
 		public static final class EndorsementHO1733 extends MetaData {}
+
+		public static final class EndorsementFPCECA extends MetaData {}
+		public static final class EndorsementFPCECADP extends MetaData {}
 	}
 
 	public static final class PersonalPropertyTab extends MetaData {

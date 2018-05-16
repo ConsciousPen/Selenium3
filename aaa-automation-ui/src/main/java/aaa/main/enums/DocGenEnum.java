@@ -203,6 +203,8 @@ public final class DocGenEnum {
 		F122G(""),
 		F1455(""),
 		F605005("60 5005", "Returning Payment"),
+		FPCECA("FPCECA 07 18", "FPCECA", "Fair Plan Companion Endorsement - California"), //TODO-mstrazds:
+		FPCECADP("FPCECADP 07 18", "FPCECADP", "Fair Plan Companion Endorsement - California"), //TODO-mstrazds:
 		FS20("FS-20", "Insurance Identification Card"),
 		HS_03_30("HS 03 30", "Special Hurricane Percentage Deductible"),
 		HS_04_59("HS 04 59", ""),
