@@ -1,5 +1,22 @@
 package aaa.modules.regression.service.helper;
 
+import static aaa.admin.modules.IAdmin.log;
+import java.util.HashMap;
+import java.util.Map;
+import javax.ws.rs.client.*;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.entity.ContentType;
+import org.apache.xerces.impl.dv.util.Base64;
+import org.glassfish.jersey.client.HttpUrlConnectorProvider;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import com.sun.jna.platform.win32.Guid;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.modules.regression.service.helper.dtoAdmin.InstallmentFeesResponse;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
@@ -8,25 +25,8 @@ import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAMakeByYear;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAModelByYearMake;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAASeriesByYearMakeModel;
 import aaa.modules.regression.service.helper.dtoDxp.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import com.sun.jna.platform.win32.Guid;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.http.entity.ContentType;
-import org.apache.xerces.impl.dv.util.Base64;
-import org.glassfish.jersey.client.HttpUrlConnectorProvider;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
-import javax.ws.rs.client.*;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.Map;
-
-import static aaa.admin.modules.IAdmin.log;
 
 public class HelperCommon {
 	private static final String ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT = "/aaa-admin/services/aaa-policy-rs/v1/documents/rfi-documents/";
@@ -292,6 +292,7 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, null, PolicyPremiumInfo[].class, status);
 	}
 
+	@SuppressWarnings("unchecked")
 	public static HashMap<String, String> executeEndorsementRateError(String policyNumber, int status) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENT_RATE_ENDPOINT, policyNumber));
 		return runJsonRequestPostDxp(requestUrl, null, HashMap.class, status);
@@ -304,6 +305,7 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, request, String.class, status);
 	}
 
+	@SuppressWarnings("unchecked")
 	public static HashMap<String, String> executeEndorsementBindError(String policyNumber, String authorizedBy, int status) {
 		AAABindEndorsementRequestDTO request = new AAABindEndorsementRequestDTO();
 		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENT_BIND_ENDPOINT, policyNumber));
@@ -313,9 +315,9 @@ public class HelperCommon {
 
 	public static DiscountSummary executeDiscounts(String policyNumber, String transaction, int status) {
 		String requestUrl;
-		if (transaction.equals("policy")) {
+		if ("policy".equals(transaction)) {
 			requestUrl = urlBuilderDxp(String.format(DXP_VIEW_POLICY_DISCOUNTS, policyNumber));
-		} else if (transaction.equals("endorsement")) {
+		} else if ("endorsement".equals(transaction)) {
 
 			requestUrl = urlBuilderDxp(String.format(DXP_VIEW_ENDORSEMENT_DISCOUNTS, policyNumber));
 		} else {
