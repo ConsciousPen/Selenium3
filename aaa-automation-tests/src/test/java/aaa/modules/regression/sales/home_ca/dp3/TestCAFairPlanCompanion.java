@@ -2,6 +2,7 @@ package aaa.modules.regression.sales.home_ca.dp3;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -80,7 +81,7 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
 
     /**
      * @scenario
-     * 1. Create a HO3 Quote.
+     * 1. Create a DP3 Quote.
      * 2. Bind Quote.
      * 3. Initiate Mid-Term Endorsement.
      * 4. Observe FPCECA is visible.
@@ -122,7 +123,7 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
 
     /**
      * @scenario
-     * 1. Create a HO3 Quote.
+     * 1. Create a DP3 Quote.
      * 2. Bind Quote.
      * 3. Advance JVM to TP1, run renewal jobs.
      * 4. Advance JVM to TP2, run renewal jobs.
@@ -202,5 +203,9 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
         // Click FPCECA Endorsement
         EndorsementTab endorsementTab = new EndorsementTab();
         endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECADP.getLabel()).click();
+
+        // Verify Endorsement Confirmation Appears
+        Page.dialogConfirmation.confirm();
+        endorsementTab.btnSaveForm.click();
     }
 }

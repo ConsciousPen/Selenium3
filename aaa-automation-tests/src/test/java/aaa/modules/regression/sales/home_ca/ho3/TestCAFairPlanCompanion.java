@@ -2,6 +2,7 @@ package aaa.modules.regression.sales.home_ca.ho3;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
@@ -27,6 +28,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
 
 /**
  * @author Tyrone C Jemison
@@ -64,9 +66,9 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         verifySelectedEndorsementsPresent(PremiumsAndCoveragesQuoteTab.tableEndorsementForms, PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, "FPCECA");
 
-        // TODO: Verify Document Tab populates Endorsement
+        // Verify Document Tab populates Endorsement
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
-        assertThat(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FPCECA.getLocator()).isNotNull();
+        assertThat(new DocumentsTab().getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FPCECA.getLabel()).isPresent()).isTrue();
     }
 
     /**
@@ -97,8 +99,6 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
 
         // Click FPCECA Endorsement
         addEndorsement();
-
-        // TODO: Verify Message appears and it matches Mock-Up.
     }
 
     /**
@@ -172,5 +172,9 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
         // Click FPCECA Endorsement
         EndorsementTab endorsementTab = new EndorsementTab();
         endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel()).click();
+
+        // Verify Endorsement Confirmation Appears
+        Page.dialogConfirmation.confirm();
+        endorsementTab.btnSaveForm.click();
     }
 }
