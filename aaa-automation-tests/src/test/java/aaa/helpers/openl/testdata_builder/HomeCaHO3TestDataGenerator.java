@@ -134,23 +134,39 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 	private TestData getPropertyInfoTabData(HomeCaHO3OpenLPolicy openLPolicy) {
 		Dollar coverageA = new Dollar(openLPolicy.getCovALimit());
 
-		//TODO add Section II Territory for HO-42
-
+		boolean isHO42 = false;
 		boolean isHO44 = false;
 		for (HomeCaHO3OpenLForm form : openLPolicy.getForms()) {
+			if ("HO-42".equals(form.getFormCode())) {
+				isHO42 = true;
+			}
 			if ("HO-44".equals(form.getFormCode())) {
 				isHO44 = true;
 			}
 		}
 
-		TestData dwellingAddressData;
-		if (isHO44) {
+		TestData dwellingAddressData; 
+		if (isHO42) {
+			dwellingAddressData = DataProviderFactory.dataOf(
+					HomeCaMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel(), "contains=" + openLPolicy.getDwelling().getNumOfFamilies());
+			String territoryCode = openLPolicy.getForms().stream().filter(n -> "HO-42".equals(n.getFormCode())).findFirst().get().getTerritoryCode();
+			if (territoryCode.equals("Office")) {
+				dwellingAddressData.adjust(DataProviderFactory.dataOf(
+						HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(),	"contains=" + RandomUtils.nextInt(1, 4)));
+			}
+			else {
+				dwellingAddressData.adjust(DataProviderFactory.dataOf(
+						HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(),	"contains=" + territoryCode));
+			}
+		} 
+		else if (isHO44) {
 			dwellingAddressData = DataProviderFactory.dataOf(
 					HomeCaMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel(),
 					"contains=" + openLPolicy.getForms().stream().filter(n -> "HO-44".equals(n.getFormCode())).findFirst().get().getNumOfFamilies(),
 					HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(),
 					"contains=" + openLPolicy.getForms().stream().filter(n -> "HO-44".equals(n.getFormCode())).findFirst().get().getTerritoryCode());
-		} else {
+		} 
+		else {
 			dwellingAddressData = DataProviderFactory.dataOf(
 					HomeCaMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel(), "contains=" + openLPolicy.getDwelling().getNumOfFamilies());
 		}

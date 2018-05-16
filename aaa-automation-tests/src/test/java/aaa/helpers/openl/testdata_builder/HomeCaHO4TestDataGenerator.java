@@ -113,9 +113,15 @@ public class HomeCaHO4TestDataGenerator extends TestDataGenerator<HomeCaHO4OpenL
 		}
 
 		if (isHO42) {
-			dwellingAddressData.adjust(DataProviderFactory.dataOf(
-					HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(),
-					"contains=" + openLPolicy.getForms().stream().filter(n -> "HO-42".equals(n.getFormCode())).findFirst().get().getTerritoryCode()));
+			String territoryCode = openLPolicy.getForms().stream().filter(n -> "HO-42".equals(n.getFormCode())).findFirst().get().getTerritoryCode(); 
+			if (territoryCode.equals("Office")) {
+				dwellingAddressData.adjust(DataProviderFactory.dataOf(
+						HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(), "contains=" + RandomUtils.nextInt(1, 4)));
+			}
+			else {
+				dwellingAddressData.adjust(DataProviderFactory.dataOf(
+						HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(), "contains=" + territoryCode));
+			}
 		}
 
 		TestData ppcData = DataProviderFactory.dataOf(

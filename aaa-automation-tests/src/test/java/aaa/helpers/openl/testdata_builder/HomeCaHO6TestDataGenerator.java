@@ -132,15 +132,21 @@ public class HomeCaHO6TestDataGenerator extends TestDataGenerator<HomeCaHO6OpenL
 			}
 		}
 
-		TestData dwellingAddressData;
+		TestData dwellingAddressData = DataProviderFactory.emptyData();
 		if (isHO42C) {
-			dwellingAddressData = DataProviderFactory.dataOf(
-					HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(),
-					"contains=" + openLPolicy.getForms().stream().filter(n -> "HO-42C".equals(n.getFormCode())).findFirst().get().getTerritoryCode());
-		} else {
-			dwellingAddressData = DataProviderFactory.dataOf(
-					HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(), "");
-		}
+			String territoryCode = openLPolicy.getForms().stream().filter(n -> "HO-42C".equals(n.getFormCode())).findFirst().get().getTerritoryCode(); 
+			if (territoryCode.equals("Office")) {
+				dwellingAddressData = DataProviderFactory.dataOf(
+						HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(), "contains=" + RandomUtils.nextInt(1, 4));
+			}
+			else {
+				dwellingAddressData = DataProviderFactory.dataOf(
+						HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(), "contains=" + territoryCode);
+			}
+		} 
+		//else {
+		//	dwellingAddressData = DataProviderFactory.dataOf(HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(), "");
+		//}
 
 		TestData ppcData = DataProviderFactory.dataOf(
 				HomeCaMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS.getLabel(), openLPolicy.getDwelling().getPpcValue());

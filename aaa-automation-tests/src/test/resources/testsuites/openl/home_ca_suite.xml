@@ -20,6 +20,7 @@
     <test name="Home CA HO3 Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="CA"/>
         <parameter name="fileName" value="HO3Tests_eff_09142017.xls"/>
+        <!-- parameter name="policyNumbers" value="3322, 3324"/ -->
         <parameter name="policyNumbers" value="3323, 3333"/>
         <classes>
             <class name="aaa.modules.openl.HomeCaHO3PremiumCalculationTest"/>

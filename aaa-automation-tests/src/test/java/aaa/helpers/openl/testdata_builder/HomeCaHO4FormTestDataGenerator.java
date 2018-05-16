@@ -25,11 +25,18 @@ public class HomeCaHO4FormTestDataGenerator {
 	}; 
 	
 	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO42DataFunction = (openLPolicy) -> {
-		//TODO clarify Territory code = Office for this form
 		List<TestData> tdList = new ArrayList<>();
+		String territoryCode = openLPolicy.getForms().stream().filter(c -> "HO-42".equals(c.getFormCode())).findFirst().get().getTerritoryCode(); 
+		String officeType; 
+		if (territoryCode.equals("Office")) {
+			officeType = "Incidental Office";
+		}
+		else {
+			officeType = "Professional Instruction";
+		}
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", "Add",
-				HomeCaMetaData.EndorsementTab.EndorsementHO42.OFFICE_TYPE.getLabel(), "index=1", 
+				HomeCaMetaData.EndorsementTab.EndorsementHO42.OFFICE_TYPE.getLabel(), officeType, 
 				HomeCaMetaData.EndorsementTab.EndorsementHO42.DESCRIPTION_OF_BUSINESS_EQUIPMENT.getLabel(), "test", 
 				HomeCaMetaData.EndorsementTab.EndorsementHO42.BUSINESS_EQUIPMENT_OVER_50_000.getLabel(), "No", 
 				HomeCaMetaData.EndorsementTab.EndorsementHO42.FOOT_TRAFFIC_EXCEEDING_2_CUSTOMERS_PER_WEEK.getLabel(), "No", 
