@@ -385,12 +385,29 @@ public class HomeCaHO6TestDataGenerator extends TestDataGenerator<HomeCaHO6OpenL
 						break;
 				}
 			} else if ("HO-61C".equals(form.getFormCode())) {
-				//TODO clarify "Class 1" and "Class 2"
+				/*
+				 * Class 1: Boat length < 144 and Horsepower < 16
+				 * Class 1: Boat length > 167 and Boat length < 192 and Horsepower < 26 
+				 * Class 1: Boat length > 191 and Boat length < 216 and Horsepower < 51
+				 */
+				String horsepower = "15";
+				String lenght_inches = "200";
+				if (getBoatType(form.getType()).equals("Outboard")) {
+					if (form.getFormClass().equals("Class 1")) {
+						horsepower = "12"; 
+						lenght_inches = "143";
+					}
+					if (form.getFormClass().equals("Class 2")) {
+						horsepower = "16"; 
+						lenght_inches = "143";
+					}
+				}
+
 				TestData boatsData = DataProviderFactory.dataOf(
 						HomeCaMetaData.PersonalPropertyTab.Boats.BOAT_TYPE.getLabel(), getBoatType(form.getType()),
 						HomeCaMetaData.PersonalPropertyTab.Boats.YEAR.getLabel(), openLPolicy.getEffectiveDate().minusYears(form.getAge()).getYear(),
-						HomeCaMetaData.PersonalPropertyTab.Boats.HORSEPOWER.getLabel(), "50",
-						HomeCaMetaData.PersonalPropertyTab.Boats.LENGTH_INCHES.getLabel(), "300",
+						HomeCaMetaData.PersonalPropertyTab.Boats.HORSEPOWER.getLabel(), horsepower,
+						HomeCaMetaData.PersonalPropertyTab.Boats.LENGTH_INCHES.getLabel(), lenght_inches,
 						HomeCaMetaData.PersonalPropertyTab.Boats.DEDUCTIBLE.getLabel(), "contains=" + form.getDeductible().toString().split("\\.")[0],
 						HomeCaMetaData.PersonalPropertyTab.Boats.AMOUNT_OF_INSURANCE.getLabel(), form.getLimit().toString().split("\\.")[0]);
 				personalPropertyTabData.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.BOATS.getLabel(), boatsData));
