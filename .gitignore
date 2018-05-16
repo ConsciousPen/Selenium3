@@ -14,6 +14,7 @@ aaa-automation-ui/test-output/*
 aaa-automation-ui/target/*
 
 aaa-automation-tests/external_run_id.txt
+aaa-automation-tests/run_id.properties
 
 aaa-automation-tests/test-output/*
 aaa-automation-tests/target/*

@@ -32,6 +32,7 @@ import aaa.main.pages.summary.MyWorkSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.composite.table.Table;
 
@@ -137,6 +138,9 @@ public class Scenario7 extends ScenarioBaseTest {
 
 	protected void renewalImageGeneration() {
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
+		if (DateTimeUtils.getCurrentDateTime().isAfter(renewImageGenDate)) {
+			renewImageGenDate = DateTimeUtils.getCurrentDateTime();
+		}
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		HttpStub.executeAllBatches();
@@ -150,6 +154,9 @@ public class Scenario7 extends ScenarioBaseTest {
 
 	protected void generateTenthBill() {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(10));
+		if (DateTimeUtils.getCurrentDateTime().isAfter(billGenDate)) {
+			billGenDate = DateTimeUtils.getCurrentDateTime();
+		}
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
 		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 
