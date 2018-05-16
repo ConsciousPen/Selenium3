@@ -2,21 +2,21 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package com.exigen.ipb.etcsa.utils;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.assertthat.selenium_shutterbug.core.Shutterbug;
 import com.assertthat.selenium_shutterbug.utils.web.ScrollStrategy;
 import com.exigen.istf.exec.browser.configuration.BrowserControllerConfig;
 import com.exigen.istf.exec.browser.configuration.BrowserPoolConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
+import toolkit.exceptions.IstfException;
 import toolkit.utils.screenshots.impl.BasicScreenshotMaker;
 import toolkit.webdriver.BrowserController;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 /**
  * @author ikisly
@@ -28,8 +28,12 @@ public class ETCSAScreenshotMaker extends BasicScreenshotMaker {
 	public boolean capture(File file) throws IOException {
 		boolean result;
 		hideFooter();
-		BrowserController.get().executeScript("document.body.scrollTop = document.documentElement.scrollTop = 0;");
-		result = isProfileChrome() ? getChromeFullScreenShot(file) : super.capture(file);
+		try {
+			BrowserController.get().executeScript("document.body.scrollTop = document.documentElement.scrollTop = 0;");
+			result = isProfileChrome() ? getChromeFullScreenShot(file) : super.capture(file);
+		} catch (IstfException ie) {
+			return false;
+		}
 		showFooter();
 		return result;
 	}
@@ -51,9 +55,9 @@ public class ETCSAScreenshotMaker extends BasicScreenshotMaker {
 		}
 	}
 
-	private boolean isProfileChrome(){
+	private boolean isProfileChrome() {
 		String actualProfile;
-		if(TimeSetterUtil.getInstance().isPEF()){
+		if (TimeSetterUtil.getInstance().isPEF()) {
 			actualProfile = new BrowserPoolConfig(BrowserControllerConfig.getInstance().getBrowserPoolConfigFilePath())
 					.getDefaultBrowserProfile().getBrowserProfileValue();
 		} else {
@@ -61,7 +65,6 @@ public class ETCSAScreenshotMaker extends BasicScreenshotMaker {
 		}
 		return actualProfile.equals("chrome") || actualProfile.equals("googlechrome");
 	}
-
 
 	private boolean getChromeFullScreenShot(File file) throws IOException {
 		if (BrowserController.isInitialized()) {

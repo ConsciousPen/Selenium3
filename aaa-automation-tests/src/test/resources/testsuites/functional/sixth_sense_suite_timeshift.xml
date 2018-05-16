@@ -1,0 +1,34 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Sixth Sense Functional Time Shift Test Suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+
+    <!--Tests for Auto-->
+
+    <test name="Test Calculate Tier for NY converted policies">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.auto_ss.functional.TestTierCalculation"/>
+        </classes>
+    </test>
+
+    <test name="Test Reinstatement point score lock during mid term transaction">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMidTermReinstatementPointLock"/>
+        </classes>
+    </test>
+
+    <!-- Commented out until dev feature branch is merged in 18.5
+        <test name="Test Enhanced UIM Coverage Forms">
+            <parameter name="state" value="MD"/>
+            <classes>
+                <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms"/>
+            </classes>
+        </test>
+    -->
+
+</suite>
