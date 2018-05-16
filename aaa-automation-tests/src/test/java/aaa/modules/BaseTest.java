@@ -65,6 +65,7 @@ public class BaseTest {
 		CustomAssert.initDriver(CustomAssert.AssertDriverType.TESTNG);
 		tdCustomerIndividual = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		tdCustomerNonIndividual = new TestDataManager().customer.get(CustomerType.NON_INDIVIDUAL);
+
 	}
 
 	public BaseTest() {
@@ -225,20 +226,6 @@ public class BaseTest {
 		}
 	}
 
-	/**
-	 * Login to the application
-	 */
-	public MainApplication mainApp() {
-		return CSAAApplicationFactory.get().mainApp(new LoginPage(initiateLoginTD()));
-	}
-
-	/**
-	 * Login to the application and open admin page
-	 */
-	public AdminApplication adminApp() {
-		return CSAAApplicationFactory.get().adminApp(new LoginPage(initiateLoginTD()));
-	}
-
 	@AfterMethod(alwaysRun = true)
 	public void logout() {
 		if (isCiModeEnabled) {
@@ -251,6 +238,20 @@ public class BaseTest {
 		if (isCiModeEnabled) {
 			closeAllApps();
 		}
+	}
+
+	/**
+	 * Login to the application
+	 */
+	public MainApplication mainApp() {
+		return CSAAApplicationFactory.get().mainApp(new LoginPage(initiateLoginTD()));
+	}
+
+	/**
+	 * Login to the application and open admin page
+	 */
+	public AdminApplication adminApp() {
+		return CSAAApplicationFactory.get().adminApp(new LoginPage(initiateLoginTD()));
 	}
 
 	/**
@@ -435,8 +436,8 @@ public class BaseTest {
 
 	protected TestData initiateLoginTD() {
 		Map<String, Object> td = new LinkedHashMap<>();
-		td.put(LoginPageMeta.USER.getLabel(), PropertyProvider.getProperty(TestProperties.EU_USER));
-		td.put(LoginPageMeta.PASSWORD.getLabel(), PropertyProvider.getProperty(TestProperties.EU_PASSWORD));
+		td.put(LoginPageMeta.USER.getLabel(), PropertyProvider.getProperty(TestProperties.APP_USER));
+		td.put(LoginPageMeta.PASSWORD.getLabel(), PropertyProvider.getProperty(TestProperties.APP_PASSWORD));
 		td.put(LoginPageMeta.STATES.getLabel(), getState());
 		return new SimpleDataProvider(td);
 	}

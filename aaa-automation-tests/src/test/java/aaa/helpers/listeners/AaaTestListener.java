@@ -1,8 +1,11 @@
 package aaa.helpers.listeners;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.*;
 import com.exigen.ipb.etcsa.utils.RetrySuiteGenerator;
@@ -10,12 +13,30 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.utils.StateList;
 import toolkit.config.PropertyProvider;
+import toolkit.metrics.ReportingContext;
 import toolkit.utils.teststoragex.listeners.TestngTestListener2;
 import toolkit.utils.teststoragex.models.Attachment;
+import toolkit.utils.teststoragex.models.Run;
 import toolkit.utils.teststoragex.utils.TestNGUtils;
 
 public class AaaTestListener extends TestngTestListener2 implements IExecutionListener {
 	private static RetrySuiteGenerator suiteGenerator = new RetrySuiteGenerator();
+
+	@Override
+	public void onStart(ISuite suite) {
+		super.onStart(suite);
+		Run run = new Run(ReportingContext.get().getRunId());
+		File file = new File("run_id.properties");
+		Properties props = new Properties();
+		props.setProperty("runID", run.getId().toString());
+		try {
+			FileOutputStream fileOut = new FileOutputStream(file);
+			props.store(fileOut, "Test Analytics Run ID");
+			fileOut.close();
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+	}
 
 	@Override
 	public void onTestFailure(ITestResult result) {

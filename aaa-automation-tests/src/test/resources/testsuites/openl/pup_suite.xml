@@ -78,4 +78,68 @@
             <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
         </classes>
     </test>
+    <test name="PUP [KY] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="KY"/>
+        <parameter name="fileName" value="KYTests.xls"/>
+        <parameter name="policyNumbers" value="93,120"/>
+        <classes>
+            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="PUP [WY] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="WY"/>
+        <parameter name="fileName" value="WYTests.xls"/>
+        <parameter name="policyNumbers" value="30,48"/>
+        <classes>
+            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="PUP [SD] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="SD"/>
+        <parameter name="fileName" value="SDTests.xls"/>
+        <parameter name="policyNumbers" value="30,237"/>
+        <classes>
+            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="PUP [OR] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="OR"/>
+        <parameter name="fileName" value="ORTests-20161201.xls"/>
+        <parameter name="policyNumbers" value="246,282"/>
+        <classes>
+            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="PUP [OK] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="OK"/>
+        <parameter name="fileName" value="OKTests.xls"/>
+        <parameter name="policyNumbers" value="48,75"/>
+        <classes>
+            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="PUP [IN] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="IN"/>
+        <parameter name="fileName" value="INTests.xls"/>
+        <parameter name="policyNumbers" value="75,192"/>
+        <classes>
+            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="PUP [WV] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="WV"/>
+        <parameter name="fileName" value="WVTests.xls"/>
+        <parameter name="policyNumbers" value="30,48"/>
+        <classes>
+            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="PUP [OH] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="OH"/>
+        <parameter name="fileName" value="OHTests.xls"/>
+        <parameter name="policyNumbers" value="75,120"/>
+        <classes>
+            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
+        </classes>
+    </test>
 </suite>

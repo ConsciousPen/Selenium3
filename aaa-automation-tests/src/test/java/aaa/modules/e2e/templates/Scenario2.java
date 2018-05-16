@@ -193,6 +193,9 @@ public class Scenario2 extends ScenarioBaseTest {
 
 	protected void renewalImageGeneration() {
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
+		if (DateTimeUtils.getCurrentDateTime().isAfter(renewImageGenDate)) {
+			renewImageGenDate = DateTimeUtils.getCurrentDateTime();
+		}
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		HttpStub.executeAllBatches();

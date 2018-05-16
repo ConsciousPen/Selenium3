@@ -136,6 +136,9 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	private TestData getApplicantTabPrimaryPolicyData(PUPOpenLPolicy openLPolicy) {
 		TestData dwellingAddressData = new SimpleDataProvider();
 		dwellingAddressData.adjust(HomeSSMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel(), openLPolicy.getDwelling().getAddress().getZipCode());
+		if ("IN".equals(getState()) || "WV".equals(getState()) || "OH".equals(getState())) {
+			dwellingAddressData.adjust(HomeSSMetaData.ApplicantTab.DwellingAddress.COUNTY.getLabel(), "1");
+		}
 		if (Boolean.TRUE.equals(openLPolicy.getDwelling().getRetirementCommunityInd())) {
 			dwellingAddressData.adjust(HomeSSMetaData.ApplicantTab.DwellingAddress.RETIREMENT_COMMUNITY.getLabel(), "MountainBrook Village");
 		}
