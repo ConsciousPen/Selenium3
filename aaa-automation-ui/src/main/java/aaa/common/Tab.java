@@ -11,7 +11,10 @@ import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
-import toolkit.webdriver.controls.*;
+import toolkit.webdriver.controls.BaseElement;
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
@@ -46,9 +49,6 @@ public abstract class Tab {
 	public static Button buttonYes = new Button(By.xpath("//input[(@value = 'Yes' or @value = 'YES') and not(@class = 'hidden') and not(contains(@style,'none'))]"));
 	public static Button buttonGo = new Button(By.xpath("//input[(@value = 'Go' or @value = 'GO') and not(@class = 'hidden') and not(contains(@style,'none'))]"));
 	public static Button buttonCreateVersion = new Button(By.id("topCreateQuoteVersionLink"));
-
-	public static Link linkAdminApp = new Link(By.id("logoutForm:switchToAdmin"));
-	public static Link linkMainApp = new Link(By.id("logoutForm:switchToApp"));
 
 	public static Dialog dialogCancelAction = new Dialog(By.id("cancelConfirmDialogDialog_container"));
 
