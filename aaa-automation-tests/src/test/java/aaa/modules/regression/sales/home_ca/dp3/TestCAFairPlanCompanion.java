@@ -74,9 +74,9 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         verifySelectedEndorsementsPresent(PremiumsAndCoveragesQuoteTab.tableEndorsementForms, PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, "FPCECADP");
 
-        // TODO: Verify Document Tab populates Endorsement
+        // Verify Document Tab populates Endorsement
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
-        assertThat(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FPCECADP.getLocator()).isNotNull();
+        assertThat(new DocumentsTab().getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FPCECA.getLabel()).isPresent()).isTrue();
     }
 
     /**
@@ -117,8 +117,6 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
 
         // Click FPCECADP Endorsement
         addEndorsement();
-
-        // TODO: Verify Message appears and it matches Mock-Up.
     }
 
     /**
@@ -173,9 +171,11 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
         SearchPage.openPolicy(policyNumber);
 
         policy.renew().start().submit();
-        policy.getDefaultView().fillUpTo(getTestSpecificTD("Renewal_AC3"), PremiumsAndCoveragesQuoteTab.class, false);
+        policy.getDefaultView().fillUpTo(getTestSpecificTD("Renewal_AC3"), EndorsementTab.class, false);
 
-        // TODO: Validate FPCECA endorsement is visible.
+        // Click FPCECADP Endorsement
+        addEndorsement();
+
     }
 
     public static void moveJVMToDateAndRunRenewalJobs(LocalDateTime desiredJVMLocalDateTime)
