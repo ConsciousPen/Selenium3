@@ -68,7 +68,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-349", "PAS-341"})
-	public void pas349_rfiAuto(@Optional("WV") String state) {
+	public void pas349_rfiAuto(@Optional("NY") String state) {
 		String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 
 		TestData td;
@@ -80,8 +80,8 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		if (!("VA".equals(state) || "CA".equals(state) || "NY".equals(state))) {
 			td.mask("AssignmentTab").resolveLinks();
 		}
-
-		if ("ID, KS, KY, MT, NV, NY, OR, UT, WY, MD, WV".contains(state)) {
+		//NY is handled separately in it's vehicle testData
+		if ("ID, KS, KY, MT, NV, OR, UT, WY, MD, WV".contains(state)) {
 			td = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_No_UBI").getTestDataList("VehicleTab")).resolveLinks();
 		}
 
@@ -105,7 +105,6 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		if (!"ID, KS, KY, MT, NV, NY, OR, UT, WY, MD, WV".contains(state)) {
 			HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS.getLabel(), "DISC", "NS");
 		}
-		//HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE.getLabel(), "COVCHG", "NS");
 
 		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_CURRENT_INSURANCE_FOR.getLabel(), "POI", "NS");
 		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT.getLabel(), "DISC", "NS");
@@ -194,7 +193,6 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS).verify
 					.value("Not Signed");
 		}
-		//documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE).verify.value("Not Signed");
 
 		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_CURRENT_INSURANCE_FOR).verify.value("No");
 		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT).verify.value("No");
@@ -232,7 +230,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		if (!"ID, KS, KY, MT, NV, NY, OR, UT, WY, MD, WV".contains(state)) {
 			HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS.getLabel(), "DISC", "PS");
 		}
-		//HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE.getLabel(), "COVCHG", "NS");
+
 		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_CURRENT_INSURANCE_FOR.getLabel(), "POI", "NS");
 		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT.getLabel(), "DISC", "PS");
 		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION.getLabel(), "DISC", "PS");
@@ -264,7 +262,6 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			HelperRfi.rfiTagCheck(query, "UBITrmCndtnYN", "N");
 		}
 		HelperRfi.rfiTagCheck(query, "DfnsDrvrCmplYN", "Y");
-		//HelperRfi.rfiTagCheck(query, "UMUIMRjctFlg", "Y");
 	}
 
 	private static void rfiDocumentContentCheckNano(String policyNum) {

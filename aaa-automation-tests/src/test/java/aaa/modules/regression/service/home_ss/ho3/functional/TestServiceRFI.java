@@ -64,8 +64,7 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-349", "PAS-341"})
 	public void pas349_rfiHO3_1(@Optional("AZ") String state) {
 		String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
-		String yearBuilt = TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), "Year built");
-		TestData adjustedTd = getPolicyTD().adjust(getTestSpecificTD("TestData1").adjust(yearBuilt, "1939").resolveLinks()).resolveLinks();
+		TestData adjustedTd = rfiTestData(state, "TestData1", "1939");
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -147,9 +146,8 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-349", "PAS-341"})
-	public void pas349_rfiHO3_2(@Optional("VA") String state) {
-		String yearBuilt = TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), "Year built");
-		TestData adjustedTd = getPolicyTD().adjust(getTestSpecificTD("TestData2").adjust(yearBuilt, "1941").resolveLinks()).resolveLinks();
+	public void pas349_rfiHO3_2(@Optional("SD") String state) {
+		TestData adjustedTd = rfiTestData(state, "TestData2", "1941");
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -196,6 +194,21 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 		CustomAssert.assertAll();
 	}
 
+	private TestData rfiTestData(String state, String testSpecificTestDataName, String year) {
+		String yearBuilt =
+				TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), HomeSSMetaData.PropertyInfoTab.Construction.YEAR_BUILT.getLabel());
+		String hailResistanceRating =
+				TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING
+						.getLabel());
+		TestData adjustedTd;
+		if ("CO, IN".contains(state)) {
+			 adjustedTd = getPolicyTD().adjust(getTestSpecificTD(testSpecificTestDataName).adjust(yearBuilt, year).adjust(hailResistanceRating, "index=1").resolveLinks()).resolveLinks();
+		} else {
+			 adjustedTd = getPolicyTD().adjust(getTestSpecificTD(testSpecificTestDataName).adjust(yearBuilt, year).resolveLinks()).resolveLinks();
+		}
+		return adjustedTd;
+	}
+
 	private static void rfiTagCheck(DocGenEnum.Documents document, String query, String tag, String tagValue) {
 		CustomAssert.assertEquals(
 				tag + "has a problem.", DocGenHelper.getDocumentDataElemByName(tag, document, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField(), tagValue);
@@ -206,7 +219,8 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 		String formattedDate = uploadDate.format(DateTimeUtils.MM_DD_YYYY);
 		DBService.get().executeUpdate(String.format(HelperRfi.UPDATE_DOCUMENT_STATUS, formattedDate, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), policyNumber));
 		DBService.get().executeUpdate(String.format(HelperRfi.UPDATE_DOCUMENT_STATUS, formattedDate, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), policyNumber));
-		DBService.get().executeUpdate(String.format(HelperRfi.UPDATE_DOCUMENT_STATUS, formattedDate, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), policyNumber));
+		DBService.get()
+				.executeUpdate(String.format(HelperRfi.UPDATE_DOCUMENT_STATUS, formattedDate, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), policyNumber));
 
 		String currentVersion = DBService.get().getValue(String.format(HelperRfi.GET_POLICY_SUMMARY_FIELD, "version", policyNumber)).get();
 		String latestPolicySummaryId = DBService.get().getValue(String.format(HelperRfi.GET_POLICY_SUMMARY_FIELD, "id", policyNumber)).get();
