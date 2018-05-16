@@ -35,7 +35,7 @@ public class TestPaperlessPreferencesAllProducts extends TestPaperlessPreference
 		return PolicyType.HOME_CA_HO3;
 	}
 
-	/**
+	/** Disabled because functionality was synced only with HO SS and Auto SS
 	 * * @author Oleg Stasyuk
 	 *
 	 * PAS-283
@@ -44,7 +44,7 @@ public class TestPaperlessPreferencesAllProducts extends TestPaperlessPreference
 	 * {@link TestPaperlessPreferencesAbstract}
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = {"PAS-283", "PAS-1451", "PAS-1453", "PAS-1454", "PAS-1740", "PAS-2564"})
 	public void pas283_paperlessPreferencesForAllStatesProducts(@Optional("CA") String state) {
 		if(DBService.get().getValue(String.format(PAPERLESS_PREFERENCES_ELIGIBILITY_CHECK_FOR_PRODUCT, "AAA_HO_CA", state)).orElse("").equals("")) {

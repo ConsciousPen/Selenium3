@@ -110,10 +110,17 @@ MembershipTab: {
 
 VehicleTab: {
  VehicleTab: 
-  [{Primary Use: Pleasure (recreational driving only)},
-  {Primary Use: Pleasure (recreational driving only)}]
+  [{Primary Use: Pleasure (recreational driving only),
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 10,
+  Odometer Reading: 3000},
+  {Primary Use: Pleasure (recreational driving only),
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 10,
+  Odometer Reading: 3000}]
 }
-
 
 TestDataFill_2_CA: {
   AssignmentTab: '@AssignmentTab',

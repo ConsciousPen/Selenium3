@@ -1108,7 +1108,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 					vehRntlReimbsPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Rental Reimbursement"))));
 					vehTwgLbrPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Towing and Labor Coverage"))));
 					vehTotPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Total Vehicle Term Premium"))));
-					vehMedBenPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Medical Expenses"))));
+					vehMedBenPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Medical Payments"))));
 					vehFnrlExpBenPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Funeral Benefits"))));
 					vehAcdntDeadBenPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Accidental Death Benefits (ADB)"))));
 					vehExtrMedBenPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Extraordinary Medical Expense Benefits"))));

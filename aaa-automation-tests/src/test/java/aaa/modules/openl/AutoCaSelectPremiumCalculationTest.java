@@ -12,7 +12,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
 import toolkit.datax.TestData;
 
-public class AutoCaSelectPremiumCalculationTest extends AutoCaPremiumCalculationTest<AutoCaSelectOpenLPolicy> {
+public class AutoCaSelectPremiumCalculationTest extends AutoCaPremiumCalculationTest<AutoCaSelectOpenLPolicy, AutoCaSelectOpenLFile> {
 
 	@Override
 	protected PolicyType getPolicyType() {

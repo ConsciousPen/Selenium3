@@ -1,12 +1,13 @@
 package aaa.helpers.openl.testdata_builder;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.TestDataHelper;
+import aaa.helpers.openl.model.AutoOpenLCoverage;
 import aaa.helpers.openl.model.auto_ca.choice.AutoCaChoiceOpenLDriver;
 import aaa.helpers.openl.model.auto_ca.choice.AutoCaChoiceOpenLPolicy;
 import aaa.helpers.openl.model.auto_ca.choice.AutoCaChoiceOpenLVehicle;
@@ -27,7 +28,7 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	public TestData getRatingData(AutoCaChoiceOpenLPolicy openLPolicy) {
 		String defaultEffectiveDate = getRatingDataPattern().getValue(
 				new GeneralTab().getMetaKey(), AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel());
-		openLPolicy.setEffectiveDate(TimeSetterUtil.getInstance().parse(defaultEffectiveDate, DateTimeUtils.MM_DD_YYYY));
+		openLPolicy.setEffectiveDate(TimeSetterUtil.getInstance().parse(defaultEffectiveDate, DateTimeUtils.MM_DD_YYYY).toLocalDate());
 
 		TestData td = DataProviderFactory.dataOf(
 				new DriverTab().getMetaKey(), getDriverTabData(openLPolicy),
@@ -38,14 +39,14 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	}
 
 	@Override
-	protected TestData getDriverTabInformationData(AutoCaChoiceOpenLDriver openLDriver, boolean isFirstDriver, LocalDateTime policyEffectiveDate) {
+	protected TestData getDriverTabInformationData(AutoCaChoiceOpenLDriver openLDriver, boolean isFirstDriver, LocalDate policyEffectiveDate) {
 		TestData driverData = super.getDriverTabInformationData(openLDriver, isFirstDriver, policyEffectiveDate);
 		driverData.adjust(AutoCaMetaData.DriverTab.SMOKER_CIGARETTES_OR_PIPES.getLabel(), Boolean.TRUE.equals(openLDriver.isNonSmoker()) ? "No" : "Yes");
 		return driverData;
 	}
 
 	@Override
-	protected List<TestData> getDriverTabActivityInformationData(AutoCaChoiceOpenLDriver openLDriver, LocalDateTime policyEffectiveDate) {
+	protected List<TestData> getDriverTabActivityInformationData(AutoCaChoiceOpenLDriver openLDriver, LocalDate policyEffectiveDate) {
 		List<TestData> activityInformationList = new ArrayList<>();
 
 		if (Boolean.TRUE.equals(openLDriver.hasDriverTrainingDiscount())) {
@@ -182,6 +183,15 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 			default:
 				throw new IstfException(String.format("Unknown UI \"Stat Code\" combo box value for openl statCode %s", statCode));
 		}
+	}
+
+	@Override
+	protected String getPremiumAndCoveragesTabLimitOrDeductible(AutoOpenLCoverage coverage) {
+		String[] limitRange = getLimitOrDeductibleRange(coverage);
+		if ("RENTAL".equals(coverage.getCoverageCd()) || "TOWING".equals(coverage.getCoverageCd())) {
+			return "1".equals(limitRange[0]) ? "starts=Yes" : "starts=No Coverage";
+		}
+		return super.getPremiumAndCoveragesTabLimitOrDeductible(coverage);
 	}
 
 	private TestData getAssignmentTabData(AutoCaChoiceOpenLPolicy openLPolicy) {

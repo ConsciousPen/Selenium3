@@ -229,18 +229,6 @@ AAAProductOwned5: {
   Renters: 'No',
 }
 
-ErrorTab_Discounts5: {
-  ErrorTab: {
-   ErrorsOverride: [{
-    Message: "contains=The selected pay plan is not allowed",
-    Code: "200127",
-    Override: 'true',
-    Approval: 'true',
-    Duration: Life,
-    Reason for override: index=1
-   }]
-  }
-}
 
 GeneralTab_Discounts6: {
   GeneralTab: {

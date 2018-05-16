@@ -69,8 +69,6 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 		//Check that coverages are rounded to dollar value
 		List<String> currentValues = new ArrayList<>();
 		currentValues.addAll(Arrays.asList(premiumsAndCoveragesQuoteTab.tableCoverages.getRow(2).getCell("Percentage of Coverage A").getValue()));
-		currentValues.addAll(Arrays.asList(premiumsAndCoveragesQuoteTab.tableCoverages.getRow(4).getCell("Percentage of Coverage A").getValue()));
-		currentValues.addAll(Arrays.asList(premiumsAndCoveragesQuoteTab.tableCoverages.getRow(8).getCell("Percentage of Coverage A").getValue()));
 		for(String value : currentValues.toString().split("\n")) {
 			assertThat(value).as("Coverages should be rounded to dollar value").contains(".00");
 		}

@@ -2,22 +2,25 @@ package aaa.utils.excel.io;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.ExcelCell;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
 import toolkit.exceptions.IstfException;
 
+/**
+ * Convenient utility to manipulate with Excel files built on top of Apache POI's library.
+ * Commonly used for getting/editing cell values within excel tables but besides that has variety useful features
+ */
 public class ExcelManager {
 	protected static Logger log = LoggerFactory.getLogger(ExcelManager.class);
 
@@ -25,12 +28,16 @@ public class ExcelManager {
 	private boolean isOpened;
 	private List<CellType<?>> allowableCellTypes;
 	private Workbook workbook;
-	private Map<Integer, ExcelSheet> sheets;
+	private List<ExcelSheet> sheets;
 
-	public ExcelManager(File file, CellType<?>... allowableCellTypes) {
+	public ExcelManager(File file) {
+		this(file, ExcelCell.getBaseTypes());
+	}
+
+	public ExcelManager(File file, List<CellType<?>> allowableCellTypes) {
 		this.isOpened = false;
 		this.file = file;
-		this.allowableCellTypes = ArrayUtils.isNotEmpty(allowableCellTypes) ? ImmutableList.copyOf(new HashSet(Arrays.asList(allowableCellTypes))) : ExcelCell.getBaseTypes();
+		this.allowableCellTypes = allowableCellTypes.stream().distinct().collect(Collectors.toList());
 	}
 
 	public boolean isOpened() {
@@ -41,13 +48,20 @@ public class ExcelManager {
 		return this.file;
 	}
 
-	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
 	public List<CellType<?>> getCellTypes() {
-		return this.allowableCellTypes;
+		return Collections.unmodifiableList(this.allowableCellTypes);
 	}
 
+	@SuppressWarnings("resource")
 	public List<ExcelSheet> getSheets() {
-		return new ArrayList<>(getSheetsMap().values());
+		if (this.sheets == null) {
+			this.sheets = new ArrayList<>(getWorkbook().getNumberOfSheets());
+			for (Sheet sheet : getWorkbook()) {
+				int sheetNumber = getWorkbook().getSheetIndex(sheet.getSheetName()) + 1;
+				this.sheets.add(new ExcelSheet(sheet, sheetNumber, this, getCellTypes()));
+			}
+		}
+		return Collections.unmodifiableList(this.sheets);
 	}
 
 	public List<String> getSheetsNames() {
@@ -55,11 +69,11 @@ public class ExcelManager {
 	}
 
 	public List<Integer> getSheetsIndexes() {
-		return new ArrayList<>(getSheetsMap().keySet());
+		return getSheets().stream().map(ExcelSheet::getSheetIndex).collect(Collectors.toList());
 	}
 
 	public int getSheetsNumber() {
-		return getSheetsMap().size();
+		return getSheets().size();
 	}
 
 	public Workbook getWorkbook() {
@@ -100,17 +114,26 @@ public class ExcelManager {
 	}
 
 	public ExcelSheet getSheet(int sheetIndex) {
-		assertThat(hasSheet(sheetIndex)).as("There is no sheet with %1$s number in \"%2$s\" file", sheetIndex, getFile()).isTrue();
-		return getSheetsMap().get(sheetIndex);
+		for (ExcelSheet sheet : getSheets()) {
+			if (sheet.getSheetIndex() == sheetIndex) {
+				return sheet;
+			}
+		}
+		throw new IstfException(String.format("There is no sheet with %1$s index in \"%2$s\" file", sheetIndex, getFile()));
 	}
 
 	public ExcelSheet getSheet(String sheetName) {
-		return getSheets().stream().filter(s -> s.getSheetName().equals(sheetName)).findFirst()
-				.orElseThrow(() -> new IstfException(String.format("There is no sheet with \"%1$s\" name in \"%2$s\" file", sheetName, getFile())));
+		for (ExcelSheet sheet : getSheets()) {
+			if (sheet.getSheetName().equals(sheetName)) {
+				return sheet;
+			}
+		}
+		throw new IstfException(String.format("There is no sheet with \"%1$s\" name in \"%2$s\" file", sheetName, getFile()));
 	}
 
-	public ExcelManager registerCellType(CellType<?>... cellTypes) {
-		this.allowableCellTypes = ImmutableSet.<CellType<?>>builder().addAll(getCellTypes()).add(cellTypes).build().asList();
+	public ExcelManager registerCellType(List<CellType<?>> cellTypes) {
+		this.allowableCellTypes.addAll(cellTypes);
+		this.allowableCellTypes = this.allowableCellTypes.stream().distinct().collect(Collectors.toList());
 		getSheets().forEach(s -> s.registerCellType(cellTypes));
 		return this;
 	}
@@ -154,17 +177,5 @@ public class ExcelManager {
 	public ExcelManager saveAndClose(File destinationFile) {
 		save(destinationFile);
 		return close();
-	}
-
-	@SuppressWarnings("resource")
-	private Map<Integer, ExcelSheet> getSheetsMap() {
-		if (this.sheets == null) {
-			this.sheets = new LinkedHashMap<>();
-			for (Sheet sheet : getWorkbook()) {
-				int sheetNumber = getWorkbook().getSheetIndex(sheet.getSheetName()) + 1;
-				this.sheets.put(sheetNumber, new ExcelSheet(sheet, sheetNumber, this, getCellTypes()));
-			}
-		}
-		return this.sheets;
 	}
 }

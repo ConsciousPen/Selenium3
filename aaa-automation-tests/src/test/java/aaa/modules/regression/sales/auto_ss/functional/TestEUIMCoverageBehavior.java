@@ -23,7 +23,11 @@ import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
@@ -91,6 +95,85 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
         // AC2 PAS-11209. Display EUIM UIPD/UIMBI in Policy Consolidated view Coverages section.
         verifyPolicySummaryPage("No");
+    }
+
+
+    /**
+     *@author Dominykas Razgunas
+     *@name MD Auto Total premium difference for enhanced and standard UIM NB,Endorsement, Renewal
+     *@scenario
+     * 1. Create Customer
+     * 2. Initiate Auto SS MD Quote after 07/01/2018
+     * 3. Calculate Premium with standard UIM
+     * 4. Save Total Premium1 Value
+     * 5. Calculate Total Premium2 with enhanced UIM
+     * 6. Check That Total Premium1 < Total Premium2
+     * 7. Issue Policy with standard UIM
+     * 8. Endorse Policy
+     * 9. Calculate Total Premium2 with enhanced UIM
+     * 10. Check That Total Premium1 < Total Premium2
+     * 11. Save and exit Endorsement
+     * 12. Initiate Manual Renewal
+     * 13. Navigate to P&C tab
+     * 14. Calculate Premium with standard UIM
+     * 15. Save Total Premium3 Value
+     * 16. Calculate Total Premium4 with enhanced UIM
+     * 17. Check That Total Premium3 < Total Premium4
+     *@details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11620")
+    public void pas11620_PremiumChangeBetweenEnhancedAndStandardUIM(@Optional("MD") String state) {
+
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
+
+        // Initiate Policy, calculate premium
+        mainApp().open();
+        createCustomerIndividual();
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(getPolicyTD(), PremiumAndCoveragesTab.class, true);
+
+        // Save Standard UIM Total Premium value NB
+        Dollar standardUIMNBvalue = new Dollar(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium"));
+
+        // Assert that Enhanced UIM Total Premium > Standard UIM Total Premium during New Business
+        enhancedUIM.setValue(true);
+        new PremiumAndCoveragesTab().calculatePremium();
+        Dollar enhancedUIMNBvalue = new Dollar(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium"));
+        assertThat(standardUIMNBvalue.lessThan(enhancedUIMNBvalue)).as(standardUIMNBvalue + "Should be less than" + enhancedUIMNBvalue).isTrue();
+
+        // Issue Policy. Change EUIM to false.
+        enhancedUIM.setValue(false);
+        new PremiumAndCoveragesTab().calculatePremium();
+        new PremiumAndCoveragesTab().submitTab();
+        policy.getDefaultView().fillFromTo(getPolicyTD(), DriverActivityReportsTab.class, PurchaseTab.class, true);
+        new PurchaseTab().submitTab();
+
+        // Initiate Mid-Term Endorsement and Navigate to P&C Page.
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+
+        // Assert that Enhanced UIM Total Premium > Standard UIM Total Premium during Endorsement
+        enhancedUIM.setValue(true);
+        new PremiumAndCoveragesTab().calculatePremium();
+        Dollar enhancedUIMNBvalue1 = new Dollar(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium"));
+        assertThat(standardUIMNBvalue.lessThan(enhancedUIMNBvalue1)).as(standardUIMNBvalue + "Should be less than" + enhancedUIMNBvalue1).isTrue();
+
+                // Initiate Renewal navigate to P&C and calculate premium
+        premiumAndCoveragesTab.saveAndExit();
+        policy.renew().start();
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        new PremiumAndCoveragesTab().calculatePremium();
+
+        // Save Standard UIM Total Premium value
+        Dollar standardUIMRvalue = new Dollar(new PremiumAndCoveragesTab().getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium"));
+
+        // Assert that Enhanced UIM Total Premium > Standard UIM Total Premium during Renewal
+        enhancedUIM.setValue(true);
+        new PremiumAndCoveragesTab().calculatePremium();
+        Dollar enhancedUIMRvalue = new Dollar(new PremiumAndCoveragesTab().getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium"));
+        assertThat(standardUIMRvalue.lessThan(enhancedUIMRvalue)).as(standardUIMRvalue + "Should be less than" + enhancedUIMRvalue).isTrue();
     }
 
     /**
@@ -256,11 +339,11 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         assertThat(uninsuredBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
         propertyDamage.setValueByIndex(4);
         assertThat(uninsuredPropertyDamage.getValue()).isEqualTo(propertyDamage.getValue());
-        bodilyInjury.setValueByIndex(4);
+        bodilyInjury.setValueContains("$500,000/$500,000");
         assertThat(uninsuredBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
 
         //AC2 PAS-11620. Rating Error if EUIM BI limits do not match BI limits.
-        uninsuredBodilyInjury.setValueByIndex(1);
+        uninsuredBodilyInjury.setValueContains("$500,000/$1,000,000");
         premiumAndCoveragesTab.calculatePremium();
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800882_MD);
         errorTab.cancel();

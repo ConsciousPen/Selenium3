@@ -259,7 +259,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-436", "PAS-231"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-436", "PAS-231", "PAS-288"})
 	public void pas436_eValueDiscountVariations(@Optional("VA") String state) {
 		testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", true, true, "Pending");
 		testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", false, false, "");
@@ -615,6 +615,33 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	/**
+	 * @author Oleg Stasyuk
+	 * 	 * @name eValue discount is applicable, when issueing policy with Payment Method DC
+	 * 	 * @scenario 1. Create new eValue Quote with Pay Plan <> Annual
+	 * 	 * 2. Issue it using payment method DC
+	 * 	 * 3. See if eValue status = Pending
+	 * 	 * @details
+	 * @param state
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-281")
+	public void pas281_eValueIssuedWithDebitCard(@Optional("VA") String state) {
+		eValueQuoteCreation();
+
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN).setValue("contains=Standard");
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		new PremiumAndCoveragesTab().calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
+		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("");
+
+		simplifiedQuoteIssue("DC");
+		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("Pending");
+	}
+
+	/**
 	 * new feature
 	 *
 	 * @author Megha Gubbala
@@ -782,24 +809,25 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12972")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-12972", "PAS-438", "PAS-288"})
 	public void pas12972_defaultConfigPA(@Optional("PA") String state) {
 		String eValueCurrentConfigPaInsert = "INSERT ALL\n"
 				+ " INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
 				+ " values ('BaseProductLookupValue', 'currentBIRequired', 'FALSE', 'AAA_SS', 'PA',(select to_char(to_date(SYSDATE-27, 'DD-MM-YYYY')) from dual), (select to_char(to_date(SYSDATE-23, 'DD-MM-YYYY')) from dual) ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeValueQualifications'))\n"
-				+
-				"INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwritercd, EFFECTIVE, EXPIRATION, lookuplist_id) \n"
-				+ "values ('AAARolloutEligibilityLookupValue', 'eValue', 'TRUE', 'AAA_SS', 'PA',null, null, null, (select to_char(to_date(SYSDATE-27, 'DD-MM-YYYY')) from dual), (select to_char(to_date(SYSDATE-23, 'DD-MM-YYYY')) from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))\n"
 
 				+ "INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwritercd, EFFECTIVE, EXPIRATION, lookuplist_id) \n"
 				+ "values ('AAARolloutEligibilityLookupValue', 'eValue', 'FALSE', 'AAA_SS', 'PA','212', 'AZ Club Agent', null, (select to_char(to_date(SYSDATE-27, 'DD-MM-YYYY')) from dual), (select to_char(to_date(SYSDATE-23, 'DD-MM-YYYY')) from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))\n"
+
+				+ "INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwritercd, EFFECTIVE, EXPIRATION, lookuplist_id) \n"
+				+ "values ('AAARolloutEligibilityLookupValue', 'eValue', 'TRUE', 'AAA_SS', 'PA',null, null, null, (select to_char(to_date(SYSDATE-27, 'DD-MM-YYYY')) from dual), (select to_char(to_date(SYSDATE-23, 'DD-MM-YYYY')) from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))\n"
 
 				+ "INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
 				+ "values ('AAARolloutEligibilityLookupValue', 'PaperlessPreferences', 'TRUE', 'AAA_SS', 'PA',(select to_char(to_date(SYSDATE-27, 'DD-MM-YYYY')) from dual), (select to_char(to_date(SYSDATE-23, 'DD-MM-YYYY')) from dual) ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))    \n"
 				+ "Select * from dual";
 
 		DBService.get().executeUpdate(eValueCurrentConfigPaInsert);
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
+		mainApp().open();
+		CacheManager.clearCache();
 
 		eValueQuoteCreation();
 
@@ -930,7 +958,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-295")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-295", "PAS-311"})
 	public void pas295_autopayKeepValueMessage(@Optional("VA") String state) {
 		eValueQuoteCreation();
 
@@ -1072,7 +1100,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValuePriorBiConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-232", "PAS-437", "PAS-3008"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-232", "PAS-437", "PAS-3008", "PAS-438", "PAS-288"})
 	public void pas232_eValuePriorBiConfigurationDependency(@Optional("OR") String state) {
 		eValueQuoteCreation();
 		CustomAssert.enableSoftMode();
@@ -1266,7 +1294,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3694")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3694", "PAS-2789", "PAS-299", "PAS-2794"})
 	public void pas3694_eValueBlueBoxAndStaticText(@Optional("OR") String state) {
 
 		eValueQuoteCreation();
@@ -1406,7 +1434,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueTerritoryChannelForORConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-233")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-233", "PAS-438"})
 	public void pas233_eValueTerritoryChannelDependency(@Optional("OR") String state) {
 		eValueQuoteCreation();
 
@@ -1575,7 +1603,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794"})
 	public void pas3693_eValueConfiguration1(@Optional("OR") String state) {
 		CustomAssert.enableSoftMode();
 		verifyEvalueAcknowledgement(8, "N", "Y", "Y", "Y", "Y");
@@ -1586,7 +1614,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794"})
 	public void pas3693_eValueConfiguration2(@Optional("OR") String state) {
 		CustomAssert.enableSoftMode();
 		verifyEvalueAcknowledgement(12, "Y", "N", "Y", "N", "Y");
@@ -1597,7 +1625,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794"})
 	public void pas3693_eValueConfiguration3(@Optional("OR") String state) {
 		CustomAssert.enableSoftMode();
 		verifyEvalueAcknowledgement(18, "Y", "Y", "N", "Y", "Y");
@@ -1608,7 +1636,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794"})
 	public void pas3693_eValueConfiguration4(@Optional("OR") String state) {
 		CustomAssert.enableSoftMode();
 		verifyEvalueAcknowledgement(15, "Y", "Y", "Y", "Y", "N");
@@ -1619,7 +1647,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794"})
 	public void pas3693_eValueConfiguration5(@Optional("OR") String state) {
 		CustomAssert.enableSoftMode();
 		verifyEvalueAcknowledgement(3, "N", "N", "N", "Y", "N");

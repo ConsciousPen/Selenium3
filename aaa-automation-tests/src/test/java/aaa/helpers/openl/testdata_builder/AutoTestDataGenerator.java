@@ -2,7 +2,7 @@ package aaa.helpers.openl.testdata_builder;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -11,7 +11,7 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.helpers.openl.model.AutoOpenLCoverage;
 import aaa.helpers.openl.model.OpenLPolicy;
-import aaa.helpers.openl.model.auto_ca.select.AutoCaSelectOpenLCoverage;
+import aaa.helpers.openl.model.OpenLVehicle;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
@@ -34,6 +34,10 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			policyLevelCoverage.add("UMPD");
 		}
 		return policyLevelCoverage;
+	}
+
+	protected String getStatCode(OpenLVehicle openLVehicle) {
+		return openLVehicle.getStatCode() != null ? openLVehicle.getStatCode() : openLVehicle.getBiLiabilitySymbol();
 	}
 
 	protected String getVehicleTabType(String statCode) {
@@ -78,8 +82,8 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 	}
 
-	String getDriverTabDateOfBirth(Integer driverAge, LocalDateTime policyEffectiveDate) {
-		LocalDateTime dateOfBirth = policyEffectiveDate.minusYears(driverAge);
+	String getDriverTabDateOfBirth(Integer driverAge, LocalDate policyEffectiveDate) {
+		LocalDate dateOfBirth = policyEffectiveDate.minusYears(driverAge);
 		// If driver's age is 24 and his birthday is within 30 days of the policy effective date, then driver's age is mapped as 25
 		if (driverAge == 24 && dateOfBirth.isAfter(policyEffectiveDate) && dateOfBirth.isBefore(policyEffectiveDate.plusDays(30))) {
 			dateOfBirth = dateOfBirth.plusYears(1);
@@ -95,7 +99,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	boolean isPrivatePassengerAutoType(String statCode) {
-		List<String> codes = Arrays.asList("AP", "AH", "AU", "AW", "AV", "AN", "AI", "AQ", "AY", "AD", "AJ", "AC", "AK", "AE", "AR", "AO", "AX", "AZ");
+		List<String> codes = Arrays.asList("AA", "AP", "AH", "AU", "AV", "AN", "AI", "AQ", "AY", "AD", "AJ", "AC", "AK", "AE", "AR", "AO", "AX", "AZ");
 		return codes.contains(statCode);
 	}
 
@@ -152,6 +156,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		Map<String, String> statCodesMap = new HashMap<>();
 
 		// Private Passenger Auto stat codes
+		statCodesMap.put("AA", "Antique"); //not used
 		statCodesMap.put("AN", "Small car");
 		statCodesMap.put("AI", "Midsize car");
 		statCodesMap.put("AQ", "Large car");
@@ -161,7 +166,10 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		statCodesMap.put("AX", "Passenger Van");
 		statCodesMap.put("AZ", "Crossover/Station Wagon");
 		statCodesMap.put("AR", "Small pickup or Utility Truck");
+		statCodesMap.put("AP", "Passenger Vehicle");
+		statCodesMap.put("AU", "Trucks");
 		statCodesMap.put("AO", "Standard pickup or Utility Truck");
+		statCodesMap.put("AH", "High exposure Vehicle");
 		statCodesMap.put("AY", "Small High Exposure Vehicle");
 		statCodesMap.put("AD", "Midsize High Exposure Vehicle");
 		statCodesMap.put("AJ", "Large High Exposure Vehicle");
@@ -219,6 +227,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case Constants.States.OH:
 			case Constants.States.VA:
 			case Constants.States.KS:
+			case Constants.States.NV:
 				coveragesMap.put("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
 				coveragesMap.put("UMBI-Verbal", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
 				break;
@@ -257,7 +266,12 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 				break;
 		}
 
-		coveragesMap.put("COMP", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COMPREGENSIVE_DEDUCTIBLE.getLabel());
+		if (getState().equals(Constants.States.VA)) {
+			coveragesMap.put("COMP", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.OTHER_THAN_COLLISION.getLabel());
+		} else {
+			coveragesMap.put("COMP", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COMPREGENSIVE_DEDUCTIBLE.getLabel());
+		}
+
 		coveragesMap.put("COLL", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel());
 		if (getState().equals(Constants.States.MT) || getState().equals(Constants.States.WV)) {
 			coveragesMap.put("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_BODILY_INJURY.getLabel());
@@ -282,6 +296,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		coveragesMap.put("APIP", AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PIP.getLabel());
 		coveragesMap.put("TOWING", AutoSSMetaData.PremiumAndCoveragesTab.TOWING_AND_LABOR_COVERAGE.getLabel());
 		coveragesMap.put("RENTAL", AutoSSMetaData.PremiumAndCoveragesTab.RENTAL_REIMBURSEMENT.getLabel());
+		coveragesMap.put("LOAN", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.VEHICLE_LOAN_OR_LEASE_PROTECTION.getLabel());
 
 		//AutoCa Choice
 		coveragesMap.put("UM", AutoCaMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel());
@@ -348,15 +363,15 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		return getRandom("Rents Multi-Family Dwelling", "Rents Single-Family Dwelling", "Lives with Parent", "Other");
 	}
 
-	TestData getGeneralTabAgentInceptionAndExpirationData(Integer autoInsurancePersistency, Integer aaaInsurancePersistency, LocalDateTime policyEffectiveDate) {
+	TestData getGeneralTabAgentInceptionAndExpirationData(Integer autoInsurancePersistency, Integer aaaInsurancePersistency, LocalDate policyEffectiveDate) {
 		assertThat(autoInsurancePersistency).as("\"autoInsurancePersistency\" openL field should be equal or greater than \"aaaInsurancePersistency\"")
 				.isGreaterThanOrEqualTo(aaaInsurancePersistency);
 
-		LocalDateTime inceptionDate = autoInsurancePersistency.equals(aaaInsurancePersistency)
+		LocalDate inceptionDate = autoInsurancePersistency.equals(aaaInsurancePersistency)
 				? policyEffectiveDate : policyEffectiveDate.minusYears(autoInsurancePersistency - aaaInsurancePersistency);
 
-		int duration = Math.abs(Math.toIntExact(Duration.between(policyEffectiveDate, TimeSetterUtil.getInstance().getCurrentTime()).toDays()));
-		LocalDateTime expirationDate = duration == 0 ? policyEffectiveDate : policyEffectiveDate.plusDays(new Random().nextInt(duration));
+		int duration = Math.abs(Math.toIntExact(Duration.between(policyEffectiveDate.atStartOfDay(), TimeSetterUtil.getInstance().getCurrentTime()).toDays()));
+		LocalDate expirationDate = duration == 0 ? policyEffectiveDate : policyEffectiveDate.plusDays(new Random().nextInt(duration));
 
 		return DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel(), inceptionDate.format(DateTimeUtils.MM_DD_YYYY),
@@ -382,31 +397,15 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 	}
 
-	String getPremiumAndCoveragesTabLimitOrDeductible(AutoOpenLCoverage coverage) {
+	protected <C extends AutoOpenLCoverage> String getPremiumAndCoveragesTabLimitOrDeductible(C coverage) {
 		String coverageCd = coverage.getCoverageCd();
 		if ("SP EQUIP".equals(coverageCd)) {
 			return new Dollar(coverage.getLimit()).toString();
 		}
-
-		String limitOrDeductible;
-		if ("COMP".equals(coverageCd) || "COLL".equals(coverageCd) || "MAINT".equals(coverageCd) || getState().equals(Constants.States.NY) && "PIP".equals(coverageCd)) {
-			limitOrDeductible = coverage.getDeductible();
-		} else if ("ETEC".equals(coverageCd) && coverage instanceof AutoCaSelectOpenLCoverage) {
-			limitOrDeductible = String.valueOf(((AutoCaSelectOpenLCoverage) coverage).getLimitCode());
-		} else {
-			limitOrDeductible = coverage.getLimit();
-		}
-
-		String[] limitRange = limitOrDeductible.split("/");
-		assertThat(limitRange.length).as("Unknown mapping for limit/deductible: %s", limitOrDeductible).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(2);
+		String[] limitRange = getLimitOrDeductibleRange(coverage);
 
 		if ("EMB".equals(coverageCd)) {
 			return "1000000".equals(limitRange[0]) ? "starts=Yes" : "starts=No";
-		}
-
-		//for AutoCA Choice
-		if ("RENTAL".equals(coverageCd) || "TOWING".equals(coverageCd)) {
-			return "1".equals(limitRange[0]) ? "starts=Yes" : "starts=No Coverage";
 		}
 
 		StringBuilder returnLimit = new StringBuilder();
@@ -424,6 +423,20 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			}
 		}
 		return returnLimit.toString();
+	}
+
+	protected String[] getLimitOrDeductibleRange(AutoOpenLCoverage coverage) {
+		String coverageCd = coverage.getCoverageCd();
+		String limitOrDeductible;
+		if ("COMP".equals(coverageCd) || "COLL".equals(coverageCd) || "MAINT".equals(coverageCd) || getState().equals(Constants.States.NY) && "PIP".equals(coverageCd)) {
+			limitOrDeductible = coverage.getDeductible();
+		} else {
+			limitOrDeductible = coverage.getLimit();
+		}
+
+		String[] limitRange = limitOrDeductible.split("/");
+		assertThat(limitRange.length).as("Unknown mapping for limit/deductible: %s", limitOrDeductible).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(2);
+		return limitRange;
 	}
 
 	String getFormattedCoverageLimit(String coverageLimit, String coverageCD) {

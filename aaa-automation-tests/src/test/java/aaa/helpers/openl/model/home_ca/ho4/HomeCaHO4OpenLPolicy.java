@@ -1,6 +1,7 @@
 package aaa.helpers.openl.model.home_ca.ho4;
 
-import static aaa.helpers.openl.model.OpenLFile.*;
+import static aaa.helpers.openl.model.OpenLFile.POLICY_HEADER_ROW_NUMBER;
+import static aaa.helpers.openl.model.OpenLFile.POLICY_SHEET_NAME;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLCoverage;
@@ -8,29 +9,26 @@ import aaa.helpers.openl.model.home_ca.HomeCaOpenLDwelling;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
 public class HomeCaHO4OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO4OpenLForm> {
-	@ExcelTableElement(sheetName = DWELLING_SHEET_NAME, headerRowIndex = DWELLING_HEADER_ROW_NUMBER)
-	private List<HomeCaOpenLDwelling> dwelling;
 
-	@ExcelTableElement(sheetName = FORM_SHEET_NAME, headerRowIndex = HomeCaHO4OpenLFile.FORM_HEADER_ROW_NUMBER)
+	private HomeCaOpenLDwelling dwelling;
 	private List<HomeCaHO4OpenLForm> forms;
-
-	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
 	private List<HomeCaOpenLCoverage> coverages;
 
 	private String constructionGroup;
-	private Integer covELimit;
+	private Double covELimit;
 	private Boolean hasEmployeeDiscount;
 	private Boolean hasPolicySupportingForm;
 	private Boolean hasSeniorDiscount;
 	private String occupancyType;
 
-	public List<HomeCaOpenLDwelling> getDwellings() {
-		return new ArrayList<>(dwelling);
+	public HomeCaOpenLDwelling getDwelling() {
+		return dwelling;
 	}
 
-	public void setDwellings(List<HomeCaOpenLDwelling> dwelling) {
-		this.dwelling = new ArrayList<>(dwelling);
+	public void setDwellings(HomeCaOpenLDwelling dwelling) {
+		this.dwelling = dwelling;
 	}
 
 	@Override
@@ -58,11 +56,11 @@ public class HomeCaHO4OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO4OpenLForm> 
 		this.constructionGroup = constructionGroup;
 	}
 
-	public Integer getCovELimit() {
+	public Double getCovELimit() {
 		return covELimit;
 	}
 
-	public void setCovELimit(Integer covELimit) {
+	public void setCovELimit(Double covELimit) {
 		this.covELimit = covELimit;
 	}
 
