@@ -62,7 +62,7 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-349", "PAS-341"})
-	public void pas349_rfiHO3_1(@Optional("AZ") String state) {
+	public void pas349_rfiHO3_1(@Optional("CT") String state) {
 		String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		TestData adjustedTd = rfiTestData(state, "TestData1", "1939");
 
@@ -201,7 +201,7 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 				TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING
 						.getLabel());
 		TestData adjustedTd;
-		if ("CO, IN".contains(state)) {
+		if ("CO, IN, KS, KY, OH, OK, SD, WV".contains(state)) {
 			 adjustedTd = getPolicyTD().adjust(getTestSpecificTD(testSpecificTestDataName).adjust(yearBuilt, year).adjust(hailResistanceRating, "index=1").resolveLinks()).resolveLinks();
 		} else {
 			 adjustedTd = getPolicyTD().adjust(getTestSpecificTD(testSpecificTestDataName).adjust(yearBuilt, year).resolveLinks()).resolveLinks();
