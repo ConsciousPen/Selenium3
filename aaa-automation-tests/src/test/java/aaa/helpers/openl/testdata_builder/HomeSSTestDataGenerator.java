@@ -750,7 +750,8 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	}
 
 	private boolean addressContainsCounty(String state) {
-		return "IN".equals(state);
+		return Constants.States.IN.equals(state) ||
+				Constants.States.OH.equals(state);
 	}
 
 	private boolean insuranceScoreReport(String state) {return !"MD".equals(state);}
