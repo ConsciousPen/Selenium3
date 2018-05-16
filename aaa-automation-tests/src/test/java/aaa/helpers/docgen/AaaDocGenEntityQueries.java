@@ -6,9 +6,9 @@ public interface AaaDocGenEntityQueries {
             + "    where 1=1 \n"
             + "    and ps.id = doc.entityid\n"
             + "    and ps.policynumber = '%s'\n"
-            + "    and data like '%%%s%%' \n"
-            + "    and eventname like '%s' \n"
-            + "    order by creationdate desc) \n"
+            + "    and doc.data like '%%%s%%' \n"
+            + "    and doc.eventname like '%s' \n"
+            + "    order by doc.creationdate desc) \n"
             + "where rownum=1 ";
 
     String GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME = "select count(*) from aaadocgenentity " +
