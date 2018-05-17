@@ -51,32 +51,6 @@ Driver4: {
   Age First Licensed: 18
 }
 
-############### 4 Vehicles
-
-TestData_VehicleTab: {
-VehicleTab: ['@Vehicle2','@Vehicle3','@Vehicle4']
-}
-
-Vehicle2: {
-  Add Vehicle: Click,
-  Type: 'Private Passenger Auto',
-  Usage: Pleasure,
-  VIN: JTHBD192020038546,
-}
-
-Vehicle3: {
-  Add Vehicle: Click,
-  Type: 'Private Passenger Auto',
-  Usage: Pleasure,
-  VIN: 2B4GH25K9SR379826,
-}
-
-Vehicle4: {
-  Add Vehicle: Click,
-  Type: 'Private Passenger Auto',
-  Usage: Pleasure,
-  VIN: 2T2HA31U44C025848,
-}
 
 ############### Drivers With Violations
 

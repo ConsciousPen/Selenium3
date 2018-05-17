@@ -32,11 +32,10 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	* @scenario 1. Create Customer1.
 	* 2. Create Auto SS Quote.
 	* 3. Add 4 Drivers 2 of who are eligible for mvr status predicted valid . eligibility = age>83 and Driving exp>62
-	* 4. Add 4 Vehicles
-	 * 5. Calculate Premium
-	* 6. Navigate to Driver Activity Reports Tab.
-	* 7. Order Reports.
-	* 8. Assert Statuses
+	 * 4. Calculate Premium
+	* 5. Navigate to Driver Activity Reports Tab.
+	* 6. Order Reports.
+	* 7. Assert Statuses
 	* @details
 	*/
 	@Parameters({"state"})
@@ -50,11 +49,8 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		// Add 4 Drivers 2 of them with age>83 and Driving exp>62
 		preconditionAddedDrivers(testData, driverTab);
 
-		// Add 4 Vehicles
-		policy.getDefaultView().fillFromTo(testData, RatingDetailReportsTab.class, VehicleTab.class, true);
-		policy.getDefaultView().fill(getTestSpecificTD("TestData_VehicleTab").resolveLinks());
-
-		policy.getDefaultView().fillFromTo(testData, FormsTab.class, DriverActivityReportsTab.class, true);
+		// fill remaining Policy
+		policy.getDefaultView().fillFromTo(testData, RatingDetailReportsTab.class, DriverActivityReportsTab.class, true);
 
 		// Assert That two drivers have license status = Predicted Valid
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
@@ -117,7 +113,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Bypass MVR Predictor Algo for drivers with accidents")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9723")
-	public void pas9723_BypassMVRPredictorManuallyAddedAccidents(@Optional("") String state) {
+	public void pas9723_BypassMVRPredictorManuallyAddedAccidents(@Optional("CT") String state) {
 
 		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933");
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabAccidents").resolveLinks();
