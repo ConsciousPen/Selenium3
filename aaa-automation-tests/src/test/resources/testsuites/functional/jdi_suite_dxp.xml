@@ -202,4 +202,15 @@
             </class>
         </classes>
     </test>
+
+    <test name="pas9495_miniServicesDiscounts">
+    <classes>
+        <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDiscounts">
+            <parameter name="state" value="VA"/>
+            <methods>
+                <include name="pas9495_miniServicesDiscounts"/>
+            </methods>
+        </class>
+    </classes>
+    </test>
 </suite>
