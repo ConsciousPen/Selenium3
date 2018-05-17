@@ -642,6 +642,56 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	/**
+	 * @author Oleg Stasyuk
+	 * @name eValue discount is applicable, when issueing policy with Payment Method DC
+	 * @scenario 1. Create new eValue eligible Quote with Pay Plan <> Annual
+	 * 2. Issue it using payment method DC
+	 * 3. Start an endorsement, set eValue, check message about Autopay is present
+	 * 4. Try to issue, see there is an error about Autopay preventing issue
+	 * 5. Start a renewal, set eValue, check message about Autopay is present
+	 * 6. Try to issue, see there is an error about Autopay preventing issue
+	 * @details
+	 * @param state
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-321")
+	public void pas321_eValueAtRenewalOrMidtermNoAutopay(@Optional("VA") String state) {
+		eValueQuoteCreation();
+
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN).setValue("contains=Standard");
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("No");
+		new PremiumAndCoveragesTab().calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
+		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("");
+
+		simplifiedQuoteIssue();
+		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("");
+
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		autopayKeepMessageEndorseRenewCheck();
+
+		policy.renew().start();
+		autopayKeepMessageEndorseRenewCheck();
+	}
+
+	private void autopayKeepMessageEndorseRenewCheck() {
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN).setValue("contains=Standard");
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		assertThat(PremiumAndCoveragesTab.tableeMemberMessageGrid.getRow(1).getCell(4)).hasValue(AUTOPAY_KEEP_EVALUE);
+		premiumAndCoveragesTab.calculatePremium();
+
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		documentsAndBindTab.submitTab();
+		assertThat(errorTab.tableErrors.getRowContains("Code", "AAA_SS11020532").getCell("Message").getValue().toLowerCase().contains(AUTOPAY_KEEP_EVALUE.toLowerCase().substring(0,30))).isTrue();
+		errorTab.cancel();
+		documentsAndBindTab.saveAndExit();
+	}
+
+	/**
 	 * new feature
 	 *
 	 * @author Megha Gubbala
@@ -1603,10 +1653,10 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794", "PAS-3685"})
 	public void pas3693_eValueConfiguration1(@Optional("OR") String state) {
 		CustomAssert.enableSoftMode();
-		verifyEvalueAcknowledgement(8, "N", "Y", "Y", "Y", "Y");
+		pas3685_verifyEvalueAcknowledgement(8, "N", "Y", "Y", "Y", "Y");
 		checkBlueBoxMessagesWithDiffData(8, MESSAGE_INFO_4, MEMBERSHIP_FALSE_YES, MESSAGE_INFO_4, MEMBERSHIP_FALSE_YES, "membership");
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1617,7 +1667,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794"})
 	public void pas3693_eValueConfiguration2(@Optional("OR") String state) {
 		CustomAssert.enableSoftMode();
-		verifyEvalueAcknowledgement(12, "Y", "N", "Y", "N", "Y");
+		pas3685_verifyEvalueAcknowledgement(12, "Y", "N", "Y", "N", "Y");
 		checkBlueBoxMessagesWithDiffData(12, MESSAGE_INFO_4, CURRENT_BI_FALSE_YES, MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, "membership");
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1628,7 +1678,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794"})
 	public void pas3693_eValueConfiguration3(@Optional("OR") String state) {
 		CustomAssert.enableSoftMode();
-		verifyEvalueAcknowledgement(18, "Y", "Y", "N", "Y", "Y");
+		pas3685_verifyEvalueAcknowledgement(18, "Y", "Y", "N", "Y", "Y");
 		checkBlueBoxMessagesWithDiffData(18, MESSAGE_INFO_4, PAY_PLAN_FALSE_YES, MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, "membership");
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1639,7 +1689,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794"})
 	public void pas3693_eValueConfiguration4(@Optional("OR") String state) {
 		CustomAssert.enableSoftMode();
-		verifyEvalueAcknowledgement(15, "Y", "Y", "Y", "Y", "N");
+		pas3685_verifyEvalueAcknowledgement(15, "Y", "Y", "Y", "Y", "N");
 		checkBlueBoxMessagesWithDiffData(15, MESSAGE_INFO_4, PAPERLESS_AND_PRIOR_INS_FALSE_YES, MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, "priorCarior");
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1650,7 +1700,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794"})
 	public void pas3693_eValueConfiguration5(@Optional("OR") String state) {
 		CustomAssert.enableSoftMode();
-		verifyEvalueAcknowledgement(3, "N", "N", "N", "Y", "N");
+		pas3685_verifyEvalueAcknowledgement(3, "N", "N", "N", "Y", "N");
 		checkBlueBoxMessagesWithDiffData(3, MESSAGE_INFO_4, ALL_FALSE, MESSAGE_INFO_4, ALL_FALSE, "priorCarior");
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1694,7 +1744,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				.equals(DocGenHelper.getDocumentDataElemByName(tag, document).getDataElementChoice().getTextField()));
 	}
 
-	private void verifyEvalueAcknowledgement(int days, String aaaMemYN, String currentBIYN, String payPlnYN, String plcyPayFullAmtYN, String myPolicyYN) {
+	private void pas3685_verifyEvalueAcknowledgement(int days, String aaaMemYN, String currentBIYN, String payPlnYN, String plcyPayFullAmtYN, String myPolicyYN) {
 		String quoteNumber;
 		eValueQuoteCreation();
 		quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
