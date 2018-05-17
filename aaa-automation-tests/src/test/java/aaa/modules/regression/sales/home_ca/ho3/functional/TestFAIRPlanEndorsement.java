@@ -21,12 +21,10 @@ import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.xml.model.Document;
-import aaa.main.enums.DocGenEnum;
-import aaa.main.enums.ErrorEnum;
-import aaa.main.enums.ProductConstants;
-import aaa.main.enums.SearchEnum;
+import aaa.main.enums.*;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
+import aaa.main.pages.summary.MyWorkSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import toolkit.datax.TestData;
@@ -45,12 +43,10 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	private PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
 
 	private final String formId = DocGenEnum.Documents.FPCECA.getIdInXml();
-	private final String formDesc = DocGenEnum.Documents.FPCECA.getName();
+	//private final String formDesc = DocGenEnum.Documents.FPCECA.getName();
 
-	private static final  String ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT = "Wood burning stoves as the sole source of heat are ineligible.";
-	//private static final String ERROR_WAS_THE_STOVE_INSTALLED_BY_A_LICENSED_CONTRACTOR = "Wood burning stoves are ineligible unless professionally installed by a licensed contractor.";
-	private static final String ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY =
-			"Dwellings with a wood burning stove without at least one smoke detector insta";
+	private static final String ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT = "Wood burning stoves as the sole source of heat are ineligible.";
+	private static final String ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR = "Dwellings with a wood burning stove without at least one smoke detector insta";
 
 	///AC#1, AC#4
 
@@ -70,15 +66,14 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	 * 9. Validate that UW rule ERROR_AAA_HO_CA02122017 IS NOT fired and policy is bound
 	 *      AC#4
 	 * 10. Run renewal Part1 and Part 2 jobs at R-67 (Renewal UW rules validation time point), open Policy Consolidated view and click on 'Tasks'
-	 * 11. Vakidate that UW task is not generated at
-	 * Retrieve renewal Image at R-67 or R-57 and validate that UW task is not generated at R-67 (Renewal UW rules validation time point)
+	 * 11. Validate that task is not generated (Exact name of task is Unknown, hence looking for Task Name containing "PPC 10")
 	 * @details
 	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "PAS-12925 FAIR Plan Endorsement (formerly known as Difference in Conditions)")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13211")
 
-	public void pas13211_AC1_NB1_PPC10_OtherThanLogHome_AAA_HO_CA02122017(@Optional("") String state) {
+	public void pas13211_AC1_NB_PPC10_OtherThanLogHome_AAA_HO_CA02122017(@Optional("") String state) {
 		String ppcValue = "10";
 		String constructionTypeValue = "Masonry";
 		String licensedContractor = null; // Value for question "Is this a log home assembled by a licensed building contractor?"
@@ -102,22 +97,26 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 		bindTab.submitTab();
 		purchaseTab.fillTab(testData);
+		purchaseTab.submitTab();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		generateRenewalImageAndRetrievePolicyRminus67(getTimePoints()); //TODO-mstrazds:validate that works
-		//TODO-mstrazds: validate task is not generated
+		generateRenewalImageAndRetrievePolicyRMinus67(getTimePoints());
 
-		//TODO-mstrazds:1 why Purchese Tab fails
+		//AC#4
+		PolicySummaryPage.buttonTasks.click();
+		MyWorkSummaryPage.openAllQueuesSection();
+
+		validateThatTaskIsNotGenerated("PPC 10"); //Exact name of task is Unknown, hence looking for Task Name containing "PPC 10"
 
 	}
 
-	//TODO-mstrazds: AC#1 not possible for Endorsement - not possible to change PPC during Endorsement (and also rule should not fire as per existing implementation on Master)
+	//TODO-mstrazds: AC#1 not possible for Endorsement - not possible to change PPC during Endorsement (and also rule should not fire as per existing implementation)
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership Override - PAS-13211 AC#1, AC4 (Renewal) //TODO-mstrazds: this TC possibly needs to be removed, because per current implementation this rule doesn't fair for Endorsement and Renewal
+	 * @name Test Membership Override - PAS-13211 AC#1, AC4 (Renewal)
 	 * @scenario
-	 * Precondition: Agent is expected to have the Membership override privilege.
+	 * Note: negative scenario (scenario where the UW rule is fired at renewal if FAIR PLan Endorsement is added)
 	 * 1. Create Customer.
 	 * 2. Create CA HO3 Policy
 	 *      PPC other than 10,
@@ -126,6 +125,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	 * 3. Navigate to Property info tab
 	 * 4. Change Dwelling address so that PPC reports PPC 10 (order PPC report)
 	 * 6. Fill all mandatory details and try to bind policy ----> Error ERROR_AAA_HO_CA02122017 should NOT be displayed  (Existing behavior on Master)
+	 * NOTE: Negative scenario where the UW rule is fired if FAIR Plan Endorsement is not added is not possible, because as per current implementation it is not fired for renewals
 	 * @details
 	 **/
 	@Parameters({"state"})
@@ -149,11 +149,8 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 		policy.dataGather().start();
 
 		changeAddressOrderPPCRateAndNavigateToBindTab();
-		bindTab.submitTab();
 
-		errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_AAA_HO_CA02122017);
-		errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CA10100616);
-		errorTab.cancel();
+		//Note: No need to validate that the Rule is fired if FAIR Plan Endorsement is added, because as per current implementation it is not fired for renewals
 
 		switchToFAIRplanEndorsementAndBind();
 
@@ -205,9 +202,8 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 		bindTab.submitTab();
 		purchaseTab.fillTab(testData);
+		purchaseTab.submitTab();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
-		//TODO-mstrazds: Add steps to validate AC#4?
 
 	}
 
@@ -319,10 +315,11 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	 * 4. Select PPC 9
 	 * 5. Select construction type as 'Log Home'
 	 * 6. Select 'NO' to question "Is this a log home assembled by a licensed building contractor?"
-	 * 67. Fill all mandatory details and try to bind policy ----> Error ERROR_AAA_HO_CA10100616 should be displayed
+	 * 7. Fill all mandatory details and try to bind policy ----> Error ERROR_AAA_HO_CA10100616 should be displayed
 	 * 8. Navigate back to Endorsement Tab and Add FAIR Plan Endorsement
 	 * 9. Rate the quote, navigate to Bind tab and click on bind
-	 * 10. Validate that UW rule ERROR_AAA_HO_CA10100616 IS NOT fired and policy is bound
+	 * 10. Validate that UW rule ERROR_AAA_HO_CA10100616 IS fired
+	 * 11. Override all errors and Bind
 	 * @details
 	 **/
 	@Parameters({"state"})
@@ -343,25 +340,12 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 		policy.getDefaultView().fillUpTo(testData, PropertyInfoTab.class, true);
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());// Tab out to not fire the error "Dwellings located in PPC 10 are ineligible." for field "Roof Type"
 		policy.getDefaultView().fillFromTo(testData, EndorsementTab.class, BindTab.class, true);
-		bindTab.submitTab();
 
-		errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_AAA_HO_CA02122017);
-		errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CA10100616);
-		errorTab.cancel();
-
-		switchToFAIRplanEndorsementAndCalculatePremium();
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
-		bindTab.submitTab();
-
-		errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_AAA_HO_CA02122017);
-		errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CA10100616);
-		errorTab.overrideAllErrors();
-		errorTab.submitTab();
+		validateRuleIsFiredWithAndWithoutFAIRPlanEndorsement(); //because rule should still fire if "Is this a log home assembled by a licensed building contractor?" = "No"
 
 		purchaseTab.fillTab(testData);
+		purchaseTab.submitTab();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
-		//TODO-mstrazds: Add steps to validate AC#4?
 
 	}
 
@@ -380,7 +364,8 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	 * 7. Fill all mandatory details and try to bind policy ----> Error ERROR_AAA_HO_CA10100616 should be displayed
 	 * 8. Navigate back to Endorsement Tab and Add FAIR Plan Endorsement
 	 * 9. Rate the quote, navigate to Bind tab and click on bind
-	 * 10. Validate that UW rule ERROR_AAA_HO_CA10100616 IS fired and policy is bound
+	 * 10. Validate that UW rule ERROR_AAA_HO_CA10100616 IS fired
+	 * 11. Override all errors and Bind
 	 * @details
 	 **/
 	@Parameters({"state"})
@@ -401,19 +386,8 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus3Days"));
 		switchToLogHomeAndNavigateToBind("No");
-		bindTab.submitTab();
 
-		errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_AAA_HO_CA02122017);
-		errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CA10100616);
-		errorTab.cancel();
-
-		switchToFAIRplanEndorsementAndNavigateToBindTab();
-
-		bindTab.submitTab();
-		errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_AAA_HO_CA02122017);
-		errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CA10100616);
-		errorTab.overrideAllErrors();
-		errorTab.submitTab();
+		validateRuleIsFiredWithAndWithoutFAIRPlanEndorsement(); //because rule should still fire if "Is this a log home assembled by a licensed building contractor?" = "No"
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
@@ -434,7 +408,8 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	 * 7. Fill all mandatory details and try to bind policy ----> Error ERROR_AAA_HO_CA10100616 should be displayed
 	 * 8. Navigate back to Endorsement Tab and Add FAIR Plan Endorsement
 	 * 9. Rate the quote, navigate to Bind tab and click on bind
-	 * 10. Validate that UW rule ERROR_AAA_HO_CA10100616 IS fired and policy is bound
+	 * 10. Validate that UW rule ERROR_AAA_HO_CA10100616 IS fired
+	 * 11. Override all errors and Bind
 	 * @details
 	 **/
 	@Parameters({"state"})
@@ -458,19 +433,8 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 		policy.dataGather().start();
 
 		switchToLogHomeAndNavigateToBind("No");
-		bindTab.submitTab();
 
-		errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_AAA_HO_CA02122017);
-		errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CA10100616);
-		errorTab.cancel();
-
-		switchToFAIRplanEndorsementAndNavigateToBindTab();
-
-		bindTab.submitTab();
-		errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_AAA_HO_CA02122017);
-		errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CA10100616);
-		errorTab.overrideAllErrors();
-		errorTab.submitTab();
+		validateRuleIsFiredWithAndWithoutFAIRPlanEndorsement(); //because rule should still fire if "Is this a log home assembled by a licensed building contractor?" = "No"
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
@@ -830,10 +794,10 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 
 		if (ruleShouldFire) {
 			assertThat(propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY).getWarning().get()
-					.contains(ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY));
+					.contains(ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR));
 		} else {
 			assertThat(propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY).getWarning().get()
-					.contains(ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY)).isFalse();
+					.contains(ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR)).isFalse();
 		}
 
 		propertyInfoTab.submitTab();
@@ -841,7 +805,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 
 		if (ruleShouldFire) {
-			assertThat(errorTab.tableErrors.getRow(1).getCell("Message").getValue()).contains(ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY);
+			assertThat(errorTab.tableErrors.getRow(1).getCell("Message").getValue()).contains(ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR);
 			assertThat(errorTab.tableErrors.getRowsCount()).isEqualTo(1); //assert that there are no other messages
 			errorTab.cancel();
 		}
@@ -885,7 +849,8 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	////////////End PAS-13216////////////////
 
 	private TestData getTestData(String ppcValue, String constructionTypeValue, String licensedContractor) {
-		TestData testData = getPolicyTD();
+		//TestData testData1 = getPolicyTD();
+		TestData testData = getPolicyDefaultTD();
 
 		testData.adjust(TestData.makeKeyPath(HomeCaMetaData.PropertyInfoTab.class.getSimpleName(),
 				HomeCaMetaData.PropertyInfoTab.PublicProtectionClass.class.getSimpleName(),
@@ -920,7 +885,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 	}
 
-	private void generateRenewalImageAndRetrievePolicyRminus67(TimePoints timePoints) {
+	private void generateRenewalImageAndRetrievePolicyRMinus67(TimePoints timePoints) {
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
@@ -1030,14 +995,14 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
-	private void switchToFAIRplanEndorsementAndNavigateToBindTab() {
+	private void switchToFAIRPlanEndorsementAndNavigateToBindTab() {
 		switchToFAIRplanEndorsementAndCalculatePremium();
 		//Bind
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 
 	}
 
-	private void switchAwayFromFAIRplanEndorsement() {
+	private void switchAwayFromFAIRPlanEndorsement() {
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());//navigates to Endorsement Tab
 		endorsementTab.getRemoveEndorsementLink(formId, 1).click();
 		Page.dialogConfirmation.confirm();
@@ -1047,8 +1012,8 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 
 	}
 
-	private void switchAwayFromFAIRplanEndorsementAndBind() {
-		switchAwayFromFAIRplanEndorsement();
+	private void switchAwayFromFAIRPlanEndorsementAndBind() {
+		switchAwayFromFAIRPlanEndorsement();
 		//Bind
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 		new BindTab().submitTab();
@@ -1082,6 +1047,30 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 
 		premiumsAndCoveragesQuoteTab.saveAndExit();
 		assertThat(PolicySummaryPage.labelPolicyStatus).isPresent();
+	}
+
+	private void validateThatTaskIsNotGenerated(String rulePartialName) {
+		assertThat(MyWorkSummaryPage.tableTasks.getValuesFromRows(MyWorkConstants.MyWorkTasksTable.TASK_NAME).toString().contains(rulePartialName)).isFalse();
+		while (MyWorkSummaryPage.tableTasks.getPagination().hasNextPage()) {
+			MyWorkSummaryPage.tableTasks.getPagination().goToNextPage();
+			assertThat(MyWorkSummaryPage.tableTasks.getValuesFromRows(MyWorkConstants.MyWorkTasksTable.TASK_NAME).toString().contains(rulePartialName)).isFalse();
+		}
+	}
+
+	private void validateRuleIsFiredWithAndWithoutFAIRPlanEndorsement() {
+		bindTab.submitTab();
+
+		errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_AAA_HO_CA02122017);
+		errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CA10100616);
+		errorTab.cancel();
+
+		switchToFAIRPlanEndorsementAndNavigateToBindTab();
+
+		bindTab.submitTab();
+		errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_AAA_HO_CA02122017);
+		errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CA10100616);
+		errorTab.overrideAllErrors();
+		errorTab.submitTab();
 	}
 
 }
