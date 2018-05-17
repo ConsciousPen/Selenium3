@@ -5,12 +5,12 @@ package aaa.modules.cft;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.io.File;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.modules.reports.operationalreports.OperationalReport;
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -44,6 +44,8 @@ import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomAssertions;
 
 public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
@@ -617,9 +619,10 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Conversion started on {}", conversionDate);
 		TimeSetterUtil.getInstance().nextPhase(conversionDate);
 		LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
-		ConversionPolicyData data = new MaigConversionData(state + ".xml", effDate);
+		List<String> maigStates = new ArrayList<>(Arrays.asList(Constants.States.VA, Constants.States.DE, Constants.States.PA, Constants.States.MD, Constants.States.NJ));
+		CustomAssert.assertTrue(String.format("Conversion file for %s state is available - ", state),maigStates.indexOf(state) >= 0);
+		ConversionPolicyData data = new MaigConversionData(String.format("%d", maigStates.indexOf(state) + 1) + ".xml", effDate);
 		String policyN = ConversionUtils.importPolicy(data);
-
 		mainApp().open();
 		SearchPage.openPolicy(policyN);
 		policy.dataGather().start();
@@ -957,8 +960,9 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().open();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		if (PolicySummaryPage.buttonRenewals.isPresent())
+		if (PolicySummaryPage.buttonRenewals.isPresent()) {
 			PolicySummaryPage.buttonRenewals.click();
+		}
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 		log.info("Renewal offer generated successfully");
 	}

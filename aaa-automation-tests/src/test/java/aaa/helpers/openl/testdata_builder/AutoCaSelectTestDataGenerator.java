@@ -8,6 +8,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.TestDataHelper;
+import aaa.helpers.openl.model.AutoOpenLCoverage;
+import aaa.helpers.openl.model.auto_ca.select.AutoCaSelectOpenLCoverage;
 import aaa.helpers.openl.model.auto_ca.select.AutoCaSelectOpenLDriver;
 import aaa.helpers.openl.model.auto_ca.select.AutoCaSelectOpenLPolicy;
 import aaa.helpers.openl.model.auto_ca.select.AutoCaSelectOpenLVehicle;
@@ -294,6 +296,17 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 
 		assertThat(statCodesMap).as("Unknown UI \"Stat Code\" combo box value for openl statCode %s", statCode).containsKey(statCode);
 		return statCodesMap.get(statCode);
+	}
+
+	@Override
+	protected String[] getLimitOrDeductibleRange(AutoOpenLCoverage coverage) {
+		if ("ETEC".equals(coverage.getCoverageCd())) {
+			String limitCode = String.valueOf(((AutoCaSelectOpenLCoverage) coverage).getLimitCode());
+			String[] limitRange = limitCode.split("/");
+			assertThat(limitRange.length).as("Unknown mapping for limitCode: %s", limitCode).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(2);
+			return limitRange;
+		}
+		return super.getLimitOrDeductibleRange(coverage);
 	}
 
 	private TestData getAssignmentTabData(AutoCaSelectOpenLPolicy openLPolicy) {

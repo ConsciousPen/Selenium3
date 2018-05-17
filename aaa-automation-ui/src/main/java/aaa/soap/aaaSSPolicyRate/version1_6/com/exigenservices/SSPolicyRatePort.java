@@ -20,7 +20,7 @@ public interface SSPolicyRatePort {
 
     @WebMethod(operationName = "RateQuote", action = "http://exigenservices.com/ipb/policy/integration/RateQuote")
     @WebResult(name = "RatePolicyRequest", targetNamespace = "http://exigenservices.com/ipb/policy/integration", partName = "response")
-    public RatePolicyRequest rateQuote(
+    RatePolicyRequest rateQuote(
 		    @WebParam(partName = "request", name = "RatePolicyRequest", targetNamespace = "http://exigenservices.com/ipb/policy/integration")
 				    RatePolicyRequest request
     ) throws ErrorInfo;

@@ -10,10 +10,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import javax.ws.rs.core.Response;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
@@ -31,12 +33,16 @@ import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.ssh.RemoteHelper;
+import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.policy.auto_ss.actiontabs.CancelNoticeActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -154,7 +160,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928", "PAS-12822"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928", "PAS-12822", "PAS-312"})
 	public void pas3697_membershipEligibilityConfigurationTrueForActiveMembership(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -180,6 +186,53 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		membershipLogicActivitiesAndNotesCheck(false, "already activated by previous job");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
+		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
+		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test eValue Discount and Membership Discount are NOT removed when Membership is required for eValue and membership status = Active.
+	 * @scenario
+	 * 0. Check no email record present in admin log (no "eValue Discount Pending Notification Url:") on NB+15
+	 * 1. Check if discount in Jeopardy email wasn't send.
+	 * 2. Check Membership discount is not removed on NB+30
+	 * 3. Check eValue discount is not removed on NB+30
+	 * 4. Check AHDRXX is not produced on NB+30
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928", "PAS-12822", "PAS-331"})
+	public void pas331_membershipEligibilityConfigurationTrueForErredMembership(@Optional("VA") String state) {
+		String membershipDiscountEligibilitySwitch = "TRUE";
+		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
+
+		String policyNumber = membershipEligibilityPolicyCreation("Error", true);
+
+		CustomAssert.enableSoftMode();
+		jobsNBplus15plus30runNoChecks();
+		//implementEmailCheck from Admin Log?
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "PENDING");
+		//Start PAS-12822
+		//BUG PAS-13891 Jeopardy Email is generated for Policy which has Membership order response = Error
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
+		//End PAS-12822
+		membershipLogicActivitiesAndNotesCheck(false, "");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
+		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
+
+		jobsNBplus15plus30runNoChecks();
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
+		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
 		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
 
@@ -247,7 +300,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928", "PAS-12822"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928", "PAS-12822", "PAS-312"})
 	public void pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -1215,6 +1268,47 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	/**
 	 * @author Oleg Stasyuk
+	 * @name Test eValue Cancelled policy is not picked up by NB+15, NB+30 jobs
+	 * @scenario
+	 * 0. upload configuration to require Membership for eValue
+	 * 1. Create a policy with eValue with Active mebership
+	 * 2. Cancel policy
+	 * 3. Run NB+15
+	 * 4. Run NB+30
+	 * 5. Check eValue discount is still in place in the cancelled policy transaction
+	 * 6. Check AHDRXX is not generated
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11740")
+	public void pas13528_membershipEligConfTrueForActiveMembershipCancelledPolicy(@Optional("VA") String state) {
+		String membershipDiscountEligibilitySwitch = "TRUE";
+		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
+		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
+		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+
+		CustomAssert.enableSoftMode();
+		jobsNBplus15plus30runNoChecks();
+		//implementEmailCheck from Admin Log?
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
+		lastTransactionHistoryEValueDiscountCheck(true);
+
+		jobsNBplus15plus30runNoChecks();
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
+		lastTransactionHistoryEValueDiscountCheck(true);
+		checkDocumentContentAHDRXX(policyNumber, false, true, false, false, false);
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
 	 * @name Update Policy Preferences Service and AHDRXX check
 	 * @scenario
 	 * 1. Create a VA E Value Policy
@@ -1231,7 +1325,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-1451", "PAS-335"})
 	public void pas1451_eValueRemovedByServiceNoAHDRXX(@Optional("VA") String state) {
-
 		testEValueDiscount.eValueQuoteCreation(true);
 
 		policy.dataGather().start();
@@ -1246,7 +1339,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		CustomAssert.enableSoftMode();
 		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
 
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber);
+		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
@@ -1274,6 +1367,429 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Update Policy Preferences Service for Cancelled policy and AHDRXX check
+	 * @scenario
+	 * 1. Create a VA E Value Policy
+	 * 2. Set Paperless Preferences to No via stub
+	 * 3. Execute UpdatePolicyPreferences Service can't update cancelled policy
+	 * 4. Check Transaction history no new transactions appeared
+	 * 5. Run NB+15 jobs
+	 * 6. Check if discount in Jeopardy email wasn't send.
+	 * 7. Run NB+30 jobs
+	 * 8. Check AHDRXX is not generated
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
+	public void pas13528_eValueNotRemovedByServiceNoAHDRXXforCancelledPolicy(@Optional("VA") String state) {
+		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
+		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+		mainApp().close();
+
+		CustomAssert.enableSoftMode();
+		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+
+		HelperCommon.executeUpdatePolicyPreferences(policyNumber, 422);
+
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
+		lastTransactionHistoryEValueDiscountCheck(true);
+
+		jobsNBplus15plus30runNoChecks();
+		//implementEmailCheck from Admin Log?
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		//Start PAS-12822
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
+		//End PAS-12822
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
+		lastTransactionHistoryEValueDiscountCheck(true);
+
+		jobsNBplus15plus30runNoChecks();
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
+		lastTransactionHistoryEValueDiscountCheck(true);
+		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
+
+		deleteSinglePaperlessPreferenceRequest(requestId);
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Update Policy Preferences Service Reinstated Policy
+	 * @scenario
+	 * 1. Create a VA E Value Policy
+	 * 2. Set Paperless Preferences to No via stub
+	 * 2.1. Cancel Policy
+	 * 2.2. Reinstate Policy
+	 * 3. Execute UpdatePolicyPreferences Service can update Reinstated policy
+	 * 4. Check Transaction history related to eValue removal appears
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
+	public void pas13528_eValueRemovedByServiceForReinstatedPolicy(@Optional("VA") String state) {
+		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
+		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+
+		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
+		mainApp().close();
+
+		CustomAssert.enableSoftMode();
+		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 4, "eValue Removed - Paperless Preferences Removed - External");
+		lastTransactionHistoryEValueDiscountCheck(false);
+
+		deleteSinglePaperlessPreferenceRequest(requestId);
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Update Policy Preferences Service Reinstated Policy
+	 * @scenario
+	 * 1. Create a VA E Value Policy
+	 * 2. Set Paperless Preferences to No via stub
+	 * 2.1. Cancel Policy
+	 * 2.2. Reinstate Policy effective in future
+	 * 3. Execute UpdatePolicyPreferences Service can update Reinstated policy
+	 * 4. Check Transaction history related to eValue removal appears
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
+	public void pas13528_eValueRemovedByServiceForFutureDatedReinstatedPolicy(@Optional("VA") String state) {
+		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
+		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+
+		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData_Plus10Days"));
+		mainApp().close();
+
+		CustomAssert.enableSoftMode();
+		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 3, "");
+		lastTransactionHistoryEValueDiscountCheck(true);
+
+		//there is no eValue removal transaction. Instead a task for OOSE is create.
+		lastTransactionHistoryExit();
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Task Created").getCell("Date/Time").verify.contains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
+
+		deleteSinglePaperlessPreferenceRequest(requestId);
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Update Policy Preferences Service Future Dated Cancelled Policy
+	 * @scenario
+	 * 1. Create a VA E Value Policy
+	 * 2. Set Paperless Preferences to No via stub
+	 * 2.1. Cancel Policy with effective date 10 days in future
+	 * 3. Execute UpdatePolicyPreferences Service can update Pending Cancel policy
+	 * 4. Check Transaction history related to eValue removal appears
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
+	public void pas13528_eValueRemovedByServiceForFutureDatedCancelledPolicy(@Optional("VA") String state) {
+		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
+		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+
+		policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus10Days"));
+		mainApp().close();
+
+		CustomAssert.enableSoftMode();
+		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		//BUG PAS-13884 When running PaperlessPreferences update for policy with Future Dated Cancellation, no eValue removal happens and no task is created
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "");
+		lastTransactionHistoryEValueDiscountCheck(true);
+
+		//there is no eValue removal transaction. Instead a task for OOSE is create.
+		lastTransactionHistoryExit();
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Task Created").getCell("Date/Time").verify.contains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
+
+		deleteSinglePaperlessPreferenceRequest(requestId);
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Update Policy Preferences Service for Pending Policy
+	 * @scenario
+	 * 1. Create a VA E Value Policy
+	 * 2. Set Paperless Preferences to No via stub
+	 * 3. Execute UpdatePolicyPreferences Service
+	 * 4. Check Transaction history and that eValue was removed
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
+	public void pas13528_eValueRemovedByServicePendingPolicy(@Optional("VA") String state) {
+		testEValueDiscount.eValueQuoteCreation(true);
+
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().plusDays(10).format(DateTimeUtils.MM_DD_YYYY));
+		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().plusDays(10).format(DateTimeUtils.MM_DD_YYYY));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		premiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.submitTab();
+		premiumAndCoveragesTab.saveAndExit();
+		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
+		mainApp().close();
+
+		CustomAssert.enableSoftMode();
+		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+
+		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "eValue Removed - Paperless Preferences Removed - External");
+		lastTransactionHistoryEValueDiscountCheck(false);
+
+		deleteSinglePaperlessPreferenceRequest(requestId);
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Update Policy Preferences Service for Cancelled policy and AHDRXX check
+	 * @scenario
+	 * 1. Create a VA E Value Policy
+	 * 2. Set Paperless Preferences to No via stub
+	 * 3. Execute UpdatePolicyPreferences Service can't update cancelled policy
+	 * 4. Check Transaction history and that eValue was removed
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
+	public void pas13528_eValueRemovedByServiceCancPendingPolicy(@Optional("VA") String state) {
+		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
+		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData"));
+		CancelNoticeActionTab cancelNoticeActionTab = new CancelNoticeActionTab();
+		if(cancelNoticeActionTab.getAssetList().getAsset(AutoSSMetaData.CancelNoticeActionTab.CANCELLATION_DUE_TO_CONSUMER_REPORT_INFORMATION).isPresent() && cancelNoticeActionTab.getAssetList().getAsset(AutoSSMetaData.CancelNoticeActionTab.CANCELLATION_DUE_TO_CONSUMER_REPORT_INFORMATION).isVisible()) {
+			cancelNoticeActionTab.getAssetList().getAsset(AutoSSMetaData.CancelNoticeActionTab.CANCELLATION_DUE_TO_CONSUMER_REPORT_INFORMATION).setValue("No");
+			CancelNoticeActionTab.buttonOk.click();
+		}
+		mainApp().close();
+
+		CustomAssert.enableSoftMode();
+		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+
+		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 3, "eValue Removed - Paperless Preferences Removed - External");
+		lastTransactionHistoryEValueDiscountCheck(false);
+
+		deleteSinglePaperlessPreferenceRequest(requestId);
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Update Policy Preferences Service for Expired Policy
+	 * @scenario
+	 * 1. Create a VA E Value Policy
+	 * 1.1. Renew the policy
+	 * 2. Set Paperless Preferences to No via stub
+	 * 3. Execute UpdatePolicyPreferences Service can't update cancelled policy
+	 * 4. Check Transaction history and that eValue was not removed
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
+	public void pas13528_eValueNotRemovedByServiceExpiredPolicy(@Optional("VA") String state) {
+		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+
+		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+		HelperCommon.executeUpdatePolicyPreferences(policyNumber, 422);
+
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		//BUG PAS-13857 PaperlessPreferences service updates Expired policies
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
+		lastTransactionHistoryEValueDiscountCheck(true);
+
+		deleteSinglePaperlessPreferenceRequest(requestId);
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Update Policy Preferences Service for Expired Policy
+	 * @scenario
+	 * 1. Create a VA E Value Policy
+	 * 1.1. Renew the policy
+	 * 2. Set Paperless Preferences to No via stub
+	 * 3. Execute UpdatePolicyPreferences Service can't update cancelled policy
+	 * 4. Check Transaction history and that eValue was not removed
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
+	public void pas13528_eValueNotRemovedByServiceLapsedPolicy(@Optional("VA") String state) {
+		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(15));
+		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+
+		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
+		lastTransactionHistoryEValueDiscountCheck(true);
+
+		deleteSinglePaperlessPreferenceRequest(requestId);
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Update Policy Preferences Service for Policy with Proposed renewal
+	 * @scenario
+	 * 1. Create a VA E Value Policy
+	 * 1.1. Renew the policy
+	 * 2. Set Paperless Preferences to No via stub
+	 * 3. Execute UpdatePolicyPreferences Service can update Policy with Proposed renewal
+	 * 4. Check Transaction history and that eValue was removed
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
+	public void pas13528_eValueRemovedByServiceProposedRenewal(@Optional("VA") String state) {
+		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "eValue Removed - Paperless Preferences Removed - External");
+		lastTransactionHistoryEValueDiscountCheck(false);
+
+		lastTransactionHistoryExit();
+		renewalTransactionEValueDiscountCheck(false);
+
+		deleteSinglePaperlessPreferenceRequest(requestId);
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Update Policy Preferences Service for Policy with InForce renewal
+	 * @scenario
+	 * 1. Create a VA E Value Policy
+	 * 1.1. Renew the policy
+	 * 2. Set Paperless Preferences to No via stub
+	 * 3. Execute UpdatePolicyPreferences Service can update Policy with Proposed renewal
+	 * 4. Check Transaction history and that eValue was removed
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
+	public void pas13528_eValueRemovedByServiceInForceRenewal(@Optional("VA") String state) {
+		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+		mainApp().open();
+		SearchPage.openBilling(policyNumber);
+		Dollar totalDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue());
+		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
+
+		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "");
+		lastTransactionHistoryEValueDiscountCheck(true);
+
+		//there is no eValue removal transaction. Instead a task for OOSE is create.
+		lastTransactionHistoryExit();
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Task Created").getCell("Date/Time").verify.contains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
+
+		deleteSinglePaperlessPreferenceRequest(requestId);
 	}
 
 	private void renewalMembershipProcessCheck(String membershipEligibilitySwitch, String membershipStatus) {
@@ -1333,6 +1849,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		} else if ("Cancelled".equals(membershipStatus)) {
 			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
 			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("3111111111111121");
+		} else if ("Error".equals(membershipStatus)) {
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("5610591081018250");
 		} else {
 			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");//Membership Pending
 			List<String> inactiveMembershipNumberList = new ArrayList<>();
@@ -1480,6 +1999,17 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	private void lastTransactionHistoryEValueDiscountCheck(boolean eValueDiscount) {
 		PolicySummaryPage.lastTransactionHistoryOpen();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		if (eValueDiscount) {
+			CustomAssert.assertTrue(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("eValue Discount"));
+		} else {
+			CustomAssert.assertFalse(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("eValue Discount"));
+		}
+	}
+
+	private void renewalTransactionEValueDiscountCheck(boolean eValueDiscount) {
+		PolicySummaryPage.buttonRenewals.click();
+		policy.policyInquiry().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		if (eValueDiscount) {
 			CustomAssert.assertTrue(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("eValue Discount"));
@@ -1718,6 +2248,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		policy.renew().start();
 		premiumAndCoveragesTab.saveAndExit();
 	}
+
 
 	@AfterSuite()
 	public void deleteAllPaperlessPreferencesRequests() {
