@@ -142,4 +142,36 @@
             <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
         </classes>
     </test>
+    <test name="PUP [NJ] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="NJ"/>
+        <parameter name="fileName" value="NJTests.xls"/>
+        <parameter name="policyNumbers" value="745,2057"/>
+        <classes>
+            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="PUP [NY] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="NY"/>
+        <parameter name="fileName" value="NYTests.xls"/>
+        <parameter name="policyNumbers" value="2,3"/>
+        <classes>
+            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="PUP [PA] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="PA"/>
+        <parameter name="fileName" value="PATests.xls"/>
+        <parameter name="policyNumbers" value="20,25"/>
+        <classes>
+            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="PUP [VA] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="VA"/>
+        <parameter name="fileName" value="VATests.xls"/>
+        <parameter name="policyNumbers" value="88,306"/>
+        <classes>
+            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
+        </classes>
+    </test>
 </suite>
