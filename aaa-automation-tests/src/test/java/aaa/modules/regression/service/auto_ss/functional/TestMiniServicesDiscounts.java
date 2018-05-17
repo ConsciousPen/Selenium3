@@ -24,7 +24,6 @@ import aaa.modules.regression.service.helper.dtoDxp.DiscountSummary;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 
 public class TestMiniServicesDiscounts extends AutoSSBaseTest {
 	private final DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
@@ -32,43 +31,42 @@ public class TestMiniServicesDiscounts extends AutoSSBaseTest {
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name RFI
+	 * @name All VA discounts retrieved from Service
 	 * @scenario
-	 * 1.Initiate quote creation.
-	 * Insured1
-	 * Proof of Prior Insurance (including original inception date of policy and prior BI limits)	Prior BI overridden by agent
+	 * Policy Discounts:
+	 * Advanced Shopping Discount
+	 * Affinity Discount
+	 * Loyalty Discount
+	 * Membership Discount
+	 * Multi-Policy Discount (Life, Home)
+	 * Payment Plan Discount
+	 * eValue Discount
 	 *
-	 * Driver1
-	 * Proof of Good Student
+	 * Driver Discounts:
+	 * Jenny Smith	Good Student Discount
+	 * Jenny Smith	SMART Driver Discount
+	 * Distant Student	Distant Student Discount
+	 * Distant Student	Good Student Discount
 	 *
-	 * Driver2
-	 * DL - Foreign
-	 * Smart Driver Course Completed?
-	 *
-	 * Driver3 - Not Available for Rating, insured with other carrier
-	 * Proof of Current Insurance for all "Not Available for Rating" drivers
-	 *
-	 * Driver4 - Not Available for Rating
-	 *
-	 *
-	 * Vehicle1 -
-	 * Photos showing all 4 sides of salvaged vehicles	select salvaged
-	 * Proof of purchase date (bill of sale) for new vehicle(s) - less than 30 days
-	 *
-	 * Vehicle2 -
-	 * Proof of equivalent new car added protection coverage with prior carrier for new vehicle(s)	new car added protection; date is more than 30 days ago
+	 * Vehicle Discounts:
+	 * 2018, KIA, model	Anti-Theft Recovery Device
+	 * Hybrid Discount
+	 * Multi-Vehicle Discount
+	 * New Car Discount
+	 * Passive Restraint Discount
+	 * 2018, FORD, Model	Multi-Vehicle Discount
+	 * New Car Discount
+	 * Telematics Participation Discount
 	 * @details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-9495"})
 	public void pas9495_miniServicesDiscounts(@Optional("VA") String state) {
-/*		createQuoteWithCustomData(state);
+		createQuoteWithDiscountData(state);
 
-		//CustomAssert.enableSoftMode();
 		String policyNumber = testEValueDiscount.simplifiedQuoteIssue("ACH");
-		printToLog("policyNumber = " + policyNumber);*/
-		String policyNumber = "VASS952918540";
+		printToLog("policyNumber = " + policyNumber);
 
 		discountsCheckPerTransaction(policyNumber, "policy");
 
@@ -76,9 +74,6 @@ public class TestMiniServicesDiscounts extends AutoSSBaseTest {
 		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
 		discountsCheckPerTransaction(policyNumber, "endorsement");
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	private void discountsCheckPerTransaction(String policyNumber, String transaction) {
@@ -101,9 +96,15 @@ public class TestMiniServicesDiscounts extends AutoSSBaseTest {
 
 		//vehicle level discount check start
 		vehicleLevelDiscountsCheck(policyDiscountsResponse, "ATD", "Anti-Theft Recovery Device");
+		vehicleLevelDiscountsCheck(policyDiscountsResponse, "HD", "Hybrid Discount");
+		vehicleLevelDiscountsCheck(policyDiscountsResponse, "NCD", "New Car Discount");
+		vehicleLevelDiscountsCheck(policyDiscountsResponse, "PRD", "Passive Restraint Discount");
+		vehicleLevelDiscountsCheck(policyDiscountsResponse, "TDD", "Telematics Participation Discount");
 
 		//driver level discount check start
-		//driverLevelDiscountsCheck(policyDiscountsResponse, "EMD", "eValue Discount");
+		driverLevelDiscountsCheck(policyDiscountsResponse, "GSD", "Good Student Discount");
+		driverLevelDiscountsCheck(policyDiscountsResponse, "SDD", "SMART Driver Discount");
+		driverLevelDiscountsCheck(policyDiscountsResponse, "DSD", "Distant Student Discount");
 	}
 
 	private void policyLevelDiscountsCheck(DiscountSummary policyDiscountsResponse, String discountCode, String discountName) {
@@ -124,7 +125,7 @@ public class TestMiniServicesDiscounts extends AutoSSBaseTest {
 		assertThat(discount.discountName.equals(discountName)).isTrue();
 	}
 
-	private void createQuoteWithCustomData(String state) {
+	private void createQuoteWithDiscountData(String state) {
 		TestData td = getTestSpecificTD("TestData").adjust(TestData.makeKeyPath("GeneralTab",
 				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
 				AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()), "$<today+9d:MM/dd/yyyy>");
@@ -136,12 +137,10 @@ public class TestMiniServicesDiscounts extends AutoSSBaseTest {
 
 		mainApp().open();
 		createCustomerIndividual();
-		//SearchPage.openCustomer("700032251");
 
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(td, DocumentsAndBindTab.class, false);
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-
 		documentsAndBindTab.saveAndExit();
 	}
 
