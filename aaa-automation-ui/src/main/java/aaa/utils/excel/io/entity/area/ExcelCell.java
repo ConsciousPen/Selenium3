@@ -155,8 +155,8 @@ public abstract class ExcelCell implements Writable {
 				"sheetName=" + getSheetName() +
 				", rowIndex=" + getRowIndex() +
 				", columnIndex=" + getColumnIndex() +
-				", cellTypes=" + getCellTypes() +
 				", value=" + getStringValue() +
+				", cellTypes=" + getCellTypes() +
 				'}';
 	}
 

@@ -1,6 +1,7 @@
 package aaa.utils.excel.io.celltype;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import java.time.DateTimeException;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.Temporal;
@@ -14,6 +15,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
 import aaa.utils.excel.io.entity.area.ExcelCell;
+import toolkit.exceptions.IstfException;
 
 public abstract class DateCellType<T extends Temporal> extends AbstractCellType<T> {
 	private DateTimeFormatter[] dateTimeFormatters;
@@ -66,13 +68,38 @@ public abstract class DateCellType<T extends Temporal> extends AbstractCellType<
 	}
 
 	@Override
+	public boolean hasValueInTextFormat(ExcelCell cell) {
+		return hasValueInTextFormat(cell, this.dateTimeFormatters);
+	}
+
+	@Override
 	public T getValueFrom(ExcelCell cell) {
 		return getValueFrom(cell, this.dateTimeFormatters);
 	}
 
-	@Override
-	public boolean hasValueInTextFormat(ExcelCell cell) {
-		return hasValueInTextFormat(cell, this.dateTimeFormatters);
+	public T getValueFrom(ExcelCell cell, DateTimeFormatter... dateTimeFormatters) {
+		assertThat(isTypeOf(cell, dateTimeFormatters)).as("Unable to get value with \"%1$s\" type from %2$s%3$s", getEndType(), cell,
+				ArrayUtils.isNotEmpty(dateTimeFormatters) ? " using date formatters: " + Arrays.asList(dateTimeFormatters) : "").isTrue();
+		if (cell.getPoiCell() == null) {
+			return null;
+		}
+
+		T dateValue;
+		try {
+			if (hasStringValue(cell)) {
+				DateTimeFormatter formatter = getValidFormatter(cell, dateTimeFormatters);
+				if (formatter != null) {
+					dateValue = parseText(getText(cell), formatter);
+				} else {
+					throw new IstfException("Unable to find valid DateTimeFormatter");
+				}
+			} else {
+				dateValue = getRawValueFrom(cell);
+			}
+		} catch (DateTimeException | IstfException e) {
+			throw new IstfException("Cannot get date value from cell " + cell, e);
+		}
+		return dateValue;
 	}
 
 	public boolean isTypeOf(ExcelCell cell, DateTimeFormatter... dateTimeFormatters) {
@@ -84,24 +111,7 @@ public abstract class DateCellType<T extends Temporal> extends AbstractCellType<
 		return hasStringValue(cell) && getValidFormatter(cell, dateTimeFormatters) != null;
 	}
 
-	public T getValueFrom(ExcelCell cell, DateTimeFormatter... dateTimeFormatters) {
-		assertThat(isTypeOf(cell, dateTimeFormatters)).as("Unable to get value with \"%1$s\" type from %2$s%3$s", getEndType(), cell,
-				ArrayUtils.isNotEmpty(dateTimeFormatters) ? " using date formatters: " + Arrays.asList(dateTimeFormatters) : "").isTrue();
-		if (cell.getPoiCell() == null) {
-			return null;
-		}
-		if (hasStringValue(cell)) {
-			DateTimeFormatter formatter = getValidFormatter(cell, dateTimeFormatters);
-			if (formatter != null) {
-				return parseText(getText(cell), formatter);
-			}
-		}
-		return getDate(cell);
-	}
-
 	protected abstract T parseText(String dateInTextFormat, DateTimeFormatter dateTimeFormatter) throws DateTimeParseException;
-
-	protected abstract T getDate(ExcelCell cell);
 
 	protected abstract Date convertToJavaDate(T value);
 
