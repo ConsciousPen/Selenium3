@@ -40,16 +40,14 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 	private ErrorTab errorTab = new ErrorTab();
 	private PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
 
-	private String formIdInXml; // = DocGenEnum.Documents.FPCECA.getIdInXml();
-	private String fairPlanEndorsementLabelInEndorsementTab; // = HomeCaMetaData.EndorsementTab.FPCECA.getLabel();
-
 	private static final String ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT = "Wood burning stoves as the sole source of heat are ineligible.";
 	private static final String ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR = "Dwellings with a wood burning stove without at least one smoke detector insta";
 
-	private PolicyType policyType = PolicyType.HOME_CA_DP3;
+	private String formIdInXml; // = DocGenEnum.Documents.FPCECA.getIdInXml();
+	private String fairPlanEndorsementLabelInEndorsementTab; // = HomeCaMetaData.EndorsementTab.FPCECA.getLabel();
+	private PolicyType policyType;
 
 	private TestFAIRPlanEndorsementTemplate() {}
-
 	public TestFAIRPlanEndorsementTemplate(PolicyType policyType, String formIdInXml, String fairPlanEndorsementLabelInEndorsementTab) {
 		this.policyType = policyType;
 		this.formIdInXml = formIdInXml;
@@ -169,7 +167,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		createPolicy(testData);
 
-		policyType.get().endorse().perform(getPolicyTD("Endorsement", "TestData_Plus3Days"));
+		policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(policyType).getTestData("Endorsement"), "TestData_Plus3Days"));
 		switchToLogHomeAndNavigateToBind("Yes");
 		bindTab.submitTab();
 
@@ -245,7 +243,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		createPolicy(testData);
 
-		policyType.get().endorse().perform(getPolicyTD("Endorsement", "TestData_Plus3Days"));
+		policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(policyType).getTestData("Endorsement"), "TestData_Plus3Days"));
 		switchToLogHomeAndNavigateToBind("No");
 
 		validateRuleIsFiredWithAndWithoutFAIRPlanEndorsement(); //because rule should still fire if "Is this a log home assembled by a licensed building contractor?" = "No"
@@ -280,14 +278,12 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 	////////////Start PAS-13242////////////////
 
-	public void pas12466_AC1_NB() {
-
-		TestData tdWithFAIRplanEndorsement = getPolicyTD().adjust(EndorsementTab.class.getSimpleName(), getTestSpecificTD("EndorsementTab_Add"));
+	public void pas12466_AC1_NB(TestData tdWithFAIRPlanEndorsement) {
 
 		mainApp().open();
 		createCustomerIndividual();
 
-		createPolicy(tdWithFAIRplanEndorsement);
+		createPolicy(tdWithFAIRPlanEndorsement);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
@@ -295,7 +291,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		//5. Validate that Subsequent transactions does not contain the form FPCECA
 		//Perform mid-term endorsement, but don't switch away from FAIR Plan Endorsement
-		policyType.get().endorse().perform(getPolicyTD("Endorsement", "TestData_Plus3Days"));
+		policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(policyType).getTestData("Endorsement"), "TestData_Plus3Days"));
 
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
 		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE).setValue("contains=1500");
@@ -323,7 +319,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		validateDocumentIsNotGeneratedInPackage(policyNumber, POLICY_ISSUE, false);
 
 		//Perform mid-term endorsement and add FAIR Plan Endorsement
-		policyType.get().endorse().perform(getPolicyTD("Endorsement", "TestData_Plus3Days"));
+		policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(policyType).getTestData("Endorsement"), "TestData_Plus3Days"));
 		switchToFAIRPlanEndorsementAndBind();
 
 		validateDocumentIsGeneratedInPackage(policyNumber, ENDORSEMENT_ISSUE);
@@ -411,7 +407,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		// PolicySummaryPage.buttonRenewals.click(); change current term not endorsement
 
 		//Initiate Endorsement for current term
-		policyType.get().endorse().perform(getPolicyTD("Endorsement", "TestData_Plus3Days"));
+		policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(policyType).getTestData("Endorsement"), "TestData_Plus3Days"));
 
 		//4. Switch FAIR Plan Endorsement
 		switchToFAIRPlanEndorsementAndBind();
@@ -452,7 +448,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		createCustomerIndividual();
 
 		createPolicy(testData);
-		policyType.get().endorse().perform(getPolicyTD("Endorsement", "TestData_Plus3Days"));
+		policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(policyType).getTestData("Endorsement"), "TestData_Plus3Days"));
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
 		stoveQuestionValidationSteps();
 	}

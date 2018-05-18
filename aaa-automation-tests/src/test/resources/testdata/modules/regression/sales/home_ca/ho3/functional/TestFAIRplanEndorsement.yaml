@@ -1,3 +1,12 @@
+EndorsementTab_Add: {
+  'FPCECA': '@Endorsement_FPCECA_Add'
+}
+
+Endorsement_FPCECA_Add: {
+  Action: 'Add',
+  Confirm Object Addition: 'Confirm'
+}
+
 # Log Home, licensed constructor=yes, PPC doesn't change, add the Endorsement form
 TestData_EndorsementAC1: {
   GeneralTab: {},
@@ -114,15 +123,6 @@ PropertyInfoTab_PPC10: {
     PublicProtectionClass: {
       Public protection class: '10'
       }
-}
-
-
-EndorsementTab_Add: {
-  'FPCECA': '@Endorsement_FPCECA_Add'
-}
-
-Endorsement_FPCECA_Add: {
-  Action: 'Add'
 }
 
 #EndorsementTab_Remove: {
