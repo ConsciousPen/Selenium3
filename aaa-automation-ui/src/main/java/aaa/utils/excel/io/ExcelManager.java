@@ -140,6 +140,15 @@ public class ExcelManager {
 		throw new IstfException(String.format("There is no sheet with \"%1$s\" name in \"%2$s\" file", sheetName, getFile()));
 	}
 
+	public ExcelSheet getSheetContains(String sheetNamePattern) {
+		for (ExcelSheet sheet : getSheets()) {
+			if (sheet.getSheetName().contains(sheetNamePattern)) {
+				return sheet;
+			}
+		}
+		throw new IstfException(String.format("There is no sheet which contains \"%1$s\" name in \"%2$s\" file", sheetNamePattern, getFile()));
+	}
+
 	public ExcelManager registerCellType(List<CellType<?>> cellTypes) {
 		this.allowableCellTypes.addAll(cellTypes);
 		this.allowableCellTypes = this.allowableCellTypes.stream().distinct().collect(Collectors.toList());

@@ -38,9 +38,11 @@ public class TableCell extends ExcelCell {
 		return "TableCell{" +
 				"sheetName=" + getSheetName() +
 				", rowIndex=" + getRowIndex() +
+				", rowIndexOnSheet=" + getRowIndexOnSheet() +
 				", columnIndex=" + getColumnIndex() +
+				", columnIndexOnSheet=" + getColumnIndexOnSheet() +
 				", headerColumnName=" + getHeaderColumnName() +
-				", value=" + getStringValue() +
+				", value=\"" + getStringValue() + "\"" +
 				", cellTypes=" + getCellTypes() +
 				'}';
 	}
