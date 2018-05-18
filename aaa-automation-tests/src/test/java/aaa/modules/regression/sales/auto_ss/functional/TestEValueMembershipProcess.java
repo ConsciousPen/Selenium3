@@ -4,6 +4,7 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import javax.ws.rs.core.Response;
+import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -19,6 +21,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
+import aaa.admin.pages.general.GeneralAsyncTasksPage;
 import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -2277,5 +2280,21 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		HelperWireMockPaperlessPreferences.deleteProcessedRequestFromStub(requestId);
 		requestIdList.remove(requestId);
 		printToLog("DELETE SINGLE REQUEST WAS EXECUTED for " + requestId);
+	}
+
+	/**
+	 * Checks that number of failed async tasks is not huge
+	 */
+	@AfterSuite
+	@Test(groups = {Groups.PRECONDITION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"NA"})
+	public void asyncTaskCheck() {
+		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.GENERAL.get());
+		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_ASYNC_TASKS.get());
+		SoftAssertions.assertSoftly(softly -> {
+			assertThat(Integer.valueOf(GeneralAsyncTasksPage.labelFailedTasks.getValue())).isGreaterThan(3);
+			assertThat(Integer.valueOf(GeneralAsyncTasksPage.labelLockedTasks.getValue())).isGreaterThan(3);
+		});
 	}
 }
