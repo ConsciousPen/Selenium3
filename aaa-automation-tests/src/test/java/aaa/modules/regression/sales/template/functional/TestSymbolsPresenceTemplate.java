@@ -131,7 +131,8 @@ public class TestSymbolsPresenceTemplate extends PolicyBaseTest {
 	}
 
 	private void verifyCompCollSymbolsPresence(String query, DocGenEnum.Documents docID) {
-		Arrays.asList("CompDmgSymbl", "CollDmgSymbl", "VehSym").forEach(v ->
+		//PAS-9365 Added few more liability symbols to check in the xml document generated
+		Arrays.asList("CompDmgSymbl", "CollDmgSymbl", "VehSym", "VehStAbrv", "BdyInjSymbl", "MPSymbl", "PdSymbl", "UmSymbl").forEach(v ->
 				assertThat(DocGenHelper.getDocumentDataElemByName(v, docID, query)).isNotEmpty().isNotNull());
 	}
 
