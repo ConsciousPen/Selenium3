@@ -191,7 +191,7 @@
 
 
     <test name="TestRFI-AutoSS" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA"/>
+        <parameter name="state" value="VA, PA, NV, AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
             <methods>
@@ -201,7 +201,7 @@
         </classes>
     </test>
     <test name="TestRFI-AutoSSNano" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ, IN, OH, OK, NV"/>
+        <parameter name="state" value="AZ, NV"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
                 <methods>
@@ -222,7 +222,7 @@
         </classes>
     </test>
     <test name="TestRFI-Ho3SS" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA"/>
+        <parameter name="state" value="VA, PA, NV, AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.home_ss.ho3.functional.TestServiceRFI"/>
         </classes>

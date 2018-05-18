@@ -68,7 +68,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-349", "PAS-341"})
-	public void pas349_rfiAuto(@Optional("NY") String state) {
+	public void pas349_rfiAuto(@Optional("WY") String state) {
 		String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 
 		TestData td;
@@ -87,7 +87,6 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 		mainApp().open();
 		createCustomerIndividual();
-		//SearchPage.openCustomer("700032527");
 
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(td, DocumentsAndBindTab.class, false);
@@ -101,7 +100,10 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 		//PAS-341 Start
 		RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		//BUG Question to Karen - BUG1 - Auto Insurance Application inconsistent with other states for KS, MD, NY
+		//BUG Question to Karen - BUG2 - WY doesnt have Proof of Current Insurance for , like all other states
 		HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel(), "NBA", "NS");
+		//BUG Question to Karen - BUG3 - UBI is not applicable for this states, so the Smart Trek can be tested only for them - "ID, KS, KY, MT, NV, NY, OR, UT, WY, MD, WV"
 		if (!"ID, KS, KY, MT, NV, NY, OR, UT, WY, MD, WV".contains(state)) {
 			HelperRfi.policyServiceRfiValuesCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS.getLabel(), "DISC", "NS");
 		}
@@ -167,7 +169,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-349", "PAS-341"})
-	public void pas349_rfiNano(@Optional("OH") String state) {
+	public void pas349_rfiNano(@Optional("NV") String state) {
 		createQuoteWithCustomDataNano(state);
 
 		CustomAssert.enableSoftMode();
