@@ -167,6 +167,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	public void pas3697_membershipEligibilityConfigurationTrueForActiveMembership(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
+		testEValueDiscount.pas111_clearCache();
 
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
 
@@ -353,6 +354,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	public void pas3697_membershipEligibilityConfigurationFalseForActiveMembership(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
+		testEValueDiscount.pas111_clearCache();
 
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true, false);
 
@@ -488,14 +490,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-324", "PAS-1928"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-324", "PAS-1928", "PAS-319"})
 	public void pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		String membershipStatusActive = "Cancelled";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
 		CustomAssert.enableSoftMode();
-		renewalMembershipProcessCheck(membershipDiscountEligibilitySwitch, membershipStatusActive);
+		renewalMembershipProcessCheck(membershipDiscountEligibilitySwitch, membershipStatusActive,false);
 		postConditionMembershipEligibilityCheck();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -725,14 +727,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-324", "PAS-1928"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-324", "PAS-1928", "PAS-319"})
 	public void pas3697_membershipEligibilityConfigurationFalseForCancelledMembershipRenewal(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		String membershipStatusActive = "Cancelled";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
 		CustomAssert.enableSoftMode();
-		renewalMembershipProcessCheck(membershipDiscountEligibilitySwitch, membershipStatusActive);
+		renewalMembershipProcessCheck(membershipDiscountEligibilitySwitch, membershipStatusActive, true);
 		postConditionMembershipEligibilityCheck();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1797,7 +1799,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		deleteSinglePaperlessPreferenceRequest(requestId);
 	}
 
-	private void renewalMembershipProcessCheck(String membershipEligibilitySwitch, String membershipStatus) {
+	private void renewalMembershipProcessCheck(String membershipEligibilitySwitch, String membershipStatus, boolean eValueApplied) {
 		membershipEligibilityPolicyCreation(membershipStatus, true, false);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -1813,12 +1815,22 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);
 		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
-
+		//String policyNumber = "VASS952918864";
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		//PAS-319 start
+		generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.COMMISSION_TYPE).verify.value("eValue Renewal");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		if(eValueApplied){
+			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("Yes");
+		}else{
+			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("No");
+		}
+		//PAS-319 end
 
 		ahdexxContentCheck(membershipEligibilitySwitch, policyNumber);
 	}
@@ -2285,10 +2297,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	/**
 	 * Checks that number of failed async tasks is not huge
 	 */
-	@AfterSuite
-	@Test(groups = {Groups.PRECONDITION, Groups.CRITICAL})
+	@Test(groups = {Groups.PRECONDITION, Groups.CRITICAL}, priority = 100, dependsOnMethods = "pas3697_membershipEligibilityConfigurationFalseForCancelledMembershipRenewal")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"NA"})
-	public void asyncTaskCheck() {
+	public void xAsyncTaskCheck() {
 		adminApp().open();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.GENERAL.get());
 		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_ASYNC_TASKS.get());

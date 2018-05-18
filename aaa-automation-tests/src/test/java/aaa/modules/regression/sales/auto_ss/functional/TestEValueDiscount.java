@@ -2405,10 +2405,9 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	/**
 	 * example to clear cache for the product
 	 */
-	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.LOW})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-111")
-	public void pas111_clearCache(@Optional("") String state) {
+	public void pas111_clearCache() {
 		adminApp().open();
 		CacheManager.clearCache();
 	}
