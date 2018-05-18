@@ -43,7 +43,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	private PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
 
 	private final String formId = DocGenEnum.Documents.FPCECA.getIdInXml();
-	//private final String formDesc = DocGenEnum.Documents.FPCECA.getName();
+	private final String fairPlanEndorsementLabelInEndorsementTab = HomeCaMetaData.EndorsementTab.FPCECA.getLabel();
 
 	private static final String ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT = "Wood burning stoves as the sole source of heat are ineligible.";
 	private static final String ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR = "Dwellings with a wood burning stove without at least one smoke detector insta";
@@ -54,7 +54,6 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	 * @author Maris Strazds
 	 * @name Test Membership Override - PAS-13211 AC#1, AC4 (New Business)
 	 * @scenario
-	 * Precondition: Agent is expected to have the Membership override privilege.
 	 * 1. Create Customer.
 	 * 2. Initiate CA HO3 Quote.
 	 * 3. Navigate to Property info tab
@@ -93,7 +92,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 		errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_AAA_HO_CA10100616);
 		errorTab.cancel();
 
-		switchToFAIRplanEndorsementAndCalculatePremium();
+		switchToFAIRPlanEndorsementAndCalculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 		bindTab.submitTab();
 		purchaseTab.fillTab(testData);
@@ -152,7 +151,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 
 		//Note: No need to validate that the Rule is fired if FAIR Plan Endorsement is added, because as per current implementation it is not fired for renewals
 
-		switchToFAIRplanEndorsementAndBind();
+		switchToFAIRPlanEndorsementAndBind();
 
 	}
 
@@ -198,7 +197,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 		errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CA10100616);
 		errorTab.cancel();
 
-		switchToFAIRplanEndorsementAndCalculatePremium();
+		switchToFAIRPlanEndorsementAndCalculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 		bindTab.submitTab();
 		purchaseTab.fillTab(testData);
@@ -249,7 +248,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 		errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CA10100616);
 		errorTab.cancel();
 
-		switchToFAIRplanEndorsementAndBind();
+		switchToFAIRPlanEndorsementAndBind();
 
 	}
 
@@ -299,7 +298,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 		errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CA10100616);
 		errorTab.cancel();
 
-		switchToFAIRplanEndorsementAndBind();
+		switchToFAIRPlanEndorsementAndBind();
 
 	}
 
@@ -517,7 +516,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 
 		//Perform mid-term endorsement and add FAIR Plan Endorsement
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus3Days"));
-		switchToFAIRplanEndorsementAndBind();
+		switchToFAIRPlanEndorsementAndBind();
 
 		validateDocumentIsGeneratedInPackage(policyNumber, ENDORSEMENT_ISSUE);
 	}
@@ -567,7 +566,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 		policy.dataGather().start();
 
 		//4. Switch to FAIR Plan Endorsement and Bind
-		switchToFAIRplanEndorsementAndBind();
+		switchToFAIRPlanEndorsementAndBind();
 
 		TimeSetterUtil.getInstance().nextPhase(renewalProposalDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
@@ -614,7 +613,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 		policy.dataGather().start();
 
 		//4. Switch to FAIR Plan Endorsement
-		switchToFAIRplanEndorsementAndBind();
+		switchToFAIRPlanEndorsementAndBind();
 
 		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
@@ -658,7 +657,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus3Days"));
 
 		//4. Switch FAIR Plan Endorsement
-		switchToFAIRplanEndorsementAndBind();
+		switchToFAIRPlanEndorsementAndBind();
 		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
 
 		CustomAssert.enableSoftMode();
@@ -860,7 +859,10 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 				HomeCaMetaData.PropertyInfoTab.Construction.class.getSimpleName(),
 				HomeCaMetaData.PropertyInfoTab.Construction.CONSTRUCTION_TYPE.getLabel()),
 				constructionTypeValue);
-
+		testData.adjust(TestData.makeKeyPath(HomeCaMetaData.PropertyInfoTab.class.getSimpleName(),
+				HomeCaMetaData.PropertyInfoTab.Construction.class.getSimpleName(),
+				HomeCaMetaData.PropertyInfoTab.Construction.ROOF_TYPE.getLabel()),
+				"Wood shingle/Wood shake");
 		testData.adjust(TestData.makeKeyPath(HomeCaMetaData.PropertyInfoTab.class.getSimpleName(),
 				HomeCaMetaData.PropertyInfoTab.Construction.class.getSimpleName(),
 				HomeCaMetaData.PropertyInfoTab.Construction.IS_THIS_A_LOG_HOME_ASSEMBLED_BY_A_LICENSED_BUILDING_CONTRACTOR.getLabel()),
@@ -975,20 +977,20 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
 	}
 
-	private void switchToFAIRplanEndorsement() {
+	private void switchToFAIRPlanEndorsement() {
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());//navigates to Endorsement Tab
 		endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel()).click();
 		Page.dialogConfirmation.confirm();
 		endorsementTab.btnSaveForm.click();
 	}
 
-	private void switchToFAIRplanEndorsementAndCalculatePremium() {
-		switchToFAIRplanEndorsement();
+	private void switchToFAIRPlanEndorsementAndCalculatePremium() {
+		switchToFAIRPlanEndorsement();
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 	}
 
-	private void switchToFAIRplanEndorsementAndBind() {
-		switchToFAIRplanEndorsementAndCalculatePremium();
+	private void switchToFAIRPlanEndorsementAndBind() {
+		switchToFAIRPlanEndorsementAndCalculatePremium();
 		//Bind
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 		new BindTab().submitTab();
@@ -996,7 +998,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	}
 
 	private void switchToFAIRPlanEndorsementAndNavigateToBindTab() {
-		switchToFAIRplanEndorsementAndCalculatePremium();
+		switchToFAIRPlanEndorsementAndCalculatePremium();
 		//Bind
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 
@@ -1031,7 +1033,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 		//----- AC#3, AC#8 Does the dwelling have at least one smoke detector per story?
 		validateSmokeDetectorQuestion(true);
 
-		switchToFAIRplanEndorsement();
+		switchToFAIRPlanEndorsement();
 
 		endorsementTab.submitTab();
 		premiumsAndCoveragesQuoteTab.calculatePremium();
