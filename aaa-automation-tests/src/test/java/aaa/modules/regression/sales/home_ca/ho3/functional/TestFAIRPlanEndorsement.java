@@ -42,7 +42,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	private ErrorTab errorTab = new ErrorTab();
 	private PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
 
-	private final String formId = DocGenEnum.Documents.FPCECA.getIdInXml();
+	private final String formIdInXml = DocGenEnum.Documents.FPCECA.getIdInXml();
 	private final String fairPlanEndorsementLabelInEndorsementTab = HomeCaMetaData.EndorsementTab.FPCECA.getLabel();
 
 	private static final String ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT = "Wood burning stoves as the sole source of heat are ineligible.";
@@ -848,7 +848,6 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	////////////End PAS-13216////////////////
 
 	private TestData getTestData(String ppcValue, String constructionTypeValue, String licensedContractor) {
-		//TestData testData1 = getPolicyTD();
 		TestData testData = getPolicyDefaultTD();
 
 		testData.adjust(TestData.makeKeyPath(HomeCaMetaData.PropertyInfoTab.class.getSimpleName(),
@@ -936,32 +935,32 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 
 	private void validateDocumentIsGeneratedInPackage(String policyNumber, AaaDocGenEntityQueries.EventNames eventName) {
 		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber, eventName);
-		assertThat(docs.stream().map(Document::getTemplateId).toArray()).contains(DocGenEnum.Documents.FPCECA.getIdInXml());
+		assertThat(docs.stream().map(Document::getTemplateId).toArray()).contains(formIdInXml);
 
 		//Create list of documents other than FPCECA
-		List<Document> docsOther = docs.stream().filter(document -> !document.getTemplateId().equals(DocGenEnum.Documents.FPCECA.getIdInXml())).collect(Collectors.toList());
+		List<Document> docsOther = docs.stream().filter(document -> !document.getTemplateId().equals(formIdInXml)).collect(Collectors.toList());
 
 		//Validate that form FPCECA is listed in other documents (test validates that at least in one other document)
-		assertThat(docsOther.stream().filter(document -> document.toString().contains(DocGenEnum.Documents.FPCECA.getIdInXml())).toArray().length).isGreaterThan(0);
+		assertThat(docsOther.stream().filter(document -> document.toString().contains(formIdInXml)).toArray().length).isGreaterThan(0);
 
 		//Validate that form FPCECA is included in Document Package only once
-		assertThat(docs.stream().filter(document -> document.getTemplateId().equals(DocGenEnum.Documents.FPCECA.getIdInXml())).toArray().length).isEqualTo(1);
+		assertThat(docs.stream().filter(document -> document.getTemplateId().equals(formIdInXml)).toArray().length).isEqualTo(1);
 
 	}
 
 	private void validateDocumentIsNotGeneratedInPackage(String policyNumber, AaaDocGenEntityQueries.EventNames eventName, boolean shouldBeListedInOtherDocs) {
 		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber, eventName);
-		assertThat(docs.stream().map(Document::getTemplateId).toArray()).doesNotContain(DocGenEnum.Documents.FPCECA.getIdInXml());
+		assertThat(docs.stream().map(Document::getTemplateId).toArray()).doesNotContain(formIdInXml);
 
 		//Create list of documents other than FPCECA
-		List<Document> docsOther = docs.stream().filter(document -> !document.getTemplateId().equals(DocGenEnum.Documents.FPCECA.getIdInXml())).collect(Collectors.toList());
+		List<Document> docsOther = docs.stream().filter(document -> !document.getTemplateId().equals(formIdInXml)).collect(Collectors.toList());
 
 		//Validate that document FPCECA is/is not listed in other documents (test validates that FPCECA is listed at least in one other document)
 		if (shouldBeListedInOtherDocs) {
-			assertThat(docsOther.stream().filter(document -> document.toString().contains(DocGenEnum.Documents.FPCECA.getIdInXml())).toArray().length).isGreaterThan(0);
+			assertThat(docsOther.stream().filter(document -> document.toString().contains(formIdInXml)).toArray().length).isGreaterThan(0);
 
 		} else {
-			assertThat(docsOther.stream().filter(document -> document.toString().contains(DocGenEnum.Documents.FPCECA.getIdInXml())).toArray().length).isEqualTo(0);
+			assertThat(docsOther.stream().filter(document -> document.toString().contains(formIdInXml)).toArray().length).isEqualTo(0);
 
 		}
 	}
@@ -979,7 +978,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 
 	private void switchToFAIRPlanEndorsement() {
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());//navigates to Endorsement Tab
-		endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel()).click();
+		endorsementTab.getAddEndorsementLink(fairPlanEndorsementLabelInEndorsementTab).click();
 		Page.dialogConfirmation.confirm();
 		endorsementTab.btnSaveForm.click();
 	}
@@ -1006,7 +1005,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 
 	private void switchAwayFromFAIRPlanEndorsement() {
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());//navigates to Endorsement Tab
-		endorsementTab.getRemoveEndorsementLink(formId, 1).click();
+		endorsementTab.getRemoveEndorsementLink(fairPlanEndorsementLabelInEndorsementTab, 1).click();
 		Page.dialogConfirmation.confirm();
 
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
