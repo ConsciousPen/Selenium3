@@ -16,6 +16,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaDP3BaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import org.assertj.core.api.Assertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -128,7 +129,6 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
         //Add the ENDO and verify presence
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
         endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECADP.getLabel()).click();
-        //AC3 - This confirms an Informational note will display notifying the user that this endorsement has been added
         Page.dialogConfirmation.confirm();
 
         endorsementTab.btnSaveForm.click();
