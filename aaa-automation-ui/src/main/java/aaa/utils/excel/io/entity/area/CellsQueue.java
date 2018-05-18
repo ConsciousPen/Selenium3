@@ -136,8 +136,8 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 				"sheetName=" + getSheetName() +
 				", queueIndex=" + getIndex() +
 				", cellsNumber=" + getCellsNumber() +
-				", cellTypes=" + getCellTypes() +
 				", values=" + getStringValues() +
+				", cellTypes=" + getCellTypes() +
 				'}';
 	}
 

@@ -28,8 +28,8 @@ public class TableColumn extends ExcelColumn<TableCell> {
 				", columnIndex=" + getIndex() +
 				", headerColumnName=" + getHeaderName() +
 				", rowsNumber=" + getCellsNumber() +
-				", cellTypes=" + getCellTypes() +
 				", values=" + getStringValues() +
+				", cellTypes=" + getCellTypes() +
 				'}';
 	}
 

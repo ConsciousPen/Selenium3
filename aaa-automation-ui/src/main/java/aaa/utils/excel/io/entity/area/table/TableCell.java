@@ -40,8 +40,8 @@ public class TableCell extends ExcelCell {
 				", rowIndex=" + getRowIndex() +
 				", columnIndex=" + getColumnIndex() +
 				", headerColumnName=" + getHeaderColumnName() +
-				", cellTypes=" + getCellTypes() +
 				", value=" + getStringValue() +
+				", cellTypes=" + getCellTypes() +
 				'}';
 	}
 

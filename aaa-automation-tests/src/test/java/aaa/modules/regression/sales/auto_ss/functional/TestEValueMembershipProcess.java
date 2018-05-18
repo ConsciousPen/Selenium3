@@ -1699,7 +1699,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 
 		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+		HelperCommon.executeUpdatePolicyPreferences(policyNumber, 422);
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
@@ -1777,6 +1777,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
 
 		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+
+		//BUG PAS-13952 Can't issue an endorsement to current term, when renewal was proposed and paid
 		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
 		mainApp().open();

@@ -58,8 +58,8 @@ public class TableRow extends ExcelRow<TableCell> {
 				"sheetName=" + getSheetName() +
 				", rowIndex=" + getIndex() +
 				", columnsNumber=" + getCellsNumber() +
-				", cellTypes=" + getCellTypes() +
 				", values=" + getTableStringValues() +
+				", cellTypes=" + getCellTypes() +
 				'}';
 	}
 
