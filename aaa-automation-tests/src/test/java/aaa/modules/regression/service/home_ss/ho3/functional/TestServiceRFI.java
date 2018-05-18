@@ -2,6 +2,13 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.home_ss.ho3.functional;
 
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -21,20 +28,11 @@ import aaa.modules.regression.service.helper.HelperCommon;
 import aaa.modules.regression.service.helper.HelperRfi;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 
 public class TestServiceRFI extends HomeSSHO3BaseTest {
 
@@ -64,14 +62,14 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-349", "PAS-341"})
-	public void pas349_rfiHO3_1(@Optional("VA") String state) {
+	public void pas349_rfiHO3_1(@Optional("AZ") String state) {
 		String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
-		String yearBuilt = TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), "Year built");
+		TestData adjustedTd = rfiTestData(state, "TestData1", "1939");
 
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
-		policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData1").adjust(yearBuilt, "1939"), DocumentsTab.class, true);
+		policy.getDefaultView().fillUpTo(adjustedTd, DocumentsTab.class, true);
 
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.DOCUMENTS.get());
 		documentsTab.getRequiredToIssueAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION).verify.value("Not Signed");
@@ -149,11 +147,12 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-349", "PAS-341"})
 	public void pas349_rfiHO3_2(@Optional("VA") String state) {
-		String yearBuilt = TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), "Year built");
+		TestData adjustedTd = rfiTestData(state, "TestData2", "1941");
+
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
-		policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData2").adjust(yearBuilt, "1941"), DocumentsTab.class, true);
+		policy.getDefaultView().fillUpTo(adjustedTd, DocumentsTab.class, true);
 
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.DOCUMENTS.get());
 		documentsTab.getRequiredToIssueAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION).verify.value("Not Signed");
@@ -195,6 +194,21 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 		CustomAssert.assertAll();
 	}
 
+	private TestData rfiTestData(String state, String testSpecificTestDataName, String year) {
+		String yearBuilt =
+				TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), HomeSSMetaData.PropertyInfoTab.Construction.YEAR_BUILT.getLabel());
+		String hailResistanceRating =
+				TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING
+						.getLabel());
+		TestData adjustedTd;
+		if ("CO, IN, KS, KY, OH, OK, SD, WV".contains(state)) {
+			 adjustedTd = getPolicyTD().adjust(getTestSpecificTD(testSpecificTestDataName).adjust(yearBuilt, year).adjust(hailResistanceRating, "index=1").resolveLinks()).resolveLinks();
+		} else {
+			 adjustedTd = getPolicyTD().adjust(getTestSpecificTD(testSpecificTestDataName).adjust(yearBuilt, year).resolveLinks()).resolveLinks();
+		}
+		return adjustedTd;
+	}
+
 	private static void rfiTagCheck(DocGenEnum.Documents document, String query, String tag, String tagValue) {
 		CustomAssert.assertEquals(
 				tag + "has a problem.", DocGenHelper.getDocumentDataElemByName(tag, document, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField(), tagValue);
@@ -205,7 +219,8 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 		String formattedDate = uploadDate.format(DateTimeUtils.MM_DD_YYYY);
 		DBService.get().executeUpdate(String.format(HelperRfi.UPDATE_DOCUMENT_STATUS, formattedDate, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), policyNumber));
 		DBService.get().executeUpdate(String.format(HelperRfi.UPDATE_DOCUMENT_STATUS, formattedDate, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), policyNumber));
-		DBService.get().executeUpdate(String.format(HelperRfi.UPDATE_DOCUMENT_STATUS, formattedDate, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), policyNumber));
+		DBService.get()
+				.executeUpdate(String.format(HelperRfi.UPDATE_DOCUMENT_STATUS, formattedDate, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), policyNumber));
 
 		String currentVersion = DBService.get().getValue(String.format(HelperRfi.GET_POLICY_SUMMARY_FIELD, "version", policyNumber)).get();
 		String latestPolicySummaryId = DBService.get().getValue(String.format(HelperRfi.GET_POLICY_SUMMARY_FIELD, "id", policyNumber)).get();
