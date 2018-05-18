@@ -1,52 +1,22 @@
 package aaa.modules.regression.sales.home_ca.ho3.functional;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.*;
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
-import aaa.common.pages.Page;
-import aaa.common.pages.SearchPage;
-import aaa.helpers.TimePoints;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.docgen.AaaDocGenEntityQueries;
-import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.helpers.xml.model.Document;
-import aaa.main.enums.*;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.metadata.policy.HomeCaMetaData;
-import aaa.main.modules.policy.home_ca.defaulttabs.*;
-import aaa.main.pages.summary.MyWorkSummaryPage;
-import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
-import toolkit.datax.TestData;
+import aaa.modules.regression.sales.template.functional.TestFAIRPlanEndorsementTemplate;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 
 public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 
-	private ApplicantTab applicantTab = new ApplicantTab();
-	private ReportsTab reportsTab = new ReportsTab();
-	private EndorsementTab endorsementTab = new EndorsementTab();
-	private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
-	private BindTab bindTab = new BindTab();
-	private PurchaseTab purchaseTab = new PurchaseTab();
-	private ErrorTab errorTab = new ErrorTab();
-	private PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
+	private String formIdInXml = DocGenEnum.Documents.FPCECA.getIdInXml();
+	private String fairPlanEndorsementLabelInEndorsementTab = HomeCaMetaData.EndorsementTab.FPCECA.getLabel();
 
-	private final String formIdInXml = DocGenEnum.Documents.FPCECA.getIdInXml();
-	private final String fairPlanEndorsementLabelInEndorsementTab = HomeCaMetaData.EndorsementTab.FPCECA.getLabel();
-
-	private static final String ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT = "Wood burning stoves as the sole source of heat are ineligible.";
-	private static final String ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR = "Dwellings with a wood burning stove without at least one smoke detector insta";
+	private TestFAIRPlanEndorsementTemplate testFAIRPlanEndorsementTemplate = new TestFAIRPlanEndorsementTemplate(getPolicyType(), formIdInXml, fairPlanEndorsementLabelInEndorsementTab);
 
 	///AC#1, AC#4
 
@@ -73,43 +43,8 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13211")
 
 	public void pas13211_AC1_NB_PPC10_OtherThanLogHome_AAA_HO_CA02122017(@Optional("") String state) {
-		String ppcValue = "10";
-		String constructionTypeValue = "Masonry";
-		String licensedContractor = null; // Value for question "Is this a log home assembled by a licensed building contractor?"
-
-		TestData testData = getTestData(ppcValue, constructionTypeValue, licensedContractor);
-
-		mainApp().open();
-		createCustomerIndividual();
-
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(testData, PropertyInfoTab.class, true);
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());// Tab out to not fire the error "Dwellings located in PPC 10 are ineligible." for field "Roof Type"
-		policy.getDefaultView().fillFromTo(testData, EndorsementTab.class, BindTab.class, true);
-		bindTab.submitTab();
-
-		errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CA02122017);
-		errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_AAA_HO_CA10100616);
-		errorTab.cancel();
-
-		switchToFAIRPlanEndorsementAndCalculatePremium();
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
-		bindTab.submitTab();
-		purchaseTab.fillTab(testData);
-		purchaseTab.submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
-		generateRenewalImageAndRetrievePolicyRMinus67(getTimePoints());
-
-		//AC#4
-		PolicySummaryPage.buttonTasks.click();
-		MyWorkSummaryPage.openAllQueuesSection();
-
-		validateThatTaskIsNotGenerated("PPC 10"); //Exact name of task is Unknown, hence looking for Task Name containing "PPC 10"
-
+		testFAIRPlanEndorsementTemplate.pas13211_AC1_NB_PPC10_OtherThanLogHome_AAA_HO_CA02122017();
 	}
-
-	//TODO-mstrazds: AC#1 not possible for Endorsement - not possible to change PPC during Endorsement (and also rule should not fire as per existing implementation)
 
 	/**
 	 * @author Maris Strazds
@@ -132,27 +67,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13211")
 
 	public void pas13211_AC1_Renewal_PPC10_OtherThanLogHome_AAA_HO_CA02122017(@Optional("") String state) {
-		String ppcValue = "5";
-		String constructionTypeValue = "Masonry";
-		String licensedContractor = null; // Value for question "Is this a log home assembled by a licensed building contractor?"
-
-		TestData testData = getTestData(ppcValue, constructionTypeValue, licensedContractor);
-
-		mainApp().open();
-		createCustomerIndividual();
-
-		createPolicy(testData);
-
-		generateRenewalImageAndRetrievePolicy(getTimePoints());
-		PolicySummaryPage.buttonRenewals.click();
-		policy.dataGather().start();
-
-		changeAddressOrderPPCRateAndNavigateToBindTab();
-
-		//Note: No need to validate that the Rule is fired if FAIR Plan Endorsement is added, because as per current implementation it is not fired for renewals
-
-		switchToFAIRPlanEndorsementAndBind();
-
+		testFAIRPlanEndorsementTemplate.pas13211_AC1_Renewal_PPC10_OtherThanLogHome_AAA_HO_CA02122017();
 	}
 
 	///AC#2
@@ -178,32 +93,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13211")
 
 	public void pas13211_AC2_NB_PPC10_LogHome_AAA_HO_CA10100616(@Optional("") String state) {
-		String ppcValue = "9";
-		String constructionTypeValue = "Log Home";
-		String licensedContractor = "Yes"; // Value for question "Is this a log home assembled by a licensed building contractor?"
-
-		TestData testData = getTestData(ppcValue, constructionTypeValue, licensedContractor);
-
-		mainApp().open();
-		createCustomerIndividual();
-
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(testData, PropertyInfoTab.class, true);
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());// Tab out to not fire the error "Dwellings located in PPC 10 are ineligible." for field "Roof Type"
-		policy.getDefaultView().fillFromTo(testData, EndorsementTab.class, BindTab.class, true);
-		bindTab.submitTab();
-
-		errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_AAA_HO_CA02122017);
-		errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CA10100616);
-		errorTab.cancel();
-
-		switchToFAIRPlanEndorsementAndCalculatePremium();
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
-		bindTab.submitTab();
-		purchaseTab.fillTab(testData);
-		purchaseTab.submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
+		testFAIRPlanEndorsementTemplate.pas13211_AC2_NB_PPC10_LogHome_AAA_HO_CA10100616();
 	}
 
 	/**
@@ -229,27 +119,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13211")
 
 	public void pas13211_AC2_MidtermEndorsement_PPC8X_LogHome_AAA_HO_CA10100616(@Optional("") String state) {
-		String ppcValue = "8X";
-		String constructionTypeValue = "Masonry";
-		String licensedContractor = null; // Value for question "Is this a log home assembled by a licensed building contractor?"
-
-		TestData testData = getTestData(ppcValue, constructionTypeValue, licensedContractor);
-
-		mainApp().open();
-		createCustomerIndividual();
-
-		createPolicy(testData);
-
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus3Days"));
-		switchToLogHomeAndNavigateToBind("Yes");
-		bindTab.submitTab();
-
-		errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_AAA_HO_CA02122017);
-		errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CA10100616);
-		errorTab.cancel();
-
-		switchToFAIRPlanEndorsementAndBind();
-
+		testFAIRPlanEndorsementTemplate.pas13211_AC2_MidtermEndorsement_PPC8X_LogHome_AAA_HO_CA10100616();
 	}
 
 	/**
@@ -276,30 +146,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13211")
 
 	public void pas13211_AC2_Renewal_PPC1X_LogHome_AAA_HO_CA10100616(@Optional("") String state) {
-		String ppcValue = "1X";
-		String constructionTypeValue = "Masonry";
-		String licensedContractor = null; // Value for question "Is this a log home assembled by a licensed building contractor?"
-
-		TestData testData = getTestData(ppcValue, constructionTypeValue, licensedContractor);
-
-		mainApp().open();
-		createCustomerIndividual();
-
-		createPolicy(testData);
-
-		generateRenewalImageAndRetrievePolicy(getTimePoints());
-		PolicySummaryPage.buttonRenewals.click();
-		policy.dataGather().start();
-
-		switchToLogHomeAndNavigateToBind("Yes");
-		bindTab.submitTab();
-
-		errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_AAA_HO_CA02122017);
-		errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CA10100616);
-		errorTab.cancel();
-
-		switchToFAIRPlanEndorsementAndBind();
-
+		testFAIRPlanEndorsementTemplate.pas13211_AC2_Renewal_PPC1X_LogHome_AAA_HO_CA10100616();
 	}
 
 	///////AC#3
@@ -326,26 +173,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13211")
 
 	public void pas13211_AC3_NB_PPC10_LogHome_AAA_HO_CA10100616(@Optional("") String state) {
-		String ppcValue = "9";
-		String constructionTypeValue = "Log Home";
-		String licensedContractor = "No"; // Value for question "Is this a log home assembled by a licensed building contractor?"
-
-		TestData testData = getTestData(ppcValue, constructionTypeValue, licensedContractor);
-
-		mainApp().open();
-		createCustomerIndividual();
-
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(testData, PropertyInfoTab.class, true);
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());// Tab out to not fire the error "Dwellings located in PPC 10 are ineligible." for field "Roof Type"
-		policy.getDefaultView().fillFromTo(testData, EndorsementTab.class, BindTab.class, true);
-
-		validateRuleIsFiredWithAndWithoutFAIRPlanEndorsement(); //because rule should still fire if "Is this a log home assembled by a licensed building contractor?" = "No"
-
-		purchaseTab.fillTab(testData);
-		purchaseTab.submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
+		testFAIRPlanEndorsementTemplate.pas13211_AC3_NB_PPC10_LogHome_AAA_HO_CA10100616();
 	}
 
 	/**
@@ -372,24 +200,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13211")
 
 	public void pas13211_AC3_MidtermEndorsement_PPC8X_LogHome_AAA_HO_CA10100616(@Optional("") String state) {
-		String ppcValue = "8X";
-		String constructionTypeValue = "Masonry";
-		String licensedContractor = null; // Value for question "Is this a log home assembled by a licensed building contractor?"
-
-		TestData testData = getTestData(ppcValue, constructionTypeValue, licensedContractor);
-
-		mainApp().open();
-		createCustomerIndividual();
-
-		createPolicy(testData);
-
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus3Days"));
-		switchToLogHomeAndNavigateToBind("No");
-
-		validateRuleIsFiredWithAndWithoutFAIRPlanEndorsement(); //because rule should still fire if "Is this a log home assembled by a licensed building contractor?" = "No"
-
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
+		testFAIRPlanEndorsementTemplate.pas13211_AC3_MidtermEndorsement_PPC8X_LogHome_AAA_HO_CA10100616();
 	}
 
 	/**
@@ -416,27 +227,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13211")
 
 	public void pas13211_AC3_Renewal_PPC1X_LogHome_AAA_HO_CA10100616(@Optional("") String state) {
-		String ppcValue = "1X";
-		String constructionTypeValue = "Masonry";
-		String licensedContractor = null; // Value for question "Is this a log home assembled by a licensed building contractor?"
-
-		TestData testData = getTestData(ppcValue, constructionTypeValue, licensedContractor);
-
-		mainApp().open();
-		createCustomerIndividual();
-
-		createPolicy(testData);
-
-		generateRenewalImageAndRetrievePolicy(getTimePoints());
-		PolicySummaryPage.buttonRenewals.click();
-		policy.dataGather().start();
-
-		switchToLogHomeAndNavigateToBind("No");
-
-		validateRuleIsFiredWithAndWithoutFAIRPlanEndorsement(); //because rule should still fire if "Is this a log home assembled by a licensed building contractor?" = "No"
-
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
+		testFAIRPlanEndorsementTemplate.pas13211_AC3_Renewal_PPC1X_LogHome_AAA_HO_CA10100616();
 	}
 
 	////////////Start PAS-13242////////////////
@@ -458,35 +249,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_AC1_NB(@Optional("MD") String state) {
-
-		TestData tdWithFAIRplanEndorsement = getPolicyTD().adjust(EndorsementTab.class.getSimpleName(), getTestSpecificTD("EndorsementTab_Add"));
-
-		mainApp().open();
-		createCustomerIndividual();
-
-		createPolicy(tdWithFAIRplanEndorsement);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-
-		validateDocumentIsGeneratedInPackage(policyNumber, POLICY_ISSUE);
-
-		//5. Validate that Subsequent transactions does not contain the form FPCECA
-		//Perform mid-term endorsement, but don't switch away from FAIR Plan Endorsement
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus3Days"));
-
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
-		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE).setValue("contains=1500");
-		premiumsAndCoveragesQuoteTab.calculatePremium();
-
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
-		new BindTab().submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
-		validateDocumentIsNotGeneratedInPackage(policyNumber, ENDORSEMENT_ISSUE, true);
-
-		//Validate that form FPCECA is not generated at renewal, but it is listed in other documents
-		generateRenewalOfferAtOfferGenDate();
-		validateDocumentIsNotGeneratedInPackage(policyNumber, RENEWAL_OFFER, true);
+		testFAIRPlanEndorsementTemplate.pas12466_AC1_NB();
 	}
 
 	/**
@@ -505,20 +268,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_AC2_Endorsement(@Optional("MD") String state) {
-
-		// Create policy without FAIR Plan Endorsement
-		mainApp().open();
-		createCustomerIndividual();
-		createPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		validateDocumentIsNotGeneratedInPackage(policyNumber, POLICY_ISSUE, false);
-
-		//Perform mid-term endorsement and add FAIR Plan Endorsement
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus3Days"));
-		switchToFAIRPlanEndorsementAndBind();
-
-		validateDocumentIsGeneratedInPackage(policyNumber, ENDORSEMENT_ISSUE);
+		testFAIRPlanEndorsementTemplate.pas12466_AC2_Endorsement();
 	}
 
 	/**
@@ -539,41 +289,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_AC3_Renewal(@Optional("MD") String state) {
-
-		// Create policy without FAIR Plan Endorsement
-		mainApp().open();
-		createCustomerIndividual();
-		createPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		validateDocumentIsNotGeneratedInPackage(policyNumber, POLICY_ISSUE, false);
-
-		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
-		LocalDateTime renewalProposalDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
-
-		//3. Generate renewal image
-		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-
-		//reopen app and retrieve policy by number
-		mainApp().reopen();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		PolicySummaryPage.buttonRenewals.click();
-
-		// Open Renewal Image in Data Gather mode
-		policy.dataGather().start();
-
-		//4. Switch to FAIR Plan Endorsement and Bind
-		switchToFAIRPlanEndorsementAndBind();
-
-		TimeSetterUtil.getInstance().nextPhase(renewalProposalDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
-
-		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
+		testFAIRPlanEndorsementTemplate.pas12466_AC3_Renewal();
 	}
 
 	/**
@@ -593,30 +309,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_AC3_Revised_Renewal_After_Renewal_Term_Change(@Optional("MD") String state) {
-
-		// Create policy without FAIR Plan Endorsement
-		mainApp().open();
-		createCustomerIndividual();
-		createPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-
-		generateRenewalOfferAtOfferGenDate();
-		validateDocumentIsNotGeneratedInPackage(policyNumber, RENEWAL_OFFER, false);
-
-		//Reopen app and retrieve policy by number
-		mainApp().reopen();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		PolicySummaryPage.buttonRenewals.click();
-
-		//Retrieve Renewal image in data gathering mode
-		policy.dataGather().start();
-
-		//4. Switch to FAIR Plan Endorsement
-		switchToFAIRPlanEndorsementAndBind();
-
-		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
-		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
+		testFAIRPlanEndorsementTemplate.pas12466_AC3_Revised_Renewal_After_Renewal_Term_Change();
 	}
 
 	/**
@@ -638,37 +331,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_AC3_Revised_Renewal_After_Current_Term_Change(@Optional("MD") String state) {
-
-		// Create policy without FAIR Plan Endorsement
-		mainApp().open();
-		createCustomerIndividual();
-		createPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		generateRenewalOfferAtOfferGenDate();
-		validateDocumentIsNotGeneratedInPackage(policyNumber, RENEWAL_OFFER, false);
-
-		//reopen app and retrieve policy by number
-		mainApp().reopen();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		// PolicySummaryPage.buttonRenewals.click(); change current term not endorsement
-
-		//Initiate Endorsement for current term
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus3Days"));
-
-		//4. Switch FAIR Plan Endorsement
-		switchToFAIRPlanEndorsementAndBind();
-		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
-
-		CustomAssert.enableSoftMode();
-
-		//6. Validate that form FPCECA is included in Endorsement package
-		//8. Validate that form FPCECA is included in Endorsement package only once
-		validateDocumentIsGeneratedInPackage(policyNumber, ENDORSEMENT_ISSUE);
-
-		//7. Validate that form FPCECA is not included in Renewal package
-		validateDocumentIsNotGeneratedInPackage(policyNumber, RENEWAL_OFFER, true);
-
+		testFAIRPlanEndorsementTemplate.pas12466_AC3_Revised_Renewal_After_Current_Term_Change();
 	}
 
 	////////////End PAS-13242////////////////
@@ -699,16 +362,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13216")
 
 	public void pas13216_All_ACs_NB(@Optional("") String state) {
-
-		TestData testData = getPolicyDefaultTD();
-
-		mainApp().open();
-		createCustomerIndividual();
-
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(testData, PropertyInfoTab.class, true);
-		stoveQuestionValidationSteps();
-
+		testFAIRPlanEndorsementTemplate.pas13216_All_ACs_NB();
 	}
 
 	/**
@@ -736,15 +390,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13216")
 
 	public void pas13216_All_ACs_Endorsement(@Optional("") String state) {
-		TestData testData = getPolicyDefaultTD();
-
-		mainApp().open();
-		createCustomerIndividual();
-
-		createPolicy(testData);
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus3Days"));
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
-		stoveQuestionValidationSteps();
+		testFAIRPlanEndorsementTemplate.pas13216_All_ACs_Endorsement();
 	}
 
 	/**
@@ -771,307 +417,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13216")
 
 	public void pas13216_All_ACs_Renewal(@Optional("") String state) {
-		TestData testData = getPolicyDefaultTD();
-
-		mainApp().open();
-		createCustomerIndividual();
-
-		createPolicy(testData);
-
-		generateRenewalImageAndRetrievePolicy(getTimePoints());
-		PolicySummaryPage.buttonRenewals.click();
-		policy.dataGather().start();
-
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
-		stoveQuestionValidationSteps();
-	}
-
-	private void validateSmokeDetectorQuestion(boolean ruleShouldFire) {
-		fillStovesSection("Yes", "No", "Yes", "Yes");
-
-		propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY).setValue("No");
-
-		if (ruleShouldFire) {
-			assertThat(propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY).getWarning().get()
-					.contains(ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR));
-		} else {
-			assertThat(propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY).getWarning().get()
-					.contains(ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR)).isFalse();
-		}
-
-		propertyInfoTab.submitTab();
-		endorsementTab.submitTab();
-		premiumsAndCoveragesQuoteTab.calculatePremium();
-
-		if (ruleShouldFire) {
-			assertThat(errorTab.tableErrors.getRow(1).getCell("Message").getValue()).contains(ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR);
-			assertThat(errorTab.tableErrors.getRowsCount()).isEqualTo(1); //assert that there are no other messages
-			errorTab.cancel();
-		}
-
-		assertThat(premiumsAndCoveragesQuoteTab.btnCalculatePremium()).isPresent(); //to validate that Error tab is not displayed and P&C tab is displayed
-
-	}
-
-	private void validateSourceOfHeatQuestion(boolean ruleShouldFire) {
-		fillStovesSection("Yes", "No", "Yes", "Yes");
-
-		propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT).setValue("Yes");
-		if (ruleShouldFire) {
-			assertThat(propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT).getWarning().get()
-					.contains(ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT));
-		} else {
-			assertThat(propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT).getWarning().get()
-					.contains(ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT)).isFalse();
-		}
-
-		propertyInfoTab.submitTab();
-		endorsementTab.submitTab();
-		premiumsAndCoveragesQuoteTab.calculatePremium();
-		if (ruleShouldFire) {
-			assertThat(errorTab.tableErrors.getRow(1).getCell("Message").getValue()).contains(ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT);
-			assertThat(errorTab.tableErrors.getRowsCount()).isEqualTo(1); //assert that there are no other messages
-			errorTab.cancel();
-		}
-
-		assertThat(premiumsAndCoveragesQuoteTab.btnCalculatePremium()).isPresent(); //to validate that Error tab is not displayed and P&C tab is displayed
-
-	}
-
-	private void fillStovesSection(String isWoodBurningStove, String isSourceOfHeat, String isLicensedContractor, String smokeDetector) {
-		propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.DOES_THE_PROPERTY_HAVE_A_WOOD_BURNING_STOVE).setValue(isWoodBurningStove);
-		propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT).setValue(isSourceOfHeat);
-		propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.WAS_THE_STOVE_INSTALLED_BY_A_LICENSED_CONTRACTOR).setValue(isLicensedContractor);
-		propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY).setValue(smokeDetector);
-	}
-
-	////////////End PAS-13216////////////////
-
-	private TestData getTestData(String ppcValue, String constructionTypeValue, String licensedContractor) {
-		TestData testData = getPolicyDefaultTD();
-
-		testData.adjust(TestData.makeKeyPath(HomeCaMetaData.PropertyInfoTab.class.getSimpleName(),
-				HomeCaMetaData.PropertyInfoTab.PublicProtectionClass.class.getSimpleName(),
-				HomeCaMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS.getLabel()),
-				ppcValue);
-		testData.adjust(TestData.makeKeyPath(HomeCaMetaData.PropertyInfoTab.class.getSimpleName(),
-				HomeCaMetaData.PropertyInfoTab.Construction.class.getSimpleName(),
-				HomeCaMetaData.PropertyInfoTab.Construction.CONSTRUCTION_TYPE.getLabel()),
-				constructionTypeValue);
-		testData.adjust(TestData.makeKeyPath(HomeCaMetaData.PropertyInfoTab.class.getSimpleName(),
-				HomeCaMetaData.PropertyInfoTab.Construction.class.getSimpleName(),
-				HomeCaMetaData.PropertyInfoTab.Construction.ROOF_TYPE.getLabel()),
-				"Wood shingle/Wood shake");
-		testData.adjust(TestData.makeKeyPath(HomeCaMetaData.PropertyInfoTab.class.getSimpleName(),
-				HomeCaMetaData.PropertyInfoTab.Construction.class.getSimpleName(),
-				HomeCaMetaData.PropertyInfoTab.Construction.IS_THIS_A_LOG_HOME_ASSEMBLED_BY_A_LICENSED_BUILDING_CONTRACTOR.getLabel()),
-				licensedContractor);
-
-		return testData;
-	}
-
-	//TODO-mstrazds:move to some helper or use from already existing test class
-	private void generateRenewalImageAndRetrievePolicy(TimePoints timePoints) {
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-
-		//Generate renewal image at renewal image generation date
-		LocalDateTime renewImageGenDate = timePoints.getRenewImageGenerationDate(policyExpirationDate);
-
-		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-
-		mainApp().reopen();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-	}
-
-	private void generateRenewalImageAndRetrievePolicyRMinus67(TimePoints timePoints) {
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-
-		//Generate renewal image at renewal image generation date
-		LocalDateTime renewCheckUWRules = timePoints.getRenewCheckUWRules(policyExpirationDate);
-
-		TimeSetterUtil.getInstance().nextPhase(renewCheckUWRules);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-
-		mainApp().reopen();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-	}
-
-	private void switchToLogHomeAndNavigateToBind(String licensedBuildingConstractorValue) {
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
-		propertyInfoTab.getConstructionAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Construction.CONSTRUCTION_TYPE).setValueStarts("Log Home");
-		propertyInfoTab.getConstructionAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Construction.IS_THIS_A_LOG_HOME_ASSEMBLED_BY_A_LICENSED_BUILDING_CONTRACTOR)
-				.setValue(licensedBuildingConstractorValue);
-		propertyInfoTab.submitTab();
-
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		premiumsAndCoveragesQuoteTab.calculatePremium();
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
-	}
-
-	private void changeAddressOrderPPCRateAndNavigateToBindTab() {
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.APPLICANT.get());
-		TestData tdAddress = getTestSpecificTD("TestData_Endorsement").resolveLinks();
-		applicantTab.fillTab(tdAddress);
-		applicantTab.getDwellingAddressAssetList().getAsset(HomeCaMetaData.ApplicantTab.DwellingAddress.COUNTY)
-				.setValue("Los Angeles"); //County field clears out after Address validation, so entering it again
-
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.REPORTS.get());
-		reportsTab.reorderReports();
-
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		premiumsAndCoveragesQuoteTab.calculatePremium();
-
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
-
-	}
-
-	////////////Start PAS-13242 methods////////////////
-
-	private void validateDocumentIsGeneratedInPackage(String policyNumber, AaaDocGenEntityQueries.EventNames eventName) {
-		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber, eventName);
-		assertThat(docs.stream().map(Document::getTemplateId).toArray()).contains(formIdInXml);
-
-		//Create list of documents other than FPCECA
-		List<Document> docsOther = docs.stream().filter(document -> !document.getTemplateId().equals(formIdInXml)).collect(Collectors.toList());
-
-		//Validate that form FPCECA is listed in other documents (test validates that at least in one other document)
-		assertThat(docsOther.stream().filter(document -> document.toString().contains(formIdInXml)).toArray().length).isGreaterThan(0);
-
-		//Validate that form FPCECA is included in Document Package only once
-		assertThat(docs.stream().filter(document -> document.getTemplateId().equals(formIdInXml)).toArray().length).isEqualTo(1);
-
-	}
-
-	private void validateDocumentIsNotGeneratedInPackage(String policyNumber, AaaDocGenEntityQueries.EventNames eventName, boolean shouldBeListedInOtherDocs) {
-		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber, eventName);
-		assertThat(docs.stream().map(Document::getTemplateId).toArray()).doesNotContain(formIdInXml);
-
-		//Create list of documents other than FPCECA
-		List<Document> docsOther = docs.stream().filter(document -> !document.getTemplateId().equals(formIdInXml)).collect(Collectors.toList());
-
-		//Validate that document FPCECA is/is not listed in other documents (test validates that FPCECA is listed at least in one other document)
-		if (shouldBeListedInOtherDocs) {
-			assertThat(docsOther.stream().filter(document -> document.toString().contains(formIdInXml)).toArray().length).isGreaterThan(0);
-
-		} else {
-			assertThat(docsOther.stream().filter(document -> document.toString().contains(formIdInXml)).toArray().length).isEqualTo(0);
-
-		}
-	}
-
-	private void generateRenewalOfferAtOfferGenDate() {
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-
-		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
-		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
-
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
-	}
-
-	private void switchToFAIRPlanEndorsement() {
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());//navigates to Endorsement Tab
-		endorsementTab.getAddEndorsementLink(fairPlanEndorsementLabelInEndorsementTab).click();
-		Page.dialogConfirmation.confirm();
-		endorsementTab.btnSaveForm.click();
-	}
-
-	private void switchToFAIRPlanEndorsementAndCalculatePremium() {
-		switchToFAIRPlanEndorsement();
-		premiumsAndCoveragesQuoteTab.calculatePremium();
-	}
-
-	private void switchToFAIRPlanEndorsementAndBind() {
-		switchToFAIRPlanEndorsementAndCalculatePremium();
-		//Bind
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
-		new BindTab().submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-	}
-
-	private void switchToFAIRPlanEndorsementAndNavigateToBindTab() {
-		switchToFAIRPlanEndorsementAndCalculatePremium();
-		//Bind
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
-
-	}
-
-	private void switchAwayFromFAIRPlanEndorsement() {
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());//navigates to Endorsement Tab
-		endorsementTab.getRemoveEndorsementLink(fairPlanEndorsementLabelInEndorsementTab, 1).click();
-		Page.dialogConfirmation.confirm();
-
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		premiumsAndCoveragesQuoteTab.calculatePremium();
-
-	}
-
-	private void switchAwayFromFAIRPlanEndorsementAndBind() {
-		switchAwayFromFAIRPlanEndorsement();
-		//Bind
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
-		new BindTab().submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-	}
-
-	////////////End PAS-13242 methods////////////////
-
-	private void stoveQuestionValidationSteps() {
-		//-----AC#1, AC#7 Is the stove the sole source of heat?
-		validateSourceOfHeatQuestion(true);
-
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
-
-		//----- AC#3, AC#8 Does the dwelling have at least one smoke detector per story?
-		validateSmokeDetectorQuestion(true);
-
-		switchToFAIRPlanEndorsement();
-
-		endorsementTab.submitTab();
-		premiumsAndCoveragesQuoteTab.calculatePremium();
-		assertThat(premiumsAndCoveragesQuoteTab.btnCalculatePremium()).isPresent(); //to validate that Error tab is not displayed and P&C tab is displayed
-
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
-		//-----AC#2, AC#5 Is the stove the sole source of heat?
-		validateSourceOfHeatQuestion(false);
-
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
-		//----- AC#4, AC#6 Does the dwelling have at least one smoke detector per story?
-		validateSmokeDetectorQuestion(false);
-
-		premiumsAndCoveragesQuoteTab.saveAndExit();
-		assertThat(PolicySummaryPage.labelPolicyStatus).isPresent();
-	}
-
-	private void validateThatTaskIsNotGenerated(String rulePartialName) {
-		assertThat(MyWorkSummaryPage.tableTasks.getValuesFromRows(MyWorkConstants.MyWorkTasksTable.TASK_NAME).toString().contains(rulePartialName)).isFalse();
-		while (MyWorkSummaryPage.tableTasks.getPagination().hasNextPage()) {
-			MyWorkSummaryPage.tableTasks.getPagination().goToNextPage();
-			assertThat(MyWorkSummaryPage.tableTasks.getValuesFromRows(MyWorkConstants.MyWorkTasksTable.TASK_NAME).toString().contains(rulePartialName)).isFalse();
-		}
-	}
-
-	private void validateRuleIsFiredWithAndWithoutFAIRPlanEndorsement() {
-		bindTab.submitTab();
-
-		errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_AAA_HO_CA02122017);
-		errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CA10100616);
-		errorTab.cancel();
-
-		switchToFAIRPlanEndorsementAndNavigateToBindTab();
-
-		bindTab.submitTab();
-		errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_AAA_HO_CA02122017);
-		errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CA10100616);
-		errorTab.overrideAllErrors();
-		errorTab.submitTab();
+		testFAIRPlanEndorsementTemplate.pas13216_All_ACs_Renewal();
 	}
 
 }

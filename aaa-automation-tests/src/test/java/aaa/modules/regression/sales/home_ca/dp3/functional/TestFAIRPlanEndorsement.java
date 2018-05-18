@@ -18,6 +18,7 @@ public class TestFAIRPlanEndorsement extends HomeCaDP3BaseTest {
 
 	private TestFAIRPlanEndorsementTemplate testFAIRPlanEndorsementTemplate = new TestFAIRPlanEndorsementTemplate(getPolicyType(), formIdInXml, fairPlanEndorsementLabelInEndorsementTab);
 
+
 	/**
 	 * @author Maris Strazds
 	 * @name Test Membership Override - PAS-13211 AC#1, AC4 (New Business)
