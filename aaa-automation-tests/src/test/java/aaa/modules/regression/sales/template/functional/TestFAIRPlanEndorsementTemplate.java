@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.testng.annotations.Optional;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -47,9 +46,10 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 	private static final String ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT = "Wood burning stoves as the sole source of heat are ineligible.";
 	private static final String ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR = "Dwellings with a wood burning stove without at least one smoke detector insta";
 
-	PolicyType policyType; // = PolicyType.HOME_CA_DP3;
+	private PolicyType policyType = PolicyType.HOME_CA_DP3;
 
 	private TestFAIRPlanEndorsementTemplate() {}
+
 	public TestFAIRPlanEndorsementTemplate(PolicyType policyType, String formIdInXml, String fairPlanEndorsementLabelInEndorsementTab) {
 		this.policyType = policyType;
 		this.formIdInXml = formIdInXml;
@@ -60,6 +60,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 	protected PolicyType getPolicyType() {
 		return policyType;
 	}
+
 	///AC#1, AC#4
 
 	public void pas13211_AC1_NB_PPC10_OtherThanLogHome_AAA_HO_CA02122017() {
@@ -73,7 +74,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		createCustomerIndividual();
 
 		policyType.get().initiate();
-		policy.getDefaultView().fillUpTo(testData, PropertyInfoTab.class, true);
+		policyType.get().getDefaultView().fillUpTo(testData, PropertyInfoTab.class, true);
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());// Tab out to not fire the error "Dwellings located in PPC 10 are ineligible." for field "Roof Type"
 		policyType.get().getDefaultView().fillFromTo(testData, EndorsementTab.class, BindTab.class, true);
 		bindTab.submitTab();
@@ -98,6 +99,8 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		validateThatTaskIsNotGenerated("PPC 10"); //Exact name of task is Unknown, hence looking for Task Name containing "PPC 10"
 
 	}
+
+	//Note: Not applicable for Midterm Endorsement, because it is not possible to change PPC at Midterm Endorsement.
 
 	public void pas13211_AC1_Renewal_PPC10_OtherThanLogHome_AAA_HO_CA02122017() {
 		String ppcValue = "5";
@@ -382,7 +385,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		PolicySummaryPage.buttonRenewals.click();
 
 		//Retrieve Renewal image in data gathering mode
-		policy.dataGather().start();
+		policyType.get().dataGather().start();
 
 		//4. Switch to FAIR Plan Endorsement
 		switchToFAIRPlanEndorsementAndBind();
@@ -408,7 +411,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		// PolicySummaryPage.buttonRenewals.click(); change current term not endorsement
 
 		//Initiate Endorsement for current term
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus3Days"));
+		policyType.get().endorse().perform(getPolicyTD("Endorsement", "TestData_Plus3Days"));
 
 		//4. Switch FAIR Plan Endorsement
 		switchToFAIRPlanEndorsementAndBind();
@@ -429,7 +432,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 	////////////Start PAS-13216////////////////
 
-	public void pas13216_All_ACs_NB(@Optional("") String state) {
+	public void pas13216_All_ACs_NB() {
 
 		TestData testData = getPolicyDefaultTD();
 
@@ -442,7 +445,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 	}
 
-	public void pas13216_All_ACs_Endorsement(@Optional("") String state) {
+	public void pas13216_All_ACs_Endorsement() {
 		TestData testData = getPolicyDefaultTD();
 
 		mainApp().open();
@@ -454,7 +457,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		stoveQuestionValidationSteps();
 	}
 
-	public void pas13216_All_ACs_Renewal(@Optional("") String state) {
+	public void pas13216_All_ACs_Renewal() {
 		TestData testData = getPolicyDefaultTD();
 
 		mainApp().open();
