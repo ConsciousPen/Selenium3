@@ -2304,8 +2304,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.GENERAL.get());
 		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_ASYNC_TASKS.get());
 		SoftAssertions.assertSoftly(softly -> {
-			assertThat(Integer.valueOf(GeneralAsyncTasksPage.labelFailedTasks.getValue())).isGreaterThan(3);
-			assertThat(Integer.valueOf(GeneralAsyncTasksPage.labelLockedTasks.getValue())).isGreaterThan(3);
+			assertThat(Integer.valueOf(GeneralAsyncTasksPage.labelFailedTasks.getValue())).isLessThan(2);
+			assertThat(Integer.valueOf(GeneralAsyncTasksPage.labelLockedTasks.getValue())).isLessThan(2);
 		});
 	}
 }
