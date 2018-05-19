@@ -2298,7 +2298,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * Checks that number of failed async tasks is not huge
 	 */
 	@Test(groups = {Groups.PRECONDITION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"NA"})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"N/A"})
 	public void xAsyncTaskCheck() {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(2));
 		adminApp().open();
