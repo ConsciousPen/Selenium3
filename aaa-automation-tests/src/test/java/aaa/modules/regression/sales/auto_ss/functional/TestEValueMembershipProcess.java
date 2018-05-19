@@ -2297,7 +2297,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	/**
 	 * Checks that number of failed async tasks is not huge
 	 */
-	@Test(groups = {Groups.PRECONDITION, Groups.CRITICAL}, priority = 100, dependsOnMethods = "pas3697_membershipEligibilityConfigurationFalseForCancelledMembershipRenewal")
+	@Test(groups = {Groups.PRECONDITION, Groups.CRITICAL}, priority = 100)
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"NA"})
 	public void xAsyncTaskCheck() {
 		adminApp().open();
