@@ -372,6 +372,7 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
         </classes>
     </test>
     <test name="SD Auto Functional Tests" parallel="methods">
@@ -407,6 +408,7 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
         </classes>
     </test>
     <test name="WV Auto Functional Tests" parallel="methods">

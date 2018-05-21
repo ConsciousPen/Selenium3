@@ -218,18 +218,6 @@
             <class name="aaa.modules.regression.service.home_ss.ho3.functional.TestServiceRFI"/>
         </classes>
     </test>
-    <test name="TestInstallmentFeesPopUpAndSavingsMsg-AutoSS" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA, PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
-        </classes>
-    </test>
-    <test name="TestInstallmentFeesPopUpAndSavingsMsg-Ho3SS" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA, PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
-        </classes>
-    </test>
 
     <test name="DiscountPercentageRetrievalCA_HO" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
