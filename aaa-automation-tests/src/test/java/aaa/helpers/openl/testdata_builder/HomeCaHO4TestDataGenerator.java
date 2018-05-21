@@ -347,10 +347,10 @@ public class HomeCaHO4TestDataGenerator extends TestDataGenerator<HomeCaHO4OpenL
 				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), new Dollar(covE).toString().split("\\.")[0],
 				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE.getLabel(), getDeductibleValueByForm(openLPolicy));
 	}
-
+	
+	
 	private String getDeductibleValueByForm(HomeCaHO4OpenLPolicy openLPolicy) {
 		String deductible = null;
-
 		for (HomeCaHO4OpenLForm form : openLPolicy.getForms()) {
 			switch (form.getFormCode()) {
 				case "HO-58":
@@ -387,9 +387,10 @@ public class HomeCaHO4TestDataGenerator extends TestDataGenerator<HomeCaHO4OpenL
 					deductible = "contains=theft";
 					break;
 				default:
-					deductible = "index=1";
+					deductible = "contains=250";
 			}
 		}
 		return deductible;
 	}
+	
 }
