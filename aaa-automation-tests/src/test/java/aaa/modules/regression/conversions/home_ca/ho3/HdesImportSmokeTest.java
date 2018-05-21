@@ -24,7 +24,7 @@ public class HdesImportSmokeTest extends HomeCaHO3BaseTest {
 	public void hdesCAHO3ImportTest(@Optional("CA") String state, ITestContext context) {
 		LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
 		ConversionPolicyData data = new HdesConversionData("HO3/1.xml", effDate);
-		String policyNum = ConversionUtils.importPolicy(data, context);
+		String policyNum = ConversionUtils.importPolicy(data, context, false);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);

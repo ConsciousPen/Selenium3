@@ -23,7 +23,7 @@ public class MaigImportSmokeTest extends MaigConversionTest {
 	public void maigImportTest(@Optional("NJ") String state, ITestContext context) {
 		LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
 		ConversionPolicyData data = new MaigConversionData("5.xml", effDate);
-		String policyNum = ConversionUtils.importPolicy(data, context);
+		String policyNum = ConversionUtils.importPolicy(data, context, false);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);

@@ -25,7 +25,7 @@ public class SisImportSmokeTest extends HomeCaDP3BaseTest {
 
 		LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
 		ConversionPolicyData data = new SisConversionData("1.xml", effDate);
-		String policyNum = ConversionUtils.importPolicy(data, context);
+		String policyNum = ConversionUtils.importPolicy(data, context, false);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);

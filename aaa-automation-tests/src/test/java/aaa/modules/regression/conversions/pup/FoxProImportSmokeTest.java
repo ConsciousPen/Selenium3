@@ -27,7 +27,7 @@ public class FoxProImportSmokeTest extends FoxProConversionTest {
 		createCustomerIndividual();
 		Map<String, String> policies = getPrimaryPoliciesForPup();
 		ConversionPolicyData data = new FoxProConversionData("1.xml", effDate, policies.get("Primary_HO3"), policies.get("Primary_Auto"));
-		String policyNum = ConversionUtils.importPolicy(data, context);
+		String policyNum = ConversionUtils.importPolicy(data, context, false);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
