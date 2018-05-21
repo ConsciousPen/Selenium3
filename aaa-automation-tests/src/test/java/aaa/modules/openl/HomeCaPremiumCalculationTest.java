@@ -18,8 +18,8 @@ public class HomeCaPremiumCalculationTest<P extends HomeCaOpenLPolicy<?>, F exte
 	}
 
 	@Override
-	protected List<P> getOpenLPoliciesWithExpectedPremiums(F openLFile, List<Integer> policyNumberss) {
-		List<P> openLPolicies = super.getOpenLPoliciesWithExpectedPremiums(openLFile, policyNumberss);
+	protected List<P> getOpenLPoliciesWithExpectedPremiums(F openLFile, List<Integer> policyNumbers) {
+		List<P> openLPolicies = super.getOpenLPoliciesWithExpectedPremiums(openLFile, policyNumbers);
 		for (P openLPolicy : openLPolicies) {
 			Dollar totalPremium =  openLPolicy.getExpectedPremium(); 
 			if (!getPolicyType().equals(PolicyType.HOME_CA_HO4)) {

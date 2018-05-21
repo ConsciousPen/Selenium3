@@ -57,6 +57,7 @@ public class TableRow extends ExcelRow<TableCell> {
 		return "TableRow{" +
 				"sheetName=" + getSheetName() +
 				", rowIndex=" + getIndex() +
+				", rowIndexOnSheet=" + getIndexOnSheet() +
 				", columnsNumber=" + getCellsNumber() +
 				", values=" + getTableStringValues() +
 				", cellTypes=" + getCellTypes() +
