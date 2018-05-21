@@ -45,7 +45,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13211")
 
 	public void pas13211_AC1_NB_PPC10_OtherThanLogHome_AAA_HO_CA02122017(@Optional("") String state) {
-		testFAIRPlanEndorsementTemplate.pas13211_AC1_NB_PPC10_OtherThanLogHome_AAA_HO_CA02122017();
+		testFAIRPlanEndorsementTemplate.pas13211_AC1_AC4_NB_PPC10_OtherThanLogHome_AAA_HO_CA02122017();
 	}
 
 	/**
@@ -69,7 +69,8 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13211")
 
 	public void pas13211_AC1_Renewal_PPC10_OtherThanLogHome_AAA_HO_CA02122017(@Optional("") String state) {
-		testFAIRPlanEndorsementTemplate.pas13211_AC1_Renewal_PPC10_OtherThanLogHome_AAA_HO_CA02122017();
+		TestData tdAddress = getTestSpecificTD("TestData_Endorsement").resolveLinks();
+		testFAIRPlanEndorsementTemplate.pas13211_AC1_Renewal_PPC10_OtherThanLogHome_AAA_HO_CA02122017(tdAddress);
 	}
 
 	///AC#2
@@ -250,7 +251,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
-	public void pas12466_AC1_NB(@Optional("MD") String state) {
+	public void pas12466_AC1_NB(@Optional("") String state) {
 		TestData tdWithFAIRPlanEndorsement = getPolicyDefaultTD().adjust(EndorsementTab.class.getSimpleName(), getTestSpecificTD("EndorsementTab_Add"));
 		testFAIRPlanEndorsementTemplate.pas12466_AC1_NB(tdWithFAIRPlanEndorsement);
 	}
@@ -270,7 +271,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
-	public void pas12466_AC2_Endorsement(@Optional("MD") String state) {
+	public void pas12466_AC2_Endorsement(@Optional("") String state) {
 		testFAIRPlanEndorsementTemplate.pas12466_AC2_Endorsement();
 	}
 
@@ -291,7 +292,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
-	public void pas12466_AC3_Renewal(@Optional("MD") String state) {
+	public void pas12466_AC3_Renewal(@Optional("") String state) {
 		testFAIRPlanEndorsementTemplate.pas12466_AC3_Renewal();
 	}
 
@@ -311,7 +312,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
-	public void pas12466_AC3_Revised_Renewal_After_Renewal_Term_Change(@Optional("MD") String state) {
+	public void pas12466_AC3_Revised_Renewal_After_Renewal_Term_Change(@Optional("") String state) {
 		testFAIRPlanEndorsementTemplate.pas12466_AC3_Revised_Renewal_After_Renewal_Term_Change();
 	}
 
@@ -333,7 +334,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
-	public void pas12466_AC3_Revised_Renewal_After_Current_Term_Change(@Optional("MD") String state) {
+	public void pas12466_AC3_Revised_Renewal_After_Current_Term_Change(@Optional("") String state) {
 		testFAIRPlanEndorsementTemplate.pas12466_AC3_Revised_Renewal_After_Current_Term_Change();
 	}
 

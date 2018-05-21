@@ -1,8 +1,8 @@
 EndorsementTab_Add: {
-  'FPCECA': '@Endorsement_FPCECA_Add'
+  'FPCECADP': '@Endorsement_FPCECADP_Add'
 }
 
-Endorsement_FPCECA_Add: {
+Endorsement_FPCECADP_Add: {
   Action: 'Add',
   Confirm Object Addition: 'Confirm'
 }

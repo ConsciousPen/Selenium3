@@ -48,6 +48,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 	private PolicyType policyType;
 
 	private TestFAIRPlanEndorsementTemplate() {}
+
 	public TestFAIRPlanEndorsementTemplate(PolicyType policyType, String formIdInXml, String fairPlanEndorsementLabelInEndorsementTab) {
 		this.policyType = policyType;
 		this.formIdInXml = formIdInXml;
@@ -61,7 +62,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 	///AC#1, AC#4
 
-	public void pas13211_AC1_NB_PPC10_OtherThanLogHome_AAA_HO_CA02122017() {
+	public void pas13211_AC1_AC4_NB_PPC10_OtherThanLogHome_AAA_HO_CA02122017() {
 		String ppcValue = "10";
 		String constructionTypeValue = "Masonry";
 		String licensedContractor = null; // Value for question "Is this a log home assembled by a licensed building contractor?"
@@ -100,7 +101,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 	//Note: Not applicable for Midterm Endorsement, because it is not possible to change PPC at Midterm Endorsement.
 
-	public void pas13211_AC1_Renewal_PPC10_OtherThanLogHome_AAA_HO_CA02122017() {
+	public void pas13211_AC1_Renewal_PPC10_OtherThanLogHome_AAA_HO_CA02122017(TestData tdAddress) {
 		String ppcValue = "5";
 		String constructionTypeValue = "Masonry";
 		String licensedContractor = null; // Value for question "Is this a log home assembled by a licensed building contractor?"
@@ -116,7 +117,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		PolicySummaryPage.buttonRenewals.click();
 		policyType.get().dataGather().start();
 
-		changeAddressOrderPPCRateAndNavigateToBindTab();
+		changeAddressOrderPPCRateAndNavigateToBindTab(tdAddress);
 
 		//Note: No need to validate that the Rule is fired if FAIR Plan Endorsement is added, because as per current implementation it is not fired for renewals
 
@@ -553,7 +554,6 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		return testData;
 	}
 
-	//TODO-mstrazds:move to some helper or use from already existing test class
 	private void generateRenewalImageAndRetrievePolicy(TimePoints timePoints) {
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -596,9 +596,8 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 	}
 
-	private void changeAddressOrderPPCRateAndNavigateToBindTab() {
+	private void changeAddressOrderPPCRateAndNavigateToBindTab(TestData tdAddress) {
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.APPLICANT.get());
-		TestData tdAddress = getTestSpecificTD("TestData_Endorsement").resolveLinks();
 		applicantTab.fillTab(tdAddress);
 		applicantTab.getDwellingAddressAssetList().getAsset(HomeCaMetaData.ApplicantTab.DwellingAddress.COUNTY)
 				.setValue("Los Angeles"); //County field clears out after Address validation, so entering it again
@@ -615,7 +614,6 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 	}
 
 	////////////Start PAS-13242 methods////////////////
-
 	private void validateDocumentIsGeneratedInPackage(String policyNumber, AaaDocGenEntityQueries.EventNames eventName) {
 		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber, eventName);
 		assertThat(docs.stream().map(Document::getTemplateId).toArray()).contains(formIdInXml);
