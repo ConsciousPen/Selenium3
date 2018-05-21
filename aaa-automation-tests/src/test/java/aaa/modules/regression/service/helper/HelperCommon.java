@@ -1,6 +1,8 @@
 package aaa.modules.regression.service.helper;
 
 import static aaa.admin.modules.IAdmin.log;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.ws.rs.client.*;
@@ -192,6 +194,16 @@ public class HelperCommon {
 		request.purchaseDate = purchaseDate;
 		request.vehIdentificationNo = vin;
 		return runJsonRequestPostDxp(requestUrl, request, Vehicle.class, 201);
+	}
+
+	public static UpdateDriverAssignmentRequest[] updateDriverAssignment(String policyNumber, String vehicleOid, String driverOid) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_ENDORSEMENT_DRIVER_ASSIGNMENT, policyNumber));
+		UpdateDriverAssignmentRequest request = new UpdateDriverAssignmentRequest();
+		request.assignmentRequests = new ArrayList<>();
+		DriverAssignmentDto assignmentDto = new DriverAssignmentDto();
+		assignmentDto.driverOid = driverOid;
+		assignmentDto.vehicleOid = vehicleOid;
+		return runJsonRequestPostDxp(requestUrl,request,UpdateDriverAssignmentRequest[].class,200);
 	}
 
 	public static Vehicle executeVehicleAddVehicle(String policyNumber, Vehicle request) {

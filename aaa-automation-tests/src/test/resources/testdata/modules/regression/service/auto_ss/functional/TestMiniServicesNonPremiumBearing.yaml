@@ -95,6 +95,10 @@ TestData_ThreeDrivers: {
     DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three'],
 }
 
+TestData_TwoDrivers: {
+    DriverTab: ['@Driver_one', '@Driver_two'],
+}
+
 Driver_one: {
   Occupation: Self-Employed,
   Age First Licensed: 18,

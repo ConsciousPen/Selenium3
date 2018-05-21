@@ -1707,6 +1707,87 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	}
 
+	protected void pas13994_UpdateDriverAssignmentServiceFirstRule(PolicyType policyType)  {
+//		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
+//		TestData td = getPolicyTD("DataGather", "TestData");
+//
+//		//Drivers info from testData
+//		String firstName1 = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("First Name");
+//		String lastName1 = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("Last Name");
+//
+//		String firstName2 = td.getTestDataList("DriverTab").get(1).getValue("First Name");
+//		//String middleName2 = td.getTestDataList("DriverTab").get(1).getValue("Middle Name");
+//		String lastName2 = td.getTestDataList("DriverTab").get(1).getValue("Last Name");
+//
+//		//get drivers oid's
+//		DriversDto[] response = HelperCommon.executeViewDrivers("VASS952918541");
+//		//D1
+//		DriversDto driver_1 = Arrays.stream(response).filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
+//		assertThat(driver_1.lastName).isEqualTo(lastName1);
+//		String driverOid_1 = assertThat(driver_1.oid).toString();
+//		//D2
+//		DriversDto driver_2 = Arrays.stream(response).filter(driver -> driver.firstName.startsWith(firstName2)).findFirst().orElse(null);
+//		assertThat(driver_2.lastName).isEqualTo(lastName2);
+//		String driverOid_2 = assertThat(driver_2.oid).toString();
+
+
+		assertSoftly(softly -> {
+			mainApp().open();
+			createCustomerIndividual();
+			TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
+			TestData vehicleData = new TestDataManager().policy.get(policyType);
+			TestData td = getPolicyTD("DataGather", "TestData");
+			TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_TwoDrivers").getTestDataList("DriverTab")).resolveLinks();
+			policyType.get().createPolicy(testData);
+			String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+			//Create a pended Endorsement
+			AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
+
+			//V1 vin from testData
+			String vin_1 = getStateTestData(vehicleData, "DataGather", "TestData").getTestDataList("VehicleTab").get(0).getValue("VIN");
+
+			//add V2
+			String purchaseDate = "2012-02-21";
+			String vin_2 = "ZFFCW56A830133118";
+			Vehicle addVehicle = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin_2);
+			assertThat(addVehicle.oid).isNotEmpty();
+
+			//Drivers info from testData
+			String firstNameFull = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("First Name");
+			String firstName1 = firstNameFull.substring(0, firstNameFull.length() - 5);
+			String lastName1 = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("Last Name");
+
+			String firstName2 = testData.getTestDataList("DriverTab").get(1).getValue("First Name");
+			//String middleName2 = td.getTestDataList("DriverTab").get(1).getValue("Middle Name");
+			String lastName2 = testData.getTestDataList("DriverTab").get(1).getValue("Last Name");
+
+			//get drivers oid's
+			DriversDto[] response = HelperCommon.executeViewDrivers(policyNumber);
+			DriversDto driver_1 = Arrays.stream(response).filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
+			DriversDto driver_2 = Arrays.stream(response).filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
+
+			softly.assertThat(driver_1.lastName).isEqualTo(lastName1);
+			String driverOid_1 = assertThat(driver_1.oid).toString();
+
+			softly.assertThat(driver_2.lastName).isEqualTo(lastName2);
+			String driverOid_2 = assertThat(driver_2.oid).toString();
+
+
+
+
+
+
+//		CustomAssert.assertEquals(viewVehicleResponse, sortedVehicles.toArray());
+//		Vehicle vehicle1 = Arrays.stream(viewVehicleResponse).filter(veh -> "1GAZG1FG7D1145543".equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+//		softly.assertThat(vehicle1).isNotNull();
+//		softly.assertThat(vehicle1.vehicleStatus).isEqualTo("active");
+//		softly.assertThat(vehicle1.vehTypeCd).isEqualTo("PPA");
+
+
+		});
+	}
 	protected void pas9716_policySummaryForConversionManualBody() {
 		assertSoftly(softly -> {
 			LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(45);

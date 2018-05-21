@@ -740,6 +740,25 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	}
 
 	/**
+	 * @author Jovita Pukenaite
+	 * @name Update driver assignment, rule D=V
+	 * @scenario 1. Create a policy with V1 and D1, D2.
+	 * 2. Hit view driver assignment service. Get all info.
+	 * 3. Add V2.
+	 * 4. Hit DA update service.
+	 * 4.1. V2-->D1 and check response (V2-->D1, V1-->D2)
+	 * 4.2. Update , V1-->D1 (V1-->D1, V2-->Unn)
+	 * 4.3. Update V2-->D2 (V1-->D1, V2-->D2)
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994"})
+	public void pas13994_UpdateDriverAssignmentServiceFirstRule(@Optional("VA") String state) {
+
+		pas13994_UpdateDriverAssignmentServiceFirstRule(getPolicyType());
+	}
+
+	/**
 	 * @author Oleg Stasyuk
 	 * @name Bind Manually created endorsement
 	 * @scenario 1. Create active policy
