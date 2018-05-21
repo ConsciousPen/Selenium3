@@ -41,6 +41,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyRenewDeletePending"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyRenewFlatCancellation"/>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.TestPolicyBilling"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestContactInformation"/>
         </classes>
     </test>
     <test name="AZ Auto Functional Tests" parallel="methods">
@@ -474,6 +475,7 @@
             <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyRenewDeletePending"/>
             <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyRenewFlatCancellation"/>
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBilling"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestContactInformation"/>
         </classes>
     </test>
     <test name="CA Choice Auto Functional Tests" parallel="methods">
@@ -496,6 +498,7 @@
             <class name="aaa.modules.regression.service.auto_ca.choice.TestPolicyRenewDeclineByCompany"/>
             <class name="aaa.modules.regression.service.auto_ca.choice.TestPolicyRenewDeclineByCustomer"/>
             <class name="aaa.modules.regression.service.auto_ca.choice.TestPolicyRenewDeletePending"/>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestContactInformation"/>
         </classes>
     </test>
 </suite>
