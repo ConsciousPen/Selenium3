@@ -41,7 +41,7 @@ import toolkit.utils.TestInfo;
 public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO4BaseTest {
 
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO4, testCaseId = "PAS-3002")
     public void testPolicyViewCappingDetails(@Optional("VA") String state) {
 
