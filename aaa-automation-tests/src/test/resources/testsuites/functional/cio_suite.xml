@@ -165,4 +165,21 @@
         </classes>
     </test>
 
+    <test name="PAS-13211 PAS-13242 PAS-13216 - FAIR Plan Endorsement (formerly known as Difference in Conditions) (CA HO3)" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestFAIRPlanEndorsement">
+
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-13211 PAS-13242 PAS-13216 - FAIR Plan Endorsement (formerly known as Difference in Conditions) (CA HO3)" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestFAIRPlanEndorsement">
+            </class>
+        </classes>
+    </test>
+
 </suite>
