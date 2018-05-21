@@ -35,7 +35,7 @@ public class LocalDateTimeCellType extends DateCellType<LocalDateTime> {
 	}
 
 	@Override
-	protected LocalDateTime getDate(ExcelCell cell) {
+	protected LocalDateTime getRawValueFrom(ExcelCell cell) {
 		return cell.getPoiCell().getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 	}
 

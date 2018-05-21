@@ -1,0 +1,197 @@
+TestData: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab1', '@DriverTab2', '@DriverTab3', '@DriverTab4'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  AssignmentTab: '@AssignmentTab_VA',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+GeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA',
+  CurrentCarrierInformation: '@CurrentCarrierInformation'
+}
+
+CurrentCarrierInformation: {
+  'Override Prefilled Current Carrier?': 'Yes',
+  'Agent Entered Current/Prior Carrier': 'AAA Insurance',
+  Agent Entered Inception Date:  '$<today-3y+1d:MM/dd/yyyy>',
+  Agent Entered Expiration Date:  '$<today+9d:MM/dd/yyyy>',
+  Agent Entered BI Limits: '$300,000/$500,000',
+}
+
+AAAProductOwned: {
+  Current AAA Member: 'Yes',
+  Membership Number: 4290023667710001,
+  Last name: Smith,
+  Life: 'Yes',
+  'Life Policy #': L87654567,
+  Home: 'Yes',
+  'Home Motorcycle Policy #': H65654328,
+  Renters: 'Yes',
+  'Renters Policy #': R09871234,
+  Condo: 'Yes',
+  'Condo Policy #': C76509878
+}
+
+NamedInsuredInformation1: {
+  Social Security Number: 123456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+NamedInsuredInformation2: {
+  InsuredSearchDialog: {},
+  First Name: Jenny,
+  Last Name: Smith,
+  Base Date: $<today>,
+  Social Security Number: 223456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+DriverTab1: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  Date of Birth: '$<today-21y:MM/dd/yyyy>',
+  License Type: 'Licensed (US)',
+  License Number: 400064773,
+  Affinity Group: AAA Employee
+}
+
+DriverTab2: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Child,
+  Date of Birth: '$<today-19y:MM/dd/yyyy>',
+  Gender: Female,
+  Marital Status: Single,
+  Occupation: Student,
+  Age First Licensed: 17,
+  License Type: 'Licensed (Canadian)',
+  License Number: 400064774,
+  Most Recent GPA: A Student,
+  'Smart Driver Course Completed?': 'Yes',
+  Smart Driver Course Completion Date: '$<today-10d:MM/dd/yyyy>',
+  Smart Driver Course Certificate Number: 'OSI123'
+}
+
+DriverTab3: {
+  DriverSearchDialog: {},
+  Named Insured: 'contains=not a Named Insured',
+  Driver Type: 'Available for Rating',
+  Rel. to First Named Insured: Child,
+  First Name: 'Distant',
+  Last Name: 'Student',
+  Date of Birth: '$<today-19y:MM/dd/yyyy>',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Student,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: 400064771,
+  Most Recent GPA: A Student,
+  Distant Student: 'Yes'
+}
+
+DriverTab4: {
+  DriverSearchDialog: {},
+  Named Insured: 'contains=not a Named Insured',
+  Driver Type: 'Available for Rating',
+  Rel. to First Named Insured: Parent,
+  First Name: 'Defensive',
+  Last Name: 'Driver',
+  Date of Birth:  '$<today-55y:MM/dd/yyyy>',
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: 400064772,
+  'Defensive Driver Course Completed?': 'Yes',
+  'Defensive Driver Course Completion Date': $<today-3y+1d>,
+  Defensive Driver Course Certificate Number: 33121
+}
+
+VehicleTab1: {
+  Usage: Pleasure,
+  VIN: 1GGYL2D7XG5100001,
+  Year: '$<today:yyyy>',
+  Make: OTHER,
+  Other Make: KIA,
+  Other Model: model,
+  Other Body Style: Sedan,
+  Stat Code: 'Small car',
+  Stated Amount: 1000,
+  'Salvaged?': 'Yes',
+  Air Bags: 'Both Front and Side with Rear Side',
+  Anti-theft: 'Vehicle Recovery Device',
+  'Alternative Fuel Vehicle': 'Yes'
+}
+
+VehicleTab2: {
+  Usage: Pleasure,
+  VIN: 1GGYL2D7XG5100002,
+  Year: '$<today:yyyy>',
+  Make: OTHER,
+  Other Make: FORD,
+  Other Model: Model,
+  Other Body Style: Sedan,
+  Stat Code: 'Small SUV',
+  Stated Amount: 30000,
+      'Enroll in Usage Based Insurance?': 'Yes',
+      Get Vehicle Details: click,
+      Vehicle Eligibility Response: Vehicle Eligible,
+      AAA UBI Device Status: Active,
+      Device Voucher Number: 1GNWGPFG8B6548273,
+      Grant Participation Discount: click
+}
+
+AssignmentTab_VA: {
+  DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver2', '@AssignedDriver3', '@AssignedDriver4']
+}
+
+AssignedDriver1: {
+    Driver: 'contains=Ben',
+    Select Vehicle: 'index=1'
+}
+
+AssignedDriver2: {
+    Driver: 'contains=Jenny',
+    Select Vehicle: 'index=2'
+}
+
+AssignedDriver3: {
+    Driver: 'contains=Distant',
+    Select Vehicle: 'index=2'
+}
+
+AssignedDriver4: {
+    Driver: 'contains=Defensive',
+    Select Vehicle: 'index=2'
+}
+
+
+PremiumAndCoveragesTab: {
+  Payment Plan: Quarterly,
+  Apply eValue Discount: 'Yes',
+  Bodily Injury Liability: 'contains=$50,000/$100,000',
+  DetailedVehicleCoverages: [
+    {
+      New Car Added Protection: 'Yes',
+      Purchase Date: '$<today-20d>'
+    },
+    {
+      New Car Added Protection: 'Yes',
+      Purchase Date: '$<today-40d>'
+    }
+  ]
+}

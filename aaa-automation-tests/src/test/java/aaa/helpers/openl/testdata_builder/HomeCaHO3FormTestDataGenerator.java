@@ -42,10 +42,18 @@ public class HomeCaHO3FormTestDataGenerator {
 
 	
 	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO42DataFunction = (openLPolicy) -> {
-		List<TestData> tdList = new ArrayList<>();
+		List<TestData> tdList = new ArrayList<>(); 
+		String territoryCode = openLPolicy.getForms().stream().filter(c -> "HO-42".equals(c.getFormCode())).findFirst().get().getTerritoryCode(); 
+		String officeType; 
+		if (territoryCode.equals("Office")) {
+			officeType = "Incidental Office";
+		}
+		else {
+			officeType = "Professional Instruction";
+		}
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", "Add",
-				HomeCaMetaData.EndorsementTab.EndorsementHO42.OFFICE_TYPE.getLabel(), "index=1", 
+				HomeCaMetaData.EndorsementTab.EndorsementHO42.OFFICE_TYPE.getLabel(), officeType, 
 				HomeCaMetaData.EndorsementTab.EndorsementHO42.DESCRIPTION_OF_BUSINESS_EQUIPMENT.getLabel(), "test", 
 				HomeCaMetaData.EndorsementTab.EndorsementHO42.BUSINESS_EQUIPMENT_OVER_50_000.getLabel(), "No", 
 				HomeCaMetaData.EndorsementTab.EndorsementHO42.FOOT_TRAFFIC_EXCEEDING_2_CUSTOMERS_PER_WEEK.getLabel(), "No", 
@@ -154,14 +162,43 @@ public class HomeCaHO3FormTestDataGenerator {
 	
 	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO71DataFunction =  (openLPolicy) -> {
 		List<TestData> tdList = new ArrayList<>();
-		tdList.add(DataProviderFactory.dataOf(
+		String formClass = openLPolicy.getForms().stream().filter(f -> "HO-71".equals(f.getFormCode())).findFirst().get().getFormClass(); 
+		Boolean punishmentSurcharge = openLPolicy.getForms().stream().filter(f -> "HO-71".equals(f.getFormCode())).findFirst().get().getHasCorporalPunishmentSurcharge();
+		TestData td = DataProviderFactory.dataOf(
 				"Action", "Add",
 				HomeCaMetaData.EndorsementTab.EndorsementHO71.NAME_OF_BUSINESS.getLabel(), "Test", 
 				HomeCaMetaData.EndorsementTab.EndorsementHO71.DESCRIPTION_OF_BUSINESS.getLabel(), "test", 
-				HomeCaMetaData.EndorsementTab.EndorsementHO71.CLASSIFICATION_OCCUPATION.getLabel(), "index=2", 
-				HomeCaMetaData.EndorsementTab.EndorsementHO71.IS_THE_INSURED_SELF_EMPLOYED_A_PARTNER_IN_THE_BUSINESS.getLabel(), "No"));
+				HomeCaMetaData.EndorsementTab.EndorsementHO71.CLASSIFICATION_OCCUPATION.getLabel(), getClassificationOccupation_HO71(formClass), 
+				HomeCaMetaData.EndorsementTab.EndorsementHO71.IS_THE_INSURED_SELF_EMPLOYED_A_PARTNER_IN_THE_BUSINESS.getLabel(), "No"); 
+		if (formClass.equals("Class C") || formClass.equals("Class D")) {
+			td.adjust(DataProviderFactory.dataOf(
+					HomeCaMetaData.EndorsementTab.EndorsementHO71.TEACHERS_EXTENDED_LIABILITY.getLabel(), getYesOrNo(punishmentSurcharge)));
+		}
+		tdList.add(td);
 		return tdList;
 	}; 
+	
+	private static String getClassificationOccupation_HO71(String className) {
+		switch (className) {
+		case "Class A": 
+			return "Office clerical";
+		case "Class B": 
+			return "Sales";
+		case "Class C": 
+			return "Teacher - athletic/physical training, labratory/manual training"; 
+		case "Class D": 
+			return "Teacher - Other";
+		default: 
+			return "index=2";
+		}
+	}
+	
+	private static String getYesOrNo(Boolean value) {
+		if (value == null) {
+			return null;
+		}
+		return Boolean.TRUE.equals(value) ? "Yes" : "No";
+	}
 	
 	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO75DataFunction = (openLPolicy) -> {
 		List<TestData> tdList = new ArrayList<>();

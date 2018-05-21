@@ -132,15 +132,21 @@ public class HomeCaHO6TestDataGenerator extends TestDataGenerator<HomeCaHO6OpenL
 			}
 		}
 
-		TestData dwellingAddressData;
+		TestData dwellingAddressData = DataProviderFactory.emptyData();
 		if (isHO42C) {
-			dwellingAddressData = DataProviderFactory.dataOf(
-					HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(),
-					"contains=" + openLPolicy.getForms().stream().filter(n -> "HO-42C".equals(n.getFormCode())).findFirst().get().getTerritoryCode());
-		} else {
-			dwellingAddressData = DataProviderFactory.dataOf(
-					HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(), "");
-		}
+			String territoryCode = openLPolicy.getForms().stream().filter(n -> "HO-42C".equals(n.getFormCode())).findFirst().get().getTerritoryCode(); 
+			if (territoryCode.equals("Office")) {
+				dwellingAddressData = DataProviderFactory.dataOf(
+						HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(), "contains=" + RandomUtils.nextInt(1, 4));
+			}
+			else {
+				dwellingAddressData = DataProviderFactory.dataOf(
+						HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(), "contains=" + territoryCode);
+			}
+		} 
+		//else {
+		//	dwellingAddressData = DataProviderFactory.dataOf(HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(), "");
+		//}
 
 		TestData ppcData = DataProviderFactory.dataOf(
 				HomeCaMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS.getLabel(), openLPolicy.getDwelling().getPpcValue());
@@ -385,18 +391,52 @@ public class HomeCaHO6TestDataGenerator extends TestDataGenerator<HomeCaHO6OpenL
 						break;
 				}
 			} else if ("HO-61C".equals(form.getFormCode())) {
+				/*
+				 * Class 1: Boat length < 144 and Horsepower < 16
+				 * Class 1: Boat length > 167 and Boat length < 192 and Horsepower < 26 
+				 * Class 1: Boat length > 191 and Boat length < 216 and Horsepower < 51
+				 */
+				String horsepower = "15";
+				String lenght_inches = "200";
+				if (getBoatType(form.getType()).equals("Outboard")) {
+					if (form.getFormClass().equals("Class 1")) {
+						horsepower = "12"; 
+						lenght_inches = "143";
+					}
+					if (form.getFormClass().equals("Class 2")) {
+						horsepower = "16"; 
+						lenght_inches = "143";
+					}
+				}
+
 				TestData boatsData = DataProviderFactory.dataOf(
-						HomeCaMetaData.PersonalPropertyTab.Boats.BOAT_TYPE.getLabel(), form.getType(),
-						HomeCaMetaData.PersonalPropertyTab.Boats.YEAR.getLabel(), "2015",
-						HomeCaMetaData.PersonalPropertyTab.Boats.HORSEPOWER.getLabel(), "50",
-						HomeCaMetaData.PersonalPropertyTab.Boats.LENGTH_INCHES.getLabel(), "300",
-						HomeCaMetaData.PersonalPropertyTab.Boats.DEDUCTIBLE.getLabel(), new Dollar(form.getDeductible()).toString().split("\\.")[0],
-						HomeCaMetaData.PersonalPropertyTab.Boats.AMOUNT_OF_INSURANCE.getLabel(), "500");
+						HomeCaMetaData.PersonalPropertyTab.Boats.BOAT_TYPE.getLabel(), getBoatType(form.getType()),
+						HomeCaMetaData.PersonalPropertyTab.Boats.YEAR.getLabel(), openLPolicy.getEffectiveDate().minusYears(form.getAge()).getYear(),
+						HomeCaMetaData.PersonalPropertyTab.Boats.HORSEPOWER.getLabel(), horsepower,
+						HomeCaMetaData.PersonalPropertyTab.Boats.LENGTH_INCHES.getLabel(), lenght_inches,
+						HomeCaMetaData.PersonalPropertyTab.Boats.DEDUCTIBLE.getLabel(), "contains=" + form.getDeductible().toString().split("\\.")[0],
+						HomeCaMetaData.PersonalPropertyTab.Boats.AMOUNT_OF_INSURANCE.getLabel(), form.getLimit().toString().split("\\.")[0]);
 				personalPropertyTabData.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.BOATS.getLabel(), boatsData));
 			}
 		}
 		return personalPropertyTabData;
-
+	}
+	
+	private String getBoatType(String boatType) {
+		switch (boatType) {
+		case "Outboard":
+			return "Outboard";
+		case "Sailboat": 
+			return "Sailboat";
+		case "Inboard": 
+			return "Inboard";
+		case "In/Outboard": 
+			return "Inboard/Outboard"; 
+		case "Canoe": 
+			return "Other";
+		default: 
+			return "Other";
+		}
 	}
 
 	private TestData getPremiumsAndCoveragesQuoteTabData(HomeCaHO6OpenLPolicy openLPolicy) {

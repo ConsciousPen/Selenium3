@@ -7,10 +7,10 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
-@ExcelTableElement(sheetName = OpenLFile.TESTS_SHEET_NAME, headerRowIndex = OpenLFile.TESTS_HEADER_ROW_NUMBER)
+@ExcelTableElement(containsSheetName = OpenLFile.TESTS_SHEET_NAME, headerRowIndex = OpenLFile.TESTS_HEADER_ROW_NUMBER)
 public class OpenLTest {
 
-	@ExcelColumnElement(isPrimaryKey = true)
+	@ExcelColumnElement(containsName = "p", isPrimaryKey = true)
 	protected Integer policy;
 
 	@ExcelColumnElement(containsName = "usState")
