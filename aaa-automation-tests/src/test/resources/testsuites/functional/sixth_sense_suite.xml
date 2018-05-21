@@ -44,14 +44,29 @@
     </test>
 
     <test name="MVR Predictor Algo">
-      <parameter name="state" value="IN,KY,MD,NJ,PA,CT"/>
+      <parameter name="state" value="IN,KY,MD,NJ,NV,PA,VA,OK,CT"/>
       <classes>
-          <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo"/>
+          <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
+              <methods>
+                  <exclude name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
+              </methods>
+          </class>
       </classes>
     </test>
 
+    <test name="MVR Predictor Algo">
+        <parameter name="state" value="IN,KY,MD,NJ,PA,VA,CT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
+                <methods>
+                    <include name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <test name="Good Student Discount">
-        <parameter name="state" value="IN,KY,MD,NJ,NV,PA,OK,VA,CT"/>
+        <parameter name="state" value="IN,KY,MD,NJ,NV,PA,VA,OK,CT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestGoodStudentDiscount"/>
         </classes>
