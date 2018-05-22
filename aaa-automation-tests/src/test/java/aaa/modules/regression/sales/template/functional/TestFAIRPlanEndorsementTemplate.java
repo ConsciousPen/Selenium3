@@ -227,8 +227,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyType.get().initiate();
 		policyType.get().getDefaultView().fillUpTo(testData, PropertyInfoTab.class, true);
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());// Tab out to not fire the error "Dwellings located in PPC 10 are ineligible." for field "Roof Type"
-		policyType.get().getDefaultView().fillFromTo(testData, EndorsementTab.class, DocumentsTab.class, true);
-		documentsTab.getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FAIR_PLAN_COMPANION_ENDORSEMENT_CALIFORNIA).setValue("Physically Signed");
+		policyType.get().getDefaultView().fillFromTo(testData, EndorsementTab.class, BindTab.class, true);
 
 		validateRuleIsFiredWithAndWithoutFAIRPlanEndorsement(); //because rule should still fire if "Is this a log home assembled by a licensed building contractor?" = "No"
 
