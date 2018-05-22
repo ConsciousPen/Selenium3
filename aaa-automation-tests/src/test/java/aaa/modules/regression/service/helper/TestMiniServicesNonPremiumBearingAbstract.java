@@ -1769,22 +1769,36 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			DriversDto driver_2 = Arrays.stream(dResponse).filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
 
 			softly.assertThat(driver_1.lastName).isEqualTo(lastName1);
-			String driverOid_1 = assertThat(driver_1.oid).toString();
-
+			String driverOid_1 = driver_1.oid;
 			softly.assertThat(driver_2.lastName).isEqualTo(lastName2);
-			String driverOid_2 = assertThat(driver_2.oid).toString();
+			String driverOid_2 = driver_2.oid;
 
 			//get vehicles oid's
 			Vehicle[] vResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
 
-			Vehicle vehicle_1 = Arrays.stream(vResponse).filter(vehicle -> vin_1.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
-			Vehicle vehicle_2 = Arrays.stream(vResponse).filter(vehicle -> vin_2.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
+			Vehicle vehicle_1 = Arrays.stream(vResponse).filter(veh -> vin_1.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+			Vehicle vehicle_2 = Arrays.stream(vResponse).filter(veh -> vin_2.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
 
 			softly.assertThat(vehicle_1.vehIdentificationNo).isEqualTo(vin_1);
-			String vehicleOid_1 = assertThat(vehicle_1.oid).toString();
-
+			String vehicleOid_1 = vehicle_1.oid;
 			softly.assertThat(vehicle_2.vehIdentificationNo).isEqualTo(vin_2);
-			String vehicleOid_2 = assertThat(vehicle_2.oid).toString();
+			String vehicleOid_2 = vehicle_2.oid;
+
+			//Update: V2-->D1 ,Check V2-->D1, V1-->D2
+			DriverAssignmentDto[] updDriverAssignee_1 = HelperCommon.updateDriverAssignment(policyNumber,vehicleOid_2,driverOid_1);
+			DriverAssignmentDto v1_a = Arrays.stream(updDriverAssignee_1).filter(veh -> vehicleOid_1.equals(veh.vehicleOid)).findFirst().orElse(null);
+			DriverAssignmentDto v2_a = Arrays.stream(updDriverAssignee_1).filter(veh -> vehicleOid_2.equals(veh.vehicleOid)).findFirst().orElse(null);
+
+			softly.assertThat(v1_a.driverOid).isEqualTo(driverOid_2);
+			softly.assertThat(v2_a.driverOid).isEqualTo(driverOid_1);
+
+			//Update: V1-->D1, Check V1-->D1, V2-->Unn
+			DriverAssignmentDto[] updDriverAssignee_2 = HelperCommon.updateDriverAssignment(policyNumber,vehicleOid_1,driverOid_1);
+			DriverAssignmentDto v1_b = Arrays.stream(updDriverAssignee_2).filter(veh -> vehicleOid_1.equals(veh.vehicleOid)).findFirst().orElse(null);
+			DriverAssignmentDto v2_b = Arrays.stream(updDriverAssignee_2).filter(veh -> vehicleOid_2.equals(veh.vehicleOid)).findFirst().orElse(null);
+
+			softly.assertThat(v1_b.driverOid).isEqualTo(driverOid_2);
+			softly.assertThat(v2_b.driverOid).isEqualTo(driverOid_1);
 
 
 

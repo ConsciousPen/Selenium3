@@ -746,9 +746,9 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * 2. Hit view driver assignment service. Get all info.
 	 * 3. Add V2.
 	 * 4. Hit DA update service.
-	 * 4.1. V2-->D1 and check response (V2-->D1, V1-->D2)
-	 * 4.2. Update , V1-->D1 (V1-->D1, V2-->Unn)
-	 * 4.3. Update V2-->D2 (V1-->D1, V2-->D2)
+	 * a) V2-->D1 and check response (V2-->D1, V1-->D2)
+	 * b) Update , V1-->D1 (V1-->D1, V2-->Unn)
+	 * c) Update V2-->D2 (V1-->D1, V2-->D2)
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})

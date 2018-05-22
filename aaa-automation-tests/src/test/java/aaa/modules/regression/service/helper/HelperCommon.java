@@ -196,14 +196,15 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, request, Vehicle.class, 201);
 	}
 
-	public static UpdateDriverAssignmentRequest[] updateDriverAssignment(String policyNumber, String vehicleOid, String driverOid) {
+	public static DriverAssignmentDto[] updateDriverAssignment(String policyNumber, String vehicleOid, String driverOid) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_ENDORSEMENT_DRIVER_ASSIGNMENT, policyNumber));
 		UpdateDriverAssignmentRequest request = new UpdateDriverAssignmentRequest();
 		request.assignmentRequests = new ArrayList<>();
 		DriverAssignmentDto assignmentDto = new DriverAssignmentDto();
 		assignmentDto.driverOid = driverOid;
 		assignmentDto.vehicleOid = vehicleOid;
-		return runJsonRequestPostDxp(requestUrl,request,UpdateDriverAssignmentRequest[].class,200);
+		request.assignmentRequests.add(assignmentDto);
+		return runJsonRequestPostDxp(requestUrl,request,DriverAssignmentDto[].class,200);
 	}
 
 	public static Vehicle executeVehicleAddVehicle(String policyNumber, Vehicle request) {
