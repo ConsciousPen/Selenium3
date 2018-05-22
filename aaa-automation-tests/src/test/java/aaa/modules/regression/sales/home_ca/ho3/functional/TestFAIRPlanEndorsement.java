@@ -42,7 +42,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	 * @details
 	 **/
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "PAS-12925 FAIR Plan Endorsement (formerly known as Difference in Conditions)")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-12925 FAIR Plan Endorsement (formerly known as Difference in Conditions)")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13211")
 
 	public void pas13211_AC1_NB_PPC10_OtherThanLogHome_AAA_HO_CA02122017(@Optional("") String state) {
@@ -66,7 +66,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	 * @details
 	 **/
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "PAS-12925 FAIR Plan Endorsement (formerly known as Difference in Conditions)")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-12925 FAIR Plan Endorsement (formerly known as Difference in Conditions)")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13211")
 
 	public void pas13211_AC1_Renewal_PPC10_OtherThanLogHome_AAA_HO_CA02122017(@Optional("") String state) {
@@ -146,7 +146,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	 * @details
 	 **/
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "PAS-12925 FAIR Plan Endorsement (formerly known as Difference in Conditions)")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-12925 FAIR Plan Endorsement (formerly known as Difference in Conditions)")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13211")
 
 	public void pas13211_AC2_Renewal_PPC1X_LogHome_AAA_HO_CA10100616(@Optional("") String state) {
@@ -227,7 +227,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	 * @details
 	 **/
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "PAS-12925 FAIR Plan Endorsement (formerly known as Difference in Conditions)")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-12925 FAIR Plan Endorsement (formerly known as Difference in Conditions)")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13211")
 
 	public void pas13211_AC3_Renewal_PPC1X_LogHome_AAA_HO_CA10100616(@Optional("") String state) {
@@ -419,7 +419,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	 * @details
 	 **/
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "PAS-12925 FAIR Plan Endorsement (formerly known as Difference in Conditions)")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-12925 FAIR Plan Endorsement (formerly known as Difference in Conditions)")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13216")
 
 	public void pas13216_All_ACs_Renewal(@Optional("") String state) {
