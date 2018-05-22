@@ -557,10 +557,6 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 				HomeCaMetaData.PropertyInfoTab.Construction.class.getSimpleName(),
 				HomeCaMetaData.PropertyInfoTab.Construction.IS_THIS_A_LOG_HOME_ASSEMBLED_BY_A_LICENSED_BUILDING_CONTRACTOR.getLabel()),
 				licensedContractor);
-		testData.adjust(TestData.makeKeyPath(HomeCaMetaData.DocumentsTab.class.getSimpleName(),
-				HomeCaMetaData.DocumentsTab.DocumentsToIssue.class.getSimpleName(),
-				HomeCaMetaData.DocumentsTab.DocumentsToIssue.FAIR_PLAN_COMPANION_ENDORSEMENT_CALIFORNIA.getLabel()),
-				licensedContractor);
 
 		return testData;
 	}
