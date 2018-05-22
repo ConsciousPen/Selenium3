@@ -1764,9 +1764,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			String lastName2 = testData.getTestDataList("DriverTab").get(1).getValue("Last Name");
 
 			//get drivers oid's
-			DriversDto[] response = HelperCommon.executeViewDrivers(policyNumber);
-			DriversDto driver_1 = Arrays.stream(response).filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
-			DriversDto driver_2 = Arrays.stream(response).filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
+			DriversDto[] dResponse = HelperCommon.executeViewDrivers(policyNumber);
+			DriversDto driver_1 = Arrays.stream(dResponse).filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
+			DriversDto driver_2 = Arrays.stream(dResponse).filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
 
 			softly.assertThat(driver_1.lastName).isEqualTo(lastName1);
 			String driverOid_1 = assertThat(driver_1.oid).toString();
@@ -1774,6 +1774,17 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(driver_2.lastName).isEqualTo(lastName2);
 			String driverOid_2 = assertThat(driver_2.oid).toString();
 
+			//get vehicles oid's
+			Vehicle[] vResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
+
+			Vehicle vehicle_1 = Arrays.stream(vResponse).filter(vehicle -> vin_1.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
+			Vehicle vehicle_2 = Arrays.stream(vResponse).filter(vehicle -> vin_2.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
+
+			softly.assertThat(vehicle_1.vehIdentificationNo).isEqualTo(vin_1);
+			String vehicleOid_1 = assertThat(vehicle_1.oid).toString();
+
+			softly.assertThat(vehicle_2.vehIdentificationNo).isEqualTo(vin_2);
+			String vehicleOid_2 = assertThat(vehicle_2.oid).toString();
 
 
 
