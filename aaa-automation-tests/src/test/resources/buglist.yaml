@@ -161,6 +161,8 @@ PAS-12257:
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForConversion]
       messages: ["Cannot set value of ComboBox"]
+    - tests: [aaa.modules.regression.conversions.*]
+      messages: ["doesn't have Success status. Reason"]
 PT-1576:
   summary: "Auto SS Defensive Driver Discount is not displayed correctly"
   reason: PROD
@@ -235,3 +237,11 @@ PAS-13651:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas12866_e2eBct,
     ]
       messages: ["no such element: Unable to locate element: {", "Error 500"]
+PAS-14137:
+  summary: "Regression: PUP, Auto CA, Auto SS specific states: Exception occurs switching to Premium tab"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.*.pup.*]
+      messages: ["Cannot set value of AssetList {PremiumAndCoveragesQuoteTab", "Errors: Time out. No session available."]
+    - tests: [aaa.modules.regression.*.auto_ca.*]
+      messages: ["Cannot set value of AssetList {PremiumAndCoveragesTab:", "Errors: Time out. No session available."]
