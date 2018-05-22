@@ -105,7 +105,6 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, quoteNumber)).get()).isNotNull().isEqualTo(expectedSTUB);
 
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
-
 	}
 
 	/**
