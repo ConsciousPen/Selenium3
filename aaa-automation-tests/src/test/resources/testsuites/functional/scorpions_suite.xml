@@ -1,4 +1,4 @@
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Scorpions Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <!-- Listener commented out for local runs-->
@@ -206,6 +206,18 @@
             <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.TestSymbolsPresenceApplicationFormForPremCalcQuote">
                 <methods>
                     <include name="pas9064_MapCompAndCollSymbolsForDCS"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas12476_TestUpdatePayPlanRestrictions Auto SS DE">
+        <parameter name="state" value="DE"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestUpdatePayPlanRestrictions">
+                <methods>
+                    <include name="pas12476_TestUpdatePayPlanRestrictionsWhenCarrierIsYes"/>
+                    <include name="pas12476_TestUpdatePayPlanRestrictionsWhenCarrierIsNO"/>
+                    <include name="pas12476_TestUpdatePayPlanRestrictionsWhenBiLimitIsMoreThen50K"/>
                 </methods>
             </class>
         </classes>

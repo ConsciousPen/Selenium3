@@ -15,65 +15,81 @@ import toolkit.webdriver.controls.composite.assets.AssetList;
  * @category Generated
  */
 public class PropertyInfoTab extends Tab {
-    public PropertyInfoTab() {
-        super(HomeSSMetaData.PropertyInfoTab.class);
-    }
+	public PropertyInfoTab() {
+		super(HomeSSMetaData.PropertyInfoTab.class);
+	}
 
-    @Override
-    public Tab submitTab() {
-        buttonNext.click();
-        return this;
-    }
-    
-    public AssetList getDwellingAddressAssetList() {
-    	return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.DWELLING_ADDRESS.getLabel(), AssetList.class);
+	@Override
+	public Tab submitTab() {
+		buttonNext.click();
+		return this;
 	}
-    public AssetList getAdditionalAddressAssetList() {
-    	return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ADDITIONAL_ADDRESS.getLabel(), AssetList.class);
+
+	public AssetList getDwellingAddressAssetList() {
+		return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.DWELLING_ADDRESS.getLabel(), AssetList.class);
 	}
-    public AssetList getPublicProtectionClassAssetList() {
-    	return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS.getLabel(), AssetList.class);
+
+	public AssetList getAdditionalAddressAssetList() {
+		return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ADDITIONAL_ADDRESS.getLabel(), AssetList.class);
 	}
-    public AssetList getFireReportAssetList() {
-    	return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.FIRE_REPORT.getLabel(), AssetList.class);
+
+	public AssetList getPublicProtectionClassAssetList() {
+		return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS.getLabel(), AssetList.class);
 	}
-    public AssetList getPropertyValueAssetList() {
-    	return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PROPERTY_VALUE.getLabel(), AssetList.class);
+
+	public AssetList getFireReportAssetList() {
+		return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.FIRE_REPORT.getLabel(), AssetList.class);
 	}
-    public AssetList getConstructionAssetList() {
-    	return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), AssetList.class);
+
+	public AssetList getPropertyValueAssetList() {
+		return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PROPERTY_VALUE.getLabel(), AssetList.class);
 	}
-    public AssetList getAdditionalQuestionsAssetList() {
-    	return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ADDITIONAL_QUESTIONS.getLabel(), AssetList.class);
+
+	public AssetList getConstructionAssetList() {
+		return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), AssetList.class);
 	}
-    public AssetList getInteriorAssetList() {
-    	return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.INTERIOR.getLabel(), AssetList.class);
+
+	public AssetList getAdditionalQuestionsAssetList() {
+		return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ADDITIONAL_QUESTIONS.getLabel(), AssetList.class);
 	}
-    public AssetList getDetachedStructuresAssetList() {
-    	return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.DETACHED_STRUCTURES.getLabel(), AssetList.class);
+
+	public AssetList getInteriorAssetList() {
+		return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.INTERIOR.getLabel(), AssetList.class);
 	}
-    public AssetList getFireProtectiveDDAssetList() {
-    	return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.FIRE_PROTECTIVE_DD.getLabel(), AssetList.class);
+
+	public AssetList getDetachedStructuresAssetList() {
+		return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.DETACHED_STRUCTURES.getLabel(), AssetList.class);
 	}
-    public AssetList getTheftProtectiveTPDDAssetList() {
-    	return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.THEFT_PROTECTIVE_DD.getLabel(), AssetList.class);
+
+	public AssetList getFireProtectiveDDAssetList() {
+		return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.FIRE_PROTECTIVE_DD.getLabel(), AssetList.class);
 	}
-    public AssetList getHomeRenovationAssetList() {
-    	return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.HOME_RENOVATION.getLabel(), AssetList.class);
+
+	public AssetList getTheftProtectiveTPDDAssetList() {
+		return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.THEFT_PROTECTIVE_DD.getLabel(), AssetList.class);
 	}
-    public AssetList getPetsOrAnimalsAssetList() {
-    	return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PETS_OR_ANIMALS.getLabel(), AssetList.class);
+
+	public AssetList getHomeRenovationAssetList() {
+		return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.HOME_RENOVATION.getLabel(), AssetList.class);
 	}
-    public AssetList getStovesAssetList() {
-    	return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.STOVES.getLabel(), AssetList.class);
+
+	public AssetList getPetsOrAnimalsAssetList() {
+		return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PETS_OR_ANIMALS.getLabel(), AssetList.class);
 	}
-    public AssetList getRecreationalEquipmentAssetList() {
-    	return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RECREATIONAL_EQUIPMENT.getLabel(), AssetList.class);
+
+	public AssetList getStovesAssetList() {
+		return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.STOVES.getLabel(), AssetList.class);
 	}
-    public AssetList getClaimHistoryAssetList() {
-    	return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel(), AssetList.class);
+
+	public AssetList getRecreationalEquipmentAssetList() {
+		return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RECREATIONAL_EQUIPMENT.getLabel(), AssetList.class);
 	}
-    public AssetList getRentalInformationAssetList() {
-    	return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RENTAL_INFORMATION.getLabel(), AssetList.class);
+
+	public AssetList getClaimHistoryAssetList() {
+		return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel(), AssetList.class);
+	}
+
+	public AssetList getRentalInformationAssetList() {
+		return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RENTAL_INFORMATION.getLabel(), AssetList.class);
 	}
 }

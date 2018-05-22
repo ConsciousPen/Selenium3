@@ -953,6 +953,9 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * Hit view vehicle service to get OID
 	 * Hit Meta data service
 	 * Validate the response
+	 * Add garage address different than Residential
+	 * Hit Meta Data service again.
+	 * Validate the garage address response.
 	 * @scenario
 	 */
 	@Parameters({"state"})

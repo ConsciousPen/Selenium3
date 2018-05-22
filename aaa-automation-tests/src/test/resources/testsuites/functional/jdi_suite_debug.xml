@@ -37,28 +37,9 @@
                     <include name="pas10229_membershipEligConfigurationTrueForInActiveMembershipNotActiveEValueRenewalMinus63"/>
                     <include name="pas10229_membershipEligibilityConfigurationTrueForActiveMembershipActiveEValueRenewal"/>
                     <include name="pas10229_membershipEligibilityConfigurationTrueForActiveMembershipInActiveEValueRenewal"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPendingDC" parallel="methods" thread-count="1024">
-        <parameter name="state" value="DC"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas11740_membershipEligConfTrueForPendingMembershipNotEvalueStateOK" parallel="methods" thread-count="1024">
-        <parameter name="state" value="OK"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="preconditionsClearFolders"/>
-                    <include name="pas11740_membershipEligConfTrueForPendingMembershipNotEvalueState"/>
+
+                    <include name="pas331_membershipEligibilityConfigurationTrueForErredMembership"/>
+                    <include name="xAsyncTaskCheck"/>
                 </methods>
             </class>
         </classes>

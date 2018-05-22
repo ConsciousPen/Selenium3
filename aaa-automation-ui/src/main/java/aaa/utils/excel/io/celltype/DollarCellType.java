@@ -1,6 +1,5 @@
 package aaa.utils.excel.io.celltype;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -13,15 +12,8 @@ public class DollarCellType extends AbstractCellType<Dollar> {
 	}
 
 	@Override
-	public Dollar getValueFrom(ExcelCell cell) {
-		assertThat(isTypeOf(cell)).as("Unable to get value with \"%1$s\" type from %2$s", getEndType(), cell).isTrue();
-		if (cell.getPoiCell() == null) {
-			return null;
-		}
-		if (hasValueInTextFormat(cell)) {
-			return new Dollar(getText(cell));
-		}
-		return new Dollar(cell.getPoiCell().getNumericCellValue());
+	public Dollar getRawValueFrom(ExcelCell cell) {
+		return hasValueInTextFormat(cell) ? new Dollar(getText(cell)) : new Dollar(cell.getPoiCell().getNumericCellValue());
 	}
 
 	@Override

@@ -14,7 +14,7 @@ import aaa.utils.excel.io.entity.area.ExcelCell;
 public class LocalDateTimeCellType extends DateCellType<LocalDateTime> {
 
 	public LocalDateTimeCellType(Class<LocalDateTime> endType, DateTimeFormatter... dateTimeFormatters) {
-		super(endType);
+		super(endType, dateTimeFormatters);
 		if (ArrayUtils.isEmpty(dateTimeFormatters)) {
 			List<DateTimeFormatter> defaultFormatters = new ArrayList<>();
 			defaultFormatters.add(new DateTimeFormatterBuilder().appendPattern("MM/dd/yyyy")
@@ -35,7 +35,7 @@ public class LocalDateTimeCellType extends DateCellType<LocalDateTime> {
 	}
 
 	@Override
-	protected LocalDateTime getDate(ExcelCell cell) {
+	protected LocalDateTime getRawValueFrom(ExcelCell cell) {
 		return cell.getPoiCell().getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 	}
 

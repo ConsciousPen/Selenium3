@@ -8,16 +8,14 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
-
 import toolkit.utils.logging.CustomLogger;
 
 public class HttpRequestor {
 
-	private boolean allowRedirects = false;
+	private boolean allowRedirects;
 	private Map<String, String> headers = new HashMap<String, String>();
 	private String params;
 	private String method;
@@ -113,12 +111,22 @@ public class HttpRequestor {
 		return connection.getHeaderField(name.get());
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(this.method + " " + this.url);
+		stringBuilder.append(this.headers);
+		stringBuilder.append(params);
+		return stringBuilder.toString();
+	}
+
 	public enum HttpMethods {
 		POST("POST"),
 		GET("GET");
 
 		String id;
-		private HttpMethods(String id) {
+
+		HttpMethods(String id) {
 			this.id = id;
 		}
 
@@ -143,21 +151,13 @@ public class HttpRequestor {
 		DNT("DNT");
 
 		String id;
-		private HttpHeaders(String id) {
+
+		HttpHeaders(String id) {
 			this.id = id;
 		}
 
 		public String get() {
 			return this.id;
 		}
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(this.method + " " + this.url);
-		stringBuilder.append(this.headers.toString());
-		stringBuilder.append(params);
-		return stringBuilder.toString();
 	}
 }

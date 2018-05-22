@@ -113,9 +113,15 @@ public class HomeCaHO4TestDataGenerator extends TestDataGenerator<HomeCaHO4OpenL
 		}
 
 		if (isHO42) {
-			dwellingAddressData.adjust(DataProviderFactory.dataOf(
-					HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(),
-					"contains=" + openLPolicy.getForms().stream().filter(n -> "HO-42".equals(n.getFormCode())).findFirst().get().getTerritoryCode()));
+			String territoryCode = openLPolicy.getForms().stream().filter(n -> "HO-42".equals(n.getFormCode())).findFirst().get().getTerritoryCode(); 
+			if (territoryCode.equals("Office")) {
+				dwellingAddressData.adjust(DataProviderFactory.dataOf(
+						HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(), "contains=" + RandomUtils.nextInt(1, 4)));
+			}
+			else {
+				dwellingAddressData.adjust(DataProviderFactory.dataOf(
+						HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(), "contains=" + territoryCode));
+			}
 		}
 
 		TestData ppcData = DataProviderFactory.dataOf(
@@ -204,7 +210,7 @@ public class HomeCaHO4TestDataGenerator extends TestDataGenerator<HomeCaHO4OpenL
 				if (!endorsementData.containsKey(HomeCaHO4FormTestDataGenerator.getFormMetaKey(formCode))) {
 					List<TestData> tdList = HomeCaHO4FormTestDataGenerator.getFormTestData(openLPolicy, formCode);
 					if (tdList != null) {
-						TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeCaHO3FormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeCaHO3FormTestDataGenerator.getFormMetaKey(formCode), tdList);
+						TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeCaHO4FormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeCaHO4FormTestDataGenerator.getFormMetaKey(formCode), tdList);
 						endorsementData.adjust(td);
 					}
 				}
@@ -285,19 +291,53 @@ public class HomeCaHO4TestDataGenerator extends TestDataGenerator<HomeCaHO4OpenL
 						break;
 				}
 			} else if ("HO-61C".equals(form.getFormCode())) {
+				String horsepower = "15";
+				String length_inches = "200";
+				/*
+				 * Class 1: Boat length < 144 and Horsepower < 16
+				 * Class 1: Boat length > 167 and Boat length < 192 and Horsepower < 26 
+				 * Class 1: Boat length > 191 and Boat length < 216 and Horsepower < 51
+				 */
+				if (form.getType().equals("Outboard")) {
+					if (form.getFormClass().equals("Class 1")) {
+						horsepower = "25"; 
+						length_inches = "167";
+					}
+					if (form.getFormClass().equals("Class 2")) {
+						horsepower = "27"; 
+						length_inches = "167";
+					}
+				}
 				TestData boatsData = DataProviderFactory.dataOf(
-						HomeCaMetaData.PersonalPropertyTab.Boats.BOAT_TYPE.getLabel(), form.getType(),
-						HomeCaMetaData.PersonalPropertyTab.Boats.YEAR.getLabel(), "2015",
-						HomeCaMetaData.PersonalPropertyTab.Boats.HORSEPOWER.getLabel(), "50",
-						HomeCaMetaData.PersonalPropertyTab.Boats.LENGTH_INCHES.getLabel(), "300",
-						HomeCaMetaData.PersonalPropertyTab.Boats.DEDUCTIBLE.getLabel(), new Dollar(form.getDeductible()).toString().split("\\.")[0],
-						HomeCaMetaData.PersonalPropertyTab.Boats.AMOUNT_OF_INSURANCE.getLabel(), "500");
+						HomeCaMetaData.PersonalPropertyTab.Boats.BOAT_TYPE.getLabel(), getBoatType(form.getType()),
+						HomeCaMetaData.PersonalPropertyTab.Boats.YEAR.getLabel(), openLPolicy.getEffectiveDate().minusYears(form.getAge()).getYear(),
+						HomeCaMetaData.PersonalPropertyTab.Boats.HORSEPOWER.getLabel(), horsepower,
+						HomeCaMetaData.PersonalPropertyTab.Boats.LENGTH_INCHES.getLabel(), length_inches,
+						HomeCaMetaData.PersonalPropertyTab.Boats.DEDUCTIBLE.getLabel(), "contains=" + form.getDeductible().toString().split("\\.")[0],
+						HomeCaMetaData.PersonalPropertyTab.Boats.AMOUNT_OF_INSURANCE.getLabel(), form.getLimit().toString().split("\\.")[0]);
 				personalPropertyTabData.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.BOATS.getLabel(), boatsData));
 			}
 		}
 		return personalPropertyTabData;
 	}
-
+	
+	private String getBoatType(String boatType) {
+		switch (boatType) {
+		case "Outboard":
+			return "Outboard";
+		case "Sailboat": 
+			return "Sailboat";
+		case "Inboard": 
+			return "Inboard";
+		case "In/Outboard": 
+			return "Inboard/Outboard"; 
+		case "Canoe": 
+			return "Other";
+		default: 
+			return "Other";
+		}
+	}
+	
 	private TestData getPremiumsAndCoveragesQuoteTabData(HomeCaHO4OpenLPolicy openLPolicy) {
 		Double covD = openLPolicy.getCoverages().stream().filter(c -> "CovD".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
 		Double covE = openLPolicy.getCoverages().stream().filter(c -> "CovE".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
@@ -344,7 +384,7 @@ public class HomeCaHO4TestDataGenerator extends TestDataGenerator<HomeCaHO4OpenL
 					deductible = "contains=" + new Dollar(7500).toString().split("\\.")[0];
 					break;
 				case "HO-177":
-					deductible = "contains=Theft";
+					deductible = "contains=theft";
 					break;
 				default:
 					deductible = "index=1";
