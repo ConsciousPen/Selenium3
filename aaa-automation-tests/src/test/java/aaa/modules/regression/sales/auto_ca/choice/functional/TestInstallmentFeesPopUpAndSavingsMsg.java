@@ -28,7 +28,6 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends TestInstallmentFeesPo
 		return PolicyType.AUTO_CA_CHOICE;
 	}
 
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = {"PAS-246", "PAS-237"})
@@ -58,7 +57,6 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends TestInstallmentFeesPo
 		return NavigationEnum.AutoCaTab.GENERAL.get();
 	}
 
-
 	@Override
 	protected String getPremiumAndCoverageTab() {
 		return NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get();
@@ -83,7 +81,6 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends TestInstallmentFeesPo
 	protected Tab getPremiumAndCoverageTabElement() {
 		return new PremiumAndCoveragesTab();
 	}
-
 
 	@Override
 	protected Tab getDocumentsAndBindElement() {

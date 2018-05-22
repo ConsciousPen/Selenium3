@@ -65,7 +65,6 @@ public abstract class TestInstallmentFeesPopUpAndSavingsMsgAbstract extends Poli
 		autopaySavingMessageCheck(false, delta);
 
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
-		//getDocumentsAndBindElement().fillTab(getPolicyDefaultTD());
 		getDocumentsAndBindElement().submitTab();
 		CustomAssert.assertTrue(Purchase.autoPaySetupSavingMessage.getRow(1).getCell(2).getValue().equals(String.format(AUTOPAY_SAVING_MESSAGE, delta)));
 
