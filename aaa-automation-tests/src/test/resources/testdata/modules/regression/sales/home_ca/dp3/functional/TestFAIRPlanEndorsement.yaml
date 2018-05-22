@@ -28,3 +28,11 @@ DwellingAddress_Change: {
   Validate Address: true,
   Validate Address Dialog: {}
 }
+
+DocumentsTab_SignFairPlanEndorsement: {
+  DocumentsToIssue: {
+      California Residential Property Insurance Disclosure: 'Physically Signed',
+      Fair Plan Companion Endorsement - California: 'Physically Signed',
+      Signed policy application: 'Physically Signed'
+     }
+}

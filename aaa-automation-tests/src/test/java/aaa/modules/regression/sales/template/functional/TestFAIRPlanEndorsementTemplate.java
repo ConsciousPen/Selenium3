@@ -35,6 +35,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 	private ReportsTab reportsTab = new ReportsTab();
 	private EndorsementTab endorsementTab = new EndorsementTab();
 	private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
+	private DocumentsTab documentsTab = new DocumentsTab();
 	private BindTab bindTab = new BindTab();
 	private PurchaseTab purchaseTab = new PurchaseTab();
 	private ErrorTab errorTab = new ErrorTab();
@@ -83,6 +84,8 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		errorTab.cancel();
 
 		switchToFAIRPlanEndorsementAndCalculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
+		documentsTab.getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FAIR_PLAN_COMPANION_ENDORSEMENT_CALIFORNIA).setValue("Physically Signed");
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 		bindTab.submitTab();
 		purchaseTab.fillTab(testData);
@@ -148,6 +151,8 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		errorTab.cancel();
 
 		switchToFAIRPlanEndorsementAndCalculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
+		documentsTab.getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FAIR_PLAN_COMPANION_ENDORSEMENT_CALIFORNIA).setValue("Physically Signed");
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 		bindTab.submitTab();
 		purchaseTab.fillTab(testData);
@@ -222,7 +227,8 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyType.get().initiate();
 		policyType.get().getDefaultView().fillUpTo(testData, PropertyInfoTab.class, true);
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());// Tab out to not fire the error "Dwellings located in PPC 10 are ineligible." for field "Roof Type"
-		policyType.get().getDefaultView().fillFromTo(testData, EndorsementTab.class, BindTab.class, true);
+		policyType.get().getDefaultView().fillFromTo(testData, EndorsementTab.class, DocumentsTab.class, true);
+		documentsTab.getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FAIR_PLAN_COMPANION_ENDORSEMENT_CALIFORNIA).setValue("Physically Signed");
 
 		validateRuleIsFiredWithAndWithoutFAIRPlanEndorsement(); //because rule should still fire if "Is this a log home assembled by a licensed building contractor?" = "No"
 
@@ -295,7 +301,8 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(policyType).getTestData("Endorsement"), "TestData_Plus3Days"));
 
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
-		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE).setValue("contains=1500");
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE).setValue("contains=1,500");
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
@@ -550,6 +557,10 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 				HomeCaMetaData.PropertyInfoTab.Construction.class.getSimpleName(),
 				HomeCaMetaData.PropertyInfoTab.Construction.IS_THIS_A_LOG_HOME_ASSEMBLED_BY_A_LICENSED_BUILDING_CONTRACTOR.getLabel()),
 				licensedContractor);
+		testData.adjust(TestData.makeKeyPath(HomeCaMetaData.DocumentsTab.class.getSimpleName(),
+				HomeCaMetaData.DocumentsTab.DocumentsToIssue.class.getSimpleName(),
+				HomeCaMetaData.DocumentsTab.DocumentsToIssue.FAIR_PLAN_COMPANION_ENDORSEMENT_CALIFORNIA.getLabel()),
+				licensedContractor);
 
 		return testData;
 	}
@@ -593,6 +604,10 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		premiumsAndCoveragesQuoteTab.calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
+		if (documentsTab.getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FAIR_PLAN_COMPANION_ENDORSEMENT_CALIFORNIA).isPresent()) {
+			documentsTab.getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FAIR_PLAN_COMPANION_ENDORSEMENT_CALIFORNIA).setValue("Physically Signed");
+		}
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 	}
 
@@ -649,11 +664,16 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 	private void generateRenewalOfferAtOfferGenDate() {
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
+		LocalDateTime renewInitiationDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
-		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
-
+		TimeSetterUtil.getInstance().nextPhase(renewInitiationDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
 		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
 	}
 
@@ -672,6 +692,8 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 	private void switchToFAIRPlanEndorsementAndBind() {
 		switchToFAIRPlanEndorsementAndCalculatePremium();
 		//Bind
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
+		documentsTab.getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FAIR_PLAN_COMPANION_ENDORSEMENT_CALIFORNIA).setValue("Physically Signed");
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 		new BindTab().submitTab();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -679,6 +701,8 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 	private void switchToFAIRPlanEndorsementAndNavigateToBindTab() {
 		switchToFAIRPlanEndorsementAndCalculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
+		documentsTab.getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FAIR_PLAN_COMPANION_ENDORSEMENT_CALIFORNIA).setValue("Physically Signed");
 		//Bind
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 

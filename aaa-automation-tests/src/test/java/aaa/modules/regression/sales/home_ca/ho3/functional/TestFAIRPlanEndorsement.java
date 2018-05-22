@@ -7,6 +7,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.metadata.policy.HomeCaMetaData;
+import aaa.main.modules.policy.home_ca.defaulttabs.DocumentsTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.modules.regression.sales.template.functional.TestFAIRPlanEndorsementTemplate;
@@ -253,6 +254,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_AC1_NB(@Optional("") String state) {
 		TestData tdWithFAIRPlanEndorsement = getPolicyDefaultTD().adjust(EndorsementTab.class.getSimpleName(), getTestSpecificTD("EndorsementTab_Add"));
+		tdWithFAIRPlanEndorsement.adjust(DocumentsTab.class.getSimpleName(), getTestSpecificTD("DocumentsTab_SignFairPlanEndorsement"));
 		testFAIRPlanEndorsementTemplate.pas12466_AC1_NB(tdWithFAIRPlanEndorsement);
 	}
 
