@@ -1017,6 +1017,32 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 		);
 	}
 
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Validation of E2E flow in DXP
+	 * @scenario 1. Create a policy
+	 * 2. Add maximum number of vehicle
+	 * 3. Check when the last vehicle is added, the response contains canAddVehicle = false
+	 * 4. Try to add 1 more vehicle
+	 * 5. Check there is an error message
+	 * 6. Rate, Bind
+	 * 7. Start new endorsement
+	 * 8. add 1 more vehicle - check error
+	 * 9. remove a vehicle
+	 * 10. add a vehicle
+	 * 11. Check when the last vehicle is added, the response contains canAddVehicle = false
+	 * 12. rate, bind
+	 * 13. Create 1 more endorsement in UI
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9546"})
+	public void pas9546_maxVehicles(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas9546_maxVehiclesBody(softly)
+		);
+	}
+
 	@Override
 	protected String getGeneralTab() {
 		return NavigationEnum.AutoSSTab.GENERAL.get();
