@@ -44,8 +44,8 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 	private static final String ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT = "Wood burning stoves as the sole source of heat are ineligible.";
 	private static final String ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR = "Dwellings with a wood burning stove without at least one smoke detector insta";
 
-	private String formIdInXml; // = DocGenEnum.Documents.FPCECA.getIdInXml();
-	private String fairPlanEndorsementLabelInEndorsementTab; // = HomeCaMetaData.EndorsementTab.FPCECA.getLabel();
+	private String formIdInXml;
+	private String fairPlanEndorsementLabelInEndorsementTab;
 	private PolicyType policyType;
 
 	private TestFAIRPlanEndorsementTemplate() {}
