@@ -667,6 +667,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC03_RenewalImageGeneration(@Optional("") String state) {
+		clearList();
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate_CurrentTerm);
 		Log.info("Policy Renewal Image Generation Date" + renewImageGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
