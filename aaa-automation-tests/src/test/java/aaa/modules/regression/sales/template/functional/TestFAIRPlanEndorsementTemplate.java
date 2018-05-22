@@ -590,11 +590,11 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 	}
 
-	private void switchToLogHomeAndNavigateToBind(String licensedBuildingConstractorValue) {
+	private void switchToLogHomeAndNavigateToBind(String licensedBuildingContractorValue) {
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
 		propertyInfoTab.getConstructionAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Construction.CONSTRUCTION_TYPE).setValueStarts("Log Home");
 		propertyInfoTab.getConstructionAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Construction.IS_THIS_A_LOG_HOME_ASSEMBLED_BY_A_LICENSED_BUILDING_CONTRACTOR)
-				.setValue(licensedBuildingConstractorValue);
+				.setValue(licensedBuildingContractorValue);
 		propertyInfoTab.submitTab();
 
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
