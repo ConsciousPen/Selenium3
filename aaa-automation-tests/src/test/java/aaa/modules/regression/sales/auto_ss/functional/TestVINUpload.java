@@ -875,6 +875,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN6,"SYMBOL_2000");
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN7,"SYMBOL_2000");
 		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_SS);
+		DBService.get().executeUpdate(VehicleQueries.REPAIR_7MSRP15H_COMP);
+		DBService.get().executeUpdate(VehicleQueries.REPAIR_7MSRP15H_COLL);
 		DBService.get().executeUpdate(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE);
 	}
 }
