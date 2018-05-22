@@ -40,7 +40,7 @@ public class TestContactInformation extends TestContactInformationAbstract {
      * {@link aaa.modules.regression.sales.template.functional.TestContactInformationAbstract}
      */
     @Parameters({"state"})
-    @Test(groups = { Groups.FUNCTIONAL, Groups.MEDIUM })
+    @Test(groups = { Groups.REGRESSION, Groups.MEDIUM })
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = {"PAS-270", "PAS-267"})
     public void pas270_contactInformation(@Optional("CA") String state)  {
         initiateQuote(DocumentsAndBindTab.class);

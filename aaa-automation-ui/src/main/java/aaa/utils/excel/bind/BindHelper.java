@@ -47,7 +47,7 @@ public class BindHelper {
 	public static List<Class<?>> getThisAndAllSuperClasses(Class<?> clazz) {
 		List<Class<?>> allSuperClasses = new ArrayList<>();
 		allSuperClasses.add(clazz);
-		while (clazz.getClasses() != null && !clazz.getSuperclass().equals(Object.class)) {
+		while (clazz != null && clazz.getClasses() != null && !Objects.equals(clazz.getSuperclass(), Object.class)) {
 			clazz = clazz.getSuperclass();
 			allSuperClasses.add(clazz);
 		}
@@ -55,7 +55,7 @@ public class BindHelper {
 	}
 
 	public static boolean isTableClassField(Field field) {
-		return getThisAndAllSuperClasses(getFieldType(field)).stream().anyMatch(clazz -> clazz.isAnnotationPresent(ExcelTableElement.class));
+		return getThisAndAllSuperClasses(getFieldType(field)).stream().filter(Objects::nonNull).anyMatch(clazz -> clazz.isAnnotationPresent(ExcelTableElement.class));
 	}
 
 	@SuppressWarnings("unchecked")

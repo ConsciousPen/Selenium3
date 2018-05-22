@@ -1,4 +1,4 @@
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Scorpions Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <!-- Listener commented out for local runs-->
@@ -204,16 +204,6 @@
         <parameter name="state" value="NY"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.TestSymbolsPresenceApplicationFormForPremCalcQuote">
-                <methods>
-                    <include name="pas9064_MapCompAndCollSymbolsForDCS"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas9064_MapCompAndCollSymbolsForDCS Select CA">
-        <parameter name="state" value="NY"/>
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.TestSymbolsPresenceApplicationFormForPremCalcQuote">
                 <methods>
                     <include name="pas9064_MapCompAndCollSymbolsForDCS"/>
                 </methods>

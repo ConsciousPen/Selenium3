@@ -11,7 +11,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.utils.excel.io.ExcelManager;
@@ -142,24 +141,6 @@ public abstract class ExcelCell implements Writable {
 		return numberCellTypes;
 	}
 
-	protected DateCellType<?> getDateCellType(DateTimeFormatter... dateTimeFormatters) {
-		if (ArrayUtils.isNotEmpty(dateTimeFormatters)) {
-			for (CellType<?> type : this.allowableCellTypes) {
-				if (type instanceof DateCellType && ((DateCellType<?>) type).isTypeOf(this, dateTimeFormatters)) {
-					return (DateCellType<?>) type;
-				}
-			}
-		}
-
-		for (CellType<?> type : getCellTypes()) {
-			if (type instanceof DateCellType) {
-				return (DateCellType<?>) type;
-			}
-		}
-
-		return null;
-	}
-
 	protected int getColumnIndexOnSheet() {
 		return this.columnIndexOnSheet;
 	}
@@ -174,8 +155,8 @@ public abstract class ExcelCell implements Writable {
 				"sheetName=" + getSheetName() +
 				", rowIndex=" + getRowIndex() +
 				", columnIndex=" + getColumnIndex() +
+				", value=\"" + getStringValue() + "\"" +
 				", cellTypes=" + getCellTypes() +
-				", value=" + getStringValue() +
 				'}';
 	}
 
@@ -331,6 +312,24 @@ public abstract class ExcelCell implements Writable {
 
 	public abstract ExcelCell delete();
 
+	protected DateCellType<?> getDateCellType(DateTimeFormatter... dateTimeFormatters) {
+		if (ArrayUtils.isNotEmpty(dateTimeFormatters)) {
+			for (CellType<?> type : this.allowableCellTypes) {
+				if (type instanceof DateCellType && ((DateCellType<?>) type).isTypeOf(this, dateTimeFormatters)) {
+					return (DateCellType<?>) type;
+				}
+			}
+		}
+
+		for (CellType<?> type : getCellTypes()) {
+			if (type instanceof DateCellType) {
+				return (DateCellType<?>) type;
+			}
+		}
+
+		return null;
+	}
+
 	protected List<CellType<?>> filterAndGetValidCellTypes(List<CellType<?>> cellTypes) {
 		List<CellType<?>> filteredCellTypes = new ArrayList<>();
 		for (CellType<?> type : cellTypes) {
@@ -341,11 +340,10 @@ public abstract class ExcelCell implements Writable {
 		return filteredCellTypes;
 	}
 
-	@SuppressWarnings("resource")
 	private Cell normalizeCell(Cell cell) {
+		//TODO-dchubkov: maybe would be better to move this logic to only needed CellTypes
 		if (cell != null && cell.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.FORMULA) {
-			FormulaEvaluator evaluator = getExcelManager().getWorkbook().getCreationHelper().createFormulaEvaluator();
-			return evaluator.evaluateInCell(cell);
+			return getExcelManager().getFormulaEvaluator().evaluateInCell(cell);
 		}
 		return cell;
 	}

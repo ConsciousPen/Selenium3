@@ -114,7 +114,7 @@ public abstract class OpenLFile<P extends OpenLPolicy> {
 	public static final String DWELLING_SHEET_NAME = "Batch- Dwelling";
 
 	@ExcelTransient
-	public static final String TESTS_SHEET_NAME = "Tests";
+	public static final String TESTS_SHEET_NAME = "Test";
 
 	@ExcelTransient
 	public static final String PRIMARY_KEY_COLUMN_NAME = "_PK_";

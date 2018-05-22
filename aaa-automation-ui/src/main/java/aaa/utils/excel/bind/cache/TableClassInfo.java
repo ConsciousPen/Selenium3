@@ -213,8 +213,21 @@ public class TableClassInfo {
 		int headerRowIndex = getAnnotatedTableClass().getAnnotation(ExcelTableElement.class).headerRowIndex();
 		ExcelTable table;
 
+		ExcelSheet sheet;
+		if (!getAnnotatedTableClass().getAnnotation(ExcelTableElement.class).containsSheetName().equals(ExcelTableElement.DEFAULT_CONTAINS_SHEET_NAME)) {
+			//take sheet which contains sheet name pattern from annotation if it's defined
+			sheet = getExcelManager().getSheetContains(getAnnotatedTableClass().getAnnotation(ExcelTableElement.class).containsSheetName());
+		} else {
+			if (getAnnotatedTableClass().getAnnotation(ExcelTableElement.class).sheetName().equals(ExcelTableElement.DEFAULT_SHEET_NAME)) {
+				//take first sheet from excel if sheet name is unset
+				sheet = getExcelManager().getSheet(1);
+			} else {
+				//take sheet with defined name from annotation
+				sheet = getExcelManager().getSheet(getAnnotatedTableClass().getAnnotation(ExcelTableElement.class).sheetName());
+			}
+		}
+
 		List<String> headerColumnNames = getHeaderColumnNames();
-		ExcelSheet sheet = getExcelManager().getSheet(getAnnotatedTableClass().getAnnotation(ExcelTableElement.class).sheetName());
 		if (headerRowIndex < 0) {
 			table = sheet.getTable(isCaseIgnoredInAnyColumnField(), headerColumnNames.toArray(new String[headerColumnNames.size()]));
 		} else {

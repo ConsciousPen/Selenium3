@@ -1,6 +1,7 @@
 package aaa.utils.excel.io.entity.area.table;
 
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.Temporal;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.poi.ss.usermodel.Cell;
@@ -56,9 +57,10 @@ public class TableRow extends ExcelRow<TableCell> {
 		return "TableRow{" +
 				"sheetName=" + getSheetName() +
 				", rowIndex=" + getIndex() +
+				", rowIndexOnSheet=" + getIndexOnSheet() +
 				", columnsNumber=" + getCellsNumber() +
-				", cellTypes=" + getCellTypes() +
 				", values=" + getTableStringValues() +
+				", cellTypes=" + getCellTypes() +
 				'}';
 	}
 
@@ -129,6 +131,10 @@ public class TableRow extends ExcelRow<TableCell> {
 
 	public Double getDoubleValue(String headerColumnName) {
 		return getDoubleValue(getIndex(headerColumnName));
+	}
+
+	public <T extends Temporal> T getDateValue(String headerColumnName, DateTimeFormatter... dateTimeFormatters) {
+		return getDateValue(getIndex(headerColumnName));
 	}
 
 	public TableRow setValue(String headerColumnName, Object value) {

@@ -642,6 +642,56 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	/**
+	 * @author Oleg Stasyuk
+	 * @name eValue discount is applicable, when issueing policy with Payment Method DC
+	 * @scenario 1. Create new eValue eligible Quote with Pay Plan <> Annual
+	 * 2. Issue it using payment method DC
+	 * 3. Start an endorsement, set eValue, check message about Autopay is present
+	 * 4. Try to issue, see there is an error about Autopay preventing issue
+	 * 5. Start a renewal, set eValue, check message about Autopay is present
+	 * 6. Try to issue, see there is an error about Autopay preventing issue
+	 * @details
+	 * @param state
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-321", "PAS-317"})
+	public void pas321_eValueAtRenewalOrMidtermNoAutopay(@Optional("VA") String state) {
+		eValueQuoteCreation();
+
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN).setValue("contains=Standard");
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("No");
+		new PremiumAndCoveragesTab().calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
+		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("");
+
+		simplifiedQuoteIssue();
+		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("");
+
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		autopayKeepMessageEndorseRenewCheck();
+
+		policy.renew().start();
+		autopayKeepMessageEndorseRenewCheck();
+	}
+
+	private void autopayKeepMessageEndorseRenewCheck() {
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN).setValue("contains=Standard");
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		assertThat(PremiumAndCoveragesTab.tableeMemberMessageGrid.getRow(1).getCell(4)).hasValue(AUTOPAY_KEEP_EVALUE);
+		premiumAndCoveragesTab.calculatePremium();
+
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		documentsAndBindTab.submitTab();
+		assertThat(errorTab.tableErrors.getRowContains("Code", "AAA_SS11020532").getCell("Message").getValue().toLowerCase().contains(AUTOPAY_KEEP_EVALUE.toLowerCase().substring(0,30))).isTrue();
+		errorTab.cancel();
+		documentsAndBindTab.saveAndExit();
+	}
+
+	/**
 	 * new feature
 	 *
 	 * @author Megha Gubbala
@@ -826,7 +876,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				+ "Select * from dual";
 
 		DBService.get().executeUpdate(eValueCurrentConfigPaInsert);
-		mainApp().open();
+		adminApp().open();
 		CacheManager.clearCache();
 
 		eValueQuoteCreation();
@@ -878,6 +928,74 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		//PriorBi
 		pas232_eValuePriorBiConfigurationDependencyCheck("$15,000/$30,000", "$25,000/$50,000");
 		pas232_eValuePriorBiNoneConfigurationDependencyCheck();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name PA Default Config
+	 * @scenario 1. Create new eValue eligible quote but for PA Eligible state (PA)
+	 *
+	 * Membership is required
+	 * Prior BI is required - same as VA
+	 * No payment plan is required
+	 * No current BI requirement
+	 * South Jersey is not included - Used Mid-Atlantic/AAA Agent
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-317"})
+	public void pas317_membershipAndBiForRenewal(@Optional("VA") String state) {
+		eValueQuoteCreation();
+		simplifiedQuoteIssue("ACH");
+		//Precondition for test
+		policy.renew().start();
+
+		//Current BI check
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		ComboBox biAsset = premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY);
+		ComboBox pdAsset = premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY);
+		ComboBox umbiAsset = premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY);
+		ComboBox umpdAsset = premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE);
+		biAsset.setValueByIndex(0);
+		Page.dialogConfirmation.confirm();
+		pdAsset.setValueByIndex(0);
+		umbiAsset.setValueByIndex(0);
+		umpdAsset.setValueByIndex(0);
+
+		premiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.present();
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled();
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("No");
+
+		//Membership check
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("No");
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled(false);
+
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
+		generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("4290023667710001");
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled();
+
+		//PriorBi
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_BI_LIMITS).setValue("$15,000/$30,000");
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled(true);
+
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER).setValue("None");
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled(true);
+
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.OVERRIDE_CURRENT_CARRIER).setValue("No");
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled(true);
 	}
 
 	private void pas232_eValuePriorBiNoneConfigurationDependencyCheck() {
@@ -1603,10 +1721,10 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794", "PAS-3685"})
 	public void pas3693_eValueConfiguration1(@Optional("OR") String state) {
 		CustomAssert.enableSoftMode();
-		verifyEvalueAcknowledgement(8, "N", "Y", "Y", "Y", "Y");
+		pas3685_verifyEvalueAcknowledgement(8, "N", "Y", "Y", "Y", "Y");
 		checkBlueBoxMessagesWithDiffData(8, MESSAGE_INFO_4, MEMBERSHIP_FALSE_YES, MESSAGE_INFO_4, MEMBERSHIP_FALSE_YES, "membership");
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1617,7 +1735,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794"})
 	public void pas3693_eValueConfiguration2(@Optional("OR") String state) {
 		CustomAssert.enableSoftMode();
-		verifyEvalueAcknowledgement(12, "Y", "N", "Y", "N", "Y");
+		pas3685_verifyEvalueAcknowledgement(12, "Y", "N", "Y", "N", "Y");
 		checkBlueBoxMessagesWithDiffData(12, MESSAGE_INFO_4, CURRENT_BI_FALSE_YES, MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, "membership");
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1628,7 +1746,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794"})
 	public void pas3693_eValueConfiguration3(@Optional("OR") String state) {
 		CustomAssert.enableSoftMode();
-		verifyEvalueAcknowledgement(18, "Y", "Y", "N", "Y", "Y");
+		pas3685_verifyEvalueAcknowledgement(18, "Y", "Y", "N", "Y", "Y");
 		checkBlueBoxMessagesWithDiffData(18, MESSAGE_INFO_4, PAY_PLAN_FALSE_YES, MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, "membership");
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1639,7 +1757,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794"})
 	public void pas3693_eValueConfiguration4(@Optional("OR") String state) {
 		CustomAssert.enableSoftMode();
-		verifyEvalueAcknowledgement(15, "Y", "Y", "Y", "Y", "N");
+		pas3685_verifyEvalueAcknowledgement(15, "Y", "Y", "Y", "Y", "N");
 		checkBlueBoxMessagesWithDiffData(15, MESSAGE_INFO_4, PAPERLESS_AND_PRIOR_INS_FALSE_YES, MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, "priorCarior");
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1650,7 +1768,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794"})
 	public void pas3693_eValueConfiguration5(@Optional("OR") String state) {
 		CustomAssert.enableSoftMode();
-		verifyEvalueAcknowledgement(3, "N", "N", "N", "Y", "N");
+		pas3685_verifyEvalueAcknowledgement(3, "N", "N", "N", "Y", "N");
 		checkBlueBoxMessagesWithDiffData(3, MESSAGE_INFO_4, ALL_FALSE, MESSAGE_INFO_4, ALL_FALSE, "priorCarior");
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1694,7 +1812,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				.equals(DocGenHelper.getDocumentDataElemByName(tag, document).getDataElementChoice().getTextField()));
 	}
 
-	private void verifyEvalueAcknowledgement(int days, String aaaMemYN, String currentBIYN, String payPlnYN, String plcyPayFullAmtYN, String myPolicyYN) {
+	private void pas3685_verifyEvalueAcknowledgement(int days, String aaaMemYN, String currentBIYN, String payPlnYN, String plcyPayFullAmtYN, String myPolicyYN) {
 		String quoteNumber;
 		eValueQuoteCreation();
 		quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
@@ -2355,11 +2473,10 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	/**
 	 * example to clear cache for the product
 	 */
-	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.LOW})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-111")
-	public void pas111_clearCache(@Optional("") String state) {
-		mainApp().open();
+	public void pas111_clearCache() {
+		adminApp().open();
 		CacheManager.clearCache();
 	}
 }

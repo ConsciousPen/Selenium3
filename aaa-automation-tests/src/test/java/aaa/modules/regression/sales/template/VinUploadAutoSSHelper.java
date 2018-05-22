@@ -1,9 +1,12 @@
 package aaa.modules.regression.sales.template;
 
-import static aaa.helpers.db.queries.MsrpQueries.*;
+import static aaa.helpers.db.queries.MsrpQueries.AUTO_SS_PPA_VEH_MSRP_VERSION;
+import static aaa.helpers.db.queries.MsrpQueries.DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY;
+import static aaa.helpers.db.queries.MsrpQueries.DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_VERSION_STATECD;
+import static aaa.helpers.db.queries.MsrpQueries.INSERT_MSRPCOMPCOLLCONTROL_VERSION;
+import static aaa.helpers.db.queries.MsrpQueries.UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX;
 import static aaa.helpers.db.queries.VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +22,11 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -96,9 +103,9 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
-		if (timeShiftedDate == renewalDate.minusDays(46) || timeShiftedDate == renewalDate.minusDays(25)) {
+		if (timeShiftedDate == renewalDate.minusDays(46) || timeShiftedDate == renewalDate.minusDays(40)|| timeShiftedDate == renewalDate.minusDays(25)) {
 			assertSoftly(softly -> {
-				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isNotEqualTo("2005");
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isNotEqualTo("2018");
 				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isNotEqualTo("TOYOTA");
 				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isNotEqualTo("Gt");
 			});
@@ -108,13 +115,6 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2007");
 				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("UT_SS_R45");
 				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Gt_R45");
-			});
-		}
-		else if (timeShiftedDate == renewalDate.minusDays(40))	{
-			assertSoftly(softly -> {
-				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2005");
-				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("TOYOTA");
-				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Gt");
 			});
 		}
 		else log.info("Doing Nothing, for now...");
@@ -133,7 +133,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("Gt").as("Row with VALID=Y and oldest Entry Date should be used");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()).getValue()).isEqualTo("UT_SS");
 			// PAS-1487  No Match to Match but Year Doesn't Match
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.YEAR.getLabel()).getValue()).isEqualTo("2005");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.YEAR.getLabel()).getValue()).isEqualTo("2018");
 			// PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("Yes");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel()).isPresent()).isEqualTo(false);
@@ -298,49 +298,50 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 	}
 
 	protected void addMotorHomeVehicleToDB_AutoSS() {
-		// Expire MSRP_2000 for AAA_SS product
-		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION, 20150101, getState(), "MSRP_2000"));
-
-		// Add new VEHICLEREFDATAVINCONTROL version
-		BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
-
-		DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_VERSION,
-				getUniqId, "AAA_SS", null, getState(), "SYMBOL_2000", 20150102, 20500102, AUTO_SS_MOTORHOME_VEH_MSRP_VERSION));
+		//// Expire MSRP_2000 for AAA_SS product
+		//DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION, 20150101, getState(), "MSRP_2000"));
+//
+		//// Add new VEHICLEREFDATAVINCONTROL version
+		//BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
+//
+		//DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_VERSION,
+		//		getUniqId, "AAA_SS", null, getState(), "SYMBOL_2000", 20250102, 20500102, AUTO_SS_PPA_VEH_MSRP_VERSION));
 
 		// Add new MSRP version
-		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, "Motor", AUTO_SS_MOTORHOME_VEH_MSRP_VERSION, 4));
+		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2025, 9999, "Motor", AUTO_SS_PPA_VEH_MSRP_VERSION, 4));
 	}
 
 	protected void addPPAVehicleToDBAutoSS() {
-		// Expire MSRP_2000 for AAA_SS product
-		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION, 20150101, getState(), "MSRP_2000"));
-
-		// Add new VEHICLEREFDATAVINCONTROL version
-		BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
-
-		DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_VERSION,
-				getUniqId, "AAA_SS", null, getState(), "SYMBOL_2000", 20150102, 20500102, AUTO_SS_PPA_VEH_MSRP_VERSION));
+		//// Expire MSRP_2000 for AAA_SS product
+		//DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION, 20150101, getState(), "MSRP_2000"));
+//
+		//// Add new VEHICLEREFDATAVINCONTROL version
+		//BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
+//
+		//DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_VERSION,
+		//		getUniqId, "AAA_SS", null, getState(), "SYMBOL_2000", 20150102, 20500102, AUTO_SS_PPA_VEH_MSRP_VERSION));
 
 		// Add new MSRP version
-		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, "PPA", AUTO_SS_PPA_VEH_MSRP_VERSION, 4));
+		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2025, 9999, "PPA", AUTO_SS_PPA_VEH_MSRP_VERSION, 4));
 	}
 
 	/* DB cleaning methods */
 
 	public void resetMsrpHomeVehHelper() {
+		//resetDefaultMSRPVersionAtVinControlTable();
 		// Reset 'default' msrp version
-		resetMsrpVersionMSRPCompCollControlTable();
+		//resetMsrpVersionMSRPCompCollControlTable();
 		// DELETE new VEHICLEREFDATAVINCONTROL version
-		deleteVersionFromVehicleControlTable(AUTO_SS_MOTORHOME_VEH_MSRP_VERSION);
+		//deleteVersionFromVehicleControlTable(AUTO_SS_PPA_VEH_MSRP_VERSION);
 		// DELETE new MSRP version pas730_VehicleTypeNotPPA
-		deleteAddedMsrpVersionFormMsrpControlTable(AUTO_SS_MOTORHOME_VEH_MSRP_VERSION, "Motor");
+		deleteAddedMsrpVersionFormMsrpControlTable(AUTO_SS_PPA_VEH_MSRP_VERSION, "Motor");
 	}
 
 	public void resetMsrpPPAVeh() {
 		// Reset 'default' msrp version
-		resetMsrpVersionMSRPCompCollControlTable();
+		//resetMsrpVersionMSRPCompCollControlTable();
 		// DELETE new VEHICLEREFDATAVINCONTROL version
-		deleteVersionFromVehicleControlTable(AUTO_SS_PPA_VEH_MSRP_VERSION);
+		//deleteVersionFromVehicleControlTable(AUTO_SS_PPA_VEH_MSRP_VERSION);
 		// DELETE new MSRP version pas730_VehicleTypePPA
 		deleteAddedMsrpVersionFormMsrpControlTable(AUTO_SS_PPA_VEH_MSRP_VERSION, "PPA");
 	}
@@ -358,7 +359,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 	}
 
 	// Used in After suite method, cause of cross-test interruptions
-	public void resetDefaultMSRPVersionValuesVinControlTable() {
+	public void resetDefaultMSRPVersionAtVinControlTable() {
 		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE));
 	}
 

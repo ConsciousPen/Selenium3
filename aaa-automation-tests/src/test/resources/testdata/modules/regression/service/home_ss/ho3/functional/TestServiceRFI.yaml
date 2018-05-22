@@ -1,31 +1,22 @@
-TestData1_VA: {
-  GeneralTab: '@<home_ss_ho3>@DataGather@GeneralTab_VA',
-  ApplicantTab: '@<home_ss_ho3>@DataGather@ApplicantTab_VA',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_VA',
+TestData1: {
   PropertyInfoTab: '@PropertyInfoTab',
-  ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
-  EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@<home_ss_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
-  MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@DocumentsTab1',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
 }
 
-TestData2_VA: {
-  GeneralTab: '@<home_ss_ho3>@DataGather@GeneralTab_VA',
-  ApplicantTab: '@<home_ss_ho3>@DataGather@ApplicantTab_VA',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_VA',
+TestData2: {
   PropertyInfoTab: '@PropertyInfoTab',
-  ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
-  EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@<home_ss_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
-  MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@DocumentsTab2',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
 }
 
+TestData1_KY: {
+  PropertyInfoTab: '@PropertyInfoTab',
+  DocumentsTab: '@DocumentsTab1_KY',
+}
+
+TestData2_KY: {
+  PropertyInfoTab: '@PropertyInfoTab',
+  DocumentsTab: '@DocumentsTab2_KY',
+}
 # ------------------ Tabs --------------------
 
 PropertyInfoTab: {
@@ -137,6 +128,35 @@ DocumentsTab2: {
   }
 }
 
+DocumentsTab1_KY: {
+  DocumentsToBind: {
+    Proof of ENERGY STAR appliances or green home features: 'No',
+    Proof of central fire alarm: 'No',
+    Proof of central theft alarm: 'No',
+    "Proof of plumbing, electrical, heating/cooling system and roof renovations": 'No',
+    Proof of subscription to fire department: 'No'
+  },
+  DocumentsToIssue: {
+    Signed policy application: Not Signed,
+    Kentucky Mine Subsidence Insurance Fund Waiver Form: Physically Signed,
+    Coverage Acceptance Statement: Not Signed
+  }
+}
+
+DocumentsTab2_KY: {
+  DocumentsToBind: {
+    "Proof of ENERGY STAR appliances or green home features": 'No',
+    Proof of central fire alarm: 'No',
+    Proof of central theft alarm: 'No',
+    Proof of home renovations for the Home Modernization discount: 'No',
+    Proof of subscription to fire department: 'No',
+  },
+  DocumentsToIssue: {
+    Signed policy application: Not Signed,
+    Kentucky Mine Subsidence Insurance Fund Waiver Form: Physically Signed,
+    Coverage Acceptance Statement: Not Signed
+  }
+}
 
 
 

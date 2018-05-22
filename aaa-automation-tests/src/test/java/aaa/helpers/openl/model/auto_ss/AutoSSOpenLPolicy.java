@@ -7,7 +7,7 @@ import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
-@ExcelTableElement(sheetName = AutoSSOpenLFile.POLICY_SHEET_NAME, headerRowIndex = OpenLFile.POLICY_HEADER_ROW_NUMBER)
+@ExcelTableElement(containsSheetName = OpenLFile.POLICY_SHEET_NAME, headerRowIndex = OpenLFile.POLICY_HEADER_ROW_NUMBER)
 public class AutoSSOpenLPolicy extends OpenLPolicy {
 
 	private AutoSSOpenLCappingDetails cappingDetails;
