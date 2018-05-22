@@ -200,7 +200,7 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 				.setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 
-	private void fillPolicy() {
+	protected void fillPolicy() {
 		policy.dataGather().start();
 		PrefillTab prefillTab = new PrefillTab();
 		prefillTab.getNamedInsuredListChangeLink(2).click();

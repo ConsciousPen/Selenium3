@@ -799,7 +799,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				+ "Select * from dual";
 
 		DBService.get().executeUpdate(eValueCurrentConfigPaInsert);
-		mainApp().open();
+		adminApp().open();
 		CacheManager.clearCache();
 
 		eValueQuoteCreation();
@@ -2332,7 +2332,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@Test(groups = {Groups.FUNCTIONAL, Groups.LOW})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-111")
 	public void pas111_clearCache(@Optional("") String state) {
-		mainApp().open();
+		adminApp().open();
 		CacheManager.clearCache();
 	}
 }

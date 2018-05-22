@@ -15,7 +15,6 @@ public class CacheManager extends DefaultTab {
 	}
 
 	public static void clearCache() {
-		linkAdminApp.click();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.CACHE_MANAGER.get());
 		int rowsCount = tableCacheManager.getRowsCount();
