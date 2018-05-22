@@ -718,14 +718,6 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 	}
 
-	private void switchAwayFromFAIRPlanEndorsementAndBind() {
-		switchAwayFromFAIRPlanEndorsement();
-		//Bind
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
-		new BindTab().submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-	}
-
 	////////////End PAS-13242 methods////////////////
 
 	private void stoveQuestionValidationSteps() {
