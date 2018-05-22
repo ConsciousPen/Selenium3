@@ -1354,7 +1354,6 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<RadioGroup> CERTIFICATE_OF_AUTHENTICITY_RECEIVED = declare("Certificate of authenticity received", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.AJAX);
 		}
-
 	}
 
 	public static final class PremiumsAndCoveragesQuoteTab extends MetaData {
@@ -1393,6 +1392,14 @@ public final class HomeSSMetaData {
 
 		public static final AssetDescriptor<DialogAssetList> OVERRRIDE_PREMIUM_DIALOG = declare("Override Premium", DialogAssetList.class, OverridePremiumDialog.class,
 				By.xpath("//form[@id='premiumOverrideInfoFormAAAHOPremiumOverride']"));
+
+		public static final AssetDescriptor<FillableTable> INSTALLMENT_FEES_DETAILS_TABLE = declare("InstallemntFeesDetails",  FillableTable.class, ListOfFeeDetailsRow.class, By.id("policyDataGatherForm:installmentFeeDetailsTable"));
+
+		public static final class ListOfFeeDetailsRow extends MetaData {
+			public static final AssetDescriptor<StaticElement> PAYMENT_METHOD = declare("Payment Method", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> ENROLLED_IN_AUTO_PAY = declare("Enrolled in Auto Pay", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> INSTALLMENT_FEE = declare("Installment Fee", StaticElement.class);
+		}
 
 		public enum HomeSSCoverages {
 			COVERAGE_A("Coverage A - Dwelling limit"),

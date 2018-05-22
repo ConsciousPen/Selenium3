@@ -2,202 +2,107 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
-import static aaa.main.enums.PolicyConstants.PolicyCoverageInstallmentFeeTable.INSTALLMENT_FEE;
-import static aaa.main.enums.PolicyConstants.PolicyCoverageInstallmentFeeTable.PAYMENT_METHOD;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
-import aaa.common.pages.Page;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.main.modules.policy.abstract_tabs.Purchase;
-import aaa.main.modules.policy.home_ss.defaulttabs.*;
-import aaa.modules.policy.HomeSSHO3BaseTest;
-import toolkit.datax.TestData;
+import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.modules.regression.sales.template.functional.TestInstallmentFeesPopUpAndSavingsMsgAbstract;
+import aaa.toolkit.webdriver.customcontrols.FillableTable;
+import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
+import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
-public class TestInstallmentFeesPopUpAndSavingsMsg extends HomeSSHO3BaseTest {
+public class TestInstallmentFeesPopUpAndSavingsMsg extends TestInstallmentFeesPopUpAndSavingsMsgAbstract {
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_SS_HO3;
+	}
 
-	private static final String AUTOPAY_SAVING_MESSAGE = "This customer can save %s per installment if enrolled into AutoPay with a checking/savings account.";
-	private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
-	private BindTab bindTab = new BindTab(); //TODO test with policy.dataGather().getView().getTab(DocumentsAndBindTab.class); instead of new Tab();
-	private ErrorTab errorTab = new ErrorTab();
-	private String mortgageeTabKey;
-
-	/**
-	 * *@author Oleg Stasyuk
-	 * *@name Test Autopay Saving Message in P&C tab and in Purchase flow
-	 * *@scenario 1. Create new quote
-	 * 2. Open P&C, check that Autopay Saving Message is not shown for Annual and Monthly plan
-	 * 3. Go to Purchase flow, check that Autopay Saving Message is shown
-	 * 4. Issue quote
-	 * 5. Start an endorsement
-	 * 6. Open P&C, check that Autopay Saving Message is not shown for Annual plan and is shown for Monthly plan
-	 * *@details
-	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-246"})
-	public void pas246_InstallmentFeesPopUpAndSavingsMsg(@Optional("PA") String state) {
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-246", "PAS-237"})
+	public void pas246_InstallmentFeesPopUpAndSavingsMsg(@Optional("VA") String state) {
 		mainApp().open();
-
 		createCustomerIndividual();
 		createQuote();
-
 		policy.dataGather().start();
 
-		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		PremiumsAndCoveragesQuoteTab.linkPaymentPlan.click();
-		PremiumsAndCoveragesQuoteTab.linkViewApplicableFeeSchedule.click();
-		Dollar nonEftInstallmentFee = new Dollar(PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE).getValue());
-		Dollar eftInstallmentFeeACH =
-				new Dollar(PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Checking / Savings Account (ACH)").getCell(INSTALLMENT_FEE).getValue());
-		Dollar eftInstallmentFeeCreditCard = new Dollar(PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Credit Card").getCell(INSTALLMENT_FEE).getValue());
-		Dollar eftInstallmentFeeDebitCard = new Dollar(PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Debit Card").getCell(INSTALLMENT_FEE).getValue());
-		String delta = nonEftInstallmentFee.subtract(eftInstallmentFeeACH).toString().replace(".00", "");
-		Page.dialogConfirmation.buttonCloseWithCross.click();
-
-		autopaySavingMessageCheck(false, delta);
-
-		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.BIND.get());
-		bindTab.submitTab();
-		CustomAssert.assertTrue(Purchase.autoPaySetupSavingMessage.getRow(1).getCell(2).getValue().equals(String.format(AUTOPAY_SAVING_MESSAGE, delta)));
-
-		Purchase.linkViewApplicableFeeSchedule.click();
-		Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE).verify.value(nonEftInstallmentFee.toString());
-		Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Checking / Savings Account (ACH)").getCell(INSTALLMENT_FEE).verify.value(eftInstallmentFeeACH.toString());
-		Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Credit Card").getCell(INSTALLMENT_FEE).verify.value(eftInstallmentFeeCreditCard.toString());
-		Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Debit Card").getCell(INSTALLMENT_FEE).verify.value(eftInstallmentFeeDebitCard.toString());
-		Page.dialogConfirmation.buttonCloseWithCross.click();
-
-		new PurchaseTab().fillTab(getPolicyTD()).submitTab();
-
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-		autopaySavingMessageCheck(true, delta);
-
-		PremiumsAndCoveragesQuoteTab.linkViewApplicableFeeSchedule.click();
-		PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE).verify.value(nonEftInstallmentFee.toString());
-		PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Checking / Savings Account (ACH)").getCell(INSTALLMENT_FEE).verify
-				.value(eftInstallmentFeeACH.toString());
-		PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Credit Card").getCell(INSTALLMENT_FEE).verify.value(eftInstallmentFeeCreditCard.toString());
-		PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Debit Card").getCell(INSTALLMENT_FEE).verify.value(eftInstallmentFeeDebitCard.toString());
-		Page.dialogConfirmation.buttonCloseWithCross.click();
-
-		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.BIND.get());
-
-		bindTab.submitTab();
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		pas246_InstallmentFeesPopUpAndSavingsMsg();
 	}
 
-	/**
-	 * *@author Megha Gubbala
-	 * *@name Test Autopay Saving Message in P&C tab and in Purchase flow
-	 * *@scenario 1. Create new quote
-	 * 2. Open P&C, check that Autopay Saving Message is not shown for Mortgagee
-	 * 3. Go to Purchase flow, check that Autopay Saving Message is not shown
-	 * 4. Issue quote
-	 * 5. Start an endorsement
-	 * 6. Open P&C, check that Autopay Saving Message is not shown for Mortgagee bill
-	 * *@details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-1383"})
-	public void pas246_InstallmentFeesPopUpAndSavingsMsgForMortgagee(@Optional("PA") String state) {
-		mainApp().open();
-
-		TestData policyTD = getPolicyTD();
-		String mortgageeTabKey = TestData.makeKeyPath(MortgageesTab.class.getSimpleName());
-		TestData mortgageeTD = getTestSpecificTD("MortgageesTab");
-		policyTD.adjust(mortgageeTabKey, mortgageeTD);
-
-		createCustomerIndividual();
-		createQuote(policyTD);
-
-		CustomAssert.enableSoftMode();
-		policy.dataGather().start();
-		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).setValue("Mortgagee Bill");
-		premiumsAndCoveragesQuoteTab.calculatePremium();
-		PremiumsAndCoveragesQuoteTab.linkPaymentPlan.click();
-		PremiumsAndCoveragesQuoteTab.linkViewApplicableFeeSchedule.click();
-		Dollar nonEftInstallmentFee = new Dollar(PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE).getValue());
-		Dollar eftInstallmentFeeACH =
-				new Dollar(PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Checking / Savings Account (ACH)").getCell(INSTALLMENT_FEE).getValue());
-		Dollar eftInstallmentFeeCreditCard = new Dollar(PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Credit Card").getCell(INSTALLMENT_FEE).getValue());
-		Dollar eftInstallmentFeeDebitCard = new Dollar(PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Debit Card").getCell(INSTALLMENT_FEE).getValue());
-		String delta = nonEftInstallmentFee.subtract(eftInstallmentFeeACH).toString().replace(".00", "");
-		Page.dialogConfirmation.buttonCloseWithCross.click();
-
-		autopaySavingMessageCheckForMortgagee(false, delta);
-
-		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.BIND.get());
-		bindTab.submitTab();
-
-		CustomAssert.assertFalse(Purchase.autoPaySetupSavingMessage.getValue().equals(""));
-
-		Purchase.linkViewApplicableFeeSchedule.click();
-		Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE).verify.value(nonEftInstallmentFee.toString());
-		Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Checking / Savings Account (ACH)").getCell(INSTALLMENT_FEE).verify.value(eftInstallmentFeeACH.toString());
-		Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Credit Card").getCell(INSTALLMENT_FEE).verify.value(eftInstallmentFeeCreditCard.toString());
-		Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Debit Card").getCell(INSTALLMENT_FEE).verify.value(eftInstallmentFeeDebitCard.toString());
-		Page.dialogConfirmation.buttonCloseWithCross.click();
-
-		new PurchaseTab().fillTab(getPolicyTD()).submitTab();
-
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-
-		autopaySavingMessageCheckForMortgagee(false, delta);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
-
-
+	@Override
+	protected void openInstallmentFeeTable() {
+		if (!PremiumAndCoveragesTab.linkViewApplicableFeeSchedule.isPresent() || !PremiumAndCoveragesTab.linkViewApplicableFeeSchedule.isVisible()) {
+			PremiumAndCoveragesTab.linkPaymentPlan.click();
+		}
+		PremiumAndCoveragesTab.linkViewApplicableFeeSchedule.click();
 	}
 
-	private void autopaySavingMessageCheck(boolean isPresent, String delta) {
-		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).setValue("Pay in Full");
-		premiumsAndCoveragesQuoteTab.calculatePremium();
-		PremiumsAndCoveragesQuoteTab.autoPaySetupSavingMessage.getRow(1).getCell(2).verify.present(false);
-
-		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).setValue("contains=Standard");
-		//BUG PAS-7586 A popup about removal of eValue discount is shown on Endorsement wjen eValue=No and payment plan is changed from Annual to non-Annual
-		if (Page.dialogConfirmation.isPresent()) {
-			Page.dialogConfirmation.confirm();
-		}
-		premiumsAndCoveragesQuoteTab.calculatePremium();
-		PremiumsAndCoveragesQuoteTab.autoPaySetupSavingMessage.getRow(1).getCell(2).verify.present(isPresent);
-		if (isPresent) {
-			CustomAssert.assertTrue(PremiumsAndCoveragesQuoteTab.autoPaySetupSavingMessage.getRow(1).getCell(2).getValue().equals(String.format(AUTOPAY_SAVING_MESSAGE, delta)));
-		}
+	@Override
+	protected void navigateAndRate() {
+		PremiumsAndCoveragesQuoteTab premiumAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
+		premiumAndCoveragesQuoteTab.calculatePremium();
 	}
 
-	private void autopaySavingMessageCheckForMortgagee(boolean isPresent, String delta) {
-		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).setValue("Mortgagee Bill");
-		premiumsAndCoveragesQuoteTab.calculatePremium();
-		PremiumsAndCoveragesQuoteTab.autoPaySetupSavingMessage.getRow(1).getCell(2).verify.present(false);
+	@Override
+	protected String getGeneralTab() {
+		return NavigationEnum.HomeSSTab.GENERAL.get();
+	}
 
-		if (Page.dialogConfirmation.isPresent()) {
-			Page.dialogConfirmation.confirm();
-		}
-		premiumsAndCoveragesQuoteTab.calculatePremium();
-		PremiumsAndCoveragesQuoteTab.autoPaySetupSavingMessage.getRow(1).getCell(2).verify.present(isPresent);
-		if (isPresent) {
-			CustomAssert.assertTrue(PremiumsAndCoveragesQuoteTab.autoPaySetupSavingMessage.getRow(1).getCell(2).getValue().equals(String.format(AUTOPAY_SAVING_MESSAGE, delta)));
-		}
+	@Override
+	protected String getPremiumAndCoverageTab() {
+		return NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get();
+	}
+
+	@Override
+	protected String getDocumentsAndBindTab() {
+		return NavigationEnum.HomeSSTab.BIND.get();
+	}
+
+	@Override
+	protected InquiryAssetList getInquiryAssetList() {
+		return new InquiryAssetList(new GeneralTab().getAssetList().getLocator(), HomeSSMetaData.GeneralTab.class);
+	}
+
+	@Override
+	protected Tab getGeneralTabElement() {
+		return new GeneralTab();
+	}
+
+	@Override
+	protected Tab getPremiumAndCoverageTabElement() {
+		return new PremiumsAndCoveragesQuoteTab();
+	}
+
+	@Override
+	protected Tab getDocumentsAndBindElement() {
+		return new BindTab();
+	}
+
+	@Override
+	protected Tab getPurchaseTabElement() {
+		return new PurchaseTab();
+	}
+
+	@Override
+	protected AssetDescriptor<ComboBox> getPaymentPlanComboBox() {
+		return HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN;
+	}
+
+	@Override
+	protected AssetDescriptor<FillableTable> getInstallmentFeesDetailsTable() {
+		return HomeSSMetaData.PremiumsAndCoveragesQuoteTab.INSTALLMENT_FEES_DETAILS_TABLE;
 	}
 
 }
