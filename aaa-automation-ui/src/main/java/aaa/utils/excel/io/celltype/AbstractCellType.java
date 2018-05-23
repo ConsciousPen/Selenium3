@@ -1,7 +1,9 @@
 package aaa.utils.excel.io.celltype;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Objects;
 import aaa.utils.excel.io.entity.area.ExcelCell;
+import toolkit.exceptions.IstfException;
 
 public abstract class AbstractCellType<T> implements CellType<T> {
 	protected Class<T> endType;
@@ -14,6 +16,24 @@ public abstract class AbstractCellType<T> implements CellType<T> {
 	public Class<T> getEndType() {
 		return endType;
 	}
+
+	@Override
+	public T getValueFrom(ExcelCell cell) {
+		assertThat(isTypeOf(cell)).as("Unable to get value with \"%1$s\" type from %2$s", getEndType(), cell).isTrue();
+		if (cell.getPoiCell() == null) {
+			return null;
+		}
+
+		T value;
+		try {
+			value = getRawValueFrom(cell);
+		} catch (RuntimeException e) {
+			throw new IstfException("Cannot get value from cell " + cell, e);
+		}
+		return value;
+	}
+
+	protected abstract T getRawValueFrom(ExcelCell cell);
 
 	@Override
 	public boolean equals(Object o) {

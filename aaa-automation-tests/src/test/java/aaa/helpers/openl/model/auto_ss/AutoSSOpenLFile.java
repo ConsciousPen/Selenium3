@@ -7,9 +7,6 @@ import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public class AutoSSOpenLFile extends OpenLFile<AutoSSOpenLPolicy> {
-	@ExcelTransient
-	public static final String POLICY_SHEET_NAME = OpenLFile.POLICY_SHEET_NAME + "AZ";
-
 	private List<AutoSSOpenLPolicy> policies;
 
 	@ExcelTransient

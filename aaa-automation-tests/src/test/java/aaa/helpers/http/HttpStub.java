@@ -129,7 +129,7 @@ public class HttpStub {
 	}
 
 	@Test
-	public void testMVR() throws IOException {
+	public void testMVR() {
 		executeAllBatches();
 	}
 }

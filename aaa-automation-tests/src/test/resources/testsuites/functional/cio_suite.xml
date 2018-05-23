@@ -125,4 +125,61 @@
         </classes>
     </test>
 
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO3)" parallel="methods" thread-count="1024">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPaymentPlanChangeOnEndorsement">
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO4)" parallel="methods" thread-count="1024">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPaymentPlanChangeOnEndorsement">
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO6)" parallel="methods" thread-count="1024">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPaymentPlanChangeOnEndorsement">
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (DP3)" parallel="methods" thread-count="1024">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPaymentPlanChangeOnEndorsement">
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-11785 - Do not force payment plan change on mid-term changes (PUP)" parallel="methods" thread-count="1024">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.pup.functional.TestPaymentPlanChangeOnEndorsement">
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-13211 PAS-13242 PAS-13216 - FAIR Plan Endorsement (formerly known as Difference in Conditions) (CA HO3)" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestFAIRPlanEndorsement">
+
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-13211 PAS-13242 PAS-13216 - FAIR Plan Endorsement (formerly known as Difference in Conditions) (CA DP3)" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestFAIRPlanEndorsement">
+            </class>
+        </classes>
+    </test>
+
 </suite>

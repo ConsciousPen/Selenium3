@@ -18,7 +18,7 @@ public class TestScenario4 extends AutoCaChoiceBaseTest {
 	
 	@Parameters({"state"})
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void TC01_Cancellation(String state) throws Exception {
+	public void TC01_Cancellation(String state) {
 		mainApp().open();
 		policyNum = getCopiedPolicy();
 		policy.policyDocGen().start();
@@ -30,7 +30,7 @@ public class TestScenario4 extends AutoCaChoiceBaseTest {
 
 	@Parameters({"state"})
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void TC02_checkAH63XX(String state) throws Exception {
+	public void TC02_checkAH63XX(String state) {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(33));
 		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);

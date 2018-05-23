@@ -70,8 +70,8 @@ public abstract class ExcelColumn<CELL extends ExcelCell> extends CellsQueue<CEL
 				"sheetName=" + getSheetName() +
 				", columnIndex=" + getIndex() +
 				", rowsNumber=" + getCellsNumber() +
-				", cellTypes=" + getCellTypes() +
 				", values=" + getStringValues() +
+				", cellTypes=" + getCellTypes() +
 				'}';
 	}
 

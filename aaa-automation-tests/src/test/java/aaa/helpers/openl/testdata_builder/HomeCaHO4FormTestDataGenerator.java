@@ -25,11 +25,18 @@ public class HomeCaHO4FormTestDataGenerator {
 	}; 
 	
 	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO42DataFunction = (openLPolicy) -> {
-		//TODO clarify Territory code = Office for this form
 		List<TestData> tdList = new ArrayList<>();
+		String territoryCode = openLPolicy.getForms().stream().filter(c -> "HO-42".equals(c.getFormCode())).findFirst().get().getTerritoryCode(); 
+		String officeType; 
+		if (territoryCode.equals("Office")) {
+			officeType = "Incidental Office";
+		}
+		else {
+			officeType = "Professional Instruction";
+		}
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", "Add",
-				HomeCaMetaData.EndorsementTab.EndorsementHO42.OFFICE_TYPE.getLabel(), "index=1", 
+				HomeCaMetaData.EndorsementTab.EndorsementHO42.OFFICE_TYPE.getLabel(), officeType, 
 				HomeCaMetaData.EndorsementTab.EndorsementHO42.DESCRIPTION_OF_BUSINESS_EQUIPMENT.getLabel(), "test", 
 				HomeCaMetaData.EndorsementTab.EndorsementHO42.BUSINESS_EQUIPMENT_OVER_50_000.getLabel(), "No", 
 				HomeCaMetaData.EndorsementTab.EndorsementHO42.FOOT_TRAFFIC_EXCEEDING_2_CUSTOMERS_PER_WEEK.getLabel(), "No", 
@@ -136,16 +143,44 @@ public class HomeCaHO4FormTestDataGenerator {
 	};
 	
 	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO71DataFunction =  (openLPolicy) -> {
-		//TODO clarify Class
-		List<TestData> tdList = new ArrayList<>();
-		tdList.add(DataProviderFactory.dataOf(
+		List<TestData> tdList = new ArrayList<>(); 
+		String formClass = openLPolicy.getForms().stream().filter(f -> "HO-71".equals(f.getFormCode())).findFirst().get().getFormClass(); 
+		Boolean punishmentSurcharge = openLPolicy.getForms().stream().filter(f -> "HO-71".equals(f.getFormCode())).findFirst().get().getHasCorporalPunishmentSurcharge();
+		TestData td = DataProviderFactory.dataOf(
 				"Action", "Add",
 				HomeCaMetaData.EndorsementTab.EndorsementHO71.NAME_OF_BUSINESS.getLabel(), "Test", 
 				HomeCaMetaData.EndorsementTab.EndorsementHO71.DESCRIPTION_OF_BUSINESS.getLabel(), "test", 
-				HomeCaMetaData.EndorsementTab.EndorsementHO71.CLASSIFICATION_OCCUPATION.getLabel(), "index=2", 
-				HomeCaMetaData.EndorsementTab.EndorsementHO71.IS_THE_INSURED_SELF_EMPLOYED_A_PARTNER_IN_THE_BUSINESS.getLabel(), "No"));
+				HomeCaMetaData.EndorsementTab.EndorsementHO71.CLASSIFICATION_OCCUPATION.getLabel(), getClassificationOccupation_HO71(formClass), 
+				HomeCaMetaData.EndorsementTab.EndorsementHO71.IS_THE_INSURED_SELF_EMPLOYED_A_PARTNER_IN_THE_BUSINESS.getLabel(), "No"); 
+		if (formClass.equals("Class C") || formClass.equals("Class D")) {
+			td.adjust(DataProviderFactory.dataOf(
+					HomeCaMetaData.EndorsementTab.EndorsementHO71.TEACHERS_EXTENDED_LIABILITY.getLabel(), getYesOrNo(punishmentSurcharge)));
+		}
+		tdList.add(td);
 		return tdList;
 	}; 
+	
+	private static String getClassificationOccupation_HO71(String className) {
+		switch (className) {
+		case "Class A": 
+			return "Office clerical";
+		case "Class B": 
+			return "Sales";
+		case "Class C": 
+			return "Teacher - athletic/physical training, labratory/manual training"; 
+		case "Class D": 
+			return "Teacher - Other";
+		default: 
+			return "index=2";
+		}
+	}
+	
+	private static String getYesOrNo(Boolean value) {
+		if (value == null) {
+			return null;
+		}
+		return Boolean.TRUE.equals(value) ? "Yes" : "No";
+	}
 	
 	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO75DataFunction = (openLPolicy) -> {
 		List<TestData> tdList = new ArrayList<>();
@@ -210,7 +245,11 @@ public class HomeCaHO4FormTestDataGenerator {
 			}
 		}
 		return tdList;
-	};  	
+	};  
+	
+	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO177DataFunction = (openLPolicy) -> {
+		return null;
+	};
 	
 	private static Function<HomeCaHO4OpenLPolicy, List<TestData>> formHO210DataFunction =  (openLPolicy) -> {
 		List<TestData> tdList = new ArrayList<>();
@@ -274,6 +313,7 @@ public class HomeCaHO4FormTestDataGenerator {
 		HO82(HomeCaMetaData.EndorsementTab.HO_82.getLabel(), "HO-82", formHO82DataFunction), 
 		HO90(HomeCaMetaData.EndorsementTab.HO_90.getLabel(), "HO-90", formHO90DataFunction), 
 		HO164(HomeCaMetaData.EndorsementTab.HO_164.getLabel(), "HO-164", formHO164DataFunction), 
+		HO177(HomeCaMetaData.EndorsementTab.HO_177.getLabel(), "HO-177", formHO177DataFunction), 
 		HO210(HomeCaMetaData.EndorsementTab.HO_210.getLabel(), "HO-210", formHO210DataFunction), 
 		HARI(HomeCaMetaData.EndorsementTab.HARI.getLabel(), "HARI", formHARIDataFunction);
 		private final String metaKey;

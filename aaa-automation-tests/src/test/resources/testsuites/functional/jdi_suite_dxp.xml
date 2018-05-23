@@ -56,6 +56,7 @@
                     <include name="pas11618_UpdateVehicleLeasedInfo"/>
                     <include name="pas11618_UpdateVehicleFinancedInfo"/>
                     <include name="pas13252_UpdateVehicleGaragingAddressProblemBody"/>
+                    <include name="pas9546_maxVehicles"/>
                 </methods>
             </class>
         </classes>
@@ -144,7 +145,8 @@
             </class>
         </classes>
     </test>
-    <test name="Vehicle Errors VA" parallel="methods" thread-count="1024">
+    <!--    NA for PAS18.4-->
+     <test name="Vehicle Errors VA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
@@ -156,26 +158,27 @@
             </class>
         </classes>
     </test>
-    <test name="DXP E2E" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
-                <methods>
-                    <include name="pas12866_e2e"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="DXP E2E BCT" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ, KY"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
-                <methods>
-                    <include name="pas12866_e2eBct"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
+   <test name="DXP E2E" parallel="methods" thread-count="1024">
+            <parameter name="state" value="VA"/>
+            <classes>
+                <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                    <methods>
+                        <include name="pas12866_e2e"/>
+                    </methods>
+                </class>
+            </classes>
+        </test>
+
+        <test name="DXP E2E BCT" parallel="methods" thread-count="1024">
+            <parameter name="state" value="AZ, KY"/>
+            <classes>
+                <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                    <methods>
+                        <include name="pas12866_e2eBct"/>
+                    </methods>
+                </class>
+            </classes>
+        </test>
     <test name="DriverAssignmentExistsForState CA" parallel="methods" thread-count="1024">
         <classes>
             <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing">
@@ -199,5 +202,16 @@
                 </methods>
             </class>
         </classes>
+    </test>
+
+    <test name="pas9495_miniServicesDiscounts">
+    <classes>
+        <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDiscounts">
+            <parameter name="state" value="VA"/>
+            <methods>
+                <include name="pas9495_miniServicesDiscounts"/>
+            </methods>
+        </class>
+    </classes>
     </test>
 </suite>

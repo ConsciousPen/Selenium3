@@ -105,7 +105,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6587")
-    public void pas4311_pas6587_ASDLock() {
+    public void pas4311_pas6587_ASDLock(@Optional("CO") String state) {
         TestData testData = getPolicyTD();
 
         //Add locked values to the global variable to clean them up then

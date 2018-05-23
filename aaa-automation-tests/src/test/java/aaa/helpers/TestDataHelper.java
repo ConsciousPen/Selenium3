@@ -79,10 +79,42 @@ public class TestDataHelper {
 		return baseTestData;
 	}
 
+	/**
+	 * Merges two test datas into one unified test data.<p>
+	 * Algorithm is the same as described in {@link TestDataHelper#merge(TestData, TestData, boolean, boolean)}<p>
+	 * but with <b>convertStringToList=true</b> and <b>convertTestDataToList=true</b> arguments;
+	 */
 	public static TestData merge(TestData leftTestData, TestData rightTestData) {
 		return merge(leftTestData, rightTestData, true, true);
 	}
 
+	/**
+	 * Merges two test datas into one unified test data.<p>
+	 *
+	 * It makes copy of <b>leftTestData</b> using {@link TestDataHelper#clone(TestData)} method and adds to it all missing key-value pairs from <b>rightTestData</b>.
+	 * When both test datas have same keys but different values (aka merge conflict) then:
+	 * <pre>
+	 * - If value type is {@link TestData.Type#STRING} then String value from <b>rightTestData<b/> will be accepted;
+	 * - If value type is {@link TestData.Type#TESTDATA} then these nested test datas will be merged (by recursive invocation of same method);
+	 * - If value type is {@link TestData.Type#LIST_STRING} and list of Strings from <b>rightTestData</b> has same or bigger size than list size from <b>leftTestData</b> - then
+	 * 		list from <b>rightTestData</b> will be accepted. Otherwise result list will have elements from <b>rightTestData</b> plus extra elements from <b>leftTestData</b>.
+	 * 		E.g.: if <b>leftTestData</b> has list [“a”, “b”, “c”, “d”] and <b>rightTestData</b> has list [“x”, “y”] then merged list will be [“x”, “y”, “c”, “d”]
+	 * - If value type is {@link TestData.Type#LIST_TESTDATA} then test datas from both lists with same indexes will be merged and saved to
+	 * 		result {@code List<TestData>} preserving common index. If {@code List<TestData>} from <b>rightTestData</b> has bigger size then
+	 * 		all extra TestData elements will be added to the result TestData list.
+	 *</pre>
+	 *
+	 * @param leftTestData leftTestData left test data to be merged
+	 * @param rightTestData right test data to be merged (on merge conflicts values from this data will be accepted)
+	 * @param convertStringToList if <b>true</b> and value from one test data is {@code String} and value from other test data is {@code List<String>} value,
+	 *                               then String value will be converted to the single {@code List<String>} of this one value. Then appropriate merging of lists of Strings will be performed.
+	 *                               Otherwise (when {@code convertStringToList} is false) - exception will be thrown due to same keys has different value types.
+	 * @param convertTestDataToList if <b>true</b> and value from one test data is {@code TestData} and value from other test data is {@code List<TestData>} value,
+	 * 	                              then TestData value will be converted to the single {@code List<TestData>}. Then appropriate merging of test data lists will be performed.
+	 * 	                              Otherwise (when {@code convertTestDataToList} is false) - exception will be thrown due to same keys has different value types.
+	 * @return unified test data which contains unique key-value pairs from <b>leftTestData<b/> and <b>rightTestData<b/>
+	 * @throws IstfException if both test datas have same key but different value types
+	 */
 	public static TestData merge(TestData leftTestData, TestData rightTestData, boolean convertStringToList, boolean convertTestDataToList) {
 		return merge(leftTestData, rightTestData, convertStringToList, convertTestDataToList, true);
 	}

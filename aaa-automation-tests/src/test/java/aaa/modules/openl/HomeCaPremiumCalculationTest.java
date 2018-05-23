@@ -17,8 +17,8 @@ public class HomeCaPremiumCalculationTest<P extends HomeCaOpenLPolicy<?>, F exte
 	}
 
 	@Override
-	protected List<P> getOpenLPoliciesWithExpectedPremiums(F openLFile, List<Integer> policyNumberss) {
-		List<P> openLPolicies = super.getOpenLPoliciesWithExpectedPremiums(openLFile, policyNumberss);
+	protected List<P> getOpenLPoliciesWithExpectedPremiums(F openLFile, List<Integer> policyNumbers) {
+		List<P> openLPolicies = super.getOpenLPoliciesWithExpectedPremiums(openLFile, policyNumbers);
 		for (P openLPolicy : openLPolicies) {
 			double premiumLimit = openLPolicy.getForms().stream().filter(f -> "premium".equals(f.getFormCode())).findFirst()
 					.orElseThrow(() -> new IstfException("Policy does not have form with formCode=\"premium\"")).getLimit();
