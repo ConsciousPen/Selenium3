@@ -18,7 +18,6 @@ import aaa.main.enums.BillingConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
