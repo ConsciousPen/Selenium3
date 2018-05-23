@@ -284,7 +284,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 	////////////Start PAS-13242////////////////
 
-	public void pas12466_AC1_NB(TestData tdWithFAIRPlanEndorsement) {
+	public void pas13242_pas14193_AC1_NB(TestData tdWithFAIRPlanEndorsement) {
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -310,12 +310,30 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		validateDocumentIsNotGeneratedInPackage(policyNumber, ENDORSEMENT_ISSUE, true);
 
-		//Validate that form FPCECA is not generated at renewal, but it is listed in other documents
+		//PAS-14193
+		//Validate that form FPCECA is generated at renewal, and is listed in other documents
 		generateRenewalOfferAtOfferGenDate();
-		validateDocumentIsNotGeneratedInPackage(policyNumber, RENEWAL_OFFER, true);
+		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
+
+		//7. Make Renewal image endorsement without removing FAIR plan endorsement
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(policyType).getTestData("Endorsement"), "TestData"));
+
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE).setValue("contains=1,000");
+		premiumsAndCoveragesQuoteTab.calculatePremium();
+
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
+		new BindTab().submitTab();
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+		// 8. Validate that form FPCECA is included in revised renewal package and is also listed in other documents
+		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
 	}
 
-	public void pas12466_AC2_Endorsement() {
+	public void pas13242_AC2_Endorsement() {
 
 		// Create policy without FAIR Plan Endorsement
 		mainApp().open();
@@ -332,7 +350,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		validateDocumentIsGeneratedInPackage(policyNumber, ENDORSEMENT_ISSUE);
 	}
 
-	public void pas12466_AC3_Renewal() {
+	public void pas13242_AC3_Renewal() {
 
 		// Create policy without FAIR Plan Endorsement
 		mainApp().open();
@@ -370,7 +388,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
 	}
 
-	public void pas12466_AC3_Revised_Renewal_After_Renewal_Term_Change() {
+	public void pas13242_AC3_Revised_Renewal_After_Renewal_Term_Change() {
 
 		// Create policy without FAIR Plan Endorsement
 		mainApp().open();
@@ -397,7 +415,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
 	}
 
-	public void pas12466_AC3_Revised_Renewal_After_Current_Term_Change() {
+	public void pas13242_pas14193_AC3_Revised_Renewal_After_Current_Term_Change() {
 
 		// Create policy without FAIR Plan Endorsement
 		mainApp().open();
@@ -427,7 +445,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		validateDocumentIsGeneratedInPackage(policyNumber, ENDORSEMENT_ISSUE);
 
 		//7. Validate that form FPCECA is not included in Renewal package
-		validateDocumentIsNotGeneratedInPackage(policyNumber, RENEWAL_OFFER, true);
+		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER); //PAS-14193
 
 	}
 

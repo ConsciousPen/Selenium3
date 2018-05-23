@@ -238,7 +238,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 
 	/**
 	 *@author Maris Strazds
-	 *@name Test that form FPCECA is included in New Business Package
+	 *@name Test that form FPCECA is included in New Business Package ---> not included in Endorsement package ---> Included in Renewal Package
 	 *@scenario
 	 * 1. Create Customer
 	 * 2. Create CA HO3 Policy with FAIR Plan Endorsement
@@ -246,16 +246,19 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	 * 4. Validate that form FPCECA is included in New Business Package only once
 	 * 5. Validate that form FPCECA is not included in Subsequent transactions, but it is listed in related documents (Make midterm endorsement
 	 *    but do not remove FAIR Plan Endorsement and validate)
-	 * 6. Validate that form FPCECA is not generated at renewal, but it is listed in other documents
+	 *          -PAS-14193-
+	 * 6. Validate that form FPCECA is generated at renewal, and is listed in other documents
+	 * 7. Make Renewal image endorsement without removing FAIR plan endorsement
+	 * 8. Validate that form FPCECA is still included in renewal package and is also listed in other documents
 	 *@details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
-	public void pas12466_AC1_NB(@Optional("") String state) {
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13242 PAS-14193")
+	public void pas13242_pas14193_AC1_NB(@Optional("") String state) {
 		TestData tdWithFAIRPlanEndorsement = getPolicyDefaultTD().adjust(EndorsementTab.class.getSimpleName(), getTestSpecificTD("EndorsementTab_Add"));
 		tdWithFAIRPlanEndorsement.adjust(DocumentsTab.class.getSimpleName(), getTestSpecificTD("DocumentsTab_SignFairPlanEndorsement"));
-		testFAIRPlanEndorsementTemplate.pas12466_AC1_NB(tdWithFAIRPlanEndorsement);
+		testFAIRPlanEndorsementTemplate.pas13242_pas14193_AC1_NB(tdWithFAIRPlanEndorsement);
 	}
 
 	/**
@@ -272,9 +275,9 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
-	public void pas12466_AC2_Endorsement(@Optional("") String state) {
-		testFAIRPlanEndorsementTemplate.pas12466_AC2_Endorsement();
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13242")
+	public void pas13242_AC2_Endorsement(@Optional("") String state) {
+		testFAIRPlanEndorsementTemplate.pas13242_AC2_Endorsement();
 	}
 
 	/**
@@ -293,9 +296,9 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
-	public void pas12466_AC3_Renewal(@Optional("") String state) {
-		testFAIRPlanEndorsementTemplate.pas12466_AC3_Renewal();
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13242")
+	public void pas13242_AC3_Renewal(@Optional("") String state) {
+		testFAIRPlanEndorsementTemplate.pas13242_AC3_Renewal();
 	}
 
 	/**
@@ -313,9 +316,9 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
-	public void pas12466_AC3_Revised_Renewal_After_Renewal_Term_Change(@Optional("") String state) {
-		testFAIRPlanEndorsementTemplate.pas12466_AC3_Revised_Renewal_After_Renewal_Term_Change();
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13242")
+	public void pas13242_AC3_Revised_Renewal_After_Renewal_Term_Change(@Optional("") String state) {
+		testFAIRPlanEndorsementTemplate.pas13242_AC3_Revised_Renewal_After_Renewal_Term_Change();
 	}
 
 	/**
@@ -329,15 +332,15 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	 * 4. Add FAIR Plan Endorsement for CURRENT term
 	 * 5. Re-calculate premium and bind endorsement
 	 * 6. Validate that form FPCECA is included in Endorsement package
-	 * 7. Validate that form FPCECA is not included in Renewal package
+	 * 7. Validate that form FPCECA is included in Renewal package (PAS-14193)
 	 * 8. Validate that form FPCECA is included in Endorsement package only once
 	 *@details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
-	public void pas12466_AC3_Revised_Renewal_After_Current_Term_Change(@Optional("") String state) {
-		testFAIRPlanEndorsementTemplate.pas12466_AC3_Revised_Renewal_After_Current_Term_Change();
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13242 PAS-14193")
+	public void pas13242_pas14193_AC3_Revised_Renewal_After_Current_Term_Change(@Optional("") String state) {
+		testFAIRPlanEndorsementTemplate.pas13242_pas14193_AC3_Revised_Renewal_After_Current_Term_Change();
 	}
 
 	////////////End PAS-13242////////////////
