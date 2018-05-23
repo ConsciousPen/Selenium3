@@ -128,7 +128,7 @@ public class HomeCaDP3TestDataGenerator extends TestDataGenerator<HomeCaDP3OpenL
 				HomeCaMetaData.PropertyInfoTab.Construction.CONSTRUCTION_TYPE.getLabel(), "contains=" + openLPolicy.getDwelling().getConstructionType());
 		
 		TestData rentalInformationData = DataProviderFactory.dataOf(
-				HomeCaMetaData.PropertyInfoTab.RentalInformation.YEAR_FIRST_RENTED.getLabel(), openLPolicy.getEffectiveDate().getYear(), 
+				HomeCaMetaData.PropertyInfoTab.RentalInformation.YEAR_FIRST_RENTED.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getYearsOwned()).getYear(), 
 				HomeCaMetaData.PropertyInfoTab.RentalInformation.PROPERTY_MANAGER.getLabel(), openLPolicy.getPropertyManagerType(), 
 				HomeCaMetaData.PropertyInfoTab.RentalInformation.ARE_THERE_ANY_ADDITIONAL_RENTAL_DWELLINGS.getLabel(), "No");
 		
