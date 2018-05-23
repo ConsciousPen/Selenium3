@@ -33,9 +33,6 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSHO6Ba
 	PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
 
 	private static final String FIRE_DEPARTMENT_TYPE = "S - Subscription based";
-	private static final String PUBLIC_PROTECTION_CLASS = "10W";
-	private static final String DISTANCE_TO_FIRE_HYDRANT = ">1000ft";
-	private static final String FIRE_PROTECTION_AREA = "Pennsylvania";
 
 	private static String policyNumber;
 	private static LocalDateTime policyEffectiveDate;
@@ -60,6 +57,7 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSHO6Ba
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO6, testCaseId = "PAS-10703")
 	public void testVerifyFireRelatedFieldsOnThePropertyInfoTab(@Optional("NJ") String state) {
 
+
 		mainApp().open();
 		createCustomerIndividual();
 
@@ -69,34 +67,20 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSHO6Ba
 		//Fill Quote
 		policy.getDefaultView().fillUpTo(getConversionPolicyDefaultTD(), PropertyInfoTab.class, true);
 
-		//Check Public protection class (PPC) fields
 		propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS)
 				.getAsset(HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.FIRE_DEPARTMENT_TYPE).setValueContains(FIRE_DEPARTMENT_TYPE);
-		propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS)
-				.getAsset(HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.SUBSCRIPTION_TO_FIRE_DEPARTMENT_STATION).setValue("Yes");
-		propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS)
-				.getAsset(HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS).setValueContains(PUBLIC_PROTECTION_CLASS);
-		propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS)
-				.getAsset(HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.DISTANCE_TO_FIRE_HYDRANT).setValueContains(DISTANCE_TO_FIRE_HYDRANT);
-		propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS)
-				.getAsset(HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.FIRE_PROTECTION_AREA).setValue(FIRE_PROTECTION_AREA);
 
-// Ignored due to https://csaaig.atlassian.net/browse/PAS-12159
-//		propertyInfoTab.saveAndExit();
-//		policy.dataGather().start();
-//		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-//
-//		//Check Public protection class (PPC) fields
-//		assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS)
-//				.getAsset(HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.FIRE_DEPARTMENT_TYPE.getLabel())).equals(FIRE_DEPARTMENT_TYPE);
-//		assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS)
-//						.getAsset(HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.SUBSCRIPTION_TO_FIRE_DEPARTMENT_STATION.getLabel())).equals("Yes");
-//		assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS)
-//				.getAsset(HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS.getLabel())).equals(PUBLIC_PROTECTION_CLASS);
-//		assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS)
-//				.getAsset(HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.DISTANCE_TO_FIRE_HYDRANT.getLabel())).equals(DISTANCE_TO_FIRE_HYDRANT);
-//		assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS)
-//				.getAsset(HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.FIRE_PROTECTION_AREA.getLabel())).equals(FIRE_PROTECTION_AREA);
+		//Check Public protection class (PPC) fields
+		assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS)
+				.getAsset(HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.FIRE_DEPARTMENT_TYPE)).isEnabled();
+		assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS)
+				.getAsset(HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.SUBSCRIPTION_TO_FIRE_DEPARTMENT_STATION)).isEnabled();
+		assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS)
+				.getAsset(HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS)).isEnabled();
+		assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS)
+				.getAsset(HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.DISTANCE_TO_FIRE_HYDRANT)).isEnabled();
+		assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS)
+				.getAsset(HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.FIRE_PROTECTION_AREA)).isEnabled();
 	}
 
 	/**

@@ -245,3 +245,9 @@ PAS-14137:
       messages: ["Cannot set value of AssetList {PremiumAndCoveragesQuoteTab", "Errors: Time out. No session available."]
     - tests: [aaa.modules.regression.*.auto_ca.*]
       messages: ["Cannot set value of AssetList {PremiumAndCoveragesTab:", "Errors: Time out. No session available."]
+PAS-14387:
+  summary: "Regression: PUP CA: Underlying Risks Auto: Driver: Occupation field is blank - impossible to issue policy"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.*.pup.*]
+      messages: ["Cannot set value of AssetList {UnderlyingRisksAutoTab", "Errors: 'Occupation' is not in within range"]
