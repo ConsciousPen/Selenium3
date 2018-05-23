@@ -13,6 +13,14 @@ public class VehicleQueries {
 			+ "From Riskitem R, Vehicleratinginfo I, Vehiclebaseinfo B, Policysummary Ps, Policydetail Pd Where R.Ratinginfo_Id = I.Id And B.Id = R.Baseinfo_Id And "
 			+ "ps.policydetail_id = pd.id and pd.id = r.policydetail_id and ps.policynumber = '%2$s'";
 
+	public static final String SELECT_VIN_STUB_ON_QUOTE = "SELECT r.currentVin FROM Riskitem R, Vehicleratinginfo I, Vehiclebaseinfo B, Policysummary Ps, Policydetail Pd WHERE R.Ratinginfo_Id = I.Id AND B.Id = R.Baseinfo_Id AND ps.policydetail_id = pd.id AND pd.id = r.policydetail_id AND policynumber LIKE '%1$s'";
+
+	public static final String REPAIR_7MSRP15H_COMP = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOMPREHENSIVE ='44' where vin like '7MSRP15H%V' and VERSION like 'SYMBOL_2000'";
+	public static final String REPAIR_7MSRP15H_COLL = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOLLISION ='35' where vin like '7MSRP15H%V' and VERSION like 'SYMBOL_2000'";
+	public static final String REPAIR_7MSRP15H_COMP_CHOICE = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOMPREHENSIVE ='43' where vin like '7MSRP15H%V' and VERSION like 'SYMBOL_2000_CHOICE'";
+	public static final String REPAIR_7MSRP15H_COLL_CHOICE = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOLLISION ='33' where vin like '7MSRP15H%V' and VERSION like 'SYMBOL_2000_CHOICE'";
+
+
 	public static final String DELETE_FROM_VEHICLEREFDATAVIN_BY_VERSION = "DELETE FROM vehiclerefdatavin V WHERE V.VERSION IN %1$s";
 	public static final String DELETE_FROM_VEHICLEREFDATAVIN_BY_VIN_AND_VERSION = "DELETE FROM VEHICLEREFDATAVIN v WHERE VIN like '%1$s' AND VERSION = '%2$s'";
 	public static final String REFRESHABLE_VIN_CLEANER_SS = "DELETE FROM VEHICLEREFDATAVIN v WHERE VIN like '1HGEM215%4' AND make_text IN ('TEST', 'invalidVIN', 'SecondValid')";
