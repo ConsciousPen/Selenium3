@@ -15,9 +15,9 @@ public class HomeCaDP3FormTestDataGenerator {
 	
 	private static Function<HomeCaDP3OpenLPolicy, List<TestData>> formDL2482DataFunction = openLPolicy -> {
 		//TODO clarify form
-		List<TestData> tdList = new ArrayList<>();
-		tdList.add(DataProviderFactory.dataOf("Action", "Add"));
-		return tdList;
+		//List<TestData> tdList = new ArrayList<>();
+		//tdList.add(DataProviderFactory.dataOf("Action", "Add"));
+		return null;
 	};
 
 	private static Function<HomeCaDP3OpenLPolicy, List<TestData>> formDP0418DataFunction = openLPolicy -> {

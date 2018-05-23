@@ -1,10 +1,13 @@
 package aaa.helpers.openl.testdata_builder;
 
+import java.util.List;
+
 import org.apache.commons.lang3.NotImplementedException;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.openl.model.home_ca.dp3.HomeCaDP3OpenLDwelling;
 import aaa.helpers.openl.model.home_ca.dp3.HomeCaDP3OpenLPolicy;
+import aaa.helpers.openl.model.home_ca.dp3.HomeCaDP3OpenLForm;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
@@ -129,7 +132,9 @@ public class HomeCaDP3TestDataGenerator extends TestDataGenerator<HomeCaDP3OpenL
 		
 		TestData rentalInformationData = DataProviderFactory.dataOf(
 				HomeCaMetaData.PropertyInfoTab.RentalInformation.YEAR_FIRST_RENTED.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getYearsOwned()).getYear(), 
-				HomeCaMetaData.PropertyInfoTab.RentalInformation.PROPERTY_MANAGER.getLabel(), openLPolicy.getPropertyManagerType(), 
+				//HomeCaMetaData.PropertyInfoTab.RentalInformation.PROPERTY_MANAGER.getLabel(), openLPolicy.getPropertyManagerType(), 
+				//TODO clarify and remove workaround
+				HomeCaMetaData.PropertyInfoTab.RentalInformation.PROPERTY_MANAGER.getLabel(), "Professional / Full-time", 
 				HomeCaMetaData.PropertyInfoTab.RentalInformation.ARE_THERE_ANY_ADDITIONAL_RENTAL_DWELLINGS.getLabel(), "No");
 		
 		TestData theftProtectiveDeviceData = getTheftProtectiveDevice(openLPolicy.getDwelling());
@@ -236,7 +241,20 @@ public class HomeCaDP3TestDataGenerator extends TestDataGenerator<HomeCaDP3OpenL
 	}
 	
 	private TestData getEndorsementTabData(HomeCaDP3OpenLPolicy openLPolicy) {
-		return DataProviderFactory.emptyData();
+		TestData endorsementData = DataProviderFactory.emptyData();
+		for (HomeCaDP3OpenLForm openLForm : openLPolicy.getForms()) {
+			String formCode = openLForm.getFormCode();
+			if (!"premium".equals(formCode)) {
+				if (!endorsementData.containsKey(HomeCaDP3FormTestDataGenerator.getFormMetaKey(formCode))) {
+					List<TestData> tdList = HomeCaDP3FormTestDataGenerator.getFormTestData(openLPolicy, formCode);
+					if (tdList != null) {
+						TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeCaDP3FormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeCaDP3FormTestDataGenerator.getFormMetaKey(formCode), tdList);
+						endorsementData.adjust(td);
+					}
+				}
+			}
+		}
+		return endorsementData;
 	}
 	
 	private TestData getPremiumsAndCoveragesQuoteTabData(HomeCaDP3OpenLPolicy openLPolicy) {
