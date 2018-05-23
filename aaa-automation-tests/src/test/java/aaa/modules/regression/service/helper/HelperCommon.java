@@ -204,9 +204,14 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, request, Vehicle.class, 201);
 	}
 
-	public static Vehicle[] pendedEndorsementValidateVehicleInfo(String policyNumber) {
+	public static HashMap executeVehicleAddVehicleError(String policyNumber,  Vehicle request,  int status) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_ADD_VEHICLE_ENDPOINT, policyNumber));
+		return runJsonRequestPostDxp(requestUrl, request, HashMap.class, status);
+	}
+
+	public static ViewVehicleResponse pendedEndorsementValidateVehicleInfo(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_ENDORSEMENT_VEHICLES_ENDPOINT, policyNumber));
-		return runJsonRequestGetDxp(requestUrl, Vehicle[].class);
+		return runJsonRequestGetDxp(requestUrl, ViewVehicleResponse.class);
 	}
 
 	public static DriverAssignmentDto[] pendedEndorsementDriverAssignmentInfo(String policyNumber) {
