@@ -1,5 +1,6 @@
 package aaa.modules.regression.conversions.home_ss.ho3.functional;
 
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -20,6 +21,7 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.modules.regression.conversions.home_ss.helper;
+import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.assertj.core.api.SoftAssertions;
@@ -53,9 +55,10 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSHO3
     helper hc = new helper();
 
     @Parameters({"state"})
+    @StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.NJ,Constants.States.MD, Constants.States.PA, Constants.States.CT})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-10512, PAS-10978")
-    public void propertyInfoTabconvPolicyRenewal(@Optional("AZ") String state) {
+    public void propertyInfoTabconvPolicyRenewal(@Optional("NJ") String state) {
         TestData td = getConversionPolicyDefaultTD();
         String inceptionDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(10).format(DateTimeUtils.MM_DD_YYYY);
 
@@ -68,7 +71,7 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSHO3
         initiateSecondRenewal(policyNumber);
         navigateToPropertyInfoOnSecondRenewal();
         hc.assertMasonryVaneerSecondRenewal();
-        hc.assertOilStorageTankSecondRenewal();});
+        hc.assertOilStorageTankSecondRenewalHo3Dp3(state);});
     }
 
     /*
