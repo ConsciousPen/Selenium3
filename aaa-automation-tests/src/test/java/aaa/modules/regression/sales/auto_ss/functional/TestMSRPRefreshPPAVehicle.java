@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -11,6 +12,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
@@ -22,6 +24,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.VinUploadAutoSSHelper;
 import toolkit.datax.TestData;
+import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
 public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
@@ -45,11 +48,11 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730, PAS-12881")
 	public void pas730_PartialMatch(@Optional("UT") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
-		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get());
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN8.get());
 
 		String vehYear = "2018";
 		String vehMake = "VOLKSWAGEN";
@@ -72,8 +75,8 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		// Values from VIN comp and coll symbol in excel sheet
 		assertSoftly(softly -> {
-			softly.assertThat(getCompSymbolFromVRD()).isNotEqualTo("44");
-			softly.assertThat(getCollSymbolFromVRD()).isNotEqualTo("35");
+			softly.assertThat(getCompSymbolFromVRD()).isNotEqualTo("55");
+			softly.assertThat(getCollSymbolFromVRD()).isNotEqualTo("66");
 		});
 
 		String compSymbol = getCompSymbolFromVRD();
@@ -92,13 +95,16 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertSoftly(softly -> {
-			softly.assertThat(getCompSymbolFromVRD()).isEqualTo("44");
-			softly.assertThat(getCollSymbolFromVRD()).isEqualTo("35");
+			softly.assertThat(getCompSymbolFromVRD()).isEqualTo("55");
+			softly.assertThat(getCollSymbolFromVRD()).isEqualTo("66");
 		});
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 
-		PremiumAndCoveragesTab.buttonSaveAndExit.click();
+		//PAS-12881: Update VIN Y/M/M/S/S to Store VIN Stub (quote): Verify in DB that VIN STUB is stored
+		String expectedSTUB = "7MSRP15H&V";
+		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, quoteNumber)).get()).isNotNull().isEqualTo(expectedSTUB);
 
+		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 	}
 
 	/**
@@ -229,6 +235,8 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	protected void resetVinControlTable() {
 		// pas730_PartialMatch clean
 		//DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN,"");
+		DBService.get().executeUpdate(VehicleQueries.REPAIR_7MSRP15H_COMP);
+		DBService.get().executeUpdate(VehicleQueries.REPAIR_7MSRP15H_COLL);
 		resetMsrpPPAVeh();
 		// Reset to the default state  MSRP_2000
 		//resetDefaultMSRPVersionAtVinControlTable();
