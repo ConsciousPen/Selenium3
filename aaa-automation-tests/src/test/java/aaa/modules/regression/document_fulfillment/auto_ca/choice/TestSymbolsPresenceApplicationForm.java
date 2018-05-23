@@ -26,12 +26,12 @@ public class TestSymbolsPresenceApplicationForm extends TestSymbolsPresenceTempl
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PAS-2713")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-2713")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PAS-2713,PAS-9064")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-2713,PAS-9064")
 	// All states except CA / NY document is generated with "N/A" in the current STAT field
+	// PAS-9064 Added comp and coll symbol presence
 	public void pas2713_ApplicationFormStatCodeNotNA(@Optional("CA") String state) {
 		verifySymbolsPresenceInDocs();
 	}
-
 
 }

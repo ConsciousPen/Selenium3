@@ -16,6 +16,8 @@ public final class ErrorEnum {
 		ERROR_AAA_SS10240324("AAA_SS10240324", "At least one phone number must be provided."),
 
 		// Property errors
+		ERROR_AAA_HO_CA02122017("AAA_HO_CA02122017", "Dwellings located in PPC 10 are ineligible. (AAA_HO_CA02122017) [for AAAHOCAD..."),
+		ERROR_AAA_HO_CA10100616("AAA_HO_CA10100616", "Log homes must be in protection class 1-8 and assembled by a licensed buildin..."),
 		ERROR_AAA_HO_CA_15011_1("AAA_HO_CA_15011_1", "Dwellings built prior to 1940 must have all four major systems fully renovated."),
 		ERROR_AAA_HO_CACovAReplacementCost("AAA_HO_CACovAReplacementCost", "Coverage A greater than 120% of replacement cost requires underwriting approval."),
 		ERROR_AAA_HO_CA12190315("AAA_HO_CA12190315", "Applicants with any paid claims over $25,000 in the last 3 years are ineligible."),

@@ -37,6 +37,10 @@ public class VinUploadHelper {
 		uploadToVINTableTab.uploadControlTable(controlTableFile);
 	}
 
+	/**
+	 * Go to the admin -> administration -> Upload to vehicledatavin table
+	 * @param vinTableFile xls
+	 */
 	public void uploadVinTable(String vinTableFile) {
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		uploadToVINTableTab.uploadVinTable(vinTableFile);
@@ -83,26 +87,5 @@ public class VinUploadHelper {
 				throw new IllegalArgumentException("Name of VIN Table file was not selected correctly");
 		}
 		return String.format(defaultControlFileName, state);
-	}
-
-	public enum UploadFilesTypes {
-		UPDATED_VIN("Updated"),
-		ADDED_VIN("Added"),
-		R45("R45");
-
-		private String type;
-
-		UploadFilesTypes(String type) {
-			set(type);
-		}
-
-		public void set(String type) {
-			this.type = type;
-		}
-
-		public String get() {
-			return type;
-		}
-
 	}
 }

@@ -532,6 +532,13 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<CheckBox> UNACCEPTABLE_RISK_SURCHARGE = declare("Unacceptable Risk Surcharge", CheckBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> REASON = declare("Reason", TextBox.class, Waiters.AJAX, By.id("policyDataGatherForm:unacceptableRiskSurchargeReason"));
 		public static final AssetDescriptor<CheckBox> UNVERIFIABLE_DRIVING_RECORD_SURCHARGE = declare("Unverifiable DrivingRecord Surcharge", CheckBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<FillableTable> INSTALLMENT_FEES_DETAILS_TABLE = declare("InstallemntFeesDetails",  FillableTable.class, ListOfFeeDetailsRow.class, By.id("policyDataGatherForm:installmentFeeDetailsTable"));
+
+		public static final class ListOfFeeDetailsRow extends MetaData {
+			public static final AssetDescriptor<StaticElement> PAYMENT_METHOD = declare("Payment Method", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> ENROLLED_IN_AUTO_PAY = declare("Enrolled in Auto Pay", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> INSTALLMENT_FEE = declare("Installment Fee", StaticElement.class);
+		}
 
 		public static final class OverridePremiumDialog extends MetaData {
 			public static final AssetDescriptor<Button> BUTTON_OPEN_POPUP = declare(AbstractDialog.DEFAULT_POPUP_OPENER_NAME, Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:overridePremiumLink"));
