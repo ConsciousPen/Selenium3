@@ -682,10 +682,10 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	 * <p>
 	 * PAS-11659 Renewal Refresh: address scenario when refreshed version is not made "current" (renewal refresh only between R-45 and R-25)
 	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
-	 * @scenario
+	 * @scenario: Automated Renewal Image Is Created and Proposed at R-26 (UT)
 	 * 0. Retrieve active policy with no vn match
-	 * 2. Move time to R-25, create a renewal version and verify Vin Data Does NOT Refresh
-
+	 * 1. Move time to R-26, create and propose a renewal version
+	 * 2. Move time to R-25, verify Vin Data Does NOT Refresh
 	 * @details
 	 */
 	@Parameters({"state"})
