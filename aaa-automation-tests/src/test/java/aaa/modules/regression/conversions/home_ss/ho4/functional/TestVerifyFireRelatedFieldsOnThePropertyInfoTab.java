@@ -28,7 +28,6 @@ import toolkit.utils.TestInfo;
 public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSHO4BaseTest {
 
 	PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
-	PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 
 	private static final String FIRE_DEPARTMENT_TYPE = "S - Subscription based";
 
