@@ -22,7 +22,7 @@ public class TestClueReportForCopiedPolicy extends AutoSSBaseTest {
 
     /**
      * @author Josh Carpenter
-     * @name Test that CLUE reports do not carry over on 'Copy Policy' action
+     * @name Test that CLUE reports do not carry over on 'Copy Policy' action for SS Auto policies
      * @scenario
      * 1. Create Customer
      * 2. Create Auto SS Policy
