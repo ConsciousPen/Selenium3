@@ -16,8 +16,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.service.template.PolicyRenewOose;
 import toolkit.utils.TestInfo;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
  * @author Jelena Dembovska
@@ -68,9 +67,9 @@ public class TestPolicyRenewOose extends PolicyRenewOose {
            //in case if oose feature is turned on, values from renew and endorsement should be merged and payment plan should be taken from renew = Semi-Annual
     	   assertThat(new PremiumAndCoveragesTab()
     			   .getInquiryAssetList()
-    			   .getStaticElement(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel())
+    			   .getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN))
     			   //.getValue()).isEqualTo("Semi-Annual (Renewal)");
-    			   .getValue()).isEqualTo("Annual (Renewal)");
+    			   .hasValue("Annual (Renewal)");
     	    
 	   	   PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 	   	   PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
@@ -86,10 +85,8 @@ public class TestPolicyRenewOose extends PolicyRenewOose {
            
     	   assertThat(new PremiumAndCoveragesTab()
     			   .getInquiryAssetList()
-    			   .getStaticElement(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel())
-    			   .getValue()).isEqualTo("Quarterly (Renewal)");
-    	   
-    	   
+			       .getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN))
+			       .hasValue("Quarterly (Renewal)");
 	}
 	
 }
