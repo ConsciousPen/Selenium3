@@ -1692,6 +1692,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		ViewVehicleResponse viewEndorsementVehicleResponse2 = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
 		assertThat(viewEndorsementVehicleResponse2.canAddVehicle).isEqualTo(true);
+		List<Vehicle> sortedVehicles1 = viewEndorsementVehicleResponse2.vehicleList;
+		sortedVehicles1.sort(Vehicle.PENDING_ENDORSEMENT_COMPARATOR);
 		String vehicleOid1 = viewEndorsementVehicleResponse2.vehicleList.get(0).oid;
 		String vehicleOid2 = viewEndorsementVehicleResponse2.vehicleList.get(1).oid;
 
@@ -3483,8 +3485,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 				default:
 			}
 		}
-/*		mainApp().open();
-		SearchPage.openPolicy(policyNumber);*/
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
 		//View Policy
 		PolicySummary responseViewPolicy = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
 		softly.assertThat(responseViewPolicy.policyNumber).isEqualTo(policyNumber);
@@ -3513,9 +3515,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(responseValidateEndorse.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
 
 		//Lock the policy
-		PolicyLockUnlockDto responseLock = HelperCommon.executePolicyLockService(policyNumber, Response.Status.OK.getStatusCode(), SESSION_ID_1);
+/*		PolicyLockUnlockDto responseLock = HelperCommon.executePolicyLockService(policyNumber, Response.Status.OK.getStatusCode(), SESSION_ID_1);
 		assertThat(responseLock.policyNumber).isEqualTo(policyNumber);
-		assertThat(responseLock.status).isEqualTo("Locked");
+		assertThat(responseLock.status).isEqualTo("Locked");*/
 
 		//Create pended endorsement
 		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, endorsementDate);
@@ -3557,6 +3559,13 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(updateVehicleGaragingAddressResponse.garagingAddress.addressLine1).isEqualTo(addressGarage);
 		softly.assertThat(updateVehicleGaragingAddressResponse.garagingAddress.city).isEqualTo(cityGarage);
 		softly.assertThat(updateVehicleGaragingAddressResponse.garagingAddress.stateProvCd).isEqualTo(stateGarage);
+
+		//BUG PAS-14393 When sending GaragingDifferent = False, garaging address is not updated
+		VehicleUpdateDto updateGaragingAddressVehicleRequest2 = new VehicleUpdateDto();
+		updateGaragingAddressVehicleRequest2.garagingDifferent = false;
+		Vehicle updateVehicleGaragingAddressResponse2 = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateGaragingAddressVehicleRequest2);
+		softly.assertThat(updateVehicleGaragingAddressResponse2.garagingDifferent).isEqualTo(false);
+
 		SearchPage.openPolicy(policyNumber);
 
 		//PAS-13252 start
@@ -3571,8 +3580,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//PAS-13252 end
 
 		//View endorsement vehicles
-		//Vehicle[] viewEndorsementVehicleResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
-
 		ViewVehicleResponse viewEndorsementVehicleResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
 		assertThat(viewEndorsementVehicleResponse.canAddVehicle).isEqualTo(true);
 
@@ -3588,7 +3595,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		assertThat(driverOid.equals(originalDriver)).isTrue();
 
 		//View driver assignment if VA
-		if ("VA".equals(state)) {
+		if ("VA, NY, CA".contains(state)) {
 			DriverAssignmentDto[] responseDriverAssignment = HelperCommon.pendedEndorsementDriverAssignmentInfo(policyNumber);
 			softly.assertThat(responseDriverAssignment[0].vehicleOid).isEqualTo(originalVehicle);
 			softly.assertThat(responseDriverAssignment[0].driverOid).isEqualTo(driverOid);
