@@ -7,6 +7,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.main.metadata.policy.AutoCaMetaData;
@@ -15,6 +16,7 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.modules.regression.sales.template.functional.TestMSRPRefreshTemplate;
 import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
 import toolkit.datax.TestData;
+import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
 public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
@@ -35,7 +37,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730, PAS-12881")
 	public void pas730_PartialMatch(@Optional("") String state) {
 		partialMatch();
 	}
@@ -114,5 +116,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	@AfterSuite(alwaysRun = true)
 	protected void resetVinControlTable() {
 		pas730_ChoiceCleanDataBase(CA_CHOICE_REGULAR_VEH_MSRP_VERSION, VEHICLETYPE_Regular);
+		DBService.get().executeUpdate(VehicleQueries.REPAIR_7MSRP15H_COMP_CHOICE);
+		DBService.get().executeUpdate(VehicleQueries.REPAIR_7MSRP15H_COLL_CHOICE);
 	}
 }
