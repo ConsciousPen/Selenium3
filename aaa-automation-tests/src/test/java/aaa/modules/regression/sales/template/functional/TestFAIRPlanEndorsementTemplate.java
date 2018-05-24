@@ -446,7 +446,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		//8. Validate that form FPCECA is included in Endorsement package only once
 		validateDocumentIsGeneratedInPackage(policyNumber, ENDORSEMENT_ISSUE);
 
-		//7. Validate that form FPCECA is not included in Renewal package
+		//7. Validate that form FPCECA is included in Renewal package
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER); //PAS-14193
 
 	}
@@ -507,7 +507,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		policyType.get().quoteDocGen().start();
 
-		//TODO-mstrazds:valdiate that Central Print is disabled
+		//TODO-mstrazds:select document and valdiate that Central Print is disabled
 
 		policyDocGenActionTab.verify.documentsPresent(true, fairPlanEndorsementInODDTab);
 		policyDocGenActionTab.verify.documentsEnabled(true, fairPlanEndorsementInODDTab);
