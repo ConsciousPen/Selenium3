@@ -115,7 +115,7 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 	public ExcelTable getTable(int headerRowIndexOnSheet, List<Integer> rowsIndexesInTable, boolean ignoreCase, String... headerColumnsNames) {
 		assertThat(headerRowIndexOnSheet).as("Header row number should be greater than 0").isPositive();
 		SheetRow headerRow = getRow(headerRowIndexOnSheet);
-		assertThat(headerRow.isEmpty()).as("Header row should not be empty").isFalse();
+		assertThat(headerRow.isEmpty()).as("Table header row #%1$s should not be empty on \"%2$s\" sheet", headerRowIndexOnSheet, headerRow.getSheetName()).isFalse();
 		List<Integer> columnsIndexesOnSheet = null;
 		List<Integer> rowsIndexesOnSheet = rowsIndexesInTable != null ? rowsIndexesInTable.stream().map(r -> r + headerRowIndexOnSheet).collect(Collectors.toList()) : null;
 

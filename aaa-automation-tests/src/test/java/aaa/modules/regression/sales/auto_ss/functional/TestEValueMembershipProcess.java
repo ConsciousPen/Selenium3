@@ -4,6 +4,7 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import javax.ws.rs.core.Response;
+import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -19,6 +21,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
+import aaa.admin.pages.general.GeneralAsyncTasksPage;
 import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -164,6 +167,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	public void pas3697_membershipEligibilityConfigurationTrueForActiveMembership(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
+		testEValueDiscount.pas111_clearCache();
 
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
 
@@ -350,6 +354,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	public void pas3697_membershipEligibilityConfigurationFalseForActiveMembership(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
+		testEValueDiscount.pas111_clearCache();
 
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true, false);
 
@@ -485,14 +490,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-324", "PAS-1928"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-324", "PAS-1928", "PAS-319"})
 	public void pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		String membershipStatusActive = "Cancelled";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
 		CustomAssert.enableSoftMode();
-		renewalMembershipProcessCheck(membershipDiscountEligibilitySwitch, membershipStatusActive);
+		renewalMembershipProcessCheck(membershipDiscountEligibilitySwitch, membershipStatusActive,false);
 		postConditionMembershipEligibilityCheck();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -722,14 +727,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-324", "PAS-1928"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-324", "PAS-1928", "PAS-319"})
 	public void pas3697_membershipEligibilityConfigurationFalseForCancelledMembershipRenewal(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		String membershipStatusActive = "Cancelled";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
 		CustomAssert.enableSoftMode();
-		renewalMembershipProcessCheck(membershipDiscountEligibilitySwitch, membershipStatusActive);
+		renewalMembershipProcessCheck(membershipDiscountEligibilitySwitch, membershipStatusActive, true);
 		postConditionMembershipEligibilityCheck();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1293,13 +1298,13 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		//implementEmailCheck from Admin Log?
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Membership not Wanted");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
 		lastTransactionHistoryEValueDiscountCheck(true);
 
 		jobsNBplus15plus30runNoChecks();
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Membership not Wanted");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
 		lastTransactionHistoryEValueDiscountCheck(true);
 		checkDocumentContentAHDRXX(policyNumber, false, true, false, false, false);
 
@@ -1398,7 +1403,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Membership not Wanted");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
 		lastTransactionHistoryEValueDiscountCheck(true);
 
 		jobsNBplus15plus30runNoChecks();
@@ -1408,13 +1413,13 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		//Start PAS-12822
 		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
 		//End PAS-12822
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Membership not Wanted");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
 		lastTransactionHistoryEValueDiscountCheck(true);
 
 		jobsNBplus15plus30runNoChecks();
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Membership not Wanted");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
 		lastTransactionHistoryEValueDiscountCheck(true);
 		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
 
@@ -1699,7 +1704,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 
 		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+		HelperCommon.executeUpdatePolicyPreferences(policyNumber, 422);
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
@@ -1777,6 +1782,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
 
 		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+
+		//BUG PAS-13952 Can't issue an endorsement to current term, when renewal was proposed and paid
 		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
 		mainApp().open();
@@ -1792,7 +1799,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		deleteSinglePaperlessPreferenceRequest(requestId);
 	}
 
-	private void renewalMembershipProcessCheck(String membershipEligibilitySwitch, String membershipStatus) {
+	private void renewalMembershipProcessCheck(String membershipEligibilitySwitch, String membershipStatus, boolean eValueApplied) {
 		membershipEligibilityPolicyCreation(membershipStatus, true, false);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -1808,12 +1815,22 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);
 		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
-
+		//String policyNumber = "VASS952918864";
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		//PAS-319 start
+		generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.COMMISSION_TYPE).verify.value("eValue Renewal");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		if(eValueApplied){
+			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("Yes");
+		}else{
+			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("No");
+		}
+		//PAS-319 end
 
 		ahdexxContentCheck(membershipEligibilitySwitch, policyNumber);
 	}
@@ -1910,6 +1927,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	static void jobsNBplus15plus30runNoChecks(LocalDateTime dateToShiftTo) {
 		TimeSetterUtil.getInstance().nextPhase(dateToShiftTo);
+		//the job might not exist in AWS
+/*		if(new SoapJobActions().isJobExist(JobGroup.fromSingleJob(Jobs.membershipValidationJob.getJobName()))){
+			JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
+		} else {*/
 		//JobUtils.executeJob(Jobs.aaaBatchMarkerJob); //OSI: job is not required
 		JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
 		JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
@@ -1919,7 +1940,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		//BUG INC0635200 PAS-ASM: multiple VDMs: We have a failing job on the VDMs. - the next line is closed as not a defect and this one was opened
 		//BUG PAS-6162 automatedProcessingBypassingAndErrorsReportGenerationJob is failing with Error, failed to retrieve 'placeholder' Report Entity
 		JobUtils.executeJob(Jobs.automatedProcessingBypassingAndErrorsReportGenerationJob);
+		//}
 	}
+
 
 	private void executeMembershipJobsRminus63Rminus48(LocalDateTime renewReportOrderingDate, boolean clearExgPasArchiveFolder) {
 		//TODO commented out to avoid hanging of SSH session in VDMs
@@ -2275,5 +2298,21 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		HelperWireMockPaperlessPreferences.deleteProcessedRequestFromStub(requestId);
 		requestIdList.remove(requestId);
 		printToLog("DELETE SINGLE REQUEST WAS EXECUTED for " + requestId);
+	}
+
+	/**
+	 * Checks that number of failed async tasks is not huge
+	 */
+	@Test(groups = {Groups.PRECONDITION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"N/A"})
+	public void xAsyncTaskCheck() {
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(2));
+		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.GENERAL.get());
+		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_ASYNC_TASKS.get());
+		SoftAssertions.assertSoftly(softly -> {
+			assertThat(Integer.valueOf(GeneralAsyncTasksPage.labelFailedTasks.getValue())).isLessThan(2);
+			assertThat(Integer.valueOf(GeneralAsyncTasksPage.labelLockedTasks.getValue())).isLessThan(2);
+		});
 	}
 }

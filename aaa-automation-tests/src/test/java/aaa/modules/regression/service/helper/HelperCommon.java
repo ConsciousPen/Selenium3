@@ -64,7 +64,11 @@ public class HelperCommon {
 	private static final String DXP_RETRIEVE_MAKE_BY_YEAR = AAA_VEHICLE_INFO_RS_PREFIX + "make-by-year?year=%s&productCd=%s&stateCd=%s&formType=%s&effectiveDate=%s";
 	private static final String DXP_RETRIEVE_MODEL_BY_YEAR_MAKE = AAA_VEHICLE_INFO_RS_PREFIX + "model-by-make-year?year=%s&make=%s&productCd=%s&stateCd=%s&formType=%s&effectiveDate=%s";
 	private static final String DXP_SERIES_BY_YEAR_MAKE_MODEL = AAA_VEHICLE_INFO_RS_PREFIX + "series-by-make-year-model?year=%s&make=%s&model=%s&productCd=%s&stateCd=%s&formType=%s&effectiveDate=%s";
-	private static final String DXP_RETRIEVE_BODYSTYLE_BY_YEAR_MAKE_MODEL_SERIES = AAA_VEHICLE_INFO_RS_PREFIX + "bodystyle-by-make-year-model?year=%s&make=%s&model=%s&Series=%s&productCd=%s&stateCd=%s&formType=%s&effectiveDate=%s";
+	private static final String DXP_RETRIEVE_BODYSTYLE_BY_YEAR_MAKE_MODEL_SERIES =
+			AAA_VEHICLE_INFO_RS_PREFIX + "bodystyle-by-make-year-model?year=%s&make=%s&model=%s&Series=%s&productCd=%s&stateCd=%s&formType=%s&effectiveDate=%s";
+
+	private static final String DXP_VIEW_POLICY_DISCOUNTS = "/api/v1/policies/%s/discounts";
+	private static final String DXP_VIEW_ENDORSEMENT_DISCOUNTS = "/api/v1/policies/%s/endorsement/discounts";
 
 	private static final String DXP_BIG_META_DATA_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles/%s/metadata";
 	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
@@ -75,7 +79,8 @@ public class HelperCommon {
 
 	private static String urlBuilderDxp(String endpointUrlPart) {
 		if (Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
-			return PropertyProvider.getProperty(CustomTestProperties.DXP_PROTOCOL) + PropertyProvider.getProperty(CustomTestProperties.APP_HOST).replace(PropertyProvider.getProperty(CustomTestProperties.DOMAIN_NAME), "") + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + endpointUrlPart;
+			return PropertyProvider.getProperty(CustomTestProperties.DXP_PROTOCOL) + PropertyProvider.getProperty(CustomTestProperties.APP_HOST)
+					.replace(PropertyProvider.getProperty(CustomTestProperties.DOMAIN_NAME), "") + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + endpointUrlPart;
 		}
 		return PropertyProvider.getProperty(CustomTestProperties.DOMAIN_NAME) + endpointUrlPart;
 	}
@@ -90,7 +95,7 @@ public class HelperCommon {
 	}
 
 	public static InstallmentFeesResponse[] executeInstallmentFeesRequest(String productCode, String state, String date) {
-		String requestUrl = urlBuilderAdmin(ADMIN_INSTALLMENT_FEES_ENDPOINT) + "?productCode=" +productCode + "&riskState=" + state +"&effectiveDate="+date;
+		String requestUrl = urlBuilderAdmin(ADMIN_INSTALLMENT_FEES_ENDPOINT) + "?productCode=" + productCode + "&riskState=" + state + "&effectiveDate=" + date;
 		return runJsonRequestGetAdmin(requestUrl, InstallmentFeesResponse[].class);
 	}
 
@@ -212,9 +217,14 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, request, Vehicle.class, 201);
 	}
 
-	public static Vehicle[] pendedEndorsementValidateVehicleInfo(String policyNumber) {
+	public static HashMap executeVehicleAddVehicleError(String policyNumber,  Vehicle request,  int status) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_ADD_VEHICLE_ENDPOINT, policyNumber));
+		return runJsonRequestPostDxp(requestUrl, request, HashMap.class, status);
+	}
+
+	public static ViewVehicleResponse pendedEndorsementValidateVehicleInfo(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_ENDORSEMENT_VEHICLES_ENDPOINT, policyNumber));
-		return runJsonRequestGetDxp(requestUrl, Vehicle[].class);
+		return runJsonRequestGetDxp(requestUrl, ViewVehicleResponse.class);
 	}
 
 	public static DriverAssignmentDto[] pendedEndorsementDriverAssignmentInfo(String policyNumber) {
@@ -300,6 +310,7 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, null, PolicyPremiumInfo[].class, status);
 	}
 
+	@SuppressWarnings("unchecked")
 	public static HashMap<String, String> executeEndorsementRateError(String policyNumber, int status) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENT_RATE_ENDPOINT, policyNumber));
 		return runJsonRequestPostDxp(requestUrl, null, HashMap.class, status);
@@ -312,6 +323,7 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, request, String.class, status);
 	}
 
+	@SuppressWarnings("unchecked")
 	public static HashMap<String, String> executeEndorsementBindError(String policyNumber, String authorizedBy, int status) {
 		AAABindEndorsementRequestDTO request = new AAABindEndorsementRequestDTO();
 		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENT_BIND_ENDPOINT, policyNumber));
@@ -319,6 +331,18 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, request, HashMap.class, status);
 	}
 
+	public static DiscountSummary executeDiscounts(String policyNumber, String transaction, int status) {
+		String requestUrl;
+		if ("policy".equals(transaction)) {
+			requestUrl = urlBuilderDxp(String.format(DXP_VIEW_POLICY_DISCOUNTS, policyNumber));
+		} else if ("endorsement".equals(transaction)) {
+
+			requestUrl = urlBuilderDxp(String.format(DXP_VIEW_ENDORSEMENT_DISCOUNTS, policyNumber));
+		} else {
+			throw new IstfException("invalid transaction type for DiscountSummary service");
+		}
+		return runJsonRequestGetDxp(requestUrl, DiscountSummary.class, status);
+	}
 
 	public static String runJsonRequestPostDxp(String url, RestBodyRequest bodyRequest) {
 		return runJsonRequestPostDxp(url, bodyRequest, String.class);

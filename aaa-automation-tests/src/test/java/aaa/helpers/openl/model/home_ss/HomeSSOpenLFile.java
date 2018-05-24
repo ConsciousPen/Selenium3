@@ -1,7 +1,6 @@
 package aaa.helpers.openl.model.home_ss;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLCappingDetails;
 import aaa.helpers.openl.model.OpenLFile;
@@ -10,12 +9,6 @@ import aaa.utils.excel.bind.annotation.ExcelTransient;
 public class HomeSSOpenLFile extends OpenLFile<HomeSSOpenLPolicy> {
 	@ExcelTransient
 	public static final int COVERAGE_HEADER_ROW_NUMBER = 4;
-
-	@ExcelTransient
-	public static final String TESTS_SHEET_NAME = "FinalTest";
-
-	@SuppressWarnings("FieldNameHidesFieldInSuperclass")
-	protected List<OpenLFinalTest> tests;
 
 	private List<HomeSSOpenLPolicy> policies;
 
@@ -148,11 +141,6 @@ public class HomeSSOpenLFile extends OpenLFile<HomeSSOpenLPolicy> {
 
 	public void setClaims(List<OpenLClaim> claims) {
 		this.claims = new ArrayList<>(claims);
-	}
-
-	@Override
-	public List<OpenLFinalTest> getTests() {
-		return Collections.unmodifiableList(tests);
 	}
 
 	@Override

@@ -26,6 +26,16 @@ public class helper extends BaseTest {
             softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.OIL_FUEL_OR_PROPANE_STORAGE_TANK)).isEnabled(false);
         });}
 
+    public void assertOilStorageTankSecondRenewalHo3Dp3(String state) {
+        assertSoftly(softly -> {
+
+            if(state.matches("NJ"))
+
+                softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.OIL_FUEL_OR_PROPANE_STORAGE_TANK)).isEnabled(false);
+        else {
+                softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.OIL_FUEL_OR_PROPANE_STORAGE_TANK)).isEnabled(true);
+            }
+        });}
     /*
    method asserts conditions
    */

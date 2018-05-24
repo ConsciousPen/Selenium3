@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import org.apache.commons.lang3.NotImplementedException;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -154,7 +155,11 @@ public class TimeSetterUtil {
 	}
 
 	public void adjustTime() {
-		timeSetterClient.adjustTime();
+		if (!isPEF) {
+			timeSetterClient.adjustTime();
+		} else {
+			throw new NotImplementedException("Not applicable fpr PEF mode");
+		}
 	}
 
 	public LocalDateTime parse(CharSequence text, DateTimeFormatter formatter) {

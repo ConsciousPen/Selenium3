@@ -179,10 +179,15 @@ public class ExcelUnmarshaller {
 	}
 
 	private void setFieldValue(Field field, Object classInstance, Object value) {
+		if (field.getType().isPrimitive() && value == null) {
+			return; // unable to set null values to fields of primitive types, leave this field with its default type value
+		}
+
 		if (!field.isAccessible()) {
 			//TODO-dchubkov: find appropriate setter method and use it for set value
 			field.setAccessible(true);
 		}
+
 		try {
 			field.set(classInstance, value);
 		} catch (IllegalAccessException | IllegalArgumentException e) {
