@@ -20,7 +20,8 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	private String fairPlanEndorsementLabelInEndorsementTab = HomeCaMetaData.EndorsementTab.FPCECA.getLabel();
 	private DocGenEnum.Documents fairPlanEndorsementInODDTab = DocGenEnum.Documents.FPCECA;
 
-	private TestFAIRPlanEndorsementTemplate testFAIRPlanEndorsementTemplate = new TestFAIRPlanEndorsementTemplate(getPolicyType(), formIdInXml, fairPlanEndorsementLabelInEndorsementTab, fairPlanEndorsementInODDTab);
+	private TestFAIRPlanEndorsementTemplate testFAIRPlanEndorsementTemplate =
+			new TestFAIRPlanEndorsementTemplate(getPolicyType(), formIdInXml, fairPlanEndorsementLabelInEndorsementTab, fairPlanEndorsementInODDTab);
 
 	///AC#1, AC#4
 
@@ -235,7 +236,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 		testFAIRPlanEndorsementTemplate.pas13211_AC3_Renewal_PPC1X_LogHome_AAA_HO_CA10100616();
 	}
 
-	////////////Start PAS-13242////////////////
+	////////////Start PAS-13242 PAS-14193////////////////
 
 	/**
 	 *@author Maris Strazds
@@ -297,9 +298,9 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13242")
-	public void pas13242_AC3_Renewal(@Optional("") String state) {
-		testFAIRPlanEndorsementTemplate.pas13242_AC3_Renewal();
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13242 PAS-14193")
+	public void pas13242_pas14193_AC3_Renewal(@Optional("") String state) {
+		testFAIRPlanEndorsementTemplate.pas13242_pas14193_AC3_Renewal();
 	}
 
 	/**
@@ -317,9 +318,9 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13242")
-	public void pas13242_AC3_Revised_Renewal_After_Renewal_Term_Change(@Optional("") String state) {
-		testFAIRPlanEndorsementTemplate.pas13242_AC3_Revised_Renewal_After_Renewal_Term_Change();
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13242 PAS-14193")
+	public void pas13242_pas14193_AC3_Revised_Renewal_After_Renewal_Term_Change(@Optional("") String state) {
+		testFAIRPlanEndorsementTemplate.pas13242_pas14193_AC3_Revised_Renewal_After_Renewal_Term_Change();
 	}
 
 	/**
@@ -344,7 +345,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 		testFAIRPlanEndorsementTemplate.pas13242_pas14193_AC3_Revised_Renewal_After_Current_Term_Change();
 	}
 
-	////////////End PAS-13242////////////////
+	////////////End PAS-13242 PAS-14193////////////////
 
 	////////////Start PAS-13216////////////////
 

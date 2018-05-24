@@ -20,7 +20,8 @@ public class TestFAIRPlanEndorsement extends HomeCaDP3BaseTest {
 	private String fairPlanEndorsementLabelInEndorsementTab = HomeCaMetaData.EndorsementTab.FPCECADP.getLabel();
 	private DocGenEnum.Documents fairPlanEndorsementInODDTab = DocGenEnum.Documents.FPCECADP;
 
-	private TestFAIRPlanEndorsementTemplate testFAIRPlanEndorsementTemplate = new TestFAIRPlanEndorsementTemplate(getPolicyType(), formIdInXml, fairPlanEndorsementLabelInEndorsementTab, fairPlanEndorsementInODDTab);
+	private TestFAIRPlanEndorsementTemplate testFAIRPlanEndorsementTemplate =
+			new TestFAIRPlanEndorsementTemplate(getPolicyType(), formIdInXml, fairPlanEndorsementLabelInEndorsementTab, fairPlanEndorsementInODDTab);
 
 	/**
 	 * @author Maris Strazds
@@ -296,9 +297,9 @@ public class TestFAIRPlanEndorsement extends HomeCaDP3BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13242")
-	public void pas13242_AC3_Renewal(@Optional("") String state) {
-		testFAIRPlanEndorsementTemplate.pas13242_AC3_Renewal();
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13242 PAS-14193")
+	public void pas13242_pas14193_AC3_Renewal(@Optional("") String state) {
+		testFAIRPlanEndorsementTemplate.pas13242_pas14193_AC3_Renewal();
 	}
 
 	/**
@@ -316,9 +317,9 @@ public class TestFAIRPlanEndorsement extends HomeCaDP3BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13242")
-	public void pas13242_AC3_Revised_Renewal_After_Renewal_Term_Change(@Optional("") String state) {
-		testFAIRPlanEndorsementTemplate.pas13242_AC3_Revised_Renewal_After_Renewal_Term_Change();
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13242 PAS-14193")
+	public void pas13242_pas14193_AC3_Revised_Renewal_After_Renewal_Term_Change(@Optional("") String state) {
+		testFAIRPlanEndorsementTemplate.pas13242_pas14193_AC3_Revised_Renewal_After_Renewal_Term_Change();
 	}
 
 	/**
@@ -495,7 +496,7 @@ public class TestFAIRPlanEndorsement extends HomeCaDP3BaseTest {
 	public void pas14004_AC1_AC2_Policy(@Optional("") String state) {
 		TestData tdWithFAIRPlanEndorsement = getPolicyDefaultTD().adjust(EndorsementTab.class.getSimpleName(), getTestSpecificTD("EndorsementTab_Add"));
 		tdWithFAIRPlanEndorsement.adjust(DocumentsTab.class.getSimpleName(), getTestSpecificTD("DocumentsTab_SignFairPlanEndorsement"));
-		testFAIRPlanEndorsementTemplate.pas14004_AC1_AC2_Quote(tdWithFAIRPlanEndorsement);
+		testFAIRPlanEndorsementTemplate.pas14004_AC1_AC2_Policy(tdWithFAIRPlanEndorsement);
 	}
 
 	/**

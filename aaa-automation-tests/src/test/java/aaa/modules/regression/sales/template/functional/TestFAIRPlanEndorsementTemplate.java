@@ -352,7 +352,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		validateDocumentIsGeneratedInPackage(policyNumber, ENDORSEMENT_ISSUE);
 	}
 
-	public void pas13242_AC3_Renewal() {
+	public void pas13242_pas14193_AC3_Renewal() {
 
 		// Create policy without FAIR Plan Endorsement
 		mainApp().open();
@@ -390,7 +390,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
 	}
 
-	public void pas13242_AC3_Revised_Renewal_After_Renewal_Term_Change() {
+	public void pas13242_pas14193_AC3_Revised_Renewal_After_Renewal_Term_Change() {
 
 		// Create policy without FAIR Plan Endorsement
 		mainApp().open();
