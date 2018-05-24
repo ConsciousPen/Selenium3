@@ -4,8 +4,11 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.NotImplementedException;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.pagefactory.ByChained;
+import toolkit.config.ClassConfigurator;
 import toolkit.exceptions.IstfException;
 import toolkit.webdriver.controls.BaseElement;
+import toolkit.webdriver.controls.RadioButton;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.waiters.Waiter;
 
@@ -13,6 +16,10 @@ import toolkit.webdriver.controls.waiters.Waiter;
  * Extended RadioGroup with extra features like setting value by starts, contains, regex, etc.
  */
 public class AdvancedRadioGroup extends RadioGroup {
+
+	@ClassConfigurator.Configurable
+	private static By rBtnSectionTemplate = By.xpath(".//td[label[contains(.,\"%1$s\")]]");
+
 	public AdvancedRadioGroup(By locator) {
 		super(locator);
 	}
@@ -98,4 +105,9 @@ public class AdvancedRadioGroup extends RadioGroup {
 			}
 		}
 	}
+
+	public RadioButton getRadioButton(String radioBtnLabel) {
+		return new RadioButton(new ByChained(this.locator, rBtnSectionTemplate));
+	}
+
 }
