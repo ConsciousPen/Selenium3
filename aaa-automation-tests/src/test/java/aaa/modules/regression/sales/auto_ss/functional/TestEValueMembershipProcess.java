@@ -19,6 +19,8 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
+import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import aaa.admin.pages.general.GeneralAsyncTasksPage;
@@ -1927,6 +1929,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	static void jobsNBplus15plus30runNoChecks(LocalDateTime dateToShiftTo) {
 		TimeSetterUtil.getInstance().nextPhase(dateToShiftTo);
+		//the job might not exist in AWS
+		if(new SoapJobActions().isJobExist(JobGroup.fromSingleJob(Jobs.membershipValidationJob.getJobName()))){
+			JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
+		} else {
 		//JobUtils.executeJob(Jobs.aaaBatchMarkerJob); //OSI: job is not required
 		JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
 		JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
@@ -1936,7 +1942,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		//BUG INC0635200 PAS-ASM: multiple VDMs: We have a failing job on the VDMs. - the next line is closed as not a defect and this one was opened
 		//BUG PAS-6162 automatedProcessingBypassingAndErrorsReportGenerationJob is failing with Error, failed to retrieve 'placeholder' Report Entity
 		JobUtils.executeJob(Jobs.automatedProcessingBypassingAndErrorsReportGenerationJob);
+		}
 	}
+
 
 	private void executeMembershipJobsRminus63Rminus48(LocalDateTime renewReportOrderingDate, boolean clearExgPasArchiveFolder) {
 		//TODO commented out to avoid hanging of SSH session in VDMs
