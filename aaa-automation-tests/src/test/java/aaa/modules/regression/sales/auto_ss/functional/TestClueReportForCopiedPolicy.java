@@ -44,8 +44,6 @@ public class TestClueReportForCopiedPolicy extends AutoSSBaseTest {
         createCustomerIndividual();
         createPolicy();
 
-        //SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "OHSS952918558");
-
         // Get state-specific license number for 2nd driver and adjust test data
         String licenseNumber = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData")
                 .getTestDataList(DriverTab.class.getSimpleName()).get(1).getValue(AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel());
