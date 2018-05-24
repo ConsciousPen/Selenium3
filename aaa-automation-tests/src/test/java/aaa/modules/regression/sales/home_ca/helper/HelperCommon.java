@@ -2,7 +2,10 @@ package aaa.modules.regression.sales.home_ca.helper;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
@@ -13,6 +16,11 @@ import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
+import toolkit.webdriver.controls.composite.table.Table;
+
+import java.time.LocalDateTime;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class HelperCommon extends HomeCaHO3BaseTest{
     private static final String AGE_VERIFICATION_SQL = "select ip.age from POLICYSUMMARY ps, INSUREDPRINCIPAL ip\n" +
@@ -89,5 +97,70 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         // Begin Endorsement. Use Default data for Endorsement Reason Page. Using Custom Data From Adjustment.
         in_policy.endorse().perform(endorsementTestData.adjust(getPolicyTD("Endorsement", "TestData")));
         in_policy.getDefaultView().fillUpTo(endorsementTestData, PurchaseTab.class, false);
+    }
+
+    public static void addFAIRPlanEndorsement(String policyType) {
+        String formattedInput = policyType.toLowerCase();
+
+        // Click FPCECA Endorsement
+        EndorsementTab endorsementTab = new EndorsementTab();
+
+        switch (formattedInput) {
+            case "ho3":
+                endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel()).click();
+                break;
+            case "dp3":
+                endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECADP.getLabel()).click();
+                break;
+        }
+
+        // Handle Endorsement Confirmation
+        Page.dialogConfirmation.confirm();
+        endorsementTab.btnSaveForm.click();
+    }
+
+    public TestData adjustApplicantAndReportsTD(TestData in_td, String ApplicantTabTDName, String ReportsTabTDName) {
+        // Assemble Test Data
+        in_td = getPolicyTD();
+        TestData adjustedApplicantTab = getTestSpecificTD(ApplicantTabTDName);
+        TestData adjustedReportsTab = getTestSpecificTD(ReportsTabTDName);
+        in_td.adjust(ApplicantTab.class.getSimpleName(), adjustedApplicantTab);
+        in_td.adjust(ReportsTab.class.getSimpleName(), adjustedReportsTab);
+
+        return in_td;
+    }
+
+    public TestData adjustApplicantReportsAndPropInfoTD(TestData in_td, String ApplicantTabTDName, String ReportsTabTDName, String PropInfoTDName) {
+        // Assemble Test Data
+        in_td = getPolicyTD();
+        TestData adjustedApplicantTab = getTestSpecificTD(ApplicantTabTDName);
+        TestData adjustedReportsTab = getTestSpecificTD(ReportsTabTDName);
+        TestData adjustedPropertyTab = getTestSpecificTD(PropInfoTDName);
+        in_td.adjust(ApplicantTab.class.getSimpleName(), adjustedApplicantTab);
+        in_td.adjust(ReportsTab.class.getSimpleName(), adjustedReportsTab);
+        in_td.adjust(PropertyInfoTab.class.getSimpleName(), adjustedPropertyTab);
+
+        return in_td;
+    }
+
+    public static void moveJVMToDateAndRunRenewalJobs(LocalDateTime desiredJVMLocalDateTime)
+    {
+        LocalDateTime policyCreationDate = TimeSetterUtil.getInstance().getCurrentTime();
+        printToDebugLog(" -- Current Date = " + policyCreationDate + ". Moving JVM to input time = "
+                + desiredJVMLocalDateTime.toString() + " -- ");
+
+        // Advance JVM to Generate Renewal Image.
+        TimeSetterUtil.getInstance().nextPhase(desiredJVMLocalDateTime);
+        printToDebugLog("Current Date is now = " + TimeSetterUtil.getInstance().getCurrentTime());
+
+        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+        printToDebugLog(" -- Renewal Offer Generation Jobs Completed -- ");
+    }
+
+    public static void verifySelectedEndorsementsPresent(Table tableForms, String columnName, String endorsementToFind) {
+        assertThat(tableForms.getRowContains(columnName, endorsementToFind)).isNotNull();
     }
 }

@@ -60,11 +60,11 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
         policy.getDefaultView().fillUpTo(defaultPolicyData, EndorsementTab.class, false);
 
         // Click FPCECA Endorsement
-        addEndorsement();
+        myHelper.addFAIRPlanEndorsement("ho3");
 
         // Verify FPCECA now present on Documents Tab & Quote Tab
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-        verifySelectedEndorsementsPresent(PremiumsAndCoveragesQuoteTab.tableEndorsementForms, PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, "FPCECA");
+        myHelper.verifySelectedEndorsementsPresent(PremiumsAndCoveragesQuoteTab.tableEndorsementForms, PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, "FPCECA");
 
         // Verify Document Tab populates Endorsement
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
@@ -95,10 +95,10 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
         createPolicy(defaultPolicyData);
         policy.endorse().perform(endorsementTestData.adjust(getPolicyTD("Endorsement", "TestData")));
         policy.getDefaultView().fillUpTo(endorsementTestData, EndorsementTab.class, false);
-        verifySelectedEndorsementsPresent(PremiumsAndCoveragesQuoteTab.tableEndorsementForms, PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, "FPCECA");
+        myHelper.verifySelectedEndorsementsPresent(PremiumsAndCoveragesQuoteTab.tableEndorsementForms, PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, "FPCECA");
 
         // Click FPCECA Endorsement
-        addEndorsement();
+        myHelper.addFAIRPlanEndorsement("ho3");
     }
 
     /**
@@ -131,9 +131,9 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
         LocalDateTime timePoint2 = policyExpirationDate.minusDays(59);
 
         // Move JVM to TP1 (R-73) & run Renewal jobs
-        moveJVMToDateAndRunRenewalJobs(timePoint1);
+        myHelper.moveJVMToDateAndRunRenewalJobs(timePoint1);
         // Move JVM to TP2 (R-59) & run Renewal jobs
-        moveJVMToDateAndRunRenewalJobs(timePoint2);
+        myHelper.moveJVMToDateAndRunRenewalJobs(timePoint2);
 
         // Open App, get renewal image.
         mainApp().open();
@@ -141,40 +141,9 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
 
         policy.renew().start().submit();
         policy.getDefaultView().fillUpTo(getTestSpecificTD("Renewal_AC3"), EndorsementTab.class, false);
-        verifySelectedEndorsementsPresent(PremiumsAndCoveragesQuoteTab.tableEndorsementForms, PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, "FPCECA");
+        myHelper.verifySelectedEndorsementsPresent(PremiumsAndCoveragesQuoteTab.tableEndorsementForms, PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, "FPCECA");
 
         // Click FPCECA Endorsement
-        addEndorsement();
-    }
-
-    public static void moveJVMToDateAndRunRenewalJobs(LocalDateTime desiredJVMLocalDateTime)
-    {
-        LocalDateTime policyCreationDate = TimeSetterUtil.getInstance().getCurrentTime();
-        printToDebugLog(" -- Current Date = " + policyCreationDate + ". Moving JVM to input time = "
-                + desiredJVMLocalDateTime.toString() + " -- ");
-
-        // Advance JVM to Generate Renewal Image.
-        TimeSetterUtil.getInstance().nextPhase(desiredJVMLocalDateTime);
-        printToDebugLog("Current Date is now = " + TimeSetterUtil.getInstance().getCurrentTime());
-
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-
-        printToDebugLog(" -- Renewal Offer Generation Jobs Completed -- ");
-    }
-
-    private void verifySelectedEndorsementsPresent(Table tableForms, String columnName, String endorsementToFind) {
-        assertThat(tableForms.getRowContains(columnName, endorsementToFind)).isNotNull();
-    }
-
-    private void addEndorsement() {
-        // Click FPCECA Endorsement
-        EndorsementTab endorsementTab = new EndorsementTab();
-        endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel()).click();
-
-        // Verify Endorsement Confirmation Appears
-        Page.dialogConfirmation.confirm();
-        endorsementTab.btnSaveForm.click();
+        myHelper.addFAIRPlanEndorsement("ho3");
     }
 }

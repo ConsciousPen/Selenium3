@@ -7,6 +7,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.modules.policy.HomeCaHO3BaseTest;
+import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -15,6 +16,7 @@ import toolkit.utils.TestInfo;
 
 public class TestCAFairPlanCanItBind extends HomeCaHO3BaseTest {
     static TestData DEFAULTPOLICYDATA;
+    static HelperCommon myHelper;
 
     /**
      * @Scenario - During Quote Fireline returns >= 5. FPCECA Added. Will Bind.
@@ -42,19 +44,9 @@ public class TestCAFairPlanCanItBind extends HomeCaHO3BaseTest {
         performTest("ApplicantTab_ZipMatch", "ReportsTab_NoMembership", "PropertyInfoTab_RoofWood", DEFAULTPOLICYDATA, EndorsementTab.class, DocumentsTab.class);
     }
 
-    private void addEndorsement() {
-        // Click FPCECA Endorsement
-        EndorsementTab endorsementTab = new EndorsementTab();
-        endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel()).click();
-
-        // Verify Endorsement Confirmation Appears
-        Page.dialogConfirmation.confirm();
-        endorsementTab.btnSaveForm.click();
-    }
-
     private void performTest(String applicantTabTD, String reportsTabTD, TestData defaultPolicyData, Class<? extends Tab> tabClassTo1, Class<? extends Tab> tabClassTo2) {
         // Assemble Test Data
-        defaultPolicyData = buildTestData(applicantTabTD, reportsTabTD);
+        defaultPolicyData = myHelper.adjustApplicantAndReportsTD(defaultPolicyData, applicantTabTD, reportsTabTD);
 
         // Open App, Create Customer and Initiate Quote
         mainApp().open();
@@ -63,7 +55,7 @@ public class TestCAFairPlanCanItBind extends HomeCaHO3BaseTest {
         policy.getDefaultView().fillUpTo(defaultPolicyData, tabClassTo1, false);
 
         // Click FPCECA Endorsement
-        addEndorsement();
+        myHelper.addFAIRPlanEndorsement("ho3");
 
         // Continue Fill Until Documents Tab.
         policy.getDefaultView().fillFromTo(defaultPolicyData, tabClassTo1, tabClassTo2, true);
@@ -75,7 +67,7 @@ public class TestCAFairPlanCanItBind extends HomeCaHO3BaseTest {
 
     private void performTest(String applicantTabTD, String reportsTabTD, String propInfoTD, TestData defaultPolicyData, Class<? extends Tab> tabClassTo1, Class<? extends Tab> tabClassTo2) {
         // Assemble Test Data
-        defaultPolicyData = buildTestDataWithPropInfo(applicantTabTD, reportsTabTD, propInfoTD);
+        defaultPolicyData = myHelper.adjustApplicantReportsAndPropInfoTD(defaultPolicyData, applicantTabTD, reportsTabTD, propInfoTD);
 
         // Open App, Create Customer and Initiate Quote
         mainApp().open();
@@ -84,7 +76,7 @@ public class TestCAFairPlanCanItBind extends HomeCaHO3BaseTest {
         policy.getDefaultView().fillUpTo(defaultPolicyData, tabClassTo1, false);
 
         // Click FPCECA Endorsement
-        addEndorsement();
+        myHelper.addFAIRPlanEndorsement("ho3");
 
         // Continue Fill Until Documents Tab.
         policy.getDefaultView().fillFromTo(defaultPolicyData, tabClassTo1, tabClassTo2, true);
@@ -94,27 +86,5 @@ public class TestCAFairPlanCanItBind extends HomeCaHO3BaseTest {
         new PurchaseTab().submitTab();
     }
 
-    private TestData buildTestData(String ApplicantTabTDName, String ReportsTabTDName) {
-        // Assemble Test Data
-        DEFAULTPOLICYDATA = getPolicyTD();
-        TestData adjustedApplicantTab = getTestSpecificTD(ApplicantTabTDName);
-        TestData adjustedReportsTab = getTestSpecificTD(ReportsTabTDName);
-        DEFAULTPOLICYDATA.adjust("ApplicantTab", adjustedApplicantTab);
-        DEFAULTPOLICYDATA.adjust("ReportsTab", adjustedReportsTab);
 
-        return DEFAULTPOLICYDATA;
-    }
-
-    private TestData buildTestDataWithPropInfo(String ApplicantTabTDName, String ReportsTabTDName, String PropInfoTDName) {
-        // Assemble Test Data
-        DEFAULTPOLICYDATA = getPolicyTD();
-        TestData adjustedApplicantTab = getTestSpecificTD(ApplicantTabTDName);
-        TestData adjustedReportsTab = getTestSpecificTD(ReportsTabTDName);
-        TestData adjustedPropertyTab = getTestSpecificTD(PropInfoTDName);
-        DEFAULTPOLICYDATA.adjust("ApplicantTab", adjustedApplicantTab);
-        DEFAULTPOLICYDATA.adjust("ReportsTab", adjustedReportsTab);
-        DEFAULTPOLICYDATA.adjust("PropertyInfoTab", adjustedPropertyTab);
-
-        return DEFAULTPOLICYDATA;
-    }
 }
