@@ -1760,7 +1760,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			String driverOid2 = driver2.oid;
 
 			//get vehicles oid's
-			Vehicle[] vResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
+			Vehicle[] vResponse = HelperCommon.executeVehicleInfoValidate(policyNumber);
 
 			Vehicle vehicle1 = Arrays.stream(vResponse).filter(veh -> vin1.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
 			Vehicle vehicle2 = Arrays.stream(vResponse).filter(veh -> vin2.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
@@ -1826,26 +1826,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			String vin4 = "ZFFCW56A830133118";
 			Vehicle addVehicle = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin4);
 			assertThat(addVehicle.oid).isNotEmpty();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 		});
