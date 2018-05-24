@@ -504,14 +504,17 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyType.get().getDefaultView().fillUpTo(tdWithFAIRPlanEndorsement, PremiumsAndCoveragesQuoteTab.class, true);
 		premiumsAndCoveragesQuoteTab.saveAndExit();
 		policyType.get().quoteDocGen().start();
+
 		policyDocGenActionTab.verify.documentsPresent(true, fairPlanEndorsementInODDTab);
+		policyDocGenActionTab.verify.documentsEnabled(true, fairPlanEndorsementInODDTab);
+
+		policyDocGenActionTab.generateDocuments(DocGenEnum.DeliveryMethod.LOCAL_PRINT, fairPlanEndorsementInODDTab);
+
+		//TODO-mstrazds:validate that docuemnt is generated in xml
 
 		//assertThat(policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).getAllValues())
 		//policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).
 		//policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).
-
-
-
 
 	}
 
