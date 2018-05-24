@@ -1,3 +1,4 @@
+
 TestData_AllVehicles: {
     VehicleTab: ['@VehicleTab_1', '@VehicleTab_2'],
 }
@@ -8,6 +9,10 @@ TestData_Vehicle: {
 
 TestData_AllVehiclesCoverage: {
     VehicleTab: ['@VehicleTab_2018'],
+}
+
+TestData_ThreeVehicles: {
+    VehicleTab: ['@VehicleTab_1', '@VehicleTab_2', '@VehicleTab_Second'],
 }
 
 VehicleTab_First: {
@@ -146,3 +151,41 @@ Driver_three: {
     License Number: 'T60355777',
     License Status: 'Licensed (US)'
 }
+
+AssignmentTab: {
+  DriverVehicleRelationshipTable: [
+    {
+      Driver: 'contains=John',
+      Select Vehicle: 'index=1'
+    },
+    {
+      Driver: 'contains=Ben',
+      Select Vehicle: 'index=2'
+    }
+  ],
+  Assign: '',
+  ExcessVehiclesTable: [
+    {
+      Select Driver: 'index=1'
+    }
+  ]
+}
+
+AssignmentTabTwoDrivers: {
+ DriverVehicleRelationshipTable: ['@AssignmentTab']
+}
+#
+#AssignedDriver1: {
+#    Driver: 'contains=Ben',
+#    Select Vehicle: 'index=1'
+#}
+#
+#AssignedDriver2: {
+#    Driver: 'contains=John',
+#    Select Vehicle: 'index=2'
+#}
+#
+#AssignedDriver3: {
+#    Driver: 'contains=Ben',
+#    Select Vehicle: 'index=3'
+#}

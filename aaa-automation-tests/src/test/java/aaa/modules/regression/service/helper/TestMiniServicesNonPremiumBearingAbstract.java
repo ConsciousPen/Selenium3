@@ -1708,7 +1708,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	}
 
-	protected void pas13994_UpdateDriverAssignmentServiceFirstRule(PolicyType policyType)  {
+	protected void pas13994_UpdateDriverAssignmentServiceRule1(PolicyType policyType)  {
 		assertSoftly(softly -> {
 			mainApp().open();
 			createCustomerIndividual();
@@ -1787,6 +1787,59 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 			softly.assertThat(v1ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid1)));
 			softly.assertThat(v2ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid2)));
+
+		});
+	}
+
+	protected void pas13994_UpdateDriverAssignmentServiceRule2(PolicyType policyType) {
+
+		assertSoftly(softly -> {
+			mainApp().open();
+			createCustomerIndividual();
+			TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
+			TestData vehicleData = new TestDataManager().policy.get(policyType);
+			TestData td = getPolicyTD("DataGather", "TestData");
+			TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_TwoDrivers").getTestDataList("DriverTab")).resolveLinks();
+			TestData testData2 = testData.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_ThreeVehicles").getTestDataList("VehicleTab")).resolveLinks();
+			TestData testData3 = testData2.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("AssignmentTabTwoDrivers").getTestDataList("AssignmentTab")).resolveLinks();
+			policyType.get().createPolicy(testData3);
+			String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+			//Create a pended Endorsement
+			AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
+
+			//Get vin's from testData
+			String vin1 = getStateTestData(vehicleData, "DataGather", "TestData").getTestDataList("VehicleTab").get(0).getValue("VIN");
+			String vin2 = testData2.getTestDataList("VehicleTab").get(1).getValue("VIN");
+			String vin3 = testData2.getTestDataList("VehicleTab").get(2).getValue("VIN");
+
+			//add V4
+			String purchaseDate = "2012-02-21";
+			String vin4 = "ZFFCW56A830133118";
+			Vehicle addVehicle = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin4);
+			assertThat(addVehicle.oid).isNotEmpty();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		});
 	}
