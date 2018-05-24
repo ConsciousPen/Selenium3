@@ -6,13 +6,11 @@ import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLVehicle;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = OpenLFile.VEHICLE_SHEET_NAME + "AZ", headerRowIndex = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
 public class AutoSSOpenLVehicle extends OpenLVehicle {
-	@ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME + "AZ", headerRowIndex = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
+
 	protected List<AutoSSOpenLCoverage> coverages;
-
-	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME + "AZ", headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
-	private List<AutoSSOpenLDriver> ratedDriver;
-
+	private AutoSSOpenLDriver ratedDriver;
 	private String airbagCode;
 	private String antiTheftString;
 	private Boolean isHybrid;
@@ -22,9 +20,9 @@ public class AutoSSOpenLVehicle extends OpenLVehicle {
 	private Integer safetyScore;
 	private String usage;
 	private Integer vehicleAge;
-	private Boolean isABS; // DC specific ?
-	private Boolean isDaytimeRunning; // DC specific ?
-	private String firstOrAddlVehicle; // NJ specific ?
+	private Boolean isABS; // NY specific
+	private Boolean isDaytimeRunning; // NY specific
+	private String firstOrAddlVehicle; // NJ specific
 	private Integer maxDriverAge; // VA specific ?
 	private Integer totalVehiclePoint; // VA specific ?
 
@@ -68,12 +66,12 @@ public class AutoSSOpenLVehicle extends OpenLVehicle {
 		this.vehicleAge = vehicleAge;
 	}
 
-	public List<AutoSSOpenLDriver> getRatedDriver() {
-		return new ArrayList<>(ratedDriver);
+	public AutoSSOpenLDriver getRatedDriver() {
+		return ratedDriver;
 	}
 
-	public void setRatedDriver(List<AutoSSOpenLDriver> ratedDriver) {
-		this.ratedDriver = new ArrayList<>(ratedDriver);
+	public void setRatedDriver(AutoSSOpenLDriver ratedDriver) {
+		this.ratedDriver = ratedDriver;
 	}
 
 	public String getFirstOrAddlVehicle() {
@@ -100,6 +98,7 @@ public class AutoSSOpenLVehicle extends OpenLVehicle {
 		this.totalVehiclePoint = totalVehiclePoint;
 	}
 
+	@Override
 	public List<AutoSSOpenLCoverage> getCoverages() {
 		return new ArrayList<>(coverages);
 	}
@@ -157,7 +156,11 @@ public class AutoSSOpenLVehicle extends OpenLVehicle {
 				", compSymbol=" + compSymbol +
 				", id='" + id + '\'' +
 				", modelYear=" + modelYear +
-				", statCode='" + statCode + '\'' +
+				", oldStatCode='" + oldStatCode + '\'' +
+				", biLiabilitySymbol='" + biLiabilitySymbol + '\'' +
+				", pdLiabilitySymbol='" + pdLiabilitySymbol + '\'' +
+				", mpLiabilitySymbol='" + mpLiabilitySymbol + '\'' +
+				", umLiabilitySymbol='" + umLiabilitySymbol + '\'' +
 				", address=" + address +
 				'}';
 	}

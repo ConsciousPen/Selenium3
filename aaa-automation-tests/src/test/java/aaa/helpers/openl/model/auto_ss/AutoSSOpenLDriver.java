@@ -1,7 +1,10 @@
 package aaa.helpers.openl.model.auto_ss;
 
 import aaa.helpers.openl.model.OpenLDriver;
+import aaa.helpers.openl.model.OpenLFile;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME + "AZ", headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
 public class AutoSSOpenLDriver extends OpenLDriver {
 	private String name;
 	private Boolean hasSR22;
@@ -16,10 +19,10 @@ public class AutoSSOpenLDriver extends OpenLDriver {
 	private Boolean outOfStateLicenseSurcharge;
 	private Boolean smartDriver;
 	private Boolean unverifiableDrivingRecord;
-	private Boolean occasionalOperator; // DC specific ?
+	private Boolean occasionalOperator; // NY specific
 	private String vehicleAssignedId; // DC specific ?
-	private Boolean hasTravelink; // DE specific ?
-	private Boolean isExcludedDriver; // NJ specific ?
+	private Boolean hasTravelink; // DE specific
+	private Boolean isExcludedDriver; // NJ specific
 
 	public String getName() {
 		return name;

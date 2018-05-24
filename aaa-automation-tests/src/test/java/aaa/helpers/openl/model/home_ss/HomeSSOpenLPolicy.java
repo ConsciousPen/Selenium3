@@ -1,86 +1,55 @@
 package aaa.helpers.openl.model.home_ss;
 
-import static aaa.helpers.openl.model.OpenLFile.ADDRESS_HEADER_ROW_NUMBER;
-import static aaa.helpers.openl.model.OpenLFile.ADDRESS_SHEET_NAME;
-import static aaa.helpers.openl.model.OpenLFile.CONSTRUCTION_INFO_HEADER_ROW_NUMBER;
-import static aaa.helpers.openl.model.OpenLFile.CONSTRUCTION_INFO_SHEET_NAME;
-import static aaa.helpers.openl.model.OpenLFile.COVERAGE_DEDUCTIBLE_SHEET_NAME;
-import static aaa.helpers.openl.model.OpenLFile.COVERAGE_HEADER_ROW_NUMBER;
-import static aaa.helpers.openl.model.OpenLFile.COVERAGE_SHEET_NAME;
-import static aaa.helpers.openl.model.OpenLFile.DISCOUNT_INFORMATION_HEADER_ROW_NUMBER;
-import static aaa.helpers.openl.model.OpenLFile.DISCOUNT_INFORMATION_SHEET_NAME;
-import static aaa.helpers.openl.model.OpenLFile.DWELLING_RATING_INFO_HEADER_ROW_NUMBER;
-import static aaa.helpers.openl.model.OpenLFile.DWELLING_RATING_INFO_SHEET_NAME;
-import static aaa.helpers.openl.model.OpenLFile.FORM_HEADER_ROW_NUMBER;
-import static aaa.helpers.openl.model.OpenLFile.FORM_SHEET_NAME;
-import static aaa.helpers.openl.model.OpenLFile.LOSS_INFORMATION_HEADER_ROW_NUMBER;
-import static aaa.helpers.openl.model.OpenLFile.LOSS_INFORMATION_SHEET_NAME;
-import static aaa.helpers.openl.model.OpenLFile.NAMED_INSURED_HEADER_ROW_NUMBER;
-import static aaa.helpers.openl.model.OpenLFile.NAMED_INSURED_SHEET_NAME;
-import static aaa.helpers.openl.model.OpenLFile.RISK_METER_DATA_HEADER_ROW_NUMBER;
-import static aaa.helpers.openl.model.OpenLFile.RISK_METER_DATA_SHEET_NAME;
-import java.time.LocalDateTime;
+import static aaa.helpers.openl.model.OpenLFile.POLICY_HEADER_ROW_NUMBER;
+import static aaa.helpers.openl.model.OpenLFile.POLICY_SHEET_NAME;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import aaa.helpers.openl.model.OpenLCappingDetails;
-import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
-import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
 public class HomeSSOpenLPolicy extends OpenLPolicy {
-	@ExcelTableElement(sheetName = OpenLFile.CAPPINGDETAILS_SHEET_NAME, headerRowIndex = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
-	private List<OpenLCappingDetails> cappingDetails;
-
-	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
-	private List<HomeSSOpenLCoverage> coverages;
-
-	@ExcelTableElement(sheetName = FORM_SHEET_NAME, headerRowIndex = FORM_HEADER_ROW_NUMBER)
-	private List<HomeSSOpenLForm> forms;
-
-	@ExcelTableElement(sheetName = ADDRESS_SHEET_NAME, headerRowIndex = ADDRESS_HEADER_ROW_NUMBER)
-	private List<HomeSSOpenLAddress> policyAddress;
-
-	@ExcelTableElement(sheetName = CONSTRUCTION_INFO_SHEET_NAME, headerRowIndex = CONSTRUCTION_INFO_HEADER_ROW_NUMBER)
-	private List<OpenLConstructionInfo> policyConstructionInfo;
-
-	@ExcelTableElement(sheetName = COVERAGE_DEDUCTIBLE_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
-	private List<OpenLCoverageDeductible> policyCoverageDeductible;
-
-	@ExcelTableElement(sheetName = DISCOUNT_INFORMATION_SHEET_NAME, headerRowIndex = DISCOUNT_INFORMATION_HEADER_ROW_NUMBER)
-	private List<OpenLDiscountInformation> policyDiscountInformation;
-
-	@ExcelTableElement(sheetName = DWELLING_RATING_INFO_SHEET_NAME, headerRowIndex = DWELLING_RATING_INFO_HEADER_ROW_NUMBER)
-	private List<OpenLDwellingRatingInfo> policyDwellingRatingInfo;
-
-	@ExcelTableElement(sheetName = LOSS_INFORMATION_SHEET_NAME, headerRowIndex = LOSS_INFORMATION_HEADER_ROW_NUMBER)
-	private List<OpenLLossInformation> policyLossInformation;
-
-	@ExcelTableElement(sheetName = NAMED_INSURED_SHEET_NAME, headerRowIndex = NAMED_INSURED_HEADER_ROW_NUMBER)
-	private List<OpenLNamedInsured> policyNamedInsured;
-
-	@ExcelTableElement(sheetName = RISK_METER_DATA_SHEET_NAME, headerRowIndex = RISK_METER_DATA_HEADER_ROW_NUMBER)
-	private List<OpenLRiskMeterData> riskMeterData; // NJ Specific
-
 	@SuppressWarnings({"FieldNameHidesFieldInSuperclass"})
-	@ExcelTableColumnElement(name = "id")
+	@ExcelColumnElement(name = "id")
 	private String policyNumber;
 
-	private LocalDateTime effectiveDate;
-	private Boolean isVariationRequest;
-	private String level;
 	private String policyType;
+	private String level;
 	private String prevLevel;
-	private String transactionType;
-	private String chamberOfCommerce; // NJ specific ?
+	private List<HomeSSOpenLCoverage> coverages;
+	private HomeSSOpenLAddress policyAddress;
+	private OpenLNamedInsured policyNamedInsured;
+	private OpenLDwellingRatingInfo policyDwellingRatingInfo;
+	private OpenLConstructionInfo policyConstructionInfo;
+	private OpenLCoverageDeductible policyCoverageDeductible;
+	private OpenLLossInformation policyLossInformation;
+	private OpenLDiscountInformation policyDiscountInformation;
 	private String profession; // OK specific ?
+	private String transactionType;
+	private LocalDate effectiveDate;
+	private List<HomeSSOpenLForm> forms;
+	private OpenLRiskMeterData riskMeterData; // NJ Specific
+	private String chamberOfCommerce; // NJ specific ?
+	private LocalDate previousEffectiveDate;
+	private HomeSSOpneLCappingDetails cappingDetails;
+	private Boolean isVariationRequest;
+	private String riskState;
+	private String policyId;
+	private String lob;
+	private String productCd;
+	private Boolean ignorable;
+	private String renewalCycle;
+	private String policyVersion;
+	private List<OpenLVariationType> paymentPlanVariations;
 
-	public List<OpenLCappingDetails> getCappingDetails() {
-		return new ArrayList<>(cappingDetails);
+	public HomeSSOpneLCappingDetails getCappingDetails() {
+		return cappingDetails;
 	}
 
-	public void setCappingDetails(List<OpenLCappingDetails> cappingDetails) {
-		this.cappingDetails = new ArrayList<>(cappingDetails);
+	public void setCappingDetails(HomeSSOpneLCappingDetails cappingDetails) {
+		this.cappingDetails = cappingDetails;
 	}
 
 	public List<HomeSSOpenLCoverage> getCoverages() {
@@ -99,84 +68,76 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 		this.forms = new ArrayList<>(forms);
 	}
 
-	public List<HomeSSOpenLAddress> getPolicyAddress() {
-		return new ArrayList<>(policyAddress);
+	public HomeSSOpenLAddress getPolicyAddress() {
+		return policyAddress;
 	}
 
-	public void setPolicyAddress(List<HomeSSOpenLAddress> policyAddress) {
-		this.policyAddress = new ArrayList<>(policyAddress);
+	public void setPolicyAddressHomeSSOpenLAddress(HomeSSOpenLAddress policyAddress) {
+		this.policyAddress = policyAddress;
 	}
 
-	public List<OpenLConstructionInfo> getPolicyConstructionInfo() {
-		return new ArrayList<>(policyConstructionInfo);
+	public OpenLConstructionInfo getPolicyConstructionInfo() {
+		return policyConstructionInfo;
 	}
 
-	public void setPolicyConstructionInfo(List<OpenLConstructionInfo> policyConstructionInfo) {
-		this.policyConstructionInfo = new ArrayList<>(policyConstructionInfo);
+	public void setPolicyConstructionInfo(OpenLConstructionInfo policyConstructionInfo) {
+		this.policyConstructionInfo = policyConstructionInfo;
 	}
 
-	public List<OpenLCoverageDeductible> getPolicyCoverageDeductible() {
-		return new ArrayList<>(policyCoverageDeductible);
+	public OpenLCoverageDeductible getPolicyCoverageDeductible() {
+		return policyCoverageDeductible;
 	}
 
-	public void setPolicyCoverageDeductible(List<OpenLCoverageDeductible> policyCoverageDeductible) {
-		this.policyCoverageDeductible = new ArrayList<>(policyCoverageDeductible);
+	public void setPolicyCoverageDeductible(OpenLCoverageDeductible policyCoverageDeductible) {
+		this.policyCoverageDeductible = policyCoverageDeductible;
 	}
 
-	public List<OpenLDiscountInformation> getPolicyDiscountInformation() {
-		return new ArrayList<>(policyDiscountInformation);
+	public OpenLDiscountInformation getPolicyDiscountInformation() {
+		return policyDiscountInformation;
 	}
 
-	public void setPolicyDiscountInformation(List<OpenLDiscountInformation> policyDiscountInformation) {
-		this.policyDiscountInformation = new ArrayList<>(policyDiscountInformation);
+	public void setPolicyDiscountInformation(OpenLDiscountInformation policyDiscountInformation) {
+		this.policyDiscountInformation = policyDiscountInformation;
 	}
 
-	public List<OpenLDwellingRatingInfo> getPolicyDwellingRatingInfo() {
-		return new ArrayList<>(policyDwellingRatingInfo);
+	public OpenLDwellingRatingInfo getPolicyDwellingRatingInfo() {
+		return policyDwellingRatingInfo;
 	}
 
-	public void setPolicyDwellingRatingInfo(List<OpenLDwellingRatingInfo> policyDwellingRatingInfo) {
-		this.policyDwellingRatingInfo = new ArrayList<>(policyDwellingRatingInfo);
+	public void setPolicyDwellingRatingInfo(OpenLDwellingRatingInfo policyDwellingRatingInfo) {
+		this.policyDwellingRatingInfo = policyDwellingRatingInfo;
 	}
 
-	public List<OpenLLossInformation> getPolicyLossInformation() {
-		return new ArrayList<>(policyLossInformation);
+	public OpenLLossInformation getPolicyLossInformation() {
+		return policyLossInformation;
 	}
 
-	public void setPolicyLossInformation(List<OpenLLossInformation> policyLossInformation) {
-		this.policyLossInformation = new ArrayList<>(policyLossInformation);
+	public void setPolicyLossInformation(OpenLLossInformation policyLossInformation) {
+		this.policyLossInformation = policyLossInformation;
 	}
 
-	public List<OpenLNamedInsured> getPolicyNamedInsured() {
-		return new ArrayList<>(policyNamedInsured);
+	public OpenLNamedInsured getPolicyNamedInsured() {
+		return policyNamedInsured;
 	}
 
-	public void setPolicyNamedInsured(List<OpenLNamedInsured> policyNamedInsured) {
-		this.policyNamedInsured = new ArrayList<>(policyNamedInsured);
+	public void setPolicyNamedInsured(OpenLNamedInsured policyNamedInsured) {
+		this.policyNamedInsured = policyNamedInsured;
 	}
 
-	public List<OpenLRiskMeterData> getRiskMeterData() {
-		return new ArrayList<>(riskMeterData);
+	public OpenLRiskMeterData getRiskMeterData() {
+		return riskMeterData;
 	}
 
-	public void setRiskMeterData(List<OpenLRiskMeterData> riskMeterData) {
-		this.riskMeterData = new ArrayList<>(riskMeterData);
+	public void setRiskMeterData(OpenLRiskMeterData riskMeterData) {
+		this.riskMeterData = riskMeterData;
 	}
 
-	public LocalDateTime getEffectiveDate() {
-		return effectiveDate;
-	}
-
-	public void setEffectiveDate(LocalDateTime effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
-
-	public Boolean getVariationRequest() {
+	public Boolean isVariationRequest() {
 		return isVariationRequest;
 	}
 
-	public void setVariationRequest(Boolean variationRequest) {
-		isVariationRequest = variationRequest;
+	public void setVariationRequest(Boolean isVariationRequest) {
+		this.isVariationRequest = isVariationRequest;
 	}
 
 	public String getLevel() {
@@ -227,6 +188,87 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 		this.profession = profession;
 	}
 
+	public LocalDate getPreviousEffectiveDate() {
+		return previousEffectiveDate;
+	}
+
+	public void setPreviousEffectiveDate(LocalDate previousEffectiveDate) {
+		this.previousEffectiveDate = previousEffectiveDate;
+	}
+
+	public String getRiskState() {
+		return riskState;
+	}
+
+	public void setRiskState(String riskState) {
+		this.riskState = riskState;
+	}
+
+	public String getPolicyId() {
+		return policyId;
+	}
+
+	public void setPolicyId(String policyId) {
+		this.policyId = policyId;
+	}
+
+	public String getLob() {
+		return lob;
+	}
+
+	public void setLob(String lob) {
+		this.lob = lob;
+	}
+
+	public String getProductCd() {
+		return productCd;
+	}
+
+	public void setProductCd(String productCd) {
+		this.productCd = productCd;
+	}
+
+	public Boolean getIgnorable() {
+		return ignorable;
+	}
+
+	public void setIgnorable(Boolean ignorable) {
+		this.ignorable = ignorable;
+	}
+
+	public String getRenewalCycle() {
+		return renewalCycle;
+	}
+
+	public void setRenewalCycle(String renewalCycle) {
+		this.renewalCycle = renewalCycle;
+	}
+
+	public String getPolicyVersion() {
+		return policyVersion;
+	}
+
+	public void setPolicyVersion(String policyVersion) {
+		this.policyVersion = policyVersion;
+	}
+
+	public List<OpenLVariationType> getPaymentPlanVariations() {
+		return paymentPlanVariations;
+	}
+
+	public void setPaymentPlanVariations(List<OpenLVariationType> paymentPlanVariations) {
+		this.paymentPlanVariations = paymentPlanVariations;
+	}
+
+	@Override
+	public LocalDate getEffectiveDate() {
+		return effectiveDate;
+	}
+
+	public void setEffectiveDate(LocalDate effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
+
 	@Override
 	public String getPolicyNumber() {
 		return policyNumber;
@@ -238,28 +280,49 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	@Override
+	public Integer getTerm() {
+		Integer term = getCappingDetails().getTerm();
+		//TODO-dchubkov: to be verified whether 12 is OK for default term or not
+		return term != null ? term : 12;
+	}
+
+	@Override
+	public String getUnderwriterCode() {
+		return getCappingDetails().getUnderwriterCode();
+	}
+
+	@Override
 	public String toString() {
 		return "HomeSSOpenLPolicy{" +
-				"cappingDetails=" + cappingDetails +
+				"policyNumber='" + policyNumber + '\'' +
+				", policyType='" + policyType + '\'' +
+				", level='" + level + '\'' +
+				", prevLevel='" + prevLevel + '\'' +
 				", coverages=" + coverages +
-				", forms=" + forms +
 				", policyAddress=" + policyAddress +
+				", policyNamedInsured=" + policyNamedInsured +
+				", policyDwellingRatingInfo=" + policyDwellingRatingInfo +
 				", policyConstructionInfo=" + policyConstructionInfo +
 				", policyCoverageDeductible=" + policyCoverageDeductible +
-				", policyDiscountInformation=" + policyDiscountInformation +
-				", policyDwellingRatingInfo=" + policyDwellingRatingInfo +
 				", policyLossInformation=" + policyLossInformation +
-				", policyNamedInsured=" + policyNamedInsured +
-				", riskMeterData=" + riskMeterData +
-				", policyNumber='" + policyNumber + '\'' +
-				", effectiveDate=" + effectiveDate +
-				", isVariationRequest=" + isVariationRequest +
-				", level='" + level + '\'' +
-				", policyType='" + policyType + '\'' +
-				", prevLevel='" + prevLevel + '\'' +
-				", transactionType='" + transactionType + '\'' +
-				", chamberOfCommerce='" + chamberOfCommerce + '\'' +
+				", policyDiscountInformation=" + policyDiscountInformation +
 				", profession='" + profession + '\'' +
+				", transactionType='" + transactionType + '\'' +
+				", effectiveDate=" + effectiveDate +
+				", forms=" + forms +
+				", riskMeterData=" + riskMeterData +
+				", chamberOfCommerce='" + chamberOfCommerce + '\'' +
+				", previousEffectiveDate=" + previousEffectiveDate +
+				", cappingDetails=" + cappingDetails +
+				", isVariationRequest=" + isVariationRequest +
+				", riskState='" + riskState + '\'' +
+				", policyId='" + policyId + '\'' +
+				", lob='" + lob + '\'' +
+				", productCd='" + productCd + '\'' +
+				", ignorable=" + ignorable +
+				", renewalCycle='" + renewalCycle + '\'' +
+				", policyVersion='" + policyVersion + '\'' +
+				", paymentPlanVariations=" + paymentPlanVariations +
 				", number=" + number +
 				", policyNumber='" + policyNumber + '\'' +
 				'}';

@@ -7,6 +7,7 @@ import com.exigen.ipb.etcsa.controls.ComboList;
 import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import com.exigen.ipb.etcsa.controls.productfactory.DatePicker;
+import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import aaa.toolkit.webdriver.customcontrols.AgencyAssignmentMultiAssetList;
 import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
@@ -305,7 +306,7 @@ public final class CustomerMetaData {
 		public static final AssetDescriptor<TextBox> PREVIOUS_POLICY_NUMBER = declare("Previous Policy Number", TextBox.class);
 		public static final AssetDescriptor<ComboBox> PREVIOUS_SOURCE_SYSTEM = declare("Previous Source System", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> RISK_STATE = declare("Risk State", ComboBox.class);
-		public static final AssetDescriptor<ComboBox> UNDERWRITING_COMPANY = declare("Underwriting Company", ComboBox.class);
+		public static final AssetDescriptor<AdvancedComboBox> UNDERWRITING_COMPANY = declare("Underwriting Company", AdvancedComboBox.class);
 		public static final AssetDescriptor<TextBox> RENEWAL_EFFECTIVE_DATE = declare("Renewal Effective Date", TextBox.class);
 		public static final AssetDescriptor<TextBox> INCEPTION_DATE = declare("Inception Date", TextBox.class);
 		public static final AssetDescriptor<TextBox> RENEWAL_POLICY_PREMIUM = declare("Renewal Policy Premium", TextBox.class);

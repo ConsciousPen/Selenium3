@@ -46,7 +46,7 @@ public class ScenarioBaseTest extends BaseTest {
 	protected void generateAndCheckBill(LocalDateTime installmentDate, LocalDateTime effectiveDate, Dollar pligaOrMvleFee, ETCSCoreSoftAssertions softly) {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDate);
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 
@@ -57,7 +57,7 @@ public class ScenarioBaseTest extends BaseTest {
 	protected void payAndCheckBill(LocalDateTime installmentDueDate) {
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDate);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-		JobUtils.executeJob(Jobs.recurringPaymentsJob);
+		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(installmentDueDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
@@ -119,10 +119,21 @@ public class ScenarioBaseTest extends BaseTest {
 			renewalTermTotalPaid = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingAccountPoliciesTable.TOTAL_PAID).getValue());
 		}
 		
-
 		Dollar expOffer = BillingHelper.calculateFirstInstallmentAmount(fullAmount, installmentsCount).add(fee).add(pligaOrMvleFee).add(previousTermMinDueAmount).subtract(renewalTermTotalPaid);
 		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).setDueDate(expirationDate).setMinDue(expOffer).verifyPresent();
 	}
+	
+	protected void verifyRenewalOfferPaymentAmountByIntallmentAmount(LocalDateTime intallmentDate, LocalDateTime billGenDate) {
+			BillingSummaryPage.showPriorTerms();
+			Dollar previousTermMinDueAmount = new Dollar(0);
+			if (BillingSummaryPage.tableBillingAccountPolicies.getRow(2).isPresent()) {
+				previousTermMinDueAmount = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(2).getCell(BillingAccountPoliciesTable.MIN_DUE).getValue());
+			}
+			Dollar fee = BillingHelper.getFeesValue(billGenDate);
+			Dollar expOffer = BillingHelper.getInstallmentDueByDueDate(intallmentDate).add(fee).add(previousTermMinDueAmount);
+			new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).setDueDate(intallmentDate).setMinDue(expOffer).verifyPresent();
+		}
+
 
 	/**
 	 * Same as

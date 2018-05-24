@@ -1,6 +1,7 @@
 package aaa.modules.regression.billing_and_payments.home_ss.ho3.functional;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import org.testng.annotations.AfterClass;
@@ -15,7 +16,6 @@ import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
@@ -23,8 +23,6 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
-import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
-import aaa.main.modules.billing.account.actiontabs.AdvancedAllocationsActionTab;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
@@ -36,7 +34,6 @@ import aaa.modules.regression.billing_and_payments.helpers.RefundProcessHelper;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import aaa.modules.regression.service.helper.HelperWireMockLastPaymentMethod;
 import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
-import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -46,17 +43,11 @@ import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 
 public class TestRefundProcess extends PolicyBilling implements TestRefundProcessPreConditions {
 
-	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
-	private static final String REMOTE_FOLDER_PATH = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "DSB_E_PASSYS_DSBCTRL_7025_D/outbound/";
-	private static final String LOCAL_FOLDER_PATH = "src/test/resources/stubs/";
 	private static final String PENDING_REFUND_AMOUNT = "1000";
 	private static final String APPROVED_REFUND_AMOUNT = "999.99";
 	private final List<HelperWireMockStub> requestIdList = new LinkedList<>();
 	private TestData tdBilling = testDataManager.billingAccount;
-	private TestData tdRefund = tdBilling.getTestData("Refund", "TestData_Check");
 	private BillingAccount billingAccount = new BillingAccount();
-	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
-	private AdvancedAllocationsActionTab advancedAllocationsActionTab = new AdvancedAllocationsActionTab();
 	private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 	private BindTab bindTab = new BindTab();
 	private ApplicantTab applicantTab = new ApplicantTab();
@@ -133,7 +124,9 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		Dollar totalDue = BillingSummaryPage.getTotalDue();
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue.add(new Dollar(automatedRefundAmount)));
-		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(14));
+
+		LocalDateTime refundDate = getTimePoints().getRefundDate(DateTimeUtils.getCurrentDateTime());
+		TimeSetterUtil.getInstance().nextPhase(refundDate);
 
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
@@ -165,7 +158,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		Dollar totalDue = BillingSummaryPage.getTotalDue();
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue.add(new Dollar(automatedRefundAmount)));
-		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(14));
+		LocalDateTime refundDate = getTimePoints().getRefundDate(DateTimeUtils.getCurrentDateTime());
+		TimeSetterUtil.getInstance().nextPhase(refundDate);
 
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
@@ -225,7 +219,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		requestIdList.add(stubRequestCC);
 
 		CustomAssert.enableSoftMode();
-		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 14);
+		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
 
 		stubRequestCC.cleanUp();
 		CustomAssert.disableSoftMode();
@@ -245,7 +239,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		requestIdList.add(stubRequestACH);
 
 		CustomAssert.enableSoftMode();
-		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 14);
+		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
 
 		stubRequestACH.cleanUp();
 		CustomAssert.disableSoftMode();
@@ -254,8 +248,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 	private String preconditionPolicyCreationHo() {
 		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy();
+		String policyNumber = getCopiedPolicy();
 		log.info("policyNumber: {}", policyNumber);
 		return policyNumber;
 	}

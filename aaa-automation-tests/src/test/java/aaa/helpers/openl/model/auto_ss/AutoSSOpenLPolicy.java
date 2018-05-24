@@ -1,14 +1,20 @@
 package aaa.helpers.openl.model.auto_ss;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = AutoSSOpenLFile.POLICY_SHEET_NAME, headerRowIndex = OpenLFile.POLICY_HEADER_ROW_NUMBER)
 public class AutoSSOpenLPolicy extends OpenLPolicy {
-	private LocalDateTime effectiveDate;
+
+	private AutoSSOpenLCappingDetails cappingDetails;
+	private List<AutoSSOpenLVehicle> vehicles;
+	private List<AutoSSOpenLDriver> drivers;
+
+	private LocalDate effectiveDate;
 	private Integer term;
 	private Boolean isHomeOwner;
 	private Integer creditScore;
@@ -40,36 +46,38 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	private Integer noOfVehiclesExcludingTrailer;
 	private Boolean multiCar;
 	private Boolean supplementalSpousalLiability; // NY specific (but field was also found in OR file with FALSE value)
-	private Boolean umbiConvCode; // CT specific ?
-	private Integer aaaAPIPIncomeContBenLimit; // NJ specific ?
-	private String aaaAPIPLengthIncomeCont; // NJ specific ?
-	private Integer aaaPIPExtMedPayLimit; // NJ specific ?
-	private Integer aaaPIPMedExpDeductible; // NJ specific ?
-	private Integer aaaPIPMedExpLimit; // NJ specific ?
-	private String aaaPIPNonMedExp; // NJ specific ?
-	private String aaaPIPPrimaryInsurer; // NJ specific ?
-	private Integer noOfAPIPAddlNamedRel; // NJ specific ?
-	private Integer previousAaaInsurancePersistency; // NJ specific ?
-	private String rbTier; // NY specific ?
-	private Integer yafAfterInception; // NY specific ?
-	private Integer ycfAfterInception; // NY specific ?
-	private String tort; // PA specific ?
+	private Boolean umbiConvCode; // CT specific
+	private Integer aaaAPIPIncomeContBenLimit; // NJ specific
+	private String aaaAPIPLengthIncomeCont; // NJ specific
+	private Integer aaaPIPExtMedPayLimit; // NJ specific
+	private Integer aaaPIPMedExpDeductible; // NJ specific
+	private Integer aaaPIPMedExpLimit; // NJ specific
+	private String aaaPIPNonMedExp; // NJ specific
+	private String aaaPIPPrimaryInsurer; // NJ specific
+	private Integer noOfAPIPAddlNamedRel; // NJ specific
+	private Integer previousAaaInsurancePersistency; // PA specific
+	private String rbTier; // NY specific
+	private Integer yafAfterInception; // NY specific
+	private Integer ycfAfterInception; // NY specific
+	private String tort; // PA specific
 
-	@ExcelTableElement(sheetName = OpenLFile.CAPPINGDETAILS_SHEET_NAME, headerRowIndex = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
-	private List<AutoSSOpenLCappingDetails> cappingDetails;
-
-	@ExcelTableElement(sheetName = OpenLFile.VEHICLE_SHEET_NAME + "AZ", headerRowIndex = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
-	private List<AutoSSOpenLVehicle> vehicles;
-
-	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME + "AZ", headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
-	private List<AutoSSOpenLDriver> drivers;
-
+	@Override
 	public Integer getTerm() {
 		return term;
 	}
 
 	public void setTerm(Integer term) {
 		this.term = term;
+	}
+
+	@Override
+	public Double getPreviousPolicyPremium() {
+		return getCappingDetails().getPreviousPolicyPremium();
+	}
+
+	@Override
+	public String getUnderwriterCode() {
+		return getCappingDetails().getUnderwriterCode();
 	}
 
 	public Integer getCreditScore() {
@@ -216,12 +224,12 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.insuredAge = insuredAge;
 	}
 
-	public List<AutoSSOpenLCappingDetails> getCappingDetails() {
-		return new ArrayList<>(cappingDetails);
+	public AutoSSOpenLCappingDetails getCappingDetails() {
+		return cappingDetails;
 	}
 
-	public void setCappingDetails(List<AutoSSOpenLCappingDetails> cappingDetails) {
-		this.cappingDetails = new ArrayList<>(cappingDetails);
+	public void setCappingDetails(AutoSSOpenLCappingDetails cappingDetails) {
+		this.cappingDetails = cappingDetails;
 	}
 
 	public List<AutoSSOpenLVehicle> getVehicles() {
@@ -360,11 +368,12 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.tort = tort;
 	}
 
-	public LocalDateTime getEffectiveDate() {
+	@Override
+	public LocalDate getEffectiveDate() {
 		return effectiveDate;
 	}
 
-	public void setEffectiveDate(LocalDateTime effectiveDate) {
+	public void setEffectiveDate(LocalDate effectiveDate) {
 		this.effectiveDate = effectiveDate;
 	}
 

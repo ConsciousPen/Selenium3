@@ -1,16 +1,17 @@
 package aaa.helpers.openl.model.auto_ca.select;
 
-import aaa.helpers.openl.model.OpenLDriver;
+import aaa.helpers.openl.model.OpenLFile;
+import aaa.helpers.openl.model.auto_ca.AutoCaOpenLDriver;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
-public class AutoCaSelectOpenLDriver extends OpenLDriver {
+@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME, headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
+public class AutoCaSelectOpenLDriver extends AutoCaOpenLDriver {
 	private Boolean drivesync;
-	private Boolean goodDriver;
-	private Boolean matureDriver;
 	private Boolean newDriver;
 	private String type;
 	private Integer yaf;
 
-	public Boolean getDrivesync() {
+	public Boolean isDrivesync() {
 		return drivesync;
 	}
 
@@ -18,23 +19,7 @@ public class AutoCaSelectOpenLDriver extends OpenLDriver {
 		this.drivesync = drivesync;
 	}
 
-	public Boolean getGoodDriver() {
-		return goodDriver;
-	}
-
-	public void setGoodDriver(Boolean goodDriver) {
-		this.goodDriver = goodDriver;
-	}
-
-	public Boolean getMatureDriver() {
-		return matureDriver;
-	}
-
-	public void setMatureDriver(Boolean matureDriver) {
-		this.matureDriver = matureDriver;
-	}
-
-	public Boolean getNewDriver() {
+	public Boolean isNewDriver() {
 		return newDriver;
 	}
 

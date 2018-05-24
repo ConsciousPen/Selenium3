@@ -3,25 +3,17 @@ package aaa.helpers.http;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
-
 import org.apache.commons.lang.StringEscapeUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import aaa.helpers.http.impl.HtmlParser;
-import aaa.helpers.http.impl.HttpAAARequestor;
-import aaa.helpers.http.impl.HttpConstants;
-import aaa.helpers.http.impl.HttpHelper;
-import aaa.helpers.http.impl.HttpQueryBuilder;
+import aaa.helpers.http.impl.*;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
 
 public class HttpJob {
 
-	private static Logger log = LoggerFactory.getLogger(HttpJob.class);
 	private static final String ASYNC_MANAGER_REGEX = "<a([^>]+)id=\"asyncTaskSummaryForm\\:([^\"]+)\"([^>]+)>([^>]+)</a>";
 	private static final String WAITING_REGEX = ".*Waiting:.*[^0-9]([0-9]+)<";
 	private static final String PROCESSING_REGEX = ".*Processing:.*[^0-9]([0-9]+)<";
@@ -33,16 +25,17 @@ public class HttpJob {
 	private static final String JOB_EXECUTED_REGEX = "Executed\\:<span[^>]+>([/\\w]+)<";
 	private static final String JOB_ROW_SPLITTER_REGEX = "<tr id=\"jobs:jobsTable:\\d+\"";
 	private static final int JOB_SLEEP_RERUN = 1500;
-	private static int JOB_TIMEOUT = Integer.parseInt(PropertyProvider.getProperty("test.batchjob.timeout", "1200000"));
-
 	private static final String JOB_ADD_PARAMS_FILENAME = "job_run.txt";
 	private static final String STOP_ASYNC_PARAMS_FILENAME = "stop_async.txt";
 	private static final long ASYNC_TIMEOUT = 300000;
+	private static Logger log = LoggerFactory.getLogger(HttpJob.class);
+	private static int JOB_TIMEOUT = Integer.parseInt(PropertyProvider.getProperty("test.batchjob.timeout", "1200000"));
 
 	private HttpJob() {
 	}
 
 	public static void checkAsyncManager(HttpAAARequestor httpRequestor) throws Exception {
+		//String refreshQuery = "/aaa-admin/admin/flow?_flowId=async-task-statistics-flow&_flowExecutionKey=e6s1&_windowId=W1522750697151";
 		HttpQueryBuilder queryBuilder = new HttpQueryBuilder();
 		queryBuilder.readParamsFile(JOB_ADD_PARAMS_FILENAME);
 
@@ -60,9 +53,14 @@ public class HttpJob {
 			mapping.put("viewState", viewState);
 
 			httpRequestor2.sendPostRequest(flowUrl, queryBuilder.buildQueryString(0, mapping));
+			//Refresh Start
+			//httpRequestor2.sendGetRequest("/aaa-admin/admin/flow?_flowId=async-task-statistics-flow");
+			httpRequestor2.sendPostRequest(flowUrl, queryBuilder.buildQueryString(1, mapping));
+			//Refresh End
 
 			asyncManager = HttpHelper.find(httpRequestor2.getResponse(), ASYNC_MANAGER_REGEX, 4);
 			if (!asyncManager.equalsIgnoreCase("stop manager")) {
+				HttpLogout.logoutAdmin(httpRequestor2);
 				throw new IstfException("HTTP ERROR: Async Manager was not started");
 			} else {
 				log.info("HTTP Job: Async manager started");
@@ -148,8 +146,9 @@ public class HttpJob {
 			if (!jobResult.equals("Success")) {
 				throw new IstfException("HTTP Job ERROR: <--- Job '" + jobName + "' was executed with status " + jobResult);
 			}
-		} else
+		} else {
 			throw new IstfException("HTTP Job ERROR: Job '" + jobName + "' does not exist or created. Job was not executed. ");
+		}
 	}
 
 	private static String processParams(String content, String jobName) throws Exception {

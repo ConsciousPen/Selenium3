@@ -10,7 +10,7 @@ import aaa.helpers.openl.testdata_builder.AutoCaChoiceTestDataGenerator;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
 
-public class AutoCaChoicePremiumCalculationTest extends OpenLRatingBaseTest<AutoCaChoiceOpenLPolicy> {
+public class AutoCaChoicePremiumCalculationTest extends AutoCaPremiumCalculationTest<AutoCaChoiceOpenLPolicy, AutoCaChoiceOpenLFile> {
 
 	@Override
 	protected PolicyType getPolicyType() {

@@ -1,6 +1,6 @@
 package aaa.utils.excel.io.entity.area.table;
 
-import java.util.Arrays;
+import java.util.List;
 import javax.ws.rs.NotSupportedException;
 import org.apache.poi.ss.usermodel.Cell;
 import aaa.utils.excel.io.celltype.CellType;
@@ -22,8 +22,8 @@ public class HeaderCell extends TableCell {
 	}
 
 	@Override
-	public HeaderCell registerCellType(CellType<?>... cellTypes) {
-		if (Arrays.stream(cellTypes).anyMatch(t -> !ExcelCell.STRING_TYPE.equals(t))) {
+	public HeaderCell registerCellType(List<CellType<?>> cellTypes) {
+		if (cellTypes.stream().anyMatch(t -> !ExcelCell.STRING_TYPE.equals(t))) {
 			throw new NotSupportedException("Table header's cell does not support non string cell types");
 		}
 		return (HeaderCell) super.registerCellType(cellTypes);

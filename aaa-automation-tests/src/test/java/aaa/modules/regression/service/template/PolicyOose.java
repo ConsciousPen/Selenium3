@@ -3,6 +3,8 @@
 package aaa.modules.regression.service.template;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+
+import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.By;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -57,9 +59,26 @@ public abstract class PolicyOose extends PolicyBaseTest {
         
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
+		SoftAssertions.assertSoftly(softly -> {
         //check if there is 2nd NI, Driver & Vehicle
-	    assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Name")).valueContains("Violeta Minolta");
-	    assertThat(PolicySummaryPage.tablePolicyVehicles.getRow(2)).hasCell("Make");
+			softly.assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Name").getValue()).isEqualTo("Violeta Minolta");
+			softly.assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Name").getValue()).isEqualTo("Violeta Minolta");
+			softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRow(2).getCell("Make")).isNotNull();
+
+		});
+
+		SoftAssertions.assertSoftly(softly -> {
+
+			softly.assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+			softly.assertThat(PolicySummaryPage.tablePolicyDrivers.getRowsCount()).isEqualTo(2);
+			softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRowsCount()).isEqualTo(2);
+			softly.assertThat(PolicySummaryPage.tableInsuredInformation.getRowsCount()).isEqualTo(2);
+
+
+
+		});
     }
 	
 	private void rollOnPerformManual(){

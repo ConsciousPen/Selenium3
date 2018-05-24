@@ -1,10 +1,6 @@
 package aaa.helpers;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,17 +12,92 @@ import toolkit.exceptions.IstfException;
 public class TestDataHelper {
 	protected static Logger log = LoggerFactory.getLogger(TestDataHelper.class);
 
-	public static TestData merge(TestData tdLeft, TestData tdRight) {
-		return merge(tdLeft, tdRight, true, true);
-	}
-
-	public static TestData merge(TestData tdLeft, TestData tdRight, boolean convertStringToList, boolean convertTestDataToList) {
-		if (tdLeft.equals(tdRight)) { //TODO-dchubkov: double check equals for test data
-			log.warn("Both provided test datas are equal");
-			return tdLeft;
+	/**
+	 * Create copy of provided test data which has SimpleDataProvider type with all resolved links and processed String values by appropriate {@link toolkit.datax.MarkupParser}
+	 * Warning. Cloned data may not be equal to original one but only due to processed String values by {@link toolkit.datax.MarkupParser}
+	 */
+	public static TestData clone(TestData td) {
+		Map<String, Object> clonedTestData = new LinkedHashMap<>(td.getKeys().size());
+		for (String key : td.getKeys()) {
+			switch (getValueType(td, key)) {
+				case STRING:
+					clonedTestData.put(key, td.getValue(key));
+					break;
+				case LIST_STRING:
+					clonedTestData.put(key, td.getList(key));
+					break;
+				case TESTDATA:
+					clonedTestData.put(key, clone(td.getTestData(key)));
+					break;
+				case LIST_TESTDATA:
+					List<TestData> clonedTestDataList = new ArrayList<>(td.getTestDataList(key).size());
+					for (TestData testData : td.getTestDataList(key)) {
+						clonedTestDataList.add(clone(testData));
+					}
+					clonedTestData.put(key, clonedTestDataList);
+					break;
+			}
 		}
 
-		TestData resultData = tdLeft.resolveLinks();
+		return new SimpleDataProvider(clonedTestData);
+	}
+
+	public static TestData.Type getValueType(TestData td, String... keys) {
+		for (TestData.Type valueType : TestData.Type.values()) {
+			try {
+				td.getValue(valueType, keys);
+			} catch (TestDataException e) {
+				if ("Lists of mixed types are not allowed!".equals(e.getCause().getMessage())) {
+					throw new IstfException("Looks like TestData contain TestData list of mixed data providers (e.g. YAMLDataProvider and SimpleDataProvider). See related defect #EISISSUE-50740.", e);
+				}
+				continue;
+			}
+			return valueType;
+		}
+		throw new IstfException(String.format("Provided TestData with key(s) %s has incompatible value type.", Arrays.asList(keys)));
+	}
+
+	public static TestData adjustWithNewValues(TestData baseTestData, TestData testData) {
+		List<String> newKeys = testData.getKeys().stream().filter(td -> !baseTestData.getKeys().contains(td)).collect(Collectors.toList());
+		for (String key : newKeys) {
+			TestData.Type valueType = getValueType(testData, key);
+			switch (valueType) {
+				case STRING:
+					baseTestData.adjust(key, testData.getValue(key));
+					break;
+				case TESTDATA:
+					baseTestData.adjust(key, testData.getTestData(key));
+					break;
+				case LIST_STRING:
+					baseTestData.adjust(key, testData.getList(key));
+					break;
+				case LIST_TESTDATA:
+					baseTestData.adjust(key, testData.getTestDataList(key));
+					break;
+			}
+		}
+		return baseTestData;
+	}
+
+	public static TestData merge(TestData leftTestData, TestData rightTestData) {
+		return merge(leftTestData, rightTestData, true, true);
+	}
+
+	public static TestData merge(TestData leftTestData, TestData rightTestData, boolean convertStringToList, boolean convertTestDataToList) {
+		return merge(leftTestData, rightTestData, convertStringToList, convertTestDataToList, true);
+	}
+
+	private static TestData merge(TestData leftTestData, TestData rightTestData, boolean convertStringToList, boolean convertTestDataToList, boolean isFirstCycleMerge) {
+		TestData resultData = clone(leftTestData);
+		TestData tdRight = clone(rightTestData);
+
+		if (resultData.equals(tdRight)) {
+			if (isFirstCycleMerge) {
+				log.warn("Both provided test datas are equal, there is nothing to merge");
+			}
+			return resultData;
+		}
+
 		for (String key : resultData.getKeys()) {
 			if (!tdRight.containsKey(key)) {
 				continue; //nothing to merge, tdRight does not have key from tdLeft, tdLeft value is copied to result data
@@ -56,7 +127,7 @@ public class TestDataHelper {
 					resultData.adjust(key, tdRight.getValue(key));
 					break;
 				case TESTDATA:
-					resultData.adjust(key, merge(resultData.getTestData(key), tdRight.getTestData(key), convertStringToList, convertTestDataToList));
+					resultData.adjust(key, merge(resultData.getTestData(key), tdRight.getTestData(key), convertStringToList, convertTestDataToList, false));
 					break;
 				case LIST_STRING:
 					List<String> resultList = new ArrayList<>(getStringList(tdRight, key, convertStringToList));
@@ -74,11 +145,9 @@ public class TestDataHelper {
 					List<TestData> resultTestDataList = new ArrayList<>();
 					List<TestData> tdLeftList = getTestDataList(resultData, key, convertTestDataToList);
 					List<TestData> tdRightList = getTestDataList(tdRight, key, convertTestDataToList);
-					tdLeftList = convertAllToSimpleDataProviderType(tdLeftList);
-					tdRightList = convertAllToSimpleDataProviderType(tdRightList);
 					for (int i = 0; i < tdLeftList.size(); i++) {
 						if (i < tdRightList.size()) {
-							resultTestDataList.add(merge(tdLeftList.get(i), tdRightList.get(i), convertStringToList, convertTestDataToList));
+							resultTestDataList.add(merge(tdLeftList.get(i), tdRightList.get(i), convertStringToList, convertTestDataToList, false));
 						} else {
 							resultTestDataList.add(tdLeftList.get(i));
 						}
@@ -97,58 +166,6 @@ public class TestDataHelper {
 		}
 
 		return adjustWithNewValues(resultData, tdRight).resolveLinks();
-	}
-
-	public static TestData adjustWithNewValues(TestData baseTestData, TestData testData) {
-		List<String> newKeys = testData.getKeys().stream().filter(td -> !baseTestData.getKeys().contains(td)).collect(Collectors.toList());
-		for (String key : newKeys) {
-			TestData.Type valueType = getValueType(testData, key);
-			switch (valueType) {
-				case STRING:
-					baseTestData.adjust(key, testData.getValue(key));
-					break;
-				case TESTDATA:
-					baseTestData.adjust(key, testData.getTestData(key));
-					break;
-				case LIST_STRING:
-					baseTestData.adjust(key, testData.getList(key));
-					break;
-				case LIST_TESTDATA:
-					baseTestData.adjust(key, testData.getTestDataList(key));
-					break;
-			}
-		}
-		return baseTestData;
-	}
-
-	public static TestData.Type getValueType(TestData td, String... keys) {
-		for (TestData.Type valueType : TestData.Type.values()) {
-			try {
-				td.getValue(valueType, keys);
-			} catch (TestDataException e) {
-				continue;
-			}
-			return valueType;
-		}
-		throw new IstfException(String.format("Provided TestData with key(s) %s has incompatible value type.", Arrays.asList(keys)));
-	}
-
-
-	public static List<TestData> convertAllToSimpleDataProviderType(List<TestData> tdList) {
-		return tdList.stream().map(TestDataHelper::convertToSimpleDataProviderType).collect(Collectors.toCollection(() -> new ArrayList<>(tdList.size())));
-	}
-
-	/**
-	 * Useful method if you need to prepare common TestData list of elements taken from different sources (e.g. from Yaml file and created by DataProviderFactory)
-	 *
-	 * With different testdata element types you can't use TestData adjust(String keyPath, List<?> list) due to "Lists of mixed types are not allowed!" (probably ISTF defect)
-	 */
-	public static TestData convertToSimpleDataProviderType(TestData td) {
-		if (!td.getClass().isAssignableFrom(SimpleDataProvider.class)) {
-			SimpleDataProvider convertedTd = new SimpleDataProvider();
-			return convertedTd.adjust(td).resolveLinks();
-		}
-		return td;
 	}
 
 	private static boolean isConvertibleToStringList(TestData.Type valueTypeLeft, TestData.Type valueTypeRight) {

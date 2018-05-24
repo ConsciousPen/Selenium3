@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.auto_ss;
+package aaa.modules.regression.sales.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.NavigationEnum;

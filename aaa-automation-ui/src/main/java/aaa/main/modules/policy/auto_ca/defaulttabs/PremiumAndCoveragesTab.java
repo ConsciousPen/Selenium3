@@ -4,6 +4,11 @@
  */
 package aaa.main.modules.policy.auto_ca.defaulttabs;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
@@ -11,6 +16,10 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
+//import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomAssertions;
+import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
@@ -28,10 +37,12 @@ public class PremiumAndCoveragesTab extends Tab {
 
 	public static Button buttonCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalc"));
 	public static StaticElement labelProductInquiry = new StaticElement(By.xpath("//span[@id='policyDataGatherForm:sedit_AAAProductOverride_policyFormCd']"));
+	public static StaticElement totalTermPremium = new StaticElement(By.xpath("//span[@class='TOTAL_TERM_PREMIUM']"));
 	public static Link buttonViewRatingDetails = new Link(By.id("policyDataGatherForm:viewRatingDetails_Link"));
 	public static Button buttonRatingDetailsOk = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"));
 	public static Table tableRatingDetailsQuoteInfo = new Table(By.id("ratingDetailsPopupForm:policy_summary"));
 	public static Table tableRatingDetailsVehicles = new Table(By.id("ratingDetailsPopupForm:vehicle_summary"));
+	public static Table tableRatingDetailsDrivers = new Table(By.id("ratingDetailsPopupForm:driver_summary"));
 	public static Table tableDiscounts = new Table(By.id("policyDataGatherForm:discountSurchargeSummaryTable"));
 
 	// -- old controls
@@ -42,6 +53,7 @@ public class PremiumAndCoveragesTab extends Tab {
 	// --
 	public PremiumAndCoveragesTab() {
 		super(AutoCaMetaData.PremiumAndCoveragesTab.class);
+		assetList.applyConfiguration(COVERAGES_CONFIGURATION_NAME);
 	}
 
 	public static Dollar getPolicyTermPremium() {
@@ -53,6 +65,55 @@ public class PremiumAndCoveragesTab extends Tab {
 			NavigationPage.toViewSubTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
 		}
 		buttonCalculatePremium.click();
+	}
+	
+	public List<TestData> getRatingDetailsDriversData() {
+		ByT pagePattern = ByT.xpath("//div[@id='ratingDetailsPopupForm:driverPanel_body']//center//td[@class='pageText']//*[text()='%s']");
+		return getTestDataFromTable(tableRatingDetailsDrivers, pagePattern);
+	}
+	
+	private List<TestData> getTestDataFromTable(Table table, ByT pagePattern) {
+		List<TestData> testDataList = new ArrayList<>();
+
+		if (!table.isPresent()) {
+			buttonViewRatingDetails.click();
+		}
+
+		Map<String, Object> map = new LinkedHashMap<>();
+		List<String> keys = table.getColumn(1).getValue();
+
+		int pageNumber = 1;
+		while (new Link(pagePattern.format(pageNumber)).isPresent()) {
+			new Link(pagePattern.format(pageNumber)).click();
+
+			for (int column = 2; column <= table.getColumnsCount(); column++) {
+				List<String> values = table.getColumn(column).getValue();
+				if (values.stream().allMatch(String::isEmpty)) {
+					continue; // empty column means absent vehicle
+				}
+
+				List<String> _values = new ArrayList<>();
+				_values.addAll(values);
+				_values.removeIf(s -> "No Coverage".equals(s));
+				_values.removeIf(s -> "Unstacked".equals(s));
+				_values.removeIf(s -> "Yes".equals(s));
+				if (_values.stream().allMatch(String::isEmpty)) {
+					continue; // skip column with only "No Coverage"
+				}
+
+				//CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
+				CustomAssertions.assertThat(keys.size()).as("Number of keys in table is not equal to number of values.").isEqualTo(values.size());
+
+				for (int i = 0; i < keys.size(); i++) {
+					map.put(keys.get(i), values.get(i));
+				}
+
+				testDataList.add(new SimpleDataProvider(map));
+				map.replaceAll((k, v) -> null);
+			}
+			pageNumber++;
+		}
+		return testDataList;
 	}
 
 	@Override

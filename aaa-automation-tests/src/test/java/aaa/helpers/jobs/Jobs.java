@@ -36,11 +36,11 @@ public class Jobs {
 
 	public static Job renewalOfferGenerationJob = new Job("renewalOfferAsyncTaskJob");
 
-	public static Job billingInvoiceAsyncTaskJob = new Job("aaaBillingInvoiceAsyncTaskJob");
+	public static Job aaaBillingInvoiceAsyncTaskJob = new Job("aaaBillingInvoiceAsyncTaskJob");
 
 	public static Job policyStatusUpdateJob = new Job("policyStatusUpdateJob");
 
-	public static Job recurringPaymentsJob = new Job("aaaRecurringPaymentsProcessingJob");
+	public static Job aaaRecurringPaymentsProcessingJob = new Job("aaaRecurringPaymentsProcessingJob");
 
 	public static Job lapsedRenewalProcessJob = new Job("policyLapsedRenewalProcessAsyncJob");
 
@@ -139,6 +139,10 @@ public class Jobs {
 	public static Job aaaCCardExpiryNoticeJob = new Job("aaaCCardExpiryNoticeJob");
 
     public static Job membershipValidationJob = new Job("membershipValidationJob");
+
+	public static Job aaaPaymentCentralRejectFeedAsyncJob = new Job("aaaPaymentCentralRejectFeedAsyncJob");
+
+	public static Job aaaRecurringPaymentsResponseProcessAsyncJob = new Job("aaaRecurringPaymentsResponseProcessAsyncJob");
 
 	public enum JobState {
 		TRUE, FALSE, FAILED

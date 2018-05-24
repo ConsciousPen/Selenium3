@@ -48,6 +48,8 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 			NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		}
+		hideHeader();
 		btnCalculatePremium().click();
+		showHeader();
 	}
 }

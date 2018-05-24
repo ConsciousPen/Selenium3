@@ -111,11 +111,17 @@ public class Ssh {
 		source = parseFileName(source);
 
 		try {
+			closeSession(); //added to avoid hanging during file removal
 			openSftpChannel();
-			sftpChannel.cd("/");
+			//sftpChannel.cd("/"); //replaced with closing session above
 			sftpChannel.cd(source);
 			Vector<ChannelSftp.LsEntry> list = sftpChannel.ls("*");
 
+			if (list.size() == 0) {
+				//closeSession();
+				log.info("SSH: No files to delete in '" + source + "'.");
+				return;
+			}
 			for (ChannelSftp.LsEntry file : list) {
 				if (!file.getAttrs().isDir()) {
 					sftpChannel.rm(file.getFilename());
@@ -123,7 +129,7 @@ public class Ssh {
 			}
 			log.info("SSH: Files were removed from the folder '" + source + "'.");
 		} catch (Exception e) {
-			throw new RuntimeException("SSH: Folder '" + source + "' doesn't exist.", e);
+			throw new RuntimeException("SSH: Error deleting files from folder '" + source + "'", e);
 		}
 	}
 

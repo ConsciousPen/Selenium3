@@ -1,19 +1,21 @@
 package aaa.helpers.openl.model.home_ss;
 
 import aaa.helpers.openl.model.OpenLFile;
-import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = OpenLFile.DWELLING_RATING_INFO_SHEET_NAME, headerRowIndex = OpenLFile.DWELLING_RATING_INFO_HEADER_ROW_NUMBER)
 public class OpenLDwellingRatingInfo {
-	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	private Integer number;
 
-	@ExcelTableColumnElement(name = "IsSecondaryHome")
+	@ExcelColumnElement(name = "IsSecondaryHome")
 	private Boolean isSecondaryHome;
 
-	private Integer dwellingLossFreq;
+	private Double dwellingLossFreq;
 	private Integer familyUnits;
 	private Integer homeAge;
-	private Integer noOfFloors;
+	private Double noOfFloors;
 	private String protectionClass;
 	private Integer roofAge;
 	private String roofType;
@@ -37,11 +39,11 @@ public class OpenLDwellingRatingInfo {
 		isSecondaryHome = secondaryHome;
 	}
 
-	public Integer getDwellingLossFreq() {
+	public Double getDwellingLossFreq() {
 		return dwellingLossFreq;
 	}
 
-	public void setDwellingLossFreq(Integer dwellingLossFreq) {
+	public void setDwellingLossFreq(Double dwellingLossFreq) {
 		this.dwellingLossFreq = dwellingLossFreq;
 	}
 
@@ -61,11 +63,11 @@ public class OpenLDwellingRatingInfo {
 		this.homeAge = homeAge;
 	}
 
-	public Integer getNoOfFloors() {
+	public Double getNoOfFloors() {
 		return noOfFloors;
 	}
 
-	public void setNoOfFloors(Integer noOfFloors) {
+	public void setNoOfFloors(Double noOfFloors) {
 		this.noOfFloors = noOfFloors;
 	}
 

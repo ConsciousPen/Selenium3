@@ -1,29 +1,21 @@
 package aaa.helpers.openl.model.home_ca.ho6;
 
-import static aaa.helpers.openl.model.OpenLFile.DWELLING_HEADER_ROW_NUMBER;
-import static aaa.helpers.openl.model.OpenLFile.DWELLING_SHEET_NAME;
-import static aaa.helpers.openl.model.OpenLFile.FORM_HEADER_ROW_NUMBER;
-import static aaa.helpers.openl.model.OpenLFile.FORM_SHEET_NAME;
+import static aaa.helpers.openl.model.OpenLFile.POLICY_HEADER_ROW_NUMBER;
+import static aaa.helpers.openl.model.OpenLFile.POLICY_SHEET_NAME;
 import java.util.ArrayList;
 import java.util.List;
-import aaa.helpers.openl.model.OpenLFile;
-import aaa.helpers.openl.model.home_ca.HomeCaOpenLForm;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
-public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy {
-	@ExcelTableElement(sheetName = DWELLING_SHEET_NAME, headerRowIndex = DWELLING_HEADER_ROW_NUMBER)
-	private List<HomeCaHO6OpenLDwelling> dwelling;
-
-	@ExcelTableElement(sheetName = FORM_SHEET_NAME, headerRowIndex = FORM_HEADER_ROW_NUMBER)
-	private List<HomeCaOpenLForm> forms;
-
-	@ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME, headerRowIndex = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
+@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
+public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm> {
+	private HomeCaHO6OpenLDwelling dwelling;
+	private List<HomeCaHO6OpenLForm> forms;
 	private List<HomeCaHO6OpenLCoverage> coverages;
 
-	private Integer covALimit;
-	private Integer covELimit;
-	private Integer deductible;
+	private Double covALimit;
+	private Double covELimit;
+	private Double deductible;
 	private Boolean hasEmployeeDiscount;
 	private Integer ageOfOldestInsured;
 	private Boolean hasPolicySupportingForm;
@@ -33,19 +25,20 @@ public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy {
 	private Boolean isRented;
 	private String occupation;
 
-	public List<HomeCaHO6OpenLDwelling> getDwellings() {
-		return new ArrayList<>(dwelling);
+	public HomeCaHO6OpenLDwelling getDwelling() {
+		return dwelling;
 	}
 
-	public void setDwellings(List<HomeCaHO6OpenLDwelling> dwelling) {
-		this.dwelling = new ArrayList<>(dwelling);
+	public void setDwelling(HomeCaHO6OpenLDwelling dwelling) {
+		this.dwelling = dwelling;
 	}
 
-	public List<HomeCaOpenLForm> getForms() {
+	@Override
+	public List<HomeCaHO6OpenLForm> getForms() {
 		return new ArrayList<>(forms);
 	}
 
-	public void setForms(List<HomeCaOpenLForm> forms) {
+	public void setForms(List<HomeCaHO6OpenLForm> forms) {
 		this.forms = new ArrayList<>(forms);
 	}
 
@@ -57,27 +50,27 @@ public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy {
 		this.coverages = new ArrayList<>(coverages);
 	}
 
-	public Integer getCovALimit() {
+	public Double getCovALimit() {
 		return covALimit;
 	}
 
-	public void setCovALimit(Integer covALimit) {
+	public void setCovALimit(Double covALimit) {
 		this.covALimit = covALimit;
 	}
 
-	public Integer getCovELimit() {
+	public Double getCovELimit() {
 		return covELimit;
 	}
 
-	public void setCovELimit(Integer covELimit) {
+	public void setCovELimit(Double covELimit) {
 		this.covELimit = covELimit;
 	}
 
-	public Integer getDeductible() {
+	public Double getDeductible() {
 		return deductible;
 	}
 
-	public void setDeductible(Integer deductible) {
+	public void setDeductible(Double deductible) {
 		this.deductible = deductible;
 	}
 

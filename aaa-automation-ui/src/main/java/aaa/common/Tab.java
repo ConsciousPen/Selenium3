@@ -24,6 +24,7 @@ import java.util.List;
  * @category Static
  */
 public abstract class Tab {
+	public static final String COVERAGES_CONFIGURATION_NAME = "CoveragesAndPremium";
 
 	public static Button buttonOk = new Button(By.xpath("//input[@id='genericForm:ok' or (@value = 'OK' or @value = 'Ok') and contains (@id, '_footer')"
 			+ "and not(@class = 'hidden') and not(contains(@class, 'secondaryButton')) and not(contains(@style, 'none')) "
@@ -52,7 +53,7 @@ public abstract class Tab {
 
 	public static Dialog dialogCancelAction = new Dialog(By.id("cancelConfirmDialogDialog_container"));
 
-	public static StaticElement labelPolicyNumber = new StaticElement(By.xpath("//span[@id = 'policyDataGatherForm:dataGatherHeaderSectionInfo']//td[2]//span"));
+	public static StaticElement labelPolicyNumber = new StaticElement(By.xpath("//span[@id = 'policyDataGatherForm:dataGatherHeaderSectionInfo']//td[contains(text(), 'Policy #') or contains(text(), 'Quote #')]//span"));
 	public static StaticElement labelPolicyNumberForPup = new StaticElement(By.xpath("//span[@id = 'policyDataGatherForm:dataGatherHeaderSectionInfo']//td[3]//span"));
 
 	public static StaticElement labelLoggedUser = new StaticElement(By.id("logoutForm:userDetails"));
@@ -229,6 +230,7 @@ public abstract class Tab {
 		buttonSave.click();
 		return this;
 	}
+
 	public Tab createVersion() {
 		buttonCreateVersion.click();
 		if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {

@@ -2,6 +2,7 @@ package aaa.helpers.mock;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
+import org.apache.commons.lang3.RandomStringUtils;
 import aaa.helpers.mock.model.membership.MembershipMockData;
 import aaa.helpers.mock.model.vehicle.VehicleUBIDetailsMockData;
 import aaa.helpers.ssh.RemoteHelper;
@@ -15,8 +16,8 @@ public class MockDataHelper {
 
 	private static final String ENV_NAME = PropertyProvider.getProperty(TestProperties.APP_HOST).split("\\.")[0];
 	private static final String DESTINATION_TEMP_MOCKS_FOLDER = "src/test/resources/mock";
-	private static final String SOURCE_MOCKS_FOLDER_PATTERN = String.format("/opt/IBM/WebSphere/AppServer/profiles/AppSrv01/installedApps/%sCell01/aaa-external-stub-services-app-ear.ear/"
-			+ "aaa-external-stub-services-app.war/WEB-INF/classes/META-INF/mock", ENV_NAME);
+	private static final String SOURCE_MOCKS_FOLDER_PATTERN = String.format(
+			"/opt/IBM/WebSphere/AppServer/profiles/AppSrv01/installedApps/%sCell01/aaa-external-stub-services-app-ear.ear/aaa-external-stub-services-app.war/WEB-INF/classes/META-INF/mock", ENV_NAME);
 
 	private static MembershipMockData membershipData;
 	private static VehicleUBIDetailsMockData vehicleUBIDetailsData;
@@ -35,16 +36,17 @@ public class MockDataHelper {
 		return vehicleUBIDetailsData;
 	}
 
-	private static <M> M getMockDataObject(String mockFilename, Class<M> mockDataClass) {
+	private static synchronized <M> M getMockDataObject(String mockFilename, Class<M> mockDataClass) {
 		String mockSourcePath = SOURCE_MOCKS_FOLDER_PATTERN + "/" + mockFilename;
-		String mockTempDestinationPath = DESTINATION_TEMP_MOCKS_FOLDER + "/" + System.currentTimeMillis() + "_" + mockFilename;
+		String mockTempDestinationPath = DESTINATION_TEMP_MOCKS_FOLDER + "/" + RandomStringUtils.randomNumeric(10) + "_" + mockFilename;
 
 		RemoteHelper.downloadFile(mockSourcePath, mockTempDestinationPath);
 		File mockTempFile = new File(mockTempDestinationPath);
-		ExcelUnmarshaller excelUnmarshaller = new ExcelUnmarshaller();
 		M mockObject;
 		try {
-			mockObject = excelUnmarshaller.unmarshal(mockTempFile, mockDataClass);
+			ExcelUnmarshaller excelUnmarshaller = new ExcelUnmarshaller(mockTempFile);
+			mockObject = excelUnmarshaller.unmarshal(mockDataClass);
+			excelUnmarshaller.flushCache().close();
 		} finally {
 			assertThat(mockTempFile.delete()).as("Unambe to delete temp mock file: %s", mockTempDestinationPath).isTrue();
 		}

@@ -28,7 +28,7 @@
     <test name="Test Not Ordered Membership Errors_1" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.TestNotOrderedMembershipError">
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestNotOrderedMembershipError">
                 <methods>
                     <include name="pas7524_checkNotOrderedMembershipErrors"/>
                 </methods>
@@ -39,7 +39,7 @@
     <test name="Test Not Ordered Membership Errors_2" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.TestNotOrderedMembershipError">
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestNotOrderedMembershipError">
                 <methods>
                     <include name="pas7524_checkNotOrderedMembershipErrors"/>
                 </methods>
@@ -50,7 +50,7 @@
     <test name="Test Not Ordered Membership Errors_3" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.TestNotOrderedMembershipError">
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestNotOrderedMembershipError">
                 <methods>
                     <include name="pas6142_checkNotOrderedMembershipErrors"/>
                 </methods>
@@ -61,7 +61,7 @@
     <test name="Test Not Ordered Membership Errors_4" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.TestNotOrderedMembershipError">
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestNotOrderedMembershipError">
                 <methods>
                     <include name="pas6142_checkNotOrderedMembershipErrors"/>
                 </methods>

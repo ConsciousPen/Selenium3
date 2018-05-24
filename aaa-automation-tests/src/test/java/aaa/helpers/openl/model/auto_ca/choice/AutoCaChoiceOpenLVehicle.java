@@ -5,16 +5,21 @@ import java.util.List;
 import aaa.helpers.openl.model.AutoOpenLCoverage;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLVehicle;
+import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = OpenLFile.VEHICLE_SHEET_NAME, headerRowIndex = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
 public class AutoCaChoiceOpenLVehicle extends OpenLVehicle {
-	@ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME, headerRowIndex = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
 	private List<AutoOpenLCoverage> coverages;
 
 	private Boolean antiLock;
 	private Boolean antiTheft;
 	private String vehType;
 	private String vehicleUsageCd;
+
+	@SuppressWarnings({"FieldNameHidesFieldInSuperclass"})
+	@ExcelColumnElement(name = "umbiLiabilitySymbol")
+	private String umLiabilitySymbol;
 
 	public String getVehType() {
 		return vehType;
@@ -30,14 +35,6 @@ public class AutoCaChoiceOpenLVehicle extends OpenLVehicle {
 
 	public void setVehicleUsageCd(String vehicleUsageCd) {
 		this.vehicleUsageCd = vehicleUsageCd;
-	}
-
-	public List<AutoOpenLCoverage> getCoverages() {
-		return new ArrayList<>(coverages);
-	}
-
-	public void setCoverages(List<AutoOpenLCoverage> coverages) {
-		this.coverages = new ArrayList<>(coverages);
 	}
 
 	public Boolean getAntiLock() {
@@ -57,6 +54,26 @@ public class AutoCaChoiceOpenLVehicle extends OpenLVehicle {
 	}
 
 	@Override
+	public List<AutoOpenLCoverage> getCoverages() {
+		return new ArrayList<>(coverages);
+	}
+
+	public void setCoverages(List<AutoOpenLCoverage> coverages) {
+		this.coverages = new ArrayList<>(coverages);
+	}
+
+	@SuppressWarnings("RedundantMethodOverride")
+	@Override
+	public void setMpLiabilitySymbol(String mpLiabilitySymbol) {
+		this.mpLiabilitySymbol = mpLiabilitySymbol;
+	}
+
+	@Override
+	public String getUmLiabilitySymbol() {
+		return umLiabilitySymbol;
+	}
+
+	@Override
 	public String toString() {
 		return "AutoCaChoiceOpenLVehicle{" +
 				"coverages=" + coverages +
@@ -70,7 +87,11 @@ public class AutoCaChoiceOpenLVehicle extends OpenLVehicle {
 				", compSymbol=" + compSymbol +
 				", id='" + id + '\'' +
 				", modelYear=" + modelYear +
-				", statCode='" + statCode + '\'' +
+				", oldStatCode='" + oldStatCode + '\'' +
+				", biLiabilitySymbol='" + biLiabilitySymbol + '\'' +
+				", pdLiabilitySymbol='" + pdLiabilitySymbol + '\'' +
+				", mpLiabilitySymbol='" + mpLiabilitySymbol + '\'' +
+				", umLiabilitySymbol='" + umLiabilitySymbol + '\'' +
 				", address=" + address +
 				'}';
 	}

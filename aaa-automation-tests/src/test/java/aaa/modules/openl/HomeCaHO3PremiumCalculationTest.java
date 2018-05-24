@@ -10,7 +10,7 @@ import aaa.helpers.openl.testdata_builder.HomeCaHO3TestDataGenerator;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
 
-public class HomeCaHO3PremiumCalculationTest extends OpenLRatingBaseTest<HomeCaHO3OpenLPolicy> {
+public class HomeCaHO3PremiumCalculationTest extends HomeCaPremiumCalculationTest<HomeCaHO3OpenLPolicy, HomeCaHO3OpenLFile> {
 
 	@Override
 	protected PolicyType getPolicyType() {

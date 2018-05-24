@@ -15,7 +15,6 @@ import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.datax.impl.SimpleDataProvider;
 
 public class ModifyPaymentMethodTest extends BackwardCompatibilityBaseTest {
 
@@ -27,10 +26,7 @@ public class ModifyPaymentMethodTest extends BackwardCompatibilityBaseTest {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_032_ModifyPaymentMethod_PaymentPlan", "SelectPolicy").get(0);
 
 		SearchPage.openPolicy(policyNumber);
-		if (PolicySummaryPage.buttonPendedEndorsement.isEnabled()) {
-			PolicySummaryPage.buttonPendedEndorsement.click();
-			policy.deletePendedTransaction().perform(new SimpleDataProvider());
-		}
+		deletePendingTransaction(policy);
 		policy.endorse().performAndFill(getTestSpecificTD("TestData"));
 		if (new ErrorTab().buttonOverride.isPresent()) {
 			policy.dataGather().getView().fillFromTo(getTestSpecificTD("TestData_Override"), ErrorTab.class, PurchaseTab.class, false);

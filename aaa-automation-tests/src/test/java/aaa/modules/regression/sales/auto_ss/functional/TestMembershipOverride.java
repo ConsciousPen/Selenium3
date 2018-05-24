@@ -394,12 +394,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
-		LocalDateTime nbPlus15 = policyEffectiveDate.plusDays(15);
-		LocalDateTime nbPlus30 = policyEffectiveDate.plusDays(30);
-
-		TimeSetterUtil.getInstance().nextPhase(nbPlus15);
-		JobUtils.executeJob(Jobs.membershipValidationJob);
+		TestEValueMembershipProcess.jobsNBplus15plus30runNoChecks();
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -413,8 +408,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		//validate that membership discount is applied (displayed) in P&C tab
 		checkMembershipInPCTab(true, false, "Yes", "", "01/04/2009");
 
-		TimeSetterUtil.getInstance().nextPhase(nbPlus30);
-		JobUtils.executeJob(Jobs.membershipValidationJob);
+		TestEValueMembershipProcess.jobsNBplus15plus30runNoChecks();
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -462,12 +456,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
-		LocalDateTime nbPlus15 = policyEffectiveDate.plusDays(15);
-		LocalDateTime nbPlus30 = policyEffectiveDate.plusDays(30);
-
-		TimeSetterUtil.getInstance().nextPhase(nbPlus15);
-		JobUtils.executeJob(Jobs.membershipValidationJob);
+		TestEValueMembershipProcess.jobsNBplus15plus30runNoChecks();
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -481,8 +470,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		//validate that membership discount is applied (displayed) in P&C tab
 		checkMembershipInPCTab(true, false, "Yes", "", "");
 
-		TimeSetterUtil.getInstance().nextPhase(nbPlus30);
-		JobUtils.executeJob(Jobs.membershipValidationJob);
+		TestEValueMembershipProcess.jobsNBplus15plus30runNoChecks();
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);

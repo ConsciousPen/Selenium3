@@ -191,6 +191,36 @@
             </class>
         </classes>
     </test>
+    <test name="Renewal - BCT_ONL_003" preserve-order="true">
+        <parameter name="state" value="AZ, IN, MD, NJ, NV, OH, OK, OR, PA, VA"/>
+        <classes>
+            <class name="aaa.modules.bct.renewal.ManualRenewalTest">
+                <methods>
+                    <include name="BCT_ONL_003_ManualRenewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Renewal - BCT_ONL_004" preserve-order="true">
+        <parameter name="state" value="AZ, IN, MD, NJ, NV, OH, OK, OR, PA, VA"/>
+        <classes>
+            <class name="aaa.modules.bct.renewal.ManualRenewalTest">
+                <methods>
+                    <include name="BCT_ONL_004_ManualRenewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Renewal - BCT_ONL_047" preserve-order="true">
+        <parameter name="state" value="AZ, IN, MD, NJ, NV, OH, OK, OR, PA, VA"/>
+        <classes>
+            <class name="aaa.modules.bct.renewal.ManualRenewalTest">
+                <methods>
+                    <include name="BCT_ONL_047_ManualRenewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 
                                                 <!-- Sales -->
 

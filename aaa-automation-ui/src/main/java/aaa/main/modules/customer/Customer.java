@@ -35,7 +35,7 @@ public class Customer implements ICustomer {
         MainPage.QuickSearch.buttonSearchPlus.click();
         SearchPage.buttonCreateCustomer.click();
         getDefaultView().fill(td);
-        log.info("Created " + EntityLogger.getEntityHeader(EntityType.CUSTOMER));
+        log.info("Created {}", EntityLogger.getEntityHeader(EntityType.CUSTOMER));
     }
 
     @Override

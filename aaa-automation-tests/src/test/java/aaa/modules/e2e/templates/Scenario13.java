@@ -7,7 +7,6 @@ import java.util.List;
 import toolkit.verification.CustomSoftAssertions;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -23,11 +22,7 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
-import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionStatus;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
-import aaa.main.enums.BillingConstants.PolicyFlag;
+import aaa.main.enums.BillingConstants.*;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -174,7 +169,7 @@ public class Scenario13 extends ScenarioBaseTest {
 	protected void payFifthBill() {
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDates.get(5));
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-		JobUtils.executeJob(Jobs.recurringPaymentsJob);
+		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);

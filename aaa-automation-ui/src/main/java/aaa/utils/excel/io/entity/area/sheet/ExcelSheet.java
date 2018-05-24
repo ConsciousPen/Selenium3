@@ -1,16 +1,9 @@
 package aaa.utils.excel.io.entity.area.sheet;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.poi.ss.usermodel.Sheet;
 import aaa.utils.excel.io.ExcelManager;
@@ -20,21 +13,21 @@ import aaa.utils.excel.io.entity.area.table.ExcelTable;
 import toolkit.exceptions.IstfException;
 
 public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
-	private int sheetIndex;
-	private Set<ExcelTable> tables;
+	private final int sheetIndex;
+	private List<ExcelTable> tables;
 
 	public ExcelSheet(Sheet sheet, int sheetIndex, ExcelManager excelManager) {
 		this(sheet, sheetIndex, excelManager, excelManager.getCellTypes());
 	}
 
-	public ExcelSheet(Sheet sheet, int sheetIndex, ExcelManager excelManager, Set<CellType<?>> cellTypes) {
+	public ExcelSheet(Sheet sheet, int sheetIndex, ExcelManager excelManager, List<CellType<?>> cellTypes) {
 		this(sheet, sheetIndex, null, null, excelManager, cellTypes);
 	}
 
-	public ExcelSheet(Sheet sheet, int sheetIndex, Set<Integer> columnsIndexes, Set<Integer> rowsIndexes, ExcelManager excelManager, Set<CellType<?>> cellTypes) {
+	public ExcelSheet(Sheet sheet, int sheetIndex, List<Integer> columnsIndexes, List<Integer> rowsIndexes, ExcelManager excelManager, List<CellType<?>> cellTypes) {
 		super(sheet, columnsIndexes, rowsIndexes, excelManager, cellTypes);
 		this.sheetIndex = sheetIndex;
-		this.tables = new HashSet<>();
+		this.tables = new ArrayList<>();
 	}
 
 	public int getSheetIndex() {
@@ -42,37 +35,37 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 	}
 
 	/**
-	 * @return only previously added tables by {@link #addTable(ExcelTable)} or found by {@link #getTable(String...)}, {@link #getTable(boolean, String...)} and  {@link #getTable(int, Set, boolean, String...)} methods
+	 * @return only previously added tables by {@link #addTable(ExcelTable)} or found by {@link #getTable(String...)}, {@link #getTable(boolean, String...)} and  {@link #getTable(int, List, boolean, String...)} methods
 	 */
 	public List<ExcelTable> getTables() {
-		return new ArrayList<>(this.tables);
+		return Collections.unmodifiableList(this.tables);
 	}
 
 	@Override
-	protected Map<Integer, SheetRow> gatherAreaIndexesAndRowsMap(Set<Integer> rowsIndexes, Set<Integer> columnsIndexes, Set<CellType<?>> cellTypes) {
-		Map<Integer, SheetRow> indexesAndRowsMap = new LinkedHashMap<>(rowsIndexes.size());
+	protected List<SheetRow> gatherRows(List<Integer> rowsIndexes, List<Integer> columnsIndexes, List<CellType<?>> cellTypes) {
+		List<SheetRow> rows = new ArrayList<>(rowsIndexes.size());
 		for (int rowIndex : rowsIndexes) {
 			SheetRow row = new SheetRow(getPoiSheet().getRow(rowIndex - 1), rowIndex, columnsIndexes, this, cellTypes);
-			indexesAndRowsMap.put(rowIndex, row);
+			rows.add(row);
 		}
-		return indexesAndRowsMap;
+		return rows;
 	}
 
 	@Override
-	protected Map<Integer, SheetColumn> gatherAreaIndexesAndColumnsMap(Set<Integer> rowsIndexes, Set<Integer> columnsIndexes, Set<CellType<?>> cellTypes) {
-		Map<Integer, SheetColumn> indexesAndColumnsMap = new LinkedHashMap<>(columnsIndexes.size());
+	protected List<SheetColumn> gatherColumns(List<Integer> rowsIndexes, List<Integer> columnsIndexes, List<CellType<?>> cellTypes) {
+		List<SheetColumn> columns = new ArrayList<>(columnsIndexes.size());
 		for (Integer columnIndex : columnsIndexes) {
 			SheetColumn column = new SheetColumn(columnIndex, rowsIndexes, this, cellTypes);
-			indexesAndColumnsMap.put(columnIndex, column);
+			columns.add(column);
 		}
-		return indexesAndColumnsMap;
+		return columns;
 	}
 
 	/**
 	 * Register cell types for next found ExcelTables and ExcelRows and update cell types for found {@link #tables}
 	 */
 	@Override
-	public ExcelSheet registerCellType(CellType<?>... cellTypes) {
+	public ExcelSheet registerCellType(List<CellType<?>> cellTypes) {
 		super.registerCellType(cellTypes);
 		getTables().forEach(t -> t.registerCellType(cellTypes));
 		return this;
@@ -90,11 +83,6 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 				'}';
 	}
 
-	public ExcelSheet addTable(ExcelTable table) {
-		this.tables.add(table);
-		return this;
-	}
-
 	public ExcelTable getTable(String... headerColumnsNames) {
 		return getTable(false, headerColumnsNames);
 	}
@@ -108,7 +96,7 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 		return getTable(headerRowIndexOnSheet, null, headerColumnsNames);
 	}
 
-	public ExcelTable getTable(int headerRowIndexOnSheet, Set<Integer> rowsIndexesInTable, String... headerColumnsNames) {
+	public ExcelTable getTable(int headerRowIndexOnSheet, List<Integer> rowsIndexesInTable, String... headerColumnsNames) {
 		return getTable(headerRowIndexOnSheet, rowsIndexesInTable, false, headerColumnsNames);
 	}
 
@@ -121,16 +109,16 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 	 * @param headerColumnsNames header column names of needed ExcelTable. If array is empty then all columns from {@code headerRowIndexOnSheet} will be used as column names
 	 * @return {@link ExcelTable} object representation of found excel table
 	 */
-	public ExcelTable getTable(int headerRowIndexOnSheet, Set<Integer> rowsIndexesInTable, boolean ignoreCase, String... headerColumnsNames) {
+	public ExcelTable getTable(int headerRowIndexOnSheet, List<Integer> rowsIndexesInTable, boolean ignoreCase, String... headerColumnsNames) {
 		assertThat(headerRowIndexOnSheet).as("Header row number should be greater than 0").isPositive();
 		SheetRow headerRow = getRow(headerRowIndexOnSheet);
 		assertThat(headerRow.isEmpty()).as("Header row should not be empty").isFalse();
-		Set<Integer> columnsIndexesOnSheet = null;
-		Set<Integer> rowsIndexesOnSheet = CollectionUtils.isNotEmpty(rowsIndexesInTable) ? rowsIndexesInTable.stream().map(r -> r + headerRowIndexOnSheet).collect(Collectors.toSet()) : null;
+		List<Integer> columnsIndexesOnSheet = null;
+		List<Integer> rowsIndexesOnSheet = rowsIndexesInTable != null ? rowsIndexesInTable.stream().map(r -> r + headerRowIndexOnSheet).collect(Collectors.toList()) : null;
 
 		if (ArrayUtils.isNotEmpty(headerColumnsNames)) {
 			Set<String> missedHeaderColumnsNames = new HashSet<>(Arrays.asList(headerColumnsNames));
-			columnsIndexesOnSheet = new HashSet<>();
+			columnsIndexesOnSheet = new ArrayList<>();
 			for (SheetCell cell : headerRow) {
 				String cellValue = cell.getStringValue();
 				if (cellValue == null) {
@@ -149,12 +137,22 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 		}
 
 		ExcelTable t = new ExcelTable(headerRow.getPoiRow(), columnsIndexesOnSheet, rowsIndexesOnSheet, this, getCellTypes());
-		t.considerRowsOnComparison(isRowsComparisonRuleSet());
-		t.considerColumnsOnComparison(isColumnsComparisonRuleSet());
 		return addTable(t).getTable(t);
 	}
 
-	ExcelTable getTable(ExcelTable table) {
-		return this.tables.stream().filter(t -> t.equals(table)).findFirst().orElseThrow(() -> new IstfException("Internal tables collection does not contain: " + table));
+	protected ExcelSheet addTable(ExcelTable table) {
+		if (!getTables().contains(table)) {
+			this.tables.add(table);
+		}
+		return this;
+	}
+
+	protected ExcelTable getTable(ExcelTable table) {
+		for (ExcelTable t : getTables()) {
+			if (t.equals(table)) {
+				return t;
+			}
+		}
+		throw new IstfException("Internal tables collection does not contain: " + table);
 	}
 }

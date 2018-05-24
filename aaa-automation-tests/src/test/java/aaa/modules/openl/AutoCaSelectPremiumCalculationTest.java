@@ -9,12 +9,19 @@ import aaa.helpers.openl.model.auto_ca.select.AutoCaSelectOpenLPolicy;
 import aaa.helpers.openl.testdata_builder.AutoCaSelectTestDataGenerator;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
+import toolkit.datax.TestData;
 
-public class AutoCaSelectPremiumCalculationTest extends OpenLRatingBaseTest<AutoCaSelectOpenLPolicy> {
+public class AutoCaSelectPremiumCalculationTest extends AutoCaPremiumCalculationTest<AutoCaSelectOpenLPolicy, AutoCaSelectOpenLFile> {
 
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_CA_SELECT;
+	}
+
+	@Override
+	protected TestData getRatingDataPattern() {
+		return super.getRatingDataPattern().mask(new AssignmentTab().getMetaKey());
 	}
 
 	@Parameters({"state", "fileName", "policyNumbers"})

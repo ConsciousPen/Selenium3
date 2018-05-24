@@ -19,13 +19,7 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
-import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
-import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
-import aaa.main.enums.BillingConstants.BillsAndStatementsType;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionReason;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
-import aaa.main.enums.BillingConstants.PolicyFlag;
+import aaa.main.enums.BillingConstants.*;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.enums.ProductConstants.PolicyStatus;
@@ -148,7 +142,11 @@ public class Scenario6 extends ScenarioBaseTest {
 		// TODO
 		// Replace with verify.less if 42369 Defect will be fixed
 		for (int i = 2; i < installmentsAmounts.size(); i++) {
-			BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(i)).verify.equals(installmentsAmounts.get(i));
+			if (getState().equals(States.KY)) {
+				BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(i)).verify.moreThan(installmentsAmounts.get(i)); // include tax
+			} else {
+				BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(i)).verify.equals(installmentsAmounts.get(i));
+			}
 		}
 	}
 
@@ -173,7 +171,7 @@ public class Scenario6 extends ScenarioBaseTest {
 	protected void generateSecondBill() {
 		LocalDateTime genDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(2));
 		TimeSetterUtil.getInstance().nextPhase(genDate);
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);

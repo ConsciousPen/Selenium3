@@ -137,7 +137,7 @@ public class TestScenario4_IN extends AutoSSBaseTest {
 	public void TC03_PayPolicyInFull(@Optional("") String state) {
 		LocalDateTime billGenerationDate = getTimePoints().getBillGenerationDate(scheduleDueDate2);
 		TimeSetterUtil.getInstance().nextPhase(billGenerationDate);
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);

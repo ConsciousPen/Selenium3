@@ -3,7 +3,6 @@ package aaa.modules.e2e.templates;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
-
 import org.openqa.selenium.By;
 
 import toolkit.verification.CustomAssertions;
@@ -127,7 +126,7 @@ public class Scenario9 extends ScenarioBaseTest {
 	protected void verifyThirdBillNotGenerated() {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(3));
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -140,7 +139,7 @@ public class Scenario9 extends ScenarioBaseTest {
 	protected void verifyPaymentNotGenerated() {
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDates.get(3));
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-		JobUtils.executeJob(Jobs.recurringPaymentsJob);
+		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum); 
@@ -291,7 +290,7 @@ public class Scenario9 extends ScenarioBaseTest {
 	protected void dontPayRenewalBill() {
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-		JobUtils.executeJob(Jobs.recurringPaymentsJob);
+		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDueDate).setType(PaymentsAndOtherTransactionType.PAYMENT)

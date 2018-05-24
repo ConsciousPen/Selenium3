@@ -4,14 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLVehicle;
+import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = OpenLFile.VEHICLE_SHEET_NAME, headerRowIndex = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
 public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
-	@ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME, headerRowIndex = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
-	protected List<AutoCaSelectOpenLCoverage> coverages;
 
-	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME, headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
-	private List<AutoCaSelectOpenLDriver> primaryDriver;
+	private List<AutoCaSelectOpenLCoverage> coverages;
+	private AutoCaSelectOpenLDriver primaryDriver;
+	private AutoCaSelectOpenLDriver manuallyAssignedDriver;
+
+	@SuppressWarnings({"FieldNameHidesFieldInSuperclass"})
+	@ExcelColumnElement(name = "umbiLiabilitySymbol")
+	private String umLiabilitySymbol;
 
 	private Boolean aaaMembership;
 	private Boolean applyFixedExpense;
@@ -24,16 +29,26 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 	private Boolean oemCoverage;
 	private Boolean rideShareCov;
 	private Integer vehicleAge;
+	private Boolean manuallyAssignedUndesignatedDriverInd;
+	private String optionalCoverages; // TODO-dchubkov: double check type, column in test is empty
 
-	public List<AutoCaSelectOpenLDriver> getPrimaryDriver() {
-		return new ArrayList<>(primaryDriver);
+	public AutoCaSelectOpenLDriver getPrimaryDriver() {
+		return primaryDriver;
 	}
 
-	public void setPrimaryDriver(List<AutoCaSelectOpenLDriver> primaryDriver) {
-		this.primaryDriver = new ArrayList<>(primaryDriver);
+	public void setPrimaryDriver(AutoCaSelectOpenLDriver primaryDriver) {
+		this.primaryDriver = primaryDriver;
 	}
 
-	public Boolean getAaaMembership() {
+	public AutoCaSelectOpenLDriver getManuallyAssignedDriver() {
+		return manuallyAssignedDriver;
+	}
+
+	public void setManuallyAssignedDriver(AutoCaSelectOpenLDriver manuallyAssignedDriver) {
+		this.manuallyAssignedDriver = manuallyAssignedDriver;
+	}
+
+	public Boolean isAaaMembership() {
 		return aaaMembership;
 	}
 
@@ -41,7 +56,7 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 		this.aaaMembership = aaaMembership;
 	}
 
-	public Boolean getApplyFixedExpense() {
+	public Boolean isApplyFixedExpense() {
 		return applyFixedExpense;
 	}
 
@@ -57,7 +72,7 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 		this.commuteBand = commuteBand;
 	}
 
-	public Boolean getEte() {
+	public Boolean isEte() {
 		return ete;
 	}
 
@@ -65,7 +80,7 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 		this.ete = ete;
 	}
 
-	public Boolean getFullGlassCoverage() {
+	public Boolean isFullGlassCoverage() {
 		return fullGlassCoverage;
 	}
 
@@ -73,7 +88,7 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 		this.fullGlassCoverage = fullGlassCoverage;
 	}
 
-	public Boolean getGapCoverage() {
+	public Boolean isGapCoverage() {
 		return gapCoverage;
 	}
 
@@ -81,7 +96,7 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 		this.gapCoverage = gapCoverage;
 	}
 
-	public Boolean getMultiCarInd() {
+	public Boolean isMultiCarInd() {
 		return multiCarInd;
 	}
 
@@ -89,7 +104,7 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 		this.multiCarInd = multiCarInd;
 	}
 
-	public Boolean getNewCarProtection() {
+	public Boolean isNewCarProtection() {
 		return newCarProtection;
 	}
 
@@ -97,7 +112,7 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 		this.newCarProtection = newCarProtection;
 	}
 
-	public Boolean getOemCoverage() {
+	public Boolean isOemCoverage() {
 		return oemCoverage;
 	}
 
@@ -105,7 +120,7 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 		this.oemCoverage = oemCoverage;
 	}
 
-	public Boolean getRideShareCov() {
+	public Boolean isRideShareCov() {
 		return rideShareCov;
 	}
 
@@ -121,6 +136,7 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 		this.vehicleAge = vehicleAge;
 	}
 
+	@Override
 	public List<AutoCaSelectOpenLCoverage> getCoverages() {
 		return new ArrayList<>(coverages);
 	}
@@ -129,11 +145,39 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 		this.coverages = new ArrayList<>(coverages);
 	}
 
+	@SuppressWarnings("RedundantMethodOverride")
+	@Override
+	public void setMpLiabilitySymbol(String mpLiabilitySymbol) {
+		this.mpLiabilitySymbol = mpLiabilitySymbol;
+	}
+
+	@Override
+	public String getUmLiabilitySymbol() {
+		return umLiabilitySymbol;
+	}
+
+	public Boolean istManuallyAssignedUndesignatedDriverInd() {
+		return manuallyAssignedUndesignatedDriverInd;
+	}
+
+	public void setManuallyAssignedUndesignatedDriverInd(Boolean manuallyAssignedUndesignatedDriverInd) {
+		this.manuallyAssignedUndesignatedDriverInd = manuallyAssignedUndesignatedDriverInd;
+	}
+
+	public String getOptionalCoverages() {
+		return optionalCoverages;
+	}
+
+	public void setOptionalCoverages(String optionalCoverages) {
+		this.optionalCoverages = optionalCoverages;
+	}
+
 	@Override
 	public String toString() {
 		return "AutoCaSelectOpenLVehicle{" +
-				"primaryDriver=" + primaryDriver +
-				", coverages=" + coverages +
+				"coverages=" + coverages +
+				", primaryDriver=" + primaryDriver +
+				", umLiabilitySymbol='" + umLiabilitySymbol + '\'' +
 				", aaaMembership=" + aaaMembership +
 				", applyFixedExpense=" + applyFixedExpense +
 				", commuteBand='" + commuteBand + '\'' +
@@ -145,6 +189,9 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 				", oemCoverage=" + oemCoverage +
 				", rideShareCov=" + rideShareCov +
 				", vehicleAge=" + vehicleAge +
+				", manuallyAssignedDriver=" + manuallyAssignedDriver +
+				", manuallyAssignedUndesignatedDriverInd=" + manuallyAssignedUndesignatedDriverInd +
+				", optionalCoverages='" + optionalCoverages + '\'' +
 				", number=" + number +
 				", annualMileage=" + annualMileage +
 				", collSymbol=" + collSymbol +
@@ -152,6 +199,11 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 				", id='" + id + '\'' +
 				", modelYear=" + modelYear +
 				", statCode='" + statCode + '\'' +
+				", oldStatCode='" + oldStatCode + '\'' +
+				", biLiabilitySymbol='" + biLiabilitySymbol + '\'' +
+				", pdLiabilitySymbol='" + pdLiabilitySymbol + '\'' +
+				", mpLiabilitySymbol='" + mpLiabilitySymbol + '\'' +
+				", umLiabilitySymbol='" + umLiabilitySymbol + '\'' +
 				", address=" + address +
 				'}';
 	}

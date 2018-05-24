@@ -3,7 +3,6 @@
 package aaa.admin.modules.commission.commissionstrategy.commissionstrategy_gb.defaulttabs;
 
 import org.openqa.selenium.By;
-
 import aaa.admin.metadata.commission.CommissionMetaData.AddGBCommissionRule;
 import aaa.common.DefaultTab;
 import aaa.common.Tab;
@@ -34,7 +33,8 @@ public class AddGBCommissionRuleTab extends DefaultTab {
         super(AddGBCommissionRule.AddCommissionRule.class);
     }
 
-    public Tab fillTab(final TestData td) {
+    @Override
+    public Tab fillTab(TestData td) {
         assetList = new MultiAssetList(By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER), metaDataClass) {
             @Override
             protected void addSection(int index, int size) {
