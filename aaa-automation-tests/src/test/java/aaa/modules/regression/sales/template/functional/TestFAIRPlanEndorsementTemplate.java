@@ -503,7 +503,10 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyType.get().initiate();
 		policyType.get().getDefaultView().fillUpTo(tdWithFAIRPlanEndorsement, PremiumsAndCoveragesQuoteTab.class, true);
 		premiumsAndCoveragesQuoteTab.saveAndExit();
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		policyType.get().quoteDocGen().start();
+
+		//TODO-mstrazds:valdiate that Central Print is disabled
 
 		policyDocGenActionTab.verify.documentsPresent(true, fairPlanEndorsementInODDTab);
 		policyDocGenActionTab.verify.documentsEnabled(true, fairPlanEndorsementInODDTab);
@@ -511,6 +514,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyDocGenActionTab.generateDocuments(DocGenEnum.DeliveryMethod.LOCAL_PRINT, fairPlanEndorsementInODDTab);
 
 		//TODO-mstrazds:validate that docuemnt is generated in xml
+		validateDocumentIsGeneratedInPackage(policyNumber, ADHOC_DOC_ON_DEMAND_GENERATE);
 
 		//assertThat(policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).getAllValues())
 		//policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).
