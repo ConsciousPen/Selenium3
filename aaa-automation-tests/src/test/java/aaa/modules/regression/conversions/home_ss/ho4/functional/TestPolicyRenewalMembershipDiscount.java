@@ -1,5 +1,6 @@
 package aaa.modules.regression.conversions.home_ss.ho4.functional;
 
+import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -13,6 +14,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO4BaseTest;
+import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
@@ -23,9 +25,7 @@ import toolkit.utils.TestInfo;
 
 import java.time.LocalDateTime;
 
-import static junit.framework.TestCase.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertFalse;
 
 /**
  * @author S. Jaraminas
@@ -54,6 +54,7 @@ public class TestPolicyRenewalMembershipDiscount extends HomeSSHO4BaseTest {
     TestData td;
 
     @Parameters({"state"})
+    @StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.NJ, Constants.States.AZ})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO4, testCaseId = "PAS-10453")
     public void pas10453_PolicyRenewal(@Optional("NJ") String state) {
