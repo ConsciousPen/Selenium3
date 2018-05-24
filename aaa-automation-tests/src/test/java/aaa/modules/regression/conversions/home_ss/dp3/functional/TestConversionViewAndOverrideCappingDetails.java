@@ -1,13 +1,6 @@
 package aaa.modules.regression.conversions.home_ss.dp3.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.product.PolicyHelper;
@@ -17,8 +10,19 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.modules.policy.HomeSSDP3BaseTest;
+import aaa.utils.StateList;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
  * @author R. Kazlauskiene
@@ -41,6 +45,7 @@ import toolkit.utils.TestInfo;
 public class TestConversionViewAndOverrideCappingDetails extends HomeSSDP3BaseTest {
 
     @Parameters({"state"})
+    @StateList(states = {Constants.States.AZ, Constants.States.DE, Constants.States.MD,Constants.States.NJ, Constants.States.PA, Constants.States.VA})
     @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_DP3, testCaseId = "PAS-3002")
     public void testPolicyViewCappingDetails(@Optional("VA") String state) {
