@@ -1192,6 +1192,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			eValueStatusCheck(softly, responsePolicyPending, state, "NOTENROLLED");
 			assertThat(responsePolicyPending.actualAmt).isEqualTo(actualPremium);
 			assertThat(responsePolicyPending.termPremium).isEqualTo(totalPremium);
+			//BUG PAS-14396 PolicySummaryService doesnt return ResidentialAddress when renewal exists
 			softly.assertThat(responsePolicyPending.residentialAddress.postalCode).isEqualTo(zipCode1);
 			softly.assertThat(responsePolicyPending.residentialAddress.addressLine1).isEqualTo(address1);
 			softly.assertThat(responsePolicyPending.residentialAddress.city).isEqualTo(city1);
@@ -1433,6 +1434,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			eValueStatusCheck(softly, responsePolicyActive, state, "ACTIVE");
 			softly.assertThat(responsePolicyActive.actualAmt).isEqualTo(totalPremium);
 			softly.assertThat(responsePolicyActive.termPremium).isEqualTo(actualPremium);
+			//BUG  PAS-14396 PolicySummaryService doesnt return ResidentialAddress when renewal exists
 			softly.assertThat(responsePolicyActive.residentialAddress.postalCode).isEqualTo(zipCode1);
 			softly.assertThat(responsePolicyActive.residentialAddress.addressLine1).isEqualTo(address1);
 			softly.assertThat(responsePolicyActive.residentialAddress.city).isEqualTo(city1);
@@ -1692,6 +1694,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		ViewVehicleResponse viewEndorsementVehicleResponse2 = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
 		assertThat(viewEndorsementVehicleResponse2.canAddVehicle).isEqualTo(true);
+		List<Vehicle> sortedVehicles1 = viewEndorsementVehicleResponse2.vehicleList;
+		sortedVehicles1.sort(Vehicle.PENDING_ENDORSEMENT_COMPARATOR);
 		String vehicleOid1 = viewEndorsementVehicleResponse2.vehicleList.get(0).oid;
 		String vehicleOid2 = viewEndorsementVehicleResponse2.vehicleList.get(1).oid;
 
@@ -3507,8 +3511,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//PAS-13252 end
 
 		//View endorsement vehicles
-		//Vehicle[] viewEndorsementVehicleResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
-
 		ViewVehicleResponse viewEndorsementVehicleResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
 		assertThat(viewEndorsementVehicleResponse.canAddVehicle).isEqualTo(true);
 
@@ -3524,7 +3526,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		assertThat(driverOid.equals(originalDriver)).isTrue();
 
 		//View driver assignment if VA
-		if ("VA".equals(state)) {
+		if ("VA, NY, CA".contains(state)) {
 			DriverAssignmentDto[] responseDriverAssignment = HelperCommon.pendedEndorsementDriverAssignmentInfo(policyNumber);
 			softly.assertThat(responseDriverAssignment[0].vehicleOid).isEqualTo(originalVehicle);
 			softly.assertThat(responseDriverAssignment[0].driverOid).isEqualTo(driverOid);
@@ -3592,7 +3594,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	protected void pas11618_UpdateVehicleLeasedFinancedInfoBody(SoftAssertions softly, String ownershipType) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
-		//String policyNumber = "VASS952918548";
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
@@ -3704,6 +3705,27 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		softly.assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+
+
+		AAAEndorseResponse response2 = HelperCommon.executeEndorseStart(policyNumber, endorsementDate);
+		assertThat(response2.policyNumber).isEqualTo(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		VehicleUpdateDto updateVehicleOwned = new VehicleUpdateDto();
+		updateVehicleOwned.vehicleOwnership = new VehicleOwnership();
+		updateVehicleOwned.vehicleOwnership.ownership = "OWN";
+		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleOwned);
+
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		VehicleTab.tableVehicleList.selectRow(2);
+		//BUG PAS-14395 Update Vehicle service failed to update ownership
+		softly.assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.OWNERSHIP_TYPE).getValue()).isEqualTo("Owned");
+		mainApp().close();
+
+		endorsementRateAndBind(policyNumber);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);

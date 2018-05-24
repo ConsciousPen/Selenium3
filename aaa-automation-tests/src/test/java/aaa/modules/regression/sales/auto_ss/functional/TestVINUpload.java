@@ -14,7 +14,6 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -683,10 +682,10 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	 * <p>
 	 * PAS-11659 Renewal Refresh: address scenario when refreshed version is not made "current" (renewal refresh only between R-45 and R-25)
 	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
-	 * @scenario
+	 * @scenario: Automated Renewal Image Is Created and Proposed at R-26 (UT)
 	 * 0. Retrieve active policy with no vn match
-	 * 2. Move time to R-25, create a renewal version and verify Vin Data Does NOT Refresh
-
+	 * 1. Move time to R-26, create and propose a renewal version
+	 * 2. Move time to R-25, verify Vin Data Does NOT Refresh
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -874,7 +873,10 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN5,"SYMBOL_2000");
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN6,"SYMBOL_2000");
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN7,"SYMBOL_2000");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN8,"SYMBOL_2000");
 		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_SS);
+		DBService.get().executeUpdate(VehicleQueries.REPAIR_7MSRP15H_COMP);
+		DBService.get().executeUpdate(VehicleQueries.REPAIR_7MSRP15H_COLL);
 		DBService.get().executeUpdate(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE);
 	}
 }
