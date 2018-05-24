@@ -5,6 +5,7 @@ import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLForm;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -22,9 +23,16 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0420DataFunction = (openLPolicy, policyLevel) -> {
 		List<TestData> tdList = new ArrayList<>();
-		tdList.add(DataProviderFactory.dataOf(
-				"Action", isFormAdded("HS0420", policyLevel) ? "Edit" : "Add",
-				HomeSSMetaData.EndorsementTab.EndorsementHS0420.AMOUNT_OF_INSURANCE.getLabel(), openLPolicy.getForms().stream().filter(c -> "HS0420".equals(c.getFormCode())).findFirst().get().getCovPercentage() + "%"));
+		if (Constants.States.WV.equals(openLPolicy.getPolicyAddress().getState()) && "Heritage".equals(policyLevel)) {
+			tdList.add(DataProviderFactory.dataOf(
+					"Action", "Add",
+					HomeSSMetaData.EndorsementTab.EndorsementHS0420.AMOUNT_OF_INSURANCE.getLabel(), openLPolicy.getForms().stream().filter(c -> "HS0420".equals(c.getFormCode())).findFirst().get().getCovPercentage() + "%"));
+
+		} else {
+			tdList.add(DataProviderFactory.dataOf(
+					"Action", isFormAdded("HS0420", policyLevel) ? "Edit" : "Add",
+					HomeSSMetaData.EndorsementTab.EndorsementHS0420.AMOUNT_OF_INSURANCE.getLabel(), openLPolicy.getForms().stream().filter(c -> "HS0420".equals(c.getFormCode())).findFirst().get().getCovPercentage() + "%"));
+		}
 		return tdList;
 	};
 
@@ -155,6 +163,9 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 		for (HomeSSOpenLForm form : openLPolicy.getForms()) {
 			if ("HS0465".equals(form.getFormCode())) {
 				switch (form.getType()) {
+					case "Firearms":
+						td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0465.LOSS_OF_FIREARMS.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]);
+						break;
 					case "Money":
 						if ("Heritage".equals(policyLevel)) {
 							td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0465.MONEY_AND_BANK_NOTES.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]);
