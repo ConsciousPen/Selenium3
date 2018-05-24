@@ -1662,8 +1662,8 @@ public final class HomeCaMetaData {
 			public static final AssetDescriptor<RadioGroup> FAIR_PLAN_COMPANION_ENDORSEMENT_CALIFORNIA = declare("Fair Plan Companion Endorsement - California", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> SIGNED_POLICY_APPLICATION = declare("Signed policy application", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> AUTOPAY_AUTHORIZATION_FORM = declare("AutoPay Authorization Form", RadioGroup.class, Waiters.AJAX);
-			public static final AssetDescriptor<RadioGroup> FPCECA = declare("Fair Plan Companion Endorsement - California", RadioGroup.class, Waiters.AJAX);
-			public static final AssetDescriptor<RadioGroup> FPCECADP = declare("Fair Plan Companion Endorsement - California", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<RadioGroup> FPCECA = declare("FAIR Plan Companion Endorsement - California", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<RadioGroup> FPCECADP = declare("FAIR Plan Companion Endorsement - California", RadioGroup.class, Waiters.AJAX);
 		}
 	}
 

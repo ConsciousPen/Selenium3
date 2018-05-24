@@ -143,19 +143,19 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         return in_td;
     }
 
-    public static void moveJVMToDateAndRunRenewalJobs(LocalDateTime desiredJVMLocalDateTime)
+    public static void moveJVMToDateAndRunRenewalJobs(LocalDateTime desiredJVMLocalDateTime, int whichPartToRun)
     {
-        LocalDateTime policyCreationDate = TimeSetterUtil.getInstance().getCurrentTime();
-        printToDebugLog(" -- Current Date = " + policyCreationDate + ". Moving JVM to input time = "
+        printToDebugLog(" -- Current Date = " + TimeSetterUtil.getInstance().getCurrentTime() + ". Moving JVM to input time = "
                 + desiredJVMLocalDateTime.toString() + " -- ");
 
         // Advance JVM to Generate Renewal Image.
         TimeSetterUtil.getInstance().nextPhase(desiredJVMLocalDateTime);
         printToDebugLog("Current Date is now = " + TimeSetterUtil.getInstance().getCurrentTime());
 
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+        if (whichPartToRun == 1)
+            JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+        if (whichPartToRun == 2)
+            JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
         printToDebugLog(" -- Renewal Offer Generation Jobs Completed -- ");
     }

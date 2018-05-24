@@ -8,13 +8,14 @@ import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
+import aaa.modules.regression.sales.template.AbstractFAIRPlanTestMethods;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-public class TestCAFairPlanCanItBind extends HomeCaHO3BaseTest {
+public class TestCAFairPlanCanItBind extends AbstractFAIRPlanTestMethods {
     static TestData DEFAULTPOLICYDATA;
     static HelperCommon myHelper;
 
@@ -48,43 +49,23 @@ public class TestCAFairPlanCanItBind extends HomeCaHO3BaseTest {
         // Assemble Test Data
         defaultPolicyData = myHelper.adjustApplicantAndReportsTD(defaultPolicyData, applicantTabTD, reportsTabTD);
 
-        // Open App, Create Customer and Initiate Quote
-        mainApp().open();
-        createCustomerIndividual();
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(defaultPolicyData, tabClassTo1, false);
+        initiateHO3Quote(defaultPolicyData, tabClassTo1);
 
         // Click FPCECA Endorsement
         myHelper.addFAIRPlanEndorsement("ho3");
 
-        // Continue Fill Until Documents Tab.
-        policy.getDefaultView().fillFromTo(defaultPolicyData, tabClassTo1, tabClassTo2, true);
-        // Sign Document
-        new DocumentsTab().getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FPCECA).setValue("Physically Signed");
-        policy.getDefaultView().fillFromTo(defaultPolicyData, tabClassTo2, PurchaseTab.class, true);
-        new PurchaseTab().submitTab();
+        completeFillAndVerifySignature(defaultPolicyData, tabClassTo1, tabClassTo2, "ho3");
     }
 
     private void performTest(String applicantTabTD, String reportsTabTD, String propInfoTD, TestData defaultPolicyData, Class<? extends Tab> tabClassTo1, Class<? extends Tab> tabClassTo2) {
         // Assemble Test Data
         defaultPolicyData = myHelper.adjustApplicantReportsAndPropInfoTD(defaultPolicyData, applicantTabTD, reportsTabTD, propInfoTD);
 
-        // Open App, Create Customer and Initiate Quote
-        mainApp().open();
-        createCustomerIndividual();
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(defaultPolicyData, tabClassTo1, false);
+        initiateHO3Quote(defaultPolicyData, tabClassTo1);
 
         // Click FPCECA Endorsement
         myHelper.addFAIRPlanEndorsement("ho3");
 
-        // Continue Fill Until Documents Tab.
-        policy.getDefaultView().fillFromTo(defaultPolicyData, tabClassTo1, tabClassTo2, true);
-        // Sign Document
-        new DocumentsTab().getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FPCECA).setValue("Physically Signed");
-        policy.getDefaultView().fillFromTo(defaultPolicyData, tabClassTo2, PurchaseTab.class, true);
-        new PurchaseTab().submitTab();
+        completeFillAndVerifySignature(defaultPolicyData, tabClassTo1, tabClassTo2, "ho3");
     }
-
-
 }

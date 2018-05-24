@@ -11,8 +11,10 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaDP3BaseTest;
 import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
+import aaa.modules.regression.sales.template.AbstractFAIRPlanTestMethods;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -29,7 +31,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
  * @author Tyrone C Jemison
  * @name Test CA Fair Plan Companion
  */
-public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
+public class TestCAFairPlanCompanion extends AbstractFAIRPlanTestMethods {
     // Class Variables
     TestData defaultPolicyData;
     TestData ho3TestData;
@@ -50,20 +52,10 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
     public void AC1AC4_Quote_VisibleFPCECADP(@Optional("") String state) {
 
-        // Must adjust DP3 Data on Applicant Tab.
-        defaultPolicyData = getPolicyTD();
-        TestData adjustedDP3ApplicantData = getTestSpecificTD("ApplicantTab_DP3").resolveLinks();
-        TestData adjustedDP3ReportsData = getTestSpecificTD("ReportsTab_DP3").resolveLinks();
-        defaultPolicyData.adjust(ApplicantTab.class.getSimpleName(), adjustedDP3ApplicantData);
-        defaultPolicyData.adjust(ReportsTab.class.getSimpleName(), adjustedDP3ReportsData);
-        ho3TestData = getTestSpecificTD("HO3PolicyData");
+        defaultPolicyData = adjustDP3TestData(defaultPolicyData);
+        setupHO3policy(ho3TestData);
 
-        // Open App, Create Customer and Initiate Quote
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy(ho3TestData);
-
-        // After Creating HO3 Policy, Begin DP3.
+        // After Creating HO3 Policy, Begin DP3 Quote.
         policy.initiate();
         policy.getDefaultView().fillUpTo(defaultPolicyData, EndorsementTab.class, false);
 
@@ -72,7 +64,7 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
 
         // Verify FPCECA now present on Documents Tab & Quote Tab
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-        myHelper.verifySelectedEndorsementsPresent(PremiumsAndCoveragesQuoteTab.tableEndorsementForms, PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, "FPCECADP");
+        verifyEndorsementAvailable("dp3");
 
         // Verify Document Tab populates Endorsement
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
@@ -96,24 +88,13 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
 
         TestData endorsementTestData = getTestSpecificTD("Endorsement_AC2AC5").resolveLinks();
 
-        // Must adjust DP3 Data on Applicant Tab.
-        defaultPolicyData = getPolicyTD();
-        TestData adjustedDP3ApplicantData = getTestSpecificTD("ApplicantTab_DP3").resolveLinks();
-        TestData adjustedDP3ReportsData = getTestSpecificTD("ReportsTab_DP3").resolveLinks();
-        defaultPolicyData.adjust(ApplicantTab.class.getSimpleName(), adjustedDP3ApplicantData);
-        defaultPolicyData.adjust(ReportsTab.class.getSimpleName(), adjustedDP3ReportsData);
-        ho3TestData = getTestSpecificTD("HO3PolicyData");
-
-        // Open App, Create Customer and Initiate Quote
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy(ho3TestData);
-
+        defaultPolicyData = adjustDP3TestData(defaultPolicyData);
+        setupHO3policy(ho3TestData);
         createPolicy(defaultPolicyData);
 
         policy.endorse().perform(endorsementTestData.adjust(getPolicyTD("Endorsement", "TestData")));
         policy.getDefaultView().fillUpTo(endorsementTestData, EndorsementTab.class, false);
-        myHelper.verifySelectedEndorsementsPresent(PremiumsAndCoveragesQuoteTab.tableEndorsementForms, PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, "FPCECADP");
+        verifyEndorsementAvailable("dp3");
 
         // Click FPCECADP Endorsement
         myHelper.addFAIRPlanEndorsement("dp3");
@@ -128,53 +109,19 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
      * 5. Retrieve Renewal Image
      * 6. Observe FPCECA is visible.
      * @param state
+     * @Runtime - 16min
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
     public void AC3_Renewal_VisibleFPCECA(@Optional("") String state) {
 
-        // Must adjust DP3 Data on Applicant Tab.
-        defaultPolicyData = getPolicyTD();
-        TestData adjustedDP3ApplicantData = getTestSpecificTD("ApplicantTab_DP3").resolveLinks();
-        TestData adjustedDP3ReportsData = getTestSpecificTD("ReportsTab_DP3").resolveLinks();
-        defaultPolicyData.adjust(ApplicantTab.class.getSimpleName(), adjustedDP3ApplicantData);
-        defaultPolicyData.adjust(ReportsTab.class.getSimpleName(), adjustedDP3ReportsData);
-        ho3TestData = getTestSpecificTD("HO3PolicyData");
-
-        // Open App, Create Customer and Initiate Quote
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy(ho3TestData);
-
+        defaultPolicyData = adjustDP3TestData(defaultPolicyData);
+        setupHO3policy(ho3TestData);
         createPolicy(defaultPolicyData);
 
-        // Open App, Create Customer and Policy.
-        mainApp().open();
-        createCustomerIndividual();
-        String policyNumber = myHelper.createCustomerPolicyReturnPN(getCustomerIndividualTD("DataGather","TestData"), defaultPolicyData);
-        mainApp().close();
+        handleRenewalTesting(defaultPolicyData);
 
-        // Determine Time Values
-        LocalDateTime policyCreationDate = TimeSetterUtil.getInstance().getCurrentTime();
-        LocalDateTime policyExpirationDate  = policyCreationDate.plusYears(1);
-        LocalDateTime timePoint1 = policyExpirationDate.minusDays(73);
-        LocalDateTime timePoint2 = policyExpirationDate.minusDays(59);
-
-        // Move JVM to TP1 (R-73) & run Renewal jobs
-        myHelper.moveJVMToDateAndRunRenewalJobs(timePoint1);
-        // Move JVM to TP2 (R-59) & run Renewal jobs
-        myHelper.moveJVMToDateAndRunRenewalJobs(timePoint2);
-
-        // Open App, get renewal image.
-        mainApp().open();
-        SearchPage.openPolicy(policyNumber);
-
-        policy.renew().start().submit();
-        policy.getDefaultView().fillUpTo(getTestSpecificTD("Renewal_AC3"), EndorsementTab.class, false);
-
-        // Click FPCECADP Endorsement
         myHelper.addFAIRPlanEndorsement("dp3");
-
     }
 }

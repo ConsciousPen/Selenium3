@@ -2,39 +2,28 @@ package aaa.modules.regression.sales.home_ca.ho3;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import aaa.common.pages.Page;
-import aaa.common.pages.SearchPage;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.HomeCaMetaData;
-import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.DocumentsTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.modules.regression.sales.template.AbstractFAIRPlanTestMethods;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.composite.table.Table;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
 
 /**
  * @author Tyrone C Jemison
  * @name Test CA Fair Plan Companion
  */
-public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
+public class TestCAFairPlanCompanion extends AbstractFAIRPlanTestMethods {
     // Class Variables
     TestData defaultPolicyData;
     HelperCommon myHelper = new HelperCommon();
@@ -64,7 +53,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
 
         // Verify FPCECA now present on Documents Tab & Quote Tab
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-        myHelper.verifySelectedEndorsementsPresent(PremiumsAndCoveragesQuoteTab.tableEndorsementForms, PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, "FPCECA");
+        verifyEndorsementAvailable("ho3");
 
         // Verify Document Tab populates Endorsement
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
@@ -95,7 +84,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
         createPolicy(defaultPolicyData);
         policy.endorse().perform(endorsementTestData.adjust(getPolicyTD("Endorsement", "TestData")));
         policy.getDefaultView().fillUpTo(endorsementTestData, EndorsementTab.class, false);
-        myHelper.verifySelectedEndorsementsPresent(PremiumsAndCoveragesQuoteTab.tableEndorsementForms, PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, "FPCECA");
+        verifyEndorsementAvailable("ho3");
 
         // Click FPCECA Endorsement
         myHelper.addFAIRPlanEndorsement("ho3");
@@ -116,32 +105,9 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
     public void AC3_Renewal_VisibleFPCECA(@Optional("") String state) {
 
-        defaultPolicyData = getPolicyTD();
+        handleRenewalTesting(getPolicyTD());
 
-        // Open App, Create Customer and Policy.
-        mainApp().open();
-        createCustomerIndividual();
-        String policyNumber = myHelper.createCustomerPolicyReturnPN(getCustomerIndividualTD("DataGather","TestData"), defaultPolicyData);
-        mainApp().close();
-
-        // Determine Time Values
-        LocalDateTime policyCreationDate = TimeSetterUtil.getInstance().getCurrentTime();
-        LocalDateTime policyExpirationDate  = policyCreationDate.plusYears(1);
-        LocalDateTime timePoint1 = policyExpirationDate.minusDays(73);
-        LocalDateTime timePoint2 = policyExpirationDate.minusDays(59);
-
-        // Move JVM to TP1 (R-73) & run Renewal jobs
-        myHelper.moveJVMToDateAndRunRenewalJobs(timePoint1);
-        // Move JVM to TP2 (R-59) & run Renewal jobs
-        myHelper.moveJVMToDateAndRunRenewalJobs(timePoint2);
-
-        // Open App, get renewal image.
-        mainApp().open();
-        SearchPage.openPolicy(policyNumber);
-
-        policy.renew().start().submit();
-        policy.getDefaultView().fillUpTo(getTestSpecificTD("Renewal_AC3"), EndorsementTab.class, false);
-        myHelper.verifySelectedEndorsementsPresent(PremiumsAndCoveragesQuoteTab.tableEndorsementForms, PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, "FPCECA");
+        verifyEndorsementAvailable("ho3");
 
         // Click FPCECA Endorsement
         myHelper.addFAIRPlanEndorsement("ho3");
