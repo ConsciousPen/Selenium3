@@ -18,8 +18,9 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 
 	private String formIdInXml = DocGenEnum.Documents.FPCECA.getIdInXml();
 	private String fairPlanEndorsementLabelInEndorsementTab = HomeCaMetaData.EndorsementTab.FPCECA.getLabel();
+	private DocGenEnum.Documents fairPlanEndorsementInODDTab = DocGenEnum.Documents.FPCECA;
 
-	private TestFAIRPlanEndorsementTemplate testFAIRPlanEndorsementTemplate = new TestFAIRPlanEndorsementTemplate(getPolicyType(), formIdInXml, fairPlanEndorsementLabelInEndorsementTab);
+	private TestFAIRPlanEndorsementTemplate testFAIRPlanEndorsementTemplate = new TestFAIRPlanEndorsementTemplate(getPolicyType(), formIdInXml, fairPlanEndorsementLabelInEndorsementTab, fairPlanEndorsementInODDTab);
 
 	///AC#1, AC#4
 
@@ -349,7 +350,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership Override - PAS-13216 All ACs, (New Business)
+	 * @name PAS-13216 All ACs, (New Business)
 	 * @scenario
 	 * 1. Create Customer.
 	 * 2. Initiate CA HO3 Quote. (don't add FAIR plan Endorsement)
@@ -376,7 +377,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership Override - PAS-13216 All ACs, (Endorsement)
+	 * @name PAS-13216 All ACs, (Endorsement)
 	 * @scenario
 	 * 1. Create Customer
 	 * 2. Create CA HO3 Policy. (don't add FAIR plan Endorsement)
@@ -404,7 +405,7 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership Override - PAS-13216 All ACs, (Renewal)
+	 * @name PAS-13216 All ACs, (Renewal)
 	 * @scenario
 	 * 1. Create Customer.
 	 * 2. Create CA HO3 Policy. (don't add FAIR plan Endorsement)
@@ -428,6 +429,96 @@ public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 	public void pas13216_All_ACs_Renewal(@Optional("") String state) {
 		testFAIRPlanEndorsementTemplate.pas13216_All_ACs_Renewal();
 	}
+
+	////////////Start PAS-14004////////////////
+
+	/**
+	 * @author Maris Strazds
+	 * @name Verify FPCECA/FPCECADP document is available for printing in On-Demand Documents tab for Quote, if FAIR Plan Endorsement IS added
+	 * @scenario
+	 *1. Initiate CA HO3/DP3 quote
+	 *2. Fill all details, add FAIR Plan Endorsement
+	 *3. Caluclate Premium
+	 *4. Save & Exit the quote
+	 *5. Navigate to ODD page
+	 *6. Validate that FPCECA/FPCECADP document IS available for printing
+	 *7. Validate that the 'Central Print' option for the FPCECA/FPCECAD document is disabled
+	 *8. Select FPCECA/FPCECAD form and generate document
+	 *9. Validate that FPCECA/FPCECAD document is generated in XML
+	 * @details
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "PAS-12925 FAIR Plan Endorsement (formerly known as Difference in Conditions)")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14004")
+
+	public void pas14004_AC1_AC2_Quote(@Optional("") String state) {
+		TestData tdWithFAIRPlanEndorsement = getPolicyDefaultTD().adjust(EndorsementTab.class.getSimpleName(), getTestSpecificTD("EndorsementTab_Add"));
+		tdWithFAIRPlanEndorsement.adjust(DocumentsTab.class.getSimpleName(), getTestSpecificTD("DocumentsTab_SignFairPlanEndorsement"));
+		testFAIRPlanEndorsementTemplate.pas14004_AC1_AC2_Quote(tdWithFAIRPlanEndorsement);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Verify FPCECA/FPCECADP document is not available for printing in On-Demand Documents tab for Quote, if FAIR Plan Endorsement IS NOT added
+	 * @scenario
+	 *1. Initiate CA HO3/DP3 quote
+	 *2. Fill all details, do not add FAIR Plan Endorsement
+	 *3. Caluclate Premium
+	 *4. Save & Exit the quote
+	 *5. Navigate to ODD page
+	 *6. Validate that FPCECA/FPCECADP document IS NOT available for printing
+	 * @details
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "PAS-12925 FAIR Plan Endorsement (formerly known as Difference in Conditions)")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14004")
+
+	public void pas14004_AC1_AC2_Quote_negative(@Optional("") String state) {
+		testFAIRPlanEndorsementTemplate.pas14004_AC1_AC2_Quote_negative();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name VVerify FPCECA/FPCECADP document is available for printing in On-Demand Documents tab for Policy, if FAIR Plan Endorsement IS added
+	 * @scenario
+	 *1. Create CA HO3/DP3 Policy with FAIR Plan Endorsement
+	 *2. Navigate to ODD page
+	 *3. Validate that FPCECA/FPCECADP document IS available for printing
+	 *4. Validate that the 'Central Print' option for the FPCECA/FPCECAD document is disabled
+	 *5. Select FPCECA/FPCECAD form and generate document
+	 *6. Validate that FPCECA/FPCECAD document is generated in XML
+	 * @details
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "PAS-12925 FAIR Plan Endorsement (formerly known as Difference in Conditions)")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14004")
+
+	public void pas14004_AC1_AC2_Policy(@Optional("") String state) {
+		TestData tdWithFAIRPlanEndorsement = getPolicyDefaultTD().adjust(EndorsementTab.class.getSimpleName(), getTestSpecificTD("EndorsementTab_Add"));
+		tdWithFAIRPlanEndorsement.adjust(DocumentsTab.class.getSimpleName(), getTestSpecificTD("DocumentsTab_SignFairPlanEndorsement"));
+		testFAIRPlanEndorsementTemplate.pas14004_AC1_AC2_Policy(tdWithFAIRPlanEndorsement);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Verify FPCECA/FPCECADP document is not available for printing in On-Demand Documents tab for Policy, if FAIR Plan Endorsement IS NOT added
+	 * @scenario
+	 *1. Initiate CA HO3/DP3 quote
+	 *2. Fill all details, do not add FAIR Plan Endorsement
+	 *3. Caluclate Premium
+	 *4. Save & Exit the quote
+	 *5. Navigate to ODD page
+	 *6. Validate that FPCECA/FPCECADP document IS NOT available for printing
+	 * @details
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "PAS-12925 FAIR Plan Endorsement (formerly known as Difference in Conditions)")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14004")
+
+	public void pas14004_AC1_AC2_Policy_negative(@Optional("") String state) {
+		testFAIRPlanEndorsementTemplate.pas14004_AC1_AC2_Policy_negative();
+	}
+	////////////End PAS-14004////////////////
 
 }
 

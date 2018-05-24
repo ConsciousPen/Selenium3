@@ -16,12 +16,10 @@ import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.xml.model.Document;
-import aaa.main.enums.ErrorEnum;
-import aaa.main.enums.MyWorkConstants;
-import aaa.main.enums.ProductConstants;
-import aaa.main.enums.SearchEnum;
+import aaa.main.enums.*;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.home_ca.actiontabs.PolicyDocGenActionTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.main.pages.summary.MyWorkSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -40,6 +38,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 	private PurchaseTab purchaseTab = new PurchaseTab();
 	private ErrorTab errorTab = new ErrorTab();
 	private PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
+	private PolicyDocGenActionTab policyDocGenActionTab = new PolicyDocGenActionTab();
 
 	private static final String ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT = "Wood burning stoves as the sole source of heat are ineligible.";
 	private static final String ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR = "Dwellings with a wood burning stove without at least one smoke detector insta";
@@ -47,13 +46,15 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 	private String formIdInXml;
 	private String fairPlanEndorsementLabelInEndorsementTab;
 	private PolicyType policyType;
+	private DocGenEnum.Documents fairPlanEndorsementInODDTab;
 
 	private TestFAIRPlanEndorsementTemplate() {}
 
-	public TestFAIRPlanEndorsementTemplate(PolicyType policyType, String formIdInXml, String fairPlanEndorsementLabelInEndorsementTab) {
+	public TestFAIRPlanEndorsementTemplate(PolicyType policyType, String formIdInXml, String fairPlanEndorsementLabelInEndorsementTab, DocGenEnum.Documents fairPlanEndorsementInODDTab) {
 		this.policyType = policyType;
 		this.formIdInXml = formIdInXml;
 		this.fairPlanEndorsementLabelInEndorsementTab = fairPlanEndorsementLabelInEndorsementTab;
+		this.fairPlanEndorsementInODDTab = fairPlanEndorsementInODDTab;
 	}
 
 	@Override
@@ -493,6 +494,39 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
 		stoveQuestionValidationSteps();
 	}
+
+	/////////////Start PAS-14004////////////////
+	public void pas14004_AC1_AC2_Quote(TestData tdWithFAIRPlanEndorsement) {
+		mainApp().open();
+		createCustomerIndividual();
+
+		policyType.get().initiate();
+		policyType.get().getDefaultView().fillUpTo(tdWithFAIRPlanEndorsement, PremiumsAndCoveragesQuoteTab.class, true);
+		premiumsAndCoveragesQuoteTab.saveAndExit();
+		policyType.get().quoteDocGen().start();
+		policyDocGenActionTab.verify.documentsPresent(true, fairPlanEndorsementInODDTab);
+
+		//assertThat(policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).getAllValues())
+		//policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).
+		//policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).
+
+
+
+
+	}
+
+	public void pas14004_AC1_AC2_Quote_negative() {
+
+	}
+
+	public void pas14004_AC1_AC2_Policy(TestData tdWithFAIRPlanEndorsement) {
+
+	}
+
+	public void pas14004_AC1_AC2_Policy_negative() {
+
+	}
+	////////////End PAS-14004////////////////
 
 	private void validateSmokeDetectorQuestion(boolean ruleShouldFire) {
 		fillStovesSection("Yes", "No", "Yes", "Yes");
