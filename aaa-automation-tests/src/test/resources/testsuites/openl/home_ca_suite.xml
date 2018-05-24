@@ -30,8 +30,8 @@
     <test name="Home CA HO4 Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="CA"/>
         <parameter name="fileName" value="HO4Tests_eff_01012018.xls"/>
-        <!-- parameter name="policyNumbers" value="3864, 3865, 3866, 3867, 3868, 3869, 3870, 3871, 3872, 3873"/ -->
-        <parameter name="policyNumbers" value="3863"/>
+        <!-- parameter name="policyNumbers" value="5840, 5841, 6833, 9713, 9725, 9865, 11389, 11429, 11454, 11461, 11477"/ -->
+        <parameter name="policyNumbers" value="5840, 11350"/>
         <classes>
             <class name="aaa.modules.openl.HomeCaHO4PremiumCalculationTest"/>
         </classes>

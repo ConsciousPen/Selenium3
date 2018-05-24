@@ -65,6 +65,7 @@
                     <include name="pas297_MidTermOptInNotificationToAgentAboutPaperlessPreferences"/>
                     <include name="pas295_autopayKeepValueMessage"/>
                     <include name="pas281_eValueIssuedWithDebitCard"/>
+                    <include name="pas321_eValueAtRenewalOrMidtermNoAutopay"/>
                 </methods>
             </class>
         </classes>

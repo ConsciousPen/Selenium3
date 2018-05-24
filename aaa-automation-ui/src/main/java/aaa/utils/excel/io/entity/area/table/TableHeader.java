@@ -35,6 +35,7 @@ public class TableHeader extends TableRow {
 	public String toString() {
 		return "TableHeader{" +
 				"sheetName=" + getSheetName() +
+				", headerRowIndexOnSheet=" + getIndexOnSheet() +
 				", headerColumns=" + getColumnsNames() +
 				", columnsNumber=" + getCellsNumber() +
 				'}';

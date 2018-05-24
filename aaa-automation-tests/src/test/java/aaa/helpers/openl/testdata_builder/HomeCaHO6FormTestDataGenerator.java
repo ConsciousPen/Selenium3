@@ -181,7 +181,9 @@ public class HomeCaHO6FormTestDataGenerator {
 	};
 
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHO0455DataFunction = openLPolicy -> {
-		return null;
+		List<TestData> tdList = new ArrayList<>();
+		tdList.add(DataProviderFactory.dataOf("Action", "Add"));
+		return tdList;
 	};
 
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHO1732DataFunction = openLPolicy -> {
@@ -191,11 +193,14 @@ public class HomeCaHO6FormTestDataGenerator {
 	};
 
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHO1733DataFunction = openLPolicy -> {
+		//Form HO 17 33 appears and included if Occupancy type = Tenant occupied in Interior section on Property Info tab
 		return null;
 	};
 
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHW0008DataFunction = openLPolicy -> {
-		return null;
+		List<TestData> tdList = new ArrayList<>();
+		tdList.add(DataProviderFactory.dataOf("Action", "Add"));
+		return tdList;
 	};
 
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHW0435DataFunction = openLPolicy -> {
@@ -228,7 +233,9 @@ public class HomeCaHO6FormTestDataGenerator {
 	};
 
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHW0495DataFunction = openLPolicy -> {
-		return null;
+		List<TestData> tdList = new ArrayList<>();
+		tdList.add(DataProviderFactory.dataOf("Action", "Add"));
+		return tdList;
 	};
 
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHW0528DataFunction = openLPolicy -> {
@@ -242,11 +249,16 @@ public class HomeCaHO6FormTestDataGenerator {
 	};
 
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHW0906DataFunction = openLPolicy -> {
-		return null;
+		List<TestData> tdList = new ArrayList<>();
+		tdList.add(DataProviderFactory.dataOf("Action", "Add"));
+		return tdList;
 	};
 
 	private static Function<HomeCaHO6OpenLPolicy, List<TestData>> formHW0934DataFunction = openLPolicy -> {
-		return null;
+		//HW 09 34 appears only when HO-29 added
+		List<TestData> tdList = new ArrayList<>();
+		tdList.add(DataProviderFactory.dataOf("Action", "Add"));
+		return tdList;
 	};
 	
 	
