@@ -18,7 +18,7 @@ import toolkit.webdriver.controls.waiters.Waiter;
 public class AdvancedRadioGroup extends RadioGroup {
 
 	@ClassConfigurator.Configurable
-	private static By rBtnSectionTemplate = By.xpath(".//td[label[contains(.,\"%1$s\")]]");
+	private static By rBtnInputTemplate = By.xpath(".//td[label[contains(.,\"%1$s\")]]/input");
 
 	public AdvancedRadioGroup(By locator) {
 		super(locator);
@@ -107,7 +107,7 @@ public class AdvancedRadioGroup extends RadioGroup {
 	}
 
 	public RadioButton getRadioButton(String radioBtnLabel) {
-		return new RadioButton(new ByChained(this.locator, rBtnSectionTemplate));
+		return new RadioButton(new ByChained(this.locator, rBtnInputTemplate));
 	}
 
 }
