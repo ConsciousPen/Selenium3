@@ -41,7 +41,12 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9723")
 	public void pas9723_MVRPredictorNewBusiness(@Optional("") String state) {
 
-		TestData testData = getPolicyTD();
+		// For exceeding OK threshold (above threshold) you need a driver age x < 27y , driving exp  5< y <15 , male, single
+		TestData testData = getPolicyTD()
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1990")
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Male")
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel()), "Single")
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel()), "18");
 		TestData driverTab = getTestSpecificTD("TestData_DriverTab").resolveLinks();
 
 		// Add 4 Drivers 2 of them with age>83 and Driving exp>62

@@ -3,6 +3,7 @@ TestData_DriverTab: {
   DriverTab: ['@Driver2','@Driver3','@Driver4']
 }
 
+  ######  For exceeding OK threshold you need a driver age x < 27y , driving exp  5< y <15 , male, single. Driver 1 and Driver 4 meets criteria
 Driver2: {
   Add Driver: Click,
   DriverSearchDialog:{},
@@ -41,9 +42,9 @@ Driver4: {
   First Name: Woman4,
   Last Name: LastName3,
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-50y>,
-  Gender: Female,
-  Marital Status: Married,
+  Date of Birth: $<today-26y>,
+  Gender: Male,
+  Marital Status: Single,
   Occupation: Clergy,
   License Type: "Licensed (US)",
   License State: CT,
