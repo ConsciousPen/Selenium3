@@ -4058,14 +4058,78 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			mainApp().open();
 			policyNumber = getCopiedPolicy();
 		} else {
-			if ("AZ".equals(state)) {
-				policyNumber = "AZSS926232005";
-			} else if ("KY".equals(state)) {
-				policyNumber = "KYSS926232030";
+			switch(state){
+				case "AZ":
+					policyNumber = "AZSS926232043";
+					break;
+				case "CO":
+					policyNumber = "COSS926232041";
+					break;
+				case "CT":
+					policyNumber = "CTSS926232046";
+					break;
+				case "DC":
+					policyNumber = "DCSS926232042";
+					break;
+				case "MD":
+					policyNumber = "MDSS926232047";
+					break;
+				case "NJ":
+					policyNumber = "NJSS926232048";
+					break;
+				case "NV":
+					policyNumber = "NVSS926232045";
+					break;
+				case "WV":
+					policyNumber = "WVSS926232044";
+					break;
+				case "WY":
+					policyNumber = "WYSS926232049";
+					break;
+				case "DE":
+					policyNumber = "DESS926232053";
+					break;
+				case "ID":
+					policyNumber = "IDSS926232058";
+					break;
+				case "IN":
+					policyNumber = "INSS926232057";
+					break;
+				case "KS":
+					policyNumber = "KSSS926232056";
+					break;
+				case "KY":
+					policyNumber = "KYSS926232055";
+					break;
+				case "MT":
+					policyNumber = "MTSS926232059";
+					break;
+				case "NY":
+					policyNumber = "NYSS926232052";
+					break;
+				case "OK":
+					policyNumber = "OKSS926232050";
+					break;
+				case "SD":
+					policyNumber = "SDSS926232054";
+					break;
+				case "VA":
+					policyNumber = "VASS926232051";
+					break;
+				case "OH":
+					policyNumber = "OHSS926232062";
+					break;
+				case "OR":
+					policyNumber = "ORSS926232061";
+					break;
+				case "PA":
+					policyNumber = "PASS926232060";
+					break;
+				default:
 			}
 		}
-
 		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
 		//View Policy
 		PolicySummary responseViewPolicy = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
 		softly.assertThat(responseViewPolicy.policyNumber).isEqualTo(policyNumber);
@@ -4094,9 +4158,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(responseValidateEndorse.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
 
 		//Lock the policy
-		PolicyLockUnlockDto responseLock = HelperCommon.executePolicyLockService(policyNumber, Response.Status.OK.getStatusCode(), SESSION_ID_1);
+/*		PolicyLockUnlockDto responseLock = HelperCommon.executePolicyLockService(policyNumber, Response.Status.OK.getStatusCode(), SESSION_ID_1);
 		assertThat(responseLock.policyNumber).isEqualTo(policyNumber);
-		assertThat(responseLock.status).isEqualTo("Locked");
+		assertThat(responseLock.status).isEqualTo("Locked");*/
 
 		//Create pended endorsement
 		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, endorsementDate);
@@ -4138,7 +4202,12 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(updateVehicleGaragingAddressResponse.garagingAddress.addressLine1).isEqualTo(addressGarage);
 		softly.assertThat(updateVehicleGaragingAddressResponse.garagingAddress.city).isEqualTo(cityGarage);
 		softly.assertThat(updateVehicleGaragingAddressResponse.garagingAddress.stateProvCd).isEqualTo(stateGarage);
-		SearchPage.openPolicy(policyNumber);
+
+		//BUG PAS-14393 When sending GaragingDifferent = False, garaging address is not updated
+		VehicleUpdateDto updateGaragingAddressVehicleRequest2 = new VehicleUpdateDto();
+		updateGaragingAddressVehicleRequest2.garagingDifferent = false;
+		Vehicle updateVehicleGaragingAddressResponse2 = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateGaragingAddressVehicleRequest2);
+		softly.assertThat(updateVehicleGaragingAddressResponse2.garagingDifferent).isEqualTo(false);
 
 		//PAS-13252 start
 		String purchaseDate2 = "2014-03-22";
