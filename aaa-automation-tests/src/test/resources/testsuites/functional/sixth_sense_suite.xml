@@ -258,4 +258,11 @@
         </classes>
     </test>
 
+    <test name="Test CLUE reports on new copied policies for CA Auto">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestClueReportForCopiedPolicy"/>
+        </classes>
+    </test>
+
 </suite>

@@ -3,7 +3,7 @@
 TestData: {
   EndorsementActionTab: '@EndorsementActionTab',
   GeneralTab: {},
-  DriverTab: '@DriverTab',
+  DriverTab: {},
   RatingDetailReportsTab: {},
   VehicleTab: {},
   AssignmentTab: {},
@@ -16,21 +16,6 @@ TestData: {
 EndorsementActionTab: {
   Endorsement Date: $<today>,
   Endorsement Reason: Maintain Driver(s)
-}
-
-DriverTab: {
-  Add Driver: Click,
-  DriverSearchDialog: {},
-  'Rel. to First Named Insured': Spouse,
-  First Name: Jenny,
-  Last Name: Smith,
-  Date of Birth: 01/01/1981,
-  Gender: Female,
-  Marital Status: Married,
-  Occupation: Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: A12345678
 }
 
 DriverActivityReportsTab: {

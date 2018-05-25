@@ -38,20 +38,23 @@ public class TestClueReportForCopiedPolicy extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-8271")
-    public void pas8271_testClueReportOnCopyPolicyAction(@Optional("") String state) {
+    public void pas8271_testClueReportOnCopyPolicyActionSS(@Optional("") String state) {
 
         mainApp().open();
         createCustomerIndividual();
         createPolicy();
 
-        // Get state-specific license number for 2nd driver and adjust test data
-        String licenseNumber = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData")
-                .getTestDataList(DriverTab.class.getSimpleName()).get(1).getValue(AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel());
-        TestData td = getTestSpecificTD("TestData").adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), licenseNumber);
+        // Get state-specific 2nd driver and adjust test data
+        TestData tdDriverTab =  getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName()).get(1)
+                .adjust(AutoSSMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click")
+                .adjust(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), "Sally")
+                .adjust(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), "Smith")
+                .mask(AutoSSMetaData.DriverTab.NAMED_INSURED.getLabel());
+        TestData tdEndorsement = getTestSpecificTD("TestData").adjust(DriverTab.class.getSimpleName(), tdDriverTab);
         TestData tdCopy = getPolicyTD("CopyFromPolicy", "TestData");
 
         // Perform endorsement to add 2nd driver
-        policy.createEndorsement(td);
+        policy.createEndorsement(tdEndorsement);
 
         // Copy from policy and initiate data gather
         policy.policyCopy().perform(tdCopy);
