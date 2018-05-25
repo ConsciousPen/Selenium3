@@ -76,11 +76,11 @@ public class TestClueReportForCopiedPolicy extends AutoCaSelectBaseTest {
         policy.getDefaultView().getTab(DriverActivityReportsTab.class).fillTab(tdCopy);
 
         // Validate CLUE reports table
-//        assertThat(DriverActivityReportsTab.tableCLUEReports.getRows().size()).isEqualTo(1);
-//        assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(1)
-//                .getCell(AutoCaMetaData.DriverActivityReportsTab.OrderClueRow.ORDER_TYPE.getLabel()).getValue()).isEqualToIgnoringCase("HouseHold");
-//        assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(1)
-//                .getCell(AutoCaMetaData.DriverActivityReportsTab.OrderClueRow.SELECT.getLabel()).controls.radioGroups.getFirst().getValue()).isEqualTo("Yes");
+        assertThat(DriverActivityReportsTab.tableCLUEReports.getRows().size()).isEqualTo(1);
+        assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(1)
+                .getCell(AutoCaMetaData.DriverActivityReportsTab.OrderClueRow.ORDER_TYPE.getLabel()).getValue()).isEqualToIgnoringCase("HouseHold");
+        assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(1)
+                .getCell(AutoCaMetaData.DriverActivityReportsTab.OrderClueRow.SELECT.getLabel()).controls.radioGroups.getFirst().getValue()).isEqualTo("Yes");
 
     }
 }

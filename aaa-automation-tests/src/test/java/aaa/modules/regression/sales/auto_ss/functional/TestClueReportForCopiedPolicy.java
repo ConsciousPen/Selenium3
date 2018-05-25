@@ -71,10 +71,10 @@ public class TestClueReportForCopiedPolicy extends AutoSSBaseTest {
         policy.getDefaultView().getTab(DriverActivityReportsTab.class).fillTab(tdCopy);
 
         // Validate CLUE reports table
-//        assertThat(DriverActivityReportsTab.tableCLUEReports.getRows().size()).isEqualTo(1);
-//        assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(1)
-//                .getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.ORDER_TYPE.getLabel()).getValue()).isEqualToIgnoringCase("HouseHold");
-//        assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(1)
-//                .getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.SELECT.getLabel()).controls.radioGroups.getFirst().getValue()).isEqualTo("Yes");
+        assertThat(DriverActivityReportsTab.tableCLUEReports.getRows().size()).isEqualTo(1);
+        assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(1)
+                .getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.ORDER_TYPE.getLabel()).getValue()).isEqualToIgnoringCase("HouseHold");
+        assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(1)
+                .getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.SELECT.getLabel()).controls.radioGroups.getFirst().getValue()).isEqualTo("Yes");
     }
 }
