@@ -3566,8 +3566,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		Vehicle updateVehicleGaragingAddressResponse2 = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateGaragingAddressVehicleRequest2);
 		softly.assertThat(updateVehicleGaragingAddressResponse2.garagingDifferent).isEqualTo(false);
 
-		SearchPage.openPolicy(policyNumber);
-
 		//PAS-13252 start
 		String purchaseDate2 = "2014-03-22";
 		VehicleUpdateDto updatePurchaseDateVehicleRequest = new VehicleUpdateDto();
