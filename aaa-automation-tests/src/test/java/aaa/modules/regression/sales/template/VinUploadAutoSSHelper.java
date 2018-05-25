@@ -91,25 +91,43 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 	protected void pas11659_CommonSteps(String vinNumber, String policyNumber, LocalDateTime timeShiftedDate) {
 		//1. Move time to renewal time point and
 		moveTimeAndRunRenewJobs(timeShiftedDate);
-		//3. Retrieve the policy
+		//2. Retrieve the policy
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
-		//3. Get Renewal Date for below comparison
+
+		//3. Get Renewal Date for refresh validation
 		LocalDateTime renewalDate = PolicySummaryPage.getExpirationDate();
+
+		//4. Verify VIN Refresh Activity and user Notes Entry
+		if (timeShiftedDate == renewalDate.minusDays(45) || timeShiftedDate == renewalDate.minusDays(40) || timeShiftedDate == renewalDate.minusDays(35))  {
+			NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("VIN data has been updated for the following vehicle(s): %s", vinNumber));
+			log.info("Activities and User Note present");
+		}
+		else log.info("Not Checking Activities and User Notes");
+
 		//5. Initiate a new renewal version
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
-		//  Validate vehicle information in VRD
+
+		//6. Validate vehicle information in VRD
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
-		if (timeShiftedDate == renewalDate.minusDays(46) || timeShiftedDate == renewalDate.minusDays(40)|| timeShiftedDate == renewalDate.minusDays(25)) {
+		if (timeShiftedDate == renewalDate.minusDays(46) || timeShiftedDate == renewalDate.minusDays(25)) {
 			assertSoftly(softly -> {
 				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isNotEqualTo("2018");
 				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isNotEqualTo("TOYOTA");
 				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isNotEqualTo("Gt");
 			});
 		}
+		else if (timeShiftedDate == renewalDate.minusDays(40) || timeShiftedDate == renewalDate.minusDays(35)) {
+			assertSoftly(softly -> {
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2018");
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("TOYOTA");
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Gt");
+			});
+		}
+		//R-45 triggers a refresh so it is not enough to just check that the Y/M/Mo is NOT  equal to a given value, like the R-45 and R-25 checks
 		else if (timeShiftedDate == renewalDate.minusDays(45))	{
 			assertSoftly(softly -> {
 				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2007");
