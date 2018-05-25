@@ -774,7 +774,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994"})
 	public void pas13994_UpdateDriverAssignmentServiceRule2(@Optional("VA") String state) {
 
-		pas13994_UpdateDriverAssignmentServiceRule2(getPolicyType());
+		pas13994_UpdateDriverAssignmentServiceRule2Body(getPolicyType());
 	}
 
 	/**

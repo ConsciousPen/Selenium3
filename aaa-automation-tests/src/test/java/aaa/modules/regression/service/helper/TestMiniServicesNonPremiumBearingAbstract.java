@@ -1798,28 +1798,37 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 	}
 
-	protected void pas13994_UpdateDriverAssignmentServiceRule2(PolicyType policyType) {
+	protected void pas13994_UpdateDriverAssignmentServiceRule2Body(PolicyType policyType) {
+		TestData td = getPolicyTD("DataGather", "TestData_VA");
+		td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_TwoDrivers").getTestDataList("DriverTab")).resolveLinks();
+		td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_ThreeVehicles").getTestDataList("VehicleTab")).resolveLinks();
+		td.adjust(new AssignmentTab().getMetaKey(),  getTestSpecificTD("AssignmentTab")).resolveLinks();
 
 		assertSoftly(softly -> {
 			mainApp().open();
 			createCustomerIndividual();
-			TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
-			TestData vehicleData = new TestDataManager().policy.get(policyType);
-			TestData td = getPolicyTD("DataGather", "TestData");
-			TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_TwoDrivers").getTestDataList("DriverTab")).resolveLinks();
-			TestData testData2 = testData.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_ThreeVehicles").getTestDataList("VehicleTab")).resolveLinks();
-			TestData testData3 = testData2.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("AssignmentTabTwoDrivers").getTestDataList("AssignmentTab")).resolveLinks();
-			policyType.get().createPolicy(testData3);
+			//SearchPage.openQuote("QVASS952918592"); - Workaround not to create a customer every time when debugging failures.
+
+			//TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);- what for?
+			//TestData vehicleData = new TestDataManager().policy.get(policyType); - what for?
+
+			//Workaround not to create Quote and fill bunch of tabs every time not to waste time debugging
+			//policy.dataGather().start();
+			//NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
+			//policy.getDefaultView().fillFromTo(td, AssignmentTab.class, PremiumAndCoveragesTab.class, true);
+
+			policyType.get().createPolicy(td);
 			String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 			//Create a pended Endorsement
 			AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 			assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
-			//Get vin's from testData
-			String vin1 = getStateTestData(vehicleData, "DataGather", "TestData").getTestDataList("VehicleTab").get(0).getValue("VIN");
-			String vin2 = testData2.getTestDataList("VehicleTab").get(1).getValue("VIN");
-			String vin3 = testData2.getTestDataList("VehicleTab").get(2).getValue("VIN");
+			//Get vin's from testData - Why so complicated?
+			//String vin1 = getStateTestData(vehicleData, "DataGather", "TestData").getTestDataList("VehicleTab").get(0).getValue("VIN");
+			String vin1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN");
+			String vin2 = td.getTestDataList("VehicleTab").get(1).getValue("VIN");
+			String vin3 = td.getTestDataList("VehicleTab").get(2).getValue("VIN");
 
 			//add V4
 			String purchaseDate = "2012-02-21";

@@ -1,7 +1,6 @@
 package aaa.modules.regression.service.helper;
 
 import static aaa.admin.modules.IAdmin.log;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -593,8 +592,7 @@ public class HelperCommon {
 			applicationContext.address = "AutomationTest";
 			applicationContext.application = "AutomationTest";
 			applicationContext.correlationId = Guid.GUID.newGuid().toString();
-			applicationContext.subSystem = "AutomationTest";
-			applicationContext.transactionType = "AutomationTest";
+			applicationContext.sourceApplication = "AutomationTest";
 			applicationContext.userId = "MyPolicy";
 			applicationContext.sessionId = sessionId;
 			return DEFAULT_OBJECT_MAPPER.writeValueAsString(applicationContext);
