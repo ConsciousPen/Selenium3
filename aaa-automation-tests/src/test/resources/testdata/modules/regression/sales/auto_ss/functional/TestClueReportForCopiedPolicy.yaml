@@ -4,6 +4,7 @@ TestData: {
   EndorsementActionTab: '@EndorsementActionTab',
   GeneralTab: {},
   DriverTab: {},
+  MembershipTab: {},
   RatingDetailReportsTab: {},
   VehicleTab: {},
   AssignmentTab: {},
