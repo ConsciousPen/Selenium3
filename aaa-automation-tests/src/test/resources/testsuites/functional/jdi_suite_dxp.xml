@@ -129,6 +129,8 @@
                     <include name="pas11633_ViewDriverAssignmentAutoAssign"/>
                     <include name="pas12407_BigMetaDataService"/>
                     <include name="pas12769_ViewVehicleLevelCoveragesOneVehicle"/>
+                    <include name="pas10352_ManageVehicleCoverageUpdateCoverage"/>
+                    <include name="pas13353_LoanLeaseCoverage"/>
                 </methods>
             </class>
         </classes>
