@@ -678,7 +678,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10449","PAS-12244"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10449", "PAS-12244"})
 	public void pas10449_ViewVehicleServiceOrderOfVehicle(@Optional("VA") String state) {
 
 		pas10449_ViewVehicleServiceCheckOrderOfVehicle(getPolicyType(), state);
@@ -833,12 +833,54 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 		pas11741_ViewManageVehicleLevelCoverages(getPolicyType());
 	}
 
+	//Scenario 2
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741","PAS-11852","PAS-12601"})
 	public void pas11741_ManageVehicleLevelCoveragesOtherThanVA(@Optional("AZ") String state) {
 
 		pas11741_ViewManageVehicleLevelCoveragesForAZ(getPolicyType());
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * Create a active policy with 2018 vehicle
+	 * Create an endorsement.
+	 * add new vehicle
+	 * Update newly added vehicle to ownership LSD
+	 * Get all the vehicle level coverages from pas
+	 * request update vehicle level coverage with Oid policy number and coverage name and value
+	 * Scanario 1.
+	 * Change all the coverages using service
+	 * remove one by one coverage and veryfi dependent coverages
+	 * change all the coverages back
+	 * verify if all other coverages changed
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10352"})
+	public void pas10352_ManageVehicleCoverageUpdateCoverage(@Optional("VA") String state) {
+
+		pas10352_ManageVehicleCoverageUpdateCoverage(getPolicyType());
+
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * Create a active policy with 2018 and leased  vehicle
+	 * Create an endorsement.
+	 * run viewCoverageInfo service
+	 * verify loan and leas coverage
+	 * verify customerDisplayed canChangeCoverage is true
+	 * update vehicle using DXP change ownership to own
+	 * verify customerDisplayed canChangeCoverage is false
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13353"})
+	public void pas13353_LoanLeaseCoverage(@Optional("VA") String state) {
+
+		pas13353_LoanLeaseCoverage(getPolicyType());
 	}
 
 	/**
@@ -906,14 +948,6 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	public void pas7147_VehicleUpdateRegisteredOwner(@Optional("VA") String state) {
 
 		pas7147_VehicleUpdateRegisteredOwnerBody();
-	}
-
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "myPolicyUserAddedConfigCheck")
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-488"})
-	public void pas488_VehicleDelete(@Optional("VA") String state) {
-
-		pas488_VehicleDeleteBody();
 	}
 
 	/**
@@ -1023,6 +1057,14 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 		assertSoftly(softly ->
 				pas13252_UpdateVehicleGaragingAddressProblemBody(softly)
 		);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "myPolicyUserAddedConfigCheck")
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-488"})
+	public void pas488_VehicleDelete(@Optional("VA") String state) {
+
+		pas488_VehicleDeleteBody();
 	}
 
 	/**

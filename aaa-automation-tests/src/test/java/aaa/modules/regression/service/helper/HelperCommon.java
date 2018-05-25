@@ -40,11 +40,11 @@ public class HelperCommon {
 	private static final String DXP_VIEW_VEHICLES_ENDPOINT = "/api/v1/policies/%s/vehicles";
 	private static final String DXP_VIEW_RENEWAL_ENDPOINT = "/api/v1/policies/%s/renewal";
 	private static final String DXP_VIEW_POLICY_ENDPOINT = "/api/v1/policies/%s";
+	private static final String DXP_ADD_VEHICLE_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles";
+	private static final String DXP_DELETE_VEHICLE_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles/%s";
 	private static final String DXP_LOOKUP_NAME_ENDPOINT = "/api/v1/lookups/%s?productCd=%s&riskStateCd=%s";
 	private static final String DXP_LOCK_UNLOCK_SERVICES = "/api/v1/policies/%s/lock";
-	private static final String DXP_ADD_VEHICLE_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles";
 	private static final String DXP_UPDATE_VEHICLE_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles/%s";
-	private static final String DXP_DELETE_VEHICLE_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles/%s";
 	private static final String DXP_ENDORSEMENT_BIND_ENDPOINT = "/api/v1/policies/%s/endorsement/bind";
 	private static final String DXP_ENDORSEMENT_RATE_ENDPOINT = "/api/v1/policies/%s/endorsement/rate";
 	private static final String DXP_VIEW_ENDORSEMENT_DRIVER_ASSIGNMENT = "/api/v1/policies/%s/endorsement/assignments";
@@ -56,9 +56,9 @@ public class HelperCommon {
 	private static final String APPLICATION_CONTEXT_HEADER = "X-ApplicationContext";
 	private static final String DXP_VIEW_VEHICLE_COVERAGES = "/api/v1/policies/%s/coverages";
 	private static final String DXP_VIEW_VEHICLE_ONE_COVERAGES_ENDORSEMENT = "/api/v1/policies/%s/endorsement/vehicles/%s/coverages";
-	private static final String DXP_VIEW_VEHICLE_ONE_COVERAGES="/api/v1/policies/%s/vehicles/%s/coverages";
+	private static final String DXP_VIEW_VEHICLE_ONE_COVERAGES = "/api/v1/policies/%s/vehicles/%s/coverages";
 	private static final String DXP_VIEW_VEHICLE_ENDORSEMENT_COVERAGES = "/api/v1/policies/%s/endorsement/coverages";
-
+	private static final String DXP_UPDATE_COVERAGES_ENDORSEMENT = "/api/v1/policies/%s/endorsement/vehicles/%s/coverages";
 	private static final String AAA_VEHICLE_INFO_RS_PREFIX = "/aaa-admin/services/aaa-vehicle-info-rs/v1/vin-info/";
 	private static final String DXP_RETRIEVE_MAKE_BY_YEAR = AAA_VEHICLE_INFO_RS_PREFIX + "make-by-year?year=%s&productCd=%s&stateCd=%s&formType=%s&effectiveDate=%s";
 	private static final String DXP_RETRIEVE_MODEL_BY_YEAR_MAKE = AAA_VEHICLE_INFO_RS_PREFIX + "model-by-make-year?year=%s&make=%s&productCd=%s&stateCd=%s&formType=%s&effectiveDate=%s";
@@ -72,6 +72,7 @@ public class HelperCommon {
 	private static final String DXP_BIG_META_DATA_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles/%s/metadata";
 	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
 	private static final ObjectMapper PRETTY_PRINT_OBJECT_MAPPER = new ObjectMapper();
+
 	static {
 		PRETTY_PRINT_OBJECT_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
 	}
@@ -107,8 +108,13 @@ public class HelperCommon {
 	}
 
 	public static String executeUpdatePolicyPreferences(String policyNumber, int status) {
-		String requestUrl = urlBuilderAdmin(ADMIN_UPDATE_POLICY_PREFERENCES_ENDPOINT+policyNumber);
-		return runJsonRequestPostAdmin(requestUrl,null, String.class, status);
+		String requestUrl = urlBuilderAdmin(ADMIN_UPDATE_POLICY_PREFERENCES_ENDPOINT + policyNumber);
+		return runJsonRequestPostAdmin(requestUrl, null, String.class, status);
+	}
+
+	public static VehicleUpdateResponseDto deleteVehicle(String policyNumber, String oid) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_DELETE_VEHICLE_ENDPOINT, policyNumber, oid));
+		return runJsonRequestDeleteDxp(requestUrl, VehicleUpdateResponseDto.class);
 	}
 
 	public static ValidateEndorsementResponse executeEndorsementsValidate(String policyNumber, String endorsementDate) {
@@ -133,11 +139,6 @@ public class HelperCommon {
 	public static VehicleUpdateResponseDto updateVehicle(String policyNumber, String oid, VehicleUpdateDto request) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_UPDATE_VEHICLE_ENDPOINT, policyNumber, oid));
 		return runJsonRequestPatchDxp(requestUrl, request, VehicleUpdateResponseDto.class);
-	}
-
-	public static VehicleUpdateResponseDto deleteVehicle(String policyNumber, String oid) {
-		String requestUrl = urlBuilderDxp(String.format(DXP_DELETE_VEHICLE_ENDPOINT, policyNumber, oid));
-		return runJsonRequestDeleteDxp(requestUrl, VehicleUpdateResponseDto.class);
 	}
 
 	public static AAAVehicleVinInfoRestResponseWrapper executeVinValidate(String policyNumber, String vin, String endorsementDate) {
@@ -210,7 +211,7 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, request, Vehicle.class, 201);
 	}
 
-	public static HashMap executeVehicleAddVehicleError(String policyNumber,  Vehicle request,  int status) {
+	public static HashMap executeVehicleAddVehicleError(String policyNumber, Vehicle request, int status) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_ADD_VEHICLE_ENDPOINT, policyNumber));
 		return runJsonRequestPostDxp(requestUrl, request, HashMap.class, status);
 	}
@@ -245,13 +246,21 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, PolicyCoverageInfo.class);
 	}
 
-	static PolicyCoverageInfo pendedEndorsementViewCoverageInfoForOneVehicle(String policyNumber,String newVehicleOid) {
-		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_VEHICLE_ONE_COVERAGES_ENDORSEMENT, policyNumber,newVehicleOid));
+	static PolicyCoverageInfo pendedEndorsementViewCoverageInfoForOneVehicle(String policyNumber, String newVehicleOid) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_VEHICLE_ONE_COVERAGES_ENDORSEMENT, policyNumber, newVehicleOid));
 		return runJsonRequestGetDxp(requestUrl, PolicyCoverageInfo.class);
 	}
 
-	static PolicyCoverageInfo viewCoverageInfoForOneVehicle(String policyNumber,String oid) {
-		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_VEHICLE_ONE_COVERAGES, policyNumber,oid));
+	static PolicyCoverageInfo updateCoverages(String policyNumber, String vehicleOid, String coverageCode, String availableLimits) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_UPDATE_COVERAGES_ENDORSEMENT, policyNumber, vehicleOid));
+		UpdateCoverageRequest request = new UpdateCoverageRequest();
+		request.coverageCd = coverageCode;
+		request.limit = availableLimits;
+		return runJsonRequestPatchDxp(requestUrl, request, PolicyCoverageInfo.class);
+	}
+
+	static PolicyCoverageInfo viewCoverageInfoForOneVehicle(String policyNumber, String oid) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_VEHICLE_ONE_COVERAGES, policyNumber, oid));
 		return runJsonRequestGetDxp(requestUrl, PolicyCoverageInfo.class);
 	}
 
