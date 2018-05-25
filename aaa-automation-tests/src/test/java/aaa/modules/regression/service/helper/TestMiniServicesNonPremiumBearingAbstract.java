@@ -3979,7 +3979,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 				+ "order by id desc)\n"
 				+ "where rownum = 1 ";
 		String updateSystemGeneratedInd = "update policysummary ps\n"
-				+ "set ps.SYSGENERATEDTXIND = 1\n"
+				+ "set ps.SYSGENERATEDTXIND = 1, ps.CREATEDBY = 'ipbsysp'\n"
 				+ "where id = %s";
 
 		String policySummaryId = DBService.get().getValue(String.format(getPolicySummaryId, policyNumber)).get();
