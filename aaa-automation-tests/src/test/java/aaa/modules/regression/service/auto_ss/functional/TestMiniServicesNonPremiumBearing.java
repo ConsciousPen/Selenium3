@@ -1059,6 +1059,14 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 		);
 	}
 
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "myPolicyUserAddedConfigCheck")
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-488"})
+	public void pas488_VehicleDelete(@Optional("VA") String state) {
+
+		pas488_VehicleDeleteBody();
+	}
+
 	/**
 	 * @author Oleg Stasyuk
 	 * @name Validation of E2E flow in DXP

@@ -622,9 +622,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 * 	 * 3. See if eValue status = Pending
 	 * 	 * @details
 	 * @param state
-	 *
-	 *
-	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
@@ -689,7 +686,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
-		assertThat(errorTab.tableErrors.getRowContains("Code", "AAA_SS11020532").getCell("Message").getValue().toLowerCase().contains(AUTOPAY_KEEP_EVALUE.toLowerCase().substring(0,30))).isTrue();
+		assertThat(errorTab.tableErrors.getRowContains("Code", "AAA_SS11020532").getCell("Message").getValue().toLowerCase().contains(AUTOPAY_KEEP_EVALUE.toLowerCase().substring(0, 30))).isTrue();
 		errorTab.cancel();
 		documentsAndBindTab.saveAndExit();
 	}

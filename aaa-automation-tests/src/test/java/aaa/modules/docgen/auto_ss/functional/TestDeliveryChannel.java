@@ -22,7 +22,6 @@ import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.waiters.Waiters;
 
-
 /**
  * @author Megha Gubbala
  * @name Test Document Generation - default to Preferred Channel

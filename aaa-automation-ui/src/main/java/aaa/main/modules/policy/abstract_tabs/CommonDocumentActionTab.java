@@ -94,7 +94,6 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 			}
 
 			submitTab();
-			//PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		}
 	}
 
