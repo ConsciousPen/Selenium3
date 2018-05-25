@@ -675,10 +675,13 @@ public final class HomeCaMetaData {
 			public static final AssetDescriptor<AssetListConfirmationDialog> REMOVE_CONFIRMATION = declare("Remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By
 					.id("confirmOptionalNoSelected_AAAHOLossInfo_Dialog_container"));
 			public static final AssetDescriptor<ComboBox> SOURCE = declare("Source", ComboBox.class);
+			public static final AssetDescriptor<TextBox> ZIP = declare("Zip", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> ADDRESS_LINE_1 = declare("Address Line 1", TextBox.class, Waiters.AJAX, false, By.id("policyDataGatherForm:sedit_AAAHOLossInfo_aaaAddressEntity_address_addressLine1"));
 			public static final AssetDescriptor<TextBox> DATE_OF_LOSS = declare("Date of loss", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<AdvancedComboBox> CAUSE_OF_LOSS = declare("Cause of loss", AdvancedComboBox.class);
 			public static final AssetDescriptor<TextBox> AMOUNT_OF_LOSS = declare("Amount of loss", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<AdvancedComboBox> CLAIM_STATUS = declare("Claim status", AdvancedComboBox.class);
+			public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy Number", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> RENTAL_CLAIM = declare("Rental Claim", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> AAA_CLAIM = declare("AAA Claim", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> CATASTROPHE_LOSS = declare("Catastrophe loss", RadioGroup.class, Waiters.AJAX);
