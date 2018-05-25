@@ -663,7 +663,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN3);
 		String configExcelName = vinMethods.getControlTableFile();
 		String uploadExcelR35 = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN3.get());
-
+		String EVENT = "R35";
 		//1. Create a policy with VIN matched data and save the expiration data
 		String policyNumber = createPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -674,7 +674,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		uploadToVINTableTab.uploadVinTable(uploadExcelR35);
 
 		//3. Move to R-35 and generate automated renewal image. Retrieve policy and verify VIN data DID refresh
-		pas11659_CommonSteps(NEW_VIN3, policyNumber, policyExpirationDate.minusDays(35));
+		pas11659_CommonSteps(EVENT, EVENT, policyNumber, policyExpirationDate.minusDays(35));
 	}
 
 	/**
