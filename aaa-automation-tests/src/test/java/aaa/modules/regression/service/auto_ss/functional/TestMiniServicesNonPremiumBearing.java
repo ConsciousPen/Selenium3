@@ -833,6 +833,15 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 		pas11741_ViewManageVehicleLevelCoverages(getPolicyType());
 	}
 
+	//Scenario 2
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741","PAS-11852","PAS-12601"})
+	public void pas11741_ManageVehicleLevelCoveragesOtherThanVA(@Optional("AZ") String state) {
+
+		pas11741_ViewManageVehicleLevelCoveragesForAZ(getPolicyType());
+	}
+
 	/**
 	 * @author Megha Gubbala
 	 * Create a active policy with 2018 vehicle
@@ -847,7 +856,6 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * change all the coverages back
 	 * verify if all other coverages changed
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10352"})
@@ -867,7 +875,6 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * update vehicle using DXP change ownership to own
 	 * verify customerDisplayed canChangeCoverage is false
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13353"})
