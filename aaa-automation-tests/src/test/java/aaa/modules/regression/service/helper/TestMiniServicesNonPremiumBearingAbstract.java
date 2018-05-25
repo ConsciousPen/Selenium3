@@ -3887,6 +3887,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
+		//String policyNumber = "VASS952918540";
+		//String newVehicleOid = "hWh-PXRygIbaVPwbuTlLbA";
+
 		//Create pended endorsement
 		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertThat(response.policyNumber).isEqualTo(policyNumber);
@@ -3897,15 +3900,22 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String vin = "1HGFA16526L081415";
 		Vehicle responseAddVehicle = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
 		assertThat(responseAddVehicle.oid).isNotEmpty();
-		String oid = responseAddVehicle.oid;
-		printToLog("oid: " + oid);
+		String newVehicleOid = responseAddVehicle.oid;
+		printToLog("newVehicleOid: " + newVehicleOid);
+		updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
+
 		SearchPage.openPolicy(policyNumber);
 
+		endorsementRateAndBind(policyNumber);
 
-		Vehicle updateVehicleResponse = HelperCommon.deleteVehicle(policyNumber, oid);
+		AAAEndorseResponse response2 = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(response2.policyNumber).isEqualTo(policyNumber);
+
+		VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, newVehicleOid);
 		assertSoftly(softly -> {
-			softly.assertThat(updateVehicleResponse.usage).isEqualTo("Business");
-			assertThat(((VehicleUpdateResponseDto) updateVehicleResponse).ruleSets.get(0).errors.get(0)).contains("Usage is Business");
+			//TODO Read Response here to make sure that the response returned is correct
+			softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
+			assertThat(deleteVehicleResponse.ruleSets).isEqualTo(null);
 		});
 
 		//Check premium after new vehicle was added
