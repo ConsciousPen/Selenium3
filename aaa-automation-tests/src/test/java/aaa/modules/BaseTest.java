@@ -181,6 +181,14 @@ public class BaseTest {
 		return td;
 	}
 
+	protected TestData getPolicyDefaultTD(PolicyType policyType) {
+		TestData td = getStateTestData(testDataManager.policy.get(policyType), "DataGather", "TestData");
+		if (policyType.equals(PolicyType.PUP)) {
+			td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
+		}
+		return td;
+	}
+
 	protected boolean isStateCA() {
 		return getPolicyType() != null && getPolicyType().isCaProduct();
 	}
