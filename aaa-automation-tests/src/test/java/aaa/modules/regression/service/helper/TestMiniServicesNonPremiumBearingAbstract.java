@@ -3232,8 +3232,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
 		updateVehicleRequest.usage = "Business";
-		//TODO remove garaging address from code once it is not necessary to pass it
-		//updateVehicleRequest.garagingDifferent = false;
 
 		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
 		assertSoftly(softly -> {
@@ -3276,6 +3274,39 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		assertSoftly(softly -> {
 			softly.assertThat(updateVehicleResponse.registeredOwner).isEqualTo(false);
 			assertThat(((VehicleUpdateResponseDto) updateVehicleResponse).ruleSets.get(0).errors.get(0)).contains("Registered Owners");
+		});
+
+		//Check premium after new vehicle was added
+		HashMap<String, String> rateResponse = HelperCommon.executeEndorsementRateError(policyNumber, 422);
+		assertThat(rateResponse.entrySet().toString()).contains(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+
+		HashMap<String, String> bindResponse = HelperCommon.executeEndorsementBindError(policyNumber, "PAS-7147", 422);
+		assertThat(bindResponse.entrySet().toString()).contains(ErrorDxpEnum.Errors.VALIDATION_ERROR_HAPPENED_DURING_BIND.getMessage());
+	}
+
+	protected void pas488_VehicleDeleteBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		//Create pended endorsement
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		//Add new vehicle
+		String purchaseDate = "2013-02-22";
+		String vin = "1HGFA16526L081415";
+		Vehicle responseAddVehicle = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
+		assertThat(responseAddVehicle.oid).isNotEmpty();
+		String oid = responseAddVehicle.oid;
+		printToLog("oid: " + oid);
+		SearchPage.openPolicy(policyNumber);
+
+
+		Vehicle updateVehicleResponse = HelperCommon.deleteVehicle(policyNumber, oid);
+		assertSoftly(softly -> {
+			softly.assertThat(updateVehicleResponse.usage).isEqualTo("Business");
+			assertThat(((VehicleUpdateResponseDto) updateVehicleResponse).ruleSets.get(0).errors.get(0)).contains("Usage is Business");
 		});
 
 		//Check premium after new vehicle was added
