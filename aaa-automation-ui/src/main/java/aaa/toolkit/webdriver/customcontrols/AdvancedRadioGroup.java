@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByChained;
 import toolkit.config.ClassConfigurator;
 import toolkit.exceptions.IstfException;
+import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.RadioButton;
 import toolkit.webdriver.controls.RadioGroup;
@@ -18,7 +19,7 @@ import toolkit.webdriver.controls.waiters.Waiter;
 public class AdvancedRadioGroup extends RadioGroup {
 
 	@ClassConfigurator.Configurable
-	private static By rBtnInputTemplate = By.xpath(".//td[label[contains(.,\"%1$s\")]]/input");
+	private static ByT rBtnInputTemplate = ByT.xpath(".//td[label[contains(.,'%1$s')]]/input");
 
 	public AdvancedRadioGroup(By locator) {
 		super(locator);
@@ -107,7 +108,7 @@ public class AdvancedRadioGroup extends RadioGroup {
 	}
 
 	public RadioButton getRadioButton(String radioBtnLabel) {
-		return new RadioButton(new ByChained(this.locator, rBtnInputTemplate));
+		return new RadioButton(new ByChained(this.locator, rBtnInputTemplate.format(radioBtnLabel)));
 	}
 
 }
