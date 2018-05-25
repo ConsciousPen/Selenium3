@@ -41,7 +41,7 @@ public class TestClueReportForCopiedPolicy extends AutoCaSelectBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-8271")
-    public void pas8271_testClueReportOnCopyPolicyActionCA(@Optional("") String state) {
+    public void pas8271_testClueReportOnCopyPolicyActionCA(@Optional("CA") String state) {
 
         mainApp().open();
         createCustomerIndividual();
