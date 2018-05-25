@@ -320,7 +320,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		PolicySummaryPage.buttonRenewals.click();
-		policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(policyType).getTestData("Endorsement"), "TestData"));
+		policyType.get().dataGather().start();
 
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
@@ -508,6 +508,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyType.get().quoteDocGen().start();
 
 		//TODO-mstrazds:select document and valdiate that Central Print is disabled
+		policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).getRadioButton("Local Print").isEnabled();
 
 		policyDocGenActionTab.verify.documentsPresent(true, fairPlanEndorsementInODDTab);
 		policyDocGenActionTab.verify.documentsEnabled(true, fairPlanEndorsementInODDTab);
