@@ -1421,7 +1421,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
 			TimeSetterUtil.getInstance().nextPhase(renewPreviewGenDate);
 			JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-
+			//TODO Service disabled in PAS18.4, but is enabled in PAS18.5
 /*			PolicyPremiumInfo[] response = HelperCommon.viewPremiumInfo(policyNumber);
 			String totalPremium = response[0].termPremium;
 			String actualPremium = response[0].actualAmt;*/
@@ -1435,6 +1435,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyActive.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyActive.renewalCycle).isEqualTo(0);
 			eValueStatusCheck(softly, responsePolicyActive, state, "ACTIVE");
+			//TODO Service disabled in PAS18.4, but is enabled in PAS18.5
 /*			softly.assertThat(responsePolicyActive.actualAmt).isEqualTo(totalPremium);
 			softly.assertThat(responsePolicyActive.termPremium).isEqualTo(actualPremium);*/
 			softly.assertThat(responsePolicyActive.residentialAddress.postalCode).isEqualTo(zipCode1);
@@ -1442,6 +1443,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyActive.residentialAddress.city).isEqualTo(city1);
 			softly.assertThat(responsePolicyActive.residentialAddress.stateProvCd).isEqualTo(state1);
 
+			//TODO Service disabled in PAS18.4, but is enabled in PAS18.5
 /*			PolicyPremiumInfo[] viewPremiumRenewalResponse = HelperCommon.viewPremiumInfoRenewal(policyNumber);
 			String renewalActualPremium = viewPremiumRenewalResponse[0].actualAmt;
 			String renewalTermPremium = viewPremiumRenewalResponse[0].termPremium;*/
@@ -1455,6 +1457,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyRenewalPreview.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyRenewalPreview.renewalCycle).isEqualTo(1);
 			eValueStatusCheck(softly, responsePolicyRenewalPreview, state, "ACTIVE");
+			//TODO Service disabled in PAS18.4, but is enabled in PAS18.5
 /*			softly.assertThat(responsePolicyRenewalPreview.actualAmt).isEqualTo(renewalActualPremium);
 			softly.assertThat(responsePolicyRenewalPreview.termPremium).isEqualTo(renewalTermPremium);*/
 			softly.assertThat(responsePolicyRenewalPreview.residentialAddress.postalCode).isEqualTo(zipCode1);
@@ -1470,7 +1473,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			Dollar totalDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue());
 			new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
-
+			//TODO Service disabled in PAS18.4, but is enabled in PAS18.5
 /*			PolicyPremiumInfo[] viewPremiumRenewalResponseAfterRating = HelperCommon.viewPremiumInfo(policyNumber);
 			String renewalActualPremiumAfterRating = viewPremiumRenewalResponseAfterRating[0].actualAmt;
 			String renewalPremiumAfterRating = viewPremiumRenewalResponseAfterRating[0].termPremium;*/
@@ -1484,6 +1487,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyOffer.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyOffer.renewalCycle).isEqualTo(0);
 			eValueStatusCheck(softly, responsePolicyOffer, state, "ACTIVE");
+			//TODO Service disabled in PAS18.4, but is enabled in PAS18.5
 /*			softly.assertThat(responsePolicyOffer.actualAmt).isEqualTo(renewalActualPremiumAfterRating);
 			softly.assertThat(responsePolicyOffer.termPremium).isEqualTo(renewalPremiumAfterRating);*/
 			softly.assertThat(responsePolicyOffer.residentialAddress.postalCode).isEqualTo(zipCode1);
@@ -1491,6 +1495,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyOffer.residentialAddress.city).isEqualTo(city1);
 			softly.assertThat(responsePolicyOffer.residentialAddress.stateProvCd).isEqualTo(state1);
 
+			//TODO Service disabled in PAS18.4, but is enabled in PAS18.5
 /*			PolicyPremiumInfo[] viewPremiumRenewalOfferResponse = HelperCommon.viewPremiumInfoRenewal(policyNumber);
 			String renewalOfferActualPremium = viewPremiumRenewalOfferResponse[0].actualAmt;
 			String renewalOfferTermPremium = viewPremiumRenewalOfferResponse[0].termPremium;*/
@@ -1504,6 +1509,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyRenewalOffer.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyRenewalOffer.renewalCycle).isEqualTo(1);
 			eValueStatusCheck(softly, responsePolicyRenewalOffer, state, "ACTIVE");
+			//TODO Service disabled in PAS18.4, but is enabled in PAS18.5
 /*			softly.assertThat(responsePolicyRenewalOffer.actualAmt).isEqualTo(renewalOfferActualPremium);
 			softly.assertThat(responsePolicyRenewalOffer.termPremium).isEqualTo(renewalOfferTermPremium);*/
 			softly.assertThat(responsePolicyRenewalOffer.residentialAddress.postalCode).isEqualTo(zipCode1);
