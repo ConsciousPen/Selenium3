@@ -727,7 +727,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		//Create list of documents other than FPCECA
 		List<Document> docsOther = docs.stream().filter(document -> !document.getTemplateId().equals(formIdInXml)).collect(Collectors.toList());
 
-		if (!eventName.equals(ADHOC_DOC_ON_DEMAND_GENERATE) && !eventName.equals(ADHOC_DOC_ON_DEMAND_PREVIEW)) {
+		if (!eventName.equals(ADHOC_DOC_ON_DEMAND_GENERATE)) {
 			//Validate that form FPCECA is listed in other documents (test validates that at least in one other document)
 			assertThat(docsOther.stream().filter(document -> document.toString().contains(formIdInXml)).toArray().length).isGreaterThan(0);
 		}
