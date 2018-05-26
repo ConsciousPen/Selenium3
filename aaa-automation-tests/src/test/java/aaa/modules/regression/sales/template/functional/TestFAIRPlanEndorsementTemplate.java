@@ -19,11 +19,13 @@ import aaa.helpers.xml.model.Document;
 import aaa.main.enums.*;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.abstract_tabs.CommonDocumentActionTab;
 import aaa.main.modules.policy.home_ca.actiontabs.PolicyDocGenActionTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.main.pages.summary.MyWorkSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 import toolkit.verification.CustomAssertions;
@@ -39,6 +41,12 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 	private ErrorTab errorTab = new ErrorTab();
 	private PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
 	private PolicyDocGenActionTab policyDocGenActionTab = new PolicyDocGenActionTab();
+	private CommonDocumentActionTab commonDocumentActionTab = new CommonDocumentActionTab(HomeCaMetaData.PolicyDocGenActionTab.class) {
+		@Override
+		public FillableDocumentsTable getDocumentsControl() {
+			return null;
+		}
+	};
 
 	private static final String ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT = "Wood burning stoves as the sole source of heat are ineligible.";
 	private static final String ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR = "Dwellings with a wood burning stove without at least one smoke detector insta";
@@ -507,32 +515,59 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		policyType.get().quoteDocGen().start();
 
-		//TODO-mstrazds:select document and valdiate that Central Print is disabled
-		policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).getRadioButton("Local Print").isEnabled();
-
-		policyDocGenActionTab.verify.documentsPresent(true, fairPlanEndorsementInODDTab);
-		policyDocGenActionTab.verify.documentsEnabled(true, fairPlanEndorsementInODDTab);
-
-		policyDocGenActionTab.generateDocuments(DocGenEnum.DeliveryMethod.LOCAL_PRINT, fairPlanEndorsementInODDTab);
-
-		//TODO-mstrazds:validate that docuemnt is generated in xml
-		validateDocumentIsGeneratedInPackage(policyNumber, ADHOC_DOC_ON_DEMAND_GENERATE);
-
-		//assertThat(policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).getAllValues())
-		//policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).
-		//policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).
+		validateFPCECA_FPCECADP(policyNumber);
 
 	}
 
 	public void pas14004_AC1_AC2_Quote_negative() {
+		TestData testData = getPolicyDefaultTD();
+
+		mainApp().open();
+		createCustomerIndividual();
+
+		policyType.get().initiate();
+		policyType.get().getDefaultView().fillUpTo(testData, PremiumsAndCoveragesQuoteTab.class, true);
+		premiumsAndCoveragesQuoteTab.saveAndExit();
+		policyType.get().quoteDocGen().start();
+
+		policyDocGenActionTab.verify.documentsPresent(false, fairPlanEndorsementInODDTab);
 
 	}
 
 	public void pas14004_AC1_AC2_Policy(TestData tdWithFAIRPlanEndorsement) {
+		mainApp().open();
+		createCustomerIndividual();
 
+		policyType.get().initiate();
+		createPolicy(tdWithFAIRPlanEndorsement);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		policyType.get().policyDocGen().start();
+
+		validateFPCECA_FPCECADP(policyNumber);
+	}
+
+	private void validateFPCECA_FPCECADP(String policyNumber) {
+		policyDocGenActionTab.verify.documentsPresent(true, fairPlanEndorsementInODDTab);
+		policyDocGenActionTab.verify.documentsEnabled(true, fairPlanEndorsementInODDTab);
+
+		validateThatCentralPrintIsDisabledForFPCECA_FPCECADP();
+
+		policyDocGenActionTab.generateDocuments(DocGenEnum.DeliveryMethod.LOCAL_PRINT, fairPlanEndorsementInODDTab);
+
+		//validate that document is generated in xml
+		validateDocumentIsGeneratedInPackage(policyNumber, ADHOC_DOC_ON_DEMAND_GENERATE);
 	}
 
 	public void pas14004_AC1_AC2_Policy_negative() {
+		TestData testData = getPolicyDefaultTD();
+
+		mainApp().open();
+		createCustomerIndividual();
+
+		createPolicy(testData);
+		policyType.get().quoteDocGen().start();
+
+		policyDocGenActionTab.verify.documentsPresent(false, fairPlanEndorsementInODDTab);
 
 	}
 	////////////End PAS-14004////////////////
@@ -692,8 +727,10 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		//Create list of documents other than FPCECA
 		List<Document> docsOther = docs.stream().filter(document -> !document.getTemplateId().equals(formIdInXml)).collect(Collectors.toList());
 
-		//Validate that form FPCECA is listed in other documents (test validates that at least in one other document)
-		assertThat(docsOther.stream().filter(document -> document.toString().contains(formIdInXml)).toArray().length).isGreaterThan(0);
+		if (!eventName.equals(ADHOC_DOC_ON_DEMAND_GENERATE) && !eventName.equals(ADHOC_DOC_ON_DEMAND_PREVIEW)) {
+			//Validate that form FPCECA is listed in other documents (test validates that at least in one other document)
+			assertThat(docsOther.stream().filter(document -> document.toString().contains(formIdInXml)).toArray().length).isGreaterThan(0);
+		}
 
 		//Validate that form FPCECA is included in Document Package only once
 		assertThat(docs.stream().filter(document -> document.getTemplateId().equals(formIdInXml)).toArray().length).isEqualTo(1);
@@ -825,6 +862,12 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CA10100616);
 		errorTab.overrideAllErrors();
 		errorTab.submitTab();
+	}
+
+	private void validateThatCentralPrintIsDisabledForFPCECA_FPCECADP() {
+		policyDocGenActionTab.getDocumentsControl().getTable().getRow(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, fairPlanEndorsementInODDTab.getId())
+				.getCell(DocGenConstants.OnDemandDocumentsTable.SELECT).click(); //Click document check box
+		assertThat(policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).getRadioButton("Local Print").isEnabled()).isTrue();
 	}
 
 }
