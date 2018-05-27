@@ -23,5 +23,4 @@ public class ValidationRuleSet {
 	@ApiModelProperty(value = "List of rules that were triggered as warnings while executing rule set. " +
 			"Warnings will not affect policy endorsement action availability")
 	public List<String> warnings;
-
 }
