@@ -1,6 +1,7 @@
 package aaa.modules.regression.service.helper;
 
 import static aaa.admin.modules.IAdmin.log;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.ws.rs.client.*;
@@ -228,6 +229,17 @@ public class HelperCommon {
 	public static ErrorResponseDto viewEndorsementAssignmentsError(String policyNumber, int status) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, ErrorResponseDto.class, status);
+	}
+
+	public static DriverAssignmentDto[] updateDriverAssignment(String policyNumber, String vehicleOid, String driverOid) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
+		UpdateDriverAssignmentRequest request = new UpdateDriverAssignmentRequest();
+		request.assignmentRequests = new ArrayList<>();
+		DriverAssignmentDto assignmentDto = new DriverAssignmentDto();
+		assignmentDto.driverOid = driverOid;
+		assignmentDto.vehicleOid = vehicleOid;
+		request.assignmentRequests.add(assignmentDto);
+		return runJsonRequestPostDxp(requestUrl,request,DriverAssignmentDto[].class,200);
 	}
 
 	public static DriversDto[] viewPolicyDrivers(String policyNumber) {
@@ -606,8 +618,7 @@ public class HelperCommon {
 			applicationContext.address = "AutomationTest";
 			applicationContext.application = "AutomationTest";
 			applicationContext.correlationId = Guid.GUID.newGuid().toString();
-			applicationContext.subSystem = "AutomationTest";
-			applicationContext.transactionType = "AutomationTest";
+			applicationContext.sourceApplication = "AutomationTest";
 			applicationContext.userId = "MyPolicy";
 			applicationContext.sessionId = sessionId;
 			return DEFAULT_OBJECT_MAPPER.writeValueAsString(applicationContext);
