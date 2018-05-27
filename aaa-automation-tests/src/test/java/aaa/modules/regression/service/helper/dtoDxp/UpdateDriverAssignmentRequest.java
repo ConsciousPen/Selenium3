@@ -1,8 +1,7 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
-import aaa.modules.regression.service.helper.RestBodyRequest;
-
 import java.util.List;
+import aaa.modules.regression.service.helper.RestBodyRequest;
 
 
 /**
