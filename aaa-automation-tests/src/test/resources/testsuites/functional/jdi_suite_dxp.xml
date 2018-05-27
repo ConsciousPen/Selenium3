@@ -8,12 +8,12 @@
     <parameter name="timeshift-scenario-mode" value="method"/>
     <test name="ContactInfoUpdateServiceCA" parallel="methods" thread-count="1024">
         <classes>
-            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesPremiumBearing">
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing">
                 <methods>
                     <include name="pas1441_emailChangeOutOfPas"/>
                 </methods>
             </class>
-            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesPremiumBearing">
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing">
                 <methods>
                     <include name="pas1441_emailChangeOutOfPas"/>
                 </methods>
@@ -69,6 +69,13 @@
                     <include name="pas10484_ViewDriverAssignment"/>
                     <include name="pas11932_viewDrivers"/>
                     <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
+                    <include name="pas10449_ViewVehicleServiceOrderOfVehicle"/>
+                    <include name="pas11741_ManageVehicleLevelCoverages"/>
+                    <include name="pas11633_ViewDriverAssignmentAutoAssign"/>
+                    <include name="pas12407_BigMetaDataService"/>
+                    <include name="pas12769_ViewVehicleLevelCoveragesOneVehicle"/>
+                    <include name="pas10352_ManageVehicleCoverageUpdateCoverage"/>
+                    <include name="pas13353_LoanLeaseCoverage"/>
                 </methods>
             </class>
         </classes>
@@ -98,7 +105,7 @@
     <test name="ContactInfoUpdateServiceSS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
                 <methods>
                     <include name="pas1441_emailChangeOutOfPas"/>
                 </methods>
@@ -124,13 +131,6 @@
                 <methods>
                     <include name="pas9716_policySummaryForActiveRenewal"/>
                     <include name="pas9716_policySummaryForConversion"/>
-                    <include name="pas10449_ViewVehicleServiceOrderOfVehicle"/>
-                    <include name="pas11741_ManageVehicleLevelCoverages"/>
-                    <include name="pas11633_ViewDriverAssignmentAutoAssign"/>
-                    <include name="pas12407_BigMetaDataService"/>
-                    <include name="pas12769_ViewVehicleLevelCoveragesOneVehicle"/>
-                    <include name="pas10352_ManageVehicleCoverageUpdateCoverage"/>
-                    <include name="pas13353_LoanLeaseCoverage"/>
                 </methods>
             </class>
         </classes>

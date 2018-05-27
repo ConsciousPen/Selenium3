@@ -15,13 +15,13 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
-import aaa.modules.regression.service.helper.TestMiniServicesXPremiumBearingAbstract;
+import aaa.modules.regression.service.helper.TestMiniServicesNonPremiumBearingAbstract;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
-public class TestMiniServicesXPremiumBearing extends TestMiniServicesXPremiumBearingAbstract {
+public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiumBearingAbstract {
 
 	@Override
 	protected PolicyType getPolicyType() {

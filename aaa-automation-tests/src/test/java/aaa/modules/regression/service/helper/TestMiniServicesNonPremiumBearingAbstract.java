@@ -18,7 +18,7 @@ import toolkit.db.DBService;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
-public abstract class TestMiniServicesXPremiumBearingAbstract extends PolicyBaseTest {
+public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBaseTest {
 
 
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
