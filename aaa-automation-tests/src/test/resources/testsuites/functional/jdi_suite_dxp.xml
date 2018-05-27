@@ -8,12 +8,12 @@
     <parameter name="timeshift-scenario-mode" value="method"/>
     <test name="ContactInfoUpdateServiceCA" parallel="methods" thread-count="1024">
         <classes>
-            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing">
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas1441_emailChangeOutOfPas"/>
                 </methods>
             </class>
-            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing">
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas1441_emailChangeOutOfPas"/>
                 </methods>
@@ -23,7 +23,7 @@
     <test name="GreenButtonServiceAZ" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="miniServicesEndorsementDeleteDelayConfigCheck"/>
                     <include name="pas6560_endorsementValidateAllowed"/>
@@ -64,7 +64,7 @@
     <test name="GreenButtonServiceVA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas10484_ViewDriverAssignment"/>
                     <include name="pas11932_viewDrivers"/>
@@ -76,7 +76,7 @@
     <test name="GreenButtonServiceUT" parallel="methods" thread-count="1024">
         <parameter name="state" value="UT"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas8784_endorsementValidateNoDelayAllowedAgent"/>
                     <include name="pas8784_endorsementValidateNoDelayNotAllowedSystem"/>
@@ -88,7 +88,7 @@
     <test name="GreenButtonServicePA" parallel="methods" thread-count="1024">
         <parameter name="state" value="PA"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas9489_GreenButtonServiceStateAndProductConfigurationEffective"/>
                 </methods>
@@ -98,7 +98,7 @@
     <test name="ContactInfoUpdateServiceSS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas1441_emailChangeOutOfPas"/>
                 </methods>
@@ -108,7 +108,7 @@
     <test name="PolicySummaryService AZ" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas9716_policySummaryForPolicy"/>
                     <include name="pas9716_policySummaryForLapsedRenewal"/>
@@ -120,7 +120,7 @@
     <test name="PolicySummaryService VA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas9716_policySummaryForActiveRenewal"/>
                     <include name="pas9716_policySummaryForConversion"/>
@@ -138,7 +138,7 @@
     <test name="PolicySummaryService CA" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing">
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas9716_policySummaryForPolicy"/>
                     <include name="pas9716_policySummaryForActiveRenewal"/>
@@ -151,7 +151,7 @@
      <test name="Vehicle Errors VA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="myPolicyUserAddedConfigCheck"/>
                     <include name="pas7147_VehicleUpdateBusiness"/>
@@ -163,7 +163,7 @@
    <test name="DXP E2E" parallel="methods" thread-count="1024">
             <parameter name="state" value="VA"/>
             <classes>
-                <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                     <methods>
                         <include name="pas12866_e2e"/>
                     </methods>
@@ -175,7 +175,7 @@
             <parameter name="state" value="VA, KY"/>
             <!--<parameter name="state" value="VA, KY, AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>-->
             <classes>
-                <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                     <methods>
                         <include name="pas12866_e2eBct"/>
                     </methods>
@@ -184,12 +184,12 @@
         </test>
     <test name="DriverAssignmentExistsForState CA" parallel="methods" thread-count="1024">
         <classes>
-            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing">
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas11684_DriverAssignmentExistsForState"/>
                 </methods>
             </class>
-            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing">
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas11684_DriverAssignmentExistsForState"/>
                 </methods>
@@ -199,7 +199,7 @@
     <test name="DriverAssignmentExistsForState SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ, KY, MD, NY, NJ, VA"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas11684_DriverAssignmentExistsForState"/>
                 </methods>

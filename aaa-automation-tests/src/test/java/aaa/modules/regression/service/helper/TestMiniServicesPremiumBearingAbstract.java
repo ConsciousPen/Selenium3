@@ -22,7 +22,6 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.TestDataManager;
 import aaa.helpers.conversion.ConversionPolicyData;
@@ -49,14 +48,13 @@ import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
-public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBaseTest {
+public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseTest {
 
 	private static final String SESSION_ID_1 = "oid1";
 	private static final String SESSION_ID_2 = "oid2";
@@ -84,45 +82,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	protected abstract Tab getVehicleTabElement();
 
 	protected abstract AssetDescriptor<JavaScriptButton> getCalculatePremium();
-
-	protected void pas1441_emailChangeOutOfPasTestBody() {
-		mainApp().open();
-		String policyNumber = getCopiedPolicy();
-
-		//BUG PAS-5815 There is an extra Endorse action available for product
-		NavigationPage.comboBoxListAction.verify.noOption("Endorse");
-
-		//will be used to check PAS-6364 Sleepy hollow: when doing Service Endorsement after regular endorsement, components are loaded in incorrect order
-		secondEndorsementIssueCheck();
-
-		//PAS-343 start
-		String numberOfDocumentsRecordsInDbQuery = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "%%", "%%");
-		int numberOfDocumentsRecordsInDb = Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get());
-		//PAS-343 end
-
-		String emailAddressChanged = "osi.test@email.com";
-		String authorizedBy = "John Smith";
-		HelperCommon.executeContactInfoRequest(policyNumber, emailAddressChanged, authorizedBy);
-
-		emailUpdateTransactionHistoryCheck(policyNumber);
-		emailAddressChangedInEndorsementCheck(emailAddressChanged, authorizedBy);
-
-		//PAS-343 start
-		CustomAssert.assertEquals(Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get()), numberOfDocumentsRecordsInDb);
-		//PAS-343 end
-
-		HelperCommon.executeContactInfoRequest(policyNumber, emailAddressChanged, authorizedBy);
-
-		//Popup to avoid conflicting transactions
-		policy.endorse().start();
-		CustomAssert
-				.assertTrue("Policy version you are working with is marked as NOT current (Probable cause - another user working with the same policy). Please reload policy to continue working with it."
-						.equals(Page.dialogConfirmation.labelMessage.getValue()));
-		Page.dialogConfirmation.reject();
-
-		SearchPage.openPolicy(policyNumber);
-		secondEndorsementIssueCheck();
-	}
 
 	protected void pas6560_endorsementValidateAllowedNoEffectiveDate() {
 		mainApp().open();
