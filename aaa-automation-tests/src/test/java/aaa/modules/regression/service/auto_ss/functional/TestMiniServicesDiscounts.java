@@ -70,14 +70,14 @@ public class TestMiniServicesDiscounts extends AutoSSBaseTest {
 
 		discountsCheckPerTransaction(policyNumber, "policy");
 
-		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().plusDays(15).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		AAAEndorseResponse endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().plusDays(15).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
 		discountsCheckPerTransaction(policyNumber, "endorsement");
 	}
 
 	private void discountsCheckPerTransaction(String policyNumber, String transaction) {
-		DiscountSummary policyDiscountsResponse = HelperCommon.executeDiscounts(policyNumber, transaction, 200);
+		DiscountSummary policyDiscountsResponse = HelperCommon.viewDiscounts(policyNumber, transaction, 200);
 
 		DiscountInfo afdDiscount = policyDiscountsResponse.policyDiscounts.stream().filter(disc -> "AFD".equals(disc.discountCd)).findFirst().orElse(null);
 		assertThat("AFD".equals(afdDiscount.discountCd)).isTrue();
