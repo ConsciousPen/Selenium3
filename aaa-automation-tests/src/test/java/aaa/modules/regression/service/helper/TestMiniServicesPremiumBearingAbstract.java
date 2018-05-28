@@ -590,7 +590,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		String model1 = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
 		String bodyStyle1 = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
 		String vehIdentificationNo1 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
-		String ownership1 = vehicleTab.getInquiryAssetList().getStaticElement(Ownership.OWNERSHIP_TYPE.getLabel()).getValue().replace("Owned", "OWN");
+		String ownership1 = vehicleTab.getInquiryAssetList().getStaticElement( Ownership.OWNERSHIP_TYPE.getLabel()).getValue().replace("Owned", "OWN");
 		String usage1 = vehicleTab.getInquiryAssetList().getStaticElement(USAGE.getLabel()).getValue();
 		String garagingDifferent1 = vehicleTab.getInquiryAssetList().getStaticElement(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel()).getValue().toLowerCase();
 		String antiTheft1 = vehicleTab.getInquiryAssetList().getStaticElement(ANTI_THEFT.getLabel()).getValue().toUpperCase();
@@ -1745,7 +1745,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			softly.assertThat(v1ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid1)));
 			softly.assertThat(v1ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid2)));
-			softly.assertThat(v2ByOid.stream().anyMatch(veh -> veh.driverOid.equals("unassigned")));
+			softly.assertThat(v2ByOid.stream().anyMatch(veh -> "unassigned".equals(veh.driverOid)));
 
 			//Update V2-->D2 (V1-->D1, V2-->D2)
 			DriverAssignmentDto[] updDriverAssignee3 = HelperCommon.updateDriverAssignment(policyNumber,vehicleOid2,driverOid2);
@@ -4295,9 +4295,9 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		softly.assertThat(responseValidateEndorse.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
 
 		//Lock the policy
-/*		PolicyLockUnlockDto responseLock = HelperCommon.executePolicyLockService(policyNumber, Response.Status.OK.getStatusCode(), SESSION_ID_1);
+		PolicyLockUnlockDto responseLock = HelperCommon.executePolicyLockService(policyNumber, Response.Status.OK.getStatusCode(), SESSION_ID_1);
 		assertThat(responseLock.policyNumber).isEqualTo(policyNumber);
-		assertThat(responseLock.status).isEqualTo("Locked");*/
+		assertThat(responseLock.status).isEqualTo("Locked");
 
 		//Create pended endorsement
 		AAAEndorseResponse response = HelperCommon.createEndorsement(policyNumber, endorsementDate);
@@ -4646,7 +4646,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		secondEndorsementIssueCheck();
 	}
 
-	@SuppressWarnings("Unchecked")
+	@SuppressWarnings("unchecked")
 	protected void pas9546_maxVehiclesBody(SoftAssertions softly) {
 		mainApp().open();
 		//Default policy has 1 vehicles
