@@ -33,14 +33,14 @@
     <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
     <!--</classes>-->
     <!--</test>-->
-    <!--<test name="HomeSS [DC] Premium Calculation Test" preserve-order="true">-->
-    <!--<parameter name="state" value="DC"/>-->
-    <!--<parameter name="fileName" value="DCTests-20170126.xls"/>-->
-    <!--<parameter name="policyNumbers" value="2"/>-->
-    <!--<classes>-->
-    <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
-    <!--</classes>-->
-    <!--</test>-->
+    <test name="HomeSS [DC] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="DC"/>
+        <parameter name="fileName" value="DCTests-20170126.xls"/>
+        <parameter name="policyNumbers" value="1,2"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
+        </classes>
+    </test>
     <!--<test name="HomeSS [DE] Premium Calculation Test" preserve-order="true">-->
     <!--<parameter name="state" value="DE"/>-->
     <!--<parameter name="fileName" value="DETests-20170528.xls"/>-->
