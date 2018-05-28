@@ -108,6 +108,7 @@
     <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
     <!--</classes>-->
     <!--</test>-->
+
     <test name="HomeSS [NY] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="NY"/>
         <parameter name="fileName" value="NYTests-20170915.xls"/>
@@ -132,14 +133,14 @@
     <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
     <!--</classes>-->
     <!--</test>-->
-    <!--<test name="HomeSS [OR] Premium Calculation Test" preserve-order="true">-->
-    <!--<parameter name="state" value="OR"/>-->
-    <!--<parameter name="fileName" value="ORTests-20171023.xls"/>-->
-    <!--<parameter name="policyNumbers" value="2"/>-->
-    <!--<classes>-->
-    <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
-    <!--</classes>-->
-    <!--</test>-->
+    <test name="HomeSS [OR] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="OR"/>
+        <parameter name="fileName" value="ORTests-20171023.xls"/>
+        <parameter name="policyNumbers" value="1,2"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
+        </classes>
+    </test>
     <!--<test name="HomeSS [PA] Premium Calculation Test" preserve-order="true">-->
     <!--<parameter name="state" value="PA"/>-->
     <!--<parameter name="fileName" value="PATests-20180528.xls"/>-->
