@@ -31,7 +31,7 @@ public class HomeCaDP3FormTestDataGenerator {
 	
 	private static Function<HomeCaDP3OpenLPolicy, List<TestData>> formDP0471DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
-		Dollar coverageLimit = new Dollar(openLPolicy.getForms().stream().filter(c -> "DP 04 71".equals(c.getFormCode())).findFirst().get().getLimit());
+		Double coverageLimit = openLPolicy.getForms().stream().filter(c -> "DP 04 71".equals(c.getFormCode())).findFirst().get().getLimit();
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", "Add",
 				HomeCaMetaData.EndorsementTab.EndorsementDP0471.COVERAGE_LIMIT.getLabel(), "contains=" + coverageLimit.toString().split("\\.")[0]));
@@ -58,7 +58,7 @@ public class HomeCaDP3FormTestDataGenerator {
 	
 	private static Function<HomeCaDP3OpenLPolicy, List<TestData>> formDW0420DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
-		Dollar coverageLimit = new Dollar(openLPolicy.getForms().stream().filter(c -> "DW 04 20".equals(c.getFormCode())).findFirst().get().getLimit());
+		Double coverageLimit = openLPolicy.getForms().stream().filter(c -> "DW 04 20".equals(c.getFormCode())).findFirst().get().getLimit();
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", "Add",
 				HomeCaMetaData.EndorsementTab.EndorsementDW0420.ADDITIONAL_COVERAGE_LIMIT.getLabel(), "contains=" + coverageLimit.toString().split("\\.")[0]));

@@ -1,8 +1,9 @@
 package aaa.helpers.openl.testdata_builder;
 
+import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang3.RandomUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.openl.model.home_ca.dp3.HomeCaDP3OpenLDwelling;
@@ -15,6 +16,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
+import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -132,9 +134,7 @@ public class HomeCaDP3TestDataGenerator extends TestDataGenerator<HomeCaDP3OpenL
 		
 		TestData rentalInformationData = DataProviderFactory.dataOf(
 				HomeCaMetaData.PropertyInfoTab.RentalInformation.YEAR_FIRST_RENTED.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getYearsOwned()).getYear(), 
-				//HomeCaMetaData.PropertyInfoTab.RentalInformation.PROPERTY_MANAGER.getLabel(), openLPolicy.getPropertyManagerType(), 
-				//TODO clarify and remove workaround
-				HomeCaMetaData.PropertyInfoTab.RentalInformation.PROPERTY_MANAGER.getLabel(), "Professional / Full-time", 
+				HomeCaMetaData.PropertyInfoTab.RentalInformation.PROPERTY_MANAGER.getLabel(), getPropertyManager(openLPolicy.getPropertyManagerType()), 
 				HomeCaMetaData.PropertyInfoTab.RentalInformation.ARE_THERE_ANY_ADDITIONAL_RENTAL_DWELLINGS.getLabel(), "No");
 		
 		TestData theftProtectiveDeviceData = getTheftProtectiveDevice(openLPolicy.getDwelling());
@@ -186,6 +186,8 @@ public class HomeCaDP3TestDataGenerator extends TestDataGenerator<HomeCaDP3OpenL
 		TestData recreationalEquipmentData = DataProviderFactory.dataOf(
 				HomeCaMetaData.PropertyInfoTab.RecreationalEquipment.SWIMMING_POOL.getLabel(), getSwimmingPoolType(openLPolicy));
 		
+		List<TestData> claimHistoryData = getClaimsHistoryData(openLPolicy, openLPolicy.getExpClaimPoints(), openLPolicy.getClaimPoints());
+		
 		return DataProviderFactory.dataOf(
 				HomeCaMetaData.PropertyInfoTab.DWELLING_ADDRESS.getLabel(), dwellingAddressData,
 				HomeCaMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS.getLabel(), ppcData,
@@ -198,8 +200,20 @@ public class HomeCaDP3TestDataGenerator extends TestDataGenerator<HomeCaDP3OpenL
 				HomeCaMetaData.PropertyInfoTab.HOME_RENOVATION.getLabel(), homeRenovationData, 
 				HomeCaMetaData.PropertyInfoTab.PETS_OR_ANIMALS.getLabel(), petsOrAnimalsData, 
 				HomeCaMetaData.PropertyInfoTab.STOVES.getLabel(), stovesData, 
-				HomeCaMetaData.PropertyInfoTab.RECREATIONAL_EQUIPMENT.getLabel(), recreationalEquipmentData);
-				//HomeCaMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel(), claimHistoryData);
+				HomeCaMetaData.PropertyInfoTab.RECREATIONAL_EQUIPMENT.getLabel(), recreationalEquipmentData,
+				HomeCaMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel(), claimHistoryData);
+	}
+	
+	private String getPropertyManager(String propertyManagerType) {
+		switch(propertyManagerType) {
+		case "Professional / full-time": 
+			return "Professional / Full-time";
+		//There is no value for "Non-Professional / Non-Full-time" in OpenL file
+		case "None": 
+			return "None";
+		default: 
+			return "Professional / Full-time";
+		}
 	}
 	
 	private TestData getTheftProtectiveDevice(HomeCaDP3OpenLDwelling dwelling) {
@@ -238,6 +252,66 @@ public class HomeCaDP3TestDataGenerator extends TestDataGenerator<HomeCaDP3OpenL
 			default: 
 				return "None";
 		}
+	}
+	
+	private List<TestData> getClaimsHistoryData(HomeCaDP3OpenLPolicy openLPolicy, Integer aaaClaimPoints, Integer notAaaClaimPoints) {
+		List<TestData> claimsDataList = new ArrayList<>();
+		TestData claim = DataProviderFactory.emptyData();
+
+		int totalPoints = aaaClaimPoints + notAaaClaimPoints;
+		boolean isFirstClaim = true;
+
+		if (totalPoints == 0) {
+			claimsDataList.add(claim);
+		}
+
+		if (notAaaClaimPoints != 0) {
+			for (int i = 0; i < notAaaClaimPoints; i++) {
+				claim = addClaimData(openLPolicy, isFirstClaim);
+				isFirstClaim = false;
+				claimsDataList.add(claim);
+			}
+		}
+
+		if (aaaClaimPoints != 0) {
+			for (int j = 0; j < aaaClaimPoints; j++) {
+				claim = addClaimData(openLPolicy, isFirstClaim);
+				claim.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PropertyInfoTab.ClaimHistory.AAA_CLAIM.getLabel(), "Yes"));
+				isFirstClaim = false;
+				claimsDataList.add(claim);
+			}
+		}
+
+		return claimsDataList;
+	}
+
+	private TestData addClaimData(HomeCaDP3OpenLPolicy openLPolicy, boolean isFirstClaim) {
+		TestData claimData;
+		if (isFirstClaim) {
+			claimData = DataProviderFactory.dataOf(
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.ADD_A_CLAIM.getLabel(), "Yes", 
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.ZIP.getLabel(), openLPolicy.getDwelling().getAddress().getZipCode(), 
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.ADDRESS_LINE_1.getLabel(), "111 Test street",
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS.getLabel(),
+							openLPolicy.getEffectiveDate().minusYears(RandomUtils.nextInt(1, 3)).format(DateTimeUtils.MM_DD_YYYY),
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.CAUSE_OF_LOSS.getLabel(), AdvancedComboBox.RANDOM_MARK,
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS.getLabel(), RandomUtils.nextInt(5000, 10000),
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.CLAIM_STATUS.getLabel(), "Open", 
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.POLICY_NUMBER.getLabel(), "345345345", 
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.RENTAL_CLAIM.getLabel(), "No");
+		} else {
+			claimData = DataProviderFactory.dataOf(
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.ZIP.getLabel(), openLPolicy.getDwelling().getAddress().getZipCode(), 
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.ADDRESS_LINE_1.getLabel(), "111 Test street",
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS.getLabel(),
+							openLPolicy.getEffectiveDate().minusYears(RandomUtils.nextInt(1, 3)).format(DateTimeUtils.MM_DD_YYYY),
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.CAUSE_OF_LOSS.getLabel(), AdvancedComboBox.RANDOM_MARK,
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS.getLabel(), RandomUtils.nextInt(5000, 10000),
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.CLAIM_STATUS.getLabel(), "Open", 
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.POLICY_NUMBER.getLabel(), "345345345", 
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.RENTAL_CLAIM.getLabel(), "No");
+		}
+		return claimData;
 	}
 	
 	private TestData getEndorsementTabData(HomeCaDP3OpenLPolicy openLPolicy) {
