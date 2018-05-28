@@ -37,7 +37,7 @@
     <test name="HomeSS [DC] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="DC"/>
         <parameter name="fileName" value="DCTests-20170126.xls"/>
-        <parameter name="policyNumbers" value="1,2"/>
+        <parameter name="policyNumbers" value="1,7"/>
         <classes>
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
