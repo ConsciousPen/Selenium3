@@ -1,5 +1,5 @@
 <profile version="1.0" is_locked="true">
-  <option name="myName" value="PAS_Automation_Inspections" />
+  <option name="myName" value="PAS_Automation_Inspections2018.1.1" />
   <inspection_tool class="AbsoluteAlignmentInUserInterface" enabled="false" level="WARNING" enabled_by_default="false" />
   <inspection_tool class="AbstractBeanReferencesInspection" enabled="true" level="ERROR" enabled_by_default="true" />
   <inspection_tool class="AbstractClassExtendsConcreteClass" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
@@ -2920,7 +2920,6 @@
   <inspection_tool class="TestMethodIsPublicVoidNoArg" enabled="true" level="WARNING" enabled_by_default="true" />
   <inspection_tool class="TestMethodWithoutAssertion" enabled="false" level="WARNING" enabled_by_default="false">
     <option name="assertionMethods" value="org.junit.Assert,assert.*|fail.*,junit.framework.Assert,assert.*|fail.*,org.mockito.Mockito,verify.*" />
-    <option name="assertKeywordIsAssertion" value="false" />
   </inspection_tool>
   <inspection_tool class="TestNGDataProvider" enabled="true" level="WARNING" enabled_by_default="true" />
   <inspection_tool class="TestNGMethodNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
@@ -3112,7 +3111,7 @@
     <option name="ignoreComplexLiterals" value="false" />
   </inspection_tool>
   <inspection_tool class="UnqualifiedFieldAccess" enabled="false" level="WARNING" enabled_by_default="false" />
-  <inspection_tool class="UnqualifiedInnerClassAccess" enabled="true" level="WARNING" enabled_by_default="true">
+  <inspection_tool class="UnqualifiedInnerClassAccess" enabled="false" level="WARNING" enabled_by_default="false">
     <option name="ignoreReferencesToLocalInnerClasses" value="true" />
   </inspection_tool>
   <inspection_tool class="UnqualifiedMethodAccess" enabled="false" level="WARNING" enabled_by_default="false" />

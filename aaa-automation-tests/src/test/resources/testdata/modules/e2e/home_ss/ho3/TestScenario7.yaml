@@ -34,7 +34,9 @@ TestData_EndorsementRP: {
     Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
   },
   MortgageesTab: {},
-  UnderwritingAndApprovalTab: {},
+  UnderwritingAndApprovalTab: {
+    'Underwriter-selected inspection type': Exterior
+  },
   DocumentsTab: {},
   BindTab: {},
 }
@@ -55,7 +57,9 @@ TestData_EndorsementRP_NJ: {
     Coverage E - Personal Liability Each Occurrence: 'contains=$200,000'
   },
   MortgageesTab: {},
-  UnderwritingAndApprovalTab: {},
+  UnderwritingAndApprovalTab: {
+    'Underwriter-selected inspection type': Exterior
+  },
   DocumentsTab: {},
   BindTab: {},
 }
