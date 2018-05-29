@@ -69,7 +69,7 @@ public class TestInvoiceWithNoDownPaymentTemplate extends PolicyBaseTest {
         // Create a premium-bearing endorsement (increase)
         policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(policyType).getTestData("Endorsement"), "TestData"));
         navigateToPremiumAndCoveragesQuoteTab(policyType);
-        premiumAndCoveragesQuoteTab.getAssetList().getAsset(getCoverageB(policyType)).setValueContains("30%");
+        premiumAndCoveragesQuoteTab.getAssetList().getAsset(getDeductible(policyType)).setValueByIndex(0);
         premiumAndCoveragesQuoteTab.getAssetList().getAsset(getCalculatePremiumButton(policyType)).click();
         navigateToBindTab(policyType);
         bindTab.submitTab();
@@ -94,11 +94,11 @@ public class TestInvoiceWithNoDownPaymentTemplate extends PolicyBaseTest {
         }
     }
 
-    private AssetDescriptor<ComboBox> getCoverageB(PolicyType policyType) {
+    private AssetDescriptor<ComboBox> getDeductible(PolicyType policyType) {
         if (policyType.isCaProduct()) {
-            return HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_B;
+            return HomeCaMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE;
         }
-        return HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_B;
+        return HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE;
     }
 
     private AssetDescriptor<JavaScriptButton> getCalculatePremiumButton(PolicyType policyType) {
