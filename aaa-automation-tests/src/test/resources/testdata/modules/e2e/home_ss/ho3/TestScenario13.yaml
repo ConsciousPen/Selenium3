@@ -24,6 +24,24 @@ TestData_Endorsement: {
   BindTab: {}
 }
 
+TestData_Endorsement_AZ: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Semi-Annual
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {
+    'Underwriter-selected inspection type': index=1
+  },
+  DocumentsTab: {},
+  BindTab: {}
+}
+
 # ----- Renewal - Create version -----
 TestData_CreateVersion: {
   GeneralTab: {},

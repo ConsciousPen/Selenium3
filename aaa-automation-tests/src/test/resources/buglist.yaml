@@ -86,18 +86,6 @@ PAS-9361:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
       messages: ["Email"]
-PAS-9337:
-  summary: "Green Button Service - Abracradabra"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas6562_endorsementValidateNotAllowedOutOfBound]
-      messages: ["Expected empty*UpdateVehicle"]
-PAS-9722:
-  summary: "Random sequence for Vehicles on DXP - closed, new story will be created"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas8273_OnlyActiveVehiclesAreAllowed]
-      messages: [" "]
 PAS-10661:
   summary: "AAA_HO_SS1290786 Error A valid insurance score report for at least one named insured is required to propose firing inspite of overriding Insurance Score"
   reason: PROD
@@ -159,7 +147,7 @@ PAS-12257:
   summary: "Conversion: XML import failed for PUP FoxPro, HDES and SIS DP3: Unmarshalling error, Invalid content was found starting with element 'category'"
   reason: PROD
   failures:
-    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForConversion]
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.pas9716_policySummaryForConversion]
       messages: ["Cannot set value of ComboBox"]
     - tests: [aaa.modules.regression.conversions.*]
       messages: ["doesn't have Success status. Reason"]
@@ -174,10 +162,10 @@ PAS-11810:
   reason: PROD
   failures:
     - tests: [
-    aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForLapsedRenewal,
-    aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForActiveRenewal,
-    aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForLapsedRenewal,
-    aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForActiveRenewal
+    aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesPremiumBearing.pas9716_policySummaryForLapsedRenewal,
+    aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesPremiumBearing.pas9716_policySummaryForActiveRenewal,
+    aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.pas9716_policySummaryForLapsedRenewal,
+    aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.pas9716_policySummaryForActiveRenewal
     ]
       messages: ["expected:<null> but was:<"]
 PAS-12464:
@@ -234,7 +222,7 @@ PAS-13651:
   summary: "Instantiate state specific coverages"
   reason: PROD
   failures:
-    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas12866_e2eBct,
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.pas12866_e2eBct,
     ]
       messages: ["no such element: Unable to locate element: {", "Error 500"]
 PAS-14137:
