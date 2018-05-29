@@ -2902,7 +2902,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		String towingAndLabor1 = getCoverages(1, AutoSSMetaData.PremiumAndCoveragesTab.TOWING_AND_LABOR_COVERAGE.getLabel(), " (Included)", " (+$0.00)", "$");
 		Dollar excessElectronicEquipment1 = getCoverage(1, AutoSSMetaData.PremiumAndCoveragesTab.EXCESS_ELECTRONIC_EQUIPMENT.getLabel(), "");
 
-		PolicyCoverageInfo coverageResponse1 = HelperCommon.viewPolicyCoverages(policyNumber);
+		PolicyCoverageInfo coverageResponse1 = HelperCommon.viewEndorsementCoverages(policyNumber);
 		assertSoftly(softly -> {
 			assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("COMPDED");
 			assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).coverageDescription).isEqualTo("Other Than Collision");
@@ -2940,7 +2940,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(3).coverageLimitDisplay).isEqualTo("No Coverage");
 			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(3).coverageType).isEqualTo("None");
 			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(3).customerDisplayed).isEqualTo(false);
-			assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(3).canChangeCoverage).isEqualTo(false);
+			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(3).canChangeCoverage).isEqualTo(false);
 
 			assertCoverageLimitLoan(coverageResponse1);
 
@@ -2956,7 +2956,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(5).coverageCd).isEqualTo("TOWINGLABOR");
 			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimit).isEqualTo("0");
+			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimit).isEqualTo("0/0");
 			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimitDisplay).isEqualTo(towingAndLabor1);
 			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(5).coverageType).isEqualTo("Per Disablement/Maximum");
 			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(5).customerDisplayed).isEqualTo(true);
@@ -3089,7 +3089,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageCd).isEqualTo("RREIM");
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageDescription).isEqualTo("Rental Reimbursement");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimit).isEqualTo("0");
+			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimit).isEqualTo("0/0");
 			//softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimitDisplay).contains(transportationExpense.toString().replace(".00", ""));
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageType).isEqualTo("per day/maximum");
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).customerDisplayed).isEqualTo(true);
@@ -3108,7 +3108,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageCd).isEqualTo("TOWINGLABOR");
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimit).isEqualTo("0");
+			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimit).isEqualTo("0/0");
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimitDisplay).isEqualTo(towingAndLabor);
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageType).isEqualTo("Per Disablement/Maximum");
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).customerDisplayed).isEqualTo(true);
