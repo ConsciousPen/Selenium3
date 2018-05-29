@@ -231,6 +231,53 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 	}
 
+	/**
+	 @author Chris Johns
+	 @scenario Test Distinct Match with NO VIN Entered
+	 1. Create Auto Policy where no VIN is entered and the user manually selects year/Make/Model/Series/Body Style. Ensure the Dropdown selections match to only one VIN in VIN Table
+	 2. After Policy Creation Delete the saved VIN Stub From DB (   PAS-12881 DONE  now stores vin stub on all quotes)
+	 3. Initiate a Renewal Entry for the policy to initiate a renewal refresh
+	 4. Calculate premium on the renewal image
+	 5. Verify the VIN Stub is saved in the DB for the policy
+	 @details
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12877")
+	public void pas12877_StoreStubRenewal(@Optional("UT") String state) {
+
+		String vehYear = "2018";
+		String vehMake = "VOLKSWAGEN";
+		String vehModel = "GOLF";
+		String vehSeries = "GOLF";
+		String vehBodyStyle = "HATCHBACK 4 DOOR";
+
+		TestData testData = getPolicyTD()
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.YEAR.getLabel()), vehYear)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MAKE.getLabel()), vehMake)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MODEL.getLabel()), vehModel)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
+
+		//1. Create a Policy with specific test data
+		String policyNumber = createPreconds(testData);
+
+		//2. Clear the Current VIN Stub Stored at NB
+//		DBService.get().executeUpdate(VehicleQueries.NULL_POLICY_STUB);
+
+		//3. Generate Renewal Image
+		policy.manualRenew().perform(getPolicyTD("ManualRenew", "TestData"));
+
+		//4. Calculate Premium
+
+
+		//5. Verify VIN Stub was Stored at renewal in the DB
+
+	}
+
+
 	@AfterSuite(alwaysRun = true)
 	protected void resetVinControlTable() {
 		// pas730_PartialMatch clean
