@@ -72,7 +72,7 @@ public class TestClueReportForCopiedPolicy extends AutoCaSelectBaseTest {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.MEMBERSHIP.get());
         policy.getDefaultView().getTab(MembershipTab.class).fillTab(tdCopy);
         new PremiumAndCoveragesTab().calculatePremium();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
         policy.getDefaultView().getTab(DriverActivityReportsTab.class).fillTab(tdCopy);
 
         // Validate CLUE reports table
