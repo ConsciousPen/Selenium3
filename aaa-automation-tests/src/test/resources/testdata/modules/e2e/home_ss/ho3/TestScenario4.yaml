@@ -24,30 +24,8 @@ TestData_Endorsement: {
     Coverage F - Medical Payments to Others: 'contains=$25,000'
   },
   MortgageesTab: {},
-  UnderwritingAndApprovalTab: {},
-  DocumentsTab: {},
-  BindTab: {},
-}
-
-TestData_Endorsement_AZ: {
-  GeneralTab: {},
-  ApplicantTab: {},
-  ReportsTab: {},
-  PropertyInfoTab: {
-    PropertyValue: {
-      Coverage A - Dwelling limit: 174000
-    }
-  },
-  ProductOfferingTab: {},
-  EndorsementTab: {},
-  PremiumsAndCoveragesQuoteTab: {
-    Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
-    Coverage E - Personal Liability Each Occurrence: 'contains=$1,000,000',
-    Coverage F - Medical Payments to Others: 'contains=$25,000'
-  },
-  MortgageesTab: {},
   UnderwritingAndApprovalTab: {
-    'Underwriter-selected inspection type': index=1
+    'Underwriter-selected inspection type': Exterior
   },
   DocumentsTab: {},
   BindTab: {},
