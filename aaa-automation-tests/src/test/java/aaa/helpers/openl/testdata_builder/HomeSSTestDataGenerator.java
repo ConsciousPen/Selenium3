@@ -730,8 +730,14 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				case "Fenced above ground without safety net":
 					trampolineType = "Restricted access above ground without safety net";
 					break;
+				case "Fenced in-ground with safety net":
+					trampolineType = "Restricted access in-ground with safety net";
+					break;
 				case "Fenced in-ground without safety net":
-					trampolineType = "Restricted access above ground without safety net";
+					trampolineType = "Restricted access in-ground without safety net";
+					break;
+				case "Unrestricted access":        //???
+					trampolineType = "Unrestricted access";
 					break;
 				default:
 					throw new IstfException("Unknown mapping for trampoline = " + openLPolicy.getPolicyConstructionInfo().getTrampoline());
