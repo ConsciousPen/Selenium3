@@ -23,6 +23,7 @@ public class HelperWireMockStub {
 	private static final String REPLACEABLE_PROPERTY_FORMAT = "${%s}";
 	private static final String REPLACEABLE_NULL_PROPERTY_FORMAT = "\"${%s}\"";
 	private static final String ID_PROPERTY = "${id}";
+	private static final String ENV_PREFIX_PROPERTY = "${envPrefix}";
 
 	private static  final String ENVIRONMENT_PATH = PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE);
 	private final String templateName;
@@ -53,6 +54,7 @@ public class HelperWireMockStub {
 			}
 		}
 		template = template.replace(ID_PROPERTY, id);
+		template = template.replace(ENV_PREFIX_PROPERTY, PropertyProvider.getProperty(CustomTestProperties.APP_HOST));
 		executePost(template);
 		return this;
 	}
