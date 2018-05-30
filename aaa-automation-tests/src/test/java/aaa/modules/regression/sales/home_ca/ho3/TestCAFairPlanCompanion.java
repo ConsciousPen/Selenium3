@@ -2,15 +2,13 @@ package aaa.modules.regression.sales.home_ca.ho3;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.DocumentsTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
-import aaa.modules.regression.sales.template.AbstractFAIRPlanTestMethods;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -23,7 +21,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
  * @author Tyrone C Jemison
  * @name Test CA Fair Plan Companion
  */
-public class TestCAFairPlanCompanion extends AbstractFAIRPlanTestMethods {
+public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
     // Class Variables
     TestData defaultPolicyData;
     HelperCommon myHelper = new HelperCommon();
@@ -53,7 +51,7 @@ public class TestCAFairPlanCompanion extends AbstractFAIRPlanTestMethods {
 
         // Verify FPCECA now present on Documents Tab & Quote Tab
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-        verifyEndorsementAvailable("ho3");
+        myHelper.verifyFPCECAEndorsementAvailable("ho3");
 
         // Verify Document Tab populates Endorsement
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
@@ -84,7 +82,7 @@ public class TestCAFairPlanCompanion extends AbstractFAIRPlanTestMethods {
         createPolicy(defaultPolicyData);
         policy.endorse().perform(endorsementTestData.adjust(getPolicyTD("Endorsement", "TestData")));
         policy.getDefaultView().fillUpTo(endorsementTestData, EndorsementTab.class, false);
-        verifyEndorsementAvailable("ho3");
+        myHelper.verifyFPCECAEndorsementAvailable("ho3");
 
         // Click FPCECA Endorsement
         myHelper.addFAIRPlanEndorsement("ho3");
@@ -105,9 +103,10 @@ public class TestCAFairPlanCompanion extends AbstractFAIRPlanTestMethods {
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
     public void AC3_Renewal_VisibleFPCECA(@Optional("") String state) {
 
-        handleRenewalTesting(getPolicyTD());
+        myHelper.handleRenewalTesting(defaultPolicyData);
+        policy.getDefaultView().fillUpTo(getTestSpecificTD("Renewal_AC3"), EndorsementTab.class, false);
 
-        verifyEndorsementAvailable("ho3");
+        myHelper.verifyFPCECAEndorsementAvailable("ho3");
 
         // Click FPCECA Endorsement
         myHelper.addFAIRPlanEndorsement("ho3");
