@@ -49,15 +49,9 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
             .getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES)
             .getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_SEARCH);
 
-    private final LocalDateTime algoDate = LocalDateTime.of(2018, Month.JUNE, 1, 0, 0);
-
-
     public void pas6849_TestDisplayAutoTierOnApplicantTab(PolicyType policyType) {
 
         TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData");
-
-        // TODO This can be removed after 5/28/18 (effective date requirement for new rating algo)
-        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         // Create the customer
         mainApp().open();
@@ -95,9 +89,6 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
     public void pas6849_TestAutoNAValueWithNonPACompanionAuto(PolicyType policyType) {
         TestData tdAutoOH = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData_OH")
                 .adjust(PrefillTab.class.getSimpleName(), testDataManager.getDefault(TestPARevisedHomeTierAutoNA.class).getTestData("TestData_PrefillTab_OH"));
-
-        // TODO This can be removed after 5/28/18 (effective date requirement for new rating algo)
-        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         // Create the customer
         mainApp().open();
@@ -142,9 +133,6 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
 
         List<String> rangeAutoTier = IntStream.rangeClosed(1, 16).boxed().map(String::valueOf).collect(Collectors.toList());
         rangeAutoTier.add("N/A");
-
-        // TODO This needs to be removed after 5/28/18 (new algo implementation)
-        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         mainApp().open();
         createCustomerIndividual();
@@ -210,9 +198,6 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
 
 
     public void pas6829_TestPrivelegeToEditCompanionAutoTier(PolicyType policyType) {
-
-        // TODO This needs to be removed after 5/28/18 (new algo implementation)
-        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         // Log in with default User with privilege to edit policy tier
         mainApp().open();
@@ -281,9 +266,6 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
 
     public void pas6829_TestPrivelegeToEditManualCompanionAutoTier(PolicyType policyType) {
 
-        // TODO This needs to be removed after 5/28/18 (new algo implementation)
-        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
-
         // Log in with default User with privilege to edit policy tier
         mainApp().open();
         createCustomerIndividual();
@@ -350,8 +332,6 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
 
     public void pas6795_disableReorderReportEndorsement(PolicyType policyType) {
 
-        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
-
         mainApp().open();
         createPolicyVerifyOverrideLink(policyType);
 
@@ -362,8 +342,6 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
     }
 
     public void pas6827_disableReorderReportRenewal(PolicyType policyType) {
-
-        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         // Create HO Policy
         mainApp().open();
