@@ -1,8 +1,14 @@
 package aaa.modules.regression.sales.template.functional;
 
+import java.time.LocalDateTime;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
+import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.metadata.policy.PurchaseMetaData;
@@ -11,6 +17,7 @@ import aaa.main.modules.policy.abstract_tabs.Purchase;
 import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
@@ -65,14 +72,24 @@ public class TestInvoiceWithNoDownPaymentTemplate extends PolicyBaseTest {
         createCustomerIndividual();
         policyType.get().createPolicy(getPolicyDefaultTD(policyType));
         String policyNumber = PolicySummaryPage.getPolicyNumber();
+        LocalDateTime effectiveDate = PolicySummaryPage.getEffectiveDate();
 
-        // Create a premium-bearing endorsement (increase)
+        // Create a premium-bearing endorsement (increase) at effective date plus 30 days
+        TimeSetterUtil.getInstance().confirmDateIsAfter(effectiveDate.plusDays(30));
+        reopenPolicy(policyNumber);
         policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(policyType).getTestData("Endorsement"), "TestData"));
         navigateToPremiumAndCoveragesQuoteTab(policyType);
         premiumAndCoveragesQuoteTab.getAssetList().getAsset(getDeductible(policyType)).setValueByIndex(0);
         premiumAndCoveragesQuoteTab.getAssetList().getAsset(getCalculatePremiumButton(policyType)).click();
         navigateToBindTab(policyType);
         bindTab.submitTab();
+
+        JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+        JobUtils.executeJob(Jobs.offCycleBillingInvoiceAsyncJob);
+
+        reopenPolicy(policyNumber);
+        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+        BillingSummaryPage.getInstallmentDueDate(1);
 
     }
 
@@ -106,6 +123,11 @@ public class TestInvoiceWithNoDownPaymentTemplate extends PolicyBaseTest {
             return HomeCaMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM_BUTTON;
         }
         return HomeSSMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM;
+    }
+
+    private void reopenPolicy(String policyNumber) {
+        mainApp().open();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
     }
 
 }
