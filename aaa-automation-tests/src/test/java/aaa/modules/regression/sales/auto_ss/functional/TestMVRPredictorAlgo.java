@@ -110,8 +110,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	 * @scenario 1. Create Customer1.
 	 * 2. Create Auto SS Quote.
 	 * 3. Add 1 Driver who is eligible for mvr status predicted valid
-	 * 4. Add 5 Drivers who are not eligible for mvr status predicted valid with following violations  at-fault accident, comprehensive claim, glass only loss, non-fault accident, principally at-fault accident
-	 * 5. Add 4 Vehicles
+	 * 4. Add 5 Drivers who are eligible for mvr status predicted valid with following violations  at-fault accident, comprehensive claim, glass only loss, non-fault accident, principally at-fault accident with clear Clue report
 	 * 6. Calculate Premium
 	 * 7. Navigate to Driver Activity Reports Tab.
 	 * 8. Order Reports.
