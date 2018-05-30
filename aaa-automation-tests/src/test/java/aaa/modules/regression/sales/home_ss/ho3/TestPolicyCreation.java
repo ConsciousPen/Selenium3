@@ -27,7 +27,7 @@ public class TestPolicyCreation extends HomeSSHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.SMOKE, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testPolicyCreation(@Optional("NJ") String state) {
+	public void testPolicyCreation(@Optional("") String state) {
 		mainApp().open();
 
 		createCustomerIndividual();
