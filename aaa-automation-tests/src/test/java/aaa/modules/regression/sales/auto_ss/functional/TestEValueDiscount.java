@@ -4,13 +4,14 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.main.enums.DocGenEnum.Documents.AHEVAXX;
+import static aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData.OPT_IN;
+import static aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData.OPT_OUT;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 
 import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
-import aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesAction;
 import aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
@@ -1302,13 +1303,13 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-297", "PAS-296"})
 	public void pas297_MidTermOptInNotificationToAgentAboutPaperlessPreferences(@Optional("VA") String state) {
 
 		eValueQuoteCreation();
 		String quoteNumber = PolicySummaryPage.getPolicyNumber();
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(quoteNumber, PaperlessPreferencesAction.PAPERLESS_OPT_OUT, PaperlessPreferencesAction.PAPERLESS_OPT_OUT);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(quoteNumber, OPT_OUT);
 
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -1326,7 +1327,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		//Start PAS-296
 		//first endorsement
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
-		HelperWireMockStub stub2 = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_OUT, PaperlessPreferencesAction.PAPERLESS_OPT_OUT);
+		HelperWireMockStub stub2 = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.value("No");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -1347,7 +1348,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		//start new endorsement
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus10Day"));
-		HelperWireMockStub stub3 = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_IN, PaperlessPreferencesAction.PAPERLESS_OPT_IN);
+		HelperWireMockStub stub3 = createPaperlessPreferencesRequestId(policyNumber, OPT_IN);
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.value("Yes");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -1638,9 +1639,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		deleteMultiplePaperlessPreferencesRequests();
 	}
 
-	private HelperWireMockStub createPaperlessPreferencesRequestId(String policyNumber, PaperlessPreferencesAction billNotificationAction,
-													               PaperlessPreferencesAction policyDocumentsAction) {
-		PaperlessPreferencesTemplateData template = PaperlessPreferencesTemplateData.create(policyNumber, billNotificationAction, policyDocumentsAction);
+	private HelperWireMockStub createPaperlessPreferencesRequestId(String policyNumber, String paperlessAction) {
+		PaperlessPreferencesTemplateData template = PaperlessPreferencesTemplateData.create(policyNumber, paperlessAction);
 		HelperWireMockStub stub = HelperWireMockStub.create("paperless-preferences-200", template).mock();
 		stubList.add(stub);
 		return stub;

@@ -2,31 +2,6 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.io.File;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-import javax.ws.rs.core.Response;
-
-import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
-import aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesAction;
-import aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData;
-import org.assertj.core.api.SoftAssertions;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
-import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.SftpException;
 import aaa.admin.pages.general.GeneralAsyncTasksPage;
 import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.Tab;
@@ -57,6 +32,19 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueMembershipProcessPreConditions;
 import aaa.modules.regression.service.helper.HelperCommon;
+import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
+import aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
+import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
+import org.assertj.core.api.SoftAssertions;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 import toolkit.utils.SSHController;
@@ -66,6 +54,19 @@ import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
+
+import javax.ws.rs.core.Response;
+import java.io.File;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
+import static aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData.*;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestEValueMembershipProcessPreConditions {
 
@@ -754,16 +755,16 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	public void pas111_paperlessMockTest(@Optional("VA") String state) {
 		String policyNumber = "VASS952918556";
 
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_OUT, PaperlessPreferencesAction.PAPERLESS_OPT_OUT);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 		//Always need to delete the added request ot stub
 		deleteSinglePaperlessPreferenceRequest(stub);
 
-		HelperWireMockStub stub2 = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_IN_PENDING, PaperlessPreferencesAction.PAPERLESS_OPT_IN_PENDING);
+		HelperWireMockStub stub2 = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 
 		//PolicySummaryPage.getPolicyNumber();
 
 		deleteSinglePaperlessPreferenceRequest(stub2);
-		HelperWireMockStub stub3 = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_IN_PENDING, PaperlessPreferencesAction.PAPERLESS_OPT_IN_PENDING);
+		HelperWireMockStub stub3 = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 		deleteSinglePaperlessPreferenceRequest(stub3);
 	}
 
@@ -790,7 +791,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_IN_PENDING, PaperlessPreferencesAction.PAPERLESS_OPT_IN_PENDING);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 
 		CustomAssert.enableSoftMode();
 		jobsNBplus15plus30runNoChecks();
@@ -842,7 +843,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
 		String policyNumber = membershipEligibilityPolicyCreation("Pending", true);
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_IN_PENDING, PaperlessPreferencesAction.PAPERLESS_OPT_IN_PENDING);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 
 		CustomAssert.enableSoftMode();
 		jobsNBplus15plus30runNoChecks();
@@ -894,7 +895,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
 		String policyNumber = membershipEligibilityPolicyCreation("Non-Active", true);
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_IN_PENDING, PaperlessPreferencesAction.PAPERLESS_OPT_IN_PENDING);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 
 		CustomAssert.enableSoftMode();
 		jobsNBplus15plus30runNoChecks();
@@ -946,7 +947,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true, false);
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_IN_PENDING, PaperlessPreferencesAction.PAPERLESS_OPT_IN_PENDING);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 
 		CustomAssert.enableSoftMode();
 		jobsNBplus15plus30runNoChecks();
@@ -998,7 +999,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
 		String policyNumber = membershipEligibilityPolicyCreation("Pending", true, false);
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_IN_PENDING, PaperlessPreferencesAction.PAPERLESS_OPT_IN_PENDING);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 
 		CustomAssert.enableSoftMode();
 		jobsNBplus15plus30runNoChecks();
@@ -1050,7 +1051,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
 		String policyNumber = membershipEligibilityPolicyCreation("Non-Active", true, false);
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_IN_PENDING, PaperlessPreferencesAction.PAPERLESS_OPT_IN_PENDING);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 
 		CustomAssert.enableSoftMode();
 		jobsNBplus15plus30runNoChecks();
@@ -1100,7 +1101,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_IN_PENDING, PaperlessPreferencesAction.PAPERLESS_OPT_IN_PENDING);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 
 		CustomAssert.enableSoftMode();
 		jobsNBplus15plus30runNoChecks();
@@ -1116,7 +1117,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
 		deleteSinglePaperlessPreferenceRequest(stub);
 
-		HelperWireMockStub stub2 = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_IN, PaperlessPreferencesAction.PAPERLESS_OPT_IN);
+		HelperWireMockStub stub2 = createPaperlessPreferencesRequestId(policyNumber, OPT_IN);
 		jobsNBplus15plus30runNoChecks();
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -1152,11 +1153,11 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_IN_PENDING, PaperlessPreferencesAction.PAPERLESS_OPT_IN_PENDING);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 		deleteSinglePaperlessPreferenceRequest(stub);
 
 		CustomAssert.enableSoftMode();
-		HelperWireMockStub stub2 = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_IN, PaperlessPreferencesAction.PAPERLESS_OPT_IN);
+		HelperWireMockStub stub2 = createPaperlessPreferencesRequestId(policyNumber, OPT_IN);
 		jobsNBplus15plus30runNoChecks();
 		//implementEmailCheck from Admin Log?
 		mainApp().reopen();
@@ -1347,7 +1348,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().close();
 
 		CustomAssert.enableSoftMode();
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_OUT, PaperlessPreferencesAction.PAPERLESS_OPT_OUT);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 
 		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
@@ -1402,7 +1403,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().close();
 
 		CustomAssert.enableSoftMode();
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_OUT, PaperlessPreferencesAction.PAPERLESS_OPT_OUT);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 
 		HelperCommon.executeUpdatePolicyPreferences(policyNumber, 422);
 
@@ -1451,7 +1452,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
 	public void pas13528_eValueRemovedByServiceForReinstatedPolicy(@Optional("VA") String state) {
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_OUT, PaperlessPreferencesAction.PAPERLESS_OPT_OUT);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
@@ -1488,7 +1489,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
 	public void pas13528_eValueRemovedByServiceForFutureDatedReinstatedPolicy(@Optional("VA") String state) {
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_OUT, PaperlessPreferencesAction.PAPERLESS_OPT_OUT);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData_Plus10Days"));
@@ -1529,7 +1530,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
 	public void pas13528_eValueRemovedByServiceForFutureDatedCancelledPolicy(@Optional("VA") String state) {
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_OUT, PaperlessPreferencesAction.PAPERLESS_OPT_OUT);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus10Days"));
 		mainApp().close();
@@ -1583,7 +1584,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().close();
 
 		CustomAssert.enableSoftMode();
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_OUT, PaperlessPreferencesAction.PAPERLESS_OPT_OUT);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 
 		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
@@ -1623,7 +1624,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().close();
 
 		CustomAssert.enableSoftMode();
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_OUT, PaperlessPreferencesAction.PAPERLESS_OPT_OUT);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 
 		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
@@ -1664,7 +1665,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_OUT, PaperlessPreferencesAction.PAPERLESS_OPT_OUT);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 		HelperCommon.executeUpdatePolicyPreferences(policyNumber, 422);
 
 		mainApp().reopen();
@@ -1708,7 +1709,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(15));
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_OUT, PaperlessPreferencesAction.PAPERLESS_OPT_OUT);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 		HelperCommon.executeUpdatePolicyPreferences(policyNumber, 422);
 
 		mainApp().reopen();
@@ -1744,7 +1745,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_OUT, PaperlessPreferencesAction.PAPERLESS_OPT_OUT);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
 		mainApp().reopen();
@@ -1786,7 +1787,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		Dollar totalDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue());
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
 
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, PaperlessPreferencesAction.PAPERLESS_OPT_OUT, PaperlessPreferencesAction.PAPERLESS_OPT_OUT);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 
 		//BUG PAS-13952 Can't issue an endorsement to current term, when renewal was proposed and paid
 		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
@@ -2284,9 +2285,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		printToLog("ALL REQUEST DELETION WAS EXECUTED");
 	}
 
-	private HelperWireMockStub createPaperlessPreferencesRequestId(String policyNumber, PaperlessPreferencesAction billNotificationAction,
-																   PaperlessPreferencesAction policyDocumentsAction) {
-		PaperlessPreferencesTemplateData template = PaperlessPreferencesTemplateData.create(policyNumber, billNotificationAction, policyDocumentsAction);
+	private HelperWireMockStub createPaperlessPreferencesRequestId(String policyNumber, String paperlessAction) {
+		PaperlessPreferencesTemplateData template = PaperlessPreferencesTemplateData.create(policyNumber, paperlessAction);
 		HelperWireMockStub stub = HelperWireMockStub.create("paperless-preferences-200", template).mock();
 		stubList.add(stub);
 		printToLog("THE REQUEST ID WAS CREATED " + stub.getId());

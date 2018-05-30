@@ -3,7 +3,6 @@ package aaa.modules.regression.service.helper.wiremock;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.modules.regression.service.helper.wiremock.dto.WireMockTemplateData;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import org.apache.commons.lang3.StringUtils;
 import toolkit.config.PropertyProvider;
 
 import javax.ws.rs.client.Client;
@@ -48,9 +47,9 @@ public class HelperWireMockStub {
 		String template = getTemplate();
 		try {
 			for (Field field : templateData.getClass().getFields()) {
-				final String value = (String) field.get(templateData);
-				if (StringUtils.isNotEmpty(value)) {
-					template = template.replace(String.format(REPLACEABLE_PROPERTY_FORMAT, field.getName()), (String) field.get(templateData));
+				final Object value = field.get(templateData);
+				if (value != null) {
+					template = template.replace(String.format(REPLACEABLE_PROPERTY_FORMAT, field.getName()), field.get(templateData).toString());
 				} else {
 					template = template.replace(String.format(REPLACEABLE_NULL_PROPERTY_FORMAT, field.getName()), "null");
 				}
