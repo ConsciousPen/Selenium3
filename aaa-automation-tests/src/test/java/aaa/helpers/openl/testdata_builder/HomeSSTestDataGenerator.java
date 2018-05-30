@@ -96,20 +96,20 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				PurchaseTab.class.getSimpleName(), td.getTestData(PurchaseTab.class.getSimpleName())
 		);
 
-		if (BillingConstants.PaymentPlan.MORTGAGEE_BILL.equals(openLPolicy.getPolicyDiscountInformation().getPaymentPlan())) {
+		//		if (BillingConstants.PaymentPlan.MORTGAGEE_BILL.equals(openLPolicy.getPolicyDiscountInformation().getPaymentPlan())) {
 			TestData mortgageeTabData = DataProviderFactory.dataOf(
 					new MortgageesTab().getMetaKey(), DataProviderFactory.dataOf(
 							HomeSSMetaData.MortgageesTab.MORTGAGEE.getLabel(), "Yes",
 							HomeSSMetaData.MortgageesTab.MORTGAGEE_INFORMATION.getLabel(), DataProviderFactory.dataOf(
-									HomeSSMetaData.MortgageesTab.MortgageeInformation.NAME.getLabel(), "Name",
+									HomeSSMetaData.MortgageesTab.MortgageeInformation.NAME.getLabel(), "John Smith",
 									HomeSSMetaData.MortgageesTab.MortgageeInformation.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().getZip(),
 									HomeSSMetaData.MortgageesTab.MortgageeInformation.STREET_ADDRESS_1.getLabel(), "111 Street Address",
-									HomeSSMetaData.MortgageesTab.MortgageeInformation.VALIDATE_ADDRESS_BTN.getLabel(), "true",
+									HomeSSMetaData.MortgageesTab.MortgageeInformation.VALIDATE_ADDRESS_BTN.getLabel(), true,
 									HomeSSMetaData.MortgageesTab.MortgageeInformation.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.emptyData(),
 									HomeSSMetaData.MortgageesTab.MortgageeInformation.LOAN_NUMBER.getLabel(), "123456789"))
 			);
 			policyIssueData = TestDataHelper.merge(mortgageeTabData, policyIssueData);
-		}
+		//		}
 
 		// merge Documents to bind
 		LinkedHashMap<String, String> documentsToBindData = new LinkedHashMap<>();
@@ -497,12 +497,12 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				}
 			}
 		}
-		if (openLPolicy.getForms().stream().noneMatch(c -> "HS0490".equals(c.getFormCode()))) {
-			endorsementData.adjust(DataProviderFactory.dataOf(
-					HomeSSMetaData.EndorsementTab.HS_04_90.getLabel(), DataProviderFactory.dataOf(
-							"Action", "Remove"
-					)));
-		}
+		//		if (openLPolicy.getForms().stream().noneMatch(c -> "HS0490".equals(c.getFormCode()))) {
+		//			endorsementData.adjust(DataProviderFactory.dataOf(
+		//					HomeSSMetaData.EndorsementTab.HS_04_90.getLabel(), DataProviderFactory.dataOf(
+		//							"Action", "Remove"
+		//					)));
+		//		}
 		return endorsementData;
 	}
 
