@@ -6,6 +6,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -17,14 +18,19 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 public class TestMidTermReinstatementPointLock extends AutoSSBaseTest {
+
+	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+	private PurchaseTab purchaseTab = new PurchaseTab();
+
 	/**
-	* @author Dominykas Razgunas
-	* @name Check if Mid Term Endorsement does not include reinstatement point change
-	* @scenario
+	 * @author Dominykas Razgunas
+	 * @name Check if Mid Term Endorsement does not include reinstatement point change
+	 * @scenario
 	 * 1. Create customer
 	 * 2. Create Auto SS Policy and Save Reinstatement Points Score value
 	 * 3. Cancel Policy
@@ -35,11 +41,9 @@ public class TestMidTermReinstatementPointLock extends AutoSSBaseTest {
 	 * 8. Calculate Premium
 	 * 9. View Rating Details
 	 * 10. Assert That the Reinstatement Points are the same
-	* @details
-	*/
-	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
-	private PurchaseTab purchaseTab = new PurchaseTab();
-
+	 * @details
+	 */
+    @StateList(statesExcept = Constants.States.CA)
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9687")

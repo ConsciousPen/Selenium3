@@ -1300,13 +1300,13 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		//implementEmailCheck from Admin Log?
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Underwriting - Substantial Increase in Hazard");
 		lastTransactionHistoryEValueDiscountCheck(true);
 
 		jobsNBplus15plus30runNoChecks();
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Underwriting - Substantial Increase in Hazard");
 		lastTransactionHistoryEValueDiscountCheck(true);
 		checkDocumentContentAHDRXX(policyNumber, false, true, false, false, false);
 
@@ -1346,7 +1346,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		CustomAssert.enableSoftMode();
 		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
 
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+		HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
@@ -1401,11 +1401,11 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		CustomAssert.enableSoftMode();
 		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
 
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, 422);
+		HelperCommon.updatePolicyPreferences(policyNumber, 422);
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Underwriting - Substantial Increase in Hazard");
 		lastTransactionHistoryEValueDiscountCheck(true);
 
 		jobsNBplus15plus30runNoChecks();
@@ -1415,13 +1415,13 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		//Start PAS-12822
 		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
 		//End PAS-12822
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Underwriting - Substantial Increase in Hazard");
 		lastTransactionHistoryEValueDiscountCheck(true);
 
 		jobsNBplus15plus30runNoChecks();
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Underwriting - Substantial Increase in Hazard");
 		lastTransactionHistoryEValueDiscountCheck(true);
 		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
 
@@ -1455,7 +1455,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().close();
 
 		CustomAssert.enableSoftMode();
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+		HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
@@ -1492,7 +1492,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().close();
 
 		CustomAssert.enableSoftMode();
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+		HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
@@ -1532,7 +1532,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().close();
 
 		CustomAssert.enableSoftMode();
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+		HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
@@ -1582,7 +1582,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		CustomAssert.enableSoftMode();
 		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
 
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+		HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
@@ -1622,7 +1622,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		CustomAssert.enableSoftMode();
 		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
 
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+		HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
@@ -1662,7 +1662,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 
 		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, 422);
+		HelperCommon.updatePolicyPreferences(policyNumber, 422);
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
@@ -1706,7 +1706,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 
 		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, 422);
+		HelperCommon.updatePolicyPreferences(policyNumber, 422);
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
@@ -1742,7 +1742,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
 		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+		HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
@@ -1786,7 +1786,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
 
 		//BUG PAS-13952 Can't issue an endorsement to current term, when renewal was proposed and paid
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+		HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -1931,7 +1931,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		TimeSetterUtil.getInstance().nextPhase(dateToShiftTo);
 		//the job might not exist in AWS
 		if(new SoapJobActions().isJobExist(JobGroup.fromSingleJob(Jobs.membershipValidationJob.getJobName()))){
-			JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
+			JobUtils.executeJob(Jobs.membershipValidationJob);
 		} else {
 		//JobUtils.executeJob(Jobs.aaaBatchMarkerJob); //OSI: job is not required
 		JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
