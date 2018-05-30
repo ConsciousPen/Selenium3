@@ -53,7 +53,9 @@ TestData_Endorsement: {
     Payment plan: Quarterly,
   },
   MortgageesTab: {},
-  UnderwritingAndApprovalTab: {},
+  UnderwritingAndApprovalTab: {
+    'Underwriter-selected inspection type': Exterior
+  },
   DocumentsTab: {},
   BindTab: {}
 }
