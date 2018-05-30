@@ -8,7 +8,33 @@ import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.PolicyActions;
 import aaa.main.modules.policy.pup.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.pup.defaulttabs.CreateQuoteVersionTab;
-import aaa.main.modules.policy.pup.views.*;
+import aaa.main.modules.policy.pup.views.CancelNoticeView;
+import aaa.main.modules.policy.pup.views.CancellationView;
+import aaa.main.modules.policy.pup.views.ChangeBrokerView;
+import aaa.main.modules.policy.pup.views.ChangePendedEndEffDateView;
+import aaa.main.modules.policy.pup.views.CopyFromPolicyView;
+import aaa.main.modules.policy.pup.views.CopyFromQuoteView;
+import aaa.main.modules.policy.pup.views.DeclineByCompanyView;
+import aaa.main.modules.policy.pup.views.DeclineByCustomerView;
+import aaa.main.modules.policy.pup.views.DefaultView;
+import aaa.main.modules.policy.pup.views.DeleteCancelNoticeView;
+import aaa.main.modules.policy.pup.views.DeletePendedTransactionView;
+import aaa.main.modules.policy.pup.views.DoNotRenewView;
+import aaa.main.modules.policy.pup.views.EndorseView;
+import aaa.main.modules.policy.pup.views.GenerateOnDemandDocumentView;
+import aaa.main.modules.policy.pup.views.ManualRenewView;
+import aaa.main.modules.policy.pup.views.ManualRenewalWithOrWithoutLapseView;
+import aaa.main.modules.policy.pup.views.NonPremiumBearingEndorsementView;
+import aaa.main.modules.policy.pup.views.ProposeView;
+import aaa.main.modules.policy.pup.views.ReinstatementView;
+import aaa.main.modules.policy.pup.views.RemoveDoNotRenewView;
+import aaa.main.modules.policy.pup.views.RemoveManualRenewView;
+import aaa.main.modules.policy.pup.views.RenewView;
+import aaa.main.modules.policy.pup.views.RescindCancellationView;
+import aaa.main.modules.policy.pup.views.RewriteView;
+import aaa.main.modules.policy.pup.views.RollBackEndorsementView;
+import aaa.main.modules.policy.pup.views.RollOnChangesView;
+import aaa.main.modules.policy.pup.views.SuspendQuoteView;
 import toolkit.datax.TestData;
 
 /**
@@ -285,10 +311,6 @@ public final class PupPolicyActions {
     
     //TODO remove next actions if not used in AAA
     public static class NonPremiumBearingEndorsement extends PolicyActions.NonPremiumBearingEndorsement {
-        @Override
-        public String getName() {
-            return "Update Insured/Interest Info";
-        }
 
         @Override
         public Workspace getView() {
@@ -321,14 +343,23 @@ public final class PupPolicyActions {
     }
 
     public static class RescindCancellation extends PolicyActions.RescindCancellation {
-        @Override
-        public String getName() {
-            return "Rescind Cancellation";
-        }
 
         @Override
         public Workspace getView() {
             return new RescindCancellationView();
+        }
+    }
+
+    public static class InitiateHOQuote extends PolicyActions.InitiateHOQuote {
+        @Override
+        public Workspace getView() {
+            return new aaa.main.modules.policy.home_ss.views.DefaultView();
+        }
+
+        @Override
+        public AbstractAction start() {
+            NavigationPage.setActionAndGo(getName());
+            return this;
         }
     }
 }

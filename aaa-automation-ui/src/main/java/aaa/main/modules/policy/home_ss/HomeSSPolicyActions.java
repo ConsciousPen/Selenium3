@@ -9,7 +9,38 @@ import aaa.common.Workspace;
 import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.PolicyActions;
 import aaa.main.modules.policy.home_ss.defaulttabs.CreateQuoteVersionTab;
-import aaa.main.modules.policy.home_ss.views.*;
+import aaa.main.modules.policy.home_ss.views.BindView;
+import aaa.main.modules.policy.home_ss.views.CancelNoticeView;
+import aaa.main.modules.policy.home_ss.views.CancellationView;
+import aaa.main.modules.policy.home_ss.views.ChangeBrokerView;
+import aaa.main.modules.policy.home_ss.views.ChangePendedEndEffDateView;
+import aaa.main.modules.policy.home_ss.views.ChangeReinstateLapseView;
+import aaa.main.modules.policy.home_ss.views.CopyFromPolicyView;
+import aaa.main.modules.policy.home_ss.views.CopyFromQuoteView;
+import aaa.main.modules.policy.home_ss.views.DataGatheringEndorsementView;
+import aaa.main.modules.policy.home_ss.views.DeclineByCompanyView;
+import aaa.main.modules.policy.home_ss.views.DeclineByCustomerView;
+import aaa.main.modules.policy.home_ss.views.DefaultView;
+import aaa.main.modules.policy.home_ss.views.DeleteCancelNoticeView;
+import aaa.main.modules.policy.home_ss.views.DeletePendedTransactionView;
+import aaa.main.modules.policy.home_ss.views.DoNotRenewView;
+import aaa.main.modules.policy.home_ss.views.EndorseView;
+import aaa.main.modules.policy.home_ss.views.GenerateOnDemandDocumentView;
+import aaa.main.modules.policy.home_ss.views.ManualRenewView;
+import aaa.main.modules.policy.home_ss.views.ManualRenewalWithOrWithoutLapseView;
+import aaa.main.modules.policy.home_ss.views.NonPremiumBearingEndorsementView;
+import aaa.main.modules.policy.home_ss.views.PolicyRenewalChangeLapseView;
+import aaa.main.modules.policy.home_ss.views.ProposeView;
+import aaa.main.modules.policy.home_ss.views.QuoteRenewalChangeLapseView;
+import aaa.main.modules.policy.home_ss.views.ReinstatementView;
+import aaa.main.modules.policy.home_ss.views.RemoveDoNotRenewView;
+import aaa.main.modules.policy.home_ss.views.RemoveManualRenewView;
+import aaa.main.modules.policy.home_ss.views.RenewView;
+import aaa.main.modules.policy.home_ss.views.RescindCancellationView;
+import aaa.main.modules.policy.home_ss.views.RewriteView;
+import aaa.main.modules.policy.home_ss.views.RollBackEndorsementView;
+import aaa.main.modules.policy.home_ss.views.RollOnChangesView;
+import aaa.main.modules.policy.home_ss.views.SuspendQuoteView;
 import toolkit.datax.TestData;
 
 /**
@@ -333,10 +364,6 @@ public final class HomeSSPolicyActions {
     }
     
     public static class NonPremiumBearingEndorsement extends PolicyActions.NonPremiumBearingEndorsement {
-        @Override
-        public String getName() {
-            return "Update Insured/Interest Info";
-        }
 
         @Override
         public Workspace getView() {
@@ -381,14 +408,23 @@ public final class HomeSSPolicyActions {
     }
 
     public static class RescindCancellation extends PolicyActions.RescindCancellation {
-        @Override
-        public String getName() {
-            return "Rescind Cancellation";
-        }
 
         @Override
         public Workspace getView() {
             return new RescindCancellationView();
+        }
+    }
+
+	public static class InitiateHoQuote extends PolicyActions.InitiateHOQuote {
+        @Override
+        public Workspace getView() {
+            return new DefaultView();
+        }
+
+        @Override
+        public AbstractAction start() {
+            NavigationPage.setActionAndGo(getName());
+            return this;
         }
     }
 }

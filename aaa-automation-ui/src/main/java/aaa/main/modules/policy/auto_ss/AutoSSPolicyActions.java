@@ -14,7 +14,37 @@ import aaa.main.modules.policy.PolicyActions;
 import aaa.main.modules.policy.auto_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.CreateQuoteVersionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.views.*;
+import aaa.main.modules.policy.auto_ss.views.BindView;
+import aaa.main.modules.policy.auto_ss.views.CancelNoticeView;
+import aaa.main.modules.policy.auto_ss.views.CancellationView;
+import aaa.main.modules.policy.auto_ss.views.ChangeBorkerView;
+import aaa.main.modules.policy.auto_ss.views.ChangePendedEndEffDateView;
+import aaa.main.modules.policy.auto_ss.views.CopyFromPolicyView;
+import aaa.main.modules.policy.auto_ss.views.CopyFromQuoteView;
+import aaa.main.modules.policy.auto_ss.views.DeclineByCompanyView;
+import aaa.main.modules.policy.auto_ss.views.DeclineByCustomerView;
+import aaa.main.modules.policy.auto_ss.views.DefaultView;
+import aaa.main.modules.policy.auto_ss.views.DeletePendedTransactionView;
+import aaa.main.modules.policy.auto_ss.views.DoNotRenewView;
+import aaa.main.modules.policy.auto_ss.views.EndorseView;
+import aaa.main.modules.policy.auto_ss.views.GenerateOnDemandDocumentPolicyView;
+import aaa.main.modules.policy.auto_ss.views.GenerateOnDemandDocumentQuoteView;
+import aaa.main.modules.policy.auto_ss.views.ManualRenewView;
+import aaa.main.modules.policy.auto_ss.views.NonPremiumBearingEndorsementView;
+import aaa.main.modules.policy.auto_ss.views.ProposeView;
+import aaa.main.modules.policy.auto_ss.views.ReinstatementView;
+import aaa.main.modules.policy.auto_ss.views.RemoveCancelNoticeView;
+import aaa.main.modules.policy.auto_ss.views.RemoveDoNotRenewView;
+import aaa.main.modules.policy.auto_ss.views.RemoveManualRenewView;
+import aaa.main.modules.policy.auto_ss.views.RenewView;
+import aaa.main.modules.policy.auto_ss.views.RescindCancellationView;
+import aaa.main.modules.policy.auto_ss.views.RewriteView;
+import aaa.main.modules.policy.auto_ss.views.RollBackEndorsementView;
+import aaa.main.modules.policy.auto_ss.views.RollOnChangesView;
+import aaa.main.modules.policy.auto_ss.views.SpinView;
+import aaa.main.modules.policy.auto_ss.views.SplitView;
+import aaa.main.modules.policy.auto_ss.views.SuspendQuoteView;
+import aaa.main.modules.policy.auto_ss.views.UpdateRulesOverrideView;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.TextBox;
 
@@ -399,5 +429,17 @@ public final class AutoSSPolicyActions {
         }
     }
 
+    public static class InitiateHOQuote extends PolicyActions.InitiateHOQuote {
+        @Override
+        public Workspace getView() {
+            return new aaa.main.modules.policy.home_ss.views.DefaultView();
+        }
+
+        @Override
+        public AbstractAction start() {
+            NavigationPage.setActionAndGo(getName());
+            return this;
+        }
+    }
 }
 

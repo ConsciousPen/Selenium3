@@ -12,7 +12,35 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.main.modules.policy.PolicyActions;
 import aaa.main.modules.policy.auto_ca.defaulttabs.CreateQuoteVersionTab;
-import aaa.main.modules.policy.auto_ca.views.*;
+import aaa.main.modules.policy.auto_ca.views.CancelNoticeView;
+import aaa.main.modules.policy.auto_ca.views.CancellationView;
+import aaa.main.modules.policy.auto_ca.views.ChangeBrokerView;
+import aaa.main.modules.policy.auto_ca.views.ChangePendedEndorsementView;
+import aaa.main.modules.policy.auto_ca.views.CopyPolicyView;
+import aaa.main.modules.policy.auto_ca.views.CopyQuoteView;
+import aaa.main.modules.policy.auto_ca.views.DeclineByCompanyView;
+import aaa.main.modules.policy.auto_ca.views.DeclineByCustomerView;
+import aaa.main.modules.policy.auto_ca.views.DefaultView;
+import aaa.main.modules.policy.auto_ca.views.DeleteCancelNoticeView;
+import aaa.main.modules.policy.auto_ca.views.DeletePendedTransactionView;
+import aaa.main.modules.policy.auto_ca.views.DoNotRenewView;
+import aaa.main.modules.policy.auto_ca.views.EndorseView;
+import aaa.main.modules.policy.auto_ca.views.ManualRenewFlagView;
+import aaa.main.modules.policy.auto_ca.views.NonPremiumBearingEndorsementView;
+import aaa.main.modules.policy.auto_ca.views.PolicyDocGenView;
+import aaa.main.modules.policy.auto_ca.views.ProposeView;
+import aaa.main.modules.policy.auto_ca.views.ReinstateView;
+import aaa.main.modules.policy.auto_ca.views.RemoveDoNotRenewView;
+import aaa.main.modules.policy.auto_ca.views.RemoveManualRenewFlagView;
+import aaa.main.modules.policy.auto_ca.views.RenewView;
+import aaa.main.modules.policy.auto_ca.views.RescindCancellationView;
+import aaa.main.modules.policy.auto_ca.views.RewriteView;
+import aaa.main.modules.policy.auto_ca.views.RollBackEndorsementView;
+import aaa.main.modules.policy.auto_ca.views.RollOnChangesView;
+import aaa.main.modules.policy.auto_ca.views.SpinView;
+import aaa.main.modules.policy.auto_ca.views.SplitView;
+import aaa.main.modules.policy.auto_ca.views.SuspendQuoteView;
+import aaa.main.modules.policy.auto_ca.views.UpdateRulesOverrideView;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.TextBox;
 
@@ -292,10 +320,6 @@ public final class AutoCaPolicyActions {
 
     //TODO Remove next actions if not used in AAA
     public static class NonPremiumBearingEndorsement extends PolicyActions.NonPremiumBearingEndorsement {
-        @Override
-        public String getName() {
-            return "Update Insured/Interest Info";
-        }
 
         @Override
         public Workspace getView() {
@@ -328,10 +352,6 @@ public final class AutoCaPolicyActions {
     }
 
     public static class RescindCancellation extends PolicyActions.RescindCancellation {
-        @Override
-        public String getName() {
-            return "Rescind Cancellation";
-        }
 
         @Override
         public Workspace getView() {
@@ -376,4 +396,17 @@ public final class AutoCaPolicyActions {
 			return new PolicyDocGenView();
 		}
 	}
+
+	public static class InitiateHoQuote extends PolicyActions.InitiateHOQuote {
+        @Override
+        public Workspace getView() {
+            return new aaa.main.modules.policy.home_ca.views.DefaultView();
+        }
+
+        @Override
+        public AbstractAction start() {
+            NavigationPage.setActionAndGo(getName());
+            return this;
+        }
+    }
 }

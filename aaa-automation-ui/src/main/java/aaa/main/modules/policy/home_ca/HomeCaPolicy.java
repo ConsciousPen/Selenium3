@@ -11,7 +11,12 @@ import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyActions;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ca.defaulttabs.*;
+import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.DocumentsTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.UnderwritingAndApprovalTab;
 import aaa.main.modules.policy.home_ca.views.DefaultView;
 import aaa.main.pages.summary.QuoteSummaryPage;
 import aaa.utils.EntityLogger;
@@ -120,6 +125,11 @@ public class HomeCaPolicy implements IPolicy {
 	@Override
 	public HomeCaPolicyActions.Renew renew() {
 		return new HomeCaPolicyActions.Renew();
+	}
+
+	@Override
+	public PolicyActions.InitiateHOQuote initiateHOQuote() {
+		return new HomeCaPolicyActions.InitiateHOQuote();
 	}
 
 	@Override

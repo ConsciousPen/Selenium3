@@ -10,7 +10,11 @@ import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyActions;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.main.modules.policy.auto_ss.views.DefaultView;
 import aaa.main.pages.summary.QuoteSummaryPage;
 import aaa.utils.EntityLogger;
@@ -124,6 +128,11 @@ public class AutoSSPolicy implements IPolicy {
 	@Override
 	public PolicyActions.Renew renew() {
 		return new AutoSSPolicyActions.Renew();
+	}
+
+	@Override
+	public PolicyActions.InitiateHOQuote initiateHOQuote() {
+		return new AutoSSPolicyActions.InitiateHOQuote();
 	}
 
 	@Override
