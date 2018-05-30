@@ -3,6 +3,8 @@ package aaa.modules.regression.sales.auto_ss.functional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Optional;
@@ -254,7 +256,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		String vehBodyStyle = "HATCHBACK 4 DOOR";
 
 		TestData testData = getPolicyTD()
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "ZZYKN3DD8E0344466")
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.YEAR.getLabel()), vehYear)
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MAKE.getLabel()), vehMake)
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MODEL.getLabel()), vehModel)
@@ -265,17 +267,153 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		String policyNumber = createPreconds(testData);
 
 		//2. Clear the Current VIN Stub Stored at NB
-//		DBService.get().executeUpdate(VehicleQueries.NULL_POLICY_STUB);
+		DBService.get().executeUpdate(VehicleQueries.NULL_POLICY_STUB);
+		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNullOrEmpty();
 
 		//3. Generate Renewal Image
-		policy.manualRenew().perform(getPolicyTD("ManualRenew", "TestData"));
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
-		//4. Calculate Premium
+		//4. Go back to MainApp, find created policy, create Renewal image
+		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
+		searchForPolicy(policyNumber);
 
+		//5. Open Renewal and calculate premium
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
-		//5. Verify VIN Stub was Stored at renewal in the DB
-
+		//6. Verify VIN Stub was Stored at renewal in the DB
+		String expectedSTUB = "7MSRP15H&V";
+		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNotNull().isEqualTo(expectedSTUB);
 	}
+
+	/**
+	 @author Chris Johns
+	 @scenario Multiple Matches for manual selections, with a VIN entered (VIN returns no match/junk vin) - COMP SYMBOL MATCH
+	 1. Create Auto Policy where no VIN is entered and the user manually selects year/Make/Model/Series/Body Style. Ensure the Dropdown selections match multiple VINs in VIN Table
+	 2. After Policy Creation Delete the saved VIN Stub From DB (   PAS-12881 DONE  now stores vin stub on all quotes)
+	 3. Initiate a Renewal Entry for the policy to initiate a renewal refresh
+	 4. Calculate premium on the renewal image
+	 5. Verify the CORRECT (VIN Stub will be selected if the COMP symbol matches the COMP symbol used at NB) Stub is saved in the DB for the policy
+	 @details
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12877")
+	public void pas12877_StoreStubRenewal_NO_COMP(@Optional("UT") String state) {
+
+		String vehYear = "2016";
+		String vehMake = "TOYOTA";
+		String vehModel = "TACOMA";
+		String vehSeries = "TACOMA DOUBLE CAB";
+		String vehBodyStyle = "PICKUP";
+
+		TestData testData = getPolicyTD()
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "ZZYKN3DD8E0344466")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.YEAR.getLabel()), vehYear)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MAKE.getLabel()), vehMake)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MODEL.getLabel()), vehModel)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
+
+		//1. Create a Policy with specific test data
+		String policyNumber = createPreconds(testData);
+
+		//2. Clear the Current VIN Stub Stored at NB
+		DBService.get().executeUpdate(VehicleQueries.NULL_POLICY_STUB);
+		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNullOrEmpty();
+
+		//3. Generate Renewal Image
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+		//4. Go back to MainApp, find created policy, create Renewal image
+		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
+		searchForPolicy(policyNumber);
+
+		//5. Open Renewal and calculate premium
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		PremiumAndCoveragesTab.buttonSaveAndExit.click();
+
+		//6. Verify VIN Stub was Stored at renewal in the DB
+		String expectedSTUB = "5TFEZ5CN&G";
+		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNotNull().isEqualTo(expectedSTUB);
+	}
+
+	/**
+	 @author Chris Johns
+	 @scenario Multiple Matches for manual selections, with a VIN entered (VIN returns no match/junk vin) - NO COMP SYMBOL MATCH
+	 1. Create Auto Policy where no VIN is entered and the user manually selects year/Make/Model/Series/Body Style. Ensure the Dropdown selections match multiple VINs in VIN Table
+	 2. After Policy Creation Delete the saved VIN Stub From DB (  PAS-12881 DONE  now stores vin stub on all quotes)
+	 3. Initiate a Renewal Entry for the policy to initiate a renewal refresh
+	 4. Calculate premium on the renewal image
+	 5. Verify that ANY VIN Stub is chosen//TRY to see which row it chooses
+	 @details
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12877")
+	public void pas12877_StoreStubRenewal_COMP(@Optional("UT") String state) {
+
+		String vehYear = "2017";
+		String vehMake = "TOYOTA";
+		String vehModel = "TACOMA";
+		String vehSeries = "TACOMA DOUBLE CAB";
+		String vehBodyStyle = "PICKUP";
+
+		TestData testData = getPolicyTD()
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "ZZYKN3DD8E0344466")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.YEAR.getLabel()), vehYear)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MAKE.getLabel()), vehMake)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MODEL.getLabel()), vehModel)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
+
+		//1. Create a Policy with specific test data
+		String policyNumber = createPreconds(testData);
+
+		//2. Clear the Current VIN Stub Stored at NB and modify the COMP Symbol for the utilized VIN STUB - this will ensure that there is no direct match to a vin stub on renewal
+		DBService.get().executeUpdate(VehicleQueries.NULL_POLICY_STUB);
+		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNullOrEmpty();
+		DBService.get().executeUpdate(VehicleQueries.EDIT_COMP_VALUE);
+
+		//3. Generate Renewal Image
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+		//4. Go back to MainApp, find created policy, create Renewal image
+		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
+		searchForPolicy(policyNumber);
+
+		//5. Open Renewal and calculate premium
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		PremiumAndCoveragesTab.buttonSaveAndExit.click();
+
+		//6. Verify VIN Stub was Stored at renewal in the DB
+		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNullOrEmpty();
+
+		//7. Repair the COMP Symbol of the original VIN
+		DBService.get().executeUpdate(VehicleQueries.REPAIR_COMP_VALUE);
+	}
+
+
+
+
+
+
+
+
+
+
+
 
 
 	@AfterSuite(alwaysRun = true)
