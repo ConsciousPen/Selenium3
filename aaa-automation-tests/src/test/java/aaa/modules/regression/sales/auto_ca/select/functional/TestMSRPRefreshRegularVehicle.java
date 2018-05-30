@@ -9,6 +9,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.main.metadata.policy.AutoCaMetaData;
@@ -22,6 +23,7 @@ import toolkit.utils.TestInfo;
 
 public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+	final static String pas730_vinDoesNotMatchDB = "1MSRP15H1V1011111";
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -125,11 +127,9 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	public void pas730_vinDoesNotMatchDB(@Optional("CA") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
-		String vinNumber = "7MSRP15H5V1011111";
-		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber).resolveLinks();
+		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), pas730_vinDoesNotMatchDB).resolveLinks();
 		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();
 
-		// Vin control table has version which overrides VERSION_2000, it is needed and important to get symbols for next steps
 		adminApp().open();
 		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get()));
 
@@ -142,12 +142,13 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY).setValueByRegex("No Coverage.*");
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY).setValueByRegex("No Coverage.*");
+		premiumAndCoveragesTab.calculatePremium();
 
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT).setValue("CA Choice");
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VALUE).setValue("15000");
-		new PremiumAndCoveragesTab().calculatePremium();
+		vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VALUE).setValue("150000");
+		premiumAndCoveragesTab.calculatePremium();
 
 		pas730_commonChecks(compSymbol, collSymbol);
 
@@ -156,6 +157,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 
 	@AfterSuite(alwaysRun = true)
 	protected void resetVinControlTable() {
-		pas730_SelectCleanDataBase(CA_SELECT_REGULAR_VEH_MSRP_VERSION, VEHICLETYPE_Regular);
+		pas730_SelectCleanDataBase(CA_SELECT_REGULAR_VEH_MSRP_VERSION, vehicleTypeRegular);
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(pas730_vinDoesNotMatchDB,"SYMBOL_2000");
 	}
 }
