@@ -60,19 +60,19 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSHO4
     @StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.NJ,Constants.States.MD, Constants.States.PA, Constants.States.CT})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO4, testCaseId = "PAS-10512, PAS-10978")
-    public void propertyInfoTabconvPolicyRenewal(@Optional("AZ") String state) {
+    public void propertyInfoTabconvPolicyRenewal(@Optional("CT") String state) {
         TestData td = getConversionPolicyDefaultTD();
         String inceptionDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(10).format(DateTimeUtils.MM_DD_YYYY);
 
         createConvPolicyAndMoveToPropertyInfoTab(td, inceptionDate);
         hc.assertMasonryVaneerFirstRenewal();
-        hc.assertOilStorageTankFirstRenewalHo4Ho6(state);
+        hc.assertOilStorageTankFirstRenewalHo4(state);
         String policyNumber = saveAndExitPolicyOnBindTab(td);
         activeFirstRenewal(policyNumber);
         initiateSecondRenewal(policyNumber);
         navigateToPropertyInfoOnSecondRenewal();
         hc.assertMasonryVaneerSecondRenewal();
-        hc.assertOilStorageTankSecondRenewal();
+        hc.assertOilStorageTankSecondRenewalHo3Dp3(state);
     }
 
     /*
