@@ -45,7 +45,12 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9723")
 	public void pas9723_MVRPredictorNewBusiness(@Optional("") String state) {
 
-		TestData testData = getPolicyTD();
+		// For exceeding OK threshold (above threshold) you need a driver age x < 27y , driving exp  5< y <15 , male, single
+		TestData testData = getPolicyTD()
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1990")
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Male")
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel()), "Single")
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel()), "18");
 		TestData driverTab = getTestSpecificTD("TestData_DriverTab").resolveLinks();
 
 		// Add 4 Drivers 2 of them with age>83 and Driving exp>62
@@ -80,7 +85,8 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9723")
 	public void pas9723_BypassMVRPredictorManuallyAddedViolations(@Optional("") String state) {
 
-		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933");
+		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933")
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Female");
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabViolations").resolveLinks();
 
 		// Add 1 Driver who is eligible for mvr status predicted valid
@@ -95,17 +101,16 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		premiumAndCoveragesTab.submitTab();
 		driverActivityReportsTab.fillTab(testData);
 
-		assertMVRResponse();
+		assertMVRResponseViolations();
 	}
 
 	/**
 	 * @author Dominykas Razgunas
-	 * @name Bypass MVR Predictor Algo for drivers with accidents
+	 * @name Bypass MVR Predictor Algo for drivers with accidents below threshold
 	 * @scenario 1. Create Customer1.
 	 * 2. Create Auto SS Quote.
 	 * 3. Add 1 Driver who is eligible for mvr status predicted valid
-	 * 4. Add 5 Drivers who are not eligible for mvr status predicted valid with following violations  at-fault accident, comprehensive claim, glass only loss, non-fault accident, principally at-fault accident
-	 * 5. Add 4 Vehicles
+	 * 4. Add 5 Drivers who are eligible for mvr status predicted valid with following violations  at-fault accident, comprehensive claim, glass only loss, non-fault accident, principally at-fault accident with clear Clue report
 	 * 6. Calculate Premium
 	 * 7. Navigate to Driver Activity Reports Tab.
 	 * 8. Order Reports.
@@ -118,7 +123,8 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9723")
 	public void pas9723_BypassMVRPredictorManuallyAddedAccidents(@Optional("CT") String state) {
 
-		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933");
+		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933")
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Female");
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabAccidents").resolveLinks();
 
 		// Add 1 Driver who is eligible for mvr status predicted valid
@@ -128,8 +134,8 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		// Fill remaining policy to drivers activity reports tab
 		policy.getDefaultView().fillFromTo(testData, RatingDetailReportsTab.class, DriverActivityReportsTab.class, true);
 
-		assertMVRResponse();
-		}
+		assertMVRResponseAccidents();
+	}
 
 	private void preconditionAddedDrivers(TestData policyTestData, TestData driverTabTD){
 		mainApp().open();
@@ -139,7 +145,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		policy.getDefaultView().fill(driverTabTD);
 	}
 
-	private void assertMVRResponse(){
+	private void assertMVRResponseViolations(){
 		// Assert That driver with no violations has license status = Predicted Valid
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(1).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
 		// Assert That drivers with violations do not have license status = Predicted Valid
@@ -149,4 +155,14 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(5).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(6).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
 		}
+
+	private void assertMVRResponseAccidents(){
+		// Assert That drivers with manually added accidents (Clue report is successful and clear) has license status = Predicted Valid
+		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(1).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
+		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
+		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(3).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
+		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(4).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
+		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(5).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
+		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(6).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
+	}
 }
