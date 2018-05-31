@@ -88,7 +88,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
 
-	protected void pas11659_CommonSteps(String event1, event2 String policyNumber, LocalDateTime timeShiftedDate) {
+	protected void pas11659_CommonSteps(String event1,String event2, String policyNumber, LocalDateTime timeShiftedDate) {
 		//1. Move time to renewal time point and
 		moveTimeAndRunRenewJobs(timeShiftedDate);
 		//2. Retrieve the policy
