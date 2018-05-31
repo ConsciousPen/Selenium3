@@ -130,8 +130,9 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 		HomeSSOpenLForm form = openLPolicy.getForms().stream().filter(c -> "HS0454".equals(c.getFormCode())).findFirst().get();
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", isFormAdded("HS0454", policyLevel) ? "Edit" : "Add",
-				HomeSSMetaData.EndorsementTab.EndorsementHS0454.DEDUCTIBLE.getLabel(), form.getOptionalValue().toString().split("\\.")[0] + "%"));
-		//				HomeSSMetaData.EndorsementTab.EndorsementHS0454.INCLUDE_COVERAGE_FOR_EARTHQUAKE_LOSS_TO_EXTERIOR_MASONRY_VENEER.getLabel(), "Masonry Veneer".equals(openLPolicy.getPolicyConstructionInfo().get(0).getConstructionType())?"Yes":"No"
+				HomeSSMetaData.EndorsementTab.EndorsementHS0454.DEDUCTIBLE.getLabel(), form.getOptionalValue().toString().split("\\.")[0] + "%",
+				HomeSSMetaData.EndorsementTab.EndorsementHS0454.INCLUDE_COVERAGE_FOR_EARTHQUAKE_LOSS_TO_EXTERIOR_MASONRY_VENEER.getLabel(),
+				"Masonry Veneer".equals(openLPolicy.getPolicyConstructionInfo().getConstructionType()) ? form.getMasonaryOrFarmPremisesInd() ? "Yes" : "No" : "No"));
 
 		return tdList;
 	};

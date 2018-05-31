@@ -79,7 +79,7 @@ public class HomeSSClaimTestDataGenerator {
 	}
 
 	private TestData getClaim(Map<String, String> row) {
-		dateOfLoss = dateOfLoss.minusDays(1);
+		//		dateOfLoss = dateOfLoss.minusDays(1);
 		return DataProviderFactory.dataOf(
 				HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS.getLabel(), dateOfLoss.format(DateTimeUtils.MM_DD_YYYY),
 				HomeSSMetaData.PropertyInfoTab.ClaimHistory.CAUSE_OF_LOSS.getLabel(), row.get("CAUSEOFLOSS"),
