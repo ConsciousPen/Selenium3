@@ -4165,10 +4165,12 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		assertThat(response.policyNumber).isEqualTo(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
+		//run get behicle information service.
 		Vehicle[] viewVehicleResponse = HelperCommon.viewPolicyVehicles(policyNumber);
 		String oid = viewVehicleResponse[0].oid;
 		String vin = viewVehicleResponse[0].vehIdentificationNo;
 
+		//run delete vehicle service
 		VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, oid);
 		assertSoftly(softly -> {
 			softly.assertThat(deleteVehicleResponse.oid).isEqualTo(oid);
@@ -4184,6 +4186,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 				assertThat(viewEndorsementVehicleResponse2.vehicleList.get(0).vehicleStatus).isEqualTo("pendingRemoval");
 		});
 
+		//Rate policy
 		PolicyPremiumInfo[] endorsementRateResponse = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
 		assertSoftly(softly -> {
 			softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
@@ -4191,10 +4194,10 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
 		});
 
+		//Bind policy
 		HelperCommon.endorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode());
 		SearchPage.openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
-
 	}
 
 	protected void pas12407_bigDataService(SoftAssertions softly) {
