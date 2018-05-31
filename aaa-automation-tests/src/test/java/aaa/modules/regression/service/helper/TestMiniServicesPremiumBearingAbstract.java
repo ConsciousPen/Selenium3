@@ -1772,7 +1772,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			AAAEndorseResponse endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 			assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
-			//String vin1 = getStateTestData(vehicleData, "DataGather", "TestData").getTestDataList("VehicleTab").get(0).getValue("VIN");
 			String vin1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN");
 			String vin2 = td.getTestDataList("VehicleTab").get(1).getValue("VIN");
 			String vin3 = td.getTestDataList("VehicleTab").get(2).getValue("VIN");
@@ -1861,10 +1860,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			AAAEndorseResponse endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 			assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
-			//String vin1 = getStateTestData(vehicleData, "DataGather", "TestData").getTestDataList("VehicleTab").get(0).getValue("VIN");
 			String vin1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN");
 			String vin2 = td.getTestDataList("VehicleTab").get(1).getValue("VIN");
-		//	String vin3 = td.getTestDataList("VehicleTab").get(2).getValue("VIN");
 
 			//add V3
 			String purchaseDate = "2012-02-21";
