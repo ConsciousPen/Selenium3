@@ -72,7 +72,7 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSHO4
         initiateSecondRenewal(policyNumber);
         navigateToPropertyInfoOnSecondRenewal();
         hc.assertMasonryVaneerSecondRenewal();
-        hc.assertOilStorageTankSecondRenewalHo3Dp3(state);
+        hc.assertOilStorageTankSecondRenewal();
     }
 
     /*
