@@ -653,7 +653,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10449", "PAS-12244"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10449", "PAS-12244", "PAS-14593"})
 	public void pas10449_ViewVehicleServiceOrderOfVehicle(@Optional("VA") String state) {
 
 		pas10449_ViewVehicleServiceCheckOrderOfVehicle(getPolicyType(), state);
