@@ -72,7 +72,9 @@ TestData_Endorsement_NJ: {
     Hurricane Deductible: 'index=1'
   },
   MortgageesTab: {},
-  UnderwritingAndApprovalTab: {},
+  UnderwritingAndApprovalTab: {
+    'Underwriter-selected inspection type': Exterior
+  },
   DocumentsTab: {},
   BindTab: {}
 }
