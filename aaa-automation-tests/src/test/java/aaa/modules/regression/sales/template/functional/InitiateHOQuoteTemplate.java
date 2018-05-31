@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ca.helper;
+package aaa.modules.regression.sales.template.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.main.modules.policy.PolicyType;
@@ -7,7 +7,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 
-public class HelperInitiateHOQuote extends PolicyBaseTest {
+public class InitiateHOQuoteTemplate extends PolicyBaseTest {
 
     private EndorsementTab endorsementTab = new EndorsementTab();
 

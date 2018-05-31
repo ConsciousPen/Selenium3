@@ -6,16 +6,19 @@ package aaa.modules.regression.sales.home_ca.ho6.functional;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.modules.policy.HomeCaHO6BaseTest;
-import aaa.modules.regression.sales.home_ca.helper.HelperInitiateHOQuote;
+import aaa.modules.regression.sales.template.functional.InitiateHOQuoteTemplate;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
+@StateList(states = Constants.States.CA)
 
 public class TestInitiateHOQuoteHO29Endorsement extends HomeCaHO6BaseTest {
 
-	private HelperInitiateHOQuote helper = new HelperInitiateHOQuote();
+	private InitiateHOQuoteTemplate template = new InitiateHOQuoteTemplate();
 
 	/**
 	 * @author Dominykas Razgunas
@@ -37,6 +40,6 @@ public class TestInitiateHOQuoteHO29Endorsement extends HomeCaHO6BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-13261")
 	public void pas13261_testInitiateHOQuoteHO29added(@Optional("CA") String state) {
 
-		helper.pas13261_testInitiateHOQuoteHO29added(getPolicyType());
+		template.pas13261_testInitiateHOQuoteHO29added(getPolicyType());
 	}
 }
