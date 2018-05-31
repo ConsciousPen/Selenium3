@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -16,7 +17,6 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -26,10 +26,12 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
+@StateList(states = Constants.States.NY)
 @SuppressWarnings("InstanceVariableMayNotBeInitialized")
 public class TestTierCalculation extends AutoSSBaseTest {
 
@@ -62,8 +64,8 @@ public class TestTierCalculation extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4145")
-    public void pas4145_calculateTierNyConversionCheckNB(@Optional("NY") String state) {
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2443")
+    public void pas2443_calculateTierNyConversionCheckNB(@Optional("NY") String state) {
 
         TestData tdAutoNB = getPolicyDefaultTD().adjust(generalTab.getMetaKey(), getTestSpecificTD("TestData").getTestData(generalTab.getMetaKey()));
         TestData tdAutoConv = getConversionPolicyDefaultTD()
@@ -117,9 +119,9 @@ public class TestTierCalculation extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, dependsOnMethods = "pas4145_calculateTierNyConversionCheckNB")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4145")
-    public void pas4145_calculateTierNyConversionCheckRenewal(@Optional("NY") String state) {
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, dependsOnMethods = "pas2443_calculateTierNyConversionCheckNB")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2443")
+    public void pas2443_calculateTierNyConversionCheckRenewal(@Optional("NY") String state) {
         LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(effDate));
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);

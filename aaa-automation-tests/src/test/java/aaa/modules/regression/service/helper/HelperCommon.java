@@ -296,6 +296,15 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, PolicyPremiumInfo[].class);
 	}
 
+	public static ErrorResponseDto viewRenewalPremiumsError(String policyNumber, int status) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_RENEWAL_PREMIUMS, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, ErrorResponseDto.class, status);
+	}
+
+	public static ErrorResponseDto viewEndorsementPremiumsError(String policyNumber, int status) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_PREMIUMS, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, ErrorResponseDto.class, status);
+	}
 
 	public static AAAEndorseResponse createEndorsement(String policyNumber, String endorsementDate) {
 		AAAEndorseRequest request = new AAAEndorseRequest();
