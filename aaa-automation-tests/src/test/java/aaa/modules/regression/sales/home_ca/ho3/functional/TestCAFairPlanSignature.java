@@ -8,10 +8,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.HomeCaPolicyActions;
-import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.DocumentsTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import org.assertj.core.api.Assertions;
@@ -62,14 +59,14 @@ public class TestCAFairPlanSignature extends HomeCaHO3BaseTest {
         new HomeCaPolicyActions.DataGather().start();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
 
-        aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab endorsementTab = new aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab();
+        EndorsementTab endorsementTab = new EndorsementTab();
         //Add the ENDO and verify presence
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
         endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel()).click();
         Page.dialogConfirmation.confirm();
 
         endorsementTab.btnSaveForm.click();
-        endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECA).verify.present(true);
+        Assertions.assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECA).isPresent());
 
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
         Assertions.assertThat(new DocumentsTab().getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FAIR_PLAN_COMPANION_ENDORSEMENT_CALIFORNIA).getValue()).isEqualTo("Not Signed");
