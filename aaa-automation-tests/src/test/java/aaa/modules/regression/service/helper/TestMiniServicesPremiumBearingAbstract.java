@@ -1672,9 +1672,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		});
 	}
 
-	protected void pas13994_UpdateDriverAssignmentServiceRule1(PolicyType policyType)  {
+	protected void pas13994_UpdateDriverAssignmentServiceRule1Body(PolicyType policyType)  {
 		TestData td = getPolicyTD("DataGather", "TestData_VA");
-		TestData vehicleData = new TestDataManager().policy.get(policyType);
 		TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_TwoDrivers").getTestDataList("DriverTab")).resolveLinks();
 
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
@@ -1690,7 +1689,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
 			//V1 vin from testData
-			String vin1 = getStateTestData(vehicleData, "DataGather", "TestData").getTestDataList("VehicleTab").get(0).getValue("VIN");
+			String vin1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN");
 
 			//add V2
 			String purchaseDate = "2012-02-21";
@@ -1753,7 +1752,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		});
 	}
 
-	protected void pas13994_UpdateDriverAssignmentServiceRule2(PolicyType policyType) {
+	protected void pas13994_UpdateDriverAssignmentServiceRule2Body(PolicyType policyType) {
 
 		TestData td = getPolicyTD("DataGather", "TestData_VA");
 		td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_TwoDrivers").getTestDataList("DriverTab")).resolveLinks();
@@ -1828,8 +1827,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(v3ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid1))).isEqualTo(true);
 			softly.assertThat(v4ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid2))).isEqualTo(true);
 
+			//TODO-jpukenaite It will be fixed with PAS-14699
 			//Update: V4-->D2, Check D1-->V1,V3, D2-->V2, V4
-			//It will be fixed to the next sprint, we have a story
 //			DriverAssignmentDto[] updDriverAssignee2 = HelperCommon.updateDriverAssignment(policyNumber,vehicleOid4,driverOid1);
 //			v1ByOid = Arrays.stream(updDriverAssignee2).filter(veh -> vehicleOid1.equals(veh.vehicleOid)).collect(Collectors.toList());
 //			v2ByOid = Arrays.stream(updDriverAssignee2).filter(veh -> vehicleOid2.equals(veh.vehicleOid)).collect(Collectors.toList());
@@ -1843,7 +1842,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		});
 	}
 
-	protected void pas13994_UpdateDriverAssignmentServiceRule3(PolicyType policyType) {
+	protected void pas13994_UpdateDriverAssignmentServiceRule3Body(PolicyType policyType) {
 
 		TestData td = getPolicyTD("DataGather", "TestData_VA");
 		td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_FourDrivers").getTestDataList("DriverTab")).resolveLinks();
@@ -1926,7 +1925,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			v2ByOid = Arrays.stream(updDriverAssignee2).filter(veh -> vehicleOid2.equals(veh.vehicleOid)).collect(Collectors.toList());
 			v3ByOid = Arrays.stream(updDriverAssignee2).filter(veh -> vehicleOid3.equals(veh.vehicleOid)).collect(Collectors.toList());
 
-			softly.assertThat(v1ByOid.stream().anyMatch(veh -> veh.driverOid.equals("unassigned"))).isEqualTo(true);
+			softly.assertThat(v1ByOid.stream().anyMatch(veh -> "unassigned".equals(veh.driverOid))).isEqualTo(true);
 			softly.assertThat(v2ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid3))).isEqualTo(true);
 			softly.assertThat(v2ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid4))).isEqualTo(true);
 			softly.assertThat(v2ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid2))).isEqualTo(true);
@@ -1938,12 +1937,12 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			v2ByOid = Arrays.stream(updDriverAssignee3).filter(veh -> vehicleOid2.equals(veh.vehicleOid)).collect(Collectors.toList());
 			v3ByOid = Arrays.stream(updDriverAssignee3).filter(veh -> vehicleOid3.equals(veh.vehicleOid)).collect(Collectors.toList());
 
-			softly.assertThat(v1ByOid.stream().anyMatch(veh -> veh.driverOid.equals("unassigned"))).isEqualTo(true);
+			softly.assertThat(v1ByOid.stream().anyMatch(veh -> "unassigned".equals(veh.driverOid))).isEqualTo(true);
 			softly.assertThat(v2ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid3))).isEqualTo(true);
 			softly.assertThat(v2ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid4))).isEqualTo(true);
 			softly.assertThat(v2ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid2))).isEqualTo(true);
 			softly.assertThat(v2ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid1))).isEqualTo(true);
-			softly.assertThat(v3ByOid.stream().anyMatch(veh -> veh.driverOid.equals("unassigned"))).isEqualTo(true);
+			softly.assertThat(v3ByOid.stream().anyMatch(veh -> "unassigned".equals(veh.driverOid))).isEqualTo(true);
 		});
 	}
 

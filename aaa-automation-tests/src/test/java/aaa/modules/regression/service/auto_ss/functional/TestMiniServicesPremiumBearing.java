@@ -730,7 +730,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994"})
 	public void pas13994_UpdateDriverAssignmentServiceRule1(@Optional("VA") String state) {
 
-		pas13994_UpdateDriverAssignmentServiceRule1(getPolicyType());
+		pas13994_UpdateDriverAssignmentServiceRule1Body(getPolicyType());
 	}
 
 	/**
@@ -749,7 +749,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994"})
 	public void pas13994_UpdateDriverAssignmentServiceRule2(@Optional("VA") String state) {
 
-		pas13994_UpdateDriverAssignmentServiceRule2(getPolicyType());
+		pas13994_UpdateDriverAssignmentServiceRule2Body(getPolicyType());
 	}
 
 	/**
@@ -769,7 +769,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994"})
 	public void pas13994_UpdateDriverAssignmentServiceRule3(@Optional("VA") String state) {
 
-		pas13994_UpdateDriverAssignmentServiceRule3(getPolicyType());
+		pas13994_UpdateDriverAssignmentServiceRule3Body(getPolicyType());
 	}
 
 	/**
