@@ -339,8 +339,8 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		new BindTab().submitTab();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		// 8. Validate that form FPCECA is included in revised renewal package and is also listed in other documents
-		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
+		// 8. Validate that form FPCECA/FPCECADP is NOT included in revised renewal package, but is listed in other documents
+		validateDocumentIsNotGeneratedInPackage(policyNumber, RENEWAL_OFFER, true);
 	}
 
 	public void pas13242_AC2_Endorsement() {

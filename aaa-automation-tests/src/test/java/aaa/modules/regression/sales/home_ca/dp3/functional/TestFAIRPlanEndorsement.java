@@ -250,7 +250,7 @@ public class TestFAIRPlanEndorsement extends HomeCaDP3BaseTest {
 	 *          -PAS-14193-
 	 * 6. Validate that form FPCECADP is generated at renewal, and is listed in other documents
 	 * 7. Make Renewal image endorsement without removing FAIR plan endorsement
-	 * 8. Validate that form FPCECADP is still included in renewal package and is also listed in other documents
+	 * 8. Validate that form FPCECA is not included in Revised renewal package, but is listed in other documents
 	 *@details
 	 */
 	@Parameters({"state"})
@@ -311,8 +311,8 @@ public class TestFAIRPlanEndorsement extends HomeCaDP3BaseTest {
 	 * 3. Generate Renewal Document package at Renewal Offer Generation Date
 	 * 4. Add FAIR Plan Endorsement to Renewal Term
 	 * 5. Re-calculate premium and bind endorsement
-	 * 6. Validate that form FPCECADP is included in Renewal package
-	 * 7. Validate that form FPCECADP is included in Renewal package only once
+	 * 6. Validate that form FPCECADP is included in Revised Renewal package
+	 * 7. Validate that form FPCECADP is included in Revised Renewal package only once
 	 *@details
 	 */
 	@Parameters({"state"})
@@ -333,7 +333,7 @@ public class TestFAIRPlanEndorsement extends HomeCaDP3BaseTest {
 	 * 4. Add FAIR Plan Endorsement for CURRENT term
 	 * 5. Re-calculate premium and bind endorsement
 	 * 6. Validate that form FPCECADP is included in Endorsement package
-	 * 7. Validate that form FPCECADP is not included in Renewal package
+	 * 7. Validate that form FPCECADP is not included in Revised Renewal package
 	 * 8. Validate that form FPCECADP is included in Endorsement package only once
 	 *@details
 	 */
