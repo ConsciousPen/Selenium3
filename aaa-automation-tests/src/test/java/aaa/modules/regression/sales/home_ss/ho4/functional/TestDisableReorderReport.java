@@ -3,12 +3,15 @@ package aaa.modules.regression.sales.home_ss.ho4.functional;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.modules.policy.HomeSSHO4BaseTest;
 import aaa.modules.regression.sales.home_ss.helper.HelperRevisedHomeTierPA;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
+@StateList(states = Constants.States.PA)
 public class TestDisableReorderReport extends HomeSSHO4BaseTest {
 
     /**

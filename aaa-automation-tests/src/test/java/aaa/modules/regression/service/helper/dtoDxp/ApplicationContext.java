@@ -6,9 +6,8 @@ package aaa.modules.regression.service.helper.dtoDxp;
 public class ApplicationContext {
 
     public String userId;
-    public String transactionType;
     public String application;
-    public String subSystem;
+    public String sourceApplication;
     public String address;
     public String correlationId;
     public String sessionId;
