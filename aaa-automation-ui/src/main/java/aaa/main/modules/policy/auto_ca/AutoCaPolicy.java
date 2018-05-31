@@ -122,6 +122,11 @@ public class AutoCaPolicy implements IPolicy {
 	}
 
 	@Override
+	public PolicyActions.InitiateHOQuote initiateHOQuote() {
+		return new AutoCaPolicyActions.InitiateHoQuote();
+	}
+
+	@Override
 	public PolicyActions.Cancel cancel() {
 		return new AutoCaPolicyActions.Cancel();
 	}
