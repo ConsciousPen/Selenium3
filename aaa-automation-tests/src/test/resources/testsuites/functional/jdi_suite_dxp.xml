@@ -175,7 +175,7 @@
             <parameter name="state" value="VA, KY"/>
             <!--<parameter name="state" value="UT"/> - not in the Golden DB Dump-->
             <!--<parameter name="state" value="PA, NJ"/> - configured not to allow endorsements-->
-            <!--<parameter name="state" value="VA, KY, AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NV, NY, OH, OK, OR, SD, VA, WV, WY"/>-->
+            <parameter name="state" value="VA, KY, AZ, CO, CT, DC, DE, ID, IN, KS, MD, MT, NV, NY, OH, OK, OR, SD, VA, WV, WY"/>
             <classes>
                 <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                     <methods>
