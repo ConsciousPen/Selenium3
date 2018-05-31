@@ -538,24 +538,11 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 
-		policyType.get().initiate();
 		createPolicy(tdWithFAIRPlanEndorsement);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		policyType.get().policyDocGen().start();
 
 		validateFPCECA_FPCECADP(policyNumber);
-	}
-
-	private void validateFPCECA_FPCECADP(String policyNumber) {
-		policyDocGenActionTab.verify.documentsPresent(true, fairPlanEndorsementInODDTab);
-		policyDocGenActionTab.verify.documentsEnabled(true, fairPlanEndorsementInODDTab);
-
-		validateThatCentralPrintIsDisabledForFPCECA_FPCECADP();
-
-		policyDocGenActionTab.generateDocuments(DocGenEnum.DeliveryMethod.LOCAL_PRINT, fairPlanEndorsementInODDTab);
-
-		//validate that document is generated in xml
-		validateDocumentIsGeneratedInPackage(policyNumber, ADHOC_DOC_ON_DEMAND_GENERATE);
 	}
 
 	public void pas14004_AC1_AC2_Policy_negative() {
@@ -868,6 +855,18 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyDocGenActionTab.getDocumentsControl().getTable().getRow(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, fairPlanEndorsementInODDTab.getId())
 				.getCell(DocGenConstants.OnDemandDocumentsTable.SELECT).click(); //Click document check box
 		assertThat(policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).getRadioButton("Local Print").isEnabled()).isTrue();
+	}
+
+	private void validateFPCECA_FPCECADP(String policyNumber) {
+		policyDocGenActionTab.verify.documentsPresent(true, fairPlanEndorsementInODDTab);
+		policyDocGenActionTab.verify.documentsEnabled(true, fairPlanEndorsementInODDTab);
+
+		validateThatCentralPrintIsDisabledForFPCECA_FPCECADP();
+
+		policyDocGenActionTab.generateDocuments(DocGenEnum.DeliveryMethod.LOCAL_PRINT, fairPlanEndorsementInODDTab);
+
+		//validate that document is generated in xml
+		validateDocumentIsGeneratedInPackage(policyNumber, ADHOC_DOC_ON_DEMAND_GENERATE);
 	}
 
 }
