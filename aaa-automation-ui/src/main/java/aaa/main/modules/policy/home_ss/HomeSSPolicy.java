@@ -123,6 +123,11 @@ public class HomeSSPolicy implements IPolicy {
 	}
 
 	@Override
+	public PolicyActions.InitiateHOQuote initiateHOQuote() {
+		return new HomeSSPolicyActions.InitiateHoQuote();
+	}
+
+	@Override
 	public PolicyActions.Bind bind() {
 		return new HomeSSPolicyActions.Bind();
 	}

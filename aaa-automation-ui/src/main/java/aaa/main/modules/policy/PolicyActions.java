@@ -636,4 +636,23 @@ public final class PolicyActions {
 	public abstract static class PolicyChangeRenewalLapse extends AbstractAction {
 	}
 
+
+
+	public abstract static class InitiateHOQuote extends AbstractAction {
+
+		@Override
+		public String getName() {
+			return "Initiate HO Quote";
+		}
+
+		/**
+		 * Perform Initiate HO Quote action without changing any values, confirm and stay in Data Gathering mode</br>
+		 * Use method like policy.getDefaultView().fillUpTo(td, tabClass) after this.
+		 */
+		public AbstractAction perform() {
+			return super.perform(new SimpleDataProvider());
+		}
+}
+
+
 }
