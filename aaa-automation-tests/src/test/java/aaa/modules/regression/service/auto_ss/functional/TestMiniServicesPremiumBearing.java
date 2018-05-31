@@ -749,7 +749,27 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994"})
 	public void pas13994_UpdateDriverAssignmentServiceRule2(@Optional("VA") String state) {
 
-		pas13994_UpdateDriverAssignmentServiceRule2Body(getPolicyType());
+		pas13994_UpdateDriverAssignmentServiceRule2(getPolicyType());
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Update driver assignment, rule V<D
+	 * @scenario 1. Create a policy with 2V and 4D
+	 * 2. Hit view driver assignment service. Get all info.
+	 * 3. Add one more vehicle V3.
+	 * 4. Hit view vehicle service, get all info.
+	 * 4. Hit DA update service:
+	 * a) V3-->D1 (V1-->D2, V2-->D3,D4, V3-->D1)
+	 * b) V2-->D2 (V1-->D2, V2-->D3,D4,D2 V3-->D1)
+	 * c) V2-->D1 (V1-->Unn, V2-->D3,D4,D2,D1 V3-->Unn)
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994"})
+	public void pas13994_UpdateDriverAssignmentServiceRule3(@Optional("VA") String state) {
+
+		pas13994_UpdateDriverAssignmentServiceRule3(getPolicyType());
 	}
 
 	/**
