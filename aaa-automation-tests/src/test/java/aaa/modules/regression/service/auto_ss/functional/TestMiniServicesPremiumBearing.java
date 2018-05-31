@@ -1077,7 +1077,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-488"})
 	public void pas488_VehicleDelete(@Optional("VA") String state) {
 
-		pas488_VehicleDeleteBody();
+		pas488_VehicleDeleteBody(getPolicyType());
 	}
 
 	/**
