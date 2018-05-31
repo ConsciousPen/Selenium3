@@ -12,4 +12,7 @@ public class DiscountInfo {
     @ApiModelProperty(value = "Discount Name", example ="eValue Discount")
     public String discountName;
 
+    @ApiModelProperty(value = "instance Oid", example ="abrakdabra")
+    public String oid;
+
 }

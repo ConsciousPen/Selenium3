@@ -316,28 +316,28 @@
     </PreconfigPersonInfo>
   </AAAHOPolicy>
   <userNote>
-    <category>Other</category>
+    <category>OTHER</category>
     <confidential>false</confidential>
     <title>Conversion: Mailing address validated and standardized</title>
     <updatedOn>2017-12-19T00:00:00</updatedOn>
     <userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 375 SAINT AUGUSTINE CT  BENICIA CA 94510 to 375 SAINT AUGUSTINE CT  BENICIA CA 94510</userText>
   </userNote>
   <userNote>
-    <category>Other</category>
+    <category>OTHER</category>
     <confidential>false</confidential>
     <title>Conversion: Dwelling address - Validation Error</title>
     <updatedOn>2017-12-19T00:00:00</updatedOn>
     <userText>Dwelling Address was not standardized or validated during Conversion due to an invalid element. Please confirm full dwelling address with customer to ensure accuracy.</userText>
   </userNote>
   <userNote>
-    <category>Other</category>
+    <category>OTHER</category>
     <confidential>false</confidential>
     <title>Conversion: date of birth caused premium variance</title>
     <updatedOn>2017-12-19T00:00:00</updatedOn>
     <userText>HDES was applying or not applying a Senior or Mature Policyholder Discount in error.  According to the date of birth, the Senior or Mature Policyholder Discount has been correctly applied or removed in PAS.</userText>
   </userNote>
   <userNote>
-    <category>Other</category>
+    <category>OTHER</category>
     <confidential>false</confidential>
     <title>Conversion: Date of birth defaulted</title>
     <updatedOn>2017-12-19T00:00:00</updatedOn>

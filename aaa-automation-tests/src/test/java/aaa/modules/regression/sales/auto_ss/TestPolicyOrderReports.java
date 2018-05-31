@@ -16,6 +16,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -36,7 +37,7 @@ public class TestPolicyOrderReports extends AutoSSBaseTest {
 	public void testPolicyOrderReports(@Optional("") String state) {
 
 		TestData classTd = getTestSpecificTD("TestData");
-		MultiInstanceBeforeAssetList aiAssetList = new DriverTab().getActivityInformationAssetList();
+		ActivityInformationMultiAssetList aiAssetList = new DriverTab().getActivityInformationAssetList();
 
 		mainApp().open();
 
