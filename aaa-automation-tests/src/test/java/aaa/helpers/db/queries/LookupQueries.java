@@ -18,12 +18,11 @@ public class LookupQueries {
 	//PAS-12879 Ensure STAT Code is "refreshed" as part of Vehicle/MSRP Refresh
 
 	public static final String INSERT_VEHICLE_STATE_CODE_LOOKUP = "Insert into Lookupvalue (DTYPE,CODE,DESCRIPTION,DISPLAYVALUE,PRODUCTCD,RISKSTATECD,EFFECTIVE,EXPIRATION,TYPECD,TRAILERTYPECD,OLDER) \n" +
-			"values ('VehicleStatCodeLookupValue','AN','000','Small car','AAA_SS','ID','02-JUN-18 12.00.00.000000000 AM',null,'PPA',null,0)";
+			"values ('VehicleStatCodeLookupValue','AN','AX','Small car','AAA_SS','ID','20-MAY-18 12.00.00.000000000 AM',null,'PPA',null,0)";
 
 	public static final String UPDATE_VEHICLE_STATE_CODE_VALUES = "update lookupValue set LOOKUPLIST_ID = (select id from LOOKUPLIST where LOOKUPLIST.LOOKUPNAME = 'AAAVehicleStatCode')\n"+
 			"where LOOKUPLIST_ID is null";
 
-	@Test(description = "Insert Values For Vehicle STAT Code", groups = {Groups.PRECONDITION})
 	public static void insertStatCodeValues() {
 		DBService.get().executeUpdate(INSERT_VEHICLE_STATE_CODE_LOOKUP);
 		DBService.get().executeUpdate(UPDATE_VEHICLE_STATE_CODE_VALUES);

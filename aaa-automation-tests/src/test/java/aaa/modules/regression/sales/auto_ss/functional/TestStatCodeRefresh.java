@@ -46,13 +46,11 @@ public class TestStatCodeRefresh extends AutoSSBaseTest {
 
         LookupQueries.insertStatCodeValues();
 
-        TimeSetterUtil.getInstance().nextPhase(LocalDateTime.of(2018, Month.JULY, 3, 0, 0));
-
         mainApp().open();
         createCustomerIndividual();
 
         TestData testData = getPolicyTD()
-                .adjust(TestData.makeKeyPath("VehicleTab", "VIN"), "AAAKN3DD0E0355577")
+                .adjust(TestData.makeKeyPath("VehicleTab", "VIN"), "ZZZKN3DD3E0344466")
                 .adjust(TestData.makeKeyPath("VehicleTab", "Make"), "OTHER")
                 .adjust(TestData.makeKeyPath("VehicleTab", "Other Make"), "OTHER")
                 .adjust(TestData.makeKeyPath("VehicleTab", "Other Model"), "OTHER")
@@ -67,7 +65,6 @@ public class TestStatCodeRefresh extends AutoSSBaseTest {
 
         List<String> ratingDetailsTable = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
         ratingDetailsTable.forEach(f -> assertThat(PremiumAndCoveragesTab
-                .tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue()).isEqualToIgnoringCase("000"));
-
+                .tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue()).isEqualToIgnoringCase("AX"));
     }
 }
