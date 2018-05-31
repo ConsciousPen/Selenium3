@@ -14,6 +14,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.modules.policy.HomeCaDP3BaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import org.assertj.core.api.Assertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -24,8 +25,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TestCAFairPlanSignature extends HomeCaDP3BaseTest {
-    Map<String, String> endorsement_FPCECADP = new HashMap<>();
-
     /**
      * @author Robert Boles
      * @name Test CA FAIR Plan Signature - PAS-13239 (AC#1_2_DP3)
@@ -47,13 +46,14 @@ public class TestCAFairPlanSignature extends HomeCaDP3BaseTest {
         validateSignatureAndBind();
     }
 
-    public void testSetup() {
+    private void testSetup() {
         mainApp().open();
         createCustomerIndividual();
         policy.createQuote(getPolicyTD());
     }
 
-    public void validateSignatureAndBind() {
+    private void validateSignatureAndBind() {
+        Map<String, String> endorsement_FPCECADP = new HashMap<>();
         endorsement_FPCECADP.put("Form ID", "FPCECADP");
         endorsement_FPCECADP.put("Name", "FAIR Plan Companion Endorsement - California");
 
@@ -70,11 +70,10 @@ public class TestCAFairPlanSignature extends HomeCaDP3BaseTest {
         endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECADP).verify.present(true);
 
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
-        DocumentsTab documentsTab = new DocumentsTab();
-        documentsTab.getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FAIR_PLAN_COMPANION_ENDORSEMENT_CALIFORNIA).setValue("Not Signed");
+        Assertions.assertThat(new DocumentsTab().getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FAIR_PLAN_COMPANION_ENDORSEMENT_CALIFORNIA).getValue()).isEqualTo("Not Signed");
 
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
-        new BindTab().btnPurchase.click();
+        new BindTab().submitTab();
         ErrorTab errorTab = new ErrorTab();
         errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CA20180518);
         mainApp().close();

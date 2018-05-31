@@ -27,8 +27,6 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestCAFairPlanSignature extends HomeCaHO3BaseTest {
-    Map<String, String> endorsement_FPCECA = new HashMap<>();
-
     /**
      * @author Robert Boles
      * @name Test CA FAIR Plan Signature - PAS-13239 (AC#1_2_HO3)
@@ -50,13 +48,14 @@ public class TestCAFairPlanSignature extends HomeCaHO3BaseTest {
         validateSignatureAndBind();
     }
 
-    public void testSetup() {
+    private void testSetup() {
         mainApp().open();
         createCustomerIndividual();
         policy.createQuote(getPolicyTD());
     }
 
-    public void validateSignatureAndBind() {
+    private void validateSignatureAndBind() {
+        Map<String, String> endorsement_FPCECA = new HashMap<>();
         endorsement_FPCECA.put("Form ID", "FPCECA");
         endorsement_FPCECA.put("Name", "FAIR Plan Companion Endorsement - California");
 
@@ -73,9 +72,7 @@ public class TestCAFairPlanSignature extends HomeCaHO3BaseTest {
         endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECA).verify.present(true);
 
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
-        DocumentsTab documentsTab = new DocumentsTab();
-        //Assertions.assertThat(documentsTab.getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FAIR_PLAN_COMPANION_ENDORSEMENT_CALIFORNIA).getValue().equals("Not Signed"));
-        assertThat(documentsTab.getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FAIR_PLAN_COMPANION_ENDORSEMENT_CALIFORNIA).getValue().equals("Not Signed"));
+        Assertions.assertThat(new DocumentsTab().getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FAIR_PLAN_COMPANION_ENDORSEMENT_CALIFORNIA).getValue()).isEqualTo("Not Signed");
 
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
         new BindTab().btnPurchase.click();
