@@ -674,7 +674,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		uploadToVINTableTab.uploadVinTable(uploadExcelR35);
 
 		//3. Move to R-35 and generate automated renewal image. Retrieve policy and verify VIN data DID refresh
-		pas11659_CommonSteps(EVENT, EVENT, policyNumber, policyExpirationDate.minusDays(35));
+		pas11659_CommonSteps(EVENT, policyNumber, policyExpirationDate.minusDays(35));
 	}
 
 	/**
