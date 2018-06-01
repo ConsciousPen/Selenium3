@@ -57,6 +57,7 @@
                     <include name="pas11618_UpdateVehicleFinancedInfo"/>
                     <include name="pas13252_UpdateVehicleGaragingAddressProblemBody"/>
                     <include name="pas9546_maxVehicles"/>
+                    <include name="pas488_VehicleDelete"/>
                 </methods>
             </class>
         </classes>
@@ -76,7 +77,10 @@
                     <include name="pas12769_ViewVehicleLevelCoveragesOneVehicle"/>
                     <include name="pas10352_ManageVehicleCoverageUpdateCoverage"/>
                     <include name="pas13353_LoanLeaseCoverage"/>
-                </methods>
+                    <include name="pas13994_UpdateDriverAssignmentServiceRule1"/>
+                    <include name="pas13994_UpdateDriverAssignmentServiceRule2"/>
+                    <include name="pas13994_UpdateDriverAssignmentServiceRule3"/>
+                    </methods>
             </class>
         </classes>
     </test>
@@ -172,8 +176,9 @@
         </test>
 
         <test name="DXP E2E BCT" parallel="methods" thread-count="1024">
-            <parameter name="state" value="VA, KY"/>
-            <!--<parameter name="state" value="VA, KY, AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>-->
+            <!--<parameter name="state" value="UT"/> - not in the Golden DB Dump-->
+            <!--<parameter name="state" value="PA, NJ"/> - configured not to allow endorsements-->
+            <parameter name="state" value="VA, KY, AZ, CO, CT, DC, DE, ID, IN, KS, MD, MT, NV, NY, OH, OK, OR, SD, WV, WY"/>
             <classes>
                 <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                     <methods>

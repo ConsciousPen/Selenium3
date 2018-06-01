@@ -13,6 +13,7 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
 import aaa.modules.policy.AutoCaSelectBaseTest;
+import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -32,7 +33,7 @@ public class TestPolicyOrderReports extends AutoCaSelectBaseTest {
 	public void testPolicyOrderReports(@Optional("CA") String state) {
 
 		TestData class_td = getTestSpecificTD("TestData");
-		MultiInstanceBeforeAssetList aiAssetList = new DriverTab().getActivityInformationAssetList();
+		ActivityInformationMultiAssetList aiAssetList = new DriverTab().getActivityInformationAssetList();
 		
 		mainApp().open();
 

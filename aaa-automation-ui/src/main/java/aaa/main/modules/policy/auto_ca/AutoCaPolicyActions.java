@@ -292,10 +292,6 @@ public final class AutoCaPolicyActions {
 
     //TODO Remove next actions if not used in AAA
     public static class NonPremiumBearingEndorsement extends PolicyActions.NonPremiumBearingEndorsement {
-        @Override
-        public String getName() {
-            return "Update Insured/Interest Info";
-        }
 
         @Override
         public Workspace getView() {
@@ -328,10 +324,6 @@ public final class AutoCaPolicyActions {
     }
 
     public static class RescindCancellation extends PolicyActions.RescindCancellation {
-        @Override
-        public String getName() {
-            return "Rescind Cancellation";
-        }
 
         @Override
         public Workspace getView() {
@@ -376,4 +368,17 @@ public final class AutoCaPolicyActions {
 			return new PolicyDocGenView();
 		}
 	}
+
+	public static class InitiateHoQuote extends PolicyActions.InitiateHOQuote {
+        @Override
+        public Workspace getView() {
+            return new aaa.main.modules.policy.home_ca.views.DefaultView();
+        }
+
+        @Override
+        public AbstractAction start() {
+            NavigationPage.setActionAndGo(getName());
+            return this;
+        }
+    }
 }
