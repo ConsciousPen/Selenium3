@@ -4156,7 +4156,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td = getPolicyTD("DataGather", "TestData");
-		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_Vehicle").getTestDataList("VehicleTab")).resolveLinks();
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_VehicleOtherTypes").getTestDataList("VehicleTab")).resolveLinks();
 		policyType.get().createPolicy(testData);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 

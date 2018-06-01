@@ -57,6 +57,7 @@
                     <include name="pas11618_UpdateVehicleFinancedInfo"/>
                     <include name="pas13252_UpdateVehicleGaragingAddressProblemBody"/>
                     <include name="pas9546_maxVehicles"/>
+                    <include name="pas488_VehicleDelete"/>
                 </methods>
             </class>
         </classes>
@@ -79,7 +80,7 @@
                     <include name="pas13994_UpdateDriverAssignmentServiceRule1"/>
                     <include name="pas13994_UpdateDriverAssignmentServiceRule2"/>
                     <include name="pas13994_UpdateDriverAssignmentServiceRule3"/>
-                </methods>
+                    </methods>
             </class>
         </classes>
     </test>
