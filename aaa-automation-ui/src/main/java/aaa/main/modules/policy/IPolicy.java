@@ -81,6 +81,8 @@ public interface IPolicy {
 
     PolicyActions.Renew renew();
 
+    PolicyActions.InitiateHOQuote initiateHOQuote();
+
     PolicyActions.Cancel cancel();
 
     PolicyActions.CancelNotice cancelNotice();

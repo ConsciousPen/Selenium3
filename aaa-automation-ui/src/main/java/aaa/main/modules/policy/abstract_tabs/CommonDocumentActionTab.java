@@ -3,6 +3,7 @@ package aaa.main.modules.policy.abstract_tabs;
 import static org.openqa.selenium.By.id;
 import java.util.HashMap;
 import java.util.Map;
+import org.openqa.selenium.By;
 import aaa.common.ActionTab;
 import aaa.common.Tab;
 import aaa.main.enums.DocGenConstants;
@@ -19,9 +20,10 @@ import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 public abstract class CommonDocumentActionTab extends ActionTab {
 	private static final Object lock = new Object();
 	public Verify verify = new Verify();
-	public Button buttonOk = new Button(id("policyDataGatherForm:generateDocLink"));
+	public Button buttonOk = new Button(By.xpath("//a[@id='policyDataGatherForm:generateDocLink' or @id='policyDataGatherForm:generateEmailDocLink']"));
 	public Button buttonCancel = new Button(id("policyDataGatherForm:adhocCancel"));
 	public Button buttonPreviewDocuments = new Button(id("policyDataGatherForm:previewDocLink"));
+	public TextBox textboxEmailAddress = new TextBox(id("policyDataGatherForm:emailAddress"));
 
 	protected CommonDocumentActionTab(Class<? extends MetaData> mdClass) {
 		super(mdClass);
@@ -63,6 +65,7 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 	}
 
 	public void generateDocuments(TestData expandedDocumentsData, DocGenEnum.Documents... documents) {
+
 		generateDocuments(DocGenEnum.DeliveryMethod.CENTRAL_PRINT, expandedDocumentsData, documents);
 	}
 
@@ -82,14 +85,15 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 				getDocumentsControl().fillRow(expandedDocumentsData);
 			}
 
+			getAssetList().getAsset("Delivery Method", RadioGroup.class).setValue(deliveryMethod.get());
+
 			if (emailAddress != null) {
-				getAssetList().getAsset("Email Address", TextBox.class).setValue(emailAddress);
+				textboxEmailAddress.setValue(emailAddress);
 			}
 			if (fax != null) {
 				getAssetList().getAsset("Fax", TextBox.class).setValue(fax);
 			}
 
-			getAssetList().getAsset("Delivery Method", RadioGroup.class).setValue(deliveryMethod.get());
 			submitTab();
 			PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		}

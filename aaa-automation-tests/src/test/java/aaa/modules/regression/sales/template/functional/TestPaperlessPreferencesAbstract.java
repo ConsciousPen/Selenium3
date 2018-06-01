@@ -151,6 +151,7 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 
 		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("No");
+		getInquiryAssetList().assetSectionPresence("Document Delivery", true);
 		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(true);
 		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).setValue("Email");
 		getDocumentPrintingDetailsAssetList().getAsset(getIncludeWithEmail()).verify.present(true);
@@ -162,6 +163,7 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("Yes");
+		getInquiryAssetList().assetSectionPresence("Document Delivery", false);
 		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
 		deleteSinglePaperlessPreferenceRequest(stub2);
 	}
@@ -191,6 +193,7 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("Pending");
+		getInquiryAssetList().assetSectionPresence("Document Delivery", false);
 		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
 		deleteSinglePaperlessPreferenceRequest(stub);
 		getDocumentsAndBindTabElement().cancel(true);
@@ -199,6 +202,7 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("Yes");
+		getInquiryAssetList().assetSectionPresence("Document Delivery", false);
 		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
 		deleteSinglePaperlessPreferenceRequest(stub2);
 		getDocumentsAndBindTabElement().cancel(true);
@@ -207,6 +211,7 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("No");
+		getInquiryAssetList().assetSectionPresence("Document Delivery", false);
 		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
 		deleteSinglePaperlessPreferenceRequest(stub3);
 	}
