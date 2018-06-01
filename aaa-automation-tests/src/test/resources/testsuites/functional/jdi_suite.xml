@@ -6,7 +6,6 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
-
     <test name="TestEValueDiscountJobAdding" parallel="methods" thread-count="1024">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
@@ -47,7 +46,6 @@
                     <include name="eValueConfigCheck"/>
                     <include name="paperlessPreferencesConfigCheck"/>
                     <include name="precondJobAdding"/>
-
                     <include name="pas265_MinimumStateLimitsForBIPreBind"/>
                     <include name="pas278_eValueeSignedPledgeDocumentAHEVAXX"/>
                     <include name="pas300_eValueStatusConsViewPaperPrefPendingVa"/>
@@ -71,7 +69,6 @@
             </class>
         </classes>
     </test>
-
     <test name="TestEValueDiscountOR" parallel="methods" thread-count="1024">
         <parameter name="state" value="OR"/>
         <classes>
@@ -81,7 +78,6 @@
                     <include name="eValueAcknowledgementConfigCheck"/>
                     <include name="eValueMembershipConfigCheck"/>
                     <include name="eValueTerritoryChannelForORConfigCheck"/>
-
                     <include name="pas232_eValuePriorBiConfigurationDependency"/>
                     <include name="pas3693_eValueConfiguration1"/>
                     <include name="pas3693_eValueConfiguration2"/>
@@ -92,11 +88,11 @@
                     <include name="pas233_eValueTerritoryChannelDependency"/>
                     <include name="pas12294_PriorCarrierWithLapsePriorCarrierNotRequired"/>
                     <include name="pas12294_PriorCarrierLessThanSixMonthsPriorCarrierNotRequired"/>
+                    <include name="pas358_documentGenerationDefaultToPreferredChannel"/>
                 </methods>
             </class>
         </classes>
     </test>
-
     <test name="TestEValueDiscountDC" parallel="methods" thread-count="1024">
         <parameter name="state" value="DC"/>
         <classes>
@@ -121,7 +117,6 @@
             </class>
         </classes>
     </test>
-
     <test name="TestPaperlessPreferencesMD" parallel="methods" thread-count="1024">
         <parameter name="state" value="MD"/>
         <classes>
@@ -133,7 +128,6 @@
             </class>
         </classes>
     </test>
-
     <test name="TestPaperlessPreferencesVA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
@@ -145,7 +139,6 @@
             </class>
         </classes>
     </test>
-
     <test name="TestPaperlessPreferencesPA" parallel="methods" thread-count="1024">
         <parameter name="state" value="PA"/>
         <classes>
@@ -157,13 +150,11 @@
             </class>
         </classes>
     </test>
-
     <test name="TestTriggersAH35XX" parallel="methods" thread-count="1024">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestTriggersAH35XX"/>
         </classes>
     </test>
-
     <test name="TestMessagingVerificationOR" parallel="methods" thread-count="1024">
         <parameter name="state" value="OR"/>
         <classes>
@@ -183,14 +174,23 @@
             </class>
         </classes>
     </test>
-
+    <test name="TestPaymentPlanTable" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPaymentPlanTable">
+                <methods>
+                    <include name="pas13787_CheckPremiumInPaymentPlanTable"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="TestRFI-AutoSS" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA, PA, NV, AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
-            <methods>
-                <include name="pas349_rfiAuto"/>
-            </methods>
+                <methods>
+                    <include name="pas349_rfiAuto"/>
+                </methods>
             </class>
         </classes>
     </test>
@@ -255,30 +255,28 @@
             <class name="aaa.modules.regression.service.home_ca.dp3.functional.TestRatingServices"/>
         </classes>
     </test>
-
     <!--Commented out to see how the tests will run in DXP suite-->
-<!--    <test name="DXP E2E" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
-                <methods>
-                    <include name="pas12866_e2e"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
+    <!--    <test name="DXP E2E" parallel="methods" thread-count="1024">
+            <parameter name="state" value="VA"/>
+            <classes>
+                <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                    <methods>
+                        <include name="pas12866_e2e"/>
+                    </methods>
+                </class>
+            </classes>
+        </test>
 
-    <test name="DXP E2E BCT" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ, KY"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
-                <methods>
-                    <include name="pas12866_e2eBct"/>
-                </methods>
-            </class>
-        </classes>
-    </test>-->
-
+        <test name="DXP E2E BCT" parallel="methods" thread-count="1024">
+            <parameter name="state" value="AZ, KY"/>
+            <classes>
+                <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                    <methods>
+                        <include name="pas12866_e2eBct"/>
+                    </methods>
+                </class>
+            </classes>
+        </test>-->
     <test name="pas283_paperlessPreferencesForAllStatesProducts SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
@@ -318,7 +316,6 @@
             </class>
         </classes>
     </test>
-
     <test name="pas240_installmentFeesService CA" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>

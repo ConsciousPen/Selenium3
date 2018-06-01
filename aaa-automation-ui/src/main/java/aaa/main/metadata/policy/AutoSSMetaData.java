@@ -287,8 +287,8 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<TextBox> COUNTY = declare("County", TextBox.class);
 		public static final AssetDescriptor<TextBox> ADDRESS_VALIDATED = declare("Address Validated?", TextBox.class);
 
-		public static final AssetDescriptor<MultiInstanceBeforeAssetList> ACTIVITY_INFORMATION =
-				declare("ActivityInformation", MultiInstanceBeforeAssetList.class, ActivityInformation.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_DrivingRecord']"));
+		public static final AssetDescriptor<ActivityInformationMultiAssetList> ACTIVITY_INFORMATION =
+				declare("ActivityInformation", ActivityInformationMultiAssetList.class, ActivityInformation.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_DrivingRecord']"));
 
 		// "Clean Driver Renewal" should be filled after "ActivityInformation" section
 		public static final AssetDescriptor<RadioGroup> CLEAN_DRIVER_RENEWAL = declare("Clean Driver Renewal", RadioGroup.class);
@@ -970,8 +970,8 @@ public final class AutoSSMetaData {
 	public static final class GenerateOnDemandDocumentActionTab extends MetaData {
 		public static final AssetDescriptor<FillableDocumentsTable> ON_DEMAND_DOCUMENTS =
 				declare("OnDemandDocuments", FillableDocumentsTable.class, DocumentsRow.class, By.xpath("(//div[@id='policyDataGatherForm:componentView_AAAAdHocOnDemandDocs']//table)[1]"));
-		public static final AssetDescriptor<RadioGroup> DELIVERY_METHOD =
-				declare("Delivery Method", RadioGroup.class, Waiters.AJAX, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAAdHocOnDemandDocs_body']/table"));
+		public static final AssetDescriptor<AdvancedRadioGroup> DELIVERY_METHOD =
+				declare("Delivery Method", AdvancedRadioGroup.class, Waiters.AJAX, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAAdHocOnDemandDocs_body']/table"));
 		public static final AssetDescriptor<TextBox> EMAIL_ADDRESS = declare("Email Address", TextBox.class, Waiters.AJAX);
 
 		public static final class DocumentsRow extends MetaData {

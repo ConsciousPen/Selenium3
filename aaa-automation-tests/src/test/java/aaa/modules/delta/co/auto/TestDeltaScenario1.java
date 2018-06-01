@@ -25,6 +25,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -57,7 +58,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	private DriverTab driverTab = new DriverTab();
 	private PremiumAndCoveragesTab pacTab = new PremiumAndCoveragesTab();
 	private GeneralTab gTab = new GeneralTab();
-	private MultiInstanceBeforeAssetList aiAssetList = driverTab.getActivityInformationAssetList();
+	private ActivityInformationMultiAssetList aiAssetList = driverTab.getActivityInformationAssetList();
 	private ErrorTab errorTab = new ErrorTab();
 	
 	@Parameters({"state"})

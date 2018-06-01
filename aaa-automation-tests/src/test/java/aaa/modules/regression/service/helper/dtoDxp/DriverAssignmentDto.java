@@ -7,6 +7,4 @@ public class DriverAssignmentDto {
 	public String driverDisplayValue;
 	public String driverOid;
 	public String relationshipType;
-
-
 }

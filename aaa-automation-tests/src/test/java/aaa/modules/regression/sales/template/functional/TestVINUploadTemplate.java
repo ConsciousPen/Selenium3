@@ -339,6 +339,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		// Verify first vehicle is there..
+		log.info("First vehicle, at the vehicle tab, should have same values");
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE.getLabel()).getValue()).isEqualTo("OTHER");
 		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MAKE.getLabel()).getValue()).isEqualTo("Other Make");
@@ -361,11 +362,12 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 				.adjust(vehicleTab.getMetaKey(), testDataVehicleTab)
 				.adjust(assignmentTab.getMetaKey(), testDataAssignmentTab).resolveLinks();
 
-		policy.getDefaultView().fillFromTo(testData, VehicleTab.class, PremiumAndCoveragesTab.class);
+		policy.getDefaultView().fillFromTo(testData, VehicleTab.class, PremiumAndCoveragesTab.class,true);
 
 		new PremiumAndCoveragesTab().calculatePremium();
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		log.info("First vehicle, at the PremiumAndCoveragesTab, should have same values");
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("Other Make");
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualToIgnoringCase("Other Model");
 		// Check second (uploaded) vehicle is here
@@ -376,6 +378,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()).isEqualTo(true));
 		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(3).getValue()).isEqualToIgnoringCase("E"));
 
+		log.info("Second vehicle, at the PremiumAndCoveragesTab, should have different from first vehicle values");
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue()).isEqualToIgnoringCase("MAKEPAS2713ENDOR");
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue()).isEqualToIgnoringCase("MODELPAS2713ENDOR");
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();

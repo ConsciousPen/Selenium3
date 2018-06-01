@@ -8,7 +8,8 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import aaa.modules.regression.service.helper.HelperWireMockPaperlessPreferences;
+import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
+import aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import org.testng.annotations.AfterSuite;
 import toolkit.verification.CustomAssert;
@@ -21,6 +22,10 @@ import toolkit.webdriver.controls.waiters.Waiters;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import static aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData.OPT_IN;
+import static aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData.OPT_IN_PENDING;
+import static aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData.OPT_OUT;
 
 public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 
@@ -43,7 +48,7 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 
 	public abstract void pas283_paperlessPreferencesForAllStatesProducts(String state);
 
-	private static List<String> requestIdList = new LinkedList<>();
+	private static List<HelperWireMockStub> stubList = new LinkedList<>();
 
 	/**
 	 * @author Oleg Stasyuk
@@ -141,24 +146,26 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 	protected void pas12458_documentDeliverySectionDuringEndorsement() {
 
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 
 		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("No");
+		getInquiryAssetList().assetSectionPresence("Document Delivery", true);
 		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(true);
 		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).setValue("Email");
 		getDocumentPrintingDetailsAssetList().getAsset(getIncludeWithEmail()).verify.present(true);
 		getDocumentsAndBindTabElement().saveAndExit();
-		deleteSinglePaperlessPreferenceRequest(requestId);
+		deleteSinglePaperlessPreferenceRequest(stub);
 
-		String requestId2 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN.get());
+		HelperWireMockStub stub2 = createPaperlessPreferencesRequestId(policyNumber, OPT_IN);
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("Yes");
+		getInquiryAssetList().assetSectionPresence("Document Delivery", false);
 		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
-		deleteSinglePaperlessPreferenceRequest(requestId2);
+		deleteSinglePaperlessPreferenceRequest(stub2);
 	}
 
 	/**
@@ -182,28 +189,31 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 
 		String quoteNumber = PolicySummaryPage.getPolicyNumber();
 
-		String requestId = createPaperlessPreferencesRequestId(quoteNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(quoteNumber, OPT_IN_PENDING);
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("Pending");
+		getInquiryAssetList().assetSectionPresence("Document Delivery", false);
 		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
-		deleteSinglePaperlessPreferenceRequest(requestId);
+		deleteSinglePaperlessPreferenceRequest(stub);
 		getDocumentsAndBindTabElement().cancel(true);
 
-		String requestId2 = createPaperlessPreferencesRequestId(quoteNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN.get());
+		HelperWireMockStub stub2 = createPaperlessPreferencesRequestId(quoteNumber, OPT_IN);
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("Yes");
+		getInquiryAssetList().assetSectionPresence("Document Delivery", false);
 		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
-		deleteSinglePaperlessPreferenceRequest(requestId2);
+		deleteSinglePaperlessPreferenceRequest(stub2);
 		getDocumentsAndBindTabElement().cancel(true);
 
-		String requestId3 = createPaperlessPreferencesRequestId(quoteNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+		HelperWireMockStub stub3 = createPaperlessPreferencesRequestId(quoteNumber, OPT_OUT);
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("No");
+		getInquiryAssetList().assetSectionPresence("Document Delivery", false);
 		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
-		deleteSinglePaperlessPreferenceRequest(requestId3);
+		deleteSinglePaperlessPreferenceRequest(stub3);
 	}
 
 	@AfterSuite()
@@ -212,24 +222,25 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		printToLog("ALL REQUEST DELETION WAS EXECUTED");
 	}
 
-	private String createPaperlessPreferencesRequestId(String policyNumber, String scenarioJsonFile) {
-		String requestId = HelperWireMockPaperlessPreferences.setPaperlessPreferencesToValue(policyNumber, scenarioJsonFile);
-		requestIdList.add(requestId);
-		printToLog("THE REQUEST ID WAS CREATED " + requestId);
-		return requestId;
+	private HelperWireMockStub createPaperlessPreferencesRequestId(String policyNumber, String paperlessAction) {
+		PaperlessPreferencesTemplateData template = PaperlessPreferencesTemplateData.create(policyNumber, paperlessAction);
+		HelperWireMockStub stub = HelperWireMockStub.create("paperless-preferences-200", template).mock();
+		stubList.add(stub);
+		printToLog("THE REQUEST ID WAS CREATED " + stub.getId());
+		return stub;
 	}
 
 	private void deleteMultiplePaperlessPreferencesRequests() {
-		for (Object requestId : requestIdList) {
-			HelperWireMockPaperlessPreferences.deleteProcessedRequestFromStub(requestId.toString());
-			printToLog("MULTIPLE REQUEST DELETION WAS EXECUTED for " + requestId);
+		for (HelperWireMockStub stub : stubList) {
+			stub.cleanUp();
+			printToLog("MULTIPLE REQUEST DELETION WAS EXECUTED for " + stub.getId());
 		}
-		requestIdList.clear();
+		stubList.clear();
 	}
 
-	private void deleteSinglePaperlessPreferenceRequest(String requestId) {
-		HelperWireMockPaperlessPreferences.deleteProcessedRequestFromStub(requestId);
-		requestIdList.remove(requestId);
-		printToLog("DELETE SINGLE REQUEST WAS EXECUTED for " + requestId);
+	private void deleteSinglePaperlessPreferenceRequest(HelperWireMockStub stub) {
+		stub.cleanUp();
+		printToLog("DELETE SINGLE REQUEST WAS EXECUTED for " + stub.getId());
+		stubList.remove(stub);
 	}
 }

@@ -450,7 +450,7 @@ public final class PersonalUmbrellaMetaData {
 	
 	public static final class UnderlyingRisksAllResidentsTab extends MetaData {
 		public static final AssetDescriptor<RadioGroup> ADD_OTHER_RESIDENTS = declare("Add other residents", RadioGroup.class);
-		public static final AssetDescriptor<Button> CONFIRM_NO_RESIDENTS = declare("Confirm no residents", Button.class, Waiters.AJAX, false, By.id("confirmOptionalNoSelected_AAAResidents_Dialog_form:buttonYes"));
+		public static final AssetDescriptor<Button> CONFIRM_NO_RESIDENTS = declare("Confirm no residents", Button.class, Waiters.AJAX, false, By.id("dataGatherViewConfirm_Dialog_form:buttonYes"));
 		public static final AssetDescriptor<TextBox> FIRST_NAME = declare("First name", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> MIDDLE_NAME = declare("Middle name", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last name", TextBox.class, Waiters.AJAX);
@@ -969,7 +969,8 @@ public final class PersonalUmbrellaMetaData {
 
 	public static final class GenerateOnDemandDocumentActionTab extends MetaData {
 		public static final AssetDescriptor<FillableDocumentsTable> ON_DEMAND_DOCUMENTS = declare("OnDemandDocuments", FillableDocumentsTable.class, DocumentsRow.class, By.xpath("(//div[@id='policyDataGatherForm:componentView_AAAHODocGen']//table)[1]"));
-		public static final AssetDescriptor<RadioGroup> DELIVERY_METHOD = declare("Delivery Method", RadioGroup.class, Waiters.AJAX, By.xpath("//span[@id='policyDataGatherForm:delveryMethodSectionPanel']/table"));
+		public static final AssetDescriptor<AdvancedRadioGroup> DELIVERY_METHOD =
+				declare("Delivery Method", AdvancedRadioGroup.class, Waiters.AJAX, By.xpath("//span[@id='policyDataGatherForm:delveryMethodSectionPanel']/table"));
 		public static final AssetDescriptor<TextBox> EMAIL_ADDRESS = declare("Email Address", TextBox.class, Waiters.AJAX);
 
 		public static final class DocumentsRow extends MetaData {

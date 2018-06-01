@@ -5,6 +5,7 @@ package aaa.modules.regression.sales.pup.functional;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
@@ -16,15 +17,16 @@ import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
+@StateList(states = {Constants.States.MD, Constants.States.PA, Constants.States.DE, Constants.States.NJ, Constants.States.VA})
 public class TestOverrideLiabilityLosses extends PersonalUmbrellaBaseTest {
 
 	private ErrorTab errorTab = policy.getDefaultView().getTab(ErrorTab.class);
 	private PurchaseTab purchaseTab = policy.getDefaultView().getTab(PurchaseTab.class);
 	private BindTab bindTab = policy.getDefaultView().getTab(BindTab.class);
-
 
 	/**
 	 * @author Dominykas Razgunas
