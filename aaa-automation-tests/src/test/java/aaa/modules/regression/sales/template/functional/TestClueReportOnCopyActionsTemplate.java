@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.template.functional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import java.util.List;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -32,7 +33,7 @@ public class TestClueReportOnCopyActionsTemplate extends PolicyBaseTest {
 		policyType.get().policyCopy().perform(tdCopy);
 
 		// Fill requirements on Rating Detail Reports, calculate premium, and order reports on DAR
-		fillAndValidate(policyType, tdCopy);
+		fillAndValidateCLUETable(policyType, tdCopy);
 
 	}
 
@@ -47,11 +48,11 @@ public class TestClueReportOnCopyActionsTemplate extends PolicyBaseTest {
 
 		// Fill requirements on Rating Detail Reports, calculate premium, and order reports on DAR
 		td.mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()));
-		fillAndValidate(policyType, td);
+		fillAndValidateCLUETable(policyType, td);
 
 	}
 
-	protected void fillAndValidate(PolicyType policyType, TestData td) {
+	protected void fillAndValidateCLUETable(PolicyType policyType, TestData td) {
 		policyType.get().dataGather().start();
 		if (policyType.isCaProduct()) {
 			NavigationPage.toViewTab(NavigationEnum.AutoCaTab.MEMBERSHIP.get());
@@ -87,7 +88,27 @@ public class TestClueReportOnCopyActionsTemplate extends PolicyBaseTest {
 		policyType.get().initiate();
 		policyType.get().getDefaultView().fillUpTo(td, driverActivityReportsTab.getClass(), true);
 		driverActivityReportsTab.saveAndExit();
-		policyType.get().copyQuote();
+		policyType.get().copyQuote().perform(getStateTestData(testDataManager.policy.get(policyType), "CopyFromQuote", "TestData"));
+	}
+
+	protected TestData getCAEndorsementTD(TestData tdDriverTab, TestData tdSpecific) {
+		tdDriverTab.adjust(AutoCaMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click")
+				.adjust(AutoCaMetaData.DriverTab.FIRST_NAME.getLabel(), "Sally")
+				.adjust(AutoCaMetaData.DriverTab.LAST_NAME.getLabel(), "Smith")
+				.mask(AutoCaMetaData.DriverTab.NAMED_INSURED.getLabel());
+
+		return tdSpecific.adjust(DriverTab.class.getSimpleName(), tdDriverTab)
+				.adjust(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT.getLabel()), "I Agree")
+				.adjust(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY.getLabel()), "click");
+	}
+
+	protected TestData getCACopyQuoteTD(TestData tdDefault, List<TestData> tdDriverTab) {
+		tdDriverTab.get(1)
+				.adjust(AutoCaMetaData.DriverTab.FIRST_NAME.getLabel(), "Sally")
+				.adjust(AutoCaMetaData.DriverTab.LAST_NAME.getLabel(), "Smith")
+				.mask(AutoCaMetaData.DriverTab.NAMED_INSURED.getLabel());
+
+		return tdDefault.adjust(DriverTab.class.getSimpleName(), tdDriverTab);
 	}
 
 }

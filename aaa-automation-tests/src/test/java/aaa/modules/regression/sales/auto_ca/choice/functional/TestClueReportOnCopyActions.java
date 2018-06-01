@@ -6,9 +6,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
 import aaa.modules.regression.sales.auto_ca.choice.TestPolicyCreationBig;
 import aaa.modules.regression.sales.template.functional.TestClueReportOnCopyActionsTemplate;
@@ -38,18 +36,10 @@ public class TestClueReportOnCopyActions extends TestClueReportOnCopyActionsTemp
 	public void pas8271_testClueReportOnCopyPolicyActionCA_Choice(@Optional("CA") String state) {
 
 		// Get state-specific 2nd driver and adjust test data
-		TestData tdDriverTab = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName()).get(1)
-				.adjust(AutoCaMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click")
-				.adjust(AutoCaMetaData.DriverTab.FIRST_NAME.getLabel(), "Sally")
-				.adjust(AutoCaMetaData.DriverTab.LAST_NAME.getLabel(), "Smith")
-				.mask(AutoCaMetaData.DriverTab.NAMED_INSURED.getLabel());
+		TestData tdDriverTab = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName()).get(1);
+		TestData tdSpecific = testDataManager.getDefault(aaa.modules.regression.sales.auto_ss.functional.TestClueReportOnCopyActions.class).getTestData("TestData");
 
-		TestData tdEndorsement = testDataManager.getDefault(aaa.modules.regression.sales.auto_ss.functional.TestClueReportOnCopyActions.class).getTestData("TestData")
-				.adjust(DriverTab.class.getSimpleName(), tdDriverTab)
-				.adjust(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT.getLabel()), "I Agree")
-				.adjust(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY.getLabel()), "click");
-
-		pas8271_testClueReportOnCopyPolicyAction(PolicyType.AUTO_CA_CHOICE, tdEndorsement);
+		pas8271_testClueReportOnCopyPolicyAction(PolicyType.AUTO_CA_CHOICE, getCAEndorsementTD(tdDriverTab, tdSpecific));
 
 	}
 
@@ -74,12 +64,8 @@ public class TestClueReportOnCopyActions extends TestClueReportOnCopyActionsTemp
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-8271")
 	public void pas8271_testClueReportOnCopyQuoteActionCA_Choice(@Optional("CA") String state) {
 
-		List<TestData> tdDriversTab = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName());
-		tdDriversTab.get(1)
-				.adjust(AutoCaMetaData.DriverTab.FIRST_NAME.getLabel(), "Sally")
-				.adjust(AutoCaMetaData.DriverTab.LAST_NAME.getLabel(), "Smith")
-				.mask(AutoCaMetaData.DriverTab.NAMED_INSURED.getLabel());
-		TestData td = getPolicyDefaultTD(PolicyType.AUTO_CA_CHOICE).adjust(DriverTab.class.getSimpleName(), tdDriversTab);
+		List<TestData> tdDriverTab = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName());
+		TestData td = getCACopyQuoteTD(getPolicyDefaultTD(PolicyType.AUTO_CA_CHOICE), tdDriverTab);
 
 		pas8271_testClueReportOnCopyQuoteActionCA(PolicyType.AUTO_CA_CHOICE, td);
 

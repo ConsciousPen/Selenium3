@@ -75,12 +75,12 @@ public class TestClueReportOnCopyActions extends TestClueReportOnCopyActionsTemp
 		mainApp().open();
 		createCustomerIndividual();
 
-		List<TestData> tdDriversTab = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName());
-		tdDriversTab.get(1)
+		List<TestData> tdDriverTab = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName());
+		tdDriverTab.get(1)
 				.adjust(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), "Sally")
 				.adjust(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), "Smith")
 				.mask(AutoSSMetaData.DriverTab.NAMED_INSURED.getLabel());
-		TestData td = getPolicyDefaultTD(PolicyType.AUTO_SS).adjust(DriverTab.class.getSimpleName(), tdDriversTab);
+		TestData td = getPolicyDefaultTD(PolicyType.AUTO_SS).adjust(DriverTab.class.getSimpleName(), tdDriverTab);
 
 		// Initiate Quote with 2 drivers, fill up to DAR page, and initiate Copy From Quote action
 		createQuoteFillAndInitiateCopyAction(PolicyType.AUTO_SS, td, new DriverActivityReportsTab());
@@ -90,7 +90,7 @@ public class TestClueReportOnCopyActions extends TestClueReportOnCopyActionsTemp
 				.mask(TestData.makeKeyPath(RatingDetailReportsTab.class.getSimpleName(), AutoSSMetaData.RatingDetailReportsTab.SALES_AGENT_AGREEMENT.getLabel()))
 				.mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoSSMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_QUOTE.getLabel()));
 
-		fillAndValidate(PolicyType.AUTO_SS, td);
+		fillAndValidateCLUETable(PolicyType.AUTO_SS, td);
 
 	}
 
