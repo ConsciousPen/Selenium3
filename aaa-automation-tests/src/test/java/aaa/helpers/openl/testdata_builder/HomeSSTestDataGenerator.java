@@ -97,18 +97,18 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		);
 
 		//		if (BillingConstants.PaymentPlan.MORTGAGEE_BILL.equals(openLPolicy.getPolicyDiscountInformation().getPaymentPlan())) {
-			TestData mortgageeTabData = DataProviderFactory.dataOf(
-					new MortgageesTab().getMetaKey(), DataProviderFactory.dataOf(
-							HomeSSMetaData.MortgageesTab.MORTGAGEE.getLabel(), "Yes",
-							HomeSSMetaData.MortgageesTab.MORTGAGEE_INFORMATION.getLabel(), DataProviderFactory.dataOf(
-									HomeSSMetaData.MortgageesTab.MortgageeInformation.NAME.getLabel(), "John Smith",
-									HomeSSMetaData.MortgageesTab.MortgageeInformation.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().getZip(),
-									HomeSSMetaData.MortgageesTab.MortgageeInformation.STREET_ADDRESS_1.getLabel(), "111 Street Address",
-									HomeSSMetaData.MortgageesTab.MortgageeInformation.VALIDATE_ADDRESS_BTN.getLabel(), true,
-									HomeSSMetaData.MortgageesTab.MortgageeInformation.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.emptyData(),
-									HomeSSMetaData.MortgageesTab.MortgageeInformation.LOAN_NUMBER.getLabel(), "123456789"))
-			);
-			policyIssueData = TestDataHelper.merge(mortgageeTabData, policyIssueData);
+		TestData mortgageeTabData = DataProviderFactory.dataOf(
+				new MortgageesTab().getMetaKey(), DataProviderFactory.dataOf(
+						HomeSSMetaData.MortgageesTab.MORTGAGEE.getLabel(), "Yes",
+						HomeSSMetaData.MortgageesTab.MORTGAGEE_INFORMATION.getLabel(), DataProviderFactory.dataOf(
+								HomeSSMetaData.MortgageesTab.MortgageeInformation.NAME.getLabel(), "John Smith",
+								HomeSSMetaData.MortgageesTab.MortgageeInformation.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().getZip(),
+								HomeSSMetaData.MortgageesTab.MortgageeInformation.STREET_ADDRESS_1.getLabel(), "111 Street Address",
+								HomeSSMetaData.MortgageesTab.MortgageeInformation.VALIDATE_ADDRESS_BTN.getLabel(), true,
+								HomeSSMetaData.MortgageesTab.MortgageeInformation.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.emptyData(),
+								HomeSSMetaData.MortgageesTab.MortgageeInformation.LOAN_NUMBER.getLabel(), "123456789"))
+		);
+		policyIssueData = TestDataHelper.merge(mortgageeTabData, policyIssueData);
 		//		}
 
 		// merge Documents to bind
@@ -194,6 +194,26 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		);
 	}
 
+	public boolean isProofAvailable(HomeSSOpenLPolicy openLPolicy) {
+		return "Central".equals(openLPolicy.getPolicyDiscountInformation().getTheftAlarmType()) ||
+				"Central".equals(openLPolicy.getPolicyDiscountInformation().getFireAlarmType()) ||
+				isVisibleProofOfPEHCR(openLPolicy);
+	}
+
+	public TestData getDocumentsProofData(HomeSSOpenLPolicy openLPolicy) {
+		TestData documentsProofData = DataProviderFactory.emptyData();
+		if ("Central".equals(openLPolicy.getPolicyDiscountInformation().getTheftAlarmType())) {
+			documentsProofData.adjust(DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(),
+					DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), openLPolicy.getPolicyDiscountInformation().getProofCentralTheftAlarm() ? "Yes" : "No")
+			));
+		}
+		if ("Central".equals(openLPolicy.getPolicyDiscountInformation().getFireAlarmType())) {
+			documentsProofData.adjust(DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(),
+					DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), openLPolicy.getPolicyDiscountInformation().getProofCentralFireAlarm() ? "Yes" : "No")
+			));
+		}
+		return documentsProofData;
+	}
 	private TestData getGeneralTabData(HomeSSOpenLPolicy openLPolicy) {
 		return DataProviderFactory.dataOf(
 				HomeSSMetaData.GeneralTab.STATE.getLabel(), getState(),
@@ -560,6 +580,13 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 						);
 						personalPropertyData.adjust(DataProviderFactory.dataOf(HomeSSMetaData.PersonalPropertyTab.FURS.getLabel(), fursData));
 						break;
+					case "Golfer's Equipment":
+						TestData golfEquipmentData = DataProviderFactory.dataOf(
+								HomeSSMetaData.PersonalPropertyTab.GolfEquipment.LIMIT_OF_LIABILITY.getLabel(), form.getLimit().toString().split("\\.")[0],
+								HomeSSMetaData.PersonalPropertyTab.GolfEquipment.DESCRIPTION.getLabel(), "Description"
+						);
+						personalPropertyData.adjust(DataProviderFactory.dataOf(HomeSSMetaData.PersonalPropertyTab.GOLF_EQUIPMENT.getLabel(), golfEquipmentData));
+						break;
 					case "Jewelry":
 						TestData jewelryData = DataProviderFactory.dataOf(
 								HomeSSMetaData.PersonalPropertyTab.Jewelry.LIMIT_OF_LIABILITY.getLabel(), form.getLimit().toString().split("\\.")[0],
@@ -783,10 +810,10 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	private boolean isVisibleProofOfPEHCR(HomeSSOpenLPolicy openLPolicy) {
 		boolean isVisibleProofOfPEHCR = false;
 		if (openLPolicy.getPolicyDwellingRatingInfo().getHomeAge() >= 10 &&
-				openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovPlumbing() < 10 &&
-				openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovHeatOrCooling() < 10 &&
-				openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovElectrical() < 10 &&
-				openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovRoof() < 10) {
+				(openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovPlumbing() < 10 ||
+						openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovHeatOrCooling() < 10 ||
+						openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovElectrical() < 10 ||
+						openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovRoof() < 10)) {
 			isVisibleProofOfPEHCR = true;
 		}
 		return isVisibleProofOfPEHCR;

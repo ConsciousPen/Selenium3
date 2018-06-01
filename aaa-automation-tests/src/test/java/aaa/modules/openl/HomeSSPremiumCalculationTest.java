@@ -53,6 +53,14 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 			policy.getDefaultView().fillUpTo(formHS0492Data, PremiumsAndCoveragesQuoteTab.class, false);
 		}
 
+		TestData documentsProofData = ((HomeSSTestDataGenerator) tdGenerator).getDocumentsProofData(openLPolicy);
+		if (!documentsProofData.equals(DataProviderFactory.emptyData())) {
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.DOCUMENTS.get());
+			policy.getDefaultView().fill(documentsProofData);
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		}
+
 		PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 		premiumsAndCoveragesQuoteTab.fillTab(quoteRatingData);
 
