@@ -8,6 +8,7 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
@@ -88,9 +89,5 @@ public class TestClueReportOnCopyActionsTemplate extends PolicyBaseTest {
 		driverActivityReportsTab.saveAndExit();
 		policyType.get().copyQuote();
 	}
-
-//	protected TestData adjustTDCopyPolicyCA(TestData td) {
-//
-//	}
 
 }
