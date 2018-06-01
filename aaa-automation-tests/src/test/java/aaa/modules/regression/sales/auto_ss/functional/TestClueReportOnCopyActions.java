@@ -9,7 +9,9 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig;
 import aaa.modules.regression.sales.template.functional.TestClueReportOnCopyActionsTemplate;
 import aaa.utils.StateList;
@@ -86,7 +88,8 @@ public class TestClueReportOnCopyActions extends TestClueReportOnCopyActionsTemp
 		createQuoteFillAndInitiateCopyAction(PolicyType.AUTO_SS, td, new DriverActivityReportsTab());
 
 		// Fill requirements on Rating Detail Reports, calculate premium, and order reports on DAR
-		td.mask(TestData.makeKeyPath(RatingDetailReportsTab.class.getSimpleName(), AutoSSMetaData.RatingDetailReportsTab.CUSTOMER_AGREEMENT.getLabel()))
+		td.adjust(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT.getLabel()), "I Agree")
+				.mask(TestData.makeKeyPath(RatingDetailReportsTab.class.getSimpleName(), AutoSSMetaData.RatingDetailReportsTab.CUSTOMER_AGREEMENT.getLabel()))
 				.mask(TestData.makeKeyPath(RatingDetailReportsTab.class.getSimpleName(), AutoSSMetaData.RatingDetailReportsTab.SALES_AGENT_AGREEMENT.getLabel()));
 
 		fillAndValidateCLUETable(PolicyType.AUTO_SS, td);
