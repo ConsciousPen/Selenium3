@@ -866,11 +866,13 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 	private void validatePrintDeliveryMethodOptionsForFPCECA_FPCECADP() {
 		policyDocGenActionTab.getDocumentsControl().getTable().getRow(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, fairPlanEndorsementInODDTab.getId())
 				.getCell(DocGenConstants.OnDemandDocumentsTable.SELECT).click(); //Click document check box
+		CustomAssert.enableSoftMode();
 		assertThat(policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).getRadioButton("Email").isEnabled()).isTrue();
 		assertThat(policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).getRadioButton("Fax").isEnabled()).isTrue();
 		assertThat(policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).getRadioButton("Central Print").isEnabled()).isFalse();
 		assertThat(policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).getRadioButton("eSignature").isEnabled()).isTrue();
 		assertThat(policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).getRadioButton("Local Print").isEnabled()).isTrue();
+		CustomAssert.disableSoftMode();
 	}
 
 }
