@@ -330,15 +330,15 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
 		String policyNumber = createPolicyPreconds(testData);
-		// Upload data
+
 		adminApp().open();
-		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get()));
+		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN9.get()));
 
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-		// Verify first vehicle is there..
+
 		log.info("First vehicle, at the vehicle tab, should have same values");
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE.getLabel()).getValue()).isEqualTo("OTHER");
@@ -566,7 +566,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 	public void enableVinIfDisabled() {
 		String isVinRefreshEnabled = DBService.get().getValue(VehicleQueries.SELECT_VALUE_VIN_REFRESH).get();
-		log.info("Vin refresh is enabled{}", isVinRefreshEnabled);
+		log.info("Vin refresh is enabled {} ", isVinRefreshEnabled);
 		if ("false".equalsIgnoreCase(isVinRefreshEnabled)) {
 			log.info("Vin will be enabled");
 			ScorpionsPreconditions.enableVinRefresh();
