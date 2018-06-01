@@ -269,6 +269,7 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestClueReportOnCopyActions"/>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestClueReportOnCopyActions"/>
         </classes>
     </test>
 

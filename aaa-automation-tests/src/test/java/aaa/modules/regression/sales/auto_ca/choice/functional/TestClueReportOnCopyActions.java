@@ -79,7 +79,7 @@ public class TestClueReportOnCopyActions extends TestClueReportOnCopyActionsTemp
 				.adjust(AutoCaMetaData.DriverTab.FIRST_NAME.getLabel(), "Sally")
 				.adjust(AutoCaMetaData.DriverTab.LAST_NAME.getLabel(), "Smith")
 				.mask(AutoCaMetaData.DriverTab.NAMED_INSURED.getLabel());
-		TestData td = getPolicyDefaultTD().adjust(DriverTab.class.getSimpleName(), tdDriversTab);
+		TestData td = getPolicyDefaultTD(PolicyType.AUTO_CA_CHOICE).adjust(DriverTab.class.getSimpleName(), tdDriversTab);
 
 		pas8271_testClueReportOnCopyQuoteActionCA(PolicyType.AUTO_CA_CHOICE, td);
 
