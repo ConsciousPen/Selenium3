@@ -404,18 +404,6 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		DBService.get().executeUpdate(VehicleQueries.REPAIR_COMP_VALUE);
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
 	@AfterSuite(alwaysRun = true)
 	protected void resetVinControlTable() {
 		// pas730_PartialMatch clean
