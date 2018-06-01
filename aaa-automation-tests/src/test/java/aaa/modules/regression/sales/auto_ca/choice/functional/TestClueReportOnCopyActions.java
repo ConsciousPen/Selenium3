@@ -74,7 +74,7 @@ public class TestClueReportOnCopyActions extends TestClueReportOnCopyActionsTemp
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-8271")
 	public void pas8271_testClueReportOnCopyQuoteActionCA_Choice(@Optional("CA") String state) {
 
-		List<TestData> tdDriversTab = getStateTestData(testDataManager.getDefault(aaa.modules.regression.sales.auto_ca.select.TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName());
+		List<TestData> tdDriversTab = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName());
 		tdDriversTab.get(1)
 				.adjust(AutoCaMetaData.DriverTab.FIRST_NAME.getLabel(), "Sally")
 				.adjust(AutoCaMetaData.DriverTab.LAST_NAME.getLabel(), "Smith")
