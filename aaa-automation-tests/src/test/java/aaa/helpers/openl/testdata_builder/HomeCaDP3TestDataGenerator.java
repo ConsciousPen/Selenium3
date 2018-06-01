@@ -138,7 +138,7 @@ public class HomeCaDP3TestDataGenerator extends TestDataGenerator<HomeCaDP3OpenL
 		
 		TestData rentalInformationData = DataProviderFactory.dataOf(
 				HomeCaMetaData.PropertyInfoTab.RentalInformation.YEAR_FIRST_RENTED.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getYearsOwned()).getYear(), 
-				HomeCaMetaData.PropertyInfoTab.RentalInformation.PROPERTY_MANAGER.getLabel(), getPropertyManager(openLPolicy.getPropertyManagerType()), 
+				HomeCaMetaData.PropertyInfoTab.RentalInformation.PROPERTY_MANAGER.getLabel(), getPropertyManagerType(openLPolicy), 
 				HomeCaMetaData.PropertyInfoTab.RentalInformation.ARE_THERE_ANY_ADDITIONAL_RENTAL_DWELLINGS.getLabel(), "No");
 		
 		TestData theftProtectiveDeviceData = DataProviderFactory.dataOf(
@@ -206,16 +206,19 @@ public class HomeCaDP3TestDataGenerator extends TestDataGenerator<HomeCaDP3OpenL
 				HomeCaMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel(), claimHistoryData);
 	}
 	
-	private String getPropertyManager(String propertyManagerType) {
-		switch(propertyManagerType) {
-		case "Professional / full-time": 
-			return "Professional / Full-time";
-		//There is no value for "Non-Professional / Non-Full-time" in OpenL file
-		case "None": 
-			return "None";
-		default: 
-			return "Professional / Full-time";
+	private String getPropertyManagerType(HomeCaDP3OpenLPolicy openLPolicy) {
+		String propertyManagerType;
+		switch (openLPolicy.getPropertyManagerType()) {
+			case "Professional / full-time": 
+				propertyManagerType = "Professional / Full-time";
+				break;
+			case "None": 
+				propertyManagerType = "None";
+				break;
+			default: 
+				throw new IstfException("Unknown mapping for PropertyManagerType = " + openLPolicy.getPropertyManagerType());				
 		}
+		return propertyManagerType;
 	}
 	
 	private String getSwimmingPoolType(HomeCaDP3OpenLPolicy openLPolicy) {
