@@ -87,8 +87,7 @@ public class TestClueReportOnCopyActions extends TestClueReportOnCopyActionsTemp
 
 		// Fill requirements on Rating Detail Reports, calculate premium, and order reports on DAR
 		td.mask(TestData.makeKeyPath(RatingDetailReportsTab.class.getSimpleName(), AutoSSMetaData.RatingDetailReportsTab.CUSTOMER_AGREEMENT.getLabel()))
-				.mask(TestData.makeKeyPath(RatingDetailReportsTab.class.getSimpleName(), AutoSSMetaData.RatingDetailReportsTab.SALES_AGENT_AGREEMENT.getLabel()))
-				.mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoSSMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_QUOTE.getLabel()));
+				.mask(TestData.makeKeyPath(RatingDetailReportsTab.class.getSimpleName(), AutoSSMetaData.RatingDetailReportsTab.SALES_AGENT_AGREEMENT.getLabel()));
 
 		fillAndValidateCLUETable(PolicyType.AUTO_SS, td);
 

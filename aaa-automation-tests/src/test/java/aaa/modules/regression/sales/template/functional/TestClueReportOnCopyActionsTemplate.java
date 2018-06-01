@@ -47,7 +47,6 @@ public class TestClueReportOnCopyActionsTemplate extends PolicyBaseTest {
 		createQuoteFillAndInitiateCopyAction(policyType, td, new DriverActivityReportsTab());
 
 		// Fill requirements on Rating Detail Reports, calculate premium, and order reports on DAR
-		td.mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()));
 		fillAndValidateCLUETable(policyType, td);
 
 	}
