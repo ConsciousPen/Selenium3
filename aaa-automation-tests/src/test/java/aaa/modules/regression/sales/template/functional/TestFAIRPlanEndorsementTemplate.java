@@ -863,10 +863,10 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		validateThatCentralPrintIsDisabledForFPCECA_FPCECADP();
 
-		policyDocGenActionTab.generateDocuments(DocGenEnum.DeliveryMethod.LOCAL_PRINT, fairPlanEndorsementInODDTab);
-
-		//validate that document is generated in xml
-		validateDocumentIsGeneratedInPackage(policyNumber, ADHOC_DOC_ON_DEMAND_GENERATE);
+		//Following lines are not in scope of pas14004. Uncomment these lines when US for actual document generation from ODD page will be available.
+//		policyDocGenActionTab.generateDocuments(DocGenEnum.DeliveryMethod.LOCAL_PRINT, fairPlanEndorsementInODDTab);
+//		//validate that document is generated in xml
+//		validateDocumentIsGeneratedInPackage(policyNumber, ADHOC_DOC_ON_DEMAND_GENERATE);
 	}
 
 }

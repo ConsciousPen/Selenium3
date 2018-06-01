@@ -443,8 +443,6 @@ public class TestFAIRPlanEndorsement extends HomeCaDP3BaseTest {
 	 *5. Navigate to ODD page
 	 *6. Validate that FPCECA/FPCECADP document IS available for printing
 	 *7. Validate that the 'Central Print' option for the FPCECA/FPCECAD document is disabled
-	 *8. Select FPCECA/FPCECAD form and generate document
-	 *9. Validate that FPCECA/FPCECAD document is generated in XML
 	 * @details
 	 **/
 	@Parameters({"state"})
@@ -485,8 +483,6 @@ public class TestFAIRPlanEndorsement extends HomeCaDP3BaseTest {
 	 *2. Navigate to ODD page
 	 *3. Validate that FPCECA/FPCECADP document IS available for printing
 	 *4. Validate that the 'Central Print' option for the FPCECA/FPCECAD document is disabled
-	 *5. Select FPCECA/FPCECAD form and generate document
-	 *6. Validate that FPCECA/FPCECAD document is generated in XML
 	 * @details
 	 **/
 	@Parameters({"state"})
