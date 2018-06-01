@@ -189,8 +189,8 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12877")
-	public void pas12877_StoreStubRenewal_NO_COMP_Select(@Optional("UT") String state) {
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-12877")
+	public void pas12877_StoreStubRenewal_NO_COMP_Select(@Optional("CA") String state) {
 
 		String vehYear = "2016";
 		String vehMake = "TOYOTA";
@@ -245,8 +245,8 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12877")
-	public void pas12877_StoreStubRenewal_COMP(@Optional("UT") String state) {
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-12877")
+	public void pas12877_StoreStubRenewal_COMP_Select(@Optional("CA") String state) {
 
 		String vehYear = "2017";
 		String vehMake = "TOYOTA";
