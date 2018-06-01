@@ -39,7 +39,7 @@ public class EndorsementTab extends PropertyEndorsementsTab {
         return this;
     }
 
-	public HomeCAEndorsementsMultiAssetList getEndorsementFormAssetList(AssetDescriptor endorsementAsset) {
+	public HomeCAEndorsementsMultiAssetList getFormAssetList(AssetDescriptor endorsementAsset) {
 		return (HomeCAEndorsementsMultiAssetList) getAssetList().getAsset(endorsementAsset);
 	}
 }
