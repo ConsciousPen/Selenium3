@@ -13,7 +13,7 @@ public class Vehicle implements RestBodyRequest {
 	private static final String VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO = "PPA";
 	private static final String VEHICLE_STATUS_PENDING = "pending";
 	private static final String VEHICLE_STATUS_ACTIVE = "active";
-
+	private static final String VEHICLE_STATUS_PENDING_REMOVAL = "pendingRemoval";
 	@ApiModelProperty(value = "Model year", example = "2002")
 	public String modelYear;
 
@@ -78,12 +78,13 @@ public class Vehicle implements RestBodyRequest {
 			.result();
 
 	public static final Comparator<Vehicle> PENDING_ENDORSEMENT_COMPARATOR = (vehicle1, vehicle2) -> ComparisonChain.start()
+			.compareTrueFirst(VEHICLE_STATUS_PENDING_REMOVAL.equals(vehicle1.vehicleStatus),
+					VEHICLE_STATUS_PENDING_REMOVAL.equals(vehicle2.vehicleStatus))
 			.compareTrueFirst(VEHICLE_STATUS_PENDING.equals(vehicle1.vehicleStatus),
 					VEHICLE_STATUS_PENDING.equals(vehicle2.vehicleStatus))
 			.compareTrueFirst(VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO.equals(vehicle1.vehTypeCd),
 					VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO.equals(vehicle2.vehTypeCd))
-			.compareTrueFirst(VEHICLE_STATUS_ACTIVE.equals(vehicle1.vehicleStatus),
-					VEHICLE_STATUS_ACTIVE.equals(vehicle2.vehicleStatus))
 			.compare(vehicle1.oid, vehicle2.oid)
 			.result();
+
 }
