@@ -51,8 +51,8 @@ public class TestClueReportOnCopyActionsTemplate extends PolicyBaseTest {
 	}
 
 	protected void fillAndValidate(PolicyType policyType, TestData td) {
+		policyType.get().dataGather().start();
 		if (policyType.isCaProduct()) {
-			policyType.get().dataGather().start();
 			NavigationPage.toViewTab(NavigationEnum.AutoCaTab.MEMBERSHIP.get());
 			policyType.get().getDefaultView().getTab(MembershipTab.class).fillTab(td);
 			new PremiumAndCoveragesTab().calculatePremium();
@@ -66,7 +66,6 @@ public class TestClueReportOnCopyActionsTemplate extends PolicyBaseTest {
 			assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(1)
 					.getCell(AutoCaMetaData.DriverActivityReportsTab.OrderClueRow.SELECT.getLabel()).controls.radioGroups.getFirst().getValue()).isEqualTo("Yes");
 		} else {
-			policyType.get().dataGather().start();
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
 			policyType.get().getDefaultView().getTab(RatingDetailReportsTab.class).fillTab(td);
 			new aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab().calculatePremium();
@@ -89,5 +88,9 @@ public class TestClueReportOnCopyActionsTemplate extends PolicyBaseTest {
 		driverActivityReportsTab.saveAndExit();
 		policyType.get().copyQuote();
 	}
+
+//	protected TestData adjustTDCopyPolicyCA(TestData td) {
+//
+//	}
 
 }
