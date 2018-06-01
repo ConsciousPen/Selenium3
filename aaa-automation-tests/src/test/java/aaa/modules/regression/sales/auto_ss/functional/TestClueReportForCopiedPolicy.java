@@ -39,7 +39,7 @@ public class TestClueReportForCopiedPolicy extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-8271")
-    public void pas8271_testClueReportOnCopyPolicyAction(@Optional("") String state) {
+    public void pas8271_testClueReportOnCopyPolicyActionSS(@Optional("") String state) {
 
         mainApp().open();
         createCustomerIndividual();
@@ -51,6 +51,7 @@ public class TestClueReportForCopiedPolicy extends AutoSSBaseTest {
                 .adjust(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), "Sally")
                 .adjust(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), "Smith")
                 .mask(AutoSSMetaData.DriverTab.NAMED_INSURED.getLabel());
+
         TestData tdEndorsement = getTestSpecificTD("TestData").adjust(DriverTab.class.getSimpleName(), tdDriverTab);
         TestData tdCopy = getPolicyTD("CopyFromPolicy", "TestData");
 
@@ -84,7 +85,7 @@ public class TestClueReportForCopiedPolicy extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-8271")
-    public void pas8271_testClueReportOnCopyQuoteAction(@Optional("") String state) {
+    public void pas8271_testClueReportOnCopyQuoteActionSS(@Optional("") String state) {
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -120,6 +121,7 @@ public class TestClueReportForCopiedPolicy extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
 		policy.getDefaultView().getTab(DriverActivityReportsTab.class).fillTab(td);
 
+		// Validate CLUE reports table
 		assertThat(DriverActivityReportsTab.tableCLUEReports.getRows().size()).isEqualTo(1);
 		assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(1)
 				.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.ORDER_TYPE.getLabel()).getValue()).isEqualToIgnoringCase("HouseHold");

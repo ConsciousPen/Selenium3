@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -66,21 +67,70 @@ public class TestClueReportForCopiedPolicy extends AutoCaSelectBaseTest {
 
         // Copy from policy and initiate data gather
         policy.policyCopy().perform(tdCopy);
-        policy.dataGather().start();
 
-        // Fill requirements on Rating Detail Reports, calculate premium, and order reports on DAR
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.MEMBERSHIP.get());
-        policy.getDefaultView().getTab(MembershipTab.class).fillTab(tdCopy);
-        new PremiumAndCoveragesTab().calculatePremium();
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
-        policy.getDefaultView().getTab(DriverActivityReportsTab.class).fillTab(tdCopy);
-
-        // Validate CLUE reports table
-        assertThat(DriverActivityReportsTab.tableCLUEReports.getRows().size()).isEqualTo(1);
-        assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(1)
-                .getCell(AutoCaMetaData.DriverActivityReportsTab.OrderClueRow.ORDER_TYPE.getLabel()).getValue()).isEqualToIgnoringCase("HouseHold");
-        assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(1)
-                .getCell(AutoCaMetaData.DriverActivityReportsTab.OrderClueRow.SELECT.getLabel()).controls.radioGroups.getFirst().getValue()).isEqualTo("Yes");
+		// Fill requirements on Rating Detail Reports, calculate premium, and order reports on DAR
+		fillAndValidate(tdCopy);
 
     }
+
+	/**
+	 * @author Josh Carpenter
+	 * @name Test that CLUE reports do not carry over on 'Copy Quote' action for CA Auto policies
+	 * @scenario
+	 * 1. Create Customer
+	 * 2. Initiate Auto CA Select Quote
+	 * 3. Fill quote with 2 drivers up to DAR page
+	 * 4. Save and Exit
+	 * 5. Initiate 'Copy From Quote' Action
+	 * 6. Order reports on Rating Details Report tab
+	 * 7. Calculate premium
+	 * 8. Order reports on DAR page
+	 * 9. Verify CLUE table contains a single row with 'HouseHold' for 'Order Type'
+	 * 10. Verify CLUE table 'Select' radio button defaults to 'Yes'
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-8271")
+	public void pas8271_testClueReportOnCopyQuoteActionCA(@Optional("CA") String state) {
+
+		mainApp().open();
+		createCustomerIndividual();
+
+		List<TestData> tdDriversTab = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName());
+		tdDriversTab.get(1)
+				.adjust(AutoCaMetaData.DriverTab.FIRST_NAME.getLabel(), "Sally")
+				.adjust(AutoCaMetaData.DriverTab.LAST_NAME.getLabel(), "Smith")
+				.mask(AutoCaMetaData.DriverTab.NAMED_INSURED.getLabel());
+		TestData td = getPolicyDefaultTD().adjust(DriverTab.class.getSimpleName(), tdDriversTab);
+
+		// Initiate Quote  with 2 drivers and fill up to DAR page
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(td, DriverActivityReportsTab.class, true);
+		new DriverActivityReportsTab().saveAndExit();
+
+		// Initiate 'Copy From Quote' action
+		policy.copyQuote();
+
+		// Fill requirements on Rating Detail Reports, calculate premium, and order reports on DAR
+		td.mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()));
+		fillAndValidate(td);
+
+	}
+
+	private void fillAndValidate(TestData td) {
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.MEMBERSHIP.get());
+		policy.getDefaultView().getTab(MembershipTab.class).fillTab(td);
+		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+		policy.getDefaultView().getTab(DriverActivityReportsTab.class).fillTab(td);
+
+		// Validate CLUE reports table
+		assertThat(DriverActivityReportsTab.tableCLUEReports.getRows().size()).isEqualTo(1);
+		assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(1)
+				.getCell(AutoCaMetaData.DriverActivityReportsTab.OrderClueRow.ORDER_TYPE.getLabel()).getValue()).isEqualToIgnoringCase("HouseHold");
+		assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(1)
+				.getCell(AutoCaMetaData.DriverActivityReportsTab.OrderClueRow.SELECT.getLabel()).controls.radioGroups.getFirst().getValue()).isEqualTo("Yes");
+	}
 }
