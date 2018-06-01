@@ -1092,12 +1092,22 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		);
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * 1. create a policy with 2 ppa,1 conversion-van and 1 motor vehicle
+	 * 2. create pended endorsement.
+	 * 2. run view vehicle service and get OID of PPA vehicle
+	 * 3. run delete vehicle service and delete vehicle using Oid
+	 * 4. verify response status should be pending removal
+	 * 5. rate endorsement
+	 * 6. bind endorsement
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "myPolicyUserAddedConfigCheck")
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-488"})
 	public void pas488_VehicleDelete(@Optional("VA") String state) {
 
-		pas488_VehicleDeleteBody();
+		pas488_VehicleDeleteBody(getPolicyType());
 	}
 
 	/**
