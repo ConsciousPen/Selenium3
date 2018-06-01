@@ -1,0 +1,214 @@
+HO3PolicyData: {
+ GeneralTab: '@GeneralTab_HO3',
+ ApplicantTab: '@ApplicantTab_HO3',
+ ReportsTab: '@ReportsTab_HO3',
+ PropertyInfoTab: '@PropertyInfoTab_HO3',
+ ProductOfferingTab: '@ProductOfferingTab_HO3',
+ EndorsementTab: '@EndorsementTab_HO3',
+ PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_HO3',
+ MortgageesTab: '@MortgageesTab_HO3',
+ UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_HO3',
+ DocumentsTab: '@DocumentsTab_HO3',
+ BindTab: '@BindTab_HO3',
+ PurchaseTab: '@PurchaseTab_HO3'
+}
+GeneralTab_HO3: {
+  PolicyInfo: {
+    Policy type: 'HO3',
+    Effective date: '$<today>',
+    Lead source: 'AAA Magazines',
+  },
+  CurrentCarrier: {
+    Carrier name: 'AAA - NCNU',
+    Policy type: 'HO3',
+    Continuous years with HO insurance: '5',
+    Base date with AAA: '$<today>',
+  }
+}
+ApplicantTab_HO3: {
+  NamedInsured: '@NamedInsured_HO3',
+  AAAMembership: '@AAAMembership_HO3',
+  DwellingAddress: '@DwellingAddress_HO3',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_HO3',
+  MailingAddress: '@MailingAddress_HO3',
+  NamedInsuredInformation: '@NamedInsuredInformation_HO3',
+  AgentInfo: '@AgentInfo_HO3',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_HO3',
+}
+
+
+# --------------------------- Applicant Tab for HO3 policy -----------------------------
+NamedInsured_HO3: {
+  Prefix: 'Mr.',
+  Middle Name: '',
+  Suffix: 'Jr.',
+  Relationship to primary named insured:  Primary Insured,
+}
+AAAMembership_HO3: {
+  Current AAA Member: 'No',
+}
+DwellingAddress_HO3: {
+  Zip code: '90255',
+  Street address 1: 6586 PORCUPINE WAY,
+  County: Los Angeles,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+PreviousDwellingAddress_HO3: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'No'
+}
+MailingAddress_HO3: {
+  "Is the mailing address different from the dwelling address?": 'No'
+}
+NamedInsuredInformation_HO3: {
+  Home Phone Number: '1234567890',
+  Work Phone Number: '1234565432',
+  Mobile Phone Number: '1234543231',
+  'Preferred Phone #': index=2,
+  Email: qwqwq@qw.qw
+}
+AgentInfo_HO3: {
+  Channel Type: AAA Agent,
+  Agency: 'SMTestNCNU - 400001005',
+  Agency Location: 'SMTestNCNU LOCATION - 400001105 - Emeryville',
+  Agent: 'House Agent SMTestNCNU LOCATION',
+  TollFree Number: 1
+}
+OtherActiveAAAPolicies_HO3: {
+  Other active AAA policies: "No"
+}
+
+#------------------- Reports Tab --------------------------
+ReportsTab_HO3: {
+  Sales Agent Agreement: 'I Agree',
+  FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+}
+ #------------------------ Property Info Tab -------------------------
+PropertyInfoTab_HO3: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab_HO3',
+  AdditionalAddress: ['@AdditionalAddress_HO3'],
+  PublicProtectionClass: '@PublicProtectionClass_HO3',
+  FireReport: {},
+  PropertyValue: '@PropertyValue_HO3',
+  Construction: '@Construction_HO3',
+  Interior: '@Interior_HO3',
+  DetachedStructures: ['@DetachedStructures_HO3'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation_HO3',
+  PetsOrAnimals: '@PetsOrAnimals_HO3',
+  Stoves: '@Stoves_HO3',
+  RecreationalEquipment: '@RecreationalEquipment_HO3'
+}
+DwellingAddress_PropertyInfoTab_HO3: {
+  Number of family units: 2-Duplex
+}
+AdditionalAddress_HO3: {
+  'Are there any additional addresses?': 'No'
+}
+PublicProtectionClass_HO3: {
+  Fire department type: 'T - Tax based',
+  Public protection class: '1X',
+  Distance to fire hydrant: '<=1000ft',
+  Fire protection area: 'large'
+}
+PropertyValue_HO3: {
+  Coverage A - Dwelling limit: 150000,
+  ISO replacement cost: 145000,
+  Reason replacement cost differs from the tool value: 'index=1',
+}
+Construction_HO3: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Other,
+    Roof shape: 'index=1',
+    Construction type: 'index=1',
+    Foundation Type: 'index=1'
+}
+Interior_HO3: {
+  Dwelling usage: Primary,
+  Number of residents: '3',
+  'Number of stories, including basement': 'index=1'
+}
+DetachedStructures_HO3: {
+  "Are there any detached structures on the property?": 'No'
+}
+HomeRenovation_HO3: {
+  Plumbing renovation: '100% Copper',
+  "Plumbing % complete": '100',
+  "Plumbing Month of completion": 3,
+  "Plumbing Year of completion": '2009',
+  Electrical renovation: '100% Circuit/Romex',
+  "Electrical % complete": '90',
+  "Electrical Month of completion": 10,
+  "Electrical Year of completion": '2010',
+  Roof renovation: '100% Replace',
+  "Roof % complete": '100',
+  "Roof Month of completion": 6,
+  "Roof Year of completion": '2012',
+  "Heating/cooling renovation": Forced Air,
+  "Heating/cooling % complete": '100',
+  "Heating/cooling Month of completion": 5,
+  "Heating/cooling Year of completion": '2011',
+  Green Home discount: 'No'
+}
+PetsOrAnimals_HO3: {
+  "Are any insured-owned pets or animals kept on the property?": 'No'
+}
+Stoves_HO3: {
+  "Does the property have a wood-burning stove?": 'No'
+}
+RecreationalEquipment_HO3: {}
+#----------------------------------------------------------------------------------------
+ProductOfferingTab_HO3: {}
+EndorsementTab_HO3: {}
+PremiumsAndCoveragesQuoteTab_HO3: {
+  Payment plan: Pay in Full,
+  Coverage C - Personal Property limit: '150000.00',
+  Coverage E - Personal Liability Each Occurrence: '$300,000'
+}
+MortgageesTab_HO3: {
+  Mortgagee: 'No'
+}
+UnderwritingAndApprovalTab_HO3: {
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No",
+  "Has the property been in foreclosure proceedings within the past 18 months?": "No",
+  "Is any gas water heater located in a garage?": "No",
+  "Is there a business on premises?": "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is the dwelling located within 500 feet of bay or coastal waters?": "No"
+}
+DocumentsTab_HO3: {
+  DocumentsToIssue: {
+  California Residential Property Insurance Disclosure: Physically Signed,
+  Signed policy application: Physically Signed
+  }
+}
+BindTab_HO3: {}
+PurchaseTab_HO3: {
+ PaymentAllocation: {
+  Cash: /rest
+ },
+}
+
+#----------------------------------------------------------------
+ApplicantTab_DP3: {
+  NamedInsured: '@NamedInsured_HO3',
+  AAAMembership: '@AAAMembership_HO3',
+  DwellingAddress: '@DwellingAddress_HO3',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation_HO3',
+  AgentInfo: '@AgentInfo_HO3',
+  OtherActiveAAAPolicies: {}
+}
+
+ReportsTab_DP3: {
+  Sales Agent Agreement: 'I Agree',
+  FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+}
