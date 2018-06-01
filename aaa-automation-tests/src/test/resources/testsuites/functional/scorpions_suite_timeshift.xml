@@ -4,7 +4,7 @@
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/>
+    <parameter name="timeshift-scenario-mode" value="method"/>
 
     <!--The tests are updating configuration on the fly and sequential execution is needed-->
     <test name="PAS-2716, PAS-527, PAS-11659 Update VIN Refresh Auto SS">
@@ -84,7 +84,7 @@
         </classes>
     </test>
 
-    <test name="Dp3 Conversion forms NJ,DE,VA,MD,PA states" thread-count="200">
+    <test name="Dp3 Conversion forms NJ,DE,VA,MD,PA states" thread-count="200" parallel="methods">
         <parameter name="state" value="NJ,DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
@@ -96,7 +96,7 @@
         </classes>
     </test>
 
-    <test name="HO3 Conversion forms NJ,DE,VA,MD,PA states" thread-count="200">
+    <test name="HO3 Conversion forms NJ,DE,VA,MD,PA states" thread-count="200" parallel="methods">
         <parameter name="state"  value="NJ,DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration" >
@@ -108,7 +108,7 @@
         </classes>
     </test>
 
-    <test name="HO4 Conversion forms NJ,DE,VA,MD,PA states" thread-count="200">
+    <test name="HO4 Conversion forms NJ,DE,VA,MD,PA states" thread-count="200" parallel="methods">
         <parameter name="state"  value="NJ,DE,VA,MD,PA"  />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration" >
@@ -120,7 +120,7 @@
         </classes>
     </test>
 
-    <test name="HO6 Conversion forms NJ,DE,VA,MD,PA states" thread-count="200">
+    <test name="HO6 Conversion forms NJ,DE,VA,MD,PA states" thread-count="200" parallel="methods">
         <parameter name="state"  value="NJ,DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration" >
@@ -132,7 +132,7 @@
         </classes>
     </test>
 
-    <test name="PUP pas2674_ConversionPacket" thread-count="200">
+    <test name="PUP pas2674_ConversionPacket" thread-count="200" parallel="methods">
         <parameter name="state"  value="NJ,DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigSpecificFormsGeneration" >
@@ -144,7 +144,7 @@
         </classes>
     </test>
 
-    <test name="Dp3 pas9816_BillingPacketGeneration" thread-count="200">
+    <test name="Dp3 pas9816_BillingPacketGeneration" thread-count="200" parallel="methods">
         <parameter name="state" value="NJ,DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
@@ -155,7 +155,7 @@
         </classes>
     </test>
 
-    <test name="HO3 pas9816_BillingPacketGeneration" thread-count="200">
+    <test name="HO3 pas9816_BillingPacketGeneration" thread-count="200" parallel="methods">
         <parameter name="state" value="NJ,DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration" >
@@ -166,7 +166,7 @@
         </classes>
     </test>
 
-    <test name="HO4 pas9816_BillingPacketGeneration" thread-count="200">
+    <test name="HO4 pas9816_BillingPacketGeneration" thread-count="200" parallel="methods">
         <parameter name="state" value="NJ,DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration" >
@@ -177,7 +177,7 @@
         </classes>
     </test>
 
-    <test name="HO6 pas9816_BillingPacketGeneration" thread-count="200">
+    <test name="HO6 pas9816_BillingPacketGeneration" thread-count="200" parallel="methods">
         <parameter name="state" value="NJ,DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration" >
@@ -188,7 +188,7 @@
         </classes>
     </test>
 
-    <test name="PUP pas9816_BillingPacketGeneration" thread-count="200">
+    <test name="PUP pas9816_BillingPacketGeneration" thread-count="200" parallel="methods">
         <parameter name="state" value="NJ,DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigSpecificFormsGeneration" >
@@ -199,7 +199,7 @@
         </classes>
     </test>
 
-    <test name="DP3 pas6731 PreRenewal Letter Generation new timeline -65" thread-count="200">
+    <test name="DP3 pas6731 PreRenewal Letter Generation new timeline -65" thread-count="200" parallel="methods">
         <parameter name="state" value="PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
@@ -211,7 +211,7 @@
         </classes>
     </test>
 
-    <test name="DP3 pas10666 PreRenewal Letter Generation new timeline -65 (mortgagee)" thread-count="200">
+    <test name="DP3 pas10666 PreRenewal Letter Generation new timeline -65 (mortgagee)" thread-count="200" parallel="methods">
         <parameter name="state" value="PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
@@ -223,7 +223,7 @@
         </classes>
     </test>
 
-    <test name="DP3 pas9114 Pre Renewal Print Sequence" thread-count="200">
+    <test name="DP3 pas9114 Pre Renewal Print Sequence" thread-count="200" parallel="methods">
         <parameter name="state" value="PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
