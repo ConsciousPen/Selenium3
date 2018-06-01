@@ -15,6 +15,7 @@ import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 
 public class HomeCaHO4TestDataGenerator extends TestDataGenerator<HomeCaHO4OpenLPolicy> {
@@ -298,7 +299,7 @@ public class HomeCaHO4TestDataGenerator extends TestDataGenerator<HomeCaHO4OpenL
 				 * Class 1: Boat length > 167 and Boat length < 192 and Horsepower < 26 
 				 * Class 1: Boat length > 191 and Boat length < 216 and Horsepower < 51
 				 */
-				if (form.getType().equals("Outboard")) {
+				if (getBoatType(form).equals("Outboard")) {
 					if (form.getFormClass().equals("Class 1")) {
 						horsepower = "25"; 
 						length_inches = "167";
@@ -309,7 +310,7 @@ public class HomeCaHO4TestDataGenerator extends TestDataGenerator<HomeCaHO4OpenL
 					}
 				}
 				TestData boatsData = DataProviderFactory.dataOf(
-						HomeCaMetaData.PersonalPropertyTab.Boats.BOAT_TYPE.getLabel(), getBoatType(form.getType()),
+						HomeCaMetaData.PersonalPropertyTab.Boats.BOAT_TYPE.getLabel(), getBoatType(form),
 						HomeCaMetaData.PersonalPropertyTab.Boats.YEAR.getLabel(), openLPolicy.getEffectiveDate().minusYears(form.getAge()).getYear(),
 						HomeCaMetaData.PersonalPropertyTab.Boats.HORSEPOWER.getLabel(), horsepower,
 						HomeCaMetaData.PersonalPropertyTab.Boats.LENGTH_INCHES.getLabel(), length_inches,
@@ -321,21 +322,28 @@ public class HomeCaHO4TestDataGenerator extends TestDataGenerator<HomeCaHO4OpenL
 		return personalPropertyTabData;
 	}
 	
-	private String getBoatType(String boatType) {
-		switch (boatType) {
-		case "Outboard":
-			return "Outboard";
-		case "Sailboat": 
-			return "Sailboat";
-		case "Inboard": 
-			return "Inboard";
-		case "In/Outboard": 
-			return "Inboard/Outboard"; 
-		case "Canoe": 
-			return "Other";
-		default: 
-			return "Other";
+	private String getBoatType(HomeCaHO4OpenLForm form) {
+		String boatType;
+		switch (form.getType()) {
+			case "Outboard":
+				boatType = "Outboard";
+				break;
+			case "Sailboat": 
+				boatType = "Sailboat";
+				break;
+			case "Inboard": 
+				boatType = "Inboard";
+				break;
+			case "In/Outboard": 
+				boatType = "Inboard/Outboard"; 
+				break;
+			case "Canoe": 
+				boatType = "Other";
+				break;
+			default: 
+				throw new IstfException("Unknown mapping for Boat Type = " + form.getType());
 		}
+		return boatType;
 	}
 	
 	private TestData getPremiumsAndCoveragesQuoteTabData(HomeCaHO4OpenLPolicy openLPolicy) {
