@@ -5,11 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -53,7 +49,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 
 	@BeforeSuite
 	private void checkVinRefresh(){
-		enableVinIfDisabled();
+		//enableVinIfDisabled();
 	}
 
 	/**

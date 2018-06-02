@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -28,13 +27,7 @@ import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.preconditions.ScorpionsPreconditions;
 import aaa.modules.regression.sales.template.VinUploadAutoSSHelper;
@@ -64,7 +57,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		return PolicyType.AUTO_SS;
 	}
 
-	@BeforeClass
+	//@BeforeClass
 	private void checkVinRefresh(){
 		String isVinRefreshEnabled = DBService.get().getValue(VehicleQueries.SELECT_VALUE_VIN_REFRESH).get();
 
