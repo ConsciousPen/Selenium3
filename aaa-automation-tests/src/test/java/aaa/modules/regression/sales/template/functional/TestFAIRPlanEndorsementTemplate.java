@@ -741,24 +741,6 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		}
 	}
 
-	private void validateFAIRPlanEndorsementSequencePAS_14368(List<Document> docs, AaaDocGenEntityQueries.EventNames eventName) {
-		String expectedSequenceValue = null;
-
-		if (eventName.equals(POLICY_ISSUE) || eventName.equals(ENDORSEMENT_ISSUE)) {
-			expectedSequenceValue = "91";
-		} else if (eventName.equals(RENEWAL_OFFER)) {
-			expectedSequenceValue = "171";
-		}
-
-		if (expectedSequenceValue != null){
-			docs.removeIf(document -> !document.getTemplateId().equals(formIdInXml));
-
-			CustomAssert.enableSoftMode();
-			assertThat(docs.get(0).getSequence()).isEqualTo(expectedSequenceValue);
-			CustomAssert.disableSoftMode();
-		}
-	}
-
 	private void generateRenewalOfferAtOfferGenDate() {
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
@@ -891,6 +873,24 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		assertThat(policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).getRadioButton("eSignature").isEnabled()).isTrue();
 		assertThat(policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).getRadioButton("Local Print").isEnabled()).isTrue();
 		CustomAssert.disableSoftMode();
+	}
+
+	private void validateFAIRPlanEndorsementSequencePAS_14368(List<Document> docs, AaaDocGenEntityQueries.EventNames eventName) {
+		String expectedSequenceValue = null;
+
+		if (eventName.equals(POLICY_ISSUE) || eventName.equals(ENDORSEMENT_ISSUE)) {
+			expectedSequenceValue = "91";
+		} else if (eventName.equals(RENEWAL_OFFER)) {
+			expectedSequenceValue = "171";
+		}
+
+		if (expectedSequenceValue != null) {
+			docs.removeIf(document -> !document.getTemplateId().equals(formIdInXml));
+
+			CustomAssert.enableSoftMode();
+			assertThat(docs.get(0).getSequence()).isEqualTo(expectedSequenceValue);
+			CustomAssert.disableSoftMode();
+		}
 	}
 
 }
