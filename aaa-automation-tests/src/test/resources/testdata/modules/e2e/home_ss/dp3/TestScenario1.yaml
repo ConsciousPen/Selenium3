@@ -26,3 +26,47 @@ TestData_Endorsement: {
   DocumentsTab: {},
   BindTab: {},
 }
+
+TestData_Endorsement_AZ: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    PropertyValue: {
+      Coverage A - Dwelling limit: 174000
+    }
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage C - Personal Property limit: '50|Coverage A - Dwelling limit',
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {
+    'Underwriter-selected inspection type': index=1
+  },
+  DocumentsTab: {},
+  BindTab: {},
+}
+
+TestData_Endorsement_NJ: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    PropertyValue: {
+      Coverage A - Dwelling limit: 174000
+    }
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage C - Personal Property limit: '50|Coverage A - Dwelling limit',
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {
+    'Underwriter-selected inspection type': index=1
+  },
+  DocumentsTab: {},
+  BindTab: {},
+}

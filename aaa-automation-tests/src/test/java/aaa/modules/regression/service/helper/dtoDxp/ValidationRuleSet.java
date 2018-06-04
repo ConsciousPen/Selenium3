@@ -1,9 +1,8 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
+import java.util.List;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
-import java.util.List;
 
 @ApiModel(description = "Defines list of rules that failed with validation errors or warnings. " +
 		"Rule sets are configured on different levels. PolicyRules affect availability for all available endorsement " +
@@ -23,5 +22,4 @@ public class ValidationRuleSet {
 	@ApiModelProperty(value = "List of rules that were triggered as warnings while executing rule set. " +
 			"Warnings will not affect policy endorsement action availability")
 	public List<String> warnings;
-
 }

@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
 public class Coverage {
+
 	@ApiModelProperty(value = "Coverage Code", example = "BI")
 	public String coverageCd;
 
@@ -27,5 +28,9 @@ public class Coverage {
 	@ApiModelProperty(value = "Customer Displayed?", example = "false")
 	public Boolean customerDisplayed;
 
+	@ApiModelProperty(value = "Is Coverage Available for Update", example = "false")
+	public Boolean canChangeCoverage;
+
 	public List<CoverageLimit> availableLimits;
+
 }

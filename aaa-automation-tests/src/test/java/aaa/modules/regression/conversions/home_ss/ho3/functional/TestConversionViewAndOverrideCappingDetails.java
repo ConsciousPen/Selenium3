@@ -1,13 +1,6 @@
 package aaa.modules.regression.conversions.home_ss.ho3.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -20,9 +13,20 @@ import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ProductOfferingTab;
 import aaa.modules.policy.HomeSSHO3BaseTest;
+import aaa.utils.StateList;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.Button;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 
 public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTest {
@@ -47,7 +51,8 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 	 *
 	 **/
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@StateList(states = {Constants.States.AZ, Constants.States.DE, Constants.States.MD,Constants.States.NJ, Constants.States.PA, Constants.States.VA})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-3002")
 	public void testPolicyViewCappingDetails(@Optional("VA") String state) {
 
