@@ -594,7 +594,8 @@ public final class HomeCaMetaData {
 		public static final class TheftProtectiveTPDD extends MetaData {
 			public static final AssetDescriptor<CheckBox> LOCAL_THEFT_ALARM = declare("Local theft alarm", CheckBox.class);
 			public static final AssetDescriptor<CheckBox> CENTRAL_THEFT_ALARM = declare("Central theft alarm", CheckBox.class);
-			public static final AssetDescriptor<CheckBox> GATED_COMMUNITY = declare("Gated community", CheckBox.class);
+			public static final AssetDescriptor<CheckBox> GATED_COMMUNITY = declare("Gated community", CheckBox.class, Waiters.NONE, false, By
+					.xpath("//input[@id='policyDataGatherForm:sedit_AAAHOAntiTheftDevicesInfoProxy_gatedCommInd']"));
 		}
 
 		public static final class HomeRenovation extends MetaData {
@@ -675,10 +676,13 @@ public final class HomeCaMetaData {
 			public static final AssetDescriptor<AssetListConfirmationDialog> REMOVE_CONFIRMATION = declare("Remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By
 					.id("confirmOptionalNoSelected_AAAHOLossInfo_Dialog_container"));
 			public static final AssetDescriptor<ComboBox> SOURCE = declare("Source", ComboBox.class);
+			public static final AssetDescriptor<TextBox> ZIP = declare("Zip", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> ADDRESS_LINE_1 = declare("Address Line 1", TextBox.class, Waiters.AJAX, false, By.id("policyDataGatherForm:sedit_AAAHOLossInfo_aaaAddressEntity_address_addressLine1"));
 			public static final AssetDescriptor<TextBox> DATE_OF_LOSS = declare("Date of loss", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<AdvancedComboBox> CAUSE_OF_LOSS = declare("Cause of loss", AdvancedComboBox.class);
 			public static final AssetDescriptor<TextBox> AMOUNT_OF_LOSS = declare("Amount of loss", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<AdvancedComboBox> CLAIM_STATUS = declare("Claim status", AdvancedComboBox.class);
+			public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy Number", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> RENTAL_CLAIM = declare("Rental Claim", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> AAA_CLAIM = declare("AAA Claim", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> CATASTROPHE_LOSS = declare("Catastrophe loss", RadioGroup.class, Waiters.AJAX);
@@ -721,16 +725,16 @@ public final class HomeCaMetaData {
 		// HomeCAEndorsementsMultiAssetList.class, EndorsementDL2411.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		// public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> DL_24_33 = declare("DL 24 33",
 		// HomeCAEndorsementsMultiAssetList.class, EndorsementDL2433.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		// public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> DL_24_82 = declare("DL 24 82",
-		// HomeCAEndorsementsMultiAssetList.class, EndorsementDL2482.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> DL_24_82 = declare("DL 24 82", HomeCAEndorsementsMultiAssetList.class, EndorsementDL2482.class, By
+				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> DP_04_18 = declare("DP 04 18", HomeCAEndorsementsMultiAssetList.class, EndorsementDP0418.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> DP_04_22 = declare("DP 04 22", HomeCAEndorsementsMultiAssetList.class, EndorsementDP0422.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> DP_04_71 = declare("DP 04 71", HomeCAEndorsementsMultiAssetList.class, EndorsementDP0471.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		// public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> DP_04_73 = declare("DP 04 73",
-		// HomeCAEndorsementsMultiAssetList.class, EndorsementDP0473.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> DP_04_73 = declare("DP 04 73", HomeCAEndorsementsMultiAssetList.class, EndorsementDP0473.class, By
+				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> DP_04_75 = declare("DP 04 75", HomeCAEndorsementsMultiAssetList.class, EndorsementDP0475.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> DP_04_95 = declare("DP 04 95", HomeCAEndorsementsMultiAssetList.class, EndorsementDP0495.class, By
@@ -1132,6 +1136,9 @@ public final class HomeCaMetaData {
 			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class, Waiters.AJAX);
 		}
 
+		public static final class EndorsementDP0473 extends MetaData {}
+		public static final class EndorsementDP0475 extends MetaData {}
+
 		public static final class EndorsementDW0463 extends MetaData {
 			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class, Waiters.AJAX);
 		}
@@ -1194,6 +1201,8 @@ public final class HomeCaMetaData {
 			public static final AssetDescriptor<AssetListConfirmationDialog> CONFIRM_OBJECT_ADDITION = declare("Confirm Object Addition", AssetListConfirmationDialog.class, Waiters.AJAX, false, By
 					.xpath("//div[@id='policyDataGatherForm:dataObjectAddPopup_AAAHoPolicyEndorsementFormManager_container']"));
 		}
+
+		public static final class EndorsementDL2482 extends MetaData {}
 	}
 
 	public static final class PersonalPropertyTab extends MetaData {
