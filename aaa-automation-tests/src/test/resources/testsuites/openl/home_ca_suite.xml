@@ -9,9 +9,9 @@
 
 	<test name="Home CA DP3 Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="CA"/>
-        <parameter name="fileName" value="DP3Tests_eff_04012018.xls"/>
+        <parameter name="fileName" value="DP3Tests_eff_05012018.xls"/>
         <!-- parameter name="policyNumbers" value="2669, 2676, 2890, 3055, 3079, 3085, 3088, 3090, 3091, 3093"/ -->
-        <parameter name="policyNumbers" value="1"/>
+        <parameter name="policyNumbers" value="3090"/>
         <classes>
             <class name="aaa.modules.openl.HomeCaDP3PremiumCalculationTest"/>
         </classes>
@@ -19,9 +19,9 @@
    
     <test name="Home CA HO3 Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="CA"/>
-        <parameter name="fileName" value="HO3Tests_eff_09142017.xls"/>
+        <parameter name="fileName" value="HO3Tests_eff_05012018.xls"/>
         <!-- parameter name="policyNumbers" value="3322, 3324"/ -->
-        <parameter name="policyNumbers" value="3323, 3333"/>
+        <parameter name="policyNumbers" value="3323, 3326"/>
         <classes>
             <class name="aaa.modules.openl.HomeCaHO3PremiumCalculationTest"/>
         </classes>
