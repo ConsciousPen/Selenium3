@@ -1,7 +1,10 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
 import java.time.LocalDateTime;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.queries.VehicleQueries;
@@ -34,7 +37,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		return PolicyType.AUTO_CA_CHOICE;
 	}
 
-	@BeforeSuite
+	//@BeforeSuite
 	private void checkVinRefresh(){
 		//enableVinIfDisabled();
 	}
