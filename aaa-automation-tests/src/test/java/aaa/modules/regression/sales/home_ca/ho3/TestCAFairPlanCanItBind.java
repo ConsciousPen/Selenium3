@@ -67,9 +67,9 @@ public class TestCAFairPlanCanItBind extends HomeCaHO3BaseTest {
         initiateHO3Quote(defaultPolicyData, tabClassTo1);
 
         // Click FPCECA Endorsement
-        myHelper.addFAIRPlanEndorsement("ho3");
+        myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
 
-        myHelper.completeFillAndVerifyFAIRPlanSign(defaultPolicyData, tabClassTo1, tabClassTo2, "ho3");
+        myHelper.completeFillAndVerifyFAIRPlanSign(defaultPolicyData, tabClassTo1, tabClassTo2, getPolicyType().getShortName());
     }
 
     private void performTest(String applicantTabTD, String reportsTabTD, String propInfoTD, TestData defaultPolicyData, Class<? extends Tab> tabClassTo1, Class<? extends Tab> tabClassTo2) {
@@ -81,9 +81,9 @@ public class TestCAFairPlanCanItBind extends HomeCaHO3BaseTest {
         initiateHO3Quote(defaultPolicyData, tabClassTo1);
 
         // Click FPCECA Endorsement
-        myHelper.addFAIRPlanEndorsement("ho3");
+        myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
 
-        myHelper.completeFillAndVerifyFAIRPlanSign(defaultPolicyData, tabClassTo1, tabClassTo2, "ho3");
+        myHelper.completeFillAndVerifyFAIRPlanSign(defaultPolicyData, tabClassTo1, tabClassTo2, getPolicyType().getShortName());
     }
 
     public void initiateHO3Quote(TestData defaultPolicyData, Class<? extends Tab> tabClassTo1) {

@@ -51,7 +51,7 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
         policy.getDefaultView().fillUpTo(defaultPolicyData, EndorsementTab.class, false);
 
         // Click FPCECA Endorsement
-        myHelper.addFAIRPlanEndorsement("dp3");
+        myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
 
         // Verify FPCECA now present on Documents Tab & Quote Tab
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
@@ -88,10 +88,10 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
         policy.endorse().perform(endorsementTestData.adjust(getPolicyTD("Endorsement", "TestData")));
         policy.getDefaultView().fillUpTo(endorsementTestData, EndorsementTab.class, false);
 
-        myHelper.verifyFPCECAEndorsementAvailable("dp3");
+        myHelper.verifyFPCECAEndorsementAvailable(getPolicyType().getShortName());
 
         // Click FPCECADP Endorsement
-        myHelper.addFAIRPlanEndorsement("dp3");
+        myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
     }
 
     /**
@@ -119,7 +119,7 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
         myHelper.handleRenewalTesting(defaultPolicyData);
         policy.getDefaultView().fillUpTo(getTestSpecificTD("Renewal_AC3"), EndorsementTab.class, false);
 
-        myHelper.addFAIRPlanEndorsement("dp3");
+        myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
     }
 
     private TestData buildTD(TestData in_defaultPolicyData) {

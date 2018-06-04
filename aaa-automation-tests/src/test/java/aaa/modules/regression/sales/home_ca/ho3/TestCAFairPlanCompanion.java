@@ -47,11 +47,11 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
         policy.getDefaultView().fillUpTo(defaultPolicyData, EndorsementTab.class, false);
 
         // Click FPCECA Endorsement
-        myHelper.addFAIRPlanEndorsement("ho3");
+        myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
 
         // Verify FPCECA now present on Documents Tab & Quote Tab
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-        myHelper.verifyFPCECAEndorsementAvailable("ho3");
+        myHelper.verifyFPCECAEndorsementAvailable(getPolicyType().getShortName());
 
         // Verify Document Tab populates Endorsement
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
@@ -82,10 +82,10 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
         createPolicy(defaultPolicyData);
         policy.endorse().perform(endorsementTestData.adjust(getPolicyTD("Endorsement", "TestData")));
         policy.getDefaultView().fillUpTo(endorsementTestData, EndorsementTab.class, false);
-        myHelper.verifyFPCECAEndorsementAvailable("ho3");
+        myHelper.verifyFPCECAEndorsementAvailable(getPolicyType().getShortName());
 
         // Click FPCECA Endorsement
-        myHelper.addFAIRPlanEndorsement("ho3");
+        myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
     }
 
     /**

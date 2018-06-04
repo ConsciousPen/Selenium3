@@ -14,13 +14,11 @@ import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.sun.java.util.jar.pack.DriverResource;
-import org.openqa.selenium.remote.server.DriverSessions;
+import org.assertj.core.api.Assertions;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 import toolkit.webdriver.controls.composite.table.Table;
 
@@ -114,10 +112,10 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         EndorsementTab endorsementTab = new EndorsementTab();
 
         switch (policyType) {
-            case "home_ca_ho3":
+            case "homeca_ho3":
                 endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel()).click();
                 break;
-            case "home_ca_dp3":
+            case "homeca_dp3":
                 endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECADP.getLabel()).click();
                 break;
         }
@@ -127,23 +125,40 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         endorsementTab.btnSaveForm.click();
     }
 
-    public static void addEndorsements(ArrayList<String> endorsementLabels) {
+    public static void addFAIRPlanThenCancelPopUp(String policyType) {
         // Click FPCECA Endorsement
+        policyType = policyType.toLowerCase();
         EndorsementTab endorsementTab = new EndorsementTab();
-        for (String label : endorsementLabels)
-        {
-            endorsementTab.getAddEndorsementLink(label).click();
 
-            if (label.equalsIgnoreCase(HomeCaMetaData.EndorsementTab.DP_04_18.getLabel())) {
-                endorsementTab.getAssetList().getAsset(HomeCaMetaData.EndorsementTab.DP_04_18).getAsset(HomeCaMetaData.EndorsementTab.EndorsementDP0418.COVERAGE_LIMIT).setValue("1000.00");
-            }
-
-            if (label.equalsIgnoreCase(HomeCaMetaData.EndorsementTab.DW_09_25.getLabel())) {
-                endorsementTab.getAssetList().getAsset(HomeCaMetaData.EndorsementTab.DW_09_25).getAsset(HomeCaMetaData.EndorsementTab.EndorsementDW0925.REASON_FOR_VACANCY).setValue("None");
-                endorsementTab.getAssetList().getAsset(HomeCaMetaData.EndorsementTab.DW_09_25).getAsset(HomeCaMetaData.EndorsementTab.EndorsementDW0925.LENGTH_OF_VACANCY).setValue("32");
-            }
-            endorsementTab.btnSaveForm.click();
+        switch (policyType) {
+            case "homeca_ho3":
+                endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel()).click();
+                break;
+            case "homeca_dp3":
+                endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECADP.getLabel()).click();
+                break;
         }
+
+        // Handle Endorsement Confirmation
+        Page.dialogConfirmation.reject();
+    }
+
+    public static void removeFAIRPlanEndorsement(String policyType) {
+        // Click FPCECA Endorsement
+        policyType = policyType.toLowerCase();
+        EndorsementTab endorsementTab = new EndorsementTab();
+
+        switch (policyType) {
+            case "homeca_ho3":
+                endorsementTab.getRemoveEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel(), 1).click();
+                break;
+            case "homeca_dp3":
+                endorsementTab.getRemoveEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECADP.getLabel(), 1).click();
+                break;
+        }
+
+        // Handle Endorsement Confirmation
+        Page.dialogConfirmation.confirm();
     }
 
     public static void moveJVMToDateAndRunRenewalJobs(LocalDateTime desiredJVMLocalDateTime, int howManyPartsToRun)
@@ -170,13 +185,25 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         assertThat(tableForms.getRowContains(columnName, endorsementToFind)).isNotNull();
     }
 
+    public static void verifyEndorsementsNotVisible(Table tableForms, String columnName, ArrayList<String> endorsementsByLabel) {
+        ArrayList<String> foundColumnNames = new ArrayList<String>();
+        for (int i = 1; i < tableForms.getRowsCount(); i++) {
+            foundColumnNames.add(tableForms.getRow(i).getCell(columnName).getValue());
+        }
+
+        for (String name : foundColumnNames) {
+            for (String label : endorsementsByLabel)
+            Assertions.assertThat(name).isNotEqualToIgnoringCase(label);
+        }
+    }
+
     public void verifyFPCECAEndorsementAvailable(String policyType) {
         switch (policyType) {
-            case "HOME_CA_HO3":
+            case "HomeCA_HO3":
                 verifySelectedEndorsementsPresent(PremiumsAndCoveragesQuoteTab.tableEndorsementForms,
                         PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, "FPCECA");
                 break;
-            case "HOME_CA_DP3":
+            case "HomeCA_DP3":
                 verifySelectedEndorsementsPresent(PremiumsAndCoveragesQuoteTab.tableEndorsementForms,
                         PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, "FPCECADP");
                 break;
@@ -215,10 +242,10 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         // Sign Document
         String formattedInput = policyType.toLowerCase();
         switch (formattedInput) {
-            case "ho3":
+            case "HomeCA_HO3":
                 new DocumentsTab().getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FPCECA).setValue("Physically Signed");
                 break;
-            case "dp3":
+            case "HomeCA_DP3":
                 new DocumentsTab().getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FPCECADP).setValue("Physically Signed");
                 break;
         }

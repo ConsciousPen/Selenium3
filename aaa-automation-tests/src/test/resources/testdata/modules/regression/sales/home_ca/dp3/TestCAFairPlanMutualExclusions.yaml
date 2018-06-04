@@ -120,9 +120,9 @@ PropertyValue_HO3: {
   Reason replacement cost differs from the tool value: 'index=1',
 }
 Construction_HO3: {
-    Year built: 2009,
+    Year built: 2005,
     Square footage: 1,
-    Roof type: Other,
+    Roof type: 'index=1',
     Roof shape: 'index=1',
     Construction type: 'index=1',
     Foundation Type: 'index=1'
@@ -212,3 +212,53 @@ ReportsTab_DP3: {
   PublicProtectionClass: [{Report: 'Order Report'}],
   CLUEreport: [{Report: 'Order report'}],
 }
+
+PropertyInfo_OldHouse: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab_HO3',
+  AdditionalAddress: ['@AdditionalAddress_HO3'],
+  PublicProtectionClass: '@PublicProtectionClass_HO3',
+  FireReport: {},
+  PropertyValue: '@PropertyValue_HO3',
+  Construction: '@Construction_OldHouse',
+  Interior: '@Interior_HO3',
+  DetachedStructures: ['@DetachedStructures_HO3'],
+  RentalInformation: '@RentalInfo',
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation_HO3',
+  PetsOrAnimals: '@PetsOrAnimals_HO3',
+  Stoves: '@Stoves_HO3',
+  RecreationalEquipment: '@RecreationalEquipment_HO3'
+}
+Construction_OldHouse: {
+  Year built: 2005,
+  Square footage: 1,
+  Roof type: 'index=1',
+  Roof shape: 'index=1',
+  Construction type: 'index=1',
+  Foundation Type: 'index=1'
+}
+RentalInfo: {
+  Year first rented: '2000',
+  Property manager: 'index=1',
+}
+
+Renewal_DP3: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+ }
+
+PremiumsAndCoveragesQuoteTab_DP3: {
+  Payment plan: Pay in Full,
+  Coverage C - Personal Property limit: '90,000.00',
+  Coverage E - Personal Liability Each Occurrence: '$300,000'
+ }
