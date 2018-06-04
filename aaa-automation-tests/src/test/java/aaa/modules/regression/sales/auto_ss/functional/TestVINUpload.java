@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -28,13 +27,7 @@ import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.preconditions.ScorpionsPreconditions;
 import aaa.modules.regression.sales.template.VinUploadAutoSSHelper;
@@ -64,7 +57,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		return PolicyType.AUTO_SS;
 	}
 
-	@BeforeClass
+	//@BeforeClass
 	private void checkVinRefresh(){
 		String isVinRefreshEnabled = DBService.get().getValue(VehicleQueries.SELECT_VALUE_VIN_REFRESH).get();
 
@@ -511,9 +504,11 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		//1. Retrieve active policy (VIN matched)
 		String policyNumber = createPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		mainApp().close();
 		//2. Generate automated renewal image (in data gather status) according to renewal timeline
 		adminApp().open();
 		vinMethods.uploadVinTable( pas2716VinTableFileName);
+		adminApp().close();
 		pas2716_CommonSteps(NEW_VIN5, policyNumber, policyExpirationDate);
 	}
 
@@ -586,7 +581,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		uploadToVINTableTab.uploadControlTable(configExcelName);
 		uploadToVINTableTab.uploadVinTable(uploadExcelR45);
 
-		//3. Move to R-46 and generate  renewal image (in data gather status). Retrieve policy and verify VIN data did NOT refresh
+		//3. Move to R-46 and generate  renewal image (in data gather status). Retrieve policy and verify VIN data
+		// did NOT refresh
 		pas11659_CommonSteps(NEW_VIN, policyNumber, policyExpirationDate.minusDays(46));
 	}
 
@@ -638,7 +634,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		uploadToVINTableTab.uploadVinTable(uploadExcelR40);
 
-		//4. Move to R-40 and generate automated renewal image (in data gather status). Retrieve policy and verify VIN data DID refresh
+		//4. Move to R-40 and generate automated renewal image (in data gather status). Retrieve policy and verify VIN data
+		// DID refresh
 		pas11659_CommonSteps(NEW_VIN2, policyNumber, policyExpirationDate.minusDays(40));
 	}
 
@@ -673,7 +670,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		uploadToVINTableTab.uploadControlTable(configExcelName);
 		uploadToVINTableTab.uploadVinTable(uploadExcelR35);
 
-		//3. Move to R-35 and generate automated renewal image. Retrieve policy and verify VIN data DID refresh
+		//3. Move to R-35 and generate automated renewal image. Retrieve policy and verify VIN data
+		// DID refresh
 		pas11659_CommonSteps(NEW_VIN3, policyNumber, policyExpirationDate.minusDays(35));
 	}
 
@@ -716,7 +714,9 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		/*
 		 * Automated Renewal R-25
 		 */
-		//4. Move to R-25 and generate automated renewal image (in data gather status). Retrieve policy and verify VIN data did NOT refresh because renewal version has already been proposed
+		//4. Move to R-25 and generate automated renewal image (in data gather status)
+		// Retrieve policy and verify VIN data
+		// did NOT refresh because renewal version has already been proposed
 		pas11659_CommonSteps(NEW_VIN4, policyNumber, policyExpirationDate.minusDays(25));
 
 	}

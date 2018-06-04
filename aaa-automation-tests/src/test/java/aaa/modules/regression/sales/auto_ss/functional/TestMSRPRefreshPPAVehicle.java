@@ -3,8 +3,6 @@ package aaa.modules.regression.sales.auto_ss.functional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Optional;
@@ -31,7 +29,7 @@ import toolkit.utils.TestInfo;
 
 public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
-	private VehicleTab vehicleTab = new VehicleTab();
+	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -72,7 +70,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		createAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
-		new PremiumAndCoveragesTab().calculatePremium();
+		premiumAndCoveragesTab.calculatePremium();
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		// Values from VIN comp and coll symbol in excel sheet
@@ -281,7 +279,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		new PremiumAndCoveragesTab().calculatePremium();
+		premiumAndCoveragesTab.calculatePremium();
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
 		//6. Verify VIN Stub was Stored at renewal in the DB
@@ -337,7 +335,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		new PremiumAndCoveragesTab().calculatePremium();
+		premiumAndCoveragesTab.calculatePremium();
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
 		//6. Verify VIN Stub was Stored at renewal in the DB
@@ -394,7 +392,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		new PremiumAndCoveragesTab().calculatePremium();
+		premiumAndCoveragesTab.calculatePremium();
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
 		//6. Verify VIN Stub was Stored at renewal in the DB
@@ -413,7 +411,6 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		resetMsrpPPAVeh();
 		// Reset to the default state  MSRP_2000
 		//resetDefaultMSRPVersionAtVinControlTable();
-
 	}
 
 }
