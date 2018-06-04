@@ -8,7 +8,9 @@ import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.abstract_tabs.PropertyEndorsementsTab;
+import aaa.toolkit.webdriver.customcontrols.endorsements.HomeCAEndorsementsMultiAssetList;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.table.Table;
 
 /**
@@ -36,4 +38,8 @@ public class EndorsementTab extends PropertyEndorsementsTab {
         buttonNext.click();
         return this;
     }
+
+	public HomeCAEndorsementsMultiAssetList getFormAssetList(AssetDescriptor endorsementAsset) {
+		return (HomeCAEndorsementsMultiAssetList) getAssetList().getAsset(endorsementAsset);
+	}
 }

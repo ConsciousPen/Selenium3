@@ -123,6 +123,11 @@ public class PupPolicy implements IPolicy {
 	}
 
 	@Override
+	public PolicyActions.InitiateHOQuote initiateHOQuote() {
+		return new PupPolicyActions.InitiateHOQuote();
+	}
+
+	@Override
 	public PolicyActions.Bind bind() {
 		return new PupPolicyActions.Bind();
 	}

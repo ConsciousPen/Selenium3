@@ -16,7 +16,7 @@ public class HomeCaHO4PremiumCalculationTest extends HomeCaPremiumCalculationTes
 	protected PolicyType getPolicyType() {
 		return PolicyType.HOME_CA_HO4;
 	}
-
+	
 	@Parameters({"state", "fileName", "policyNumbers"})
 	@Test(groups = {Groups.OPENL, Groups.HIGH})
 	public void premiumCalculationTest(@Optional("") String state, String fileName, @Optional("") String policyNumbers) {
