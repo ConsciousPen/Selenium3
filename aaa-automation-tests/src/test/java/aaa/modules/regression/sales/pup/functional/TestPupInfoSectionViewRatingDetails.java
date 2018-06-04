@@ -1,8 +1,5 @@
 package aaa.modules.regression.sales.pup.functional;
 
-
-import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +8,7 @@ import java.util.stream.IntStream;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -31,10 +28,12 @@ import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksPropertyTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderwritingAndApprovalTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import static toolkit.verification.CustomAssertions.assertThat;
 
+@StateList(states = Constants.States.PA)
 public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTest {
 
     private UnderlyingRisksAutoTab underlyingRisksAutoTab = new UnderlyingRisksAutoTab();
@@ -70,8 +69,6 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-10397, PAS-10391")
     public void pas10397_testPupInfoSectionViewRatingDetails(@Optional("PA") String state) {
-
-        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
 
         List<String> rangeTier = IntStream.rangeClosed(1, 16).boxed().map(String::valueOf).collect(Collectors.toList());
         rangeTier.add("N/A");
@@ -152,8 +149,6 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-10397")
     public void pas10397_testPupInfoSectionViewRatingDetailsNoAuto(@Optional("PA") String state) {
 
-        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
-
         TestData tdHO3 = getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3), "DataGather", "TestData");
 
         Map<String, String> policies = new HashMap<>();
@@ -216,8 +211,6 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-10397, PAS-10391")
     public void pas10397_testPupInfoSectionViewRatingDetailsNonPAAuto(@Optional("PA") String state) {
-
-        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
 
         TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData_AZ")
                 .adjust(PrefillTab.class.getSimpleName(), getTestSpecificTD("PrefillTab_AZ"))
@@ -313,8 +306,6 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PT-1421")
     public void pt1421_testManuallyAddedAutoTier(@Optional("PA") String state) {
-
-        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
 
         List<String> rangeTier = IntStream.rangeClosed(1, 16).boxed().map(String::valueOf).collect(Collectors.toList());
         rangeTier.add("N/A");

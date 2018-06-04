@@ -107,7 +107,9 @@ TestData_EndorsementRP: {
     Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
   },
   MortgageesTab: {},
-  UnderwritingAndApprovalTab: {},
+  UnderwritingAndApprovalTab: {
+    'Underwriter-selected inspection type': Exterior
+  },
   DocumentsTab: {},
   BindTab: {},
 }

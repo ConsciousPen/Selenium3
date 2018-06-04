@@ -50,6 +50,9 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Button buttonCommissionOverride = new Button(By.id("policyDataGatherForm:commissionOverrideButton"));
 	public Button btnContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
 
+	public static Link linkPaymentPlan = new Link(By.id("policyDataGatherForm:paymentPlansTogglePanel:header"), Waiters.AJAX);
+	public static Link linkViewApplicableFeeSchedule = new Link(By.id("policyDataGatherForm:installmentFeeDetails"), Waiters.AJAX);
+
 	// --
 	public PremiumAndCoveragesTab() {
 		super(AutoCaMetaData.PremiumAndCoveragesTab.class);

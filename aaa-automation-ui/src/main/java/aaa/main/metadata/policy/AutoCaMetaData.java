@@ -262,7 +262,7 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<RadioGroup> SMOKER_CIGARETTES_OR_PIPES = declare("Smoker: Cigarettes, cigars or pipes", RadioGroup.class);
 		public static final AssetDescriptor<TextBox> ADDRESS_VALIDATED = declare("Address Validated?", TextBox.class);
 
-		public static final AssetDescriptor<MultiInstanceBeforeAssetList> ACTIVITY_INFORMATION = declare("ActivityInformation", MultiInstanceBeforeAssetList.class, ActivityInformation.class, By
+		public static final AssetDescriptor<ActivityInformationMultiAssetList> ACTIVITY_INFORMATION = declare("ActivityInformation", ActivityInformationMultiAssetList.class, ActivityInformation.class, By
 				.xpath(".//div[@id='policyDataGatherForm:componentView_DrivingRecord']"));
 
 		public static final class ActivityInformation extends MetaData {
@@ -532,6 +532,13 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<CheckBox> UNACCEPTABLE_RISK_SURCHARGE = declare("Unacceptable Risk Surcharge", CheckBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> REASON = declare("Reason", TextBox.class, Waiters.AJAX, By.id("policyDataGatherForm:unacceptableRiskSurchargeReason"));
 		public static final AssetDescriptor<CheckBox> UNVERIFIABLE_DRIVING_RECORD_SURCHARGE = declare("Unverifiable DrivingRecord Surcharge", CheckBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<FillableTable> INSTALLMENT_FEES_DETAILS_TABLE = declare("InstallemntFeesDetails",  FillableTable.class, ListOfFeeDetailsRow.class, By.id("policyDataGatherForm:installmentFeeDetailsTable"));
+
+		public static final class ListOfFeeDetailsRow extends MetaData {
+			public static final AssetDescriptor<StaticElement> PAYMENT_METHOD = declare("Payment Method", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> ENROLLED_IN_AUTO_PAY = declare("Enrolled in Auto Pay", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> INSTALLMENT_FEE = declare("Installment Fee", StaticElement.class);
+		}
 
 		public static final class OverridePremiumDialog extends MetaData {
 			public static final AssetDescriptor<Button> BUTTON_OPEN_POPUP = declare(AbstractDialog.DEFAULT_POPUP_OPENER_NAME, Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:overridePremiumLink"));
@@ -762,7 +769,7 @@ public final class AutoCaMetaData {
 	public static final class PolicyDocGenActionTab extends MetaData {
 		public static final AssetDescriptor<FillableDocumentsTable> ON_DEMAND_DOCUMENTS = declare("OnDemandDocuments", FillableDocumentsTable.class, DocumentsRow.class, By
 				.xpath("(//div[@id='policyDataGatherForm:componentView_AAAAdHocOnDemandDocs']//table)[1]"));
-		public static final AssetDescriptor<RadioGroup> DELIVERY_METHOD = declare("Delivery Method", RadioGroup.class, Waiters.AJAX, By
+		public static final AssetDescriptor<AdvancedRadioGroup> DELIVERY_METHOD = declare("Delivery Method", AdvancedRadioGroup.class, Waiters.AJAX, By
 				.xpath("//div[@id='policyDataGatherForm:componentView_AAAAdHocOnDemandDocs_body']/table"));
 		public static final AssetDescriptor<TextBox> EMAIL_ADDRESS = declare("Email Address", TextBox.class, Waiters.AJAX);
 
@@ -862,8 +869,8 @@ public final class AutoCaMetaData {
 	public static final class GenerateOnDemandDocumentActionTab extends MetaData {
 		public static final AssetDescriptor<FillableDocumentsTable> ON_DEMAND_DOCUMENTS =
 				declare("OnDemandDocuments", FillableDocumentsTable.class, DocumentsRow.class, By.xpath("(//div[@id='policyDataGatherForm:componentView_AAAAdHocOnDemandDocs']//table)[1]"));
-		public static final AssetDescriptor<RadioGroup> DELIVERY_METHOD =
-				declare("Delivery Method", RadioGroup.class, Waiters.AJAX, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAAdHocOnDemandDocs_body']/table"));
+		public static final AssetDescriptor<AdvancedRadioGroup> DELIVERY_METHOD =
+				declare("Delivery Method", AdvancedRadioGroup.class, Waiters.AJAX, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAAdHocOnDemandDocs_body']/table"));
 		public static final AssetDescriptor<TextBox> EMAIL_ADDRESS = declare("Email Address", TextBox.class, Waiters.AJAX);
 
 		public static final class DocumentsRow extends MetaData {

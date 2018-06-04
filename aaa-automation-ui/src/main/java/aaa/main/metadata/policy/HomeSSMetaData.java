@@ -1358,7 +1358,6 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<RadioGroup> CERTIFICATE_OF_AUTHENTICITY_RECEIVED = declare("Certificate of authenticity received", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.AJAX);
 		}
-
 	}
 
 	public static final class PremiumsAndCoveragesQuoteTab extends MetaData {
@@ -1397,6 +1396,14 @@ public final class HomeSSMetaData {
 
 		public static final AssetDescriptor<DialogAssetList> OVERRRIDE_PREMIUM_DIALOG = declare("Override Premium", DialogAssetList.class, OverridePremiumDialog.class,
 				By.xpath("//form[@id='premiumOverrideInfoFormAAAHOPremiumOverride']"));
+
+		public static final AssetDescriptor<FillableTable> INSTALLMENT_FEES_DETAILS_TABLE = declare("InstallemntFeesDetails",  FillableTable.class, ListOfFeeDetailsRow.class, By.id("policyDataGatherForm:installmentFeeDetailsTable"));
+
+		public static final class ListOfFeeDetailsRow extends MetaData {
+			public static final AssetDescriptor<StaticElement> PAYMENT_METHOD = declare("Payment Method", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> ENROLLED_IN_AUTO_PAY = declare("Enrolled in Auto Pay", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> INSTALLMENT_FEE = declare("Installment Fee", StaticElement.class);
+		}
 
 		public enum HomeSSCoverages {
 			COVERAGE_A("Coverage A - Dwelling limit"),
@@ -1892,7 +1899,7 @@ public final class HomeSSMetaData {
 	public static final class GenerateOnDemandDocumentActionTab extends MetaData {
 		public static final AssetDescriptor<FillableDocumentsTable> ON_DEMAND_DOCUMENTS = declare("OnDemandDocuments", FillableDocumentsTable.class, DocumentRow.class, By
 				.xpath("(//div[@id='policyDataGatherForm:componentView_AAAHODocGen']//table)[1]"));
-		public static final AssetDescriptor<RadioGroup> DELIVERY_METHOD = declare("Delivery Method", RadioGroup.class, Waiters.AJAX, By
+		public static final AssetDescriptor<AdvancedRadioGroup> DELIVERY_METHOD = declare("Delivery Method", AdvancedRadioGroup.class, Waiters.AJAX, By
 				.xpath("//div[@id='policyDataGatherForm:componentView_AAAHODocGen_body']/table"));
 		public static final AssetDescriptor<TextBox> EMAIL_ADDRESS = declare("Email Address", TextBox.class, Waiters.AJAX);
 

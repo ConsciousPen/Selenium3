@@ -1,7 +1,10 @@
 package aaa.modules.regression.service.helper.wiremock;
 
-import java.lang.reflect.Field;
-import java.util.UUID;
+import aaa.helpers.config.CustomTestProperties;
+import aaa.modules.regression.service.helper.wiremock.dto.WireMockTemplateData;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import toolkit.config.PropertyProvider;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -9,11 +12,8 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.apache.commons.lang3.StringUtils;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import aaa.helpers.config.CustomTestProperties;
-import aaa.modules.regression.service.helper.wiremock.dto.WireMockTemplateData;
-import toolkit.config.PropertyProvider;
+import java.lang.reflect.Field;
+import java.util.UUID;
 
 public class HelperWireMockStub {
 
@@ -23,6 +23,7 @@ public class HelperWireMockStub {
 	private static final String REPLACEABLE_PROPERTY_FORMAT = "${%s}";
 	private static final String REPLACEABLE_NULL_PROPERTY_FORMAT = "\"${%s}\"";
 	private static final String ID_PROPERTY = "${id}";
+	private static final String ENV_PREFIX_PROPERTY = "${envPrefix}";
 
 	private static  final String ENVIRONMENT_PATH = PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE);
 	private final String templateName;
@@ -42,17 +43,22 @@ public class HelperWireMockStub {
 		return new HelperWireMockStub(templateName, templateData);
 	}
 
-	public HelperWireMockStub mock() throws IllegalAccessException {
+	public HelperWireMockStub mock() {
 		String template = getTemplate();
-		for (Field field : templateData.getClass().getFields()) {
-			final String value = (String) field.get(templateData);
-			if (StringUtils.isNotEmpty(value)) {
-				template = template.replace(String.format(REPLACEABLE_PROPERTY_FORMAT, field.getName()), (String) field.get(templateData));
-			} else {
-				template = template.replace(String.format(REPLACEABLE_NULL_PROPERTY_FORMAT, field.getName()), "null");
+		try {
+			for (Field field : templateData.getClass().getFields()) {
+				final Object value = field.get(templateData);
+				if (value != null) {
+					template = template.replace(String.format(REPLACEABLE_PROPERTY_FORMAT, field.getName()), field.get(templateData).toString());
+				} else {
+					template = template.replace(String.format(REPLACEABLE_NULL_PROPERTY_FORMAT, field.getName()), "null");
+				}
 			}
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException("Failed to update template parameters", e);
 		}
 		template = template.replace(ID_PROPERTY, id);
+		template = template.replace(ENV_PREFIX_PROPERTY, PropertyProvider.getProperty(CustomTestProperties.APP_HOST));
 		executePost(template);
 		return this;
 	}
@@ -120,5 +126,9 @@ public class HelperWireMockStub {
 				client.close();
 			}
 		}
+	}
+
+	public String getId() {
+		return id;
 	}
 }
