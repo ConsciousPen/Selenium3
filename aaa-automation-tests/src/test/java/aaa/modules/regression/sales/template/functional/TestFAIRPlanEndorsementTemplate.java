@@ -778,7 +778,6 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 	private void switchToFAIRPlanEndorsement() {
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());//navigates to Endorsement Tab
 		endorsementTab.getAddEndorsementLink(fairPlanEndorsementLabelInEndorsementTab).click();
-		Page.dialogConfirmation.confirm();
 		endorsementTab.btnSaveForm.click();
 	}
 
