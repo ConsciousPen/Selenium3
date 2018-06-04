@@ -1147,8 +1147,6 @@ public final class HomeCaMetaData {
 			public static final AssetDescriptor<TextBox> COVERAGE_LIMIT = declare("Structure coverage limit", TextBox.class, Waiters.AJAX);
 		}
 
-		public static final class EndorsementDP0475 extends MetaData {}
-
 		public static final class EndorsementDW0421 extends MetaData {
 			public static final AssetDescriptor<TextBox> DESCRIPTION_OF_STRUCTURE = declare("Description Of Structure", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY = declare("Limit Of Liability", TextBox.class, Waiters.AJAX);
