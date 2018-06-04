@@ -73,7 +73,7 @@ public class TestClueReportOnCopyActions extends TestClueReportOnCopyActionsTemp
 	public void pas8271_testClueReportOnCopyQuoteActionCA_Select(@Optional("CA") String state) {
 
 		List<TestData> tdDriverTab = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName());
-		TestData td = getCACopyQuoteTD(getPolicyDefaultTD(PolicyType.AUTO_CA_SELECT), tdDriverTab);
+		TestData td = getCACopyQuoteTD(getPolicyDefaultTD(), tdDriverTab);
 
 		pas8271_testClueReportOnCopyQuoteActionCA(td);
 

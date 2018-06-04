@@ -23,7 +23,7 @@ public class TestClueReportOnCopyActionsTemplate extends PolicyBaseTest {
 		// Create customer and policy
 		mainApp().open();
 		createCustomerIndividual();
-		getPolicyType().get().createPolicy(getPolicyDefaultTD(getPolicyType()));
+		getPolicyType().get().createPolicy(getPolicyDefaultTD());
 
 		// Perform endorsement to add 2nd driver
 		getPolicyType().get().createEndorsement(tdEndorsement);
