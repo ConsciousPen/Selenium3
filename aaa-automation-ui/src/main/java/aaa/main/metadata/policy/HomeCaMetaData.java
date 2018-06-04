@@ -1137,7 +1137,6 @@ public final class HomeCaMetaData {
 		}
 
 		public static final class EndorsementDP0473 extends MetaData {}
-		public static final class EndorsementDP0475 extends MetaData {}
 
 		public static final class EndorsementDW0463 extends MetaData {
 			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class, Waiters.AJAX);
