@@ -278,4 +278,19 @@
         </test>
     -->
 
+    <test name="Test CLUE reports on new copied policies for SS Auto">
+        <parameter name="state" value="AZ, PA, OH"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClueReportOnCopyActions"/>
+        </classes>
+    </test>
+
+    <test name="Test CLUE reports on new copied policies for CA Auto">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestClueReportOnCopyActions"/>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestClueReportOnCopyActions"/>
+        </classes>
+    </test>
+
 </suite>

@@ -1,0 +1,26 @@
+# Test data for endorsement to add a driver
+
+TestData: {
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+EndorsementActionTab: {
+  Endorsement Date: $<today>,
+  Endorsement Reason: Maintain Driver(s)
+}
+
+DriverActivityReportsTab: {
+  Validate Driving History: click
+}
+
+
