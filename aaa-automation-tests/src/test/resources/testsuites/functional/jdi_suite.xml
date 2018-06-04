@@ -361,4 +361,20 @@
             </class>
         </classes>
     </test>
+
+    <test name="pas14156_DecPagePlcyVehInfo" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.functional.TestDecPlcyVehInfo">
+                <methods>
+                    <include name="pas14156_DecPagePlcyVehInfo"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.functional.TestDecPlcyVehInfo">
+                <methods>
+                    <include name="pas14156_DecPagePlcyVehInfo"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

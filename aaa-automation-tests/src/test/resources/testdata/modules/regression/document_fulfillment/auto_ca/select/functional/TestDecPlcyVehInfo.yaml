@@ -1,0 +1,65 @@
+TestData: {
+    VehicleTab: ['@VehicleTab1','@VehicleTab2'],
+    AssignmentTab: '@AssignmentTab',
+    PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+    DocumentsAndBindTab: '@DocumentsAndBindTab'
+}
+
+VehicleTab1: {
+  Primary Use: "contains=Pleasure",
+  VIN: 1GNWGPFG8B6548273,
+  Existing Damage: Rust,
+  Odometer Reading: 30000,
+  "Salvaged?": 'No',
+  #"Are there any additional interest(s)?": 'No'
+}
+
+VehicleTab2: {
+  Type: Trailer,
+  #Change Vehicle Confirmation: 'OK',
+  Primary Use: "contains=Pleasure",
+  VIN: KNDJT2A2XA7038383,
+  Year: 2010,
+  Make: OTHER,
+  Other Make: KIA,
+  Other Model: SOUL,
+  Other Series: Series,
+  Other Body Style: Body,
+  'Value($)': '10000',
+  Existing Damage: Rust,
+  "Salvaged?": 'No',
+}
+
+AssignmentTab: {
+DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver2']
+}
+
+AssignedDriver1: {
+Primary Driver: index=1
+}
+
+AssignedDriver2: {
+Primary Driver: index=1
+}
+
+PremiumAndCoveragesTab: {
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    California Car Policy Application: Physically Signed,
+    Subscriber Agreement: Physically Signed
+  },
+  RequiredToIssue: {
+    Policy Application: 'Yes',
+    Auto Billing Plan Explanation: 'Yes'
+  },
+  #RequiredToIssue: { },
+  VehicleInformation: ['@Vehicle1', '@Vehicle2'],
+}
+
+Vehicle1: {
+}
+
+Vehicle2: {
+}
