@@ -14,9 +14,9 @@ public class HomeCaDP3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaDP3OpenLForm> 
 	private List<HomeCaDP3OpenLCoverage> coverages;
 
 	private Integer ageOfOldestInsured;
-	private Integer covALimit;
-	private Integer covELimit;
-	private Integer deductible;
+	private Double covALimit;
+	private Double covELimit;
+	private Double deductible;
 	private Double frequencyOfDwellingLoss;
 	private Boolean hasAutoPolicy;
 	private Boolean hasCeaPolicy;
@@ -49,27 +49,27 @@ public class HomeCaDP3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaDP3OpenLForm> 
 		this.ageOfOldestInsured = ageOfOldestInsured;
 	}
 
-	public Integer getCovALimit() {
+	public Double getCovALimit() {
 		return covALimit;
 	}
 
-	public void setCovALimit(Integer covALimit) {
+	public void setCovALimit(Double covALimit) {
 		this.covALimit = covALimit;
 	}
 
-	public Integer getCovELimit() {
+	public Double getCovELimit() {
 		return covELimit;
 	}
 
-	public void setCovELimit(Integer covELimit) {
+	public void setCovELimit(Double covELimit) {
 		this.covELimit = covELimit;
 	}
 
-	public Integer getDeductible() {
+	public Double getDeductible() {
 		return deductible;
 	}
 
-	public void setDeductible(Integer deductible) {
+	public void setDeductible(Double deductible) {
 		this.deductible = deductible;
 	}
 

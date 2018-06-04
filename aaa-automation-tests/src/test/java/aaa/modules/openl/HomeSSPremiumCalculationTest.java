@@ -11,6 +11,8 @@ import aaa.helpers.openl.model.home_ss.HomeSSOpenLFile;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
 import aaa.helpers.openl.testdata_builder.HomeSSTestDataGenerator;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
+import aaa.main.metadata.CustomerMetaData;
+import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
@@ -31,6 +33,8 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 		if (TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(openLPolicy.getCappingDetails().getProgramCode())) {
 			isLegacyConvPolicy = true;
 			TestData renewalEntryData = tdGenerator.getRenewalEntryData(openLPolicy);
+			renewalEntryData.adjust(TestData.makeKeyPath(new InitiateRenewalEntryActionTab().getMetaKey(), CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_POLICY_PREMIUM.getLabel()), openLPolicy.getCappingDetails().getPreviousPolicyPremium().toString());
+
 			if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())) {
 				NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
 			}
@@ -47,6 +51,14 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 			TestData formHS0492Data = ((HomeSSTestDataGenerator) tdGenerator).getFormHS0492Data(openLPolicy);
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
 			policy.getDefaultView().fillUpTo(formHS0492Data, PremiumsAndCoveragesQuoteTab.class, false);
+		}
+
+		TestData documentsProofData = ((HomeSSTestDataGenerator) tdGenerator).getDocumentsProofData(openLPolicy);
+		if (!documentsProofData.equals(DataProviderFactory.emptyData())) {
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.DOCUMENTS.get());
+			policy.getDefaultView().fill(documentsProofData);
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		}
 
 		PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();

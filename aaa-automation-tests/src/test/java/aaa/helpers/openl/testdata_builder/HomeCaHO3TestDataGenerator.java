@@ -7,7 +7,6 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.helpers.TestDataHelper;
-import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLDwelling;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLForm;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLPolicy;
 import aaa.main.metadata.policy.HomeCaMetaData;
@@ -16,9 +15,8 @@ import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
-
-//import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenLPolicy> {
 	public HomeCaHO3TestDataGenerator(String state) {
@@ -187,7 +185,9 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 				HomeCaMetaData.PropertyInfoTab.Construction.YEAR_BUILT.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getDwelling().getAgeOfHome()).getYear(),
 				HomeCaMetaData.PropertyInfoTab.Construction.CONSTRUCTION_TYPE.getLabel(), "contains=" + openLPolicy.getDwelling().getConstructionType());
 
-		TestData theftProtectiveDeviceData = getTheftProtectiveDevice(openLPolicy.getDwelling());
+		TestData theftProtectiveDeviceData = DataProviderFactory.dataOf(
+				HomeCaMetaData.PropertyInfoTab.TheftProtectiveTPDD.LOCAL_THEFT_ALARM.getLabel(), "Local".equals(openLPolicy.getDwelling().getBurglarAlarmType()), 
+				HomeCaMetaData.PropertyInfoTab.TheftProtectiveTPDD.CENTRAL_THEFT_ALARM.getLabel(), "Central".equals(openLPolicy.getDwelling().getBurglarAlarmType()));
 
 		List<TestData> detachedStructuresData = getDetachedStructuresData(openLPolicy);
 
@@ -202,19 +202,6 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 				HomeCaMetaData.PropertyInfoTab.DETACHED_STRUCTURES.getLabel(), detachedStructuresData,
 				HomeCaMetaData.PropertyInfoTab.THEFT_PROTECTIVE_DD.getLabel(), theftProtectiveDeviceData,
 				HomeCaMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel(), claimHistoryData);
-	}
-
-	private TestData getTheftProtectiveDevice(HomeCaHO3OpenLDwelling dwelling) {
-		switch (dwelling.getBurglarAlarmType()) {
-			case "Central":
-				return DataProviderFactory.dataOf(HomeCaMetaData.PropertyInfoTab.TheftProtectiveTPDD.CENTRAL_THEFT_ALARM.getLabel(), Boolean.TRUE);
-			case "Local":
-				return DataProviderFactory.dataOf(HomeCaMetaData.PropertyInfoTab.TheftProtectiveTPDD.LOCAL_THEFT_ALARM.getLabel(), Boolean.TRUE);
-			case "None":
-				return DataProviderFactory.emptyData();
-			default:
-				return DataProviderFactory.emptyData();
-		}
 	}
 
 	private List<TestData> getDetachedStructuresData(HomeCaHO3OpenLPolicy openLPolicy) {
@@ -414,7 +401,7 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 				 * Class 1: Boat length > 167 and Boat length < 192 and Horsepower < 26 
 				 * Class 1: Boat length > 191 and Boat length < 216 and Horsepower < 51
 				 */
-				if (form.getType().equals("Outboard")) {
+				if (getBoatType(form).equals("Outboard")) {
 					if (form.getFormClass().equals("Class 1")) {
 						horsepower = "50"; 
 						length_inches = "192";
@@ -426,7 +413,7 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 				}
 				
 				TestData boatsData = DataProviderFactory.dataOf(
-						HomeCaMetaData.PersonalPropertyTab.Boats.BOAT_TYPE.getLabel(), getBoatType(form.getType()),
+						HomeCaMetaData.PersonalPropertyTab.Boats.BOAT_TYPE.getLabel(), getBoatType(form),
 						HomeCaMetaData.PersonalPropertyTab.Boats.YEAR.getLabel(), openLPolicy.getEffectiveDate().minusYears(form.getAge()).getYear(),
 						HomeCaMetaData.PersonalPropertyTab.Boats.HORSEPOWER.getLabel(), horsepower,
 						HomeCaMetaData.PersonalPropertyTab.Boats.LENGTH_INCHES.getLabel(), length_inches,
@@ -438,21 +425,28 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 		return personalPropertyTabData;
 	}
 	
-	private String getBoatType(String boatType) {
-		switch (boatType) {
-		case "Outboard":
-			return "Outboard";
-		case "Sailboat": 
-			return "Sailboat";
-		case "Inboard": 
-			return "Inboard";
-		case "In/Outboard": 
-			return "Inboard/Outboard"; 
-		case "Canoe": 
-			return "Other";
-		default: 
-			return "Other";
+	private String getBoatType(HomeCaHO3OpenLForm form) {
+		String boatType;
+		switch (form.getType()) {
+			case "Outboard":
+				boatType = "Outboard";
+				break;
+			case "Sailboat": 
+				boatType = "Sailboat";
+				break;
+			case "Inboard": 
+				boatType = "Inboard";
+				break;
+			case "In/Outboard": 
+				boatType = "Inboard/Outboard"; 
+				break;
+			case "Canoe": 
+				boatType = "Other";
+				break;
+			default: 
+				throw new IstfException("Unknown mapping for Boat Type = " + form.getType());
 		}
+		return boatType;
 	}
 
 	private TestData getPremiumsAndCoveragesQuoteTabData(HomeCaHO3OpenLPolicy openLPolicy) {
