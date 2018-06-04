@@ -18,47 +18,47 @@ import toolkit.datax.TestData;
 
 public class TestClueReportOnCopyActionsTemplate extends PolicyBaseTest {
 
-	protected void pas8271_testClueReportOnCopyPolicyAction(PolicyType policyType, TestData tdEndorsement) {
+	protected void pas8271_testClueReportOnCopyPolicyAction(TestData tdEndorsement) {
 
 		// Create customer and policy
 		mainApp().open();
 		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyDefaultTD(policyType));
+		getPolicyType().get().createPolicy(getPolicyDefaultTD(getPolicyType()));
 
 		// Perform endorsement to add 2nd driver
-		policyType.get().createEndorsement(tdEndorsement);
+		getPolicyType().get().createEndorsement(tdEndorsement);
 
 		// Copy from policy and initiate data gather
-		TestData tdCopy = getStateTestData(testDataManager.policy.get(policyType), "CopyFromPolicy", "TestData");
-		policyType.get().policyCopy().perform(tdCopy);
+		TestData tdCopy = getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData");
+		getPolicyType().get().policyCopy().perform(tdCopy);
 
 		// Fill requirements on Rating Detail Reports, calculate premium, and order reports on DAR
-		fillAndValidateCLUETable(policyType, tdCopy);
+		fillAndValidateCLUETable(tdCopy);
 
 	}
 
-	protected void pas8271_testClueReportOnCopyQuoteActionCA(PolicyType policyType, TestData td) {
+	protected void pas8271_testClueReportOnCopyQuoteActionCA(TestData td) {
 
 		// Create customer
 		mainApp().open();
 		createCustomerIndividual();
 
 		// Fill requirements on Rating Detail Reports, calculate premium, and order reports on DAR
-		createQuoteFillAndInitiateCopyAction(policyType, td, new DriverActivityReportsTab());
+		createQuoteFillAndInitiateCopyAction(td, new DriverActivityReportsTab());
 
 		// Fill requirements on Rating Detail Reports, calculate premium, and order reports on DAR
-		fillAndValidateCLUETable(policyType, td);
+		fillAndValidateCLUETable(td);
 
 	}
 
-	protected void fillAndValidateCLUETable(PolicyType policyType, TestData td) {
-		policyType.get().dataGather().start();
-		if (policyType.isCaProduct()) {
+	protected void fillAndValidateCLUETable(TestData td) {
+		getPolicyType().get().dataGather().start();
+		if (getPolicyType().isCaProduct()) {
 			NavigationPage.toViewTab(NavigationEnum.AutoCaTab.MEMBERSHIP.get());
-			policyType.get().getDefaultView().getTab(MembershipTab.class).fillTab(td);
+			getPolicyType().get().getDefaultView().getTab(MembershipTab.class).fillTab(td);
 			new PremiumAndCoveragesTab().calculatePremium();
 			NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
-			policyType.get().getDefaultView().getTab(DriverActivityReportsTab.class).fillTab(td);
+			getPolicyType().get().getDefaultView().getTab(DriverActivityReportsTab.class).fillTab(td);
 
 			// Validate CLUE reports table
 			assertThat(DriverActivityReportsTab.tableCLUEReports.getRows().size()).isEqualTo(1);
@@ -68,10 +68,10 @@ public class TestClueReportOnCopyActionsTemplate extends PolicyBaseTest {
 					.getCell(AutoCaMetaData.DriverActivityReportsTab.OrderClueRow.SELECT.getLabel()).controls.radioGroups.getFirst().getValue()).isEqualTo("Yes");
 		} else {
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
-			policyType.get().getDefaultView().getTab(RatingDetailReportsTab.class).fillTab(td);
+			getPolicyType().get().getDefaultView().getTab(RatingDetailReportsTab.class).fillTab(td);
 			new aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab().calculatePremium();
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
-			policyType.get().getDefaultView().getTab(aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab.class).fillTab(td);
+			getPolicyType().get().getDefaultView().getTab(aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab.class).fillTab(td);
 
 			// Validate CLUE reports table
 			assertThat(aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab.tableCLUEReports.getRows().size()).isEqualTo(1);
@@ -83,11 +83,11 @@ public class TestClueReportOnCopyActionsTemplate extends PolicyBaseTest {
 
 	}
 
-	protected void createQuoteFillAndInitiateCopyAction(PolicyType policyType, TestData td, Tab driverActivityReportsTab) {
-		policyType.get().initiate();
-		policyType.get().getDefaultView().fillUpTo(td, driverActivityReportsTab.getClass(), true);
+	protected void createQuoteFillAndInitiateCopyAction(TestData td, Tab driverActivityReportsTab) {
+		getPolicyType().get().initiate();
+		getPolicyType().get().getDefaultView().fillUpTo(td, driverActivityReportsTab.getClass(), true);
 		driverActivityReportsTab.saveAndExit();
-		policyType.get().copyQuote().perform(getStateTestData(testDataManager.policy.get(policyType), "CopyFromQuote", "TestData"));
+		getPolicyType().get().copyQuote().perform(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromQuote", "TestData"));
 	}
 
 	protected TestData getCAEndorsementTD(TestData tdDriverTab, TestData tdSpecific) {

@@ -18,6 +18,11 @@ import toolkit.utils.TestInfo;
 @StateList(states = Constants.States.CA)
 public class TestClueReportOnCopyActions extends TestClueReportOnCopyActionsTemplate {
 
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_CA_SELECT;
+	}
+
     /**
      * @author Josh Carpenter
      * @name Test that CLUE reports do not carry over on 'Copy Policy' action for CA Select Auto policies
@@ -42,7 +47,7 @@ public class TestClueReportOnCopyActions extends TestClueReportOnCopyActionsTemp
         TestData tdDriverTab = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName()).get(1);
         TestData tdSpecific = testDataManager.getDefault(aaa.modules.regression.sales.auto_ss.functional.TestClueReportOnCopyActions.class).getTestData("TestData");
 
-		pas8271_testClueReportOnCopyPolicyAction(PolicyType.AUTO_CA_SELECT, getCAEndorsementTD(tdDriverTab, tdSpecific));
+		pas8271_testClueReportOnCopyPolicyAction(getCAEndorsementTD(tdDriverTab, tdSpecific));
 
     }
 
@@ -70,7 +75,7 @@ public class TestClueReportOnCopyActions extends TestClueReportOnCopyActionsTemp
 		List<TestData> tdDriverTab = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName());
 		TestData td = getCACopyQuoteTD(getPolicyDefaultTD(PolicyType.AUTO_CA_SELECT), tdDriverTab);
 
-		pas8271_testClueReportOnCopyQuoteActionCA(PolicyType.AUTO_CA_SELECT, td);
+		pas8271_testClueReportOnCopyQuoteActionCA(td);
 
 	}
 

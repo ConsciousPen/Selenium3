@@ -21,6 +21,11 @@ import toolkit.utils.TestInfo;
 @StateList(statesExcept = Constants.States.CA)
 public class TestClueReportOnCopyActions extends TestClueReportOnCopyActionsTemplate {
 
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_SS;
+	}
+
     /**
      * @author Josh Carpenter
      * @name Test that CLUE reports do not carry over on 'Copy Policy' action for SS Auto policies
@@ -49,7 +54,7 @@ public class TestClueReportOnCopyActions extends TestClueReportOnCopyActionsTemp
                 .mask(AutoSSMetaData.DriverTab.NAMED_INSURED.getLabel());
         TestData tdEndorsement = getTestSpecificTD("TestData").adjust(DriverTab.class.getSimpleName(), tdDriverTab);
 
-		pas8271_testClueReportOnCopyPolicyAction(PolicyType.AUTO_SS, tdEndorsement);
+		pas8271_testClueReportOnCopyPolicyAction(tdEndorsement);
 
     }
 
@@ -85,14 +90,14 @@ public class TestClueReportOnCopyActions extends TestClueReportOnCopyActionsTemp
 		TestData td = getPolicyDefaultTD(PolicyType.AUTO_SS).adjust(DriverTab.class.getSimpleName(), tdDriverTab);
 
 		// Initiate Quote with 2 drivers, fill up to DAR page, and initiate Copy From Quote action
-		createQuoteFillAndInitiateCopyAction(PolicyType.AUTO_SS, td, new DriverActivityReportsTab());
+		createQuoteFillAndInitiateCopyAction(td, new DriverActivityReportsTab());
 
 		// Fill requirements on Rating Detail Reports, calculate premium, and order reports on DAR
 		td.adjust(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT.getLabel()), "I Agree")
 				.mask(TestData.makeKeyPath(RatingDetailReportsTab.class.getSimpleName(), AutoSSMetaData.RatingDetailReportsTab.CUSTOMER_AGREEMENT.getLabel()))
 				.mask(TestData.makeKeyPath(RatingDetailReportsTab.class.getSimpleName(), AutoSSMetaData.RatingDetailReportsTab.SALES_AGENT_AGREEMENT.getLabel()));
 
-		fillAndValidateCLUETable(PolicyType.AUTO_SS, td);
+		fillAndValidateCLUETable(td);
 
 	}
 
