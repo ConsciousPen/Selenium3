@@ -1,0 +1,245 @@
+ApplicantTab_FL3: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_FL3',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  AgentInfo: '@AgentInfo',
+  OtherActiveAAAPolicies: {}
+}
+ApplicantTab_FL7: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_FL7',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  AgentInfo: '@AgentInfo',
+  OtherActiveAAAPolicies: {}
+}
+ApplicantTab_NoCountyDrop: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_NoCountyDrop',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  AgentInfo: '@AgentInfo',
+  OtherActiveAAAPolicies: {}
+}
+ApplicantTab_ZipMatch: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_ZipMatch',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  AgentInfo: '@AgentInfo',
+  OtherActiveAAAPolicies: {}
+}
+
+# --------------------------- Applicant Tab for HO3 policy -----------------------------
+NamedInsured: {
+  Prefix: 'Mr.',
+  Middle Name: '',
+  Suffix: 'Jr.',
+  Relationship to primary named insured:  Primary Insured,
+}
+AAAMembership: {
+  Current AAA Member: 'No',
+}
+DwellingAddress_FL3: {
+  Zip code: '93737',
+  Street address 1: 265 CHIPMAN AVE,
+  City: FRESNO,
+  County: Los Angeles,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+DwellingAddress_FL7: {
+  Zip code: '95925',
+  Street address 1: 265 CHIPMAN AVE,
+  City: CHALLENGE,
+  County: 'Los Angeles',
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+DwellingAddress_NoCountyDrop: {
+  Zip code: '95405',
+  Street address 1: 265 CHIPMAN AVE,
+  City: CHALLENGE,
+  County: 'Los Angeles',
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+DwellingAddress_ZipMatch: {
+  Zip code: '94044',
+  Street address 1: 446448 LEWIS LN,
+  City: PACIFICA,
+  County: Los Angeles,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+PreviousDwellingAddress: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'No'
+}
+MailingAddress: {
+  "Is the mailing address different from the dwelling address?": 'No'
+}
+NamedInsuredInformation: {
+  Home Phone Number: '1234567890',
+  Work Phone Number: '1234565432',
+  Mobile Phone Number: '1234543231',
+  'Preferred Phone #': index=2,
+  Email: qwqwq@qw.qw
+}
+AgentInfo: {
+  Channel Type: AAA Agent,
+  Agency: 'SMTestNCNU - 400001005',
+  Agency Location: 'SMTestNCNU LOCATION - 400001105 - Emeryville',
+  Agent: 'House Agent SMTestNCNU LOCATION',
+  TollFree Number: 1
+}
+OtherActiveAAAPolicies: {
+  Other active AAA policies: "No"
+}
+
+#------------------- Reports Tab --------------------------
+ReportsTab_NoMembership: {
+  Sales Agent Agreement: 'I Agree',
+  FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+}
+
+#------------------------ Property Info Tab -------------------------
+PropertyInfoTab_RoofWood: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress'],
+  PublicProtectionClass: '@PublicProtectionClass',
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction_Wood',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment'
+}
+PropertyInfoTab_Other: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress'],
+  PublicProtectionClass: '@PublicProtectionClass',
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction_Other',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment'
+}
+
+DwellingAddress_PropertyInfoTab: {
+  Number of family units: 2-Duplex
+}
+AdditionalAddress: {
+  'Are there any additional addresses?': 'No'
+}
+PublicProtectionClass: {
+  Fire department type: 'T - Tax based',
+  Public protection class: '1X',
+  Distance to fire hydrant: '<=1000ft',
+  Fire protection area: 'large'
+}
+PropertyValue: {
+  Coverage A - Dwelling limit: 150000,
+  ISO replacement cost: 145000,
+  Reason replacement cost differs from the tool value: 'index=1',
+}
+Construction_Wood: {
+    Year built: 2006,
+    Square footage: 1,
+    Roof type: 'Wood shingle/Wood shake',
+    Roof shape: 'index=1',
+    Construction type: 'index=1',
+    Foundation Type: 'index=1'
+}
+Construction_Other: {
+    Year built: 2006,
+    Square footage: 1,
+    Roof type: 'Other',
+    Roof shape: 'index=1',
+    Construction type: 'index=1',
+    Foundation Type: 'index=1'
+}
+Interior: {
+  Dwelling usage: Primary,
+  Number of residents: '3',
+  'Number of stories, including basement': 'index=1'
+}
+DetachedStructures: {
+  "Are there any detached structures on the property?": 'No'
+}
+HomeRenovation: {
+  Plumbing renovation: '100% Copper',
+  "Plumbing % complete": '100',
+  "Plumbing Month of completion": 3,
+  "Plumbing Year of completion": '2009',
+  Electrical renovation: '100% Circuit/Romex',
+  "Electrical % complete": '90',
+  "Electrical Month of completion": 10,
+  "Electrical Year of completion": '2010',
+  Roof renovation: '100% Replace',
+  "Roof % complete": '100',
+  "Roof Month of completion": 6,
+  "Roof Year of completion": '2012',
+  "Heating/cooling renovation": Forced Air,
+  "Heating/cooling % complete": '100',
+  "Heating/cooling Month of completion": 5,
+  "Heating/cooling Year of completion": '2011',
+  Green Home discount: 'No'
+}
+PetsOrAnimals: {
+  "Are any insured-owned pets or animals kept on the property?": 'No'
+}
+Stoves: {
+  "Does the property have a wood-burning stove?": 'No'
+}
+RecreationalEquipment: {}
+
+#---------------------------------- ENDORSEMENT
+Endorsement_DoNothing: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+Endorsement_FL7: {
+  GeneralTab: {},
+  ApplicantTab: '@ApplicantTab_NoCountyDrop',
+  ReportsTab: {}, #'@ReportsTab_Endorsement',
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}

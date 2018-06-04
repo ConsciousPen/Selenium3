@@ -1147,6 +1147,8 @@ public final class HomeCaMetaData {
 			public static final AssetDescriptor<TextBox> COVERAGE_LIMIT = declare("Structure coverage limit", TextBox.class, Waiters.AJAX);
 		}
 
+		public static final class EndorsementDP0475 extends MetaData {}
+
 		public static final class EndorsementDW0421 extends MetaData {
 			public static final AssetDescriptor<TextBox> DESCRIPTION_OF_STRUCTURE = declare("Description Of Structure", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY = declare("Limit Of Liability", TextBox.class, Waiters.AJAX);
@@ -1671,6 +1673,8 @@ public final class HomeCaMetaData {
 			public static final AssetDescriptor<RadioGroup> FAIR_PLAN_COMPANION_ENDORSEMENT_CALIFORNIA = declare("Fair Plan Companion Endorsement - California", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> SIGNED_POLICY_APPLICATION = declare("Signed policy application", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> AUTOPAY_AUTHORIZATION_FORM = declare("AutoPay Authorization Form", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<RadioGroup> FPCECA = declare("FAIR Plan Companion Endorsement - California", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<RadioGroup> FPCECADP = declare("FAIR Plan Companion Endorsement - California", RadioGroup.class, Waiters.AJAX);
 		}
 	}
 
