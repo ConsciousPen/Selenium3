@@ -123,6 +123,11 @@ public class HomeCaPolicy implements IPolicy {
 	}
 
 	@Override
+	public PolicyActions.InitiateHOQuote initiateHOQuote() {
+		return new HomeCaPolicyActions.InitiateHOQuote();
+	}
+
+	@Override
 	public HomeCaPolicyActions.Cancel cancel() {
 		return new HomeCaPolicyActions.Cancel();
 	}

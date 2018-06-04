@@ -292,14 +292,14 @@
     </PreconfigPersonInfo>
   </AAAHOPolicy>
   <userNote>
-    <category>Other</category>
+    <category>OTHER</category>
     <confidential>false</confidential>
     <title>Conversion: Dwelling address validated and standardized</title>
     <updatedOn>2017-12-08T00:00:00</updatedOn>
     <userText>Dwelling Address was validated and standardized during Conversion. Address was standardized from 500 GLENWOOD CIR #2112 MONTEREY CA 93940 to 500 GLENWOOD CIR APT 2112 MONTEREY CA 93940</userText>
   </userNote>
   <userNote>
-    <category>Other</category>
+    <category>OTHER</category>
     <confidential>false</confidential>
     <title>Conversion: Mailing address validated and standardized</title>
     <updatedOn>2017-12-08T00:00:00</updatedOn>

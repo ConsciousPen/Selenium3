@@ -9,8 +9,9 @@ import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.abstract_tabs.PropertyEndorsementsTab;
-
+import aaa.toolkit.webdriver.customcontrols.endorsements.HomeSSEndorsementsMultiAssetList;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -41,6 +42,10 @@ public class EndorsementTab extends PropertyEndorsementsTab {
 	public Tab submitTab() {
 		buttonNext.click();
 		return this;
+	}
+
+	public HomeSSEndorsementsMultiAssetList getFormAssetList(AssetDescriptor endorsementAsset) {
+		return (HomeSSEndorsementsMultiAssetList) getAssetList().getAsset(endorsementAsset);
 	}
 
 }

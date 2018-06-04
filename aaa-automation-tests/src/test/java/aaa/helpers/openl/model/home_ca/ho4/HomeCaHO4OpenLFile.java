@@ -10,7 +10,7 @@ import aaa.utils.excel.bind.annotation.ExcelTransient;
 public class HomeCaHO4OpenLFile extends HomeCaOpenLFile<HomeCaHO4OpenLPolicy> {
 	@ExcelTransient
 	static final int FORM_HEADER_ROW_NUMBER = 4;
-
+	
 	private List<HomeCaHO4OpenLPolicy> policies;
 
 	@ExcelTransient
@@ -35,7 +35,7 @@ public class HomeCaHO4OpenLFile extends HomeCaOpenLFile<HomeCaHO4OpenLPolicy> {
 	public void setDwellings(List<HomeCaOpenLDwelling> dwelling) {
 		this.dwelling = new ArrayList<>(dwelling);
 	}
-
+	
 	@Override
 	public List<HomeCaHO4OpenLPolicy> getPolicies() {
 		return new ArrayList<>(policies);
@@ -47,7 +47,7 @@ public class HomeCaHO4OpenLFile extends HomeCaOpenLFile<HomeCaHO4OpenLPolicy> {
 
 	@Override
 	public String toString() {
-		return "HomeCaDP3OpenLFile{" +
+		return "HomeCaHO4OpenLFile{" +
 				"policies=" + policies +
 				", forms=" + forms +
 				", coverages=" + coverages +
