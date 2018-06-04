@@ -11,12 +11,17 @@ import toolkit.utils.TestInfo;
 
 public class TestInvoiceWithNoDownPayment extends TestInvoiceWithNoDownPaymentTemplate {
 
+    @Override
+    protected PolicyType getPolicyType() {
+        return PolicyType.HOME_SS_HO4;
+    }
+
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = {"PAS-9001"})
     public void pas9001_testInvoiceWithNoDownPaymentNB_HO4(@Optional("") String state) {
 
-        pas9001_testInvoiceWithNoDownPaymentNB(PolicyType.HOME_SS_HO4);
+        pas9001_testInvoiceWithNoDownPaymentNB();
 
     }
 
@@ -25,7 +30,7 @@ public class TestInvoiceWithNoDownPayment extends TestInvoiceWithNoDownPaymentTe
     @TestInfo(component = ComponentConstant.Service.HOME_SS_HO4, testCaseId = {"PAS-9001"})
     public void pas9001_testInvoiceWithNoDownPaymentEndorsement_HO4(@Optional("") String state) {
 
-        pas9001_testInvoiceWithNoDownPaymentEndorsement(PolicyType.HOME_SS_HO4);
+        pas9001_testInvoiceWithNoDownPaymentEndorsement();
 
     }
 
