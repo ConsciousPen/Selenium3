@@ -721,7 +721,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		//Validate that form FPCECA is included in Document Package only once
 		assertThat(docs.stream().filter(document -> document.getTemplateId().equals(formIdInXml)).toArray().length).isEqualTo(1);
-
+		validateFAIRPlanEndorsementSequencePAS_14368(docs, eventName);
 	}
 
 	private void validateDocumentIsNotGeneratedInPackage(String policyNumber, AaaDocGenEntityQueries.EventNames eventName, boolean shouldBeListedInOtherDocs) {
@@ -738,6 +738,24 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		} else {
 			assertThat(docsOther.stream().filter(document -> document.toString().contains(formIdInXml)).toArray().length).isEqualTo(0);
 
+		}
+	}
+
+	private void validateFAIRPlanEndorsementSequencePAS_14368(List<Document> docs, AaaDocGenEntityQueries.EventNames eventName) {
+		String expectedSequenceValue = null;
+
+		if (eventName.equals(POLICY_ISSUE) || eventName.equals(ENDORSEMENT_ISSUE)) {
+			expectedSequenceValue = "91";
+		} else if (eventName.equals(RENEWAL_OFFER)) {
+			expectedSequenceValue = "171";
+		}
+
+		if (expectedSequenceValue != null){
+			docs.removeIf(document -> !document.getTemplateId().equals(formIdInXml));
+
+			CustomAssert.enableSoftMode();
+			assertThat(docs.get(0).getSequence()).isEqualTo(expectedSequenceValue);
+			CustomAssert.disableSoftMode();
 		}
 	}
 
