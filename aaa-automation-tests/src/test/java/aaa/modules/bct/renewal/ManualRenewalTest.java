@@ -1,8 +1,5 @@
 package aaa.modules.bct.renewal;
 
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -14,6 +11,9 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.impl.SimpleDataProvider;
 
 public class ManualRenewalTest extends BackwardCompatibilityBaseTest {
@@ -54,6 +54,7 @@ public class ManualRenewalTest extends BackwardCompatibilityBaseTest {
 	@Test
 	public void BCT_ONL_003_ManualRenewal(@Optional("") String state) {
 		IPolicy policy = findAndOpenPolicy("BCT_ONL_003_ManualRenewal", PolicyType.AUTO_SS);
+		deletePendingRenewals(policy);
 		policy.doNotRenew().perform(getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS), "DoNotRenew", "TestData"));
 		PolicySummaryPage.labelDoNotRenew.verify.present();
 		policy.removeDoNotRenew().perform(new SimpleDataProvider());
