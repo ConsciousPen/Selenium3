@@ -19,14 +19,7 @@ import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.preconditions.ScorpionsPreconditions;
@@ -182,7 +175,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		log.info("Quote {} is successfully saved for further use", quoteNumber);
 
 		//3. Save and exit the quote, move system time by 2 days and retrieve the quote
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(2));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getPhaseStartTime().plusDays(2));
 
 		//Go back to MainApp, open quote, verify rerate error message, calculate premium and verify if VIN value is applied
 		mainApp().open();
