@@ -71,7 +71,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 
 		TestData tdEUIM = getPolicyTD().adjust(PremiumAndCoveragesTab.class.getSimpleName(), getTestSpecificTD("PremiumAndCoveragesTab_NB"));
 
-		TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
+		TimeSetterUtil.getInstance().nextPhase(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -105,7 +105,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 
 		TestData tdEUIM = getConversionPolicyDefaultTD().adjust(PremiumAndCoveragesTab.class.getSimpleName(), getTestSpecificTD("PremiumAndCoveragesTab_Conv"));
 
-		TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
+		TimeSetterUtil.getInstance().nextPhase(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -133,7 +133,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-11302")
 	public void pas11302_testEUIMMDFormEndorsement(@Optional("MD") String state) {
 
-		TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
+		TimeSetterUtil.getInstance().nextPhase(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
 		// Create policy with Standard UIM coverage
 		mainApp().open();
@@ -165,7 +165,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-11302")
 	public void pas11302_testEUIMMDFormRenewal(@Optional("MD") String state) {
 
-		TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
+		TimeSetterUtil.getInstance().nextPhase(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
 		// Create policy with Standard UIM coverage
 		mainApp().open();
@@ -200,7 +200,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 
 		TestData tdEUIM = getPolicyTD().adjust(PremiumAndCoveragesTab.class.getSimpleName(), getTestSpecificTD("PremiumAndCoveragesTab_NB"));
 
-		TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
+		TimeSetterUtil.getInstance().nextPhase(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -247,7 +247,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_AC2_Endorsement(@Optional("MD") String state) {
 
-		TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
+		TimeSetterUtil.getInstance().nextPhase(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
 		// Create policy with Standard UIM coverage
 		mainApp().open();
@@ -281,7 +281,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_AC3_Conversion(@Optional("MD") String state) {
 
-		TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
+		TimeSetterUtil.getInstance().nextPhase(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
 		TestData tdEUIM = getConversionPolicyDefaultTD().adjust(PremiumAndCoveragesTab.class.getSimpleName(), getTestSpecificTD("PremiumAndCoveragesTab_Conv"));
 
@@ -315,7 +315,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_AC3_Renewal(@Optional("MD") String state) {
 
-		TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
+		TimeSetterUtil.getInstance().nextPhase(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
 		// Create policy with Standard UIM coverage
 		mainApp().open();
@@ -371,7 +371,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_AC3_Revised_Renewal_After_Renewal_Term_Change(@Optional("MD") String state) {
 
-		TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
+		TimeSetterUtil.getInstance().nextPhase(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
 		// Create policy with Standard UIM coverage
 		mainApp().open();
@@ -418,7 +418,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_AC3_Revised_Renewal_After_Current_Term_Change(@Optional("MD") String state) {
 
-		TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
+		TimeSetterUtil.getInstance().nextPhase(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
 		// Create policy with Standard UIM coverage
 		mainApp().open();
@@ -468,7 +468,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_do_not_generate_AAEUIMMD_if_coverage_removed(@Optional("MD") String state) {
 
-		TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
+		TimeSetterUtil.getInstance().nextPhase(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
 		TestData tdEUIM = getPolicyTD().adjust(PremiumAndCoveragesTab.class.getSimpleName(), getTestSpecificTD("PremiumAndCoveragesTab_NB"));
 
