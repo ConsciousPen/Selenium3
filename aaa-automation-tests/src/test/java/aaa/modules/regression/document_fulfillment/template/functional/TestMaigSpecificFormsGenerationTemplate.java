@@ -27,8 +27,6 @@ import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
-import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
-import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
@@ -48,37 +46,10 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 			+ "(rpc.ID, rpc.DTYPE, rpc.POLICYNUMBER, rpc.DATEOFLASTPAYMENT, rpc.NUMBEROFPAYMENTS, rpc.SINGLEPAYMENTSCOUNT, rpc.RECURRINGPAYMENTSCOUNT, rpc.REMINDERIND)"
 			+ "values (eis_sequence.nextval,'HBReminderPolicyNumberChangeEntity', '%1$s', to_date('%2$s', 'YYYY-MM-dd'), 10,'' ,'', 0)";
 
+	private ProductRenewalsVerifier productRenewalsVerifier = new ProductRenewalsVerifier();
 	protected TestData tdBilling = testDataManager.billingAccount;
-
 	protected BillingAccount billingAccount = new BillingAccount();
 
-	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
-	private UpdateBillingAccountActionTab updateBillingAccountActionTab = new UpdateBillingAccountActionTab();
-
-	private ProductRenewalsVerifier productRenewalsVerifier = new ProductRenewalsVerifier();
-
-	/**
-	 * @author Viktor Petrenko
-	 * <p>
-	 * PAS-10668 CONTENT & TRIGGER (timeline): Pre-Renewal letter (mortgagee) PA DP3
-	 * PAS-6731 CONTENT & TRIGGER (timeline): Pre-Renewal letter (insured bill) PA DP3
-	 * @scenario 1. Initiate manual entry
-	 * 2. Shift time
-	 * 3. Run jobs to generate aaaPreRenewalNoticeAsyncJob
-	 */
-	public String generatePreRenewalEvent(TestData testData, LocalDateTime renewalOfferEffectiveDate, LocalDateTime preRenewalGenDate) {
-		mainApp().open();
-		createCustomerIndividual();
-		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
-		policy.getDefaultView().fill(testData);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-
-		TimeSetterUtil.getInstance().nextPhase(preRenewalGenDate);
-
-		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-		JobUtils.executeJob(Jobs.aaaPreRenewalNoticeAsyncJob);
-		return policyNumber;
-	}
 
 	/**
 	 * @author Viktor Petrenko
@@ -117,7 +88,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		SearchPage.openPolicy(policyNumber);
 		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
-//https://csaaig.atlassian.net/browse/PAS-11474
+		//https://csaaig.atlassian.net/browse/PAS-11474
 		List<DocumentPackage> allDocumentPackages = DocGenHelper.getAllDocumentPackages(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 		List<Document> actualDocumentsListAfterFirstRenewal = DocGenHelper.getDocumentsFromDocumentPackagesList(allDocumentPackages);
 
@@ -125,8 +96,9 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		// End PAS-2764 Scenario 1
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
-		verifyPolicyTransactionCode("MCON", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+		assertThat(getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER)).isEqualTo("MCON");
 
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
@@ -136,7 +108,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		Dollar totalDue = new Dollar(BillingSummaryPage.getTotalDue());
-		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue.subtract(new Dollar(10)));
+		billingAccount.acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue.subtract(new Dollar(10)));
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(renewalOfferEffectiveDate));
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
@@ -154,29 +126,19 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		PolicySummaryPage.buttonRenewals.click();
 		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
-		/**https://csaaig.atlassian.net/browse/PAS-9157*/
-		/**PAS-10256
-		 Cannot rate Home SS policy with effective date higher or equal to 2020-02-018*/
+		/**https://csaaig.atlassian.net/browse/PAS-9157, PAS-10256 Cannot rate Home SS policy with effective date higher or equal to 2020-02-018*/
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
-		verifyPolicyTransactionCode("0210", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+		assertThat(getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER)).isEqualTo("0210");
 		// Shouldn't be after second renewal
 		List<Document> actualDocumentsAfterSecondRenewal = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
-		pas2674_verifyConversionRenewalPackageAbsence(forms, actualDocumentsAfterSecondRenewal);
+		verifyConversionRenewalPackageAbsence(forms, actualDocumentsAfterSecondRenewal);
 
 		// PAS-8777, PAS-8766
 		if (specificProductCondition) {
 			assertThat(actualDocumentsAfterSecondRenewal.stream().map(Document::getTemplateId).toArray()).doesNotContain(DocGenEnum.Documents.HSRNHODPXX.getIdInXml());
 		}
 
-	}
-
-	private List<Document> getDocumentsFromListDocumentPackages(List<DocumentPackage> allDocumentPackages) {
-		List<Document> actualDocumentsListAfterFirstRenewal = new ArrayList<>();
-		for( DocumentPackage documentPackage: allDocumentPackages){
-			actualDocumentsListAfterFirstRenewal.addAll(documentPackage.getDocuments());
-		}
-		return actualDocumentsListAfterFirstRenewal;
 	}
 
 	/**
@@ -186,7 +148,8 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 	 * PAS-9607	BFC for Conversion Renewal Offer and Billing Packages (HO3, HO4, HO6, DP3, PUP)
 	 * PAS-9650	Print Sequence: Conversion Renewal BILLING (PA & MD)
 	 *
-	 * @scenario 1. Initiate manual entry on RENEW_GENERATE_OFFER
+	 * @scenario
+	 * 1. Initiate manual entry on RENEW_GENERATE_OFFER
 	 * 2. Verify billing specific renewal offer packet was generated in right sequence
 	 * 3. Verify Policy Transaction Code
 	 * 4. set Up Trigger Home Banking Conversion Renewal
@@ -207,7 +170,6 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		// Create manual entry
 		String policyNumber = createFormsSpecificManualEntry(testData, renewalOfferEffectiveDate);
 
-		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 		//needed for home banking form generation
@@ -217,6 +179,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		billingAccount.update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay"));
 
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
@@ -225,9 +188,9 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		String policyTransactionCode = getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
 
-		assertThat(policyTransactionCode.equals("STMT") || policyTransactionCode.equals("0210")).isEqualTo(true);
+		assertThat(policyTransactionCode.equals("STMT") || policyTransactionCode.equals("0210")).isTrue();
 		//PAS-9816 Verify that Billing Renewal package forms are generated and are in correct order
-		pas9816_verifyRenewalBillingPackageFormsPresence(policyNumber, getPolicyType());
+		verifyRenewalBillingPackageFormsPresence(policyNumber, getPolicyType());
 
 		// Start PAS-9816 Scenario 1 Issue first renewal
 		mainApp().open();
@@ -258,12 +221,12 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		//Generate Bill for the second renewal to verify Home Banking forms
 		billGeneration(renewalOfferEffectiveDate.plusYears(1));
 		// Shouldn't be after second renewal
-		pas9816_verifyBillingRenewalPackageAbsence(policyNumber);
+		verifyBillingRenewalPackageAbsence(policyNumber);
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		String policyTransactionCode2 = getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
 
-		assertThat(policyTransactionCode2.equals("STMT") || policyTransactionCode2.equals("0210")).isEqualTo(true);
+		assertThat(policyTransactionCode2.equals("STMT") || policyTransactionCode2.equals("0210")).isTrue();
 	}
 
 	/**
@@ -298,6 +261,31 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 	}
 
+	/* Helpers */
+
+	/**
+	 * @author Viktor Petrenko
+	 * <p>
+	 * PAS-10668 CONTENT & TRIGGER (timeline): Pre-Renewal letter (mortgagee) PA DP3
+	 * PAS-6731 CONTENT & TRIGGER (timeline): Pre-Renewal letter (insured bill) PA DP3
+	 * @scenario 1. Initiate manual entry
+	 * 2. Shift time
+	 * 3. Run jobs to generate aaaPreRenewalNoticeAsyncJob
+	 */
+	public String generatePreRenewalEvent(TestData testData, LocalDateTime renewalOfferEffectiveDate, LocalDateTime preRenewalGenDate) {
+		mainApp().open();
+		createCustomerIndividual();
+		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
+		policy.getDefaultView().fill(testData);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		TimeSetterUtil.getInstance().nextPhase(preRenewalGenDate);
+
+		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+		JobUtils.executeJob(Jobs.aaaPreRenewalNoticeAsyncJob);
+		return policyNumber;
+	}
+
 	/**
 	 * Create Very specific Manual Entry
 	 * @param testData for policy creation
@@ -309,16 +297,14 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 				TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
 
 		mainApp().open();
-		// Set birthdate if NJ to generate Senior Discount
 		if (getState().equals(Constants.States.NJ)) {
+			// Set birthdate if NJ to generate Senior Discount
 			createCustomerIndividual(getCustomerIndividualTD("DataGather", "TestData")
-					.adjust(TestData.makeKeyPath("GeneralTab", "Date of Birth"), TimeSetterUtil.getInstance().getPhaseStartTime().minusYears(65)
-							.format(DateTimeUtils.MM_DD_YYYY))); // if NJ adjust Date Of Birth
+					.adjust(TestData.makeKeyPath("GeneralTab", "Date of Birth"), TimeSetterUtil.getInstance().getPhaseStartTime().minusYears(65).format(DateTimeUtils.MM_DD_YYYY))); // if NJ adjust Date Of Birth
 		} else {
 			createCustomerIndividual();
 		}
 
-		// adjust with real policies if PUP )
 		if (getPolicyType().equals(PolicyType.PUP)) {
 			testData = new PrefillTab().adjustWithRealPolicies(testData, getPrimaryPoliciesForPup());
 			// Workaround for prefill
@@ -333,7 +319,6 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());*/
 		}
-
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
 		// Needed for Membership AHMVCNV form, membership number have to be != active For all products except PUP
 		if (!getPolicyType().equals(PolicyType.PUP)) {
@@ -344,9 +329,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		return PolicySummaryPage.getPolicyNumber();
 	}
 
-	/* Helpers */
-
-	public void setUpTriggerHomeBankingConversionRenewal(String policyNumber) {
+	private void setUpTriggerHomeBankingConversionRenewal(String policyNumber) {
 		String currentDate = TimeSetterUtil.getInstance().getPhaseStartTime().format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
 
 		int a = DBService.get().executeUpdate(String.format(INSERT_HOME_BANKING_FOR_POLICY, getSourcePolicyNumber(policyNumber), currentDate));
@@ -369,7 +352,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 	}
 
-	public String getPackageTag(String policyNumber, String tag, AaaDocGenEntityQueries.EventNames name) throws NoSuchFieldException {
+	private String getPackageTag(String policyNumber, String tag, AaaDocGenEntityQueries.EventNames name) throws NoSuchFieldException {
 		return getPackageDataElemByName(policyNumber, "PolicyDetails", tag, name);
 	}
 
@@ -380,7 +363,15 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 	}
 
 	/* Checks */
-	private void pas9816_verifyBillingRenewalPackageAbsence(String policyNumber) {
+	private List<Document> getDocumentsFromListDocumentPackages(List<DocumentPackage> allDocumentPackages) {
+		List<Document> actualDocumentsListAfterFirstRenewal = new ArrayList<>();
+		for(DocumentPackage documentPackage: allDocumentPackages){
+			actualDocumentsListAfterFirstRenewal.addAll(documentPackage.getDocuments());
+		}
+		return actualDocumentsListAfterFirstRenewal;
+	}
+
+	private void verifyBillingRenewalPackageAbsence(String policyNumber) {
 		List<Document> billingDocumentsListAfterSecondRenewal = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
 		assertThat(billingDocumentsListAfterSecondRenewal).isNotEmpty().isNotNull();
 
@@ -392,7 +383,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 				DocGenEnum.Documents.HSRNHBPUP.getIdInXml());
 	}
 
-	private void pas2674_verifyConversionRenewalPackageAbsence(List<String> forms, List<Document> actualDocumentsListAfterFirstRenewal) {
+	private void verifyConversionRenewalPackageAbsence(List<String> forms, List<Document> actualDocumentsListAfterFirstRenewal) {
 		assertThat(actualDocumentsListAfterFirstRenewal).isNotEmpty().isNotNull();
 
 		List<String> listOfFormsAfterSecondRenewal = new ArrayList<>();
@@ -405,12 +396,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		assertThat(listOfFormsAfterSecondRenewal).doesNotContainAnyElementsOf(getOnlyConversionSpecificForms);
 	}
 
-	private void verifyPolicyTransactionCode(String expectedCode, String policyNumber, AaaDocGenEntityQueries.EventNames eventName) throws NoSuchFieldException {
-		String policyTransactionCode = getPackageTag(policyNumber, "PlcyTransCd", eventName);
-		assertThat(policyTransactionCode).isEqualTo(expectedCode);
-	}
-
-	private void pas9816_verifyRenewalBillingPackageFormsPresence(String policyNumber, PolicyType policyType) {
+	private void verifyRenewalBillingPackageFormsPresence(String policyNumber, PolicyType policyType) {
 		List<String> expectedFormsAndOrder = new ArrayList<>(Arrays.asList(
 				DocGenEnum.Documents.AHRBXX.getIdInXml(),
 				DocGenEnum.Documents.AH35XX.getIdInXml()
@@ -431,7 +417,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 	 * Verify that PolicyDetails value is present in the Package
 	 */
 
-	protected void verifyFormSequence(List<String> expectedFormsOrder, List<Document> documentList) {
+	private void verifyFormSequence(List<String> expectedFormsOrder, List<Document> documentList) {
 		assertThat(documentList).isNotEmpty().isNotNull();
 		assertSoftly(softly -> {
 			List<String> collectedDocs = documentList.stream().map(Document::getTemplateId).collect(Collectors.toList());
@@ -463,7 +449,12 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		});
 	}
 
-	protected boolean isMortgageePaymentPlanPresence(TestData testData) {
+	/**
+	 * Check mortgage plan presence via TD
+	 * @param testData
+	 * @return boolean
+	 */
+	private boolean isMortgageePaymentPlanPresence(TestData testData) {
 		boolean mortgageePaymentPlanPresence = false;
 		if (!getPolicyType().getShortName().equals("PUP")) {
 			mortgageePaymentPlanPresence = testData.getTestData(new PremiumsAndCoveragesQuoteTab().getMetaKey()).getValue(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()).contains("Mortgagee Bill");
@@ -471,13 +462,13 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		return mortgageePaymentPlanPresence;
 	}
 
-	protected boolean isHOProduct(PolicyType policyType) {
+	private boolean isHOProduct(PolicyType policyType) {
 		// Specific conditions which will reflected in forms which will be verified later
 		return Arrays.asList("HomeSS", "HomeSS_HO4", "HomeSS_HO6", "HomeSS_DP3").contains(policyType.getShortName());
 	}
 
 	/* Data */
-	protected List<String> getConversionSpecificGeneratedForms(boolean mortgageePaymentPlanPresence, boolean specificProductCondition) {
+	private List<String> getConversionSpecificGeneratedForms(boolean mortgageePaymentPlanPresence, boolean specificProductCondition) {
 		List<String> forms = new ArrayList<>(getTestSpecificTD("ConversionForms").getList("FormsList"));
 		editFirstFormDependingOnPaymentPlan(mortgageePaymentPlanPresence, specificProductCondition, forms);
 		log.info("List of forms we expect : {}", forms);
@@ -534,6 +525,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 				.adjust(TestData.makeKeyPath(mortgageeTabMetaKey, HomeSSMetaData.MortgageesTab.IS_THERE_ADDITIONA_INTEREST.getLabel()), "Yes")
 				.adjust(TestData.makeKeyPath(mortgageeTabMetaKey, HomeSSMetaData.MortgageesTab.ADDITIONAL_INTEREST.getLabel()), additionalInterestData);
 	}
+
 
 	protected TestData adjustWithMortgageeData(TestData policyTD) {
 		TestData testDataMortgagee = getTestSpecificTD("MortgageesTab");

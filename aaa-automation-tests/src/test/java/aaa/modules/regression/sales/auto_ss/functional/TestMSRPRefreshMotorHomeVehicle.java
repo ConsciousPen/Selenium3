@@ -72,7 +72,7 @@ public class TestMSRPRefreshMotorHomeVehicle extends VinUploadAutoSSHelper {
 
 		findAndRateQuote(testData, quoteNumber);
 
-		pas730_commonChecks(compSymbol, collSymbol);
+		compCollSymbolCheck_pas730(compSymbol, collSymbol);
 
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 	}
@@ -110,7 +110,7 @@ public class TestMSRPRefreshMotorHomeVehicle extends VinUploadAutoSSHelper {
 		findQuoteAndOpenRenewal(quoteNumber);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		pas730_commonChecks(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
+		compCollSymbolCheck_pas730(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
 
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 	}

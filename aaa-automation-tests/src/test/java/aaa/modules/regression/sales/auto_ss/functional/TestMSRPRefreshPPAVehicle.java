@@ -139,7 +139,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		findAndRateQuote(testData, quoteNumber);
 
-		pas730_commonChecks(compSymbol, collSymbol);
+		compCollSymbolCheck_pas730(compSymbol, collSymbol);
 
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 	}
@@ -181,7 +181,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
-		pas730_commonChecks(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
+		compCollSymbolCheck_pas730(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
 	}
 
 	/**
@@ -227,7 +227,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		findQuoteAndOpenRenewal(quoteNumber);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		pas730_commonChecks(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
+		compCollSymbolCheck_pas730(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
 
 	}
 
