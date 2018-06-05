@@ -16,6 +16,20 @@ public class TestInvoiceWithNoDownPayment extends TestInvoiceWithNoDownPaymentTe
         return PolicyType.HOME_CA_HO3;
     }
 
+    /**
+     * @author Josh Carpenter
+     * @name Test balance is invoiced as off cycle bill for CA HO3 policy when there is no future installment date on NB
+     * @scenario
+     * 1. Create new customer
+     * 2. Initiate CA HO3 policy and fill up to Purchase tab
+     * 3. Check option to change the minimum down payment, set to $10, and selection reason in drop down (first option)
+     * 4. Bind/purchase policy
+     * 5. Validate the min due is zero
+     * 6. Run offCycleBillingInvoiceAsyncJob
+     * 7. Refresh policy and navigate back to Billing Summary page
+     * 8. Validate the off cycle bill has been generated with correct amounts
+     * @details
+     */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = {"PAS-9001"})
@@ -25,6 +39,19 @@ public class TestInvoiceWithNoDownPayment extends TestInvoiceWithNoDownPaymentTe
 
     }
 
+	/**
+	 * @author Josh Carpenter
+	 * @name Test balance is invoiced as off cycle bill for CA HO3 policy when there is no future installment date for endorsements
+	 * @scenario
+	 * 1. Create new customer
+	 * 2. Create/bind CA HO3 policy (pay in full)
+	 * 3. Create/bind premium-bearing endorsement (decrease deductible) at eff. date plus 5 days
+	 * 4. Validate the min due is zero
+	 * 5. Run offCycleBillingInvoiceAsyncJob
+	 * 6. Refresh policy and navigate back to Billing Summary page
+	 * 7. Validate the off cycle bill has been generated with correct amounts
+	 * @details
+	 */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.HOME_CA_HO3, testCaseId = {"PAS-9001"})
