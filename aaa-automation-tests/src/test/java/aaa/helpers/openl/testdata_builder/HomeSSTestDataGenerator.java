@@ -866,11 +866,11 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			claimsDataList.add(DataProviderFactory.emptyData());
 		} else {
 			HomeSSClaimTestDataGenerator claimTestDataGenerator = new HomeSSClaimTestDataGenerator(openLPolicy);
-			if (aaaPoints != 0) {
+			if (aaaPoints > 0) {
 				claimsDataList.addAll(claimTestDataGenerator.getClaimTestData(true, isFirstClaim));
 				isFirstClaim = false;
 			}
-			if (notAAAPoints != 0) {
+			if (notAAAPoints > 0) {
 				claimsDataList.addAll(claimTestDataGenerator.getClaimTestData(false, isFirstClaim));
 			}
 		}
