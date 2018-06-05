@@ -1,4 +1,4 @@
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Scorpions Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <!-- Listener commented out for local runs-->
@@ -58,7 +58,6 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVINUpload">
                 <methods>
-                    <include name="pas6203_VinAndControlTablesUpload"/>
                     <include name="pas533_newVinAdded"/>
                     <include name="pas2714_Endorsement"/>
                     <include name="pas4253_restrictVehicleRefreshNB"/>
@@ -210,16 +209,6 @@
             </class>
         </classes>
     </test>
-    <test name="pas9064_MapCompAndCollSymbolsForDCS Select CA">
-        <parameter name="state" value="NY"/>
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.TestSymbolsPresenceApplicationFormForPremCalcQuote">
-                <methods>
-                    <include name="pas9064_MapCompAndCollSymbolsForDCS"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test name="pas12476_TestUpdatePayPlanRestrictions Auto SS DE">
         <parameter name="state" value="DE"/>
         <classes>
@@ -228,6 +217,16 @@
                     <include name="pas12476_TestUpdatePayPlanRestrictionsWhenCarrierIsYes"/>
                     <include name="pas12476_TestUpdatePayPlanRestrictionsWhenCarrierIsNO"/>
                     <include name="pas12476_TestUpdatePayPlanRestrictionsWhenBiLimitIsMoreThen50K"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas12879_EnsureStatCodeIsRrefreshed Auto SS ID">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestStatCodeRefresh">
+                <methods>
+                    <include name="pas12879_EnsureStatCodeIsRrefreshed"/>
                 </methods>
             </class>
         </classes>

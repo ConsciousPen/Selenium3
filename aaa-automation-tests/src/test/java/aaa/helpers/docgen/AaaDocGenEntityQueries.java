@@ -1,14 +1,15 @@
 package aaa.helpers.docgen;
 
 public interface AaaDocGenEntityQueries {
-    String GET_DOCUMENT_BY_EVENT_NAME = "select data from( " +
-            "select data from aaadocgenentity " +
-            "where 1=1 " +
-            "and data like '%%%s%%' " +
-            "and data like '%%%s%%' " +
-            "and eventname like '%s' " +
-            "order by creationdate desc) " +
-            "where rownum=1 ";
+    String GET_DOCUMENT_BY_EVENT_NAME = "select data from( \n"
+            + "    select data from aaadocgenentity doc, policysummary ps\n"
+            + "    where 1=1 \n"
+            + "    and ps.id = doc.entityid\n"
+            + "    and ps.policynumber = '%s'\n"
+            + "    and doc.data like '%%%s%%' \n"
+            + "    and doc.eventname like '%s' \n"
+            + "    order by doc.creationdate desc) \n"
+            + "where rownum=1 ";
 
     String GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME = "select count(*) from aaadocgenentity " +
             "where 1=1 " +

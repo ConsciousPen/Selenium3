@@ -1,10 +1,12 @@
 package aaa.modules.regression.conversions.pup.functional;
 
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.pup.defaulttabs.UnderwritingAndApprovalTab;
 import aaa.modules.regression.conversions.ConvPUPBaseTest;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -30,6 +32,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 public class TestPolicyRenewalManualEntryFieldsVerificationUWQuestions extends ConvPUPBaseTest {
 
     @Parameters({"state"})
+    @StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.MD,Constants.States.NJ, Constants.States.AZ, Constants.States.OR})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Conversions.PUP, testCaseId = "PAS-9525")
     public void PolicyRenewalActions(@Optional("NJ") String state) {

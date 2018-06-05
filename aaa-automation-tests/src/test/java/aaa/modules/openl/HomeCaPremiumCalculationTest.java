@@ -22,11 +22,12 @@ public class HomeCaPremiumCalculationTest<P extends HomeCaOpenLPolicy<?>, F exte
 		List<P> openLPolicies = super.getOpenLPoliciesWithExpectedPremiums(openLFile, policyNumbers);
 		for (P openLPolicy : openLPolicies) {
 			Dollar totalPremium =  openLPolicy.getExpectedPremium(); 
-			if (!getPolicyType().equals(PolicyType.HOME_CA_HO4)) {
-				double premiumLimit = openLPolicy.getForms().stream().filter(f -> "premium".equals(f.getFormCode())).findFirst()
-						.orElseThrow(() -> new IstfException("Policy does not have form with formCode=\"premium\"")).getLimit();
-				totalPremium = totalPremium.add(premiumLimit);
-			}
+			//Workaround for old excel files
+			//if (!getPolicyType().equals(PolicyType.HOME_CA_HO4)) {
+			//	double premiumLimit = openLPolicy.getForms().stream().filter(f -> "premium".equals(f.getFormCode())).findFirst()
+			//			.orElseThrow(() -> new IstfException("Policy does not have form with formCode=\"premium\"")).getLimit();
+			//	totalPremium = totalPremium.add(premiumLimit);
+			//}
 			openLPolicy.setExpectedPremium(totalPremium);
 		}
 		return openLPolicies;

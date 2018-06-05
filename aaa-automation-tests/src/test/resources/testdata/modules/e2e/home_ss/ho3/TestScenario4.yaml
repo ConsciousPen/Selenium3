@@ -24,7 +24,9 @@ TestData_Endorsement: {
     Coverage F - Medical Payments to Others: 'contains=$25,000'
   },
   MortgageesTab: {},
-  UnderwritingAndApprovalTab: {},
+  UnderwritingAndApprovalTab: {
+    'Underwriter-selected inspection type': Exterior
+  },
   DocumentsTab: {},
   BindTab: {},
 }

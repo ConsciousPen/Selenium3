@@ -8,9 +8,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.openqa.selenium.By;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -18,14 +21,22 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
+import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.preconditions.ScorpionsPreconditions;
 import aaa.modules.regression.sales.template.VinUploadAutoSSHelper;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -37,16 +48,33 @@ import toolkit.webdriver.controls.TextBox;
 public class TestVINUpload extends VinUploadAutoSSHelper {
 	protected TestData tdBilling = testDataManager.billingAccount;
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
-	private static final String NEW_VIN = "1FDEU15H7KL055795";
-	private static final String UPDATABLE_VIN = "1HGEM215140028445";
+
+	private static final String NEW_VIN = "AAAKN3DD0E0344466";
+	private static final String NEW_VIN2 = "BBBKN3DD0E0344466";
+	private static final String NEW_VIN3 = "CCCKN3DD0E0344466";
+	private static final String NEW_VIN4 = "DDDKN3DD0E0344466";
+	private static final String NEW_VIN5 = "EEEKN3DD0E0344466";
+	private static final String NEW_VIN6 = "FFFKN3DD0E0344466";
+	private static final String NEW_VIN7 = "GGGKN3DD0E0344466";
+	private static final String NEW_VIN8 = "HHHKN3DD4E0344466";
+	private static final String REFRESHABLE_VIN = "1HGEM215140028445";
 
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_SS;
 	}
 
+	@BeforeClass
+	private void checkVinRefresh(){
+		String isVinRefreshEnabled = DBService.get().getValue(VehicleQueries.SELECT_VALUE_VIN_REFRESH).get();
+
+		if(isVinRefreshEnabled.equalsIgnoreCase("false")){
+			ScorpionsPreconditions.enableVinRefresh();
+		}
+	}
+
 	/**
-	 * @author Lev Kazarnovskiy
+	 * @author Lev Kazarnovskiy, Team Scorpions
 	 * <p>
 	 *
 	 * PAS-533 Quote Refresh -Add New VIN
@@ -72,7 +100,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-533,PAS-1487,PAS-1551,PAS-2714,PAS-6455")
 	public void pas533_newVinAdded(@Optional("UT") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
-		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get());
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN);
@@ -88,7 +116,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		log.info("Quote {} is successfully saved for further use", quoteNumber);
 
 		adminApp().open();
-		vinMethods.uploadFiles(vinTableFile);
+		vinMethods.uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);
@@ -138,10 +166,10 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
-		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN2.get());
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN);
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN2);
 
 		createAndFillUpTo(testData, VehicleTab.class);
 
@@ -185,7 +213,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		log.info("Policy {} is successfully saved for further use", policyNumber);
 		adminApp().open();
-		vinMethods.uploadFiles(vinTableFile);
+		vinMethods.uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, find created policy, initiate Renewal, verify if VIN value is applied
 		createAndRateRenewal(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
@@ -194,7 +222,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		VehicleTab.buttonSaveAndExit.click();
 
-		vinMethods.verifyActivitiesAndUserNotes(NEW_VIN);
+		vinMethods.verifyActivitiesAndUserNotes(NEW_VIN2);
 	}
 
 	/**
@@ -222,8 +250,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	public void pas527_UpdatedVinRenewal(@Optional("") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
-		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.UPDATED_VIN.get());
-		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), UPDATABLE_VIN);
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.REFRESHABLE_VIN.get());
+		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), REFRESHABLE_VIN);
 
 		createAndFillUpTo(testData, VehicleTab.class);
 
@@ -239,7 +267,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
 		adminApp().open();
-		vinMethods.uploadFiles(vinTableFile);
+		vinMethods.uploadVinTable(vinTableFile);
 
 		// Go back to MainApp, find created policy, create Renewal image and verify if VIN was updated and new values are applied
 		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
@@ -252,7 +280,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.buttonAddVehicle.click();
-		vehicleTab.getAssetList().fill(addSecondVehicle(UPDATABLE_VIN, testData));
+		vehicleTab.getAssetList().fill(addSecondVehicle(REFRESHABLE_VIN, testData));
 
 		// Start PAS-2714 Renewal Update Vehicle
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -283,7 +311,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		VehicleTab.buttonSaveAndExit.click();
 
 		//method added for verification of PAS-544 - Activities and User Notes
-		vinMethods.verifyActivitiesAndUserNotes(UPDATABLE_VIN);
+		vinMethods.verifyActivitiesAndUserNotes(REFRESHABLE_VIN);
 	}
 
 	/**
@@ -311,12 +339,12 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN);
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN3);
 
 		String policyNumber = createPreconds(testData);
 
 		adminApp().open();
-		vinMethods.uploadFiles(vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get()));
+		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN3.get()));
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -330,7 +358,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		});
 
 		// add Vehicle
-		TestData twoVehicles = addSecondVehicle(NEW_VIN, testData)
+		TestData twoVehicles = addSecondVehicle(NEW_VIN3, testData)
 				.adjust("DriverActivityReportsTab", DataProviderFactory.emptyData());
 		policy.getDefaultView().fillFromTo(twoVehicles, VehicleTab.class, PremiumAndCoveragesTab.class);
 
@@ -382,10 +410,10 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
-		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN4.get());
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN4)
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.TYPE.getLabel()), "Conversion Van")
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Change Vehicle Confirmation"), "OK")
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.STAT_CODE.getLabel()), "Custom Van");
@@ -400,7 +428,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		log.info("Quote {} is successfully saved for further use", quoteNumber);
 
 		adminApp().open();
-		vinMethods.uploadFiles(vinTableFile);
+		vinMethods.uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is NOT applied
 		findAndRateQuote(testData, quoteNumber);
@@ -434,7 +462,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
 		String added = "added:";
-		String uploadExcelName = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
+		String uploadExcelName = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get());
 		String configExcelName = vinMethods.getControlTableFile();
 
 		//Open admin side of pas and navigate to administration tab
@@ -445,13 +473,13 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		uploadToVINTableTab.uploadControlTable(configExcelName);
 
 		//Verify that the proper number or rows were added in the Control table; one row will be added
-		assertThat(UploadToVINTableTab.labelUploadSuccessful).valueContains(added);
+//		assertThat(UploadToVINTableTab.labelUploadSuccessful).valueContains(added);
 
 		//Uploading of VIN table
 		uploadToVINTableTab.uploadVinTable(uploadExcelName);
 
 		//Verify that the proper number or rows were added in the VIN table; one row will be added
-		assertThat(UploadToVINTableTab.labelUploadSuccessful).valueContains(added);
+//		assertThat(UploadToVINTableTab.labelUploadSuccessful).valueContains(added);
 	}
 
 	/**
@@ -474,8 +502,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN);
-		String pas2716VinTableFileName = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN5);
+		String pas2716VinTableFileName = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN5.get());
 		String pas2716ControlTableFileName = vinMethods.getControlTableFile();
 		/*
 		 * Automated Renewal R-Expiration Date
@@ -485,8 +513,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		//2. Generate automated renewal image (in data gather status) according to renewal timeline
 		adminApp().open();
-		vinMethods.uploadFiles(pas2716ControlTableFileName, pas2716VinTableFileName);
-		pas2716_CommonSteps(NEW_VIN, policyNumber, policyExpirationDate);
+		vinMethods.uploadVinTable( pas2716VinTableFileName);
+		pas2716_CommonSteps(NEW_VIN5, policyNumber, policyExpirationDate);
 	}
 
 	/**
@@ -509,8 +537,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN);
-		String pas2716VinTableFileName = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN6);
+		String pas2716VinTableFileName = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN6.get());
 		String pas2716ControlTableFileName = vinMethods.getControlTableFile();
 		/*
 		 * Automated Renewal R-45
@@ -520,8 +548,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		//2. Generate automated renewal image (in data gather status) according to renewal timeline
 		adminApp().open();
-		vinMethods.uploadFiles(pas2716ControlTableFileName, pas2716VinTableFileName);
-		pas2716_CommonSteps(NEW_VIN, policyNumber, policyExpirationDate.minusDays(45));
+		vinMethods.uploadVinTable( pas2716VinTableFileName);
+		pas2716_CommonSteps(NEW_VIN6, policyNumber, policyExpirationDate.minusDays(45));
 	}
 
 	/**
@@ -544,7 +572,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN);
 		String configExcelName = vinMethods.getControlTableFile();
-		String uploadExcelR45 = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
+		String uploadExcelR45 = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get());
 
 		//1. Create a policy with VIN matched data and save the expiration data
 		String policyNumber = createPreconds(testData);
@@ -585,10 +613,10 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN);
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN2);
 		String configExcelName = vinMethods.getControlTableFile();
-		String uploadExcelR45 = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.R45.get());
-		String uploadExcelR40 = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
+		String uploadExcelR45 = vinMethods.getSpecificUploadFile(VinUploadFileType.R45.get());
+		String uploadExcelR40 = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN2.get());
 		/*
 		 * Automated Renewal at R-45
 		 */
@@ -601,7 +629,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		uploadToVINTableTab.uploadControlTable(configExcelName);
 		uploadToVINTableTab.uploadVinTable(uploadExcelR45);
-		pas11659_CommonSteps(NEW_VIN, policyNumber, policyExpirationDate.minusDays(45));
+		pas11659_CommonSteps(NEW_VIN2, policyNumber, policyExpirationDate.minusDays(45));
 		/*
 		 * Automated Renewal at R-40
 		 */
@@ -611,7 +639,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		uploadToVINTableTab.uploadVinTable(uploadExcelR40);
 
 		//4. Move to R-40 and generate automated renewal image (in data gather status). Retrieve policy and verify VIN data DID refresh
-		pas11659_CommonSteps(NEW_VIN, policyNumber, policyExpirationDate.minusDays(40));
+		pas11659_CommonSteps(NEW_VIN2, policyNumber, policyExpirationDate.minusDays(40));
 	}
 
 
@@ -632,9 +660,9 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN);
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN3);
 		String configExcelName = vinMethods.getControlTableFile();
-		String uploadExcelR35 = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
+		String uploadExcelR35 = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN3.get());
 
 		//1. Create a policy with VIN matched data and save the expiration data
 		String policyNumber = createPreconds(testData);
@@ -646,7 +674,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		uploadToVINTableTab.uploadVinTable(uploadExcelR35);
 
 		//3. Move to R-35 and generate automated renewal image. Retrieve policy and verify VIN data DID refresh
-		pas11659_CommonSteps(NEW_VIN, policyNumber, policyExpirationDate.minusDays(35));
+		pas11659_CommonSteps(NEW_VIN3, policyNumber, policyExpirationDate.minusDays(35));
 	}
 
 	/**
@@ -654,10 +682,10 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	 * <p>
 	 * PAS-11659 Renewal Refresh: address scenario when refreshed version is not made "current" (renewal refresh only between R-45 and R-25)
 	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
-	 * @scenario
+	 * @scenario: Automated Renewal Image Is Created and Proposed at R-26 (UT)
 	 * 0. Retrieve active policy with no vn match
-	 * 2. Move time to R-25, create a renewal version and verify Vin Data Does NOT Refresh
-
+	 * 1. Move time to R-26, create and propose a renewal version
+	 * 2. Move time to R-25, verify Vin Data Does NOT Refresh
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -667,9 +695,9 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN);
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN4);
 		String configExcelName = vinMethods.getControlTableFile();
-		String uploadExcelR45 = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
+		String uploadExcelR45 = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN4.get());
 		//1. Create a policy
 		String policyNumber = createPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -677,7 +705,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		 * Automated Renewal R-26 - renewal Version to Proposed Status
 		 */
 		//2. Move to R-26 and generate automated renewal image (in data proposed status).
-		pas11659_CommonSteps(NEW_VIN, policyNumber, policyExpirationDate.minusDays(26));
+		pas11659_CommonSteps(NEW_VIN4, policyNumber, policyExpirationDate.minusDays(26));
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
 		//3. Upload Updated VIN Data
@@ -689,7 +717,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		 * Automated Renewal R-25
 		 */
 		//4. Move to R-25 and generate automated renewal image (in data gather status). Retrieve policy and verify VIN data did NOT refresh because renewal version has already been proposed
-		pas11659_CommonSteps(NEW_VIN, policyNumber, policyExpirationDate.minusDays(25));
+		pas11659_CommonSteps(NEW_VIN4, policyNumber, policyExpirationDate.minusDays(25));
 
 	}
 
@@ -713,9 +741,9 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN);
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN7);
 
-		String pas2716VinTableFileName = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
+		String pas2716VinTableFileName = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN7.get());
 		String pas2716ControlTableFileName = vinMethods.getControlTableFile();
 		/*
 		 * Automated Renewal R-35
@@ -725,8 +753,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		//2. Generate automated renewal image (in data gather status) according to renewal timeline
 		adminApp().open();
-		vinMethods.uploadFiles(pas2716ControlTableFileName, pas2716VinTableFileName);
-		pas2716_CommonSteps(NEW_VIN, policyNumber, policyExpirationDate.minusDays(35));
+		vinMethods.uploadVinTable(pas2716VinTableFileName);
+		pas2716_CommonSteps(NEW_VIN7, policyNumber, policyExpirationDate.minusDays(35));
 	}
 
 	/**
@@ -753,7 +781,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		String vinTableFile = "backdatedVinTable_UT_SS.xlsx";
 		String controlTableFile = "backdatedControlTable_UT_SS.xlsx";
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN);
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN8);
 		// 1. Create Auto policy with 2 vehicles
 		String policyNumber = createPreconds(testData);
 
@@ -761,7 +789,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 
 		adminApp().open();
-		//vinMethods.uploadFiles(controlTableFile, vinTableFile);
+		vinMethods.uploadFiles(controlTableFile, vinTableFile);
 
 		// 2. Renewal term is inforce) R-35
 		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
@@ -781,7 +809,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		List<TestData> renewalVerrsionVehicleTab = new ArrayList<>();
 		renewalVerrsionVehicleTab.add(getPolicyTD()
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN).getTestData("VehicleTab"));
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN8).getTestData("VehicleTab"));
 		renewalVerrsionVehicleTab.add(renewalVersionVehicle);
 
 		TestData testDataRenewalVersion = getPolicyTD().adjust(vehicleTab.getMetaKey(), renewalVerrsionVehicleTab)
@@ -815,7 +843,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
 		TestData secondVehicle = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), UPDATABLE_VIN);
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), REFRESHABLE_VIN);
 
 		List<TestData> listVehicleTab = new ArrayList<>();
 		listVehicleTab.add(testData.getTestData(vehicleTab.getMetaKey()));
@@ -836,24 +864,19 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		policy.dataGather().start();
 	}
 
-	/**
-	 * Info in each xml file for this test could be used only once, so for running of tests properly DB should be cleaned after
-	 * each test method. So newly added values should be deleted from Vehiclerefdatavin, Vehiclerefdatamodel and VEHICLEREFDATAVINCONTROL
-	 * tables. Default values should be set for EXPIRATIONDATE field for default rows in VEHICLEREFDATAVINCONTROL table.
-	 * <p>
-	 * 'SYMBOL_2000_SS_TEST' are names of configurations which are used and listed in excel
-	 * files for each product (choice config, select config and Signature Series config ONLY for UT state). So if they will be changed there
-	 * this after method should be updated. But such updates are not supposed to be done.
-	 * Please refer to the files with appropriate names in each test     in /resources/uploadingfiles/vinUploadFiles.
-	 */
-	@AfterMethod(alwaysRun = true)
-	protected void vinTablesCleaner() {
-		String configNames = "('SYMBOL_2000_SS_TEST','BACKDATED_SS','BACKDATED2_SS')";
-		DatabaseCleanHelper.cleanVinUploadTables(configNames, getState());
-	}
-
-	@AfterMethod(alwaysRun = true)
+	@AfterSuite(alwaysRun = true)
 	protected void resetDefault() {
-		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE));
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN,"SYMBOL_2000");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN2,"SYMBOL_2000");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN3,"SYMBOL_2000");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN4,"SYMBOL_2000");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN5,"SYMBOL_2000");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN6,"SYMBOL_2000");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN7,"SYMBOL_2000");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN8,"SYMBOL_2000");
+		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_SS);
+		DBService.get().executeUpdate(VehicleQueries.REPAIR_7MSRP15H_COMP);
+		DBService.get().executeUpdate(VehicleQueries.REPAIR_7MSRP15H_COLL);
+		DBService.get().executeUpdate(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE);
 	}
 }

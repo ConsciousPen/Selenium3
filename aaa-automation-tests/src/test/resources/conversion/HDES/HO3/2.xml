@@ -301,14 +301,14 @@
     <HO90EndorsementForm state="Created"></HO90EndorsementForm>
   </AAAHOPolicy>
   <userNote>
-    <category>Other</category>
+    <category>OTHER</category>
     <confidential>false</confidential>
     <title>Conversion: HO-299 applies</title>
     <updatedOn>2017-12-08T00:00:00</updatedOn>
     <userText>HO-299 was listed on the HDES policy at time of conversion, but the details were not converted to PAS.  Refer to Fastlane for details. HO-299 could include any of the following: 1. Chattel Mortgagee (give name, address, loan # and what the chattel is for) 2. Third, fourth, fifth Mortgagee, etc. 3. Cal Vet financed insureds 4. Animal and watercraft liability (HO 75) exclusions. 5. Named Insureds, Additional Insureds (HO 41) and Mortgagees whose names are too long. 6. Berth, slip or buoy endorsement for HO3 and HO4</userText>
   </userNote>
   <userNote>
-    <category>Other</category>
+    <category>OTHER</category>
     <confidential>false</confidential>
     <title>Conversion: Mailing address validated and standardized</title>
     <updatedOn>2017-12-08T00:00:00</updatedOn>

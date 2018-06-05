@@ -1,5 +1,6 @@
 package aaa.modules.regression.conversions.home_ss.ho4.functional;
 
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -10,6 +11,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.modules.policy.HomeSSHO4BaseTest;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -22,6 +24,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestPolicyRenewalManualEntryValidateInsuranceScoreReport extends HomeSSHO4BaseTest {
     @Parameters({"state"})
+    @StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.NJ})
     @Test(groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO4, testCaseId = "PAS-6663")
     public void testPolicyRenewalValidateOrderInsuranceScoreNoErrorFires(@Optional("VA") String state) {
@@ -52,6 +55,7 @@ public class TestPolicyRenewalManualEntryValidateInsuranceScoreReport extends Ho
     }
 
     @Parameters({"state"})
+    @StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.NJ})
     @Test(groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO4, testCaseId = "PAS-6663")
     public void testPolicyRenewalValidateOverrideingReportDoesNotThrowError(@Optional("VA") String state) {

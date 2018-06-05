@@ -3,6 +3,7 @@ TestData_DriverTab: {
   DriverTab: ['@Driver2','@Driver3','@Driver4']
 }
 
+  ######  For exceeding OK threshold you need a driver age x < 27y , driving exp  5< y <15 , male, single. Driver 1 and Driver 4 meets criteria
 Driver2: {
   Add Driver: Click,
   DriverSearchDialog:{},
@@ -10,7 +11,7 @@ Driver2: {
   Last Name: LastName1,
   'Rel. to First Named Insured': Sibling,
   Date of Birth: $<today-84y>,
-  Gender: Male,
+  Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,
   License Type: "Licensed (US)",
@@ -26,7 +27,7 @@ Driver3: {
   Last Name: LastName3,
   'Rel. to First Named Insured': Sibling,
   Date of Birth: $<today-84y>,
-  Gender: Male,
+  Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,
   License Type: "Licensed (US)",
@@ -41,9 +42,9 @@ Driver4: {
   First Name: Woman4,
   Last Name: LastName3,
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-50y>,
+  Date of Birth: $<today-26y>,
   Gender: Male,
-  Marital Status: Married,
+  Marital Status: Single,
   Occupation: Clergy,
   License Type: "Licensed (US)",
   License State: CT,
@@ -51,32 +52,6 @@ Driver4: {
   Age First Licensed: 18
 }
 
-############### 4 Vehicles
-
-TestData_VehicleTab: {
-VehicleTab: ['@Vehicle2','@Vehicle3','@Vehicle4']
-}
-
-Vehicle2: {
-  Add Vehicle: Click,
-  Type: 'Private Passenger Auto',
-  Usage: Pleasure,
-  VIN: JTHBD192020038546,
-}
-
-Vehicle3: {
-  Add Vehicle: Click,
-  Type: 'Private Passenger Auto',
-  Usage: Pleasure,
-  VIN: 2B4GH25K9SR379826,
-}
-
-Vehicle4: {
-  Add Vehicle: Click,
-  Type: 'Private Passenger Auto',
-  Usage: Pleasure,
-  VIN: 2T2HA31U44C025848,
-}
 
 ############### Drivers With Violations
 
@@ -91,7 +66,7 @@ Driver2v: {
   Last Name: LastName1,
   'Rel. to First Named Insured': Sibling,
   Date of Birth: $<today-84y>,
-  Gender: Male,
+  Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,
   License Type: "Licensed (US)",
@@ -113,7 +88,7 @@ Driver3v: {
   Last Name: LastName3,
   'Rel. to First Named Insured': Sibling,
   Date of Birth: $<today-84y>,
-  Gender: Male,
+  Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,
   License Type: "Licensed (US)",
@@ -135,7 +110,7 @@ Driver4v: {
   Last Name: LastName4,
   'Rel. to First Named Insured': Sibling,
   Date of Birth: $<today-84y>,
-  Gender: Male,
+  Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,
   License Type: "Licensed (US)",
@@ -157,7 +132,7 @@ Driver5v: {
   Last Name: LastName5,
   'Rel. to First Named Insured': Sibling,
   Date of Birth: $<today-84y>,
-  Gender: Male,
+  Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,
   License Type: "Licensed (US)",
@@ -179,7 +154,7 @@ Driver6v: {
   Last Name: LastName6,
   'Rel. to First Named Insured': Sibling,
   Date of Birth: $<today-84y>,
-  Gender: Male,
+  Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,
   License Type: "Licensed (US)",
@@ -207,7 +182,7 @@ Driver2a: {
   Last Name: LastName1,
   'Rel. to First Named Insured': Sibling,
   Date of Birth: $<today-84y>,
-  Gender: Male,
+  Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,
   License Type: "Licensed (US)",
@@ -230,7 +205,7 @@ Driver3a: {
   Last Name: LastName3,
   'Rel. to First Named Insured': Sibling,
   Date of Birth: $<today-84y>,
-  Gender: Male,
+  Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,
   License Type: "Licensed (US)",
@@ -254,7 +229,7 @@ Driver4a: {
   Last Name: LastName3,
   'Rel. to First Named Insured': Sibling,
   Date of Birth: $<today-84y>,
-  Gender: Male,
+  Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,
   License Type: "Licensed (US)",
@@ -276,7 +251,7 @@ Driver5a: {
   Last Name: LastName1,
   'Rel. to First Named Insured': Sibling,
   Date of Birth: $<today-84y>,
-  Gender: Male,
+  Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,
   License Type: "Licensed (US)",
@@ -298,7 +273,7 @@ Driver6a: {
   Last Name: LastName6,
   'Rel. to First Named Insured': Sibling,
   Date of Birth: $<today-84y>,
-  Gender: Male,
+  Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,
   License Type: "Licensed (US)",
@@ -312,94 +287,4 @@ Driver6a: {
        Occurrence Date: '$<today-1d:MM/dd/yyyy>',
        Loss Payment Amount: 10000
       }
-}
-
-############### Drivers With Accidents
-
-TestData_DriverTabGSD: {
-  DriverTab: ['@Driver2GSD','@Driver3GSD','@Driver4GSD','@Driver5GSD','@Driver6GSD']
-}
-
-Driver2GSD: {
-  Add Driver: Click,
-  DriverSearchDialog:{},
-  First Name: Driver2,
-  Last Name: LastName2,
-  'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-20y>,
-  Gender: Male,
-  Marital Status: Single,
-  Occupation: Student,
-  License Type: "Licensed (US)",
-  License State: CT,
-  License Number: 156773406,
-  Age First Licensed: 18,
-  Most Recent GPA: 'C or Below Student'
-}
-
-Driver3GSD: {
-  Add Driver: Click,
-  DriverSearchDialog:{},
-  First Name: Driver3,
-  Last Name: LastName3,
-  'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-20y>,
-  Gender: Male,
-  Marital Status: Divorced,
-  Occupation: Clergy,
-  License Type: "Licensed (US)",
-  License State: CT,
-  License Number: 156773403,
-  Age First Licensed: 18,
-  Most Recent GPA: 'A Student'
-}
-
-Driver4GSD: {
-  Add Driver: Click,
-  DriverSearchDialog:{},
-  First Name: Driver4,
-  Last Name: LastName4,
-  'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-20y>,
-  Gender: Male,
-  Marital Status: Married,
-  Occupation: Student,
-  License Type: "Licensed (US)",
-  License State: CT,
-  License Number: 156773404,
-  Age First Licensed: 18
-}
-
-Driver5GSD: {
-  Add Driver: Click,
-  DriverSearchDialog:{},
-  First Name: Driver5,
-  Last Name: LastName5,
-  'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-30y>,
-  Gender: Male,
-  Marital Status: Single,
-  Occupation: Student,
-  License Type: "Licensed (US)",
-  License State: CT,
-  License Number: 156773405,
-  Age First Licensed: 18
-}
-
-Driver6GSD: {
-  Add Driver: Click,
-  DriverSearchDialog:{},
-  Driver Type: 'Not Available for Rating',
-  Reason: index=1,
-  First Name: Driver6,
-  Last Name: LastName6,
-  'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-20y>,
-  Gender: Male,
-  Marital Status: Separated,
-  Occupation: Student,
-  License Type: "Licensed (US)",
-  License State: CT,
-  License Number: 156773402,
-  Age First Licensed: 18
 }

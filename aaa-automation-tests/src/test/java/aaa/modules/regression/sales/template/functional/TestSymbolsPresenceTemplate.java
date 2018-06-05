@@ -86,13 +86,13 @@ public class TestSymbolsPresenceTemplate extends PolicyBaseTest {
 			assertSoftly(softly -> softly.assertThat(actualNode).isNotEqualTo(new DataElementChoice().setTextField("N/A")).isNotNull());
 			// End PAS-2713 Scenario 1: all states except CA/NY  stat code != N/A
 
-			// Start Check that changes doesn't affect CA PAS-532
+			// Start Check from PAS-9064 that added the comp and coll symbols to the dec page, as such it will now check those values are populated
 			List<DocumentDataSection> compDmgSymbl = DocGenHelper.getDocumentDataElemByName("CompDmgSymbl", docID, query);
-			assertSoftly(softly -> softly.assertThat(compDmgSymbl).isNullOrEmpty());
+			assertSoftly(softly -> softly.assertThat(compDmgSymbl).isNotEmpty().isNotNull());
 
 			List<DocumentDataSection> collDmgSymbl = DocGenHelper.getDocumentDataElemByName("CollDmgSymbl", docID, query);
-			assertSoftly(softly -> softly.assertThat(collDmgSymbl).isNullOrEmpty());
-			// End Check that changes doesn't affect CA PAS-532
+			assertSoftly(softly -> softly.assertThat(collDmgSymbl).isNotEmpty().isNotNull());
+			// End Check from PAS-9064 that added the comp and coll symbols to the dec page, as such it will now check those values are populated
 		});
 	}
 
@@ -131,7 +131,8 @@ public class TestSymbolsPresenceTemplate extends PolicyBaseTest {
 	}
 
 	private void verifyCompCollSymbolsPresence(String query, DocGenEnum.Documents docID) {
-		Arrays.asList("CompDmgSymbl", "CollDmgSymbl", "VehSym").forEach(v ->
+		//PAS-9365 Added few more liability symbols to check in the xml document generated
+		Arrays.asList("CompDmgSymbl", "CollDmgSymbl", "VehSym", "VehStAbrv", "BdyInjSymbl", "MPSymbl", "PdSymbl", "UmSymbl").forEach(v ->
 				assertThat(DocGenHelper.getDocumentDataElemByName(v, docID, query)).isNotEmpty().isNotNull());
 	}
 

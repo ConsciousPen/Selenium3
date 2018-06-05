@@ -5,6 +5,7 @@ package aaa.modules.regression.sales.home_ss.dp3.functional;
 import static aaa.common.enums.NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES;
 import static aaa.common.enums.NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE;
 import static org.assertj.core.api.Assertions.assertThat;
+import aaa.common.enums.Constants;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -17,6 +18,7 @@ import aaa.modules.policy.HomeSSDP3BaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -35,6 +37,7 @@ public class TestRenovationDiscounts extends HomeSSDP3BaseTest {
 	 * 4. Calculate Premium and Check that the discount is applied
 	 * @details
 	 */
+	@StateList(states = Constants.States.KS)
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-4317")
