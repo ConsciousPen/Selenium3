@@ -25,7 +25,6 @@ import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
@@ -41,7 +40,6 @@ import toolkit.webdriver.controls.CheckBox;
 @StateList(states = Constants.States.MD)
 public class TestEUIMForms extends AutoSSBaseTest {
 
-	private GenerateOnDemandDocumentActionTab generateOnDemandDocumentActionTab = new GenerateOnDemandDocumentActionTab();
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private FormsTab formsTab = new FormsTab();
 	private CheckBox enhancedUIM = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UIM);
