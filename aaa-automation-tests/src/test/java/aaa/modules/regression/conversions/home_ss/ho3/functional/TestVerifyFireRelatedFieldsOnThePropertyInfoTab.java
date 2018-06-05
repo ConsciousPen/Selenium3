@@ -112,7 +112,7 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSHO3Ba
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-10703")
-	public void testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal(@Optional("DE") String state) {
+	public void testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal(@Optional("NJ") String state) {
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -149,6 +149,10 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSHO3Ba
 
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber);
+
+		if (PolicySummaryPage.tableRenewals.isPresent()) {
+			SearchPage.openBilling(policyNumber);
+		}
 		Dollar totDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies
 				.getRow(BillingConstants.BillingAccountPoliciesTable.POLICY_NUM, policyNumber)
 				.getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue());

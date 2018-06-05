@@ -8,6 +8,7 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
+import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -15,6 +16,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSDP3BaseTest;
+import aaa.soap.aaaCSPolicyRate.com.exigenservices.Policy;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
@@ -24,6 +26,7 @@ import toolkit.utils.TestInfo;
 
 import java.time.LocalDateTime;
 
+import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.STATUS;
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSDP3BaseTest {
@@ -112,7 +115,7 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSDP3Ba
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_DP3, testCaseId = "PAS-10703")
-	public void testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal(@Optional("AZ") String state) {
+	public void testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal(@Optional("MD") String state) {
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -149,6 +152,9 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSDP3Ba
 
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber);
+	if (PolicySummaryPage.tableRenewals.isPresent()) {
+		SearchPage.openBilling(policyNumber);
+	}
 		Dollar totDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies
 				.getRow(BillingConstants.BillingAccountPoliciesTable.POLICY_NUM, policyNumber)
 				.getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue());
