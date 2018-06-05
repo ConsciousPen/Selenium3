@@ -273,24 +273,4 @@
         </classes>
     </test>
 
-    <test name="Test Invoices With No Down Payment for SS Home">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestInvoiceWithNoDownPayment"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestInvoiceWithNoDownPayment"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestInvoiceWithNoDownPayment"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestInvoiceWithNoDownPayment"/>
-        </classes>
-    </test>
-
-    <test name="Test Invoices With No Down Payment for CA Home">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestInvoiceWithNoDownPayment"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestInvoiceWithNoDownPayment"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestInvoiceWithNoDownPayment"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestInvoiceWithNoDownPayment"/>
-        </classes>
-    </test>
-
 </suite>
