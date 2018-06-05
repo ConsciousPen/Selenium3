@@ -4239,6 +4239,20 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(errorResponse2.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.DUPLICATE_VIN.getMessage());
 			softly.assertThat(errorResponse2.errors.get(0).field).isEqualTo("vehIdentificationNo");
 		});
+
+		//Start PAS-11005
+		String purchaseDate3 = "2015-02-11";
+		String vin3 = "ZFFCW56A830133118";
+
+		//try add to expensive vehicle
+		ErrorResponseDto errorResponse3 = HelperCommon.viewAddVehicleServiceErrors(policyNumber, purchaseDate3, vin3);
+		assertSoftly(softly -> {
+			softly.assertThat(errorResponse3.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+			softly.assertThat(errorResponse3.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+			softly.assertThat(errorResponse3.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.TOO_EXPENSIVE_VEHICLE.getCode());
+			softly.assertThat(errorResponse3.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.TOO_EXPENSIVE_VEHICLE.getMessage());
+			softly.assertThat(errorResponse3.errors.get(0).field).isEqualTo("vehIdentificationNo");
+		});
 }
 
 	protected void pas12407_bigDataService(SoftAssertions softly) {

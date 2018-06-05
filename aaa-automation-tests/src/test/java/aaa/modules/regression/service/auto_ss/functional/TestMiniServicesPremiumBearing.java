@@ -1120,10 +1120,13 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 * 5. Add new vehicle with new VIN. Check the status.
 	 * 6. Try add the same vehicle one more time.
 	 * 7. Check if error is displaying.
+	 * Start PAS-11005
+	 * 8. Try add to expensive vehicle.
+	 * 9. Check if error is displaying.
 	 */
 		@Parameters({"state"})
 		@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-		@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-502"})
+		@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-502", "PAS-11005"})
 		public void pas502_DuplicateVinAddVehicleService(@Optional("VA") String state) {
 
 			pas502_CheckDuplicateVinAddVehicleService(getPolicyType());
