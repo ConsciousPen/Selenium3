@@ -1111,6 +1111,25 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	}
 
 	/**
+	 * @author Jovita Pukenaite
+	 * @name Check Duplicate VINS and the Add Vehicle Service
+	 * @scenario 1. Create policy with Two vehicles.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Try Add Vehicle with the same VIN witch already exist in the policy.
+	 * 4. Check Error about duplicate VIN.
+	 * 5. Add new vehicle with new VIN. Check the status.
+	 * 6. Try add the same vehicle one more time.
+	 * 7. Check if error is displaying.
+	 */
+		@Parameters({"state"})
+		@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+		@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-502"})
+		public void pas502_DuplicateVinAddVehicleService(@Optional("VA") String state) {
+
+			pas502_CheckDuplicateVinAddVehicleService(getPolicyType());
+		}
+
+	/**
 	 * @author Oleg Stasyuk
 	 * @name Validation of E2E flow in DXP
 	 * @scenario 1. Create a policy

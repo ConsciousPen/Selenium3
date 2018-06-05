@@ -2905,7 +2905,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(6).customerDisplayed).isEqualTo(false);
 
 		});
-
 	}
 
 	protected void pas13353_LoanLeaseCoverage(PolicyType policyType) {
@@ -4199,6 +4198,48 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		SearchPage.openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 	}
+
+	protected void pas502_CheckDuplicateVinAddVehicleService(PolicyType policyType) {
+		mainApp().open();
+		createCustomerIndividual();
+		createPolicy();
+
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		TestData vehicleData = new TestDataManager().policy.get(policyType);
+
+		//Create a pended Endorsement
+		AAAEndorseResponse endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
+
+		//add vehicle
+		String purchaseDate1 = "2012-02-21";
+		String vin1 = getStateTestData(vehicleData, "DataGather", "TestData").getTestDataList("VehicleTab").get(0).getValue("VIN");
+
+		ErrorResponseDto errorResponse = HelperCommon.viewAddVehicleServiceErrors(policyNumber, purchaseDate1, vin1);
+		assertSoftly(softly -> {
+			softly.assertThat(errorResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+			softly.assertThat(errorResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+			softly.assertThat(errorResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.DUPLICATE_VIN.getCode());
+			softly.assertThat(errorResponse.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.DUPLICATE_VIN.getMessage());
+			softly.assertThat(errorResponse.errors.get(0).field).isEqualTo("vehIdentificationNo");
+	});
+		String purchaseDate2 = "2015-02-11";
+		String vin2 = "9BWFL61J244023215";
+
+		//add vehicle
+		Vehicle responseAddVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate2, vin2);
+		assertThat(responseAddVehicle.oid).isNotEmpty();
+
+		//try add the same vehicle one more time
+		ErrorResponseDto errorResponse2 = HelperCommon.viewAddVehicleServiceErrors(policyNumber, purchaseDate2, vin2);
+		assertSoftly(softly -> {
+			softly.assertThat(errorResponse2.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+			softly.assertThat(errorResponse2.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+			softly.assertThat(errorResponse2.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.DUPLICATE_VIN.getCode());
+			softly.assertThat(errorResponse2.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.DUPLICATE_VIN.getMessage());
+			softly.assertThat(errorResponse2.errors.get(0).field).isEqualTo("vehIdentificationNo");
+		});
+}
 
 	protected void pas12407_bigDataService(SoftAssertions softly) {
 		mainApp().open();

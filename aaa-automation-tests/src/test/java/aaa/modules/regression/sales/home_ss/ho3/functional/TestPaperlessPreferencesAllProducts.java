@@ -60,7 +60,6 @@ public class TestPaperlessPreferencesAllProducts extends TestPaperlessPreference
 				.adjust(TestData.makeKeyPath("GeneralTab", HomeSSMetaData.GeneralTab.PROPERTY_INSURANCE_BASE_DATE_WITH_CSAA_IG.getLabel()), "$<today-25d:MM/dd/yyyy>")
 				.adjust(HomeSSMetaData.ErrorTab.class.getSimpleName(), tdError);
 
-
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(tdHome);
