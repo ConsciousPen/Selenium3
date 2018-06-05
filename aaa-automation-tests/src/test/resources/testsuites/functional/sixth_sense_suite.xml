@@ -151,26 +151,6 @@
         </classes>
     </test>
 
-    <test name="Test Invoices With No Down Payment for SS Home">
-        <parameter name="state" value="AZ, UT, PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestInvoiceWithNoDownPayment"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestInvoiceWithNoDownPayment"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestInvoiceWithNoDownPayment"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestInvoiceWithNoDownPayment"/>
-        </classes>
-    </test>
-
-    <test name="Test Invoices With No Down Payment for CA Home">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestInvoiceWithNoDownPayment"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestInvoiceWithNoDownPayment"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestInvoiceWithNoDownPayment"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestInvoiceWithNoDownPayment"/>
-        </classes>
-    </test>
-
     <!--Tests for PUP-->
 
     <test name=" Test Pup Info Section View Rating Details">
@@ -249,15 +229,6 @@
         </classes>
     </test>
 
-    <test name="Test HO29 Endorsement added by default">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name ="aaa.modules.regression.sales.home_ca.ho3.functional.TestInitiateHOQuoteHO29Endorsement"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestInitiateHOQuoteHO29Endorsement"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestInitiateHOQuoteHO29Endorsement"/>
-        </classes>
-    </test>
-
     <test name="Test PUP policies rate correctly when underlying DP3 has multiple units for CA">
         <parameter name="state" value="CA"/>
         <classes>
@@ -266,6 +237,15 @@
                     <exclude name="pas8369_testPUPWithMultipleUnitsOnDP3ForSS"/>
                 </methods>
             </class>
+        </classes>
+    </test>
+
+    <test name="Test HO29 Endorsement added by default">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name ="aaa.modules.regression.sales.home_ca.ho3.functional.TestInitiateHOQuoteHO29Endorsement"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestInitiateHOQuoteHO29Endorsement"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestInitiateHOQuoteHO29Endorsement"/>
         </classes>
     </test>
 
@@ -290,6 +270,26 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestClueReportOnCopyActions"/>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestClueReportOnCopyActions"/>
+        </classes>
+    </test>
+
+    <test name="Test Invoices With No Down Payment for SS Home">
+        <parameter name="state" value="AZ, UT, PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestInvoiceWithNoDownPayment"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestInvoiceWithNoDownPayment"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestInvoiceWithNoDownPayment"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestInvoiceWithNoDownPayment"/>
+        </classes>
+    </test>
+
+    <test name="Test Invoices With No Down Payment for CA Home">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestInvoiceWithNoDownPayment"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestInvoiceWithNoDownPayment"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestInvoiceWithNoDownPayment"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestInvoiceWithNoDownPayment"/>
         </classes>
     </test>
 
