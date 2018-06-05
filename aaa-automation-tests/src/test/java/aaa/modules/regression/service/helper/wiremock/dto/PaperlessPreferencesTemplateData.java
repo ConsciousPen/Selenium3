@@ -31,4 +31,18 @@ public class PaperlessPreferencesTemplateData implements WireMockTemplateData {
 		data.policyDocumentsReason = AGENT_INTERACTION;
 		return data;
 	}
+
+	public static PaperlessPreferencesTemplateData createPolicyBillingActions(String policyNumber, String policyAction, String billingAction) {
+		final PaperlessPreferencesTemplateData data = new PaperlessPreferencesTemplateData();
+		data.policyNumber = policyNumber;
+		data.billNotificationAction = billingAction;
+		data.policyDocumentsAction = policyAction;
+		data.paymentReminderAction = OPT_IN;
+		data.paymentConfirmationAction = OPT_IN;
+		data.billNotificationReason = AGENT_INTERACTION;
+		data.paymentReminderReason = AGENT_INTERACTION;
+		data.paymentConfirmationReason = AGENT_INTERACTION;
+		data.policyDocumentsReason = AGENT_INTERACTION;
+		return data;
+	}
 }
