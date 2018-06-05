@@ -5,11 +5,11 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import toolkit.datax.TestData;
-import toolkit.exceptions.IstfException;
+//import aaa.main.modules.policy.PolicyType;
+//import toolkit.exceptions.IstfException;
 
 public class HomeCaPremiumCalculationTest<P extends HomeCaOpenLPolicy<?>, F extends HomeCaOpenLFile<P>> extends OpenLRatingBaseTest<P, F> {
 	@Override
