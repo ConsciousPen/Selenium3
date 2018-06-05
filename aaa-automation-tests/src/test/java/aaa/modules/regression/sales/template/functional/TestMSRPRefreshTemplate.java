@@ -1,13 +1,9 @@
 package aaa.modules.regression.sales.template.functional;
 
-import static aaa.helpers.db.queries.MsrpQueries.CA_CHOICE_REGULAR_VEH_MSRP_VERSION;
-import static aaa.helpers.db.queries.MsrpQueries.CA_SELECT_REGULAR_VEH_MSRP_VERSION;
-import static aaa.helpers.db.queries.MsrpQueries.DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY;
-import static aaa.helpers.db.queries.MsrpQueries.INSERT_MSRPCOMPCOLLCONTROL_VERSION;
-import static aaa.helpers.db.queries.MsrpQueries.UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_BY_VERSION_VEHICLEYEARMIN;
-import static aaa.helpers.db.queries.MsrpQueries.UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX_BY_VEHICLEYEARMIN_KEY;
+import static aaa.helpers.db.queries.MsrpQueries.*;
 import static aaa.helpers.db.queries.VehicleQueries.UPDATE_CHOICE_VEHICLEREFDATAVINCONTROL_BY_MSRP_VERSION;
 import static aaa.helpers.db.queries.VehicleQueries.UPDATE_SELECT_VEHICLEREFDATAVINCONTROL_BY_MSRP_VERSION;
+import static org.assertj.core.api.Assertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,24 +12,19 @@ import java.util.Map;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
-import aaa.helpers.db.queries.VehicleQueries;
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
@@ -247,7 +238,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 		//PAS-12881: Update VIN Y/M/M/S/S to Store VIN Stub (quote): Verify in DB that VIN STUB is stored
 		String expectedSTUB = "7MSRP15H&V";
-		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, quoteNumber)).get()).isNotNull().isEqualTo(expectedSTUB);
+		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, quoteNumber)).get()).isNotNull().isEqualTo(expectedSTUB);
 
 
 		// Vin control table has version which overrides VERSION_2000, it is needed and important to get symbols for next steps

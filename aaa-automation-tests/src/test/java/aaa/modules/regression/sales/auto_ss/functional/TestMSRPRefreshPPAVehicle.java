@@ -102,7 +102,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		//PAS-12881: Update VIN Y/M/M/S/S to Store VIN Stub (quote): Verify in DB that VIN STUB is stored
 		String expectedSTUB = "7MSRP15H&V";
-		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, quoteNumber)).get()).isNotNull().isEqualTo(expectedSTUB);
+		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, quoteNumber)).get()).isNotNull().isEqualTo(expectedSTUB);
 
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 	}
@@ -249,9 +249,10 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		String vehYear = "2018";
 		String vehMake = "VOLKSWAGEN";
-		String vehModel = "GOLF";
-		String vehSeries = "GOLF";
-		String vehBodyStyle = "HATCHBACK 4 DOOR";
+		String vehModel = "PASSAT";
+		String vehSeries = "PASSAT S";
+		String vehBodyStyle = "SEDAN";
+		String expectedSTUB = "7MSRP15H&V"; // According to data entered, manual research gave this value //todo could be an issue.
 
 		TestData testData = getPolicyTD()
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "ZZYKN3DD8E0344466")
@@ -263,18 +264,23 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		//1. Create a Policy with specific test data
 		String policyNumber = createPreconds(testData);
-
+		//todo can cause no such field exception when CURRENTVIN IS NULL
+		String newBusinessCurrentVinBeforeNull = DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get();
+		assertThat(newBusinessCurrentVinBeforeNull).isNotNull().isNotEmpty();
 		//2. Clear the Current VIN Stub Stored at NB
-		DBService.get().executeUpdate(VehicleQueries.NULL_POLICY_STUB);
-		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNullOrEmpty();
+		DBService.get().executeUpdate(String.format(VehicleQueries.NULL_SPECIFIC_POLICY_STUB,newBusinessCurrentVinBeforeNull));
+		// Get comp and coll symbol
+		Map<String,String> allNewBusinessValues = DBService.get().getRow(String.format(VehicleQueries.SELECT_LIST_OF_VIN_STUB_ON_QUOTE, policyNumber));
+		String newBusinessComp = allNewBusinessValues.get("COMPSYMBOL");
+		String newBusinessColl = allNewBusinessValues.get("COLLSYMBOL");
+		assertThat(allNewBusinessValues.get("CURRENTVIN")).isNull();
 
+		log.info("New business compsymbol: {}, and collsymbol: {}", newBusinessComp, newBusinessColl);
 		//3. Generate Renewal Image
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-
-		//4. Go back to MainApp, find created policy, create Renewal image
 		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
+		//4. Go back to MainApp, find created policy, create Renewal image
 		searchForPolicy(policyNumber);
-
 		//5. Open Renewal and calculate premium
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
@@ -283,8 +289,14 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
 		//6. Verify VIN Stub was Stored at renewal in the DB
-		String expectedSTUB = "7MSRP15H&V";
-		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNotNull().isEqualTo(expectedSTUB);
+		Map<String,String> allRenewalVersionValues = DBService.get().getRow(String.format(VehicleQueries.SELECT_LIST_OF_VIN_STUB_ON_QUOTE, policyNumber));
+		String renewalVersionComp = allRenewalVersionValues.get("COMPSYMBOL");
+		String renewalVersionColl = allRenewalVersionValues.get("COLLSYMBOL");
+		String renewalVersionCurrentVin = allRenewalVersionValues.get("CURRENTVIN");
+
+		assertThat(renewalVersionComp).isEqualTo(newBusinessComp);
+		assertThat(renewalVersionColl).isEqualTo(newBusinessColl);
+		assertThat(renewalVersionCurrentVin).isEqualTo(newBusinessCurrentVinBeforeNull);
 	}
 
 	/**
@@ -322,7 +334,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		//2. Clear the Current VIN Stub Stored at NB
 		DBService.get().executeUpdate(VehicleQueries.NULL_POLICY_STUB);
-		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNullOrEmpty();
+		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNullOrEmpty();
 
 		//3. Generate Renewal Image
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -340,7 +352,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		//6. Verify VIN Stub was Stored at renewal in the DB
 		String expectedSTUB = "5TFEZ5CN&G";
-		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNotNull().isEqualTo(expectedSTUB);
+		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNotNull().isEqualTo(expectedSTUB);
 	}
 
 	/**
@@ -378,7 +390,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		//2. Clear the Current VIN Stub Stored at NB and modify the COMP Symbol for the utilized VIN STUB - this will ensure that there is no direct match to a vin stub on renewal
 		DBService.get().executeUpdate(VehicleQueries.NULL_POLICY_STUB);
-		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNullOrEmpty();
+		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNullOrEmpty();
 		DBService.get().executeUpdate(VehicleQueries.EDIT_COMP_VALUE);
 
 		//3. Generate Renewal Image
@@ -396,7 +408,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
 		//6. Verify VIN Stub was Stored at renewal in the DB
-		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNullOrEmpty();
+		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNullOrEmpty();
 
 		//7. Repair the COMP Symbol of the original VIN
 		DBService.get().executeUpdate(VehicleQueries.REPAIR_COMP_VALUE);

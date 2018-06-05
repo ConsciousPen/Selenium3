@@ -14,9 +14,13 @@ public class VehicleQueries {
 			+ "ps.policydetail_id = pd.id and pd.id = r.policydetail_id and ps.policynumber = '%2$s'";
 
 //	VIN STUB QUERIES FOR PAS-12877
-	public static final String SELECT_VIN_STUB_ON_QUOTE = "SELECT r.currentVin FROM Riskitem R, Vehicleratinginfo I, Vehiclebaseinfo B, Policysummary Ps, Policydetail Pd WHERE R.Ratinginfo_Id = I.Id AND B.Id = R.Baseinfo_Id AND ps.policydetail_id = pd.id AND pd.id = r.policydetail_id AND policynumber LIKE '%1$s'";
+	// SORT BY r.ID DESC ORDER.
+	public static final String SELECT_LATEST_VIN_STUB_ON_QUOTE = "SELECT r.currentVin FROM Riskitem R, Vehicleratinginfo I, Vehiclebaseinfo B, Policysummary Ps, Policydetail Pd WHERE R.Ratinginfo_Id = I.Id AND B.Id = R.Baseinfo_Id AND ps.policydetail_id = pd.id AND pd.id = r.policydetail_id AND policynumber LIKE '%1$s' ORDER BY r.ID DESC";
+	public static final String SELECT_LIST_OF_VIN_STUB_ON_QUOTE = "SELECT r.currentVin,I.COMPSYMBOL, I.COLLSYMBOL FROM Riskitem R, Vehicleratinginfo I, Vehiclebaseinfo B, Policysummary Ps, Policydetail Pd WHERE R.Ratinginfo_Id = I.Id AND B.Id = R.Baseinfo_Id AND ps.policydetail_id = pd.id AND pd.id = r.policydetail_id AND policynumber LIKE '%1$s' ORDER BY r.ID DESC";
 	public static final String NULL_POLICY_STUB = "UPDATE Riskitem SET CURRENTVIN = NULL WHERE CURRENTVIN like 'JH4CU2F4%C'";
+	public static final String NULL_SPECIFIC_POLICY_STUB = "UPDATE Riskitem SET CURRENTVIN = NULL WHERE CURRENTVIN like '%s'";
 	public static final String EDIT_COMP_VALUE = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOMPREHENSIVE = PHYSICALDAMAGECOMPREHENSIVE + 50 where vin like '5TFEZ5CN%H' and VERSION like 'SYMBOL_2000'";
+	public static final String EDIT_SPECIFIC_COMP_VALUE = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOMPREHENSIVE = PHYSICALDAMAGECOMPREHENSIVE + 50 where vin like '%s' and VERSION like 'SYMBOL_2000'";
 	public static final String REPAIR_COMP_VALUE = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOMPREHENSIVE = PHYSICALDAMAGECOMPREHENSIVE - 50 where vin like '5TFEZ5CN%H' and VERSION like 'SYMBOL_2000'";
 
 

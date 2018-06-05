@@ -139,9 +139,9 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 
 		String vehYear = "2018";
 		String vehMake = "VOLKSWAGEN";
-		String vehModel = "GOLF";
-		String vehSeries = "GOLF";
-		String vehBodyStyle = "HATCHBACK 4 DOOR";
+		String vehModel = "PASSAT";
+		String vehSeries = "PASSAT S";
+		String vehBodyStyle = "SEDAN";
 
 		TestData testData = getPolicyTD()
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "ZZYKN3DD8E0344466")
@@ -156,7 +156,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 
 		//2. Clear the Current VIN Stub Stored at NB
 		DBService.get().executeUpdate(VehicleQueries.NULL_POLICY_STUB);
-		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNullOrEmpty();
+		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNullOrEmpty();
 
 		//3. Generate Renewal Image
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -174,7 +174,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 
 		//6. Verify VIN Stub was Stored at renewal in the DB
 		String expectedSTUB = "7MSRP15H&V";
-		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNotNull().isEqualTo(expectedSTUB);
+		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNotNull().isEqualTo(expectedSTUB);
 	}
 	/**
 	 @author Chris Johns
@@ -211,7 +211,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 
 		//2. Clear the Current VIN Stub Stored at NB
 		DBService.get().executeUpdate(VehicleQueries.NULL_POLICY_STUB);
-		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNullOrEmpty();
+		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNullOrEmpty();
 
 		//3. Generate Renewal Image
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -229,7 +229,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 
 		//6. Verify VIN Stub was Stored at renewal in the DB
 		String expectedSTUB = "5TFEZ5CN&G";
-		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNotNull().isEqualTo(expectedSTUB);
+		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNotNull().isEqualTo(expectedSTUB);
 	}
 
 	/**
@@ -267,7 +267,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 
 		//2. Clear the Current VIN Stub Stored at NB and modify the COMP Symbol for the utilized VIN STUB - this will ensure that there is no direct match to a vin stub on renewal
 		DBService.get().executeUpdate(VehicleQueries.NULL_POLICY_STUB);
-		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNullOrEmpty();
+		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNullOrEmpty();
 		DBService.get().executeUpdate(VehicleQueries.EDIT_COMP_VALUE);
 
 		//3. Generate Renewal Image
@@ -285,7 +285,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
 		//6. Verify VIN Stub was Stored at renewal in the DB
-		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNullOrEmpty();
+		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNullOrEmpty();
 
 		//7. Repair the COMP Symbol of the original VIN
 		DBService.get().executeUpdate(VehicleQueries.REPAIR_COMP_VALUE);
