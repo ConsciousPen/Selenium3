@@ -2,52 +2,68 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.template.functional;
 
+import static aaa.main.enums.PolicyConstants.PolicyErrorsTable.MESSAGE;
+import static aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData.*;
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.util.LinkedList;
+import java.util.List;
+import org.testng.annotations.AfterSuite;
 import aaa.common.Tab;
 import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
 import aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
-import org.testng.annotations.AfterSuite;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.waiters.Waiters;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import static aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData.OPT_IN;
-import static aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData.OPT_IN_PENDING;
-import static aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData.OPT_OUT;
-
 public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 
 	protected abstract String getDocumentsAndBindTab();
 
+	protected abstract String getGeneralTab();
+
+	protected abstract String getPremiumAndCoveragesTab();
+
 	protected abstract Tab getDocumentsAndBindTabElement();
+
+	protected abstract Tab getPremiumAndCoveragesTabElement();
 
 	protected abstract InquiryAssetList getInquiryAssetList();
 
 	protected abstract AssetDescriptor<TextBox> getEnrolledInPaperless();
+
 	protected abstract AssetDescriptor<Button> getButtonManagePaperlessPreferences();
+
 	protected abstract AssetDescriptor<Button> getEditPaperlessPreferencesButtonDone();
+
+	protected abstract CommonErrorTab getErrorTabElement();
+
 	protected abstract AssetList getPaperlessPreferencesAssetList();
 
 	protected abstract AssetDescriptor<TextBox> getIssueDate();
+
 	protected abstract AssetDescriptor<ComboBox> getMethodOfDelivery();
+
 	protected abstract AssetDescriptor<ComboBox> getIncludeWithEmail();
+
+	protected abstract AssetDescriptor<RadioGroup> getApplyeValueDiscount();
+
 	protected abstract AssetList getDocumentPrintingDetailsAssetList();
+
 	protected abstract AssetDescriptor<ComboBox> getSuppressPrint();
 
-	public abstract void pas283_paperlessPreferencesForAllStatesProducts(String state);
-
+	private static final String EV100003 = "The customer must choose to Opt In to Paperless Billing and Policy Documents ...";
 	private static List<HelperWireMockStub> stubList = new LinkedList<>();
 
 	/**
@@ -64,8 +80,6 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 
 	protected void pas283_paperlessPreferencesForAllStatesProducts() {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-
-		//SearchPage.openPolicy("VASS952918561");
 
 		//pas283_eValuePaperlessPreferences should be put here for all states and products
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
@@ -87,13 +101,13 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		//left overs of previous functionality. Lookup list will change with new story
 
 		//PAS-3097 remove the Issue Date field from Bind tab (VA state)
-		inquiryAssetList.assetFieldsAbsence( "Issue Date");
+		inquiryAssetList.assetFieldsAbsence("Issue Date");
 		getDocumentPrintingDetailsAssetList().getAsset(getIssueDate()).verify.present(false);
 		//PAS-3097 end
 
-		inquiryAssetList.assetFieldsAbsence( "Method Of Delivery");
+		inquiryAssetList.assetFieldsAbsence("Method Of Delivery");
 		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
-		inquiryAssetList.assetFieldsAbsence( "Include with Email");
+		inquiryAssetList.assetFieldsAbsence("Include with Email");
 		getDocumentPrintingDetailsAssetList().getAsset(getIncludeWithEmail()).verify.present(false);
 
 		//PAS-266 start
@@ -142,9 +156,7 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 	 * 8. Check document delivery section. Should not be displaying.
 	 * @details
 	 */
-
 	protected void pas12458_documentDeliverySectionDuringEndorsement() {
-
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -184,12 +196,10 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 	 * 10. Check document delivery section. Should not be displaying.
 	 * @details
 	 */
-
 	protected void pas12458_documentDeliverySectionDataGatherMode() {
-
 		String quoteNumber = PolicySummaryPage.getPolicyNumber();
-
 		HelperWireMockStub stub = createPaperlessPreferencesRequestId(quoteNumber, OPT_IN_PENDING);
+
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("Pending");
@@ -216,6 +226,91 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		deleteSinglePaperlessPreferenceRequest(stub3);
 	}
 
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Check all combination of Policy/Billing paperless preferences OPT_IN_PENDING/IN/OUT
+	 * @scenario
+	 * 1. Create quote.
+	 * 2. Check all combination for Policy/Billing Paperless Preferences result in expected Status
+	 * @details
+	 */
+	protected void pas266_PaperlessPreferencesAllTransactionsBody(String policyNumber) {
+		checkPaperlessPreferencesStatus(policyNumber, OPT_IN, OPT_IN, "Yes");
+
+		checkPaperlessPreferencesStatus(policyNumber, OPT_IN, OPT_OUT, "Yes (Policy Only)");
+
+		checkPaperlessPreferencesStatus(policyNumber, OPT_IN, OPT_IN_PENDING, "Pending (Billing)");
+
+		checkPaperlessPreferencesStatus(policyNumber, OPT_OUT, OPT_IN, "Yes (Billing Only)");
+
+		checkPaperlessPreferencesStatus(policyNumber, OPT_OUT, OPT_OUT, "No");
+
+		checkPaperlessPreferencesStatus(policyNumber, OPT_OUT, OPT_IN_PENDING, "Pending (Billing Only)");
+
+		checkPaperlessPreferencesStatus(policyNumber, OPT_IN_PENDING, OPT_IN, "Pending (Policy)");
+
+		checkPaperlessPreferencesStatus(policyNumber, OPT_IN_PENDING, OPT_OUT, "Pending (Policy Only)");
+
+		checkPaperlessPreferencesStatus(policyNumber, OPT_IN_PENDING, OPT_IN_PENDING, "Pending");
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Check all combination of Policy/Billing paperless preferences not equal to OPT_IN result in error
+	 * @scenario
+	 * 1. Create a policy.
+	 * 2. Check all combination for Policy/Billing Paperless Preferences result in error
+	 * 3. Create a renewal
+	 * 4. Check all combination for Policy/Billing Paperless Preferences result in error
+	 * @details
+	 */
+	protected void pas285_PaperlessPreferencesErrorMsgBody(String quoteNumber) {
+		NavigationPage.toViewSubTab(getPremiumAndCoveragesTab());
+		getPremiumAndCoveragesTabElement().getAssetList().getAsset(getApplyeValueDiscount()).setValue("Yes");
+		getPremiumAndCoveragesTabElement().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM).click();
+
+		checkPaperlessPreferencesError(quoteNumber, OPT_IN, OPT_OUT, "Yes (Policy Only)");
+
+		checkPaperlessPreferencesError(quoteNumber, OPT_IN, OPT_IN_PENDING, "Pending (Billing)");
+
+		checkPaperlessPreferencesError(quoteNumber, OPT_OUT, OPT_IN, "Yes (Billing Only)");
+
+		checkPaperlessPreferencesError(quoteNumber, OPT_OUT, OPT_OUT, "No");
+
+		checkPaperlessPreferencesError(quoteNumber, OPT_OUT, OPT_IN_PENDING, "Pending (Billing Only)");
+
+		checkPaperlessPreferencesError(quoteNumber, OPT_IN_PENDING, OPT_IN, "Pending (Policy)");
+
+		checkPaperlessPreferencesError(quoteNumber, OPT_IN_PENDING, OPT_OUT, "Pending (Policy Only)");
+
+		checkPaperlessPreferencesError(quoteNumber, OPT_IN_PENDING, OPT_IN_PENDING, "Pending");
+
+		HelperWireMockStub stub = createPaperlessPolicyBillingPreferencesRequestId(quoteNumber, OPT_IN, OPT_IN);
+		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
+		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("Yes");
+		getDocumentsAndBindTabElement().submitTab();
+		assertThat(getErrorTabElement().getErrorsControl().getTable().getRowContains(MESSAGE, EV100003)).isAbsent();
+		deleteSinglePaperlessPreferenceRequest(stub);
+		Tab.buttonCancel.click();
+	}
+
+	private void checkPaperlessPreferencesStatus(String quoteNumber, String policyAction, String billingAction, String paperlessStatus) {
+		HelperWireMockStub stub = createPaperlessPolicyBillingPreferencesRequestId(quoteNumber, policyAction, billingAction);
+		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
+		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value(paperlessStatus);
+		NavigationPage.toViewSubTab(getGeneralTab());
+		deleteSinglePaperlessPreferenceRequest(stub);
+	}
+
+	private void checkPaperlessPreferencesError(String quoteNumber, String policyAction, String billingAction, String paperlessStatus) {
+		HelperWireMockStub stub = createPaperlessPolicyBillingPreferencesRequestId(quoteNumber, policyAction, billingAction);
+		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
+		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value(paperlessStatus);
+		getDocumentsAndBindTabElement().submitTab();
+		assertThat(getErrorTabElement().getErrorsControl().getTable().getRowContains(MESSAGE, EV100003)).isPresent();Tab.buttonCancel.click();
+		deleteSinglePaperlessPreferenceRequest(stub);
+	}
+
 	@AfterSuite()
 	public void deleteAllPaperlessPreferencesRequests() {
 		deleteMultiplePaperlessPreferencesRequests();
@@ -223,7 +318,15 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 	}
 
 	private HelperWireMockStub createPaperlessPreferencesRequestId(String policyNumber, String paperlessAction) {
-		PaperlessPreferencesTemplateData template = PaperlessPreferencesTemplateData.create(policyNumber, paperlessAction);
+		PaperlessPreferencesTemplateData template = create(policyNumber, paperlessAction);
+		HelperWireMockStub stub = HelperWireMockStub.create("paperless-preferences-200", template).mock();
+		stubList.add(stub);
+		printToLog("THE REQUEST ID WAS CREATED " + stub.getId());
+		return stub;
+	}
+
+	private HelperWireMockStub createPaperlessPolicyBillingPreferencesRequestId(String policyNumber, String policyAction, String billingAction) {
+		PaperlessPreferencesTemplateData template = createPolicyBillingActions(policyNumber, policyAction, billingAction);
 		HelperWireMockStub stub = HelperWireMockStub.create("paperless-preferences-200", template).mock();
 		stubList.add(stub);
 		printToLog("THE REQUEST ID WAS CREATED " + stub.getId());
