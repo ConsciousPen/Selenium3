@@ -79,7 +79,7 @@ public class TestInvoiceWithNoDownPaymentTemplate extends PolicyBaseTest {
 		setPolicyInfo();
 
         // Create a premium-bearing endorsement (increase) at effective date plus 5 days
-        TimeSetterUtil.getInstance().confirmDateIsAfter(PolicySummaryPage.getEffectiveDate().plusDays(5));
+        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getEffectiveDate().plusDays(5));
         reopenPolicy(policyNumber);
         getPolicyType().get().endorse().perform(getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Endorsement"), "TestData"));
         navigateToPremiumAndCoveragesQuoteTab();
