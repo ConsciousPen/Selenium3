@@ -82,7 +82,7 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = {"PAS-9001"})
-    public void pas9001_testInvoiceWithNoDownPaymentNB_Select(@Optional("") String state) {
+    public void pas9001_testInvoiceWithNoDownPaymentNB_Select(@Optional("CA") String state) {
 
         pas9001_testInvoiceWithNoDownPaymentNB();
 
@@ -104,7 +104,7 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-9001"})
-    public void pas9001_testInvoiceWithNoDownPaymentEndorsement_Select(@Optional("") String state) {
+    public void pas9001_testInvoiceWithNoDownPaymentEndorsement_Select(@Optional("CA") String state) {
 
         pas9001_testInvoiceWithNoDownPaymentEndorsement();
 

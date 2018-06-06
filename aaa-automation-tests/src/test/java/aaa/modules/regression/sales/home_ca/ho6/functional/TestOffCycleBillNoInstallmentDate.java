@@ -17,7 +17,6 @@ import aaa.modules.regression.sales.template.functional.TestOffCycleBillNoInstal
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 @StateList(states = Constants.States.CA)
@@ -56,8 +55,7 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
 
 	@Override
 	protected void adjustPremiumBearingValue() {
-		getPremiumAndCoveragesTab().getAssetList().getAsset(HomeCaMetaData.
-				PremiumsAndCoveragesQuoteTab.DEDUCTIBLE).setValueByIndex(0);
+		getPremiumAndCoveragesTab().getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE).setValueByIndex(0);
 	}
 	@Override
 	protected AssetDescriptor<JavaScriptButton> getCalculatePremiumButton() {

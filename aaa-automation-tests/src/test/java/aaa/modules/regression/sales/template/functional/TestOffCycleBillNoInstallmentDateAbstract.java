@@ -30,13 +30,18 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
 	private LocalDateTime dueDate;
 
 	protected abstract Purchase getPurchaseTab();
-	protected abstract Tab getPremiumAndCoveragesTab();
-	protected abstract Tab getBindTab();
-	protected abstract void navigateToPremiumAndCoveragesTab();
-	protected abstract void navigateToBindTab();
-	protected abstract void adjustPremiumBearingValue();
-	protected abstract AssetDescriptor<JavaScriptButton> getCalculatePremiumButton();
 
+	protected abstract Tab getPremiumAndCoveragesTab();
+
+	protected abstract Tab getBindTab();
+
+	protected abstract void navigateToPremiumAndCoveragesTab();
+
+	protected abstract void navigateToBindTab();
+
+	protected abstract void adjustPremiumBearingValue();
+
+	protected abstract AssetDescriptor<JavaScriptButton> getCalculatePremiumButton();
 
     protected void pas9001_testInvoiceWithNoDownPaymentNB() {
 

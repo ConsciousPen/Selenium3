@@ -17,7 +17,6 @@ import aaa.modules.regression.sales.template.functional.TestOffCycleBillNoInstal
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 @StateList(statesExcept = Constants.States.CA)
