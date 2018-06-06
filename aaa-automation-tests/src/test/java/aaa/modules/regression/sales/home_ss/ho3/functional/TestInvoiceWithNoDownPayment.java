@@ -4,20 +4,65 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.regression.sales.template.functional.TestInvoiceWithNoDownPaymentTemplate;
+import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
+import aaa.modules.regression.sales.template.functional.TestInvoiceWithNoDownPaymentAbstract;
+import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
+import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 @StateList(statesExcept = Constants.States.CA)
-public class TestInvoiceWithNoDownPayment extends TestInvoiceWithNoDownPaymentTemplate {
+public class TestInvoiceWithNoDownPayment extends TestInvoiceWithNoDownPaymentAbstract {
 
     @Override
     protected PolicyType getPolicyType() {
         return PolicyType.HOME_SS_HO3;
     }
+
+	@Override
+	protected PurchaseTab getPurchaseTab() {
+		return new PurchaseTab();
+	}
+
+	@Override
+	protected BindTab getBindTab() {
+		return new BindTab();
+	}
+
+	@Override
+	protected PremiumsAndCoveragesQuoteTab getPremiumAndCoveragesTab() {
+		return new PremiumsAndCoveragesQuoteTab();
+	}
+
+	@Override
+	protected void navigateToPremiumAndCoveragesTab() {
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+	}
+
+	@Override
+	protected void navigateToBindTab() {
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+	}
+
+	@Override
+	protected AssetDescriptor<ComboBox> getDeductible() {
+		return HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE;
+	}
+
+	@Override
+	protected AssetDescriptor<JavaScriptButton> getCalculatePremiumButton() {
+		return HomeSSMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM;
+	}
 
     /**
      * @author Josh Carpenter

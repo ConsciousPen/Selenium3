@@ -11,13 +11,8 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.SearchEnum;
-import aaa.main.metadata.policy.HomeCaMetaData;
-import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.metadata.policy.PurchaseMetaData;
 import aaa.main.modules.policy.abstract_tabs.Purchase;
-import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -26,20 +21,22 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import static toolkit.verification.CustomAssertions.assertThat;
 
-public class TestInvoiceWithNoDownPaymentTemplate extends PolicyBaseTest {
+public abstract class TestInvoiceWithNoDownPaymentAbstract extends PolicyBaseTest {
 
 	private final Dollar zeroDollars = new Dollar(0.00);
 	private String policyNumber;
 	private LocalDateTime dueDate;
 
-    protected void pas9001_testInvoiceWithNoDownPaymentNB() {
+	protected abstract Purchase getPurchaseTab();
+	protected abstract Tab getPremiumAndCoveragesTab();
+	protected abstract Tab getBindTab();
+	protected abstract void navigateToPremiumAndCoveragesTab();
+	protected abstract void navigateToBindTab();
+	protected abstract AssetDescriptor<ComboBox> getDeductible();
+	protected abstract AssetDescriptor<JavaScriptButton> getCalculatePremiumButton();
 
-        Purchase purchaseTab;
-        if (getPolicyType().isCaProduct()) {
-            purchaseTab = new PurchaseTab();
-        } else {
-            purchaseTab = new aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab();
-        }
+
+    protected void pas9001_testInvoiceWithNoDownPaymentNB() {
 
         // Create Customer
         mainApp().open();
@@ -47,12 +44,12 @@ public class TestInvoiceWithNoDownPaymentTemplate extends PolicyBaseTest {
 
         // Create policy with updated min deposit on Purchase tab
         getPolicyType().get().initiate();
-        getPolicyType().get().getDefaultView().fillUpTo(getPolicyDefaultTD(), purchaseTab.getClass());
-        purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.CHANGE_MINIMUM_DOWNPAYMENT).setValue(true);
-        purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.MINIMUM_REQUIRED_DOWNPAYMENT).setValue("10.00");
-        purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.REASON_FOR_CHANGING).setValue("index=1");
-		purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH).setValue(Purchase.remainingBalanceDueToday.getValue());
-        purchaseTab.submitTab();
+        getPolicyType().get().getDefaultView().fillUpTo(getPolicyDefaultTD(), getPurchaseTab().getClass());
+		getPurchaseTab().getAssetList().getAsset(PurchaseMetaData.PurchaseTab.CHANGE_MINIMUM_DOWNPAYMENT).setValue(true);
+		getPurchaseTab().getAssetList().getAsset(PurchaseMetaData.PurchaseTab.MINIMUM_REQUIRED_DOWNPAYMENT).setValue("10.00");
+		getPurchaseTab().getAssetList().getAsset(PurchaseMetaData.PurchaseTab.REASON_FOR_CHANGING).setValue("index=1");
+		getPurchaseTab().getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH).setValue(Purchase.remainingBalanceDueToday.getValue());
+		getPurchaseTab().submitTab();
 		setPolicyInfo();
 
 		// Min Due and off cycle billing validation
@@ -61,16 +58,6 @@ public class TestInvoiceWithNoDownPaymentTemplate extends PolicyBaseTest {
     }
 
     protected void pas9001_testInvoiceWithNoDownPaymentEndorsement() {
-
-        Tab premiumAndCoveragesQuoteTab;
-        Tab bindTab;
-        if (getPolicyType().isCaProduct()) {
-            premiumAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
-            bindTab = new BindTab();
-        } else {
-            premiumAndCoveragesQuoteTab = new aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab();
-            bindTab = new aaa.main.modules.policy.home_ss.defaulttabs.BindTab();
-        }
 
         // Create customer and policy
         mainApp().open();
@@ -82,47 +69,15 @@ public class TestInvoiceWithNoDownPaymentTemplate extends PolicyBaseTest {
         TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getEffectiveDate().plusDays(5));
         reopenPolicy(policyNumber);
         getPolicyType().get().endorse().perform(getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Endorsement"), "TestData"));
-        navigateToPremiumAndCoveragesQuoteTab();
-        premiumAndCoveragesQuoteTab.getAssetList().getAsset(getDeductible()).setValueByIndex(0);
-        premiumAndCoveragesQuoteTab.getAssetList().getAsset(getCalculatePremiumButton()).click();
+        navigateToPremiumAndCoveragesTab();
+        getPremiumAndCoveragesTab().getAssetList().getAsset(getDeductible()).setValueByIndex(0);
+		getPremiumAndCoveragesTab().getAssetList().getAsset(getCalculatePremiumButton()).click();
         navigateToBindTab();
-        bindTab.submitTab();
+        getBindTab().submitTab();
 
         // Min Due and off cycle billing validation
 		validateMinDueAndOffCycleBillingInvoice();
 
-    }
-
-    private void navigateToPremiumAndCoveragesQuoteTab() {
-        if (getPolicyType().isCaProduct()) {
-            NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
-            NavigationPage.toViewSubTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-        } else {
-            NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-            NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-        }
-    }
-
-    private void navigateToBindTab() {
-        if (getPolicyType().isCaProduct()) {
-            NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
-        } else {
-            NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-        }
-    }
-
-    private AssetDescriptor<ComboBox> getDeductible() {
-        if (getPolicyType().isCaProduct()) {
-            return HomeCaMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE;
-        }
-        return HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE;
-    }
-
-    private AssetDescriptor<JavaScriptButton> getCalculatePremiumButton() {
-        if (getPolicyType().isCaProduct()) {
-            return HomeCaMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM_BUTTON;
-        }
-        return HomeSSMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM;
     }
 
     private void reopenPolicy(String policyNumber) {
