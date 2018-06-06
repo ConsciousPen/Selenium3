@@ -351,11 +351,11 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, null, PolicyPremiumInfo[].class, status);
 	}
 
-	@SuppressWarnings("unchecked")
-	public static HashMap<String, String> endorsementRateError(String policyNumber, int status) {
+	public static ErrorResponseDto endorsementRateError(String policyNumber, int status) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_RATE, policyNumber));
-		return runJsonRequestPostDxp(requestUrl, null, HashMap.class, status);
+		return runJsonRequestPostDxp(requestUrl, null, ErrorResponseDto.class, 422);
 	}
+
 
 	public static String endorsementBind(String policyNumber, String authorizedBy, int status) {
 		AAABindEndorsementRequestDTO request = new AAABindEndorsementRequestDTO();
@@ -364,12 +364,11 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, request, String.class, status);
 	}
 
-	@SuppressWarnings("unchecked")
-	public static HashMap<String, String> endorsementBindError(String policyNumber, String authorizedBy, int status) {
+	public static ErrorResponseDto endorsementBindError(String policyNumber, String authorizedBy, int status) {
 		AAABindEndorsementRequestDTO request = new AAABindEndorsementRequestDTO();
-		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_BIND, policyNumber));
 		request.authorizedBy = authorizedBy;
-		return runJsonRequestPostDxp(requestUrl, request, HashMap.class, status);
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_BIND, policyNumber));
+		return runJsonRequestPostDxp(requestUrl, request, ErrorResponseDto.class, status);
 	}
 
 	public static DiscountSummary viewDiscounts(String policyNumber, String transaction, int status) {

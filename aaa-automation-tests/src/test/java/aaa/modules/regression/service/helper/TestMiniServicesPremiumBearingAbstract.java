@@ -4106,12 +4106,25 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			assertThat(((VehicleUpdateResponseDto) updateVehicleResponse).ruleSets.get(0).errors.get(0)).contains("Usage is Business");
 		});
 
-		//Check premium after new vehicle was added
-		HashMap<String, String> rateResponse = HelperCommon.endorsementRateError(policyNumber, 422);
-		assertThat(rateResponse.entrySet().toString()).contains(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+		ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber, 422);
+		assertSoftly(softly -> {
+			softly.assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+			softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+			softly.assertThat(rateResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.REGISTERED_OWNERS.getCode());
+			softly.assertThat(rateResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.REGISTERED_OWNERS.getMessage());
+			softly.assertThat(rateResponse.errors.get(0).field).isEqualTo("vehOwnerInd");
+			softly.assertThat(rateResponse.errors.get(1).errorCode).isEqualTo(ErrorDxpEnum.Errors.USAGE_IS_BUSINESS.getCode());
+			softly.assertThat(rateResponse.errors.get(1).message).contains(ErrorDxpEnum.Errors.USAGE_IS_BUSINESS.getMessage());
+			softly.assertThat(rateResponse.errors.get(1).field).isEqualTo("vehicleUsageCd");
+		});
 
-		HashMap<String, String> bindResponse = HelperCommon.endorsementBindError(policyNumber, "PAS-7147", 422);
-		assertThat(bindResponse.entrySet().toString()).contains(ErrorDxpEnum.Errors.VALIDATION_ERROR_HAPPENED_DURING_BIND.getMessage());
+		ErrorResponseDto bindResponse = HelperCommon.endorsementBindError(policyNumber, "PAS-7147", 422);
+		assertSoftly(softly -> {
+			softly.assertThat(bindResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+			softly.assertThat(bindResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+			softly.assertThat(bindResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.POLICY_NOT_RATED_DXP.getCode());
+			softly.assertThat(bindResponse.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.POLICY_NOT_RATED_DXP.getMessage());
+		});
 	}
 
 	protected void pas7147_VehicleUpdateRegisteredOwnerBody() {
@@ -4142,13 +4155,18 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(updateVehicleResponse.registeredOwner).isEqualTo(false);
 			assertThat(((VehicleUpdateResponseDto) updateVehicleResponse).ruleSets.get(0).errors.get(0)).contains("Registered Owners");
 		});
-
+		//TODO jpukenaite-issue or not, "Usage is Business" should not be displaying
 		//Check premium after new vehicle was added
-		HashMap<String, String> rateResponse = HelperCommon.endorsementRateError(policyNumber, 422);
-		assertThat(rateResponse.entrySet().toString()).contains(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+		//		HashMap<String, String> rateResponse = HelperCommon.endorsementRateError(policyNumber, 422);
+		//		assertThat(rateResponse.entrySet().toString()).contains(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 
-		HashMap<String, String> bindResponse = HelperCommon.endorsementBindError(policyNumber, "PAS-7147", 422);
-		assertThat(bindResponse.entrySet().toString()).contains(ErrorDxpEnum.Errors.VALIDATION_ERROR_HAPPENED_DURING_BIND.getMessage());
+		ErrorResponseDto bindResponse = HelperCommon.endorsementBindError(policyNumber, "PAS-7147", 422);
+		assertSoftly(softly -> {
+			softly.assertThat(bindResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+			softly.assertThat(bindResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+			softly.assertThat(bindResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.POLICY_NOT_RATED_DXP.getCode());
+			softly.assertThat(bindResponse.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.POLICY_NOT_RATED_DXP.getMessage());
+		});
 	}
 
 	protected void pas488_VehicleDeleteBody(PolicyType policyType) {
