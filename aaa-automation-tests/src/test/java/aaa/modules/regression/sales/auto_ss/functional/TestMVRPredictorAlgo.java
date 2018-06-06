@@ -182,8 +182,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9723")
 	public void pas9723_BypassMVRPredictorManuallyAddedViolations(@Optional("") String state) {
 
-		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933")
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Female");
+		TestData testData = getFirstDriverTestData();
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabViolations").resolveLinks();
 
 		// Add 1 Driver who is eligible for mvr status predicted valid
@@ -219,8 +218,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14264")
 	public void pas14264_BypassMVRPredictorManuallyAddedViolationsEndorsement(@Optional("") String state) {
 
-		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933")
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Female");
+		TestData testData = getFirstDriverTestData();
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabViolations").resolveLinks();
 
 		// Open application Create Customer Create Policy with Driver exceeding MVR predictor threshold. Renew Policy
@@ -253,8 +251,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14264")
 	public void pas14264_BypassMVRPredictorManuallyAddedViolationsRenewal(@Optional("") String state) {
 
-		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933")
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Female");
+		TestData testData = getFirstDriverTestData();
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabViolations").resolveLinks();
 
 		// Open application Create Customer Create Policy with Driver exceeding MVR predictor threshold. Renew Policy
@@ -319,8 +316,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9723")
 	public void pas9723_BypassMVRPredictorManuallyAddedAccidents(@Optional("") String state) {
 
-		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933")
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Female");
+		TestData testData = getFirstDriverTestData();
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabAccidents").resolveLinks();
 
 		// Add 1 Driver who is eligible for mvr status predicted valid
@@ -352,8 +348,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14264")
 	public void pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement(@Optional("") String state) {
 
-		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933")
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Female");
+		TestData testData = getFirstDriverTestData();
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabAccidents").resolveLinks();
 
 		// Open application Create Customer Create Policy with Driver exceeding MVR predictor threshold. Renew Policy
@@ -387,8 +382,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14264")
 	public void pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal(@Optional("") String state) {
 
-		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933")
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Female");
+		TestData testData = getFirstDriverTestData();
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabAccidents").resolveLinks();
 
 		// Open application Create Customer Create Policy with Driver exceeding MVR predictor threshold. Renew Policy
@@ -436,13 +430,6 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		assertMVRResponseViolations();
 	}
 
-	private void initiateManualEntry(TestData testData) {
-		// Open application Create Customer Initiate Conversion Policy with Driver exceeding MVR predictor threshold.
-		mainApp().open();
-		createCustomerIndividual();
-		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
-		policy.getDefaultView().fillUpTo(testData, DriverActivityReportsTab.class, true);
-	}
 
 	private TestData getAdjustedDriverTestData() {
 		// For exceeding OK threshold (above threshold) you need a driver age x < 27y , driving exp  5< y <15 , male, single
@@ -451,6 +438,20 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Male")
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel()), "Single")
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel()), "18");
+	}
+
+	private TestData getFirstDriverTestData() {
+		return getPolicyTD()
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933")
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Female");
+	}
+
+	private void initiateManualEntry(TestData testData) {
+		// Open application Create Customer Initiate Conversion Policy with Driver exceeding MVR predictor threshold.
+		mainApp().open();
+		createCustomerIndividual();
+		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
+		policy.getDefaultView().fillUpTo(testData, DriverActivityReportsTab.class, true);
 	}
 
 	private void preconditionAddedDrivers(TestData policyTestData, TestData driverTabTD){
