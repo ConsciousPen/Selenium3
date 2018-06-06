@@ -52,9 +52,9 @@
         </classes>
     </test>
 
-    <!--Tests for Home-->
+    <!--Tests for Defects-->
 
-    <test name="Test Off Cycle Bill Generation With No Installment Date - SS Home" parallel="methods" thread-count="1024">
+    <test name="Test Off Cycle Bill Generation With No Installment Date For SS Products" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestOffCycleBillNoInstallmentDate">
@@ -81,10 +81,16 @@
                     <include name="pas9001_testInvoiceWithNoDownPaymentEndorsement_HO6"/>
                 </methods>
             </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestOffCycleBillNoInstallmentDate">
+                <methods>
+                    <include name="pas9001_testInvoiceWithNoDownPaymentNB_AutoSS"/>
+                    <include name="pas9001_testInvoiceWithNoDownPaymentEndorsement_AutoSS"/>
+                </methods>
+            </class>
         </classes>
     </test>
 
-    <test name="Test Off Cycle Bill Generation With No Installment Date - CA Home" parallel="methods" thread-count="1024">
+    <test name="Test Off Cycle Bill Generation With No Installment Date For CA Products" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestOffCycleBillNoInstallmentDate">
@@ -111,11 +117,31 @@
                     <include name="pas9001_testInvoiceWithNoDownPaymentEndorsement_HO6"/>
                 </methods>
             </class>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestOffCycleBillNoInstallmentDate">
+                <methods>
+                    <include name="pas9001_testInvoiceWithNoDownPaymentNB_Choice"/>
+                    <include name="pas9001_testInvoiceWithNoDownPaymentEndorsement_Choice"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestOffCycleBillNoInstallmentDate">
+                <methods>
+                    <include name="pas9001_testInvoiceWithNoDownPaymentNB_Select"/>
+                    <include name="pas9001_testInvoiceWithNoDownPaymentEndorsement_Select"/>
+                </methods>
+            </class>
         </classes>
     </test>
 
-    <!--Tests for PUP-->
-
-
+    <test name="Test Off Cycle Bill Generation With No Installment Date For CA Products" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestOffCycleBillNoInstallmentDate">
+                <methods>
+                    <include name="pas9001_testInvoiceWithNoDownPaymentNB_DP3"/>
+                    <include name="pas9001_testInvoiceWithNoDownPaymentEndorsement_DP3"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 
 </suite>

@@ -14,6 +14,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.modules.regression.sales.template.functional.TestOffCycleBillNoInstallmentDateAbstract;
+import aaa.toolkit.webdriver.customcontrols.DetailedVehicleCoveragesRepeatAssetList;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
@@ -21,7 +22,7 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 @StateList(statesExcept = Constants.States.CA)
-public class TestOffCycleInvoiceNoInstallmentDate extends TestOffCycleBillNoInstallmentDateAbstract {
+public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstallmentDateAbstract {
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -55,7 +56,8 @@ public class TestOffCycleInvoiceNoInstallmentDate extends TestOffCycleBillNoInst
 
 	@Override
 	protected void adjustPremiumBearingValue() {
-		getPremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.RENTAL_REIMBURSEMENT).setValueContains("Yes");
+		getPremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel(), DetailedVehicleCoveragesRepeatAssetList.class)
+				.getAsset(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.RENTAL_REIMBURSEMENT.getLabel(), ComboBox.class).setValueContains("Yes");
 	}
 
 	@Override

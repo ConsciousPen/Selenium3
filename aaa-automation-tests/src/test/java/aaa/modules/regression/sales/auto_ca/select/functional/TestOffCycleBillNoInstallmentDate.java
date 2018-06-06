@@ -11,6 +11,7 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.modules.regression.sales.template.functional.TestOffCycleBillNoInstallmentDateAbstract;
+import aaa.toolkit.webdriver.customcontrols.DetailedVehicleCoveragesRepeatAssetList;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
@@ -55,10 +56,9 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
 
     @Override
     protected void adjustPremiumBearingValue() {
-        getPremiumAndCoveragesTab().getAssetList().getAsset(AutoCaMetaData.
-                PremiumAndCoveragesTab.DetailedVehicleCoverages.RENTAL_REIMBURSEMENT).setValueContains("Yes");
+        getPremiumAndCoveragesTab().getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel(), DetailedVehicleCoveragesRepeatAssetList.class)
+                .getAsset(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel(), ComboBox.class).setValueContains("$150");
     }
-
 
     @Override
     protected AssetDescriptor<JavaScriptButton> getCalculatePremiumButton() {
