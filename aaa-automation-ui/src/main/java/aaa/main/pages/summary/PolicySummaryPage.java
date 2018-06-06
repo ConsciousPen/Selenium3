@@ -2,6 +2,9 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.pages.summary;
 
+import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.MAKE;
+import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.MODEL;
+import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.YEAR;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
@@ -354,5 +357,12 @@ public class PolicySummaryPage extends SummaryPage {
 				+ "    order by pt.TXDATE desc)\n"
 				+ "    where rownum=1";
 		assertThat(DBService.get().getValue(String.format(transactionHistoryQuery, policyNumber)).orElse(StringUtils.EMPTY)).isEqualTo(value);*/
+	}
+
+	public static String getVehicleInfo(int rowNum) {
+		String yearVeh = tablePolicyVehicles.getRow(rowNum).getCell(YEAR).getValue();
+		String makeVeh = tablePolicyVehicles.getRow(rowNum).getCell(MAKE).getValue();
+		String modelVeh = tablePolicyVehicles.getRow(rowNum).getCell(MODEL).getValue();
+		return yearVeh + " " + makeVeh + " " + modelVeh;
 	}
 }
