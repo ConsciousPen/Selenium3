@@ -17,7 +17,6 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
-import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import static toolkit.verification.CustomAssertions.assertThat;
 
@@ -32,7 +31,7 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
 	protected abstract Tab getBindTab();
 	protected abstract void navigateToPremiumAndCoveragesTab();
 	protected abstract void navigateToBindTab();
-	protected abstract AssetDescriptor<ComboBox> getDeductible();
+	protected abstract void adjustPremiumBearingValue();
 	protected abstract AssetDescriptor<JavaScriptButton> getCalculatePremiumButton();
 
 
@@ -70,7 +69,7 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
         reopenPolicy(policyNumber);
         getPolicyType().get().endorse().perform(getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Endorsement"), "TestData"));
         navigateToPremiumAndCoveragesTab();
-        getPremiumAndCoveragesTab().getAssetList().getAsset(getDeductible()).setValueByIndex(0);
+        adjustPremiumBearingValue();
 		getPremiumAndCoveragesTab().getAssetList().getAsset(getCalculatePremiumButton()).click();
         navigateToBindTab();
         getBindTab().submitTab();

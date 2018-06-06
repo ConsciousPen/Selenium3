@@ -52,7 +52,9 @@
         </classes>
     </test>
 
-    <test name="Test Off Cycle Bill Generation With No Installment Date - SS" parallel="methods" thread-count="1024">
+    <!--Tests for Home-->
+
+    <test name="Test Off Cycle Bill Generation With No Installment Date - SS Home" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestOffCycleBillNoInstallmentDate">
@@ -82,7 +84,7 @@
         </classes>
     </test>
 
-    <test name="Test Off Cycle Bill Generation With No Installment Date - CA" parallel="methods" thread-count="1024">
+    <test name="Test Off Cycle Bill Generation With No Installment Date - CA Home" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestOffCycleBillNoInstallmentDate">
@@ -111,5 +113,9 @@
             </class>
         </classes>
     </test>
+
+    <!--Tests for PUP-->
+
+
 
 </suite>
