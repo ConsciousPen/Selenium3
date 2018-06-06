@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
-public class TestOffCycleInvoiceNoInstallmentDate extends TestOffCycleBillNoInstallmentDateAbstract {
+public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstallmentDateAbstract {
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -59,6 +59,7 @@ public class TestOffCycleInvoiceNoInstallmentDate extends TestOffCycleBillNoInst
 	protected AssetDescriptor<JavaScriptButton> getCalculatePremiumButton() {
 		return PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.CALCULATE_PREMIUM;
 	}
+
     /**
      * @author Josh Carpenter, Dakota Berg
      * @name Test balance is invoiced as off cycle bill for PUP policy when there is no future installment date on NB

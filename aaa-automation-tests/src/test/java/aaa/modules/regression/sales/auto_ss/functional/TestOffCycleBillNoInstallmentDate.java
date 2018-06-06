@@ -57,7 +57,7 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
 	@Override
 	protected void adjustPremiumBearingValue() {
 		getPremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel(), DetailedVehicleCoveragesRepeatAssetList.class)
-				.getAsset(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.RENTAL_REIMBURSEMENT.getLabel(), ComboBox.class).setValueContains("Yes");
+				.getAsset(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel(), ComboBox.class).setValueByIndex(1);
 	}
 
 	@Override

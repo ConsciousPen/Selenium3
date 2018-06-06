@@ -10,9 +10,12 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.PurchaseMetaData;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.Purchase;
+import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -74,6 +77,13 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
         navigateToBindTab();
         getBindTab().submitTab();
 
+        // Override UW rule for PUP policy
+        if (getPolicyType().equals(PolicyType.PUP)) {
+        	new ErrorTab().overrideErrors(ErrorEnum.Errors.ERROR_AAA_PUP_SS7121080);
+        	new ErrorTab().override();
+        	getBindTab().submitTab();
+		}
+
         // Min Due and off cycle billing validation
 		validateMinDueAndOffCycleBillingInvoice();
 
@@ -96,7 +106,6 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
 
 		// Move to DD-20, run off cycle billing job, and refresh policy
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getOffcycleBillGenerationDate(dueDate));
-
 		JobUtils.executeJob(Jobs.offCycleBillingInvoiceAsyncJob);
 		reopenPolicy(policyNumber);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());

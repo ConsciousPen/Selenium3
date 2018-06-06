@@ -132,13 +132,13 @@
         </classes>
     </test>
 
-    <test name="Test Off Cycle Bill Generation With No Installment Date For CA Products" parallel="methods" thread-count="1024">
-        <parameter name="state" value="CA"/>
+    <test name="Test Off Cycle Bill Generation With No Installment Date For PUP" parallel="methods" thread-count="1024">
+        <parameter name="state" value="UT, CA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestOffCycleBillNoInstallmentDate">
+            <class name="aaa.modules.regression.sales.pup.functional.TestOffCycleBillNoInstallmentDate">
                 <methods>
-                    <include name="pas9001_testInvoiceWithNoDownPaymentNB_DP3"/>
-                    <include name="pas9001_testInvoiceWithNoDownPaymentEndorsement_DP3"/>
+                    <include name="pas9001_testInvoiceWithNoDownPaymentNB_PUP"/>
+                    <include name="pas9001_testInvoiceWithNoDownPaymentEndorsement_PUP"/>
                 </methods>
             </class>
         </classes>
