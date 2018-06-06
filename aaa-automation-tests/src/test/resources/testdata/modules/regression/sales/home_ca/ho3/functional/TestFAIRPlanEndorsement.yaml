@@ -32,7 +32,7 @@ DwellingAddress_Change: {
 DocumentsTab_SignFairPlanEndorsement: {
   DocumentsToIssue: {
       California Residential Property Insurance Disclosure: 'Physically Signed',
-      Fair Plan Companion Endorsement - California: 'Physically Signed',
+      FAIR Plan Companion Endorsement - California: 'Physically Signed',
       Signed policy application: 'Physically Signed'
      }
 }
