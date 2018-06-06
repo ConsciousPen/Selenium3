@@ -55,10 +55,10 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
 	}
 
 	@Override
-	protected AssetDescriptor<ComboBox> getDeductible() {
-		return HomeCaMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE;
+	protected void adjustPremiumBearingValue() {
+		getPremiumAndCoveragesTab().getAssetList().getAsset(HomeCaMetaData.
+				PremiumsAndCoveragesQuoteTab.DEDUCTIBLE).setValueByIndex(0);
 	}
-
 	@Override
 	protected AssetDescriptor<JavaScriptButton> getCalculatePremiumButton() {
 		return HomeCaMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM_BUTTON;
