@@ -35,17 +35,15 @@ public class ManualConversionTemplate extends PolicyBaseTest{
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), effDate);
 		getPolicyType().get().getDefaultView().fill(policyTd);
 		String policyNum = PolicySummaryPage.linkPolicy.getValue();
-		SearchPage.openPolicy(policyNum);
-		if (getState().equals(Constants.States.MD)) {
-			new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
-		} else {
-			new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
-		}
 
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(effDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		mainApp().open();
 		SearchPage.openPolicy(policyNum);
+		if (!getState().equals(Constants.States.MD)) {
+			new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
+			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(effDate));
+			JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+			mainApp().open();
+			SearchPage.openPolicy(policyNum);
+		}
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(effDate));
