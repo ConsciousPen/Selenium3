@@ -26,7 +26,6 @@ public class Vehicle implements RestBodyRequest {
 	@ApiModelProperty(value = "Model", example = "Enzo")
 	public String model;
 
-
 	@ApiModelProperty(value = "Body style", example = "Coupe")
 	public String bodyStyle;
 
@@ -50,7 +49,6 @@ public class Vehicle implements RestBodyRequest {
 
 	@ApiModelProperty(value = "Garaging different than the Residential?", example = "false")
 	public Boolean garagingDifferent;
-
 
 	@ApiModelProperty(value = "Anti-Theft", example = "NONE")
 	public String antiTheft;

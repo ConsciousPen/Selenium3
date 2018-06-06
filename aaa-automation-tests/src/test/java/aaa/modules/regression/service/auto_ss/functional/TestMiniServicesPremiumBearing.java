@@ -1105,11 +1105,22 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-488"})
-	public void pas488_VehicleDelete(@Optional("VA") String state) {
+	public void pas488_VehicleDelete(@Optional("AZ") String state) {
 
 		pas488_VehicleDeleteBody(getPolicyType());
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * 1. create a policy with 2 ppa,1 conversion-van and 1 motor vehicle
+	 * 2. hit view vehicle servise to get order of all active vehicles
+	 * 3. create pended endorsement.
+	 * 2. add  one PPA vehicle through DXP servise.
+	 * 3. run delete vehicle service and delete vehicle using Oid
+	 * 4. verify response status should be pending removal
+	 * 5. then hit view vehicle servise again to get proper order of vehicle
+	 * 6. pending removal vehicle should be the 1st and then pending added vehicle and then rest of order will be same.
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "myPolicyUserAddedConfigCheck")
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12246"})
