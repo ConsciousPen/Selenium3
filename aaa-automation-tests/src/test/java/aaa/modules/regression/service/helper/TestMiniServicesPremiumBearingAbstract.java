@@ -1039,14 +1039,14 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		//Add new vehicle
 		String purchaseDate = "2012-02-21";
-		String vin2 = "ZFFCW56A830133118";
+		String vin2 = "1HGEM21504L055795";
 
 		Vehicle response1 = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin2);
 		assertSoftly(softly -> {
-					softly.assertThat(response1.modelYear).isEqualTo("2003");
-					softly.assertThat(response1.manufacturer).isEqualTo("FERRARI");
-					softly.assertThat(response1.series).isEqualTo("ENZO");
-					softly.assertThat(response1.model).isEqualTo("ENZO");
+					softly.assertThat(response1.modelYear).isEqualTo("2004");
+					softly.assertThat(response1.manufacturer).isEqualTo("HONDA");
+					softly.assertThat(response1.series).isEqualTo("CIVIC LX");
+					softly.assertThat(response1.model).isEqualTo("CIVIC");
 					softly.assertThat(response1.bodyStyle).isEqualTo("COUPE");
 					softly.assertThat(response1.oid).isNotNull();
 					softly.assertThat(response1.vehIdentificationNo).isEqualTo(vin2);
@@ -1695,7 +1695,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			//add V2
 			String purchaseDate = "2012-02-21";
-			String vin2 = "ZFFCW56A830133118";
+			String vin2 = "1HGEM21504L055795";
 			Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin2);
 			assertThat(addVehicle.oid).isNotEmpty();
 
@@ -1779,7 +1779,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			//add V4
 			String purchaseDate = "2012-02-21";
-			String vin4 = "ZFFCW56A830133118";
+			String vin4 = "1NXBR32E53Z168489";
 			Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin4);
 			assertThat(addVehicle.oid).isNotEmpty();
 
@@ -1866,7 +1866,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			//add V3
 			String purchaseDate = "2012-02-21";
-			String vin3 = "ZFFCW56A830133118";
+			String vin3 = "1NXBR32E53Z168489";
 			Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin3);
 			assertThat(addVehicle.oid).isNotEmpty();
 
@@ -4880,7 +4880,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		String purchaseDate8 = "2013-06-26";
 		String vin8 = "2HGFC2F70HH505174"; //2017 Honda Civic
-		String lastSuccessfullyAddVehicleOid = addVehicleWithChecks(policyNumber, purchaseDate8, vin8, false);
+		addVehicleWithChecks(policyNumber, purchaseDate8, vin8, false);
 
 		//add the 9th vehicle, check error
 		String purchaseDate9 = "2013-06-27";
@@ -4888,9 +4888,13 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		Vehicle request = new Vehicle();
 		request.purchaseDate = purchaseDate9;
 		request.vehIdentificationNo = vin9;
-		HashMap<String, List<HashMap<String, String>>> responseAddVehicleError = HelperCommon.executeEndorsementAddVehicleError(policyNumber, request, 422);
-		assertThat(responseAddVehicleError.get("errors").get(0).get("errorCode")).isEqualTo("PFO016");
-		assertThat(responseAddVehicleError.get("errors").get(0).get("message")).isEqualTo("Cannot add instance for 'Vehicle' because max instance count is reached or component is not applicable");
+
+		ErrorResponseDto responseAddVehicleError = HelperCommon.viewAddVehicleServiceErrors(policyNumber, purchaseDate9, vin9);
+		softly.assertThat(responseAddVehicleError.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+		softly.assertThat(responseAddVehicleError.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+		softly.assertThat(responseAddVehicleError.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.MAX_NUMBER_OF_VEHICLES.getCode());
+		softly.assertThat(responseAddVehicleError.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.MAX_NUMBER_OF_VEHICLES.getMessage());
+		softly.assertThat(responseAddVehicleError.errors.get(0).field).isEqualTo("vehIdentificationNo");
 
 		//Rate endorsement
 		PolicyPremiumInfo[] endorsementRateResponse = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
@@ -4910,12 +4914,15 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		SearchPage.openPolicy(policyNumber);
 
 		//Add 6 vehicles
-		Vehicle request2 = new Vehicle();
 		request.purchaseDate = purchaseDate9;
 		request.vehIdentificationNo = vin9;
-		HashMap<String, List<HashMap<String, String>>> responseAddVehicleError2 = HelperCommon.executeEndorsementAddVehicleError(policyNumber, request2, 422);
-		assertThat(responseAddVehicleError2.get("errors").get(0).get("errorCode")).isEqualTo("PFO016");
-		assertThat(responseAddVehicleError2.get("errors").get(0).get("message")).isEqualTo("Cannot add instance for 'Vehicle' because max instance count is reached or component is not applicable");
+
+		ErrorResponseDto responseAddVehicleError2 = HelperCommon.viewAddVehicleServiceErrors(policyNumber, purchaseDate9, vin9);
+		softly.assertThat(responseAddVehicleError2.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+		softly.assertThat(responseAddVehicleError2.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+		softly.assertThat(responseAddVehicleError2.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.MAX_NUMBER_OF_VEHICLES.getCode());
+		softly.assertThat(responseAddVehicleError2.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.MAX_NUMBER_OF_VEHICLES.getMessage());
+		softly.assertThat(responseAddVehicleError2.errors.get(0).field).isEqualTo("vehIdentificationNo");
 
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
@@ -4924,7 +4931,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		vehicleTab.saveAndExit();
 		mainApp().close();
 
-		addVehicleWithChecks(policyNumber, purchaseDate7, vin7, false);
+		addVehicleWithChecks(policyNumber, purchaseDate6, vin6, false);
 		PolicyPremiumInfo[] endorsementRateResponse2 = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
 		softly.assertThat(endorsementRateResponse2[0].actualAmt).isNotBlank();
 
