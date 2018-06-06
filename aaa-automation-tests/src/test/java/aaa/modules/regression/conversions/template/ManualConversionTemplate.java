@@ -7,6 +7,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.constants.ComponentConstant;
@@ -35,7 +36,11 @@ public class ManualConversionTemplate extends PolicyBaseTest{
 		getPolicyType().get().getDefaultView().fill(policyTd);
 		String policyNum = PolicySummaryPage.linkPolicy.getValue();
 		SearchPage.openPolicy(policyNum);
-		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
+		if (getState().equals(Constants.States.MD)) {
+			new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
+		} else {
+			new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
+		}
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(effDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
