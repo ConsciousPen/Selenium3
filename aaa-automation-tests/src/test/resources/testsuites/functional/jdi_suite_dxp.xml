@@ -80,6 +80,7 @@
                     <include name="pas13994_UpdateDriverAssignmentServiceRule1"/>
                     <include name="pas13994_UpdateDriverAssignmentServiceRule2"/>
                     <include name="pas13994_UpdateDriverAssignmentServiceRule3"/>
+                    <include name="pas502_DuplicateVinAddVehicleService"/>
                     </methods>
             </class>
         </classes>
