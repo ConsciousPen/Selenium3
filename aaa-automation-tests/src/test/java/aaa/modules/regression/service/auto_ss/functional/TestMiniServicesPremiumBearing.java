@@ -836,7 +836,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10227","PAS-11810"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10227", "PAS-11810"})
 	public void pas10227_ViewPremiumServicePendedEndorsement(@Optional("VA") String state) {
 
 		pas10227_ViewPremiumServiceForPendedEndorsement();
@@ -869,7 +869,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	//Scenario 2
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741","PAS-11852","PAS-12601"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741", "PAS-11852", "PAS-12601"})
 	public void pas11741_ManageVehicleLevelCoveragesOtherThanVA(@Optional("AZ") String state) {
 
 		pas11741_ViewManageVehicleLevelCoveragesForAZ(getPolicyType());
@@ -1131,6 +1131,25 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 
 			pas502_CheckDuplicateVinAddVehicleService(getPolicyType());
 		}
+
+	/**
+	 * @author Megha Gubbala
+	 * 1. create a policy with 2 ppa,1 conversion-van and 1 motor vehicle
+	 * 2. hit view vehicle servise to get order of all active vehicles
+	 * 3. create pended endorsement.
+	 * 2. add  one PPA vehicle through DXP servise.
+	 * 3. run delete vehicle service and delete vehicle using Oid
+	 * 4. verify response status should be pending removal
+	 * 5. then hit view vehicle servise again to get proper order of vehicle
+	 * 6. pending removal vehicle should be the 1st and then pending added vehicle and then rest of order will be same.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "myPolicyUserAddedConfigCheck")
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12246"})
+	public void pas12246_ViewVehiclePendingRemoval(@Optional("AZ") String state) {
+
+		pas12246_ViewVehiclePendingRemovalService(getPolicyType());
+	}
 
 	/**
 	 * @author Oleg Stasyuk
