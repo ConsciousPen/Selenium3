@@ -28,7 +28,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEnrollUsageBasedEndorsementCheck"/>
         </classes>
     </test>
-    <!-- Commented until MVR Predictor is implemented
 
         <test name="MVR Predictor Algo">
             <parameter name="state" value="IN,KY,MD,NJ,NV,PA,VA,OK,CT"/>
@@ -36,6 +35,9 @@
                 <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
                     <methods>
                         <exclude name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
+                        <exclude name="pas9723_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
+                        <exclude name="pas9723_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
+                        <exclude name="pas9723_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
                     </methods>
                 </class>
             </classes>
@@ -47,13 +49,14 @@
                 <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
                     <methods>
                         <include name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
+                        <include name="pas9723_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
+                        <include name="pas9723_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
+                        <include name="pas9723_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
                     </methods>
                 </class>
             </classes>
         </test>
 
-
-    -->
         <test name="Good Student Discount">
             <parameter name="state" value="IN,KY,MD,NJ,NV,PA,VA,OK,CT"/>
             <classes>
