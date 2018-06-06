@@ -54,8 +54,8 @@ public class TestOffCycleInvoiceNoInstallmentDate extends TestOffCycleBillNoInst
 	}
 
 	@Override
-	protected AssetDescriptor<ComboBox> getDeductible() {
-		return AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE;
+	protected void adjustPremiumBearingValue() {
+		getPremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.RENTAL_REIMBURSEMENT).setValueContains("Yes");
 	}
 
 	@Override

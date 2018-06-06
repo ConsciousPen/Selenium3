@@ -9,7 +9,6 @@ import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
 import aaa.modules.regression.sales.template.functional.TestOffCycleBillNoInstallmentDateAbstract;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
-import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public class TestOffCycleInvoiceNoInstallmentDate extends TestOffCycleBillNoInstallmentDateAbstract {
@@ -46,7 +45,7 @@ public class TestOffCycleInvoiceNoInstallmentDate extends TestOffCycleBillNoInst
 
 	@Override
 	protected void adjustPremiumBearingValue() {
-
+		getPremiumAndCoveragesTab().getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA).setValueByIndex(3);
 	}
 
 	@Override

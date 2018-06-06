@@ -55,8 +55,8 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
 	}
 
 	@Override
-	protected AssetDescriptor<ComboBox> getDeductible() {
-		return HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE;
+	protected void adjustPremiumBearingValue() {
+		getPremiumAndCoveragesTab().getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE).setValueByIndex(0);
 	}
 
 	@Override
