@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.auto_ca.select.functional;
+package aaa.modules.regression.sales.auto_ca.choice.functional;
 
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -10,7 +10,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
-import aaa.modules.regression.sales.template.functional.TestInvoiceWithNoDownPaymentAbstract;
+import aaa.modules.regression.sales.template.functional.TestOffCycleBillNoInstallmentDateAbstract;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
@@ -21,11 +21,11 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 @StateList(states = Constants.States.CA)
-public class TestInvoiceWithNoDownPayment extends TestInvoiceWithNoDownPaymentAbstract {
+public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstallmentDateAbstract {
 
     @Override
     protected PolicyType getPolicyType() {
-        return PolicyType.AUTO_CA_SELECT;
+        return PolicyType.AUTO_CA_CHOICE;
     }
 
     @Override
@@ -65,10 +65,10 @@ public class TestInvoiceWithNoDownPayment extends TestInvoiceWithNoDownPaymentAb
 
     /**
      * @author Josh Carpenter, Dakota Berg
-     * @name Test balance is invoiced as off cycle bill for CA Select policy when there is no future installment date on NB
+     * @name Test balance is invoiced as off cycle bill for CA Choice policy when there is no future installment date on NB
      * @scenario
      * 1. Create new customer
-     * 2. Initiate CA Select policy and fill up to Purchase tab
+     * 2. Initiate CA Choice policy and fill up to Purchase tab
      * 3. Check option to change the minimum down payment, set to $10, and selection reason in drop down (first option)
      * 4. Bind/purchase policy
      * 5. Validate the min due is zero
@@ -79,8 +79,8 @@ public class TestInvoiceWithNoDownPayment extends TestInvoiceWithNoDownPaymentAb
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = {"PAS-9001"})
-    public void pas9001_testInvoiceWithNoDownPaymentNB_Select(@Optional("") String state) {
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = {"PAS-9001"})
+    public void pas9001_testInvoiceWithNoDownPaymentNB_Choice(@Optional("") String state) {
 
         pas9001_testInvoiceWithNoDownPaymentNB();
 
@@ -88,10 +88,10 @@ public class TestInvoiceWithNoDownPayment extends TestInvoiceWithNoDownPaymentAb
 
     /**
      * @author Josh Carpenter, Dakota Berg
-     * @name Test balance is invoiced as off cycle bill for CA Select policy when there is no future installment date for endorsements
+     * @name Test balance is invoiced as off cycle bill for CA Choice policy when there is no future installment date for endorsements
      * @scenario
      * 1. Create new customer
-     * 2. Create/bind CA Select policy (pay in full)
+     * 2. Create/bind CA Choice policy (pay in full)
      * 3. Create/bind premium-bearing endorsement (decrease deductible) at eff. date plus 5 days
      * 4. Validate the min due is zero
      * 5. Run offCycleBillingInvoiceAsyncJob
@@ -101,8 +101,8 @@ public class TestInvoiceWithNoDownPayment extends TestInvoiceWithNoDownPaymentAb
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-9001"})
-    public void pas9001_testInvoiceWithNoDownPaymentEndorsement_Select(@Optional("") String state) {
+    @TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = {"PAS-9001"})
+    public void pas9001_testInvoiceWithNoDownPaymentEndorsement_Choice(@Optional("") String state) {
 
         pas9001_testInvoiceWithNoDownPaymentEndorsement();
 

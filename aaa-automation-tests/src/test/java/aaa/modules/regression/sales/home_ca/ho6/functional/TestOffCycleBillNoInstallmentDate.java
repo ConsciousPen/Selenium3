@@ -13,7 +13,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
-import aaa.modules.regression.sales.template.functional.TestInvoiceWithNoDownPaymentAbstract;
+import aaa.modules.regression.sales.template.functional.TestOffCycleBillNoInstallmentDateAbstract;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
@@ -21,7 +21,7 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 @StateList(states = Constants.States.CA)
-public class TestInvoiceWithNoDownPayment extends TestInvoiceWithNoDownPaymentAbstract {
+public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstallmentDateAbstract {
 
     @Override
     protected PolicyType getPolicyType() {

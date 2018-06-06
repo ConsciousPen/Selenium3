@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ss.dp3.functional;
+package aaa.modules.regression.sales.home_ss.ho6.functional;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -13,7 +13,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
-import aaa.modules.regression.sales.template.functional.TestInvoiceWithNoDownPaymentAbstract;
+import aaa.modules.regression.sales.template.functional.TestOffCycleBillNoInstallmentDateAbstract;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
@@ -21,26 +21,26 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 @StateList(statesExcept = Constants.States.CA)
-public class TestInvoiceWithNoDownPayment extends TestInvoiceWithNoDownPaymentAbstract {
+public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstallmentDateAbstract {
 
     @Override
     protected PolicyType getPolicyType() {
-        return PolicyType.HOME_SS_DP3;
+        return PolicyType.HOME_SS_HO6;
     }
 
-	@Override
+    @Override
 	protected PurchaseTab getPurchaseTab() {
 		return new PurchaseTab();
 	}
 
 	@Override
 	protected BindTab getBindTab() {
-		return new BindTab();
+    	return new BindTab();
 	}
 
 	@Override
 	protected PremiumsAndCoveragesQuoteTab getPremiumAndCoveragesTab() {
-		return new PremiumsAndCoveragesQuoteTab();
+    	return new PremiumsAndCoveragesQuoteTab();
 	}
 
 	@Override
@@ -64,24 +64,24 @@ public class TestInvoiceWithNoDownPayment extends TestInvoiceWithNoDownPaymentAb
 		return HomeSSMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM;
 	}
 
-	/**
-	 * @author Josh Carpenter
-	 * @name Test balance is invoiced as off cycle bill for SS DP3 policy when there is no future installment date on NB
-	 * @scenario
-	 * 1. Create new customer
-	 * 2. Initiate SS DP3 policy and fill up to Purchase tab
-	 * 3. Check option to change the minimum down payment, set to $10, and selection reason in drop down (first option)
-	 * 4. Bind/purchase policy
-	 * 5. Validate the min due is zero
-	 * 6. Run offCycleBillingInvoiceAsyncJob
-	 * 7. Refresh policy and navigate back to Billing Summary page
-	 * 8. Validate the off cycle bill has been generated with correct amounts
-	 * @details
-	 */
+    /**
+     * @author Josh Carpenter
+     * @name Test balance is invoiced as off cycle bill for SS HO6 policy when there is no future installment date on NB
+     * @scenario
+     * 1. Create new customer
+     * 2. Initiate SS HO6 policy and fill up to Purchase tab
+     * 3. Check option to change the minimum down payment, set to $10, and selection reason in drop down (first option)
+     * 4. Bind/purchase policy
+     * 5. Validate the min due is zero
+     * 6. Run offCycleBillingInvoiceAsyncJob
+     * 7. Refresh policy and navigate back to Billing Summary page
+     * 8. Validate the off cycle bill has been generated with correct amounts
+     * @details
+     */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = {"PAS-9001"})
-    public void pas9001_testInvoiceWithNoDownPaymentNB_DP3(@Optional("") String state) {
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-9001"})
+    public void pas9001_testInvoiceWithNoDownPaymentNB_HO6(@Optional("") String state) {
 
         pas9001_testInvoiceWithNoDownPaymentNB();
 
@@ -89,10 +89,10 @@ public class TestInvoiceWithNoDownPayment extends TestInvoiceWithNoDownPaymentAb
 
 	/**
 	 * @author Josh Carpenter
-	 * @name Test balance is invoiced as off cycle bill for SS DP3 policy when there is no future installment date for endorsements
+	 * @name Test balance is invoiced as off cycle bill for SS HO6 policy when there is no future installment date for endorsements
 	 * @scenario
 	 * 1. Create new customer
-	 * 2. Create/bind SS DP3 policy (pay in full)
+	 * 2. Create/bind SS HO6 policy (pay in full)
 	 * 3. Create/bind premium-bearing endorsement (decrease deductible) at eff. date plus 5 days
 	 * 4. Validate the min due is zero
 	 * 5. Run offCycleBillingInvoiceAsyncJob
@@ -102,8 +102,8 @@ public class TestInvoiceWithNoDownPayment extends TestInvoiceWithNoDownPaymentAb
 	 */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Service.HOME_SS_DP3, testCaseId = {"PAS-9001"})
-    public void pas9001_testInvoiceWithNoDownPaymentEndorsement_DP3(@Optional("") String state) {
+    @TestInfo(component = ComponentConstant.Service.HOME_SS_HO6, testCaseId = {"PAS-9001"})
+    public void pas9001_testInvoiceWithNoDownPaymentEndorsement_HO6(@Optional("") String state) {
 
         pas9001_testInvoiceWithNoDownPaymentEndorsement();
 

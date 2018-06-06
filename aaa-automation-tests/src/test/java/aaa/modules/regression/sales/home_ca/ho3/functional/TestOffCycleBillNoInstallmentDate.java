@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ca.dp3.functional;
+package aaa.modules.regression.sales.home_ca.ho3.functional;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -9,12 +9,11 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeCaMetaData;
-import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
-import aaa.modules.regression.sales.template.functional.TestInvoiceWithNoDownPaymentAbstract;
+import aaa.modules.regression.sales.template.functional.TestOffCycleBillNoInstallmentDateAbstract;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
@@ -22,12 +21,12 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 @StateList(states = Constants.States.CA)
-public class TestInvoiceWithNoDownPayment extends TestInvoiceWithNoDownPaymentAbstract {
+public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstallmentDateAbstract {
 
     @Override
-	protected PolicyType getPolicyType() {
-    	return PolicyType.HOME_CA_DP3;
-	}
+    protected PolicyType getPolicyType() {
+        return PolicyType.HOME_CA_HO3;
+    }
 
 	@Override
 	protected PurchaseTab getPurchaseTab() {
@@ -67,10 +66,10 @@ public class TestInvoiceWithNoDownPayment extends TestInvoiceWithNoDownPaymentAb
 
     /**
      * @author Josh Carpenter
-     * @name Test balance is invoiced as off cycle bill for CA DP3 policy when there is no future installment date on NB
+     * @name Test balance is invoiced as off cycle bill for CA HO3 policy when there is no future installment date on NB
      * @scenario
      * 1. Create new customer
-     * 2. Initiate CA DP3 policy and fill up to Purchase tab
+     * 2. Initiate CA HO3 policy and fill up to Purchase tab
      * 3. Check option to change the minimum down payment, set to $10, and selection reason in drop down (first option)
      * 4. Bind/purchase policy
      * 5. Validate the min due is zero
@@ -81,8 +80,8 @@ public class TestInvoiceWithNoDownPayment extends TestInvoiceWithNoDownPaymentAb
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = {"PAS-9001"})
-    public void pas9001_testInvoiceWithNoDownPaymentNB_DP3(@Optional("CA") String state) {
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = {"PAS-9001"})
+    public void pas9001_testInvoiceWithNoDownPaymentNB_HO3(@Optional("CA") String state) {
 
         pas9001_testInvoiceWithNoDownPaymentNB();
 
@@ -90,10 +89,10 @@ public class TestInvoiceWithNoDownPayment extends TestInvoiceWithNoDownPaymentAb
 
 	/**
 	 * @author Josh Carpenter
-	 * @name Test balance is invoiced as off cycle bill for CA DP3 policy when there is no future installment date for endorsements
+	 * @name Test balance is invoiced as off cycle bill for CA HO3 policy when there is no future installment date for endorsements
 	 * @scenario
 	 * 1. Create new customer
-	 * 2. Create/bind CA DP3 policy (pay in full)
+	 * 2. Create/bind CA HO3 policy (pay in full)
 	 * 3. Create/bind premium-bearing endorsement (decrease deductible) at eff. date plus 5 days
 	 * 4. Validate the min due is zero
 	 * 5. Run offCycleBillingInvoiceAsyncJob
@@ -103,8 +102,8 @@ public class TestInvoiceWithNoDownPayment extends TestInvoiceWithNoDownPaymentAb
 	 */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Service.HOME_CA_DP3, testCaseId = {"PAS-9001"})
-    public void pas9001_testInvoiceWithNoDownPaymentEndorsement_DP3(@Optional("CA") String state) {
+    @TestInfo(component = ComponentConstant.Service.HOME_CA_HO3, testCaseId = {"PAS-9001"})
+    public void pas9001_testInvoiceWithNoDownPaymentEndorsement_HO3(@Optional("CA") String state) {
 
         pas9001_testInvoiceWithNoDownPaymentEndorsement();
 

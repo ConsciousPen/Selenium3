@@ -1,6 +1,5 @@
 package aaa.modules.regression.sales.template.functional;
 
-import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -9,7 +8,6 @@ import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.TimePoints;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.SearchEnum;
@@ -23,7 +21,7 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import static toolkit.verification.CustomAssertions.assertThat;
 
-public abstract class TestInvoiceWithNoDownPaymentAbstract extends PolicyBaseTest {
+public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBaseTest {
 
 	private final Dollar zeroDollars = new Dollar(0.00);
 	private String policyNumber;
