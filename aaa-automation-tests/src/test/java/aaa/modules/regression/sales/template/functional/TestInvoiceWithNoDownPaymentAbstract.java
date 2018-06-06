@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.template.functional;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -8,6 +9,7 @@ import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.TimePoints;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.SearchEnum;
@@ -46,7 +48,7 @@ public abstract class TestInvoiceWithNoDownPaymentAbstract extends PolicyBaseTes
         getPolicyType().get().initiate();
         getPolicyType().get().getDefaultView().fillUpTo(getPolicyDefaultTD(), getPurchaseTab().getClass());
 		getPurchaseTab().getAssetList().getAsset(PurchaseMetaData.PurchaseTab.CHANGE_MINIMUM_DOWNPAYMENT).setValue(true);
-		getPurchaseTab().getAssetList().getAsset(PurchaseMetaData.PurchaseTab.MINIMUM_REQUIRED_DOWNPAYMENT).setValue("10.00");
+		getPurchaseTab().getAssetList().getAsset(PurchaseMetaData.PurchaseTab.MINIMUM_REQUIRED_DOWNPAYMENT).setValue("0.00");
 		getPurchaseTab().getAssetList().getAsset(PurchaseMetaData.PurchaseTab.REASON_FOR_CHANGING).setValue("index=1");
 		getPurchaseTab().getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH).setValue(Purchase.remainingBalanceDueToday.getValue());
 		getPurchaseTab().submitTab();
@@ -96,7 +98,8 @@ public abstract class TestInvoiceWithNoDownPaymentAbstract extends PolicyBaseTes
 		assertThat(BillingSummaryPage.getMinimumDue()).isEqualTo(zeroDollars);
 
 		// Move to DD-20, run off cycle billing job, and refresh policy
-		TimeSetterUtil.getInstance().nextPhase(dueDate.minusDays(20));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getOffcycleBillGenerationDate(dueDate));
+
 		JobUtils.executeJob(Jobs.offCycleBillingInvoiceAsyncJob);
 		reopenPolicy(policyNumber);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
