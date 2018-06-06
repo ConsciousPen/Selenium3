@@ -1111,6 +1111,28 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	}
 
 	/**
+	 * @author Jovita Pukenaite
+	 * @name Check Duplicate VINS and the Add Vehicle Service
+	 * @scenario 1. Create policy with Two vehicles.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Try Add Vehicle with the same VIN witch already exist in the policy.
+	 * 4. Check Error about duplicate VIN.
+	 * 5. Add new vehicle with new VIN. Check the status.
+	 * 6. Try add the same vehicle one more time.
+	 * 7. Check if error is displaying.
+	 * Start PAS-11005
+	 * 8. Try add to expensive vehicle.
+	 * 9. Check if error is displaying.
+	 */
+		@Parameters({"state"})
+		@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+		@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-502", "PAS-11005"})
+		public void pas502_DuplicateVinAddVehicleService(@Optional("VA") String state) {
+
+			pas502_CheckDuplicateVinAddVehicleService(getPolicyType());
+		}
+
+	/**
 	 * @author Megha Gubbala
 	 * 1. create a policy with 2 ppa,1 conversion-van and 1 motor vehicle
 	 * 2. hit view vehicle servise to get order of all active vehicles
