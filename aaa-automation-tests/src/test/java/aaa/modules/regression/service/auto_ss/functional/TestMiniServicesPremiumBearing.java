@@ -1105,7 +1105,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-488"})
-	public void pas488_VehicleDelete(@Optional("AZ") String state) {
+	public void pas488_VehicleDelete(@Optional("VA") String state) {
 
 		pas488_VehicleDeleteBody(getPolicyType());
 	}
