@@ -22,11 +22,11 @@ public class VehicleQueries {
 	public static final String EDIT_COMP_VALUE = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOMPREHENSIVE = PHYSICALDAMAGECOMPREHENSIVE + 50 where vin like '5TFEZ5CN%H' and VERSION like 'SYMBOL_2000'";
 	public static final String EDIT_SPECIFIC_COMP_VALUE = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOMPREHENSIVE = PHYSICALDAMAGECOMPREHENSIVE + 50 where vin like '%s' and VERSION like 'SYMBOL_2000'";
 	public static final String REPAIR_COMP_VALUE = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOMPREHENSIVE = PHYSICALDAMAGECOMPREHENSIVE - 50 where vin like '5TFEZ5CN%H' and VERSION like 'SYMBOL_2000'";
-
-
+	public static final String MINUS_50_FROM_COMP_VALUE = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOMPREHENSIVE = PHYSICALDAMAGECOMPREHENSIVE - 50 where vin like '%s' and VERSION like 'SYMBOL_2000'";
 
 	public static final String REPAIR_7MSRP15H_COMP = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOMPREHENSIVE ='44' where vin like '7MSRP15H%V' and VERSION like 'SYMBOL_2000'";
 	public static final String REPAIR_7MSRP15H_COLL = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOLLISION ='35' where vin like '7MSRP15H%V' and VERSION like 'SYMBOL_2000'";
+	public static final String REPAIR_SPECIFIED_COLLCOMP = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOLLISION ='35' and PHYSICALDAMAGECOMPREHENSIVE ='44' where vin like '%s' and VERSION like 'SYMBOL_2000'";
 	public static final String REPAIR_7MSRP15H_COMP_CHOICE = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOMPREHENSIVE ='43' where vin like '7MSRP15H%V' and VERSION like 'SYMBOL_2000_CHOICE'";
 	public static final String REPAIR_7MSRP15H_COLL_CHOICE = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOLLISION ='33' where vin like '7MSRP15H%V' and VERSION like 'SYMBOL_2000_CHOICE'";
 

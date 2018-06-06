@@ -21,7 +21,6 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
-	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 
 	@Override
 	protected PolicyType getPolicyType() {
