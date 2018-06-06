@@ -28,7 +28,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 import toolkit.verification.CustomAssertions;
 
 public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
@@ -448,8 +447,6 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		//4. Switch FAIR Plan Endorsement
 		switchToFAIRPlanEndorsementAndBind();
 		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
-
-		CustomAssert.enableSoftMode();
 
 		//6. Validate that form FPCECA is included in Endorsement package
 		//8. Validate that form FPCECA is included in Endorsement package only once
@@ -878,21 +875,18 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 	}
 
 	private void validateFAIRPlanEndorsementSequencePAS_14368(List<Document> docs, AaaDocGenEntityQueries.EventNames eventName) {
-		String expectedSequenceValue = null;
+		docs.removeIf(document -> !document.getTemplateId().equals(formIdInXml));
 
 		if (eventName.equals(POLICY_ISSUE) || eventName.equals(ENDORSEMENT_ISSUE)) {
-			expectedSequenceValue = "91";
+			SoftAssertions.assertSoftly(softly -> {
+				softly.assertThat(docs.get(0).getSequence()).isEqualTo("91");
+			});
 		} else if (eventName.equals(RENEWAL_OFFER)) {
-			expectedSequenceValue = "171";
+			SoftAssertions.assertSoftly(softly -> {
+				softly.assertThat(docs.get(0).getSequence()).isEqualTo("171");
+			});
 		}
 
-		if (expectedSequenceValue != null) {
-			docs.removeIf(document -> !document.getTemplateId().equals(formIdInXml));
-
-			CustomAssert.enableSoftMode();
-			assertThat(docs.get(0).getSequence()).isEqualTo(expectedSequenceValue);
-			CustomAssert.disableSoftMode();
-		}
 	}
 
 }
