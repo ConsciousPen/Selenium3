@@ -229,7 +229,7 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 				break;
 			default:
 				//WM-0912: Coverage A greater than 120% of replacement cost requires underwriting approval
-				errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1160000);
+				//errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1160000); //rule disabled according to PPS-371
 				//WM-0549: Dwellings built prior to 1940 must have all four major systems fully renovated.
 				errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3282256);
 				//WM-0550: Risks with more than 3 horses or 4 livestock are unacceptable

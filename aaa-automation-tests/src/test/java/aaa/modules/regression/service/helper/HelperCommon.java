@@ -130,7 +130,7 @@ public class HelperCommon {
 	}
 
 	public static ValidateEndorsementResponse startEndorsement(String policyNumber, String endorsementDate, String sessionId) {
-		final RestRequestInfo<ValidateEndorsementResponse> restRequestInfo = new RestRequestInfo<>();
+		RestRequestInfo<ValidateEndorsementResponse> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.responseType = ValidateEndorsementResponse.class;
 		restRequestInfo.sessionId = sessionId;
 		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_START_ENDORSEMENT_INFO, policyNumber));
@@ -141,7 +141,7 @@ public class HelperCommon {
 	}
 
 	public static ErrorResponseDto startEndorsementError(String policyNumber, String endorsementDate, int status) {
-		final RestRequestInfo<ErrorResponseDto> restRequestInfo = new RestRequestInfo<>();
+		RestRequestInfo<ErrorResponseDto> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_START_ENDORSEMENT_INFO, policyNumber));
 		restRequestInfo.status = status;
 		restRequestInfo.responseType = ErrorResponseDto.class;
@@ -175,7 +175,7 @@ public class HelperCommon {
 	}
 
 	public static PolicyLockUnlockDto executePolicyLockService(String policyNumber, int status, String sessionId) {
-		final RestRequestInfo<PolicyLockUnlockDto> restRequestInfo = new RestRequestInfo<>();
+		RestRequestInfo<PolicyLockUnlockDto> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_LOCK_UNLOCK_SERVICES, policyNumber));
 		restRequestInfo.responseType = PolicyLockUnlockDto.class;
 		restRequestInfo.status = status;
@@ -184,7 +184,7 @@ public class HelperCommon {
 	}
 
 	public static PolicyLockUnlockDto executePolicyUnlockService(String policyNumber, int status, String sessionId) {
-		final RestRequestInfo<PolicyLockUnlockDto> restRequestInfo = new RestRequestInfo<>();
+		RestRequestInfo<PolicyLockUnlockDto> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_LOCK_UNLOCK_SERVICES, policyNumber));
 		restRequestInfo.responseType = PolicyLockUnlockDto.class;
 		restRequestInfo.status = status;
@@ -393,7 +393,7 @@ public class HelperCommon {
 	}
 
 	public static <T> T runJsonRequestPostDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType, int status) {
-		final RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = url;
 		restRequestInfo.bodyRequest = bodyRequest;
 		restRequestInfo.responseType = responseType;
@@ -495,7 +495,7 @@ public class HelperCommon {
 	}
 
 	public static <T> T runJsonRequestDeleteDxp(String url, Class<T> responseType, int status) {
-		final RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = url;
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status = status;
@@ -530,7 +530,7 @@ public class HelperCommon {
 	}
 
 	public static <T> T runJsonRequestGetDxp(String url, Class<T> responseType, int status) {
-		final RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = url;
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status = status;
@@ -594,7 +594,7 @@ public class HelperCommon {
 	private static Invocation.Builder createJsonRequest(Client client, String url, String sessionId) {
 		Invocation.Builder builder = client.target(url).request().header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
 		if (BooleanUtils.toBoolean(PropertyProvider.getProperty(CustomTestProperties.OAUTH2_ENABLED))) {
-			final String token = getBearerToken();
+			String token = getBearerToken();
 			if (StringUtils.isNotEmpty(token)) {
 				builder = builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 			}
@@ -614,7 +614,7 @@ public class HelperCommon {
 					.header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED)
 					.post(Entity.json(GetOAuth2TokenRequest.create().asUrlEncoded()));
 
-			final Map result = response.readEntity(HashMap.class);
+			Map result = response.readEntity(HashMap.class);
 
 			return result.get("access_token").toString();
 		} finally {
@@ -629,7 +629,7 @@ public class HelperCommon {
 
 	private static String createApplicationContext(String sessionId) {
 		try {
-			final ApplicationContext applicationContext = new ApplicationContext();
+			ApplicationContext applicationContext = new ApplicationContext();
 			applicationContext.address = "AutomationTest";
 			applicationContext.application = "AutomationTest";
 			applicationContext.correlationId = Guid.GUID.newGuid().toString();
