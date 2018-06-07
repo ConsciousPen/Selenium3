@@ -447,9 +447,15 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 			case "SI":
 				classification = "Sales / Collectors / Messengers with service";
 				break;
-			// "Sales / Collectors / Messengers w/out service"
-			// "Teacher - athletic/physical training, laboratory/manual training"
-			// "Teacher - Other"
+			case "SE":
+				classification = "Sales / Collectors / Messengers w/out service";
+				break;
+			case "T1": 
+				classification = "Teacher - athletic/physical training, laboratory/manual training";
+				break;
+			case "T2":
+				classification = "Teacher - Other";
+				break;
 			default:
 				throw new IstfException("Unknown mapping for type = " + openLPolicy.getForms().stream().filter(c -> "HS2471".equals(c.getFormCode())).findFirst().get().getType());
 		}
