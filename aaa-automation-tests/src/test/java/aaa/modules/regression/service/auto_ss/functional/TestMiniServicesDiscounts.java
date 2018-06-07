@@ -93,11 +93,11 @@ public class TestMiniServicesDiscounts extends AutoSSBaseTest {
 		policyLevelDiscountsCheck(policyDiscountsResponse, "EMD", "eValue Discount");
 
 		//vehicle level discount check start
-		Vehicle[] viewVehicleResponse = HelperCommon.viewPolicyVehicles(policyNumber);
-		Vehicle vehicle1 = Arrays.stream(viewVehicleResponse).filter(veh -> "1GGYL2D7XG5100001".equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+		ViewVehicleResponse vehicleResponse = HelperCommon.viewPolicyVehicles(policyNumber);
+		Vehicle vehicle1 = vehicleResponse.vehicleList.stream().filter(veh -> "1GGYL2D7XG5100001".equals(veh.vehIdentificationNo)).findFirst().orElse(null);
 		String vehicleOid1 = vehicle1.oid;
 		printToLog("vehicleOid1 : " + vehicleOid1);
-		Vehicle vehicle2 = Arrays.stream(viewVehicleResponse).filter(veh -> "1GGYL2D7XG5100002".equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+		Vehicle vehicle2 = vehicleResponse.vehicleList.stream().filter(veh -> "1GGYL2D7XG5100002".equals(veh.vehIdentificationNo)).findFirst().orElse(null);
 		String vehicleOid2 = vehicle2.oid;
 		printToLog("vehicleOid2 : " + vehicleOid2);
 		vehicleLevelDiscountsCheck(policyDiscountsResponse, "ATD", "Anti-Theft Recovery Device", vehicleOid1);
