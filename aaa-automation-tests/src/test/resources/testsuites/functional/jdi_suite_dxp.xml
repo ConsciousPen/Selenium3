@@ -222,4 +222,14 @@
             </class>
         </classes>
     </test>
+    <test name="pas14501_garagingDifferent">
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDiscounts">
+                <parameter name="state" value="VA, AZ"/>
+                <methods>
+                    <include name="pas14501_garagingDifferent"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
