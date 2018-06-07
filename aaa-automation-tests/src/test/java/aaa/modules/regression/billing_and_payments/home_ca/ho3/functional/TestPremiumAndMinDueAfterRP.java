@@ -7,6 +7,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -132,7 +133,7 @@ public class TestPremiumAndMinDueAfterRP extends HomeCaHO3BaseTest {
         CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
         PolicySummaryPage.buttonRenewals.click();
         new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
-        PolicySummaryPage.buttonBack.click();
+        Tab.buttonBack.click();
     }
 
     private void createRevisedRenewalProposal() {
