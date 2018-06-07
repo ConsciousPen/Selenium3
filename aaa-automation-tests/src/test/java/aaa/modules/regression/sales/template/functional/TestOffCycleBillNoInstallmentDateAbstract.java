@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -99,7 +100,7 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
         // Override UW rule for PUP policy
         if (getPolicyType().equals(PolicyType.PUP)) {
 			ErrorTab errorTab = new ErrorTab();
-        	if (getPolicyType().isCaProduct()) {
+        	if (getState().equals(Constants.States.CA)) {
 				errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_PUP_SS7121080_CA);
 			} else {
 				errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_PUP_SS7121080);
