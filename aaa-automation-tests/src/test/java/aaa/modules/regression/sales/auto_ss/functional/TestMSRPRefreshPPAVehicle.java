@@ -36,9 +36,18 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		return PolicyType.AUTO_SS;
 	}
 
-	protected String storeCurrentVin_pas12877 = "";
-	protected String vinWithLowCompId = "";
-	protected String vinWithHighCompId = "";
+	String copyExistingRowByVin = "INSERT INTO VEHICLEREFDATAVIN (SELECT * FROM VEHICLEREFDATAVIN WHERE VIN LIKE '%s' and VERSION='SYMBOL_2000')";
+	String copyExistingRowById = "INSERT INTO VEHICLEREFDATAVIN (SELECT * FROM VEHICLEREFDATAVIN WHERE id = '%s' and VERSION='SYMBOL_2000')";
+	String updateIdForCopiedRow = "UPDATE VEHICLEREFDATAVIN SET id = '%s' WHERE VIN LIKE '%s' and VERSION='SYMBOL_2000' AND ROWNUM = 1";
+	String updateCompCollSymbol = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOLLISION ='%d' , PHYSICALDAMAGECOMPREHENSIVE = '%d' where id = '%s' and vin like '%s' and VERSION like 'SYMBOL_2000'";
+
+	protected String storeCurrentVin_CompMatchPas12877 = "";
+	protected String vinCopyWithLowCompId = "";
+	protected String vinCopyWithHighCompId = "";
+	protected String storeCurrentVin_NoCompMatchPas12877 = "";
+	protected String vinCopyNoCompMatchId = "";
+	protected String vinOriginalNoCompMatchId = "";
+
 	protected String originalVin = "";
 
 	/**
@@ -322,12 +331,6 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12877")
 	public void pas12877_StoreStubRenewal_COMP(@Optional("UT") String state) {
-		String copyExistingRowByVin = "INSERT INTO VEHICLEREFDATAVIN (SELECT * FROM VEHICLEREFDATAVIN WHERE VIN LIKE '%s' and VERSION='SYMBOL_2000')";
-		String copyExistingRowById = "INSERT INTO VEHICLEREFDATAVIN (SELECT * FROM VEHICLEREFDATAVIN WHERE id = '%s' and VERSION='SYMBOL_2000')";
-		String updateIdForCopiedRow = "UPDATE VEHICLEREFDATAVIN SET id = '%s' WHERE VIN LIKE '%s' and VERSION='SYMBOL_2000' AND ROWNUM = 1";
-		String updateCompCollSymbol = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOLLISION ='%d' , PHYSICALDAMAGECOMPREHENSIVE = '%d' where id = '%s' and vin like '%s' and VERSION like 'SYMBOL_2000'";
-
-		// Только одна запись с таким же комп символом
 		// Genesis has only one entry in db. Best fit for this test.
 		String vehYear = "2018";
 		String vehMake = "HYUNDAI";
@@ -346,7 +349,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		//1. Create a Policy with specific test data
 		String policyNumber = createPreconds(testData);
 		String newBusinessCurrentVinBeforeNull = DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get();
-		String sqlVinNumber =  newBusinessCurrentVinBeforeNull.replace("&","%") + "%";
+		String sqlVinCompMatch =  newBusinessCurrentVinBeforeNull.replace("&","%") + "%";
 
 		assertThat(newBusinessCurrentVinBeforeNull).isNotNull().isNotEmpty();
 
@@ -363,15 +366,15 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		String getVehicleRefDataVinMaxId = "SELECT MAX(id) + 1 as id FROM VEHICLEREFDATAVIN";
 
 		// Create VIN Entry with smaller COMP symbol then original
-		vinWithLowCompId = DBService.get().getValue(getVehicleRefDataVinMaxId).get();
-		DBService.get().executeUpdate(String.format(copyExistingRowByVin,sqlVinNumber));
-		DBService.get().executeUpdate(String.format(updateIdForCopiedRow, vinWithLowCompId,sqlVinNumber));
-		DBService.get().executeUpdate(String.format(updateCompCollSymbol, 35, 35, vinWithLowCompId,sqlVinNumber));
+		vinCopyWithLowCompId = DBService.get().getValue(getVehicleRefDataVinMaxId).get();
+		DBService.get().executeUpdate(String.format(copyExistingRowByVin,sqlVinCompMatch));
+		DBService.get().executeUpdate(String.format(updateIdForCopiedRow, vinCopyWithLowCompId,sqlVinCompMatch));
+		DBService.get().executeUpdate(String.format(updateCompCollSymbol, 35, 35, vinCopyWithLowCompId,sqlVinCompMatch));
 		// Create VIN Entry with Larger COMP symbol then original
-		vinWithHighCompId = DBService.get().getValue(getVehicleRefDataVinMaxId).get();
-		DBService.get().executeUpdate(String.format(copyExistingRowById,vinWithLowCompId));
-		DBService.get().executeUpdate(String.format(updateIdForCopiedRow, vinWithHighCompId,sqlVinNumber));
-		DBService.get().executeUpdate(String.format(updateCompCollSymbol, 55, 55, vinWithHighCompId,sqlVinNumber));
+		vinCopyWithHighCompId = DBService.get().getValue(getVehicleRefDataVinMaxId).get();
+		DBService.get().executeUpdate(String.format(copyExistingRowById, vinCopyWithLowCompId));
+		DBService.get().executeUpdate(String.format(updateIdForCopiedRow, vinCopyWithHighCompId,sqlVinCompMatch));
+		DBService.get().executeUpdate(String.format(updateCompCollSymbol, 55, 55, vinCopyWithHighCompId,sqlVinCompMatch));
 		//3. Generate Renewal Image
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
@@ -403,7 +406,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	}
 
 	/**
-	 @author Chris Johns
+	 @author Chris Johns / Viktor Petrenko
 	 @scenario Multiple Matches for manual selections, with a VIN entered (VIN returns no match/junk vin) - NO COMP SYMBOL MATCH
 	 1. Create Auto Policy where no VIN is entered and the user manually selects year/Make/Model/Series/Body Style. Ensure the Dropdown selections match multiple VINs in VIN Table
 	 2. After Policy Creation Delete the saved VIN Stub From DB (  PAS-12881 DONE  now stores vin stub on all quotes)
@@ -419,11 +422,11 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12877")
 	public void pas12877_StoreStubRenewal_NO_COMP_MATCH(@Optional("UT") String state) {
 
-		String vehYear = "2017";
-		String vehMake = "TOYOTA";
-		String vehModel = "TACOMA";
-		String vehSeries = "TACOMA DOUBLE CAB";
-		String vehBodyStyle = "PICKUP";
+		String vehYear = "2018";
+		String vehMake = "MASERATI";
+		String vehModel = "GHIBLI";
+		String vehSeries = "GHIBLI S";
+		String vehBodyStyle = "SEDAN";
 
 		TestData testData = getPolicyTD()
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "ZZYKN3DD8E0344466")
@@ -435,11 +438,14 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		//1. Create a Policy with specific test data
 		String policyNumber = createPreconds(testData);
-		storeCurrentVin_pas12877 = DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get();
-		assertThat(storeCurrentVin_pas12877).isNotNull().isNotEmpty();
+		String newBusinessCurrentVinBeforeNull = DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get();
+		String sqlNoCompMatchVin =  newBusinessCurrentVinBeforeNull.replace("&","%") + "%";
+
+		storeCurrentVin_NoCompMatchPas12877 = DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get();
+		assertThat(storeCurrentVin_CompMatchPas12877).isNotNull().isNotEmpty();
 
 		//2. Clear the Current VIN Stub Stored at NB and modify the COMP Symbol for the utilized VIN STUB - this will ensure that there is no direct match to a vin stub on renewal
-		DBService.get().executeUpdate(String.format(VehicleQueries.NULL_SPECIFIC_POLICY_STUB, storeCurrentVin_pas12877));
+		DBService.get().executeUpdate(String.format(VehicleQueries.NULL_SPECIFIC_POLICY_STUB, storeCurrentVin_CompMatchPas12877));
 
 		Map<String,String> allNewBusinessValues = DBService.get().getRow(String.format(VehicleQueries.SELECT_LIST_OF_VIN_STUB_ON_QUOTE, policyNumber));
 		String newBusinessComp = allNewBusinessValues.get("COMPSYMBOL");
@@ -448,7 +454,14 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		log.info("New business compsymbol: {} and collsymbol: {}", newBusinessComp, newBusinessColl);
 
-		DBService.get().executeUpdate(String.format(VehicleQueries.EDIT_SPECIFIC_COMP_VALUE, storeCurrentVin_pas12877));
+		String getVehicleRefDataVinMaxId = "SELECT MAX(id) + 1 as id FROM VEHICLEREFDATAVIN";
+		// Create VIN Entry with smaller COMP symbol then original
+		vinCopyNoCompMatchId = DBService.get().getValue(getVehicleRefDataVinMaxId).get();
+		DBService.get().executeUpdate(String.format(copyExistingRowByVin,sqlNoCompMatchVin));
+		DBService.get().executeUpdate(String.format(updateIdForCopiedRow, vinCopyNoCompMatchId,sqlNoCompMatchVin));
+		DBService.get().executeUpdate(String.format(updateCompCollSymbol, Integer.parseInt(newBusinessComp)-5, Integer.parseInt(newBusinessComp)-5, vinCopyNoCompMatchId,sqlNoCompMatchVin));
+		// EDIT IT : Raise comp symbol
+		DBService.get().executeUpdate(String.format(VehicleQueries.EDIT_SPECIFIC_COMP_VALUE, storeCurrentVin_CompMatchPas12877));
 
 		//3. Generate Renewal Image
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -479,11 +492,11 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	protected void resetVinControlTable() {
 		// pas730_PartialMatch clean
 		//DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN,"");
-		DBService.get().executeUpdate(String.format(VehicleQueries.REPAIR_SPECIFIED_COLLCOMP, storeCurrentVin_pas12877));
+		DBService.get().executeUpdate(String.format(VehicleQueries.REPAIR_SPECIFIED_COLLCOMP, storeCurrentVin_CompMatchPas12877));
 		// pas12877_StoreStubRenewal_COMP
-		DBService.get().executeUpdate(String.format(VehicleQueries.MINUS_50_FROM_COMP_VALUE, storeCurrentVin_pas12877));
-		DBService.get().executeUpdate(String.format("DELETE FROM VEHICLEREFDATAVIN WHERE ID = %s", vinWithLowCompId));
-		DBService.get().executeUpdate(String.format("DELETE FROM VEHICLEREFDATAVIN WHERE ID = %s", vinWithHighCompId));
+		DBService.get().executeUpdate(String.format(VehicleQueries.MINUS_50_FROM_COMP_VALUE, storeCurrentVin_CompMatchPas12877));
+		DBService.get().executeUpdate(String.format("DELETE FROM VEHICLEREFDATAVIN WHERE ID = %s", vinCopyWithLowCompId));
+		DBService.get().executeUpdate(String.format("DELETE FROM VEHICLEREFDATAVIN WHERE ID = %s", vinCopyWithHighCompId));
 		resetMsrpPPAVeh();
 		// Reset to the default state  MSRP_2000
 		//resetDefaultMSRPVersionAtVinControlTable();
