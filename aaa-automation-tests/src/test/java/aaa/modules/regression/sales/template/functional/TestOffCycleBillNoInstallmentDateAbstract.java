@@ -20,6 +20,7 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
+import toolkit.datax.TestData;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import static toolkit.verification.CustomAssertions.assertThat;
 
@@ -50,8 +51,9 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
         createCustomerIndividual();
 
         // Create policy with updated min deposit on Purchase tab
+		TestData td = getPolicyDefaultTD();
         getPolicyType().get().initiate();
-        getPolicyType().get().getDefaultView().fillUpTo(getPolicyDefaultTD(), getPurchaseTab().getClass());
+        getPolicyType().get().getDefaultView().fillUpTo(td, getPurchaseTab().getClass());
 		getPurchaseTab().getAssetList().getAsset(PurchaseMetaData.PurchaseTab.CHANGE_MINIMUM_DOWNPAYMENT).setValue(true);
 		getPurchaseTab().getAssetList().getAsset(PurchaseMetaData.PurchaseTab.MINIMUM_REQUIRED_DOWNPAYMENT).setValue("10.00");
 		getPurchaseTab().getAssetList().getAsset(PurchaseMetaData.PurchaseTab.REASON_FOR_CHANGING).setValue("index=1");
