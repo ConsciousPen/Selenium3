@@ -1,12 +1,12 @@
 package aaa.modules.regression.document_fulfillment.pup.functional;
 
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeAbstract;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 public class TestMaigConversionPup extends TestMaigConversionHomeAbstract {
@@ -80,5 +80,3 @@ public class TestMaigConversionPup extends TestMaigConversionHomeAbstract {
     }
 
 }
-
-

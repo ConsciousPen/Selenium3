@@ -1,14 +1,14 @@
 package aaa.modules.regression.service.helper;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import aaa.helpers.config.CustomTestProperties;
 import aaa.modules.regression.service.helper.dtoRating.DiscountPercentageRuntimeContext;
 import aaa.modules.regression.service.helper.dtoRating.DiscountRetrieveFullRequest;
-import toolkit.config.PropertyProvider;
+import toolkit.db.DBService;
 
 public class HelperRatingServices {
 
-	private static final String RATING_URL_TEMPLATE = "http://"+ PropertyProvider.getProperty(CustomTestProperties.APP_HOST)+":9089/aaa-rating-engine-app/REST/ws/home-ca";
+	private static final String RATING_URL_TEMPLATE = "select value from propertyconfigurerentity\n"
+			+ "where propertyname = 'aaaCaHomeRulesClientProxyFactoryBean.address'";
 	private static final String RATING_SERVICE_TYPE = "/determineDiscountPercentage";
 
 	static void executeDiscountPercentageRetrieveRequest(String lob, String usState, String coverageCd, String expectedValue) {
@@ -20,7 +20,7 @@ public class HelperRatingServices {
 		request.discountCd = "MEMDIS";
 		request.coverageCd = coverageCd;
 		request.policyType = lob;
-		String requestUrl = RATING_URL_TEMPLATE + RATING_SERVICE_TYPE;
+		String requestUrl = DBService.get().getValue(RATING_URL_TEMPLATE).get() + RATING_SERVICE_TYPE;
 		String discountPercentageValue = HelperCommon.runJsonRequestPostDxp(requestUrl, request);
 		assertThat(discountPercentageValue).isEqualTo(expectedValue);
 	}
