@@ -217,7 +217,7 @@ public interface EvalueInsertSetupPreConditions {
 
 	String DELETE_UNNECESSARY_PRIVILEGE_FROM_ALL_ROLES = "delete from s_role_privileges\n"
 			+ "where priv_id in (select id from s_authority ar\n"
-			+ "where name in ('Billing Refund Cash', 'Refund Actions'))";
+			+ "where name in ('Billing Refund Cash', 'Refund Actions', 'Policy Split'))";
 
 	//original endpoint - https://preferenceUI-perf.tent.trt.csaa.pri/prefmgmt-portal/prefsetup, but none of envs are connected to it.
 	String PAPERLESS_PREFERENCES_POPUP_STUB_POINT = "update propertyconfigurerentity\n"

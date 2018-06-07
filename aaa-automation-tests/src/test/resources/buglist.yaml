@@ -239,3 +239,33 @@ PAS-14387:
   failures:
     - tests: [aaa.modules.regression.*.pup.*]
       messages: ["Cannot set value of AssetList {UnderlyingRisksAutoTab", "Errors: 'Occupation' is not in within range"]
+PAS-5529:
+  summary: "Roof shape does not pull into PAS from ISO 360"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["*Unable to locate element*", "Errors: 'Roof shape' is not in within range"]
+PT-1043:
+  summary: "Data relevant to ISO 360 has changed"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["*Unable to locate element*", "Data relevant to ISO 360 has changed. Reorder ISO 360 report"]
+PAS-12869:
+  summary: "KY Taxes: Tax amount and total premium value are reduced during Empty endorsement"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Test for state KY has failed due to difference between pre-endorsement and post-endorsement premiums"]
+PAS-5437:
+  summary: "Occupation is not in within range error for CA PUP"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.BCT_ONL_EmptyEndorsementPUP]
+      messages: ["Cannot get value of Cell" ,"Errors: 'Occupation' is not in within range"]
+PT-1670:
+  summary: "Error message displayed in 'List of other active AAA policies' tab"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Unable to locate element", "Multiple default value rules defined for field: AAAHOOtherOrPriorPolicyComponent.autoPolicyPending"]

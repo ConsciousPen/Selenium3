@@ -58,6 +58,7 @@
                     <include name="pas13252_UpdateVehicleGaragingAddressProblemBody"/>
                     <include name="pas9546_maxVehicles"/>
                     <include name="pas488_VehicleDelete"/>
+                    <include name="pas12246_ViewVehiclePendingRemoval"/>
                 </methods>
             </class>
         </classes>
@@ -80,6 +81,7 @@
                     <include name="pas13994_UpdateDriverAssignmentServiceRule1"/>
                     <include name="pas13994_UpdateDriverAssignmentServiceRule2"/>
                     <include name="pas13994_UpdateDriverAssignmentServiceRule3"/>
+                    <include name="pas502_DuplicateVinAddVehicleService"/>
                     </methods>
             </class>
         </classes>
@@ -152,7 +154,7 @@
         </classes>
     </test>
     <!--    NA for PAS18.4-->
-     <test name="Vehicle Errors VA" parallel="methods" thread-count="1024">
+    <test name="Vehicle Errors VA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
@@ -164,29 +166,28 @@
             </class>
         </classes>
     </test>
-   <test name="DXP E2E" parallel="methods" thread-count="1024">
-            <parameter name="state" value="VA"/>
-            <classes>
-                <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
-                    <methods>
-                        <include name="pas12866_e2e"/>
-                    </methods>
-                </class>
-            </classes>
-        </test>
-
-        <test name="DXP E2E BCT" parallel="methods" thread-count="1024">
-            <!--<parameter name="state" value="UT"/> - not in the Golden DB Dump-->
-            <!--<parameter name="state" value="PA, NJ"/> - configured not to allow endorsements-->
-            <parameter name="state" value="VA, KY, AZ, CO, CT, DC, DE, ID, IN, KS, MD, MT, NV, NY, OH, OK, OR, SD, WV, WY"/>
-            <classes>
-                <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
-                    <methods>
-                        <include name="pas12866_e2eBct"/>
-                    </methods>
-                </class>
-            </classes>
-        </test>
+    <test name="DXP E2E" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas12866_e2e"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="DXP E2E BCT" parallel="methods" thread-count="1024">
+        <!--<parameter name="state" value="UT"/> - not in the Golden DB Dump-->
+        <!--<parameter name="state" value="PA, NJ"/> - configured not to allow endorsements-->
+        <parameter name="state" value="VA, KY, AZ, CO, CT, DC, DE, ID, IN, KS, MD, MT, NV, NY, OH, OK, OR, SD, WV, WY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas12866_e2eBct"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="DriverAssignmentExistsForState CA" parallel="methods" thread-count="1024">
         <classes>
             <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesPremiumBearing">
@@ -211,15 +212,14 @@
             </class>
         </classes>
     </test>
-
     <test name="pas9495_miniServicesDiscounts">
-    <classes>
-        <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDiscounts">
-            <parameter name="state" value="VA"/>
-            <methods>
-                <include name="pas9495_miniServicesDiscounts"/>
-            </methods>
-        </class>
-    </classes>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDiscounts">
+                <parameter name="state" value="VA"/>
+                <methods>
+                    <include name="pas9495_miniServicesDiscounts"/>
+                </methods>
+            </class>
+        </classes>
     </test>
 </suite>

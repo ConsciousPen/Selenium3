@@ -98,11 +98,11 @@ TestData_TwoDrivers: {
 }
 
 TestData_ThreeDrivers: {
-    DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three'],
+    DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three_nafr'],
 }
 
 TestData_FourDrivers: {
-    DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three_afr', '@Driver_four'],
+    DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three', '@Driver_four'],
 }
 
 Driver_one: {
@@ -153,7 +153,7 @@ Driver_three_nafr: {
     License Status: 'Licensed (US)'
 }
 
-Driver_three_afr: {
+Driver_three: {
    Add drivers: 'Yes',
     DriverSearchDialog: {},
    "Policy #": '123456754',

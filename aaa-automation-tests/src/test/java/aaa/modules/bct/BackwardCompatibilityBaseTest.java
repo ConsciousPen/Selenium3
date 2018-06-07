@@ -114,6 +114,13 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 		}
 	}
 
+	protected void deletePendingRenewals(IPolicy policy) {
+		if (PolicySummaryPage.buttonRenewals.isEnabled()) {
+			PolicySummaryPage.buttonRenewals.click();
+			policy.deletePendingRenwals().perform(new SimpleDataProvider());
+		}
+	}
+
 	protected IPolicy findAndOpenPolicy(String queryName, PolicyType policyType) {
 		mainApp().open();
 		String policyNumber = getPoliciesByQuery(queryName, "SelectPolicy").get(0);
