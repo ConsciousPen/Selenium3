@@ -45,7 +45,6 @@ import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
-import toolkit.verification.CustomAssertions;
 
 public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
@@ -158,17 +157,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.DECLINED)
 				.verifyPresent();
 		log.info("Decline Suspense Payment action completed successfully");
-	}
-
-	protected void executeJobOnDate() {
-		String date = "03/05/2018"; // mm/dd/yyyy
-		LocalDateTime executeDate = TimeSetterUtil.getInstance().parse(date, DateTimeUtils.MM_DD_YYYY);
-		TimeSetterUtil.getInstance().nextPhase(executeDate);
-		log.info("Starting cftDcsEodJob execution on {}", executeDate);
-		JobUtils.executeJob(Jobs.cftDcsEodJob);
-		mainApp().reopen();
-		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		log.info("cftDcsEodJob executed successfully{}");
 	}
 
 	/**
@@ -441,30 +429,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Approve refund action completed successfully");
 	}
 
-	protected void pendingRefundOnRefundDate() {
-		LocalDateTime refundDate = getTimePoints().getRefundDate(
-				getTimePoints().getRenewCustomerDeclineDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate()));
-		TimeSetterUtil.getInstance().nextPhase(refundDate);
-		log.info("Verify refund on {}", refundDate);
-		JobUtils.executeJob(Jobs.cftDcsEodJob);
-		mainApp().reopen();
-		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		new BillingPendingTransactionsVerifier()
-				.setType(BillingConstants.BillingPendingTransactionsType.REFUND)
-				.setSubtypeReason(BillingConstants.BillingPendingTransactionsSubtype.AUTOMATED_REFUND)
-				.setReason(BillingConstants.BillingPendingTransactionsReason.OVERPAYMENT)
-				.setStatus(BillingConstants.BillingPendingTransactionsStatus.PENDING)
-				.verifyPresent();
-		log.info("Refund present in Pending Transactions Table");
-	}
-
 	protected void pendingRefundOnStartDatePlus16(Dollar refundAmount) {
 		LocalDateTime refundDate = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
-		pendingRefundOnDate(refundAmount, refundDate);
-	}
-
-	protected void pendingRefundOnStartDatePlus25(Dollar refundAmount) {
-		LocalDateTime refundDate = TimeSetterUtil.getInstance().getStartTime().plusDays(25).with(DateTimeUtils.closestFutureWorkingDay);
 		pendingRefundOnDate(refundAmount, refundDate);
 	}
 
@@ -620,7 +586,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(conversionDate);
 		LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
 		List<String> maigStates = new ArrayList<>(Arrays.asList(Constants.States.VA, Constants.States.DE, Constants.States.PA, Constants.States.MD, Constants.States.NJ));
-		CustomAssert.assertTrue(String.format("Conversion file for %s state is available - ", state),maigStates.indexOf(state) >= 0);
+		CustomAssert.assertTrue(String.format("Conversion file for %s state is available - ", state), maigStates.indexOf(state) >= 0);
 		ConversionPolicyData data = new MaigConversionData(String.format("%d", maigStates.indexOf(state) + 1) + ".xml", effDate);
 		String policyN = ConversionUtils.importPolicy(data);
 		mainApp().open();
@@ -651,16 +617,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected void manualCancellationOnDD1Plus5() {
 		LocalDateTime cancellationDate = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1).plusDays(5);
 		manualCancellationOnDate(cancellationDate);
-	}
-
-	protected void manualRefundOnExpDatePlus25() {
-		LocalDateTime refundDate = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate().plusDays(25);
-		TimeSetterUtil.getInstance().nextPhase(refundDate);
-		log.info("Manual Refund action started on {}", refundDate);
-		mainApp().reopen();
-		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		billingAccount.refund().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
-		log.info("Manual Refund action completed successfully");
 	}
 
 	protected void manualRenewalEntryOnStartDate() {
