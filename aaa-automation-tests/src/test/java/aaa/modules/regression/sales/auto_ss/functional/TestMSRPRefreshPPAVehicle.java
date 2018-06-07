@@ -37,6 +37,9 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	}
 
 	protected String storeCurrentVin_pas12877 = "";
+	protected String vinWithLowCompId = "";
+	protected String vinWithHighCompId = "";
+	protected String originalVin = "";
 
 	/**
 	 * @author Viktor Petrenko
@@ -319,12 +322,18 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12877")
 	public void pas12877_StoreStubRenewal_COMP(@Optional("UT") String state) {
+		String copyExistingRowByVin = "INSERT INTO VEHICLEREFDATAVIN (SELECT * FROM VEHICLEREFDATAVIN WHERE VIN LIKE '%s' and VERSION='SYMBOL_2000')";
+		String copyExistingRowById = "INSERT INTO VEHICLEREFDATAVIN (SELECT * FROM VEHICLEREFDATAVIN WHERE id = '%s' and VERSION='SYMBOL_2000')";
+		String updateIdForCopiedRow = "UPDATE VEHICLEREFDATAVIN SET id = '%s' WHERE VIN LIKE '%s' and VERSION='SYMBOL_2000' AND ROWNUM = 1";
+		String updateCompCollSymbol = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOLLISION ='%d' , PHYSICALDAMAGECOMPREHENSIVE = '%d' where id = '%s' and vin like '%s' and VERSION like 'SYMBOL_2000'";
 
-		String vehYear = "2016";
-		String vehMake = "TOYOTA";
-		String vehModel = "TACOMA";
-		String vehSeries = "TACOMA DOUBLE CAB";
-		String vehBodyStyle = "PICKUP";
+		// Только одна запись с таким же комп символом
+		// Genesis has only one entry in db. Best fit for this test.
+		String vehYear = "2018";
+		String vehMake = "HYUNDAI";
+		String vehModel = "GENESIS";
+		String vehSeries = "GENESIS SPORT";
+		String vehBodyStyle = "SEDAN";
 
 		TestData testData = getPolicyTD()
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "ZZYKN3DD8E0344466")
@@ -337,6 +346,8 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		//1. Create a Policy with specific test data
 		String policyNumber = createPreconds(testData);
 		String newBusinessCurrentVinBeforeNull = DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get();
+		String sqlVinNumber =  newBusinessCurrentVinBeforeNull.replace("&","%") + "%";
+
 		assertThat(newBusinessCurrentVinBeforeNull).isNotNull().isNotEmpty();
 
 		//2. Clear the Current VIN Stub Stored at NB
@@ -349,10 +360,26 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		log.info("New business compsymbol: {}, and collsymbol: {}", newBusinessComp, newBusinessColl);
 
+		String getVehicleRefDataVinMaxId = "SELECT MAX(id) + 1 as id FROM VEHICLEREFDATAVIN";
+
+		// Create VIN Entry with smaller COMP symbol then original
+		vinWithLowCompId = DBService.get().getValue(getVehicleRefDataVinMaxId).get();
+		DBService.get().executeUpdate(String.format(copyExistingRowByVin,sqlVinNumber));
+		DBService.get().executeUpdate(String.format(updateIdForCopiedRow, vinWithLowCompId,sqlVinNumber));
+		DBService.get().executeUpdate(String.format(updateCompCollSymbol, 35, 35, vinWithLowCompId,sqlVinNumber));
+		// Create VIN Entry with Larger COMP symbol then original
+		vinWithHighCompId = DBService.get().getValue(getVehicleRefDataVinMaxId).get();
+		DBService.get().executeUpdate(String.format(copyExistingRowById,vinWithLowCompId));
+		DBService.get().executeUpdate(String.format(updateIdForCopiedRow, vinWithHighCompId,sqlVinNumber));
+		DBService.get().executeUpdate(String.format(updateCompCollSymbol, 55, 55, vinWithHighCompId,sqlVinNumber));
 		//3. Generate Renewal Image
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
 
+		Map<String,String> allAutoRenewalVersionValues = DBService.get().getRow(String.format(VehicleQueries.SELECT_LIST_OF_VIN_STUB_ON_QUOTE, policyNumber));
+		String autoRenewalVersionComp = allAutoRenewalVersionValues.get("COMPSYMBOL");
+		String autoRenewalVersionColl = allAutoRenewalVersionValues.get("COLLSYMBOL");
+		String autoRenewalVersionCurrentVin = allAutoRenewalVersionValues.get("CURRENTVIN");
 		//4. Go back to MainApp, find created policy, create Renewal image
 		searchForPolicy(policyNumber);
 
@@ -363,16 +390,16 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
 		//6. Verify VIN Stub was Stored at renewal in the DB
-		Map<String,String> allRenewalVersionValues = DBService.get().getRow(String.format(VehicleQueries.SELECT_LIST_OF_VIN_STUB_ON_QUOTE, policyNumber));
-		String renewalVersionComp = allRenewalVersionValues.get("COMPSYMBOL");
-		String renewalVersionColl = allRenewalVersionValues.get("COLLSYMBOL");
-		String renewalVersionCurrentVin = allRenewalVersionValues.get("CURRENTVIN");
+		Map<String,String> allManualPremiumCalculationRenewalVersionValues = DBService.get().getRow(String.format(VehicleQueries.SELECT_LIST_OF_VIN_STUB_ON_QUOTE, policyNumber));
+		String renewalVersioManualPremiumCalcComp = allManualPremiumCalculationRenewalVersionValues.get("COMPSYMBOL");
+		String renewalVersionManualPremiumCalcColl = allManualPremiumCalculationRenewalVersionValues.get("COLLSYMBOL");
+		String renewalVersionManualPremiumCalcCurrentVin = allManualPremiumCalculationRenewalVersionValues.get("CURRENTVIN");
 
-		log.info("New business compsymbol: {}, and collsymbol: {}", renewalVersionComp, renewalVersionColl);
+		log.info("New business compsymbol: {}, and collsymbol: {}", renewalVersioManualPremiumCalcComp, renewalVersionManualPremiumCalcColl);
 
-		assertThat(renewalVersionComp).isEqualTo(newBusinessComp);
-		assertThat(renewalVersionColl).isEqualTo(newBusinessColl);
-		assertThat(renewalVersionCurrentVin).isEqualTo(newBusinessCurrentVinBeforeNull);
+		assertThat(autoRenewalVersionComp).isEqualTo(newBusinessComp);
+		assertThat(autoRenewalVersionColl).isEqualTo(newBusinessColl);
+		assertThat(autoRenewalVersionCurrentVin).isEqualTo(newBusinessCurrentVinBeforeNull);
 	}
 
 	/**
@@ -386,6 +413,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	 @details
 	 */
 
+	// нет совпадений с комп.
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12877")
@@ -447,49 +475,6 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		assertThat(renewalVersionCurrentVin).isNotNull().isNotEmpty();
 	}
 
-	private void verifyCurrentVinStubOnRenewal(TestData testData) {
-		//1. Create a Policy with specific test data
-		String policyNumber = createPreconds(testData);
-		String newBusinessCurrentVinBeforeNull = DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get();
-		assertThat(newBusinessCurrentVinBeforeNull).isNotNull().isNotEmpty();
-
-		//2. Clear the Current VIN Stub Stored at NB
-		DBService.get().executeUpdate(String.format(VehicleQueries.NULL_SPECIFIC_POLICY_STUB,newBusinessCurrentVinBeforeNull));
-
-		Map<String,String> allNewBusinessValues = DBService.get().getRow(String.format(VehicleQueries.SELECT_LIST_OF_VIN_STUB_ON_QUOTE, policyNumber));
-		String newBusinessComp = allNewBusinessValues.get("COMPSYMBOL");
-		String newBusinessColl = allNewBusinessValues.get("COLLSYMBOL");
-		assertThat(allNewBusinessValues.get("CURRENTVIN")).isNullOrEmpty();
-
-		log.info("New business compsymbol: {}, and collsymbol: {}", newBusinessComp, newBusinessColl);
-
-		//3. Generate Renewal Image
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
-
-		//4. Go back to MainApp, find created policy, create Renewal image
-		searchForPolicy(policyNumber);
-
-		//5. Open Renewal and calculate premium
-		PolicySummaryPage.buttonRenewals.click();
-		policy.dataGather().start();
-		premiumAndCoveragesTab.calculatePremium();
-		PremiumAndCoveragesTab.buttonSaveAndExit.click();
-
-		//6. Verify VIN Stub was Stored at renewal in the DB
-		Map<String,String> allRenewalVersionValues = DBService.get().getRow(String.format(VehicleQueries.SELECT_LIST_OF_VIN_STUB_ON_QUOTE, policyNumber));
-		String renewalVersionComp = allRenewalVersionValues.get("COMPSYMBOL");
-		String renewalVersionColl = allRenewalVersionValues.get("COLLSYMBOL");
-		String renewalVersionCurrentVin = allRenewalVersionValues.get("CURRENTVIN");
-
-		log.info("New business compsymbol: {}, and collsymbol: {}", renewalVersionComp, renewalVersionColl);
-
-		assertThat(renewalVersionComp).isEqualTo(newBusinessComp);
-		assertThat(renewalVersionColl).isEqualTo(newBusinessColl);
-		assertThat(renewalVersionCurrentVin).isEqualTo(newBusinessCurrentVinBeforeNull);
-	}
-
-
 	@AfterClass(alwaysRun = true)
 	protected void resetVinControlTable() {
 		// pas730_PartialMatch clean
@@ -497,6 +482,8 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		DBService.get().executeUpdate(String.format(VehicleQueries.REPAIR_SPECIFIED_COLLCOMP, storeCurrentVin_pas12877));
 		// pas12877_StoreStubRenewal_COMP
 		DBService.get().executeUpdate(String.format(VehicleQueries.MINUS_50_FROM_COMP_VALUE, storeCurrentVin_pas12877));
+		DBService.get().executeUpdate(String.format("DELETE FROM VEHICLEREFDATAVIN WHERE ID = %s", vinWithLowCompId));
+		DBService.get().executeUpdate(String.format("DELETE FROM VEHICLEREFDATAVIN WHERE ID = %s", vinWithHighCompId));
 		resetMsrpPPAVeh();
 		// Reset to the default state  MSRP_2000
 		//resetDefaultMSRPVersionAtVinControlTable();

@@ -47,7 +47,6 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 			+ "values (eis_sequence.nextval,'HBReminderPolicyNumberChangeEntity', '%1$s', to_date('%2$s', 'YYYY-MM-dd'), 10,'' ,'', 0)";
 
 	private ProductRenewalsVerifier productRenewalsVerifier = new ProductRenewalsVerifier();
-	protected TestData tdBilling = testDataManager.billingAccount;
 	protected BillingAccount billingAccount = new BillingAccount();
 
 
@@ -98,7 +97,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		assertThat(getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER)).isEqualTo("MCON");
 
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
@@ -179,7 +178,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		billingAccount.update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay"));
 
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
