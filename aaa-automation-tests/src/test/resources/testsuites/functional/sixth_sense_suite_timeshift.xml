@@ -83,7 +83,6 @@
             </class>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestOffCycleBillNoInstallmentDate">
                 <methods>
-                    <include name="pas9001_testInvoiceWithNoDownPaymentNB_AutoSS"/>
                     <include name="pas9001_testInvoiceWithNoDownPaymentEndorsement_AutoSS"/>
                 </methods>
             </class>
@@ -125,13 +124,11 @@
             </class>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestOffCycleBillNoInstallmentDate">
                 <methods>
-                    <include name="pas9001_testInvoiceWithNoDownPaymentNB_Choice"/>
                     <include name="pas9001_testInvoiceWithNoDownPaymentEndorsement_Choice"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestOffCycleBillNoInstallmentDate">
                 <methods>
-                    <include name="pas9001_testInvoiceWithNoDownPaymentNB_Select"/>
                     <include name="pas9001_testInvoiceWithNoDownPaymentEndorsement_Select"/>
                 </methods>
             </class>
