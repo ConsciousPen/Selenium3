@@ -591,7 +591,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		String model1 = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
 		String bodyStyle1 = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
 		String vehIdentificationNo1 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
-		String ownership1 = vehicleTab.getInquiryAssetList().getStaticElement(Ownership.OWNERSHIP_TYPE.getLabel()).getValue().replace("Owned", "OWN");
+		String ownership1 = vehicleTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE.getLabel()).getValue().replace("Owned", "OWN");
 		String usage1 = vehicleTab.getInquiryAssetList().getStaticElement(USAGE.getLabel()).getValue();
 		String garagingDifferent1 = vehicleTab.getInquiryAssetList().getStaticElement(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel()).getValue().toLowerCase();
 		String antiTheft1 = vehicleTab.getInquiryAssetList().getStaticElement(ANTI_THEFT.getLabel()).getValue().toUpperCase();
@@ -610,7 +610,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		String model2 = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
 		String bodyStyle2 = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
 		String vehIdentificationNo2 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
-		String ownership2 = vehicleTab.getInquiryAssetList().getStaticElement(Ownership.OWNERSHIP_TYPE.getLabel()).getValue().replace("Owned", "OWN");
+		String ownership2 = vehicleTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE.getLabel()).getValue().replace("Owned", "OWN");
 		String usage2 = vehicleTab.getInquiryAssetList().getStaticElement(USAGE.getLabel()).getValue();
 		String garagingDifferent2 = vehicleTab.getInquiryAssetList().getStaticElement(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel()).getValue().toLowerCase();
 		String antiTheft2 = vehicleTab.getInquiryAssetList().getStaticElement(ANTI_THEFT.getLabel()).getValue().toUpperCase();
@@ -727,7 +727,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		String model3 = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
 		String bodyStyle3 = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
 		String vehIdentificationNo3 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
-		String ownership3 = vehicleTab.getInquiryAssetList().getStaticElement(Ownership.OWNERSHIP_TYPE.getLabel()).getValue().replace("Owned", "OWN");
+		String ownership3 = vehicleTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE.getLabel()).getValue().replace("Owned", "OWN");
 		String usage3 = vehicleTab.getInquiryAssetList().getStaticElement(USAGE.getLabel()).getValue();
 		String garagingDifferent3 = vehicleTab.getInquiryAssetList().getStaticElement(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel()).getValue().toLowerCase();
 		String antiTheft3 = vehicleTab.getInquiryAssetList().getStaticElement(ANTI_THEFT.getLabel()).getValue().toUpperCase();
@@ -4472,8 +4472,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		vehicleTab.getAssetList().getAsset(ADDRESS_LINE_1).setValue("4112 FORREST HILLS DR");
 		vehicleTab.getAssetList().getAsset(CITY).setValue("PORTSMOUTH");
 		vehicleTab.getAssetList().getAsset(STATE).setValue("VA");
-		vehicleTab.getOwnershipAssetList().getAsset(Ownership.OWNERSHIP_TYPE).setValue("Leased");
-		vehicleTab.getOwnershipAssetList().getAsset(Ownership.FIRST_NAME).setValue("GMAC");
+		vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE).setValue("Leased");
+		vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.FIRST_NAME).setValue("GMAC");
 		vehicleTab.saveAndExit();
 
 		AttributeMetadata[] metaDataResponse2 = HelperCommon.viewEndorsmentVehiclesMetaData(policyNumber, oid);
@@ -4899,19 +4899,19 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(2);
 		if ("LSD".equals(ownershipType)) {
-			assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.OWNERSHIP_TYPE)).hasValue("Leased");
+			assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE)).hasValue("Leased");
 		}
 		if ("FNC".equals(ownershipType)) {
-			assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.OWNERSHIP_TYPE)).hasValue("Financed");
+			assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE)).hasValue("Financed");
 		}
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.FIRST_NAME)).hasValue("Other");
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.OWNER_NO_LABEL)).hasValue(otherName); //can't take the value of the field with no label
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.SECOND_NAME)).hasValue(secondName);
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.ADDRESS_LINE_1)).hasValue(addressLine1);
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.ADDRESS_LINE_2)).hasValue(addressLine2);
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.CITY)).hasValue(city);
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.STATE)).hasValue(state);
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.ZIP_CODE)).hasValue(zipCode);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.FIRST_NAME)).hasValue("Other");
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.OWNER_NO_LABEL)).hasValue(otherName); //can't take the value of the field with no label
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.SECOND_NAME)).hasValue(secondName);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.ADDRESS_LINE_1)).hasValue(addressLine1);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.ADDRESS_LINE_2)).hasValue(addressLine2);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.CITY)).hasValue(city);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.STATE)).hasValue(state);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.ZIP_CODE)).hasValue(zipCode);
 		mainApp().close();
 
 		ViewVehicleResponse viewEndorsementVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
@@ -4979,7 +4979,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(2);
 		//BUG PAS-14395 Update Vehicle service failed to update ownership
-		softly.assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.OWNERSHIP_TYPE).getValue()).isEqualTo("Owned");
+		softly.assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE).getValue()).isEqualTo("Owned");
 		mainApp().close();
 
 		endorsementRateAndBind(policyNumber);
