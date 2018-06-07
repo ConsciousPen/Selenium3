@@ -44,7 +44,7 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
 
 	protected abstract AssetDescriptor<JavaScriptButton> getCalculatePremiumButton();
 
-    protected void pas9001_testInvoiceWithNoDownPaymentNB() {
+    protected void pas9001_testOffCycleBillNoDownPayment_NB() {
 
         // Create Customer
         mainApp().open();
@@ -66,7 +66,7 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
 
     }
 
-    protected void pas9001_testInvoiceWithNoDownPaymentEndorsement() {
+    protected void pas9001_testOffCycleBillPremiumBearingEndorsement() {
 
         // Create customer and policy
         mainApp().open();

@@ -81,7 +81,7 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = {"PAS-9001"})
     public void pas9001_testInvoiceWithNoDownPaymentNB_HO3(@Optional("CA") String state) {
 
-        pas9001_testInvoiceWithNoDownPaymentNB();
+        pas9001_testOffCycleBillNoDownPayment_NB();
 
     }
 
@@ -103,7 +103,7 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
     @TestInfo(component = ComponentConstant.Service.HOME_CA_HO3, testCaseId = {"PAS-9001"})
     public void pas9001_testInvoiceWithNoDownPaymentEndorsement_HO3(@Optional("CA") String state) {
 
-        pas9001_testInvoiceWithNoDownPaymentEndorsement();
+        pas9001_testOffCycleBillPremiumBearingEndorsement();
 
     }
 

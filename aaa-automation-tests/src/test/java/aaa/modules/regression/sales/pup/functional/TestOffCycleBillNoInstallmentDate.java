@@ -79,7 +79,7 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = {"PAS-9001"})
     public void pas9001_testInvoiceWithNoDownPaymentNB_PUP(@Optional("") String state) {
 
-        pas9001_testInvoiceWithNoDownPaymentNB();
+        pas9001_testOffCycleBillNoDownPayment_NB();
 
     }
 
@@ -101,7 +101,7 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
     @TestInfo(component = ComponentConstant.Service.PUP, testCaseId = {"PAS-9001"})
     public void pas9001_testInvoiceWithNoDownPaymentEndorsement_PUP(@Optional("") String state) {
 
-        pas9001_testInvoiceWithNoDownPaymentEndorsement();
+        pas9001_testOffCycleBillPremiumBearingEndorsement();
 
     }
 
