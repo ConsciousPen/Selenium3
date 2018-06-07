@@ -43,7 +43,7 @@
             </classes>
         </test>
 
-        <test name="MVR Predictor Algo">
+        <test name="MVR Predictor Algo Accidents">
             <parameter name="state" value="IN,KY,MD,NJ,PA,VA,CT"/>
             <classes>
                 <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">

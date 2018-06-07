@@ -427,7 +427,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		// Fill Drivers Tab Calculate premium and Validate Drivers history
 		preconditionsAddDriversRenewalEndorsement(driverTab);
 
-		assertMVRResponseViolations();
+		assertMVRResponseAccidents();
 	}
 
 
@@ -472,7 +472,9 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		premiumAndCoveragesTab.submitTab();
 
 		// Validate Drivers History
-		driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).setValue("I Agree");
+		if (driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).isPresent()){
+			driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).setValue("I Agree");
+		}
 		driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY).click();
 	}
 
