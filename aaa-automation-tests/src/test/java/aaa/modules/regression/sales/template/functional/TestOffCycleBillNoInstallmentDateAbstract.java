@@ -12,6 +12,8 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.metadata.policy.PurchaseMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.Purchase;
@@ -50,8 +52,18 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
         mainApp().open();
         createCustomerIndividual();
 
-        // Create policy with updated min deposit on Purchase tab
+        // Get test data and adjust payment plan for Auto policies
 		TestData td = getPolicyDefaultTD();
+		if (getPolicyType().isAutoPolicy()) {
+			if (getPolicyType().isCaProduct()) {
+				td.adjust(TestData.makeKeyPath(getPremiumAndCoveragesTab().getClass().getSimpleName(), AutoCaMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), "Semi-Annual");
+			} else {
+				td.adjust(TestData.makeKeyPath(getPremiumAndCoveragesTab().getClass().getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), "Semi-Annual");
+			}
+		}
+
+        // Create policy with updated min deposit on Purchase tab
+
         getPolicyType().get().initiate();
         getPolicyType().get().getDefaultView().fillUpTo(td, getPurchaseTab().getClass());
 		getPurchaseTab().getAssetList().getAsset(PurchaseMetaData.PurchaseTab.CHANGE_MINIMUM_DOWNPAYMENT).setValue(true);
@@ -86,8 +98,13 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
 
         // Override UW rule for PUP policy
         if (getPolicyType().equals(PolicyType.PUP)) {
-        	new ErrorTab().overrideErrors(ErrorEnum.Errors.ERROR_AAA_PUP_SS7121080);
-        	new ErrorTab().override();
+			ErrorTab errorTab = new ErrorTab();
+        	if (getPolicyType().isCaProduct()) {
+				errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_PUP_SS7121080_CA);
+			} else {
+				errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_PUP_SS7121080);
+			}
+        	errorTab.override();
         	getBindTab().submitTab();
 		}
 
