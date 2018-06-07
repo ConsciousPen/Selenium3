@@ -540,7 +540,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	private void verifyTagDataPup(Document document, String policyNumber, PolicyType policyType, AaaDocGenEntityQueries.EventNames eventName) throws NoSuchFieldException {
 		assertThat(getPackageTag(policyNumber, "PlcyPrfx", eventName) + getPackageTag(policyNumber, "PlcyNum", eventName)).isEqualTo(policyNumber);
 		switch (policyType.getShortName()) {
-			case "HomeSS":
+			case "HomeSS_HO3":
 				assertThat(getPackageTag(policyNumber, "PrmPlcyGrp", eventName)).isEqualTo("Homeowners");
 				break;
 			case "HomeSS_HO4":
