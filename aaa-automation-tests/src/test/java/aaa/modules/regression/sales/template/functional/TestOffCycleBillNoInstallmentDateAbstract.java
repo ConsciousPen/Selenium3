@@ -53,18 +53,9 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
         mainApp().open();
         createCustomerIndividual();
 
-        // Get test data and adjust payment plan for Auto policies
-		TestData td = getPolicyDefaultTD();
-		if (getPolicyType().isAutoPolicy()) {
-			if (getPolicyType().isCaProduct()) {
-				td.adjust(TestData.makeKeyPath(getPremiumAndCoveragesTab().getClass().getSimpleName(), AutoCaMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), "Semi-Annual");
-			} else {
-				td.adjust(TestData.makeKeyPath(getPremiumAndCoveragesTab().getClass().getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), "Semi-Annual");
-			}
-		}
-
         // Create policy with updated min deposit on Purchase tab
 
+		TestData td = getPolicyDefaultTD();
         getPolicyType().get().initiate();
         getPolicyType().get().getDefaultView().fillUpTo(td, getPurchaseTab().getClass());
 		getPurchaseTab().getAssetList().getAsset(PurchaseMetaData.PurchaseTab.CHANGE_MINIMUM_DOWNPAYMENT).setValue(true);
