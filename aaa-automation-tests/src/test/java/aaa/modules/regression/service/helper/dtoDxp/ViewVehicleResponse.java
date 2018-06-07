@@ -12,8 +12,8 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "Vehicle List Information")
 public class ViewVehicleResponse {
 
-    public List<Vehicle> vehicleList;
+	public List<Vehicle> vehicleList;
 
-    @ApiModelProperty(value = "Can add vehicle?", example = "true")
-    public boolean canAddVehicle;
+	@ApiModelProperty(value = "Can add vehicle?", example = "true")
+	public boolean canAddVehicle;
 }
