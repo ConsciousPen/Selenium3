@@ -12,9 +12,13 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.helpers.product.PolicyHelper;
+import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
+import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
@@ -24,6 +28,7 @@ import aaa.modules.policy.HomeCaHO3BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomAssertions;
 
 public class TestPremiumAndMinDueAfterRP extends HomeCaHO3BaseTest {
 
@@ -49,13 +54,14 @@ public class TestPremiumAndMinDueAfterRP extends HomeCaHO3BaseTest {
     @Test(groups = { Groups.FUNCTIONAL, Groups.HIGH })
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3, testCaseId = "PAS-13762")
     public void testPremiumAndMinDueAfterRPForCurrentTerm(@Optional("CA") String state) {
-
         mainApp().open();
         createCustomerIndividual();
         policyNumber = createPolicy();
         policyExpirationDate = PolicySummaryPage.getExpirationDate();
         //Initiate Renewal Proposal
-        createRenewalProposal();
+        renewalImageGeneration();
+        renewalPreviewGeneration();
+        renewalOfferGeneration();
         createEndorsement();
         //Navigate to BA
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
@@ -78,32 +84,55 @@ public class TestPremiumAndMinDueAfterRP extends HomeCaHO3BaseTest {
     @Test(groups = { Groups.FUNCTIONAL, Groups.HIGH })
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3, testCaseId = "PAS-13762")
     public void testPremiumAndMinDueAfterRPForRenewalTerm(@Optional("CA") String state) {
-
         mainApp().open();
         createCustomerIndividual();
         policyNumber = createPolicy();
         policyExpirationDate = PolicySummaryPage.getExpirationDate();
         //Initiate Renewal Proposal
-        createRenewalProposal();
+        renewalImageGeneration();
+        renewalPreviewGeneration();
+        renewalOfferGeneration();
         createRevisedRenewalProposal();
         //Navigate to BA
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
         verifyRenewalOffer();
     }
 
-    private void createRenewalProposal() {
-        LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
-        TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
+    private void renewalImageGeneration() {
+        LocalDateTime renewDateImage = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
+        TimeSetterUtil.getInstance().nextPhase(renewDateImage);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        //Propose Renewal
+        HttpStub.executeAllBatches();
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
+        PolicyHelper.verifyAutomatedRenewalGenerated(renewDateImage);
+    }
+
+    private void renewalPreviewGeneration() {
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate));
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 
         PolicySummaryPage.buttonRenewals.click();
-        policy.dataGather().start();
-        premiumsAndCoveragesQuoteTab.calculatePremium();
-        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
-        new BindTab().submitTab();
+        new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
+    }
+
+    private void renewalOfferGeneration() {
+        LocalDateTime renewDateOffer = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+        TimeSetterUtil.getInstance().nextPhase(renewDateOffer);
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
+        PolicySummaryPage.buttonRenewals.click();
+        new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
+        PolicySummaryPage.buttonBack.click();
     }
 
     private void createRevisedRenewalProposal() {
