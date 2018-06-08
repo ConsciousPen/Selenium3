@@ -721,7 +721,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		assertThat(docs.stream().filter(document -> document.getTemplateId().equals(formIdInXml)).toArray().length).isEqualTo(1);
 		validateFAIRPlanEndorsementSequencePAS_14368(docs, eventName);
 		if (eventName.equals(RENEWAL_OFFER)) {
-			validateRenewalThankYouLetterPAS_14675(policyNumber, "Y");
+			validateRenewalThankYouLetterPAS_14632(policyNumber, "Y");
 		}
 	}
 
@@ -737,14 +737,14 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 			assertThat(docsOther.stream().filter(document -> document.toString().contains(formIdInXml)).toArray().length).isGreaterThan(0);
 			//Validate that Renewal Thank You Letter contains proper value for tag FairPlanYN
 			if (eventName.equals(RENEWAL_OFFER)) {
-				validateRenewalThankYouLetterPAS_14675(policyNumber, "Y");
+				validateRenewalThankYouLetterPAS_14632(policyNumber, "Y");
 			}
 
 		} else {
 			assertThat(docsOther.stream().filter(document -> document.toString().contains(formIdInXml)).toArray().length).isEqualTo(0);
 			//Validate that Renewal Thank You Letter contains proper value for tag FairPlanYN
 			if (eventName.equals(RENEWAL_OFFER)) {
-				validateRenewalThankYouLetterPAS_14675(policyNumber, "N");
+				validateRenewalThankYouLetterPAS_14632(policyNumber, "N");
 			}
 		}
 	}
@@ -899,7 +899,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 	}
 
-	private void validateRenewalThankYouLetterPAS_14675(String policyNumber, String fairPlanYNExpectedValue) {
+	private void validateRenewalThankYouLetterPAS_14632(String policyNumber, String fairPlanYNExpectedValue) {
 		String fairPlanYNActualValue;
 		String query = String.format(AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME, policyNumber, DocGenEnum.Documents._61_5121.getIdInXml(), RENEWAL_OFFER);
 		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber, RENEWAL_OFFER);
