@@ -147,14 +147,14 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
-    <!--<test name="AutoSS [PA] Premium Calculation Test" preserve-order="true">
+    <test name="AutoSS [PA] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="PA"/>
-        <parameter name="fileName" value="PATests-20180312_part1.xls"/>
-        <parameter name="policyNumbers" value="2, 10"/>
+        <parameter name="fileName" value="PATests-20180620_part1.xls"/>
+        <parameter name="policyNumbers" value="2, 3"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
-    </test>-->
+    </test>
     <test name="AutoSS [SD] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="SD"/>
         <parameter name="fileName" value="SDTests-20170601.xls"/>
