@@ -14,6 +14,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab;
@@ -25,6 +26,7 @@ import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
@@ -47,7 +49,7 @@ public class TestPaperlessPreferencesAllProducts extends TestPaperlessPreference
 	@Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = {"PAS-283", "PAS-1451", "PAS-1453", "PAS-1454", "PAS-1740", "PAS-2564"})
 	public void pas283_paperlessPreferencesForAllStatesProducts(@Optional("CA") String state) {
-		if(DBService.get().getValue(String.format(PAPERLESS_PREFERENCES_ELIGIBILITY_CHECK_FOR_PRODUCT, "AAA_HO_CA", state)).orElse("").equals("")) {
+		if ("".equals(DBService.get().getValue(String.format(PAPERLESS_PREFERENCES_ELIGIBILITY_CHECK_FOR_PRODUCT, "AAA_HO_CA", state)).orElse(""))) {
 			DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCES_ELIGIBILITY_INSERT_FOR_PRODUCT, "AAA_HO_CA", state));
 			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
 		}
@@ -58,7 +60,6 @@ public class TestPaperlessPreferencesAllProducts extends TestPaperlessPreference
 				.adjust(TestData.makeKeyPath("GeneralTab", HomeCaMetaData.GeneralTab.POLICY_INFO.getLabel(), HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE.getLabel()), "$<today-25d:MM/dd/yyyy>")
 				.adjust(TestData.makeKeyPath("GeneralTab", HomeCaMetaData.GeneralTab.CURRENT_CARRIER.getLabel(), HomeCaMetaData.GeneralTab.CurrentCarrier.BASE_DATE_WITH_AAA.getLabel()), "$<today-25d:MM/dd/yyyy>")
 				.adjust(HomeCaMetaData.ErrorTab.class.getSimpleName(), tdError);
-
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -73,6 +74,16 @@ public class TestPaperlessPreferencesAllProducts extends TestPaperlessPreference
 	}
 
 	@Override
+	protected String getGeneralTab() {
+		return NavigationEnum.HomeCaTab.GENERAL.get();
+	}
+
+	@Override
+	protected String getPremiumAndCoveragesTab() {
+		return NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get();
+	}
+
+	@Override
 	protected InquiryAssetList getInquiryAssetList() {
 		return new InquiryAssetList(new GeneralTab().getAssetList().getLocator(), HomeCaMetaData.GeneralTab.class);
 	}
@@ -80,6 +91,11 @@ public class TestPaperlessPreferencesAllProducts extends TestPaperlessPreference
 	@Override
 	protected Tab getDocumentsAndBindTabElement() {
 		return new DocumentsAndBindTab();
+	}
+
+	@Override
+	protected Tab getPremiumAndCoveragesTabElement() {
+		return null;
 	}
 
 	@Override
@@ -92,6 +108,11 @@ public class TestPaperlessPreferencesAllProducts extends TestPaperlessPreference
 	protected AssetDescriptor<Button> getEditPaperlessPreferencesButtonDone() { return HomeCaMetaData.BindTab.PaperlessPreferences.EDIT_PAPERLESS_PREFERENCES_BTN_DONE; }
 
 	@Override
+	protected CommonErrorTab getErrorTabElement() {
+		return new ErrorTab();
+	}
+
+	@Override
 	public AssetList getPaperlessPreferencesAssetList() {
 		return new DocumentsAndBindTab().getAssetList().getAsset(HomeCaMetaData.BindTab.PAPERLESS_PREFERENCES.getLabel(), AssetList.class);
 	}
@@ -101,6 +122,11 @@ public class TestPaperlessPreferencesAllProducts extends TestPaperlessPreference
 
 	@Override
 	protected AssetDescriptor<ComboBox> getIncludeWithEmail() { return HomeCaMetaData.BindTab.DocumentPrintingDetails.INCLUDE_WITH_EMAIL; }
+
+	@Override
+	protected AssetDescriptor<RadioGroup> getApplyeValueDiscount() {
+		return null;
+	}
 
 	@Override
 	protected AssetDescriptor<TextBox> getIssueDate() { return HomeCaMetaData.BindTab.DocumentPrintingDetails.ISSUE_DATE; }

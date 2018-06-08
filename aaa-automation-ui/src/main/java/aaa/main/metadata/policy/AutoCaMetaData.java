@@ -604,6 +604,7 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<StaticElement> RECEIPT_DATE = declare("Receipt Date", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> RESPONSE = declare("Response", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> ADDRESS_TYPE = declare("Address Type", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> ORDER_TYPE = declare("Order Type", StaticElement.class);
 		}
 
 		public static final class OrderMVRRow extends MetaData {
@@ -737,7 +738,7 @@ public final class AutoCaMetaData {
 		}
 
 		public static final class VehicleInformation extends MetaData {
-			public static final AssetDescriptor<RadioGroup> ARE_THERE_ANY_ADDITIONAL_INTERESTS = declare("Are there any additional interest(s)?", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> ARE_THERE_ANY_ADDITIONAL_INTERESTS = declare("Are there any additional interest(s)?", RadioGroup.class, Waiters.AJAX);
 
 			public static final AssetDescriptor<ComboBox> SUPPRESS_PRINT = declare("Suppress Print", ComboBox.class);
 			public static final AssetDescriptor<TextBox> ISSUE_DATE = declare("Issue Date", TextBox.class);
