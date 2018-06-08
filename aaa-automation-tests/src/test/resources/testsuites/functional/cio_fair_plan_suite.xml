@@ -1,0 +1,104 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="CIO Functional FAIR Plan Test Suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+
+    <parameter name="timeshift-scenario-mode" value="method"/>
+    <test name="PAS-13211 PAS-13242 PAS-13216 - FAIR Plan Endorsement (formerly known as Difference in Conditions) (CA HO3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestFAIRPlanEndorsement">
+
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-13211 PAS-13242 PAS-13216 - FAIR Plan Endorsement (formerly known as Difference in Conditions) (CA DP3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestFAIRPlanEndorsement">
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-13215 - AC1/2 - 18.5: CA FAIR Plan: Rating (CA DP3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanRating">
+            </class>
+        </classes>
+    </test>
+    <test name="PAS-13215 - AC1/2 - 18.5: CA FAIR Plan: Rating (CA HO3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCAFairPlanRating">
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-13239 - AC1 - 18.5: CA FAIR Plan: Signature required to bind (CA DP3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanSignature">
+            </class>
+        </classes>
+    </test>
+    <test name="PAS-13239 - AC1 - 18.5: CA FAIR Plan: Signature required to bind (CA HO3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCAFairPlanSignature">
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-13445 - 18.5: CA FAIR Plan: Mutually Exclusive Endorsements (CA DP3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanMutualExclusions">
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-13210 - 18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement (CA DP3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanCompanion">
+            </class>
+        </classes>
+    </test>
+    <test name="PAS-13210 - 18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement (CA HO3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCAFairPlanCompanion">
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-13210 - 18.5: CA FAIR Plan: Update Fireline underwriting eligibility rules to enable Bind with FPCECA/FPCECADP Endorsement (CA DP3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanCanItBind">
+            </class>
+        </classes>
+    </test>
+    <test name="PAS-13210 - 18.5: CA FAIR Plan: Update Fireline underwriting eligibility rules to enable Bind with FPCECA/FPCECADP Endorsement (CA HO3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCAFairPlanCanItBind">
+            </class>
+        </classes>
+    </test>
+
+</suite>
