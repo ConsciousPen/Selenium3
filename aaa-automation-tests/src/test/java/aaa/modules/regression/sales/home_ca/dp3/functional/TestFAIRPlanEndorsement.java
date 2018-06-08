@@ -235,7 +235,7 @@ public class TestFAIRPlanEndorsement extends HomeCaDP3BaseTest {
 		testFAIRPlanEndorsementTemplate.pas13211_AC3_Renewal_PPC1X_LogHome_AAA_HO_CA10100616();
 	}
 
-	////////////Start PAS-13242 PAS-14193////////////////
+	////////////Start PAS-13242 PAS-14193 PAS-14368 PAS-14632////////////////
 
 	/**
 	 *@author Maris Strazds
@@ -253,11 +253,14 @@ public class TestFAIRPlanEndorsement extends HomeCaDP3BaseTest {
 	 * 8. Validate that form FPCECADP is not included in Revised renewal package, but is listed in other documents
 	 *           -PAS-14368-
 	 * 9. Validate that FPCECADP has correct Sequence in XML (<doc:Sequence> is 91 for NB and Endorsement, and 171 for renewal)
+	 *           -PAS-14632-
+	 * 10. Validate that Renewal Thank You Letter (61 5121) (in cases when it is generated) contains tag FairPlanYN with value "Y" if policy contains FAIR Plan Endorsement, and
+	 *     value "N" if policy doesn't contain FAIR Plan Endorsement
 	 *@details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13242 PAS-14193 AS-14368")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13242 PAS-14193 PAS-14368 PAS-14632")
 	public void pas13242_pas14193_AC1_NB(@Optional("") String state) {
 		TestData tdWithFAIRPlanEndorsement = getPolicyDefaultTD().adjust(EndorsementTab.class.getSimpleName(), getTestSpecificTD("EndorsementTab_Add"));
 		tdWithFAIRPlanEndorsement.adjust(DocumentsTab.class.getSimpleName(), getTestSpecificTD("DocumentsTab_SignFairPlanEndorsement"));
@@ -299,11 +302,14 @@ public class TestFAIRPlanEndorsement extends HomeCaDP3BaseTest {
 	 * 8. Validate that form FPCECADP is included in Renewal package only once
 	 *           -PAS-14368-
 	 * 9. Validate that FPCECADP has correct Sequence in XML (<doc:Sequence> is 91 for NB and Endorsement, and 171 for renewal)
+	 *           -PAS-14632-
+	 * 10. Validate that Renewal Thank You Letter (61 5121) (in cases when it is generated) contains tag FairPlanYN with value "Y" if policy contains FAIR Plan Endorsement, and
+	 *     value "N" if policy doesn't contain FAIR Plan Endorsement
 	 *@details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13242 PAS-14193 AS-14368")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13242 PAS-14193 PAS-14368 PAS-14632")
 	public void pas13242_pas14193_AC3_Renewal(@Optional("") String state) {
 		testFAIRPlanEndorsementTemplate.pas13242_pas14193_AC3_Renewal();
 	}
@@ -321,11 +327,14 @@ public class TestFAIRPlanEndorsement extends HomeCaDP3BaseTest {
 	 * 7. Validate that form FPCECADP is included in Revised Renewal package only once
 	 *           -PAS-14368-
 	 * 8. Validate that FPCECADP has correct Sequence in XML (<doc:Sequence> is 91 for NB and Endorsement, and 171 for renewal)
+	 *           -PAS-14632-
+	 * 9. Validate that Renewal Thank You Letter (61 5121) (in cases when it is generated) contains tag FairPlanYN with value "Y" if policy contains FAIR Plan Endorsement, and
+	 *     value "N" if policy doesn't contain FAIR Plan Endorsement
 	 *@details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13242 PAS-14193 AS-14368")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13242 PAS-14193 PAS-14368 PAS-14632")
 	public void pas13242_pas14193_AC3_Revised_Renewal_After_Renewal_Term_Change(@Optional("") String state) {
 		testFAIRPlanEndorsementTemplate.pas13242_pas14193_AC3_Revised_Renewal_After_Renewal_Term_Change();
 	}
@@ -345,16 +354,19 @@ public class TestFAIRPlanEndorsement extends HomeCaDP3BaseTest {
 	 * 8. Validate that form FPCECADP is included in Endorsement package only once
 	 *           -PAS-14368-
 	 * 9. Validate that FPCECADP has correct Sequence in XML (<doc:Sequence> is 91 for NB and Endorsement, and 171 for renewal)
+	 *           -PAS-14632-
+	 * 10. Validate that Renewal Thank You Letter (61 5121) (in cases when it is generated) contains tag FairPlanYN with value "Y" if policy contains FAIR Plan Endorsement, and
+	 *     value "N" if policy doesn't contain FAIR Plan Endorsement
 	 *@details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13242 PAS-14193 AS-14368")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-13242 PAS-14193 PAS-14368 PAS-14632")
 	public void pas13242_pas14193_AC3_Revised_Renewal_After_Current_Term_Change(@Optional("") String state) {
 		testFAIRPlanEndorsementTemplate.pas13242_pas14193_AC3_Revised_Renewal_After_Current_Term_Change();
 	}
 
-	////////////End PAS-13242////////////////
+	////////////End PAS-13242 PAS-14193 PAS-14368 PAS-14632////////////////
 
 	////////////Start PAS-13216////////////////
 

@@ -720,6 +720,9 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		//Validate that form FPCECA is included in Document Package only once
 		assertThat(docs.stream().filter(document -> document.getTemplateId().equals(formIdInXml)).toArray().length).isEqualTo(1);
 		validateFAIRPlanEndorsementSequencePAS_14368(docs, eventName);
+		if (eventName.equals(RENEWAL_OFFER)) {
+			validateRenewalThankYouLetterPAS_14675(policyNumber, "Y");
+		}
 	}
 
 	private void validateDocumentIsNotGeneratedInPackage(String policyNumber, AaaDocGenEntityQueries.EventNames eventName, boolean shouldBeListedInOtherDocs) {
@@ -732,10 +735,17 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		//Validate that document FPCECA is/is not listed in other documents (test validates that FPCECA is listed at least in one other document)
 		if (shouldBeListedInOtherDocs) {
 			assertThat(docsOther.stream().filter(document -> document.toString().contains(formIdInXml)).toArray().length).isGreaterThan(0);
+			//Validate that Renewal Thank You Letter contains proper value for tag FairPlanYN
+			if (eventName.equals(RENEWAL_OFFER)) {
+				validateRenewalThankYouLetterPAS_14675(policyNumber, "Y");
+			}
 
 		} else {
 			assertThat(docsOther.stream().filter(document -> document.toString().contains(formIdInXml)).toArray().length).isEqualTo(0);
-
+			//Validate that Renewal Thank You Letter contains proper value for tag FairPlanYN
+			if (eventName.equals(RENEWAL_OFFER)) {
+				validateRenewalThankYouLetterPAS_14675(policyNumber, "N");
+			}
 		}
 	}
 
@@ -889,4 +899,21 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 	}
 
+	private void validateRenewalThankYouLetterPAS_14675(String policyNumber, String fairPlanYNExpectedValue) {
+		String fairPlanYNActualValue;
+		String query = String.format(AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME, policyNumber, DocGenEnum.Documents._61_5121.getIdInXml(), RENEWAL_OFFER);
+		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber, RENEWAL_OFFER);
+
+		//If document package contains Renewal Thank You  Letter 61 5121, then validate that it contains tag FairPlanYN with expected value
+		if (docs.stream().map(Document::getTemplateId).collect(Collectors.toList()).toString().contains(DocGenEnum.Documents._61_5121.getIdInXml())) {
+			Document thankYouLetter615121 = DocGenHelper.getDocument(DocGenEnum.Documents._61_5121, query);
+			fairPlanYNActualValue = DocGenHelper.getDocumentDataElemByName("FairPlanYN", thankYouLetter615121).getDataElementChoice().getTextField();
+
+			SoftAssertions.assertSoftly(softly -> {
+				softly.assertThat(fairPlanYNActualValue.contentEquals(fairPlanYNExpectedValue));
+			});
+
+		}
+
+	}
 }
