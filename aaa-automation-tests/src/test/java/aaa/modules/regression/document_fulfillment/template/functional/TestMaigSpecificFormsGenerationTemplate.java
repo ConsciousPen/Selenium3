@@ -27,6 +27,8 @@ import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
+import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
@@ -249,7 +251,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		//Generate Bill for the second renewal to verify Home Banking forms
 		billGeneration(renewalOfferEffectiveDate.plusYears(1));
 		// Shouldn't be after second renewal
-		pas9816_verifyBillingRenewalPackageAbsence(policyNumber);
+		verifyBillingRenewalPackageAbsence(policyNumber);
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		String policyTransactionCode2 = getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
@@ -411,7 +413,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		assertThat(policyTransactionCode).isEqualTo(expectedCode);
 	}
 
-	private void pas9816_verifyRenewalBillingPackageFormsPresence(String policyNumber, PolicyType policyType) {
+	private void verifyRenewalBillingPackageFormsPresence(String policyNumber, PolicyType policyType) {
 		List<String> expectedFormsAndOrder = new ArrayList<>(Arrays.asList(
 				DocGenEnum.Documents.AHRBXX.getIdInXml(),
 				DocGenEnum.Documents.AH35XX.getIdInXml()

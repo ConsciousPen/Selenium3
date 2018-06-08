@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.openqa.selenium.By;
-import org.testng.annotations.*;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -30,7 +29,6 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.preconditions.ScorpionsPreconditions;
 import aaa.modules.regression.sales.template.VinUploadAutoSSHelper;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -569,7 +567,6 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		//2. Upload Updated VIN Data for utilized VIN
 		adminApp().open();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-		//todo
 		uploadToVINTableTab.uploadControlTable(configExcelName);
 		uploadToVINTableTab.uploadVinTable(uploadExcelR45);
 

@@ -17,6 +17,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.helpers.product.VinUploadHelper;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
@@ -69,7 +70,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		LocalDateTime renewalDate = PolicySummaryPage.getExpirationDate();
 
 		//4. Verify VIN Refresh Activity and user Notes Entry
-		if (event1 == "R35")  {
+		if (timeShiftedDate.equals(renewalDate.minusDays(35)))  {
 			NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
 			assertSoftly(softly -> {
 				softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "has been updated for the following vehicle").getCell("Description").getValue().contains("has been updated for the following vehicle"));

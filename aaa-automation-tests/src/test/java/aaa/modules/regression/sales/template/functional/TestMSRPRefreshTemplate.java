@@ -19,7 +19,10 @@ import aaa.helpers.product.VinUploadHelper;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.defaulttabs.*;
+import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -35,7 +38,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 					+ "(%1$d,'%2$s','%3$s','%4$s','%5$s','%6$d','%7$d','%8$s')";
 	protected final String DELETE_VEHICLEREFDATAVINCONTROL_BY_VERSION_VEHICLETYPE =
 			"DELETE from MSRPCompCollCONTROL WHERE VEHICLETYPE = '%1$s' AND MSRPVERSION = '%2$s'";
-	String DELETE_FROM_VEHICLEREFDATAVINCONTROL  = "DELETE FROM VEHICLEREFDATAVINCONTROL WHERE FORMTYPE = '%s' AND VERSION = '%s' AND EFFECTIVEDATE = %d AND EXPIRATIONDATE = %d";
+	protected String DELETE_FROM_VEHICLEREFDATAVINCONTROL  = "DELETE FROM VEHICLEREFDATAVINCONTROL WHERE FORMTYPE = '%s' AND VERSION = '%s' AND EFFECTIVEDATE = %d AND EXPIRATIONDATE = %d";
 
 	protected static final int EXPECTED_MSRP_KEY = 4;
 	protected static final int COMP_COLL_SYMBOL_KEY = 44;
