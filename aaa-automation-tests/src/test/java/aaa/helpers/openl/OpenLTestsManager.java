@@ -90,16 +90,16 @@ public final class OpenLTestsManager {
 	}
 	
 	private List<? extends OpenLPolicy> getOpenLPolicies(XmlTest test) {
-		Class<? extends OpenLPolicy> openLPolicyModel = OpenLPolicyType.of(test).getOpenLPolicyModel();
+		String filePath = getFilePath(test);
 		List<CellType<?>> cellTypes = Arrays.asList(ExcelCell.INTEGER_TYPE, ExcelCell.DOUBLE_TYPE, ExcelCell.BOOLEAN_TYPE, ExcelCell.LOCAL_DATE_TYPE, ExcelCell.STRING_TYPE, ExcelCell.DOLLAR_CELL_TYPE);
-		List<Integer> policyNumbers = parsePolicyNumbers(TestParams.POLICY_NUMBERS.getValue(test));
 		
+		log.info("Getting OpenLPolicy objects from %s file", filePath);
 		ExcelUnmarshaller excelUnmarshaller = null;
 		if (Boolean.valueOf(TestParams.LOCAL_TESTS.getValue(test))) {
-			excelUnmarshaller = new ExcelUnmarshaller(new File(getFilePath(test)), false, cellTypes);
+			excelUnmarshaller = new ExcelUnmarshaller(new File(filePath), false, cellTypes);
 		} else {
 			String authString = PropertyProvider.getProperty(CustomTestProperties.RATING_REPO_USER) + ":" + PropertyProvider.getProperty(CustomTestProperties.RATING_REPO_PASSWORD);
-			String url = "https://csaa-insurance.aaa.com/bb/rest/api/1.0/projects/PAS/repos/pas-rating/raw/" + getFilePath(test) + "?at=refs%2Fheads%2F" + TestParams.TESTS_BRANCH.getValue(test);
+			String url = "https://csaa-insurance.aaa.com/bb/rest/api/1.0/projects/PAS/repos/pas-rating/raw/" + filePath + "?at=refs%2Fheads%2F" + TestParams.TESTS_BRANCH.getValue(test);
 			
 			Response response = ClientBuilder.newClient()
 					.target(url)
@@ -126,6 +126,8 @@ public final class OpenLTestsManager {
 			}
 		}
 		
+		List<Integer> policyNumbers = parsePolicyNumbers(TestParams.POLICY_NUMBERS.getValue(test));
+		Class<? extends OpenLPolicy> openLPolicyModel = OpenLPolicyType.of(test).getOpenLPolicyModel();
 		List<? extends OpenLPolicy> openLPolicies = excelUnmarshaller.unmarshalRows(openLPolicyModel, policyNumbers);
 		List<OpenLTest> openLTests = excelUnmarshaller.unmarshalRows(OpenLTest.class, policyNumbers);
 		excelUnmarshaller.flushCache().close();
