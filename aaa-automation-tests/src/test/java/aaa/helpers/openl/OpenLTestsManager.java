@@ -72,10 +72,11 @@ public final class OpenLTestsManager {
 			for (XmlTest test : suite.getTests()) {
 				//TODO-dchubkov: try to split OpenLPolicy objects creation to multi threads (just several ones due to huge memory consumption)
 				OpenLTestInfo<? extends OpenLPolicy> openLTestInfo;
+				String filePath = getFilePath(test);
 				try {
-					openLTestInfo = new OpenLTestInfo<>(getFilePath(test), getOpenLPolicies(test));
+					openLTestInfo = new OpenLTestInfo<>(filePath, getOpenLPolicies(test));
 				} catch (Throwable e) {
-					openLTestInfo = new OpenLTestInfo<>(e);
+					openLTestInfo = new OpenLTestInfo<>(filePath, e);
 				}
 				openLTests.put(makeTestInfoKey(test), openLTestInfo);
 			}

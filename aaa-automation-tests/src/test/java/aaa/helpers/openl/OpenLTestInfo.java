@@ -15,7 +15,8 @@ public class OpenLTestInfo<P extends OpenLPolicy> {
 		this.openLPolicies = new ArrayList<>(openLPolicies);
 	}
 	
-	OpenLTestInfo(Throwable exception) {
+	OpenLTestInfo(String openLFilePath, Throwable exception) {
+		this.openLFilePath = openLFilePath;
 		this.exception = exception;
 	}
 	

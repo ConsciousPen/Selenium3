@@ -58,7 +58,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 	protected void verifyPremiums(ITestContext context) {
 		OpenLTestInfo<P> testInfo = openLTestsManager.getTestInfo(context);
 		if (testInfo.isFailed()) {
-			Assert.fail("OpenL test preparation has been failed!", testInfo.getException());
+			Assert.fail("OpenL test preparation has been failed for file: " + testInfo.getOpenLFilePath(), testInfo.getException());
 		}
 
 		mainApp().open();
