@@ -27,6 +27,7 @@ public class VehicleQueries {
 
 	public static final String NULL_SPECIFIC_POLICY_STUB = "UPDATE Riskitem SET CURRENTVIN = NULL WHERE CURRENTVIN like '%s'";
 	public static final String EDIT_SPECIFIC_COMP_VALUE = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOMPREHENSIVE = PHYSICALDAMAGECOMPREHENSIVE + 50 where vin like '%s' and VERSION like 'SYMBOL_2000'";
+	public static final String REPAIR_SPECIFIED_COLLCOMP_BY_ID = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOLLISION ='%s', PHYSICALDAMAGECOMPREHENSIVE ='%s' where id = '%s' and VERSION like 'SYMBOL_2000'";
 
 	public static final String REPAIR_7MSRP15H_COMP = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOMPREHENSIVE ='44' where vin like '7MSRP15H%V' and VERSION like 'SYMBOL_2000'";
 	public static final String REPAIR_7MSRP15H_COLL = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOLLISION ='35' where vin like '7MSRP15H%V' and VERSION like 'SYMBOL_2000'";
