@@ -1,10 +1,6 @@
 package aaa.modules.regression.sales.template;
 
-import static aaa.helpers.db.queries.MsrpQueries.AUTO_SS_PPA_VEH_MSRP_VERSION;
-import static aaa.helpers.db.queries.MsrpQueries.DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY;
-import static aaa.helpers.db.queries.MsrpQueries.DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_VERSION_STATECD;
-import static aaa.helpers.db.queries.MsrpQueries.INSERT_MSRPCOMPCOLLCONTROL_VERSION;
-import static aaa.helpers.db.queries.MsrpQueries.UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX;
+import static aaa.helpers.db.queries.MsrpQueries.*;
 import static aaa.helpers.db.queries.VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
@@ -22,11 +18,7 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -88,29 +80,51 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
 
-	protected void pas11659_CommonSteps(String vinNumber, String policyNumber, LocalDateTime timeShiftedDate) {
+	protected void pas11659_CommonSteps(String event1, String policyNumber, LocalDateTime timeShiftedDate) {
 		//1. Move time to renewal time point and
 		moveTimeAndRunRenewJobs(timeShiftedDate);
-		//3. Retrieve the policy
-		mainApp().reopen();
+		//2. Retrieve the policy
+		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		//3. Get Renewal Date for below comparison
+
+		//3. Get Renewal Date for refresh validation
 		LocalDateTime renewalDate = PolicySummaryPage.getExpirationDate();
+
+		//4. Verify VIN Refresh Activity and user Notes Entry
+		if (event1 == "R35")  {
+			NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+			assertSoftly(softly -> {
+				softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "has been updated for the following vehicle").getCell("Description").getValue().contains("has been updated for the following vehicle"));
+			});
+			log.info("Activities and User Note present");
+		}
+		else log.info("Not Checking Activities and User Notes");
+
 		//5. Initiate a new renewal version
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
-		//  Validate vehicle information in VRD
+
+		//6. Validate vehicle information in VRD
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
-		if (timeShiftedDate == renewalDate.minusDays(46) || timeShiftedDate == renewalDate.minusDays(40)|| timeShiftedDate == renewalDate.minusDays(25)) {
+		if (timeShiftedDate == (renewalDate.minusDays(46)) || timeShiftedDate == (renewalDate.minusDays(25))) {
 			assertSoftly(softly -> {
 				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isNotEqualTo("2018");
 				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isNotEqualTo("TOYOTA");
 				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isNotEqualTo("Gt");
 			});
 		}
-		else if (timeShiftedDate == renewalDate.minusDays(45))	{
+		else if (timeShiftedDate == (renewalDate.minusDays(40)) || timeShiftedDate == (renewalDate.minusDays(35))){
+			assertSoftly(softly -> {
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2018");
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("TOYOTA");
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Gt");
+				log.info("TEST PASSED at R-35");
+			});
+		}
+		//R-45 triggers a refresh so it is not enough to just check that the Y/M/Mo is NOT  equal to a given value, like the R-45 and R-25 checks
+		else if (timeShiftedDate == (renewalDate.minusDays(45)))	{
 			assertSoftly(softly -> {
 				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2007");
 				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("UT_SS_R45");

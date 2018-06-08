@@ -192,9 +192,9 @@ public class HelperCommon {
 		return runJsonRequestDeleteDxp(restRequestInfo);
 	}
 
-	public static Vehicle[] viewPolicyVehicles(String policyNumber) {
+	public static ViewVehicleResponse viewPolicyVehicles(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_POLICY_VEHICLES, policyNumber));
-		return runJsonRequestGetDxp(requestUrl, Vehicle[].class);
+		return runJsonRequestGetDxp(requestUrl, ViewVehicleResponse.class);
 	}
 
 	public static ViewVehicleResponse viewEndorsementVehicles(String policyNumber) {
