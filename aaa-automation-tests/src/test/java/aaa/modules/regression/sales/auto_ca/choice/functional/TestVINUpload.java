@@ -37,11 +37,6 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		return PolicyType.AUTO_CA_CHOICE;
 	}
 
-	//@BeforeSuite
-	private void checkVinRefresh(){
-		enableVinIfDisabled();
-	}
-
 	/**
 	 * @author Lev Kazarnovskiy
 	 *

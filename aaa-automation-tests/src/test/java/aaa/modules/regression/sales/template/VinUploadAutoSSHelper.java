@@ -35,7 +35,12 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 	protected static VehicleTab vehicleTab = new VehicleTab();
 	protected static UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 	protected static PurchaseTab purchaseTab = new PurchaseTab();
-	protected static RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
+	private static RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
+	protected VinUploadHelper vinMethods;
+
+	String INSERT_VEHICLEREFDATAVINCONTROL_VERSION =
+			"Insert into VEHICLEREFDATAVINCONTROL (ID,PRODUCTCD,FORMTYPE,STATECD,VERSION,EFFECTIVEDATE,EXPIRATIONDATE,MSRP_VERSION) values"
+					+ "(%1$d,'%2$s',%3$s,'%4$s','%5$s','%6$d','%7$d','%8$s')";
 
 	protected void verifyAutomatedRenewal(String vinNumber, String policyNumber, LocalDateTime policyExpirationDate) {
 		//2. Generate automated renewal image (in data gather status) according to renewal timeline
@@ -57,19 +62,31 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 	protected void verifyVinRefreshWhenVersionIsNotCurrent(String policyNumber, LocalDateTime timeShiftedDate) {
 		//1. Move time to renewal time point and
 		moveTimeAndRunRenewJobs(timeShiftedDate);
-		//3. Retrieve the policy
+		//2. Retrieve the policy
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		//3. Get Renewal Date for below comparison
 		LocalDateTime renewalDate = PolicySummaryPage.getExpirationDate();
+
+		//4. Verify VIN Refresh Activity and user Notes Entry
+		if (event1 == "R35")  {
+			NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+			assertSoftly(softly -> {
+				softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "has been updated for the following vehicle").getCell("Description").getValue().contains("has been updated for the following vehicle"));
+			});
+			log.info("Activities and User Note present");
+		}
+		else log.info("Not Checking Activities and User Notes");
+
 		//5. Initiate a new renewal version
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
-		//  Validate vehicle information in VRD
+
+		//6. Validate vehicle information in VRD
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
-		if (Arrays.asList(renewalDate.minusDays(46),renewalDate.minusDays(40),renewalDate.minusDays(25)).contains(renewalDate)) {
+		if (Arrays.asList(renewalDate.minusDays(46),renewalDate.minusDays(25)).contains(renewalDate)) {
 			log.info("Renewal date is : " + renewalDate);
 			assertSoftly(softly -> {
 				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isNotEqualTo("2018");
@@ -77,6 +94,15 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isNotEqualTo("Gt");
 			});
 		}
+		else if (timeShiftedDate.equals(renewalDate.minusDays(40)) || timeShiftedDate.equals(renewalDate.minusDays(35))){
+			assertSoftly(softly -> {
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2018");
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("TOYOTA");
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Gt");
+				log.info("TEST PASSED at R-35");
+			});
+		}
+		//R-45 triggers a refresh so it is not enough to just check that the Y/M/Mo is NOT  equal to a given value, like the R-45 and R-25 checks
 		else if (timeShiftedDate.equals(renewalDate.minusDays(45)))	{
 			assertSoftly(softly -> {
 				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2007");
@@ -182,6 +208,11 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 	}
 
+	/**
+	 *
+	 *
+	 * @param policyExpirationDate !!!
+	 */
 	protected void createRenewalImage(LocalDateTime policyExpirationDate) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);

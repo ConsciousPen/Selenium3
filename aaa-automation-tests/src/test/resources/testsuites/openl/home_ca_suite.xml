@@ -1,17 +1,20 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Home CA OpenL Rating Tests" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-        <!--<listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>-->
         <!-- <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/> -->
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
-    <parameter name="testsDir" value="src/test/resources/openl/home_ca"/>
+    <parameter name="testsDir" value="aaa-rating-rules-home-ca/src/test/openl/rules"/>
+    <!-- Local tests execution parameters -->
+    <!--<parameter name="testsDir" value="src/test/resources/openl/auto_ss"/>-->
+    <!--<parameter name="localTests" value="true"/>-->
 
 	<test name="Home CA DP3 Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="CA"/>
-        <parameter name="fileName" value="DP3Tests_eff_04012018.xls"/>
+        <parameter name="policyType" value="HomeCA_DP3"/>
+        <parameter name="fileName" value="DP3Tests_eff_05012018.xls"/>
         <!-- parameter name="policyNumbers" value="2669, 2676, 2890, 3055, 3079, 3085, 3088, 3090, 3091, 3093"/ -->
-        <parameter name="policyNumbers" value="1"/>
+        <parameter name="policyNumbers" value="3090, 3093"/>
         <classes>
             <class name="aaa.modules.openl.HomeCaDP3PremiumCalculationTest"/>
         </classes>
@@ -19,9 +22,10 @@
    
     <test name="Home CA HO3 Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="CA"/>
-        <parameter name="fileName" value="HO3Tests_eff_09142017.xls"/>
+        <parameter name="policyType" value="HomeCA_HO3"/>
+        <parameter name="fileName" value="HO3Tests_eff_05012018.xls"/>
         <!-- parameter name="policyNumbers" value="3322, 3324"/ -->
-        <parameter name="policyNumbers" value="3323, 3333"/>
+        <parameter name="policyNumbers" value="3323, 3326"/>
         <classes>
             <class name="aaa.modules.openl.HomeCaHO3PremiumCalculationTest"/>
         </classes>
@@ -29,6 +33,7 @@
 
     <test name="Home CA HO4 Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="CA"/>
+        <parameter name="policyType" value="HomeCA_HO4"/>
         <parameter name="fileName" value="HO4Tests_eff_01012018.xls"/>
         <!-- parameter name="policyNumbers" value="5840, 5841, 6833, 9713, 9725, 9865, 11389, 11429, 11454, 11461, 11477"/ -->
         <parameter name="policyNumbers" value="5840, 11350"/>
@@ -39,6 +44,7 @@
     
     <test name="Home CA HO6 Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="CA"/>
+        <parameter name="policyType" value="HomeCA_HO6"/>
         <parameter name="fileName" value="HO6Tests.xls"/>
         <!-- parameter name="policyNumbers" value="1, 1097, 3288, 3319, 3329, 3449, 3515, 3491, 3492, 3546, 3626, 3750"/ -->
         <parameter name="policyNumbers" value="1, 3492"/>

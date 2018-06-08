@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.openqa.selenium.By;
+import org.testng.annotations.*;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -55,15 +56,6 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_SS;
-	}
-
-	//@BeforeClass
-	private void checkVinRefresh(){
-		String isVinRefreshEnabled = DBService.get().getValue(VehicleQueries.SELECT_VALUE_VIN_REFRESH).get();
-
-		if(isVinRefreshEnabled.equalsIgnoreCase("false")){
-			ScorpionsPreconditions.enableVinRefresh();
-		}
 	}
 
 	/**
@@ -339,7 +331,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		adminApp().open();
 		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN3.get()));
 
-		mainApp().reopen();
+		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -577,6 +569,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		//2. Upload Updated VIN Data for utilized VIN
 		adminApp().open();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		//todo
 		uploadToVINTableTab.uploadControlTable(configExcelName);
 		uploadToVINTableTab.uploadVinTable(uploadExcelR45);
 
@@ -658,7 +651,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN3);
 		String configExcelName = vinMethods.getControlTableFile();
 		String uploadExcelR35 = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN3.get());
-
+		String EVENT = "R35";
 		//1. Create a policy with VIN matched data and save the expiration data
 		String policyNumber = createPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();

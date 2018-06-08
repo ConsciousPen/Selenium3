@@ -2749,7 +2749,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).customerDisplayed).isEqualTo(true);
 			assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).canChangeCoverage).isEqualTo(true);
 
-			assertCoverageLimitForCompColl(coverageResponse);
+			assertCoverageLimitForCompCollLoanLease(coverageResponse);
 
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageCd).isEqualTo("COLLDED");
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageDescription).isEqualTo("Collision Deductible");
@@ -2759,7 +2759,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).customerDisplayed).isEqualTo(true);
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).canChangeCoverage).isEqualTo(true);
 
-			assertCoverageLimitForCompColl(coverageResponse);
+			assertCoverageLimitForCompCollLoanLease(coverageResponse);
 
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageCd).isEqualTo("GLASS");
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageDescription).isEqualTo("Full Safety Glass");
@@ -2851,7 +2851,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(0).customerDisplayed).isEqualTo(true);
 			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(0).canChangeCoverage).isEqualTo(true);
 
-			assertCoverageLimitForCompColl(coverageEndorsementResponse);
+			assertCoverageLimitForCompCollLoanLease(coverageEndorsementResponse);
 
 			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageCd).isEqualTo("COLLDED");
 			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageDescription).isEqualTo("Collision Deductible");
@@ -2861,7 +2861,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(1).customerDisplayed).isEqualTo(true);
 			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(1).canChangeCoverage).isEqualTo(true);
 
-			assertCoverageLimitForCompColl(coverageEndorsementResponse);
+			assertCoverageLimitForCompCollLoanLease(coverageEndorsementResponse);
 
 			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageCd).isEqualTo("GLASS");
 			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageDescription).isEqualTo("Full Safety Glass");
@@ -3320,11 +3320,11 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 					assertCoverageLimitForCompCollLoanLease(coverageResponse);
 
-					coverageXproperties1(softly, 2, coverageResponse, "GLASS", "Full Safety Glass", "false", fullSafetyGlassVeh1, "None", true, true);
+					coverageXproperties(softly, 2, coverageResponse, "GLASS", "Full Safety Glass", "false", fullSafetyGlassVeh1, "None", true, true);
 
 					assertCoverageLimitFullGlassCov(coverageResponse);
 
-					coverageXproperties1(softly, 3, coverageResponse, "LOAN", "Auto Loan/Lease Coverage", "0", loanLeaseCov1, "None", true, true);
+					coverageXproperties(softly, 3, coverageResponse, "LOAN", "Auto Loan/Lease Coverage", "0", loanLeaseCov1, "None", true, true);
 
 					assertCoverageLimitLoan(coverageResponse);
 
@@ -3332,7 +3332,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 					assertCoverageLimitTransportationExpense(coverageResponse);
 
-					coverageXproperties1(softly, 5, coverageResponse, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", towingAndLabor1, "Per Disablement/Maximum", true, true);
+					coverageXproperties(softly, 5, coverageResponse, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", towingAndLabor1, "Per Disablement/Maximum", true, true);
 
 					assertCoverageLimitTowingLabor(coverageResponse);
 				}
@@ -3347,13 +3347,13 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			coverageXproperties(softly, 1, coverageResponse1, "COLLDED", "Collision Deductible", availableLimits1, availableLimits1, "Deductible", true, true);
 
-			coverageXproperties1(softly, 2, coverageResponse1, "GLASS", "Full Safety Glass", "false", fullSafetyGlassVeh1, "None", true, true);
+			coverageXproperties(softly, 2, coverageResponse1, "GLASS", "Full Safety Glass", "false", fullSafetyGlassVeh1, "None", true, true);
 
-			coverageXproperties1(softly, 3, coverageResponse1, "LOAN", "Auto Loan/Lease Coverage", "0", loanLeaseCov1, "None", true, true);
+			coverageXproperties(softly, 3, coverageResponse1, "LOAN", "Auto Loan/Lease Coverage", "0", loanLeaseCov1, "None", true, true);
 
 			coverageXproperties(softly, 4, coverageResponse1, "RREIM", "Transportation Expense", transportationExpense1.toPlaingString(), transportationExpense1.toPlaingString(), "Per Occurrence", true, true);
 
-			coverageXproperties1(softly, 5, coverageResponse1, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", towingAndLabor1, "Per Disablement/Maximum", true, true);
+			coverageXproperties(softly, 5, coverageResponse1, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", towingAndLabor1, "Per Disablement/Maximum", true, true);
 
 		});
 
@@ -3366,13 +3366,13 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			coverageXproperties(softly, 1, coverageResponse2, "COLLDED", "Collision Deductible", availableLimits1, availableLimits1, "Deductible", true, true);
 
-			coverageXproperties1(softly, 2, coverageResponse2, "GLASS", "Full Safety Glass", "true", availableLimits2, "None", true, true);
+			coverageXproperties(softly, 2, coverageResponse2, "GLASS", "Full Safety Glass", "true", availableLimits2, "None", true, true);
 
-			coverageXproperties1(softly, 3, coverageResponse2, "LOAN", "Auto Loan/Lease Coverage", "0", loanLeaseCov1, "None", true, true);
+			coverageXproperties(softly, 3, coverageResponse2, "LOAN", "Auto Loan/Lease Coverage", "0", loanLeaseCov1, "None", true, true);
 
 			coverageXproperties(softly, 4, coverageResponse2, "RREIM", "Transportation Expense", transportationExpense1.toPlaingString(), transportationExpense1.toPlaingString(), "Per Occurrence", true, true);
 
-			coverageXproperties1(softly, 5, coverageResponse2, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", towingAndLabor1, "Per Disablement/Maximum", true, true);
+			coverageXproperties(softly, 5, coverageResponse2, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", towingAndLabor1, "Per Disablement/Maximum", true, true);
 
 		});
 
@@ -3385,13 +3385,13 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			coverageXproperties(softly, 1, coverageResponse3, "COLLDED", "Collision Deductible", availableLimits1, availableLimits1, "Deductible", true, true);
 
-			coverageXproperties1(softly, 2, coverageResponse3, "GLASS", "Full Safety Glass", "true", availableLimits2, "None", true, true);
+			coverageXproperties(softly, 2, coverageResponse3, "GLASS", "Full Safety Glass", "true", availableLimits2, "None", true, true);
 
-			coverageXproperties1(softly, 3, coverageResponse3, "LOAN", "Auto Loan/Lease Coverage", availableLimits3, "Yes", "None", true, true);
+			coverageXproperties(softly, 3, coverageResponse3, "LOAN", "Auto Loan/Lease Coverage", availableLimits3, "Yes", "None", true, true);
 
 			coverageXproperties(softly, 4, coverageResponse3, "RREIM", "Transportation Expense", transportationExpense1.toPlaingString(), transportationExpense1.toPlaingString(), "Per Occurrence", true, true);
 
-			coverageXproperties1(softly, 5, coverageResponse3, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", towingAndLabor1, "Per Disablement/Maximum", true, true);
+			coverageXproperties(softly, 5, coverageResponse3, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", towingAndLabor1, "Per Disablement/Maximum", true, true);
 
 		});
 
@@ -3404,13 +3404,13 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			coverageXproperties(softly, 1, coverageResponse4, "COLLDED", "Collision Deductible", availableLimits1, availableLimits1, "Deductible", true, true);
 
-			coverageXproperties1(softly, 2, coverageResponse4, "GLASS", "Full Safety Glass", "true", availableLimits2, "None", true, true);
+			coverageXproperties(softly, 2, coverageResponse4, "GLASS", "Full Safety Glass", "true", availableLimits2, "None", true, true);
 
-			coverageXproperties1(softly, 3, coverageResponse4, "LOAN", "Auto Loan/Lease Coverage", availableLimits3, "Yes", "None", true, true);
+			coverageXproperties(softly, 3, coverageResponse4, "LOAN", "Auto Loan/Lease Coverage", availableLimits3, "Yes", "None", true, true);
 
 			coverageXproperties(softly, 4, coverageResponse4, "RREIM", "Transportation Expense", availableLimits4, availableLimits4, "Per Occurrence", true, true);
 
-			coverageXproperties1(softly, 5, coverageResponse4, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", towingAndLabor1, "Per Disablement/Maximum", true, true);
+			coverageXproperties(softly, 5, coverageResponse4, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", towingAndLabor1, "Per Disablement/Maximum", true, true);
 
 		});
 
@@ -3423,13 +3423,13 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			coverageXproperties(softly, 1, coverageResponse5, "COLLDED", "Collision Deductible", availableLimits1, availableLimits1, "Deductible", true, true);
 
-			coverageXproperties1(softly, 2, coverageResponse5, "GLASS", "Full Safety Glass", "true", availableLimits2, "None", true, true);
+			coverageXproperties(softly, 2, coverageResponse5, "GLASS", "Full Safety Glass", "true", availableLimits2, "None", true, true);
 
 			coverageXproperties(softly, 3, coverageResponse5, "LOAN", "Auto Loan/Lease Coverage", availableLimits3, "Yes", "None", true, true);
 
 			coverageXproperties(softly, 4, coverageResponse5, "RREIM", "Transportation Expense", availableLimits4, availableLimits4, "Per Occurrence", true, true);
 
-			coverageXproperties1(softly, 5, coverageResponse5, "TOWINGLABOR", "Towing and Labor Coverage", availableLimits5, "$50/$300", "Per Disablement/Maximum", true, true);
+			coverageXproperties(softly, 5, coverageResponse5, "TOWINGLABOR", "Towing and Labor Coverage", availableLimits5, "$50/$300", "Per Disablement/Maximum", true, true);
 
 		});
 
@@ -3442,13 +3442,13 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			coverageXproperties(softly, 1, coverageResponse14, "COLLDED", "Collision Deductible", availableLimitsRemove, "No Coverage", "Deductible", true, false);
 
-			coverageXproperties1(softly, 2, coverageResponse14, "GLASS", "Full Safety Glass", "false", "No Coverage", "None", true, false);
+			coverageXproperties(softly, 2, coverageResponse14, "GLASS", "Full Safety Glass", "false", "No Coverage", "None", true, false);
 
-			coverageXproperties1(softly, 3, coverageResponse14, "LOAN", "Auto Loan/Lease Coverage", "0", "No Coverage", "None", true, false);
+			coverageXproperties(softly, 3, coverageResponse14, "LOAN", "Auto Loan/Lease Coverage", "0", "No Coverage", "None", true, false);
 
 			//coverageXproperties(softly, 4, coverageResponse14, "RREIM", "Transportation Expense", "0", "0", "Per Occurrence", true, false);
 
-			coverageXproperties1(softly, 5, coverageResponse14, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", "No Coverage", "Per Disablement/Maximum", true, false);
+			coverageXproperties(softly, 5, coverageResponse14, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", "No Coverage", "Per Disablement/Maximum", true, false);
 
 		});
 
@@ -3461,13 +3461,13 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			coverageXproperties(softly, 1, coverageResponse6, "COLLDED", "Collision Deductible", availableLimitsRemove, "No Coverage", "Deductible", true, true);
 
-			coverageXproperties1(softly, 2, coverageResponse6, "GLASS", "Full Safety Glass", "false", "No Coverage", "None", true, true);
+			coverageXproperties(softly, 2, coverageResponse6, "GLASS", "Full Safety Glass", "false", "No Coverage", "None", true, true);
 
-			coverageXproperties1(softly, 3, coverageResponse6, "LOAN", "Auto Loan/Lease Coverage", "0", "No Coverage", "None", true, false);
+			coverageXproperties(softly, 3, coverageResponse6, "LOAN", "Auto Loan/Lease Coverage", "0", "No Coverage", "None", true, false);
 
 			//	coverageXproperties(softly, 4, coverageResponse6, "RREIM", "Transportation Expense", "0", "0", "Per Occurrence", true, true);
 
-			coverageXproperties1(softly, 5, coverageResponse6, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", "No Coverage", "Per Disablement/Maximum", true, false);
+			coverageXproperties(softly, 5, coverageResponse6, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", "No Coverage", "Per Disablement/Maximum", true, false);
 
 		});
 
@@ -3480,13 +3480,13 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			coverageXproperties(softly, 1, coverageResponse7, "COLLDED", "Collision Deductible", availableLimitsChangeColl, availableLimitsChangeColl, "Deductible", true, true);
 
-			coverageXproperties1(softly, 2, coverageResponse7, "GLASS", "Full Safety Glass", "false", "No Coverage", "None", true, true);
+			coverageXproperties(softly, 2, coverageResponse7, "GLASS", "Full Safety Glass", "false", "No Coverage", "None", true, true);
 
-			coverageXproperties1(softly, 3, coverageResponse7, "LOAN", "Auto Loan/Lease Coverage", "0", "No Coverage", "None", true, true);
+			coverageXproperties(softly, 3, coverageResponse7, "LOAN", "Auto Loan/Lease Coverage", "0", "No Coverage", "None", true, true);
 
 			//coverageXproperties(softly, 4, coverageResponse7, "RREIM", "Transportation Expense","0", "0", "Per Occurrence", true, true);
 
-			coverageXproperties1(softly, 5, coverageResponse7, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", "No Coverage", "Per Disablement/Maximum", true, true);
+			coverageXproperties(softly, 5, coverageResponse7, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", "No Coverage", "Per Disablement/Maximum", true, true);
 
 		});
 
@@ -3500,13 +3500,13 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			coverageXproperties(softly, 1, coverageResponse8, "COLLDED", "Collision Deductible", availableLimitsChangeColl, availableLimitsChangeColl, "Deductible", true, true);
 
-			coverageXproperties1(softly, 2, coverageResponse8, "GLASS", "Full Safety Glass", "true", availableLimitsChangeGlass, "None", true, true);
+			coverageXproperties(softly, 2, coverageResponse8, "GLASS", "Full Safety Glass", "true", availableLimitsChangeGlass, "None", true, true);
 
-			coverageXproperties1(softly, 3, coverageResponse8, "LOAN", "Auto Loan/Lease Coverage", "0", "No Coverage", "None", true, true);
+			coverageXproperties(softly, 3, coverageResponse8, "LOAN", "Auto Loan/Lease Coverage", "0", "No Coverage", "None", true, true);
 
 			//coverageXproperties(softly, 4, coverageResponse8, "RREIM", "Transportation Expense","0", "0", "Per Occurrence", true, true);
 
-			coverageXproperties1(softly, 5, coverageResponse8, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", "No Coverage", "Per Disablement/Maximum", true, true);
+			coverageXproperties(softly, 5, coverageResponse8, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", "No Coverage", "Per Disablement/Maximum", true, true);
 
 		});
 
@@ -3520,13 +3520,13 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			coverageXproperties(softly, 1, coverageResponse9, "COLLDED", "Collision Deductible", availableLimitsChangeColl, availableLimitsChangeColl, "Deductible", true, true);
 
-			coverageXproperties1(softly, 2, coverageResponse9, "GLASS", "Full Safety Glass", "false", availableLimitsChangeGlassNoCov, "None", true, true);
+			coverageXproperties(softly, 2, coverageResponse9, "GLASS", "Full Safety Glass", "false", availableLimitsChangeGlassNoCov, "None", true, true);
 
-			coverageXproperties1(softly, 3, coverageResponse9, "LOAN", "Auto Loan/Lease Coverage", "0", "No Coverage", "None", true, true);
+			coverageXproperties(softly, 3, coverageResponse9, "LOAN", "Auto Loan/Lease Coverage", "0", "No Coverage", "None", true, true);
 
 			//	coverageXproperties(softly, 4, coverageResponse9, "RREIM", "Transportation Expense","0", "0", "Per Occurrence", true, true);
 
-			coverageXproperties1(softly, 5, coverageResponse9, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", "No Coverage", "Per Disablement/Maximum", true, true);
+			coverageXproperties(softly, 5, coverageResponse9, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", "No Coverage", "Per Disablement/Maximum", true, true);
 
 		});
 
@@ -3540,13 +3540,13 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			coverageXproperties(softly, 1, coverageResponse10, "COLLDED", "Collision Deductible", availableLimitsChangeColl, availableLimitsChangeColl, "Deductible", true, true);
 
-			coverageXproperties1(softly, 2, coverageResponse10, "GLASS", "Full Safety Glass", "false", availableLimitsChangeGlassNoCov, "None", true, true);
+			coverageXproperties(softly, 2, coverageResponse10, "GLASS", "Full Safety Glass", "false", availableLimitsChangeGlassNoCov, "None", true, true);
 
-			coverageXproperties1(softly, 3, coverageResponse10, "LOAN", "Auto Loan/Lease Coverage", "1", "Yes", "None", true, true);
+			coverageXproperties(softly, 3, coverageResponse10, "LOAN", "Auto Loan/Lease Coverage", "1", "Yes", "None", true, true);
 
 			//coverageXproperties(softly, 4, coverageResponse10, "RREIM", "Transportation Expense", availableLimits4, availableLimits4, "Per Occurrence", true, true);
 
-			coverageXproperties1(softly, 5, coverageResponse10, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", "No Coverage", "Per Disablement/Maximum", true, true);
+			coverageXproperties(softly, 5, coverageResponse10, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", "No Coverage", "Per Disablement/Maximum", true, true);
 
 		});
 
@@ -3560,13 +3560,13 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			coverageXproperties(softly, 1, coverageResponse11, "COLLDED", "Collision Deductible", availableLimitsChangeColl, availableLimitsChangeColl, "Deductible", true, true);
 
-			coverageXproperties1(softly, 2, coverageResponse11, "GLASS", "Full Safety Glass", "false", availableLimitsChangeGlassNoCov, "None", true, true);
+			coverageXproperties(softly, 2, coverageResponse11, "GLASS", "Full Safety Glass", "false", availableLimitsChangeGlassNoCov, "None", true, true);
 
-			coverageXproperties1(softly, 3, coverageResponse11, "LOAN", "Auto Loan/Lease Coverage", "1", "Yes", "None", true, true);
+			coverageXproperties(softly, 3, coverageResponse11, "LOAN", "Auto Loan/Lease Coverage", "1", "Yes", "None", true, true);
 
 			coverageXproperties(softly, 4, coverageResponse11, "RREIM", "Transportation Expense", availableLimitsChangeTransport, availableLimitsChangeTransport, "Per Occurrence", true, true);
 
-			coverageXproperties1(softly, 5, coverageResponse11, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", "No Coverage", "Per Disablement/Maximum", true, true);
+			coverageXproperties(softly, 5, coverageResponse11, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", "No Coverage", "Per Disablement/Maximum", true, true);
 
 		});
 
@@ -3580,13 +3580,13 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			coverageXproperties(softly, 1, coverageResponse12, "COLLDED", "Collision Deductible", availableLimitsChangeColl, availableLimitsChangeColl, "Deductible", true, true);
 
-			coverageXproperties1(softly, 2, coverageResponse12, "GLASS", "Full Safety Glass", "false", availableLimitsChangeGlassNoCov, "None", true, true);
+			coverageXproperties(softly, 2, coverageResponse12, "GLASS", "Full Safety Glass", "false", availableLimitsChangeGlassNoCov, "None", true, true);
 
-			coverageXproperties1(softly, 3, coverageResponse12, "LOAN", "Auto Loan/Lease Coverage", "1", "Yes", "None", true, true);
+			coverageXproperties(softly, 3, coverageResponse12, "LOAN", "Auto Loan/Lease Coverage", "1", "Yes", "None", true, true);
 
 			//	coverageXproperties(softly, 4, coverageResponse12, "RREIM", "Transportation Expense", availableLimitsChangeTransport, availableLimitsChangeTransport, "Per Occurrence", true, true);
 
-			coverageXproperties1(softly, 5, coverageResponse12, "TOWINGLABOR", "Towing and Labor Coverage", availableLimitsChangeTowing, "$50/$300", "Per Disablement/Maximum", true, true);
+			coverageXproperties(softly, 5, coverageResponse12, "TOWINGLABOR", "Towing and Labor Coverage", availableLimitsChangeTowing, "$50/$300", "Per Disablement/Maximum", true, true);
 
 		});
 
@@ -3600,13 +3600,13 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			coverageXproperties(softly, 1, coverageResponse13, "COLLDED", "Collision Deductible", availableLimitsChangeColl, availableLimitsChangeColl, "Deductible", true, true);
 
-			coverageXproperties1(softly, 2, coverageResponse13, "GLASS", "Full Safety Glass", "false", availableLimitsChangeGlassNoCov, "None", true, true);
+			coverageXproperties(softly, 2, coverageResponse13, "GLASS", "Full Safety Glass", "false", availableLimitsChangeGlassNoCov, "None", true, true);
 
-			coverageXproperties1(softly, 3, coverageResponse13, "LOAN", "Auto Loan/Lease Coverage", "1", "Yes", "None", true, true);
+			coverageXproperties(softly, 3, coverageResponse13, "LOAN", "Auto Loan/Lease Coverage", "1", "Yes", "None", true, true);
 
 			//coverageXproperties(softly, 4, coverageResponse13, "RREIM", "Transportation Expense", availableLimitsChangeTransport, availableLimitsChangeTransport, "Per Occurrence", true, true);
 
-			coverageXproperties1(softly, 5, coverageResponse13, "TOWINGLABOR", "Towing and Labor Coverage", availableLimitsChangeTowingNoCov, "No Coverage", "Per Disablement/Maximum", true, true);
+			coverageXproperties(softly, 5, coverageResponse13, "TOWINGLABOR", "Towing and Labor Coverage", availableLimitsChangeTowingNoCov, "No Coverage", "Per Disablement/Maximum", true, true);
 
 		});
 	}
@@ -3614,18 +3614,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	private void coverageXproperties(SoftAssertions softly, int coverageXnumber, PolicyCoverageInfo coverageResponse, String coverageCd, String coverageDesc, String availableLimits, String coverageLimitDisplay, String coverageType, boolean customerDisplay, boolean canChangeCoverage) {
 		softly.assertThat(getCoverageX(coverageResponse, coverageXnumber).coverageCd).isEqualTo(coverageCd);
 		softly.assertThat(getCoverageX(coverageResponse, coverageXnumber).coverageDescription).isEqualTo(coverageDesc);
-		softly.assertThat(new Dollar(getCoverageX(coverageResponse, coverageXnumber).coverageLimit)).isEqualTo(availableLimits);
+		softly.assertThat(getCoverageX(coverageResponse, coverageXnumber).coverageLimit.replace(".00", "")).isEqualTo(availableLimits.replace(".00", ""));
 		softly.assertThat(getCoverageX(coverageResponse, coverageXnumber).coverageLimitDisplay).contains(coverageLimitDisplay.toString().replace(".00", ""));
-		softly.assertThat(getCoverageX(coverageResponse, coverageXnumber).coverageType).isEqualTo(coverageType);
-		softly.assertThat(getCoverageX(coverageResponse, coverageXnumber).customerDisplayed).isEqualTo(customerDisplay);
-		softly.assertThat(getCoverageX(coverageResponse, coverageXnumber).canChangeCoverage).isEqualTo(canChangeCoverage);
-	}
-
-	private void coverageXproperties1(SoftAssertions softly, int coverageXnumber, PolicyCoverageInfo coverageResponse, String coverageCd, String coverageDesc, String availableLimits, String coverageLimitDisplay, String coverageType, boolean customerDisplay, boolean canChangeCoverage) {
-		softly.assertThat(getCoverageX(coverageResponse, coverageXnumber).coverageCd).isEqualTo(coverageCd);
-		softly.assertThat(getCoverageX(coverageResponse, coverageXnumber).coverageDescription).isEqualTo(coverageDesc);
-		softly.assertThat(getCoverageX(coverageResponse, coverageXnumber).coverageLimit).isEqualTo(availableLimits);
-		softly.assertThat(getCoverageX(coverageResponse, coverageXnumber).coverageLimitDisplay).isEqualTo(coverageLimitDisplay);
 		softly.assertThat(getCoverageX(coverageResponse, coverageXnumber).coverageType).isEqualTo(coverageType);
 		softly.assertThat(getCoverageX(coverageResponse, coverageXnumber).customerDisplayed).isEqualTo(customerDisplay);
 		softly.assertThat(getCoverageX(coverageResponse, coverageXnumber).canChangeCoverage).isEqualTo(canChangeCoverage);
@@ -5176,7 +5166,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		ViewVehicleResponse responseViewVehicles = HelperCommon.viewPolicyVehicles(policyNumber);
 		String oldVehicleOid = responseViewVehicles.vehicleList.get(0).oid;
 
-				String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		//Create pended endorsement
 		AAAEndorseResponse response = HelperCommon.createEndorsement(policyNumber, endorsementDate);
 		assertThat(response.policyNumber).isEqualTo(policyNumber);

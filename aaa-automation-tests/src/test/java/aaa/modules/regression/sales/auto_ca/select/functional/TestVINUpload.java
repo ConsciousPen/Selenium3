@@ -50,11 +50,6 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		return PolicyType.AUTO_CA_SELECT;
 	}
 
-	//@BeforeSuite
-	private void checkVinRefresh(){
-		enableVinIfDisabled();
-	}
-
 	/**
 	 * @author Lev Kazarnovskiy, Team Scorpions
 	 * PAS-533 Quote Refresh -Add New VIN

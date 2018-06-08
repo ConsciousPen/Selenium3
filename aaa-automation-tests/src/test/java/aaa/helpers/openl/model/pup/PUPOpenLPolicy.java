@@ -5,7 +5,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLPolicy;
+import aaa.helpers.openl.testdata_builder.PUPTestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import toolkit.datax.TestData;
 
 @ExcelTableElement(sheetName = PUP_POLICY_SHEET_NAME, headerRowIndex = PUPOpenLFile.POLICY_HEADER_ROW_NUMBER)
 public class PUPOpenLPolicy extends OpenLPolicy {
@@ -91,6 +93,11 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 	@Override
 	public LocalDate getEffectiveDate() {
 		return effectiveDate;
+	}
+	
+	@Override
+	public PUPTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
+		return new PUPTestDataGenerator(state, baseTestData);
 	}
 
 	public void setEffectiveDate(LocalDate effectiveDate) {

@@ -237,7 +237,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 		// Vin control table has version which overrides VERSION_2000, it is needed and important to get symbols for next steps
 		adminApp().open();
-		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN8.get()));
+		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.PARTIAL_MATCH.get()));
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);

@@ -66,8 +66,6 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	public void pas730_PartialMatch(@Optional("UT") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
-		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN8.get());
-
 		String vehYear = "2018";
 		String vehMake = "VOLKSWAGEN";
 		String vehModel = "PASSAT";
@@ -100,7 +98,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		// Vin control table has version which overrides VERSION_2000, it is needed and important to get symbols for next steps
 		adminApp().open();
-		vinMethods.uploadVinTable(vinTableFile);
+		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.PARTIAL_MATCH.get()));
 
 		findAndRateQuote(testData, quoteNumber);
 

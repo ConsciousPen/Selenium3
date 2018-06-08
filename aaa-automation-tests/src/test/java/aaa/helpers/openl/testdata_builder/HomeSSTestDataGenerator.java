@@ -404,8 +404,8 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				HomeSSMetaData.PropertyInfoTab.Construction.YEAR_BUILT.getLabel(), String.format("%d", openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDwellingRatingInfo().getHomeAge()).getYear()),
 				HomeSSMetaData.PropertyInfoTab.Construction.ROOF_TYPE.getLabel(), openLPolicy.getPolicyDwellingRatingInfo().getRoofType(),
 				HomeSSMetaData.PropertyInfoTab.Construction.CONSTRUCTION_TYPE.getLabel(), "contains=" + openLPolicy.getPolicyConstructionInfo().getConstructionType().split(" ")[0],
-				HomeSSMetaData.PropertyInfoTab.Construction.MASONRY_VENEER.getLabel(),
-				"Masonry Veneer".equals(openLPolicy.getPolicyConstructionInfo().getConstructionType()) ? "Yes" : "No",
+				HomeSSMetaData.PropertyInfoTab.Construction.MASONRY_VENEER.getLabel(), "Yes",
+				//				"Masonry Veneer".equals(openLPolicy.getPolicyConstructionInfo().getConstructionType()) ? "Yes" : "No",
 				HomeSSMetaData.PropertyInfoTab.Construction.IS_THIS_A_LOG_HOME_ASSEMBLED_BY_A_LICENSED_BUILDING_CONTRACTOR.getLabel(), "Log Home".equals(openLPolicy.getPolicyConstructionInfo().getConstructionType()) ? "Yes" : null
 		);
 
@@ -866,11 +866,11 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			claimsDataList.add(DataProviderFactory.emptyData());
 		} else {
 			HomeSSClaimTestDataGenerator claimTestDataGenerator = new HomeSSClaimTestDataGenerator(openLPolicy);
-			if (aaaPoints != 0) {
+			if (aaaPoints > 0) {
 				claimsDataList.addAll(claimTestDataGenerator.getClaimTestData(true, isFirstClaim));
 				isFirstClaim = false;
 			}
-			if (notAAAPoints != 0) {
+			if (notAAAPoints > 0) {
 				claimsDataList.addAll(claimTestDataGenerator.getClaimTestData(false, isFirstClaim));
 			}
 		}
