@@ -6,6 +6,9 @@ import aaa.helpers.openl.model.home_ca.HomeCaOpenLFile;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public class HomeCaDP3OpenLFile extends HomeCaOpenLFile<HomeCaDP3OpenLPolicy> {
+	@ExcelTransient
+	static final int FORM_HEADER_ROW_NUMBER = 4;
+
 	private List<HomeCaDP3OpenLPolicy> policies;
 
 	@ExcelTransient

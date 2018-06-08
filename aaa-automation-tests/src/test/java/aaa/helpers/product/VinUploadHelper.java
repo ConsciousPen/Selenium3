@@ -1,5 +1,7 @@
 package aaa.helpers.product;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -11,6 +13,7 @@ public class VinUploadHelper {
 	private String policyType;
 	private String state;
 	private UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
+	protected static Logger log = LoggerFactory.getLogger(VinUploadHelper.class);
 
 	public VinUploadHelper(PolicyType policyType,String state) {
 		this.policyType = policyType.getShortName();
@@ -39,11 +42,12 @@ public class VinUploadHelper {
 
 	/**
 	 * Go to the admin -> administration -> Upload to vehicledatavin table
-	 * @param vinTableFile xls
+	 * @param vinTableFileName xls
 	 */
-	public void uploadVinTable(String vinTableFile) {
+	public void uploadVinTable(String vinTableFileName) {
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-		uploadToVINTableTab.uploadVinTable(vinTableFile);
+		uploadToVINTableTab.uploadVinTable(vinTableFileName);
+		log.info("File {} was uploaded", vinTableFileName);
 	}
 
 	public void verifyActivitiesAndUserNotes(String vinNumber) {

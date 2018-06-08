@@ -268,4 +268,10 @@ PT-1670:
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
-      messages: ["Unable to locate element", "Multiple default value rules defined for field: AAAHOOtherOrPriorPolicyComponent.autoPolicyPending"]
+      messages: ["Unable to locate element", "Multiple default value rules define14398d for field: AAAHOOtherOrPriorPolicyComponent.autoPolicyPending"]
+PAS-14398:
+  summary: "Regression: Auto SS: States' specific coverages duplicates on Premium&Coverages tab"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.premiumCalculationTest]
+      messages: ["Medical Expenses=starts=$5,000"]

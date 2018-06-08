@@ -6,8 +6,10 @@ import java.util.List;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
+import aaa.helpers.openl.testdata_builder.AutoCaChoiceTestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
+import toolkit.datax.TestData;
 
 @ExcelTableElement(sheetName = OpenLFile.POLICY_SHEET_NAME, headerRowIndex = OpenLFile.POLICY_HEADER_ROW_NUMBER)
 public class AutoCaChoiceOpenLPolicy extends AutoCaOpenLPolicy<AutoCaChoiceOpenLDriver, AutoCaChoiceOpenLVehicle> {
@@ -62,6 +64,11 @@ public class AutoCaChoiceOpenLPolicy extends AutoCaOpenLPolicy<AutoCaChoiceOpenL
 			return TimeSetterUtil.getInstance().getCurrentTime().toLocalDate();
 		}
 		return effectiveDate;
+	}
+	
+	@Override
+	public AutoCaChoiceTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
+		return new AutoCaChoiceTestDataGenerator(state, baseTestData);
 	}
 
 	public void setEffectiveDate(LocalDate effectiveDate) {

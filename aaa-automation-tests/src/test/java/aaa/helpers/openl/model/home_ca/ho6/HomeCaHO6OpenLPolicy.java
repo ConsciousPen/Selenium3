@@ -5,7 +5,9 @@ import static aaa.helpers.openl.model.OpenLFile.POLICY_SHEET_NAME;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
+import aaa.helpers.openl.testdata_builder.HomeCaHO6TestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import toolkit.datax.TestData;
 
 @ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
 public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm> {
@@ -136,6 +138,11 @@ public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm> 
 
 	public void setOccupation(String occupation) {
 		this.occupation = occupation;
+	}
+	
+	@Override
+	public HomeCaHO6TestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
+		return new HomeCaHO6TestDataGenerator(state, baseTestData);
 	}
 
 	@Override
