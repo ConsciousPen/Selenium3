@@ -33,6 +33,7 @@ import toolkit.verification.ETCSCoreSoftAssertions;
 
 
 public class VinUploadAutoSSHelper extends PolicyBaseTest{
+	protected String defaultVersion = "SYMBOL_2000";
 	protected static VehicleTab vehicleTab = new VehicleTab();
 	protected static UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 	protected static PurchaseTab purchaseTab = new PurchaseTab();
