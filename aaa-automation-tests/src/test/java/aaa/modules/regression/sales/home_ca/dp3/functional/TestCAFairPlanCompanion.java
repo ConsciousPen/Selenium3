@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ca.dp3;
+package aaa.modules.regression.sales.home_ca.dp3.functional;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -38,8 +38,8 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement DP3")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-13210")
     public void AC1AC4_Quote_VisibleFPCECADP(@Optional("") String state) {
 
         defaultPolicyData = buildTD(defaultPolicyData);
@@ -73,8 +73,8 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement DP3")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-13210")
     public void AC2AC5_Endorsement_VisibleFPCECA(@Optional("") String state) {
 
         TestData endorsementTestData = getTestSpecificTD("Endorsement_AC2AC5").resolveLinks();
@@ -106,8 +106,8 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
      * @Runtime - 16min
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement DP3")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-13210")
     public void AC3_Renewal_VisibleFPCECA(@Optional("") String state) {
 
         defaultPolicyData = buildTD(defaultPolicyData);
