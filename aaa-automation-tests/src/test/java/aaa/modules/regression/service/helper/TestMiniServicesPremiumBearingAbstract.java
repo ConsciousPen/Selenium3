@@ -5173,8 +5173,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		String policyNumber = getCopiedPolicy();
 
 		//get all vehicles
-		Vehicle[] responseViewVehicles = HelperCommon.viewPolicyVehicles(policyNumber);
-		String originalVehicle = responseViewVehicles[0].oid;
+		ViewVehicleResponse responseViewVehicles = HelperCommon.viewPolicyVehicles(policyNumber);
+		String oldVehicleOid = responseViewVehicles.vehicleList.get(0).oid;
 
 				String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		//Create pended endorsement
