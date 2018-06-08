@@ -267,3 +267,15 @@ PT-1670:
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["Unable to locate element", "Multiple default value rules defined for field: AAAHOOtherOrPriorPolicyComponent.autoPolicyPending"]
+PT-1968:
+  summary: "Policy tier is required appears on 'Applicant' tab "
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Unable to locate element", "'Policy tier' is required"]
+PAS-5419:
+  summary: "'Liability Code' is not in within range"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Cannot get value of Cell", "'Liability Code' is not in within range"]
