@@ -93,7 +93,7 @@ public final class OpenLTestsManager {
 		String filePath = getFilePath(test);
 		List<CellType<?>> cellTypes = Arrays.asList(ExcelCell.INTEGER_TYPE, ExcelCell.DOUBLE_TYPE, ExcelCell.BOOLEAN_TYPE, ExcelCell.LOCAL_DATE_TYPE, ExcelCell.STRING_TYPE, ExcelCell.DOLLAR_CELL_TYPE);
 		
-		log.info("Getting OpenLPolicy objects from %s file", filePath);
+		log.info("Getting OpenLPolicy objects from \"{}\" file", filePath);
 		ExcelUnmarshaller excelUnmarshaller = null;
 		if (Boolean.valueOf(TestParams.LOCAL_TESTS.getValue(test))) {
 			excelUnmarshaller = new ExcelUnmarshaller(new File(filePath), false, cellTypes);
