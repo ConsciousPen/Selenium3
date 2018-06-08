@@ -75,7 +75,7 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 		getPolicyType().get().createPolicy(policyTdAdjusted);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		String vehicle1 = getVehicleInfo(1);
+		String vehicle1 = PolicySummaryPage.getVehicleInfo(1);
 
 		//PAS-250 preconditions start
 		policy.policyInquiry().start();
@@ -124,7 +124,7 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 
 		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
-		String vehicle2 = getVehicleInfo(2);
+		String vehicle2 = PolicySummaryPage.getVehicleInfo(2);
 
 		pas2777_documentContainsVehicleInfoCheckInDb(policyNumber, "ENDORSEMENT_ISSUE", ccFee,1, vehicle1, vehicle2);
 
@@ -136,13 +136,6 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
-	}
-
-	private String getVehicleInfo(int rowNum) {
-		String yearVeh = PolicySummaryPage.tablePolicyVehicles.getRow(rowNum).getCell(YEAR).getValue();
-		String makeVeh = PolicySummaryPage.tablePolicyVehicles.getRow(rowNum).getCell(MAKE).getValue();
-		String modelVeh = PolicySummaryPage.tablePolicyVehicles.getRow(rowNum).getCell(MODEL).getValue();
-		return yearVeh + " " + makeVeh + " " + modelVeh;
 	}
 
 	private void documentPaymentMethodCheckInDb(String policyNum, String numberCCACH, int numberOfDocuments) {

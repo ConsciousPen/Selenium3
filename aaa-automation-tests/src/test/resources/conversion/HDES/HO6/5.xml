@@ -271,14 +271,14 @@
     <overpaidAmountOption>nextInstallments</overpaidAmountOption>
   </personalBillingAccount>
   <userNote>
-    <category>Other</category>
+    <category>OTHER</category>
     <confidential>false</confidential>
     <title>Conversion: Mailing address validated and standardized</title>
     <updatedOn>2017-12-19T00:00:00</updatedOn>
     <userText>Mailing Address was validated and standardized during Conversion. Address was standardized from PO BOX 256  MOUNT AUKUM CA 95656 to PO BOX 256  MOUNT AUKUM CA 95656</userText>
   </userNote>
   <userNote>
-    <category>Other</category>
+    <category>OTHER</category>
     <confidential>false</confidential>
     <title>Conversion: Dwelling address - Validation Error</title>
     <updatedOn>2017-12-19T00:00:00</updatedOn>

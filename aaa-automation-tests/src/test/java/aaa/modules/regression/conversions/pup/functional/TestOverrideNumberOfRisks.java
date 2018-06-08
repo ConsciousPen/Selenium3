@@ -1,6 +1,7 @@
 package aaa.modules.regression.conversions.pup.functional;
 
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
@@ -10,10 +11,12 @@ import aaa.modules.regression.conversions.ConvPUPBaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.Button;
 
+@StateList(states = {Constants.States.MD, Constants.States.PA, Constants.States.DE, Constants.States.NJ, Constants.States.VA})
 public class TestOverrideNumberOfRisks extends ConvPUPBaseTest {
 
     private UnderlyingRisksPropertyTab underlyingRisksPropertyTab = policy.getDefaultView().getTab(UnderlyingRisksPropertyTab.class);

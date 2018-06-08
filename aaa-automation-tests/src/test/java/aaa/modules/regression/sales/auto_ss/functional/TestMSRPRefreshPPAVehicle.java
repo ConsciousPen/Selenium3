@@ -70,9 +70,9 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		String vehYear = "2018";
 		String vehMake = "VOLKSWAGEN";
-		String vehModel = "GOLF";
-		String vehSeries = "GOLF";
-		String vehBodyStyle = "HATCHBACK 4 DOOR";
+		String vehModel = "PASSAT";
+		String vehSeries = "PASSAT S";
+		String vehBodyStyle = "SEDAN";
 
 		TestData testData = getPolicyTD()
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "")
@@ -93,10 +93,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 			softly.assertThat(getCollSymbolFromVRD()).isNotEqualTo("66");
 		});
 
-		String compSymbol = getCompSymbolFromVRD();
-		String collSymbol = getCollSymbolFromVRD();
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-
 		VehicleTab.buttonSaveAndExit.click();
 
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();

@@ -4,24 +4,19 @@
  */
 package aaa.main.modules.policy.home_ss.defaulttabs;
 
-import aaa.toolkit.webdriver.customcontrols.ProductOfferingVariationControl;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import static aaa.toolkit.webdriver.customcontrols.ProductOfferingVariationControl.*;
+import java.util.ArrayList;
+import java.util.List;
 import org.openqa.selenium.By;
-
+import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.toolkit.webdriver.customcontrols.ProductOfferingVariationControl;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static aaa.toolkit.webdriver.customcontrols.ProductOfferingVariationControl.BASE_PREMIUM;
-import static aaa.toolkit.webdriver.customcontrols.ProductOfferingVariationControl.SUBTOTAL;
-import static aaa.toolkit.webdriver.customcontrols.ProductOfferingVariationControl.TOTAL_PREMIUM;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -35,7 +30,6 @@ public class ProductOfferingTab extends Tab {
 		super(HomeSSMetaData.ProductOfferingTab.class);
 	}
 
-
 	public Button addEndorsement = new Button(By.id("policyDataGatherForm:addEndorsements_footer"), Waiters.AJAX);
 	public Button btnCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalcCov_footer"));
 	public Button btnAddAdditionalVariation = new Button(By.id("policyDataGatherForm:addAdditionalVariation"));
@@ -47,7 +41,6 @@ public class ProductOfferingTab extends Tab {
 	public Button buttonSelectHeritage = new Button(By.id("policyDataGatherForm:QuoteVariation_ActivateBtn"));
 	public Button buttonSelectLegacy = new Button(By.id("policyDataGatherForm:QuoteVariation2_ActivateBtn"));
 	public Button buttonSelectPrestige = new Button(By.id("policyDataGatherForm:QuoteVariation3_ActivateBtn"));
-
 
 	@Override
 	public Tab submitTab() {
@@ -78,13 +71,12 @@ public class ProductOfferingTab extends Tab {
 				.equals(getTotalPremium(sectionAssetDescriptor));
 	}
 
-
 	public static List<String> getIncludedEndorsementList(AssetDescriptor<ProductOfferingVariationControl> bundleName) {
 		ProductOfferingTab poTab = new ProductOfferingTab();
 		List<String> formIdList = new ArrayList<>();
 		for (int i = 1; i <= poTab.tableEndorsement.getRowsCount(); i++) {
 			Row row = poTab.tableEndorsement.getRow(i);
-			if (row.getCell("Plan: " + bundleName.getLabel()).getValue().equals("Included") && !(row.getCell("Endorsement").getValue().contains("only)"))) {
+			if (row.getCell("Plan: " + bundleName.getLabel()).getValue().equals("Included") && !row.getCell("Endorsement").getValue().contains("only)")) {
 				formIdList.add(row.getCell(1).getValue().split(" - ")[0]);
 			}
 		}

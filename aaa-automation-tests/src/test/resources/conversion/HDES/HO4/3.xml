@@ -252,14 +252,14 @@
     <overpaidAmountOption>nextInstallments</overpaidAmountOption>
   </personalBillingAccount>
   <userNote>
-    <category>Other</category>
+    <category>OTHER</category>
     <confidential>false</confidential>
     <title>Conversion: Mailing address validated and standardized</title>
     <updatedOn>2017-12-19T00:00:00</updatedOn>
     <userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 1066 EAGLE LN  FOSTER CITY CA 94404 to 1066 EAGLE LN  FOSTER CITY CA 94404</userText>
   </userNote>
   <userNote>
-    <category>Other</category>
+    <category>OTHER</category>
     <confidential>false</confidential>
     <title>Conversion: Date of birth defaulted</title>
     <updatedOn>2017-12-19T00:00:00</updatedOn>

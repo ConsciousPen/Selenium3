@@ -293,7 +293,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 
 	@AfterSuite(alwaysRun = true)
 	protected void resetVinControlTable() {
-		pas730_ChoiceCleanDataBase(CA_CHOICE_REGULAR_VEH_MSRP_VERSION, VEHICLETYPE_Regular);
+		pas730_ChoiceCleanDataBase(CA_CHOICE_REGULAR_VEH_MSRP_VERSION, vehicleTypeRegular);
 		DBService.get().executeUpdate(VehicleQueries.REPAIR_7MSRP15H_COMP_CHOICE);
 		DBService.get().executeUpdate(VehicleQueries.REPAIR_7MSRP15H_COLL_CHOICE);
 	}

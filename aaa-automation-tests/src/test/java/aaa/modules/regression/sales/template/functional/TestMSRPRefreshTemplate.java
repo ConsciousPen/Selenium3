@@ -51,14 +51,13 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 	int NEW_VEHREFVERSION_EXPIRATIONDATE = 20500102;
 
 	protected String vehicleTypeMotorHome = "Motor";
-	protected String VEHICLETYPE_Regular = "Regular";
+	protected String vehicleTypeRegular = "Regular";
 	protected String formTypeSelect = "SELECT";
 	protected String formTypeChoice = "CHOICE";
 	protected String productTypeAAACSA = "AAA_CSA";
 
 	protected VehicleTab vehicleTab = new VehicleTab();
 	protected PurchaseTab purchaseTab = new PurchaseTab();
-	protected MembershipTab membershipTab = new MembershipTab();
 	protected PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 
 	protected void vehicleTypeRegular(TestData testData) {
@@ -201,9 +200,9 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 		String vehYear = "2018";
 		String vehMake = "VOLKSWAGEN";
-		String vehModel = "GOLF";
-		String vehSeries = "GOLF";
-		String vehBodyStyle = "HATCHBACK 4 DOOR";
+		String vehModel = "PASSAT";
+		String vehSeries = "PASSAT S";
+		String vehBodyStyle = "SEDAN";
 
 		TestData testData = getPolicyTD()
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), "")
@@ -218,7 +217,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
-		new PremiumAndCoveragesTab().calculatePremium();
+		premiumAndCoveragesTab.calculatePremium();
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		// Values from VIN comp and coll symbol in excel sheet
@@ -236,17 +235,16 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
-		//PAS-12881: Update VIN Y/M/M/S/S to Store VIN Stub (quote): Verify in DB that VIN STUB is stored
-		String expectedSTUB = "7MSRP15H&V";
-		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, quoteNumber)).get()).isNotNull().isEqualTo(expectedSTUB);
-
-
 		// Vin control table has version which overrides VERSION_2000, it is needed and important to get symbols for next steps
 		adminApp().open();
 		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN8.get()));
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);
+
+		//PAS-12881: Update VIN Y/M/M/S/S to Store VIN Stub (quote): Verify in DB that VIN STUB is stored
+		String expectedSTUB = "7MSRP15H&V";
+		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, quoteNumber)).get()).isNotNull().isEqualTo(expectedSTUB);
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertSoftly(softly -> {
@@ -362,7 +360,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 		// Add New  msrp version
 		DBService.get().executeUpdate(String.format(
-				INSERT_MSRPCOMPCOLLCONTROL_VERSION, VEHICLYEARMIN_ADDED, VEHICLYEARMAX_ADDED, VEHICLETYPE_Regular, CA_SELECT_REGULAR_VEH_MSRP_VERSION, EXPECTED_MSRP_KEY));
+				INSERT_MSRPCOMPCOLLCONTROL_VERSION, VEHICLYEARMIN_ADDED, VEHICLYEARMAX_ADDED, vehicleTypeRegular, CA_SELECT_REGULAR_VEH_MSRP_VERSION, EXPECTED_MSRP_KEY));
 	}
 
 	private void pas730_addRegularVehicleToDBChoice() {
@@ -379,7 +377,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		DBService.get().executeUpdate(String.format(UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX_BY_VEHICLEYEARMIN_KEY, DEFAULT_MSRPCOMPCOLLCONTROL_VEHICLYEARMAX_ADDED, DEFAULT_MSRPCOMPCOLLCONTROL_VEHICLYEARMIN_ADDED, 4));
 		// Add New  msrp version
 		DBService.get().executeUpdate(String
-				.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, VEHICLYEARMIN_ADDED, VEHICLYEARMAX_ADDED, VEHICLETYPE_Regular, CA_CHOICE_REGULAR_VEH_MSRP_VERSION, COMP_COLL_SYMBOL_KEY));
+				.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, VEHICLYEARMIN_ADDED, VEHICLYEARMAX_ADDED, vehicleTypeRegular, CA_CHOICE_REGULAR_VEH_MSRP_VERSION, COMP_COLL_SYMBOL_KEY));
 	}
 
 	private void findQuoteAndOpenRenewal(String quoteNumber) {

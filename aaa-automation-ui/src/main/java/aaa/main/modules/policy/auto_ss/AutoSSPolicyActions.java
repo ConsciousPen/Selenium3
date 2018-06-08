@@ -399,5 +399,17 @@ public final class AutoSSPolicyActions {
         }
     }
 
+    public static class InitiateHOQuote extends PolicyActions.InitiateHOQuote {
+        @Override
+        public Workspace getView() {
+            return new aaa.main.modules.policy.home_ss.views.DefaultView();
+        }
+
+        @Override
+        public AbstractAction start() {
+            NavigationPage.setActionAndGo(getName());
+            return this;
+        }
+    }
 }
 

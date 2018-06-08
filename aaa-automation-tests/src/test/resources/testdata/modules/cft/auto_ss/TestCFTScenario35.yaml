@@ -1,27 +1,14 @@
-# ------- AZ ------
-TestData_AZ: {
+# ------- DE ------
+TestData_DE: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_AZ',
+  DriverTab: '@DriverTab_DE',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@VehicleTab',
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab'
-}
-
-# ------- KY ------
-TestData_KY: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_KY',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab'
+  DocumentsAndBindTab: '@DocumentsAndBindTab_DE'
 }
 
 # ------- MD ------
@@ -35,6 +22,19 @@ TestData_MD: {
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_MD'
+}
+
+# ------- NJ ------
+TestData_NJ: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_NJ',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_NJ'
 }
 
 PrefillTab: {
@@ -59,22 +59,24 @@ GeneralTab: {
   }
 }
 
-DriverTab_AZ: {
+DriverTab_DE: {
   Gender: 'index=1',
   Marital Status: 'index=1',
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
-  License Number: A12345678
+  License State: 'DE',
+  License Number: 7135439
 }
 
-DriverTab_KY: {
+DriverTab_NJ: {
   Gender: 'index=1',
   Marital Status: 'index=1',
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
-  License Number: A12121215
+  License State: 'NJ',
+  License Number: A12345678987657
 }
 
 DriverTab_MD: {
@@ -102,9 +104,12 @@ DriverActivityReportsTab: {
   Validate Driving History: click
 }
 
-DocumentsAndBindTab: {
+DocumentsAndBindTab_DE: {
   RequiredToBind: {
-    Auto Insurance Application: Physically Signed
+    Auto Insurance Application: Physically Signed,
+    Delaware Motorists Protection Act: Physically Signed,
+    Important Information Personal Injury Protection (PIP) - Delaware Understanding (PIP) Deductibles: Physically Signed,
+    Acknowledgement of Deductible Selections: Physically Signed
   },
   GeneralInformation: {
     Authorized By: qa
@@ -117,6 +122,21 @@ DocumentsAndBindTab_MD: {
     Maryland Notice And Waiver Of Personal Injury Protection (PIP) Coverage: Physically Signed,
     Maryland Auto Insurance Application: Physically Signed
   },
+  GeneralInformation: {
+    Authorized By: qa
+  }
+}
+
+DocumentsAndBindTab_NJ: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    NJ Auto Standard Policy Coverage Selection Form: Physically Signed,
+    Acknowledgement of Requirement for Insurance Inspection: Physically Signed
+  },
+  RequiredToIssue: {
+    CARCO Vehicle Inspection completed or Prior Physical Damage Coverage Inspection Waiver: 'Yes',
+    Separate Vehicle 1: 'Yes'
+    },
   GeneralInformation: {
     Authorized By: qa
   }
