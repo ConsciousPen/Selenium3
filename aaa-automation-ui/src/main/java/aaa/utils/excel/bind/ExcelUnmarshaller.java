@@ -1,6 +1,7 @@
 package aaa.utils.excel.bind;
 
 import java.io.File;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -28,15 +29,21 @@ public class ExcelUnmarshaller {
 	public ExcelUnmarshaller(File excelFile) {
 		this(excelFile, true, ExcelCell.getBaseTypes());
 	}
+	
+	public ExcelUnmarshaller(InputStream inputStream) {
+		this(inputStream, true, ExcelCell.getBaseTypes());
+	}
 
 	public ExcelUnmarshaller(File excelFile, boolean strictMatchBinding, List<CellType<?>> allowableCellTypes) {
 		this.excelManager = new ExcelManager(excelFile, allowableCellTypes);
 		this.strictMatchBinding = strictMatchBinding;
 		this.cache = new TableClassesCache(excelManager, strictMatchBinding);
 	}
-
-	public File getExcelFile() {
-		return excelManager.getFile();
+	
+	public ExcelUnmarshaller(InputStream inputStream, boolean strictMatchBinding, List<CellType<?>> allowableCellTypes) {
+		this.excelManager = new ExcelManager(inputStream, allowableCellTypes);
+		this.strictMatchBinding = strictMatchBinding;
+		this.cache = new TableClassesCache(excelManager, strictMatchBinding);
 	}
 
 	public boolean isStrictMatchBinding() {
@@ -45,16 +52,18 @@ public class ExcelUnmarshaller {
 
 	@SuppressWarnings("unchecked")
 	public <T> T unmarshal(Class<T> excelFileModel) {
-		log.info(String.format("Getting excel file object of \"%1$s\" model from file \"%2$s\" %3$s strict match binding",
-				excelFileModel.getSimpleName(), getExcelFile().getAbsolutePath(), isStrictMatchBinding() ? "with" : "without"));
+		log.info(String.format("Getting excel file object of \"%1$s\" model from %2$s %3$s strict match binding",
+				excelFileModel.getSimpleName(),
+				this.excelManager.initializedFromFile() ? "file \"" + this.excelManager.getSourceFile().getAbsolutePath() + "\"" : "InputStream",
+				isStrictMatchBinding() ? "with" : "without"));
 
 		T excelFileObject = (T) getInstance(excelFileModel);
 		for (Field tableField : BindHelper.getAllAccessibleFields(excelFileModel, true)) {
 			List<?> tablesObjects = unmarshalRows(cache.of(tableField).getTableClass());
 			setFieldValue(tableField, excelFileObject, tablesObjects);
 		}
-
-		log.info("Excel file {} unmarshalling completed successfully.", getExcelFile().getName());
+		
+		log.info("Excel file unmarshalling completed successfully.");
 		return excelFileObject;
 	}
 
@@ -63,9 +72,9 @@ public class ExcelUnmarshaller {
 	}
 
 	public <T> List<T> unmarshalRows(Class<T> excelTableModel, List<Integer> rowsWithPrimaryKeyValues) {
-		log.info(String.format("Getting list of table row objects of \"%1$s\" model from excel file \"%2$s\"%3$s %4$s strict match binding",
+		log.info(String.format("Getting list of table row objects of \"%1$s\" model from %2$s%3$s %4$s strict match binding",
 				excelTableModel.getSimpleName(),
-				getExcelFile().getAbsolutePath(),
+				this.excelManager.initializedFromFile() ? "file \"" + this.excelManager.getSourceFile().getAbsolutePath() + "\"" : "InputStream",
 				CollectionUtils.isNotEmpty(rowsWithPrimaryKeyValues) ? ", containing values in primary key columns: " + rowsWithPrimaryKeyValues : "",
 				isStrictMatchBinding() ? "with" : "without"));
 
@@ -78,10 +87,6 @@ public class ExcelUnmarshaller {
 
 		log.info("Excel table rows unmarshalling completed successfully.");
 		return tablesObjects;
-	}
-
-	public ExcelUnmarshaller marshal(Object excelFileObject) {
-		return marshal(excelFileObject, getExcelFile());
 	}
 
 	public ExcelUnmarshaller marshal(Object excelFileObject, File excelFile) {

@@ -7,7 +7,9 @@ import java.util.List;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLCoverage;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLDwelling;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
+import aaa.helpers.openl.testdata_builder.HomeCaHO4TestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import toolkit.datax.TestData;
 
 @ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
 public class HomeCaHO4OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO4OpenLForm> {
@@ -94,6 +96,11 @@ public class HomeCaHO4OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO4OpenLForm> 
 
 	public void setOccupancyType(String occupancyType) {
 		this.occupancyType = occupancyType;
+	}
+	
+	@Override
+	public HomeCaHO4TestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
+		return new HomeCaHO4TestDataGenerator(state, baseTestData);
 	}
 
 	@Override
