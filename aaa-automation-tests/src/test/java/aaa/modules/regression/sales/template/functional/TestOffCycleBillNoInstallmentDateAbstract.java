@@ -52,7 +52,6 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
         createCustomerIndividual();
 
         // Create policy with updated min deposit on Purchase tab
-
 		TestData td = getPolicyDefaultTD();
         getPolicyType().get().initiate();
         getPolicyType().get().getDefaultView().fillUpTo(td, getPurchaseTab().getClass());
