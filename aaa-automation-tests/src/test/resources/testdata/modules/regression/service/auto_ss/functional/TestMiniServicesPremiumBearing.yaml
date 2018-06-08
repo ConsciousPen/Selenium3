@@ -1,53 +1,42 @@
-
-TestData_AllVehicles: {
-    VehicleTab: ['@VehicleTab_1', '@VehicleTab_2'],
-}
-
-TestData_Vehicle: {
-    VehicleTab: ['@VehicleTab_First','@VehicleTab_Van','@VehicleTab_Second','@VehicleTab_Motor_Home'],
-}
-
-TestData_AllVehiclesCoverage: {
+TestData_NewVehicle: {
     VehicleTab: ['@VehicleTab_2018'],
 }
 
-TestData_ThreeVehicles: {
-    VehicleTab: ['@Vehicle_Uda_1', '@Vehicle_Uda_2', '@Vehicle_Uda_3'],
+TestData_TwoVehicles: {
+    VehicleTab: ['@VehicleTab_1', '@VehicleTab_2'],
 }
 
-VehicleTab_First: {
+TestData_ThreeVehicles: {
+    VehicleTab: ['@VehicleTab_1', '@VehicleTab_2', '@VehicleTab_3'],
+}
+
+TestData_VehiclesGaragingAddress: {
+    VehicleTab: ['@VehicleTab_GaragingAddress_1', '@VehicleTab_GaragingAddress_2'],
+}
+
+TestData_VehicleOtherTypes: {
+    VehicleTab: ['@VehicleTab_1','@VehicleTab_Van','@VehicleTab_2','@VehicleTab_Motor_Home'],
+}
+
+VehicleTab_1: {
     Add Vehicle: Click,
     Usage: Pleasure,
     VIN: WDCYC7BB0B6729451
 }
 
-ErrorTab: {
-  ErrorsOverride: {
-  Override: 'true',
-  'Reason for override': 'index=1',
-  Duration: 'Term'
-  }
-  }
-
-Vehicle_Uda_1: {
+VehicleTab_2: {
     Add Vehicle: Click,
     Usage: Pleasure,
-    VIN: 4T1BE30K46U656311
+    VIN: 1GAZG1FG7D1145543
 }
 
-Vehicle_Uda_2: {
-    Add Vehicle: Click,
-    Usage: Pleasure,
-    VIN: 1HGFA16526L081415
-}
-
-Vehicle_Uda_3: {
+VehicleTab_3: {
     Add Vehicle: Click,
     Usage: Pleasure,
     VIN: 1G2NE52T9XM924276
 }
 
-VehicleTab_1: {
+VehicleTab_GaragingAddress_1: {
     Add Vehicle: Click,
     Usage: Pleasure,
     VIN: WDCYC7BB0B6729451,
@@ -59,7 +48,7 @@ VehicleTab_1: {
     Order Prefill: click
 }
 
-VehicleTab_2: {
+VehicleTab_GaragingAddress_2: {
     Usage: Pleasure,
     VIN: 1FM5K8D86JGA29926,
     'Is Garaging different from Residential?': 'Yes',
@@ -104,22 +93,16 @@ VehicleTab_Motor_Home: {
    Stated Amount: '50000',
 }
 
-VehicleTab_Second: {
-    Add Vehicle: Click,
-    Usage: Pleasure,
-    VIN: 1GAZG1FG7D1145543
-}
-
-TestData_AllDrivers: {
+TestData_TwoDrivers: {
     DriverTab: ['@Driver_one', '@Driver_two'],
 }
 
 TestData_ThreeDrivers: {
-    DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three'],
+    DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three_nafr'],
 }
 
-TestData_TwoDrivers: {
-    DriverTab: ['@Driver_one', '@Driver_two'],
+TestData_FourDrivers: {
+    DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three', '@Driver_four'],
 }
 
 Driver_one: {
@@ -149,7 +132,7 @@ Driver_two: {
     License Status: 'Licensed (US)'
 }
 
-Driver_three: {
+Driver_three_nafr: {
    Add drivers: 'Yes',
     DriverSearchDialog: {},
    "Policy #": '123456788',
@@ -170,8 +153,70 @@ Driver_three: {
     License Status: 'Licensed (US)'
 }
 
+Driver_three: {
+   Add drivers: 'Yes',
+    DriverSearchDialog: {},
+   "Policy #": '123456754',
+    Rel. to First Named Insured: Child,
+    First Name: 'Monica',
+    Middle Name: 'Maja',
+    Last Name: 'Logan',
+    Suffix: 'II',
+    Date of Birth: '12/12/1981',
+    Gender: 'Female',
+    Marital Status: Single,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: 'T60355111',
+    License Status: 'Licensed (US)'
+}
+
+Driver_four: {
+   Add drivers: 'Yes',
+    DriverSearchDialog: {},
+   "Policy #": '123456758',
+    Rel. to First Named Insured: Child,
+    First Name: 'Laura',
+    Middle Name: 'Sara',
+    Last Name: 'Smith',
+    Suffix: 'III',
+    Date of Birth: '12/12/1991',
+    Gender: 'Female',
+    Marital Status: Single,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: 'T60355777',
+    License Status: 'Licensed (US)'
+}
+
 AssignmentTabTwoDrivers: {
  DriverVehicleRelationshipTable: ['@AssignmentTab']
+}
+
+AssignmentTabFourDrivers: {
+  DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver2', '@AssignedDriver3', '@AssignedDriver4' ]
+}
+
+AssignedDriver1: {
+    Driver: 'contains=Ben',
+    Select Vehicle: 'index=1'
+}
+
+AssignedDriver2: {
+    Driver: 'contains=John',
+    Select Vehicle: 'index=1'
+}
+
+AssignedDriver3: {
+    Driver: 'contains=Monica',
+    Select Vehicle: 'index=2'
+}
+
+AssignedDriver4: {
+    Driver: 'contains=Laura',
+    Select Vehicle: 'index=2'
 }
 
 AssignmentTab: {

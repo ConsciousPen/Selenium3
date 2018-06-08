@@ -6,14 +6,24 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 @ExcelTableElement(sheetName = OpenLFile.FORM_SHEET_NAME, headerRowIndex = OpenLFile.FORM_HEADER_ROW_NUMBER)
 public class HomeCaDP3OpenLForm extends HomeCaOpenLForm {
-	private Integer percentage;
+	private Double percentage;
 
-	public Integer getPercentage() {
+	public Double getPercentage() {
 		return percentage;
 	}
 
-	public void setPercentage(Integer percentage) {
+	public void setPercentage(Double percentage) {
 		this.percentage = percentage;
+	}
+	
+	@Override
+	public Double getLimit() {
+		return limit;
+	}
+
+	@Override
+	public void setLimit(Double limit) {
+		this.limit = limit;
 	}
 
 	@Override

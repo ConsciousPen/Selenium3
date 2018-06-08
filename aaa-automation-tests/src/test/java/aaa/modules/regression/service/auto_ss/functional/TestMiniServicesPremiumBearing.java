@@ -11,6 +11,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -23,6 +24,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.regression.service.auto_ss.functional.preconditions.MiniServicesSetupPreconditions;
 import aaa.modules.regression.service.helper.TestMiniServicesPremiumBearingAbstract;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
+import aaa.utils.StateList;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
@@ -653,7 +655,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10449", "PAS-12244"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10449", "PAS-12244", "PAS-14593"})
 	public void pas10449_ViewVehicleServiceOrderOfVehicle(@Optional("VA") String state) {
 
 		pas10449_ViewVehicleServiceCheckOrderOfVehicle(getPolicyType(), state);
@@ -730,7 +732,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994"})
 	public void pas13994_UpdateDriverAssignmentServiceRule1(@Optional("VA") String state) {
 
-		pas13994_UpdateDriverAssignmentServiceRule1(getPolicyType());
+		pas13994_UpdateDriverAssignmentServiceRule1Body(getPolicyType());
 	}
 
 	/**
@@ -750,6 +752,26 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	public void pas13994_UpdateDriverAssignmentServiceRule2(@Optional("VA") String state) {
 
 		pas13994_UpdateDriverAssignmentServiceRule2Body(getPolicyType());
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Update driver assignment, rule V<D
+	 * @scenario 1. Create a policy with 2V and 4D
+	 * 2. Hit view driver assignment service. Get all info.
+	 * 3. Add one more vehicle V3.
+	 * 4. Hit view vehicle service, get all info.
+	 * 4. Hit DA update service:
+	 * a) V3-->D1 (V1-->D2, V2-->D3,D4, V3-->D1)
+	 * b) V2-->D2 (V1-->D2, V2-->D3,D4,D2 V3-->D1)
+	 * c) V2-->D1 (V1-->Unn, V2-->D3,D4,D2,D1 V3-->Unn)
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994"})
+	public void pas13994_UpdateDriverAssignmentServiceRule3(@Optional("VA") String state) {
+
+		pas13994_UpdateDriverAssignmentServiceRule3Body(getPolicyType());
 	}
 
 	/**
@@ -816,7 +838,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10227"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10227", "PAS-11810"})
 	public void pas10227_ViewPremiumServicePendedEndorsement(@Optional("VA") String state) {
 
 		pas10227_ViewPremiumServiceForPendedEndorsement();
@@ -849,7 +871,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	//Scenario 2
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741","PAS-11852","PAS-12601"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741", "PAS-11852", "PAS-12601"})
 	public void pas11741_ManageVehicleLevelCoveragesOtherThanVA(@Optional("AZ") String state) {
 
 		pas11741_ViewManageVehicleLevelCoveragesForAZ(getPolicyType());
@@ -985,7 +1007,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12866"})
-	public void pas12866_e2eBct(@Optional("KY") String state) {
+	public void pas12866_e2eBct(@Optional("AZ") String state) {
 		assertSoftly(softly ->
 				pas12866_e2eBctBody(state, false, softly)
 		);
@@ -1072,12 +1094,63 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		);
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * 1. create a policy with 2 ppa,1 conversion-van and 1 motor vehicle
+	 * 2. create pended endorsement.
+	 * 2. run view vehicle service and get OID of PPA vehicle
+	 * 3. run delete vehicle service and delete vehicle using Oid
+	 * 4. verify response status should be pending removal
+	 * 5. rate endorsement
+	 * 6. bind endorsement
+	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "myPolicyUserAddedConfigCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-488"})
 	public void pas488_VehicleDelete(@Optional("VA") String state) {
 
-		pas488_VehicleDeleteBody();
+		pas488_VehicleDeleteBody(getPolicyType());
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Check Duplicate VINS and the Add Vehicle Service
+	 * @scenario 1. Create policy with Two vehicles.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Try Add Vehicle with the same VIN witch already exist in the policy.
+	 * 4. Check Error about duplicate VIN.
+	 * 5. Add new vehicle with new VIN. Check the status.
+	 * 6. Try add the same vehicle one more time.
+	 * 7. Check if error is displaying.
+	 * Start PAS-11005
+	 * 8. Try add to expensive vehicle.
+	 * 9. Check if error is displaying.
+	 */
+		@Parameters({"state"})
+		@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+		@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-502", "PAS-11005"})
+		public void pas502_DuplicateVinAddVehicleService(@Optional("VA") String state) {
+
+			pas502_CheckDuplicateVinAddVehicleService(getPolicyType());
+		}
+
+	/**
+	 * @author Megha Gubbala
+	 * 1. create a policy with 2 ppa,1 conversion-van and 1 motor vehicle
+	 * 2. hit view vehicle servise to get order of all active vehicles
+	 * 3. create pended endorsement.
+	 * 2. add  one PPA vehicle through DXP servise.
+	 * 3. run delete vehicle service and delete vehicle using Oid
+	 * 4. verify response status should be pending removal
+	 * 5. then hit view vehicle servise again to get proper order of vehicle
+	 * 6. pending removal vehicle should be the 1st and then pending added vehicle and then rest of order will be same.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12246"})
+	public void pas12246_ViewVehiclePendingRemoval(@Optional("AZ") String state) {
+
+		pas12246_ViewVehiclePendingRemovalService(getPolicyType());
 	}
 
 	/**
@@ -1103,6 +1176,21 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	public void pas9546_maxVehicles(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas9546_maxVehiclesBody(softly)
+		);
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Validation of E2E flow in DXP
+	 * @scenario 1. see script body
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.AZ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14501"})
+	public void pas14501_garagingDifferent(@Optional("AZ") String state) {
+		assertSoftly(softly ->
+				pas14501_garagingDifferentBody(state, softly)
 		);
 	}
 
