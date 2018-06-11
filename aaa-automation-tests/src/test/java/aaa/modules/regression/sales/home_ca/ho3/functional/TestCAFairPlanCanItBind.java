@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ca.ho3;
+package aaa.modules.regression.sales.home_ca.ho3.functional;
 
 import aaa.common.Tab;
 import aaa.helpers.constants.ComponentConstant;
@@ -25,8 +25,8 @@ public class TestCAFairPlanCanItBind extends HomeCaHO3BaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Update Fireline underwriting eligibility rules to enable Bind with FPCECA/FPCECADP Endorsement HO3")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-13214")
     public void AC1_Quote_HighFL_FPCECA_Bind(@Optional("") String state) {
         myHelper = new HelperCommon();
         performTest("ApplicantTab_FL7", "ReportsTab_NoMembership", DEFAULTPOLICYDATA, EndorsementTab.class, DocumentsTab.class);
@@ -38,8 +38,8 @@ public class TestCAFairPlanCanItBind extends HomeCaHO3BaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Update Fireline underwriting eligibility rules to enable Bind with FPCECA/FPCECADP Endorsement HO3")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-13214")
     public void AC2_Quote_FL3_WoodRoof_Bind(@Optional("") String state) {
         myHelper = new HelperCommon();
         performTest("ApplicantTab_FL3", "ReportsTab_NoMembership", "PropertyInfoTab_RoofWood", DEFAULTPOLICYDATA, EndorsementTab.class, DocumentsTab.class);
@@ -51,8 +51,8 @@ public class TestCAFairPlanCanItBind extends HomeCaHO3BaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Update Fireline underwriting eligibility rules to enable Bind with FPCECA/FPCECADP Endorsement HO3")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-13214")
     public void AC3_Quote_ZipMatch_FPCECA_Bind(@Optional("") String state) {
 
         performTest("ApplicantTab_ZipMatch", "ReportsTab_NoMembership", "PropertyInfoTab_RoofWood", DEFAULTPOLICYDATA, EndorsementTab.class, DocumentsTab.class);

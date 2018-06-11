@@ -330,37 +330,22 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
 		String policyNumber = createPolicyPreconds(testData);
-		// Upload data
-		adminApp().reopen();
-		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get()));
 
-		mainApp().reopen();
+		adminApp().open();
+		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN9.get()));
+
+		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-		// Verify first vehicle is there..
+
 		log.info("First vehicle, at the vehicle tab, should have same values");
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE.getLabel()).getValue()).isEqualTo("OTHER");
 		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MAKE.getLabel()).getValue()).isEqualTo("Other Make");
 		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()).getValue()).isEqualTo("Other Model");
 
-		TestData firstVehicle = modifyVehicleTabNonExistingVin(getPolicyTD(), vinNumber).getTestData("VehicleTab");
-		TestData secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
-				.adjust(AutoCaMetaData.VehicleTab.VIN.getLabel(), vinNumber);
-
-		// Build Vehicle Tab old version vin + updated vehicle
-		List<TestData> testDataVehicleTab = new ArrayList<>();
-		testDataVehicleTab.add(firstVehicle);
-		testDataVehicleTab.add(secondVehicle);
-
-		// Build Assignment Tab
-		TestData testDataAssignmentTab = getTwoAssignmentsTestData();
-
-		// add 2 vehicles + 2 assignments to the common testdata
-		testData
-				.adjust(vehicleTab.getMetaKey(), testDataVehicleTab)
-				.adjust(assignmentTab.getMetaKey(), testDataAssignmentTab).resolveLinks();
+		testData = getTestDataWithTwoVehicles(testData, vinNumber);
 
 		policy.getDefaultView().fillFromTo(testData, VehicleTab.class, PremiumAndCoveragesTab.class,true);
 
@@ -384,6 +369,25 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 
 		Tab.buttonSaveAndExit.click();
+	}
+
+	private TestData getTestDataWithTwoVehicles(TestData testData, String vinNumber) {
+		TestData firstVehicle = modifyVehicleTabNonExistingVin(getPolicyTD(), vinNumber).getTestData("VehicleTab");
+		TestData secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
+				.adjust(AutoCaMetaData.VehicleTab.VIN.getLabel(), vinNumber);
+
+		// Build Vehicle Tab old version vin + updated vehicle
+		List<TestData> testDataVehicleTab = new ArrayList<>();
+		testDataVehicleTab.add(firstVehicle);
+		testDataVehicleTab.add(secondVehicle);
+
+		// Build Assignment Tab
+		TestData testDataAssignmentTab = getTwoAssignmentsTestData();
+
+		// add 2 vehicles + 2 assignments to the common testdata
+		return testData
+				.adjust(vehicleTab.getMetaKey(), testDataVehicleTab)
+				.adjust(assignmentTab.getMetaKey(), testDataAssignmentTab).resolveLinks();
 	}
 
 	/**
@@ -562,7 +566,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 	public void enableVinIfDisabled() {
 		String isVinRefreshEnabled = DBService.get().getValue(VehicleQueries.SELECT_VALUE_VIN_REFRESH).get();
-		log.info("Vin refresh is enabled{}", isVinRefreshEnabled);
+		log.info("Vin refresh is enabled {} ", isVinRefreshEnabled);
 		if ("false".equalsIgnoreCase(isVinRefreshEnabled)) {
 			log.info("Vin will be enabled");
 			ScorpionsPreconditions.enableVinRefresh();

@@ -188,9 +188,9 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<TextBox> DAYS_LAPSED = declare("Days Lapsed", TextBox.class);
 			public static final AssetDescriptor<ComboBox> BI_LIMITS = declare("BI Limits", ComboBox.class);
 			public static final AssetDescriptor<RadioGroup> OVERRIDE_CURRENT_CARRIER = declare("Override Prefilled Current Carrier?", RadioGroup.class);
-			public static final AssetDescriptor<ComboBox> AGENT_ENTERED_CURRENT_PRIOR_CARRIER = declare("Agent Entered Current/Prior Carrier", ComboBox.class);
-			public static final AssetDescriptor<TextBox> AGENT_ENTERED_INCEPTION_DATE = declare("Agent Entered Inception Date", TextBox.class);
-			public static final AssetDescriptor<TextBox> AGENT_ENTERED_EXPIRATION_DATE = declare("Agent Entered Expiration Date", TextBox.class);
+			public static final AssetDescriptor<ComboBox> AGENT_ENTERED_CURRENT_PRIOR_CARRIER = declare("Agent Entered Current/Prior Carrier", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> AGENT_ENTERED_INCEPTION_DATE = declare("Agent Entered Inception Date", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> AGENT_ENTERED_EXPIRATION_DATE = declare("Agent Entered Expiration Date", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> AGENT_ENTERED_POLICY_NUMBER = declare("Agent Entered Policy Number", TextBox.class);
 			public static final AssetDescriptor<TextBox> AGENT_ENTERED_DAYS_LAPSED =
 					declare("Agent Entered Days Lapsed", TextBox.class, By.id("policyDataGatherForm:currentCarrierInformation_enteredDaysLapsed"));
@@ -743,6 +743,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<StaticElement> RECEIPT_DATE = declare("Receipt Date", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> RESPONSE = declare("Response", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> ADDRESS_TYPE = declare("Address Type", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> ORDER_TYPE = declare("Order Type", StaticElement.class);
 		}
 
 		public static final class OrderMVRReport extends MetaData {

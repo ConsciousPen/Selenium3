@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
+import aaa.helpers.openl.testdata_builder.HomeCaDP3TestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import toolkit.datax.TestData;
 
 @ExcelTableElement(sheetName = OpenLFile.POLICY_SHEET_NAME, headerRowIndex = OpenLFile.POLICY_HEADER_ROW_NUMBER)
 public class HomeCaDP3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaDP3OpenLForm> {
@@ -136,6 +138,11 @@ public class HomeCaDP3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaDP3OpenLForm> 
 
 	public void setForms(List<HomeCaDP3OpenLForm> forms) {
 		this.forms = new ArrayList<>(forms);
+	}
+	
+	@Override
+	public HomeCaDP3TestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
+		return new HomeCaDP3TestDataGenerator(state, baseTestData);
 	}
 
 	@Override

@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
+import aaa.helpers.openl.testdata_builder.AutoCaSelectTestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import toolkit.datax.TestData;
 
 @ExcelTableElement(sheetName = OpenLFile.POLICY_SHEET_NAME, headerRowIndex = OpenLFile.POLICY_HEADER_ROW_NUMBER)
 public class AutoCaSelectOpenLPolicy extends AutoCaOpenLPolicy<AutoCaSelectOpenLDriver, AutoCaSelectOpenLVehicle> {
@@ -86,6 +88,11 @@ public class AutoCaSelectOpenLPolicy extends AutoCaOpenLPolicy<AutoCaSelectOpenL
 	@Override
 	public LocalDate getEffectiveDate() {
 		return effectiveDate;
+	}
+	
+	@Override
+	public AutoCaSelectTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
+		return new AutoCaSelectTestDataGenerator(state, baseTestData);
 	}
 
 	public void setEffectiveDate(LocalDate effectiveDate) {

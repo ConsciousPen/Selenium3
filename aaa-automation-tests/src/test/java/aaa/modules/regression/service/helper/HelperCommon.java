@@ -130,7 +130,7 @@ public class HelperCommon {
 	}
 
 	public static ValidateEndorsementResponse startEndorsement(String policyNumber, String endorsementDate, String sessionId) {
-		final RestRequestInfo<ValidateEndorsementResponse> restRequestInfo = new RestRequestInfo<>();
+		RestRequestInfo<ValidateEndorsementResponse> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.responseType = ValidateEndorsementResponse.class;
 		restRequestInfo.sessionId = sessionId;
 		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_START_ENDORSEMENT_INFO, policyNumber));
@@ -141,7 +141,7 @@ public class HelperCommon {
 	}
 
 	public static ErrorResponseDto startEndorsementError(String policyNumber, String endorsementDate, int status) {
-		final RestRequestInfo<ErrorResponseDto> restRequestInfo = new RestRequestInfo<>();
+		RestRequestInfo<ErrorResponseDto> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_START_ENDORSEMENT_INFO, policyNumber));
 		restRequestInfo.status = status;
 		restRequestInfo.responseType = ErrorResponseDto.class;
@@ -150,7 +150,6 @@ public class HelperCommon {
 		}
 		return runJsonRequestGetDxp(restRequestInfo);
 	}
-
 
 	public static VehicleUpdateResponseDto updateVehicle(String policyNumber, String oid, VehicleUpdateDto request) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES_OID, policyNumber, oid));
@@ -176,7 +175,7 @@ public class HelperCommon {
 	}
 
 	public static PolicyLockUnlockDto executePolicyLockService(String policyNumber, int status, String sessionId) {
-		final RestRequestInfo<PolicyLockUnlockDto> restRequestInfo = new RestRequestInfo<>();
+		RestRequestInfo<PolicyLockUnlockDto> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_LOCK_UNLOCK_SERVICES, policyNumber));
 		restRequestInfo.responseType = PolicyLockUnlockDto.class;
 		restRequestInfo.status = status;
@@ -185,7 +184,7 @@ public class HelperCommon {
 	}
 
 	public static PolicyLockUnlockDto executePolicyUnlockService(String policyNumber, int status, String sessionId) {
-		final RestRequestInfo<PolicyLockUnlockDto> restRequestInfo = new RestRequestInfo<>();
+		RestRequestInfo<PolicyLockUnlockDto> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_LOCK_UNLOCK_SERVICES, policyNumber));
 		restRequestInfo.responseType = PolicyLockUnlockDto.class;
 		restRequestInfo.status = status;
@@ -193,9 +192,9 @@ public class HelperCommon {
 		return runJsonRequestDeleteDxp(restRequestInfo);
 	}
 
-	public static Vehicle[] viewPolicyVehicles(String policyNumber) {
+	public static ViewVehicleResponse viewPolicyVehicles(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_POLICY_VEHICLES, policyNumber));
-		return runJsonRequestGetDxp(requestUrl, Vehicle[].class);
+		return runJsonRequestGetDxp(requestUrl, ViewVehicleResponse.class);
 	}
 
 	public static ViewVehicleResponse viewEndorsementVehicles(String policyNumber) {
@@ -229,6 +228,14 @@ public class HelperCommon {
 	public static ErrorResponseDto viewEndorsementAssignmentsError(String policyNumber, int status) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, ErrorResponseDto.class, status);
+	}
+
+	public static ErrorResponseDto viewAddVehicleServiceErrors(String policyNumber, String purchaseDate, String vin) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES, policyNumber));
+		Vehicle request = new Vehicle();
+		request.purchaseDate = purchaseDate;
+		request.vehIdentificationNo = vin;
+		return runJsonRequestPostDxp(requestUrl, request, ErrorResponseDto.class, 422);
 	}
 
 	public static DriverAssignmentDto[] updateDriverAssignment(String policyNumber, String vehicleOid, String driverOid) {
@@ -344,11 +351,11 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, null, PolicyPremiumInfo[].class, status);
 	}
 
-	@SuppressWarnings("unchecked")
-	public static HashMap<String, String> endorsementRateError(String policyNumber, int status) {
+	public static ErrorResponseDto endorsementRateError(String policyNumber, int status) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_RATE, policyNumber));
-		return runJsonRequestPostDxp(requestUrl, null, HashMap.class, status);
+		return runJsonRequestPostDxp(requestUrl, null, ErrorResponseDto.class, 422);
 	}
+
 
 	public static String endorsementBind(String policyNumber, String authorizedBy, int status) {
 		AAABindEndorsementRequestDTO request = new AAABindEndorsementRequestDTO();
@@ -357,12 +364,11 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, request, String.class, status);
 	}
 
-	@SuppressWarnings("unchecked")
-	public static HashMap<String, String> endorsementBindError(String policyNumber, String authorizedBy, int status) {
+	public static ErrorResponseDto endorsementBindError(String policyNumber, String authorizedBy, int status) {
 		AAABindEndorsementRequestDTO request = new AAABindEndorsementRequestDTO();
-		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_BIND, policyNumber));
 		request.authorizedBy = authorizedBy;
-		return runJsonRequestPostDxp(requestUrl, request, HashMap.class, status);
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_BIND, policyNumber));
+		return runJsonRequestPostDxp(requestUrl, request, ErrorResponseDto.class, status);
 	}
 
 	public static DiscountSummary viewDiscounts(String policyNumber, String transaction, int status) {
@@ -387,7 +393,7 @@ public class HelperCommon {
 	}
 
 	public static <T> T runJsonRequestPostDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType, int status) {
-		final RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = url;
 		restRequestInfo.bodyRequest = bodyRequest;
 		restRequestInfo.responseType = responseType;
@@ -489,7 +495,7 @@ public class HelperCommon {
 	}
 
 	public static <T> T runJsonRequestDeleteDxp(String url, Class<T> responseType, int status) {
-		final RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = url;
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status = status;
@@ -524,7 +530,7 @@ public class HelperCommon {
 	}
 
 	public static <T> T runJsonRequestGetDxp(String url, Class<T> responseType, int status) {
-		final RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = url;
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status = status;
@@ -588,7 +594,7 @@ public class HelperCommon {
 	private static Invocation.Builder createJsonRequest(Client client, String url, String sessionId) {
 		Invocation.Builder builder = client.target(url).request().header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
 		if (BooleanUtils.toBoolean(PropertyProvider.getProperty(CustomTestProperties.OAUTH2_ENABLED))) {
-			final String token = getBearerToken();
+			String token = getBearerToken();
 			if (StringUtils.isNotEmpty(token)) {
 				builder = builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 			}
@@ -608,7 +614,7 @@ public class HelperCommon {
 					.header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED)
 					.post(Entity.json(GetOAuth2TokenRequest.create().asUrlEncoded()));
 
-			final Map result = response.readEntity(HashMap.class);
+			Map result = response.readEntity(HashMap.class);
 
 			return result.get("access_token").toString();
 		} finally {
@@ -623,7 +629,7 @@ public class HelperCommon {
 
 	private static String createApplicationContext(String sessionId) {
 		try {
-			final ApplicationContext applicationContext = new ApplicationContext();
+			ApplicationContext applicationContext = new ApplicationContext();
 			applicationContext.address = "AutomationTest";
 			applicationContext.application = "AutomationTest";
 			applicationContext.correlationId = Guid.GUID.newGuid().toString();

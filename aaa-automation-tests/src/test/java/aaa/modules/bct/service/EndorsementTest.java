@@ -1,5 +1,10 @@
 package aaa.modules.bct.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -19,15 +24,9 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
@@ -73,6 +72,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		String policyNumber = getPolicy("BCT_Empty_Endorsement_AAA_SS", date1, date2);
 		IPolicy policy = PolicyType.AUTO_SS.get();
 		SearchPage.openPolicy(policyNumber);
+		deletePendingTransaction(policy);
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
 
@@ -82,7 +82,6 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		new DocumentsAndBindTab().cancel();
 
 		TestData td = getTestSpecificTD("TestDataEndorseAutoSS");
-		deletePendingTransaction(policy);
 		policy.endorse().perform(td);
 		new GeneralTab().fillTab(td);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -98,6 +97,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		String policyNumber = getPolicy("BCT_Empty_Endorsement_Dp3_SS", date1, date2);
 		IPolicy policy = PolicyType.HOME_SS_DP3.get();
 		SearchPage.openPolicy(policyNumber);
+		deletePendingTransaction(policy);
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
 
@@ -107,7 +107,6 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		new BindTab().cancel();
 
 		TestData td = getTestSpecificTD("TestDataEndorseHomeSS");
-		deletePendingTransaction(policy);
 		policy.endorse().perform(td);
 		policy.dataGather().getView()
 				.fillFromTo(td, aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab.class, ReportsTab.class, false);
@@ -169,7 +168,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		policy.dataGather().getView()
 				.fillFromTo(td, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, false);
 		PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
-		assertThat(policyPremium).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
+		assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState()).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
 	}
 
 	@Parameters({"state"})
@@ -197,7 +196,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		policy.dataGather().getView()
 				.fillFromTo(td, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, false);
 		PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
-		assertThat(policyPremium).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
+		assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState()).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
 	}
 
 	@Parameters({"state"})
@@ -207,6 +206,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		String policyNumber = getPolicy("BCT_Empty_Endorsement_PUP", date1, date2);
 		IPolicy policy = PolicyType.PUP.get();
 		SearchPage.openPolicy(policyNumber);
+		deletePendingTransaction(policy);
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
 
@@ -216,7 +216,6 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		new aaa.main.modules.policy.pup.defaulttabs.BindTab().cancel();
 
 		TestData td = getTestSpecificTD("TestDataEndorsePUP");
-		deletePendingTransaction(policy);
 		policy.endorse().perform(td);
 		policy.dataGather().getView().fillFromTo(td, PrefillTab.class, PremiumAndCoveragesQuoteTab.class, false);
 		assertThat(policyPremium).isEqualTo(PremiumAndCoveragesQuoteTab.getPolicyTermPremium());
@@ -231,6 +230,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		String policyNumber = getPolicy("BCT_Empty_Endorsement_Auto_CA_Choice", date1, date2);
 		IPolicy policy = PolicyType.AUTO_CA_CHOICE.get();
 		SearchPage.openPolicy(policyNumber);
+		deletePendingTransaction(policy);
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
 
@@ -241,7 +241,6 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		new aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab().cancel();
 
 		TestData td = getTestSpecificTD("TestDataEndorseAutoCA");
-		deletePendingTransaction(policy);
 		policy.endorse().perform(td);
 		policy.dataGather().getView()
 				.fillFromTo(td, aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.class, false);
@@ -283,6 +282,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		String policyNumber = getPolicy("BCT_Empty_Endorsement_Dp3_CA", date1, date2);
 		IPolicy policy = PolicyType.HOME_CA_DP3.get();
 		SearchPage.openPolicy(policyNumber);
+		deletePendingTransaction(policy);
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
 
@@ -293,7 +293,6 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().cancel();
 
 		TestData td = getTestSpecificTD("TestDataEndorseHomeCA");
-		deletePendingTransaction(policy);
 		policy.endorse().perform(td);
 		policy.dataGather().getView()
 				.fillFromTo(td, aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab.class, false);
@@ -311,6 +310,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		String policyNumber = getPolicy("BCT_Empty_Endorsement_Ho3_CA", date1, date2);
 		IPolicy policy = PolicyType.HOME_CA_HO3.get();
 		SearchPage.openPolicy(policyNumber);
+		deletePendingTransaction(policy);
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
 
@@ -321,7 +321,6 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().cancel();
 
 		TestData td = getTestSpecificTD("TestDataEndorseHomeCA");
-		deletePendingTransaction(policy);
 		policy.endorse().perform(td);
 		policy.dataGather().getView()
 				.fillFromTo(td, aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab.class, false);
@@ -339,6 +338,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		String policyNumber = getPolicy("BCT_Empty_Endorsement_Ho4_CA", date1, date2);
 		IPolicy policy = PolicyType.HOME_CA_HO4.get();
 		SearchPage.openPolicy(policyNumber);
+		deletePendingTransaction(policy);
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
 
@@ -349,7 +349,6 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().cancel();
 
 		TestData td = getTestSpecificTD("TestDataEndorseHomeCA");
-		deletePendingTransaction(policy);
 		policy.endorse().perform(td);
 		policy.dataGather().getView()
 				.fillFromTo(td, aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab.class, false);
@@ -368,6 +367,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		IPolicy policy = PolicyType.HOME_CA_HO6.get();
 
 		SearchPage.openPolicy(policyNumber);
+		deletePendingTransaction(policy);
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
 
@@ -378,7 +378,6 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().cancel();
 
 		TestData td = getTestSpecificTD("TestDataEndorseHomeCA");
-		deletePendingTransaction(policy);
 		policy.endorse().perform(td);
 		policy.dataGather().getView()
 				.fillFromTo(td, aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab.class, false);
