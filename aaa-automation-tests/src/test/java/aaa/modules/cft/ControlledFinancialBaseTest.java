@@ -15,6 +15,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.TimePoints;
 import aaa.helpers.billing.*;
 import aaa.helpers.conversion.ConversionPolicyData;
 import aaa.helpers.conversion.ConversionUtils;
@@ -620,8 +621,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	protected void manualRenewalEntryOnStartDate() {
-		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(45);
-		log.info("Manual Renewal action started on {}", effDate);
+		LocalDateTime effDate = getTimePoints().getEffectiveDateForTimePoint(TimeSetterUtil.getInstance().getCurrentTime(), TimePoints.TimepointsList.RENEW_GENERATE_PREVIEW);
 		mainApp().open();
 		createCustomerIndividual();
 		TestData policyTd = getConversionPolicyDefaultTD();
@@ -641,10 +641,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 										.plusYears(1))
 								.build())
 						.build());
-		log.info("Manual Renewal action completed successfully");
-		log.info("Policy effective date {}", BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyEffDate());
 		log.info("Policy expirition date {}", BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate());
-
 	}
 
 	protected void flatCancellationOnStartDatePlus16() {
