@@ -65,7 +65,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		String customerNumber = createCustomerIndividual();
 		assertSoftly(softly -> {
 			for (P openLPolicy : testInfo.getOpenLPolicies()) {
-				log.info("Premium calculation verification initiated for test with policy number {} and expected premium {} from \"{}\" OpenL file",
+				log.info("Premium calculation verification initiated for test {} and expected premium {} from \"{}\" OpenL file",
 						openLPolicy.getNumber(), openLPolicy.getExpectedPremium(), testInfo.getOpenLFilePath());
 
 				//TODO-dchubkov: add assertion that Effective date cannot be more than ? months/years prior to current date (each product/state has it's own value)
@@ -76,7 +76,8 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 				}
 				Dollar actualPremium = createAndRateQuote(openLPolicy);
 				softly.assertThat(actualPremium).as("Total premium for policy number %s is not equal to expected one", openLPolicy.getNumber()).isEqualTo(openLPolicy.getExpectedPremium());
-				log.info("Premium calculation verification for policy #{} has been {}", Tab.labelPolicyNumber.getValue(), actualPremium.equals(openLPolicy.getExpectedPremium()) ? "passed" : "failed");
+				log.info("Premium calculation verification for test {} with policy #{} has been {}",
+						openLPolicy.getNumber(), Tab.labelPolicyNumber.getValue(), actualPremium.equals(openLPolicy.getExpectedPremium()) ? "passed" : "failed");
 				Tab.buttonSaveAndExit.click();
 			}
 		});
