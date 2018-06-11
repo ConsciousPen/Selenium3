@@ -36,8 +36,8 @@ public class TestCAFairPlanSignature extends HomeCaDP3BaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Service.HOME_CA_DP3)
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PAS-13239 18.5: CA FAIR Plan: Signature required to bind DP3")
+    @TestInfo(component = ComponentConstant.Service.HOME_CA_DP3, testCaseId = "PAS-13239")
     public void testPolicyRateFairPlanSignatureDP3(@Optional("CA") String state) {
         testSetup();
         validateSignatureAndBind();
