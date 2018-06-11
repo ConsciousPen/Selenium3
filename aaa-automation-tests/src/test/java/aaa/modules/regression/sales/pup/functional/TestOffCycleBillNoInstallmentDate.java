@@ -66,7 +66,7 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
      * @scenario
      * 1. Create new customer
      * 2. Initiate PUP policy and fill up to Purchase tab
-     * 3. Check option to change the minimum down payment, set to $10, and selection reason in drop down (first option)
+     * 3. Check option to change the minimum down payment, set to $0, and selection reason in drop down (first option)
      * 4. Bind/purchase policy
      * 5. Validate the min due is zero
      * 6. Run offCycleBillingInvoiceAsyncJob
