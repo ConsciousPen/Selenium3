@@ -131,8 +131,8 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", isFormAdded("HS0454", policyLevel) ? "Edit" : "Add",
 				HomeSSMetaData.EndorsementTab.EndorsementHS0454.DEDUCTIBLE.getLabel(), form.getOptionalValue().toString().split("\\.")[0] + "%",
-				HomeSSMetaData.EndorsementTab.EndorsementHS0454.INCLUDE_COVERAGE_FOR_EARTHQUAKE_LOSS_TO_EXTERIOR_MASONRY_VENEER.getLabel(),
-				"Masonry Veneer".equals(openLPolicy.getPolicyConstructionInfo().getConstructionType()) ? form.getMasonaryOrFarmPremisesInd() ? "Yes" : "No" : "No"));
+				HomeSSMetaData.EndorsementTab.EndorsementHS0454.INCLUDE_COVERAGE_FOR_EARTHQUAKE_LOSS_TO_EXTERIOR_MASONRY_VENEER.getLabel(), form.getMasonaryOrFarmPremisesInd() ? "Yes" : "No"));
+		//				"Masonry Veneer".equals(openLPolicy.getPolicyConstructionInfo().getConstructionType()) ? form.getMasonaryOrFarmPremisesInd() ? "Yes" : "No" : "No"));
 
 		return tdList;
 	};
@@ -265,6 +265,14 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 				"Action", isFormAdded("HS0495", policyLevel) ? "Edit" : "Add",
 				HomeSSMetaData.EndorsementTab.EndorsementHS0495.COVERAGE_LIMIT.getLabel(), limit));
 		return tdList;
+	};
+
+	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0499DataFunction = (openLPolicy, policyLevel) -> {
+		//		List<TestData> tdList = new ArrayList();
+		//		tdList.add(DataProviderFactory.dataOf(
+		//				"Action", isFormAdded("HS0490", policyLevel) ? "Edit" : "Add"));
+		//		return tdList;
+		return null;
 	};
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0546DataFunction = (openLPolicy, policyLevel) -> {
@@ -431,12 +439,32 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 	};
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS2471DataFunction = (openLPolicy, policyLevel) -> {
+		String classification = "";
+		switch (openLPolicy.getForms().stream().filter(c -> "HS2471".equals(c.getFormCode())).findFirst().get().getType()) {
+			case "CL":
+				classification = "Office clerical";
+				break;
+			case "SI":
+				classification = "Sales / Collectors / Messengers with service";
+				break;
+			case "SE":
+				classification = "Sales / Collectors / Messengers w/out service";
+				break;
+			case "T1": 
+				classification = "Teacher - athletic/physical training, laboratory/manual training";
+				break;
+			case "T2":
+				classification = "Teacher - Other";
+				break;
+			default:
+				throw new IstfException("Unknown mapping for type = " + openLPolicy.getForms().stream().filter(c -> "HS2471".equals(c.getFormCode())).findFirst().get().getType());
+		}
 		List<TestData> tdList = new ArrayList<>();
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", isFormAdded("HS2471", policyLevel) ? "Edit" : "Add",
 				HomeSSMetaData.EndorsementTab.EndorsementHS2471.NAME_OF_BUSINESS.getLabel(), "Name",
 				HomeSSMetaData.EndorsementTab.EndorsementHS2471.DESCRIPTION_OF_BUSINESS.getLabel(), "Description",
-				HomeSSMetaData.EndorsementTab.EndorsementHS2471.CLASSIFICATION_OCCUPATION.getLabel(), "Office clerical",
+				HomeSSMetaData.EndorsementTab.EndorsementHS2471.CLASSIFICATION_OCCUPATION.getLabel(), classification,
 				HomeSSMetaData.EndorsementTab.EndorsementHS2471.IS_THE_INSURED_SELF_EMPLOYED_A_PARTNER_IN_THE_BUSINESS_OR_MAINTAIN_ANY_FINANCIAL_CONTROL_IN_THIS_BUSINESS.getLabel(), "No"));
 		return tdList;
 	};
@@ -538,6 +566,7 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 		HS0492(HomeSSMetaData.EndorsementTab.HS_04_92.getLabel(), "HS0492", formHS0492DataFunction),
 		HS0493(HomeSSMetaData.EndorsementTab.HS_04_93.getLabel(), "HS0493", formHS0493DataFunction),
 		HS0495(HomeSSMetaData.EndorsementTab.HS_04_95.getLabel(), "HS0495", formHS0495DataFunction),
+		HS0499(HomeSSMetaData.EndorsementTab.HS_04_99.getLabel(), "HS0499", formHS0499DataFunction),
 		HS0546(HomeSSMetaData.EndorsementTab.HS_05_46.getLabel(), "HS0546", formHS0546DataFunction),
 		HS0578(HomeSSMetaData.EndorsementTab.HS_05_78.getLabel(), "HS0578", formHS0578DataFunction),
 		HS0614(HomeSSMetaData.EndorsementTab.HS_06_14.getLabel(), "HS0614", formHS0614DataFunction),
