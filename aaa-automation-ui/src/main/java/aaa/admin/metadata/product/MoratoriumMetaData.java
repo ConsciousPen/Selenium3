@@ -76,8 +76,7 @@ public class MoratoriumMetaData {
 		}
 
 		public static class SelectCatastrophe extends MetaData {
-			//TODO vshkatulo Create new control
-			public static final AssetDescriptor<Button> SEARCh = declare("Search", Button.class, By.id("searchForm_catatropheSingleSelect:executeSearch_catatropheSingleSelect"));
+			public static final AssetDescriptor<Button> SEARCH = declare("Search", Button.class, By.id("searchForm_catatropheSingleSelect:executeSearch_catatropheSingleSelect"));
 			public static final AssetDescriptor<Link> SELECT_CATASTROPHE = declare("Select Catatrophe", Link.class, By.xpath("//select[@id='searchForm_catatropheSingleSelect:available_item_catatropheSingleSelect']/option[not(contains(text(), 'update'))]"));
 
 			public static final AssetDescriptor<Button> BUTTON_OPEN_POPUP = declare(AbstractDialog.DEFAULT_POPUP_OPENER_NAME, Button.class, Waiters.DEFAULT, false, By.id("moratoriumRegistryForm:selectCatastrophies"));
