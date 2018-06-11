@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 /**
  * @Author - Tyrone C Jemison
- * @Description - Currently WIP (6/01/18)
  */
 public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
 
@@ -53,10 +52,10 @@ public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
         // Initiate DP3 Quote from HO3 policy. Fill up to P&C Endorsements.
         startDP3Quote(dp3PolicyData);
 
-        // Add DP 09 25, DP 04 18, DP 04 47. Remove it With FairPLAN
+        // Add DW 09 25, DP 04 18, DP 04 47. Remove it With FairPLAN
         addEndorsementsRemoveWithFAIRPlan(FORM_ID, INCLUDED_ENDORSEMENTS_TABLE, allExtraEndorsementsByLabel);
 
-        // Add DP 09 25. Remove it With FairPLAN
+        // Add DW 09 25. Remove it With FairPLAN
         addEndorsementsRemoveWithFAIRPlan(FORM_ID, INCLUDED_ENDORSEMENTS_TABLE, HomeCaMetaData.EndorsementTab.DW_09_25.getLabel());
 
         // Add DP 04 18. Remove it With FairPLAN
@@ -109,7 +108,7 @@ public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
-    public void TS2_AC7_RenewalBatch_NoDW0475(@Optional("") String state) {
+    public void TS3_AC7_RenewalBatch_NoDW0475(@Optional("") String state) {
         Table INCLUDED_ENDORSEMENTS_TABLE = new EndorsementTab().tblIncludedEndorsements;
         String FORM_ID = PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID;
         ArrayList<String> allExtraEndorsementsByLabel = convertStringsToArrayList(
@@ -161,10 +160,12 @@ public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
 
         if (addFAIRPlan) {
             myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
+            myHelper.completeFillAndVerifyFAIRPlanSign(policy, defaultPolicyData, EndorsementTab.class, DocumentsTab.class, getPolicyType().getShortName());
         }
-
-        policy.getDefaultView().fillFromTo(defaultPolicyData, EndorsementTab.class, PurchaseTab.class, true);
-        new PurchaseTab().submitTab();
+        else{
+            policy.getDefaultView().fillFromTo(defaultPolicyData, EndorsementTab.class, PurchaseTab.class, true);
+            new PurchaseTab().submitTab();
+        }
     }
 
     public ArrayList<String> convertStringsToArrayList(String... allGiven) {

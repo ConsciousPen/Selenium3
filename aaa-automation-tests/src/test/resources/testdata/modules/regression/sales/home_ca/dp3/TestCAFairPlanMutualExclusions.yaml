@@ -225,13 +225,13 @@ PropertyInfo_OldHouse: {
   RentalInformation: '@RentalInfo',
   FireProtectiveDD: {},
   TheftProtectiveTPDD: {},
-  HomeRenovation: '@HomeRenovation_HO3',
+  HomeRenovation: {},
   PetsOrAnimals: '@PetsOrAnimals_HO3',
   Stoves: '@Stoves_HO3',
   RecreationalEquipment: '@RecreationalEquipment_HO3'
 }
 Construction_OldHouse: {
-  Year built: 2005,
+  Year built: 1994,
   Square footage: 1,
   Roof type: 'index=1',
   Roof shape: 'index=1',
