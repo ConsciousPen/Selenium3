@@ -14,10 +14,8 @@ import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.modules.regression.sales.template.functional.TestOffCycleBillNoInstallmentDateAbstract;
-import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 @StateList(statesExcept = Constants.States.CA)
 public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstallmentDateAbstract {

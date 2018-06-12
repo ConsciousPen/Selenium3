@@ -12,14 +12,12 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.modules.regression.sales.template.functional.TestOffCycleBillNoInstallmentDateAbstract;
 import aaa.toolkit.webdriver.customcontrols.DetailedVehicleCoveragesRepeatAssetList;
-import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 @StateList(states = Constants.States.CA)
 public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstallmentDateAbstract {
