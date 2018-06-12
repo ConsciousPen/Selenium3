@@ -8,6 +8,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -26,6 +27,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -52,6 +54,7 @@ public class TestPremiumAndMinDueAfterRP extends HomeCaHO3BaseTest {
      * @details
      */
     @Parameters({"state"})
+    @StateList(states = {Constants.States.CA})
     @Test(groups = { Groups.FUNCTIONAL, Groups.HIGH })
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3, testCaseId = "PAS-13762")
     public void testPremiumAndMinDueAfterRPForCurrentTerm(@Optional("CA") String state) {
@@ -82,6 +85,7 @@ public class TestPremiumAndMinDueAfterRP extends HomeCaHO3BaseTest {
      * @details
      */
     @Parameters({"state"})
+    @StateList(states = {Constants.States.CA})
     @Test(groups = { Groups.FUNCTIONAL, Groups.HIGH })
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3, testCaseId = "PAS-13762")
     public void testPremiumAndMinDueAfterRPForRenewalTerm(@Optional("CA") String state) {
