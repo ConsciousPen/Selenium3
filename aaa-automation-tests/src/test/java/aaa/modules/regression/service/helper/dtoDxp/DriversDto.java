@@ -28,6 +28,15 @@ public class DriversDto implements RestBodyRequest {
 	@ApiModelProperty(value = "Suffix", example ="III")
 	public String suffix;
 
+	@ApiModelProperty(value = "Type of relations to the first name insured", example = "IN")
+	public String namedInsuredType;
+
+	@ApiModelProperty(value = "Relation to the first name insured type", example = "SP")
+	public String relationToApplicantCd;
+
+	@ApiModelProperty(value = "Marital status code", example = "MSS")
+	public String maritalStatusCd;
+
 	}
 
 

@@ -1,0 +1,208 @@
+TestData: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab2','@DriverTab3','@DriverTab5'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+
+}
+
+GeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA',
+  CurrentCarrierInformation: '@CurrentCarrierInformation'
+}
+
+CurrentCarrierInformation: {
+ 'Override Prefilled Current Carrier?': 'Yes',
+  'Agent Entered Current/Prior Carrier': 'AAA Insurance',
+  Agent Entered Inception Date:  '$<today-3y+1d:MM/dd/yyyy>',
+  Agent Entered Expiration Date:  '$<today+9d:MM/dd/yyyy>',
+  Agent Entered BI Limits: '$300,000/$500,000',
+}
+
+AAAProductOwned: {
+  Current AAA Member: 'Yes',
+  Membership Number: 4290023667710001,
+  Last name: Smith,
+  Life: 'Yes',
+  'Life Policy #': L87654567,
+  Home: 'Yes',
+  'Home Motorcycle Policy #': H65654328,
+  Renters: 'Yes',
+  'Renters Policy #': R09871234,
+  Condo: 'Yes',
+  'Condo Policy #': C76509878
+}
+
+NamedInsuredInformation1: {
+  Social Security Number: 123456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+NamedInsuredInformation2: {
+  InsuredSearchDialog: {},
+  First Name: Jenny,
+  Last Name: Smith,
+  Base Date: $<today>,
+  Social Security Number: 223456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+NamedInsuredInformation3: {
+  InsuredSearchDialog: {},
+  First Name: Jovita,
+  Last Name: Smith,
+  Base Date: $<today>,
+  Social Security Number: 785411263,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+
+DriverTab1: {
+  Add drivers: 'Yes',
+  DriverSearchDialog: {},
+  Named Insured: 'contains=Jovita',
+  Rel. to First Named Insured: Spouse,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  Date of Birth: '$<today-25y:MM/dd/yyyy>',
+  Gender: 'Female',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Licensed (US)',
+  Age First Licensed: '18',
+  License Number: 400064773,
+  Most Recent GPA: None
+  }
+
+DriverTab2: {
+  DriverSearchDialog: {},
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  Date of Birth: '$<today-21y:MM/dd/yyyy>',
+  License Type: 'Licensed (US)',
+  License Number: 407378541
+}
+
+DriverTab3: {
+    Add drivers: 'Yes',
+    DriverSearchDialog: {},
+    Driver Type: 'Not Available for Rating',
+    Reason: 'Insured with another carrier',
+    Carrier: 'index=4',
+    Policy Number: '12345',
+    Rel. to First Named Insured: Child,
+    First Name: 'Laura',
+    Middle Name: 'Sara',
+    Last Name: 'Smith',
+    Suffix: 'III',
+    Date of Birth: '12/12/1991',
+    Gender: 'Female',
+    Marital Status: Divorced,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: '603557779',
+    License Status: 'Licensed (US)'
+}
+
+DriverTab4: {
+      Add drivers: 'Yes',
+      DriverSearchDialog: {},
+      Rel. to First Named Insured: Sibling,
+      First Name: 'Teena',
+      Middle Name: 'not',
+      Last Name: 'Insured',
+      Suffix: 'III',
+      Date of Birth: '12/12/1992',
+      Gender: 'Female',
+      Marital Status: Single,
+      Occupation: 'index=1',
+      License Type: 'Licensed (US)',
+      Age First Licensed: '18',
+      License Number: '603557752',
+      License Status: 'Licensed (US)',
+      Most Recent GPA: None
+}
+
+DriverTab5: {
+   Add drivers: 'Yes',
+    DriverSearchDialog: {},
+    Named Insured: 'contains=Jenny',
+    Rel. to First Named Insured: Parent,
+    Occupation: Self-Employed,
+    Age First Licensed: 18,
+    Date of Birth: '$<today-29y:MM/dd/yyyy>',
+    Gender: 'Female',
+    Marital Status: Single,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: 400069173,
+    Affinity Group: None
+}
+
+VehicleTab1: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: WDCYC7BB0B6729451
+}
+
+VehicleTab2: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: 1GAZG1FG7D1145543
+}
+
+AssignmentTab_VA: {
+  DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver2', '@AssignedDriver3', '@AssignedDriver4']
+}
+
+AssignedDriver1: {
+    Driver: 'contains=Ben',
+    Select Vehicle: 'index=1'
+}
+
+AssignedDriver2: {
+    Driver: 'contains=Jenny',
+    Select Vehicle: 'index=2'
+}
+
+AssignedDriver3: {
+    Driver: 'contains=Distant',
+    Select Vehicle: 'index=2'
+}
+
+AssignedDriver4: {
+    Driver: 'contains=Defensive',
+    Select Vehicle: 'index=2'
+}
+
+PremiumAndCoveragesTab: {
+  Payment Plan: Quarterly,
+
+}
+
+DocumentsAndBindTab: {
+ RequiredToBind: {
+
+ Auto Insurance Application: Physically Signed
+ },
+
+  RequiredToIssue: {
+   Proof of Current Insurance for: 'Yes',
+   Proof of Prior Insurance: 'Yes'
+  },
+    Agreement: I agree
+}

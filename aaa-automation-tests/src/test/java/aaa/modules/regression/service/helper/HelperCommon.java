@@ -249,14 +249,14 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl,request,DriverAssignmentDto[].class,200);
 	}
 
-	public static DriversDto[] viewPolicyDrivers(String policyNumber) {
+	public static ViewDriversResponse viewPolicyDrivers(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_DRIVERS, policyNumber));
-		return runJsonRequestGetDxp(requestUrl, DriversDto[].class);
+		return runJsonRequestGetDxp(requestUrl, ViewDriversResponse.class);
 	}
 
-	public static DriversDto[] viewEndorsementDrivers(String policyNumber) {
+	public static ViewDriversResponse viewEndorsementDrivers(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS, policyNumber));
-		return runJsonRequestGetDxp(requestUrl, DriversDto[].class);
+		return runJsonRequestGetDxp(requestUrl, ViewDriversResponse.class);
 	}
 
 	static PolicyCoverageInfo viewPolicyCoverages(String policyNumber) {
