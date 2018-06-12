@@ -40,11 +40,6 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
     }
 
     @Override
-    protected PremiumAndCoveragesTab getPremiumAndCoveragesTab() {
-        return new PremiumAndCoveragesTab();
-    }
-
-    @Override
     protected void navigateToPremiumAndCoveragesTab() {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
     }
@@ -56,13 +51,13 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
 
     @Override
     protected void adjustPremiumBearingValue() {
-        getPremiumAndCoveragesTab().getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel(), DetailedVehicleCoveragesRepeatAssetList.class)
+        new PremiumAndCoveragesTab().getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel(), DetailedVehicleCoveragesRepeatAssetList.class)
                 .getAsset(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.RENTAL_REIMBURSEMENT.getLabel(), ComboBox.class).setValueContains("Yes");
     }
 
     @Override
-    protected AssetDescriptor<JavaScriptButton> getCalculatePremiumButton() {
-        return AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM;
+    protected void calculatePremium() {
+        new PremiumAndCoveragesTab().getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM).click();
     }
 
     /**

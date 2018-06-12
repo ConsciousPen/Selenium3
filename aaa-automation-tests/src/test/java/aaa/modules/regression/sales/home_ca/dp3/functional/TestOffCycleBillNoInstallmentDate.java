@@ -14,10 +14,8 @@ import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.modules.regression.sales.template.functional.TestOffCycleBillNoInstallmentDateAbstract;
-import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 @StateList(states = Constants.States.CA)
 public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstallmentDateAbstract {
@@ -38,11 +36,6 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
 	}
 
 	@Override
-	protected PremiumsAndCoveragesQuoteTab getPremiumAndCoveragesTab() {
-		return new PremiumsAndCoveragesQuoteTab();
-	}
-
-	@Override
 	protected void navigateToPremiumAndCoveragesTab() {
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewSubTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
@@ -55,12 +48,12 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
 
 	@Override
 	protected void adjustPremiumBearingValue() {
-    	getPremiumAndCoveragesTab().getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE).setValueByIndex(0);
+    	new PremiumsAndCoveragesQuoteTab().getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE).setValueByIndex(0);
 	}
 
 	@Override
-	protected AssetDescriptor<JavaScriptButton> getCalculatePremiumButton() {
-		return HomeCaMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM_BUTTON;
+	protected void calculatePremium() {
+		new PremiumsAndCoveragesQuoteTab().getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM_BUTTON).click();
 	}
 
     /**

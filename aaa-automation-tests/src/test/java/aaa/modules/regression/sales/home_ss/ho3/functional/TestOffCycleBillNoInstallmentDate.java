@@ -38,11 +38,6 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
 	}
 
 	@Override
-	protected PremiumsAndCoveragesQuoteTab getPremiumAndCoveragesTab() {
-		return new PremiumsAndCoveragesQuoteTab();
-	}
-
-	@Override
 	protected void navigateToPremiumAndCoveragesTab() {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
@@ -55,12 +50,12 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
 
 	@Override
 	protected void adjustPremiumBearingValue() {
-		getPremiumAndCoveragesTab().getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE).setValueByIndex(0);
+		new PremiumsAndCoveragesQuoteTab().getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE).setValueByIndex(0);
 	}
 
 	@Override
-	protected AssetDescriptor<JavaScriptButton> getCalculatePremiumButton() {
-		return HomeSSMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM;
+	protected void calculatePremium() {
+		new PremiumsAndCoveragesQuoteTab().getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM).click();
 	}
 
     /**

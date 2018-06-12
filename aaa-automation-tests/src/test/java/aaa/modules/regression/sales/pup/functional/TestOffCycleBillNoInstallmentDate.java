@@ -10,12 +10,10 @@ import aaa.main.modules.policy.pup.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
 import aaa.modules.regression.sales.template.functional.TestOffCycleBillNoInstallmentDateAbstract;
-import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstallmentDateAbstract {
 
@@ -35,11 +33,6 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
 	}
 
 	@Override
-	protected PremiumAndCoveragesQuoteTab getPremiumAndCoveragesTab() {
-		return new PremiumAndCoveragesQuoteTab();
-	}
-
-	@Override
 	protected void navigateToPremiumAndCoveragesTab() {
 		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
 		NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
@@ -52,12 +45,12 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
 
 	@Override
 	protected void adjustPremiumBearingValue() {
-		getPremiumAndCoveragesTab().getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA).setValueByIndex(3);
+		new PremiumAndCoveragesQuoteTab().getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA).setValueByIndex(3);
 	}
 
 	@Override
-	protected AssetDescriptor<JavaScriptButton> getCalculatePremiumButton() {
-		return PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.CALCULATE_PREMIUM;
+	protected void calculatePremium() {
+		new PremiumAndCoveragesQuoteTab().getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.CALCULATE_PREMIUM).click();
 	}
 
     /**

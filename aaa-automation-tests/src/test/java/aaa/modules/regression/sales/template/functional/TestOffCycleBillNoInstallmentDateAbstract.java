@@ -20,9 +20,7 @@ import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
-import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBaseTest {
@@ -33,8 +31,6 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
 
 	protected abstract Purchase getPurchaseTab();
 
-	protected abstract Tab getPremiumAndCoveragesTab();
-
 	protected abstract Tab getBindTab();
 
 	protected abstract void navigateToPremiumAndCoveragesTab();
@@ -43,7 +39,7 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
 
 	protected abstract void adjustPremiumBearingValue();
 
-	protected abstract AssetDescriptor<JavaScriptButton> getCalculatePremiumButton();
+	protected abstract void calculatePremium();
 
     protected void pas9001_testOffCycleBillNoDownPayment_NB() {
 
@@ -81,7 +77,7 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
         getPolicyType().get().endorse().perform(getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Endorsement"), "TestData"));
         navigateToPremiumAndCoveragesTab();
         adjustPremiumBearingValue();
-		getPremiumAndCoveragesTab().getAssetList().getAsset(getCalculatePremiumButton()).click();
+		calculatePremium();
         navigateToBindTab();
         getBindTab().submitTab();
 

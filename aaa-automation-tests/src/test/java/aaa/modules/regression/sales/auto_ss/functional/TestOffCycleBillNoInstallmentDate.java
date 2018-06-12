@@ -15,11 +15,9 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.modules.regression.sales.template.functional.TestOffCycleBillNoInstallmentDateAbstract;
 import aaa.toolkit.webdriver.customcontrols.DetailedVehicleCoveragesRepeatAssetList;
-import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 @StateList(statesExcept = Constants.States.CA)
 public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstallmentDateAbstract {
@@ -40,11 +38,6 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
 	}
 
 	@Override
-	protected PremiumAndCoveragesTab getPremiumAndCoveragesTab() {
-		return new PremiumAndCoveragesTab();
-	}
-
-	@Override
 	protected void navigateToPremiumAndCoveragesTab() {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 	}
@@ -56,13 +49,13 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
 
 	@Override
 	protected void adjustPremiumBearingValue() {
-		getPremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel(), DetailedVehicleCoveragesRepeatAssetList.class)
+		new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel(), DetailedVehicleCoveragesRepeatAssetList.class)
 				.getAsset(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel(), ComboBox.class).setValueByIndex(1);
 	}
 
 	@Override
-	protected AssetDescriptor<JavaScriptButton> getCalculatePremiumButton() {
-		return AutoSSMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM;
+	protected void calculatePremium() {
+		new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM).click();
 	}
 
 	/**

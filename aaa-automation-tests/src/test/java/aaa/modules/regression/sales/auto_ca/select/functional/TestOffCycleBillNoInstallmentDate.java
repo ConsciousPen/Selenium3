@@ -12,14 +12,12 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.modules.regression.sales.template.functional.TestOffCycleBillNoInstallmentDateAbstract;
 import aaa.toolkit.webdriver.customcontrols.DetailedVehicleCoveragesRepeatAssetList;
-import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 @StateList(states = Constants.States.CA)
 public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstallmentDateAbstract {
@@ -40,11 +38,6 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
     }
 
     @Override
-    protected PremiumAndCoveragesTab getPremiumAndCoveragesTab() {
-        return new PremiumAndCoveragesTab();
-    }
-
-    @Override
     protected void navigateToPremiumAndCoveragesTab() {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
     }
@@ -56,13 +49,13 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
 
     @Override
     protected void adjustPremiumBearingValue() {
-        getPremiumAndCoveragesTab().getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel(), DetailedVehicleCoveragesRepeatAssetList.class)
+        new PremiumAndCoveragesTab().getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel(), DetailedVehicleCoveragesRepeatAssetList.class)
                 .getAsset(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel(), ComboBox.class).setValueContains("$150");
     }
 
     @Override
-    protected AssetDescriptor<JavaScriptButton> getCalculatePremiumButton() {
-        return AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM;
+    protected void calculatePremium() {
+        new PremiumAndCoveragesTab().getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM).click();
     }
 
     /**
