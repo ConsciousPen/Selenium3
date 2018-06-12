@@ -14,9 +14,9 @@ public interface Writable {
 	default ExcelManager save(File destinationFile) {
 		return getExcelManager().save(destinationFile);
 	}
-
-	default ExcelManager close() {
-		return getExcelManager().close();
+	
+	default void close() {
+		getExcelManager().close();
 	}
 
 	default ExcelManager saveAndClose() {

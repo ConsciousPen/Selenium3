@@ -1,9 +1,6 @@
 package aaa.utils.excel.io;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,7 +23,7 @@ import toolkit.exceptions.IstfException;
  * Convenient utility to manipulate with Excel files built on top of Apache POI's library.
  * Commonly used for getting/editing cell values within excel tables but besides that has variety useful features
  */
-public class ExcelManager {
+public class ExcelManager implements Closeable {
 	protected static Logger log = LoggerFactory.getLogger(ExcelManager.class);
 	
 	private final File sourceFile;
@@ -58,7 +55,7 @@ public class ExcelManager {
 		this.isOpened = true;
 		this.allowableCellTypes = allowableCellTypes.stream().distinct().collect(Collectors.toList());
 	}
-
+	
 	public boolean isOpened() {
 		return this.isOpened;
 	}
@@ -66,11 +63,11 @@ public class ExcelManager {
 	public File getSourceFile() {
 		return this.sourceFile;
 	}
-
+	
 	public List<CellType<?>> getCellTypes() {
 		return Collections.unmodifiableList(this.allowableCellTypes);
 	}
-
+	
 	@SuppressWarnings("resource")
 	public List<ExcelSheet> getSheets() {
 		if (this.sheets == null) {
@@ -82,26 +79,26 @@ public class ExcelManager {
 		}
 		return Collections.unmodifiableList(this.sheets);
 	}
-
+	
 	public FormulaEvaluator getFormulaEvaluator() {
 		if (this.evaluator == null) {
 			this.evaluator = getWorkbook().getCreationHelper().createFormulaEvaluator();
 		}
 		return evaluator;
 	}
-
+	
 	public List<String> getSheetsNames() {
 		return getSheets().stream().map(ExcelSheet::getSheetName).collect(Collectors.toList());
 	}
-
+	
 	public List<Integer> getSheetsIndexes() {
 		return getSheets().stream().map(ExcelSheet::getSheetIndex).collect(Collectors.toList());
 	}
-
+	
 	public int getSheetsNumber() {
 		return getSheets().size();
 	}
-
+	
 	public Workbook getWorkbook() {
 		if (!isOpened()) {
 			if (!initializedFromFile()) {
@@ -112,7 +109,7 @@ public class ExcelManager {
 		}
 		return this.workbook;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "ExcelManager{" +
@@ -124,18 +121,30 @@ public class ExcelManager {
 				'}';
 	}
 	
+	@Override
+	public void close() {
+		if (isOpened()) {
+			try {
+				getWorkbook().close();
+				this.isOpened = false;
+			} catch (IOException e) {
+				throw new IstfException(String.format("Closing of excel workbook initialized from %s has been failed", getWorkbookInitializationSource()), e);
+			}
+		}
+	}
+	
 	public boolean initializedFromFile() {
 		return this.sourceFile != null;
 	}
-
+	
 	public boolean hasSheet(String sheetName) {
 		return getSheetsNames().contains(sheetName);
 	}
-
+	
 	public boolean hasSheet(int sheetIndex) {
 		return getSheetsIndexes().contains(sheetIndex);
 	}
-
+	
 	public ExcelSheet getSheet(int sheetIndex) {
 		for (ExcelSheet sheet : getSheets()) {
 			if (sheet.getSheetIndex() == sheetIndex) {
@@ -144,7 +153,7 @@ public class ExcelManager {
 		}
 		throw new IstfException(String.format("There is no sheet with %s index", sheetIndex));
 	}
-
+	
 	public ExcelSheet getSheet(String sheetName) {
 		for (ExcelSheet sheet : getSheets()) {
 			if (sheet.getSheetName().equals(sheetName)) {
@@ -153,7 +162,7 @@ public class ExcelManager {
 		}
 		throw new IstfException(String.format("There is no sheet with \"%s\" name", sheetName));
 	}
-
+	
 	public ExcelSheet getSheetContains(String sheetNamePattern) {
 		for (ExcelSheet sheet : getSheets()) {
 			if (sheet.getSheetName().contains(sheetNamePattern)) {
@@ -162,14 +171,14 @@ public class ExcelManager {
 		}
 		throw new IstfException(String.format("There is no sheet which contains \"%s\" name", sheetNamePattern));
 	}
-
+	
 	public ExcelManager registerCellType(List<CellType<?>> cellTypes) {
 		this.allowableCellTypes.addAll(cellTypes);
 		this.allowableCellTypes = this.allowableCellTypes.stream().distinct().collect(Collectors.toList());
 		getSheets().forEach(s -> s.registerCellType(cellTypes));
 		return this;
 	}
-
+	
 	public ExcelManager save() {
 		if (!initializedFromFile()) {
 			log.warn("ExcelManager was initialized from InputStream therefore source file does not exist and saving to it has been skipped");
@@ -177,7 +186,7 @@ public class ExcelManager {
 		}
 		return save(getSourceFile());
 	}
-
+	
 	@SuppressWarnings("resource")
 	public ExcelManager save(File destinationFile) {
 		File writeToFile;
@@ -190,7 +199,7 @@ public class ExcelManager {
 		} else {
 			writeToFile = destinationFile;
 		}
-
+		
 		Workbook wb = getWorkbook();
 		try (FileOutputStream outputStream = new FileOutputStream(writeToFile)) {
 			wb.write(outputStream);
@@ -208,25 +217,10 @@ public class ExcelManager {
 				log.warn("Can't rename temp file \"{}\" to \"{}\"", writeToFile.getAbsolutePath(), destinationFile.getAbsolutePath());
 			}
 		}
-
+		
 		return this;
 	}
-
-	@SuppressWarnings("resource")
-	public ExcelManager close() {
-		if (!isOpened()) {
-			log.warn(String.format("Excel workbook initialized from %s is already closed", getWorkbookInitializationSource()));
-			return this;
-		}
-		try {
-			getWorkbook().close();
-			this.isOpened = false;
-		} catch (IOException e) {
-			throw new IstfException(String.format("Closing of excel workbook initialized from %s has been failed", getWorkbookInitializationSource()), e);
-		}
-		return this;
-	}
-
+	
 	public ExcelManager saveAndClose() {
 		if (!initializedFromFile()) {
 			log.warn("ExcelManager was initialized from InputStream therefore source file does not exist and saving to it has been skipped");
@@ -234,7 +228,7 @@ public class ExcelManager {
 		}
 		return saveAndClose(getSourceFile());
 	}
-
+	
 	public ExcelManager saveAndClose(File destinationFile) {
 		save(destinationFile);
 		if (isOpened()) {
