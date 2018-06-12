@@ -358,13 +358,18 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0931DataFunction = (openLPolicy, policyLevel) -> {
 		List tdList = new ArrayList();
-		tdList.add(DataProviderFactory.dataOf("Action", isFormAdded("HS0931", policyLevel) ? "Edit" : "Add"));
+		if (!isFormAdded("HS0931", policyLevel)) {
+			tdList.add(DataProviderFactory.dataOf("Action", "Add"));
+		}
+		//		tdList.add(DataProviderFactory.dataOf("Action", isFormAdded("HS0931", policyLevel) ? "Edit" : "Add"));
 		return tdList;
 	};
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0934DataFunction = (openLPolicy, policyLevel) -> {
 		List tdList = new ArrayList();
-		tdList.add(DataProviderFactory.dataOf("Action", isFormAdded("HS0934", policyLevel) ? "Edit" : "Add"));
+		if (!isFormAdded("HS0934", policyLevel)) {
+			tdList.add(DataProviderFactory.dataOf("Action", "Add"));
+		}
 		return tdList;
 	};
 
@@ -461,7 +466,7 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 			case "SE":
 				classification = "Sales / Collectors / Messengers w/out service";
 				break;
-			case "T1": 
+			case "T1":
 				classification = "Teacher - athletic/physical training, laboratory/manual training";
 				break;
 			case "T2":
