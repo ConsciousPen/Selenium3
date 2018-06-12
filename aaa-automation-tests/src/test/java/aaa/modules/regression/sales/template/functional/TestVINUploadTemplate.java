@@ -322,7 +322,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 	protected void endorsement(TestData testData, String vinNumber) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
-		String policyNumber = createPolicyPreconds(testData);
+		String policyNumber = createPreconds(testData);
 
 		adminApp().open();
 		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN9.get()));

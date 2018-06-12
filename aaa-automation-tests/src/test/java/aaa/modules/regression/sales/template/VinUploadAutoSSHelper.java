@@ -212,7 +212,6 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 
 	/**
 	 *
-	 *
 	 * @param policyExpirationDate !!!
 	 */
 	protected void createRenewalImage(LocalDateTime policyExpirationDate) {
@@ -221,11 +220,19 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 	}
 
+	/**
+	 *
+	 * @param policyExpirationDate !!!
+	 */
 	protected void createRenewalPreview(LocalDateTime policyExpirationDate) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 	}
 
+	/**
+	 *
+	 * @param policyExpirationDate !!!
+	 */
 	protected void createRenewalOffer(LocalDateTime policyExpirationDate) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);

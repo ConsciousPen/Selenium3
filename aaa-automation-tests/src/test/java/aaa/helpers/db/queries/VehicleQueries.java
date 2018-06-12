@@ -17,6 +17,7 @@ public class VehicleQueries {
 
 	//	VIN STUB QUERIES FOR PAS-12877
 	// SORT BY r.ID DESC ORDER.
+	public static final String SELECT_VIN_ID_BY_VIN_VERSION = "SELECT v.* FROM VEHICLEREFDATAVIN v WHERE VIN LIKE '%s' and v.VERSION='%s'";
 	public static final String SELECT_LATEST_VIN_STUB_ON_QUOTE = "SELECT r.currentVin FROM Riskitem R, Vehicleratinginfo I, Vehiclebaseinfo B, Policysummary Ps, Policydetail Pd WHERE R.Ratinginfo_Id = I.Id AND B.Id = R.Baseinfo_Id AND ps.policydetail_id = pd.id AND pd.id = r.policydetail_id AND policynumber LIKE '%1$s' ORDER BY r.ID DESC";
 	public static final String SELECT_LATEST_VIN_STUB_WITH_SYMBOLS_ON_QUOTE = "SELECT r.currentVin,I.COMPSYMBOL, I.COLLSYMBOL , R.version FROM Riskitem R, Vehicleratinginfo I, Vehiclebaseinfo B, Policysummary Ps, Policydetail Pd WHERE R.Ratinginfo_Id = I.Id AND B.Id = R.Baseinfo_Id AND ps.policydetail_id = pd.id AND pd.id = r.policydetail_id AND policynumber LIKE '%1$s' ORDER BY r.ID DESC";
 
@@ -33,7 +34,7 @@ public class VehicleQueries {
 
 	public static final String NULL_SPECIFIC_POLICY_STUB = "UPDATE Riskitem SET CURRENTVIN = NULL WHERE CURRENTVIN like '%s'";
 	public static final String EDIT_SPECIFIC_COMP_VALUE = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOMPREHENSIVE = PHYSICALDAMAGECOMPREHENSIVE + 50 where vin like '%s' and VERSION like '%s'";
-	public static final String REPAIR_COLLCOMP_BY_ID = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOLLISION ='%s', PHYSICALDAMAGECOMPREHENSIVE ='%s' where id = '%s' and VERSION like 'SYMBOL_2000'";
+	public static final String REPAIR_COLLCOMP_BY_ID = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOLLISION ='%s', PHYSICALDAMAGECOMPREHENSIVE ='%s' where id = '%s' and VERSION like '%s'";
 
 	public static final String REPAIR_7MSRP15H_COMP = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOMPREHENSIVE ='44' where vin like '7MSRP15H%V' and VERSION like 'SYMBOL_2000'";
 	public static final String REPAIR_7MSRP15H_COLL = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOLLISION ='35' where vin like '7MSRP15H%V' and VERSION like 'SYMBOL_2000'";

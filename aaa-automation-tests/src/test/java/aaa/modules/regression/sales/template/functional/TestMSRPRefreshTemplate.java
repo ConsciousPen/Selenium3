@@ -115,7 +115,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 	}
 
 	protected void renewalVehicleTypeRegular(TestData testData) {
-		String quoteNumber = createPolicyPreconds(testData);
+		String quoteNumber = createPreconds(testData);
 
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
@@ -143,7 +143,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 	protected void renewalVehicleTypeNotRegular(TestData testData) {
 
-		String quoteNumber = createPolicyPreconds(testData);
+		String quoteNumber = createPreconds(testData);
 
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
@@ -171,7 +171,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 	protected void renewalVINDoesMatchNBandNoMatchOnRenewal(TestData testData) {
 		// Should be added after VinUpload Tests
-		String quoteNumber = createPolicyPreconds(testData);
+		String quoteNumber = createPreconds(testData);
 
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
