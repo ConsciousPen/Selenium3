@@ -21,6 +21,17 @@ import toolkit.verification.CustomAssertions;
 public class HomeSSFormTestDataGenerator extends BaseTest {
 	private static Map<String, List<String>> selectedForms = new HashMap<>();
 
+	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0412DataFunction = (openLPolicy, policyLevel) -> {
+		List<TestData> tdList = new ArrayList<>();
+		HomeSSOpenLForm form = openLPolicy.getForms().stream().filter(c -> "HS0412".equals(c.getFormCode())).findFirst().get();
+		tdList.add(DataProviderFactory.dataOf(
+				"Action", isFormAdded("HS0412", policyLevel) ? "Edit" : "Add",
+				HomeSSMetaData.EndorsementTab.EndorsementHS0412.COVERAGE_LIMIT.getLabel(), "$" + form.getLimit().toString().split("\\.")[0],
+				HomeSSMetaData.EndorsementTab.EndorsementHS0412.IS_THE_BUSINESS_CONDUCTED_ON_THE_RESIDENCE_PREMISES.getLabel(), "No",
+				HomeSSMetaData.EndorsementTab.EndorsementHS0412.IS_THE_BUSINESS_PROPERTY_FOR_SAMPLE_SALE_OR_DELIVERY_AFTER_SALE.getLabel(), "No"));
+		return tdList;
+	};
+
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0420DataFunction = (openLPolicy, policyLevel) -> {
 		List<TestData> tdList = new ArrayList<>();
 		if (Constants.States.WV.equals(openLPolicy.getPolicyAddress().getState()) && "Heritage".equals(policyLevel)) {
@@ -548,6 +559,7 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 	}
 
 	public enum Forms {
+		HS0412(HomeSSMetaData.EndorsementTab.HS_04_12.getLabel(), "HS0412", formHS0412DataFunction),
 		HS0420(HomeSSMetaData.EndorsementTab.HS_04_20.getLabel(), "HS0420", formHS0420DataFunction),
 		HS0435(HomeSSMetaData.EndorsementTab.HS_04_35.getLabel(), "HS0435", formHS0435DataFunction),
 		HS0436(HomeSSMetaData.EndorsementTab.HS_04_36.getLabel(), "HS0436", formHS0436DataFunction),
