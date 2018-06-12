@@ -235,17 +235,17 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         policy.renew().start().submit();
     }
 
-    public void completeFillAndVerifyFAIRPlanSign(TestData defaultPolicyData, Class<? extends Tab> tabClassTo1, Class<? extends Tab> tabClassTo2, String policyType) {
+    public static void completeFillAndVerifyFAIRPlanSign(IPolicy policy, TestData defaultPolicyData, Class<? extends Tab> tabClassTo1, Class<? extends Tab> tabClassTo2, String policyType) {
         // Continue Fill Until Documents Tab.
         policy.getDefaultView().fillFromTo(defaultPolicyData, tabClassTo1, tabClassTo2, true);
 
         // Sign Document
         String formattedInput = policyType.toLowerCase();
         switch (formattedInput) {
-            case "HomeCA_HO3":
+            case "homeca_ho3":
                 new DocumentsTab().getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FPCECA).setValue("Physically Signed");
                 break;
-            case "HomeCA_DP3":
+            case "homeca_dp3":
                 new DocumentsTab().getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FPCECADP).setValue("Physically Signed");
                 break;
         }
