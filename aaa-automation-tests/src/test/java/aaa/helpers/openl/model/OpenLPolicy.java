@@ -2,8 +2,10 @@ package aaa.helpers.openl.model;
 
 import java.time.LocalDate;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
+import toolkit.datax.TestData;
 
 public abstract class OpenLPolicy {
 	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
@@ -47,6 +49,8 @@ public abstract class OpenLPolicy {
 	public abstract String getUnderwriterCode();
 
 	public abstract LocalDate getEffectiveDate();
+	
+	public abstract TestDataGenerator<? extends OpenLPolicy> getTestDataGenerator(String state, TestData baseTestData);
 
 	@Override
 	public String toString() {

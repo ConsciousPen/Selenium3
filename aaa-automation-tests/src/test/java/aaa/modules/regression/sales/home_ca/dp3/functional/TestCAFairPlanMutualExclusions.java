@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ca.dp3;
+package aaa.modules.regression.sales.home_ca.dp3.functional;
 
 import aaa.common.Tab;
 import aaa.common.pages.SearchPage;
@@ -36,8 +36,8 @@ public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
      * @Description - Mixing and matching mutually exclusive endorsements. Should not be on same policy together.
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Mutually Exclusive Endorsements DP3")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-13445")
     public void TS1_AC1ToAC5_MutuallyExclusiveEndorsementCombos(@Optional("") String state) {
         // Verify Endorsements are not present.
         Table INCLUDED_ENDORSEMENTS_TABLE = new EndorsementTab().tblIncludedEndorsements;
@@ -75,8 +75,8 @@ public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
      * @Description - Adding FPCECADP during renewal will remove the auto-applied DW 04 75 endorsement.
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Mutually Exclusive Endorsements DP3")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-13445")
     public void TS2_AC6_RenewalBatch_AddingFPCECADP(@Optional("") String state) {
         Table INCLUDED_ENDORSEMENTS_TABLE = new EndorsementTab().tblIncludedEndorsements;
         String FORM_ID = PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID;
@@ -107,8 +107,8 @@ public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
      *  DW 04 75 endorsement.
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Mutually Exclusive Endorsements DP3")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-13445")
     public void TS2_AC7_RenewalBatch_NoDW0475(@Optional("") String state) {
         Table INCLUDED_ENDORSEMENTS_TABLE = new EndorsementTab().tblIncludedEndorsements;
         String FORM_ID = PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID;

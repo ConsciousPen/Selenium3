@@ -1085,6 +1085,55 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		);
 	}
 
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Loan Lease coverage check for veh older than 3 years
+	 * @scenario 1) Create a policy
+	 * 2) Start an endorsement
+	 * 3) Add a vehicle Older than 3 years with Ownership info = Owned
+	 * 5) rate
+	 * 6) check Loan Lease coverage is not available
+	 * 6) Add Ownership Leased or Financed
+	 * 7) rate
+	 * 8) check coverage is not available
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14316"})
+	public void pas14316_LoanLeasedCovForLeasedOldVehicle(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas14316_LoanLeasedCovForLeasedOldVehicleBody(softly, "LSD")
+		);
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Loan Lease coverage check for veh equal to 3 years old
+	 * @scenario 1) Create a policy
+	 * 2) Start an endorsement
+	 * 3) Add a vehicle Older than 3 years with Ownership info = Owned
+	 * 5) rate
+	 * 6) check Loan Lease coverage is not available
+	 * 7) Add Ownership Leased or Financed
+	 * 8) rate
+	 * 9) check Loan Lease coverage is available and defaulted to No Coverage
+	 * 10) set value of the coverage to Yes
+	 * 11) rate
+	 * 12) check Loan Lease coverage is available and defaulted to No Coverage
+	 * 13) Issue
+	 * 14) set Ownership to Owned
+	 * 15) rate
+	 * 16) check Loan Lease is not available
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14316"})
+	public void pas14316_LoanLeasedCovForFinancedNewVehicle(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas14316_LoanLeasedCovForFinancedNewVehicleBody(softly, "FNC")
+		);
+	}
+
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13252"})

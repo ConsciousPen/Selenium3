@@ -22,4 +22,6 @@ public class CustomTestProperties extends TestProperties {
 	public static final String DXP_GRANT_TYPE = "dxp.grantType";
 	public static final String SOAP_BATCHJOB_TEMLATE = "soap.batchjob.template";
 	public static final String BATCHJOB_RUN_MODE = "batchjob.run.mode"; // available values: http, soap
+	public static final String RATING_REPO_USER = "rating.repo.user";
+	public static final String RATING_REPO_PASSWORD = "rating.repo.password";
 }
