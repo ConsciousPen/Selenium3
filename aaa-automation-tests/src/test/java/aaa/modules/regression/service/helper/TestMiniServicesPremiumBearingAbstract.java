@@ -2353,6 +2353,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		//hit view vehicle service to get Vehicle order
 		ViewVehicleResponse viewVehicleResponse1 = HelperCommon.viewPolicyVehicles(policyNumber);
 		assertThat(viewVehicleResponse1.canAddVehicle).isEqualTo(true);
+
+
 		List<Vehicle> originalOrderingFromResponse = ImmutableList.copyOf(viewVehicleResponse1.vehicleList);
 		List<Vehicle> sortedVehicles = viewVehicleResponse1.vehicleList;
 		sortedVehicles.sort(Vehicle.ACTIVE_POLICY_COMPARATOR);

@@ -82,6 +82,8 @@ public class HelperCommon {
 	private static final String DXP_POLICIES_POLICY_DISCOUNTS = "/api/v1/policies/%s/discounts";
 	private static final String DXP_POLICIES_ENDORSEMENT_DISCOUNTS = "/api/v1/policies/%s/endorsement/discounts";
 
+	private static final String DXP_BILLING_CURRENT_BILL = "/api/v1/policies/%s/billing/current-bill";
+
 	static {
 		PRETTY_PRINT_OBJECT_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
 	}
@@ -107,6 +109,8 @@ public class HelperCommon {
 		String requestUrl = urlBuilderAdmin(ADMIN_INSTALLMENT_FEES_ENDPOINT) + "?productCode=" + productCode + "&riskState=" + state + "&effectiveDate=" + date;
 		return runJsonRequestGetAdmin(requestUrl, InstallmentFeesResponse[].class);
 	}
+
+
 
 	public static void executeContactInfoRequest(String policyNumber, String emailAddressChanged, String authorizedBy) {
 		UpdateContactInfoRequest request = new UpdateContactInfoRequest();
@@ -382,6 +386,11 @@ public class HelperCommon {
 			throw new IstfException("invalid transaction type for DiscountSummary service");
 		}
 		return runJsonRequestGetDxp(requestUrl, DiscountSummary.class, status);
+	}
+
+	public static Bill currentBillService(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_BILLING_CURRENT_BILL, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, Bill.class);
 	}
 
 	public static String runJsonRequestPostDxp(String url, RestBodyRequest bodyRequest) {

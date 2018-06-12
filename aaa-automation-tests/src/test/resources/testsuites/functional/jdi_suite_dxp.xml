@@ -232,4 +232,16 @@
             </class>
         </classes>
     </test>
+    <test name="pas13663_CurrentBillServiceVA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas13663_CurrentBillServiceMonthly"/>
+                    <include name="pas13663_CurrentBillServiceQuarterly"/>
+                    <include name="pas13663_CurrentBillServiceAnnual"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
