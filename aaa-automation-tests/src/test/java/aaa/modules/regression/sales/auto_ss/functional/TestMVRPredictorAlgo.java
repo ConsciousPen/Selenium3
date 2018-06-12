@@ -299,7 +299,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 
 	/**
 	 * @author Dominykas Razgunas
-	 * @name Bypass MVR Predictor Algo for drivers with accidents below threshold
+	 * @name MVR Predictor Algo for drivers with accidents below threshold
 	 * @scenario 1. Create Customer1.
 	 * 2. Create Auto SS Quote.
 	 * 3. Add 1 Driver who is eligible for mvr status predicted valid
@@ -312,7 +312,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	 */
     @StateList(states = {Constants.States.IN, Constants.States.KY, Constants.States.MD, Constants.States.NJ, Constants.States.PA, Constants.States.VA, Constants.States.CT})
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Bypass MVR Predictor Algo for drivers with accidents")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for drivers with accidents")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9723")
 	public void pas9723_BypassMVRPredictorManuallyAddedAccidents(@Optional("") String state) {
 
@@ -331,7 +331,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 
 	/**
 	 * @author Dominykas Razgunas
-	 * @name Bypass MVR Predictor Algo for drivers with accidents below threshold Endorsement
+	 * @name MVR Predictor Algo for drivers with accidents below threshold Endorsement
 	 * @scenario 1. Create Customer1.
 	 * 2. Create Auto SS Policy.
 	 * 3. Endorse Policy.
@@ -344,7 +344,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	 */
 	@StateList(states = {Constants.States.IN, Constants.States.KY, Constants.States.MD, Constants.States.NJ, Constants.States.PA, Constants.States.VA, Constants.States.CT})
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Bypass MVR Predictor Algo for drivers with accidents Endorsement")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for drivers with accidents Endorsement")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14264")
 	public void pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement(@Optional("") String state) {
 
@@ -365,7 +365,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 
 	/**
 	 * @author Dominykas Razgunas
-	 * @name Bypass MVR Predictor Algo for drivers with accidents below threshold Renewal
+	 * @name MVR Predictor Algo for drivers with accidents below threshold Renewal
 	 * @scenario 1. Create Customer1.
 	 * 2. Create Auto SS Policy.
 	 * 3. Renew Policy.
@@ -378,9 +378,9 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	 */
 	@StateList(states = {Constants.States.IN, Constants.States.KY, Constants.States.MD, Constants.States.NJ, Constants.States.PA, Constants.States.VA, Constants.States.CT})
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Bypass MVR Predictor Algo for drivers with accidents Renewal")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for drivers with accidents Renewal")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14264")
-	public void pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal(@Optional("") String state) {
+	public void pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal(@Optional("NV") String state) {
 
 		TestData testData = getFirstDriverTestData();
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabAccidents").resolveLinks();
@@ -399,7 +399,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 
 	/**
 	 * @author Dominykas Razgunas
-	 * @name Bypass MVR Predictor Algo for drivers with accidents below threshold Manual Entry Conversion
+	 * @name MVR Predictor Algo for drivers with accidents below threshold Manual Entry Conversion
 	 * @scenario 1. Create Customer1.
 	 * 2. Create Auto SS Policy.
 	 * 3. Endorse Policy.
@@ -412,7 +412,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	 */
 	@StateList(states = {Constants.States.IN, Constants.States.KY, Constants.States.MD, Constants.States.NJ, Constants.States.PA, Constants.States.VA, Constants.States.CT})
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Bypass MVR Predictor Algo for drivers with accidents Conversion")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for drivers with accidents Conversion")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14264")
 	public void pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion(@Optional("") String state) {
 
