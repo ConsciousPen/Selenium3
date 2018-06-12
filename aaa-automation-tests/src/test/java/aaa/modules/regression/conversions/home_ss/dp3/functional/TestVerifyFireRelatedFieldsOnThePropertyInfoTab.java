@@ -23,9 +23,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
-
 import java.time.LocalDateTime;
-
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSDP3BaseTest {
@@ -99,7 +97,7 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSDP3Ba
 	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.NJ, Constants.States.AZ, Constants.States.PA, Constants.States.MD})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_DP3, testCaseId = "PAS-10703")
-	public void testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal(@Optional("AZ") String state) {
+	public void testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal(@Optional("NJ") String state) {
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -136,6 +134,9 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSDP3Ba
 
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber);
+	if (PolicySummaryPage.tableRenewals.isPresent()) {
+		SearchPage.openBilling(policyNumber);
+	}
 		Dollar totDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies
 				.getRow(BillingConstants.BillingAccountPoliciesTable.POLICY_NUM, policyNumber)
 				.getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue());

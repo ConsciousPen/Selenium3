@@ -137,6 +137,10 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSHO6Ba
 
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber);
+
+		if (PolicySummaryPage.tableRenewals.isPresent()) {
+			SearchPage.openBilling(policyNumber);
+		}
 		Dollar totDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies
 				.getRow(BillingConstants.BillingAccountPoliciesTable.POLICY_NUM, policyNumber)
 				.getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue());

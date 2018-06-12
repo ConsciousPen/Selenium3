@@ -454,7 +454,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		Map<String, Object> detailedCoveragesData = new HashMap<>();
 		for (AutoSSOpenLVehicle vehicle : openLPolicy.getVehicles()) {
 			if (vehicle.getCoverages().stream().anyMatch(c -> isFirstPartyBenefitsComboCoverage(c.getCoverageCd()))) {
-				policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.FIRST_PARTY_BENEFITS.getLabel(), "Added");
+				policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.FIRST_PARTY_BENEFITS.getLabel(), "starts=Added");
 			}
 
 			boolean isTrailerOrMotorHomeVehicle = isTrailerOrMotorHomeType(vehicle.getUsage());

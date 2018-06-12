@@ -19,13 +19,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestAutoPolicyLockPreConditions;
 import toolkit.datax.TestData;
@@ -41,7 +35,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	private static Set<String> elementNames = new ConcurrentHashSet<>();
 	private static final String tomorrowDate = getDate.plusDays(1).format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
 
-	private	PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private DriverTab driverTab = new DriverTab();
 
 	/**
@@ -51,9 +45,9 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	 * @name Test VINupload 'Update VIN' scenario.
 	 * @scenario
 	 * 0. Create customer
-	 * 1. Configure lock for AIP and NAF  in DB
+	 * 1. Configure lock for AIP and NAF in DB
 	 * 2. Initiate Auto SS quote creation
-	 * 3. Note the values for CC, NAF and AIP in VRD on Premium&Coverages screen
+	 * 3. Note the values for CC, NAF and AIP at the Premium&Coverages Tab
 	 * 4. Initiate Renewal for quote
 	 * 5. Verify that NAF and AIP values are locked (does not incremented) and CC value is increased
 	 * @details
@@ -94,7 +88,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 			//Verify that values of NAF and AIP are locked and not changed in VRD.
 			softly.assertThat(getNafAccidentsValue()).isEqualTo(previousNAFValue);
 			softly.assertThat(getAaaInsurancePersistencyValue()).isEqualTo(previousAIPValue);
-			// Verify that CC values is increased (was not locked)
+			// Verify that CC values were increased (not locked)
 			softly.assertThat(getComprehensiveClaimsValue()).isNotEqualTo(previousCCValue);
 		});
 

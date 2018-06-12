@@ -11,6 +11,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -23,6 +24,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.regression.service.auto_ss.functional.preconditions.MiniServicesSetupPreconditions;
 import aaa.modules.regression.service.helper.TestMiniServicesPremiumBearingAbstract;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
+import aaa.utils.StateList;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
@@ -836,7 +838,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10227","PAS-11810"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10227", "PAS-11810"})
 	public void pas10227_ViewPremiumServicePendedEndorsement(@Optional("VA") String state) {
 
 		pas10227_ViewPremiumServiceForPendedEndorsement();
@@ -869,7 +871,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	//Scenario 2
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741","PAS-11852","PAS-12601"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741", "PAS-11852", "PAS-12601"})
 	public void pas11741_ManageVehicleLevelCoveragesOtherThanVA(@Optional("AZ") String state) {
 
 		pas11741_ViewManageVehicleLevelCoveragesForAZ(getPolicyType());
@@ -1083,6 +1085,55 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		);
 	}
 
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Loan Lease coverage check for veh older than 3 years
+	 * @scenario 1) Create a policy
+	 * 2) Start an endorsement
+	 * 3) Add a vehicle Older than 3 years with Ownership info = Owned
+	 * 5) rate
+	 * 6) check Loan Lease coverage is not available
+	 * 6) Add Ownership Leased or Financed
+	 * 7) rate
+	 * 8) check coverage is not available
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14316"})
+	public void pas14316_LoanLeasedCovForLeasedOldVehicle(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas14316_LoanLeasedCovForLeasedOldVehicleBody(softly, "LSD")
+		);
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Loan Lease coverage check for veh equal to 3 years old
+	 * @scenario 1) Create a policy
+	 * 2) Start an endorsement
+	 * 3) Add a vehicle Older than 3 years with Ownership info = Owned
+	 * 5) rate
+	 * 6) check Loan Lease coverage is not available
+	 * 7) Add Ownership Leased or Financed
+	 * 8) rate
+	 * 9) check Loan Lease coverage is available and defaulted to No Coverage
+	 * 10) set value of the coverage to Yes
+	 * 11) rate
+	 * 12) check Loan Lease coverage is available and defaulted to No Coverage
+	 * 13) Issue
+	 * 14) set Ownership to Owned
+	 * 15) rate
+	 * 16) check Loan Lease is not available
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14316"})
+	public void pas14316_LoanLeasedCovForFinancedNewVehicle(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas14316_LoanLeasedCovForFinancedNewVehicleBody(softly, "FNC")
+		);
+	}
+
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13252"})
@@ -1111,6 +1162,47 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	}
 
 	/**
+	 * @author Jovita Pukenaite
+	 * @name Check Duplicate VINS and the Add Vehicle Service
+	 * @scenario 1. Create policy with Two vehicles.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Try Add Vehicle with the same VIN witch already exist in the policy.
+	 * 4. Check Error about duplicate VIN.
+	 * 5. Add new vehicle with new VIN. Check the status.
+	 * 6. Try add the same vehicle one more time.
+	 * 7. Check if error is displaying.
+	 * Start PAS-11005
+	 * 8. Try add to expensive vehicle.
+	 * 9. Check if error is displaying.
+	 */
+		@Parameters({"state"})
+		@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+		@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-502", "PAS-11005"})
+		public void pas502_DuplicateVinAddVehicleService(@Optional("VA") String state) {
+
+			pas502_CheckDuplicateVinAddVehicleService(getPolicyType());
+		}
+
+	/**
+	 * @author Megha Gubbala
+	 * 1. create a policy with 2 ppa,1 conversion-van and 1 motor vehicle
+	 * 2. hit view vehicle servise to get order of all active vehicles
+	 * 3. create pended endorsement.
+	 * 2. add  one PPA vehicle through DXP servise.
+	 * 3. run delete vehicle service and delete vehicle using Oid
+	 * 4. verify response status should be pending removal
+	 * 5. then hit view vehicle servise again to get proper order of vehicle
+	 * 6. pending removal vehicle should be the 1st and then pending added vehicle and then rest of order will be same.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12246"})
+	public void pas12246_ViewVehiclePendingRemoval(@Optional("AZ") String state) {
+
+		pas12246_ViewVehiclePendingRemovalService(getPolicyType());
+	}
+
+	/**
 	 * @author Oleg Stasyuk
 	 * @name Validation of E2E flow in DXP
 	 * @scenario 1. Create a policy
@@ -1133,6 +1225,21 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	public void pas9546_maxVehicles(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas9546_maxVehiclesBody(softly)
+		);
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Validation of E2E flow in DXP
+	 * @scenario 1. see script body
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.AZ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14501"})
+	public void pas14501_garagingDifferent(@Optional("AZ") String state) {
+		assertSoftly(softly ->
+				pas14501_garagingDifferentBody(state, softly)
 		);
 	}
 
