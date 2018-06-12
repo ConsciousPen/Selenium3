@@ -2258,9 +2258,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		});
 		Dollar dxpPremium = new Dollar(rateResponse[0].actualAmt);
 
-		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.buttonPendedEndorsement.click();
-		assertThat(PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").getValue()).isEqualTo(PREMIUM_CALCULATED);
+		pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
 		policy.policyInquiry().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		assertThat(new Dollar(PremiumAndCoveragesTab.getActualPremium())).isEqualTo(dxpPremium);
@@ -2301,8 +2299,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		PolicyPremiumInfo[] rateResponse2 = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
 		Dollar dxpPremium2 = new Dollar(rateResponse2[0].actualAmt);
 
-		PolicySummaryPage.buttonPendedEndorsement.click();
-		assertThat(PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").getValue()).isEqualTo(PREMIUM_CALCULATED);
+		pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
+
 		policy.policyInquiry().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
@@ -2608,15 +2606,10 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			AAAEndorseResponse endorsementResponse = HelperCommon.createEndorsement(policyNumber, null);
 			assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
-			PolicyPremiumInfo[] endorsementRateResponse = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
-			softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
-			softly.assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
-			softly.assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
+			rateEndorsement(softly, policyNumber);
 
 			//Create pended endorsement
-			SearchPage.openPolicy(policyNumber);
-			PolicySummaryPage.buttonPendedEndorsement.click();
-			PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").verify.value(PREMIUM_CALCULATED);
+			pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
 			Tab.buttonBack.click();
 
 			//issue through service
@@ -3283,15 +3276,29 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		assertThat(addVehicle.oid).isNotEmpty();
 		String newVehicleOid = addVehicle.oid;
 
-		VehicleUpdateDto updateVehicleUsageRequest = new VehicleUpdateDto();
-		updateVehicleUsageRequest.vehicleOwnership = new VehicleOwnership();
-		updateVehicleUsageRequest.usage = "Pleasure";
-		updateVehicleUsageRequest.vehicleOwnership.ownership = "LSD";
-		updateVehicleUsageRequest.registeredOwner = true;
-		Vehicle updateVehicleUsageResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleUsageRequest);
-		assertThat(updateVehicleUsageResponse.usage).isEqualTo("Pleasure");
+		updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
 
-		PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+		String zipCodeOwnership = "23703";
+		String addressLine1Ownership = "4112 FORREST HILLS DR";
+		String addressLine2Ownership = "Apt. 202";
+		String cityOwnership = "PORTSMOUTH";
+		String stateOwnership = "VA";
+		String otherNameOwnership = "other name";
+		String secondNameOwnership = "Second Name";
+
+		//Update vehicle Leased Financed Info
+		VehicleUpdateDto updateVehicleLeasedFinanced = new VehicleUpdateDto();
+		updateVehicleLeasedFinanced.vehicleOwnership = new VehicleOwnership();
+		updateVehicleLeasedFinanced.vehicleOwnership.addressLine1 = addressLine1Ownership;
+		updateVehicleLeasedFinanced.vehicleOwnership.addressLine2 = addressLine2Ownership;
+		updateVehicleLeasedFinanced.vehicleOwnership.city = cityOwnership;
+		updateVehicleLeasedFinanced.vehicleOwnership.stateProvCd = stateOwnership;
+		updateVehicleLeasedFinanced.vehicleOwnership.postalCode = zipCodeOwnership;
+		updateVehicleLeasedFinanced.vehicleOwnership.ownership = "LSD";
+		updateVehicleLeasedFinanced.vehicleOwnership.name = otherNameOwnership;
+		updateVehicleLeasedFinanced.vehicleOwnership.secondName = secondNameOwnership;
+		VehicleUpdateResponseDto ownershipUpdateResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
+		assertThat(ownershipUpdateResponse.vehicleOwnership.ownership).isEqualTo("LSD");
 
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -3305,6 +3312,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		Dollar transportationExpense1 = getCoverage(2, AutoSSMetaData.PremiumAndCoveragesTab.TRANSPORTATION_EXPENSE.getLabel(), " (Included)", " (+$0.00)", " (+$21.00)");
 		String towingAndLabor1 = getCoverages(2, AutoSSMetaData.PremiumAndCoveragesTab.TOWING_AND_LABOR_COVERAGE.getLabel(), " (Included)", " (+$0.00)", "$");
 		Dollar excessElectronicEquipment1 = getCoverage(2, AutoSSMetaData.PremiumAndCoveragesTab.EXCESS_ELECTRONIC_EQUIPMENT.getLabel(), "");
+
+		premiumAndCoveragesTab.saveAndExit();
 
 		String coverageCd = "COMPDED";
 		String availableLimits = "100";
@@ -3609,6 +3618,10 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			coverageXproperties(softly, 5, coverageResponse13, "TOWINGLABOR", "Towing and Labor Coverage", availableLimitsChangeTowingNoCov, "No Coverage", "Per Disablement/Maximum", true, true);
 
 		});
+
+		endorsementRateAndBind(policyNumber);
+
+		secondEndorsementIssueCheck();
 	}
 
 	private void coverageXproperties(SoftAssertions softly, int coverageXnumber, PolicyCoverageInfo coverageResponse, String coverageCd, String coverageDesc, String availableLimits, String coverageLimitDisplay, String coverageType, boolean customerDisplay, boolean canChangeCoverage) {
@@ -4752,10 +4765,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		assertThat(endorsementDiscountsResponse.policyDiscounts.get(1).discountCd).isNotEmpty();
 
 		//Rate endorsement
-		PolicyPremiumInfo[] endorsementRateResponse = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
-		softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
-		softly.assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
-		softly.assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
+		rateEndorsement(softly, policyNumber);
 
 		//View premium after new vehicle was added
 		PolicyPremiumInfo[] viewPremiumInfoPendedEndorsementResponse = HelperCommon.viewEndorsementPremiums(policyNumber);
@@ -4778,10 +4788,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		PolicyCoverageInfo viewEndorsementCoveragesByVehicleResponse = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid);
 		Coverage filteredViewEndorsementCoverageResponse = viewEndorsementCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(compDedCovCd2)).findFirst().orElse(null);
 		assertThat(filteredViewEndorsementCoverageResponse.coverageLimit).isEqualTo("500");
-		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.buttonPendedEndorsement.click();
-		//BUG	PAS-14952 	Lets set coverages to Zero when needed
-		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").verify.value("Premium Calculated");
+		pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
 
 		//Bind endorsement
 		HelperCommon.endorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode());
@@ -4987,6 +4994,182 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		secondEndorsementIssueCheck();
 	}
 
+	protected void pas14316_LoanLeasedCovForLeasedOldVehicleBody(SoftAssertions softly, String ownershipType) {
+		mainApp().open();
+		//String policyNumber = "VASS952918542";
+
+		String policyNumber = getCopiedPolicy();
+
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+		//Create pended endorsement
+		AAAEndorseResponse response = HelperCommon.createEndorsement(policyNumber, endorsementDate);
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		//VIN Will need to be updated yearly to make the test functional
+		String purchaseDate = "2013-02-22";
+		String vin = "JF1GJAA64EH012557"; //2014 Subaru Impreza
+		//String vin = "JF1GPAT66FH237608"; //2015 Subaru Impreza
+
+		//Add vehicle with specific info
+		Vehicle vehicleAddRequest = new Vehicle();
+		vehicleAddRequest.purchaseDate = purchaseDate;
+		vehicleAddRequest.vehIdentificationNo = vin;
+		String newVehicleOid = vehicleAddWithCheck(policyNumber, vehicleAddRequest);
+
+		updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
+
+		rateEndorsement(softly, policyNumber);
+		//Add coverage check here
+		String coverageCdValue = "LOAN";
+		PolicyCoverageInfo endorsementCoverageResponseOwnedOldVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid);
+		Coverage endorsementCoverageResponseOwnedOldVehFiltered = endorsementCoverageResponseOwnedOldVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> coverageCdValue.equals(attribute.coverageCd)).findFirst().orElse(null);
+		loanLeaseCovPropertiesCheck(softly, endorsementCoverageResponseOwnedOldVehFiltered, "0", "No Coverage", false, false);
+
+		String zipCode = "23703";
+		String addressLine1 = "4112 FORREST HILLS DR";
+		String addressLine2 = "Apt. 202";
+		String city = "PORTSMOUTH";
+		String state = "VA";
+		String otherName = "other name";
+		String secondName = "Second Name";
+
+		//Update vehicle Leased Financed Info
+		VehicleUpdateDto updateVehicleLeasedFinanced = new VehicleUpdateDto();
+		updateVehicleLeasedFinanced.vehicleOwnership = new VehicleOwnership();
+		updateVehicleLeasedFinanced.vehicleOwnership.addressLine1 = addressLine1;
+		updateVehicleLeasedFinanced.vehicleOwnership.addressLine2 = addressLine2;
+		updateVehicleLeasedFinanced.vehicleOwnership.city = city;
+		updateVehicleLeasedFinanced.vehicleOwnership.stateProvCd = state;
+		updateVehicleLeasedFinanced.vehicleOwnership.postalCode = zipCode;
+		updateVehicleLeasedFinanced.vehicleOwnership.ownership = ownershipType;
+		updateVehicleLeasedFinanced.vehicleOwnership.name = otherName;
+		updateVehicleLeasedFinanced.vehicleOwnership.secondName = secondName;
+		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
+
+		rateEndorsement(softly, policyNumber);
+		PolicyCoverageInfo endorsementCoverageResponseLsdFinOldVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid);
+		Coverage endorsementCoverageResponseLsdFinOldVehFiltered = endorsementCoverageResponseLsdFinOldVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> coverageCdValue.equals(attribute.coverageCd)).findFirst().orElse(null);
+		loanLeaseCovPropertiesCheck(softly, endorsementCoverageResponseLsdFinOldVehFiltered, "0", "No Coverage", false, false);
+
+		endorsementRateAndBind(policyNumber);
+		PolicyCoverageInfo policyCoverageResponseLsdFinOldVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, newVehicleOid);
+		Coverage policyCoverageResponseLsdFinOldVehFiltered = policyCoverageResponseLsdFinOldVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> coverageCdValue.equals(attribute.coverageCd)).findFirst().orElse(null);
+		loanLeaseCovPropertiesCheck(softly, policyCoverageResponseLsdFinOldVehFiltered, "0", "No Coverage", false, false);
+
+		AAAEndorseResponse response2 = HelperCommon.createEndorsement(policyNumber, endorsementDate);
+		assertThat(response2.policyNumber).isEqualTo(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		VehicleUpdateDto updateVehicleOwned = new VehicleUpdateDto();
+		updateVehicleOwned.vehicleOwnership = new VehicleOwnership();
+		updateVehicleOwned.vehicleOwnership.ownership = "OWN";
+		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleOwned);
+
+		rateEndorsement(softly, policyNumber);
+		PolicyCoverageInfo endorsementCoverageResponseOwnedOldVeh2 = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid);
+		Coverage endorsementCoverageResponseOwnedOldVeh2Filtered = endorsementCoverageResponseOwnedOldVeh2.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> coverageCdValue.equals(attribute.coverageCd)).findFirst().orElse(null);
+		loanLeaseCovPropertiesCheck(softly, endorsementCoverageResponseOwnedOldVeh2Filtered, "0", "No Coverage", false, false);
+	}
+
+	protected void pas14316_LoanLeasedCovForFinancedNewVehicleBody(SoftAssertions softly, String ownershipType) {
+		mainApp().open();
+		//String policyNumber = "VASS952918542";
+
+		String policyNumber = getCopiedPolicy();
+
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+		//Create pended endorsement
+		AAAEndorseResponse response = HelperCommon.createEndorsement(policyNumber, endorsementDate);
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		//VIN Will need to be updated yearly to make the test functional
+		String purchaseDate = "2013-02-22";
+		//String vin = "JF1GJAA64EH012557"; //2014 Subaru Impreza
+		String vin = "JF1GPAT66FH237608"; //2015 Subaru Impreza
+
+		//Add vehicle with specific info
+		Vehicle vehicleAddRequest = new Vehicle();
+		vehicleAddRequest.purchaseDate = purchaseDate;
+		vehicleAddRequest.vehIdentificationNo = vin;
+		String newVehicleOid = vehicleAddWithCheck(policyNumber, vehicleAddRequest);
+
+		updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
+
+		rateEndorsement(softly, policyNumber);
+		//Add coverage check here
+		String coverageCdValue = "LOAN";
+		PolicyCoverageInfo endorsementCoverageResponseOwnedOldVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid);
+		Coverage endorsementCoverageResponseOwnedOldVehFiltered = endorsementCoverageResponseOwnedOldVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> coverageCdValue.equals(attribute.coverageCd)).findFirst().orElse(null);
+		loanLeaseCovPropertiesCheck(softly, endorsementCoverageResponseOwnedOldVehFiltered, "0", "No Coverage", false, false);
+
+		String zipCode = "23703";
+		String addressLine1 = "4112 FORREST HILLS DR";
+		String addressLine2 = "Apt. 202";
+		String city = "PORTSMOUTH";
+		String state = "VA";
+		String otherName = "other name";
+		String secondName = "Second Name";
+
+		//Update vehicle Leased Financed Info
+		VehicleUpdateDto updateVehicleLeasedFinanced = new VehicleUpdateDto();
+		updateVehicleLeasedFinanced.vehicleOwnership = new VehicleOwnership();
+		updateVehicleLeasedFinanced.vehicleOwnership.addressLine1 = addressLine1;
+		updateVehicleLeasedFinanced.vehicleOwnership.addressLine2 = addressLine2;
+		updateVehicleLeasedFinanced.vehicleOwnership.city = city;
+		updateVehicleLeasedFinanced.vehicleOwnership.stateProvCd = state;
+		updateVehicleLeasedFinanced.vehicleOwnership.postalCode = zipCode;
+		updateVehicleLeasedFinanced.vehicleOwnership.ownership = ownershipType;
+		updateVehicleLeasedFinanced.vehicleOwnership.name = otherName;
+		updateVehicleLeasedFinanced.vehicleOwnership.secondName = secondName;
+		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
+
+		rateEndorsement(softly, policyNumber);
+		PolicyCoverageInfo endorsementCoverageResponseLsdFinOldVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid);
+		Coverage endorsementCoverageResponseLsdFinOldVehFiltered = endorsementCoverageResponseLsdFinOldVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> coverageCdValue.equals(attribute.coverageCd)).findFirst().orElse(null);
+		loanLeaseCovPropertiesCheck(softly, endorsementCoverageResponseLsdFinOldVehFiltered, "0", "No Coverage", true, true);
+
+		PolicyCoverageInfo updateLoanLeaseCoverage = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, coverageCdValue, "1");
+		Coverage updateLoanLeaseCoverageFiltered = updateLoanLeaseCoverage.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> coverageCdValue.equals(attribute.coverageCd)).findFirst().orElse(null);
+		loanLeaseCovPropertiesCheck(softly, updateLoanLeaseCoverageFiltered, "1", "Yes", true, true);
+		//BUG Status is not reset when updating coverages
+		pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
+
+		rateEndorsement(softly, policyNumber);
+
+		endorsementRateAndBind(policyNumber);
+		PolicyCoverageInfo policyCoverageResponseLsdFinOldVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, newVehicleOid);
+		Coverage policyCoverageResponseLsdFinOldVehFiltered = policyCoverageResponseLsdFinOldVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> coverageCdValue.equals(attribute.coverageCd)).findFirst().orElse(null);
+		loanLeaseCovPropertiesCheck(softly, policyCoverageResponseLsdFinOldVehFiltered, "1", "Yes", true, true);
+
+		AAAEndorseResponse response2 = HelperCommon.createEndorsement(policyNumber, endorsementDate);
+		assertThat(response2.policyNumber).isEqualTo(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		VehicleUpdateDto updateVehicleOwned = new VehicleUpdateDto();
+		updateVehicleOwned.vehicleOwnership = new VehicleOwnership();
+		updateVehicleOwned.vehicleOwnership.ownership = "OWN";
+		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleOwned);
+
+		rateEndorsement(softly, policyNumber);
+		PolicyCoverageInfo endorsementCoverageResponseOwnedOldVeh2 = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid);
+		Coverage endorsementCoverageResponseOwnedOldVeh2Filtered = endorsementCoverageResponseOwnedOldVeh2.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> coverageCdValue.equals(attribute.coverageCd)).findFirst().orElse(null);
+		loanLeaseCovPropertiesCheck(softly, endorsementCoverageResponseOwnedOldVeh2Filtered, "0", "No Coverage", false, false);
+	}
+
+	private void loanLeaseCovPropertiesCheck(SoftAssertions softly, Coverage endorsementCoverageResponseOwnedOldVeh2Filtered, String coverageLimit, String coverageDisplayLimit, boolean customerDisplayed, boolean canChangeCoverage) {
+		softly.assertThat(endorsementCoverageResponseOwnedOldVeh2Filtered.coverageCd).isEqualTo("LOAN");
+		softly.assertThat(endorsementCoverageResponseOwnedOldVeh2Filtered.coverageDescription).isEqualTo("Auto Loan/Lease Coverage");
+		softly.assertThat(endorsementCoverageResponseOwnedOldVeh2Filtered.coverageLimit).isEqualTo(coverageLimit);
+		softly.assertThat(endorsementCoverageResponseOwnedOldVeh2Filtered.coverageLimitDisplay).isEqualTo(coverageDisplayLimit);
+		softly.assertThat(endorsementCoverageResponseOwnedOldVeh2Filtered.coverageType).isEqualTo("None");
+		softly.assertThat(endorsementCoverageResponseOwnedOldVeh2Filtered.customerDisplayed).isEqualTo(customerDisplayed);
+		softly.assertThat(endorsementCoverageResponseOwnedOldVeh2Filtered.canChangeCoverage).isEqualTo(canChangeCoverage);
+	}
+
 	private AttributeMetadata getAttributeMetadata(AttributeMetadata[] metaDataResponse, String fieldName, boolean enabled, boolean visible, boolean required, String maxLength) {
 		AttributeMetadata metaDataFieldResponse = Arrays.stream(metaDataResponse).filter(attributeMetadata -> fieldName.equals(attributeMetadata.attributeName)).findFirst().orElse(null);
 		assertThat(metaDataFieldResponse.enabled).isEqualTo(enabled);
@@ -5113,10 +5296,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		softly.assertThat(responseAddVehicleError.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.MAX_NUMBER_OF_VEHICLES.getMessage());
 
 		//Rate endorsement
-		PolicyPremiumInfo[] endorsementRateResponse = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
-		softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
-		softly.assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
-		softly.assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
+		rateEndorsement(softly, policyNumber);
 
 		//Bind endorsement
 		HelperCommon.endorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode());
@@ -5212,10 +5392,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		//PAS-14501 end
 
 		//Rate endorsement
-		PolicyPremiumInfo[] endorsementRateResponse = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
-		softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
-		softly.assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
-		softly.assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
+		rateEndorsement(softly, policyNumber);
 
 		//Bind endorsement
 		HelperCommon.endorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode());
@@ -5227,6 +5404,20 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		policy.updateRulesOverride().start();
 		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRowContains(RULE_NAME.getLabel(), "200021").getCell(1)).isAbsent();
 		UpdateRulesOverrideActionTab.btnCancel.click();
+	}
+
+	private void rateEndorsement(SoftAssertions softly, String policyNumber) {
+		PolicyPremiumInfo[] endorsementRateResponse = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
+		softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
+		softly.assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
+		softly.assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
+	}
+
+	private void pas14952_checkEndorsementStatusWasReset(String policyNumber, String endorsementStatus) {
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		//BUG	PAS-14952 	Lets set coverages to Zero when needed
+		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").verify.value(endorsementStatus);
 	}
 
 	private String addVehicleWithChecks(String policyNumber, String purchaseDate, String vin, boolean allowedToAddVehicle) {
