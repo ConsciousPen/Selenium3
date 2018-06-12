@@ -916,7 +916,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		assertThat(CollectionUtils.isEmpty(response.vehicleList)).isTrue();
 	}
 
-	protected void pas9337_CheckStartEndorsementInfoServerResponseErrorForEffectiveDate(PolicyType policyType) {
+	protected void pas9337_CheckStartEndorsementInfoServerResponseErrorForEffectiveDate() {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy(getPolicyTD());
@@ -4751,6 +4751,10 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(responseDriverAssignment[1].vehicleOid).isNotEmpty();
 			softly.assertThat(responseDriverAssignment[1].driverOid).isNotEmpty();
 			softly.assertThat(responseDriverAssignment[1].relationshipType).isEqualTo("occasional");
+		} else {
+			ErrorResponseDto responseDriverAssignment = HelperCommon.viewEndorsementAssignmentsError(policyNumber, 422);
+			softly.assertThat(responseDriverAssignment.errorCode).isEqualTo(ErrorDxpEnum.Errors.OPERATION_NOT_APPLICABLE_FOR_THE_STATE.getCode());
+			softly.assertThat(responseDriverAssignment.message).isEqualTo(ErrorDxpEnum.Errors.OPERATION_NOT_APPLICABLE_FOR_THE_STATE.getMessage());
 		}
 
 		//update coverages
@@ -4777,12 +4781,9 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		//update coverages
 		String compDedCovCd2 = "COMPDED";
 		String compDedAvailableLimits2 = "500";
-		PolicyCoverageInfo coveragCompDedResponse2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, compDedCovCd2, compDedAvailableLimits2);
-		Coverage filteredUpdateCoverageResponse2 = coveragCompDedResponse2.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(compDedCovCd2)).findFirst().orElse(null);
+		PolicyCoverageInfo coverageCompDedResponse2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, compDedCovCd2, compDedAvailableLimits2);
+		Coverage filteredUpdateCoverageResponse2 = coverageCompDedResponse2.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(compDedCovCd2)).findFirst().orElse(null);
 		assertThat(filteredUpdateCoverageResponse2.coverageLimit).isEqualTo("500");
-		mainApp().reopen();
-		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.buttonPendedEndorsement.click();
 
 		//View endorsement Coverage
 		PolicyCoverageInfo viewEndorsementCoveragesByVehicleResponse = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid);
@@ -4808,7 +4809,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		//BUG PAS-13652 When Endorsement screen shows Endorsement Date field twice, if creating endorsement after endorsmeent created/issued through service
+		//BUG PAS-13652 When Endorsement screen shows Endorsement Date field twice, if creating endorsement after endorsement created/issued through service
 		//BUG PAS-13651 Instantiate state specific coverages
 		secondEndorsementIssueCheck();
 

@@ -10,9 +10,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.*;
-
-import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
-import aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.testng.Assert;
@@ -53,6 +50,8 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueDiscountPreConditions;
+import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
+import aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import toolkit.config.PropertyProvider;
@@ -930,7 +929,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled();
 
 		//PriorBi
-		pas232_eValuePriorBiConfigurationDependencyCheck("$15,000/$30,000", "$25,000/$50,000");
+		pas232_eValuePriorBiConfigurationDependencyCheck("None", "$15,000/$30,000");
 		pas232_eValuePriorBiNoneConfigurationDependencyCheck();
 	}
 
