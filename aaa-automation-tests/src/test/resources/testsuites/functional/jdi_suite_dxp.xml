@@ -78,6 +78,8 @@
                     <include name="pas12769_ViewVehicleLevelCoveragesOneVehicle"/>
                     <include name="pas10352_ManageVehicleCoverageUpdateCoverage"/>
                     <include name="pas13353_LoanLeaseCoverage"/>
+                    <include name="pas14316_LoanLeasedCovForLeasedOldVehicle"/>
+                    <include name="pas14316_LoanLeasedCovForFinancedNewVehicle"/>
                     <include name="pas13994_UpdateDriverAssignmentServiceRule1"/>
                     <include name="pas13994_UpdateDriverAssignmentServiceRule2"/>
                     <include name="pas13994_UpdateDriverAssignmentServiceRule3"/>
