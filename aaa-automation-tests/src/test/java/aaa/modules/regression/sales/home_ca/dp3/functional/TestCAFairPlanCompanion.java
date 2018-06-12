@@ -122,6 +122,34 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
         myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
     }
 
+    /**
+     * @scenario
+     * 1. Create an HO3 policy.
+     * 2. Create a DP3 policy w/ FPCECA Endorsement
+     * 3. On Policy Summary Page, select "Take Action" > "OnDemandDocs"
+     * 4. On Doc Selection Page, select 62 65000 CA 05012013 doc.
+     * 5. Verify document contains correct FP verbage.
+     * @param state
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Send FAIR Plan data to DCS when rendering EOI document")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-14675")
+    public void PAS_14675_IsFPCECAInEOI(@Optional("") String state) {
+
+        defaultPolicyData = buildTD(defaultPolicyData);
+
+        setupHO3Policy(ho3TestData);
+
+        // Open App and Initiate DP3 Quote
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(defaultPolicyData, EndorsementTab.class, false);
+
+        // Add FPCECA Endorsement and complete Policy
+        myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
+        myHelper.completeFillAndVerifyFAIRPlanSign(policy, defaultPolicyData, EndorsementTab.class, DocumentsTab.class, getPolicyType().getShortName());
+
+    }
+
     private TestData buildTD(TestData in_defaultPolicyData) {
         in_defaultPolicyData = getPolicyTD();
         TestData adjustedDP3ApplicantData = getTestSpecificTD("ApplicantTab_DP3").resolveLinks();

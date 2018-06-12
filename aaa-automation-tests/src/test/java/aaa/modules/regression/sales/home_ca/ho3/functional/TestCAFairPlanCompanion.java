@@ -117,7 +117,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
     /**
      * @scenario
      * 1. Create a HO3 policy w/ FPCECA Endorsement
-     * 2. On Policy Summary Page, select "Take Action" > "Generate Docs"
+     * 2. On Policy Summary Page, select "Take Action" > "OnDemandDocs"
      * 3. On Doc Selection Page, select 62 65000 CA 05012013 doc.
      * 4. Verify document contains correct FP verbage.
      * @param state
@@ -137,7 +137,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
 
         // Add FPCECA Endorsement and complete Policy
         myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
-        myHelper.completeFillAndVerifyFAIRPlanSign(defaultPolicyData, EndorsementTab.class, DocumentsTab.class, getPolicyType().getShortName());
+        myHelper.completeFillAndVerifyFAIRPlanSign(policy, defaultPolicyData, EndorsementTab.class, DocumentsTab.class, getPolicyType().getShortName());
 
     }
 }
