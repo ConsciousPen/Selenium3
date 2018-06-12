@@ -64,7 +64,8 @@ public class MembershipMockData {
 			return membershipNumbersSet.stream().findFirst().get();
 		}
 		String membershipNumber = getMembershipNumberForAvgAnnualERSperMember(membershipNumbersSet, policyEffectiveDate, avgAnnualERSperMember);
-		assertThat(membershipNumber).as("No valid membership number was found for avgAnnualERSperMember field").isNotNull();
+		assertThat(membershipNumber).as("No valid membership number was found for effectiveDate=%1$s, memberPersistency=%2$s and avgAnnualERSperMember=%3$s fields",
+				policyEffectiveDate, memberPersistency, avgAnnualERSperMember).isNotNull();
 		return membershipNumber;
 	}
 
