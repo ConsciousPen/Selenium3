@@ -62,7 +62,6 @@
                     <include name="pas14463_ViewDriverService"/>
                     <include name="pas482_ViewDriverServiceOrderOfDriver"/>
                     <include name="pas478_AddDrivers"/>
-
                 </methods>
             </class>
         </classes>
