@@ -57,6 +57,7 @@ public class HelperCommon {
 	private static final String DXP_POLICIES_ENDORSEMENT_VEHICLES = "/api/v1/policies/%s/endorsement/vehicles";
 	private static final String DXP_POLICIES_ENDORSEMENT_VEHICLES_OID = "/api/v1/policies/%s/endorsement/vehicles/%s";
 
+
 	private static final String DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS = "/api/v1/policies/%s/endorsement/assignments";
 
 	private static final String DXP_POLICIES_POLICY_PREMIUMS = "/api/v1/policies/%s/premiums";
@@ -81,6 +82,7 @@ public class HelperCommon {
 	private static final String DXP_POLICIES_POLICY_DISCOUNTS = "/api/v1/policies/%s/discounts";
 	private static final String DXP_POLICIES_ENDORSEMENT_DISCOUNTS = "/api/v1/policies/%s/endorsement/discounts";
 
+	private static final String DXP_POLICIES_ENDORSEMENT_DRIVER= "/api/v1/policies/%s/endorsement/drivers";
 	private static final String DXP_BILLING_CURRENT_BILL = "/api/v1/billing/$s/current-bill";
 
 	static {
@@ -211,6 +213,12 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, request, Vehicle.class, 201);
 	}
 
+	public static DriversDto executeEndorsementAddDriver(String policyNumber, AddDriverRequest request) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVER, policyNumber));
+
+		return runJsonRequestPostDxp(requestUrl,request,DriversDto.class, 201);
+	}
+
 	public static Vehicle executeEndorsementAddVehicle(String policyNumber, Vehicle request) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES, policyNumber));
 		return runJsonRequestPostDxp(requestUrl, request, Vehicle.class, 201);
@@ -250,14 +258,14 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, request, DriverAssignmentDto[].class, 200);
 	}
 
-	public static DriversDto[] viewPolicyDrivers(String policyNumber) {
+	public static ViewDriversResponse viewPolicyDrivers(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_DRIVERS, policyNumber));
-		return runJsonRequestGetDxp(requestUrl, DriversDto[].class);
+		return runJsonRequestGetDxp(requestUrl, ViewDriversResponse.class);
 	}
 
-	public static DriversDto[] viewEndorsementDrivers(String policyNumber) {
+	public static ViewDriversResponse viewEndorsementDrivers(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS, policyNumber));
-		return runJsonRequestGetDxp(requestUrl, DriversDto[].class);
+		return runJsonRequestGetDxp(requestUrl, ViewDriversResponse.class);
 	}
 
 	static PolicyCoverageInfo viewPolicyCoverages(String policyNumber) {

@@ -96,7 +96,6 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				PurchaseTab.class.getSimpleName(), td.getTestData(PurchaseTab.class.getSimpleName())
 		);
 
-		//		if (BillingConstants.PaymentPlan.MORTGAGEE_BILL.equals(openLPolicy.getPolicyDiscountInformation().getPaymentPlan())) {
 		TestData mortgageeTabData = DataProviderFactory.dataOf(
 				new MortgageesTab().getMetaKey(), DataProviderFactory.dataOf(
 						HomeSSMetaData.MortgageesTab.MORTGAGEE.getLabel(), "Yes",
@@ -109,12 +108,13 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 								HomeSSMetaData.MortgageesTab.MortgageeInformation.LOAN_NUMBER.getLabel(), "123456789"))
 		);
 		policyIssueData = TestDataHelper.merge(mortgageeTabData, policyIssueData);
-		//		}
 
-		// merge Documents to bind
 		LinkedHashMap<String, String> documentsToBindData = new LinkedHashMap<>();
 		if ("Central".equals(openLPolicy.getPolicyDiscountInformation().getFireAlarmType())) {
 			documentsToBindData.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().getProofCentralFireAlarm()));
+		}
+		if ("Central".equals(openLPolicy.getPolicyDiscountInformation().getTheftAlarmType())) {
+			documentsToBindData.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().getProofCentralTheftAlarm()));
 		}
 		if (isVisibleProofOfPEHCR(openLPolicy)) {
 			documentsToBindData.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().getProofOfPEHCR()));
@@ -720,6 +720,9 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			switch (carrierCode) {
 				case "CSAA Affinity Insurance Company (formerly Keystone Insurance Company) ":
 					immediatePriorCarrier = "CSAA Affinity Insurance Company";
+					break;
+				case "CSAA General Insurance Company":
+					immediatePriorCarrier = "AAA Insurance";
 					break;
 				default:
 					immediatePriorCarrier = carrierCode;

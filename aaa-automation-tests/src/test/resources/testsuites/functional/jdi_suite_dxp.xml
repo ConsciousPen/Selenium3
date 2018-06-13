@@ -59,6 +59,9 @@
                     <include name="pas9546_maxVehicles"/>
                     <include name="pas488_VehicleDelete"/>
                     <include name="pas12246_ViewVehiclePendingRemoval"/>
+                    <include name="pas14463_ViewDriverService"/>
+                    <include name="pas482_ViewDriverServiceOrderOfDriver"/>
+                    <include name="pas478_AddDrivers"/>
                 </methods>
             </class>
         </classes>
@@ -78,6 +81,8 @@
                     <include name="pas12769_ViewVehicleLevelCoveragesOneVehicle"/>
                     <include name="pas10352_ManageVehicleCoverageUpdateCoverage"/>
                     <include name="pas13353_LoanLeaseCoverage"/>
+                    <include name="pas14316_LoanLeasedCovForLeasedOldVehicle"/>
+                    <include name="pas14316_LoanLeasedCovForFinancedNewVehicle"/>
                     <include name="pas13994_UpdateDriverAssignmentServiceRule1"/>
                     <include name="pas13994_UpdateDriverAssignmentServiceRule2"/>
                     <include name="pas13994_UpdateDriverAssignmentServiceRule3"/>
@@ -98,8 +103,9 @@
             </class>
         </classes>
     </test>
-    <test name="GreenButtonServicePA" parallel="methods" thread-count="1024">
-        <parameter name="state" value="PA"/>
+    <!--Disabled the test to check BackwardCompatibility for all states-->
+    <test name="GreenButtonServiceNY" parallel="methods" thread-count="1024">
+        <parameter name="state" value="NY"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
@@ -167,7 +173,7 @@
         </classes>
     </test>
     <test name="DXP E2E" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA"/>
+        <parameter name="state" value="VA, UT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
@@ -178,8 +184,7 @@
     </test>
     <test name="DXP E2E BCT" parallel="methods" thread-count="1024">
         <!--<parameter name="state" value="UT"/> - not in the Golden DB Dump-->
-        <!--<parameter name="state" value="PA, NJ"/> - configured not to allow endorsements-->
-        <parameter name="state" value="VA, KY, AZ, CO, CT, DC, DE, ID, IN, KS, MD, MT, NV, NY, OH, OK, OR, SD, WV, WY"/>
+        <parameter name="state" value="VA, KY, AZ, CO, CT, DC, DE, ID, IN, KS, MD, MT, NV, NY, OH, OK, OR, SD, WV, WY, PA, NJ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
@@ -213,9 +218,9 @@
         </classes>
     </test>
     <test name="pas9495_miniServicesDiscounts">
+        <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDiscounts">
-                <parameter name="state" value="VA"/>
                 <methods>
                     <include name="pas9495_miniServicesDiscounts"/>
                 </methods>
@@ -223,9 +228,9 @@
         </classes>
     </test>
     <test name="pas14501_garagingDifferent">
+        <parameter name="state" value="VA, AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDiscounts">
-                <parameter name="state" value="VA, AZ"/>
                 <methods>
                     <include name="pas14501_garagingDifferent"/>
                 </methods>
