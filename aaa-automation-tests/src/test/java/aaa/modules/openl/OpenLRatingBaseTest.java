@@ -51,8 +51,8 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		}
 	}
 	
-	@DataProvider(name = DATA_PROVIDER_NAME, parallel = true)
-	public Object[][] getOpenLTestData(ITestContext context) throws Throwable {
+	@DataProvider(name = DATA_PROVIDER_NAME)
+	public Object[][] getOpenLTestData(ITestContext context) {
 		OpenLTestInfo<P> testInfo = openLTestsManager.getTestInfo(context);
 		if (testInfo.isFailed()) {
 			Assert.fail("OpenL test preparation has been failed", testInfo.getException());
@@ -86,8 +86,6 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		log.info("Premium calculation verification initiated for test {} and expected premium {} from \"{}\" OpenL file", policyNumber, openLPolicy.getExpectedPremium(), filePath);
 		Dollar actualPremium = createAndRateQuote(openLPolicy);
 		assertThat(actualPremium).as("Total premium for policy number %s is not equal to expected one", openLPolicy.getNumber()).isEqualTo(openLPolicy.getExpectedPremium());
-		log.info("Premium calculation verification for test {} with policy #{} has been {}",
-				policyNumber, Tab.labelPolicyNumber.getValue(), actualPremium.equals(openLPolicy.getExpectedPremium()) ? "passed" : "failed");
 		Tab.buttonSaveAndExit.click();
 	}
 	
