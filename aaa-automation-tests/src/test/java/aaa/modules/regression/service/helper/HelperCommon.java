@@ -58,6 +58,7 @@ public class HelperCommon {
 	private static final String DXP_POLICIES_ENDORSEMENT_VEHICLES = "/api/v1/policies/%s/endorsement/vehicles";
 	private static final String DXP_POLICIES_ENDORSEMENT_VEHICLES_OID = "/api/v1/policies/%s/endorsement/vehicles/%s";
 
+
 	private static final String DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS = "/api/v1/policies/%s/endorsement/assignments";
 
 	private static final String DXP_POLICIES_POLICY_PREMIUMS = "/api/v1/policies/%s/premiums";
@@ -81,6 +82,9 @@ public class HelperCommon {
 
 	private static final String DXP_POLICIES_POLICY_DISCOUNTS = "/api/v1/policies/%s/discounts";
 	private static final String DXP_POLICIES_ENDORSEMENT_DISCOUNTS = "/api/v1/policies/%s/endorsement/discounts";
+
+	private static final String DXP_POLICIES_ENDORSEMENT_DRIVER= "/api/v1/policies/%s/endorsement/drivers";
+
 
 	static {
 		PRETTY_PRINT_OBJECT_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
@@ -208,6 +212,12 @@ public class HelperCommon {
 		request.purchaseDate = purchaseDate;
 		request.vehIdentificationNo = vin;
 		return runJsonRequestPostDxp(requestUrl, request, Vehicle.class, 201);
+	}
+
+	public static DriversDto executeEndorsementAddDriver(String policyNumber, AddDriverRequest request) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVER, policyNumber));
+
+		return runJsonRequestPostDxp(requestUrl,request,DriversDto.class, 201);
 	}
 
 	public static Vehicle executeEndorsementAddVehicle(String policyNumber, Vehicle request) {
