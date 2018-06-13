@@ -1,0 +1,50 @@
+  TestData_Future_Date_PA: {
+    InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_FutureDate_PA'
+  }
+
+  InitiateRenewalEntryActionTab_FutureDate_PA: {
+    Product Name: 'Homeowners Signature Series',
+    Policy Type: 'DP3',
+    Previous Policy Number: '$<rx:\d{10}>',
+    Previous Source System: MAIG,
+    Risk State: PA,
+    Renewal Effective Date: '$<today+71d:MM/dd/yyyy>',
+    Renewal Policy Premium: 0,
+    Policy Term: Annual,
+    Enrolled in Autopay: 'No',
+    Legacy policy had Multi-Policy discount: 'Yes'
+  }
+
+  TestData_Past_Date_PA: {
+    InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_PastDate_PA'
+  }
+
+  InitiateRenewalEntryActionTab_PastDate_PA: {
+    Product Name: 'Homeowners Signature Series',
+    Policy Type: 'DP3',
+    Previous Policy Number: '$<rx:\d{10}>',
+    Previous Source System: MAIG,
+    Risk State: PA,
+    Renewal Effective Date: '$<today-366d:MM/dd/yyyy>',
+    Renewal Policy Premium: 0,
+    Policy Term: Annual,
+    Enrolled in Autopay: 'No',
+    Legacy policy had Multi-Policy discount: 'Yes'
+  }
+
+  TestData_Within_Timeline_PA: {
+    InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_Within_Timeline_PA'
+  }
+
+  InitiateRenewalEntryActionTab_Within_Timeline_PA: {
+    Product Name: 'Homeowners Signature Series',
+    Policy Type: 'DP3',
+    Previous Policy Number: '$<rx:\d{10}>',
+    Previous Source System: MAIG,
+    Risk State: PA,
+    Renewal Effective Date: '$<today+70d:MM/dd/yyyy>',
+    Renewal Policy Premium: 0,
+    Policy Term: Annual,
+    Enrolled in Autopay: 'No',
+    Legacy policy had Multi-Policy discount: 'Yes'
+  }
