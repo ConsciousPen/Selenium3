@@ -240,7 +240,7 @@
     <test name="pas13663_CurrentBillServiceVA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesBilling">
                 <methods>
                     <include name="pas13663_CurrentBillServiceMonthly"/>
                     <include name="pas13663_CurrentBillServiceQuarterly"/>
