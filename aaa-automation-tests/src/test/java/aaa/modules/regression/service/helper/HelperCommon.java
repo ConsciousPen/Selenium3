@@ -297,7 +297,6 @@ public class HelperCommon {
 		return runJsonRequestPatchDxp(requestUrl, request, PolicyCoverageInfo.class);
 	}
 
-
 	public static PolicyPremiumInfo[] viewPolicyPremiums(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_POLICY_PREMIUMS, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, PolicyPremiumInfo[].class);
@@ -365,7 +364,6 @@ public class HelperCommon {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_RATE, policyNumber));
 		return runJsonRequestPostDxp(requestUrl, null, ErrorResponseDto.class, 422);
 	}
-
 
 	public static String endorsementBind(String policyNumber, String authorizedBy, int status) {
 		AAABindEndorsementRequestDTO request = new AAABindEndorsementRequestDTO();
