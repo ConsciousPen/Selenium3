@@ -63,6 +63,51 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 	protected PurchaseTab purchaseTab = new PurchaseTab();
 	protected PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 
+
+	public void verifyStoreStubRenewal() {
+		String vehYear = "2018";
+		String vehMake = "BUICK";
+		String vehModel = "ENVISION";
+		String vehSeries = "ENVISION";
+		String vehBodyStyle = "SUV";
+
+		TestData testData = getPolicyTD()
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), "ZZYKN3DD8E0344466")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.YEAR.getLabel()), vehYear)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MAKE.getLabel()), vehMake)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MODEL.getLabel()), vehModel)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
+
+		//1. Create a Policy with specific test data
+		String policyNumber = createPreconds(testData);
+		String newBusinessCurrentVinBeforeNull = DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get();
+		assertThat(newBusinessCurrentVinBeforeNull).isNotNull().isNotEmpty();
+		log.info("Curren Vin # is : {}", newBusinessCurrentVinBeforeNull);
+		//2. Clear the Current VIN Stub Stored at NB
+		assertThat(DBService.get().executeUpdate(String.format(VehicleQueries.NULL_SPECIFIC_POLICY_STUB,newBusinessCurrentVinBeforeNull))).isGreaterThan(0);
+		Map<String,String> allNewBusinessValues = DBService.get().getRow(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_WITH_SYMBOLS_ON_QUOTE, policyNumber));
+		String newBusinessComp = allNewBusinessValues.get("COMPSYMBOL");
+		String newBusinessColl = allNewBusinessValues.get("COLLSYMBOL");
+		assertThat(allNewBusinessValues.get("CURRENTVIN")).isNullOrEmpty();
+
+		log.info("New business compsymbol: {}, and collsymbol: {}", newBusinessComp, newBusinessColl);
+
+		//3. Generate Renewal Image
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
+
+		Map<String,String> allRenewalVersionValues = DBService.get().getRow(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_WITH_SYMBOLS_ON_QUOTE, policyNumber));
+		String renewalVersionComp = allRenewalVersionValues.get("COMPSYMBOL");
+		String renewalVersionColl = allRenewalVersionValues.get("COLLSYMBOL");
+		String renewalVersionCurrentVin = allRenewalVersionValues.get("CURRENTVIN");
+
+		//6. Verify VIN Stub was Stored at renewal in the DB
+		assertThat(renewalVersionComp).isEqualTo(newBusinessComp);
+		assertThat(renewalVersionColl).isEqualTo(newBusinessColl);
+		assertThat(renewalVersionCurrentVin).isEqualTo(newBusinessCurrentVinBeforeNull);
+	}
+
 	protected void vehicleTypeRegular(TestData testData) {
 
 		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);

@@ -16,7 +16,6 @@ import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -131,7 +130,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 
 
 	/**
-	 @author Chris Johns
+	 @author Chris Johns / Viktor Petrenko
 	 @scenario Test Distinct Match with NO VIN Entered
 	 1. Create Auto Policy where no VIN is entered and the user manually selects year/Make/Model/Series/Body Style. Ensure the Dropdown selections match to only one VIN in VIN Table
 	 2. After Policy Creation Delete the saved VIN Stub From DB (   PAS-12881 DONE  now stores vin stub on all quotes)
@@ -145,59 +144,9 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-12877")
 	public void pas12877_StoreStubRenewal(@Optional("CA") String state) {
-
-		String vehYear = "2018";
-		String vehMake = "BUICK";
-		String vehModel = "ENVISION";
-		String vehSeries = "ENVISION";
-		String vehBodyStyle = "SUV";
-
-		TestData testData = getPolicyTD()
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "ZZYKN3DD8E0344466")
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.YEAR.getLabel()), vehYear)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MAKE.getLabel()), vehMake)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MODEL.getLabel()), vehModel)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
-
-		//1. Create a Policy with specific test data
-		String policyNumber = createPreconds(testData);
-		String newBusinessCurrentVinBeforeNull = DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get();
-		assertThat(newBusinessCurrentVinBeforeNull).isNotNull().isNotEmpty();
-		log.info("Curren Vin # is : {}", newBusinessCurrentVinBeforeNull);
-		//2. Clear the Current VIN Stub Stored at NB
-		assertThat(DBService.get().executeUpdate(String.format(VehicleQueries.NULL_SPECIFIC_POLICY_STUB,newBusinessCurrentVinBeforeNull))).isGreaterThan(0);
-		Map<String,String> allNewBusinessValues = DBService.get().getRow(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_WITH_SYMBOLS_ON_QUOTE, policyNumber));
-		String newBusinessComp = allNewBusinessValues.get("COMPSYMBOL");
-		String newBusinessColl = allNewBusinessValues.get("COLLSYMBOL");
-		assertThat(allNewBusinessValues.get("CURRENTVIN")).isNullOrEmpty();
-
-		log.info("New business compsymbol: {}, and collsymbol: {}", newBusinessComp, newBusinessColl);
-
-		//3. Generate Renewal Image
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
-
-		Map<String,String> allRenewalVersionValues = DBService.get().getRow(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_WITH_SYMBOLS_ON_QUOTE, policyNumber));
-		String renewalVersionComp = allRenewalVersionValues.get("COMPSYMBOL");
-		String renewalVersionColl = allRenewalVersionValues.get("COLLSYMBOL");
-		String renewalVersionCurrentVin = allRenewalVersionValues.get("CURRENTVIN");
-
-		//4. Go back to MainApp, find created policy, create Renewal image
-		//searchForPolicy(policyNumber);
-
-		//5. Open Renewal and calculate premium
-		//PolicySummaryPage.buttonRenewals.click();
-		//policy.dataGather().start();
-		//NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		//premiumAndCoveragesTab.calculatePremium();
-		//PremiumAndCoveragesTab.buttonSaveAndExit.click();
-
-		//6. Verify VIN Stub was Stored at renewal in the DB
-		assertThat(renewalVersionComp).isEqualTo(newBusinessComp);
-		assertThat(renewalVersionColl).isEqualTo(newBusinessColl);
-		assertThat(renewalVersionCurrentVin).isEqualTo(newBusinessCurrentVinBeforeNull);
+		verifyStoreStubRenewal();
 	}
+
 	/**
 	 @author Chris Johns
 	 @scenario Multiple Matches for manual selections, with a VIN entered (VIN returns no match/junk vin) - COMP SYMBOL MATCH
@@ -213,7 +162,6 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-12877")
 	public void pas12877_StoreStubRenewal_COMP(@Optional("CA") String state) {
-
 		String vehYear = "2018";
 		String vehMake = "SUBARU";
 		String vehModel = "WRX";
@@ -221,12 +169,12 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		String vehBodyStyle = "SEDAN";
 
 		TestData testData = getPolicyTD()
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "ZZYKN3DD8E0344466")
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.YEAR.getLabel()), vehYear)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MAKE.getLabel()), vehMake)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MODEL.getLabel()), vehModel)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), "ZZYKN3DD8E0344466")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.YEAR.getLabel()), vehYear)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MAKE.getLabel()), vehMake)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MODEL.getLabel()), vehModel)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
 
 		//1. Create a Policy with specific test data
 		String policyNumber = createPreconds(testData);
@@ -271,21 +219,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		assertThat(autoRenewalVersionComp).isEqualTo(newBusinessComp);
 		assertThat(autoRenewalVersionColl).isEqualTo(newBusinessColl);
 		assertThat(autoRenewalVersionCurrentVin).isEqualTo(newBusinessCurrentVinBeforeNull);
-
-		//4. Go back to MainApp, find created policy, create Renewal image
-		//searchForPolicy(policyNumber);
-
-		//5. Open Renewal and calculate premium
-		//PolicySummaryPage.buttonRenewals.click();
-		//policy.dataGather().start();
-		//NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		//premiumAndCoveragesTab.calculatePremium();
-		//PremiumAndCoveragesTab.buttonSaveAndExit.click();
-
-		////6. Verify VIN Stub was Stored at renewal in the DB
-		//String expectedSTUB = "5TFEZ5CN&G";
-		//assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNotNull().isEqualTo(expectedSTUB);
-	}
+		}
 
 	/**
 	 @author Chris Johns
@@ -310,12 +244,12 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		String vehBodyStyle = "SEDAN";
 
 		TestData testData = getPolicyTD()
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "ZZYKN3DD8E0344466")
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.YEAR.getLabel()), vehYear)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MAKE.getLabel()), vehMake)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MODEL.getLabel()), vehModel)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), "ZZYKN3DD8E0344466")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.YEAR.getLabel()), vehYear)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MAKE.getLabel()), vehMake)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MODEL.getLabel()), vehModel)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
 
 		//1. Create a Policy with specific test data
 		String policyNumber = createPreconds(testData);
@@ -358,23 +292,6 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		assertThat(autoRenewalVersionComp).isNotEqualTo(newBusinessCompNoCompMatch);
 		assertThat(autoRenewalVersionColl).isNotEqualTo(newBusinessCollNoCompMatch);
 		assertThat(autoRenewalVersionCurrentVin).isEqualTo(newBusinessCurrentVinBeforeNull);
-		//4. Go back to MainApp, find created policy, create Renewal image
-		/*moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
-		searchForPolicy(policyNumber);
-
-		//5. Open Renewal and calculate premium
-		PolicySummaryPage.buttonRenewals.click();
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.calculatePremium();
-		PremiumAndCoveragesTab.buttonSaveAndExit.click();
-
-		//6. Verify VIN Stub was Stored at renewal in the DB
-		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get()).isNullOrEmpty();
-
-		//7. Repair the COMP Symbol of the original VIN
-		DBService.get().executeUpdate(VehicleQueries.REPAIR_COMP_VALUE);
-*/
 	}
 
 	@AfterSuite(alwaysRun = true)
@@ -383,6 +300,6 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVIN_BY_ID, vinCopyIdWithLowCompMatch));
 		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVIN_BY_ID, vinCopyIdWithHighCompMatch));
 		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVIN_BY_ID, vinCopyIdNoCompMatch));
-		DBService.get().executeUpdate(String.format(REPAIR_COLLCOMP_BY_ID,Integer.parseInt(newBusinessCollNoCompMatch)-5,Integer.parseInt(newBusinessCompNoCompMatch)-5, vinOriginalIdNoCompMatch));
+		DBService.get().executeUpdate(String.format(REPAIR_COLLCOMP_BY_ID,Integer.parseInt(newBusinessCollNoCompMatch)-5,Integer.parseInt(newBusinessCompNoCompMatch)-5, vinOriginalIdNoCompMatch,defaultVersion));
 	}
 }

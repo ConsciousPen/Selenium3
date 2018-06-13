@@ -1,6 +1,11 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
 import static aaa.helpers.db.queries.MsrpQueries.CA_SELECT_REGULAR_VEH_MSRP_VERSION;
+import static aaa.helpers.db.queries.VehicleQueries.DELETE_VEHICLEREFDATAVIN_BY_ID;
+import static aaa.helpers.db.queries.VehicleQueries.REPAIR_COLLCOMP_BY_ID;
+import static org.assertj.core.api.Assertions.assertThat;
+import java.time.LocalDateTime;
+import java.util.Map;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -9,6 +14,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
@@ -16,14 +22,25 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestMSRPRefreshTemplate;
 import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
 import toolkit.datax.TestData;
+import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
 public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	final static String pas730_vinDoesNotMatchChoice = "1MSRP15H1V1011111";
+
+	protected String defaultVersion = "SYMBOL_2000";
+	protected String vinCopyIdWithLowCompMatch = null;
+	protected String vinCopyIdWithHighCompMatch = null;
+	protected String vinOriginalIdNoCompMatch = null;
+	protected String vinCopyIdNoCompMatch = null;
+	protected Map<String,String> allNewBusinessValues;
+	protected String newBusinessCompNoCompMatch;
+	protected String newBusinessCollNoCompMatch;
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -156,9 +173,179 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		premiumAndCoveragesTab.saveAndExit();
 	}
 
+	/**
+	 @author Chris Johns / Viktor Petrenko
+	 @scenario Test Distinct Match with NO VIN Entered
+	 1. Create Auto Policy where no VIN is entered and the user manually selects year/Make/Model/Series/Body Style. Ensure the Dropdown selections match to only one VIN in VIN Table
+	 2. After Policy Creation Delete the saved VIN Stub From DB (   PAS-12881 DONE  now stores vin stub on all quotes)
+	 3. Initiate a Renewal Entry for the policy to initiate a renewal refresh
+	 4. Calculate premium on the renewal image
+	 5. Verify the VIN Stub is saved in the DB for the policy
+	 @details
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-12877")
+	public void pas12877_StoreStubRenewal(@Optional("CA") String state) {
+		verifyStoreStubRenewal();
+	}
+
+	/**
+	 @author Chris Johns
+	 @scenario Multiple Matches for manual selections, with a VIN entered (VIN returns no match/junk vin) - COMP SYMBOL MATCH
+	 1. Create Auto Policy where no VIN is entered and the user manually selects year/Make/Model/Series/Body Style. Ensure the Dropdown selections match multiple VINs in VIN Table
+	 2. After Policy Creation Delete the saved VIN Stub From DB (   PAS-12881 DONE  now stores vin stub on all quotes)
+	 3. Initiate a Renewal Entry for the policy to initiate a renewal refresh
+	 4. Calculate premium on the renewal image
+	 5. Verify the CORRECT (VIN Stub will be selected if the COMP symbol matches the COMP symbol used at NB) Stub is saved in the DB for the policy
+	 @details
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-12877")
+	public void pas12877_StoreStubRenewal_COMP(@Optional("CA") String state) {
+		String vehYear = "2018";
+		String vehMake = "SUBARU";
+		String vehModel = "WRX";
+		String vehSeries = "WRX STI";
+		String vehBodyStyle = "SEDAN";
+
+		TestData testData = getPolicyTD()
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), "ZZYKN3DD8E0344466")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.YEAR.getLabel()), vehYear)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MAKE.getLabel()), vehMake)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MODEL.getLabel()), vehModel)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
+
+		//1. Create a Policy with specific test data
+		String policyNumber = createPreconds(testData);
+		String newBusinessCurrentVinBeforeNull = DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get();
+		String sqlVinCompMatch =  newBusinessCurrentVinBeforeNull.replace("&","%") + "%";
+		assertThat(newBusinessCurrentVinBeforeNull).isNotNull().isNotEmpty();
+
+		log.info("Current Vin Stub # is : {}", newBusinessCurrentVinBeforeNull);
+		//2. Clear the Current VIN Stub Stored at NB
+		assertThat(DBService.get().executeUpdate(String.format(VehicleQueries.NULL_SPECIFIC_POLICY_STUB,newBusinessCurrentVinBeforeNull))).isGreaterThan(0);
+
+		Map<String,String> allNewBusinessValues = DBService.get().getRow(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_WITH_SYMBOLS_ON_QUOTE, policyNumber));
+		String newBusinessComp = allNewBusinessValues.get("COMPSYMBOL");
+		String newBusinessColl = allNewBusinessValues.get("COLLSYMBOL");
+		assertThat(allNewBusinessValues.get("CURRENTVIN")).isNullOrEmpty();
+
+		log.info("New business compsymbol: {}, and collsymbol: {}", newBusinessComp, newBusinessColl);
+
+		String getVehicleRefDataVinMaxId = "SELECT MAX(id) + 1 as id FROM VEHICLEREFDATAVIN";
+
+		// Create VIN Entry with smaller COMP symbol then original
+		vinCopyIdWithLowCompMatch = DBService.get().getValue(getVehicleRefDataVinMaxId).get();
+		DBService.get().executeUpdate(String.format(VehicleQueries.COPY_EXISTING_ROW_BY_VIN,sqlVinCompMatch,defaultVersion));
+		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_ID_FOR_COPIED_ROW, vinCopyIdWithLowCompMatch,sqlVinCompMatch,defaultVersion));
+		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_COMP_COLL_SYMBOL, 35, 35, vinCopyIdWithLowCompMatch,sqlVinCompMatch,defaultVersion));
+		// Create VIN Entry with Larger COMP symbol then original
+		vinCopyIdWithHighCompMatch = DBService.get().getValue(getVehicleRefDataVinMaxId).get();
+		DBService.get().executeUpdate(String.format(VehicleQueries.COPY_EXISTING_ROW_BY_ID, vinCopyIdWithLowCompMatch,defaultVersion));
+		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_ID_FOR_COPIED_ROW, vinCopyIdWithHighCompMatch,sqlVinCompMatch,defaultVersion));
+		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_COMP_COLL_SYMBOL, 55, 55, vinCopyIdWithHighCompMatch,sqlVinCompMatch,defaultVersion));
+		//3. Generate Renewal Image
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
+
+		Map<String,String> allAutoRenewalVersionValues = DBService.get().getRow(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_WITH_SYMBOLS_ON_QUOTE, policyNumber));
+		String autoRenewalVersionComp = allAutoRenewalVersionValues.get("COMPSYMBOL");
+		String autoRenewalVersionColl = allAutoRenewalVersionValues.get("COLLSYMBOL");
+		String autoRenewalVersionCurrentVin = allAutoRenewalVersionValues.get("CURRENTVIN");
+
+		log.info("New business compsymbol: {}, and collsymbol: {}", autoRenewalVersionComp, autoRenewalVersionColl);
+
+		assertThat(autoRenewalVersionComp).isEqualTo(newBusinessComp);
+		assertThat(autoRenewalVersionColl).isEqualTo(newBusinessColl);
+		assertThat(autoRenewalVersionCurrentVin).isEqualTo(newBusinessCurrentVinBeforeNull);
+	}
+
+	/**
+	 @author Chris Johns
+	 @scenario Multiple Matches for manual selections, with a VIN entered (VIN returns no match/junk vin) - NO COMP SYMBOL MATCH
+	 1. Create Auto Policy where no VIN is entered and the user manually selects year/Make/Model/Series/Body Style. Ensure the Dropdown selections match multiple VINs in VIN Table
+	 2. After Policy Creation Delete the saved VIN Stub From DB (  PAS-12881 DONE  now stores vin stub on all quotes)
+	 3. Initiate a Renewal Entry for the policy to initiate a renewal refresh
+	 4. Calculate premium on the renewal image
+	 5. Verify that ANY VIN Stub is chosen//TRY to see which row it chooses
+	 @details
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-12877")
+	public void pas12877_StoreStubRenewal_NO_COMP_MATCH(@Optional("CA") String state) {
+
+		String vehYear = "2018";
+		String vehMake = "JAGUAR";
+		String vehModel = "XF";
+		String vehSeries = "XF S";
+		String vehBodyStyle = "SEDAN";
+
+		TestData testData = getPolicyTD()
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), "ZZYKN3DD8E0344466")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.YEAR.getLabel()), vehYear)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MAKE.getLabel()), vehMake)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MODEL.getLabel()), vehModel)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
+
+		//1. Create a Policy with specific test data
+		String policyNumber = createPreconds(testData);
+		String newBusinessCurrentVinBeforeNull = DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get();
+		String sqlNoCompMatchVin =  newBusinessCurrentVinBeforeNull.replace("&","%") + "%";
+		vinCopyIdNoCompMatch =  DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_ID_BY_VIN_VERSION, sqlNoCompMatchVin, defaultVersion)).get();
+		assertThat(newBusinessCurrentVinBeforeNull).isNotNull().isNotEmpty();
+
+		log.info("Curren Vin # is : {}", newBusinessCurrentVinBeforeNull);
+		//2. Clear the Current VIN Stub Stored at NB and modify the COMP Symbol for the utilized VIN STUB - this will ensure that there is no direct match to a vin stub on renewal
+		DBService.get().executeUpdate(String.format(VehicleQueries.NULL_SPECIFIC_POLICY_STUB, newBusinessCurrentVinBeforeNull));
+
+		allNewBusinessValues = DBService.get().getRow(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_WITH_SYMBOLS_ON_QUOTE, policyNumber));
+		newBusinessCompNoCompMatch = allNewBusinessValues.get("COMPSYMBOL");
+		newBusinessCollNoCompMatch = allNewBusinessValues.get("COLLSYMBOL");
+		assertThat(allNewBusinessValues.get("CURRENTVIN")).isNullOrEmpty();
+
+		log.info("New business compsymbol: {} and collsymbol: {}", newBusinessCompNoCompMatch, newBusinessCollNoCompMatch);
+
+		String getVehicleRefDataVinMaxId = "SELECT MAX(id) + 1 as id FROM VEHICLEREFDATAVIN";
+		// Change current comp, coll symbol for existing vin
+		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_COMP_COLL_SYMBOL, Integer.parseInt(newBusinessCompNoCompMatch)+5, Integer.parseInt(newBusinessCompNoCompMatch)+5, vinCopyIdNoCompMatch,sqlNoCompMatchVin,defaultVersion));
+
+		// Create VIN Entry with bigger COMP symbol then original
+		vinCopyIdNoCompMatch = DBService.get().getValue(getVehicleRefDataVinMaxId).get();
+		DBService.get().executeUpdate(String.format(VehicleQueries.COPY_EXISTING_ROW_BY_VIN,sqlNoCompMatchVin,defaultVersion));
+		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_ID_FOR_COPIED_ROW, vinCopyIdNoCompMatch,sqlNoCompMatchVin,defaultVersion));
+		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_COMP_COLL_SYMBOL, Integer.parseInt(newBusinessCompNoCompMatch)+15, Integer.parseInt(newBusinessCompNoCompMatch)+15, vinCopyIdNoCompMatch,sqlNoCompMatchVin,defaultVersion));
+		//3. Generate Renewal Image
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
+
+		Map<String,String> allAutoRenewalVersionValues = DBService.get().getRow(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_WITH_SYMBOLS_ON_QUOTE, policyNumber));
+		String autoRenewalVersionComp = allAutoRenewalVersionValues.get("COMPSYMBOL");
+		String autoRenewalVersionColl = allAutoRenewalVersionValues.get("COLLSYMBOL");
+		String autoRenewalVersionCurrentVin = allAutoRenewalVersionValues.get("CURRENTVIN");
+
+		log.info("New business compsymbol: {}, and collsymbol: {}", autoRenewalVersionComp, autoRenewalVersionColl);
+
+		assertThat(autoRenewalVersionComp).isNotEqualTo(newBusinessCompNoCompMatch);
+		assertThat(autoRenewalVersionColl).isNotEqualTo(newBusinessCollNoCompMatch);
+		assertThat(autoRenewalVersionCurrentVin).isEqualTo(newBusinessCurrentVinBeforeNull);
+	}
+
 	@AfterSuite(alwaysRun = true)
 	protected void resetVinControlTable() {
 		pas730_SelectCleanDataBase(CA_SELECT_REGULAR_VEH_MSRP_VERSION, vehicleTypeRegular);
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(pas730_vinDoesNotMatchChoice,"SYMBOL_2000");
+		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVIN_BY_ID, vinCopyIdWithLowCompMatch));
+		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVIN_BY_ID, vinCopyIdWithHighCompMatch));
+		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVIN_BY_ID, vinCopyIdNoCompMatch));
+		DBService.get().executeUpdate(String.format(REPAIR_COLLCOMP_BY_ID,Integer.parseInt(newBusinessCollNoCompMatch)-5,Integer.parseInt(newBusinessCompNoCompMatch)-5, vinOriginalIdNoCompMatch,defaultVersion));
+
 	}
 }
