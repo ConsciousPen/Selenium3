@@ -67,6 +67,7 @@ public class HelperCommon {
 
 	private static final String DXP_POLICIES_DRIVERS = "/api/v1/policies/%s/drivers";
 	private static final String DXP_POLICIES_ENDORSEMENT_DRIVERS = "/api/v1/policies/%s/endorsement/drivers";
+	private static final String DXP_POLICIES_ENDORSEMENT_DRIVER= "/api/v1/policies/%s/endorsement/drivers";
 
 	private static final String DXP_POLICIES_POLICY_COVERAGES = "/api/v1/policies/%s/coverages";
 	private static final String DXP_POLICIES_ENDORSEMENT_COVERAGES = "/api/v1/policies/%s/endorsement/coverages";
@@ -83,7 +84,7 @@ public class HelperCommon {
 	private static final String DXP_POLICIES_POLICY_DISCOUNTS = "/api/v1/policies/%s/discounts";
 	private static final String DXP_POLICIES_ENDORSEMENT_DISCOUNTS = "/api/v1/policies/%s/endorsement/discounts";
 
-	private static final String DXP_POLICIES_ENDORSEMENT_DRIVER= "/api/v1/policies/%s/endorsement/drivers";
+
 
 
 	static {
@@ -214,12 +215,6 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, request, Vehicle.class, 201);
 	}
 
-	public static DriversDto executeEndorsementAddDriver(String policyNumber, AddDriverRequest request) {
-		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVER, policyNumber));
-
-		return runJsonRequestPostDxp(requestUrl,request,DriversDto.class, 201);
-	}
-
 	public static Vehicle executeEndorsementAddVehicle(String policyNumber, Vehicle request) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES, policyNumber));
 		return runJsonRequestPostDxp(requestUrl, request, Vehicle.class, 201);
@@ -228,11 +223,6 @@ public class HelperCommon {
 	public static HashMap executeEndorsementAddVehicleError(String policyNumber, Vehicle request, int status) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES, policyNumber));
 		return runJsonRequestPostDxp(requestUrl, request, HashMap.class, status);
-	}
-
-	public static DriverAssignmentDto[] viewEndorsementAssignments(String policyNumber) {
-		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
-		return runJsonRequestGetDxp(requestUrl, DriverAssignmentDto[].class);
 	}
 
 	public static ErrorResponseDto viewEndorsementAssignmentsError(String policyNumber, int status) {
@@ -246,6 +236,17 @@ public class HelperCommon {
 		request.purchaseDate = purchaseDate;
 		request.vehIdentificationNo = vin;
 		return runJsonRequestPostDxp(requestUrl, request, ErrorResponseDto.class, 422);
+	}
+
+	public static DriversDto executeEndorsementAddDriver(String policyNumber, AddDriverRequest request) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVER, policyNumber));
+
+		return runJsonRequestPostDxp(requestUrl,request,DriversDto.class, 201);
+	}
+
+	public static DriverAssignmentDto[] viewEndorsementAssignments(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, DriverAssignmentDto[].class);
 	}
 
 	public static DriverAssignmentDto[] updateDriverAssignment(String policyNumber, String vehicleOid, String driverOid) {
