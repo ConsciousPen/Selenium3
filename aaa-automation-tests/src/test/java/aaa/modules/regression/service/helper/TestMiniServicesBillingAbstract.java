@@ -1,6 +1,6 @@
 package aaa.modules.regression.service.helper;
 
-import static aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable.*;
+import static aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable.DUE_DATE;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import org.assertj.core.api.SoftAssertions;
@@ -19,7 +19,7 @@ import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
-public abstract class TestMiniServicesBillingAbstract  extends PolicyBaseTest {
+public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 
 	private BillingAccount billingAccount = new BillingAccount();
 	private TestData tdBilling = testDataManager.billingAccount;
@@ -42,7 +42,6 @@ public abstract class TestMiniServicesBillingAbstract  extends PolicyBaseTest {
 
 	protected abstract AssetDescriptor<JavaScriptButton> getCalculatePremium();
 
-
 	/**
 	 * @author Oleg Stasyuk
 	 * @name Test Current Bill Service for non-Annual
@@ -60,9 +59,7 @@ public abstract class TestMiniServicesBillingAbstract  extends PolicyBaseTest {
 	 * @details
 	 */
 	protected void pas13663_CurrentBillServiceBody(SoftAssertions softly, String policyNumber) {
-
-/*		Bill currentBillResponse1 = HelperCommon.currentBillService(policyNumber);
-		currentBillResponse1.amountDue.equals(250);*/
+		currentBillServiceCheck(softly, policyNumber);
 
 		SearchPage.openBilling(policyNumber);
 		LocalDateTime dd1 = BillingSummaryPage.getInstallmentDueDate(2);
@@ -92,27 +89,23 @@ public abstract class TestMiniServicesBillingAbstract  extends PolicyBaseTest {
 		currentBillServiceCheck(softly, policyNumber);
 	}
 
-	/**
-	 * @author Oleg Stasyuk
-	 * @name Test Current Bill Service for Annual
-	 * @scenario 1. Create a policy
-	 * 2. run the current bill service
-	 * 3. check zero balances
-	 * @details
-	 */
-	protected void pas13663_CurrentBillServiceAnnualBody(SoftAssertions softly, String policyNumber) {
-		currentBillServiceCheck(softly, policyNumber);
-	}
-
-	private void currentBillServiceCheck(SoftAssertions softly, String policyNumber) {
+	protected void currentBillServiceCheck(SoftAssertions softly, String policyNumber) {
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
-		LocalDateTime dueDateUi = TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(DUE_DATE).getValue(),DateTimeUtils.MM_DD_YYYY);
-		String amountDueUI = new Dollar(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(MINIMUM_DUE).getValue()).toPlaingString();
-		String amountPastDueUi = new Dollar(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(PAST_DUE).getValue()).toPlaingString();
-		Bill currentBillResponse2 = HelperCommon.currentBillService(policyNumber);
-		softly.assertThat(currentBillResponse2.dueDate).isEqualTo(dueDateUi.format(DateTimeFormatter.ofPattern("YYYY-MM-dd")));
-		softly.assertThat(currentBillResponse2.amountDue).isEqualTo(amountDueUI);
-		softly.assertThat(currentBillResponse2.amountPastDue).isEqualTo(amountPastDueUi);
+
+		if (BillingSummaryPage.tableBillsStatements.getRowsCount() > 0) {
+			LocalDateTime dueDateUi = TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
+			String amountDueUI = new Dollar(BillingSummaryPage.getMinimumDue()).toPlaingString();
+			String amountPastDueUi = new Dollar(BillingSummaryPage.getPastDue()).toPlaingString();
+			Bill currentBillResponse2 = HelperCommon.currentBillService(policyNumber);
+			softly.assertThat(currentBillResponse2.dueDate).isEqualTo(dueDateUi.format(DateTimeFormatter.ofPattern("YYYY-MM-dd")));
+			softly.assertThat(currentBillResponse2.amountDue).isEqualTo(amountDueUI);
+			softly.assertThat(currentBillResponse2.amountPastDue).isEqualTo(amountPastDueUi);
+		} else {
+			Bill currentBillResponse2 = HelperCommon.currentBillService(policyNumber);
+			softly.assertThat(currentBillResponse2.dueDate).isEqualTo(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeFormatter.ofPattern("YYYY-MM-dd")));
+			softly.assertThat(currentBillResponse2.amountDue).isEqualTo("0.00");
+			softly.assertThat(currentBillResponse2.amountPastDue).isEqualTo("0.00");
+		}
 	}
 }

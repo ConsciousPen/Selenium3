@@ -48,8 +48,6 @@ public class TestMiniServicesBilling extends TestMiniServicesBillingAbstract {
 		createCustomerIndividual();
 		String policyNumber = createPolicy(policyTdAdjusted);
 
-/*		String policyNumber = "VASS952918541";
-		SearchPage.openPolicy(policyNumber);*/
 		assertSoftly(softly ->
 				pas13663_CurrentBillServiceBody(softly, policyNumber)
 		);
@@ -63,7 +61,7 @@ public class TestMiniServicesBilling extends TestMiniServicesBillingAbstract {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-1441", "PAS-5986, PAS-343"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13663"})
 	public void pas13663_CurrentBillServiceQuarterly(@Optional("VA") String state) {
 		String paymentPlan = "contains=Quarte";
 		String premiumCoverageTabMetaKey = TestData.makeKeyPath(new PremiumAndCoveragesTab().getMetaKey(), AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel());
@@ -73,8 +71,6 @@ public class TestMiniServicesBilling extends TestMiniServicesBillingAbstract {
 		createCustomerIndividual();
 		String policyNumber = createPolicy(policyTdAdjusted);
 
-/*		String policyNumber = "VASS952918541";
-		SearchPage.openPolicy(policyNumber);*/
 		assertSoftly(softly ->
 				pas13663_CurrentBillServiceBody(softly, policyNumber)
 		);
@@ -83,12 +79,14 @@ public class TestMiniServicesBilling extends TestMiniServicesBillingAbstract {
 	/**
 	 * @author Oleg Stasyuk
 	 * @name Test Current Bill Service for Annual
-	 * @scenario See inner method
+	 * @scenario 1. Create a policy
+	 * 2. run the current bill service
+	 * 3. check zero balances
 	 * @details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-1441", "PAS-5986, PAS-343"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13663"})
 	public void pas13663_CurrentBillServiceAnnual(@Optional("VA") String state) {
 		String paymentPlan = "contains=Annual";
 		String premiumCoverageTabMetaKey = TestData.makeKeyPath(new PremiumAndCoveragesTab().getMetaKey(), AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel());
@@ -99,7 +97,7 @@ public class TestMiniServicesBilling extends TestMiniServicesBillingAbstract {
 		String policyNumber = createPolicy(policyTdAdjusted);
 
 		assertSoftly(softly ->
-				pas13663_CurrentBillServiceAnnualBody(softly, policyNumber)
+				currentBillServiceCheck(softly, policyNumber)
 		);
 	}
 
