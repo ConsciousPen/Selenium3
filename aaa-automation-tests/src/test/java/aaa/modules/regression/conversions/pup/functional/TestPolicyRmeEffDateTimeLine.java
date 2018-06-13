@@ -35,7 +35,7 @@ public class TestPolicyRmeEffDateTimeLine extends ConvPUPBaseTest {
     @StateList(states = {Constants.States.AZ, Constants.States.KY, Constants.States.WV, Constants.States.NJ, Constants.States.MD, Constants.States.PA})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Conversions.PUP, testCaseId = "PAS-14206,PAS-14207,PAS-14208")
-    public void testPolicyRmeTimeLine(@Optional("PA") String state) {
+    public void testPolicyRmeTimeLine(@Optional("") String state) {
 
         InitiateRenewalEntryActionTab initiateRenewalEntryActionTab = new InitiateRenewalEntryActionTab();
         mainApp().open();
