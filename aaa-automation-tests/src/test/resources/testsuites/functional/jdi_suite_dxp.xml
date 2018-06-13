@@ -59,6 +59,9 @@
                     <include name="pas9546_maxVehicles"/>
                     <include name="pas488_VehicleDelete"/>
                     <include name="pas12246_ViewVehiclePendingRemoval"/>
+                    <include name="pas14463_ViewDriverService"/>
+                    <include name="pas482_ViewDriverServiceOrderOfDriver"/>
+                    <include name="pas478_AddDrivers"/>
                 </methods>
             </class>
         </classes>
