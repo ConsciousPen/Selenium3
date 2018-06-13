@@ -1173,13 +1173,13 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 * 8. Try add to expensive vehicle.
 	 * 9. Check if error is displaying.
 	 */
-		@Parameters({"state"})
-		@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-		@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-502", "PAS-11005"})
-		public void pas502_DuplicateVinAddVehicleService(@Optional("VA") String state) {
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-502", "PAS-11005"})
+	public void pas502_DuplicateVinAddVehicleService(@Optional("VA") String state) {
 
-			pas502_CheckDuplicateVinAddVehicleService(getPolicyType());
-		}
+		pas502_CheckDuplicateVinAddVehicleService(getPolicyType());
+	}
 
 	/**
 	 * @author Megha Gubbala
