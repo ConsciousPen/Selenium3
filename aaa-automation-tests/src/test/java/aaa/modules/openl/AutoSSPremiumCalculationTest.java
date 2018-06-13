@@ -1,13 +1,8 @@
 package aaa.modules.openl;
 
-import org.testng.ITestContext;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import aaa.helpers.constants.Groups;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLPolicy;
 import aaa.helpers.openl.testdata_builder.AutoSSTestDataGenerator;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
@@ -53,11 +48,5 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 			totalPremium = totalPremium.subtract(PremiumAndCoveragesTab.getStateAndLocalTaxesAndPremiumSurchargesPremium());
 		}
 		return totalPremium;
-	}
-	
-	@Parameters({"state"})
-	@Test(groups = {Groups.OPENL, Groups.HIGH})
-	public void premiumCalculationTest(@Optional("") String state, ITestContext context) {
-		verifyPremiums(context);
 	}
 }

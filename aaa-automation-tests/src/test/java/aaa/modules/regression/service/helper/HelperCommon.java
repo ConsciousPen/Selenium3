@@ -38,7 +38,6 @@ public class HelperCommon {
 	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
 	private static final ObjectMapper PRETTY_PRINT_OBJECT_MAPPER = new ObjectMapper();
 
-
 	private static final String DXP_LOOKUPS = "/api/v1/lookups/%s?productCd=%s&riskStateCd=%s";
 
 	private static final String DXP_POLICIES_LOCK_UNLOCK_SERVICES = "/api/v1/policies/%s/lock";
@@ -84,8 +83,8 @@ public class HelperCommon {
 	private static final String DXP_POLICIES_POLICY_DISCOUNTS = "/api/v1/policies/%s/discounts";
 	private static final String DXP_POLICIES_ENDORSEMENT_DISCOUNTS = "/api/v1/policies/%s/endorsement/discounts";
 
-
-
+	private static final String DXP_POLICIES_ENDORSEMENT_DRIVER= "/api/v1/policies/%s/endorsement/drivers";
+	private static final String DXP_BILLING_CURRENT_BILL = "/api/v1/billing/$s/current-bill";
 
 	static {
 		PRETTY_PRINT_OBJECT_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
@@ -257,7 +256,7 @@ public class HelperCommon {
 		assignmentDto.driverOid = driverOid;
 		assignmentDto.vehicleOid = vehicleOid;
 		request.assignmentRequests.add(assignmentDto);
-		return runJsonRequestPostDxp(requestUrl,request,DriverAssignmentDto[].class,200);
+		return runJsonRequestPostDxp(requestUrl, request, DriverAssignmentDto[].class, 200);
 	}
 
 	public static ViewDriversResponse viewPolicyDrivers(String policyNumber) {
@@ -391,6 +390,11 @@ public class HelperCommon {
 			throw new IstfException("invalid transaction type for DiscountSummary service");
 		}
 		return runJsonRequestGetDxp(requestUrl, DiscountSummary.class, status);
+	}
+
+	public static Bill currentBillService(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_BILLING_CURRENT_BILL, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, Bill.class);
 	}
 
 	public static String runJsonRequestPostDxp(String url, RestBodyRequest bodyRequest) {
