@@ -4,7 +4,6 @@ package aaa.modules.regression.service.auto_ss.functional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
