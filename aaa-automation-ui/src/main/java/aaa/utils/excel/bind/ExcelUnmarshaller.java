@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.utils.excel.bind.cache.TableClassesCache;
@@ -94,11 +93,6 @@ public class ExcelUnmarshaller implements Closeable {
 		
 		log.info("Excel table rows unmarshalling completed successfully.");
 		return tablesObjects;
-	}
-	
-	public ExcelUnmarshaller marshal(Object excelFileObject, File excelFile) {
-		//TODO-dchubkov: To be implemented...
-		throw new NotImplementedException("Excel marshalling is not implemented yet");
 	}
 	
 	public ExcelUnmarshaller flushCache() {
