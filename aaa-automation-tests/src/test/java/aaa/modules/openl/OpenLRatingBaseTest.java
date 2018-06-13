@@ -60,7 +60,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		
 		Object[][] openLTestData = new Object[testInfo.getOpenLPolicies().size()][3];
 		for (int i = 0; i < testInfo.getOpenLPolicies().size(); i++) {
-			openLTestData[i] = new Object[] {testInfo.getState(), testInfo.getOpenLFilePath(), testInfo.getOpenLPolicies().get(i)};
+			openLTestData[i] = new Object[] {testInfo.getState(), testInfo.getOpenLFilePath(), testInfo.getOpenLPolicies().get(i).getNumber()};
 		}
 		return openLTestData;
 	}
