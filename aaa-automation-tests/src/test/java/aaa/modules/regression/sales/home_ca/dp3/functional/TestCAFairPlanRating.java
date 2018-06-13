@@ -48,8 +48,8 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = { Groups.FUNCTIONAL, Groups.HIGH })
-    @TestInfo(component = ComponentConstant.Service.HOME_CA_DP3)
+    @Test(groups = { Groups.FUNCTIONAL, Groups.HIGH }, description = "AC1 PAS-13215 18.5: CA FAIR Plan: Rating DP3")
+    @TestInfo(component = ComponentConstant.Service.HOME_CA_DP3, testCaseId = "PAS-13215")
     public void testPolicyRateFairPlanEndorsement(@Optional("CA") String state) {
         testSetup();
         validateAC1();
@@ -70,8 +70,8 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = { Groups.FUNCTIONAL, Groups.HIGH })
-    @TestInfo(component = ComponentConstant.Service.HOME_CA_DP3)
+    @Test(groups = { Groups.FUNCTIONAL, Groups.HIGH }, description = "AC2 PAS-13215 18.5: CA FAIR Plan: Rating DP3")
+    @TestInfo(component = ComponentConstant.Service.HOME_CA_DP3, testCaseId = "13215")
     public void testPolicyRateFairPlanEndorsementAC2(@Optional("CA") String state) {
         testSetup();
         validateAC2();

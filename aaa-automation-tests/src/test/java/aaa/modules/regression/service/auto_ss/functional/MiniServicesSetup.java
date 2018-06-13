@@ -38,4 +38,10 @@ public class MiniServicesSetup extends MiniServicesSetupPreconditions {
 	public static void myPolicyUserAddedConfigInsert() {
 		DBService.get().executeUpdate(String.format(PROPERTY_CONFIGURER_ENTITY_INSERT, "gn3zhyt", "MyPolicy user", "aaaDigitalValidationService.pasDxpUser", "MyPolicy"));
 	}
+
+	@Test(enabled = false, description = "Precondition removing default config for Inelligible States", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	public static void deleteIneligibleForMyPolicyStatesConfig() {
+		DBService.get().executeUpdate(DELETE_INELIGIBLE_FOR_MY_POLICY_STATES_CONFIG);
+	}
+
 }

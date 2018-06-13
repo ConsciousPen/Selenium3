@@ -3,7 +3,7 @@
     <listeners>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method"/>
+    <parameter name="timeshift-scenario-mode" value="test"/>
     <parameter name="testsDir" value="aaa-rating-rules-ss/src/test/openl/rules"/>
     <parameter name="policyType" value="AutoSS"/>
     <!-- Local tests execution parameters -->
