@@ -10,48 +10,46 @@ import toolkit.datax.TestData;
 public abstract class OpenLPolicy {
 	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	protected Integer number;
-
+	
 	protected String policyNumber;
-
+	
 	@ExcelTransient
 	private Dollar expectedPremium;
-
+	
 	public Integer getNumber() {
 		return number;
 	}
-
+	
 	public void setNumber(int number) {
 		this.number = number;
 	}
-
+	
 	public String getPolicyNumber() {
 		return policyNumber;
 	}
-
+	
 	public void setPolicyNumber(String policyNumber) {
 		this.policyNumber = policyNumber;
 	}
-
+	
 	public Dollar getExpectedPremium() {
 		return expectedPremium;
 	}
-
+	
 	public void setExpectedPremium(Dollar expectedPremium) {
 		this.expectedPremium = expectedPremium;
 	}
-
+	
 	public abstract Integer getTerm();
-
+	
 	public Double getPreviousPolicyPremium() {
 		return null;
 	}
-
+	
 	public abstract String getUnderwriterCode();
-
+	
 	public abstract LocalDate getEffectiveDate();
 	
-	public abstract TestDataGenerator<? extends OpenLPolicy> getTestDataGenerator(String state, TestData baseTestData);
-
 	@Override
 	public String toString() {
 		return "OpenLPolicy{" +
@@ -59,4 +57,6 @@ public abstract class OpenLPolicy {
 				", policyNumber='" + policyNumber + '\'' +
 				'}';
 	}
+	
+	public abstract TestDataGenerator<? extends OpenLPolicy> getTestDataGenerator(String state, TestData baseTestData);
 }

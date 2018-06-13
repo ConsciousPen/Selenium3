@@ -2,7 +2,6 @@ package aaa.helpers.openl;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.*;
@@ -41,8 +40,7 @@ import toolkit.utils.teststoragex.utils.TestNGUtils;
 
 public final class OpenLTestsManager {
 	private static final Logger log = LoggerFactory.getLogger(OpenLTestsManager.class);
-	
-	private Map<String, OpenLTestInfo<? extends OpenLPolicy>> openLTests;
+	private List<OpenLTestInfo<? extends OpenLPolicy>> openlTests;
 	
 	public OpenLTestsManager(ITestContext context) {
 		XmlSuite parentSuite = TestNGUtils.getRootSuite(context.getSuite());
@@ -50,7 +48,7 @@ public final class OpenLTestsManager {
 		if (!parentSuite.getTests().isEmpty()) {
 			openLSuites.add(parentSuite);
 		}
-		this.openLTests = gatherOpenLTests(openLSuites);
+		this.openlTests = getOpenLTests(openLSuites);
 	}
 	
 	public void updateMocks() {
@@ -59,42 +57,46 @@ public final class OpenLTestsManager {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <P extends OpenLPolicy> OpenLTestInfo<P> getTestInfo(ITestContext context) {
-		String testInfoKey = makeTestInfoKey(context.getCurrentXmlTest());
-		assertThat(this.openLTests).as("There is no test with path key: \"%s\"").containsKey(testInfoKey);
-		return (OpenLTestInfo<P>) this.openLTests.get(testInfoKey);
+	public <P extends OpenLPolicy> P getOpenLPolicy(String filePath, int policyNumber) {
+		return (P) getTestInfo(filePath).getOpenLPolicy(policyNumber);
 	}
 	
-	private Map<String, OpenLTestInfo<? extends OpenLPolicy>> gatherOpenLTests(List<XmlSuite> openLSuites) {
-		Map<String, OpenLTestInfo<? extends OpenLPolicy>> openLTests = new HashMap<>();
+	public <P extends OpenLPolicy> OpenLTestInfo<P> getTestInfo(ITestContext context) {
+		return getTestInfo(getFilePath(context.getCurrentXmlTest()));
+	}
+	
+	@SuppressWarnings("unchecked")
+	private <P extends OpenLPolicy> OpenLTestInfo<P> getTestInfo(String filePath) {
+		return (OpenLTestInfo<P>) this.openlTests.stream().filter(t -> t.getOpenLFilePath().equals(filePath)).findFirst().get();
+	}
+	
+	private List<OpenLTestInfo<? extends OpenLPolicy>> getOpenLTests(List<XmlSuite> openLSuites) {
+		List<OpenLTestInfo<? extends OpenLPolicy>> openLTests = new ArrayList<>();
 		
 		for (XmlSuite suite : openLSuites) {
 			for (XmlTest test : suite.getTests()) {
 				//TODO-dchubkov: try to split OpenLPolicy objects creation to multi threads (just several ones due to huge memory consumption)
-				OpenLTestInfo<? extends OpenLPolicy> openLTestInfo;
-				String filePath = getFilePath(test);
+				OpenLTestInfo<? extends OpenLPolicy> testInfo = new OpenLTestInfo<>();
 				try {
-					openLTestInfo = new OpenLTestInfo<>(filePath, getOpenLPolicies(test));
-				} catch (Throwable e) {
-					openLTestInfo = new OpenLTestInfo<>(filePath, e);
+					testInfo.setState(TestParams.STATE.getValue(test));
+					testInfo.setOpenLFilePath(getFilePath(test));
+					testInfo.setOpenLPolicies(getOpenLPolicies(test));
+				} catch (Exception e) {
+					testInfo.setException(e);
 				}
-				openLTests.put(makeTestInfoKey(test), openLTestInfo);
+				
+				openLTests.add(testInfo);
 			}
 		}
-		
 		return openLTests;
 	}
 	
-	private String makeTestInfoKey(XmlTest test) {
-		return test.getSuite().getFileName() + "_" + test.getIndex();
-	}
-	
-	private List<? extends OpenLPolicy> getOpenLPolicies(XmlTest test) throws IOException {
+	private <P extends OpenLPolicy> List<P> getOpenLPolicies(XmlTest test) throws Exception {
 		String filePath = getFilePath(test);
 		List<CellType<?>> cellTypes = Arrays.asList(ExcelCell.INTEGER_TYPE, ExcelCell.DOUBLE_TYPE, ExcelCell.BOOLEAN_TYPE, ExcelCell.LOCAL_DATE_TYPE, ExcelCell.STRING_TYPE, ExcelCell.DOLLAR_CELL_TYPE);
 		List<Integer> policyNumbers = parsePolicyNumbers(TestParams.POLICY_NUMBERS.getValue(test));
-		Class<? extends OpenLPolicy> openLPolicyModel = OpenLPolicyType.of(test).getOpenLPolicyModel();
-		List<? extends OpenLPolicy> openLPolicies;
+		Class<P> openLPolicyModel = OpenLPolicyType.of(test).getOpenLPolicyModel();
+		List<P> openLPolicies;
 		List<OpenLTest> openLTests;
 		
 		log.info("Getting OpenLPolicy objects from \"{}\" file", filePath);
@@ -250,8 +252,9 @@ public final class OpenLTestsManager {
 			return name;
 		}
 		
-		public Class<? extends OpenLPolicy> getOpenLPolicyModel() {
-			return openLPolicyModel;
+		@SuppressWarnings("unchecked")
+		public <P extends OpenLPolicy> Class<P> getOpenLPolicyModel() {
+			return (Class<P>) openLPolicyModel;
 		}
 		
 		public static OpenLPolicyType of(XmlTest test) {
