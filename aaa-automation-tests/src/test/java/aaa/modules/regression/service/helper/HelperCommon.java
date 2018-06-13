@@ -38,7 +38,6 @@ public class HelperCommon {
 	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
 	private static final ObjectMapper PRETTY_PRINT_OBJECT_MAPPER = new ObjectMapper();
 
-
 	private static final String DXP_LOOKUPS = "/api/v1/lookups/%s?productCd=%s&riskStateCd=%s";
 
 	private static final String DXP_POLICIES_LOCK_UNLOCK_SERVICES = "/api/v1/policies/%s/lock";
@@ -109,8 +108,6 @@ public class HelperCommon {
 		String requestUrl = urlBuilderAdmin(ADMIN_INSTALLMENT_FEES_ENDPOINT) + "?productCode=" + productCode + "&riskState=" + state + "&effectiveDate=" + date;
 		return runJsonRequestGetAdmin(requestUrl, InstallmentFeesResponse[].class);
 	}
-
-
 
 	public static void executeContactInfoRequest(String policyNumber, String emailAddressChanged, String authorizedBy) {
 		UpdateContactInfoRequest request = new UpdateContactInfoRequest();
@@ -250,7 +247,7 @@ public class HelperCommon {
 		assignmentDto.driverOid = driverOid;
 		assignmentDto.vehicleOid = vehicleOid;
 		request.assignmentRequests.add(assignmentDto);
-		return runJsonRequestPostDxp(requestUrl,request,DriverAssignmentDto[].class,200);
+		return runJsonRequestPostDxp(requestUrl, request, DriverAssignmentDto[].class, 200);
 	}
 
 	public static DriversDto[] viewPolicyDrivers(String policyNumber) {
@@ -290,7 +287,6 @@ public class HelperCommon {
 		request.limit = availableLimits;
 		return runJsonRequestPatchDxp(requestUrl, request, PolicyCoverageInfo.class);
 	}
-
 
 	public static PolicyPremiumInfo[] viewPolicyPremiums(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_POLICY_PREMIUMS, policyNumber));
@@ -359,7 +355,6 @@ public class HelperCommon {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_RATE, policyNumber));
 		return runJsonRequestPostDxp(requestUrl, null, ErrorResponseDto.class, 422);
 	}
-
 
 	public static String endorsementBind(String policyNumber, String authorizedBy, int status) {
 		AAABindEndorsementRequestDTO request = new AAABindEndorsementRequestDTO();
