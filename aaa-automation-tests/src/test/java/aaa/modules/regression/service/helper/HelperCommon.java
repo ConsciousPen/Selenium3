@@ -81,7 +81,7 @@ public class HelperCommon {
 	private static final String DXP_POLICIES_POLICY_DISCOUNTS = "/api/v1/policies/%s/discounts";
 	private static final String DXP_POLICIES_ENDORSEMENT_DISCOUNTS = "/api/v1/policies/%s/endorsement/discounts";
 
-	private static final String DXP_BILLING_CURRENT_BILL = "/api/v1/policies/%s/billing/current-bill";
+	private static final String DXP_BILLING_CURRENT_BILL = "/api/v1/billing/$s/current-bill";
 
 	static {
 		PRETTY_PRINT_OBJECT_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
