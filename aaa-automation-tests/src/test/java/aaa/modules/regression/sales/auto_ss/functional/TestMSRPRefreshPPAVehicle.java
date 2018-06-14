@@ -384,7 +384,6 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	 @details
 	 */
 
-	// нет совпадений с комп.
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12877")
