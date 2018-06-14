@@ -534,6 +534,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		renewalTransactionHistoryCheck(policyNumber, true, true, "inquiry");
 		ahdexxGeneratedCheck(false, policyNumber, 0);
 		renewalTransactionHistoryCheck(policyNumber, true, true, "dataGather");
+		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 	}
 
 	@Parameters({"state"})
@@ -561,6 +562,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry");
 		ahdexxGeneratedCheck(false, policyNumber, 0);
 		renewalTransactionHistoryCheck(policyNumber, true, false, "dataGather");
+		eValueDiscountStatusCheck(policyNumber, "NOTENROLLED");
 	}
 
 	@Parameters({"state"})
@@ -590,6 +592,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		ahdexxGeneratedCheck(true, policyNumber, 1);
 		checkDocumentContentAHDEXX(policyNumber, true, true, true, false, false);
 		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");
+		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 	}
 
 	@Parameters({"state"})
@@ -619,6 +622,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		ahdexxGeneratedCheck(true, policyNumber, 1);
 		checkDocumentContentAHDEXX(policyNumber, true, true, false, false, false);
 		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");
+		eValueDiscountStatusCheck(policyNumber, "NOTENROLLED");
 	}
 
 	@Parameters({"state"})
@@ -649,9 +653,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
 		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry");
 		ahdexxGeneratedCheck(true, policyNumber, 1);
-		eValueDiscountStatusCheck(policyNumber, "NOTENROLLED");
 		checkDocumentContentAHDEXX(policyNumber, true, true, false, false, false);
 		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");
+		eValueDiscountStatusCheck(policyNumber, "NOTENROLLED");
 	}
 
 	@Parameters({"state"})
@@ -685,6 +689,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		ahdexxGeneratedCheck(true, policyNumber, 1);
 		checkDocumentContentAHDEXX(policyNumber, true, true, true, false, false);
 		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");
+		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 	}
 
 	@Parameters({"state"})
@@ -716,6 +721,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		ahdexxGeneratedCheck(true, policyNumber, 1);
 		checkDocumentContentAHDEXX(policyNumber, true, true, false, false, false);
 		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");
+		eValueDiscountStatusCheck(policyNumber, "NOTENROLLED");
 	}
 
 	private void cancelReinstateToAvoidNbPlus15Plus30Jobs(String policyNumber) {
@@ -1866,8 +1872,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		if(eValueApplied){
 			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("Yes");
+			eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		}else{
 			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("No");
+			eValueDiscountStatusCheck(policyNumber, "NOTENROLLED");
 		}
 		//PAS-319 end
 
