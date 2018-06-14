@@ -38,7 +38,6 @@ public class HelperCommon {
 	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
 	private static final ObjectMapper PRETTY_PRINT_OBJECT_MAPPER = new ObjectMapper();
 
-
 	private static final String DXP_LOOKUPS = "/api/v1/lookups/%s?productCd=%s&riskStateCd=%s";
 
 	private static final String DXP_POLICIES_LOCK_UNLOCK_SERVICES = "/api/v1/policies/%s/lock";
@@ -66,6 +65,7 @@ public class HelperCommon {
 
 	private static final String DXP_POLICIES_DRIVERS = "/api/v1/policies/%s/drivers";
 	private static final String DXP_POLICIES_ENDORSEMENT_DRIVERS = "/api/v1/policies/%s/endorsement/drivers";
+	private static final String DXP_POLICIES_ENDORSEMENT_DRIVER= "/api/v1/policies/%s/endorsement/drivers";
 
 	private static final String DXP_POLICIES_POLICY_COVERAGES = "/api/v1/policies/%s/coverages";
 	private static final String DXP_POLICIES_ENDORSEMENT_COVERAGES = "/api/v1/policies/%s/endorsement/coverages";
@@ -81,6 +81,8 @@ public class HelperCommon {
 
 	private static final String DXP_POLICIES_POLICY_DISCOUNTS = "/api/v1/policies/%s/discounts";
 	private static final String DXP_POLICIES_ENDORSEMENT_DISCOUNTS = "/api/v1/policies/%s/endorsement/discounts";
+
+	private static final String DXP_BILLING_CURRENT_BILL = "/api/v1/billing/$s/current-bill";
 
 	static {
 		PRETTY_PRINT_OBJECT_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
@@ -220,11 +222,6 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, request, HashMap.class, status);
 	}
 
-	public static DriverAssignmentDto[] viewEndorsementAssignments(String policyNumber) {
-		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
-		return runJsonRequestGetDxp(requestUrl, DriverAssignmentDto[].class);
-	}
-
 	public static ErrorResponseDto viewEndorsementAssignmentsError(String policyNumber, int status) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, ErrorResponseDto.class, status);
@@ -238,6 +235,16 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, request, ErrorResponseDto.class, 422);
 	}
 
+	public static DriversDto executeEndorsementAddDriver(String policyNumber, AddDriverRequest request) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVER, policyNumber));
+		return runJsonRequestPostDxp(requestUrl, request, DriversDto.class, 201);
+	}
+
+	public static DriverAssignmentDto[] viewEndorsementAssignments(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, DriverAssignmentDto[].class);
+	}
+
 	public static DriverAssignmentDto[] updateDriverAssignment(String policyNumber, String vehicleOid, String driverOid) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
 		UpdateDriverAssignmentRequest request = new UpdateDriverAssignmentRequest();
@@ -246,17 +253,17 @@ public class HelperCommon {
 		assignmentDto.driverOid = driverOid;
 		assignmentDto.vehicleOid = vehicleOid;
 		request.assignmentRequests.add(assignmentDto);
-		return runJsonRequestPostDxp(requestUrl,request,DriverAssignmentDto[].class,200);
+		return runJsonRequestPostDxp(requestUrl, request, DriverAssignmentDto[].class, 200);
 	}
 
-	public static DriversDto[] viewPolicyDrivers(String policyNumber) {
+	public static ViewDriversResponse viewPolicyDrivers(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_DRIVERS, policyNumber));
-		return runJsonRequestGetDxp(requestUrl, DriversDto[].class);
+		return runJsonRequestGetDxp(requestUrl, ViewDriversResponse.class);
 	}
 
-	public static DriversDto[] viewEndorsementDrivers(String policyNumber) {
+	public static ViewDriversResponse viewEndorsementDrivers(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS, policyNumber));
-		return runJsonRequestGetDxp(requestUrl, DriversDto[].class);
+		return runJsonRequestGetDxp(requestUrl, ViewDriversResponse.class);
 	}
 
 	static PolicyCoverageInfo viewPolicyCoverages(String policyNumber) {
@@ -286,7 +293,6 @@ public class HelperCommon {
 		request.limit = availableLimits;
 		return runJsonRequestPatchDxp(requestUrl, request, PolicyCoverageInfo.class);
 	}
-
 
 	public static PolicyPremiumInfo[] viewPolicyPremiums(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_POLICY_PREMIUMS, policyNumber));
@@ -356,7 +362,6 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, null, ErrorResponseDto.class, 422);
 	}
 
-
 	public static String endorsementBind(String policyNumber, String authorizedBy, int status) {
 		AAABindEndorsementRequestDTO request = new AAABindEndorsementRequestDTO();
 		request.authorizedBy = authorizedBy;
@@ -382,6 +387,11 @@ public class HelperCommon {
 			throw new IstfException("invalid transaction type for DiscountSummary service");
 		}
 		return runJsonRequestGetDxp(requestUrl, DiscountSummary.class, status);
+	}
+
+	public static Bill currentBillService(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_BILLING_CURRENT_BILL, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, Bill.class);
 	}
 
 	public static String runJsonRequestPostDxp(String url, RestBodyRequest bodyRequest) {

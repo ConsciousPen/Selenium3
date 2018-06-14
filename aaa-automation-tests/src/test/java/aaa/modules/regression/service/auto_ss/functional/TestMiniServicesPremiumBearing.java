@@ -419,14 +419,12 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 * 7. Hit "start endorsement info" dxp server.
 	 * 8.Verify the response we should not see this message State does not allow endorsements.
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-9489"})
-	public void pas9489_GreenButtonServiceStateAndProductConfigurationEffective(@Optional("PA") String state) {
+	public void pas9489_GreenButtonServiceStateAndProductConfigurationEffective(@Optional("NY") String state) {
 
-		pas9337_CheckStartEndorsementInfoServerResponseErrorForEffectiveDate(getPolicyType());
-
+		pas9337_CheckStartEndorsementInfoServerResponseErrorForEffectiveDate();
 	}
 
 	/**
@@ -993,7 +991,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12866"})
-	public void pas12866_e2e(@Optional("VA") String state) {
+	public void pas12866_e2e(@Optional("UT") String state) {
 		assertSoftly(softly ->
 				pas12866_e2eBctBody(state, true, softly)
 		);
@@ -1016,7 +1014,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11684"})
-	public void pas11684_DriverAssignmentExistsForState(@Optional("AZ") String state) {
+	public void pas11684_DriverAssignmentExistsForState(@Optional("UT") String state) {
 		assertSoftly(softly ->
 				pas11684_DriverAssignmentExistsForStateBody(state, softly)
 		);
@@ -1175,13 +1173,13 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 * 8. Try add to expensive vehicle.
 	 * 9. Check if error is displaying.
 	 */
-		@Parameters({"state"})
-		@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-		@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-502", "PAS-11005"})
-		public void pas502_DuplicateVinAddVehicleService(@Optional("VA") String state) {
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-502", "PAS-11005"})
+	public void pas502_DuplicateVinAddVehicleService(@Optional("VA") String state) {
 
-			pas502_CheckDuplicateVinAddVehicleService(getPolicyType());
-		}
+		pas502_CheckDuplicateVinAddVehicleService(getPolicyType());
+	}
 
 	/**
 	 * @author Megha Gubbala

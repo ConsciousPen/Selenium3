@@ -83,6 +83,10 @@ public class BillingSummaryPage extends SummaryPage {
 		return new Dollar(tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.MINIMUM_DUE).getValue());
 	}
 
+	public static Dollar getPastDue() {
+		return new Dollar(tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.PAST_DUE).getValue());
+	}
+
 	public static Dollar getTotalPaid() {
 		return new Dollar(tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_PAID).getValue());
 	}
