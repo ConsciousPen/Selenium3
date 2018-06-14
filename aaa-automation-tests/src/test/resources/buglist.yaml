@@ -257,12 +257,6 @@ PAS-12869:
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["Test for state KY has failed due to difference between pre-endorsement and post-endorsement premiums"]
-PAS-5437:
-  summary: "Occupation is not in within range error for CA PUP"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.bct.service.EndorsementTest.BCT_ONL_EmptyEndorsementPUP]
-      messages: ["Cannot get value of Cell" ,"Errors: 'Occupation' is not in within range"]
 PT-1670:
   summary: "Error message displayed in 'List of other active AAA policies' tab"
   reason: PROD
@@ -275,3 +269,17 @@ PAS-14398:
   failures:
     - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.premiumCalculationTest]
       messages: ["Medical Expenses=starts=$5,000"]
+
+      messages: ["Unable to locate element", "Multiple default value rules defined for field: AAAHOOtherOrPriorPolicyComponent.autoPolicyPending"]
+PT-1968:
+  summary: "Policy tier is required appears on 'Applicant' tab "
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Unable to locate element", "'Policy tier' is required"]
+PAS-5419:
+  summary: "'Liability Code' is not in within range"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Cannot get value of Cell", "'Liability Code' is not in within range"]
