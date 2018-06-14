@@ -4,9 +4,13 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.docgen.AaaDocGenEntityQueries;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.HomeCaMetaData;
+import aaa.main.modules.policy.home_ca.actiontabs.PolicyDocGenActionTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaDP3BaseTest;
 import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
 import org.testng.annotations.Optional;
@@ -136,6 +140,7 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-14675")
     public void PAS_14675_IsFPCECAInEOI(@Optional("") String state) {
 
+        final String EXPECTED_NAME = "FairPlanYN";
         defaultPolicyData = buildTD(defaultPolicyData);
 
         setupHO3Policy(ho3TestData);
@@ -148,6 +153,15 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
         myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
         myHelper.completeFillAndVerifyFAIRPlanSign(policy, defaultPolicyData, EndorsementTab.class, DocumentsTab.class, getPolicyType().getShortName());
 
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+        // Generate EOI Documents
+        policy.policyDocGen().start();
+        PolicyDocGenActionTab documentActionTab = policy.policyDocGen().getView().getTab(PolicyDocGenActionTab.class);
+        documentActionTab.generateDocuments(DocGenEnum.Documents._62_6500);
+
+        myHelper.validatePdfFromDb(policyNumber, DocGenEnum.Documents._62_6500,
+                AaaDocGenEntityQueries.EventNames.ADHOC_DOC_ON_DEMAND_GENERATE, EXPECTED_NAME, "Y");
     }
 
     private TestData buildTD(TestData in_defaultPolicyData) {

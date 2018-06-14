@@ -2,20 +2,35 @@ package aaa.modules.regression.sales.home_ca.ho3.functional;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.docgen.AaaDocGenEntityQueries;
+import aaa.helpers.xml.XmlParser;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.metadata.policy.HomeCaMetaData;
+import aaa.main.modules.policy.home_ca.actiontabs.PolicyDocGenActionTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.DocumentsTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
+import org.apache.commons.io.filefilter.AgeFileFilter;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import org.xml.sax.SAXException;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -127,6 +142,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14675")
     public void PAS_14675_IsFPCECAInEOI(@Optional("") String state) {
 
+        final String EXPECTED_NAME = "FairPlanYN";
         defaultPolicyData = getPolicyTD();
 
         // Open App, Create Customer and Initiate Quote
@@ -139,5 +155,72 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
         myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
         myHelper.completeFillAndVerifyFAIRPlanSign(policy, defaultPolicyData, EndorsementTab.class, DocumentsTab.class, getPolicyType().getShortName());
 
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+        // Generate EOI Documents
+        policy.policyDocGen().start();
+        PolicyDocGenActionTab documentActionTab = policy.policyDocGen().getView().getTab(PolicyDocGenActionTab.class);
+        documentActionTab.generateDocuments(DocGenEnum.Documents._62_6500);
+
+        // Pick Up File Generated
+        myHelper.validatePdfFromDb(policyNumber, DocGenEnum.Documents._62_6500,
+                AaaDocGenEntityQueries.EventNames.ADHOC_DOC_ON_DEMAND_GENERATE, EXPECTED_NAME, "Y");
     }
+
+    public String getTagValuesFromResponse(String _responseOutputLocation, String _xmlOutFileName, String _tagName) {
+
+        ArrayList<String> _foundValuesFromTag = new ArrayList<String>();
+        try {
+            // Parse Output XML for values contained within tag, get policy number.
+            _foundValuesFromTag = XmlParser.returnValueFromXMLNode(_responseOutputLocation, _xmlOutFileName, _tagName);
+
+            _foundValuesFromTag = trimBadValuesFromList(_foundValuesFromTag);
+
+        }catch (IOException ex) {
+            printToDebugLog("IOException EXCEPTION OCCURED!");
+            printToDebugLog(ex.getStackTrace().toString());
+        }catch (SAXException ex) {
+            printToDebugLog("SAXException EXCEPTION OCCURED!");
+            printToDebugLog(ex.getStackTrace().toString());
+        }
+
+        // Validate values pulled from XML as string list.
+        return _foundValuesFromTag.get(0);
+    }
+
+    public ArrayList<String> trimBadValuesFromList(ArrayList<String> in_foundValuesFromTag) {
+        // Remove extra value from list.
+        for(String stringValue : in_foundValuesFromTag) {
+            printToDebugLog("Found [" + stringValue + "] ----- ");
+            if (stringValue.length()<=1) {
+                printToDebugLog("Trimming " +stringValue + " from the list.");
+                in_foundValuesFromTag.remove(stringValue);
+            }
+            if (!stringValue.startsWith("Q")) {
+                printToDebugLog("Removing " +stringValue + " as policy for not starting with 'Q'.");
+                in_foundValuesFromTag.remove(stringValue);
+            }
+        }
+        return in_foundValuesFromTag;
+    }
+
+    public File getNewestFileInDirectory(File directory, FileFilter fileFilter) {
+        File[] files = directory.listFiles(fileFilter);
+        int timeDifference = 999999999;
+        File newestFile = new File("myFile");
+
+        Date rightNow = new GregorianCalendar().getTime();
+        for (File file : files) {
+            Date lastModifiedDate = new Date(file.lastModified());
+            int timeDifferenceDetected = lastModifiedDate.compareTo(rightNow);
+            if (timeDifferenceDetected < timeDifference) {
+                // Update new smallest time difference and file.
+                timeDifference = timeDifferenceDetected;
+                newestFile = file;
+            }
+        }
+        return newestFile;
+    }
+
+
 }
