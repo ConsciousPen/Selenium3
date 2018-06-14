@@ -1251,7 +1251,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15245"})
 	public void pas14648_MedpmDelimiter(@Optional("VA") String state) {
 		assertSoftly(softly ->
-				pas14648_MedpmDelimiter(getPolicyType())
+            pas14648_MedpmDelimiter(getPolicyType())
 		);
 	}
 
