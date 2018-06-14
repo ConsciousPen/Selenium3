@@ -259,6 +259,15 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         new PurchaseTab().submitTab();
     }
 
+    /**
+     * @author Tyrone Jemison
+     * @description This method is usable during any test to verify the value of a data element contained within a document on the database.
+     * @param policyNumber The policy which generated the document.
+     * @param docGenDoc The Document to verify.
+     * @param eventName Event which Generated Document.
+     * @param expectedElementName The data element, via text within a "aaan:Name" label.
+     * @param expectedTagValue The expected value of the associated "aaan:DataElementChoice"
+     */
     public static void validatePdfFromDb(String policyNumber, DocGenEnum.Documents docGenDoc, EventNames eventName, String expectedElementName, String expectedTagValue) {
         String actualValueFound;
         String query = format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, docGenDoc.getIdInXml(), eventName);

@@ -132,7 +132,7 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
      * 2. Create a DP3 policy w/ FPCECA Endorsement
      * 3. On Policy Summary Page, select "Take Action" > "OnDemandDocs"
      * 4. On Doc Selection Page, select 62 65000 CA 05012013 doc.
-     * 5. Verify document contains correct FP verbage.
+     * 5. Verify document contains correct FP verbage with DB query.
      * @param state
      */
     @Parameters({"state"})

@@ -134,7 +134,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
      * 1. Create a HO3 policy w/ FPCECA Endorsement
      * 2. On Policy Summary Page, select "Take Action" > "OnDemandDocs"
      * 3. On Doc Selection Page, select 62 65000 CA 05012013 doc.
-     * 4. Verify document contains correct FP verbage.
+     * 4. Verify document contains correct FP verbage with DB query.
      * @param state
      */
     @Parameters({"state"})
@@ -166,61 +166,5 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
         myHelper.validatePdfFromDb(policyNumber, DocGenEnum.Documents._62_6500,
                 AaaDocGenEntityQueries.EventNames.ADHOC_DOC_ON_DEMAND_GENERATE, EXPECTED_NAME, "Y");
     }
-
-    public String getTagValuesFromResponse(String _responseOutputLocation, String _xmlOutFileName, String _tagName) {
-
-        ArrayList<String> _foundValuesFromTag = new ArrayList<String>();
-        try {
-            // Parse Output XML for values contained within tag, get policy number.
-            _foundValuesFromTag = XmlParser.returnValueFromXMLNode(_responseOutputLocation, _xmlOutFileName, _tagName);
-
-            _foundValuesFromTag = trimBadValuesFromList(_foundValuesFromTag);
-
-        }catch (IOException ex) {
-            printToDebugLog("IOException EXCEPTION OCCURED!");
-            printToDebugLog(ex.getStackTrace().toString());
-        }catch (SAXException ex) {
-            printToDebugLog("SAXException EXCEPTION OCCURED!");
-            printToDebugLog(ex.getStackTrace().toString());
-        }
-
-        // Validate values pulled from XML as string list.
-        return _foundValuesFromTag.get(0);
-    }
-
-    public ArrayList<String> trimBadValuesFromList(ArrayList<String> in_foundValuesFromTag) {
-        // Remove extra value from list.
-        for(String stringValue : in_foundValuesFromTag) {
-            printToDebugLog("Found [" + stringValue + "] ----- ");
-            if (stringValue.length()<=1) {
-                printToDebugLog("Trimming " +stringValue + " from the list.");
-                in_foundValuesFromTag.remove(stringValue);
-            }
-            if (!stringValue.startsWith("Q")) {
-                printToDebugLog("Removing " +stringValue + " as policy for not starting with 'Q'.");
-                in_foundValuesFromTag.remove(stringValue);
-            }
-        }
-        return in_foundValuesFromTag;
-    }
-
-    public File getNewestFileInDirectory(File directory, FileFilter fileFilter) {
-        File[] files = directory.listFiles(fileFilter);
-        int timeDifference = 999999999;
-        File newestFile = new File("myFile");
-
-        Date rightNow = new GregorianCalendar().getTime();
-        for (File file : files) {
-            Date lastModifiedDate = new Date(file.lastModified());
-            int timeDifferenceDetected = lastModifiedDate.compareTo(rightNow);
-            if (timeDifferenceDetected < timeDifference) {
-                // Update new smallest time difference and file.
-                timeDifference = timeDifferenceDetected;
-                newestFile = file;
-            }
-        }
-        return newestFile;
-    }
-
 
 }
