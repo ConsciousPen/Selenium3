@@ -5497,14 +5497,9 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		UpdateRulesOverrideActionTab.btnCancel.click();
 	}
 
-	protected void pas14952_premiumNotResetBody(String state, SoftAssertions softly) {
-		//String policyNumber = "VASS952918551";
-
+	protected void pas14952_EndorsementStatusResetForVehRatingFactorsBody(String state, SoftAssertions softly) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
-
-		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
 
 		//get all vehicles
 		ViewVehicleResponse viewVehicleResponse = HelperCommon.viewPolicyVehicles(policyNumber);
@@ -5514,17 +5509,11 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		//Create pended endorsement
 		AAAEndorseResponse response = HelperCommon.createEndorsement(policyNumber, endorsementDate);
 		assertThat(response.policyNumber).isEqualTo(policyNumber);
-
 		pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
-
 		rateEndorsement(softly, policyNumber);
 
 		String purchaseDate = "2013-02-22";
 		String vin = "1HGFA16526L081415";
-
-		//Validate VIN
-		AAAVehicleVinInfoRestResponseWrapper vinValidateResponse = HelperCommon.executeVinInfo(policyNumber, vin, endorsementDate);
-		softly.assertThat(vinValidateResponse.vehicles.get(0).vin).isEqualTo(vin);
 
 		//Add new vehicle
 		//BUG PAS-14688, PAS-14689, PAS-14690, PAS-14691 - Add Vehicle for DC, KS, NY, OR
@@ -5536,12 +5525,9 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		//Update Vehicle with proper Usage and Registered Owner
 		updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
-
 		pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
-
 		rateEndorsement(softly, policyNumber);
 
-		//PAS-14501 start
 		//Check vehicle update service when  garage address is different
 		String zipCodeGarage = "23703";
 		String addressGarage = "4112 FORREST HILLS DR";
@@ -5560,11 +5546,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		softly.assertThat(updateVehicleGaragingAddressResponse.garagingAddress.addressLine1).isEqualTo(addressGarage);
 		softly.assertThat(updateVehicleGaragingAddressResponse.garagingAddress.city).isEqualTo(cityGarage);
 		softly.assertThat(updateVehicleGaragingAddressResponse.garagingAddress.stateProvCd).isEqualTo(stateGarage);
-		//PAS-14501 end
-
-		//BUG PAS-14952 premium no reset
-		pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
-
+		pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 		rateEndorsement(softly, policyNumber);
 
 		String zipCodeOwnership = "23703";
@@ -5589,7 +5571,51 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		VehicleUpdateResponseDto ownershipUpdateResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
 		assertThat(ownershipUpdateResponse.vehicleOwnership.ownership).isEqualTo("LSD");
 
-		//BUG PAS-14952 premium no reset
+		pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
+		rateEndorsement(softly, policyNumber);
+		pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
+
+		VehicleUpdateDto updateVehicleUsageRequest = new VehicleUpdateDto();
+		updateVehicleUsageRequest.usage = "Business";
+		updateVehicleUsageRequest.registeredOwner = false;
+		Vehicle updateVehicleUsageResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleUsageRequest);
+		assertThat(updateVehicleUsageResponse.usage).isEqualTo("Business");
+		pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
+
+		ErrorResponseDto rateOwnershipUsageResponse = HelperCommon.endorsementRateError(policyNumber, 422);
+		softly.assertThat(rateOwnershipUsageResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+		softly.assertThat(rateOwnershipUsageResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+		softly.assertThat(rateOwnershipUsageResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.REGISTERED_OWNERS.getCode());
+		softly.assertThat(rateOwnershipUsageResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.REGISTERED_OWNERS.getMessage());
+		softly.assertThat(rateOwnershipUsageResponse.errors.get(0).field).isEqualTo("vehOwnerInd");
+		softly.assertThat(rateOwnershipUsageResponse.errors.get(1).errorCode).isEqualTo(ErrorDxpEnum.Errors.USAGE_IS_BUSINESS.getCode());
+		softly.assertThat(rateOwnershipUsageResponse.errors.get(1).message).contains(ErrorDxpEnum.Errors.USAGE_IS_BUSINESS.getMessage());
+		softly.assertThat(rateOwnershipUsageResponse.errors.get(1).field).isEqualTo("vehicleUsageCd");
+
+		updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
+		rateEndorsement(softly, policyNumber);
+		pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
+
+		VehicleUpdateDto updateVehicleAntitheftRequest = new VehicleUpdateDto();
+		updateVehicleAntitheftRequest.antiTheft = "STD";
+		Vehicle updateVehicleAntitheftResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleAntitheftRequest);
+		assertThat(updateVehicleAntitheftResponse.antiTheft).isEqualTo("STD");
+		pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
+		rateEndorsement(softly, policyNumber);
+		pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
+
+		VehicleUpdateDto updateVehicleSalvagedRequest = new VehicleUpdateDto();
+		updateVehicleSalvagedRequest.salvaged = true;
+		Vehicle updateVehicleSalvagedResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleSalvagedRequest);
+		assertThat(updateVehicleSalvagedResponse.salvaged).isEqualTo(true);
+		pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
+		rateEndorsement(softly, policyNumber);
+		pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
+
+		VehicleUpdateDto updateVehiclePurchaseDateRequest = new VehicleUpdateDto();
+		updateVehiclePurchaseDateRequest.purchaseDate = "2018-02-28";
+		Vehicle updateVehiclePurchaseDateResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehiclePurchaseDateRequest);
+		assertThat(updateVehiclePurchaseDateResponse.purchaseDate.replace("T00:00:00Z", "")).isEqualTo("2018-02-28");
 		pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
 		rateEndorsement(softly, policyNumber);
 		pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
@@ -5620,7 +5646,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").verify.value(endorsementStatus);
 	}
 
-	protected void pas14952_statusResetsForNewlyAddedVehicleBody(SoftAssertions softly) {
+	protected void pas14952_StatusResetsForNewlyAddedVehicleBody(SoftAssertions softly) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
@@ -5644,7 +5670,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		softly.assertThat(vinValidateResponse.vehicles.get(0).vin).isEqualTo(vin);
 
 		//Add new vehicle
-		//BUG PAS-14688, PAS-14689, PAS-14690, PAS-14691 - Add Vehicle for DC, KS, NY, OR
 		Vehicle responseAddVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin);
 		assertThat(responseAddVehicle.oid).isNotEmpty();
 		String newVehicleOid = responseAddVehicle.oid;
@@ -5653,9 +5678,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		//Update Vehicle with proper Usage and Registered Owner
 		updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
-
 		pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
-
 		rateEndorsement(softly, policyNumber);
 
 		pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
@@ -5663,7 +5686,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		NavigationPage.toViewTab(getVehicleTab());
 		assertThat(Tab.labelStatus.getValue()).isEqualTo("Premium Calculated");
 		VehicleTab.tableVehicleList.selectRow(2);
-		//BUG status resets here
+		//BUG PAS-15396 Endorsement status is reset when navigating to a vehicle added through service after it was rated through service
 		assertThat(Tab.labelStatus.getValue()).isEqualTo("Premium Calculated");
 	}
 

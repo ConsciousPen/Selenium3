@@ -1245,19 +1245,19 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14952"})
-	public void pas14952_premiumNotReset(@Optional("VA") String state) {
+	public void pas14952_EndorsementStatusResetForVehRatingFactors(@Optional("VA") String state) {
 		assertSoftly(softly ->
-				pas14952_premiumNotResetBody(state, softly)
+				pas14952_EndorsementStatusResetForVehRatingFactorsBody(state, softly)
 		);
 	}
 
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14952"})
-	public void pas14952_statusResetsForNewlyAddedVehicle(@Optional("VA") String state) {
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14952", "PAS-15152"})
+	public void pas14952_StatusResetsForNewlyAddedVehicle(@Optional("VA") String state) {
 		assertSoftly(softly ->
-				pas14952_statusResetsForNewlyAddedVehicleBody(softly)
+				pas14952_StatusResetsForNewlyAddedVehicleBody(softly)
 		);
 	}
 
