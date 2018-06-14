@@ -142,7 +142,12 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 		ExcelTable t = new ExcelTable(headerRow.getPoiRow(), columnsIndexesOnSheet, rowsIndexesOnSheet, this, getCellTypes());
 		return addTable(t).getTable(t);
 	}
-
+	
+	/*public ExcelTable createTable(int headerRowIndexOnSheet, List<Integer> rowsIndexesInTable, String... headerColumnsNames) {
+		getPoiSheet().createRow(headerRowIndexOnSheet - 1).
+		ExcelTable newTable = new ExcelTable(headerRow.getPoiRow(), columnsIndexesOnSheet, rowsIndexesOnSheet, this, getCellTypes());
+	}*/
+	
 	protected ExcelSheet addTable(ExcelTable table) {
 		if (!getTables().contains(table)) {
 			this.tables.add(table);

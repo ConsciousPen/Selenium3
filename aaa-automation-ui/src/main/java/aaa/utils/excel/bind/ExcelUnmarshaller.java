@@ -60,7 +60,7 @@ public class ExcelUnmarshaller implements Closeable {
 	public <T> T unmarshal(Class<T> excelFileModel) {
 		log.info(String.format("Getting excel file object of \"%1$s\" model from %2$s %3$s strict match binding",
 				excelFileModel.getSimpleName(),
-				this.excelManager.initializedFromFile() ? "file \"" + this.excelManager.getSourceFile().getAbsolutePath() + "\"" : "InputStream",
+				this.excelManager.initializedFromFile() ? "file \"" + this.excelManager.getFile().getAbsolutePath() + "\"" : "InputStream",
 				isStrictMatchBinding() ? "with" : "without"));
 		
 		T excelFileObject = (T) getInstance(excelFileModel);
@@ -80,7 +80,7 @@ public class ExcelUnmarshaller implements Closeable {
 	public <T> List<T> unmarshalRows(Class<T> excelTableModel, List<Integer> rowsWithPrimaryKeyValues) {
 		log.info(String.format("Getting list of table row objects of \"%1$s\" model from %2$s%3$s %4$s strict match binding",
 				excelTableModel.getSimpleName(),
-				this.excelManager.initializedFromFile() ? "file \"" + this.excelManager.getSourceFile().getAbsolutePath() + "\"" : "InputStream",
+				this.excelManager.initializedFromFile() ? "file \"" + this.excelManager.getFile().getAbsolutePath() + "\"" : "InputStream",
 				CollectionUtils.isNotEmpty(rowsWithPrimaryKeyValues) ? ", containing values in primary key columns: " + rowsWithPrimaryKeyValues : "",
 				isStrictMatchBinding() ? "with" : "without"));
 		
