@@ -4353,7 +4353,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		assertSoftly(softly -> {
 			softly.assertThat(deleteVehicleResponse.oid).isEqualTo(oid);
 			softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
-			softly.assertThat(deleteVehicleResponse.vehIdentificationNo).isEqualTo(vin1);
 			assertThat(deleteVehicleResponse.ruleSets).isEqualTo(null);
 		});
 

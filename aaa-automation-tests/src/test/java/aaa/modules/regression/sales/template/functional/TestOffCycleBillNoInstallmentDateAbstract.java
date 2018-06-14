@@ -99,7 +99,7 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
     }
 
     private void reopenPolicy(String policyNumber) {
-        mainApp().reopen();
+        mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
     }
 

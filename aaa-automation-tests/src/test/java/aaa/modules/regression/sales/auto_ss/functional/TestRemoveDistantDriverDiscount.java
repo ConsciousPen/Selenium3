@@ -39,7 +39,7 @@ public class TestRemoveDistantDriverDiscount extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-8915")
-	public void pas8915_removeDistantDriverDiscount(@Optional("NJ") String state) {
+	public void pas8915_removeDistantDriverDiscount(@Optional("") String state) {
 
 		TestData testData = getPolicyDefaultTD();
 
