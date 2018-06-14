@@ -5406,6 +5406,24 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		UpdateRulesOverrideActionTab.btnCancel.click();
 	}
 
+	protected void pas14648_MedpmDelimiter(PolicyType policyType) {
+		mainApp().open();
+	    String policyNumber = getCopiedPolicy();
+	    SearchPage.openPolicy(policyNumber);
+
+	    //Perform Endorsement
+	    AAAEndorseResponse endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+	    assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
+
+	    PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber);
+	    assertSoftly(softly -> {
+	        softly.assertThat(policyCoverageResponse.policyCoverages.get(4).coverageCd).isEqualTo("MEDPM");
+	        softly.assertThat(policyCoverageResponse.policyCoverages.get(4).coverageType).isEqualTo("Per Person");
+	        softly.assertThat(policyCoverageResponse.policyCoverages.get(4).availableLimits.size()).isNotEqualTo(0);
+	    });
+	
+	}
+
 	private void rateEndorsement(SoftAssertions softly, String policyNumber) {
 		PolicyPremiumInfo[] endorsementRateResponse = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
 		softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
