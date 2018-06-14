@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ca.ho3;
+package aaa.modules.regression.sales.home_ca.ho3.functional;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -35,8 +35,8 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement HO3")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-13210")
     public void AC1AC4_Quote_VisibleFPCECA(@Optional("") String state) {
         defaultPolicyData = getPolicyTD();
 
@@ -69,8 +69,8 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement HO3")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-13210")
     public void AC2AC5_Endorsement_VisibleFPCECA(@Optional("") String state) {
 
         defaultPolicyData = getPolicyTD();
@@ -99,8 +99,8 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement HO3")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-13210")
     public void AC3_Renewal_VisibleFPCECA(@Optional("") String state) {
 
         myHelper.handleRenewalTesting(defaultPolicyData);

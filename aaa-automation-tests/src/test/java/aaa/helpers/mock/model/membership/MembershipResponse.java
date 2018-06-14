@@ -13,6 +13,9 @@ public class MembershipResponse {
 
 	@ExcelTransient
 	private static final String DATE_PATTERN_2 = "MM-dd-yy";
+	
+	@ExcelTransient
+	private static final String DATE_PATTERN_3 = "M.d.yyyy";
 
 	@ExcelColumnElement(name = "ID")
 	private String id;
@@ -42,8 +45,8 @@ public class MembershipResponse {
 
 	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
 	private LocalDate membershipEffectiveDate;
-
-	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
+	
+	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2, DATE_PATTERN_3})
 	private LocalDate memberStartDate;
 
 	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})

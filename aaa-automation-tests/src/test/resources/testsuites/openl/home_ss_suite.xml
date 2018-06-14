@@ -1,11 +1,14 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Home SS OpenL Rating Tests" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-        <!--<listener class-name="aaa.helpers.listeners.AlterSuiteListener"/> -->
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method"/>
-    <parameter name="testsDir" value="src/test/resources/openl/home_ss"/>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+    <parameter name="testsDir" value="aaa-rating-rules-home/src/test/openl/rules"/>
+    <parameter name="policyType" value="HomeSS"/>
+    <!-- Local tests execution parameters -->
+    <!--<parameter name="testsDir" value="src/test/resources/openl/home_ss"/>-->
+    <!--<parameter name="localTests" value="true"/>-->
 
     <test name="HomeSS [AZ] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="AZ"/>

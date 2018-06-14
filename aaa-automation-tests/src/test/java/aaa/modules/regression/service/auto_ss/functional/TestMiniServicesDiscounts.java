@@ -4,7 +4,6 @@ package aaa.modules.regression.service.auto_ss.functional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -93,11 +92,11 @@ public class TestMiniServicesDiscounts extends AutoSSBaseTest {
 		policyLevelDiscountsCheck(policyDiscountsResponse, "EMD", "eValue Discount");
 
 		//vehicle level discount check start
-		Vehicle[] viewVehicleResponse = HelperCommon.viewPolicyVehicles(policyNumber);
-		Vehicle vehicle1 = Arrays.stream(viewVehicleResponse).filter(veh -> "1GGYL2D7XG5100001".equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+		ViewVehicleResponse viewVehicleResponse = HelperCommon.viewPolicyVehicles(policyNumber);
+		Vehicle vehicle1 = viewVehicleResponse.vehicleList.stream().filter(veh -> "1GGYL2D7XG5100001".equals(veh.vehIdentificationNo)).findFirst().orElse(null);
 		String vehicleOid1 = vehicle1.oid;
 		printToLog("vehicleOid1 : " + vehicleOid1);
-		Vehicle vehicle2 = Arrays.stream(viewVehicleResponse).filter(veh -> "1GGYL2D7XG5100002".equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+		Vehicle vehicle2 = viewVehicleResponse.vehicleList.stream().filter(veh -> "1GGYL2D7XG5100002".equals(veh.vehIdentificationNo)).findFirst().orElse(null);
 		String vehicleOid2 = vehicle2.oid;
 		printToLog("vehicleOid2 : " + vehicleOid2);
 		vehicleLevelDiscountsCheck(policyDiscountsResponse, "ATD", "Anti-Theft Recovery Device", vehicleOid1);
@@ -108,11 +107,11 @@ public class TestMiniServicesDiscounts extends AutoSSBaseTest {
 		vehicleLevelDiscountsCheck(policyDiscountsResponse, "TDD", "Telematics Participation Discount", vehicleOid2);
 
 		//driver level discount check start
-		DriversDto[] responseViewDrivers = HelperCommon.viewPolicyDrivers(policyNumber);
-		DriversDto driver1 = Arrays.stream(responseViewDrivers).filter(driver -> "Jenny".equals(driver.firstName)).findFirst().orElse(null);
+		ViewDriversResponse responseViewDrivers = HelperCommon.viewPolicyDrivers(policyNumber);
+		DriversDto driver1 = responseViewDrivers.driverList.stream().filter(driver -> "Jenny".equals(driver.firstName)).findFirst().orElse(null);
 		String driverOid1 = driver1.oid;
 		printToLog("driverOid1 : " + driverOid1);
-		DriversDto driver2 = Arrays.stream(responseViewDrivers).filter(driver -> "Distant".equals(driver.firstName)).findFirst().orElse(null);
+		DriversDto driver2 = responseViewDrivers.driverList.stream().filter(driver -> "Distant".equals(driver.firstName)).findFirst().orElse(null);
 		String driverOid2 = driver2.oid;
 		printToLog("driverOid2 : " + driverOid2);
 		driverLevelDiscountsCheck(policyDiscountsResponse, "GSD", "Good Student Discount", driverOid1);
@@ -130,7 +129,6 @@ public class TestMiniServicesDiscounts extends AutoSSBaseTest {
 
 	private void vehicleLevelDiscountsCheck(DiscountSummary policyDiscountsResponse, String discountCode, String discountName, String oid) {
 		DiscountInfo discount = policyDiscountsResponse.vehicleDiscounts.stream().filter(disc -> discountCode.equals(disc.discountCd)).filter(disc -> oid.equals(disc.oid)).findFirst().orElseThrow(() -> new IstfException("no such discount"));
-
 		assertThat(discount.discountCd.equals(discountCode)).isTrue();
 		assertThat(discount.discountName.equals(discountName)).isTrue();
 		assertThat(discount.oid.equals(oid)).isTrue();
