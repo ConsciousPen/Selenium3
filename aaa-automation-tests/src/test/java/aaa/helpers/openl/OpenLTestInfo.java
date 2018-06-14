@@ -11,6 +11,7 @@ public class OpenLTestInfo<P extends OpenLPolicy> {
 	private String openLFilePath;
 	private List<P> openLPolicies;
 	private Throwable exception;
+	private String customerNumber;
 	
 	OpenLTestInfo() {}
 	
@@ -58,5 +59,13 @@ public class OpenLTestInfo<P extends OpenLPolicy> {
 	
 	public P getOpenLPolicy(int number) {
 		return this.openLPolicies.stream().filter(p -> p.getNumber() == number).findFirst().orElseThrow(() -> new IstfException("There is no policy with number " + number));
+	}
+	
+	public String getCustomerNumber() {
+		return customerNumber;
+	}
+	
+	public void setCustomerNumber(String customerNumber) {
+		this.customerNumber = customerNumber;
 	}
 }

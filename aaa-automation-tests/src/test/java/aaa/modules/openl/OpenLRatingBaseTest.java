@@ -1,6 +1,7 @@
 package aaa.modules.openl;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.util.Comparator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -9,6 +10,7 @@ import org.testng.annotations.*;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.openl.OpenLTestInfo;
 import aaa.helpers.openl.OpenLTestsManager;
@@ -42,7 +44,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 	 * @param context injected TestNG context with all test run information
 	 */
 	@BeforeSuite
-	public void testsPreparations(ITestContext context) {
+	protected void testsPreparations(ITestContext context) {
 		synchronized (TESTS_PREPARATIONS_LOCK) {
 			if (openLTestsManager == null) {
 				openLTestsManager = new OpenLTestsManager(context);
@@ -52,17 +54,15 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 	}
 	
 	@DataProvider(name = DATA_PROVIDER_NAME)
-	public Object[][] getOpenLTestData(ITestContext context) {
+	protected Object[][] getOpenLTestData(ITestContext context) {
 		OpenLTestInfo<P> testInfo = openLTestsManager.getTestInfo(context);
 		if (testInfo.isFailed()) {
 			Assert.fail("OpenL test preparation has been failed", testInfo.getException());
 		}
 		
-		Object[][] openLTestData = new Object[testInfo.getOpenLPolicies().size()][3];
-		for (int i = 0; i < testInfo.getOpenLPolicies().size(); i++) {
-			openLTestData[i] = new Object[] {testInfo.getState(), testInfo.getOpenLFilePath(), testInfo.getOpenLPolicies().get(i).getNumber()};
-		}
-		return openLTestData;
+		//Sort policies list by effective date for further valid time shifts
+		return testInfo.getOpenLPolicies().stream().sorted(Comparator.comparing(OpenLPolicy::getEffectiveDate))
+				.map(p -> new Object[] {testInfo.getState(), testInfo.getOpenLFilePath(), p.getNumber()}).toArray(Object[][]::new);
 	}
 	
 	/**
@@ -75,18 +75,34 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 	@Parameters({"state", "filePath", "policyNumber"})
 	@Test(groups = {Groups.OPENL, Groups.HIGH}, dataProvider = DATA_PROVIDER_NAME)
 	public void totalPremiumVerificationTest(@Optional String state, String filePath, int policyNumber) {
-		P openLPolicy = openLTestsManager.getOpenLPolicy(filePath, policyNumber);
+		OpenLTestInfo<P> testInfo = openLTestsManager.getTestInfo(filePath);
+		P openLPolicy = testInfo.getOpenLPolicy(policyNumber);
+		
 		if (openLPolicy.getEffectiveDate().isAfter(TimeSetterUtil.getInstance().getCurrentTime().toLocalDate())) {
 			TimeSetterUtil.getInstance().nextPhase(openLPolicy.getEffectiveDate().atStartOfDay());
 		}
 		
 		mainApp().open();
-		createCustomerIndividual();
+		createOrOpenExistingCustomer(testInfo);
 		
 		log.info("Premium calculation verification initiated for test {} and expected premium {} from \"{}\" OpenL file", policyNumber, openLPolicy.getExpectedPremium(), filePath);
 		Dollar actualPremium = createAndRateQuote(openLPolicy);
 		assertThat(actualPremium).as("Total premium for policy number %s is not equal to expected one", openLPolicy.getNumber()).isEqualTo(openLPolicy.getExpectedPremium());
 		Tab.buttonSaveAndExit.click();
+	}
+	
+	/**
+	 * Creates customer individual for set of tests from provided <b>testInfo</b> or opens existing one if it was already created
+	 *
+	 * @param testInfo OpenL tests holder with customer number and policy objects to be executed using this customer number
+	 */
+	protected void createOrOpenExistingCustomer(OpenLTestInfo<P> testInfo) {
+		if (testInfo.getCustomerNumber() == null) {
+			String customerNumber = createCustomerIndividual();
+			testInfo.setCustomerNumber(customerNumber);
+		} else {
+			SearchPage.openCustomer(testInfo.getCustomerNumber());
+		}
 	}
 	
 	/**

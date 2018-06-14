@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -21,7 +22,6 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBaseTest {
 
