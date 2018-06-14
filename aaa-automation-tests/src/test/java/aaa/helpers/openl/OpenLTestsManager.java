@@ -80,8 +80,9 @@ public final class OpenLTestsManager {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private <P extends OpenLPolicy> OpenLTestInfo<P> getTestInfo(String filePath) {
-		return (OpenLTestInfo<P>) this.openLTests.stream().filter(t -> t.getOpenLFilePath().equals(filePath)).findFirst().get();
+	public <P extends OpenLPolicy> OpenLTestInfo<P> getTestInfo(String filePath) {
+		return (OpenLTestInfo<P>) this.openLTests.stream().filter(t -> Objects.equals(t.getOpenLFilePath(), filePath)).findFirst()
+				.orElseThrow(() -> new IstfException(String.format("There is no OpenLTestInfo object with \"%s\" filePath", filePath)));
 	}
 	
 	private List<OpenLTestInfo<? extends OpenLPolicy>> getOpenLTests(List<XmlSuite> openLSuites) {
@@ -153,9 +154,6 @@ public final class OpenLTestsManager {
 			Dollar expectedPremium = policy.getTerm() == 6 ? openLTest.getTotalPremium().divide(2) : openLTest.getTotalPremium();
 			policy.setExpectedPremium(expectedPremium);
 		}
-		
-		//Sort policies list by effective date for further valid time shifts
-		openLPolicies = openLPolicies.stream().sorted(Comparator.comparing(OpenLPolicy::getEffectiveDate)).collect(Collectors.toList());
 		
 		return openLPolicies;
 	}
