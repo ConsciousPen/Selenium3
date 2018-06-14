@@ -21,7 +21,7 @@ public class ApplicationMocksManager {
 	private static final String SOURCE_MOCKS_FOLDER_PATTERN = String.format(
 			"/opt/IBM/WebSphere/AppServer/profiles/AppSrv01/installedApps/%sCell01/aaa-external-stub-services-app-ear.ear/aaa-external-stub-services-app.war/WEB-INF/classes/META-INF/mock", ENV_NAME);
 	
-	private static Map<MockType, UpdatableMock> appMocks;
+	private static Map<MockType, UpdatableMock> appMocks = new HashMap<>();
 	
 	@SuppressWarnings("unchecked")
 	public static synchronized <M extends UpdatableMock> M getMock(MockType mockType) {
