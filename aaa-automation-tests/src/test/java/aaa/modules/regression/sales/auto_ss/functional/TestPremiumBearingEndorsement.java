@@ -10,6 +10,7 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
+import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
@@ -85,6 +86,9 @@ public class TestPremiumBearingEndorsement extends AutoSSBaseTest {
         new PremiumAndCoveragesTab().calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         new DocumentsAndBindTab().submitTab();
+
+        //Verifies that no error messages display
+        assertThat(PolicySummaryPage.labelPolicyStatus).isPresent();
 
     }
 
