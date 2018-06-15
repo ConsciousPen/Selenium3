@@ -1,10 +1,11 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
 import static aaa.helpers.db.queries.MsrpQueries.CA_CHOICE_REGULAR_VEH_MSRP_VERSION;
-import static aaa.helpers.db.queries.VehicleQueries.DELETE_VEHICLEREFDATAVIN_BY_ID;
 import static aaa.helpers.db.queries.VehicleQueries.REPAIR_COLLCOMP_BY_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
@@ -13,6 +14,7 @@ import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.queries.VehicleQueries;
+import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.main.enums.DefaultVinVersions;
@@ -33,10 +35,10 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	}
 
 	protected String defaultVersion = DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get();
-	protected String vinCopyIdWithLowCompMatch = null;
-	protected String vinCopyIdWithHighCompMatch = null;
+	protected String vinIdCopyWithLowCompMatch = null;
+	protected String vinIdCopyWithHighCompMatch = null;
 	protected String vinOriginalIdNoCompMatch = null;
-	protected String vinCopyIdNoCompMatch = null;
+	protected String vinIdCopyNoCompMatch = null;
 	protected Map<String,String> allNewBusinessValues;
 	protected String newBusinessCompNoCompMatch;
 	protected String newBusinessCollNoCompMatch;
@@ -197,15 +199,15 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		String getVehicleRefDataVinMaxId = "SELECT MAX(id) + 1 as id FROM VEHICLEREFDATAVIN";
 
 		// Create VIN Entry with smaller COMP symbol then original
-		vinCopyIdWithLowCompMatch = DBService.get().getValue(getVehicleRefDataVinMaxId).get();
+		vinIdCopyWithLowCompMatch = DBService.get().getValue(getVehicleRefDataVinMaxId).get();
 		DBService.get().executeUpdate(String.format(VehicleQueries.COPY_EXISTING_ROW_BY_VIN,sqlVinCompMatch,defaultVersion));
-		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_ID_FOR_COPIED_ROW, vinCopyIdWithLowCompMatch,sqlVinCompMatch,defaultVersion));
-		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_COMP_COLL_SYMBOL, 35, 35, vinCopyIdWithLowCompMatch,sqlVinCompMatch,defaultVersion));
+		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_ID_FOR_COPIED_ROW, vinIdCopyWithLowCompMatch,sqlVinCompMatch,defaultVersion));
+		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_COMP_COLL_SYMBOL, 35, 35, vinIdCopyWithLowCompMatch,sqlVinCompMatch,defaultVersion));
 		// Create VIN Entry with Larger COMP symbol then original
-		vinCopyIdWithHighCompMatch = DBService.get().getValue(getVehicleRefDataVinMaxId).get();
-		DBService.get().executeUpdate(String.format(VehicleQueries.COPY_EXISTING_ROW_BY_ID, vinCopyIdWithLowCompMatch,defaultVersion));
-		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_ID_FOR_COPIED_ROW, vinCopyIdWithHighCompMatch,sqlVinCompMatch,defaultVersion));
-		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_COMP_COLL_SYMBOL, 55, 55, vinCopyIdWithHighCompMatch,sqlVinCompMatch,defaultVersion));
+		vinIdCopyWithHighCompMatch = DBService.get().getValue(getVehicleRefDataVinMaxId).get();
+		DBService.get().executeUpdate(String.format(VehicleQueries.COPY_EXISTING_ROW_BY_ID, vinIdCopyWithLowCompMatch,defaultVersion));
+		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_ID_FOR_COPIED_ROW, vinIdCopyWithHighCompMatch,sqlVinCompMatch,defaultVersion));
+		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_COMP_COLL_SYMBOL, 55, 55, vinIdCopyWithHighCompMatch,sqlVinCompMatch,defaultVersion));
 		//3. Generate Renewal Image
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
@@ -256,7 +258,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		String policyNumber = createPreconds(testData);
 		String newBusinessCurrentVinBeforeNull = DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get();
 		String sqlNoCompMatchVin =  newBusinessCurrentVinBeforeNull.replace("&","%") + "%";
-		vinCopyIdNoCompMatch =  DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_ID_BY_VIN_VERSION, sqlNoCompMatchVin, defaultVersion)).get();
+		vinIdCopyNoCompMatch =  DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_ID_BY_VIN_VERSION, sqlNoCompMatchVin, defaultVersion)).get();
 		assertThat(newBusinessCurrentVinBeforeNull).isNotNull().isNotEmpty();
 
 		log.info("Curren Vin # is : {}", newBusinessCurrentVinBeforeNull);
@@ -272,13 +274,13 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 
 		String getVehicleRefDataVinMaxId = "SELECT MAX(id) + 1 as id FROM VEHICLEREFDATAVIN";
 		// Change current comp, coll symbol for existing vin
-		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_COMP_COLL_SYMBOL, Integer.parseInt(newBusinessCompNoCompMatch)+5, Integer.parseInt(newBusinessCompNoCompMatch)+5, vinCopyIdNoCompMatch,sqlNoCompMatchVin,defaultVersion));
+		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_COMP_COLL_SYMBOL, Integer.parseInt(newBusinessCompNoCompMatch)+5, Integer.parseInt(newBusinessCompNoCompMatch)+5, vinIdCopyNoCompMatch,sqlNoCompMatchVin,defaultVersion));
 
 		// Create VIN Entry with bigger COMP symbol then original
-		vinCopyIdNoCompMatch = DBService.get().getValue(getVehicleRefDataVinMaxId).get();
+		vinIdCopyNoCompMatch = DBService.get().getValue(getVehicleRefDataVinMaxId).get();
 		DBService.get().executeUpdate(String.format(VehicleQueries.COPY_EXISTING_ROW_BY_VIN,sqlNoCompMatchVin,defaultVersion));
-		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_ID_FOR_COPIED_ROW, vinCopyIdNoCompMatch,sqlNoCompMatchVin,defaultVersion));
-		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_COMP_COLL_SYMBOL, Integer.parseInt(newBusinessCompNoCompMatch)+15, Integer.parseInt(newBusinessCompNoCompMatch)+15, vinCopyIdNoCompMatch,sqlNoCompMatchVin,defaultVersion));
+		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_ID_FOR_COPIED_ROW, vinIdCopyNoCompMatch,sqlNoCompMatchVin,defaultVersion));
+		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_COMP_COLL_SYMBOL, Integer.parseInt(newBusinessCompNoCompMatch)+15, Integer.parseInt(newBusinessCompNoCompMatch)+15, vinIdCopyNoCompMatch,sqlNoCompMatchVin,defaultVersion));
 		//3. Generate Renewal Image
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
@@ -298,11 +300,16 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	@AfterClass(alwaysRun = true)
 	protected void resetVinControlTable() {
 		pas730_ChoiceCleanDataBase(CA_CHOICE_REGULAR_VEH_MSRP_VERSION, vehicleTypeRegular);
-		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVIN_BY_ID, vinCopyIdWithLowCompMatch));
-		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVIN_BY_ID, vinCopyIdWithHighCompMatch));
-		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVIN_BY_ID, vinCopyIdNoCompMatch));
-		if(vinOriginalIdNoCompMatch != null || !vinCopyIdNoCompMatch.isEmpty()){
-			DBService.get().executeUpdate(String.format(REPAIR_COLLCOMP_BY_ID,Integer.parseInt(newBusinessCollNoCompMatch)-5,Integer.parseInt(newBusinessCompNoCompMatch)-5, vinOriginalIdNoCompMatch,defaultVersion));
+
+		List<String> listOfVinIds = Arrays.asList(vinIdCopyWithLowCompMatch, vinIdCopyWithHighCompMatch, vinIdCopyNoCompMatch);
+		for(String id : listOfVinIds){
+			if(id!=null && !id.isEmpty()){
+				DatabaseCleanHelper.cleanVehicleRefDataVinTable(id,DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get());
+			}
+		}
+
+		if(vinOriginalIdNoCompMatch != null || !vinOriginalIdNoCompMatch.isEmpty()){
+			DBService.get().executeUpdate(String.format(REPAIR_COLLCOMP_BY_ID,Integer.parseInt(newBusinessCollNoCompMatch)-5,Integer.parseInt(newBusinessCompNoCompMatch)-5, vinOriginalIdNoCompMatch,DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get()));
 		}
 	}
 }

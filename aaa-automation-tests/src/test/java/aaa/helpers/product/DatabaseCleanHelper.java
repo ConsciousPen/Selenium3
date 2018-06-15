@@ -13,11 +13,17 @@ public class DatabaseCleanHelper {
 
 	public static void cleanVehicleRefDataVinTable(String vinNumber, String vinVersion) {
 		try {
-			if(vinNumber.length()>8){
-				vinNumber = vinNumber.substring(0,8) +"%";
+			if (vinNumber.length() > 8) {
+				vinNumber = vinNumber.substring(0, 8) + "%";
 			}
-			String query = String.format(VehicleQueries.DELETE_FROM_VEHICLEREFDATAVIN_BY_VIN_AND_VERSION, vinNumber, vinVersion);
-			DBService.get().executeUpdate(query);
+
+			if (vinNumber != null && !vinNumber.isEmpty()) {
+				String query = String.format(VehicleQueries.DELETE_FROM_VEHICLEREFDATAVIN_BY_VIN_AND_VERSION, vinNumber, vinVersion);
+				DBService.get().executeUpdate(query);
+			} else {
+				log.info("Vin was not processed : {}", vinNumber);
+			}
+
 		} catch (NoSuchElementException e) {
 			log.error("VINs {} were not found in VehicleRefDdataVinControl.", vinNumber);
 		}
