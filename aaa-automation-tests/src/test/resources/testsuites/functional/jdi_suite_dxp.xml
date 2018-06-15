@@ -260,4 +260,14 @@
             </class>
         </classes>
     </test>
+    <test name="pas14648_MedpmDelimiter">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas14648_MedpmDelimiter"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
