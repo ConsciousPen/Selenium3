@@ -452,7 +452,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVIN_BY_ID, vinCopyIdWithLowComp));
 		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVIN_BY_ID, vinCopyIdWithHighComp));
 		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVIN_BY_ID, vinCopyIdNoCompMatch));
-		if(!vinOriginalIdNoCompMatch.equals(null) && !vinOriginalIdNoCompMatch.isEmpty()){
+		if(vinOriginalIdNoCompMatch !=null && !vinOriginalIdNoCompMatch.isEmpty()){
 			DBService.get().executeUpdate(String.format(REPAIR_COLLCOMP_BY_ID,Integer.parseInt(newBusinessCollNoCompMatch)-5,Integer.parseInt(newBusinessCompNoCompMatch)-5, vinOriginalIdNoCompMatch,defaultVersion));
 		}
 		resetMsrpPPAVeh();
