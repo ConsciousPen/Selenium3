@@ -51,12 +51,12 @@ public class UploadToVINTableTab extends DefaultTab {
 		boolean result = false;
 
 		while (timeout < System.currentTimeMillis()) {
-				String value = uploadToVINTableForm.getValue();
-				if (value.contains("Rows added") && value.contains(fileName) && !value.contains("Error")) {
-					result = true;
-					break;
-				}
+			String value = uploadToVINTableForm.getValue();
+			try {
+				assertThat(value).contains("Rows added").contains(fileName).doesNotContain("Error");
+				break;
+			} catch (Exception e) {
+			}
 		}
-		assertThat(result).isTrue();
 	}
 }
