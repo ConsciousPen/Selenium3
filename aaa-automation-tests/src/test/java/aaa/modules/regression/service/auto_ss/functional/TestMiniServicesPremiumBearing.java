@@ -1261,6 +1261,20 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		);
 	}
 
+	/**
+	 * @author gzkvano
+	 * @name Check MEDPM delimiter
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15245"})
+	public void pas14648_MedpmDelimiter(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas14648_MedpmDelimiter(getPolicyType())
+		);
+	}
+
 	@Override
 	protected String getGeneralTab() {
 		return NavigationEnum.AutoSSTab.GENERAL.get();
