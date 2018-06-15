@@ -103,7 +103,9 @@ public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 			softly.assertThat(currentBillResponse2.amountPastDue).isEqualTo(amountPastDueUi);
 		} else {
 			Bill currentBillResponse2 = HelperCommon.currentBillService(policyNumber);
-			softly.assertThat(currentBillResponse2.dueDate).isEqualTo(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeFormatter.ofPattern("YYYY-MM-dd")));
+			if(!currentBillResponse2.dueDate.equals(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("YYYY-MM-dd")))) {
+				softly.assertThat(currentBillResponse2.dueDate).isEqualTo(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeFormatter.ofPattern("YYYY-MM-dd")));
+			}
 			softly.assertThat(currentBillResponse2.amountDue).isEqualTo("0.00");
 			softly.assertThat(currentBillResponse2.amountPastDue).isEqualTo("0.00");
 		}

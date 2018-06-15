@@ -29,62 +29,66 @@
         </classes>
     </test>
 
-        <test name="MVR Predictor Algo">
-            <parameter name="state" value="IN,KY,MD,NJ,NV,PA,VA,OK,CT"/>
-            <classes>
-                <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
-                    <methods>
-                        <exclude name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
-                        <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
-                        <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
-                        <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
-                    </methods>
-                </class>
-            </classes>
-        </test>
+    <!-- commented out until feature branch is merged into master
 
-        <test name="MVR Predictor Algo Accidents">
-            <parameter name="state" value="IN,KY,MD,NJ,PA,VA,CT"/>
-            <classes>
-                <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
-                    <methods>
-                        <include name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
-                        <include name="pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
-                        <include name="pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
-                        <include name="pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
-                    </methods>
-                </class>
-            </classes>
-        </test>
+    <test name="MVR Predictor Algo">
+        <parameter name="state" value="IN,KY,MD,NJ,NV,PA,VA,OK,CT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
+                <methods>
+                    <exclude name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
+                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
+                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
+                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 
-        <test name="Good Student Discount">
-            <parameter name="state" value="IN,KY,MD,NJ,NV,PA,VA,OK,CT"/>
-            <classes>
-                <class name="aaa.modules.regression.sales.auto_ss.functional.TestGoodStudentDiscount"/>
-            </classes>
-        </test>
+    <test name="MVR Predictor Algo Accidents">
+        <parameter name="state" value="IN,KY,MD,NJ,PA,VA,CT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
+                <methods>
+                    <include name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
+                    <include name="pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
+                    <include name="pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
+                    <include name="pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 
-        <test name="Remove Distant Driver Discount">
-            <parameter name="state" value="NJ"/>
-            <classes>
-                <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveDistantDriverDiscount"/>
-            </classes>
-        </test>
+    -->
 
-        <test name="Test Locked BI Limits And UW Points">
-            <parameter name="state" value="PA"/>
-            <classes>
-                <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints"/>
-            </classes>
-        </test>
+    <test name="Good Student Discount">
+        <parameter name="state" value="IN,KY,MD,NJ,NV,PA,VA,OK,CT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestGoodStudentDiscount"/>
+        </classes>
+    </test>
 
-        <test name="Test Enhanced UIM Coverage Behavior">
-            <parameter name="state" value="MD"/>
-            <classes>
-                <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior"/>
-                <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDNanoPolicyEUIMBehavior"/>
-            </classes>
-        </test>
+    <test name="Remove Distant Driver Discount">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveDistantDriverDiscount"/>
+        </classes>
+    </test>
+
+    <test name="Test Locked BI Limits And UW Points">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints"/>
+        </classes>
+    </test>
+
+    <test name="Test Enhanced UIM Coverage Behavior">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDNanoPolicyEUIMBehavior"/>
+        </classes>
+    </test>
 
     <!--Tests for Property-->
 
