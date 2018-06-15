@@ -42,21 +42,15 @@ public class UploadToVINTableTab extends DefaultTab {
 	}
 
 	private void uploadFile(String fileName) {
-		long timeoutInSeconds = 30;
+		long timeoutInSeconds = 5;
 
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(DEFAULT_PATH + fileName));
 		buttonUpload.click();
 
 		long timeout = System.currentTimeMillis() + timeoutInSeconds * 1000;
-		boolean result = false;
 
 		while (timeout < System.currentTimeMillis()) {
-			String value = uploadToVINTableForm.getValue();
-			try {
-				assertThat(value).contains("Rows added").contains(fileName).doesNotContain("Error");
-				break;
-			} catch (Exception e) {
-			}
+			assertThat(labelUploadSuccessful.isPresent()).isTrue();
 		}
 	}
 }
