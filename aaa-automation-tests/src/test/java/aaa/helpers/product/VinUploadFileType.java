@@ -10,6 +10,9 @@ public enum VinUploadFileType {
 	NEW_VIN6("New6"),
 	NEW_VIN7("New7"),
 	NEW_VIN8("New8"),
+	NEW_VIN9("New9"),
+	NEW_VIN10("New10"),
+	REFRESHABLE_VIN2("Refreshable2"),
 	R45("R45");
 
 	private String type;

@@ -57,6 +57,9 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	private static final String NEW_VIN6 = "FFFKN3DD0E0344466";
 	private static final String NEW_VIN7 = "GGGKN3DD0E0344466";
 	private static final String NEW_VIN8 = "HHHKN3DD4E0344466";
+	private static final String NEW_VIN9 = "ZZXKN3DD2E0344466";
+	private static final String NEW_VIN10 = "SSAKN3DD4E0344466";
+	private static final String NEW_VIN11 = "DDAKN3DD1E0344466";
 	private static final String REFRESHABLE_VIN = "1HGEM215140028445";
 
 	@Override
@@ -146,7 +149,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	 * PAS-6455 Make Entry Date Part of Key for VIN Table Upload
 	 * PAS-938 Throw Rerate Error if User Skips P&C Page after a day
 	 *
-	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
+	 *   @name Test VINupload 'Add new VIN' scenario for Renewal.
 	 * @scenario 0. Create customer
 	 * 1. Initiate Auto SS quote creation
 	 * 2. Go to the vehicle tab, fill info with not existing VIN, and calculate the premium
@@ -864,6 +867,152 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		policy.dataGather().start();
 	}
 
+	/**
+	 * @author Kiruthika Rajendran
+	 * <p>
+	 * PAS-12872 Update VIN Refresh Y/M/M/S/S Match to use VIN Stub
+	 * @name Y/M/M/S/S refreshed from VIN table VIN partial match
+	 * @scenario
+	 * 0. Create a customer and an auto quote with VIN partial match
+	 * 1. Upload new vin data with updated Y/M/M/S/S
+	 * 2. Retrieve the created quote
+	 * 3. Navigate to P&C page and validate the updated Y/M/M/S/S for the VIN stub
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12872")
+	public void pas12872_VINRefreshPartialMatchUnboundQuote(@Optional("UT") String state) {
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.REFRESHABLE_VIN2.get());
+		String vehYear = "2016";
+		String vehMake = "CHEVROLET";
+		String vehModel = "MALIBU" ;
+		String vehSeries = "MALIBU HYBRID";
+		String vehBodyStyle = "SUV";
+
+		TestData testData = getPolicyTD()
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.YEAR.getLabel()), vehYear)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MAKE.getLabel()), vehMake)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MODEL.getLabel()), vehModel)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
+
+		//1. Create a quote with partial VIN matched data and save the quote number
+		createAndFillUpTo(testData, PremiumAndCoveragesTab.class);
+		new PremiumAndCoveragesTab().calculatePremium();
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		VehicleTab.buttonSaveAndExit.click();
+		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+
+		//2. Upload new vin data with updated Y/M/M/S/S
+		adminApp().open();
+		vinMethods.uploadVinTable(vinTableFile);
+
+		//3. Retrieve the created quote
+		findAndRateQuote(testData, quoteNumber);
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+
+		//4. Check for the updated Y/M/M values in View Rating Details table
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2016");
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("CHEVROLET AUTO");
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("CHEVROLET MALIBU");
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+	}
+
+	/**
+	 * @author Kiruthika Rajendran
+	 * <p>
+	 * PAS-12872 Update VIN Refresh Y/M/M/S/S Match to use VIN Stub
+	 * @name VIN refresh no match at renewal timeline R-45
+	 * @scenario
+	 * 0. Create a customer and an auto quote with VIN no match
+	 * 1. Upload new vin data with updated Y/M/M/S/S
+	 * 2. Generate automated renewal image R-45
+	 * 3. Retrieve the policy
+	 * 3. Navigate to P&C page and validate the updated Y/M/M/S/S for the VIN stub
+	 * @details
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12872")
+	public void pas12872_VINRefreshNoMatchRenewalTimeline(@Optional("UT") String state) {
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN9.get());
+		String vehYear = "2017";
+		String vehMake = "FORD";
+		String vehModel = "FIESTA";
+		String vehSeries = "FIESTA SE";
+		String vehBodyStyle = "SEDAN";
+
+		TestData testData = getPolicyTD()
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN9)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.YEAR.getLabel()), vehYear)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MAKE.getLabel()), vehMake)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MODEL.getLabel()), vehModel)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
+
+		//1. Create a policy with VIN no matched data and save the expiration data
+		String policyNumber = createPreconds(testData);
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+		//2. Upload vin data with updated Y/M/M/S/S
+		adminApp().open();
+		vinMethods.uploadVinTable(vinTableFile);
+
+		//3. Generate automated renewal image according to renewal timeline
+		pas12872_VINRefreshNoMatchCommonSteps(NEW_VIN9, policyNumber, policyExpirationDate.minusDays(45));
+	}
+
+	/**
+	 * @author Kiruthika Rajendran
+	 * <p>
+	 * PAS-12872 Update VIN Refresh Y/M/M/S/S to make VIN no to full match
+	 * @name Y/M/M/S/S refreshed from VIN table VIN no to full match
+	 * @scenario
+	 * 0. Create a customer and an auto quote with VIN no match
+	 * 1. Upload new vin data with updated Y/M/M/S/S
+	 * 2. Retrieve the created quote
+	 * 3. Navigate to P&C page and validate the updated Y/M/M/S/S for the VIN full match
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12872")
+	public void pas12872_VINRefreshPartialtoFullMatchRenewaltimeline(@Optional("UT") String state) {
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN10.get());
+		String vehYear = "2016";
+		String vehMake = "ACURA";
+		String vehModel = "MDX";
+		String vehSeries = "MDX";
+		String vehBodyStyle = "SUV";
+
+		TestData testData = getPolicyTD()
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN10)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.YEAR.getLabel()), vehYear)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MAKE.getLabel()), vehMake)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MODEL.getLabel()), vehModel)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
+
+		//1. Create a policy with VIN no matched data and save the expiration data
+		String policyNumber = createPreconds(testData);
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+		//2. Upload new vin data with updated Y/M/M/S/S
+		adminApp().open();
+		vinMethods.uploadVinTable(vinTableFile);
+
+		//3. Generate automated renewal image according to renewal timeline
+		pas12872_VINRefreshPartialToFullMatchCommonsteps(NEW_VIN10, policyNumber, policyExpirationDate.minusDays(45));
+	}
+
+
 	@AfterSuite(alwaysRun = true)
 	protected void resetDefault() {
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN,"SYMBOL_2000");
@@ -874,9 +1023,15 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN6,"SYMBOL_2000");
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN7,"SYMBOL_2000");
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN8,"SYMBOL_2000");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN9,"SYMBOL_2000");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN10,"SYMBOL_2000");
 		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_SS);
 		DBService.get().executeUpdate(VehicleQueries.REPAIR_7MSRP15H_COMP);
 		DBService.get().executeUpdate(VehicleQueries.REPAIR_7MSRP15H_COLL);
 		DBService.get().executeUpdate(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE);
+		DBService.get().executeUpdate(VehicleQueries.UPDATE_VEHICLEREFDATAVIN_VALID_NEWPOLICY_AUTO_SS_CLEANUP);
+		DBService.get().executeUpdate(VehicleQueries.DELETE_VEHICLEREFDATAVIN_REFRESHABLE_VIN_CLEANER1_SS);
+		DBService.get().executeUpdate(VehicleQueries.UPDATE_VEHICLEREFDATAVIN_VALID_RENEWAL_AUTO_SS_CLEANUP);
+		DBService.get().executeUpdate(VehicleQueries.DELETE_VEHICLEREFDATAVIN_REFRESHABLE_VIN_CLEANER2_SS);
 	}
 }

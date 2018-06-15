@@ -6,6 +6,7 @@ import static aaa.helpers.db.queries.MsrpQueries.DELETE_FROM_VEHICLEREFDATAVINCO
 import static aaa.helpers.db.queries.MsrpQueries.INSERT_MSRPCOMPCOLLCONTROL_VERSION;
 import static aaa.helpers.db.queries.MsrpQueries.UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX;
 import static aaa.helpers.db.queries.VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE;
+import static org.assertj.core.api.Assertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -139,6 +140,46 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel()).isPresent()).isEqualTo(false);
 		});
 	}
+
+	protected void pas12872_VINRefreshNoMatchCommonSteps(String vinNumber, String policyNumber, LocalDateTime timeShiftedDate) {
+		//1. Move time to renewal time point
+		moveTimeAndRunRenewJobs(timeShiftedDate);
+		//2. Retrieve the policy
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		//3. System rates renewal image according to renewal timeline
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		//4. Navigate to Premium and Coverages tab and calculate premium
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		//5. Check for the updated Y/M/M values in View Rating Details table
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2017");
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("FORD MOTOR");
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("FORD FIESTA");
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+	}
+
+	protected void pas12872_VINRefreshPartialToFullMatchCommonsteps(String vinNumber, String policyNumber, LocalDateTime timeShiftedDate) {
+		//1. Move time to renewal time point
+		moveTimeAndRunRenewJobs(timeShiftedDate);
+		//2. Retrieve the policy
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		//3. System rates renewal image according to renewal timeline
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		//4. Navigate to Premium and Coverages tab and calculate premium
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		//5. Check for the updated Y/M/M values in View Rating Details table
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2017");
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("ACURA MOTOR");
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("ACC MDX");
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+	}
+
+
 
 	protected String getCompSymbolFromVRD() {
 		return PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue();
