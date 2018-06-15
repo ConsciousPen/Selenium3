@@ -171,7 +171,8 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 
 		// fill needed fields for rating
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.BODY_STYLE).setValue("SEDAN 4 DOOR");
+		vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.BODY_STYLE).setValue("SUV");
+
 		vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VALUE).setValue("150000");
 		premiumAndCoveragesTab.calculatePremium();
 

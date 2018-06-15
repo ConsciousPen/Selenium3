@@ -35,7 +35,7 @@ import toolkit.utils.TestInfo;
 public class TestVINUpload extends TestVINUploadTemplate {
 
 	private static final String NEW_VIN = "AAANK3CC0F0455583";
-	private static final String NEW_VIN2 = "BBBNK3CC0F0455583";
+	private static final String NEW_VIN2 = "BBBNK3CCXF0455583";
 	private static final String NEW_VIN3 = "CCCNK3CC4F9455583";
 	private static final String NEW_VIN4 = "DDDNK3CC3F9455583";
 	private static final String NEW_VIN5 = "EEENK2CCXF9455583";

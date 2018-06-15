@@ -292,7 +292,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		findAndRateQuote(testData, quoteNumber);
 
 		//PAS-12881: Update VIN Y/M/M/S/S to Store VIN Stub (quote): Verify in DB that VIN STUB is stored
-		String expectedSTUB = "7MSRP15H&V";
+		String expectedSTUB = "1VWAA7A3&J";
 		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, quoteNumber)).get()).isNotNull().isEqualTo(expectedSTUB);
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();

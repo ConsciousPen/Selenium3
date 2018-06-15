@@ -50,7 +50,7 @@ public class UploadToVINTableTab extends DefaultTab {
 		long timeout = System.currentTimeMillis() + timeoutInSeconds * 1000;
 
 		while (timeout < System.currentTimeMillis()) {
-			assertThat(labelUploadSuccessful.isPresent()).isTrue();
+			assertThat(labelUploadSuccessful.getValue()).doesNotContain("Error");
 		}
 	}
 }
