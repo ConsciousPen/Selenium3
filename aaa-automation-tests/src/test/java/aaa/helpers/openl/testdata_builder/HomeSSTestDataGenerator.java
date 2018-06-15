@@ -9,7 +9,9 @@ import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.Constants;
 import aaa.helpers.TestDataHelper;
-import aaa.helpers.mock.MockDataHelper;
+import aaa.helpers.mock.ApplicationMocksManager;
+import aaa.helpers.mock.MockType;
+import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLForm;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
 import aaa.main.enums.BillingConstants;
@@ -264,9 +266,10 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 
 		TestData aaaMembershipData;
 		if (Boolean.TRUE.equals(openLPolicy.getPolicyDiscountInformation().isCurrAAAMember())) {
+			RetrieveMembershipSummaryMock membershipMock = ApplicationMocksManager.getMock(MockType.RETRIEVE_MEMBERSHIP_SUMMARY);
 			aaaMembershipData = DataProviderFactory.dataOf(
 					HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes",
-					HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), MockDataHelper.getMembershipData().getMembershipNumber(openLPolicy.getEffectiveDate(), openLPolicy.getPolicyDiscountInformation().getMemberPersistency()),
+					HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), membershipMock.getMembershipNumber(openLPolicy.getEffectiveDate(), openLPolicy.getPolicyDiscountInformation().getMemberPersistency()),
 					HomeSSMetaData.ApplicantTab.AAAMembership.LAST_NAME.getLabel(), "Smith"
 			);
 		} else {
@@ -317,6 +320,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		}
 
 		if (Boolean.TRUE.equals(openLPolicy.getPolicyDiscountInformation().isAutoPolicyInd())) {
+
 			TestData autoPolicyData;
 			if (Constants.States.PA.equals(openLPolicy.getPolicyAddress().getState())) {
 				autoPolicyData = DataProviderFactory.dataOf(
@@ -741,7 +745,6 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 
 	private boolean isCoastalState(String state) {
 		return Constants.States.CT.equals(state) ||
-				Constants.States.CT.equals(state) ||
 				Constants.States.DE.equals(state) ||
 				Constants.States.MD.equals(state) ||
 				Constants.States.NJ.equals(state) ||

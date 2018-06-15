@@ -1,0 +1,251 @@
+  TestData_Future_Date_AZ: {
+    InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_FutureDate_AZ'
+  }
+
+  InitiateRenewalEntryActionTab_FutureDate_AZ: {
+    Product Name: 'Personal Umbrella Policy',
+    Previous Policy Number: '$<rx:\d{10}>',
+    Previous Source System: SIS,
+    Risk State: AZ,
+    Renewal Effective Date: '$<today+57d:MM/dd/yyyy>',
+    Policy Term: Annual,
+    Enrolled in Autopay: 'No'
+  }
+
+  TestData_Past_Date_AZ: {
+    InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_PastDate_AZ'
+  }
+
+  InitiateRenewalEntryActionTab_PastDate_AZ: {
+    Product Name: 'Personal Umbrella Policy',
+    Previous Policy Number: '$<rx:\d{10}>',
+    Previous Source System: SIS,
+    Risk State: AZ,
+    Renewal Effective Date: '$<today-366d:MM/dd/yyyy>',
+    Policy Term: Annual,
+    Enrolled in Autopay: 'No'
+  }
+
+  TestData_Within_Timeline_AZ: {
+    InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_Within_Timeline_AZ'
+  }
+
+  InitiateRenewalEntryActionTab_Within_Timeline_AZ: {
+    Product Name: 'Personal Umbrella Policy',
+    Previous Policy Number: '$<rx:\d{10}>',
+    Previous Source System: SIS,
+    Risk State: AZ,
+    Renewal Effective Date: '$<today+54d:MM/dd/yyyy>',
+    Policy Term: Annual,
+    Enrolled in Autopay: 'No'
+  }
+
+  TestData_Future_Date_KY: {
+    InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_FutureDate_KY'
+  }
+
+  InitiateRenewalEntryActionTab_FutureDate_KY: {
+    Product Name: 'Personal Umbrella Policy',
+    Previous Policy Number: '$<rx:\d{10}>',
+    Previous Source System: SIS,
+    Risk State: KY,
+    Renewal Effective Date: '$<today+85d:MM/dd/yyyy>',
+    Policy Term: Annual,
+    Enrolled in Autopay: 'No'
+  }
+
+  TestData_Past_Date_KY: {
+    InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_PastDate_KY'
+  }
+
+  InitiateRenewalEntryActionTab_PastDate_KY: {
+    Product Name: 'Personal Umbrella Policy',
+    Previous Policy Number: '$<rx:\d{10}>',
+    Previous Source System: SIS,
+    Risk State: KY,
+    Renewal Effective Date: '$<today-366d:MM/dd/yyyy>',
+    Policy Term: Annual,
+    Enrolled in Autopay: 'No'
+  }
+
+  TestData_Within_Timeline_KY: {
+    InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_Within_Timeline_KY'
+  }
+
+  InitiateRenewalEntryActionTab_Within_Timeline_KY: {
+    Product Name: 'Personal Umbrella Policy',
+    Previous Policy Number: '$<rx:\d{10}>',
+    Previous Source System: SIS,
+    Risk State: KY,
+    Renewal Effective Date: '$<today+84d:MM/dd/yyyy>',
+    Policy Term: Annual,
+    Enrolled in Autopay: 'No'
+  }
+
+  TestData_Future_Date_WV: {
+    InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_FutureDate_WV'
+  }
+
+  InitiateRenewalEntryActionTab_FutureDate_WV: {
+    Product Name: 'Personal Umbrella Policy',
+    Previous Policy Number: '$<rx:\d{10}>',
+    Previous Source System: SIS,
+    Risk State: WV,
+    Renewal Effective Date: '$<today+65d:MM/dd/yyyy>',
+    Policy Term: Annual,
+    Enrolled in Autopay: 'No'
+  }
+
+  TestData_Past_Date_WV: {
+    InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_PastDate_WV'
+  }
+
+  InitiateRenewalEntryActionTab_PastDate_WV: {
+    Product Name: 'Personal Umbrella Policy',
+    Previous Policy Number: '$<rx:\d{10}>',
+    Previous Source System: SIS,
+    Risk State: WV,
+    Renewal Effective Date: '$<today-366d:MM/dd/yyyy>',
+    Policy Term: Annual,
+    Enrolled in Autopay: 'No'
+  }
+
+  TestData_Within_Timeline_WV: {
+    InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_Within_Timeline_WV'
+  }
+
+  InitiateRenewalEntryActionTab_Within_Timeline_WV: {
+    Product Name: 'Personal Umbrella Policy',
+    Previous Policy Number: '$<rx:\d{10}>',
+    Previous Source System: SIS,
+    Risk State: WV,
+    Renewal Effective Date: '$<today+64d:MM/dd/yyyy>',
+    Policy Term: Annual,
+    Enrolled in Autopay: 'No'
+  }
+
+  TestData_Future_Date_NJ: {
+    InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_FutureDate_NJ'
+  }
+
+  InitiateRenewalEntryActionTab_FutureDate_NJ: {
+    Product Name: 'Personal Umbrella Policy',
+    Previous Policy Number: '$<rx:\d{10}>',
+    Previous Source System: MAIG,
+    Risk State: NJ,
+    Renewal Effective Date: '$<today+46d:MM/dd/yyyy>',
+    Policy Term: Annual,
+    Enrolled in Autopay: 'No'
+  }
+
+  TestData_Past_Date_NJ: {
+    InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_PastDate_NJ'
+  }
+
+  InitiateRenewalEntryActionTab_PastDate_NJ: {
+    Product Name: 'Personal Umbrella Policy',
+    Previous Policy Number: '$<rx:\d{10}>',
+    Previous Source System: MAIG,
+    Risk State: NJ,
+    Renewal Effective Date: '$<today-366d:MM/dd/yyyy>',
+    Policy Term: Annual,
+    Enrolled in Autopay: 'No'
+  }
+
+  TestData_Within_Timeline_NJ: {
+    InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_Within_Timeline_NJ'
+  }
+
+  InitiateRenewalEntryActionTab_Within_Timeline_NJ: {
+    Product Name: 'Personal Umbrella Policy',
+    Previous Policy Number: '$<rx:\d{10}>',
+    Previous Source System: MAIG,
+    Risk State: NJ,
+    Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+    Policy Term: Annual,
+    Enrolled in Autopay: 'No'
+  }
+
+  TestData_Future_Date_MD: {
+    InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_FutureDate_MD'
+  }
+
+  InitiateRenewalEntryActionTab_FutureDate_MD: {
+    Product Name: 'Personal Umbrella Policy',
+    Previous Policy Number: '$<rx:\d{10}>',
+    Previous Source System: MAIG,
+    Risk State: MD,
+    Renewal Effective Date: '$<today+61d:MM/dd/yyyy>',
+    Policy Term: Annual,
+    Enrolled in Autopay: 'No'
+  }
+
+  TestData_Past_Date_MD: {
+    InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_PastDate_MD'
+  }
+
+  InitiateRenewalEntryActionTab_PastDate_MD: {
+    Product Name: 'Personal Umbrella Policy',
+    Previous Policy Number: '$<rx:\d{10}>',
+    Previous Source System: MAIG,
+    Risk State: MD,
+    Renewal Effective Date: '$<today-366d:MM/dd/yyyy>',
+    Policy Term: Annual,
+    Enrolled in Autopay: 'No'
+  }
+
+  TestData_Within_Timeline_MD: {
+    InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_Within_Timeline_MD'
+  }
+
+  InitiateRenewalEntryActionTab_Within_Timeline_MD: {
+    Product Name: 'Personal Umbrella Policy',
+    Previous Policy Number: '$<rx:\d{10}>',
+    Previous Source System: MAIG,
+    Risk State: MD,
+    Renewal Effective Date: '$<today+60d:MM/dd/yyyy>',
+    Policy Term: Annual,
+    Enrolled in Autopay: 'No'
+  }
+
+  TestData_Future_Date_PA: {
+    InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_FutureDate_PA'
+  }
+
+  InitiateRenewalEntryActionTab_FutureDate_PA: {
+    Product Name: 'Personal Umbrella Policy',
+    Previous Policy Number: '$<rx:\d{10}>',
+    Previous Source System: MAIG,
+    Risk State: PA,
+    Renewal Effective Date: '$<today+46d:MM/dd/yyyy>',
+    Policy Term: Annual,
+    Enrolled in Autopay: 'No'
+  }
+
+  TestData_Past_Date_PA: {
+    InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_PastDate_PA'
+  }
+
+  InitiateRenewalEntryActionTab_PastDate_PA: {
+    Product Name: 'Personal Umbrella Policy',
+    Previous Policy Number: '$<rx:\d{10}>',
+    Previous Source System: MAIG,
+    Risk State: PA,
+    Renewal Effective Date: '$<today-366d:MM/dd/yyyy>',
+    Policy Term: Annual,
+    Enrolled in Autopay: 'No'
+  }
+
+  TestData_Within_Timeline_PA: {
+    InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_Within_Timeline_PA'
+  }
+
+  InitiateRenewalEntryActionTab_Within_Timeline_PA: {
+    Product Name: 'Personal Umbrella Policy',
+    Previous Policy Number: '$<rx:\d{10}>',
+    Previous Source System: MAIG,
+    Risk State: PA,
+    Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+    Policy Term: Annual,
+    Enrolled in Autopay: 'No'
+  }
