@@ -244,7 +244,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 	}
 
-	protected void partialMatch() {
+	protected void partialMatch(String vinPartialMatch) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
 		String vehYear = "2018";
@@ -278,8 +278,8 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 		String compSymbol = PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue();
 		String collSymbol = PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		VehicleTab.buttonSaveAndExit.click();
 
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
@@ -289,11 +289,12 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.PARTIAL_MATCH.get()));
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
-		findAndRateQuote(testData, quoteNumber);
-
-		//PAS-12881: Update VIN Y/M/M/S/S to Store VIN Stub (quote): Verify in DB that VIN STUB is stored
-		String expectedSTUB = "1VWAA7A3&J";
-		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, quoteNumber)).get()).isNotNull().isEqualTo(expectedSTUB);
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.CHOOSE_VIN).setValueByRegex(vinPartialMatch.substring(0,8) + ".*");
+		premiumAndCoveragesTab.calculatePremium();
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertSoftly(softly -> {
@@ -305,6 +306,12 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 		});
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.buttonSaveAndExit.click();
+
+		//PAS-12881: Update VIN Y/M/M/S/S to Store VIN Stub (quote): Verify in DB that VIN STUB is stored
+		String newBusinessCurrentVinBeforeNull = DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, quoteNumber)).get();
+		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, quoteNumber)).get()).isNotNull().isEqualTo(newBusinessCurrentVinBeforeNull);
+
 	}
 
 	/* ############ HELPERS ############ */

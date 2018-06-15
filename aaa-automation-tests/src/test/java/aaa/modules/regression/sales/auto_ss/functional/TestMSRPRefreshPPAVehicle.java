@@ -93,6 +93,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 			softly.assertThat(getCompSymbolFromVRD()).isNotEqualTo("55");
 			softly.assertThat(getCollSymbolFromVRD()).isNotEqualTo("66");
 		});
+
 		String compSymbol = PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue();
 		String collSymbol = PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
 
@@ -122,7 +123,6 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		//PAS-12881: Update VIN Y/M/M/S/S to Store VIN Stub (quote): Verify in DB that VIN STUB is stored
 		String newBusinessCurrentVinBeforeNull = DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, quoteNumber)).get();
-		String sqlVinCompMatch =  newBusinessCurrentVinBeforeNull.replace("&","%") + "%";
 		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, quoteNumber)).get()).isNotNull().isEqualTo(newBusinessCurrentVinBeforeNull);
 
 	}

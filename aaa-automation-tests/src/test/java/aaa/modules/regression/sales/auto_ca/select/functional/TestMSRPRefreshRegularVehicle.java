@@ -35,6 +35,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	protected String pas730_vinDoesNotMatchChoice = "1MSRP15H1V1011111";
 	protected String vinMatchNBandNoMatchOnRenewal = "6MSRP15H8V1011111";
+	protected String vinPartialMatch = "7PRTLCAH9V1011111";
 
 	protected String defaultVersion = DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get();
 	protected String vinIdCopyWithLowCompMatch;
@@ -66,7 +67,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-730")
 	public void pas730_PartialMatch(@Optional("") String state) {
-		partialMatch();
+		partialMatch(vinPartialMatch);
 	}
 
 	/**
@@ -353,6 +354,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		pas730_SelectCleanDataBase(CA_SELECT_REGULAR_VEH_MSRP_VERSION, vehicleTypeRegular);
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(pas730_vinDoesNotMatchChoice,defaultVersion);
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(vinMatchNBandNoMatchOnRenewal,defaultVersion);
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(vinPartialMatch,defaultVersion);
 
 		List<String> listOfVinIds = Arrays.asList(vinIdCopyWithLowCompMatch, vinIdCopyWithHighCompMatch);
 		for(String id : listOfVinIds){
