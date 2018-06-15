@@ -2,7 +2,7 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import java.time.LocalDateTime;
 import java.util.Map;
-import org.testng.annotations.AfterSuite;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -116,7 +116,7 @@ public class TestMSRPRefreshMotorHomeVehicle extends VinUploadAutoSSHelper {
 	}
 
 
-	@AfterSuite(alwaysRun = true)
+	@AfterClass(alwaysRun = true)
 	protected void resetVinControlTable() {
 		// Reset to the default state  MSRP_2000
 		resetMsrpHomeVehHelper();

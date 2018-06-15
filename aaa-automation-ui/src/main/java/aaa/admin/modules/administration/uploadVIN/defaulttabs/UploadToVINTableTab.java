@@ -42,7 +42,7 @@ public class UploadToVINTableTab extends DefaultTab {
 	}
 
 	private void uploadFile(String fileName) {
-		long timeoutInSeconds = 10;
+		long timeoutInSeconds = 30;
 
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(DEFAULT_PATH + fileName));
 		buttonUpload.click();

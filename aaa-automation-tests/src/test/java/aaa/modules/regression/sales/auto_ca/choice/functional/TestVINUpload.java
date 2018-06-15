@@ -1,7 +1,7 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
 import java.time.LocalDateTime;
-import org.testng.annotations.AfterSuite;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -222,7 +222,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		pas2716_AutomatedRenewal(policyNumber, policyExpirationDate.minusDays(35), NEW_VIN6);
 	}
 
-	@AfterSuite(alwaysRun = true)
+	@AfterClass(alwaysRun = true)
 	protected void vinTablesCleaner() {
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN,DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get());
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN2,DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get());

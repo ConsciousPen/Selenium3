@@ -6,7 +6,7 @@ import static aaa.helpers.db.queries.VehicleQueries.REPAIR_COLLCOMP_BY_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.Map;
-import org.testng.annotations.AfterSuite;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -295,13 +295,13 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		assertThat(autoRenewalVersionCurrentVin).isEqualTo(newBusinessCurrentVinBeforeNull);
 	}
 
-	@AfterSuite(alwaysRun = true)
+	@AfterClass(alwaysRun = true)
 	protected void resetVinControlTable() {
 		pas730_ChoiceCleanDataBase(CA_CHOICE_REGULAR_VEH_MSRP_VERSION, vehicleTypeRegular);
 		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVIN_BY_ID, vinCopyIdWithLowCompMatch));
 		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVIN_BY_ID, vinCopyIdWithHighCompMatch));
 		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVIN_BY_ID, vinCopyIdNoCompMatch));
-		if(!vinOriginalIdNoCompMatch.equals(null) || !vinCopyIdNoCompMatch.isEmpty()){
+		if(vinOriginalIdNoCompMatch != null || !vinCopyIdNoCompMatch.isEmpty()){
 			DBService.get().executeUpdate(String.format(REPAIR_COLLCOMP_BY_ID,Integer.parseInt(newBusinessCollNoCompMatch)-5,Integer.parseInt(newBusinessCompNoCompMatch)-5, vinOriginalIdNoCompMatch,defaultVersion));
 		}
 	}

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.openqa.selenium.By;
-import org.testng.annotations.AfterSuite;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -853,7 +853,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		policy.dataGather().start();
 	}
 
-	@AfterSuite(alwaysRun = true)
+	@AfterClass(alwaysRun = true)
 	protected void resetDefault() {
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN,DefaultVinVersions.SignatureSeries.SYMBOL_2000.get());
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN2,DefaultVinVersions.SignatureSeries.SYMBOL_2000.get());
