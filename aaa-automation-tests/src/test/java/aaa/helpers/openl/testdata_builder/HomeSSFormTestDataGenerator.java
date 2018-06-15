@@ -355,10 +355,17 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0929DataFunction = (openLPolicy, policyLevel) -> {
 		List<TestData> tdList = new ArrayList<>();
+		HomeSSOpenLForm form = openLPolicy.getForms().stream().filter(c -> "HS0929".equals(c.getFormCode())).findFirst().get();
+		//
+		List<Double> validLimits = new ArrayList<>(Arrays.asList(15000.0, 25000.0, 50000.0));
+		if (!validLimits.contains(form.getLimit())) {
+			throw new IstfException(String.format("Form HS0929 - invalid limit %s", form.getLimit().toString()));
+		}
+		//
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", isFormAdded("HS0929", policyLevel) ? "Edit" : "Add",
-				HomeSSMetaData.EndorsementTab.EndorsementHS0929.PROPERTY_COVERAGE_LIMIT.getLabel(), new Dollar(openLPolicy.getForms().stream().filter(c -> "HS0929".equals(c.getFormCode())).findFirst().get().getLimit()).toString().split("\\.")[0],
-				HomeSSMetaData.EndorsementTab.EndorsementHS0929.LIABILITY_COVERAGE_LIMIT.getLabel(), new Dollar(openLPolicy.getForms().stream().filter(c -> "HS0929".equals(c.getFormCode())).findFirst().get().getOptionalValue()).toString().split("\\.")[0]));
+				HomeSSMetaData.EndorsementTab.EndorsementHS0929.PROPERTY_COVERAGE_LIMIT.getLabel(), new Dollar(form.getLimit()).toString().split("\\.")[0],
+				HomeSSMetaData.EndorsementTab.EndorsementHS0929.LIABILITY_COVERAGE_LIMIT.getLabel(), new Dollar(form.getOptionalValue()).toString().split("\\.")[0]));
 		return tdList;
 	};
 
