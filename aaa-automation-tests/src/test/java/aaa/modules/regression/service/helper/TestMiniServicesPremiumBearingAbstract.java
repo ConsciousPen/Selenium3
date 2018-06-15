@@ -5421,6 +5421,14 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	        softly.assertThat(policyCoverageResponse.policyCoverages.get(4).coverageType).isEqualTo("Per Person");
 	        softly.assertThat(policyCoverageResponse.policyCoverages.get(4).availableLimits.size()).isNotEqualTo(0);
 	    });
+
+		PolicyCoverageInfo coverageEndorsementResponse = HelperCommon.viewEndorsementCoverages(policyNumber);
+		assertSoftly(softly -> {
+			softly.assertThat(coverageEndorsementResponse.policyCoverages.get(4).coverageCd).isEqualTo("MEDPM");
+			softly.assertThat(coverageEndorsementResponse.policyCoverages.get(4).coverageType).isEqualTo("Per Person");
+			softly.assertThat(coverageEndorsementResponse.policyCoverages.get(4).availableLimits.size()).isNotEqualTo(0);
+		});
+
 	}
 
 	private void rateEndorsement(SoftAssertions softly, String policyNumber) {
