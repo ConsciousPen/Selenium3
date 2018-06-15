@@ -250,11 +250,6 @@ public class PremiumAndCoveragesTab extends Tab {
 		return new Dollar(vehcilePremiumTable.getRow(1).getCell(3).getValue());
 	}
 
-	public Dollar getVehicleCoveragePremiumByVehicle1(int index) {
-		Table vehiclePremiumTable = new Table(tableVehicleCoveragePremium.format(index));
-		return new Dollar(vehiclePremiumTable.getRow(1).getCell(3).getValue());
-	}
-
 	public String getVehicleCoverageDetailsValueByVehicle(int index, String coverageName) {
 		Table vehicleCoverageDetailsTable = new Table(tableVehicleCoverageDetails.format(index));
 		Row coverageRow = vehicleCoverageDetailsTable.getRowContains(1, coverageName);
@@ -282,13 +277,6 @@ public class PremiumAndCoveragesTab extends Tab {
 			cell.controls.radioGroups.getFirst().setValue(value);
 		}
 
-	}
-
-	public String getVehicleCoverageDetailsTermPremiumByVehicle(int index, String coverageName) {
-		Table vehicleCoverageDetailsTable = new Table(tableVehicleCoverageDetails.format(index));
-		Row coverageRow = vehicleCoverageDetailsTable.getRowContains(1, coverageName);
-		Cell cell = coverageRow.getCell(3);
-		return cell.getValue();
 	}
 
 	private List<TestData> getTestDataFromTable(Table table, ByT pagePattern) {

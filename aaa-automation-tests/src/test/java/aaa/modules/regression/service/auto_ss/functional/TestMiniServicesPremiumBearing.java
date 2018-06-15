@@ -866,6 +866,8 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		pas11741_ViewManageVehicleLevelCoverages(getPolicyType());
 	}
 
+
+
 	//Scenario 2
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -895,6 +897,15 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	public void pas10352_ManageVehicleCoverageUpdateCoverage(@Optional("VA") String state) {
 
 		pas10352_ManageVehicleCoverageUpdateCoverage(getPolicyType());
+
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10352"})
+	public void pas10352_ManageVehicleCoverageUpdateCoverageOtherThanVa(@Optional("AZ") String state) {
+
+		pas10352_ManageVehicleCoverageUpdateCoverageOtherState(getPolicyType());
 
 	}
 
@@ -942,6 +953,23 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 
 		pas11741_ViewVehicleLevelCoverages(getPolicyType());
 	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14648"})
+	public void pas14645_ViewPolicyLevelCoverages(@Optional("VA") String state) {
+
+		pas14645_ViewCoveragesBiPd(getPolicyType());
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14648"})
+	public void pas14721_UpdateCoveragesBI_PD(@Optional("VA") String state) {
+
+		pas14721_UpdateCoveragesServiceBIPD(getPolicyType());
+	}
+
 
 	/**
 	 * @author Oleg Stasyuk
