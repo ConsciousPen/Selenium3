@@ -68,6 +68,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	private AssignmentTab assignmentTab = new AssignmentTab();
 	private VehicleTab vehicleTab = new VehicleTab();
 	private DriverTab driverTab = new DriverTab();
+	private GeneralTab generalTab = new GeneralTab();
 
 	protected abstract String getGeneralTab();
 
@@ -146,7 +147,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 	protected void pas6560_endorsementValidateAllowedPendedEndorsementUser(PolicyType policyType) {
-
 		mainApp().open();
 		getCopiedPolicy();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -222,7 +222,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		NavigationPage.toViewSubTab(getPremiumAndCoverageTab());
 		getDocumentsAndBindTabElement().saveAndExit();
 
-		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
 		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
 
@@ -253,7 +252,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		NavigationPage.toViewTab(getPremiumAndCoverageTab());
 		getPremiumAndCoverageTabElement().saveAndExit();
 
-		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
 		mainApp().close();
 
@@ -577,8 +575,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	protected void pas8273_CheckIfOnlyActiveVehiclesAreAllowed(SoftAssertions softly, PolicyType policyType) {
 		mainApp().open();
 		createCustomerIndividual();
-		VehicleTab vehicleTab = new VehicleTab();
-		PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_VehiclesGaragingAddress").getTestDataList("VehicleTab")).resolveLinks();
 		policyType.get().createPolicy(testData);
@@ -671,9 +667,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(2);
 		vehicleTab.getAssetList().getAsset(VIN).setValue("1FMEU15H7KLB19840");
-		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		new PremiumAndCoveragesTab().calculatePremium();
+		premiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
 
 		ViewVehicleResponse response1 = HelperCommon.viewPolicyVehicles(policyNumber);
@@ -842,7 +837,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			DriverTab.tableDriverList.selectRow(2);
 			driverTab.getAssetList().getAsset(MIDDLE_NAME).setValue("Kevin");
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-			new PremiumAndCoveragesTab().calculatePremium();
+			premiumAndCoveragesTab.calculatePremium();
 			premiumAndCoveragesTab.saveAndExit();
 
 			//Check dxp service with pending endorsement
@@ -885,7 +880,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(driverNd3.oid).isNotEmpty();
 
 			//Issue pended endorsement
-			TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 			testEValueDiscount.simplifiedPendedEndorsementIssue();
 
 			//Check dxp service if endorsement changes were applied
@@ -943,7 +937,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 	protected void pas9337_CheckStartEndorsementInfoServerResponseForFuturePolicy(PolicyType policyType) {
-
 		mainApp().open();
 		createCustomerIndividual();
 
@@ -976,7 +969,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 	protected void pas9337_CheckStartEndorsementInfoServerResponseForCancelPolicy(PolicyType policyType) {
-
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
@@ -1016,16 +1008,13 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 	protected void pas7082_AddVehicle(PolicyType policyType) {
-
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		VehicleTab vehicleTab = new VehicleTab();
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		policy.policyInquiry().start();
-		GeneralTab generalTab = new GeneralTab();
 		String zipCodeDefault = generalTab.getInquiryAssetList().getStaticElement(ZIP_CODE.getLabel()).getValue();
 		String addressDefault = generalTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1.getLabel()).getValue();
 		String cityDefault = generalTab.getInquiryAssetList().getStaticElement(CITY.getLabel()).getValue();
@@ -1069,11 +1058,9 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		VehicleTab.tableVehicleList.selectRow(2);
 		vehicleTab.getAssetList().getAsset(USAGE.getLabel(), ComboBox.class).setValue("Pleasure");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
-		new PremiumAndCoveragesTab().calculatePremium();
+		premiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
 
-		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 		//BUG PAS-11468 When endorsement is started through service, issueing it triggers Members Last Name error
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
 		//View added vehicle in view vehicle service
@@ -1092,7 +1079,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 	protected void pas9337_CheckStartEndorsementInfoServerResponseForExpiredPolicy(PolicyType policyType) {
-
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
@@ -1130,7 +1116,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			//Start PAS-10351
 			policy.policyInquiry().start();
-			GeneralTab generalTab = new GeneralTab();
 			String zipCode1 = generalTab.getInquiryAssetList().getStaticElement(ZIP_CODE.getLabel()).getValue();
 			String address1 = generalTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1.getLabel()).getValue();
 			String city1 = generalTab.getInquiryAssetList().getStaticElement(CITY.getLabel()).getValue();
@@ -1191,7 +1176,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 	protected void pas9716_policySummaryForLapsedRenewal(PolicyType policyType, String state) {
 		assertSoftly(softly -> {
-
 			mainApp().open();
 			createCustomerIndividual();
 			policyType.get().createPolicy(getPolicyTD());
@@ -1201,7 +1185,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			//Start PAS-10351
 			policy.policyInquiry().start();
-			GeneralTab generalTab = new GeneralTab();
 			String zipCode1 = generalTab.getInquiryAssetList().getStaticElement(ZIP_CODE.getLabel()).getValue();
 			String address1 = generalTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1.getLabel()).getValue();
 			String city1 = generalTab.getInquiryAssetList().getStaticElement(CITY.getLabel()).getValue();
@@ -1369,7 +1352,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			//Start PAS-10351
 			policy.policyInquiry().start();
-			GeneralTab generalTab = new GeneralTab();
 			String zipCode1 = generalTab.getInquiryAssetList().getStaticElement(ZIP_CODE.getLabel()).getValue();
 			String address1 = generalTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1.getLabel()).getValue();
 			String city1 = generalTab.getInquiryAssetList().getStaticElement(CITY.getLabel()).getValue();
@@ -2129,7 +2111,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 	protected void pas9716_policySummaryForConversionBody(String file, ITestContext context) {
 		assertSoftly(softly -> {
-			//timeshifting to let the tests pass
+			//time shifting to let the tests pass
 			mainApp().open();
 			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
 
@@ -2374,12 +2356,10 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
 		assertThat(new Dollar(PremiumAndCoveragesTab.getActualPremium())).isEqualTo(dxpPremium2);
-		PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 		premiumAndCoveragesTab.cancel();
 		//End PAS-479
 
 		//Issue pended endorsement
-		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
 
 		//View vehicles status after endorsement was bind
@@ -2403,7 +2383,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 	protected void pas10449_ViewVehicleServiceCheckOrderOfVehicle(PolicyType policyType, String state) {
-
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td = getPolicyTD("DataGather", "TestData");
@@ -2511,7 +2490,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		//Get garage address from UI
 		policy.policyInquiry().start();
-		GeneralTab generalTab = new GeneralTab();
 		String zipCodeDefault = generalTab.getInquiryAssetList().getStaticElement(ZIP_CODE.getLabel()).getValue();
 		String addressDefault = generalTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1.getLabel()).getValue();
 		String cityDefault = generalTab.getInquiryAssetList().getStaticElement(CITY.getLabel()).getValue();
@@ -2737,7 +2715,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		//add vehicle
 		String purchaseDate = "2012-02-21";
 		String vin = "4S2CK58W8X4307498";
-		VehicleTab vehicleTab = new VehicleTab();
 		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin);
 		assertThat(addVehicle.oid).isNotEmpty();
 
@@ -2776,7 +2753,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	protected void pas11741_ViewManageVehicleLevelCoverages(PolicyType policyType) {
 		mainApp().open();
 		createCustomerIndividual();
-		PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab")).resolveLinks();
 		policyType.get().createPolicy(testData);
@@ -3796,7 +3772,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	protected void pas11741_ViewVehicleLevelCoverages(PolicyType policyType) {
 		mainApp().open();
 		createCustomerIndividual();
-		PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab")).resolveLinks();
 		policyType.get().createPolicy(testData);
@@ -4412,7 +4387,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		//add vehicle
 		String purchaseDate = "2012-02-21";
 		String vinNew = "3FAFP31341R200709";
-		VehicleTab vehicleTab = new VehicleTab();
 		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vinNew);
 		assertThat(addVehicle.oid).isNotEmpty();
 
@@ -5731,7 +5705,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		getPremiumAndCoverageTabElement().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
-		new PremiumAndCoveragesTab().calculatePremium();
+		premiumAndCoveragesTab.calculatePremium();
 		getPremiumAndCoverageTabElement().saveAndExit();
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
 	}
@@ -5783,7 +5757,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		getPremiumAndCoverageTabElement().getAssetList().getAsset(getCalculatePremium()).click();
 		getPremiumAndCoverageTabElement().saveAndExit();
 
-		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
 		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 	}
