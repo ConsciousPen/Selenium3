@@ -55,7 +55,7 @@ public final class OpenLTestsManager {
 	
 	public void updateMocks() {
 		Map<MockType, UpdatableMock> requiredMocks = new HashMap<>();
-		
+
 		for (OpenLTestInfo<? extends OpenLPolicy> testInfo : this.openLTests) {
 			for (OpenLPolicy policy : testInfo.getOpenLPolicies()) {
 				for (Map.Entry<MockType, UpdatableMock> policyMock : policy.getRequiredMocks().entrySet()) {
@@ -78,13 +78,13 @@ public final class OpenLTestsManager {
 	public <P extends OpenLPolicy> OpenLTestInfo<P> getTestInfo(ITestContext context) {
 		return getTestInfo(getFilePath(context.getCurrentXmlTest()));
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public <P extends OpenLPolicy> OpenLTestInfo<P> getTestInfo(String filePath) {
 		return (OpenLTestInfo<P>) this.openLTests.stream().filter(t -> Objects.equals(t.getOpenLFilePath(), filePath)).findFirst()
 				.orElseThrow(() -> new IstfException(String.format("There is no OpenLTestInfo object with \"%s\" filePath", filePath)));
 	}
-	
+
 	private List<OpenLTestInfo<? extends OpenLPolicy>> getOpenLTests(List<XmlSuite> openLSuites) {
 		List<OpenLTestInfo<? extends OpenLPolicy>> openLTests = new ArrayList<>();
 		
@@ -99,13 +99,13 @@ public final class OpenLTestsManager {
 				} catch (Exception e) {
 					testInfo.setException(e);
 				}
-				
+
 				openLTests.add(testInfo);
 			}
 		}
 		return openLTests;
 	}
-	
+
 	private <P extends OpenLPolicy> List<P> getOpenLPolicies(XmlTest test) throws Exception {
 		String filePath = getFilePath(test);
 		List<CellType<?>> cellTypes = Arrays.asList(ExcelCell.INTEGER_TYPE, ExcelCell.DOUBLE_TYPE, ExcelCell.BOOLEAN_TYPE, ExcelCell.LOCAL_DATE_TYPE, ExcelCell.STRING_TYPE, ExcelCell.DOLLAR_CELL_TYPE);
@@ -263,7 +263,7 @@ public final class OpenLTestsManager {
 		public String getName() {
 			return name;
 		}
-		
+
 		@SuppressWarnings("unchecked")
 		public <P extends OpenLPolicy> Class<P> getOpenLPolicyModel() {
 			return (Class<P>) openLPolicyModel;

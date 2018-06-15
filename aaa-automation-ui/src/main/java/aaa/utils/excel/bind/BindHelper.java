@@ -24,7 +24,7 @@ public class BindHelper {
 		}
 		return fields;
 	}
-	
+
 	public static List<Field> getAllAccessibleFieldsFromThisAndSuperClasses(Class<?> tableClass) {
 		List<Field> accessibleFields = new ArrayList<>();
 		for (Class<?> clazz : getThisAndAllSuperClasses(tableClass)) {
@@ -35,7 +35,7 @@ public class BindHelper {
 				boolean isPackagePrivateAndAccessible =
 						!Modifier.isPrivate(field.getModifiers()) && !isPublic && !isProtected && field.getDeclaringClass().getPackage().getName().equals(clazz.getPackage().getName());
 				boolean isNotHiddenByChildClassField = accessibleFields.stream().noneMatch(f -> Objects.equals(field.getName(), f.getName()));
-				
+
 				if ((isLocalField || isPublic || isProtected || isPackagePrivateAndAccessible) && isNotHiddenByChildClassField) {
 					accessibleFields.add(field);
 				}
@@ -43,7 +43,7 @@ public class BindHelper {
 		}
 		return accessibleFields;
 	}
-	
+
 	public static List<Class<?>> getThisAndAllSuperClasses(Class<?> clazz) {
 		List<Class<?>> allSuperClasses = new ArrayList<>();
 		allSuperClasses.add(clazz);
@@ -53,11 +53,11 @@ public class BindHelper {
 		}
 		return allSuperClasses;
 	}
-	
+
 	public static boolean isTableClassField(Field field) {
 		return getThisAndAllSuperClasses(getFieldType(field)).stream().filter(Objects::nonNull).anyMatch(clazz -> clazz.isAnnotationPresent(ExcelTableElement.class));
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public static <T> Class<T> getFieldType(Field field) {
 		if (List.class.equals(field.getType())) {
@@ -65,7 +65,7 @@ public class BindHelper {
 		}
 		return (Class<T>) field.getType();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public static <T> Class<T> getGenericType(Field field) {
 		ParameterizedType parameterizedType = (ParameterizedType) field.getGenericType();

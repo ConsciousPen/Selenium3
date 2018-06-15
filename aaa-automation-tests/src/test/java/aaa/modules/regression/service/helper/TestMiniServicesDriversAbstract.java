@@ -106,7 +106,7 @@ public class TestMiniServicesDriversAbstract extends PolicyBaseTest {
 		sortedDriversFromResponse.sort(DriversDto.DRIVERS_COMPARATOR);
 		assertSoftly(softly ->
 
-			assertThat(originalOrderingFromResponse).containsAll(sortedDriversFromResponse)
+				assertThat(originalOrderingFromResponse).containsAll(sortedDriversFromResponse)
 		);
 
 	}
