@@ -44,6 +44,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 	protected String vinMatchNBandNoMatchOnRenewal = "6MSRPSSH5V1011111";
 	protected String vinPartialMatch = "7PRTL15H0V1011111";
+
 	protected String vinIdCopyWithLowComp;
 	protected String vinIdCopyWithHighComp;
 	protected String vinIdCopyNoCompMatch;
@@ -473,7 +474,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		if(vinIdOriginalNoCompMatch !=null && !vinIdOriginalNoCompMatch.isEmpty()){
 			DBService.get().executeUpdate(String.format(REPAIR_COLLCOMP_BY_ID,Integer.parseInt(newBusinessCollNoCompMatch)-5,Integer.parseInt(newBusinessCompNoCompMatch)-5, vinIdOriginalNoCompMatch,defaultVersion));
 		}
-		resetMsrpPPAVeh();
+		cleanAfter_PAS730_VehicleTypePPA();
 		// Reset to the default state  MSRP_2000
 		//resetDefaultMSRPVersionAtVinControlTable();
 	}

@@ -41,6 +41,8 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 	private static RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
 	protected VinUploadHelper vinMethods;
 
+	int AutoSSPPAVehicleMSRPKey = 4;
+
 	String INSERT_VEHICLEREFDATAVINCONTROL_VERSION =
 			"Insert into VEHICLEREFDATAVINCONTROL (ID,PRODUCTCD,FORMTYPE,STATECD,VERSION,EFFECTIVEDATE,EXPIRATIONDATE,MSRP_VERSION) values"
 					+ "(%1$d,'%2$s',%3$s,'%4$s','%5$s','%6$d','%7$d','%8$s')";
@@ -385,7 +387,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		//		getUniqId, "AAA_SS", null, getState(), "SYMBOL_2000", 20150102, 20500102, AUTO_SS_PPA_VEH_MSRP_VERSION));
 
 		// Add new MSRP version
-		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2025, 9999, "PPA", AUTO_SS_PPA_VEH_MSRP_VERSION, 4));
+		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2025, 9999, "PPA", AUTO_SS_PPA_VEH_MSRP_VERSION, AutoSSPPAVehicleMSRPKey));
 	}
 
 	/* DB cleaning methods */
@@ -400,7 +402,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		deleteAddedMsrpVersionFormMsrpControlTable(AUTO_SS_PPA_VEH_MSRP_VERSION, "Motor");
 	}
 
-	public void resetMsrpPPAVeh() {
+	public void cleanAfter_PAS730_VehicleTypePPA() {
 		// Reset 'default' msrp version
 		//resetMsrpVersionMSRPCompCollControlTable();
 		// DELETE new VEHICLEREFDATAVINCONTROL version
@@ -409,8 +411,8 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		deleteAddedMsrpVersionFormMsrpControlTable(AUTO_SS_PPA_VEH_MSRP_VERSION, "PPA");
 	}
 
-	private void deleteAddedMsrpVersionFormMsrpControlTable(String autoSsMotorhomeVehMsrpVersion, String motor) {
-		DBService.get().executeUpdate(String.format(DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY, autoSsMotorhomeVehMsrpVersion, 4, motor));
+	private void deleteAddedMsrpVersionFormMsrpControlTable(String autoSsMotorhomeVehMsrpVersion, String vehicleType) {
+		DBService.get().executeUpdate(String.format(DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY, autoSsMotorhomeVehMsrpVersion, AutoSSPPAVehicleMSRPKey, vehicleType));
 	}
 
 	private void deleteVersionFromVehicleControlTable(String vehicleMsrpVersion) {

@@ -35,15 +35,17 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	}
 
 	protected String defaultVersion = DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get();
+
+	protected static final String vinMatchNBandNoMatchOnRenewal = "6MSRP15H8V1011111";
+
 	protected String vinIdCopyWithLowCompMatch = null;
 	protected String vinIdCopyWithHighCompMatch = null;
 	protected String vinOriginalIdNoCompMatch = null;
 	protected String vinIdCopyNoCompMatch = null;
+
 	protected Map<String,String> allNewBusinessValues;
 	protected String newBusinessCompNoCompMatch;
 	protected String newBusinessCollNoCompMatch;
-
-	protected static final String vinMatchNBandNoMatchOnRenewal = "6MSRP15H8V1011111";
 
 	/**
 	 * @author Viktor Petrenko

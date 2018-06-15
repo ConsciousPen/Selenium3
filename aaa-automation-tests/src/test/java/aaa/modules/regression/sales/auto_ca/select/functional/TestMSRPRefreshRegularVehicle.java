@@ -33,18 +33,19 @@ import toolkit.utils.TestInfo;
 
 public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
-	final static String pas730_vinDoesNotMatchChoice = "1MSRP15H1V1011111";
+	protected String pas730_vinDoesNotMatchChoice = "1MSRP15H1V1011111";
+	protected String vinMatchNBandNoMatchOnRenewal = "6MSRP15H8V1011111";
 
 	protected String defaultVersion = DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get();
 	protected String vinIdCopyWithLowCompMatch;
 	protected String vinIdCopyWithHighCompMatch;
-	protected String vinOriginalIdNoCompMatch;
+	protected String vinIdOriginalNoCompMatch;
 	protected String vinIdCopyNoCompMatch;
+
 	protected Map<String,String> allNewBusinessValues;
 	protected String newBusinessCompNoCompMatch;
 	protected String newBusinessCollNoCompMatch;
 
-	protected String vinMatchNBandNoMatchOnRenewal = "6MSRP15H8V1011111";
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -350,8 +351,8 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	@AfterClass(alwaysRun = true)
 	protected void resetVinControlTable() {
 		pas730_SelectCleanDataBase(CA_SELECT_REGULAR_VEH_MSRP_VERSION, vehicleTypeRegular);
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(pas730_vinDoesNotMatchChoice,DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get());
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(vinMatchNBandNoMatchOnRenewal,DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get());
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(pas730_vinDoesNotMatchChoice,defaultVersion);
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(vinMatchNBandNoMatchOnRenewal,defaultVersion);
 
 		List<String> listOfVinIds = Arrays.asList(vinIdCopyWithLowCompMatch, vinIdCopyWithHighCompMatch);
 		for(String id : listOfVinIds){
@@ -360,8 +361,8 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 			}
 		}
 
-		if(vinOriginalIdNoCompMatch != null && !vinOriginalIdNoCompMatch.isEmpty()){
-			DBService.get().executeUpdate(String.format(REPAIR_COLLCOMP_BY_ID,Integer.parseInt(newBusinessCollNoCompMatch)-5,Integer.parseInt(newBusinessCompNoCompMatch)-5, vinOriginalIdNoCompMatch,defaultVersion));
+		if(vinIdOriginalNoCompMatch != null && !vinIdOriginalNoCompMatch.isEmpty()){
+			DBService.get().executeUpdate(String.format(REPAIR_COLLCOMP_BY_ID,Integer.parseInt(newBusinessCollNoCompMatch)-5,Integer.parseInt(newBusinessCompNoCompMatch)-5, vinIdOriginalNoCompMatch,defaultVersion));
 		}
 
 	}
