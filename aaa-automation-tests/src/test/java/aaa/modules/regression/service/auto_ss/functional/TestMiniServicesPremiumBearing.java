@@ -1268,10 +1268,34 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15245"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14648"})
 	public void pas14648_MedpmDelimiter(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas14648_MedpmDelimiter(getPolicyType())
+		);
+	}
+
+	/**
+	 * @author gzkvano
+	 * @name Check MEDPM delimiter
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12767"})
+	public void pas12767_ManualEndorsementCancel(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas12767_ManualEndorsementCancelBody()
+		);
+	}
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12767"})
+	public void pas12767_ServiceEndorsementCancel(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas12767_ServiceEndorsementCancelBody()
 		);
 	}
 

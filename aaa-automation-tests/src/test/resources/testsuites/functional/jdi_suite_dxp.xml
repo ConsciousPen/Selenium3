@@ -270,4 +270,15 @@
             </class>
         </classes>
     </test>
+    <test name="pas12767_EndorsementCancel" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas12767_ManualEndorsementCancel"/>
+                    <include name="pas12767_ServiceEndorsementCancel"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

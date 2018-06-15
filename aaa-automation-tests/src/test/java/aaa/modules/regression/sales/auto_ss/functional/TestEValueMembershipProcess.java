@@ -1464,7 +1464,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		jobsNBplus15plus30runNoChecks();
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Underwriting - Substantial Increase in Hazard");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
 		lastTransactionHistoryEValueDiscountCheck(true);
 		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
 
@@ -1875,7 +1875,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		}else{
 			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("No");
-			eValueDiscountStatusCheck(policyNumber, "NOTENROLLED");
+			eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		}
 		//PAS-319 end
 
