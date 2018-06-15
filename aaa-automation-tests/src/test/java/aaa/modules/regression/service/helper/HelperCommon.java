@@ -82,7 +82,7 @@ public class HelperCommon {
 	private static final String DXP_POLICIES_POLICY_DISCOUNTS = "/api/v1/policies/%s/discounts";
 	private static final String DXP_POLICIES_ENDORSEMENT_DISCOUNTS = "/api/v1/policies/%s/endorsement/discounts";
 
-	private static final String DXP_POLICIES_ENDORSEMENT_DRIVER= "/api/v1/policies/%s/endorsement/drivers";
+	private static final String DXP_POLICIES_ENDORSEMENT_DRIVER = "/api/v1/policies/%s/endorsement/drivers";
 	private static final String DXP_BILLING_CURRENT_BILL = "/api/v1/billing/$s/current-bill";
 
 	static {
@@ -216,7 +216,7 @@ public class HelperCommon {
 	public static DriversDto executeEndorsementAddDriver(String policyNumber, AddDriverRequest request) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVER, policyNumber));
 
-		return runJsonRequestPostDxp(requestUrl,request,DriversDto.class, 201);
+		return runJsonRequestPostDxp(requestUrl, request, DriversDto.class, 201);
 	}
 
 	public static Vehicle executeEndorsementAddVehicle(String policyNumber, Vehicle request) {

@@ -27,15 +27,16 @@
         </classes>
     </test>
     <test name="PAS-2293,PAS-7979 Indicate legacy Multi Policy Discount (MPD) - Home" parallel="methods" thread-count="1024">
-    <parameter name="state" value="NJ"/>
-    <classes>
-        <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestPolicyRmeMpdDiscountButton"/>
-        <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestPolicyRmeMpdDiscountButton"/>
-        <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestPolicyRmeMpdDiscountButton"/>
-        <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestPolicyRmeMpdDiscountButton"/>
-    </classes>
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestPolicyRmeMpdDiscountButton"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestPolicyRmeMpdDiscountButton"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestPolicyRmeMpdDiscountButton"/>
+            <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestPolicyRmeMpdDiscountButton"/>
+        </classes>
     </test>
-    <test name="PAS-14206,PAS-14207,PAS-14208 Initiate Renewal Manual Entry at R-56,R-84,R-64,R-45 for AS400 and MAIG" parallel="methods" thread-count="1024">
+    <test name="PAS-14206,PAS-14207,PAS-14208 Initiate Renewal Manual Entry at R-56,R-84,R-64,R-45 for AS400 and MAIG" parallel="methods"
+          thread-count="1024">
         <parameter name="state" value="AZ,KY,WV,NJ,MD,PA"/>
         <classes>
             <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestPolicyRmeEffDateTimeLine"/>
