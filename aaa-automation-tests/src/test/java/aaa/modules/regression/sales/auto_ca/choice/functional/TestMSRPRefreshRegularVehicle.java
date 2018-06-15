@@ -15,6 +15,7 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
+import aaa.main.enums.DefaultVinVersions;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
@@ -31,7 +32,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		return PolicyType.AUTO_CA_CHOICE;
 	}
 
-	protected String defaultVersion = "SYMBOL_2000_CHOICE";
+	protected String defaultVersion = DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get();
 	protected String vinCopyIdWithLowCompMatch = null;
 	protected String vinCopyIdWithHighCompMatch = null;
 	protected String vinOriginalIdNoCompMatch = null;
@@ -39,6 +40,8 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	protected Map<String,String> allNewBusinessValues;
 	protected String newBusinessCompNoCompMatch;
 	protected String newBusinessCollNoCompMatch;
+
+	protected static final String vinMatchNBandNoMatchOnRenewal = "6MSRP15H8V1011111";
 
 	/**
 	 * @author Viktor Petrenko
@@ -112,20 +115,18 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
-	public void pas730_RenewalVINDoesMatchNBandNoMatchOnRenewal(@Optional("") String state) {
+	public void pas730_MatchOnNewBusinessNoMatchOnRenewal(@Optional("") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
 
-		String vinNumber = "7MSRP15H5V1011111";
 		VehicleTab vehicleTab = new VehicleTab();
 		TestData testData = getPolicyTD().adjust(testDataManager.getDefault(TestVINUpload.class).getTestData("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinMatchNBandNoMatchOnRenewal)
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Value($)"), "40000");
 
-		// Vin control table has version which overrides VERSION_2000, it is needed and important to get symbols for next steps
 		adminApp().open();
-		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get()));
+		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.MATCH_ON_NEW_BUSINESS_NO_MATCH_ON_RENEWAL.get()));
 
-		renewalVINDoesMatchNBandNoMatchOnRenewal(testData);
+		checkMatchOnNBWithNoMatchOnRenewal(testData, vinMatchNBandNoMatchOnRenewal);
 	}
 
 
@@ -300,6 +301,8 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVIN_BY_ID, vinCopyIdWithLowCompMatch));
 		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVIN_BY_ID, vinCopyIdWithHighCompMatch));
 		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVIN_BY_ID, vinCopyIdNoCompMatch));
-		DBService.get().executeUpdate(String.format(REPAIR_COLLCOMP_BY_ID,Integer.parseInt(newBusinessCollNoCompMatch)-5,Integer.parseInt(newBusinessCompNoCompMatch)-5, vinOriginalIdNoCompMatch,defaultVersion));
+		if(!vinOriginalIdNoCompMatch.equals(null) || !vinCopyIdNoCompMatch.isEmpty()){
+			DBService.get().executeUpdate(String.format(REPAIR_COLLCOMP_BY_ID,Integer.parseInt(newBusinessCollNoCompMatch)-5,Integer.parseInt(newBusinessCompNoCompMatch)-5, vinOriginalIdNoCompMatch,defaultVersion));
+		}
 	}
 }

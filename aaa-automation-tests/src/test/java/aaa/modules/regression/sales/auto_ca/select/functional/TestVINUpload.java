@@ -19,6 +19,7 @@ import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.helpers.ssh.RemoteHelper;
+import aaa.main.enums.DefaultVinVersions;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
@@ -303,14 +304,14 @@ public class TestVINUpload extends TestVINUploadTemplate {
 
 	@AfterSuite(alwaysRun = true)
 	protected void vinTablesCleaner() {
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN,"SYMBOL_2000");
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN2,"SYMBOL_2000");
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN3,"SYMBOL_2000");
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN4,"SYMBOL_2000");
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN5,"SYMBOL_2000");
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN6,"SYMBOL_2000");
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN7,"SYMBOL_2000");
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(HHHNK2CC7F9455583,"SYMBOL_2000");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN,DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get());
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN2,DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get());
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN3,DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get());
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN4,DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get());
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN5,DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get());
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN6,DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get());
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN7,DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get());
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(HHHNK2CC7F9455583,DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get());
 		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_CAS);
 	}
 }

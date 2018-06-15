@@ -11,6 +11,7 @@ import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
+import aaa.main.enums.DefaultVinVersions;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
@@ -223,13 +224,13 @@ public class TestVINUpload extends TestVINUploadTemplate {
 
 	@AfterSuite(alwaysRun = true)
 	protected void vinTablesCleaner() {
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN,"SYMBOL_2000_CHOICE");
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN2,"SYMBOL_2000_CHOICE");
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN3,"SYMBOL_2000_CHOICE");
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN4,"SYMBOL_2000_CHOICE");
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN5,"SYMBOL_2000_CHOICE");
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN6,"SYMBOL_2000_CHOICE");
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(GGGVB2CC8W9455583,"SYMBOL_2000_CHOICE");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN,DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get());
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN2,DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get());
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN3,DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get());
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN4,DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get());
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN5,DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get());
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN6,DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get());
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(GGGVB2CC8W9455583,DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get());
 		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_CAC);
 	}
 }

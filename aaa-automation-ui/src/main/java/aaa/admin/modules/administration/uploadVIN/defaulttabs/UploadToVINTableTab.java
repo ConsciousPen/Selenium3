@@ -2,15 +2,14 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.admin.modules.administration.uploadVIN.defaulttabs;
 
-import static org.assertj.core.api.Assertions.fail;
+import static java.lang.Thread.sleep;
+import static org.assertj.core.api.Assertions.assertThat;
 import java.io.File;
 import org.openqa.selenium.By;
-import aaa.admin.metadata.administration.AdministrationMetaData;
-import aaa.common.DefaultTab;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
+import aaa.admin.metadata.administration.AdministrationMetaData;
+import aaa.common.DefaultTab;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.AssetList;
@@ -26,6 +25,7 @@ public class UploadToVINTableTab extends DefaultTab {
 
 	public static StaticElement labelUploadSuccessful = new StaticElement(By.id("uploadToVINTableForm:uploadSuccesful"));
 	public static StaticElement labelUploadFailed = new StaticElement(By.id("uploadToVINTableForm:messagesBlock"));
+	public static StaticElement uploadToVINTableForm = new StaticElement(By.xpath("//*[@id='uploadToVINTableForm:successStatusMessage']//*[@id='uploadToVINTableForm:uploadSuccesful']"));
 
 	public static Button buttonUpload = new Button(By.className("start"));
 	public static Button buttonChoose = new Button(By.className("fileinput-button"));
@@ -45,16 +45,21 @@ public class UploadToVINTableTab extends DefaultTab {
 
 
 	private void uploadFile(String fileName) {
+		long timeoutInSeconds = 10;
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(DEFAULT_PATH + fileName));
 
 		buttonUpload.click();
 
-		//TODO - Fix these 'upload successful' checks. The loading animations on the page are causing the upload checks to fail, even though the upload passed with no issues.
-//		if (labelUploadSuccessful.getValue().contains("Rows added")) {
-//			// check successfull
-//			log.info("File {} was uploaded successfully", fileName);
-//		}
-//		else {
-//			fail("File " + fileName + " was not uploaded. See error: \n" + labelUploadFailed.getValue());
+		long searchStart = System.currentTimeMillis();
+		long timeout = searchStart + timeoutInSeconds * 1000;
+
+		while (timeout<System.currentTimeMillis()) {
+			try {
+				sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		assertThat(uploadToVINTableForm.getValue()).doesNotContain("Error").contains("Rows added").contains(fileName);
 		}
 	}

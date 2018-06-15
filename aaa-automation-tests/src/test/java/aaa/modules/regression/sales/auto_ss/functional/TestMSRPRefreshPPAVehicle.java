@@ -18,6 +18,7 @@ import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
+import aaa.main.enums.DefaultVinVersions;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
@@ -38,13 +39,15 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		return PolicyType.AUTO_SS;
 	}
 
-	protected String vinCopyIdWithLowComp = null;
-	protected String vinCopyIdWithHighComp = null;
-	protected String vinCopyIdNoCompMatch = null;
-	protected String vinOriginalIdNoCompMatch = null;
-	protected Map<String,String> allNewBusinessValues = null;
+	protected String vinCopyIdWithLowComp;
+	protected String vinCopyIdWithHighComp;
+	protected String vinCopyIdNoCompMatch;
+	protected String vinOriginalIdNoCompMatch;
+	protected Map<String,String> allNewBusinessValues;
 	protected String newBusinessCompNoCompMatch;
 	protected String newBusinessCollNoCompMatch;
+
+	protected String vinMatchNBandNoMatchOnRenewal = "6MSRPSSH5V1011111";
 
 	/**
 	 * @author Viktor Petrenko
@@ -201,17 +204,12 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
-	public void pas730_RenewalVINDoesMatchNBandNoMatchOnRenewal(@Optional("") String state) {
-
+	public void pas730_MatchOnNewBusinessNoMatchOnRenewal(@Optional("") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
-
-		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get());
-
-		String vinNumber = "7MSRP15H5V1011111";
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.MATCH_ON_NEW_BUSINESS_NO_MATCH_ON_RENEWAL.get());
 		TestData testData = getPolicyTD()
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), vinNumber);
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), vinMatchNBandNoMatchOnRenewal);
 
-		// Vin control table has version which overrides VERSION_2000, it is needed and important to get symbols for next steps
 		adminApp().open();
 		vinMethods.uploadVinTable(vinTableFile);
 
@@ -223,8 +221,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		String compSymbolBeforeRenewal = policyInfoBeforeRenewal.get("COMPSYMBOL");
 		String collSymbolBeforeRenewal = policyInfoBeforeRenewal.get("COLLSYMBOL");
 		// Preconditions to to vin is not match
-		//todo can be affected by partial match, use different vin number to resolve
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable("7MSRP15H5V1011111", "SYMBOL_2000");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(vinMatchNBandNoMatchOnRenewal, DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get());
 
 		// Move time to get refresh
 		moveTimeAndRunRenewJobs(policyExpirationDate);
@@ -455,7 +452,9 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVIN_BY_ID, vinCopyIdWithLowComp));
 		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVIN_BY_ID, vinCopyIdWithHighComp));
 		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVIN_BY_ID, vinCopyIdNoCompMatch));
-		DBService.get().executeUpdate(String.format(REPAIR_COLLCOMP_BY_ID,Integer.parseInt(newBusinessCollNoCompMatch)-5,Integer.parseInt(newBusinessCompNoCompMatch)-5, vinOriginalIdNoCompMatch,defaultVersion));
+		if(!vinOriginalIdNoCompMatch.equals(null) && !vinOriginalIdNoCompMatch.isEmpty()){
+			DBService.get().executeUpdate(String.format(REPAIR_COLLCOMP_BY_ID,Integer.parseInt(newBusinessCollNoCompMatch)-5,Integer.parseInt(newBusinessCompNoCompMatch)-5, vinOriginalIdNoCompMatch,defaultVersion));
+		}
 		resetMsrpPPAVeh();
 		// Reset to the default state  MSRP_2000
 		//resetDefaultMSRPVersionAtVinControlTable();

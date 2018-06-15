@@ -61,13 +61,13 @@ public class VinUploadHelper {
 		String defaultFileName = null;
 		switch (policyType) {
 			case "AutoSS":
-				defaultFileName = "%sVIN_%s_SS.xlsx";
+				defaultFileName = "%s_%s_SS.xlsx";
 				break;
 			case "AutoCA":
-				defaultFileName = "%sVIN_%s_SELECT.xlsx";
+				defaultFileName = "%s_%s_SELECT.xlsx";
 				break;
 			case "AutoCAC":
-				defaultFileName = "%sVIN_%s_CHOICE.xlsx";
+				defaultFileName = "%s_%s_CHOICE.xlsx";
 				break;
 			default:
 				throw new IllegalArgumentException("Name of VIN Table file was not selected correctly");

@@ -128,12 +128,12 @@
         </classes>
     </test>
 
-    <test name="pas730_RenewalVINDoesMatchNBandNoMatchOnRenewal">
+    <test name="pas730_MatchOnNewBusinessNoMatchOnRenewal">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefreshMotorHomeVehicle">
                 <methods>
-                    <include name="pas730_RenewalVINDoesMatchNBandNoMatchOnRenewal"/>
+                    <include name="pas730_MatchOnNewBusinessNoMatchOnRenewal"/>
                 </methods>
             </class>
         </classes>
@@ -218,12 +218,12 @@
         </classes>
     </test>
 
-    <test name="pas730_RenewalVINDoesMatchNBandNoMatchOnRenewal Select">
+    <test name="pas730_MatchOnNewBusinessNoMatchOnRenewal Select">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefreshRegularVehicle">
                 <methods>
-                    <include name="pas730_RenewalVINDoesMatchNBandNoMatchOnRenewal"/>
+                    <include name="pas730_MatchOnNewBusinessNoMatchOnRenewal"/>
                 </methods>
             </class>
         </classes>
@@ -308,12 +308,12 @@
         </classes>
     </test>
 
-    <test name="pas730_RenewalVINDoesMatchNBandNoMatchOnRenewal Choice">
+    <test name="pas730_MatchOnNewBusinessNoMatchOnRenewal Choice">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMSRPRefreshRegularVehicle">
                 <methods>
-                    <include name="pas730_RenewalVINDoesMatchNBandNoMatchOnRenewal"/>
+                    <include name="pas730_MatchOnNewBusinessNoMatchOnRenewal"/>
                 </methods>
             </class>
         </classes>
