@@ -2,7 +2,6 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.admin.modules.administration.uploadVIN.defaulttabs;
 
-import static java.lang.Thread.sleep;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.io.File;
 import org.openqa.selenium.By;
@@ -42,24 +41,22 @@ public class UploadToVINTableTab extends DefaultTab {
 		uploadFile(fileName);
 	}
 
-
-
 	private void uploadFile(String fileName) {
 		long timeoutInSeconds = 10;
-		getAssetList().getAsset(AdministrationMetaData.VinTableTab.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(DEFAULT_PATH + fileName));
 
+		getAssetList().getAsset(AdministrationMetaData.VinTableTab.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(DEFAULT_PATH + fileName));
 		buttonUpload.click();
 
-		long searchStart = System.currentTimeMillis();
-		long timeout = searchStart + timeoutInSeconds * 1000;
+		long timeout = System.currentTimeMillis() + timeoutInSeconds * 1000;
+		boolean result = false;
 
-		while (timeout<System.currentTimeMillis()) {
-			try {
-				sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		while (timeout < System.currentTimeMillis()) {
+				String value = uploadToVINTableForm.getValue();
+				if (value.contains("Rows added") && value.contains(fileName) && !value.contains("Error")) {
+					result = true;
+					break;
+				}
 		}
-		assertThat(uploadToVINTableForm.getValue()).doesNotContain("Error").contains("Rows added").contains(fileName);
-		}
+		assertThat(result).isTrue();
 	}
+}
