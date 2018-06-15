@@ -249,13 +249,13 @@
             </class>
         </classes>
     </test>
-    <test name="pas13663_CurrentBillServiceVA" parallel="methods" thread-count="1024">
+    <test name="pas14952_StatusResetDuringUpdatesThroughService" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas14952_EndorsementStatusResetForVehRatingFactors"/>
-                    <include name="pas14952_DtatusResetsForNewlyAddedVehicle"/>
+                    <include name="pas14952_StatusResetsForNewlyAddedVehicle"/>
                 </methods>
             </class>
         </classes>
