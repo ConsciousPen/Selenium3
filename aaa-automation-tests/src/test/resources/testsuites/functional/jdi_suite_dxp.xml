@@ -281,4 +281,19 @@
             </class>
         </classes>
     </test>
+    <test name="pas12852_UW_rules" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesUwRules">
+                <methods>
+                    <include name="pas12852_GaragedInMichigan200020"/>
+                    <include name="pas12852_GaragedOutOfState200019"/>
+                    <include name="pas12852_DuplicateVin200031"/>
+                    <include name="pas12852_ExpensiveVehicle200022"/>
+                    <include name="pas12852_GaragedOutOfStateOnlyOneVeh200018"/>
+                    <include name="pas12852_MustHavePPA200016"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

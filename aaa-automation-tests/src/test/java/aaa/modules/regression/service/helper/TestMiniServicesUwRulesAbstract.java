@@ -245,8 +245,6 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
-		//String policyNumber = "VASS952918545";
-
 		ViewVehicleResponse responseViewVehicles = HelperCommon.viewPolicyVehicles(policyNumber);
 		String originalVehicle = responseViewVehicles.vehicleList.get(0).oid;
 
@@ -309,9 +307,7 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 
 	protected void pas12852_MustHavePPA200016Body(SoftAssertions softly, TestData motorhomeData) {
 		mainApp().open();
-		//String policyNumber = getCopiedPolicy();
-
-		String policyNumber = "VASS952918546";
+		String policyNumber = getCopiedPolicy();
 
 		ViewVehicleResponse responseViewVehicles = HelperCommon.viewPolicyVehicles(policyNumber);
 		String originalVehicle = responseViewVehicles.vehicleList.get(0).oid;
@@ -326,9 +322,6 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 		premiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
 
-
-
-
 		VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, originalVehicle);
 		softly.assertThat(deleteVehicleResponse.oid).isEqualTo(originalVehicle);
 		softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
@@ -336,13 +329,11 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 		//TODO rating in DXP fails
 		HelperMiniServices.rateEndorsement(softly, policyNumber);
 
-
 		ErrorResponseDto bindResponse = HelperCommon.endorsementBindError(policyNumber, "200016", 422);
 		softly.assertThat(bindResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 		softly.assertThat(bindResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 		ErrorResponseDto bindResponseFiltered = bindResponse.errors.stream().filter(errors -> ErrorDxpEnum.Errors.MUST_HAVE_PPA.getCode().equals(errors.errorCode)).findFirst().orElse(null);
 		assertThat(bindResponseFiltered.message).contains(ErrorDxpEnum.Errors.MUST_HAVE_PPA.getMessage());
-
 
 		SearchPage.openPolicy(policyNumber);
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
