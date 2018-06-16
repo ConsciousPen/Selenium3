@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
 import javax.ws.rs.core.Response;
-import org.assertj.core.api.SoftAssertions;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.ErrorDxpEnum;
@@ -26,13 +25,6 @@ public class HelperMiniServices extends PolicyBaseTest {
 		String newVehicleOid = responseAddVehicle.oid;
 		printToLog("newVehicleOid: " + newVehicleOid);
 		return newVehicleOid;
-	}
-
-	void rateEndorsementWithCheck(SoftAssertions softly, String policyNumber) {
-		PolicyPremiumInfo[] endorsementRateResponse = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
-		softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
-		softly.assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
-		softly.assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
 	}
 
 	void updateVehicleUsageRegisteredOwner(String policyNumber, String newVehicleOid) {
@@ -60,14 +52,30 @@ public class HelperMiniServices extends PolicyBaseTest {
 			softly.assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
 
 			//Bind endorsement
-			endorsementBindWithCheck(policyNumber);
+			bindEndorsementWithCheck(policyNumber);
 			softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
 			softly.assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
 			softly.assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
 		});
 	}
 
-	void endorsementBindWithCheck(String policyNumber) {
+	void rateEndorsementWithCheck(String policyNumber) {
+		PolicyPremiumInfo[] endorsementRateResponse = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
+		assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
+		assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
+		assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
+	}
+
+	void rateEndorsementWithErrorCheck(String policyNumber, String errorCode, String errorMessage, String field) {
+		ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
+		assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+		assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+		ErrorResponseDto bindResponseFiltered = rateResponse.errors.stream().filter(errors -> errorCode.equals(errors.errorCode)).findFirst().orElse(null);
+		assertThat(bindResponseFiltered.message).contains(errorMessage);
+		assertThat(bindResponseFiltered.field).isEqualTo(field);
+	}
+
+	void bindEndorsementWithCheck(String policyNumber) {
 		HelperCommon.endorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode());
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -79,15 +87,6 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(bindResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 		assertThat(bindResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 		ErrorResponseDto bindResponseFiltered = bindResponse.errors.stream().filter(errors -> errorCode.equals(errors.errorCode)).findFirst().orElse(null);
-		assertThat(bindResponseFiltered.message).contains(errorMessage);
-		assertThat(bindResponseFiltered.field).isEqualTo(field);
-	}
-
-	void rateEndorsementWithErrorCheck(String policyNumber, String errorCode, String errorMessage, String field) {
-		ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
-		assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-		assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-		ErrorResponseDto bindResponseFiltered = rateResponse.errors.stream().filter(errors -> errorCode.equals(errors.errorCode)).findFirst().orElse(null);
 		assertThat(bindResponseFiltered.message).contains(errorMessage);
 		assertThat(bindResponseFiltered.field).isEqualTo(field);
 	}

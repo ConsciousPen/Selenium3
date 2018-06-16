@@ -1708,7 +1708,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 
-			helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 			//Update: V1-->D1, Check V1-->D1,D2, V2-->Unn
 			DriverAssignmentDto[] updDriverAssignee2 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid1, driverOid1);
@@ -1741,7 +1741,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 
-			helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		});
 	}
 
@@ -1834,7 +1834,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 
-			helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 			//TODO-jpukenaite It will be fixed with PAS-14699
 			//Update: V4-->D2, Check D1-->V1,V3, D2-->V2, V4
@@ -1933,7 +1933,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 
-			helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 			//Update: V2-->D2, Check V1-->Unn, V2-->D3,D4,D2, V3-->D1
 			DriverAssignmentDto[] updDriverAssignee2 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid2, driverOid2);
@@ -2619,7 +2619,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			AAAEndorseResponse endorsementResponse = HelperCommon.createEndorsement(policyNumber, null);
 			assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
-			helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 			//Create pended endorsement
 			helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
@@ -4217,7 +4217,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		});
 
 		//Bind policy
-		helperMiniServices.endorsementBindWithCheck(policyNumber);
+		helperMiniServices.bindEndorsementWithCheck(policyNumber);
 	}
 
 	protected void pas502_CheckDuplicateVinAddVehicleService(PolicyType policyType) {
@@ -4743,7 +4743,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 		//Rate endorsement
-		helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 		//get all discounts
 		DiscountSummary endorsementDiscountsResponse = HelperCommon.viewDiscounts(policyNumber, "endorsement", 200);
@@ -4774,8 +4774,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		//Bind endorsement
 		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.POLICY_NOT_RATED_DXP.getCode(), ErrorDxpEnum.Errors.POLICY_NOT_RATED_DXP.getMessage(), null);
 
-		helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
-		helperMiniServices.endorsementBindWithCheck(policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		helperMiniServices.bindEndorsementWithCheck(policyNumber);
 
 		//Unlock policy
 		PolicyLockUnlockDto responseUnlock = HelperCommon.executePolicyUnlockService(policyNumber, Response.Status.OK.getStatusCode(), SESSION_ID_1);
@@ -4795,7 +4795,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		//Create pended endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
-		helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 		VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, newVehicleOid);
 		softly.assertThat(deleteVehicleResponse.oid).isEqualTo(newVehicleOid);
@@ -4982,7 +4982,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
 
-		helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		//Add coverage check here
 		String coverageCdValue = "LOAN";
 		PolicyCoverageInfo endorsementCoverageResponseOwnedOldVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid);
@@ -5010,7 +5010,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		updateVehicleLeasedFinanced.vehicleOwnership.secondName = secondName;
 		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
 
-		helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		PolicyCoverageInfo endorsementCoverageResponseLsdFinOldVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid);
 		Coverage endorsementCoverageResponseLsdFinOldVehFiltered = endorsementCoverageResponseLsdFinOldVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> coverageCdValue.equals(attribute.coverageCd)).findFirst().orElse(null);
 		loanLeaseCovPropertiesCheck(softly, endorsementCoverageResponseLsdFinOldVehFiltered, "0", "No Coverage", false, false);
@@ -5027,7 +5027,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		updateVehicleOwned.vehicleOwnership.ownership = "OWN";
 		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleOwned);
 
-		helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		PolicyCoverageInfo endorsementCoverageResponseOwnedOldVeh2 = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid);
 		Coverage endorsementCoverageResponseOwnedOldVeh2Filtered = endorsementCoverageResponseOwnedOldVeh2.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> coverageCdValue.equals(attribute.coverageCd)).findFirst().orElse(null);
 		loanLeaseCovPropertiesCheck(softly, endorsementCoverageResponseOwnedOldVeh2Filtered, "0", "No Coverage", false, false);
@@ -5051,7 +5051,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
 
-		helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		//Add coverage check here
 		String coverageCdValue = "LOAN";
 		PolicyCoverageInfo endorsementCoverageResponseOwnedOldVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid);
@@ -5079,7 +5079,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		updateVehicleLeasedFinanced.vehicleOwnership.secondName = secondName;
 		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
 
-		helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		PolicyCoverageInfo endorsementCoverageResponseLsdFinOldVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid);
 		Coverage endorsementCoverageResponseLsdFinOldVehFiltered = endorsementCoverageResponseLsdFinOldVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> coverageCdValue.equals(attribute.coverageCd)).findFirst().orElse(null);
 		loanLeaseCovPropertiesCheck(softly, endorsementCoverageResponseLsdFinOldVehFiltered, "0", "No Coverage", true, true);
@@ -5102,7 +5102,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		updateVehicleOwned.vehicleOwnership.ownership = "OWN";
 		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleOwned);
 
-		helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		PolicyCoverageInfo endorsementCoverageResponseOwnedOldVeh2 = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid);
 		Coverage endorsementCoverageResponseOwnedOldVeh2Filtered = endorsementCoverageResponseOwnedOldVeh2.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> coverageCdValue.equals(attribute.coverageCd)).findFirst().orElse(null);
 		loanLeaseCovPropertiesCheck(softly, endorsementCoverageResponseOwnedOldVeh2Filtered, "0", "No Coverage", false, false);
@@ -5230,7 +5230,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		softly.assertThat(responseAddVehicleError.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.MAX_NUMBER_OF_VEHICLES.getMessage());
 
 		//Rate endorsement
-		helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 		//Bind endorsement
 		HelperCommon.endorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode());
@@ -5249,6 +5249,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		softly.assertThat(responseAddVehicleError2.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.MAX_NUMBER_OF_VEHICLES.getCode());
 		softly.assertThat(responseAddVehicleError2.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.MAX_NUMBER_OF_VEHICLES.getMessage());
 
+		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
 		NavigationPage.toViewTab(getVehicleTab());
@@ -5260,10 +5261,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		PolicyPremiumInfo[] endorsementRateResponse2 = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
 		softly.assertThat(endorsementRateResponse2[0].actualAmt).isNotBlank();
 
-		HelperCommon.endorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode());
-		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
-		softly.assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+		helperMiniServices.bindEndorsementWithCheck(policyNumber);
 
 		secondEndorsementIssueCheck();
 	}
@@ -5330,20 +5328,19 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		//PAS-14501 end
 
 		//Rate endorsement
-		helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
-		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getCode(), ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getMessage(), "attributeForRules");
+		if(!"VA".equals(state)) {
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getCode(), ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getMessage(), "attributeForRules");
 
 		VehicleUpdateDto updateGaragingAddressVehicleRequest2 = new VehicleUpdateDto();
 		updateGaragingAddressVehicleRequest2.garagingDifferent = false;
 		Vehicle updateVehicleGaragingAddressResponse2 = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateGaragingAddressVehicleRequest2);
 		softly.assertThat(updateVehicleGaragingAddressResponse2.garagingDifferent).isEqualTo(false);
-		helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
-
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		}
 		//Bind endorsement
-		HelperCommon.endorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode());
-		SearchPage.openPolicy(policyNumber);
-		softly.assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+		helperMiniServices.bindEndorsementWithCheck(policyNumber);
 
 		secondEndorsementIssueCheck();
 
@@ -5357,7 +5354,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		String policyNumber = getCopiedPolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
-		helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 		String purchaseDate = "2013-02-22";
 		String vin = "1HGFA16526L081415";
@@ -5373,7 +5370,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		//Update Vehicle with proper Usage and Registered Owner
 		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
-		helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 		//Check vehicle update service when  garage address is different
 		String zipCodeGarage = "23703";
@@ -5394,7 +5391,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		softly.assertThat(updateVehicleGaragingAddressResponse.garagingAddress.city).isEqualTo(cityGarage);
 		softly.assertThat(updateVehicleGaragingAddressResponse.garagingAddress.stateProvCd).isEqualTo(stateGarage);
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
-		helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 		String zipCodeOwnership = "23703";
 		String addressLine1Ownership = "4112 FORREST HILLS DR";
@@ -5419,7 +5416,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		assertThat(ownershipUpdateResponse.vehicleOwnership.ownership).isEqualTo("LSD");
 
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
-		helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
 
 		VehicleUpdateDto updateVehicleUsageRequest = new VehicleUpdateDto();
@@ -5440,7 +5437,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		softly.assertThat(rateOwnershipUsageResponse.errors.get(1).field).isEqualTo("vehicleUsageCd");
 
 		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
-		helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
 
 		VehicleUpdateDto updateVehicleAntitheftRequest = new VehicleUpdateDto();
@@ -5448,7 +5445,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		Vehicle updateVehicleAntitheftResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleAntitheftRequest);
 		assertThat(updateVehicleAntitheftResponse.antiTheft).isEqualTo("STD");
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
-		helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
 
 		VehicleUpdateDto updateVehicleSalvagedRequest = new VehicleUpdateDto();
@@ -5456,7 +5453,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		Vehicle updateVehicleSalvagedResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleSalvagedRequest);
 		assertThat(updateVehicleSalvagedResponse.salvaged).isEqualTo(true);
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
-		helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
 
 		VehicleUpdateDto updateVehiclePurchaseDateRequest = new VehicleUpdateDto();
@@ -5464,7 +5461,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		Vehicle updateVehiclePurchaseDateResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehiclePurchaseDateRequest);
 		assertThat(updateVehiclePurchaseDateResponse.purchaseDate.replace("T00:00:00Z", "")).isEqualTo("2018-02-28");
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
-		helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
 
 		//Bind endorsement
@@ -5484,7 +5481,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		String policyNumber = getCopiedPolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
-		helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 		String purchaseDate = "2013-02-22";
 		String vin = "1HGFA16526L081415";
@@ -5504,7 +5501,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		//Update Vehicle with proper Usage and Registered Owner
 		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
-		helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
 		policy.dataGather().start();
@@ -5565,7 +5562,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 			SearchPage.openPolicy(policyNumber);
 			assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isTrue();
-			helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 			HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
 			SearchPage.openPolicy(policyNumber);
 			assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
@@ -5603,19 +5600,19 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			String newVehicleOid2 = helperMiniServices.vehicleAddRequestWithCheck(policyNumber, vehicleAddRequest2);
 			helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid2);
 
-			helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 			//BUG PAS-15483 Delete Vehicle doesnt return response in some cases
 			VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, originalVehicleOid);
 			softly.assertThat(deleteVehicleResponse.oid).isEqualTo(originalVehicleOid);
 			softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
 
 			VehicleUpdateResponseDto deleteVehicleResponse2 = HelperCommon.deleteVehicle(policyNumber, newVehicleOid);
-			softly.assertThat(deleteVehicleResponse2.oid).isEqualTo(newVehicleOid);
-			softly.assertThat(deleteVehicleResponse2.vehicleStatus).isEqualTo("pendingRemoval");
+			softly.assertThat(deleteVehicleResponse2.oid).isNull();
+			softly.assertThat(deleteVehicleResponse2.vehicleStatus).isNull();
 
 			VehicleUpdateResponseDto deleteVehicleResponse3 = HelperCommon.deleteVehicle(policyNumber, newVehicleOid2);
-			softly.assertThat(deleteVehicleResponse3.oid).isEqualTo(newVehicleOid2);
-			softly.assertThat(deleteVehicleResponse3.vehicleStatus).isEqualTo("pendingRemoval");
+			softly.assertThat(deleteVehicleResponse3.oid).isNull();
+			softly.assertThat(deleteVehicleResponse3.vehicleStatus).isNull();
 		});
 	}
 

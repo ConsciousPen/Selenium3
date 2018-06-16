@@ -1005,7 +1005,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12866"})
-	public void pas12866_e2eBct(@Optional("AZ") String state) {
+	public void pas12866_e2eBct(@Optional("ID") String state) {
 		assertSoftly(softly ->
 				pas12866_e2eBctBody(state, false, softly)
 		);
@@ -1235,7 +1235,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14501"})
-	public void pas14501_garagingDifferent(@Optional("AZ") String state) {
+	public void pas14501_garagingDifferent(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas14501_garagingDifferentBody(state, softly)
 		);

@@ -118,7 +118,7 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			updateVehicleGaraging.garagingAddress.stateProvCd = state;
 			HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleGaraging);
 
-			helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getCode(), ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getMessage(), "attributeForRules");
 
@@ -151,7 +151,7 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			vehicleTab.getAssetList().getAsset(USAGE).setValue("Pleasure");
 			vehicleTab.saveAndExit();
 
-			helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.UNIQUE_VIN.getCode(), ErrorDxpEnum.Errors.UNIQUE_VIN.getMessage(), "attributeForRules");
 
@@ -181,7 +181,7 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			vehicleTab.getAssetList().getAsset(USAGE).setValue("Pleasure");
 			vehicleTab.saveAndExit();
 
-			helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getCode(), ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getMessage(), "vehTypeCd");
 
@@ -226,12 +226,14 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			updateVehicleGaraging.garagingAddress.stateProvCd = state;
 			HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleGaraging);
 
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+
 			VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, originalVehicle);
 			softly.assertThat(deleteVehicleResponse.oid).isEqualTo(originalVehicle);
 			softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
 
 			//BUG PAS-15481 Rating through service fails, when New Vehicle is added through Service and Original Vehicle removed
-			helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 			//TODO workaround for failed to rate Endorsement
 			SearchPage.openPolicy(policyNumber);
@@ -271,6 +273,10 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			vehicleTab.fillTab(motorhomeData);
 			premiumAndCoveragesTab.calculatePremium();
 			premiumAndCoveragesTab.saveAndExit();
+			//TODO Adding below steps makes PAS-15483 non-reproducible
+/*			testEValueDiscount.simplifiedPendedEndorsementIssue();
+
+			helperMiniServices.createEndorsementWithCheck(policyNumber);*/
 
 			//TODO uncomment for scenario, when deleteVehicles returns proper response
 /*		String purchaseDate2 = "2013-02-22";
@@ -286,7 +292,7 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			softly.assertThat(deleteVehicleResponse.oid).isEqualTo(originalVehicleOid);
 			softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
 
-			helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.MUST_HAVE_PPA.getCode(), ErrorDxpEnum.Errors.MUST_HAVE_PPA.getMessage(), "attributeForRules");
 

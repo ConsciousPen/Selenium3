@@ -67,7 +67,6 @@ public class TestMiniServicesUwRules extends TestMiniServicesUwRulesAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12852"})
 	public void pas12852_GaragedOutOfStateOnlyOneVeh200018(@Optional("VA") String state) {
-
 		pas12852_GaragedOutOfStateOnlyOneVeh200018Body();
 	}
 
