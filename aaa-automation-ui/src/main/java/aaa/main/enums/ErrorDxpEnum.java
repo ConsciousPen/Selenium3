@@ -41,6 +41,7 @@ public final class ErrorDxpEnum {
 		GARAGED_OUT_OF_STATE_ONLY_VEHICLE("200018", "Unacceptable due to all vehicles garaged out of the policy state (200018)"),
 		UNIQUE_VIN("200031", "Each vehicle must have a unique Vehicle Identification Number (200031)"),
 		MUST_HAVE_PPA("200016", "Policy must cover at least one Private Passenger Automobile (200016)"),
+		EXPENSIVE_VEHICLE("200022", "Vehicle value exceeds acceptable coverage limit (200022)"),
 		;
 
 
