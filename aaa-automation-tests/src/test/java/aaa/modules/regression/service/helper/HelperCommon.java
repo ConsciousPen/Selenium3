@@ -357,7 +357,7 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, null, PolicyPremiumInfo[].class, status);
 	}
 
-	public static ErrorResponseDto endorsementRateError(String policyNumber, int status) {
+	public static ErrorResponseDto endorsementRateError(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_RATE, policyNumber));
 		return runJsonRequestPostDxp(requestUrl, null, ErrorResponseDto.class, 422);
 	}

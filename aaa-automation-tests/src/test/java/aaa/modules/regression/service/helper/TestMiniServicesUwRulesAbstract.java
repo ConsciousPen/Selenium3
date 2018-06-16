@@ -3,11 +3,7 @@ package aaa.modules.regression.service.helper;
 import static aaa.main.metadata.policy.AutoSSMetaData.UpdateRulesOverrideActionTab.RuleRow.RULE_NAME;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.USAGE;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.VIN;
-import static org.assertj.core.api.Assertions.assertThat;
-import java.time.format.DateTimeFormatter;
-import javax.ws.rs.core.Response;
-import org.assertj.core.api.SoftAssertions;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -34,7 +30,6 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 	private DriverTab driverTab = new DriverTab();
 	private GeneralTab generalTab = new GeneralTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
-	private static String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
 	protected abstract String getGeneralTab();
 
@@ -56,296 +51,251 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Test Current Bill Service for non-Annual
+	 * @name Check UW rules are fired on Bind
 	 * @scenario 1. Create a policy
-	 * 2. run the current bill service
-	 * 3. check zero balances
-	 * 4. generate the bill1
-	 * 5. check Due Date, Min Due, Past Due (0) are returned same as are there in UI
-	 * 6. partially pay the bill
-	 * 7. check Due Date, Min Due, Past Due (0) are returned same as are there in UI
-	 * 8. generate the bill2
-	 * 9. check Due Date, Min Due, Past Due (non-0) are returned same as are there in UI
-	 * 10. pay policy total due
-	 * 11. check Due Date, Min Due, Past Due (non-0) are returned same as are there in UI
 	 * @details
 	 */
-	protected void pas12852_GaragedInMichigan200020Body(SoftAssertions softly) {
-		mainApp().open();
-		String policyNumber = getCopiedPolicy();
+	protected void pas12852_GaragedInMichigan200020Body() {
+		assertSoftly(softly -> {
+			mainApp().open();
+			String policyNumber = getCopiedPolicy();
 
-		HelperMiniServices.createEndorsementWithCheck(policyNumber);
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-		String purchaseDate = "2013-02-22";
-		String vin = "1HGFA16526L081415";
-		Vehicle vehicleAddRequest = new Vehicle();
-		vehicleAddRequest.purchaseDate = purchaseDate;
-		vehicleAddRequest.vehIdentificationNo = vin;
-		String newVehicleOid = HelperMiniServices.vehicleAddRequestWithCheck(policyNumber, vehicleAddRequest);
+			String purchaseDate = "2013-02-22";
+			String vin = "1HGFA16526L081415";
+			Vehicle vehicleAddRequest = new Vehicle();
+			vehicleAddRequest.purchaseDate = purchaseDate;
+			vehicleAddRequest.vehIdentificationNo = vin;
+			String newVehicleOid = helperMiniServices.vehicleAddRequestWithCheck(policyNumber, vehicleAddRequest);
 
-		HelperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
+			helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
 
-		String zipCode = "48002";
-		String addressLine1 = "4112 FORREST HILLS DR";
-		String city = "Allenton";
-		String state = "MI";
-		//Update vehicle Leased Financed Info
-		VehicleUpdateDto updateVehicleGaraging = new VehicleUpdateDto();
-		updateVehicleGaraging.garagingDifferent = true;
-		updateVehicleGaraging.garagingAddress = new Address();
-		updateVehicleGaraging.garagingAddress.postalCode = zipCode;
-		updateVehicleGaraging.garagingAddress.addressLine1 = addressLine1;
-		updateVehicleGaraging.garagingAddress.city = city;
-		updateVehicleGaraging.garagingAddress.stateProvCd = state;
-		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleGaraging);
+			String zipCode = "48002";
+			String addressLine1 = "4112 FORREST HILLS DR";
+			String city = "Allenton";
+			String state = "MI";
+			VehicleUpdateDto updateVehicleGaraging = new VehicleUpdateDto();
+			updateVehicleGaraging.garagingDifferent = true;
+			updateVehicleGaraging.garagingAddress = new Address();
+			updateVehicleGaraging.garagingAddress.postalCode = zipCode;
+			updateVehicleGaraging.garagingAddress.addressLine1 = addressLine1;
+			updateVehicleGaraging.garagingAddress.city = city;
+			updateVehicleGaraging.garagingAddress.stateProvCd = state;
+			HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleGaraging);
 
-		//TODO Zip code is not applicable; please check again. If this is incorrect, please
-		ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber, 422);
-		softly.assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-		softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-		softly.assertThat(rateResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.ZIP_CODE_IS_NOT_APPLICABLE.getCode());
-		softly.assertThat(rateResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.ZIP_CODE_IS_NOT_APPLICABLE.getMessage());
-		softly.assertThat(rateResponse.errors.get(0).field).isEqualTo("postalCode");
-/*
-		HelperMiniServices.rateEndorsement(softly, policyNumber);
-
-		HelperCommon.endorsementBind(policyNumber, "osi", Response.Status.OK.getStatusCode());
-
-		SearchPage.openPolicy(policyNumber);
-		helperMiniServices.secondEndorsementIssueCheck();
-
-		ErrorResponseDto bindResponse = HelperCommon.endorsementBindError(policyNumber, "PAS-7147", 422);
-			softly.assertThat(bindResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-			softly.assertThat(bindResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-			softly.assertThat(bindResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.POLICY_NOT_RATED_DXP.getCode());
-			softly.assertThat(bindResponse.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.POLICY_NOT_RATED_DXP.getMessage());
-			*/
+			//can't even rate policy with vehicle Garaged in MI, ZIP is not resolved
+			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.ZIP_CODE_IS_NOT_APPLICABLE.getCode(), ErrorDxpEnum.Errors.ZIP_CODE_IS_NOT_APPLICABLE.getMessage(), "postalCode");
+		});
 	}
 
-	protected void pas12852_GaragedOutOfState200019Body(SoftAssertions softly) {
-		mainApp().open();
-		String policyNumber = getCopiedPolicy();
+	protected void pas12852_GaragedOutOfState200019Body() {
+		assertSoftly(softly -> {
+			mainApp().open();
+			String policyNumber = getCopiedPolicy();
 
-		HelperMiniServices.createEndorsementWithCheck(policyNumber);
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-		String purchaseDate = "2013-02-22";
-		String vin = "1HGFA16526L081415";
-		Vehicle vehicleAddRequest = new Vehicle();
-		vehicleAddRequest.purchaseDate = purchaseDate;
-		vehicleAddRequest.vehIdentificationNo = vin;
-		String newVehicleOid = HelperMiniServices.vehicleAddRequestWithCheck(policyNumber, vehicleAddRequest);
+			String purchaseDate = "2013-02-22";
+			String vin = "1HGFA16526L081415";
+			Vehicle vehicleAddRequest = new Vehicle();
+			vehicleAddRequest.purchaseDate = purchaseDate;
+			vehicleAddRequest.vehIdentificationNo = vin;
+			String newVehicleOid = helperMiniServices.vehicleAddRequestWithCheck(policyNumber, vehicleAddRequest);
 
-		HelperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
+			helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
 
-		String zipCode = "84121";
-		String addressLine1 = "4112 FORREST HILLS DR";
-		String city = "Salt Lake City";
-		String state = "UT";
-		VehicleUpdateDto updateVehicleGaraging = new VehicleUpdateDto();
-		updateVehicleGaraging.garagingDifferent = true;
-		updateVehicleGaraging.garagingAddress = new Address();
-		updateVehicleGaraging.garagingAddress.postalCode = zipCode;
-		updateVehicleGaraging.garagingAddress.addressLine1 = addressLine1;
-		updateVehicleGaraging.garagingAddress.city = city;
-		updateVehicleGaraging.garagingAddress.stateProvCd = state;
-		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleGaraging);
+			String zipCode = "84121";
+			String addressLine1 = "4112 FORREST HILLS DR";
+			String city = "Salt Lake City";
+			String state = "UT";
+			VehicleUpdateDto updateVehicleGaraging = new VehicleUpdateDto();
+			updateVehicleGaraging.garagingDifferent = true;
+			updateVehicleGaraging.garagingAddress = new Address();
+			updateVehicleGaraging.garagingAddress.postalCode = zipCode;
+			updateVehicleGaraging.garagingAddress.addressLine1 = addressLine1;
+			updateVehicleGaraging.garagingAddress.city = city;
+			updateVehicleGaraging.garagingAddress.stateProvCd = state;
+			HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleGaraging);
 
-		HelperMiniServices.rateEndorsement(softly, policyNumber);
+			helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
 
-		HelperCommon.endorsementBind(policyNumber, "osi", Response.Status.OK.getStatusCode());
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getCode(), ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getMessage(), "attributeForRules");
 
-		ErrorResponseDto bindResponse = HelperCommon.endorsementBindError(policyNumber, "PAS-7147", 422);
-		softly.assertThat(bindResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-		softly.assertThat(bindResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-		softly.assertThat(bindResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getCode());
-		softly.assertThat(bindResponse.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getMessage());
-
-		SearchPage.openPolicy(policyNumber);
-		testEValueDiscount.simplifiedPendedEndorsementIssue();
+			SearchPage.openPolicy(policyNumber);
+			testEValueDiscount.simplifiedPendedEndorsementIssue();
+		});
 	}
 
-	protected void pas12852_DuplicateVin200031Body(SoftAssertions softly) {
-		mainApp().open();
-		String policyNumber = getCopiedPolicy();
+	protected void pas12852_DuplicateVin200031Body() {
+		assertSoftly(softly -> {
+			mainApp().open();
+			String policyNumber = getCopiedPolicy();
 
-		HelperMiniServices.createEndorsementWithCheck(policyNumber);
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-		String purchaseDate = "2013-02-22";
-		String vin = "1HGFA16526L081415";
-		Vehicle vehicleAddRequest = new Vehicle();
-		vehicleAddRequest.purchaseDate = purchaseDate;
-		vehicleAddRequest.vehIdentificationNo = vin;
-		String newVehicleOid = HelperMiniServices.vehicleAddRequestWithCheck(policyNumber, vehicleAddRequest);
-		HelperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
+			String purchaseDate = "2013-02-22";
+			String vin = "1HGFA16526L081415";
+			Vehicle vehicleAddRequest = new Vehicle();
+			vehicleAddRequest.purchaseDate = purchaseDate;
+			vehicleAddRequest.vehIdentificationNo = vin;
+			String newVehicleOid = helperMiniServices.vehicleAddRequestWithCheck(policyNumber, vehicleAddRequest);
+			helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
 
-		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.buttonPendedEndorsement.click();
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		VehicleTab.buttonAddVehicle.click();
-		vehicleTab.getAssetList().getAsset(VIN).setValue(vin);
-		vehicleTab.getAssetList().getAsset(USAGE).setValue("Pleasure");
-		vehicleTab.saveAndExit();
+			SearchPage.openPolicy(policyNumber);
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			policy.dataGather().start();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+			VehicleTab.buttonAddVehicle.click();
+			vehicleTab.getAssetList().getAsset(VIN).setValue(vin);
+			vehicleTab.getAssetList().getAsset(USAGE).setValue("Pleasure");
+			vehicleTab.saveAndExit();
 
-		HelperMiniServices.rateEndorsement(softly, policyNumber);
+			helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
 
-		ErrorResponseDto bindResponse = HelperCommon.endorsementBindError(policyNumber, "200031", 422);
-		softly.assertThat(bindResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-		softly.assertThat(bindResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-		softly.assertThat(bindResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.UNIQUE_VIN.getCode());
-		softly.assertThat(bindResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.UNIQUE_VIN.getMessage());
-		softly.assertThat(bindResponse.errors.get(0).field).isEqualTo("attributeForRules");
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.UNIQUE_VIN.getCode(), ErrorDxpEnum.Errors.UNIQUE_VIN.getMessage(), "attributeForRules");
 
-		SearchPage.openPolicy(policyNumber);
-		testEValueDiscount.simplifiedPendedEndorsementIssue();
+			SearchPage.openPolicy(policyNumber);
+			testEValueDiscount.simplifiedPendedEndorsementIssue();
 
-		policy.updateRulesOverride().start();
-		CustomAssertions.assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRowContains(RULE_NAME.getLabel(), "200031").getCell(1)).isPresent();
-		UpdateRulesOverrideActionTab.btnCancel.click();
+			policy.updateRulesOverride().start();
+			CustomAssertions.assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRowContains(RULE_NAME.getLabel(), "200031").getCell(1)).isPresent();
+			UpdateRulesOverrideActionTab.btnCancel.click();
+		});
 	}
 
-	protected void pas12852_ExpensiveVehicle200022Body(SoftAssertions softly) {
-		mainApp().open();
-		String policyNumber = getCopiedPolicy();
+	protected void pas12852_ExpensiveVehicle200022Body() {
+		assertSoftly(softly -> {
+			mainApp().open();
+			String policyNumber = getCopiedPolicy();
 
-		HelperMiniServices.createEndorsementWithCheck(policyNumber);
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-		String vin = "ZFFCW56A830133118";
-		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.buttonPendedEndorsement.click();
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		VehicleTab.buttonAddVehicle.click();
-		vehicleTab.getAssetList().getAsset(VIN).setValue(vin);
-		vehicleTab.getAssetList().getAsset(USAGE).setValue("Pleasure");
-		vehicleTab.saveAndExit();
+			String vin = "ZFFCW56A830133118";
+			SearchPage.openPolicy(policyNumber);
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			policy.dataGather().start();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+			VehicleTab.buttonAddVehicle.click();
+			vehicleTab.getAssetList().getAsset(VIN).setValue(vin);
+			vehicleTab.getAssetList().getAsset(USAGE).setValue("Pleasure");
+			vehicleTab.saveAndExit();
 
-		HelperMiniServices.rateEndorsement(softly, policyNumber);
+			helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
 
-		ErrorResponseDto bindResponse = HelperCommon.endorsementBindError(policyNumber, "200022", 422);
-		softly.assertThat(bindResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-		softly.assertThat(bindResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-		softly.assertThat(bindResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getCode());
-		softly.assertThat(bindResponse.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getMessage());
-		softly.assertThat(bindResponse.errors.get(0).field).isEqualTo("vehTypeCd");
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getCode(), ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getMessage(), "vehTypeCd");
 
-		SearchPage.openPolicy(policyNumber);
-		testEValueDiscount.simplifiedPendedEndorsementIssue();
+			SearchPage.openPolicy(policyNumber);
+			testEValueDiscount.simplifiedPendedEndorsementIssue();
 
-		policy.updateRulesOverride().start();
-		CustomAssertions.assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRowContains(RULE_NAME.getLabel(), "200022").getCell(1)).isPresent();
-		UpdateRulesOverrideActionTab.btnCancel.click();
+			policy.updateRulesOverride().start();
+			CustomAssertions.assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRowContains(RULE_NAME.getLabel(), "200022").getCell(1)).isPresent();
+			UpdateRulesOverrideActionTab.btnCancel.click();
+		});
 	}
 
-	protected void pas12852_GaragedOutOfStateOnlyOneVeh200018Body(SoftAssertions softly) {
-		mainApp().open();
-		String policyNumber = getCopiedPolicy();
+	protected void pas12852_GaragedOutOfStateOnlyOneVeh200018Body() {
+		assertSoftly(softly -> {
+			mainApp().open();
+			String policyNumber = getCopiedPolicy();
 
-		ViewVehicleResponse responseViewVehicles = HelperCommon.viewPolicyVehicles(policyNumber);
-		String originalVehicle = responseViewVehicles.vehicleList.get(0).oid;
+			ViewVehicleResponse responseViewVehicles = HelperCommon.viewPolicyVehicles(policyNumber);
+			String originalVehicle = responseViewVehicles.vehicleList.get(0).oid;
 
-		HelperMiniServices.createEndorsementWithCheck(policyNumber);
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-		String purchaseDate = "2013-02-22";
-		String vin = "1HGFA16526L081415";
-		Vehicle vehicleAddRequest = new Vehicle();
-		vehicleAddRequest.purchaseDate = purchaseDate;
-		vehicleAddRequest.vehIdentificationNo = vin;
-		String newVehicleOid = HelperMiniServices.vehicleAddRequestWithCheck(policyNumber, vehicleAddRequest);
+			String purchaseDate = "2013-02-22";
+			String vin = "1HGFA16526L081415";
+			Vehicle vehicleAddRequest = new Vehicle();
+			vehicleAddRequest.purchaseDate = purchaseDate;
+			vehicleAddRequest.vehIdentificationNo = vin;
+			String newVehicleOid = helperMiniServices.vehicleAddRequestWithCheck(policyNumber, vehicleAddRequest);
 
-		HelperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
+			helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
 
-		String zipCode = "84121";
-		String addressLine1 = "4112 FORREST HILLS DR";
-		String city = "Salt Lake City";
-		String state = "UT";
-		VehicleUpdateDto updateVehicleGaraging = new VehicleUpdateDto();
-		updateVehicleGaraging.garagingDifferent = true;
-		updateVehicleGaraging.garagingAddress = new Address();
-		updateVehicleGaraging.garagingAddress.postalCode = zipCode;
-		updateVehicleGaraging.garagingAddress.addressLine1 = addressLine1;
-		updateVehicleGaraging.garagingAddress.city = city;
-		updateVehicleGaraging.garagingAddress.stateProvCd = state;
-		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleGaraging);
+			String zipCode = "84121";
+			String addressLine1 = "4112 FORREST HILLS DR";
+			String city = "Salt Lake City";
+			String state = "UT";
+			VehicleUpdateDto updateVehicleGaraging = new VehicleUpdateDto();
+			updateVehicleGaraging.garagingDifferent = true;
+			updateVehicleGaraging.garagingAddress = new Address();
+			updateVehicleGaraging.garagingAddress.postalCode = zipCode;
+			updateVehicleGaraging.garagingAddress.addressLine1 = addressLine1;
+			updateVehicleGaraging.garagingAddress.city = city;
+			updateVehicleGaraging.garagingAddress.stateProvCd = state;
+			HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleGaraging);
 
-		VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, originalVehicle);
-		softly.assertThat(deleteVehicleResponse.oid).isEqualTo(originalVehicle);
-		softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
+			VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, originalVehicle);
+			softly.assertThat(deleteVehicleResponse.oid).isEqualTo(originalVehicle);
+			softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
 
-		//BUG PAS-15481 Rating through service fails, when New Vehicle is added through Service and Original Vehicle removed
-		HelperMiniServices.rateEndorsement(softly, policyNumber);
+			//BUG PAS-15481 Rating through service fails, when New Vehicle is added through Service and Original Vehicle removed
+			helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
 
-		//TODO workaround for failed to rate Endorsement
-		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.buttonPendedEndorsement.click();
-		policy.dataGather().start();
-		//BUG  PAS-15482 Bind through service fails, when New Vehicle is added through Service and Original Vehicle removed
-		//TODO workaround for failed issue Endorsement
-		//NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		premiumAndCoveragesTab.calculatePremium();
-		premiumAndCoveragesTab.saveAndExit();
+			//TODO workaround for failed to rate Endorsement
+			SearchPage.openPolicy(policyNumber);
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			policy.dataGather().start();
+			//BUG  PAS-15482 Bind through service fails, when New Vehicle is added through Service and Original Vehicle removed
+			//TODO workaround for failed issue Endorsement
+			//NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+			premiumAndCoveragesTab.calculatePremium();
+			premiumAndCoveragesTab.saveAndExit();
 
-		ErrorResponseDto bindResponse = HelperCommon.endorsementBindError(policyNumber, "200018", 422);
-		softly.assertThat(bindResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-		softly.assertThat(bindResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-		ErrorResponseDto bindResponseFiltered = bindResponse.errors.stream().filter(errors -> "200018".equals(errors.errorCode)).findFirst().orElse(null);
-		assertThat(bindResponseFiltered.message).contains(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_ONLY_VEHICLE.getMessage());
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_ONLY_VEHICLE.getCode(), ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_ONLY_VEHICLE.getMessage(), "attributeForRules");
 
-		SearchPage.openPolicy(policyNumber);
-		testEValueDiscount.simplifiedPendedEndorsementIssue();
+			SearchPage.openPolicy(policyNumber);
+			testEValueDiscount.simplifiedPendedEndorsementIssue();
 
-		policy.updateRulesOverride().start();
-		CustomAssertions.assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRowContains(RULE_NAME.getLabel(), "200018").getCell(1)).isPresent();
-		UpdateRulesOverrideActionTab.btnCancel.click();
+			policy.updateRulesOverride().start();
+			CustomAssertions.assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRowContains(RULE_NAME.getLabel(), "200018").getCell(1)).isPresent();
+			UpdateRulesOverrideActionTab.btnCancel.click();
+		});
 	}
 
-	protected void pas12852_MustHavePPA200016Body(SoftAssertions softly, TestData motorhomeData) {
-		mainApp().open();
-		String policyNumber = getCopiedPolicy();
-		//String policyNumber = "VASS952918552";
-		ViewVehicleResponse responseViewVehicles = HelperCommon.viewPolicyVehicles(policyNumber);
-		String originalVehicleOid = responseViewVehicles.vehicleList.get(0).oid;
+	protected void pas12852_MustHavePPA200016Body(TestData motorhomeData) {
+		assertSoftly(softly -> {
+			mainApp().open();
+			String policyNumber = getCopiedPolicy();
+			//String policyNumber = "VASS952918552";
+			ViewVehicleResponse responseViewVehicles = HelperCommon.viewPolicyVehicles(policyNumber);
+			String originalVehicleOid = responseViewVehicles.vehicleList.get(0).oid;
 
-		HelperMiniServices.createEndorsementWithCheck(policyNumber);
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.buttonPendedEndorsement.click();
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		vehicleTab.fillTab(motorhomeData);
-		premiumAndCoveragesTab.calculatePremium();
-		premiumAndCoveragesTab.saveAndExit();
+			SearchPage.openPolicy(policyNumber);
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			policy.dataGather().start();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+			vehicleTab.fillTab(motorhomeData);
+			premiumAndCoveragesTab.calculatePremium();
+			premiumAndCoveragesTab.saveAndExit();
 
-		//TODO uncomment for scenario, when deleteVehicles returns proper response
+			//TODO uncomment for scenario, when deleteVehicles returns proper response
 /*		String purchaseDate2 = "2013-02-22";
 		String vin2 = "WAUKJAFM8C6314628";
 		Vehicle vehicleAddRequest2 = new Vehicle();
 		vehicleAddRequest2.purchaseDate = purchaseDate2;
 		vehicleAddRequest2.vehIdentificationNo = vin2;
-		String newVehicleOid2 = HelperMiniServices.vehicleAddRequestWithCheck(policyNumber, vehicleAddRequest2);
-		HelperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid2);*/
+		String newVehicleOid2 = helperMiniServices.vehicleAddRequestWithCheck(policyNumber, vehicleAddRequest2);
+		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid2);*/
 
-		VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, originalVehicleOid);
-		//BUG PAS-15483 Delete Vehicle doesnt return response in some cases
-		softly.assertThat(deleteVehicleResponse.oid).isEqualTo(originalVehicleOid);
-		softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
+			VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, originalVehicleOid);
+			//BUG PAS-15483 Delete Vehicle doesnt return response in some cases
+			softly.assertThat(deleteVehicleResponse.oid).isEqualTo(originalVehicleOid);
+			softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
 
-		HelperMiniServices.rateEndorsement(softly, policyNumber);
+			helperMiniServices.rateEndorsementWithCheck(softly, policyNumber);
 
-		ErrorResponseDto bindResponse = HelperCommon.endorsementBindError(policyNumber, "200016", 422);
-		softly.assertThat(bindResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-		softly.assertThat(bindResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-		ErrorResponseDto bindResponseFiltered = bindResponse.errors.stream().filter(errors -> ErrorDxpEnum.Errors.MUST_HAVE_PPA.getCode().equals(errors.errorCode)).findFirst().orElse(null);
-		assertThat(bindResponseFiltered.message).contains(ErrorDxpEnum.Errors.MUST_HAVE_PPA.getMessage());
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.MUST_HAVE_PPA.getCode(), ErrorDxpEnum.Errors.MUST_HAVE_PPA.getMessage(), "attributeForRules");
 
-		SearchPage.openPolicy(policyNumber);
-		testEValueDiscount.simplifiedPendedEndorsementIssue();
+			SearchPage.openPolicy(policyNumber);
+			testEValueDiscount.simplifiedPendedEndorsementIssue();
 
-		policy.updateRulesOverride().start();
-		CustomAssertions.assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRowContains(RULE_NAME.getLabel(), "200016").getCell(1)).isPresent();
-		UpdateRulesOverrideActionTab.btnCancel.click();
+			policy.updateRulesOverride().start();
+			CustomAssertions.assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRowContains(RULE_NAME.getLabel(), "200016").getCell(1)).isPresent();
+			UpdateRulesOverrideActionTab.btnCancel.click();
+		});
 	}
-
-
-
 }
