@@ -31,7 +31,7 @@ public class VinUploadHelper {
 	/**
 	 * Go to the admin -> administration -> Vin upload and upload two tables
 	 * @param vinTableFile
-	 * @param controlTableFile
+	 * @param controlTableFileNo STAT Code Symbols Present
 	 */
 	public void uploadFiles(String controlTableFile, String vinTableFile) {
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
@@ -47,7 +47,7 @@ public class VinUploadHelper {
 	public void uploadVinTable(String vinTableFileName) {
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		uploadToVINTableTab.uploadVinTable(vinTableFileName);
-		log.info("File {} was uploaded", vinTableFileName);
+		log.info("\n\nFile {} was uploaded\n\n", vinTableFileName);
 	}
 
 	public void verifyActivitiesAndUserNotes(String vinNumber) {

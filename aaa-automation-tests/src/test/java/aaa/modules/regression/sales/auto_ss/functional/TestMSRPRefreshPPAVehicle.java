@@ -13,7 +13,6 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.queries.VehicleQueries;
@@ -21,7 +20,6 @@ import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.main.enums.DefaultVinVersions;
-import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
@@ -105,12 +103,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		adminApp().open();
 		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.PARTIAL_MATCH.get()));
 
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.CHOOSE_VIN).setValueByRegex(vinPartialMatch.substring(0,8) + ".*");
-		premiumAndCoveragesTab.calculatePremium();
+		findAndRateQuote(testData, quoteNumber);
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertSoftly(softly -> {

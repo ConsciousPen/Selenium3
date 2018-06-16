@@ -281,18 +281,13 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		VehicleTab.buttonSaveAndExit.click();
 
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-
+		log.info("Quote number is : {}" , quoteNumber);
 		// Vin control table has version which overrides VERSION_2000, it is needed and important to get symbols for next steps
 		adminApp().open();
 		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.PARTIAL_MATCH.get()));
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.CHOOSE_VIN).setValueByRegex(vinPartialMatch.substring(0,8) + ".*");
-		premiumAndCoveragesTab.calculatePremium();
+		findAndRateQuote(testData, quoteNumber);
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertSoftly(softly -> {
