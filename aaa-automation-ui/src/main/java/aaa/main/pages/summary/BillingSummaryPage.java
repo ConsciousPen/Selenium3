@@ -9,10 +9,9 @@ import org.slf4j.LoggerFactory;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.components.Dialog;
-import aaa.common.enums.NavigationEnum.AppMainTabs;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.enums.BillingConstants;
-import aaa.main.enums.BillingConstants.BillingGeneralInformationTable;
 import aaa.toolkit.webdriver.customcontrols.TableWithPages;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.ByT;
@@ -60,7 +59,7 @@ public class BillingSummaryPage extends SummaryPage {
 	}
 
 	public static void open() {
-		NavigationPage.toMainTab(AppMainTabs.BILLING.get());
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 	}
 
 	public static void openPolicy(int rowNumber) {
@@ -76,15 +75,19 @@ public class BillingSummaryPage extends SummaryPage {
 	}
 
 	public static Dollar getTotalDue() {
-		return new Dollar(tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_DUE).getValue());
+		return new Dollar(tableBillingGeneralInformation.getRow(1).getCell(BillingConstants.BillingGeneralInformationTable.TOTAL_DUE).getValue());
 	}
 
 	public static Dollar getMinimumDue() {
-		return new Dollar(tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.MINIMUM_DUE).getValue());
+		return new Dollar(tableBillingGeneralInformation.getRow(1).getCell(BillingConstants.BillingGeneralInformationTable.MINIMUM_DUE).getValue());
+	}
+
+	public static Dollar getPastDue() {
+		return new Dollar(tableBillingGeneralInformation.getRow(1).getCell(BillingConstants.BillingGeneralInformationTable.PAST_DUE).getValue());
 	}
 
 	public static Dollar getTotalPaid() {
-		return new Dollar(tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_PAID).getValue());
+		return new Dollar(tableBillingGeneralInformation.getRow(1).getCell(BillingConstants.BillingGeneralInformationTable.TOTAL_PAID).getValue());
 	}
 
 	public static void showPriorTerms() {
@@ -94,7 +97,7 @@ public class BillingSummaryPage extends SummaryPage {
 	}
 
 	public static Dollar getBillableAmount() {
-		return new Dollar(tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.BILLABLE_AMOUNT).getValue());
+		return new Dollar(tableBillingGeneralInformation.getRow(1).getCell(BillingConstants.BillingGeneralInformationTable.BILLABLE_AMOUNT).getValue());
 	}
 
 	public static LocalDateTime getInstallmentDueDate(int index) {

@@ -1,6 +1,5 @@
 package aaa.utils.excel.io.entity.area.table;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.ws.rs.NotSupportedException;
@@ -13,24 +12,17 @@ public class TableHeader extends TableRow {
 	public TableHeader(Row headerRow, List<Integer> columnsIndexesOnSheet, ExcelTable table) {
 		super(headerRow, 0, headerRow.getRowNum() + 1, columnsIndexesOnSheet, table, Collections.singletonList(ExcelCell.STRING_TYPE));
 	}
-
+	
 	public List<String> getColumnsNames() {
 		return getStringValues();
 	}
-
+	
 	@Override
-	protected List<TableCell> gatherCells(List<Integer> columnsIndexesOnSheet, List<CellType<?>> cellTypes) {
-		List<TableCell> tableHeaderCells = new ArrayList<>(columnsIndexesOnSheet.size());
-		int columnIndexInTable = 1;
-		for (Integer columnIndexOnSheet : columnsIndexesOnSheet) {
-			Cell poiCell = getPoiRow() != null ? getPoiRow().getCell(columnIndexOnSheet - 1) : null;
-			HeaderCell headerCell = new HeaderCell(poiCell, columnIndexInTable, columnIndexOnSheet, this);
-			tableHeaderCells.add(headerCell);
-			columnIndexInTable++;
-		}
-		return tableHeaderCells;
+	protected HeaderCell createCell(int columnIndexInTable, int columnIndexOnSheet) {
+		Cell poiCell = getPoiRow() != null ? getPoiRow().getCell(columnIndexOnSheet - 1) : null;
+		return new HeaderCell(poiCell, columnIndexInTable, columnIndexOnSheet, this);
 	}
-
+	
 	@Override
 	public String toString() {
 		return "TableHeader{" +
@@ -40,12 +32,12 @@ public class TableHeader extends TableRow {
 				", columnsNumber=" + getCellsNumber() +
 				'}';
 	}
-
+	
 	@Override
 	public boolean hasColumn(String headerColumnName) {
 		return hasColumn(headerColumnName, false);
 	}
-
+	
 	@Override
 	public boolean hasColumn(String headerColumnName, boolean ignoreCase) {
 		for (String columnName : getColumnsNames()) {
@@ -55,12 +47,12 @@ public class TableHeader extends TableRow {
 		}
 		return false;
 	}
-
+	
 	@Override
 	public TableCell getCell(String headerColumnName) {
 		return getCell(headerColumnName, false);
 	}
-
+	
 	@Override
 	public TableCell getCell(String headerColumnName, boolean ignoreCase) {
 		for (TableCell cell : getCells()) {
@@ -70,27 +62,27 @@ public class TableHeader extends TableRow {
 		}
 		throw new IllegalStateException(String.format("There is no column name \"%1$s\" in the table %2$s", headerColumnName, getTable()));
 	}
-
+	
 	@Override
 	public String getColumnName(int columnIndex) {
 		return getCell(columnIndex).getStringValue();
 	}
-
+	
 	@Override
 	public ExcelTable exclude() {
 		throw new NotSupportedException("Excluding of table header's row is not supported");
 	}
-
+	
 	@Override
 	public TableHeader clear() {
 		throw new NotSupportedException("Clearing of table header's row is not supported");
 	}
-
+	
 	@Override
 	public ExcelTable delete() {
 		throw new NotSupportedException("Deletion of table header's row is not supported");
 	}
-
+	
 	@Override
 	public TableHeader registerCellType(List<CellType<?>> cellTypes) {
 		if (cellTypes.stream().anyMatch(t -> !ExcelCell.STRING_TYPE.equals(t))) {
@@ -98,32 +90,32 @@ public class TableHeader extends TableRow {
 		}
 		return (TableHeader) super.registerCellType(cellTypes);
 	}
-
+	
 	@Override
 	protected void removeCellsIndexes(Integer... columnIndexesInRow) {
 		super.removeCellsIndexes(columnIndexesInRow);
 	}
-
+	
 	public boolean hasColumn(int columnIndex) {
 		return hasCell(columnIndex);
 	}
-
+	
 	public int getColumnIndex(String headerColumnName) {
 		return getColumnIndex(headerColumnName, false);
 	}
-
+	
 	public int getColumnIndex(String headerColumnName, boolean ignoreCase) {
 		return getCell(headerColumnName, ignoreCase).getColumnIndex();
 	}
-
+	
 	public int getColumnIndexOnSheet(String headerColumnName) {
 		return getColumnIndexOnSheet(headerColumnName, false);
 	}
-
+	
 	public int getColumnIndexOnSheet(String headerColumnName, boolean ignoreCase) {
 		return getCell(headerColumnName, ignoreCase).getColumnIndexOnSheet();
 	}
-
+	
 	public int getColumnIndexOnSheet(int columnIndex) {
 		return getCell(columnIndex).getColumnIndexOnSheet();
 	}

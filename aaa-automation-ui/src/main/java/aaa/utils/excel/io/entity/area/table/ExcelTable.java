@@ -108,31 +108,17 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 		}
 		return true;
 	}
-
+	
 	@Override
-	protected List<TableRow> gatherRows(List<Integer> rowsIndexesOnSheet, List<Integer> columnsIndexesOnSheet, List<CellType<?>> cellTypes) {
-		List<TableRow> rows = new ArrayList<>(rowsIndexesOnSheet.size());
-		int rowIndexInTable = 1;
-		for (Integer sheetRowIndex : rowsIndexesOnSheet) {
-			TableRow row = new TableRow(getSheet().getPoiSheet().getRow(sheetRowIndex - 1), rowIndexInTable, sheetRowIndex, columnsIndexesOnSheet, this, cellTypes);
-			rows.add(row);
-			rowIndexInTable++;
-		}
-		return rows;
+	protected TableRow createRow(Row row, int rowIndexInTable, int rowIndexOnSheet) {
+		return new TableRow(row, rowIndexInTable, rowIndexOnSheet, getColumnsIndexesOnSheet(), this, getCellTypes());
 	}
-
+	
 	@Override
-	protected List<TableColumn> gatherColumns(List<Integer> rowsIndexesOnSheet, List<Integer> columnsIndexesOnSheet, List<CellType<?>> cellTypes) {
-		List<TableColumn> columns = new ArrayList<>(columnsIndexesOnSheet.size());
-		int columnIndexInTable = 1;
-		for (Integer columnIndexOnSheet : columnsIndexesOnSheet) {
-			TableColumn column = new TableColumn(columnIndexInTable, columnIndexOnSheet, rowsIndexesOnSheet, this, cellTypes);
-			columns.add(column);
-			columnIndexInTable++;
-		}
-		return columns;
+	protected TableColumn createColumn(int columnIndexInTable, int columnIndexOnSheet) {
+		return new TableColumn(columnIndexInTable, columnIndexOnSheet, getRowsIndexesOnSheet(), this, getCellTypes());
 	}
-
+	
 	@Override
 	public String toString() {
 		return "ExcelTable{" +
@@ -162,7 +148,12 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 		}
 		return this;
 	}
-
+	
+	@Override
+	protected int getInitialRowIndexOnSheet() {
+		return getHeader().getIndexOnSheet() + 1;
+	}
+	
 	@Override
 	public ExcelTable excludeColumns(Integer... columnsIndexes) {
 		super.excludeColumns(columnsIndexes);

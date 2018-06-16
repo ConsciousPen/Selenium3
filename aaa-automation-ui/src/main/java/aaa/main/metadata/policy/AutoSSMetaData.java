@@ -488,7 +488,7 @@ public final class AutoSSMetaData {
 
 			public static final AssetDescriptor<ComboBox> OWNERSHIP_TYPE = declare("Ownership Type", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> FIRST_NAME = declare("First Name", ComboBox.class);
-			public static final AssetDescriptor<TextBox> OWNER_NO_LABEL = declare("", TextBox.class,  By.id("policyDataGatherForm:sedit_AAAVehicleOwnership_otherName"));
+			public static final AssetDescriptor<TextBox> OWNER_NO_LABEL = declare("", TextBox.class, By.id("policyDataGatherForm:sedit_AAAVehicleOwnership_otherName"));
 			public static final AssetDescriptor<TextBox> SECOND_NAME = declare("Second Name", TextBox.class);
 			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip Code", TextBox.class);
 			public static final AssetDescriptor<TextBox> ADDRESS_LINE_1 = declare("Address Line 1", TextBox.class);
@@ -646,7 +646,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<CheckBox> RENTERS = declare("Renters", CheckBox.class, By.xpath("//td[text()='Renters']//input"));
 		public static final AssetDescriptor<CheckBox> CONDO = declare("Condo", CheckBox.class, By.xpath("//td[text()='Condo']//input"));
 		public static final AssetDescriptor<CheckBox> MOTORCYCLE = declare("Motorcycle", CheckBox.class);
-		public static final AssetDescriptor<FillableTable> INSTALLMENT_FEES_DETAILS_TABLE = declare("InstallemntFeesDetails",  FillableTable.class, ListOfFeeDetailsRow.class, By.id("policyDataGatherForm:installmentFeeDetailsTable"));
+		public static final AssetDescriptor<FillableTable> INSTALLMENT_FEES_DETAILS_TABLE = declare("InstallemntFeesDetails", FillableTable.class, ListOfFeeDetailsRow.class, By.id("policyDataGatherForm:installmentFeeDetailsTable"));
 
 		public static final AssetDescriptor<AssetList> POLICY_LEVEL_PERSONAL_INJURY_PROTECTION_COVERAGES = declare("PolicyLevelPersonalInjuryProtectionCoverages", AssetList.class,
 				PolicyLevelPersonalInjuryProtectionCoverages.class, By.id("policyDataGatherForm:policyLevelPIPCoveragePanel_body"));
@@ -661,7 +661,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<StaticElement> PAYMENT_METHOD = declare("Payment Method", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> ENROLLED_IN_AUTO_PAY = declare("Enrolled in Auto Pay", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> INSTALLMENT_FEE = declare("Installment Fee", StaticElement.class);
-			}
+		}
 
 		//for NJ state
 		public static final class PolicyLevelPersonalInjuryProtectionCoverages extends MetaData {
@@ -1191,9 +1191,9 @@ public final class AutoSSMetaData {
 	}
 
 	public static final class ErrorTab extends MetaData {
-		public static final AssetDescriptor<FillableErrorTable> ERROR_OVERRIDE = declare("ErrorsOverride", FillableErrorTable.class, RuleRow.class, By.id("errorsForm:msgList"));
+		public static final AssetDescriptor<FillableErrorTable> ERROR_OVERRIDE = declare("ErrorsOverride", FillableErrorTable.class, ErrorsOverride.class, By.id("errorsForm:msgList"));
 
-		public static final class RuleRow extends MetaData {
+		public static final class ErrorsOverride extends MetaData {
 			public static final AssetDescriptor<CheckBox> OVERRIDE = declare("Override", CheckBox.class);
 			public static final AssetDescriptor<CheckBox> APPROVAL = declare("Approval", CheckBox.class);
 			public static final AssetDescriptor<Link> CODE = declare("Code", Link.class);
@@ -1205,9 +1205,9 @@ public final class AutoSSMetaData {
 	}
 
 	public static final class ErrorTabCalculatePremium extends MetaData {
-		public static final AssetDescriptor<FillableErrorTable> ERROR_OVERRIDE = declare("ErrorsOverride", FillableErrorTable.class, RuleRow.class, By.id("errorsForm:msgList"));
+		public static final AssetDescriptor<FillableErrorTable> ERROR_OVERRIDE = declare("ErrorsOverride", FillableErrorTable.class, ErrorsOverride.class, By.id("errorsForm:msgList"));
 
-		public static final class RuleRow extends MetaData {
+		public static final class ErrorsOverride extends MetaData {
 			public static final AssetDescriptor<CheckBox> OVERRIDE = declare("Override", CheckBox.class);
 			public static final AssetDescriptor<CheckBox> APPROVAL = declare("Approval", CheckBox.class);
 			public static final AssetDescriptor<Link> CODE = declare("Code", Link.class);

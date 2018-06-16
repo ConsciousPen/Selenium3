@@ -14,7 +14,7 @@ public class StringCellType extends AbstractCellType<String> {
 	}
 
 	@Override
-	public void setValueTo(ExcelCell cell, String value) {
+	public void setRawValueTo(ExcelCell cell, String value) {
 		cell.getPoiCell().setCellValue(value);
 	}
 

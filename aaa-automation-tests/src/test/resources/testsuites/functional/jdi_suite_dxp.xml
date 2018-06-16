@@ -59,6 +59,9 @@
                     <include name="pas9546_maxVehicles"/>
                     <include name="pas488_VehicleDelete"/>
                     <include name="pas12246_ViewVehiclePendingRemoval"/>
+                    <include name="pas14463_ViewDriverService"/>
+                    <include name="pas482_ViewDriverServiceOrderOfDriver"/>
+                    <include name="pas478_AddDrivers"/>
                 </methods>
             </class>
         </classes>
@@ -227,9 +230,42 @@
     <test name="pas14501_garagingDifferent">
         <parameter name="state" value="VA, AZ"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDiscounts">
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas14501_garagingDifferent"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas13663_CurrentBillServiceVA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesBilling">
+                <methods>
+                    <include name="pas13663_CurrentBillServiceMonthly"/>
+                    <include name="pas13663_CurrentBillServiceQuarterly"/>
+                    <include name="pas13663_CurrentBillServiceAnnual"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas14952_StatusResetDuringUpdatesThroughService" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas14952_EndorsementStatusResetForVehRatingFactors"/>
+                    <include name="pas14952_StatusResetsForNewlyAddedVehicle"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas14648_MedpmDelimiter">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas14648_MedpmDelimiter"/>
                 </methods>
             </class>
         </classes>

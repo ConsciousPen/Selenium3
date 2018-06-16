@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.utils.excel.bind.cache.TableClassesCache;
@@ -61,7 +60,7 @@ public class ExcelUnmarshaller implements Closeable {
 	public <T> T unmarshal(Class<T> excelFileModel) {
 		log.info(String.format("Getting excel file object of \"%1$s\" model from %2$s %3$s strict match binding",
 				excelFileModel.getSimpleName(),
-				this.excelManager.initializedFromFile() ? "file \"" + this.excelManager.getSourceFile().getAbsolutePath() + "\"" : "InputStream",
+				this.excelManager.initializedFromFile() ? "file \"" + this.excelManager.getFile().getAbsolutePath() + "\"" : "InputStream",
 				isStrictMatchBinding() ? "with" : "without"));
 		
 		T excelFileObject = (T) getInstance(excelFileModel);
@@ -81,7 +80,7 @@ public class ExcelUnmarshaller implements Closeable {
 	public <T> List<T> unmarshalRows(Class<T> excelTableModel, List<Integer> rowsWithPrimaryKeyValues) {
 		log.info(String.format("Getting list of table row objects of \"%1$s\" model from %2$s%3$s %4$s strict match binding",
 				excelTableModel.getSimpleName(),
-				this.excelManager.initializedFromFile() ? "file \"" + this.excelManager.getSourceFile().getAbsolutePath() + "\"" : "InputStream",
+				this.excelManager.initializedFromFile() ? "file \"" + this.excelManager.getFile().getAbsolutePath() + "\"" : "InputStream",
 				CollectionUtils.isNotEmpty(rowsWithPrimaryKeyValues) ? ", containing values in primary key columns: " + rowsWithPrimaryKeyValues : "",
 				isStrictMatchBinding() ? "with" : "without"));
 		
@@ -94,11 +93,6 @@ public class ExcelUnmarshaller implements Closeable {
 		
 		log.info("Excel table rows unmarshalling completed successfully.");
 		return tablesObjects;
-	}
-	
-	public ExcelUnmarshaller marshal(Object excelFileObject, File excelFile) {
-		//TODO-dchubkov: To be implemented...
-		throw new NotImplementedException("Excel marshalling is not implemented yet");
 	}
 	
 	public ExcelUnmarshaller flushCache() {
