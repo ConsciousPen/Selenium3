@@ -44,7 +44,6 @@ public class TestMiniServicesUwRules extends TestMiniServicesUwRulesAbstract {
 		);
 	}
 
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12852"})
@@ -90,6 +89,7 @@ public class TestMiniServicesUwRules extends TestMiniServicesUwRulesAbstract {
 				pas12852_MustHavePPA200016Body(softly, motorhomeData)
 		);
 	}
+
 
 	@Override
 	protected String getGeneralTab() {

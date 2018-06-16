@@ -78,8 +78,6 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 
 		String purchaseDate = "2013-02-22";
 		String vin = "1HGFA16526L081415";
-
-		//Add vehicle with specific info
 		Vehicle vehicleAddRequest = new Vehicle();
 		vehicleAddRequest.purchaseDate = purchaseDate;
 		vehicleAddRequest.vehIdentificationNo = vin;
@@ -132,8 +130,6 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 
 		String purchaseDate = "2013-02-22";
 		String vin = "1HGFA16526L081415";
-
-		//Add vehicle with specific info
 		Vehicle vehicleAddRequest = new Vehicle();
 		vehicleAddRequest.purchaseDate = purchaseDate;
 		vehicleAddRequest.vehIdentificationNo = vin;
@@ -252,8 +248,6 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 
 		String purchaseDate = "2013-02-22";
 		String vin = "1HGFA16526L081415";
-
-		//Add vehicle with specific info
 		Vehicle vehicleAddRequest = new Vehicle();
 		vehicleAddRequest.purchaseDate = purchaseDate;
 		vehicleAddRequest.vehIdentificationNo = vin;
@@ -308,9 +302,9 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 	protected void pas12852_MustHavePPA200016Body(SoftAssertions softly, TestData motorhomeData) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
-
+		//String policyNumber = "VASS952918552";
 		ViewVehicleResponse responseViewVehicles = HelperCommon.viewPolicyVehicles(policyNumber);
-		String originalVehicle = responseViewVehicles.vehicleList.get(0).oid;
+		String originalVehicleOid = responseViewVehicles.vehicleList.get(0).oid;
 
 		HelperMiniServices.createEndorsementWithCheck(policyNumber);
 
@@ -322,11 +316,20 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 		premiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
 
-		VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, originalVehicle);
-		softly.assertThat(deleteVehicleResponse.oid).isEqualTo(originalVehicle);
+		//TODO uncomment for scenario, when deleteVehicles returns proper response
+/*		String purchaseDate2 = "2013-02-22";
+		String vin2 = "WAUKJAFM8C6314628";
+		Vehicle vehicleAddRequest2 = new Vehicle();
+		vehicleAddRequest2.purchaseDate = purchaseDate2;
+		vehicleAddRequest2.vehIdentificationNo = vin2;
+		String newVehicleOid2 = HelperMiniServices.vehicleAddRequestWithCheck(policyNumber, vehicleAddRequest2);
+		HelperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid2);*/
+
+		VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, originalVehicleOid);
+		//BUG PAS-15483 Delete Vehicle doesnt return response in some cases
+		softly.assertThat(deleteVehicleResponse.oid).isEqualTo(originalVehicleOid);
 		softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
 
-		//TODO rating in DXP fails
 		HelperMiniServices.rateEndorsement(softly, policyNumber);
 
 		ErrorResponseDto bindResponse = HelperCommon.endorsementBindError(policyNumber, "200016", 422);
@@ -342,5 +345,7 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 		CustomAssertions.assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRowContains(RULE_NAME.getLabel(), "200016").getCell(1)).isPresent();
 		UpdateRulesOverrideActionTab.btnCancel.click();
 	}
+
+
 
 }

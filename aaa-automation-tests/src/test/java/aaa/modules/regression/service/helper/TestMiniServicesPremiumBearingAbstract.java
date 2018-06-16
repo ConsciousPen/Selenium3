@@ -4380,7 +4380,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(vehicleActive3.vehicleStatus).isEqualTo("active");
 			softly.assertThat(vehicleActive3.vehTypeCd).isEqualTo("Conversion");
 		});
-
 	}
 
 	protected void pas12407_bigDataService(SoftAssertions softly) {
@@ -4434,8 +4433,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		getAttributeMetadata(metaDataResponse, "vehicleStatus", true, false, false, null);
 		getAttributeMetadata(metaDataResponse, "registeredOwner", true, false, false, null);
-		//Defect PAS-13252: "Is Garaging different from Residential?" radio button doesn't exist
-		//getAttributeMetadata(metaDataResponse, "garagingAddress.different", true, true, true, null);
+		//BUG PAS-13252: "Is Garaging different from Residential?" radio button doesn't exist
+		getAttributeMetadata(metaDataResponse, "garagingAddress.different", true, true, true, null);
 		getAttributeMetadata(metaDataResponse, "garagingAddress.postalCode", true, false, true, "10");
 		getAttributeMetadata(metaDataResponse, "garagingAddress.addressLine1", true, false, true, "40");
 		getAttributeMetadata(metaDataResponse, "garagingAddress.addressLine2", true, false, false, "40");
@@ -4467,8 +4466,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		vehicleTab.saveAndExit();
 
 		AttributeMetadata[] metaDataResponse2 = HelperCommon.viewEndorsmentVehiclesMetaData(policyNumber, oid);
-		//Defect PAS-13252: "Is Garaging different from Residential?" radio button doesn't exist
-		//getAttributeMetadata(metaDataResponse, "garagingAddress.different", true, true, true, null);
+		//BUG PAS-13252: "Is Garaging different from Residential?" radio button doesn't exist
+		getAttributeMetadata(metaDataResponse, "garagingAddress.different", true, true, true, null);
 		getAttributeMetadata(metaDataResponse2, "garagingAddress.postalCode", true, true, true, "10");
 		getAttributeMetadata(metaDataResponse2, "garagingAddress.addressLine1", true, true, true, "40");
 		getAttributeMetadata(metaDataResponse2, "garagingAddress.addressLine2", true, true, false, "40");
@@ -5580,6 +5579,53 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
 			SearchPage.openPolicy(policyNumber);
 			assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+		});
+	}
+
+	protected void pas15483_deleteOriginalVehicleBody() {
+		assertSoftly(softly -> {
+			mainApp().open();
+			String policyNumber = getCopiedPolicy();
+			//String policyNumber = "VASS952918552";
+
+			ViewVehicleResponse responseViewVehicles = HelperCommon.viewPolicyVehicles(policyNumber);
+			String originalVehicleOid = responseViewVehicles.vehicleList.get(0).oid;
+
+			HelperMiniServices.createEndorsementWithCheck(policyNumber);
+
+			String purchaseDate = "2013-02-22";
+			String vin = "1HGFA16526L081415";
+
+			//Add vehicle with specific info
+			Vehicle vehicleAddRequest = new Vehicle();
+			vehicleAddRequest.purchaseDate = purchaseDate;
+			vehicleAddRequest.vehIdentificationNo = vin;
+			String newVehicleOid = HelperMiniServices.vehicleAddRequestWithCheck(policyNumber, vehicleAddRequest);
+			HelperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
+
+			String purchaseDate2 = "2013-02-22";
+			String vin2 = "WAUKJAFM8C6314628";
+
+			//Add vehicle with specific info
+			Vehicle vehicleAddRequest2 = new Vehicle();
+			vehicleAddRequest2.purchaseDate = purchaseDate2;
+			vehicleAddRequest2.vehIdentificationNo = vin2;
+			String newVehicleOid2 = HelperMiniServices.vehicleAddRequestWithCheck(policyNumber, vehicleAddRequest2);
+			HelperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid2);
+
+			HelperMiniServices.rateEndorsement(softly, policyNumber);
+			//BUG PAS-15483 Delete Vehicle doesnt return response in some cases
+			VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, originalVehicleOid);
+			softly.assertThat(deleteVehicleResponse.oid).isEqualTo(originalVehicleOid);
+			softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
+
+			VehicleUpdateResponseDto deleteVehicleResponse2 = HelperCommon.deleteVehicle(policyNumber, newVehicleOid);
+			softly.assertThat(deleteVehicleResponse2.oid).isEqualTo(newVehicleOid);
+			softly.assertThat(deleteVehicleResponse2.vehicleStatus).isEqualTo("pendingRemoval");
+
+			VehicleUpdateResponseDto deleteVehicleResponse3 = HelperCommon.deleteVehicle(policyNumber, newVehicleOid2);
+			softly.assertThat(deleteVehicleResponse3.oid).isEqualTo(newVehicleOid2);
+			softly.assertThat(deleteVehicleResponse3.vehicleStatus).isEqualTo("pendingRemoval");
 		});
 	}
 

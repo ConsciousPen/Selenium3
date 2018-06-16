@@ -58,6 +58,7 @@
                     <include name="pas13252_UpdateVehicleGaragingAddressProblemBody"/>
                     <include name="pas9546_maxVehicles"/>
                     <include name="pas488_VehicleDelete"/>
+                    <include name="pas15483_deleteOriginalVehicle"/>
                     <include name="pas12246_ViewVehiclePendingRemoval"/>
                     <include name="pas14463_ViewDriverService"/>
                     <include name="pas482_ViewDriverServiceOrderOfDriver"/>

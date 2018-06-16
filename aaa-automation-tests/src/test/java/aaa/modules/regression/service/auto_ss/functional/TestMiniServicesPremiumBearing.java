@@ -1276,8 +1276,8 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	}
 
 	/**
-	 * @author gzkvano
-	 * @name Check MEDPM delimiter
+	 * @author Oleg Stasyuk
+	 * @name Manual Endorsement Deletion
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.VA})
@@ -1289,6 +1289,10 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		);
 	}
 
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Service Endorsement Deletion
+	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -1297,6 +1301,13 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		assertSoftly(softly ->
 				pas12767_ServiceEndorsementCancelBody()
 		);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15483"})
+	public void pas15483_deleteOriginalVehicle(@Optional("VA") String state) {
+		pas15483_deleteOriginalVehicleBody();
 	}
 
 	@Override
