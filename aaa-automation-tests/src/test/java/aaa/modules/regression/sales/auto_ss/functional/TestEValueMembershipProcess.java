@@ -240,6 +240,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		jobsNBplus15plus30runNoChecks();
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		//BUG PAS-15479 EValue remains Pending after NB+30 if Membership Status = Erred
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "");
@@ -631,7 +632,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-15287"})
 	public void pas15287_eValueNotEligibleActiveMembershipNoEValueRenewalMinus48(@Optional("OK") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
-		String membershipStatus = "Cancelled";
+		String membershipStatus = "Pending";
 		boolean eValueSet = false;
 
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -646,7 +647,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
 
-		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, true);
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(35));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+		/*executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, true);
 		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry");
 		ahdexxGeneratedCheck(true, policyNumber, 1);
 
@@ -654,8 +658,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry");
 		ahdexxGeneratedCheck(true, policyNumber, 1);
 		checkDocumentContentAHDEXX(policyNumber, true, true, false, false, false);
-		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");
+		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");*/
 		eValueDiscountStatusCheck(policyNumber, "NOTENROLLED");
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
 	}
 
 	@Parameters({"state"})
