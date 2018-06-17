@@ -2,7 +2,6 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ss.functional;
 
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -39,45 +38,36 @@ public class TestMiniServicesUwRules extends TestMiniServicesUwRulesAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12852"})
 	public void pas12852_GaragedInMichigan200020(@Optional("VA") String state) {
-		assertSoftly(softly ->
-				pas12852_GaragedInMichigan200020Body(softly)
-		);
+
+		pas12852_GaragedInMichigan200020Body();
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12852"})
 	public void pas12852_GaragedOutOfState200019(@Optional("VA") String state) {
-		assertSoftly(softly ->
-				pas12852_GaragedOutOfState200019Body(softly)
-		);
+		pas12852_GaragedOutOfState200019Body();
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12852"})
 	public void pas12852_DuplicateVin200031(@Optional("VA") String state) {
-		assertSoftly(softly ->
-				pas12852_DuplicateVin200031Body(softly)
-		);
+		pas12852_DuplicateVin200031Body();
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12852"})
 	public void pas12852_ExpensiveVehicle200022(@Optional("VA") String state) {
-		assertSoftly(softly ->
-				pas12852_ExpensiveVehicle200022Body(softly)
-		);
+		pas12852_ExpensiveVehicle200022Body();
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12852"})
 	public void pas12852_GaragedOutOfStateOnlyOneVeh200018(@Optional("VA") String state) {
-		assertSoftly(softly ->
-				pas12852_GaragedOutOfStateOnlyOneVeh200018Body(softly)
-		);
+		pas12852_GaragedOutOfStateOnlyOneVeh200018Body();
 	}
 
 	@Parameters({"state"})
@@ -85,11 +75,8 @@ public class TestMiniServicesUwRules extends TestMiniServicesUwRulesAbstract {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12852"})
 	public void pas12852_MustHavePPA200016(@Optional("VA") String state) {
 		TestData motorhomeData = getTestSpecificTD("TestData_Motor_Home");
-		assertSoftly(softly ->
-				pas12852_MustHavePPA200016Body(softly, motorhomeData)
-		);
+		pas12852_MustHavePPA200016Body(motorhomeData);
 	}
-
 
 	@Override
 	protected String getGeneralTab() {
