@@ -7,7 +7,9 @@ import java.util.List;
 import org.openqa.selenium.By;
 import aaa.common.components.Dialog;
 import aaa.common.pages.Page;
+import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
@@ -60,6 +62,7 @@ public abstract class Tab {
 
 	public static StaticElement labelLoggedUser = new StaticElement(By.id("logoutForm:userDetails"));
 
+	public DialogAssetList moratoriumOverrideDialog = new DialogAssetList(By.id("policyDataGatherForm:actionPopoup_datagatherButtonsPanel_container"), DialogsMetaData.MoratoriumOverrideDialog.class);
 	protected AbstractContainer<?, ?> assetList;
 	protected InquiryAssetList inquiryAssetList;
 

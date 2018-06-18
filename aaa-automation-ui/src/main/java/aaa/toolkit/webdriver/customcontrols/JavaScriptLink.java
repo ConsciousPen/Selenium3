@@ -5,25 +5,25 @@ import toolkit.utils.meters.WaitMeters;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.ElementHighlighter;
 import toolkit.webdriver.controls.BaseElement;
-import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.waiters.Waiter;
 import toolkit.webdriver.controls.waiters.Waiters;
 
-public class JavaScriptButton extends Button {
+public class JavaScriptLink extends Link {
 
-	public JavaScriptButton(By locator) {
+	public JavaScriptLink(By locator) {
 		super(locator, Waiters.DEFAULT);
 	}
 
-	public JavaScriptButton(By locator, Waiter waiter) {
+	public JavaScriptLink(By locator, Waiter waiter) {
 		super(locator, waiter);
 	}
 
-	public JavaScriptButton(BaseElement<?, ?> parent, By locator) {
+	public JavaScriptLink(BaseElement<?, ?> parent, By locator) {
 		super(parent, locator, Waiters.DEFAULT);
 	}
 
-	public JavaScriptButton(BaseElement<?, ?> parent, By locator, Waiter waiter) {
+	public JavaScriptLink(BaseElement<?, ?> parent, By locator, Waiter waiter) {
 		super(parent, locator, waiter);
 	}
 
@@ -31,10 +31,8 @@ public class JavaScriptButton extends Button {
 	public void click() {
 		log.debug("Clicking control " + this);
 		ensureVisible();
-		Waiters.SLEEP(1000).go();
 		ElementHighlighter.highlight(this);
 		BrowserController.get().executeScript("arguments[0].click();", getWebElement());
-		//getWebElement().click();
 		WaitMeters.capture(WaitMeters.PAGE_LOAD);
 		waitForPageUpdate();
 	}
@@ -43,10 +41,8 @@ public class JavaScriptButton extends Button {
 	public void click(Waiter waiter) {
 		log.debug("Clicking control " + this);
 		ensureVisible();
-		Waiters.SLEEP(1000).go();
 		ElementHighlighter.highlight(this);
 		BrowserController.get().executeScript("arguments[0].click();", getWebElement());
-		//getWebElement().click();
 		WaitMeters.capture(WaitMeters.PAGE_LOAD);
 		waiter.go();
 	}
