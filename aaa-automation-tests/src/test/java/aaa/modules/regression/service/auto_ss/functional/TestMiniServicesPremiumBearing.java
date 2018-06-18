@@ -1283,7 +1283,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
 		Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR, Constants.States.CT})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15448"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14646"})
 	public void pas14646_UimDelimiter(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas14646_UimDelimiter(state, softly)
