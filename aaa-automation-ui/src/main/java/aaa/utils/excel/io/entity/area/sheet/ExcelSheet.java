@@ -76,6 +76,29 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 				'}';
 	}
 	
+	@Override
+	public ExcelSheet addRows(int numberOfRows) {
+		return (ExcelSheet) super.addRows(numberOfRows);
+	}
+	
+	public ExcelSheet addColumns(int numberOfColumns) {
+		for (int i = 0; i < numberOfColumns; i++) {
+			addColumn();
+		}
+		return this;
+	}
+	
+	public SheetColumn addColumn() {
+		SheetColumn lastColumn = getLastColumn();
+		int newColumnIndexOnSheet = lastColumn == null ? 1 : lastColumn.getIndexOnSheet() + 1;
+		SheetColumn newColumn = createColumn(newColumnIndexOnSheet, newColumnIndexOnSheet);
+		for (SheetRow row : getRows()) {
+			SheetCell cell = row.createCell(newColumnIndexOnSheet, newColumnIndexOnSheet);
+			row.addCell(cell);
+		}
+		return addColumn(newColumn);
+	}
+	
 	public ExcelTable getTable(String... headerColumnsNames) {
 		return getTable(false, headerColumnsNames);
 	}

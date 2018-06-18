@@ -244,6 +244,9 @@ public abstract class ExcelCell implements Writable {
 	
 	@SuppressWarnings("unchecked")
 	public <T> CellType<T> getType(T value) {
+		if (value == null) {
+			return null;
+		}
 		return (CellType<T>) getCellTypes().stream().filter(t -> ClassUtils.isAssignable(t.getEndType(), value.getClass(), true)).findFirst().orElse(null);
 	}
 	
@@ -253,7 +256,10 @@ public abstract class ExcelCell implements Writable {
 	}
 	
 	public <T> ExcelCell setValue(T value, CellType<T> valueType) {
-		assertThat(hasType(valueType)).as("%s cell does not have appropriate type to set %s value type", this, value.getClass()).isTrue();
+		if (value == null) {
+			return clear();
+		}
+		assertThat(hasType(valueType)).as("%s cell does not have appropriate type to set %s value", this, value).isTrue();
 		if (getPoiCell() == null) {
 			//TODO-dchubkov: maybe would be better to move this cell creation to "aaa.utils.excel.io.celltype.AbstractCellType.setValueTo" method
 			Row row = getRow().getPoiRow();

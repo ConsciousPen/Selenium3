@@ -407,25 +407,34 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 		return this;
 	}
 	
+	public ExcelArea<CELL, ROW, COLUMN> addRows(int numberOfRows) {
+		for (int i = 0; i < numberOfRows; i++) {
+			addRow();
+		}
+		return this;
+	}
+	
 	public ROW addRow() {
 		ROW lastRow = getLastRow();
 		int newRowIndex = lastRow == null ? 1 : lastRow.getIndex() + 1;
 		int newRowIndexOnSheet = lastRow == null ? getInitialRowIndexOnSheet() : lastRow.getIndexOnSheet() + 1;
 		Row poiRow = getPoiSheet().getRow(newRowIndexOnSheet - 1);
 		ROW newRow = createRow(poiRow, newRowIndex, newRowIndexOnSheet);
-		this.rows.add(newRow);
-		this.rowsIndexesOnSheet.add(newRowIndexOnSheet);
-		return newRow;
+		return addRow(newRow);
 	}
 	
-	public COLUMN addColumn() {
-		COLUMN lastColumn = getLastColumn();
-		int newColumnIndex = lastColumn == null ? 1 : lastColumn.getIndex() + 1;
-		int newColumnIndexOnSheet = lastColumn == null ? 1 : lastColumn.getIndexOnSheet() + 1;
-		COLUMN newColumn = createColumn(newColumnIndex, newColumnIndexOnSheet);
+	protected COLUMN addColumn(COLUMN newColumn) {
+		getColumns(); //to initialize existing columns
 		this.columns.add(newColumn);
-		this.columnsIndexesOnSheet.add(newColumnIndexOnSheet);
+		this.columnsIndexesOnSheet.add(newColumn.getIndexOnSheet());
 		return newColumn;
+	}
+	
+	protected ROW addRow(ROW newRow) {
+		getRows(); //to initialize existing columns
+		this.rows.add(newRow);
+		this.rowsIndexesOnSheet.add(newRow.getIndexOnSheet());
+		return newRow;
 	}
 	
 	protected abstract ROW createRow(Row row, int rowIndexInArea, int rowIndexOnSheet);

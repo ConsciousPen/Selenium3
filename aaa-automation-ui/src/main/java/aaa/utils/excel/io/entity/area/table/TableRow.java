@@ -46,6 +46,11 @@ public class TableRow extends ExcelRow<TableCell> {
 	}
 	
 	@Override
+	protected void addCell(TableCell cell) {
+		super.addCell(cell);
+	}
+	
+	@Override
 	public String toString() {
 		return "TableRow{" +
 				"sheetName=" + getSheetName() +
