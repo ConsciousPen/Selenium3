@@ -32,7 +32,7 @@
     <!-- commented out until feature branch is merged into master
 
     <test name="MVR Predictor Algo">
-        <parameter name="state" value="IN,KY,MD,NJ,NV,PA,VA,OK,CT"/>
+        <parameter name="state" value="IN,KY,MD,NJ,PA,VA,OK,CT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
                 <methods>
@@ -40,6 +40,22 @@
                     <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
                     <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
                     <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="MVR Predictor Algo NV">
+        <parameter name="state" value="NV"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
+                <methods>
+                    <exclude name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
+                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
+                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
+                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
+                    <exclude name="pas14264_MVRPredictorConversion"/>
+                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedViolationsConversion"/>
                 </methods>
             </class>
         </classes>
