@@ -4537,7 +4537,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		getAttributeMetadata(metaDataResponse, "vehicleStatus", true, false, false, null);
 		getAttributeMetadata(metaDataResponse, "registeredOwner", true, false, false, null);
-		getAttributeMetadata(metaDataResponse, "garagingAddress.different", true, true, false, null);
+		getAttributeMetadata(metaDataResponse, "garagingDifferent", true, true, false, null);
 		getAttributeMetadata(metaDataResponse, "garagingAddress.postalCode", true, false, true, "10");
 		getAttributeMetadata(metaDataResponse, "garagingAddress.addressLine1", true, false, true, "40");
 		getAttributeMetadata(metaDataResponse, "garagingAddress.addressLine2", true, false, false, "40");
