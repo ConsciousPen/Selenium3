@@ -24,6 +24,7 @@ public class Dialog {
 	public Controls controls;
 	public Button buttonDeleteEndorsement;
 	public Button buttonCloseWithCross;
+	public Button buttonRequestApproval;
 	private By locator;
 
 	public Dialog(String dialogLocator) {
@@ -42,6 +43,7 @@ public class Dialog {
 		buttonProceed = new Button(new ByChained(locator, By.xpath(".//*[@value='Proceed' or text()='Proceed']")));
 		buttonDeleteEndorsement = new Button(new ByChained(locator, By.xpath(".//*[@value='Delete Endorsement']")));
 		buttonCloseWithCross = new Button(new ByChained(locator, By.xpath(".//*[@id='policyDataGatherForm:installmentFeeDetailsPopup_header_controls' or @id='purchaseForm:installmentFeeDetailsPopup_header_controls']")));
+		buttonRequestApproval = new Button(new ByChained(locator, By.xpath(".//*[@value='Request Approval']")));
 
 		labelHeader = new StaticElement(new ByChained(locator, By.xpath(".//div[contains(@id, '_header_content')]")));
 		labelMessage = new StaticElement(new ByChained(locator, By.xpath(".//div[contains(@id, '_content_scroller') or contains(@class,'content')]"
