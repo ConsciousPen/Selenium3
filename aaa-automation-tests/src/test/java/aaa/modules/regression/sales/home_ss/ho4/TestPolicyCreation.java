@@ -4,6 +4,9 @@ package aaa.modules.regression.sales.home_ss.ho4;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -14,12 +17,14 @@ import aaa.modules.policy.HomeSSHO4BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
- * @author Viachaslau Markouski
+ * @author Automation team
  * @name Test Create Home Quote
  * @scenario
  * 1. Create Customer
- * 2. Create Home (Preconfigured) Quote
- * 3. Verify quote status is 'Premium Calculated'
+ * 2. Initiate HSS HO4 quote creation.
+ * 3. Fill all mandatory fields on all tabs, order reports, calculate premium.
+ * 4. Purchase policy.
+ * 5. Verify policy status is Active on Consolidated policy view.
  * @details
  */
 public class TestPolicyCreation extends HomeSSHO4BaseTest {
@@ -33,6 +38,6 @@ public class TestPolicyCreation extends HomeSSHO4BaseTest {
         createCustomerIndividual();
         createPolicy();
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 }
