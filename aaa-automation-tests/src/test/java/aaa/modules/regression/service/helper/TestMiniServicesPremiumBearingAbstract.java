@@ -3629,6 +3629,37 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		secondEndorsementIssueCheck();
 	}
 
+	protected void pas14721_UpdateCoveragesServiceBIPD(PolicyType policyType) {
+		mainApp().open();
+	/*	createCustomerIndividual();
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab")).resolveLinks();
+		policyType.get().createPolicy(testData);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		AAAEndorseResponse endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber); */
+
+	    String policyNumber= "VASS952918541";
+		String coverageCd = "BI";
+		String availableLimits = "500000/1000000";
+
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+
+		PolicyCoverageInfo coverageResponse = HelperCommon.updatePolicyLevelCoverageEndorsement(policyNumber, coverageCd, availableLimits);
+		assertSoftly(softly -> {
+			coverageXproperties(softly, 0, coverageResponse, "BI", "Bodily Injury Liability", availableLimits, "$500,000/$1,000,000", "Per Person/Per Accident", true, true);
+			assertCoverageLimitForBIPD(coverageResponse);
+
+
+		});
+
+
+	}
+
 	private void coverageXproperties(SoftAssertions softly, int coverageXnumber, PolicyCoverageInfo coverageResponse, String coverageCd, String coverageDesc, String availableLimits, String coverageLimitDisplay, String coverageType, boolean customerDisplay, boolean canChangeCoverage) {
 		softly.assertThat(getCoverageX(coverageResponse, coverageXnumber).coverageCd).isEqualTo(coverageCd);
 		softly.assertThat(getCoverageX(coverageResponse, coverageXnumber).coverageDescription).isEqualTo(coverageDesc);
@@ -3727,6 +3758,12 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).availableLimits.get(1).coverageLimit).isEqualTo("true");
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).availableLimits.get(1).coverageLimitDisplay).isEqualTo("Yes");
+		});
+	}
+
+	private void assertCoverageLimitForBIPD(PolicyCoverageInfo coverageResponse) {
+		assertSoftly(softly -> {
+
 		});
 	}
 

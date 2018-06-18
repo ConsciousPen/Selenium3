@@ -898,6 +898,14 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 
 	}
 
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14648"})
+	public void pas14721_UpdateCoveragesBI_PD(@Optional("VA") String state) {
+
+		pas14721_UpdateCoveragesServiceBIPD(getPolicyType());
+	}
+
 	/**
 	 * @author Megha Gubbala
 	 * Create a active policy with 2018 and leased  vehicle
