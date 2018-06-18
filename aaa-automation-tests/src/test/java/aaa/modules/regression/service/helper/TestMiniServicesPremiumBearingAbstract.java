@@ -5541,27 +5541,14 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
 		PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber);
-		// NJ has 'Limitation on Lawsuit' at index 1
-		if ("NJ".equals(state)) {
-			softly.assertThat(policyCoverageResponse.policyCoverages.get(3).coverageCd).isEqualTo("UMBI");
-			softly.assertThat(policyCoverageResponse.policyCoverages.get(3).coverageType).isEqualTo("Per Person/Per Accident");
-			softly.assertThat(policyCoverageResponse.policyCoverages.get(3).availableLimits.size()).isNotEqualTo(0);
-		} else {
-			softly.assertThat(policyCoverageResponse.policyCoverages.get(2).coverageCd).isEqualTo("UMBI");
-			softly.assertThat(policyCoverageResponse.policyCoverages.get(2).coverageType).isEqualTo("Per Person/Per Accident");
-			softly.assertThat(policyCoverageResponse.policyCoverages.get(2).availableLimits.size()).isNotEqualTo(0);
-		}
+		Coverage filteredPolicyCoverageResponse = policyCoverageResponse.policyCoverages.stream().filter(cov -> "UMBI".equals(cov.coverageCd)).findFirst().orElse(null);
+		softly.assertThat(filteredPolicyCoverageResponse.coverageType).isEqualTo("Per Person/Per Accident");
+		softly.assertThat(filteredPolicyCoverageResponse.availableLimits.size()).isNotEqualTo(0);
 
 		PolicyCoverageInfo coverageEndorsementResponse = HelperCommon.viewEndorsementCoverages(policyNumber);
-		if ("NJ".equals(state)) {
-			softly.assertThat(coverageEndorsementResponse.policyCoverages.get(3).coverageCd).isEqualTo("UMBI");
-			softly.assertThat(coverageEndorsementResponse.policyCoverages.get(3).coverageType).isEqualTo("Per Person/Per Accident");
-			softly.assertThat(coverageEndorsementResponse.policyCoverages.get(3).availableLimits.size()).isNotEqualTo(0);
-		} else {
-			softly.assertThat(coverageEndorsementResponse.policyCoverages.get(2).coverageCd).isEqualTo("UMBI");
-			softly.assertThat(coverageEndorsementResponse.policyCoverages.get(2).coverageType).isEqualTo("Per Person/Per Accident");
-			softly.assertThat(coverageEndorsementResponse.policyCoverages.get(2).availableLimits.size()).isNotEqualTo(0);
-		}
+		Coverage filteredCoverageEndorsementResponse = policyCoverageResponse.policyCoverages.stream().filter(cov -> "UMBI".equals(cov.coverageCd)).findFirst().orElse(null);
+		softly.assertThat(filteredCoverageEndorsementResponse.coverageType).isEqualTo("Per Person/Per Accident");
+		softly.assertThat(filteredPolicyCoverageResponse.availableLimits.size()).isNotEqualTo(0);
 	}
 
 	protected void pas12767_ManualEndorsementCancelBody() {
