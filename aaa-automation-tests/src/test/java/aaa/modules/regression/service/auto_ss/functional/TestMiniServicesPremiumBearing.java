@@ -976,7 +976,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 * Error expected
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "myPolicyUserAddedConfigCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7147"})
 	public void pas7147_VehicleUpdateRegisteredOwner(@Optional("VA") String state) {
 
@@ -1005,7 +1005,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12866"})
-	public void pas12866_e2eBct(@Optional("AZ") String state) {
+	public void pas12866_e2eBct(@Optional("ID") String state) {
 		assertSoftly(softly ->
 				pas12866_e2eBctBody(state, false, softly)
 		);
@@ -1235,7 +1235,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14501"})
-	public void pas14501_garagingDifferent(@Optional("AZ") String state) {
+	public void pas14501_garagingDifferent(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas14501_garagingDifferentBody(state, softly)
 		);
@@ -1252,7 +1252,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	}
 
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.AZ})
+	//@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14952", "PAS-15152"})
 	public void pas14952_StatusResetsForNewlyAddedVehicle(@Optional("VA") String state) {
@@ -1268,7 +1268,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15245"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14648"})
 	public void pas14648_MedpmDelimiter(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas14648_MedpmDelimiter(getPolicyType())
@@ -1276,21 +1276,56 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	}
 
 	/**
-	 * @author gzkvano
-	 * @name Check UIM delimiter
+	 * @author Oleg Stasyuk
+	 * @name Manual Endorsement Deletion
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
-		Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR, Constants.States.CT})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14646"})
-	public void pas14646_UimDelimiter(@Optional("VA") String state) {
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12767"})
+	public void pas12767_ManualEndorsementCancel(@Optional("VA") String state) {
 		assertSoftly(softly ->
-				pas14646_UimDelimiter(state, softly)
+				pas12767_ManualEndorsementCancelBody()
 		);
 	}
 
-	@Override
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Service Endorsement Deletion
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12767"})
+	public void pas12767_ServiceEndorsementCancel(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas12767_ServiceEndorsementCancelBody()
+		);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15483"})
+	public void pas15483_deleteOriginalVehicle(@Optional("VA") String state) {
+		pas15483_deleteOriginalVehicleBody();
+	}
+
+    /**
+     * @author gzkvano
+     * @name Check UIM delimiter
+     */
+    @Parameters({"state"})
+    @StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
+            Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR, Constants.States.CT})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14646"})
+    public void pas14646_UimDelimiter(@Optional("VA") String state) {
+        assertSoftly(softly ->
+                pas14646_UimDelimiter(state, softly)
+        );
+    }
+
+    @Override
 	protected String getGeneralTab() {
 		return NavigationEnum.AutoSSTab.GENERAL.get();
 	}

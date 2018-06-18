@@ -82,7 +82,7 @@ public class HelperCommon {
 	private static final String DXP_POLICIES_POLICY_DISCOUNTS = "/api/v1/policies/%s/discounts";
 	private static final String DXP_POLICIES_ENDORSEMENT_DISCOUNTS = "/api/v1/policies/%s/endorsement/discounts";
 
-	private static final String DXP_BILLING_CURRENT_BILL = "/api/v1/billing/$s/current-bill";
+	private static final String DXP_BILLING_CURRENT_BILL = "/api/v1/billing/%s/current-bill";
 
 	static {
 		PRETTY_PRINT_OBJECT_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
@@ -357,7 +357,7 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, null, PolicyPremiumInfo[].class, status);
 	}
 
-	public static ErrorResponseDto endorsementRateError(String policyNumber, int status) {
+	public static ErrorResponseDto endorsementRateError(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_RATE, policyNumber));
 		return runJsonRequestPostDxp(requestUrl, null, ErrorResponseDto.class, 422);
 	}
@@ -367,6 +367,11 @@ public class HelperCommon {
 		request.authorizedBy = authorizedBy;
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_BIND, policyNumber));
 		return runJsonRequestPostDxp(requestUrl, request, String.class, status);
+	}
+
+	public static String deleteEndorsement(String policyNumber, int status) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT, policyNumber));
+		return runJsonRequestDeleteDxp(requestUrl, String.class, status);
 	}
 
 	public static ErrorResponseDto endorsementBindError(String policyNumber, String authorizedBy, int status) {
