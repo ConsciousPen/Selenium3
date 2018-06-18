@@ -42,7 +42,6 @@ import toolkit.webdriver.controls.ComboBox;
 public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
     private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
-    private PurchaseTab purchaseTab = new PurchaseTab();
     private ErrorTab errorTab = new ErrorTab();
 
     private ComboBox bodilyInjury = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY);
