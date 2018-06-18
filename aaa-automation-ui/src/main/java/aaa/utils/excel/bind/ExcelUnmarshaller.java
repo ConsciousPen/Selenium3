@@ -146,11 +146,11 @@ public class ExcelUnmarshaller implements Closeable {
 		if (cell.hasType(ExcelCell.INTEGER_TYPE)) {
 			linkedTableRowIds = Collections.singletonList(cell.getIntValue());
 		} else {
-			String linkedTableRowStringIdsString = cell.getStringValue();
-			if (linkedTableRowStringIdsString != null) {
-				String[] linkedTableRowStringIds = linkedTableRowStringIdsString.split(cache.of(field).getPrimaryKeysSeparator());
-				linkedTableRowIds = new ArrayList<>(linkedTableRowStringIds.length);
-				for (String id : linkedTableRowStringIds) {
+			String linkedTableRowIDsString = cell.getStringValue();
+			if (linkedTableRowIDsString != null) {
+				String[] linkedTableRowIDs = linkedTableRowIDsString.split(cache.of(field).getPrimaryKeysSeparator());
+				linkedTableRowIds = new ArrayList<>(linkedTableRowIDs.length);
+				for (String id : linkedTableRowIDs) {
 					linkedTableRowIds.add(Integer.valueOf(id));
 				}
 			}
@@ -192,7 +192,7 @@ public class ExcelUnmarshaller implements Closeable {
 		try {
 			field.set(classInstance, value);
 		} catch (IllegalAccessException | IllegalArgumentException e) {
-			throw new IstfException(String.format("Unable set value \"%1$s\" to the field \"%2$s\" with type \"%3$s\" in class \"%4$s\"",
+			throw new IstfException(String.format("Unable to set value \"%1$s\" to the field \"%2$s\" with type \"%3$s\" in class \"%4$s\"",
 					value != null ? value.toString() : null, field.getName(), field.getType(), classInstance.getClass().getName()), e);
 		}
 	}

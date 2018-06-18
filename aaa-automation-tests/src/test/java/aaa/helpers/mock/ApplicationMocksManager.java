@@ -44,7 +44,7 @@ public class ApplicationMocksManager {
 
 		if (!updatedMocks.isEmpty()) {
 			for (Map.Entry<MockType, UpdatableMock> mock : updatedMocks.entrySet()) {
-				ExcelMarshaller excelMarshaller = new ExcelMarshaller();
+				ExcelMarshaller excelMarshaller = new ExcelMarshaller(false);
 				excelMarshaller.marshal(mock.getValue(), new File("/temp/path", mock.getKey().getFileName()));
 			}
 

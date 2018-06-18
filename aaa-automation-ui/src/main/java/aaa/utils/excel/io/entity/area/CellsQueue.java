@@ -256,7 +256,7 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 	
 	protected abstract Integer getCellIndexOnSheet(Integer cellIndexInQueue);
 	
-	void addCell(CELL cell) {
+	protected void addCell(CELL cell) {
 		getCells(); // to initialize existing cells
 		this.cells.add(cell);
 		this.cellsIndexesOnSheet.add(cell.getColumnIndexOnSheet());

@@ -10,21 +10,25 @@ public class TableClassesCache {
 	private final ExcelManager excelManager;
 	private final boolean strictMatchBinding;
 	private final Map<Class<?>, TableClassInfo> tableClassesMap;
-
+	
+	public TableClassesCache(boolean strictMatchBinding) {
+		this(null, strictMatchBinding);
+	}
+	
 	public TableClassesCache(ExcelManager excelManager, boolean strictMatchBinding) {
 		this.excelManager = excelManager;
 		this.strictMatchBinding = strictMatchBinding;
 		this.tableClassesMap = new HashMap<>();
 	}
-
+	
 	public boolean isStrictMatchBinding() {
 		return this.strictMatchBinding;
 	}
-
+	
 	public TableClassInfo of(Field field) {
 		return of(BindHelper.getFieldType(field));
 	}
-
+	
 	public TableClassInfo of(Class<?> tableClass) {
 		if (!this.tableClassesMap.containsKey(tableClass)) {
 			TableClassInfo tableClassInfo = new TableClassInfo(tableClass, this.excelManager, this.strictMatchBinding);
@@ -33,11 +37,11 @@ public class TableClassesCache {
 		}
 		return this.tableClassesMap.get(tableClass);
 	}
-
+	
 	public void flush(Class<?> tableClass) {
 		this.tableClassesMap.remove(tableClass);
 	}
-
+	
 	public void flushAll() {
 		this.tableClassesMap.clear();
 	}
