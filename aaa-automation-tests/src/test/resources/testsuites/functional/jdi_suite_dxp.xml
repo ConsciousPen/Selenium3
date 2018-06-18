@@ -230,7 +230,7 @@
     <test name="pas14501_garagingDifferent">
         <parameter name="state" value="VA, AZ"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDiscounts">
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas14501_garagingDifferent"/>
                 </methods>
@@ -245,6 +245,27 @@
                     <include name="pas13663_CurrentBillServiceMonthly"/>
                     <include name="pas13663_CurrentBillServiceQuarterly"/>
                     <include name="pas13663_CurrentBillServiceAnnual"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas14952_StatusResetDuringUpdatesThroughService" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas14952_EndorsementStatusResetForVehRatingFactors"/>
+                    <include name="pas14952_StatusResetsForNewlyAddedVehicle"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas14648_MedpmDelimiter">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas14648_MedpmDelimiter"/>
                 </methods>
             </class>
         </classes>
