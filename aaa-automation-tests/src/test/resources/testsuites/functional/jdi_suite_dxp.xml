@@ -58,6 +58,7 @@
                     <include name="pas13252_UpdateVehicleGaragingAddressProblemBody"/>
                     <include name="pas9546_maxVehicles"/>
                     <include name="pas488_VehicleDelete"/>
+                    <include name="pas15483_deleteOriginalVehicle"/>
                     <include name="pas12246_ViewVehiclePendingRemoval"/>
                     <include name="pas14463_ViewDriverService"/>
                     <include name="pas482_ViewDriverServiceOrderOfDriver"/>
@@ -266,6 +267,32 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas14648_MedpmDelimiter"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas12767_EndorsementCancel" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas12767_ManualEndorsementCancel"/>
+                    <include name="pas12767_ServiceEndorsementCancel"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas12852_UW_rules" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesUwRules">
+                <methods>
+                    <include name="pas12852_GaragedInMichigan200020"/>
+                    <include name="pas12852_GaragedOutOfState200019"/>
+                    <include name="pas12852_DuplicateVin200031"/>
+                    <include name="pas12852_ExpensiveVehicle200022"/>
+                    <include name="pas12852_GaragedOutOfStateOnlyOneVeh200018"/>
+                    <include name="pas12852_MustHavePPA200016"/>
                 </methods>
             </class>
         </classes>
