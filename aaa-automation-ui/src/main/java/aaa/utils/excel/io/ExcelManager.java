@@ -28,14 +28,14 @@ import toolkit.exceptions.IstfException;
  */
 public class ExcelManager implements Closeable {
 	protected static Logger log = LoggerFactory.getLogger(ExcelManager.class);
-
+	
 	private final File file;
 	private Workbook workbook;
 	private boolean isOpened;
 	private List<CellType<?>> allowableCellTypes;
 	private List<ExcelSheet> sheets;
 	private FormulaEvaluator evaluator;
-
+	
 	/**
 	 * File based constructor with basic set of {@link CellType}s
 	 *
@@ -44,7 +44,7 @@ public class ExcelManager implements Closeable {
 	public ExcelManager(File file) {
 		this(file, ExcelCell.getBaseTypes());
 	}
-
+	
 	/**
 	 * InputStream based constructor with basic set of {@link CellType}s
 	 *
@@ -53,7 +53,7 @@ public class ExcelManager implements Closeable {
 	public ExcelManager(InputStream inputStream) {
 		this(inputStream, ExcelCell.getBaseTypes());
 	}
-
+	
 	/**
 	 * File based constructor with provided set of allowable {@link CellType}s
 	 *
@@ -65,8 +65,9 @@ public class ExcelManager implements Closeable {
 		this.workbook = getWorkbook(file);
 		this.isOpened = true;
 		this.allowableCellTypes = allowableCellTypes.stream().distinct().collect(Collectors.toList());
+		this.sheets = new ArrayList<>(this.workbook.getNumberOfSheets());
 	}
-
+	
 	/**
 	 * InputStream based constructor provided set of allowable {@link CellType}s
 	 *
@@ -79,12 +80,13 @@ public class ExcelManager implements Closeable {
 		IOUtils.closeQuietly(inputStream);
 		this.isOpened = true;
 		this.allowableCellTypes = allowableCellTypes.stream().distinct().collect(Collectors.toList());
+		this.sheets = new ArrayList<>(this.workbook.getNumberOfSheets());
 	}
 	
 	public boolean isOpened() {
 		return this.isOpened;
 	}
-
+	
 	public File getFile() {
 		return this.file;
 	}
@@ -95,11 +97,10 @@ public class ExcelManager implements Closeable {
 	
 	@SuppressWarnings("resource")
 	public List<ExcelSheet> getSheets() {
-		if (this.sheets == null) {
-			this.sheets = new ArrayList<>(getWorkbook().getNumberOfSheets());
+		if (this.sheets.isEmpty()) {
 			for (Sheet sheet : getWorkbook()) {
 				int sheetIndex = getWorkbook().getSheetIndex(sheet.getSheetName()) + 1;
-				addSheet(sheet, sheetIndex);
+				this.sheets.add(createSheet(sheet, sheetIndex));
 			}
 		}
 		return Collections.unmodifiableList(this.sheets);
@@ -123,7 +124,15 @@ public class ExcelManager implements Closeable {
 	public int getSheetsNumber() {
 		return getSheets().size();
 	}
-
+	
+	public ExcelSheet getFirstSheet() {
+		return getSheetsNumber() == 0 ? null : getSheet(getSheetsIndexes().get(0));
+	}
+	
+	public ExcelSheet getLastSheet() {
+		return getSheetsNumber() == 0 ? null : getSheet(getSheetsIndexes().get(getSheetsNumber() - 1));
+	}
+	
 	protected Workbook getWorkbook() {
 		if (!isOpened()) {
 			if (!initializedFromFile()) {
@@ -196,19 +205,12 @@ public class ExcelManager implements Closeable {
 		}
 		throw new IstfException(String.format("There is no sheet which contains \"%s\" name", sheetNamePattern));
 	}
-
-	public ExcelSheet getFirstSheet() {
-		return getSheetsNumber() == 0 ? null : getSheet(getSheetsIndexes().get(0));
-	}
-
-	public ExcelSheet getLastSheet() {
-		return getSheetsNumber() == 0 ? null : getSheet(getSheetsIndexes().get(getSheetsNumber() - 1));
-	}
-
-	public ExcelSheet createSheet(String sheetName) {
+	
+	public ExcelSheet addSheet(String sheetName) {
 		int newSheetIndex = getLastSheet() == null ? 1 : getLastSheet().getSheetIndex() + 1;
-		addSheet(getWorkbook().createSheet(sheetName), newSheetIndex);
-		return getSheet(newSheetIndex);
+		ExcelSheet newSheet = createSheet(getWorkbook().createSheet(sheetName), newSheetIndex);
+		this.sheets.add(newSheet);
+		return newSheet;
 	}
 	
 	public ExcelManager registerCellType(List<CellType<?>> cellTypes) {
@@ -220,6 +222,7 @@ public class ExcelManager implements Closeable {
 	
 	public ExcelManager save() {
 		if (!initializedFromFile()) {
+			//TODO-dchubkov: maybe better to save to working directoty with some filename?
 			log.warn("ExcelManager was initialized from InputStream therefore source file does not exist and saving to it has been skipped");
 			return this;
 		}
@@ -229,7 +232,7 @@ public class ExcelManager implements Closeable {
 	public ExcelManager save(File destinationFile) {
 		File writeToFile;
 		boolean overwriteOpenedFile = false;
-
+		
 		if (initializedFromFile() && destinationFile.exists() && getFile().equals(destinationFile)) {
 			writeToFile = new File(FilenameUtils.removeExtension(destinationFile.getAbsolutePath()) + "_TEMP" + FilenameUtils.getExtension(destinationFile.getName()));
 			overwriteOpenedFile = true;
@@ -244,7 +247,7 @@ public class ExcelManager implements Closeable {
 			close();
 			throw new IstfException(String.format("Writing to excel file \"%s\" has been failed", writeToFile.getAbsolutePath()), e);
 		}
-
+		
 		if (overwriteOpenedFile) {
 			close();
 			if (!destinationFile.delete()) {
@@ -271,12 +274,9 @@ public class ExcelManager implements Closeable {
 		close();
 		return this;
 	}
-
-	private void addSheet(Sheet sheet, int sheetIndex) {
-		if (this.sheets == null) {
-			this.sheets = new ArrayList<>();
-		}
-		this.sheets.add(new ExcelSheet(sheet, sheetIndex, this, getCellTypes()));
+	
+	protected ExcelSheet createSheet(Sheet sheet, int sheetIndex) {
+		return new ExcelSheet(sheet, sheetIndex, this, getCellTypes());
 	}
 	
 	private Workbook getWorkbook(InputStream inputStream) {

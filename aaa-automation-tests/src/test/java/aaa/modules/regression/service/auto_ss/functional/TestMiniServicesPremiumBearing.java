@@ -976,7 +976,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 * Error expected
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "myPolicyUserAddedConfigCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7147"})
 	public void pas7147_VehicleUpdateRegisteredOwner(@Optional("VA") String state) {
 
@@ -991,7 +991,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12866"})
-	public void pas12866_e2e(@Optional("UT") String state) {
+	public void pas12866_e2e(@Optional("AZ") String state) {
 		assertSoftly(softly ->
 				pas12866_e2eBctBody(state, true, softly)
 		);
@@ -1005,7 +1005,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12866"})
-	public void pas12866_e2eBct(@Optional("AZ") String state) {
+	public void pas12866_e2eBct(@Optional("ID") String state) {
 		assertSoftly(softly ->
 				pas12866_e2eBctBody(state, false, softly)
 		);
@@ -1228,17 +1228,86 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Validation of E2E flow in DXP
+	 * @name no error about garaging address being different when binding endorsement
 	 * @scenario 1. see script body
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14501"})
-	public void pas14501_garagingDifferent(@Optional("AZ") String state) {
+	public void pas14501_garagingDifferent(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas14501_garagingDifferentBody(state, softly)
 		);
+	}
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.AZ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14952"})
+	public void pas14952_EndorsementStatusResetForVehRatingFactors(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas14952_EndorsementStatusResetForVehRatingFactorsBody(state, softly)
+		);
+	}
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.AZ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14952", "PAS-15152"})
+	public void pas14952_StatusResetsForNewlyAddedVehicle(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas14952_StatusResetsForNewlyAddedVehicleBody(softly)
+		);
+	}
+
+	/**
+	 * @author gzkvano
+	 * @name Check MEDPM delimiter
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14648"})
+	public void pas14648_MedpmDelimiter(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas14648_MedpmDelimiter(getPolicyType())
+		);
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Manual Endorsement Deletion
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12767"})
+	public void pas12767_ManualEndorsementCancel(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas12767_ManualEndorsementCancelBody()
+		);
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Service Endorsement Deletion
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12767"})
+	public void pas12767_ServiceEndorsementCancel(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas12767_ServiceEndorsementCancelBody()
+		);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15483"})
+	public void pas15483_deleteOriginalVehicle(@Optional("VA") String state) {
+		pas15483_deleteOriginalVehicleBody();
 	}
 
 	@Override
