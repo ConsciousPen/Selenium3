@@ -311,7 +311,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-12872")
 	public void pas12872_VINRefreshNoMatchOnRenewalAutoCAQuote(@Optional("CA") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
-		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN8.get());
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN9.get());
 		String vehYear = "2017";
 		String vehMake = "NISSAN";
 		String vehModel = "ALTIMA";
@@ -339,7 +339,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		pas12872_AutomatedRenewal_CAChoice(policyNumber, policyExpirationDate.minusDays(45), NEW_VIN8);
 	}
 
-		@AfterSuite(alwaysRun = true)
+	@AfterSuite(alwaysRun = true)
 	protected void vinTablesCleaner() {
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN,"SYMBOL_2000_CHOICE");
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN2,"SYMBOL_2000_CHOICE");

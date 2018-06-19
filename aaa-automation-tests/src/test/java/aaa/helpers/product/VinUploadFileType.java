@@ -12,6 +12,7 @@ public enum VinUploadFileType {
 	NEW_VIN8("New8"),
 	NEW_VIN9("New9"),
 	NEW_VIN10("New10"),
+	NEW_VIN11("New11"),
 	REFRESHABLE_VIN2("Refreshable2"),
 	R45("R45");
 

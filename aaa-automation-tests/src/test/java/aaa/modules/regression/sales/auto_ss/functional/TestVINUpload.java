@@ -48,7 +48,6 @@ import toolkit.webdriver.controls.TextBox;
 public class TestVINUpload extends VinUploadAutoSSHelper {
 	protected TestData tdBilling = testDataManager.billingAccount;
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
-
 	private static final String NEW_VIN = "AAAKN3DD0E0344466";
 	private static final String NEW_VIN2 = "BBBKN3DD0E0344466";
 	private static final String NEW_VIN3 = "CCCKN3DD0E0344466";
@@ -59,7 +58,6 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	private static final String NEW_VIN8 = "HHHKN3DD4E0344466";
 	private static final String NEW_VIN9 = "ZZXKN3DD2E0344466";
 	private static final String NEW_VIN10 = "SSAKN3DD4E0344466";
-	private static final String NEW_VIN11 = "DDAKN3DD1E0344466";
 	private static final String REFRESHABLE_VIN = "1HGEM215140028445";
 
 	@Override
@@ -1011,7 +1009,6 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		//3. Generate automated renewal image according to renewal timeline
 		pas12872_VINRefreshPartialToFullMatchCommonsteps(NEW_VIN10, policyNumber, policyExpirationDate.minusDays(45));
 	}
-
 
 	@AfterSuite(alwaysRun = true)
 	protected void resetDefault() {
