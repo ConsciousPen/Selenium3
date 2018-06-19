@@ -316,6 +316,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_CSACN0100);
 		errorTab.override();
 		documentsAndBindTab.submitTab();
+		PolicySummaryPage.buttonBackFromRenewals.click();
 		String policyNum = PolicySummaryPage.getPolicyNumber();
 
 		purchaseRenewal(effDate, policyNum);
