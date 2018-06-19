@@ -31,36 +31,6 @@
         </classes>
     </test>
 
-    <test name="Test Enhanced UIM Coverage Behavior" parallel="methods" thread-count="1024">
-        <parameter name="state" value="MD"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior">
-                <methods>
-                    <include name="pas11620_testEUIMCoverageBehaviorNB"/>
-                    <include name="pas11620_PremiumChangeBetweenEnhancedAndStandardUIM"/>
-                    <include name="pas11620_testEUIMCoverageBehaviorEndorsement"/>
-                    <include name="pas11620_testEUIMCoverageBehaviorRenewal"/>
-                    <include name="pas11620_testEUIMCoverageBehaviorConversion"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="Test Nano Enhanced UIM Coverage Behavior" parallel="methods" thread-count="1024">
-        <parameter name="state" value="MD"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDNanoPolicyEUIMBehavior">
-                <methods>
-                    <include name="pas12202_PremiumChangeBetweenEnhancedAndStandardUIMNanoPolicy"/>
-                    <include name="pas12202_testNanoPolicyEUIMCoverageBehaviorNB"/>
-                    <include name="pas12202_testNanoPolicyEUIMCoverageBehaviorEndorsement"/>
-                    <include name="pas12202_testNanoPolicyEUIMCoverageBehaviorRenewal"/>
-                    <include name="pas12202_testNanoPolicyEUIMCoverageBehaviorConversion"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
     <test name="Test Enhanced UIM Coverage Forms" parallel="methods" thread-count="1024">
         <parameter name="state" value="MD"/>
         <classes>
