@@ -101,7 +101,8 @@ public class TestTierCalculation extends AutoSSBaseTest {
         //Finish policy and save/exit
         policy.getDefaultView().fillFromTo(tdAutoConv, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
         documentsTab.submitTab();
-        policyNumberConv = PolicySummaryPage.linkPolicy.getValue();
+        PolicySummaryPage.buttonBackFromRenewals.click();
+        policyNumberConv = PolicySummaryPage.getPolicyNumber();
 
         //Compare new business and conversion values
         CustomAssert.assertEquals(nbParams, convParams);
