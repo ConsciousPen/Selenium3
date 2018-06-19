@@ -206,6 +206,16 @@ public class ExcelManager implements Closeable {
 		throw new IstfException(String.format("There is no sheet which contains \"%s\" name", sheetNamePattern));
 	}
 	
+	public List<ExcelSheet> getSheetsContains(String sheetNamePattern) {
+		List<ExcelSheet> sheets = new ArrayList<>();
+		for (ExcelSheet sheet : getSheets()) {
+			if (sheet.getSheetName().contains(sheetNamePattern)) {
+				sheets.add(sheet);
+			}
+		}
+		return sheets;
+	}
+	
 	public ExcelSheet addSheet(String sheetName) {
 		int newSheetIndex = getLastSheet() == null ? 1 : getLastSheet().getSheetIndex() + 1;
 		ExcelSheet newSheet = createSheet(getWorkbook().createSheet(sheetName), newSheetIndex);

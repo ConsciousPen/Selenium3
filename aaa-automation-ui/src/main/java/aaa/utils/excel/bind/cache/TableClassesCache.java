@@ -6,14 +6,10 @@ import java.util.Map;
 import aaa.utils.excel.bind.BindHelper;
 import aaa.utils.excel.io.ExcelManager;
 
-public class TableClassesCache {
+public abstract class TableClassesCache<T extends TableClassInfo> {
+	protected final Map<Class<?>, T> tableClassesMap;
 	private final ExcelManager excelManager;
 	private final boolean strictMatchBinding;
-	private final Map<Class<?>, TableClassInfo> tableClassesMap;
-	
-	public TableClassesCache(boolean strictMatchBinding) {
-		this(null, strictMatchBinding);
-	}
 	
 	public TableClassesCache(ExcelManager excelManager, boolean strictMatchBinding) {
 		this.excelManager = excelManager;
@@ -25,13 +21,17 @@ public class TableClassesCache {
 		return this.strictMatchBinding;
 	}
 	
-	public TableClassInfo of(Field field) {
+	protected ExcelManager getExcelManager() {
+		return excelManager;
+	}
+	
+	public T of(Field field) {
 		return of(BindHelper.getFieldType(field));
 	}
 	
-	public TableClassInfo of(Class<?> tableClass) {
+	public T of(Class<?> tableClass) {
 		if (!this.tableClassesMap.containsKey(tableClass)) {
-			TableClassInfo tableClassInfo = new TableClassInfo(tableClass, this.excelManager, this.strictMatchBinding);
+			T tableClassInfo = getTableClassInfoInstance(tableClass);
 			this.tableClassesMap.put(tableClass, tableClassInfo);
 			return tableClassInfo;
 		}
@@ -39,10 +39,14 @@ public class TableClassesCache {
 	}
 	
 	public void flush(Class<?> tableClass) {
+		of(tableClass).flushInfo();
 		this.tableClassesMap.remove(tableClass);
 	}
 	
 	public void flushAll() {
+		tableClassesMap.values().forEach(TableClassInfo::flushInfo);
 		this.tableClassesMap.clear();
 	}
+	
+	protected abstract T getTableClassInfoInstance(Class<?> tableClass);
 }
