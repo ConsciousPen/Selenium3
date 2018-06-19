@@ -84,7 +84,6 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063, PAS-12443")
 	public void pas9063_verifyLockedUWPoints(@Optional("PA") String state) {
 
-        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 20, 0, 0));
 		// Get Reinstatement with lapse date.
 		LocalDateTime reinstatementDate = TimeSetterUtil.getInstance().getCurrentTime().plusMonths(2);
 
@@ -190,8 +189,6 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063, PAS-12443")
 	public void pas9063_verifyLockedUWPointsEndorsement(@Optional("PA") String state) {
 
-        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 20, 0, 0));
-
 		// Create Policy
 		mainApp().open();
 		getCopiedPolicy();
@@ -238,8 +235,6 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, priority = 1)
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063")
 	public void pas9063_verifyLockedUWPointsRenewal(@Optional("PA") String state) {
-
-        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 20, 0, 0));
 
 		// Create Policy
 		mainApp().open();
@@ -289,8 +284,6 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063, PAS-12443")
 	public void pas9063_verifyLockedUWPointsConversion(@Optional("PA") String state) {
 
-        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 20, 0, 0));
-
 		// get time for min due payments
 		String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime();
@@ -323,6 +316,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_CSACN0100);
 		errorTab.override();
 		documentsAndBindTab.submitTab();
+		PolicySummaryPage.buttonBackFromRenewals.click();
 		String policyNum = PolicySummaryPage.getPolicyNumber();
 
 		purchaseRenewal(effDate, policyNum);
