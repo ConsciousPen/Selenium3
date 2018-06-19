@@ -75,7 +75,7 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0436DataFunction = (openLPolicy, policyLevel) -> {
 		List<TestData> tdList = new ArrayList<>();
 		HomeSSOpenLForm form = openLPolicy.getForms().stream().filter(c -> "HS0436".equals(c.getFormCode())).findFirst().get();
-		//
+		// validate limit
 		List<Double> validLimits = new ArrayList<>(Arrays.asList(1000.0, 5000.0, 10000.0, 15000.0, 20000.0, 25000.0, 30000.0, 35000.0, 40000.0, 45000.0, 50000.0));
 		if (!validLimits.contains(form.getLimit())) {
 			throw new IstfException(String.format("Form HS0436 - invalid limit %s", form.getLimit().toString()));
@@ -388,9 +388,16 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0965DataFunction = (openLPolicy, policyLevel) -> {
 		List<TestData> tdList = new ArrayList<>();
+		HomeSSOpenLForm form = openLPolicy.getForms().stream().filter(c -> "HS0965".equals(c.getFormCode())).findFirst().get();
+		// validate limit
+		List<Double> validLimits = new ArrayList<>(Arrays.asList(2500.0, 5000.0));
+		if (!validLimits.contains(form.getLimit())) {
+			throw new IstfException(String.format("Form HS0965 - invalid limit %s", form.getLimit().toString()));
+		}
+		//
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", isFormAdded("HS0965", policyLevel) ? "Edit" : "Add",
-				HomeSSMetaData.EndorsementTab.EndorsementHS0965.COVERAGE_LIMIT.getLabel(), "$" + openLPolicy.getForms().stream().filter(c -> "HS0965".equals(c.getFormCode())).findFirst().get().getLimit().toString().split("\\.")[0]));
+				HomeSSMetaData.EndorsementTab.EndorsementHS0965.COVERAGE_LIMIT.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]));
 		return tdList;
 	};
 
