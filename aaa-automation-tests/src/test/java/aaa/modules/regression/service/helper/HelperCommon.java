@@ -59,6 +59,8 @@ public class HelperCommon {
 
 	private static final String DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS = "/api/v1/policies/%s/endorsement/assignments";
 
+	private static final String DXP_POLICIES_ENDORSEMENT_TRANSACTION_INFORMATION = "/api/v1/policies/%s/endorsement/change-log";
+
 	private static final String DXP_POLICIES_POLICY_PREMIUMS = "/api/v1/policies/%s/premiums";
 	private static final String DXP_POLICIES_ENDORSEMENT_PREMIUMS = "/api/v1/policies/%s/endorsement/premiums";
 	private static final String DXP_POLICIES_RENEWAL_PREMIUMS = "/api/v1/policies/%s/renewal/premiums";
@@ -317,6 +319,11 @@ public class HelperCommon {
 	public static ErrorResponseDto viewEndorsementPremiumsError(String policyNumber, int status) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_PREMIUMS, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, ErrorResponseDto.class, status);
+	}
+
+	static ComparablePolicy viewEndorsementChangeLog(String policyNumber, int status) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_TRANSACTION_INFORMATION, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, ComparablePolicy.class);
 	}
 
 	public static AAAEndorseResponse createEndorsement(String policyNumber, String endorsementDate) {
