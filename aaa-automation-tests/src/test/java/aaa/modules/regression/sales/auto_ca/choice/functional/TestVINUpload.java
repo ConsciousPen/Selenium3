@@ -1,6 +1,8 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -16,6 +18,7 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.regression.sales.helper.VinUploadCleanUpMethods;
 import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -224,13 +227,10 @@ public class TestVINUpload extends TestVINUploadTemplate {
 
 	@AfterClass(alwaysRun = true)
 	protected void vinTablesCleaner() {
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN,DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get());
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN2,DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get());
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN3,DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get());
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN4,DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get());
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN5,DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get());
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN6,DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get());
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(GGGVB2CC8W9455583,DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get());
+		List<String> listOfVinIds = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5, NEW_VIN6, GGGVB2CC8W9455583);
+		VinUploadCleanUpMethods.deleteVinsById(listOfVinIds,DefaultVinVersions.DefaultVersions.CaliforniaChoice);
+
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(GGGVB2CC8W9455583,DefaultVinVersions.DefaultVersions.CaliforniaChoice.get());
 		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_CAC);
 	}
 }

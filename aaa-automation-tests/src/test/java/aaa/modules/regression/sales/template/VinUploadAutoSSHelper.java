@@ -34,7 +34,7 @@ import toolkit.verification.ETCSCoreSoftAssertions;
 
 
 public class VinUploadAutoSSHelper extends PolicyBaseTest{
-	protected String defaultVersion = DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get();
+	protected String defaultVersion = DefaultVinVersions.DefaultVersions.CaliforniaSelect.get();
 	protected static VehicleTab vehicleTab = new VehicleTab();
 	protected static UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 	protected static PurchaseTab purchaseTab = new PurchaseTab();
@@ -370,7 +370,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		//BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
 //
 		//DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_VERSION,
-		//		getUniqId, "AAA_SS", null, getState(), DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get(), 20250102, 20500102, AUTO_SS_PPA_VEH_MSRP_VERSION));
+		//		getUniqId, "AAA_SS", null, getState(), DefaultVinVersions.DefaultVersions.CaliforniaSelect.get(), 20250102, 20500102, AUTO_SS_PPA_VEH_MSRP_VERSION));
 
 		// Add new MSRP version
 		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2025, 9999, "Motor", AUTO_SS_PPA_VEH_MSRP_VERSION, 4));

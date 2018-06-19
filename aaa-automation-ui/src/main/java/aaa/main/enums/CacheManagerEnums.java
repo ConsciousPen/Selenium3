@@ -30,7 +30,8 @@ public final class CacheManagerEnums {
 		PRODUCT_FACTORY("ProductFactory"),
 		PRODUCT_FACTORY_INFO("ProductFactoryInfo"),
 		SECURITY_CACHE("SecurityCache"),
-		UI_RESOURCE_CACHE("UiResourceCache");
+		UI_RESOURCE_CACHE("UiResourceCache"),
+		VEHICLE_VIN_REF_CACHE("VehicleVINRefCache");
 
 		String id;
 

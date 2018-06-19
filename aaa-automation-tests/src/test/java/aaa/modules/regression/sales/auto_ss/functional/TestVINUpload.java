@@ -19,7 +19,6 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.queries.VehicleQueries;
-import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.main.enums.DefaultVinVersions;
@@ -30,6 +29,7 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.regression.sales.helper.VinUploadCleanUpMethods;
 import aaa.modules.regression.sales.template.VinUploadAutoSSHelper;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -733,7 +733,6 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN7);
 
 		String pas2716VinTableFileName = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN7.get());
-		String pas2716ControlTableFileName = vinMethods.getControlTableFile();
 		/*
 		 * Automated Renewal R-35
 		 */
@@ -855,14 +854,9 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 	@AfterClass(alwaysRun = true)
 	protected void resetDefault() {
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN,DefaultVinVersions.SignatureSeries.SYMBOL_2000.get());
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN2,DefaultVinVersions.SignatureSeries.SYMBOL_2000.get());
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN3,DefaultVinVersions.SignatureSeries.SYMBOL_2000.get());
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN4,DefaultVinVersions.SignatureSeries.SYMBOL_2000.get());
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN5,DefaultVinVersions.SignatureSeries.SYMBOL_2000.get());
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN6,DefaultVinVersions.SignatureSeries.SYMBOL_2000.get());
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN7,DefaultVinVersions.SignatureSeries.SYMBOL_2000.get());
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN8,DefaultVinVersions.SignatureSeries.SYMBOL_2000.get());
+		List<String> listOfVinIds = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5, NEW_VIN6,NEW_VIN7,NEW_VIN8);
+		VinUploadCleanUpMethods.deleteVinsById(listOfVinIds,DefaultVinVersions.DefaultVersions.CaliforniaSelect);
+
 		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_SS);
 		DBService.get().executeUpdate(String.format(VehicleQueries.REPAIR_COLLCOMP,"7MSRP15H%V"));
 		DBService.get().executeUpdate(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE);

@@ -14,7 +14,6 @@ import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.queries.VehicleQueries;
-import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.main.enums.DefaultVinVersions;
@@ -23,6 +22,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.regression.sales.helper.VinUploadCleanUpMethods;
 import aaa.modules.regression.sales.template.functional.TestMSRPRefreshTemplate;
 import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
 import toolkit.datax.TestData;
@@ -35,7 +35,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		return PolicyType.AUTO_CA_CHOICE;
 	}
 
-	protected String defaultVersion = DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get();
+	protected String defaultVersion = DefaultVinVersions.DefaultVersions.CaliforniaChoice.get();
 
 	protected String vinMatchNBandNoMatchOnRenewal = "6MSRP15H8V1011111";
 	protected String vinPartialMatch = "7PRTLCAH9V1011111";
@@ -63,7 +63,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730, PAS-12881")
 	public void pas730_PartialMatch(@Optional("") String state) {
-		partialMatch(vinPartialMatch);
+		partialMatch();
 	}
 
 	/**
@@ -310,18 +310,15 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	@AfterClass(alwaysRun = true)
 	protected void resetVinControlTable() {
 		pas730_ChoiceCleanDataBase(CA_CHOICE_REGULAR_VEH_MSRP_VERSION, vehicleTypeRegular);
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(vinPartialMatch,defaultVersion);
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(vinMatchNBandNoMatchOnRenewal,defaultVersion);
+
+		List<String> listOfVinNumbers = Arrays.asList(vinPartialMatch,vinMatchNBandNoMatchOnRenewal);
+		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinNumbers,DefaultVinVersions.DefaultVersions.SignatureSeries);
 
 		List<String> listOfVinIds = Arrays.asList(vinIdCopyWithLowCompMatch, vinIdCopyWithHighCompMatch, vinIdCopyNoCompMatch);
-		for(String id : listOfVinIds){
-			if(id!=null && !id.isEmpty()){
-				DatabaseCleanHelper.cleanVehicleRefDataVinTable(id,DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get());
-			}
-		}
+		VinUploadCleanUpMethods.deleteVinsById(listOfVinIds,DefaultVinVersions.DefaultVersions.CaliforniaChoice);
 
 		if(vinOriginalIdNoCompMatch != null || !vinOriginalIdNoCompMatch.isEmpty()){
-			DBService.get().executeUpdate(String.format(REPAIR_COLLCOMP_BY_ID,Integer.parseInt(newBusinessCollNoCompMatch)-5,Integer.parseInt(newBusinessCompNoCompMatch)-5, vinOriginalIdNoCompMatch,DefaultVinVersions.CaliforniaChoice.SYMBOL_2000_CHOICE.get()));
+			DBService.get().executeUpdate(String.format(REPAIR_COLLCOMP_BY_ID,Integer.parseInt(newBusinessCollNoCompMatch)-5,Integer.parseInt(newBusinessCompNoCompMatch)-5, vinOriginalIdNoCompMatch,DefaultVinVersions.DefaultVersions.CaliforniaChoice.get()));
 		}
 	}
 }

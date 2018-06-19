@@ -11,6 +11,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -26,7 +27,9 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.regression.sales.helper.VinUploadCleanUpMethods;
 import aaa.modules.regression.sales.template.VinUploadAutoSSHelper;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
@@ -65,6 +68,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730, PAS-12881")
+	@StateList(statesExcept = {Constants.States.CA})
 	public void pas730_PartialMatch(@Optional("UT") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
@@ -134,6 +138,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
+	@StateList(statesExcept = {Constants.States.CA})
 	public void pas730_VehicleTypePPA(@Optional("UT") String state) {
 		TestData testDataVehicleTab = testDataManager.getDefault(TestVINUpload.class).getTestData("TestData").getTestData(vehicleTab.getMetaKey()).mask("VIN");
 		TestData testData = getPolicyTD().adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks();
@@ -171,6 +176,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
+	@StateList(statesExcept = {Constants.States.CA})
 	public void pas730_RenewalVehicleTypePPA(@Optional("") String state) {
 		// Some kind of random vin number
 		TestData testDataVehicleTab = testDataManager.getDefault(TestVINUpload.class).getTestData("TestData")
@@ -210,6 +216,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
+	@StateList(statesExcept = {Constants.States.CA})
 	public void pas730_MatchOnNewBusinessNoMatchOnRenewal(@Optional("") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.MATCH_ON_NEW_BUSINESS_NO_MATCH_ON_RENEWAL.get());
@@ -227,7 +234,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		String compSymbolBeforeRenewal = policyInfoBeforeRenewal.get("COMPSYMBOL");
 		String collSymbolBeforeRenewal = policyInfoBeforeRenewal.get("COLLSYMBOL");
 		// Preconditions to to vin is not match
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(vinMatchNBandNoMatchOnRenewal, DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get());
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(vinMatchNBandNoMatchOnRenewal, DefaultVinVersions.DefaultVersions.SignatureSeries.get());
 
 		// Move time to get refresh
 		moveTimeAndRunRenewJobs(policyExpirationDate);
@@ -253,6 +260,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12877")
+	@StateList(statesExcept = {Constants.States.CA})
 	public void pas12877_StoreStubRenewal(@Optional("UT") String state) {
 
 		String vehYear = "2018";
@@ -315,6 +323,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12877")
+	@StateList(statesExcept = {Constants.States.CA})
 	public void pas12877_StoreStubRenewal_COMP(@Optional("UT") String state) {
 		// Genesis has only one entry in db. Best fit for this test.
 		String vehYear = "2018";
@@ -394,6 +403,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12877")
+	@StateList(statesExcept = {Constants.States.CA})
 	public void pas12877_StoreStubRenewal_NO_COMP_MATCH(@Optional("UT") String state) {
 
 		String vehYear = "2018";
@@ -459,16 +469,10 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	@AfterClass(alwaysRun = true)
 	protected void resetVinControlTable() {
 		List<String> listOfVinIds = Arrays.asList(vinIdCopyWithLowComp, vinIdCopyWithHighComp, vinIdCopyNoCompMatch);
-		for(String id : listOfVinIds){
-			if(id!=null && !id.isEmpty()){
-				DatabaseCleanHelper.cleanVehicleRefDataVinTable(id,DefaultVinVersions.SignatureSeries.SYMBOL_2000.get());
-			}
-		}
+		VinUploadCleanUpMethods.deleteVinsById(listOfVinIds,DefaultVinVersions.DefaultVersions.SignatureSeries);
 
 		List<String> listOfVinNumbers = Arrays.asList(vinPartialMatch,vinMatchNBandNoMatchOnRenewal);
-		for(String vin : listOfVinNumbers){
-				DatabaseCleanHelper.cleanVehicleRefDataVinTable(vin,DefaultVinVersions.SignatureSeries.SYMBOL_2000.get());
-		}
+		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinNumbers,DefaultVinVersions.DefaultVersions.SignatureSeries);
 
 		if(vinIdOriginalNoCompMatch !=null && !vinIdOriginalNoCompMatch.isEmpty()){
 			DBService.get().executeUpdate(String.format(REPAIR_COLLCOMP_BY_ID,Integer.parseInt(newBusinessCollNoCompMatch)-5,Integer.parseInt(newBusinessCompNoCompMatch)-5, vinIdOriginalNoCompMatch,defaultVersion));

@@ -15,7 +15,6 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.queries.VehicleQueries;
-import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.helpers.ssh.RemoteHelper;
@@ -27,6 +26,7 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.regression.sales.helper.VinUploadCleanUpMethods;
 import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -304,14 +304,9 @@ public class TestVINUpload extends TestVINUploadTemplate {
 
 	@AfterClass(alwaysRun = true)
 	protected void vinTablesCleaner() {
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN,DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get());
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN2,DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get());
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN3,DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get());
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN4,DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get());
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN5,DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get());
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN6,DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get());
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN7,DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get());
-		DatabaseCleanHelper.cleanVehicleRefDataVinTable(HHHNK2CC7F9455583,DefaultVinVersions.CaliforniaSelect.SYMBOL_2000.get());
+		List<String> listOfVinIds = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5, NEW_VIN6, NEW_VIN7, HHHNK2CC7F9455583);
+		VinUploadCleanUpMethods.deleteVinsById(listOfVinIds,DefaultVinVersions.DefaultVersions.CaliforniaSelect);
+
 		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_CAS);
 	}
 }
