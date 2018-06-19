@@ -32,6 +32,11 @@ public class ETCSAScreenshotMaker extends BasicScreenshotMaker {
 			BrowserController.get().executeScript("document.body.scrollTop = document.documentElement.scrollTop = 0;");
 			result = isProfileChrome() ? getChromeFullScreenShot(file) : super.capture(file);
 		} catch (IstfException ie) {
+			LOGGER.info("Unable to make Screenshot: {}", ie.getMessage());
+			return false;
+		} catch (Exception e) {
+			LOGGER.info("Unable to make Screenshot: {}", e.getMessage());
+			e.printStackTrace();
 			return false;
 		}
 		showFooter();
@@ -58,8 +63,7 @@ public class ETCSAScreenshotMaker extends BasicScreenshotMaker {
 	private boolean isProfileChrome() {
 		String actualProfile;
 		if (TimeSetterUtil.getInstance().isPEF()) {
-			actualProfile = new BrowserPoolConfig(BrowserControllerConfig.getInstance().getBrowserPoolConfigFilePath())
-					.getDefaultBrowserProfile().getBrowserProfileValue();
+			actualProfile = new BrowserPoolConfig(BrowserControllerConfig.getInstance().getBrowserPoolConfigFilePath()).getDefaultBrowserProfile().getBrowserProfileValue();
 		} else {
 			actualProfile = PropertyProvider.getProperty(TestProperties.WEBDRIVER_PROFILE);
 		}
@@ -68,12 +72,10 @@ public class ETCSAScreenshotMaker extends BasicScreenshotMaker {
 
 	private boolean getChromeFullScreenShot(File file) throws IOException {
 		if (BrowserController.isInitialized()) {
-			BufferedImage screenshot = Shutterbug.shootPage(BrowserController.get().driver(), ScrollStrategy.BOTH_DIRECTIONS)
-					.getImage();
+			BufferedImage screenshot = Shutterbug.shootPage(BrowserController.get().driver(), ScrollStrategy.BOTH_DIRECTIONS).getImage();
 			ImageIO.write(screenshot, "png", file);
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 }

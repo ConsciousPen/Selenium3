@@ -199,4 +199,10 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 	public static void preconditionsTealeaf() {
 		DBService.get().executeUpdate(String.format(PROPERTY_CONFIGURER_ENTITY_INSERT, "nivanans", "tealeafToggle, disable for perf improvement", "tealeafToggle.enabled", "false"));
 	}
+
+	@Test(description = "Precondition to update endpoint for oauth2 to wiremock for DXP", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	public static void wiremockOauth() {
+		DBService.get().executeUpdate(String.format(DXP_AUTHENTICATION_PARAMETERS_INSERT, "test", "DXP wiremock authentication parameters for AWS", "restOAuth2RemoteTokenServices.checkTokenEndpointUrl", PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/as/token.oauth2"));
+	}
+
 }

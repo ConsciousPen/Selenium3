@@ -9,10 +9,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.utils.excel.bind.cache.TableClassesCache;
+import aaa.utils.excel.bind.cache.UnmarshallingCache;
+import aaa.utils.excel.bind.cache.UnmarshallingClassInfo;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.ExcelCell;
@@ -21,9 +22,10 @@ import aaa.utils.excel.io.entity.area.table.TableRow;
 import toolkit.exceptions.IstfException;
 
 public class ExcelUnmarshaller implements Closeable {
-	private final ExcelManager excelManager;
+	private final List<CellType<?>> allowableCellTypes;
 	private final boolean strictMatchBinding;
-	private final TableClassesCache cache;
+	private final ExcelManager excelManager;
+	private final TableClassesCache<UnmarshallingClassInfo> cache;
 	
 	private Logger log = LoggerFactory.getLogger(ExcelUnmarshaller.class);
 	
@@ -36,15 +38,21 @@ public class ExcelUnmarshaller implements Closeable {
 	}
 	
 	public ExcelUnmarshaller(File excelFile, boolean strictMatchBinding, List<CellType<?>> allowableCellTypes) {
-		this.excelManager = new ExcelManager(excelFile, allowableCellTypes);
+		this.allowableCellTypes = allowableCellTypes;
 		this.strictMatchBinding = strictMatchBinding;
-		this.cache = new TableClassesCache(excelManager, strictMatchBinding);
+		this.excelManager = new ExcelManager(excelFile, allowableCellTypes);
+		this.cache = new UnmarshallingCache(excelManager, strictMatchBinding);
 	}
 	
 	public ExcelUnmarshaller(InputStream inputStream, boolean strictMatchBinding, List<CellType<?>> allowableCellTypes) {
-		this.excelManager = new ExcelManager(inputStream, allowableCellTypes);
+		this.allowableCellTypes = allowableCellTypes;
 		this.strictMatchBinding = strictMatchBinding;
-		this.cache = new TableClassesCache(excelManager, strictMatchBinding);
+		this.excelManager = new ExcelManager(inputStream, allowableCellTypes);
+		this.cache = new UnmarshallingCache(excelManager, strictMatchBinding);
+	}
+	
+	public List<CellType<?>> getAllowableCellTypes() {
+		return Collections.unmodifiableList(allowableCellTypes);
 	}
 	
 	public boolean isStrictMatchBinding() {
@@ -61,13 +69,13 @@ public class ExcelUnmarshaller implements Closeable {
 	public <T> T unmarshal(Class<T> excelFileModel) {
 		log.info(String.format("Getting excel file object of \"%1$s\" model from %2$s %3$s strict match binding",
 				excelFileModel.getSimpleName(),
-				this.excelManager.initializedFromFile() ? "file \"" + this.excelManager.getSourceFile().getAbsolutePath() + "\"" : "InputStream",
+				this.excelManager.initializedFromFile() ? "file \"" + this.excelManager.getFile().getAbsolutePath() + "\"" : "InputStream",
 				isStrictMatchBinding() ? "with" : "without"));
 		
 		T excelFileObject = (T) getInstance(excelFileModel);
 		for (Field tableField : BindHelper.getAllAccessibleFields(excelFileModel, true)) {
 			List<?> tablesObjects = unmarshalRows(cache.of(tableField).getTableClass());
-			setFieldValue(tableField, excelFileObject, tablesObjects);
+			BindHelper.setFieldValue(tableField, excelFileObject, tablesObjects);
 		}
 		
 		log.info("Excel file unmarshalling completed successfully.");
@@ -81,7 +89,7 @@ public class ExcelUnmarshaller implements Closeable {
 	public <T> List<T> unmarshalRows(Class<T> excelTableModel, List<Integer> rowsWithPrimaryKeyValues) {
 		log.info(String.format("Getting list of table row objects of \"%1$s\" model from %2$s%3$s %4$s strict match binding",
 				excelTableModel.getSimpleName(),
-				this.excelManager.initializedFromFile() ? "file \"" + this.excelManager.getSourceFile().getAbsolutePath() + "\"" : "InputStream",
+				this.excelManager.initializedFromFile() ? "file \"" + this.excelManager.getFile().getAbsolutePath() + "\"" : "InputStream",
 				CollectionUtils.isNotEmpty(rowsWithPrimaryKeyValues) ? ", containing values in primary key columns: " + rowsWithPrimaryKeyValues : "",
 				isStrictMatchBinding() ? "with" : "without"));
 		
@@ -94,11 +102,6 @@ public class ExcelUnmarshaller implements Closeable {
 		
 		log.info("Excel table rows unmarshalling completed successfully.");
 		return tablesObjects;
-	}
-	
-	public ExcelUnmarshaller marshal(Object excelFileObject, File excelFile) {
-		//TODO-dchubkov: To be implemented...
-		throw new NotImplementedException("Excel marshalling is not implemented yet");
 	}
 	
 	public ExcelUnmarshaller flushCache() {
@@ -126,7 +129,7 @@ public class ExcelUnmarshaller implements Closeable {
 					value = getMultyColumnsFieldValue(tableClass, tableColumnField, row);
 					break;
 			}
-			setFieldValue(tableColumnField, tableObject, value);
+			BindHelper.setFieldValue(tableColumnField, tableObject, value);
 		}
 		
 		cache.of(tableClass).setObject(row.getIndex(), tableObject);
@@ -152,11 +155,11 @@ public class ExcelUnmarshaller implements Closeable {
 		if (cell.hasType(ExcelCell.INTEGER_TYPE)) {
 			linkedTableRowIds = Collections.singletonList(cell.getIntValue());
 		} else {
-			String linkedTableRowStringIdsString = cell.getStringValue();
-			if (linkedTableRowStringIdsString != null) {
-				String[] linkedTableRowStringIds = linkedTableRowStringIdsString.split(cache.of(field).getPrimaryKeysSeparator());
-				linkedTableRowIds = new ArrayList<>(linkedTableRowStringIds.length);
-				for (String id : linkedTableRowStringIds) {
+			String linkedTableRowIDsString = cell.getStringValue();
+			if (linkedTableRowIDsString != null) {
+				String[] linkedTableRowIDs = linkedTableRowIDsString.split(cache.of(field).getPrimaryKeysSeparator());
+				linkedTableRowIds = new ArrayList<>(linkedTableRowIDs.length);
+				for (String id : linkedTableRowIDs) {
 					linkedTableRowIds.add(Integer.valueOf(id));
 				}
 			}
@@ -183,24 +186,6 @@ public class ExcelUnmarshaller implements Closeable {
 			tableObjectValues.add(getTableRowObject(tableClass, row));
 		}
 		return tableObjectValues;
-	}
-	
-	private void setFieldValue(Field field, Object classInstance, Object value) {
-		if (field.getType().isPrimitive() && value == null) {
-			return; // unable to set null values to fields of primitive types, leave this field with its default type value
-		}
-		
-		if (!field.isAccessible()) {
-			//TODO-dchubkov: find appropriate setter method and use it for set value
-			field.setAccessible(true);
-		}
-		
-		try {
-			field.set(classInstance, value);
-		} catch (IllegalAccessException | IllegalArgumentException e) {
-			throw new IstfException(String.format("Unable set value \"%1$s\" to the field \"%2$s\" with type \"%3$s\" in class \"%4$s\"",
-					value != null ? value.toString() : null, field.getName(), field.getType(), classInstance.getClass().getName()), e);
-		}
 	}
 	
 	private Object getInstance(Class<?> clazz) {

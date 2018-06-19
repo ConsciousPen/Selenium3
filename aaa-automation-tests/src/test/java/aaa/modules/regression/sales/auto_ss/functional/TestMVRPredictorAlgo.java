@@ -1,23 +1,17 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-
 import static toolkit.verification.CustomAssertions.assertThat;
-
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
@@ -152,6 +146,12 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Male")
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel()), "Single")
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel()), "18");
+
+		if (!getState().equals(Constants.States.OK)) {
+			testData.adjust(TestData.makeKeyPath(RatingDetailReportsTab.class.getSimpleName(), AutoSSMetaData.RatingDetailReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel()),
+					new RatingDetailReportsTab().getInsuranceScoreOverrideData("900"));
+		}
+
 		TestData driverTab = getTestSpecificTD("TestData_DriverTab").resolveLinks();
 
 		// Open application Create Customer Initiate Conversion Policy with Driver exceeding MVR predictor threshold.
@@ -285,7 +285,9 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 
 		TestData testData = getConversionPolicyDefaultTD()
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933")
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Female");
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Female")
+				.adjust(TestData.makeKeyPath(RatingDetailReportsTab.class.getSimpleName(), AutoSSMetaData.RatingDetailReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel()),
+						new RatingDetailReportsTab().getInsuranceScoreOverrideData("900"));
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabViolations").resolveLinks();
 
 		// Open application Create Customer Initiate Conversion Policy with Driver exceeding MVR predictor threshold.
@@ -380,7 +382,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for drivers with accidents Renewal")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14264")
-	public void pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal(@Optional("NV") String state) {
+	public void pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal(@Optional("") String state) {
 
 		TestData testData = getFirstDriverTestData();
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabAccidents").resolveLinks();
@@ -418,7 +420,9 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 
 		TestData testData = getConversionPolicyDefaultTD()
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933")
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Female");
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Female")
+				.adjust(TestData.makeKeyPath(RatingDetailReportsTab.class.getSimpleName(), AutoSSMetaData.RatingDetailReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel()),
+						new RatingDetailReportsTab().getInsuranceScoreOverrideData("900"));
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabAccidents").resolveLinks();
 
 		// Open application Create Customer Initiate Conversion Policy with Driver exceeding MVR predictor threshold.
@@ -429,7 +433,6 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 
 		assertMVRResponseAccidents();
 	}
-
 
 	private TestData getAdjustedDriverTestData() {
 		// For exceeding OK threshold (above threshold) you need a driver age x < 27y , driving exp  5< y <15 , male, single
@@ -462,7 +465,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		policy.getDefaultView().fill(driverTabTD);
 	}
 
-	private void preconditionsAddDriversRenewalEndorsement(TestData driverTabTD){
+	private void preconditionsAddDriversRenewalEndorsement(TestData driverTabTD) {
 		//Navigate to Driver Tab and add Drivers
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 		policy.getDefaultView().fill(driverTabTD);
@@ -472,13 +475,13 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		premiumAndCoveragesTab.submitTab();
 
 		// Validate Drivers History
-		if (driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).isPresent()){
+		if (driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).isPresent()) {
 			driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).setValue("I Agree");
 		}
 		driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY).click();
 	}
 
-	private void assertAddedDrivers(){
+	private void assertAddedDrivers() {
 		// Assert That two drivers have license status = Predicted Valid
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(3).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
