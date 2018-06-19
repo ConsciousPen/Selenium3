@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 
@@ -46,6 +47,16 @@ public class RatingDetailReportsTab extends Tab {
 			super.fillTab(td);
 		}
 		return this;
+	}
+
+	public TestData getInsuranceScoreOverrideData(String score) {
+		TestData editInsuranceScoreDialogData = DataProviderFactory.dataOf(
+				AutoSSMetaData.RatingDetailReportsTab.EditInsuranceScoreDialog.NEW_SCORE.getLabel(), score,
+				AutoSSMetaData.RatingDetailReportsTab.EditInsuranceScoreDialog.REASON_FOR_OVERRIDE.getLabel(), "Fair Credit Reporting Act Dispute",
+				AutoSSMetaData.RatingDetailReportsTab.EditInsuranceScoreDialog.BTN_SAVE.getLabel(), "click");
+		return DataProviderFactory.dataOf(
+				AutoSSMetaData.RatingDetailReportsTab.InsuranceScoreOverrideRow.ACTION.getLabel(), "Override Score",
+				AutoSSMetaData.RatingDetailReportsTab.InsuranceScoreOverrideRow.EDIT_INSURANCE_SCORE.getLabel(), editInsuranceScoreDialogData);
 	}
 
 	private TestData createTestData() {
