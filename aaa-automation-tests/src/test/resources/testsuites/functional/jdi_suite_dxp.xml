@@ -297,4 +297,14 @@
             </class>
         </classes>
     </test>
+    <test name="pas14646_UimDelimiter">
+        <parameter name="state" value="VA, CT, DE, IN, KS, MD, NV, OH, OR, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas14646_UimDelimiter"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
