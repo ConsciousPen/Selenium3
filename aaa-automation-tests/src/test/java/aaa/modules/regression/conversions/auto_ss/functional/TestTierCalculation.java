@@ -29,17 +29,15 @@ import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 @StateList(states = Constants.States.NY)
 @SuppressWarnings("InstanceVariableMayNotBeInitialized")
 public class TestTierCalculation extends AutoSSBaseTest {
 
     private final Tab generalTab = new GeneralTab();
-    private final Tab driverReportTab = new DriverActivityReportsTab();
     private final Tab premiumCovTab = new PremiumAndCoveragesTab();
     private final DocumentsAndBindTab documentsTab = new DocumentsAndBindTab();
-    private final ErrorTab errorTab = new ErrorTab();
     private String policyNumberNb;
     private String policyNumberConv;
     private Dollar premiumValue;
@@ -105,7 +103,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         policyNumberConv = PolicySummaryPage.getPolicyNumber();
 
         //Compare new business and conversion values
-        CustomAssert.assertEquals(nbParams, convParams);
+        assertThat(nbParams).isEqualTo(convParams);
 
     }
 
@@ -143,7 +141,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(PolicySummaryPage.getExpirationDate()));
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-        CustomAssert.assertEquals(getRenewalValues(policyNumberConv), getRenewalValues(policyNumberNb));
+        assertThat(getRenewalValues(policyNumberConv)).isEqualTo(getRenewalValues(policyNumberNb));
 
     }
 
