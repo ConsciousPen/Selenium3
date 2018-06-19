@@ -67,6 +67,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730, PAS-12881")
 	public void pas730_PartialMatch(@Optional("UT") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
+
 		String vehYear = "2018";
 		String vehMake = "VOLKSWAGEN";
 		String vehModel = "PASSAT";
@@ -86,7 +87,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		premiumAndCoveragesTab.calculatePremium();
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-		// Values freom VIN comp and coll symbol in excel sheet
+		// Values from VIN comp and coll symbol in excel sheet
 		assertSoftly(softly -> {
 			softly.assertThat(getCompSymbolFromVRD()).isNotEqualTo("55");
 			softly.assertThat(getCollSymbolFromVRD()).isNotEqualTo("66");
@@ -354,11 +355,15 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		DBService.get().executeUpdate(String.format(VehicleQueries.COPY_EXISTING_ROW_BY_VIN,sqlVinCompMatch,defaultVersion));
 		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_ID_FOR_COPIED_ROW, vinIdCopyWithLowComp,sqlVinCompMatch,defaultVersion));
 		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_COMP_COLL_SYMBOL, 35, 35, vinIdCopyWithLowComp,sqlVinCompMatch,defaultVersion));
+		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_COMP_VIN, newBusinessCurrentVinBeforeNull.substring(0,newBusinessCurrentVinBeforeNull.length()-1)+"K", newBusinessCurrentVinBeforeNull, 35));
+
 		// Create VIN Entry with Larger COMP symbol then original
 		vinIdCopyWithHighComp = DBService.get().getValue(getVehicleRefDataVinMaxId).get();
-		DBService.get().executeUpdate(String.format(VehicleQueries.COPY_EXISTING_ROW_BY_ID, vinIdCopyWithLowComp,defaultVersion));
+		DBService.get().executeUpdate(String.format(VehicleQueries.COPY_EXISTING_ROW_BY_VIN,sqlVinCompMatch,defaultVersion));
 		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_ID_FOR_COPIED_ROW, vinIdCopyWithHighComp,sqlVinCompMatch,defaultVersion));
 		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_COMP_COLL_SYMBOL, 55, 55, vinIdCopyWithHighComp,sqlVinCompMatch,defaultVersion));
+		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_COMP_VIN, newBusinessCurrentVinBeforeNull.substring(0,newBusinessCurrentVinBeforeNull.length()-1)+"L", newBusinessCurrentVinBeforeNull, 55));
+
 		//3. Generate Renewal Image
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
@@ -432,6 +437,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		DBService.get().executeUpdate(String.format(VehicleQueries.COPY_EXISTING_ROW_BY_VIN,sqlNoCompMatchVin,defaultVersion));
 		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_ID_FOR_COPIED_ROW, vinIdCopyNoCompMatch,sqlNoCompMatchVin,defaultVersion));
 		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_COMP_COLL_SYMBOL, Integer.parseInt(newBusinessCompNoCompMatch)+15, Integer.parseInt(newBusinessCompNoCompMatch)+15, vinIdCopyNoCompMatch,sqlNoCompMatchVin,defaultVersion));
+		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_COMP_VIN, newBusinessCurrentVinBeforeNull.substring(0,newBusinessCurrentVinBeforeNull.length()-1)+"K", newBusinessCurrentVinBeforeNull, Integer.parseInt(newBusinessCompNoCompMatch)+15));
 
 		//3. Generate Renewal Image
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -446,7 +452,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		assertThat(autoRenewalVersionComp).isNotEqualTo(newBusinessCompNoCompMatch);
 		assertThat(autoRenewalVersionColl).isNotEqualTo(newBusinessCollNoCompMatch);
-		assertThat(autoRenewalVersionCurrentVin).isEqualTo(newBusinessCurrentVinBeforeNull);
+		assertThat(autoRenewalVersionCurrentVin).isNotNull().isNotEmpty();
 
 		}
 
