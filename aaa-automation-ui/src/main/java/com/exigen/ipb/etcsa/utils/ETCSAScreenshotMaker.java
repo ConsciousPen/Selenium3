@@ -32,11 +32,11 @@ public class ETCSAScreenshotMaker extends BasicScreenshotMaker {
 			BrowserController.get().executeScript("document.body.scrollTop = document.documentElement.scrollTop = 0;");
 			result = isProfileChrome() ? getChromeFullScreenShot(file) : super.capture(file);
 		} catch (IstfException ie) {
-			LOGGER.info("Unable to make Screenshot: " + ie.getMessage());
+			LOGGER.info("Unable to make Screenshot: {}", ie.getMessage());
 			return false;
 		} catch (Exception e) {
-			LOGGER.info("Unable to make Screenshot: " + e.getMessage());
-			LOGGER.debug(e.getCause().toString());
+			LOGGER.info("Unable to make Screenshot: {}", e.getMessage());
+			e.printStackTrace();
 			return false;
 		}
 		showFooter();
@@ -75,8 +75,7 @@ public class ETCSAScreenshotMaker extends BasicScreenshotMaker {
 			BufferedImage screenshot = Shutterbug.shootPage(BrowserController.get().driver(), ScrollStrategy.BOTH_DIRECTIONS).getImage();
 			ImageIO.write(screenshot, "png", file);
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 }
