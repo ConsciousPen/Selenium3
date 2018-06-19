@@ -4,6 +4,8 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.main.enums.DocGenEnum.Documents.AHEVAXX;
+import static aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData.OPT_IN;
+import static aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData.OPT_OUT;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
@@ -48,7 +50,8 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueDiscountPreConditions;
-import aaa.modules.regression.service.helper.HelperWireMockPaperlessPreferences;
+import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
+import aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import toolkit.config.PropertyProvider;
@@ -114,7 +117,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	private static final List<String> ALL_FALSE = Arrays.asList(MESSAGE_BULLET_10);
 	private static final String AUTOPAY_KEEP_EVALUE = "To keep the eValue discount, the customer must choose AutoPay to make recurring payments via a checking/savings account or debit card.";
 
-	private static List<String> requestIdList = new LinkedList<>();
+	private static List<HelperWireMockStub> stubList = new LinkedList<>();
 	private GeneralTab generalTab = new GeneralTab();
 	private aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab generalTabHome = new aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab();
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
@@ -329,7 +332,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "pciCreditCard", "FALSE", "AAA_SS", "AAAeValueQualifyingPaymentMethods")).isPresent());
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "eft", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentMethods")).isPresent());
 
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "priorBILimits", "25000/50000", "AAA_SS", "AAAeValueQualifications")).isPresent());
+		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "priorBILimits", "15000/30000", "AAA_SS", "AAAeValueQualifications")).isPresent());
 		CustomAssert
 				.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "currentBILimits", "50000/100000", "AAA_SS", "AAAeValueQualifications")).isPresent());
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "priorInsurance", "TRUE", "AAA_SS", "AAAeValueQualifications")).isPresent());
@@ -686,7 +689,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
-		assertThat(errorTab.tableErrors.getRowContains("Code", "AAA_SS11020532").getCell("Message").getValue().toLowerCase().contains(AUTOPAY_KEEP_EVALUE.toLowerCase().substring(0,30))).isTrue();
+		assertThat(errorTab.tableErrors.getRowContains("Code", "AAA_SS11020532").getCell("Message").getValue().toLowerCase().contains(AUTOPAY_KEEP_EVALUE.toLowerCase().substring(0, 30))).isTrue();
 		errorTab.cancel();
 		documentsAndBindTab.saveAndExit();
 	}
@@ -926,7 +929,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled();
 
 		//PriorBi
-		pas232_eValuePriorBiConfigurationDependencyCheck("$15,000/$30,000", "$25,000/$50,000");
+		pas232_eValuePriorBiConfigurationDependencyCheck("None", "$15,000/$30,000");
 		pas232_eValuePriorBiNoneConfigurationDependencyCheck();
 	}
 
@@ -1299,13 +1302,13 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-297", "PAS-296"})
 	public void pas297_MidTermOptInNotificationToAgentAboutPaperlessPreferences(@Optional("VA") String state) {
 
 		eValueQuoteCreation();
 		String quoteNumber = PolicySummaryPage.getPolicyNumber();
-		String requestId = createPaperlessPreferencesRequestId(quoteNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(quoteNumber, OPT_OUT);
 
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -1317,13 +1320,13 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		premiumAndCoveragesTab.saveAndExit();
 		simplifiedQuoteIssue();
 
-		deleteSinglePaperlessPreferenceRequest(requestId);
+		deleteSinglePaperlessPreferenceRequest(stub);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		//Start PAS-296
 		//first endorsement
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
-		String requestId2 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+		HelperWireMockStub stub2 = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.value("No");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -1340,11 +1343,11 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		new PremiumAndCoveragesTab().calculatePremium();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
-		deleteSinglePaperlessPreferenceRequest(requestId2);
+		deleteSinglePaperlessPreferenceRequest(stub2);
 
 		//start new endorsement
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus10Day"));
-		String requestId3 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN.get());
+		HelperWireMockStub stub3 = createPaperlessPreferencesRequestId(policyNumber, OPT_IN);
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.value("Yes");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -1355,7 +1358,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.EVALUE_ACKNOWLEDGEMENT).setValue("Physically Signed");
 		documentsAndBindTab.submitTab();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		deleteSinglePaperlessPreferenceRequest(requestId3);
+		deleteSinglePaperlessPreferenceRequest(stub3);
 		//End PAS-296
 	}
 
@@ -1635,22 +1638,24 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		deleteMultiplePaperlessPreferencesRequests();
 	}
 
+	private HelperWireMockStub createPaperlessPreferencesRequestId(String policyNumber, String paperlessAction) {
+		PaperlessPreferencesTemplateData template = PaperlessPreferencesTemplateData.create(policyNumber, paperlessAction);
+		HelperWireMockStub stub = HelperWireMockStub.create("paperless-preferences-200", template).mock();
+		stubList.add(stub);
+		return stub;
+	}
+
 	private void deleteMultiplePaperlessPreferencesRequests() {
-		for (Object requestId : requestIdList) {
-			HelperWireMockPaperlessPreferences.deleteProcessedRequestFromStub(requestId.toString());
+		for (HelperWireMockStub stub : stubList) {
+			stub.cleanUp();
 		}
-		requestIdList.clear();
+		stubList.clear();
 	}
 
-	private String createPaperlessPreferencesRequestId(String policyNumber, String scenarioJsonFile) {
-		String requestId = HelperWireMockPaperlessPreferences.setPaperlessPreferencesToValue(policyNumber, scenarioJsonFile);
-		requestIdList.add(requestId);
-		return requestId;
-	}
 
-	private void deleteSinglePaperlessPreferenceRequest(String requestId) {
-		HelperWireMockPaperlessPreferences.deleteProcessedRequestFromStub(requestId);
-		requestIdList.remove(requestId);
+	private void deleteSinglePaperlessPreferenceRequest(HelperWireMockStub stub) {
+		stub.cleanUp();
+		stubList.remove(stub);
 	}
 
 	/**

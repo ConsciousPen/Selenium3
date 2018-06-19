@@ -127,6 +127,11 @@ public class AutoSSPolicy implements IPolicy {
 	}
 
 	@Override
+	public PolicyActions.InitiateHOQuote initiateHOQuote() {
+		return new AutoSSPolicyActions.InitiateHOQuote();
+	}
+
+	@Override
 	public PolicyActions.Bind bind() {
 		return new AutoSSPolicyActions.Bind();
 	}

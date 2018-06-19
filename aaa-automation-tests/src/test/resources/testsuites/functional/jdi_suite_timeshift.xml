@@ -179,6 +179,7 @@
                 <methods>
                     <include name="preconditionsClearFolders"/>
                     <include name="pas11740_membershipEligConfTrueForPendingMembershipNotEvalueState"/>
+                    <include name="pas15287_eValueNotEligibleActiveMembershipNoEValueRenewalMinus48"/>
                 </methods>
             </class>
         </classes>

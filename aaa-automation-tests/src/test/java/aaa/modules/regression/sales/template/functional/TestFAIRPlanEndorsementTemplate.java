@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.assertj.core.api.SoftAssertions;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -16,18 +17,17 @@ import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.xml.model.Document;
-import aaa.main.enums.ErrorEnum;
-import aaa.main.enums.MyWorkConstants;
-import aaa.main.enums.ProductConstants;
-import aaa.main.enums.SearchEnum;
+import aaa.main.enums.*;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.abstract_tabs.CommonDocumentActionTab;
+import aaa.main.modules.policy.home_ca.actiontabs.PolicyDocGenActionTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.main.pages.summary.MyWorkSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 import toolkit.verification.CustomAssertions;
 
 public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
@@ -40,6 +40,13 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 	private PurchaseTab purchaseTab = new PurchaseTab();
 	private ErrorTab errorTab = new ErrorTab();
 	private PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
+	private PolicyDocGenActionTab policyDocGenActionTab = new PolicyDocGenActionTab();
+	private CommonDocumentActionTab commonDocumentActionTab = new CommonDocumentActionTab(HomeCaMetaData.PolicyDocGenActionTab.class) {
+		@Override
+		public FillableDocumentsTable getDocumentsControl() {
+			return null;
+		}
+	};
 
 	private static final String ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT = "Wood burning stoves as the sole source of heat are ineligible.";
 	private static final String ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR = "Dwellings with a wood burning stove without at least one smoke detector insta";
@@ -47,13 +54,15 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 	private String formIdInXml;
 	private String fairPlanEndorsementLabelInEndorsementTab;
 	private PolicyType policyType;
+	private DocGenEnum.Documents fairPlanEndorsementInODDTab;
 
 	private TestFAIRPlanEndorsementTemplate() {}
 
-	public TestFAIRPlanEndorsementTemplate(PolicyType policyType, String formIdInXml, String fairPlanEndorsementLabelInEndorsementTab) {
+	public TestFAIRPlanEndorsementTemplate(PolicyType policyType, String formIdInXml, String fairPlanEndorsementLabelInEndorsementTab, DocGenEnum.Documents fairPlanEndorsementInODDTab) {
 		this.policyType = policyType;
 		this.formIdInXml = formIdInXml;
 		this.fairPlanEndorsementLabelInEndorsementTab = fairPlanEndorsementLabelInEndorsementTab;
+		this.fairPlanEndorsementInODDTab = fairPlanEndorsementInODDTab;
 	}
 
 	@Override
@@ -284,7 +293,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 	////////////Start PAS-13242////////////////
 
-	public void pas12466_AC1_NB(TestData tdWithFAIRPlanEndorsement) {
+	public void pas13242_pas14193_AC1_NB(TestData tdWithFAIRPlanEndorsement) {
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -310,12 +319,31 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		validateDocumentIsNotGeneratedInPackage(policyNumber, ENDORSEMENT_ISSUE, true);
 
-		//Validate that form FPCECA is not generated at renewal, but it is listed in other documents
+		//PAS-14193
+		//Validate that form FPCECA is generated at renewal, and is listed in other documents
 		generateRenewalOfferAtOfferGenDate();
+		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
+
+		//7. Make Renewal image endorsement without removing FAIR plan endorsement
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		PolicySummaryPage.buttonRenewals.click();
+		policyType.get().dataGather().start();
+
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE).setValue("contains=1,000");
+		premiumsAndCoveragesQuoteTab.calculatePremium();
+
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
+		new BindTab().submitTab();
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+		// 8. Validate that form FPCECA/FPCECADP is NOT included in revised renewal package, but is listed in other documents
 		validateDocumentIsNotGeneratedInPackage(policyNumber, RENEWAL_OFFER, true);
 	}
 
-	public void pas12466_AC2_Endorsement() {
+	public void pas13242_AC2_Endorsement() {
 
 		// Create policy without FAIR Plan Endorsement
 		mainApp().open();
@@ -332,7 +360,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		validateDocumentIsGeneratedInPackage(policyNumber, ENDORSEMENT_ISSUE);
 	}
 
-	public void pas12466_AC3_Renewal() {
+	public void pas13242_pas14193_AC3_Renewal() {
 
 		// Create policy without FAIR Plan Endorsement
 		mainApp().open();
@@ -370,7 +398,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
 	}
 
-	public void pas12466_AC3_Revised_Renewal_After_Renewal_Term_Change() {
+	public void pas13242_pas14193_AC3_Revised_Renewal_After_Renewal_Term_Change() {
 
 		// Create policy without FAIR Plan Endorsement
 		mainApp().open();
@@ -397,7 +425,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
 	}
 
-	public void pas12466_AC3_Revised_Renewal_After_Current_Term_Change() {
+	public void pas13242_pas14193_AC3_Revised_Renewal_After_Current_Term_Change() {
 
 		// Create policy without FAIR Plan Endorsement
 		mainApp().open();
@@ -420,14 +448,12 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		switchToFAIRPlanEndorsementAndBind();
 		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
 
-		CustomAssert.enableSoftMode();
-
 		//6. Validate that form FPCECA is included in Endorsement package
 		//8. Validate that form FPCECA is included in Endorsement package only once
 		validateDocumentIsGeneratedInPackage(policyNumber, ENDORSEMENT_ISSUE);
 
-		//7. Validate that form FPCECA is not included in Renewal package
-		validateDocumentIsNotGeneratedInPackage(policyNumber, RENEWAL_OFFER, true);
+		//7. Validate that form FPCECA is included in Renewal package
+		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER); //PAS-14193
 
 	}
 
@@ -475,6 +501,61 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
 		stoveQuestionValidationSteps();
 	}
+
+	/////////////Start PAS-14004////////////////
+	public void pas14004_AC1_AC2_Quote(TestData tdWithFAIRPlanEndorsement) {
+		mainApp().open();
+		createCustomerIndividual();
+
+		policyType.get().initiate();
+		policyType.get().getDefaultView().fillUpTo(tdWithFAIRPlanEndorsement, PremiumsAndCoveragesQuoteTab.class, true);
+		premiumsAndCoveragesQuoteTab.saveAndExit();
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		policyType.get().quoteDocGen().start();
+
+		validateFPCECA_FPCECADP(policyNumber);
+
+	}
+
+	public void pas14004_AC1_AC2_Quote_negative() {
+		TestData testData = getPolicyDefaultTD();
+
+		mainApp().open();
+		createCustomerIndividual();
+
+		policyType.get().initiate();
+		policyType.get().getDefaultView().fillUpTo(testData, PremiumsAndCoveragesQuoteTab.class, true);
+		premiumsAndCoveragesQuoteTab.saveAndExit();
+		policyType.get().quoteDocGen().start();
+
+		policyDocGenActionTab.verify.documentsPresent(false, fairPlanEndorsementInODDTab);
+
+	}
+
+	public void pas14004_AC1_AC2_Policy(TestData tdWithFAIRPlanEndorsement) {
+		mainApp().open();
+		createCustomerIndividual();
+
+		createPolicy(tdWithFAIRPlanEndorsement);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		policyType.get().policyDocGen().start();
+
+		validateFPCECA_FPCECADP(policyNumber);
+	}
+
+	public void pas14004_AC1_AC2_Policy_negative() {
+		TestData testData = getPolicyDefaultTD();
+
+		mainApp().open();
+		createCustomerIndividual();
+
+		createPolicy(testData);
+		policyType.get().quoteDocGen().start();
+
+		policyDocGenActionTab.verify.documentsPresent(false, fairPlanEndorsementInODDTab);
+
+	}
+	////////////End PAS-14004////////////////
 
 	private void validateSmokeDetectorQuestion(boolean ruleShouldFire) {
 		fillStovesSection("Yes", "No", "Yes", "Yes");
@@ -631,12 +712,17 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		//Create list of documents other than FPCECA
 		List<Document> docsOther = docs.stream().filter(document -> !document.getTemplateId().equals(formIdInXml)).collect(Collectors.toList());
 
-		//Validate that form FPCECA is listed in other documents (test validates that at least in one other document)
-		assertThat(docsOther.stream().filter(document -> document.toString().contains(formIdInXml)).toArray().length).isGreaterThan(0);
+		if (!eventName.equals(ADHOC_DOC_ON_DEMAND_GENERATE)) {
+			//Validate that form FPCECA is listed in other documents (test validates that at least in one other document)
+			assertThat(docsOther.stream().filter(document -> document.toString().contains(formIdInXml)).toArray().length).isGreaterThan(0);
+		}
 
 		//Validate that form FPCECA is included in Document Package only once
 		assertThat(docs.stream().filter(document -> document.getTemplateId().equals(formIdInXml)).toArray().length).isEqualTo(1);
-
+		validateFAIRPlanEndorsementSequencePAS_14368(docs, eventName);
+		if (eventName.equals(RENEWAL_OFFER)) {
+			validateRenewalThankYouLetterPAS_14632(policyNumber, "Y");
+		}
 	}
 
 	private void validateDocumentIsNotGeneratedInPackage(String policyNumber, AaaDocGenEntityQueries.EventNames eventName, boolean shouldBeListedInOtherDocs) {
@@ -649,10 +735,17 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		//Validate that document FPCECA is/is not listed in other documents (test validates that FPCECA is listed at least in one other document)
 		if (shouldBeListedInOtherDocs) {
 			assertThat(docsOther.stream().filter(document -> document.toString().contains(formIdInXml)).toArray().length).isGreaterThan(0);
+			//Validate that Renewal Thank You Letter contains proper value for tag FairPlanYN
+			if (eventName.equals(RENEWAL_OFFER)) {
+				validateRenewalThankYouLetterPAS_14632(policyNumber, "Y");
+			}
 
 		} else {
 			assertThat(docsOther.stream().filter(document -> document.toString().contains(formIdInXml)).toArray().length).isEqualTo(0);
-
+			//Validate that Renewal Thank You Letter contains proper value for tag FairPlanYN
+			if (eventName.equals(RENEWAL_OFFER)) {
+				validateRenewalThankYouLetterPAS_14632(policyNumber, "N");
+			}
 		}
 	}
 
@@ -766,4 +859,61 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		errorTab.submitTab();
 	}
 
+	private void validateFPCECA_FPCECADP(String policyNumber) {
+		policyDocGenActionTab.verify.documentsPresent(true, fairPlanEndorsementInODDTab);
+		policyDocGenActionTab.verify.documentsEnabled(true, fairPlanEndorsementInODDTab);
+
+		validatePrintDeliveryMethodOptionsForFPCECA_FPCECADP();
+
+		//Following lines are not in scope of pas14004. Uncomment these lines when US for actual document generation from ODD page will be available.
+		//		policyDocGenActionTab.generateDocuments(DocGenEnum.DeliveryMethod.LOCAL_PRINT, fairPlanEndorsementInODDTab);
+		//		//validate that document is generated in xml
+		//		validateDocumentIsGeneratedInPackage(policyNumber, ADHOC_DOC_ON_DEMAND_GENERATE);
+	}
+
+	private void validatePrintDeliveryMethodOptionsForFPCECA_FPCECADP() {
+		policyDocGenActionTab.getDocumentsControl().getTable().getRow(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, fairPlanEndorsementInODDTab.getId())
+				.getCell(DocGenConstants.OnDemandDocumentsTable.SELECT).click(); //Click document check box
+
+		SoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).getRadioButton("Email").isEnabled()).isTrue();
+			softly.assertThat(policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).getRadioButton("Fax").isEnabled()).isTrue();
+			softly.assertThat(policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).getRadioButton("Central Print").isEnabled()).isFalse();
+			softly.assertThat(policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).getRadioButton("eSignature").isEnabled()).isTrue();
+			softly.assertThat(policyDocGenActionTab.getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.DELIVERY_METHOD).getRadioButton("Local Print").isEnabled()).isTrue();
+		});
+	}
+
+	private void validateFAIRPlanEndorsementSequencePAS_14368(List<Document> docs, AaaDocGenEntityQueries.EventNames eventName) {
+		docs.removeIf(document -> !document.getTemplateId().equals(formIdInXml));
+
+		if (eventName.equals(POLICY_ISSUE) || eventName.equals(ENDORSEMENT_ISSUE)) {
+			SoftAssertions.assertSoftly(softly -> {
+				softly.assertThat(docs.get(0).getSequence()).isEqualTo("91");
+			});
+		} else if (eventName.equals(RENEWAL_OFFER)) {
+			SoftAssertions.assertSoftly(softly -> {
+				softly.assertThat(docs.get(0).getSequence()).isEqualTo("171");
+			});
+		}
+
+	}
+
+	private void validateRenewalThankYouLetterPAS_14632(String policyNumber, String fairPlanYNExpectedValue) {
+		String fairPlanYNActualValue;
+		String query = String.format(AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME, policyNumber, DocGenEnum.Documents._61_5121.getIdInXml(), RENEWAL_OFFER);
+		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber, RENEWAL_OFFER);
+
+		//If document package contains Renewal Thank You  Letter 61 5121, then validate that it contains tag FairPlanYN with expected value
+		if (docs.stream().map(Document::getTemplateId).collect(Collectors.toList()).toString().contains(DocGenEnum.Documents._61_5121.getIdInXml())) {
+			Document thankYouLetter615121 = DocGenHelper.getDocument(DocGenEnum.Documents._61_5121, query);
+			fairPlanYNActualValue = DocGenHelper.getDocumentDataElemByName("FairPlanYN", thankYouLetter615121).getDataElementChoice().getTextField();
+
+			SoftAssertions.assertSoftly(softly -> {
+				softly.assertThat(fairPlanYNActualValue.contentEquals(fairPlanYNExpectedValue));
+			});
+
+		}
+
+	}
 }

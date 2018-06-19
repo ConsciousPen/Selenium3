@@ -16,6 +16,8 @@ public final class ErrorEnum {
 		ERROR_AAA_SS10240324("AAA_SS10240324", "At least one phone number must be provided."),
 
 		// Property errors
+		ERROR_AAA_HO_CA20180518("AAA_HO_CA20180518", "Signed FAIR Plan Companion Endorsement - California is required. (AAA_HO_CA20..."),
+		ERROR_AAA_HO_CA20180517("AAA_HO_CA20180517", "Signed FAIR Plan Companion Endorsement - California is required. (AAA_HO_CA20..."),
 		ERROR_AAA_HO_CA02122017("AAA_HO_CA02122017", "Dwellings located in PPC 10 are ineligible. (AAA_HO_CA02122017) [for AAAHOCAD..."),
 		ERROR_AAA_HO_CA10100616("AAA_HO_CA10100616", "Log homes must be in protection class 1-8 and assembled by a licensed buildin..."),
 		ERROR_AAA_HO_CA_15011_1("AAA_HO_CA_15011_1", "Dwellings built prior to 1940 must have all four major systems fully renovated."),
@@ -101,6 +103,7 @@ public final class ErrorEnum {
 		ERROR_AAA_PUP_SS7160072("AAA_PUP_SS7160072", "Trustees/LLCs on underlying risks are ineligible. (AAA_PUP_SS7160072) [for AA..."),
 		ERROR_AAA_PUP_SS7160090("AAA_PUP_SS7160090", "Risks with a property liability limit less than $500,000 are ineligible. (AAA..."),
 		ERROR_AAA_PUP_SS7121080("AAA_PUP_SS7121080", "Underwriting approval required for Liability Coverage limits greater than $1,..."),
+		ERROR_AAA_PUP_SS7121080_CA("AAA_PUP_SS7121080_CA", "Underwriting approval required for Liability Coverage limits greater than $2,..."),
 		ERROR_AAA_PUP_SSER10054("AAA_PUP_SSER10054", "Applicants/drivers with an alcohol-related or major violation in the last 5 y..."),
         AAA_PUP_UWApp_AddRes_OtherThanPrimary("AAA_PUP_UWApp_AddRes_OtherThanPrimary", "Applicants with 6 or more additional residences are ineligible. (AAA_PUP_UWAp..."),
         AAA_PUP_UWApp_AddRes_Rental("AAA_PUP_UWApp_AddRes_Rental", "Applicants with 7 or more rental residences are ineligible. (AAA_PUP_UWApp_Ad..."),
@@ -141,7 +144,9 @@ public final class ErrorEnum {
 		ERROR_AAA_AUTO_SS_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm..."),
 		ERROR_AAA_HO_SS_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm..."),
 		ERROR_AAA_HO_CA_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm..."),
-		ERROR_AAA_AUTO_CA_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm..."),;
+		ERROR_AAA_AUTO_CA_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm..."),
+		ERROR_AAA_MES_IRE_06("MES-IRE-06", "Too early to rate a policy in PAS."),
+		ERROR_AAA_MES_IRE_07("MES-IRE-07", "Too late to rate a policy in PAS.");
 		private String code;
 		private String message;
 

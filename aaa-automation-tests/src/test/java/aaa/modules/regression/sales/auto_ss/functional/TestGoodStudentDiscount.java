@@ -4,27 +4,25 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
+@StateList(states = {Constants.States.IN, Constants.States.KY, Constants.States.MD, Constants.States.NJ, Constants.States.NV,
+		Constants.States.PA, Constants.States.VA, Constants.States.OK, Constants.States.CT})
 public class TestGoodStudentDiscount extends AutoSSBaseTest {
-
-	private ErrorTab errorTab = new ErrorTab();
-	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
-	private DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
 
 	/**
 	 * @author Dominykas Razgunas
@@ -45,7 +43,7 @@ public class TestGoodStudentDiscount extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for Good Student Discount NB")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10108")
-	public void pas10108_GoodStudentDiscountMVRPredictorNB(@Optional("NV") String state) {
+	public void pas10108_GoodStudentDiscountMVRPredictorNB(@Optional("") String state) {
 
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabGSD").resolveLinks();
 

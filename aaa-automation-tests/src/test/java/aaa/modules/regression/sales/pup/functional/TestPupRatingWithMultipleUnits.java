@@ -6,6 +6,7 @@ import java.util.Map;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -21,6 +22,7 @@ import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksPropertyTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -38,6 +40,7 @@ public class TestPupRatingWithMultipleUnits extends PersonalUmbrellaBaseTest {
      * 6. Verify the number of units is correct in rating details dialog
      * @details
      */
+    @StateList(statesExcept = Constants.States.CA)
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-8369")
@@ -115,6 +118,7 @@ public class TestPupRatingWithMultipleUnits extends PersonalUmbrellaBaseTest {
      * 6. Verify the number of units is correct in rating details dialog
      * @details
      */
+    @StateList(states = Constants.States.CA)
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-8369")

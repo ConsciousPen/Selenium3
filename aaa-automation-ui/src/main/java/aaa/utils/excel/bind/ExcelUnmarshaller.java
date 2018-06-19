@@ -1,13 +1,14 @@
 package aaa.utils.excel.bind;
 
+import java.io.Closeable;
 import java.io.File;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.utils.excel.bind.cache.TableClassesCache;
@@ -18,93 +19,93 @@ import aaa.utils.excel.io.entity.area.table.TableCell;
 import aaa.utils.excel.io.entity.area.table.TableRow;
 import toolkit.exceptions.IstfException;
 
-public class ExcelUnmarshaller {
+public class ExcelUnmarshaller implements Closeable {
 	private final ExcelManager excelManager;
 	private final boolean strictMatchBinding;
 	private final TableClassesCache cache;
-
+	
 	private Logger log = LoggerFactory.getLogger(ExcelUnmarshaller.class);
-
+	
 	public ExcelUnmarshaller(File excelFile) {
 		this(excelFile, true, ExcelCell.getBaseTypes());
 	}
-
+	
+	public ExcelUnmarshaller(InputStream inputStream) {
+		this(inputStream, true, ExcelCell.getBaseTypes());
+	}
+	
 	public ExcelUnmarshaller(File excelFile, boolean strictMatchBinding, List<CellType<?>> allowableCellTypes) {
 		this.excelManager = new ExcelManager(excelFile, allowableCellTypes);
 		this.strictMatchBinding = strictMatchBinding;
 		this.cache = new TableClassesCache(excelManager, strictMatchBinding);
 	}
-
-	public File getExcelFile() {
-		return excelManager.getFile();
+	
+	public ExcelUnmarshaller(InputStream inputStream, boolean strictMatchBinding, List<CellType<?>> allowableCellTypes) {
+		this.excelManager = new ExcelManager(inputStream, allowableCellTypes);
+		this.strictMatchBinding = strictMatchBinding;
+		this.cache = new TableClassesCache(excelManager, strictMatchBinding);
 	}
-
+	
 	public boolean isStrictMatchBinding() {
 		return strictMatchBinding;
 	}
-
+	
+	@Override
+	public void close() {
+		flushCache();
+		this.excelManager.close();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public <T> T unmarshal(Class<T> excelFileModel) {
-		log.info(String.format("Getting excel file object of \"%1$s\" model from file \"%2$s\" %3$s strict match binding",
-				excelFileModel.getSimpleName(), getExcelFile().getAbsolutePath(), isStrictMatchBinding() ? "with" : "without"));
-
+		log.info(String.format("Getting excel file object of \"%1$s\" model from %2$s %3$s strict match binding",
+				excelFileModel.getSimpleName(),
+				this.excelManager.initializedFromFile() ? "file \"" + this.excelManager.getSourceFile().getAbsolutePath() + "\"" : "InputStream",
+				isStrictMatchBinding() ? "with" : "without"));
+		
 		T excelFileObject = (T) getInstance(excelFileModel);
 		for (Field tableField : BindHelper.getAllAccessibleFields(excelFileModel, true)) {
 			List<?> tablesObjects = unmarshalRows(cache.of(tableField).getTableClass());
 			setFieldValue(tableField, excelFileObject, tablesObjects);
 		}
-
-		log.info("Excel file {} unmarshalling completed successfully.", getExcelFile().getName());
+		
+		log.info("Excel file unmarshalling completed successfully.");
 		return excelFileObject;
 	}
-
+	
 	public <T> List<T> unmarshalRows(Class<T> excelTableModel) {
 		return unmarshalRows(excelTableModel, null);
 	}
-
+	
 	public <T> List<T> unmarshalRows(Class<T> excelTableModel, List<Integer> rowsWithPrimaryKeyValues) {
-		log.info(String.format("Getting list of table row objects of \"%1$s\" model from excel file \"%2$s\"%3$s %4$s strict match binding",
+		log.info(String.format("Getting list of table row objects of \"%1$s\" model from %2$s%3$s %4$s strict match binding",
 				excelTableModel.getSimpleName(),
-				getExcelFile().getAbsolutePath(),
+				this.excelManager.initializedFromFile() ? "file \"" + this.excelManager.getSourceFile().getAbsolutePath() + "\"" : "InputStream",
 				CollectionUtils.isNotEmpty(rowsWithPrimaryKeyValues) ? ", containing values in primary key columns: " + rowsWithPrimaryKeyValues : "",
 				isStrictMatchBinding() ? "with" : "without"));
-
+		
 		List<TableRow> rows = cache.of(excelTableModel).getRows(rowsWithPrimaryKeyValues);
 		List<T> tablesObjects = new ArrayList<>(rows.size());
 		for (TableRow row : rows) {
 			T tableRowObject = getTableRowObject(excelTableModel, row);
 			tablesObjects.add(tableRowObject);
 		}
-
+		
 		log.info("Excel table rows unmarshalling completed successfully.");
 		return tablesObjects;
 	}
-
-	public ExcelUnmarshaller marshal(Object excelFileObject) {
-		return marshal(excelFileObject, getExcelFile());
-	}
-
-	public ExcelUnmarshaller marshal(Object excelFileObject, File excelFile) {
-		//TODO-dchubkov: To be implemented...
-		throw new NotImplementedException("Excel marshalling is not implemented yet");
-	}
-
+	
 	public ExcelUnmarshaller flushCache() {
 		this.cache.flushAll();
 		return this;
 	}
-
-	public ExcelUnmarshaller close() {
-		this.excelManager.close();
-		return this;
-	}
-
+	
 	@SuppressWarnings("unchecked")
 	private <T> T getTableRowObject(Class<T> tableClass, TableRow row) {
 		if (cache.of(tableClass).hasObject(row.getIndex())) {
 			return (T) cache.of(tableClass).getObject(row.getIndex());
 		}
-
+		
 		T tableObject = (T) getInstance(cache.of(tableClass).getTableClass());
 		for (Field tableColumnField : cache.of(tableClass).getTableColumnsFields()) {
 			Object value = null;
@@ -121,18 +122,18 @@ public class ExcelUnmarshaller {
 			}
 			setFieldValue(tableColumnField, tableObject, value);
 		}
-
+		
 		cache.of(tableClass).setObject(row.getIndex(), tableObject);
 		return tableObject;
 	}
-
+	
 	private Object getFieldValue(Class<?> tableClass, Field field, TableCell cell) {
 		if (cell.isEmpty()) {
 			return null;
 		}
 		return cell.getValue(cache.of(tableClass).getCellType(field), cache.of(tableClass).getDateTimeFormatters(field));
 	}
-
+	
 	private Object getTableValue(Field field, TableCell cell) {
 		if (cell.isEmpty()) {
 			return null;
@@ -140,7 +141,7 @@ public class ExcelUnmarshaller {
 		if (!List.class.equals(field.getType())) {
 			return getTableRowObject(cache.of(field).getTableClass(), cache.of(field).getRow(cell.getIntValue()));
 		}
-
+		
 		List<Integer> linkedTableRowIds = null;
 		if (cell.hasType(ExcelCell.INTEGER_TYPE)) {
 			linkedTableRowIds = Collections.singletonList(cell.getIntValue());
@@ -154,10 +155,10 @@ public class ExcelUnmarshaller {
 				}
 			}
 		}
-
+		
 		return getTableObjectValues(cache.of(field).getTableClass(), linkedTableRowIds);
 	}
-
+	
 	private List<Object> getMultyColumnsFieldValue(Class<?> tableClass, Field field, TableRow row) {
 		List<Object> multyColumnsValues = new ArrayList<>(cache.of(tableClass).getHeaderColumnsIndexes(field).size());
 		for (Integer columnIndex : cache.of(tableClass).getHeaderColumnsIndexes(field)) {
@@ -165,7 +166,7 @@ public class ExcelUnmarshaller {
 		}
 		return multyColumnsValues;
 	}
-
+	
 	private List<Object> getTableObjectValues(Class<?> tableClass, List<Integer> tableRowsIds) {
 		if (CollectionUtils.isEmpty(tableRowsIds)) {
 			return null;
@@ -177,17 +178,17 @@ public class ExcelUnmarshaller {
 		}
 		return tableObjectValues;
 	}
-
+	
 	private void setFieldValue(Field field, Object classInstance, Object value) {
 		if (field.getType().isPrimitive() && value == null) {
 			return; // unable to set null values to fields of primitive types, leave this field with its default type value
 		}
-
+		
 		if (!field.isAccessible()) {
 			//TODO-dchubkov: find appropriate setter method and use it for set value
 			field.setAccessible(true);
 		}
-
+		
 		try {
 			field.set(classInstance, value);
 		} catch (IllegalAccessException | IllegalArgumentException e) {
@@ -195,7 +196,7 @@ public class ExcelUnmarshaller {
 					value != null ? value.toString() : null, field.getName(), field.getType(), classInstance.getClass().getName()), e);
 		}
 	}
-
+	
 	private Object getInstance(Class<?> clazz) {
 		try {
 			return clazz.getConstructor().newInstance();

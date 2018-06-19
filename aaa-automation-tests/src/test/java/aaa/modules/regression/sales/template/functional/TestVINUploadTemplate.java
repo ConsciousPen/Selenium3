@@ -330,20 +330,48 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
 		String policyNumber = createPolicyPreconds(testData);
-		// Upload data
-		adminApp().reopen();
-		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get()));
 
-		mainApp().reopen();
+		adminApp().open();
+		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN9.get()));
+
+		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-		// Verify first vehicle is there..
+
+		log.info("First vehicle, at the vehicle tab, should have same values");
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE.getLabel()).getValue()).isEqualTo("OTHER");
 		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MAKE.getLabel()).getValue()).isEqualTo("Other Make");
 		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()).getValue()).isEqualTo("Other Model");
 
+		testData = getTestDataWithTwoVehicles(testData, vinNumber);
+
+		policy.getDefaultView().fillFromTo(testData, VehicleTab.class, PremiumAndCoveragesTab.class,true);
+
+		new PremiumAndCoveragesTab().calculatePremium();
+
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		log.info("First vehicle, at the PremiumAndCoveragesTab, should have same values");
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("Other Make");
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualToIgnoringCase("Other Model");
+		// Check second (uploaded) vehicle is here
+		String pageNumbers = "//*[@id='%1$s']/ancestor::div[@id='ratingDetailsPopupForm:vehiclePanel_body']//center//a[contains(text(),'%2$s')]";
+		new Link(By.xpath(String.format(pageNumbers, PremiumAndCoveragesTab.tableRatingDetailsVehicles.getLocator().toString().split(" ")[1], 2))).click();
+
+		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
+		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()).isEqualTo(true));
+		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(3).getValue()).isEqualToIgnoringCase("E"));
+
+		log.info("Second vehicle, at the PremiumAndCoveragesTab, should have different from first vehicle values");
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue()).isEqualToIgnoringCase("MAKEPAS2713ENDOR");
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue()).isEqualToIgnoringCase("MODELPAS2713ENDOR");
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+
+		Tab.buttonSaveAndExit.click();
+	}
+
+	private TestData getTestDataWithTwoVehicles(TestData testData, String vinNumber) {
 		TestData firstVehicle = modifyVehicleTabNonExistingVin(getPolicyTD(), vinNumber).getTestData("VehicleTab");
 		TestData secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
 				.adjust(AutoCaMetaData.VehicleTab.VIN.getLabel(), vinNumber);
@@ -357,30 +385,9 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		TestData testDataAssignmentTab = getTwoAssignmentsTestData();
 
 		// add 2 vehicles + 2 assignments to the common testdata
-		testData
+		return testData
 				.adjust(vehicleTab.getMetaKey(), testDataVehicleTab)
 				.adjust(assignmentTab.getMetaKey(), testDataAssignmentTab).resolveLinks();
-
-		policy.getDefaultView().fillFromTo(testData, VehicleTab.class, PremiumAndCoveragesTab.class);
-
-		new PremiumAndCoveragesTab().calculatePremium();
-
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("Other Make");
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualToIgnoringCase("Other Model");
-		// Check second (uploaded) vehicle is here
-		String pageNumbers = "//*[@id='%1$s']/ancestor::div[@id='ratingDetailsPopupForm:vehiclePanel_body']//center//a[contains(text(),'%2$s')]";
-		new Link(By.xpath(String.format(pageNumbers, PremiumAndCoveragesTab.tableRatingDetailsVehicles.getLocator().toString().split(" ")[1], 2))).click();
-
-		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
-		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()).isEqualTo(true));
-		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(3).getValue()).isEqualToIgnoringCase("E"));
-
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue()).isEqualToIgnoringCase("MAKEPAS2713ENDOR");
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue()).isEqualToIgnoringCase("MODELPAS2713ENDOR");
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-
-		Tab.buttonSaveAndExit.click();
 	}
 
 	/**
@@ -601,7 +608,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 	public void enableVinIfDisabled() {
 		String isVinRefreshEnabled = DBService.get().getValue(VehicleQueries.SELECT_VALUE_VIN_REFRESH).get();
-		log.info("Vin refresh is enabled{}", isVinRefreshEnabled);
+		log.info("Vin refresh is enabled {} ", isVinRefreshEnabled);
 		if ("false".equalsIgnoreCase(isVinRefreshEnabled)) {
 			log.info("Vin will be enabled");
 			ScorpionsPreconditions.enableVinRefresh();

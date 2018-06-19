@@ -7,7 +7,9 @@ import java.util.List;
 import org.openqa.selenium.By;
 import aaa.common.components.Dialog;
 import aaa.common.pages.Page;
+import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
@@ -52,12 +54,15 @@ public abstract class Tab {
 
 	public static Dialog dialogCancelAction = new Dialog(By.id("cancelConfirmDialogDialog_container"));
 
+	public static StaticElement labelStatus =
+			new StaticElement(By.xpath("//span[@id = 'policyDataGatherForm:dataGatherHeaderSectionInfo']//td[contains(text(), 'Status') or contains(text(), 'Status')]//span"));
 	public static StaticElement labelPolicyNumber =
 			new StaticElement(By.xpath("//span[@id = 'policyDataGatherForm:dataGatherHeaderSectionInfo']//td[contains(text(), 'Policy #') or contains(text(), 'Quote #')]//span"));
 	public static StaticElement labelForConversionPolicy = new StaticElement(By.xpath("//span[@id = 'policyDataGatherForm:dataGatherHeaderSectionInfo']//td[3]//span"));
 
 	public static StaticElement labelLoggedUser = new StaticElement(By.id("logoutForm:userDetails"));
 
+	public DialogAssetList moratoriumOverrideDialog = new DialogAssetList(By.id("policyDataGatherForm:actionPopoup_datagatherButtonsPanel_container"), DialogsMetaData.MoratoriumOverrideDialog.class);
 	protected AbstractContainer<?, ?> assetList;
 	protected InquiryAssetList inquiryAssetList;
 

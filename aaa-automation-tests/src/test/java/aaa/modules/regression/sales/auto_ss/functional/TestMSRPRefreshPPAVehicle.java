@@ -52,13 +52,11 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	public void pas730_PartialMatch(@Optional("UT") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
-		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN8.get());
-
 		String vehYear = "2018";
 		String vehMake = "VOLKSWAGEN";
-		String vehModel = "GOLF";
-		String vehSeries = "GOLF";
-		String vehBodyStyle = "HATCHBACK 4 DOOR";
+		String vehModel = "PASSAT";
+		String vehSeries = "PASSAT S";
+		String vehBodyStyle = "SEDAN";
 
 		TestData testData = getPolicyTD()
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "")
@@ -79,17 +77,14 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 			softly.assertThat(getCollSymbolFromVRD()).isNotEqualTo("66");
 		});
 
-		String compSymbol = getCompSymbolFromVRD();
-		String collSymbol = getCollSymbolFromVRD();
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-
 		VehicleTab.buttonSaveAndExit.click();
 
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
 		// Vin control table has version which overrides VERSION_2000, it is needed and important to get symbols for next steps
 		adminApp().open();
-		vinMethods.uploadVinTable(vinTableFile);
+		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.PARTIAL_MATCH.get()));
 
 		findAndRateQuote(testData, quoteNumber);
 

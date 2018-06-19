@@ -4,6 +4,7 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
+import static aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.time.LocalDateTime;
@@ -26,6 +27,7 @@ import com.jcraft.jsch.SftpException;
 import aaa.admin.pages.general.GeneralAsyncTasksPage;
 import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -53,7 +55,9 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueMembershipProcessPreConditions;
 import aaa.modules.regression.service.helper.HelperCommon;
-import aaa.modules.regression.service.helper.HelperWireMockPaperlessPreferences;
+import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
+import aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData;
+import aaa.utils.StateList;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 import toolkit.utils.SSHController;
@@ -72,7 +76,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	private static final String MESSAGE_BULLET_8 = "Does not have an active AAA membership";
 	private static final String MESSAGE_INFO_4 = "eValue Discount Requirements:";
 	private static final String MESSAGE_JEOPARDY = "Discount in Jeopardy email sent";
-	private static List<String> requestIdList = new LinkedList<>();
+	private static List<HelperWireMockStub> stubList = new LinkedList<>();
 	private Random random = new Random();
 	private GeneralTab generalTab = new GeneralTab();
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
@@ -236,6 +240,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		jobsNBplus15plus30runNoChecks();
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		//BUG PAS-15479 EValue remains Pending after NB+30 if Membership Status = Erred
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "");
@@ -530,6 +535,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		renewalTransactionHistoryCheck(policyNumber, true, true, "inquiry");
 		ahdexxGeneratedCheck(false, policyNumber, 0);
 		renewalTransactionHistoryCheck(policyNumber, true, true, "dataGather");
+		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 	}
 
 	@Parameters({"state"})
@@ -557,6 +563,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry");
 		ahdexxGeneratedCheck(false, policyNumber, 0);
 		renewalTransactionHistoryCheck(policyNumber, true, false, "dataGather");
+		eValueDiscountStatusCheck(policyNumber, "NOTENROLLED");
 	}
 
 	@Parameters({"state"})
@@ -586,6 +593,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		ahdexxGeneratedCheck(true, policyNumber, 1);
 		checkDocumentContentAHDEXX(policyNumber, true, true, true, false, false);
 		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");
+		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 	}
 
 	@Parameters({"state"})
@@ -615,6 +623,45 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		ahdexxGeneratedCheck(true, policyNumber, 1);
 		checkDocumentContentAHDEXX(policyNumber, true, true, false, false, false);
 		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");
+		eValueDiscountStatusCheck(policyNumber, "NOTENROLLED");
+	}
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.OK})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-15287"})
+	public void pas15287_eValueNotEligibleActiveMembershipNoEValueRenewalMinus48(@Optional("OK") String state) {
+		String membershipDiscountEligibilitySwitch = "TRUE";
+		String membershipStatus = "Pending";
+		boolean eValueSet = false;
+
+		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
+		String policyNumber = membershipEligibilityPolicyCreation(membershipStatus, eValueSet);
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+		cancelReinstateToAvoidNbPlus15Plus30Jobs(policyNumber);
+
+		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); //-96
+		LocalDateTime renewReportOrderingDate = getTimePoints().getRenewReportsDate(policyExpirationDate); //-63
+
+		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(35));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+		/*executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, true);
+		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry");
+		ahdexxGeneratedCheck(true, policyNumber, 1);
+
+		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
+		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry");
+		ahdexxGeneratedCheck(true, policyNumber, 1);
+		checkDocumentContentAHDEXX(policyNumber, true, true, false, false, false);
+		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");*/
+		eValueDiscountStatusCheck(policyNumber, "NOTENROLLED");
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
 	}
 
 	@Parameters({"state"})
@@ -648,6 +695,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		ahdexxGeneratedCheck(true, policyNumber, 1);
 		checkDocumentContentAHDEXX(policyNumber, true, true, true, false, false);
 		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");
+		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 	}
 
 	@Parameters({"state"})
@@ -679,6 +727,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		ahdexxGeneratedCheck(true, policyNumber, 1);
 		checkDocumentContentAHDEXX(policyNumber, true, true, false, false, false);
 		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");
+		eValueDiscountStatusCheck(policyNumber, "NOTENROLLED");
 	}
 
 	private void cancelReinstateToAvoidNbPlus15Plus30Jobs(String policyNumber) {
@@ -751,17 +800,17 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	public void pas111_paperlessMockTest(@Optional("VA") String state) {
 		String policyNumber = "VASS952918556";
 
-		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 		//Always need to delete the added request ot stub
-		deleteSinglePaperlessPreferenceRequest(requestId);
+		deleteSinglePaperlessPreferenceRequest(stub);
 
-		String requestId2 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+		HelperWireMockStub stub2 = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 
 		//PolicySummaryPage.getPolicyNumber();
 
-		deleteSinglePaperlessPreferenceRequest(requestId2);
-		String requestId3 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
-		deleteSinglePaperlessPreferenceRequest(requestId3);
+		deleteSinglePaperlessPreferenceRequest(stub2);
+		HelperWireMockStub stub3 = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
+		deleteSinglePaperlessPreferenceRequest(stub3);
 	}
 
 	/**
@@ -787,7 +836,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
-		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 
 		CustomAssert.enableSoftMode();
 		jobsNBplus15plus30runNoChecks();
@@ -811,7 +860,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, false, membershipDiscountEligibilitySwitch, false);
 		checkDocumentContentAHDRXX(policyNumber, true, false, true, true, false);
 
-		deleteSinglePaperlessPreferenceRequest(requestId);
+		deleteSinglePaperlessPreferenceRequest(stub);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -839,7 +888,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
 		String policyNumber = membershipEligibilityPolicyCreation("Pending", true);
-		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 
 		CustomAssert.enableSoftMode();
 		jobsNBplus15plus30runNoChecks();
@@ -863,7 +912,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch, false);
 		checkDocumentContentAHDRXX(policyNumber, true, true, true, true, false);
 
-		deleteSinglePaperlessPreferenceRequest(requestId);
+		deleteSinglePaperlessPreferenceRequest(stub);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -891,7 +940,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
 		String policyNumber = membershipEligibilityPolicyCreation("Non-Active", true);
-		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 
 		CustomAssert.enableSoftMode();
 		jobsNBplus15plus30runNoChecks();
@@ -915,7 +964,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch, false);
 		checkDocumentContentAHDRXX(policyNumber, true, true, true, true, false);
 
-		deleteSinglePaperlessPreferenceRequest(requestId);
+		deleteSinglePaperlessPreferenceRequest(stub);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -943,7 +992,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true, false);
-		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 
 		CustomAssert.enableSoftMode();
 		jobsNBplus15plus30runNoChecks();
@@ -967,7 +1016,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, false, membershipDiscountEligibilitySwitch);
 		checkDocumentContentAHDRXX(policyNumber, true, false, true, true, false);
 
-		deleteSinglePaperlessPreferenceRequest(requestId);
+		deleteSinglePaperlessPreferenceRequest(stub);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -995,7 +1044,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
 		String policyNumber = membershipEligibilityPolicyCreation("Pending", true, false);
-		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 
 		CustomAssert.enableSoftMode();
 		jobsNBplus15plus30runNoChecks();
@@ -1019,7 +1068,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch);
 		checkDocumentContentAHDRXX(policyNumber, true, true, true, true, false);
 
-		deleteSinglePaperlessPreferenceRequest(requestId);
+		deleteSinglePaperlessPreferenceRequest(stub);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -1047,7 +1096,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
 		String policyNumber = membershipEligibilityPolicyCreation("Non-Active", true, false);
-		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 
 		CustomAssert.enableSoftMode();
 		jobsNBplus15plus30runNoChecks();
@@ -1071,7 +1120,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch);
 		checkDocumentContentAHDRXX(policyNumber, true, true, true, true, false);
 
-		deleteSinglePaperlessPreferenceRequest(requestId);
+		deleteSinglePaperlessPreferenceRequest(stub);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -1097,7 +1146,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
-		String requestId1 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 
 		CustomAssert.enableSoftMode();
 		jobsNBplus15plus30runNoChecks();
@@ -1111,9 +1160,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
-		deleteSinglePaperlessPreferenceRequest(requestId1);
+		deleteSinglePaperlessPreferenceRequest(stub);
 
-		String requestId2 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN.get());
+		HelperWireMockStub stub2 = createPaperlessPreferencesRequestId(policyNumber, OPT_IN);
 		jobsNBplus15plus30runNoChecks();
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -1122,7 +1171,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, false);
 		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
-		deleteSinglePaperlessPreferenceRequest(requestId2);
+		deleteSinglePaperlessPreferenceRequest(stub2);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1149,11 +1198,11 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
-		String requestId1 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
-		deleteSinglePaperlessPreferenceRequest(requestId1);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
+		deleteSinglePaperlessPreferenceRequest(stub);
 
 		CustomAssert.enableSoftMode();
-		String requestId2 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN.get());
+		HelperWireMockStub stub2 = createPaperlessPreferencesRequestId(policyNumber, OPT_IN);
 		jobsNBplus15plus30runNoChecks();
 		//implementEmailCheck from Admin Log?
 		mainApp().reopen();
@@ -1174,7 +1223,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, false);
 		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
-		deleteSinglePaperlessPreferenceRequest(requestId2);
+		deleteSinglePaperlessPreferenceRequest(stub2);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1300,13 +1349,13 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		//implementEmailCheck from Admin Log?
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Underwriting - Substantial Increase in Hazard");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
 		lastTransactionHistoryEValueDiscountCheck(true);
 
 		jobsNBplus15plus30runNoChecks();
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Underwriting - Substantial Increase in Hazard");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
 		lastTransactionHistoryEValueDiscountCheck(true);
 		checkDocumentContentAHDRXX(policyNumber, false, true, false, false, false);
 
@@ -1344,9 +1393,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().close();
 
 		CustomAssert.enableSoftMode();
-		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+		HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
@@ -1370,7 +1419,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		lastTransactionHistoryEValueDiscountCheck(false);
 		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
 
-		deleteSinglePaperlessPreferenceRequest(requestId);
+		deleteSinglePaperlessPreferenceRequest(stub);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1399,13 +1448,13 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().close();
 
 		CustomAssert.enableSoftMode();
-		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, 422);
+		HelperCommon.updatePolicyPreferences(policyNumber, 422);
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Underwriting - Substantial Increase in Hazard");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
 		lastTransactionHistoryEValueDiscountCheck(true);
 
 		jobsNBplus15plus30runNoChecks();
@@ -1415,17 +1464,17 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		//Start PAS-12822
 		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
 		//End PAS-12822
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Underwriting - Substantial Increase in Hazard");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
 		lastTransactionHistoryEValueDiscountCheck(true);
 
 		jobsNBplus15plus30runNoChecks();
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Underwriting - Substantial Increase in Hazard");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
 		lastTransactionHistoryEValueDiscountCheck(true);
 		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
 
-		deleteSinglePaperlessPreferenceRequest(requestId);
+		deleteSinglePaperlessPreferenceRequest(stub);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1448,21 +1497,21 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
 	public void pas13528_eValueRemovedByServiceForReinstatedPolicy(@Optional("VA") String state) {
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
-		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
 		mainApp().close();
 
 		CustomAssert.enableSoftMode();
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+		HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 4, "eValue Removed - Paperless Preferences Removed - External");
 		lastTransactionHistoryEValueDiscountCheck(false);
 
-		deleteSinglePaperlessPreferenceRequest(requestId);
+		deleteSinglePaperlessPreferenceRequest(stub);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1485,14 +1534,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
 	public void pas13528_eValueRemovedByServiceForFutureDatedReinstatedPolicy(@Optional("VA") String state) {
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
-		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData_Plus10Days"));
 		mainApp().close();
 
 		CustomAssert.enableSoftMode();
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+		HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
@@ -1504,7 +1553,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Task Created").getCell("Date/Time").verify.contains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
 
-		deleteSinglePaperlessPreferenceRequest(requestId);
+		deleteSinglePaperlessPreferenceRequest(stub);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1526,13 +1575,13 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
 	public void pas13528_eValueRemovedByServiceForFutureDatedCancelledPolicy(@Optional("VA") String state) {
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
-		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus10Days"));
 		mainApp().close();
 
 		CustomAssert.enableSoftMode();
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+		HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
@@ -1545,7 +1594,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Task Created").getCell("Date/Time").verify.contains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
 
-		deleteSinglePaperlessPreferenceRequest(requestId);
+		deleteSinglePaperlessPreferenceRequest(stub);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1580,16 +1629,16 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().close();
 
 		CustomAssert.enableSoftMode();
-		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+		HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "eValue Removed - Paperless Preferences Removed - External");
 		lastTransactionHistoryEValueDiscountCheck(false);
 
-		deleteSinglePaperlessPreferenceRequest(requestId);
+		deleteSinglePaperlessPreferenceRequest(stub);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1620,16 +1669,16 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().close();
 
 		CustomAssert.enableSoftMode();
-		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+		HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 3, "eValue Removed - Paperless Preferences Removed - External");
 		lastTransactionHistoryEValueDiscountCheck(false);
 
-		deleteSinglePaperlessPreferenceRequest(requestId);
+		deleteSinglePaperlessPreferenceRequest(stub);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1661,8 +1710,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 
-		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, 422);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
+		HelperCommon.updatePolicyPreferences(policyNumber, 422);
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
@@ -1670,7 +1719,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		lastTransactionHistoryEValueDiscountCheck(true);
 
-		deleteSinglePaperlessPreferenceRequest(requestId);
+		deleteSinglePaperlessPreferenceRequest(stub);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1705,15 +1754,15 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(15));
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 
-		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, 422);
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
+		HelperCommon.updatePolicyPreferences(policyNumber, 422);
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		lastTransactionHistoryEValueDiscountCheck(true);
 
-		deleteSinglePaperlessPreferenceRequest(requestId);
+		deleteSinglePaperlessPreferenceRequest(stub);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -1741,8 +1790,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
-		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
+		HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
@@ -1752,7 +1801,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		lastTransactionHistoryExit();
 		renewalTransactionEValueDiscountCheck(false);
 
-		deleteSinglePaperlessPreferenceRequest(requestId);
+		deleteSinglePaperlessPreferenceRequest(stub);
 	}
 
 	/**
@@ -1783,10 +1832,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		Dollar totalDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue());
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
 
-		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 
 		//BUG PAS-13952 Can't issue an endorsement to current term, when renewal was proposed and paid
-		HelperCommon.executeUpdatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+		HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -1798,7 +1847,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Task Created").getCell("Date/Time").verify.contains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
 
-		deleteSinglePaperlessPreferenceRequest(requestId);
+		deleteSinglePaperlessPreferenceRequest(stub);
 	}
 
 	private void renewalMembershipProcessCheck(String membershipEligibilitySwitch, String membershipStatus, boolean eValueApplied) {
@@ -1829,8 +1878,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		if(eValueApplied){
 			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("Yes");
+			eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		}else{
 			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("No");
+			eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		}
 		//PAS-319 end
 
@@ -2281,25 +2332,26 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		printToLog("ALL REQUEST DELETION WAS EXECUTED");
 	}
 
-	private String createPaperlessPreferencesRequestId(String policyNumber, String scenarioJsonFile) {
-		String requestId = HelperWireMockPaperlessPreferences.setPaperlessPreferencesToValue(policyNumber, scenarioJsonFile);
-		requestIdList.add(requestId);
-		printToLog("THE REQUEST ID WAS CREATED " + requestId);
-		return requestId;
+	private HelperWireMockStub createPaperlessPreferencesRequestId(String policyNumber, String paperlessAction) {
+		PaperlessPreferencesTemplateData template = PaperlessPreferencesTemplateData.create(policyNumber, paperlessAction);
+		HelperWireMockStub stub = HelperWireMockStub.create("paperless-preferences-200", template).mock();
+		stubList.add(stub);
+		printToLog("THE REQUEST ID WAS CREATED " + stub.getId());
+		return stub;
 	}
 
 	private void deleteMultiplePaperlessPreferencesRequests() {
-		for (Object requestId : requestIdList) {
-			HelperWireMockPaperlessPreferences.deleteProcessedRequestFromStub(requestId.toString());
-			printToLog("MULTIPLE REQUEST DELETION WAS EXECUTED for " + requestId);
+		for (HelperWireMockStub stub : stubList) {
+			stub.cleanUp();
+			printToLog("MULTIPLE REQUEST DELETION WAS EXECUTED for " + stub.getId());
 		}
-		requestIdList.clear();
+		stubList.clear();
 	}
 
-	private void deleteSinglePaperlessPreferenceRequest(String requestId) {
-		HelperWireMockPaperlessPreferences.deleteProcessedRequestFromStub(requestId);
-		requestIdList.remove(requestId);
-		printToLog("DELETE SINGLE REQUEST WAS EXECUTED for " + requestId);
+	private void deleteSinglePaperlessPreferenceRequest(HelperWireMockStub stub) {
+		stub.cleanUp();
+		printToLog("DELETE SINGLE REQUEST WAS EXECUTED for " + stub.getId());
+		stubList.remove(stub);
 	}
 
 	/**

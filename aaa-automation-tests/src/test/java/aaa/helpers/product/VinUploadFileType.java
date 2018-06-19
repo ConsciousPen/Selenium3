@@ -14,6 +14,7 @@ public enum VinUploadFileType {
 	NEW_VIN10("New10"),
 	NEW_VIN11("New11"),
 	REFRESHABLE_VIN2("Refreshable2"),
+	PARTIAL_MATCH("PartialMatch"),
 	R45("R45");
 
 	private String type;

@@ -7,7 +7,6 @@ import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -45,11 +44,6 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_CA_CHOICE;
-	}
-
-	@BeforeSuite
-	private void checkVinRefresh(){
-		enableVinIfDisabled();
 	}
 
 	/**

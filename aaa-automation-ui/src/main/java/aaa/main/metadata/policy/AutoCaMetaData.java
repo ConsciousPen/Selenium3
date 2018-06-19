@@ -262,7 +262,7 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<RadioGroup> SMOKER_CIGARETTES_OR_PIPES = declare("Smoker: Cigarettes, cigars or pipes", RadioGroup.class);
 		public static final AssetDescriptor<TextBox> ADDRESS_VALIDATED = declare("Address Validated?", TextBox.class);
 
-		public static final AssetDescriptor<MultiInstanceBeforeAssetList> ACTIVITY_INFORMATION = declare("ActivityInformation", MultiInstanceBeforeAssetList.class, ActivityInformation.class, By
+		public static final AssetDescriptor<ActivityInformationMultiAssetList> ACTIVITY_INFORMATION = declare("ActivityInformation", ActivityInformationMultiAssetList.class, ActivityInformation.class, By
 				.xpath(".//div[@id='policyDataGatherForm:componentView_DrivingRecord']"));
 
 		public static final class ActivityInformation extends MetaData {
@@ -604,6 +604,7 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<StaticElement> RECEIPT_DATE = declare("Receipt Date", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> RESPONSE = declare("Response", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> ADDRESS_TYPE = declare("Address Type", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> ORDER_TYPE = declare("Order Type", StaticElement.class);
 		}
 
 		public static final class OrderMVRRow extends MetaData {
@@ -737,7 +738,7 @@ public final class AutoCaMetaData {
 		}
 
 		public static final class VehicleInformation extends MetaData {
-			public static final AssetDescriptor<RadioGroup> ARE_THERE_ANY_ADDITIONAL_INTERESTS = declare("Are there any additional interest(s)?", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> ARE_THERE_ANY_ADDITIONAL_INTERESTS = declare("Are there any additional interest(s)?", RadioGroup.class, Waiters.AJAX);
 
 			public static final AssetDescriptor<ComboBox> SUPPRESS_PRINT = declare("Suppress Print", ComboBox.class);
 			public static final AssetDescriptor<TextBox> ISSUE_DATE = declare("Issue Date", TextBox.class);
@@ -991,9 +992,9 @@ public final class AutoCaMetaData {
 	}
 
 	public static final class ErrorTab extends MetaData {
-		public static final AssetDescriptor<FillableErrorTable> ERROR_OVERRIDE = declare("ErrorsOverride", FillableErrorTable.class, RuleRow.class, By.id("errorsForm:msgList"));
+		public static final AssetDescriptor<FillableErrorTable> ERROR_OVERRIDE = declare("ErrorsOverride", FillableErrorTable.class, ErrorsOverride.class, By.id("errorsForm:msgList"));
 
-		public static final class RuleRow extends MetaData {
+		public static final class ErrorsOverride extends MetaData {
 			public static final AssetDescriptor<CheckBox> OVERRIDE = declare("Override", CheckBox.class);
 			public static final AssetDescriptor<CheckBox> APPROVAL = declare("Approval", CheckBox.class);
 			public static final AssetDescriptor<Link> CODE = declare("Code", Link.class);

@@ -237,14 +237,14 @@
     <HO90EndorsementForm state="Created"/>
   </AAAHOPolicy>
   <userNote>
-    <category>Other</category>
+    <category>OTHER</category>
     <confidential>false</confidential>
     <title>Conversion: Mailing address validated and standardized</title>
     <updatedOn>2017-12-19T00:00:00</updatedOn>
     <userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 3950 BRAMBLE LN #B  SANTA CRUZ CA 95062 to 3950 BRAMBLE LN UNIT B SANTA CRUZ CA 95062</userText>
   </userNote>
   <userNote>
-    <category>Other</category>
+    <category>OTHER</category>
     <confidential>false</confidential>
     <title>Conversion: Date of birth defaulted</title>
     <updatedOn>2017-12-19T00:00:00</updatedOn>

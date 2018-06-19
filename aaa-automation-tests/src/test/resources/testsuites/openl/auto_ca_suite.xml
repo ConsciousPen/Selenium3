@@ -1,14 +1,17 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Auto CA OpenL Rating Tests" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-        <!--<listener class-name="aaa.helpers.listeners.AlterSuiteListener"/> -->
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method"/>
-    <parameter name="testsDir" value="src/test/resources/openl/auto_ca"/>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+    <parameter name="testsDir" value="aaa-rating-rules-ca/src/test/openl/rules"/>
+    <!-- Local tests execution parameters -->
+    <!--<parameter name="testsDir" value="src/test/resources/openl/auto_ca"/>-->
+    <!--<parameter name="localTests" value="true"/>-->
 
     <test name="Auto CA Choice Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="CA"/>
+        <parameter name="policyType" value="AutoCAC"/>
         <parameter name="fileName" value="TestsCAChoiceTest-20170806.xls"/>
         <parameter name="policyNumbers" value="1,3"/>
         <classes>
@@ -17,6 +20,7 @@
     </test>
     <test name="Auto CA Select Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="CA"/>
+        <parameter name="policyType" value="AutoCA"/>
         <parameter name="fileName" value="TestsCASelectTest-20180101.xls"/>
         <parameter name="policyNumbers" value="7,8"/>
         <classes>
