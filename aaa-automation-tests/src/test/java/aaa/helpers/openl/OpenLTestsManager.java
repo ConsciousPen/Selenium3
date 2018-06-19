@@ -246,6 +246,7 @@ public final class OpenLTestsManager {
 		AUTO_CA_CHOICE(PolicyType.AUTO_CA_CHOICE.getShortName(), AutoCaChoiceOpenLPolicy.class),
 		AUTO_SS(PolicyType.AUTO_SS.getShortName(), AutoSSOpenLPolicy.class),
 		HOME_SS("HomeSS", HomeSSOpenLPolicy.class),
+		HOME_SS_HO4("HomeSS_HO4", HomeSSOpenLPolicy.class),
 		HOME_CA_HO3(PolicyType.HOME_CA_HO3.getShortName(), HomeCaHO3OpenLPolicy.class),
 		HOME_CA_HO4(PolicyType.HOME_CA_HO4.getShortName(), HomeCaHO4OpenLPolicy.class),
 		HOME_CA_HO6(PolicyType.HOME_CA_HO6.getShortName(), HomeCaHO6OpenLPolicy.class),

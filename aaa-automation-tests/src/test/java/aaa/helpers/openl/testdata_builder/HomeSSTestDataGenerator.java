@@ -64,12 +64,16 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				new ApplicantTab().getMetaKey(), getApplicantTabData(openLPolicy),
 				new ReportsTab().getMetaKey(), getReportsTabData(openLPolicy),
 				new PropertyInfoTab().getMetaKey(), getPropertyInfoTabData(openLPolicy),
-				new ProductOfferingTab().getMetaKey(), getProductOfferingTabData(openLPolicy),
+				//new ProductOfferingTab().getMetaKey(), getProductOfferingTabData(openLPolicy),
 				new EndorsementTab().getMetaKey(), getEndorsementTabData(openLPolicy),
 				new PersonalPropertyTab().getMetaKey(), getPersonalPropertyTabData(openLPolicy),
 				new PremiumsAndCoveragesQuoteTab().getMetaKey(), getPremiumsAndCoveragesQuoteTabData(openLPolicy, isLegacyConvPolicy)
 		);
-
+		
+		if("HO3".equals(openLPolicy.getPolicyType())) {
+			td.adjust(TestData.makeKeyPath(new ProductOfferingTab().getMetaKey()), getProductOfferingTabData(openLPolicy));
+		}
+		
 		TestData ratingDataPattern = getRatingDataPattern()
 				.mask(TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()))
 				.mask(TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel()))
@@ -417,9 +421,9 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	}
 
 	private TestData getPropertyInfoTabData(HomeSSOpenLPolicy openLPolicy) {
-
+		
 		TestData dwellingAddressData = DataProviderFactory.dataOf(
-				HomeSSMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel(), "contains=" + openLPolicy.getPolicyDwellingRatingInfo().getFamilyUnits()
+				HomeSSMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel(), getNumberOfFamilyUnits(openLPolicy)
 		);
 
 		TestData publicProtectionClassData = DataProviderFactory.dataOf(
@@ -434,12 +438,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			);
 		}
 
-		TestData propertyValueData = DataProviderFactory.dataOf(
-				HomeSSMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimit(),
-				HomeSSMetaData.PropertyInfoTab.PropertyValue.ISO_REPLACEMENT_COST.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimit(),
-				HomeSSMetaData.PropertyInfoTab.PropertyValue.PURCHASE_DATE_OF_HOME.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDiscountInformation().getNoOfYrsSinceLoanInception()).format(DateTimeUtils.MM_DD_YYYY),
-				HomeSSMetaData.PropertyInfoTab.PropertyValue.NEW_LOAN.getLabel(), true
-		);
+		TestData propertyValueData = getPropertyValueData(openLPolicy);
 
 		TestData constructionData = DataProviderFactory.dataOf(
 				HomeSSMetaData.PropertyInfoTab.Construction.YEAR_BUILT.getLabel(), String.format("%d", openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDwellingRatingInfo().getHomeAge()).getYear()),
@@ -472,30 +471,33 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				HomeSSMetaData.PropertyInfoTab.TheftProtectiveTPDD.GATED_COMMUNITY.getLabel(), openLPolicy.getPolicyDiscountInformation().isPrivateCommunity()
 		);
 
-		TestData homeRenovationData = DataProviderFactory.dataOf(
-				// plumbing
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.PLUMBING_RENOVATION.getLabel(), "100% Copper",
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.PLUMBING_PERCENT_COMPLETE.getLabel(), "100",
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.PLUMBING_MONTH_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovPlumbing() * 12 + 1).getMonthValue(),
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.PLUMBING_YEAR_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovPlumbing() * 12 + 1).getYear(),
-				// electrical
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.ELECTRICAL_RENOVATION.getLabel(), "100% Circuit/Romex",
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.ELECTRICAL_PERCENT_COMPLETE.getLabel(), "100",
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.ELECTRICAL_MONTH_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovElectrical() * 12 + 1).getMonthValue(),
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.ELECTRICAL_YEAR_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovElectrical() * 12 + 1).getYear(),
-				// roof
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.ROOF_RENOVATION.getLabel(), "100% Replace",
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.ROOF_PERCENT_COMPLETE.getLabel(), "100",
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.ROOFG_MONTH_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDwellingRatingInfo().getRoofAge() * 12 + 1).getMonthValue(),
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.ROOF_YEAR_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDwellingRatingInfo().getRoofAge() * 12 + 1).getYear(),
-				// heating/cooling
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.HEATING_COOLING_RENOVATION.getLabel(), "Forced Air",
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.HEATING_COOLING_PERCENT_COMPLETE.getLabel(), "100",
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.HEATING_COOLING_MONTH_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovHeatOrCooling() * 12 + 1).getMonthValue(),
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.HEATING_COOLING_YEAR_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovHeatOrCooling() * 12 + 1).getYear(),
-				// green home discount
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.GREEN_HOME_DISCOUNT.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().getGreenHomeDiscApplicability())
-		);
+		TestData homeRenovationData = DataProviderFactory.emptyData();
+		if (!"HO4".equals(openLPolicy.getPolicyType())) {
+			homeRenovationData = DataProviderFactory.dataOf(
+					// plumbing
+					HomeSSMetaData.PropertyInfoTab.HomeRenovation.PLUMBING_RENOVATION.getLabel(), "100% Copper",
+					HomeSSMetaData.PropertyInfoTab.HomeRenovation.PLUMBING_PERCENT_COMPLETE.getLabel(), "100",
+					HomeSSMetaData.PropertyInfoTab.HomeRenovation.PLUMBING_MONTH_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovPlumbing() * 12 + 1).getMonthValue(),
+					HomeSSMetaData.PropertyInfoTab.HomeRenovation.PLUMBING_YEAR_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovPlumbing() * 12 + 1).getYear(),
+					// electrical
+					HomeSSMetaData.PropertyInfoTab.HomeRenovation.ELECTRICAL_RENOVATION.getLabel(), "100% Circuit/Romex",
+					HomeSSMetaData.PropertyInfoTab.HomeRenovation.ELECTRICAL_PERCENT_COMPLETE.getLabel(), "100",
+					HomeSSMetaData.PropertyInfoTab.HomeRenovation.ELECTRICAL_MONTH_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovElectrical() * 12 + 1).getMonthValue(),
+					HomeSSMetaData.PropertyInfoTab.HomeRenovation.ELECTRICAL_YEAR_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovElectrical() * 12 + 1).getYear(),
+					// roof
+					HomeSSMetaData.PropertyInfoTab.HomeRenovation.ROOF_RENOVATION.getLabel(), "100% Replace",
+					HomeSSMetaData.PropertyInfoTab.HomeRenovation.ROOF_PERCENT_COMPLETE.getLabel(), "100",
+					HomeSSMetaData.PropertyInfoTab.HomeRenovation.ROOFG_MONTH_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDwellingRatingInfo().getRoofAge() * 12 + 1).getMonthValue(),
+					HomeSSMetaData.PropertyInfoTab.HomeRenovation.ROOF_YEAR_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDwellingRatingInfo().getRoofAge() * 12 + 1).getYear(),
+					// heating/cooling
+					HomeSSMetaData.PropertyInfoTab.HomeRenovation.HEATING_COOLING_RENOVATION.getLabel(), "Forced Air",
+					HomeSSMetaData.PropertyInfoTab.HomeRenovation.HEATING_COOLING_PERCENT_COMPLETE.getLabel(), "100",
+					HomeSSMetaData.PropertyInfoTab.HomeRenovation.HEATING_COOLING_MONTH_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovHeatOrCooling() * 12 + 1).getMonthValue(),
+					HomeSSMetaData.PropertyInfoTab.HomeRenovation.HEATING_COOLING_YEAR_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovHeatOrCooling() * 12 + 1).getYear(),
+					// green home discount
+					HomeSSMetaData.PropertyInfoTab.HomeRenovation.GREEN_HOME_DISCOUNT.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().getGreenHomeDiscApplicability())
+			);
+		}
 
 		List<TestData> petsOrAnimalsData = getPetsOrAnimalsData(openLPolicy);
 
@@ -557,14 +559,28 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	private TestData getEndorsementTabData(HomeSSOpenLPolicy openLPolicy) {
 
 		TestData endorsementData = new SimpleDataProvider();
-
-		for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
-			String formCode = openLForm.getFormCode();
-			if (!endorsementData.containsKey(HomeSSFormTestDataGenerator.getFormMetaKey(formCode))) {
-				List<TestData> tdList = HomeSSFormTestDataGenerator.getFormTestData(openLPolicy, formCode);
-				if (tdList != null) {
-					TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeSSFormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeSSFormTestDataGenerator.getFormMetaKey(formCode), tdList);
-					endorsementData.adjust(td);
+		
+		if ("HO4".equals(openLPolicy.getPolicyType())) {
+			for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
+				String formCode = openLForm.getFormCode();
+				if (!endorsementData.containsKey(HomeSSHO4FormTestDataGenerator.getFormMetaKey(formCode))) {
+					List<TestData> tdList = HomeSSHO4FormTestDataGenerator.getFormTestData(openLPolicy, formCode);
+					if (tdList != null) {
+						TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeSSHO4FormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeSSHO4FormTestDataGenerator.getFormMetaKey(formCode), tdList);
+						endorsementData.adjust(td);
+					}
+				}
+			}
+		}
+		else {
+			for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
+				String formCode = openLForm.getFormCode();
+				if (!endorsementData.containsKey(HomeSSFormTestDataGenerator.getFormMetaKey(formCode))) {
+					List<TestData> tdList = HomeSSFormTestDataGenerator.getFormTestData(openLPolicy, formCode);
+					if (tdList != null) {
+						TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeSSFormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeSSFormTestDataGenerator.getFormMetaKey(formCode), tdList);
+						endorsementData.adjust(td);
+					}
 				}
 			}
 		}
@@ -698,16 +714,82 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			hurricane = "contains=" + openLPolicy.getPolicyCoverageDeductible().getCoverageDeductible().split("/")[1].substring(0, 1);
 		}
 
-		return DataProviderFactory.dataOf(
-				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel(), "contains=" + getPaymentPlan(openLPolicy, isLegacyConvPolicy),
-				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_B.getLabel(), "contains=" + String.format("%d%%", (int) Math.round(covB * 100 / covA)),
-				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovC".equals(c.getCoverageCd())).findFirst().get().getLimit(),
-				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D.getLabel(), "contains=" + String.format("%d%%", (int) Math.round(covD * 100 / covA)),
-				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), "contains=" + new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovE".equals(c.getCoverageCd())).findFirst().get().getLimit()).toString().split("\\.")[0],
-				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_F.getLabel(), new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovF".equals(c.getCoverageCd())).findFirst().get().getLimit()).toString().split("\\.")[0],
-				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE.getLabel(), new Dollar(coverageDeductible).toString().split("\\.")[0],
-				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.HURRICANE_DEDUCTIBLE.getLabel(), hurricane
-		);
+		TestData premiumAndCoveragesQuoteTabData = DataProviderFactory.emptyData();
+		if ("HO3".equals(openLPolicy.getPolicyType())) {
+			premiumAndCoveragesQuoteTabData = DataProviderFactory.dataOf(
+					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel(), "contains=" + getPaymentPlan(openLPolicy, isLegacyConvPolicy),
+					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_B.getLabel(), "contains=" + String.format("%d%%", (int) Math.round(covB * 100 / covA)),
+					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovC".equals(c.getCoverageCd())).findFirst().get().getLimit(),
+					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D.getLabel(), "contains=" + String.format("%d%%", (int) Math.round(covD * 100 / covA)),
+					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), "contains=" + new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovE".equals(c.getCoverageCd())).findFirst().get().getLimit()).toString().split("\\.")[0],
+					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_F.getLabel(), new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovF".equals(c.getCoverageCd())).findFirst().get().getLimit()).toString().split("\\.")[0],
+					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE.getLabel(), new Dollar(coverageDeductible).toString().split("\\.")[0],
+					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.HURRICANE_DEDUCTIBLE.getLabel(), hurricane
+			);
+		}
+		if ("HO4".equals(openLPolicy.getPolicyType())) {
+			premiumAndCoveragesQuoteTabData = DataProviderFactory.dataOf(
+					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel(), "contains=" + getPaymentPlan(openLPolicy, isLegacyConvPolicy),
+					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), "contains=" + new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovE".equals(c.getCoverageCd())).findFirst().get().getLimit()).toString().split("\\.")[0],
+					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_F.getLabel(), new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovF".equals(c.getCoverageCd())).findFirst().get().getLimit()).toString().split("\\.")[0],
+					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE.getLabel(), new Dollar(coverageDeductible).toString().split("\\.")[0]
+			);
+		}
+		//TODO HO6,  DP3
+		return premiumAndCoveragesQuoteTabData;
+	}
+	
+	private String getNumberOfFamilyUnits(HomeSSOpenLPolicy openLPolicy) {
+		String numberOfFamilyUnits = "index=1";
+		int number = openLPolicy.getPolicyDwellingRatingInfo().getFamilyUnits();
+		if ("HO3".equals(openLPolicy.getPolicyType()) || "DP3".equals(openLPolicy.getPolicyType())) {
+			if (number < 5) {
+				numberOfFamilyUnits = "contains=" + number;
+			}
+			else {
+				numberOfFamilyUnits = "contains=5";
+			}
+		}
+		if ("HO4".equals(openLPolicy.getPolicyType()) || "HO6".equals(openLPolicy.getPolicyType())) {
+			if (number < 5) {
+				numberOfFamilyUnits = "contains=" + number;
+			}
+			else if (number >= 5 && number <=15) {
+				numberOfFamilyUnits = "contains=5-15";
+			}
+			else if (number >= 16 && number <= 30) {
+				numberOfFamilyUnits = "contains=16-30";
+			}
+			else if (number >= 31 && number <= 45) {
+				numberOfFamilyUnits = "contains=31-45";
+			}
+			else if (number >= 46 && number <= 40) {
+				numberOfFamilyUnits = "contains=46-60";
+			}
+			else if (number >= 61) {
+				numberOfFamilyUnits = "contains=61";
+			}
+		}		
+		return numberOfFamilyUnits;
+	}
+	
+	private TestData getPropertyValueData(HomeSSOpenLPolicy openLPolicy) {
+		String policyType = openLPolicy.getPolicyType();
+		switch (policyType) {
+		case "HO3": 
+		case "HO6":
+		case "DP3":
+			return DataProviderFactory.dataOf(
+					HomeSSMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimit(),
+					HomeSSMetaData.PropertyInfoTab.PropertyValue.ISO_REPLACEMENT_COST.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimit(),
+					HomeSSMetaData.PropertyInfoTab.PropertyValue.PURCHASE_DATE_OF_HOME.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDiscountInformation().getNoOfYrsSinceLoanInception()).format(DateTimeUtils.MM_DD_YYYY),
+					HomeSSMetaData.PropertyInfoTab.PropertyValue.NEW_LOAN.getLabel(), true);
+		case "HO4":
+			return DataProviderFactory.dataOf(
+					HomeSSMetaData.PropertyInfoTab.PropertyValue.PERSONAL_PROPERTY_VALUE.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimit());
+		default: 
+			throw new IstfException("Unknown Policy Type: " + openLPolicy.getPolicyType());
+		}
 	}
 
 	private String getNumberOfStories(Double noOfFloors) {

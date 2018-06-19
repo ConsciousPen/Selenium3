@@ -1252,7 +1252,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	}
 
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.AZ})
+	//@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14952", "PAS-15152"})
 	public void pas14952_StatusResetsForNewlyAddedVehicle(@Optional("VA") String state) {

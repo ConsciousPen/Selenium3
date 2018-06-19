@@ -119,4 +119,11 @@ public class TableHeader extends TableRow {
 	public int getColumnIndexOnSheet(int columnIndex) {
 		return getCell(columnIndex).getColumnIndexOnSheet();
 	}
+	
+	protected TableHeader addColumn(TableColumn column, String columnName) {
+		HeaderCell headerCell = createCell(column.getIndex(), column.getIndexOnSheet());
+		headerCell.setValue(columnName, ExcelCell.STRING_TYPE);
+		addCell(headerCell);
+		return this;
+	}
 }

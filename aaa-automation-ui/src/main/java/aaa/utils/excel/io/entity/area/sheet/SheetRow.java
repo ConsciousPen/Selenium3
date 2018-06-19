@@ -24,4 +24,9 @@ public class SheetRow extends ExcelRow<SheetCell> {
 		Cell poiCell = getPoiRow() != null ? getPoiRow().getCell(columnIndexOnSheet - 1) : null;
 		return new SheetCell(poiCell, columnIndexOnSheet, this, getCellTypes());
 	}
+	
+	@Override
+	protected void addCell(SheetCell cell) {
+		super.addCell(cell);
+	}
 }

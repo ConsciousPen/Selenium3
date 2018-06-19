@@ -146,6 +146,12 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Male")
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel()), "Single")
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel()), "18");
+
+		if (!getState().equals(Constants.States.OK)) {
+			testData.adjust(TestData.makeKeyPath(RatingDetailReportsTab.class.getSimpleName(), AutoSSMetaData.RatingDetailReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel()),
+					new RatingDetailReportsTab().getInsuranceScoreOverrideData("900"));
+		}
+
 		TestData driverTab = getTestSpecificTD("TestData_DriverTab").resolveLinks();
 
 		// Open application Create Customer Initiate Conversion Policy with Driver exceeding MVR predictor threshold.
@@ -279,7 +285,9 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 
 		TestData testData = getConversionPolicyDefaultTD()
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933")
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Female");
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Female")
+				.adjust(TestData.makeKeyPath(RatingDetailReportsTab.class.getSimpleName(), AutoSSMetaData.RatingDetailReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel()),
+						new RatingDetailReportsTab().getInsuranceScoreOverrideData("900"));
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabViolations").resolveLinks();
 
 		// Open application Create Customer Initiate Conversion Policy with Driver exceeding MVR predictor threshold.
@@ -374,7 +382,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for drivers with accidents Renewal")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14264")
-	public void pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal(@Optional("NV") String state) {
+	public void pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal(@Optional("") String state) {
 
 		TestData testData = getFirstDriverTestData();
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabAccidents").resolveLinks();
@@ -412,7 +420,9 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 
 		TestData testData = getConversionPolicyDefaultTD()
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933")
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Female");
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Female")
+				.adjust(TestData.makeKeyPath(RatingDetailReportsTab.class.getSimpleName(), AutoSSMetaData.RatingDetailReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel()),
+						new RatingDetailReportsTab().getInsuranceScoreOverrideData("900"));
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabAccidents").resolveLinks();
 
 		// Open application Create Customer Initiate Conversion Policy with Driver exceeding MVR predictor threshold.
