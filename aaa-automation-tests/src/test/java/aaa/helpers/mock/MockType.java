@@ -49,19 +49,19 @@ public enum MockType {
 	TELEMATIC_VIN_ELIGIBILITY("TelematicVINEligibilityMockData.xls", null),
 	VEHICLE_UBI_DETAILS("VehicleUBIDetailsMockData.xls", VehicleUBIDetailsMock.class),
 	VEHICLE_UBI_SCORE_SUMMARY("VehicleUBIScoreSummaryMockData.xls", null);
-	
+
 	private final String fileName;
 	private final Class<? extends UpdatableMock> mockModel;
-	
+
 	MockType(String fileName, Class<? extends UpdatableMock> mockModel) {
 		this.fileName = fileName;
 		this.mockModel = mockModel;
 	}
-	
+
 	public String getFileName() {
 		return fileName;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public <M extends UpdatableMock> Class<M> getMockModel() {
 		return (Class<M>) mockModel;

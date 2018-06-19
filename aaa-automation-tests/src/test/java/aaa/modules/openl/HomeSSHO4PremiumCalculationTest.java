@@ -1,7 +1,7 @@
 package aaa.modules.openl;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
-import aaa.common.enums.Constants;
+
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
@@ -13,34 +13,24 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
-import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 
-public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpenLPolicy> {
-
+public class HomeSSHO4PremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpenLPolicy> {
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_HO3;
+		return PolicyType.HOME_SS_HO4;
 	}
 
 	@Override
 	protected Dollar createAndRateQuote(HomeSSOpenLPolicy openLPolicy) {
 		HomeSSTestDataGenerator tdGenerator = openLPolicy.getTestDataGenerator(getState(), getRatingDataPattern());
-		// create real Auto Policy for PA state
-		if (Constants.States.PA.equals(openLPolicy.getPolicyAddress().getState()) && openLPolicy.getPolicyDiscountInformation().isAutoPolicyInd()) {
-			TestData autoPolicyData = tdGenerator.getAutoPolicyData(getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS), "DataGather", "TestData"), openLPolicy);
-			PolicyType.AUTO_SS.get().createQuote(autoPolicyData);
-			tdGenerator.autoPolicyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-			//			tdGenerator.autoPolicyNumber = "QPASS954131848";
-			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
-		}
 		boolean isLegacyConvPolicy = false;
 		if (TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(openLPolicy.getCappingDetails().getProgramCode())) {
 			isLegacyConvPolicy = true;
 			TestData renewalEntryData = tdGenerator.getRenewalEntryData(openLPolicy);
 			renewalEntryData.adjust(TestData.makeKeyPath(new InitiateRenewalEntryActionTab().getMetaKey(), CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_POLICY_PREMIUM.getLabel()), openLPolicy.getCappingDetails().getPreviousPolicyPremium().toString());
-
+			
 			if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())) {
 				NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
 			}
@@ -50,9 +40,9 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 		}
 		
 		TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy, isLegacyConvPolicy);
-
+		
 		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumsAndCoveragesQuoteTab.class, false);
-
+		
 		if (openLPolicy.getForms().stream().anyMatch(c -> "HS0492".equals(c.getFormCode()))) {
 			TestData formHS0492Data = tdGenerator.getFormHS0492Data(openLPolicy);
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
@@ -66,21 +56,21 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		}
-
+		
 		PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 		premiumsAndCoveragesQuoteTab.fillTab(quoteRatingData);
-
+		
 		if (openLPolicy.getForms().stream().anyMatch(c -> "HS0904".equals(c.getFormCode())) && !TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(openLPolicy.getCappingDetails().getProgramCode())) {
 			premiumsAndCoveragesQuoteTab.submitTab();
 			TestData policyIssueData = tdGenerator.getPolicyIssueData(openLPolicy);
-
+			
 			policy.getDefaultView().fillUpTo(policyIssueData, PurchaseTab.class, false);
 			ErrorTab errorTab = new ErrorTab();
 			if (errorTab.isVisible()) {
 				errorTab.overrideAllErrors();
 				errorTab.submitTab();
 			}
-			policy.getDefaultView().fill(DataProviderFactory.dataOf(PurchaseTab.class.getSimpleName(), getPolicyTD("DataGather", "PurchaseTab_WithAutopay")));
+			policy.getDefaultView().fill(DataProviderFactory.dataOf(PurchaseTab.class.getSimpleName(), getPolicyTD().getTestData(PurchaseTab.class.getSimpleName())));
 			
 			TestData endorsementData = tdGenerator.getEndorsementData(openLPolicy);
 			if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.POLICY.get())) {
@@ -89,7 +79,7 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 			policy.endorse().performAndFill(endorsementData);
 			new PremiumsAndCoveragesQuoteTab().calculatePremium();
 		}
-
+		
 		return PremiumsAndCoveragesQuoteTab.getPolicyTermPremium();
 	}
 }

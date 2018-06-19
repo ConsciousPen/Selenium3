@@ -14,7 +14,7 @@ public class BooleanCellType extends AbstractCellType<Boolean> {
 	}
 
 	@Override
-	public void setValueTo(ExcelCell cell, Boolean value) {
+	public void setRawValueTo(ExcelCell cell, Boolean value) {
 		cell.getPoiCell().setCellValue(value);
 	}
 
