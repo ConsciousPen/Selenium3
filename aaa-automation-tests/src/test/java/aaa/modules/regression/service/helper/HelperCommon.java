@@ -653,10 +653,8 @@ public class HelperCommon {
 		try {
 			ApplicationContext applicationContext = new ApplicationContext();
 			applicationContext.address = "AutomationTest";
-			applicationContext.application = "AutomationTest";
+			applicationContext.application = "MyPolicy";
 			applicationContext.correlationId = Guid.GUID.newGuid().toString();
-			applicationContext.sourceApplication = "AutomationTest";
-			applicationContext.userId = "MyPolicy";
 			applicationContext.sessionId = sessionId;
 			return DEFAULT_OBJECT_MAPPER.writeValueAsString(applicationContext);
 		} catch (JsonProcessingException e) {
