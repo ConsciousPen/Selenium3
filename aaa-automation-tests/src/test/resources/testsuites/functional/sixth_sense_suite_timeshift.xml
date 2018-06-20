@@ -8,7 +8,7 @@
 
     <!--Tests for Auto-->
 
-    <test name="Test Calculate Tier for NY converted policies" parallel="methods" thread-count="1024">
+    <test name="Test Calculate Tier for NY converted policies" parallel="methods" thread-count="1">
         <parameter name="state" value="NY"/>
         <classes>
             <class name="aaa.modules.regression.conversions.auto_ss.functional.TestTierCalculation">
