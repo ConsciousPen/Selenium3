@@ -46,14 +46,14 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	protected String vinMatchNBandNoMatchOnRenewal = "6MSRPSSH5V1011111";
 	protected String vinPartialMatch = "7PRTL15H0V1011111";
 
-	protected String vinIdCopyWithLowComp;
-	protected String vinIdCopyWithHighComp;
-	protected String vinIdCopyNoCompMatch;
-	protected String vinIdOriginalNoCompMatch;
+	protected String vinIdCopyWithLowComp = "";
+	protected String vinIdCopyWithHighComp = "";
+	protected String vinIdCopyNoCompMatch = "";
+	protected String vinIdOriginalNoCompMatch = "";
 
 	protected Map<String,String> allNewBusinessValues;
-	protected String newBusinessCompNoCompMatch;
-	protected String newBusinessCollNoCompMatch;
+	protected String newBusinessCompNoCompMatch = "";
+	protected String newBusinessCollNoCompMatch = "";
 
 	/**
 	 * @author Viktor Petrenko

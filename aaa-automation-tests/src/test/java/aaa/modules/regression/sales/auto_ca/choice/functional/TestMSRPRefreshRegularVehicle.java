@@ -3,6 +3,7 @@ package aaa.modules.regression.sales.auto_ca.choice.functional;
 import static aaa.helpers.db.queries.MsrpQueries.CA_CHOICE_REGULAR_VEH_MSRP_VERSION;
 import static aaa.helpers.db.queries.VehicleQueries.REPAIR_COLLCOMP_BY_ID;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.testng.Assert.fail;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -40,14 +41,14 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	protected String vinMatchNBandNoMatchOnRenewal = "6MSRP15H8V1011111";
 	protected String vinPartialMatch = "7PRTLCAH9V1011111";
 
-	protected String vinIdCopyWithLowCompMatch = null;
-	protected String vinIdCopyWithHighCompMatch = null;
-	protected String vinOriginalIdNoCompMatch = null;
-	protected String vinIdCopyNoCompMatch = null;
+	protected String vinIdCopyWithLowCompMatch = "";
+	protected String vinIdCopyWithHighCompMatch = "";
+	protected String vinOriginalIdNoCompMatch = "";
+	protected String vinIdCopyNoCompMatch = "";
 
 	protected Map<String,String> allNewBusinessValues;
-	protected String newBusinessCompNoCompMatch;
-	protected String newBusinessCollNoCompMatch;
+	protected String newBusinessCompNoCompMatch = "";
+	protected String newBusinessCollNoCompMatch = "";
 
 	/**
 	 * @author Viktor Petrenko
@@ -307,6 +308,14 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		assertThat(autoRenewalVersionCurrentVin).isNotNull().isNotEmpty();
 	}
 
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-12877")
+	public void test(@Optional("CA") String state) {
+		fail();
+	}
+
 	@AfterClass(alwaysRun = true)
 	protected void resetVinControlTable() {
 		pas730_ChoiceCleanDataBase(CA_CHOICE_REGULAR_VEH_MSRP_VERSION, vehicleTypeRegular);
@@ -317,7 +326,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		List<String> listOfVinIds = Arrays.asList(vinIdCopyWithLowCompMatch, vinIdCopyWithHighCompMatch, vinIdCopyNoCompMatch);
 		VinUploadCleanUpMethods.deleteVinsById(listOfVinIds);
 
-		if(vinOriginalIdNoCompMatch != null || !vinOriginalIdNoCompMatch.isEmpty()){
+		if(vinOriginalIdNoCompMatch != null || !vinOriginalIdNoCompMatch.length()){
 			DBService.get().executeUpdate(String.format(REPAIR_COLLCOMP_BY_ID,Integer.parseInt(newBusinessCollNoCompMatch)-5,Integer.parseInt(newBusinessCompNoCompMatch)-5, vinOriginalIdNoCompMatch,DefaultVinVersions.DefaultVersions.CaliforniaChoice.get()));
 		}
 	}

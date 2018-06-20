@@ -37,14 +37,14 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	protected String vinMatchNBandNoMatchOnRenewal = "6MSRP15H8V1011111";
 	protected String vinPartialMatch = "7PRTLCAH9V1011111";
 
-	protected String vinIdCopyWithLowCompMatch;
-	protected String vinIdCopyWithHighCompMatch;
-	protected String vinIdOriginalNoCompMatch;
-	protected String vinIdCopyNoCompMatch;
+	protected String vinIdCopyWithLowCompMatch = "";
+	protected String vinIdCopyWithHighCompMatch = "";
+	protected String vinIdOriginalNoCompMatch = "";
+	protected String vinIdCopyNoCompMatch = "";
 
 	protected Map<String,String> allNewBusinessValues;
-	protected String newBusinessCompNoCompMatch;
-	protected String newBusinessCollNoCompMatch;
+	protected String newBusinessCompNoCompMatch = "";
+	protected String newBusinessCollNoCompMatch = "";
 
 	@Override
 	protected PolicyType getPolicyType() {
