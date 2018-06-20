@@ -408,7 +408,7 @@ public class HomeSSDP3FormTestDataGenerator {
 		DS0463(HomeSSMetaData.EndorsementTab.DS_04_63.getLabel(), "DS0463", formDS0463DataFunction),    //*
 		DS0471(HomeSSMetaData.EndorsementTab.DS_04_71.getLabel(), "DS0471", formDS0471DataFunction),    //*
 		DS0473(HomeSSMetaData.EndorsementTab.DS_04_73.getLabel(), "DS0473", formDS0473DataFunction),    //*
-		HS0495(HomeSSMetaData.EndorsementTab.DS_04_95.getLabel(), "HS0495", formDS0495DataFunction),    //temporary
+		DS0495(HomeSSMetaData.EndorsementTab.DS_04_95.getLabel(), "HS0495", formDS0495DataFunction),    // HS 04 95 --> DS 04 95
 		DS0934(HomeSSMetaData.EndorsementTab.DS_09_34.getLabel(), "DS0934", formDS0934DataFunction),    //*
 		HS0412(HomeSSMetaData.EndorsementTab.HS_04_12.getLabel(), "HS0412", formHS0412DataFunction),
 		HS0435(HomeSSMetaData.EndorsementTab.HS_04_35.getLabel(), "HS0435", formHS0435DataFunction),
