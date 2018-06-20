@@ -469,7 +469,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	@AfterClass(alwaysRun = true)
 	protected void resetVinControlTable() {
 		List<String> listOfVinIds = Arrays.asList(vinIdCopyWithLowComp, vinIdCopyWithHighComp, vinIdCopyNoCompMatch);
-		VinUploadCleanUpMethods.deleteVinsById(listOfVinIds,DefaultVinVersions.DefaultVersions.SignatureSeries);
+		VinUploadCleanUpMethods.deleteVinsById(listOfVinIds);
 
 		List<String> listOfVinNumbers = Arrays.asList(vinPartialMatch,vinMatchNBandNoMatchOnRenewal);
 		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinNumbers,DefaultVinVersions.DefaultVersions.SignatureSeries);

@@ -228,7 +228,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@AfterClass(alwaysRun = true)
 	protected void vinTablesCleaner() {
 		List<String> listOfVinIds = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5, NEW_VIN6, GGGVB2CC8W9455583);
-		VinUploadCleanUpMethods.deleteVinsById(listOfVinIds,DefaultVinVersions.DefaultVersions.CaliforniaChoice);
+		VinUploadCleanUpMethods.deleteVinsById(listOfVinIds);
 
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(GGGVB2CC8W9455583,DefaultVinVersions.DefaultVersions.CaliforniaChoice.get());
 		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_CAC);

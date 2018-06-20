@@ -315,7 +315,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinNumbers,DefaultVinVersions.DefaultVersions.SignatureSeries);
 
 		List<String> listOfVinIds = Arrays.asList(vinIdCopyWithLowCompMatch, vinIdCopyWithHighCompMatch, vinIdCopyNoCompMatch);
-		VinUploadCleanUpMethods.deleteVinsById(listOfVinIds,DefaultVinVersions.DefaultVersions.CaliforniaChoice);
+		VinUploadCleanUpMethods.deleteVinsById(listOfVinIds);
 
 		if(vinOriginalIdNoCompMatch != null || !vinOriginalIdNoCompMatch.isEmpty()){
 			DBService.get().executeUpdate(String.format(REPAIR_COLLCOMP_BY_ID,Integer.parseInt(newBusinessCollNoCompMatch)-5,Integer.parseInt(newBusinessCompNoCompMatch)-5, vinOriginalIdNoCompMatch,DefaultVinVersions.DefaultVersions.CaliforniaChoice.get()));
