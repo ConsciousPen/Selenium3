@@ -259,7 +259,7 @@ public abstract class ExcelCell implements Writable {
 		if (value == null) {
 			return clear();
 		}
-		assertThat(hasType(valueType)).as("%s cell does not have appropriate type to set %s value", this, value).isTrue();
+		assertThat(hasType(valueType)).as("There is no appropriate cell type to set %s value to cell %s", value, this).isTrue();
 		if (getPoiCell() == null) {
 			//TODO-dchubkov: maybe would be better to move this cell creation to "aaa.utils.excel.io.celltype.AbstractCellType.setValueTo" method
 			Row row = getRow().getPoiRow();
