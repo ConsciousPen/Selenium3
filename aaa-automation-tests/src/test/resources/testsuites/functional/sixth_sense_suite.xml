@@ -285,4 +285,11 @@
         </classes>
     </test>
 
+    <test name="Test CLUE reports in MD when the FNI is excluded">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDOrderClueFNIExcluded"/>
+        </classes>
+    </test>
+
 </suite>
