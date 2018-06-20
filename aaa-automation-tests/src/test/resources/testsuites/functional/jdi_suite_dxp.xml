@@ -88,6 +88,7 @@
                     <include name="pas13994_UpdateDriverAssignmentServiceRule2"/>
                     <include name="pas13994_UpdateDriverAssignmentServiceRule3"/>
                     <include name="pas502_DuplicateVinAddVehicleService"/>
+                    <include name="pas14721_UpdateCoveragesBI_PD"/>
                     <include name="pas9493_TransactionInformationForEndorsementsAddVehicle"/>
                     </methods>
             </class>
