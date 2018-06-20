@@ -8,31 +8,35 @@ import aaa.utils.excel.io.celltype.CellType;
 import toolkit.exceptions.IstfException;
 
 public abstract class ExcelRow<CELL extends ExcelCell> extends CellsQueue<CELL> {
-	private final Row row;
-
+	private Row row;
+	
 	protected ExcelRow(Row row, int rowIndexInArea, int rowIndexOnSheet, List<Integer> columnsIndexesOnSheet, ExcelArea<CELL, ?, ?> excelArea) {
 		this(row, rowIndexInArea, rowIndexOnSheet, columnsIndexesOnSheet, excelArea, excelArea.getCellTypes());
 	}
-
+	
 	protected ExcelRow(Row row, int rowIndexInArea, int rowIndexOnSheet, List<Integer> columnsIndexesOnSheet, ExcelArea<CELL, ?, ?> excelArea, List<CellType<?>> cellTypes) {
 		super(rowIndexInArea, rowIndexOnSheet, columnsIndexesOnSheet, excelArea, cellTypes);
 		this.row = row;
 	}
-
+	
 	public Row getPoiRow() {
 		return this.row;
 	}
-
+	
+	void setPoiRow(Row row) {
+		this.row = row;
+	}
+	
 	@Override
 	public List<Integer> getCellsIndexes() {
 		return getCells().stream().map(ExcelCell::getColumnIndex).collect(Collectors.toList());
 	}
-
+	
 	@Override
 	public List<CELL> getCellsByIndexes(List<Integer> columnsIndexesInRow) {
 		return getCells().stream().filter(c -> columnsIndexesInRow.contains(c.getColumnIndex())).collect(Collectors.toList());
 	}
-
+	
 	@Override
 	public boolean hasCell(int columnIndexInRow) {
 		for (CELL cell : getCells()) {
@@ -42,7 +46,7 @@ public abstract class ExcelRow<CELL extends ExcelCell> extends CellsQueue<CELL> 
 		}
 		return false;
 	}
-
+	
 	@Override
 	public CELL getCell(int columnIndexInRow) {
 		for (CELL cell : getCells()) {
@@ -50,19 +54,19 @@ public abstract class ExcelRow<CELL extends ExcelCell> extends CellsQueue<CELL> 
 				return cell;
 			}
 		}
-		throw new IstfException(String.format("There is no cell with %1$s index in %2$s", columnIndexInRow, this));
+		throw new IstfException(String.format("There is no column with %1$s index in %2$s", columnIndexInRow, this));
 	}
-
+	
 	@Override
 	public boolean isEmpty() {
 		return getPoiRow() == null || getPoiRow().getLastCellNum() <= 0 || super.isEmpty();
 	}
-
+	
 	@Override
 	public ExcelArea<CELL, ?, ?> exclude() {
 		return getArea().excludeRows(getIndex());
 	}
-
+	
 	@Override
 	public ExcelRow<CELL> copy(int destinationRowIndex) {
 		for (CELL cell : getCells()) {
@@ -70,12 +74,12 @@ public abstract class ExcelRow<CELL extends ExcelCell> extends CellsQueue<CELL> 
 		}
 		return this;
 	}
-
+	
 	@Override
 	public ExcelArea<CELL, ?, ?> delete() {
 		return getArea().deleteRows(getIndex());
 	}
-
+	
 	@Override
 	public String toString() {
 		return "ExcelRow{" +
@@ -86,12 +90,12 @@ public abstract class ExcelRow<CELL extends ExcelCell> extends CellsQueue<CELL> 
 				", cellTypes=" + getCellTypes() +
 				'}';
 	}
-
+	
 	@Override
 	protected Integer getCellIndexOnSheet(Integer columnIndexInRow) {
 		return getCell(columnIndexInRow).getColumnIndexOnSheet();
 	}
-
+	
 	@Override
 	protected void removeCellsIndexes(Integer... columnIndexesInRow) {
 		super.removeCellsIndexes(columnIndexesInRow);

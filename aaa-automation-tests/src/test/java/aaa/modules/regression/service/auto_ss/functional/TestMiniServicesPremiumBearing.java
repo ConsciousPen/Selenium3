@@ -1203,6 +1203,29 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	}
 
 	/**
+	 * @author Jovita Pukenaite
+	 * @name Transaction Information For Endorsements outside of PAS - AddVehicle
+	 * @scenario 1. Create policy.
+	 * 2. Start do endorsement outside of PAS.
+	 * 3. Hit "Transaction History Service". Check if response is empty.
+	 * 4. Add Vehicle.
+	 * 5. Hit "Transaction History Service". Check new vehicle info.
+	 * 6. Update "Usage".
+	 * 7. Rate endorsement
+	 * 8. Add one more vehicle.
+	 * 9. Hit "Transaction History Service". Check new vehicle info.
+	 * 10. Bind endorsement.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9493"})
+	public void pas9493_TransactionInformationForEndorsementsAddVehicle(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas9493_TransactionInformationForEndorsementsAddVehicleBody(getPolicyType())
+		);
+	}
+
+	/**
 	 * @author Megha Gubbala
 	 * 1. create a policy with 2 ppa,1 conversion-van and 1 motor vehicle
 	 * 2. hit view vehicle servise to get order of all active vehicles
@@ -1329,6 +1352,21 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15483"})
 	public void pas15483_deleteOriginalVehicle(@Optional("VA") String state) {
 		pas15483_deleteOriginalVehicleBody();
+	}
+
+	/**
+	 * @author gzkvano
+	 * @name Check UIM delimiter
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
+			Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR, Constants.States.CT})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14646"})
+	public void pas14646_UimDelimiter(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas14646_UimDelimiter(state, softly)
+		);
 	}
 
 	@Override

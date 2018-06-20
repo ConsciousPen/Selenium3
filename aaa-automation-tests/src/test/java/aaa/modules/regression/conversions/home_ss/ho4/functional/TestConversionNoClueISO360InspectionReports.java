@@ -48,7 +48,6 @@ public class TestConversionNoClueISO360InspectionReports extends HomeSSHO4BaseTe
 		createCustomerIndividual();
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
 		getPolicyType().get().getDefaultView().fill(testdata);
-		PolicySummaryPage.linkPolicy.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 	}
 }

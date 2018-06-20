@@ -12,19 +12,19 @@ public class OpenLTestInfo<P extends OpenLPolicy> {
 	private List<P> openLPolicies;
 	private Throwable exception;
 	private String customerNumber;
-	
+
 	OpenLTestInfo() {}
-	
+
 	OpenLTestInfo(String state, String openLFilePath, List<P> openLPolicies) {
 		this.state = state;
 		this.openLFilePath = openLFilePath;
 		this.openLPolicies = new ArrayList<>(openLPolicies);
 	}
-	
+
 	public String getState() {
 		return state;
 	}
-	
+
 	void setState(String state) {
 		this.state = state;
 	}
@@ -32,7 +32,7 @@ public class OpenLTestInfo<P extends OpenLPolicy> {
 	public String getOpenLFilePath() {
 		return this.openLFilePath;
 	}
-	
+
 	void setOpenLFilePath(String openLFilePath) {
 		this.openLFilePath = openLFilePath;
 	}
@@ -40,7 +40,7 @@ public class OpenLTestInfo<P extends OpenLPolicy> {
 	public List<P> getOpenLPolicies() {
 		return Collections.unmodifiableList(openLPolicies);
 	}
-	
+
 	void setOpenLPolicies(List<P> openLPolicies) {
 		this.openLPolicies = new ArrayList<>(openLPolicies);
 	}
@@ -52,19 +52,19 @@ public class OpenLTestInfo<P extends OpenLPolicy> {
 	public Throwable getException() {
 		return this.exception;
 	}
-	
+
 	void setException(Throwable exception) {
 		this.exception = exception;
 	}
-	
+
 	public P getOpenLPolicy(int number) {
 		return this.openLPolicies.stream().filter(p -> p.getNumber() == number).findFirst().orElseThrow(() -> new IstfException("There is no policy with number " + number));
 	}
-	
+
 	public String getCustomerNumber() {
 		return customerNumber;
 	}
-	
+
 	public void setCustomerNumber(String customerNumber) {
 		this.customerNumber = customerNumber;
 	}

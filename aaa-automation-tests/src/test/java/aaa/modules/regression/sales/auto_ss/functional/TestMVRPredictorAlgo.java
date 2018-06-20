@@ -434,7 +434,6 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		assertMVRResponseAccidents();
 	}
 
-
 	private TestData getAdjustedDriverTestData() {
 		// For exceeding OK threshold (above threshold) you need a driver age x < 27y , driving exp  5< y <15 , male, single
 		return getPolicyTD()
@@ -466,7 +465,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		policy.getDefaultView().fill(driverTabTD);
 	}
 
-	private void preconditionsAddDriversRenewalEndorsement(TestData driverTabTD){
+	private void preconditionsAddDriversRenewalEndorsement(TestData driverTabTD) {
 		//Navigate to Driver Tab and add Drivers
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 		policy.getDefaultView().fill(driverTabTD);
@@ -476,13 +475,13 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		premiumAndCoveragesTab.submitTab();
 
 		// Validate Drivers History
-		if (driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).isPresent()){
+		if (driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).isPresent()) {
 			driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).setValue("I Agree");
 		}
 		driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY).click();
 	}
 
-	private void assertAddedDrivers(){
+	private void assertAddedDrivers() {
 		// Assert That two drivers have license status = Predicted Valid
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(3).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");

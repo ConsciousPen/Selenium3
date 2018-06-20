@@ -4429,6 +4429,117 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		});
 	}
 
+	protected void pas9493_TransactionInformationForEndorsementsAddVehicleBody (PolicyType policyType) {
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNumber = getCopiedPolicy();
+
+		//Create pended endorsement
+		AAAEndorseResponse response = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
+
+		ComparablePolicy response1 = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
+		assertThat(response1.vehicles).isEqualTo(null);
+
+		//Add first vehicle
+		String purchaseDate = "2013-02-22";
+		String vin1 = "1HGFA16526L081415";
+		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin1);
+		assertThat(addVehicle.oid).isNotEmpty();
+		String oid1 = addVehicle.oid;
+
+		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, oid1);
+
+		//Check first vehicle
+		ComparablePolicy response2 = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
+		assertThat(response2.vehicles.get(oid1).changeType).isEqualTo("ADDED");
+		assertThat(response2.vehicles.get(oid1).data.modelYear).isEqualTo("2006");
+		assertThat(response2.vehicles.get(oid1).data.manufacturer).isEqualTo("HONDA");
+		assertThat(response2.vehicles.get(oid1).data.series).isEqualTo("CIVIC LX");
+		assertThat(response2.vehicles.get(oid1).data.model).isEqualTo("CIVIC");
+		assertThat(response2.vehicles.get(oid1).data.bodyStyle).isEqualTo("SEDAN 4 DOOR");
+		assertThat(response2.vehicles.get(oid1).data.oid).isEqualTo(oid1);
+		assertThat(response2.vehicles.get(oid1).data.purchaseDate).startsWith(purchaseDate);
+		assertThat(response2.vehicles.get(oid1).data.vehIdentificationNo).isEqualTo(vin1);
+		assertThat(response2.vehicles.get(oid1).data.vehicleStatus).isEqualTo("pending");
+		assertThat(response2.vehicles.get(oid1).data.usage).isEqualTo("Pleasure");
+		assertThat(response2.vehicles.get(oid1).data.salvaged).isEqualTo(false);
+		assertThat(response2.vehicles.get(oid1).data.garagingDifferent).isEqualTo(false);
+		assertThat(response2.vehicles.get(oid1).data.antiTheft).isEqualTo("NONE");
+		assertThat(response2.vehicles.get(oid1).data.registeredOwner).isEqualTo(true);
+		assertThat(response2.vehicles.get(oid1).data.vehTypeCd).isEqualTo("PPA");
+		//Garaging Address
+		assertThat(response2.vehicles.get(oid1).garagingAddress.changeType).isEqualTo("ADDED");
+		assertThat(response2.vehicles.get(oid1).garagingAddress.data.addressLine1).isNotEmpty();
+		assertThat(response2.vehicles.get(oid1).garagingAddress.data.addressLine2).isNotBlank();
+		assertThat(response2.vehicles.get(oid1).garagingAddress.data.city).isNotEmpty();
+		assertThat(response2.vehicles.get(oid1).garagingAddress.data.stateProvCd).isNotEmpty();
+		assertThat(response2.vehicles.get(oid1).garagingAddress.data.postalCode).isNotEmpty();
+		//Vehicle Ownership
+		assertThat(response2.vehicles.get(oid1).vehicleOwnership.changeType).isEqualTo("ADDED");
+		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.ownership).isEqualTo("OWN");
+		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.name).isEqualTo(null);
+		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.secondName).isEqualTo(null);
+		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.addressLine1).isEqualTo(null);
+		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.addressLine2).isEqualTo(null);
+		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.city).isEqualTo(null);
+		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.stateProvCd).isEqualTo(null);
+		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.postalCode).isEqualTo(null);
+
+		//Add second vehicle
+		String purchaseDate2 = "2005-02-22";
+		String vin2 = "3FAFP31341R200709";
+		Vehicle addVehicle2 = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate2, vin2);
+		assertThat(addVehicle2.oid).isNotEmpty();
+		String oid2 = addVehicle2.oid;
+
+		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, oid2);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+
+		//Check second vehicle
+		ComparablePolicy response3 = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
+		assertThat(response3.vehicles.get(oid2).changeType).isEqualTo("ADDED");
+		assertThat(response3.vehicles.get(oid2).data.modelYear).isEqualTo("2001");
+		assertThat(response3.vehicles.get(oid2).data.manufacturer).isEqualTo("FORD");
+		assertThat(response3.vehicles.get(oid2).data.series).isEqualTo("FOCUS ZX3");
+		assertThat(response3.vehicles.get(oid2).data.model).isEqualTo("FOCUS");
+		assertThat(response3.vehicles.get(oid2).data.bodyStyle).isEqualTo("3 DOOR COUPE");
+		assertThat(response3.vehicles.get(oid2).data.oid).isEqualTo(oid2);
+		//Bug PAS-15528: "purchaseDate" disappearing after rate action outside of PAS
+		//assertThat(response3.vehicles.get(oid2).data.purchaseDate).startsWith(purchaseDate2);
+		assertThat(response3.vehicles.get(oid2).data.vehIdentificationNo).isEqualTo(vin2);
+		assertThat(response3.vehicles.get(oid2).data.vehicleStatus).isEqualTo("pending");
+		assertThat(response3.vehicles.get(oid2).data.usage).isEqualTo("Pleasure");
+		assertThat(response3.vehicles.get(oid2).data.salvaged).isEqualTo(false);
+		assertThat(response3.vehicles.get(oid2).data.garagingDifferent).isEqualTo(false);
+		assertThat(response3.vehicles.get(oid2).data.antiTheft).isEqualTo("NONE");
+		assertThat(response3.vehicles.get(oid2).data.registeredOwner).isEqualTo(true);
+		assertThat(response3.vehicles.get(oid2).data.vehTypeCd).isEqualTo("PPA");
+		//Garaging Address
+		assertThat(response3.vehicles.get(oid2).garagingAddress.changeType).isEqualTo("ADDED");
+		assertThat(response3.vehicles.get(oid2).garagingAddress.data.addressLine1).isNotEmpty();
+		assertThat(response3.vehicles.get(oid2).garagingAddress.data.addressLine2).isNotBlank();
+		assertThat(response3.vehicles.get(oid2).garagingAddress.data.city).isNotEmpty();
+		assertThat(response3.vehicles.get(oid2).garagingAddress.data.stateProvCd).isNotEmpty();
+		assertThat(response3.vehicles.get(oid2).garagingAddress.data.postalCode).isNotEmpty();
+		//Vehicle Ownership
+		assertThat(response3.vehicles.get(oid2).vehicleOwnership.changeType).isEqualTo("ADDED");
+		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.ownership).isEqualTo("OWN");
+		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.name).isEqualTo(null);
+		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.secondName).isEqualTo(null);
+		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.addressLine1).isEqualTo(null);
+		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.addressLine2).isEqualTo(null);
+		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.city).isEqualTo(null);
+		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.stateProvCd).isEqualTo(null);
+		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.postalCode).isEqualTo(null);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+	}
+
 	protected void pas12246_ViewVehiclePendingRemovalService(PolicyType policyType) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -4583,8 +4694,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		getAttributeMetadata(metaDataResponse, "vehicleStatus", true, false, false, null);
 		getAttributeMetadata(metaDataResponse, "registeredOwner", true, false, false, null);
-		//BUG PAS-13252: "Is Garaging different from Residential?" radio button doesn't exist
-		getAttributeMetadata(metaDataResponse, "garagingAddress.different", true, true, true, null);
+		getAttributeMetadata(metaDataResponse, "garagingDifferent", true, true, false, null);
 		getAttributeMetadata(metaDataResponse, "garagingAddress.postalCode", true, false, true, "10");
 		getAttributeMetadata(metaDataResponse, "garagingAddress.addressLine1", true, false, true, "40");
 		getAttributeMetadata(metaDataResponse, "garagingAddress.addressLine2", true, false, false, "40");
@@ -5687,7 +5797,24 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(coverageEndorsementResponse.policyCoverages.get(4).coverageType).isEqualTo("Per Person");
 			softly.assertThat(coverageEndorsementResponse.policyCoverages.get(4).availableLimits.size()).isNotEqualTo(0);
 		});
+	}
 
+	protected void pas14646_UimDelimiter(String state, SoftAssertions softly) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		SearchPage.openPolicy(policyNumber);
+		//Perform Endorsement
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber);
+		Coverage filteredPolicyCoverageResponse = policyCoverageResponse.policyCoverages.stream().filter(cov -> "UMBI".equals(cov.coverageCd)).findFirst().orElse(null);
+		softly.assertThat(filteredPolicyCoverageResponse.coverageType).isEqualTo("Per Person/Per Accident");
+		softly.assertThat(filteredPolicyCoverageResponse.availableLimits.size()).isNotEqualTo(0);
+
+		PolicyCoverageInfo coverageEndorsementResponse = HelperCommon.viewEndorsementCoverages(policyNumber);
+		Coverage filteredCoverageEndorsementResponse = policyCoverageResponse.policyCoverages.stream().filter(cov -> "UMBI".equals(cov.coverageCd)).findFirst().orElse(null);
+		softly.assertThat(filteredCoverageEndorsementResponse.coverageType).isEqualTo("Per Person/Per Accident");
+		softly.assertThat(filteredPolicyCoverageResponse.availableLimits.size()).isNotEqualTo(0);
 	}
 
 	protected void pas12767_ManualEndorsementCancelBody() {

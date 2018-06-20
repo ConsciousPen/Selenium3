@@ -2,14 +2,12 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.toolkit.webdriver.customcontrols.dialog;
 
-import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
+import java.util.Map;
 import org.openqa.selenium.By;
+import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import toolkit.datax.TestData;
-import toolkit.datax.TestData.Type;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
-
-import java.util.Map;
 
 public class DialogAssetList extends AbstractDialog<TestData, Void> {
 
@@ -28,8 +26,8 @@ public class DialogAssetList extends AbstractDialog<TestData, Void> {
 	}
 
 	@Override
-	public Type testDataType() {
-		return Type.TESTDATA;
+	protected Void getRawValue() {
+		return null;
 	}
 
 	@Override
@@ -43,8 +41,8 @@ public class DialogAssetList extends AbstractDialog<TestData, Void> {
 	}
 
 	@Override
-	protected Void getRawValue() {
-		return null;
+	public TestData.Type testDataType() {
+		return TestData.Type.TESTDATA;
 	}
 
 	@Override
@@ -63,6 +61,11 @@ public class DialogAssetList extends AbstractDialog<TestData, Void> {
 	@Override
 	public void fill(TestData td) {
 		fill(td, true);
+	}
+
+	@Override
+	public void submit() {
+		super.submit();
 	}
 
 	/**
@@ -84,10 +87,5 @@ public class DialogAssetList extends AbstractDialog<TestData, Void> {
 				this.setValue(this.getValueToFill(td));
 			}
 		}
-	}
-
-	@Override
-	public void submit() {
-		super.submit();
 	}
 }
