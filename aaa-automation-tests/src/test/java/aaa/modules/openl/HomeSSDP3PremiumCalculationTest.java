@@ -9,6 +9,7 @@ import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.home_ss.defaulttabs.DocumentsTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -50,7 +51,7 @@ public class HomeSSDP3PremiumCalculationTest extends OpenLRatingBaseTest<HomeSSO
 		TestData documentsProofData = tdGenerator.getDocumentsProofData(openLPolicy);
 		if (!documentsProofData.equals(DataProviderFactory.emptyData())) {
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.DOCUMENTS.get());
-			policy.getDefaultView().fill(documentsProofData);
+			policy.getDefaultView().fill(DataProviderFactory.dataOf(DocumentsTab.class.getSimpleName(), documentsProofData));
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		}
