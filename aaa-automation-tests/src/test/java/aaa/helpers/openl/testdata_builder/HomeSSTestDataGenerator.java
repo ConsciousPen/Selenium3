@@ -69,11 +69,11 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				new PersonalPropertyTab().getMetaKey(), getPersonalPropertyTabData(openLPolicy),
 				new PremiumsAndCoveragesQuoteTab().getMetaKey(), getPremiumsAndCoveragesQuoteTabData(openLPolicy, isLegacyConvPolicy)
 		);
-		
-		if("HO3".equals(openLPolicy.getPolicyType())) {
+
+		if ("HO3".equals(openLPolicy.getPolicyType())) {
 			td.adjust(TestData.makeKeyPath(new ProductOfferingTab().getMetaKey()), getProductOfferingTabData(openLPolicy));
 		}
-		
+
 		TestData ratingDataPattern = getRatingDataPattern()
 				.mask(TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()))
 				.mask(TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel()))
@@ -292,6 +292,24 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		List<TestData> otherActiveAAAPoliciesData = new ArrayList<>();
 		boolean isFirstOtherActiveAAAPolicy = true;
 
+		if ("DP3".equals(openLPolicy.getPolicyType())) {
+			TestData ho3PolicyData = DataProviderFactory.dataOf(
+					HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OTHER_ACTIVE_AAA_POLICIES.getLabel(), isFirstOtherActiveAAAPolicy ? "Yes" : null,
+					HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ADD_BTN.getLabel(), isFirstOtherActiveAAAPolicy ? "click" : null,
+					HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_SEARCH.getLabel(), DataProviderFactory.emptyData(),
+					HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_MANUAL.getLabel(), DataProviderFactory.dataOf(
+							HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.POLICY_TYPE.getLabel(), "HO3",
+							HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.POLICY_NUMBER.getLabel(), openLPolicy.getPolicyAddress().getState() + "HO3123456789",
+							HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.COVERAGE_E.getLabel(), "100000",
+							HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.DEDUCTIBLE.getLabel(), "1000",
+							HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.DWELLING_USAGE.getLabel(), "index=1",
+							HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.OCCUPANCY_TYPE.getLabel(), "index=1"
+					)
+			);
+			otherActiveAAAPoliciesData.add(ho3PolicyData);
+			isFirstOtherActiveAAAPolicy = false;
+		}
+
 		if (Boolean.TRUE.equals(openLPolicy.getPolicyDiscountInformation().isAMIGWatercraftPolicyInd())) {
 			TestData aMIGWatercraftPolicyData = DataProviderFactory.dataOf(
 					HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OTHER_ACTIVE_AAA_POLICIES.getLabel(), isFirstOtherActiveAAAPolicy ? "Yes" : null,
@@ -421,7 +439,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	}
 
 	private TestData getPropertyInfoTabData(HomeSSOpenLPolicy openLPolicy) {
-		
+
 		TestData dwellingAddressData = DataProviderFactory.dataOf(
 				HomeSSMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel(), getNumberOfFamilyUnits(openLPolicy)
 		);
@@ -559,30 +577,42 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	private TestData getEndorsementTabData(HomeSSOpenLPolicy openLPolicy) {
 
 		TestData endorsementData = new SimpleDataProvider();
-		
-		if ("HO4".equals(openLPolicy.getPolicyType())) {
-			for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
-				String formCode = openLForm.getFormCode();
-				if (!endorsementData.containsKey(HomeSSHO4FormTestDataGenerator.getFormMetaKey(formCode))) {
-					List<TestData> tdList = HomeSSHO4FormTestDataGenerator.getFormTestData(openLPolicy, formCode);
-					if (tdList != null) {
-						TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeSSHO4FormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeSSHO4FormTestDataGenerator.getFormMetaKey(formCode), tdList);
-						endorsementData.adjust(td);
+		switch (openLPolicy.getPolicyType()) {
+			case "DP3":
+				for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
+					String formCode = openLForm.getFormCode();
+					if (!endorsementData.containsKey(HomeSSDP3FormTestDataGenerator.getFormMetaKey(formCode))) {
+						List<TestData> tdList = HomeSSDP3FormTestDataGenerator.getFormTestData(openLPolicy, formCode);
+						if (tdList != null) {
+							TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeSSDP3FormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeSSHO4FormTestDataGenerator.getFormMetaKey(formCode), tdList);
+							endorsementData.adjust(td);
+						}
 					}
 				}
-			}
-		}
-		else {
-			for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
-				String formCode = openLForm.getFormCode();
-				if (!endorsementData.containsKey(HomeSSFormTestDataGenerator.getFormMetaKey(formCode))) {
-					List<TestData> tdList = HomeSSFormTestDataGenerator.getFormTestData(openLPolicy, formCode);
-					if (tdList != null) {
-						TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeSSFormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeSSFormTestDataGenerator.getFormMetaKey(formCode), tdList);
-						endorsementData.adjust(td);
+				break;
+			case "HO4":
+				for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
+					String formCode = openLForm.getFormCode();
+					if (!endorsementData.containsKey(HomeSSHO4FormTestDataGenerator.getFormMetaKey(formCode))) {
+						List<TestData> tdList = HomeSSHO4FormTestDataGenerator.getFormTestData(openLPolicy, formCode);
+						if (tdList != null) {
+							TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeSSHO4FormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeSSHO4FormTestDataGenerator.getFormMetaKey(formCode), tdList);
+							endorsementData.adjust(td);
+						}
 					}
 				}
-			}
+				break;
+			default:
+				for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
+					String formCode = openLForm.getFormCode();
+					if (!endorsementData.containsKey(HomeSSFormTestDataGenerator.getFormMetaKey(formCode))) {
+						List<TestData> tdList = HomeSSFormTestDataGenerator.getFormTestData(openLPolicy, formCode);
+						if (tdList != null) {
+							TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeSSFormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeSSFormTestDataGenerator.getFormMetaKey(formCode), tdList);
+							endorsementData.adjust(td);
+						}
+					}
+				}
 		}
 		//		if (openLPolicy.getForms().stream().noneMatch(c -> "HS0490".equals(c.getFormCode()))) {
 		//			endorsementData.adjust(DataProviderFactory.dataOf(
@@ -738,57 +768,51 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		//TODO HO6,  DP3
 		return premiumAndCoveragesQuoteTabData;
 	}
-	
+
 	private String getNumberOfFamilyUnits(HomeSSOpenLPolicy openLPolicy) {
 		String numberOfFamilyUnits = "index=1";
 		int number = openLPolicy.getPolicyDwellingRatingInfo().getFamilyUnits();
 		if ("HO3".equals(openLPolicy.getPolicyType()) || "DP3".equals(openLPolicy.getPolicyType())) {
 			if (number < 5) {
 				numberOfFamilyUnits = "contains=" + number;
-			}
-			else {
+			} else {
 				numberOfFamilyUnits = "contains=5";
 			}
 		}
 		if ("HO4".equals(openLPolicy.getPolicyType()) || "HO6".equals(openLPolicy.getPolicyType())) {
 			if (number < 5) {
 				numberOfFamilyUnits = "contains=" + number;
-			}
-			else if (number >= 5 && number <=15) {
+			} else if (number >= 5 && number <= 15) {
 				numberOfFamilyUnits = "contains=5-15";
-			}
-			else if (number >= 16 && number <= 30) {
+			} else if (number >= 16 && number <= 30) {
 				numberOfFamilyUnits = "contains=16-30";
-			}
-			else if (number >= 31 && number <= 45) {
+			} else if (number >= 31 && number <= 45) {
 				numberOfFamilyUnits = "contains=31-45";
-			}
-			else if (number >= 46 && number <= 40) {
+			} else if (number >= 46 && number <= 40) {
 				numberOfFamilyUnits = "contains=46-60";
-			}
-			else if (number >= 61) {
+			} else if (number >= 61) {
 				numberOfFamilyUnits = "contains=61";
 			}
-		}		
+		}
 		return numberOfFamilyUnits;
 	}
-	
+
 	private TestData getPropertyValueData(HomeSSOpenLPolicy openLPolicy) {
 		String policyType = openLPolicy.getPolicyType();
 		switch (policyType) {
-		case "HO3": 
-		case "HO6":
-		case "DP3":
-			return DataProviderFactory.dataOf(
-					HomeSSMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimit(),
-					HomeSSMetaData.PropertyInfoTab.PropertyValue.ISO_REPLACEMENT_COST.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimit(),
-					HomeSSMetaData.PropertyInfoTab.PropertyValue.PURCHASE_DATE_OF_HOME.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDiscountInformation().getNoOfYrsSinceLoanInception()).format(DateTimeUtils.MM_DD_YYYY),
-					HomeSSMetaData.PropertyInfoTab.PropertyValue.NEW_LOAN.getLabel(), true);
-		case "HO4":
-			return DataProviderFactory.dataOf(
-					HomeSSMetaData.PropertyInfoTab.PropertyValue.PERSONAL_PROPERTY_VALUE.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimit());
-		default: 
-			throw new IstfException("Unknown Policy Type: " + openLPolicy.getPolicyType());
+			case "HO3":
+			case "HO6":
+			case "DP3":
+				return DataProviderFactory.dataOf(
+						HomeSSMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimit(),
+						HomeSSMetaData.PropertyInfoTab.PropertyValue.ISO_REPLACEMENT_COST.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimit(),
+						HomeSSMetaData.PropertyInfoTab.PropertyValue.PURCHASE_DATE_OF_HOME.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDiscountInformation().getNoOfYrsSinceLoanInception()).format(DateTimeUtils.MM_DD_YYYY),
+						HomeSSMetaData.PropertyInfoTab.PropertyValue.NEW_LOAN.getLabel(), true);
+			case "HO4":
+				return DataProviderFactory.dataOf(
+						HomeSSMetaData.PropertyInfoTab.PropertyValue.PERSONAL_PROPERTY_VALUE.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimit());
+			default:
+				throw new IstfException("Unknown Policy Type: " + openLPolicy.getPolicyType());
 		}
 	}
 
