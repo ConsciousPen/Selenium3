@@ -2846,70 +2846,71 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		PolicyCoverageInfo coverageEndorsementResponse = HelperCommon.viewEndorsementCoverages(policyNumber);
 		assertSoftly(softly -> {
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("COMPDED");
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageDescription).isEqualTo("Other Than Collision");
-			softly.assertThat(new Dollar(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimit)).isEqualTo(comprehensiveDeductible1);
-			softly.assertThat(new Dollar(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimitDisplay)).isEqualTo(comprehensiveDeductible1);
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageType).isEqualTo("Deductible");
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(0).customerDisplayed).isEqualTo(true);
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(0).canChangeCoverage).isEqualTo(true);
+			List<Coverage> coveragesV1 = coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages;
+			softly.assertThat(coveragesV1.get(0).coverageCd).isEqualTo("COMPDED");
+			softly.assertThat(coveragesV1.get(0).coverageDescription).isEqualTo("Other Than Collision");
+			softly.assertThat(new Dollar(coveragesV1.get(0).coverageLimit)).isEqualTo(comprehensiveDeductible1);
+			softly.assertThat(new Dollar(coveragesV1.get(0).coverageLimitDisplay)).isEqualTo(comprehensiveDeductible1);
+			softly.assertThat(coveragesV1.get(0).coverageType).isEqualTo("Deductible");
+			softly.assertThat(coveragesV1.get(0).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesV1.get(0).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitForCompCollLoanLease(coverageEndorsementResponse);
 
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageCd).isEqualTo("COLLDED");
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageDescription).isEqualTo("Collision Deductible");
-			softly.assertThat(new Dollar(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageLimit)).isEqualTo(collisionDeductible1);
-			softly.assertThat(new Dollar(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageLimitDisplay)).isEqualTo(collisionDeductible1);
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageType).isEqualTo("Deductible");
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(1).customerDisplayed).isEqualTo(true);
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(1).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesV1.get(1).coverageCd).isEqualTo("COLLDED");
+			softly.assertThat(coveragesV1.get(1).coverageDescription).isEqualTo("Collision Deductible");
+			softly.assertThat(new Dollar(coveragesV1.get(1).coverageLimit)).isEqualTo(collisionDeductible1);
+			softly.assertThat(new Dollar(coveragesV1.get(1).coverageLimitDisplay)).isEqualTo(collisionDeductible1);
+			softly.assertThat(coveragesV1.get(1).coverageType).isEqualTo("Deductible");
+			softly.assertThat(coveragesV1.get(1).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesV1.get(1).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitForCompCollLoanLease(coverageEndorsementResponse);
 
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageCd).isEqualTo("GLASS");
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageDescription).isEqualTo("Full Safety Glass");
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageLimit).isEqualTo("true");
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageLimitDisplay).isEqualTo(fullSafetyGlassVeh2);
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageType).isEqualTo("None");
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(2).customerDisplayed).isEqualTo(true);
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(2).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesV1.get(2).coverageCd).isEqualTo("GLASS");
+			softly.assertThat(coveragesV1.get(2).coverageDescription).isEqualTo("Full Safety Glass");
+			softly.assertThat(coveragesV1.get(2).coverageLimit).isEqualTo("true");
+			softly.assertThat(coveragesV1.get(2).coverageLimitDisplay).isEqualTo(fullSafetyGlassVeh2);
+			softly.assertThat(coveragesV1.get(2).coverageType).isEqualTo("None");
+			softly.assertThat(coveragesV1.get(2).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesV1.get(2).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitFullGlassCov(coverageEndorsementResponse);
 
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageCd).isEqualTo("LOAN");
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageDescription).isEqualTo("Auto Loan/Lease Coverage");
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageLimit).isEqualTo("1");
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageLimitDisplay).isEqualTo(loanLeaseCov1);
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageType).isEqualTo("None");
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(3).customerDisplayed).isEqualTo(true);
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(3).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesV1.get(3).coverageCd).isEqualTo("LOAN");
+			softly.assertThat(coveragesV1.get(3).coverageDescription).isEqualTo("Auto Loan/Lease Coverage");
+			softly.assertThat(coveragesV1.get(3).coverageLimit).isEqualTo("1");
+			softly.assertThat(coveragesV1.get(3).coverageLimitDisplay).isEqualTo(loanLeaseCov1);
+			softly.assertThat(coveragesV1.get(3).coverageType).isEqualTo("None");
+			softly.assertThat(coveragesV1.get(3).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesV1.get(3).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitLoan(coverageEndorsementResponse);
 
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageCd).isEqualTo("RREIM");
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageDescription).isEqualTo("Transportation Expense");
-			softly.assertThat(new Dollar(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimit)).isEqualTo(transportationExpense1);
-			softly.assertThat(new Dollar(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimitDisplay)).isEqualTo(transportationExpense1);
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageType).isEqualTo("Per Occurrence");
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(4).customerDisplayed).isEqualTo(true);
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(4).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesV1.get(4).coverageCd).isEqualTo("RREIM");
+			softly.assertThat(coveragesV1.get(4).coverageDescription).isEqualTo("Transportation Expense");
+			softly.assertThat(new Dollar(coveragesV1.get(4).coverageLimit)).isEqualTo(transportationExpense1);
+			softly.assertThat(new Dollar(coveragesV1.get(4).coverageLimitDisplay)).isEqualTo(transportationExpense1);
+			softly.assertThat(coveragesV1.get(4).coverageType).isEqualTo("Per Occurrence");
+			softly.assertThat(coveragesV1.get(4).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesV1.get(4).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitTransportationExpense(coverageEndorsementResponse);
 
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageCd).isEqualTo("TOWINGLABOR");
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimit).isEqualTo("50/300");
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimitDisplay.replace("$", "")).isEqualTo(towingAndLabor1);
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageType).isEqualTo("Per Disablement/Maximum");
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(5).customerDisplayed).isEqualTo(true);
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(5).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesV1.get(5).coverageCd).isEqualTo("TOWINGLABOR");
+			softly.assertThat(coveragesV1.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
+			softly.assertThat(coveragesV1.get(5).coverageLimit).isEqualTo("50/300");
+			softly.assertThat(coveragesV1.get(5).coverageLimitDisplay.replace("$", "")).isEqualTo(towingAndLabor1);
+			softly.assertThat(coveragesV1.get(5).coverageType).isEqualTo("Per Disablement/Maximum");
+			softly.assertThat(coveragesV1.get(5).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesV1.get(5).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitTowingLabor(coverageEndorsementResponse);
 
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(6).coverageCd).isEqualTo("SPECEQUIP");
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
-			softly.assertThat(new Dollar(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(6).coverageLimit)).isEqualTo(excessElectronicEquipment1);
-			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(6).customerDisplayed).isEqualTo(false);
+			softly.assertThat(coveragesV1.get(6).coverageCd).isEqualTo("SPECEQUIP");
+			softly.assertThat(coveragesV1.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
+			softly.assertThat(new Dollar(coveragesV1.get(6).coverageLimit)).isEqualTo(excessElectronicEquipment1);
+			softly.assertThat(coveragesV1.get(6).customerDisplayed).isEqualTo(false);
 		});
 	}
 
@@ -2945,79 +2946,80 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		PolicyCoverageInfo coverageResponse = HelperCommon.viewPolicyCoverages(policyNumber);
 		assertSoftly(softly -> {
-			assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("COMPDED");
-			assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageDescription).isEqualTo("Other Than Collision");
-			assertThat(new Dollar(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimit)).isEqualTo(comprehensiveDeductible);
-			assertThat(new Dollar(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimitDisplay)).isEqualTo(comprehensiveDeductible);
-			assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageType).isEqualTo("Deductible");
-			assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).customerDisplayed).isEqualTo(true);
-			assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).canChangeCoverage).isEqualTo(true);
+			List<Coverage> coveragesLoanVehicle = coverageResponse.vehicleLevelCoverages.get(0).coverages;
+			assertThat(coveragesLoanVehicle.get(0).coverageCd).isEqualTo("COMPDED");
+			assertThat(coveragesLoanVehicle.get(0).coverageDescription).isEqualTo("Other Than Collision");
+			assertThat(new Dollar(coveragesLoanVehicle.get(0).coverageLimit)).isEqualTo(comprehensiveDeductible);
+			assertThat(new Dollar(coveragesLoanVehicle.get(0).coverageLimitDisplay)).isEqualTo(comprehensiveDeductible);
+			assertThat(coveragesLoanVehicle.get(0).coverageType).isEqualTo("Deductible");
+			assertThat(coveragesLoanVehicle.get(0).customerDisplayed).isEqualTo(true);
+			assertThat(coveragesLoanVehicle.get(0).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitForCompCollLoanLease(coverageResponse);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageCd).isEqualTo("COLLDED");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageDescription).isEqualTo("Collision Deductible");
-			softly.assertThat(new Dollar(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageLimit)).isEqualTo(collisionDeductible);
-			softly.assertThat(new Dollar(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageLimitDisplay)).isEqualTo(collisionDeductible);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageType).isEqualTo("Deductible");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).customerDisplayed).isEqualTo(true);
-			assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesLoanVehicle.get(1).coverageCd).isEqualTo("COLLDED");
+			softly.assertThat(coveragesLoanVehicle.get(1).coverageDescription).isEqualTo("Collision Deductible");
+			softly.assertThat(new Dollar(coveragesLoanVehicle.get(1).coverageLimit)).isEqualTo(collisionDeductible);
+			softly.assertThat(new Dollar(coveragesLoanVehicle.get(1).coverageLimitDisplay)).isEqualTo(collisionDeductible);
+			softly.assertThat(coveragesLoanVehicle.get(1).coverageType).isEqualTo("Deductible");
+			softly.assertThat(coveragesLoanVehicle.get(1).customerDisplayed).isEqualTo(true);
+			assertThat(coveragesLoanVehicle.get(1).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitForCompCollLoanLease(coverageResponse);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageCd).isEqualTo("GLASS");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageDescription).isEqualTo("Full Safety Glass");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageLimit).isEqualTo("false");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageLimitDisplay).isEqualTo(fullSafetyGlassVeh1);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageType).isEqualTo("None");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).customerDisplayed).isEqualTo(true);
-			assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesLoanVehicle.get(2).coverageCd).isEqualTo("GLASS");
+			softly.assertThat(coveragesLoanVehicle.get(2).coverageDescription).isEqualTo("Full Safety Glass");
+			softly.assertThat(coveragesLoanVehicle.get(2).coverageLimit).isEqualTo("false");
+			softly.assertThat(coveragesLoanVehicle.get(2).coverageLimitDisplay).isEqualTo(fullSafetyGlassVeh1);
+			softly.assertThat(coveragesLoanVehicle.get(2).coverageType).isEqualTo("None");
+			softly.assertThat(coveragesLoanVehicle.get(2).customerDisplayed).isEqualTo(true);
+			assertThat(coveragesLoanVehicle.get(2).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitFullGlassCov(coverageResponse);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageCd).isEqualTo("LOAN");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageDescription).isEqualTo("Auto Loan/Lease Coverage");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageLimit).isEqualTo("0");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageLimitDisplay).isEqualTo(loanLeaseCov1);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageType).isEqualTo("None");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).customerDisplayed).isEqualTo(true);
-			assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesLoanVehicle.get(3).coverageCd).isEqualTo("LOAN");
+			softly.assertThat(coveragesLoanVehicle.get(3).coverageDescription).isEqualTo("Auto Loan/Lease Coverage");
+			softly.assertThat(coveragesLoanVehicle.get(3).coverageLimit).isEqualTo("0");
+			softly.assertThat(coveragesLoanVehicle.get(3).coverageLimitDisplay).isEqualTo(loanLeaseCov1);
+			softly.assertThat(coveragesLoanVehicle.get(3).coverageType).isEqualTo("None");
+			softly.assertThat(coveragesLoanVehicle.get(3).customerDisplayed).isEqualTo(true);
+			assertThat(coveragesLoanVehicle.get(3).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitLoan(coverageResponse);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageCd).isEqualTo("RREIM");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageDescription).isEqualTo("Transportation Expense");
-			softly.assertThat(new Dollar(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimit)).isEqualTo(transportationExpense);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimitDisplay).contains(transportationExpense.toString().replace(".00", ""));
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageType).isEqualTo("Per Occurrence");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).customerDisplayed).isEqualTo(true);
-			assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesLoanVehicle.get(4).coverageCd).isEqualTo("RREIM");
+			softly.assertThat(coveragesLoanVehicle.get(4).coverageDescription).isEqualTo("Transportation Expense");
+			softly.assertThat(new Dollar(coveragesLoanVehicle.get(4).coverageLimit)).isEqualTo(transportationExpense);
+			softly.assertThat(coveragesLoanVehicle.get(4).coverageLimitDisplay).contains(transportationExpense.toString().replace(".00", ""));
+			softly.assertThat(coveragesLoanVehicle.get(4).coverageType).isEqualTo("Per Occurrence");
+			softly.assertThat(coveragesLoanVehicle.get(4).customerDisplayed).isEqualTo(true);
+			assertThat(coveragesLoanVehicle.get(4).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitTransportationExpense(coverageResponse);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageCd).isEqualTo("TOWINGLABOR");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimit).isEqualTo("0/0");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimitDisplay).isEqualTo(towingAndLabor);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageType).isEqualTo("Per Disablement/Maximum");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).customerDisplayed).isEqualTo(true);
-			assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesLoanVehicle.get(5).coverageCd).isEqualTo("TOWINGLABOR");
+			softly.assertThat(coveragesLoanVehicle.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
+			softly.assertThat(coveragesLoanVehicle.get(5).coverageLimit).isEqualTo("0/0");
+			softly.assertThat(coveragesLoanVehicle.get(5).coverageLimitDisplay).isEqualTo(towingAndLabor);
+			softly.assertThat(coveragesLoanVehicle.get(5).coverageType).isEqualTo("Per Disablement/Maximum");
+			softly.assertThat(coveragesLoanVehicle.get(5).customerDisplayed).isEqualTo(true);
+			assertThat(coveragesLoanVehicle.get(5).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitTowingLabor(coverageResponse);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(6).coverageCd).isEqualTo("SPECEQUIP");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
-			softly.assertThat(new Dollar(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(6).coverageLimit)).isEqualTo(excessElectronicEquipment);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(6).customerDisplayed).isEqualTo(false);
-			assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(6).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesLoanVehicle.get(6).coverageCd).isEqualTo("SPECEQUIP");
+			softly.assertThat(coveragesLoanVehicle.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
+			softly.assertThat(new Dollar(coveragesLoanVehicle.get(6).coverageLimit)).isEqualTo(excessElectronicEquipment);
+			softly.assertThat(coveragesLoanVehicle.get(6).customerDisplayed).isEqualTo(false);
+			assertThat(coveragesLoanVehicle.get(6).canChangeCoverage).isEqualTo(true);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(7).coverageCd).isEqualTo("NEWCAR");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(7).coverageDescription).isEqualTo("New Car Added Protection");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(7).customerDisplayed).isEqualTo(false);
+			softly.assertThat(coveragesLoanVehicle.get(7).coverageCd).isEqualTo("NEWCAR");
+			softly.assertThat(coveragesLoanVehicle.get(7).coverageDescription).isEqualTo("New Car Added Protection");
+			softly.assertThat(coveragesLoanVehicle.get(7).customerDisplayed).isEqualTo(false);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(8).coverageCd).isEqualTo("WL");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(8).coverageDescription).isEqualTo("Waive Liability");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(8).customerDisplayed).isEqualTo(false);
+			softly.assertThat(coveragesLoanVehicle.get(8).coverageCd).isEqualTo("WL");
+			softly.assertThat(coveragesLoanVehicle.get(8).coverageDescription).isEqualTo("Waive Liability");
+			softly.assertThat(coveragesLoanVehicle.get(8).customerDisplayed).isEqualTo(false);
 
 		});
 
@@ -3043,79 +3045,80 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		PolicyCoverageInfo coverageResponse1 = HelperCommon.viewEndorsementCoverages(policyNumber);
 		assertSoftly(softly -> {
-			assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("COMPDED");
-			assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).coverageDescription).isEqualTo("Other Than Collision");
-			assertThat(new Dollar(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimit)).isEqualTo(comprehensiveDeductible1);
-			assertThat(new Dollar(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimitDisplay)).isEqualTo(comprehensiveDeductible1);
-			assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).coverageType).isEqualTo("Deductible");
-			assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).customerDisplayed).isEqualTo(true);
-			assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).canChangeCoverage).isEqualTo(true);
+			List<Coverage> coveragesV1 = coverageResponse1.vehicleLevelCoverages.get(0).coverages;
+			assertThat(coveragesV1.get(0).coverageCd).isEqualTo("COMPDED");
+			assertThat(coveragesV1.get(0).coverageDescription).isEqualTo("Other Than Collision");
+			assertThat(new Dollar(coveragesV1.get(0).coverageLimit)).isEqualTo(comprehensiveDeductible1);
+			assertThat(new Dollar(coveragesV1.get(0).coverageLimitDisplay)).isEqualTo(comprehensiveDeductible1);
+			assertThat(coveragesV1.get(0).coverageType).isEqualTo("Deductible");
+			assertThat(coveragesV1.get(0).customerDisplayed).isEqualTo(true);
+			assertThat(coveragesV1.get(0).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitForCompColl(coverageResponse1);
 
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(1).coverageCd).isEqualTo("COLLDED");
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(1).coverageDescription).isEqualTo("Collision Deductible");
-			softly.assertThat(new Dollar(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(1).coverageLimit)).isEqualTo(collisionDeductible1);
-			softly.assertThat(new Dollar(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(1).coverageLimitDisplay)).isEqualTo(collisionDeductible1);
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(1).coverageType).isEqualTo("Deductible");
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(1).customerDisplayed).isEqualTo(true);
-			assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(1).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesV1.get(1).coverageCd).isEqualTo("COLLDED");
+			softly.assertThat(coveragesV1.get(1).coverageDescription).isEqualTo("Collision Deductible");
+			softly.assertThat(new Dollar(coveragesV1.get(1).coverageLimit)).isEqualTo(collisionDeductible1);
+			softly.assertThat(new Dollar(coveragesV1.get(1).coverageLimitDisplay)).isEqualTo(collisionDeductible1);
+			softly.assertThat(coveragesV1.get(1).coverageType).isEqualTo("Deductible");
+			softly.assertThat(coveragesV1.get(1).customerDisplayed).isEqualTo(true);
+			assertThat(coveragesV1.get(1).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitForCompColl(coverageResponse1);
 
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(2).coverageCd).isEqualTo("GLASS");
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(2).coverageDescription).isEqualTo("Full Safety Glass");
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(2).coverageLimit).isEqualTo("false");
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(2).coverageLimitDisplay).isEqualTo(fullSafetyGlassVeh2);
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(2).coverageType).isEqualTo("None");
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(2).customerDisplayed).isEqualTo(true);
-			assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(2).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesV1.get(2).coverageCd).isEqualTo("GLASS");
+			softly.assertThat(coveragesV1.get(2).coverageDescription).isEqualTo("Full Safety Glass");
+			softly.assertThat(coveragesV1.get(2).coverageLimit).isEqualTo("false");
+			softly.assertThat(coveragesV1.get(2).coverageLimitDisplay).isEqualTo(fullSafetyGlassVeh2);
+			softly.assertThat(coveragesV1.get(2).coverageType).isEqualTo("None");
+			softly.assertThat(coveragesV1.get(2).customerDisplayed).isEqualTo(true);
+			assertThat(coveragesV1.get(2).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitFullGlassCov(coverageResponse1);
 
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(3).coverageCd).isEqualTo("LOAN");
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(3).coverageDescription).isEqualTo("Auto Loan/Lease Coverage");
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(3).coverageLimit).isEqualTo("0");
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(3).coverageLimitDisplay).isEqualTo("No Coverage");
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(3).coverageType).isEqualTo("None");
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(3).customerDisplayed).isEqualTo(false);
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(3).canChangeCoverage).isEqualTo(false);
+			softly.assertThat(coveragesV1.get(3).coverageCd).isEqualTo("LOAN");
+			softly.assertThat(coveragesV1.get(3).coverageDescription).isEqualTo("Auto Loan/Lease Coverage");
+			softly.assertThat(coveragesV1.get(3).coverageLimit).isEqualTo("0");
+			softly.assertThat(coveragesV1.get(3).coverageLimitDisplay).isEqualTo("No Coverage");
+			softly.assertThat(coveragesV1.get(3).coverageType).isEqualTo("None");
+			softly.assertThat(coveragesV1.get(3).customerDisplayed).isEqualTo(false);
+			softly.assertThat(coveragesV1.get(3).canChangeCoverage).isEqualTo(false);
 
 			assertCoverageLimitLoan(coverageResponse1);
 
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).coverageCd).isEqualTo("RREIM");
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).coverageDescription).isEqualTo("Transportation Expense");
-			softly.assertThat(new Dollar(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimit)).isEqualTo(transportationExpense1);
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimitDisplay).contains(transportationExpense1.toString().replace(".00", ""));
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).coverageType).isEqualTo("Per Occurrence");
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).customerDisplayed).isEqualTo(true);
-			assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesV1.get(4).coverageCd).isEqualTo("RREIM");
+			softly.assertThat(coveragesV1.get(4).coverageDescription).isEqualTo("Transportation Expense");
+			softly.assertThat(new Dollar(coveragesV1.get(4).coverageLimit)).isEqualTo(transportationExpense1);
+			softly.assertThat(coveragesV1.get(4).coverageLimitDisplay).contains(transportationExpense1.toString().replace(".00", ""));
+			softly.assertThat(coveragesV1.get(4).coverageType).isEqualTo("Per Occurrence");
+			softly.assertThat(coveragesV1.get(4).customerDisplayed).isEqualTo(true);
+			assertThat(coveragesV1.get(4).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitTransportationExpense(coverageResponse1);
 
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(5).coverageCd).isEqualTo("TOWINGLABOR");
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimit).isEqualTo("0/0");
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimitDisplay).isEqualTo(towingAndLabor1);
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(5).coverageType).isEqualTo("Per Disablement/Maximum");
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(5).customerDisplayed).isEqualTo(true);
-			assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(5).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesV1.get(5).coverageCd).isEqualTo("TOWINGLABOR");
+			softly.assertThat(coveragesV1.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
+			softly.assertThat(coveragesV1.get(5).coverageLimit).isEqualTo("0/0");
+			softly.assertThat(coveragesV1.get(5).coverageLimitDisplay).isEqualTo(towingAndLabor1);
+			softly.assertThat(coveragesV1.get(5).coverageType).isEqualTo("Per Disablement/Maximum");
+			softly.assertThat(coveragesV1.get(5).customerDisplayed).isEqualTo(true);
+			assertThat(coveragesV1.get(5).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitTowingLabor(coverageResponse1);
 
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(6).coverageCd).isEqualTo("SPECEQUIP");
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
-			softly.assertThat(new Dollar(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(6).coverageLimit)).isEqualTo(excessElectronicEquipment1);
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(6).customerDisplayed).isEqualTo(false);
-			assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(6).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesV1.get(6).coverageCd).isEqualTo("SPECEQUIP");
+			softly.assertThat(coveragesV1.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
+			softly.assertThat(new Dollar(coveragesV1.get(6).coverageLimit)).isEqualTo(excessElectronicEquipment1);
+			softly.assertThat(coveragesV1.get(6).customerDisplayed).isEqualTo(false);
+			assertThat(coveragesV1.get(6).canChangeCoverage).isEqualTo(true);
 
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(7).coverageCd).isEqualTo("NEWCAR");
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(7).coverageDescription).isEqualTo("New Car Added Protection");
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(7).customerDisplayed).isEqualTo(false);
+			softly.assertThat(coveragesV1.get(7).coverageCd).isEqualTo("NEWCAR");
+			softly.assertThat(coveragesV1.get(7).coverageDescription).isEqualTo("New Car Added Protection");
+			softly.assertThat(coveragesV1.get(7).customerDisplayed).isEqualTo(false);
 
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(8).coverageCd).isEqualTo("WL");
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(8).coverageDescription).isEqualTo("Waive Liability");
-			softly.assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(8).customerDisplayed).isEqualTo(false);
+			softly.assertThat(coveragesV1.get(8).coverageCd).isEqualTo("WL");
+			softly.assertThat(coveragesV1.get(8).coverageDescription).isEqualTo("Waive Liability");
+			softly.assertThat(coveragesV1.get(8).customerDisplayed).isEqualTo(false);
 
 		});
 	}
@@ -3145,123 +3148,132 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		PolicyCoverageInfo coverageResponse = HelperCommon.viewPolicyCoverages(policyNumber);
 		assertSoftly(softly -> {
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("COMPDED");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageDescription).isEqualTo("Comprehensive Deductible");
-			softly.assertThat(new Dollar(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimit)).isEqualTo(comprehensiveDeductible);
-			softly.assertThat(new Dollar(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimitDisplay)).isEqualTo(comprehensiveDeductible);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageType).isEqualTo("Deductible");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).customerDisplayed).isEqualTo(true);
+			Coverage coverageCompded = coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0);
+			softly.assertThat(coverageCompded.coverageCd).isEqualTo("COMPDED");
+			softly.assertThat(coverageCompded.coverageDescription).isEqualTo("Comprehensive Deductible");
+			softly.assertThat(new Dollar(coverageCompded.coverageLimit)).isEqualTo(comprehensiveDeductible);
+			softly.assertThat(new Dollar(coverageCompded.coverageLimitDisplay)).isEqualTo(comprehensiveDeductible);
+			softly.assertThat(coverageCompded.coverageType).isEqualTo("Deductible");
+			softly.assertThat(coverageCompded.customerDisplayed).isEqualTo(true);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(0).coverageLimit).isEqualTo("50");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(0).coverageLimitDisplay).isEqualTo("$50");
+			softly.assertThat(coverageCompded.availableLimits.get(0).coverageLimit).isEqualTo("50");
+			softly.assertThat(coverageCompded.availableLimits.get(0).coverageLimitDisplay).isEqualTo("$50");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(1).coverageLimit).isEqualTo("100");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(1).coverageLimitDisplay).isEqualTo("$100");
+			softly.assertThat(coverageCompded.availableLimits.get(1).coverageLimit).isEqualTo("100");
+			softly.assertThat(coverageCompded.availableLimits.get(1).coverageLimitDisplay).isEqualTo("$100");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(2).coverageLimit).isEqualTo("250");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(2).coverageLimitDisplay).isEqualTo("$250");
+			softly.assertThat(coverageCompded.availableLimits.get(2).coverageLimit).isEqualTo("250");
+			softly.assertThat(coverageCompded.availableLimits.get(2).coverageLimitDisplay).isEqualTo("$250");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(3).coverageLimit).isEqualTo("500");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(3).coverageLimitDisplay).isEqualTo("$500");
+			softly.assertThat(coverageCompded.availableLimits.get(3).coverageLimit).isEqualTo("500");
+			softly.assertThat(coverageCompded.availableLimits.get(3).coverageLimitDisplay).isEqualTo("$500");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(4).coverageLimit).isEqualTo("750");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(4).coverageLimitDisplay).isEqualTo("$750");
+			softly.assertThat(coverageCompded.availableLimits.get(4).coverageLimit).isEqualTo("750");
+			softly.assertThat(coverageCompded.availableLimits.get(4).coverageLimitDisplay).isEqualTo("$750");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(5).coverageLimit).isEqualTo("1000");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(5).coverageLimitDisplay).isEqualTo("$1,000");
+			softly.assertThat(coverageCompded.availableLimits.get(5).coverageLimit).isEqualTo("1000");
+			softly.assertThat(coverageCompded.availableLimits.get(5).coverageLimitDisplay).isEqualTo("$1,000");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageCd).isEqualTo("COLLDED");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageDescription).isEqualTo("Collision Deductible");
-			softly.assertThat(new Dollar(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageLimit)).isEqualTo(collisionDeductible);
-			softly.assertThat(new Dollar(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageLimitDisplay)).isEqualTo(collisionDeductible);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageType).isEqualTo("Deductible");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).customerDisplayed).isEqualTo(true);
+			Coverage coverageCollded = coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1);
+			softly.assertThat(coverageCollded.coverageCd).isEqualTo("COLLDED");
+			softly.assertThat(coverageCollded.coverageDescription).isEqualTo("Collision Deductible");
+			softly.assertThat(new Dollar(coverageCollded.coverageLimit)).isEqualTo(collisionDeductible);
+			softly.assertThat(new Dollar(coverageCollded.coverageLimitDisplay)).isEqualTo(collisionDeductible);
+			softly.assertThat(coverageCollded.coverageType).isEqualTo("Deductible");
+			softly.assertThat(coverageCollded.customerDisplayed).isEqualTo(true);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).availableLimits.get(0).coverageLimit).isEqualTo("100");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).availableLimits.get(0).coverageLimitDisplay).isEqualTo("$100");
+			softly.assertThat(coverageCollded.availableLimits.get(0).coverageLimit).isEqualTo("100");
+			softly.assertThat(coverageCollded.availableLimits.get(0).coverageLimitDisplay).isEqualTo("$100");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).availableLimits.get(1).coverageLimit).isEqualTo("250");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).availableLimits.get(1).coverageLimitDisplay).isEqualTo("$250");
+			softly.assertThat(coverageCollded.availableLimits.get(1).coverageLimit).isEqualTo("250");
+			softly.assertThat(coverageCollded.availableLimits.get(1).coverageLimitDisplay).isEqualTo("$250");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).availableLimits.get(2).coverageLimit).isEqualTo("500");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).availableLimits.get(2).coverageLimitDisplay).isEqualTo("$500");
+			softly.assertThat(coverageCollded.availableLimits.get(2).coverageLimit).isEqualTo("500");
+			softly.assertThat(coverageCollded.availableLimits.get(2).coverageLimitDisplay).isEqualTo("$500");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).availableLimits.get(3).coverageLimit).isEqualTo("750");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).availableLimits.get(3).coverageLimitDisplay).isEqualTo("$750");
+			softly.assertThat(coverageCollded.availableLimits.get(3).coverageLimit).isEqualTo("750");
+			softly.assertThat(coverageCollded.availableLimits.get(3).coverageLimitDisplay).isEqualTo("$750");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).availableLimits.get(4).coverageLimit).isEqualTo("1000");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).availableLimits.get(4).coverageLimitDisplay).isEqualTo("$1,000");
+			softly.assertThat(coverageCollded.availableLimits.get(4).coverageLimit).isEqualTo("1000");
+			softly.assertThat(coverageCollded.availableLimits.get(4).coverageLimitDisplay).isEqualTo("$1,000");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageCd).isEqualTo("GLASS");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageDescription).isEqualTo("Full Safety Glass");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageLimit).isEqualTo("false");
+			Coverage coverageGlass = coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2);
+			softly.assertThat(coverageGlass.coverageCd).isEqualTo("GLASS");
+			softly.assertThat(coverageGlass.coverageDescription).isEqualTo("Full Safety Glass");
+			softly.assertThat(coverageGlass.coverageLimit).isEqualTo("false");
 			//softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageLimitDisplay).isEqualTo(fullSafetyGlassVeh1);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageType).isEqualTo("None");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coverageGlass.coverageType).isEqualTo("None");
+			softly.assertThat(coverageGlass.customerDisplayed).isEqualTo(true);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).availableLimits.get(0).coverageLimit).isEqualTo("false");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).availableLimits.get(0).coverageLimitDisplay).isEqualTo("No Coverage");
+			softly.assertThat(coverageGlass.availableLimits.get(0).coverageLimit).isEqualTo("false");
+			softly.assertThat(coverageGlass.availableLimits.get(0).coverageLimitDisplay).isEqualTo("No Coverage");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).availableLimits.get(1).coverageLimit).isEqualTo("true");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).availableLimits.get(1).coverageLimitDisplay).isEqualTo("Yes");
+			softly.assertThat(coverageGlass.availableLimits.get(1).coverageLimit).isEqualTo("true");
+			softly.assertThat(coverageGlass.availableLimits.get(1).coverageLimitDisplay).isEqualTo("Yes");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageCd).isEqualTo("LOAN");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageDescription).isEqualTo("Vehicle Loan/Lease Protection");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageLimit).isEqualTo("0");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageLimitDisplay).isEqualTo(loanLeaseCov);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageType).isEqualTo("None");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).customerDisplayed).isEqualTo(true);
+			Coverage coverageLoan = coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3);
+			softly.assertThat(coverageLoan.coverageCd).isEqualTo("LOAN");
+			softly.assertThat(coverageLoan.coverageDescription).isEqualTo("Vehicle Loan/Lease Protection");
+			softly.assertThat(coverageLoan.coverageLimit).isEqualTo("0");
+			softly.assertThat(coverageLoan.coverageLimitDisplay).isEqualTo(loanLeaseCov);
+			softly.assertThat(coverageLoan.coverageType).isEqualTo("None");
+			softly.assertThat(coverageLoan.customerDisplayed).isEqualTo(true);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).availableLimits.get(0).coverageLimit).isEqualTo("0");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).availableLimits.get(0).coverageLimitDisplay).isEqualTo("No Coverage");
+			softly.assertThat(coverageLoan.availableLimits.get(0).coverageLimit).isEqualTo("0");
+			softly.assertThat(coverageLoan.availableLimits.get(0).coverageLimitDisplay).isEqualTo("No Coverage");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).availableLimits.get(1).coverageLimit).isEqualTo("1");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).availableLimits.get(1).coverageLimitDisplay).isEqualTo("Yes");
+			softly.assertThat(coverageLoan.availableLimits.get(1).coverageLimit).isEqualTo("1");
+			softly.assertThat(coverageLoan.availableLimits.get(1).coverageLimitDisplay).isEqualTo("Yes");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageCd).isEqualTo("RREIM");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageDescription).isEqualTo("Rental Reimbursement");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimit).isEqualTo("0/0");
+			Coverage coverageRreim = coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4);
+			softly.assertThat(coverageRreim.coverageCd).isEqualTo("RREIM");
+			softly.assertThat(coverageRreim.coverageDescription).isEqualTo("Rental Reimbursement");
+			softly.assertThat(coverageRreim.coverageLimit).isEqualTo("0/0");
 			//softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimitDisplay).contains(transportationExpense.toString().replace(".00", ""));
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageType).isEqualTo("per day/maximum");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coverageRreim.coverageType).isEqualTo("per day/maximum");
+			softly.assertThat(coverageRreim.customerDisplayed).isEqualTo(true);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(0).coverageLimit).isEqualTo("0/0");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(0).coverageLimitDisplay).isEqualTo("No Coverage");
+			softly.assertThat(coverageRreim.availableLimits.get(0).coverageLimit).isEqualTo("0/0");
+			softly.assertThat(coverageRreim.availableLimits.get(0).coverageLimitDisplay).isEqualTo("No Coverage");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(1).coverageLimit).isEqualTo("30/900");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(1).coverageLimitDisplay).isEqualTo("$30/$900");
+			softly.assertThat(coverageRreim.availableLimits.get(1).coverageLimit).isEqualTo("30/900");
+			softly.assertThat(coverageRreim.availableLimits.get(1).coverageLimitDisplay).isEqualTo("$30/$900");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(2).coverageLimit).isEqualTo("40/1200");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(2).coverageLimitDisplay).isEqualTo("$40/$1,200");
+			softly.assertThat(coverageRreim.availableLimits.get(2).coverageLimit).isEqualTo("40/1200");
+			softly.assertThat(coverageRreim.availableLimits.get(2).coverageLimitDisplay).isEqualTo("$40/$1,200");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(3).coverageLimit).isEqualTo("50/1500");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(3).coverageLimitDisplay).isEqualTo("$50/$1,500");
+			softly.assertThat(coverageRreim.availableLimits.get(3).coverageLimit).isEqualTo("50/1500");
+			softly.assertThat(coverageRreim.availableLimits.get(3).coverageLimitDisplay).isEqualTo("$50/$1,500");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageCd).isEqualTo("TOWINGLABOR");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimit).isEqualTo("0/0");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimitDisplay).isEqualTo(towingAndLabor);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageType).isEqualTo("Per Disablement/Maximum");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).customerDisplayed).isEqualTo(true);
+			Coverage coverageTowing = coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5);
+			softly.assertThat(coverageTowing.coverageCd).isEqualTo("TOWINGLABOR");
+			softly.assertThat(coverageTowing.coverageDescription).isEqualTo("Towing and Labor Coverage");
+			softly.assertThat(coverageTowing.coverageLimit).isEqualTo("0/0");
+			softly.assertThat(coverageTowing.coverageLimitDisplay).isEqualTo(towingAndLabor);
+			softly.assertThat(coverageTowing.coverageType).isEqualTo("Per Disablement/Maximum");
+			softly.assertThat(coverageTowing.customerDisplayed).isEqualTo(true);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).availableLimits.get(0).coverageLimit).isEqualTo("0/0");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).availableLimits.get(0).coverageLimitDisplay).isEqualTo("No Coverage");
+			softly.assertThat(coverageTowing.availableLimits.get(0).coverageLimit).isEqualTo("0/0");
+			softly.assertThat(coverageTowing.availableLimits.get(0).coverageLimitDisplay).isEqualTo("No Coverage");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).availableLimits.get(1).coverageLimit).isEqualTo("50/300");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).availableLimits.get(1).coverageLimitDisplay).isEqualTo("$50/$300");
+			softly.assertThat(coverageTowing.availableLimits.get(1).coverageLimit).isEqualTo("50/300");
+			softly.assertThat(coverageTowing.availableLimits.get(1).coverageLimitDisplay).isEqualTo("$50/$300");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(6).coverageCd).isEqualTo("SPECEQUIP");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(6).coverageDescription).isEqualTo("Special Equipment Coverage");
-			softly.assertThat(new Dollar(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(6).coverageLimit)).isEqualTo(excessElectronicEquipment);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(6).customerDisplayed).isEqualTo(false);
+			Coverage coverageSpeq = coverageResponse.vehicleLevelCoverages.get(0).coverages.get(6);
+			softly.assertThat(coverageSpeq.coverageCd).isEqualTo("SPECEQUIP");
+			softly.assertThat(coverageSpeq.coverageDescription).isEqualTo("Special Equipment Coverage");
+			softly.assertThat(new Dollar(coverageSpeq.coverageLimit)).isEqualTo(excessElectronicEquipment);
+			softly.assertThat(coverageSpeq.customerDisplayed).isEqualTo(false);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(7).coverageCd).isEqualTo("NEWCAR");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(7).coverageDescription).isEqualTo("New Car Added Protection");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(7).customerDisplayed).isEqualTo(false);
+			Coverage coverageNewcar = coverageResponse.vehicleLevelCoverages.get(0).coverages.get(7);
+			softly.assertThat(coverageNewcar.coverageCd).isEqualTo("NEWCAR");
+			softly.assertThat(coverageNewcar.coverageDescription).isEqualTo("New Car Added Protection");
+			softly.assertThat(coverageNewcar.customerDisplayed).isEqualTo(false);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(8).coverageCd).isEqualTo("WL");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(8).coverageDescription).isEqualTo("Waive Liability");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(8).customerDisplayed).isEqualTo(false);
+			Coverage coverageWL = coverageResponse.vehicleLevelCoverages.get(0).coverages.get(8);
+			softly.assertThat(coverageWL.coverageCd).isEqualTo("WL");
+			softly.assertThat(coverageWL.coverageDescription).isEqualTo("Waive Liability");
+			softly.assertThat(coverageWL.customerDisplayed).isEqualTo(false);
 
 		});
 	}
@@ -3640,6 +3652,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		//Perform Endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
+		// String policyNumber="VASS952918541";
+
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
@@ -3719,161 +3733,172 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 	private void assertCoverageLimitTowingLabor(PolicyCoverageInfo coverageResponse) {
 		assertSoftly(softly -> {
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).availableLimits.get(0).coverageLimit).isEqualTo("0/0");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).availableLimits.get(0).coverageLimitDisplay).isEqualTo("No Coverage");
+			Coverage coverageLimit = coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5);
+			softly.assertThat(coverageLimit.availableLimits.get(0).coverageLimit).isEqualTo("0/0");
+			softly.assertThat(coverageLimit.availableLimits.get(0).coverageLimitDisplay).isEqualTo("No Coverage");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).availableLimits.get(1).coverageLimit).isEqualTo("50/300");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).availableLimits.get(1).coverageLimitDisplay).isEqualTo("$50/$300");
+			softly.assertThat(coverageLimit.availableLimits.get(1).coverageLimit).isEqualTo("50/300");
+			softly.assertThat(coverageLimit.availableLimits.get(1).coverageLimitDisplay).isEqualTo("$50/$300");
 		});
 	}
 
 	private void assertCoverageLimitTransportationExpense(PolicyCoverageInfo coverageResponse) {
 		assertSoftly(softly -> {
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(0).coverageLimit).isEqualTo("600");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(0).coverageLimitDisplay).isEqualTo("$600 (Included)");
+			Coverage coverageLimitTransportation = coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4);
+			softly.assertThat(coverageLimitTransportation.availableLimits.get(0).coverageLimit).isEqualTo("600");
+			softly.assertThat(coverageLimitTransportation.availableLimits.get(0).coverageLimitDisplay).isEqualTo("$600 (Included)");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(1).coverageLimit).isEqualTo("900");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(1).coverageLimitDisplay).isEqualTo("$900");
+			softly.assertThat(coverageLimitTransportation.availableLimits.get(1).coverageLimit).isEqualTo("900");
+			softly.assertThat(coverageLimitTransportation.availableLimits.get(1).coverageLimitDisplay).isEqualTo("$900");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(2).coverageLimit).isEqualTo("1200");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(2).coverageLimitDisplay).isEqualTo("$1,200");
+			softly.assertThat(coverageLimitTransportation.availableLimits.get(2).coverageLimit).isEqualTo("1200");
+			softly.assertThat(coverageLimitTransportation.availableLimits.get(2).coverageLimitDisplay).isEqualTo("$1,200");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(3).coverageLimit).isEqualTo("1500");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(3).coverageLimitDisplay).isEqualTo("$1,500");
+			softly.assertThat(coverageLimitTransportation.availableLimits.get(3).coverageLimit).isEqualTo("1500");
+			softly.assertThat(coverageLimitTransportation.availableLimits.get(3).coverageLimitDisplay).isEqualTo("$1,500");
 		});
 	}
 
 	private void assertCoverageLimitLoan(PolicyCoverageInfo coverageResponse) {
 		assertSoftly(softly -> {
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).availableLimits.get(0).coverageLimit).isEqualTo("0");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).availableLimits.get(0).coverageLimitDisplay).isEqualTo("No Coverage");
+			List<CoverageLimit> availableLimitsLoan = coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).availableLimits;
+			softly.assertThat(availableLimitsLoan.get(0).coverageLimit).isEqualTo("0");
+			softly.assertThat(availableLimitsLoan.get(0).coverageLimitDisplay).isEqualTo("No Coverage");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).availableLimits.get(1).coverageLimit).isEqualTo("1");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).availableLimits.get(1).coverageLimitDisplay).isEqualTo("Yes");
+			softly.assertThat(availableLimitsLoan.get(1).coverageLimit).isEqualTo("1");
+			softly.assertThat(availableLimitsLoan.get(1).coverageLimitDisplay).isEqualTo("Yes");
 		});
 	}
 
 	private void assertCoverageLimitForCompColl(PolicyCoverageInfo coverageResponse) {
 		assertSoftly(softly -> {
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(0).coverageLimit).isEqualTo("-1");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(0).coverageLimitDisplay).isEqualTo("No Coverage");
+			List<CoverageLimit> availableLimitsCompColl = coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits;
+			softly.assertThat(availableLimitsCompColl.get(0).coverageLimit).isEqualTo("-1");
+			softly.assertThat(availableLimitsCompColl.get(0).coverageLimitDisplay).isEqualTo("No Coverage");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(1).coverageLimit).isEqualTo("100");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(1).coverageLimitDisplay).isEqualTo("$100");
+			softly.assertThat(availableLimitsCompColl.get(1).coverageLimit).isEqualTo("100");
+			softly.assertThat(availableLimitsCompColl.get(1).coverageLimitDisplay).isEqualTo("$100");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(2).coverageLimit).isEqualTo("250");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(2).coverageLimitDisplay).isEqualTo("$250");
+			softly.assertThat(availableLimitsCompColl.get(2).coverageLimit).isEqualTo("250");
+			softly.assertThat(availableLimitsCompColl.get(2).coverageLimitDisplay).isEqualTo("$250");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(3).coverageLimit).isEqualTo("500");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(3).coverageLimitDisplay).isEqualTo("$500");
+			softly.assertThat(availableLimitsCompColl.get(3).coverageLimit).isEqualTo("500");
+			softly.assertThat(availableLimitsCompColl.get(3).coverageLimitDisplay).isEqualTo("$500");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(4).coverageLimit).isEqualTo("750");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(4).coverageLimitDisplay).isEqualTo("$750");
+			softly.assertThat(availableLimitsCompColl.get(4).coverageLimit).isEqualTo("750");
+			softly.assertThat(availableLimitsCompColl.get(4).coverageLimitDisplay).isEqualTo("$750");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(5).coverageLimit).isEqualTo("1000");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(5).coverageLimitDisplay).isEqualTo("$1,000");
+			softly.assertThat(availableLimitsCompColl.get(5).coverageLimit).isEqualTo("1000");
+			softly.assertThat(availableLimitsCompColl.get(5).coverageLimitDisplay).isEqualTo("$1,000");
 		});
 	}
 
 	private void assertCoverageLimitForCompCollLoanLease(PolicyCoverageInfo coverageResponse) {
 		assertSoftly(softly -> {
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(0).coverageLimit).isEqualTo("100");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(0).coverageLimitDisplay).isEqualTo("$100");
+			List<CoverageLimit> availableLimitsCollLoan = coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits;
+			softly.assertThat(availableLimitsCollLoan.get(0).coverageLimit).isEqualTo("100");
+			softly.assertThat(availableLimitsCollLoan.get(0).coverageLimitDisplay).isEqualTo("$100");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(1).coverageLimit).isEqualTo("250");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(1).coverageLimitDisplay).isEqualTo("$250");
+			softly.assertThat(availableLimitsCollLoan.get(1).coverageLimit).isEqualTo("250");
+			softly.assertThat(availableLimitsCollLoan.get(1).coverageLimitDisplay).isEqualTo("$250");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(2).coverageLimit).isEqualTo("500");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(2).coverageLimitDisplay).isEqualTo("$500");
+			softly.assertThat(availableLimitsCollLoan.get(2).coverageLimit).isEqualTo("500");
+			softly.assertThat(availableLimitsCollLoan.get(2).coverageLimitDisplay).isEqualTo("$500");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(3).coverageLimit).isEqualTo("750");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(3).coverageLimitDisplay).isEqualTo("$750");
+			softly.assertThat(availableLimitsCollLoan.get(3).coverageLimit).isEqualTo("750");
+			softly.assertThat(availableLimitsCollLoan.get(3).coverageLimitDisplay).isEqualTo("$750");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(4).coverageLimit).isEqualTo("1000");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(4).coverageLimitDisplay).isEqualTo("$1,000");
+			softly.assertThat(availableLimitsCollLoan.get(4).coverageLimit).isEqualTo("1000");
+			softly.assertThat(availableLimitsCollLoan.get(4).coverageLimitDisplay).isEqualTo("$1,000");
 		});
 	}
 
 	private void assertCoverageLimitFullGlassCov(PolicyCoverageInfo coverageResponse) {
 		assertSoftly(softly -> {
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).availableLimits.get(0).coverageLimit).isEqualTo("false");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).availableLimits.get(0).coverageLimitDisplay).isEqualTo("No Coverage");
+			Coverage coverageFullGlass = coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2);
+			softly.assertThat(coverageFullGlass.availableLimits.get(0).coverageLimit).isEqualTo("false");
+			softly.assertThat(coverageFullGlass.availableLimits.get(0).coverageLimitDisplay).isEqualTo("No Coverage");
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).availableLimits.get(1).coverageLimit).isEqualTo("true");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).availableLimits.get(1).coverageLimitDisplay).isEqualTo("Yes");
+			softly.assertThat(coverageFullGlass.availableLimits.get(1).coverageLimit).isEqualTo("true");
+			softly.assertThat(coverageFullGlass.availableLimits.get(1).coverageLimitDisplay).isEqualTo("Yes");
 		});
 	}
 
 	private void assertCoverageLimitForBI(PolicyCoverageInfo coverageResponse) {
 		assertSoftly(softly -> {
-			softly.assertThat(coverageResponse.policyCoverages.get(0).availableLimits.get(0).coverageLimit).isEqualTo("25000/50000");
-			softly.assertThat(coverageResponse.policyCoverages.get(0).availableLimits.get(0).coverageLimitDisplay).isEqualTo("$25,000/$50,000");
+			List<CoverageLimit> availableLimits = coverageResponse.policyCoverages.get(0).availableLimits;
 
-			softly.assertThat(coverageResponse.policyCoverages.get(0).availableLimits.get(1).coverageLimit).isEqualTo("50000/100000");
-			softly.assertThat(coverageResponse.policyCoverages.get(0).availableLimits.get(1).coverageLimitDisplay).isEqualTo("$50,000/$100,000");
+			softly.assertThat(availableLimits.get(0)).isEqualTo("25000/50000");
+			softly.assertThat(availableLimits.get(0).coverageLimitDisplay).isEqualTo("$25,000/$50,000");
 
-			softly.assertThat(coverageResponse.policyCoverages.get(0).availableLimits.get(2).coverageLimit).isEqualTo("100000/300000");
-			softly.assertThat(coverageResponse.policyCoverages.get(0).availableLimits.get(2).coverageLimitDisplay).isEqualTo("$100,000/$300,000");
+			softly.assertThat(availableLimits.get(1).coverageLimit).isEqualTo("50000/100000");
+			softly.assertThat(availableLimits.get(1).coverageLimitDisplay).isEqualTo("$50,000/$100,000");
 
-			softly.assertThat(coverageResponse.policyCoverages.get(0).availableLimits.get(3).coverageLimit).isEqualTo("250000/500000");
-			softly.assertThat(coverageResponse.policyCoverages.get(0).availableLimits.get(3).coverageLimitDisplay).isEqualTo("$250,000/$500,000");
+			softly.assertThat(availableLimits.get(2).coverageLimit).isEqualTo("100000/300000");
+			softly.assertThat(availableLimits.get(2).coverageLimitDisplay).isEqualTo("$100,000/$300,000");
 
-			softly.assertThat(coverageResponse.policyCoverages.get(0).availableLimits.get(4).coverageLimit).isEqualTo("300000/500000");
-			softly.assertThat(coverageResponse.policyCoverages.get(0).availableLimits.get(4).coverageLimitDisplay).isEqualTo("$300,000/$500,000");
+			softly.assertThat(availableLimits.get(3).coverageLimit).isEqualTo("250000/500000");
+			softly.assertThat(availableLimits.get(3).coverageLimitDisplay).isEqualTo("$250,000/$500,000");
 
-			softly.assertThat(coverageResponse.policyCoverages.get(0).availableLimits.get(5).coverageLimit).isEqualTo("500000/500000");
-			softly.assertThat(coverageResponse.policyCoverages.get(0).availableLimits.get(5).coverageLimitDisplay).isEqualTo("$500,000/$500,000");
+			softly.assertThat(availableLimits.get(4).coverageLimit).isEqualTo("300000/500000");
+			softly.assertThat(availableLimits.get(4).coverageLimitDisplay).isEqualTo("$300,000/$500,000");
 
-			softly.assertThat(coverageResponse.policyCoverages.get(0).availableLimits.get(6).coverageLimit).isEqualTo("500000/1000000");
-			softly.assertThat(coverageResponse.policyCoverages.get(0).availableLimits.get(6).coverageLimitDisplay).isEqualTo("$500,000/$1,000,000");
+			softly.assertThat(availableLimits.get(5).coverageLimit).isEqualTo("500000/500000");
+			softly.assertThat(availableLimits.get(5).coverageLimitDisplay).isEqualTo("$500,000/$500,000");
 
-			softly.assertThat(coverageResponse.policyCoverages.get(0).availableLimits.get(7).coverageLimit).isEqualTo("1000000/1000000");
-			softly.assertThat(coverageResponse.policyCoverages.get(0).availableLimits.get(7).coverageLimitDisplay).isEqualTo("$1,000,000/$1,000,000");
+			softly.assertThat(availableLimits.get(6).coverageLimit).isEqualTo("500000/1000000");
+			softly.assertThat(availableLimits.get(6).coverageLimitDisplay).isEqualTo("$500,000/$1,000,000");
+
+			softly.assertThat(availableLimits.get(7).coverageLimit).isEqualTo("1000000/1000000");
+			softly.assertThat(availableLimits.get(7).coverageLimitDisplay).isEqualTo("$1,000,000/$1,000,000");
 		});
 	}
 
 	private void assertCoverageLimitForPD(PolicyCoverageInfo coverageResponse) {
 		assertSoftly(softly -> {
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(0).coverageLimit).isEqualTo("20000");
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(0).coverageLimitDisplay).isEqualTo("$20,000");
 
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(1).coverageLimit).isEqualTo("25000");
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(1).coverageLimitDisplay).isEqualTo("$25,000");
+			List<CoverageLimit> availableLimitsPD = coverageResponse.policyCoverages.get(1).availableLimits;
+			softly.assertThat(availableLimitsPD.get(0).coverageLimit).isEqualTo("20000");
+			softly.assertThat(availableLimitsPD.get(0).coverageLimitDisplay).isEqualTo("$20,000");
 
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(2).coverageLimit).isEqualTo("40000");
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(2).coverageLimitDisplay).isEqualTo("$40,000");
+			softly.assertThat(availableLimitsPD.get(1).coverageLimit).isEqualTo("25000");
+			softly.assertThat(availableLimitsPD.get(1).coverageLimitDisplay).isEqualTo("$25,000");
 
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(3).coverageLimit).isEqualTo("50000");
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(3).coverageLimitDisplay).isEqualTo("$50,000");
+			softly.assertThat(availableLimitsPD.get(2).coverageLimit).isEqualTo("40000");
+			softly.assertThat(availableLimitsPD.get(2).coverageLimitDisplay).isEqualTo("$40,000");
 
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(4).coverageLimit).isEqualTo("100000");
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(4).coverageLimitDisplay).isEqualTo("$100,000");
+			softly.assertThat(availableLimitsPD.get(3).coverageLimit).isEqualTo("50000");
+			softly.assertThat(availableLimitsPD.get(3).coverageLimitDisplay).isEqualTo("$50,000");
+
+			softly.assertThat(availableLimitsPD.get(4).coverageLimit).isEqualTo("100000");
+			softly.assertThat(availableLimitsPD.get(4).coverageLimitDisplay).isEqualTo("$100,000");
 
 		});
 	}
 
 	private void assertCoverageLimitForPDBI(PolicyCoverageInfo coverageResponse) {
 		assertSoftly(softly -> {
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(0).coverageLimit).isEqualTo("20000");
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(0).coverageLimitDisplay).isEqualTo("$20,000");
+			List<CoverageLimit> availableLimitsPDBI = coverageResponse.policyCoverages.get(1).availableLimits;
+			softly.assertThat(availableLimitsPDBI.get(0).coverageLimit).isEqualTo("20000");
+			softly.assertThat(availableLimitsPDBI.get(0).coverageLimitDisplay).isEqualTo("$20,000");
 
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(1).coverageLimit).isEqualTo("25000");
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(1).coverageLimitDisplay).isEqualTo("$25,000");
+			softly.assertThat(availableLimitsPDBI.get(1).coverageLimit).isEqualTo("25000");
+			softly.assertThat(availableLimitsPDBI.get(1).coverageLimitDisplay).isEqualTo("$25,000");
 
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(2).coverageLimit).isEqualTo("40000");
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(2).coverageLimitDisplay).isEqualTo("$40,000");
+			softly.assertThat(availableLimitsPDBI.get(2).coverageLimit).isEqualTo("40000");
+			softly.assertThat(availableLimitsPDBI.get(2).coverageLimitDisplay).isEqualTo("$40,000");
 
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(3).coverageLimit).isEqualTo("50000");
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(3).coverageLimitDisplay).isEqualTo("$50,000");
+			softly.assertThat(availableLimitsPDBI.get(3).coverageLimit).isEqualTo("50000");
+			softly.assertThat(availableLimitsPDBI.get(3).coverageLimitDisplay).isEqualTo("$50,000");
 
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(4).coverageLimit).isEqualTo("100000");
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(4).coverageLimitDisplay).isEqualTo("$100,000");
+			softly.assertThat(availableLimitsPDBI.get(4).coverageLimit).isEqualTo("100000");
+			softly.assertThat(availableLimitsPDBI.get(4).coverageLimitDisplay).isEqualTo("$100,000");
 
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(5).coverageLimit).isEqualTo("300000");
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(5).coverageLimitDisplay).isEqualTo("$300,000");
+			softly.assertThat(availableLimitsPDBI.get(5).coverageLimit).isEqualTo("300000");
+			softly.assertThat(availableLimitsPDBI.get(5).coverageLimitDisplay).isEqualTo("$300,000");
 
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(6).coverageLimit).isEqualTo("500000");
-			softly.assertThat(coverageResponse.policyCoverages.get(1).availableLimits.get(6).coverageLimitDisplay).isEqualTo("$500,000");
+			softly.assertThat(availableLimitsPDBI.get(6).coverageLimit).isEqualTo("500000");
+			softly.assertThat(availableLimitsPDBI.get(6).coverageLimitDisplay).isEqualTo("$500,000");
 
 		});
 	}
@@ -3926,69 +3951,70 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		PolicyCoverageInfo coverageResponseV = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, oid);
 		assertSoftly(softly -> {
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("COMPDED");
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(0).coverageDescription).isEqualTo("Other Than Collision");
-			softly.assertThat(new Dollar(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimit)).isEqualTo(comprehensiveDeductible);
-			softly.assertThat(new Dollar(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimitDisplay)).isEqualTo(comprehensiveDeductible);
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(0).coverageType).isEqualTo("Deductible");
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(0).customerDisplayed).isEqualTo(true);
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(0).canChangeCoverage).isEqualTo(true);
+			List<Coverage> coveragesVehicle = coverageResponseV.vehicleLevelCoverages.get(0).coverages;
+			softly.assertThat(coveragesVehicle.get(0).coverageCd).isEqualTo("COMPDED");
+			softly.assertThat(coveragesVehicle.get(0).coverageDescription).isEqualTo("Other Than Collision");
+			softly.assertThat(new Dollar(coveragesVehicle.get(0).coverageLimit)).isEqualTo(comprehensiveDeductible);
+			softly.assertThat(new Dollar(coveragesVehicle.get(0).coverageLimitDisplay)).isEqualTo(comprehensiveDeductible);
+			softly.assertThat(coveragesVehicle.get(0).coverageType).isEqualTo("Deductible");
+			softly.assertThat(coveragesVehicle.get(0).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesVehicle.get(0).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitForCompCollLoanLease(coverageResponseV);
 
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(1).coverageCd).isEqualTo("COLLDED");
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(1).coverageDescription).isEqualTo("Collision Deductible");
-			softly.assertThat(new Dollar(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(1).coverageLimit)).isEqualTo(collisionDeductible);
-			softly.assertThat(new Dollar(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(1).coverageLimitDisplay)).isEqualTo(collisionDeductible);
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(1).coverageType).isEqualTo("Deductible");
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(1).customerDisplayed).isEqualTo(true);
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(1).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesVehicle.get(1).coverageCd).isEqualTo("COLLDED");
+			softly.assertThat(coveragesVehicle.get(1).coverageDescription).isEqualTo("Collision Deductible");
+			softly.assertThat(new Dollar(coveragesVehicle.get(1).coverageLimit)).isEqualTo(collisionDeductible);
+			softly.assertThat(new Dollar(coveragesVehicle.get(1).coverageLimitDisplay)).isEqualTo(collisionDeductible);
+			softly.assertThat(coveragesVehicle.get(1).coverageType).isEqualTo("Deductible");
+			softly.assertThat(coveragesVehicle.get(1).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesVehicle.get(1).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitForCompCollLoanLease(coverageResponseV);
 
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(2).coverageCd).isEqualTo("GLASS");
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(2).coverageDescription).isEqualTo("Full Safety Glass");
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(2).coverageLimit).isEqualTo("false");
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(2).coverageLimitDisplay).isEqualTo(fullSafetyGlassVeh);
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(2).coverageType).isEqualTo("None");
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(2).customerDisplayed).isEqualTo(true);
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(2).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesVehicle.get(2).coverageCd).isEqualTo("GLASS");
+			softly.assertThat(coveragesVehicle.get(2).coverageDescription).isEqualTo("Full Safety Glass");
+			softly.assertThat(coveragesVehicle.get(2).coverageLimit).isEqualTo("false");
+			softly.assertThat(coveragesVehicle.get(2).coverageLimitDisplay).isEqualTo(fullSafetyGlassVeh);
+			softly.assertThat(coveragesVehicle.get(2).coverageType).isEqualTo("None");
+			softly.assertThat(coveragesVehicle.get(2).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesVehicle.get(2).canChangeCoverage).isEqualTo(true);
 			assertCoverageLimitFullGlassCov(coverageResponseV);
 
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(3).coverageCd).isEqualTo("LOAN");
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(3).coverageDescription).isEqualTo("Auto Loan/Lease Coverage");
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(3).coverageLimit).isEqualTo("0");
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(3).coverageLimitDisplay).isEqualTo(loanLeaseCov);
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(3).coverageType).isEqualTo("None");
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(3).customerDisplayed).isEqualTo(true);
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(3).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesVehicle.get(3).coverageCd).isEqualTo("LOAN");
+			softly.assertThat(coveragesVehicle.get(3).coverageDescription).isEqualTo("Auto Loan/Lease Coverage");
+			softly.assertThat(coveragesVehicle.get(3).coverageLimit).isEqualTo("0");
+			softly.assertThat(coveragesVehicle.get(3).coverageLimitDisplay).isEqualTo(loanLeaseCov);
+			softly.assertThat(coveragesVehicle.get(3).coverageType).isEqualTo("None");
+			softly.assertThat(coveragesVehicle.get(3).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesVehicle.get(3).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitLoan(coverageResponseV);
 
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(4).coverageCd).isEqualTo("RREIM");
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(4).coverageDescription).isEqualTo("Transportation Expense");
-			softly.assertThat(new Dollar(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimit)).isEqualTo(transportationExpense);
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimitDisplay).contains(transportationExpense.toString().replace(".00", ""));
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(4).coverageType).isEqualTo("Per Occurrence");
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(4).customerDisplayed).isEqualTo(true);
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(4).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesVehicle.get(4).coverageCd).isEqualTo("RREIM");
+			softly.assertThat(coveragesVehicle.get(4).coverageDescription).isEqualTo("Transportation Expense");
+			softly.assertThat(new Dollar(coveragesVehicle.get(4).coverageLimit)).isEqualTo(transportationExpense);
+			softly.assertThat(coveragesVehicle.get(4).coverageLimitDisplay).contains(transportationExpense.toString().replace(".00", ""));
+			softly.assertThat(coveragesVehicle.get(4).coverageType).isEqualTo("Per Occurrence");
+			softly.assertThat(coveragesVehicle.get(4).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesVehicle.get(4).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitTransportationExpense(coverageResponseV);
 
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(5).coverageCd).isEqualTo("TOWINGLABOR");
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimit).isEqualTo("0/0");
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimitDisplay).isEqualTo(towingAndLabor);
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(5).coverageType).isEqualTo("Per Disablement/Maximum");
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(5).customerDisplayed).isEqualTo(true);
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(5).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesVehicle.get(5).coverageCd).isEqualTo("TOWINGLABOR");
+			softly.assertThat(coveragesVehicle.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
+			softly.assertThat(coveragesVehicle.get(5).coverageLimit).isEqualTo("0/0");
+			softly.assertThat(coveragesVehicle.get(5).coverageLimitDisplay).isEqualTo(towingAndLabor);
+			softly.assertThat(coveragesVehicle.get(5).coverageType).isEqualTo("Per Disablement/Maximum");
+			softly.assertThat(coveragesVehicle.get(5).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesVehicle.get(5).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitTowingLabor(coverageResponseV);
 
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(6).coverageCd).isEqualTo("SPECEQUIP");
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
-			softly.assertThat(new Dollar(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(6).coverageLimit)).isEqualTo(excessElectronicEquipment);
-			softly.assertThat(coverageResponseV.vehicleLevelCoverages.get(0).coverages.get(6).customerDisplayed).isEqualTo(false);
+			softly.assertThat(coveragesVehicle.get(6).coverageCd).isEqualTo("SPECEQUIP");
+			softly.assertThat(coveragesVehicle.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
+			softly.assertThat(new Dollar(coveragesVehicle.get(6).coverageLimit)).isEqualTo(excessElectronicEquipment);
+			softly.assertThat(coveragesVehicle.get(6).customerDisplayed).isEqualTo(false);
 
 		});
 
@@ -4003,78 +4029,79 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		PolicyCoverageInfo coverageResponse = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid);
 		assertSoftly(softly -> {
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("COMPDED");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageDescription).isEqualTo("Other Than Collision");
-			softly.assertThat(new Dollar(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimit)).isEqualTo(comprehensiveDeductiblePendingV);
-			softly.assertThat(new Dollar(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimitDisplay)).isEqualTo(comprehensiveDeductiblePendingV);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageType).isEqualTo("Deductible");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).customerDisplayed).isEqualTo(true);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).canChangeCoverage).isEqualTo(true);
+			List<Coverage> coveragesVehicle2 = coverageResponse.vehicleLevelCoverages.get(0).coverages;
+			softly.assertThat(coveragesVehicle2.get(0).coverageCd).isEqualTo("COMPDED");
+			softly.assertThat(coveragesVehicle2.get(0).coverageDescription).isEqualTo("Other Than Collision");
+			softly.assertThat(new Dollar(coveragesVehicle2.get(0).coverageLimit)).isEqualTo(comprehensiveDeductiblePendingV);
+			softly.assertThat(new Dollar(coveragesVehicle2.get(0).coverageLimitDisplay)).isEqualTo(comprehensiveDeductiblePendingV);
+			softly.assertThat(coveragesVehicle2.get(0).coverageType).isEqualTo("Deductible");
+			softly.assertThat(coveragesVehicle2.get(0).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesVehicle2.get(0).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitForCompCollLoanLease(coverageResponse);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageCd).isEqualTo("COLLDED");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageDescription).isEqualTo("Collision Deductible");
-			softly.assertThat(new Dollar(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageLimit)).isEqualTo(collisionDeductiblePendingV);
-			softly.assertThat(new Dollar(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageLimitDisplay)).isEqualTo(collisionDeductiblePendingV);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageType).isEqualTo("Deductible");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).customerDisplayed).isEqualTo(true);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesVehicle2.get(1).coverageCd).isEqualTo("COLLDED");
+			softly.assertThat(coveragesVehicle2.get(1).coverageDescription).isEqualTo("Collision Deductible");
+			softly.assertThat(new Dollar(coveragesVehicle2.get(1).coverageLimit)).isEqualTo(collisionDeductiblePendingV);
+			softly.assertThat(new Dollar(coveragesVehicle2.get(1).coverageLimitDisplay)).isEqualTo(collisionDeductiblePendingV);
+			softly.assertThat(coveragesVehicle2.get(1).coverageType).isEqualTo("Deductible");
+			softly.assertThat(coveragesVehicle2.get(1).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesVehicle2.get(1).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitForCompCollLoanLease(coverageResponse);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageCd).isEqualTo("GLASS");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageDescription).isEqualTo("Full Safety Glass");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageLimit).isEqualTo("false");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageLimitDisplay).isEqualTo(fullSafetyGlassVehPendingV);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageType).isEqualTo("None");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).customerDisplayed).isEqualTo(true);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesVehicle2.get(2).coverageCd).isEqualTo("GLASS");
+			softly.assertThat(coveragesVehicle2.get(2).coverageDescription).isEqualTo("Full Safety Glass");
+			softly.assertThat(coveragesVehicle2.get(2).coverageLimit).isEqualTo("false");
+			softly.assertThat(coveragesVehicle2.get(2).coverageLimitDisplay).isEqualTo(fullSafetyGlassVehPendingV);
+			softly.assertThat(coveragesVehicle2.get(2).coverageType).isEqualTo("None");
+			softly.assertThat(coveragesVehicle2.get(2).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesVehicle2.get(2).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitFullGlassCov(coverageResponse);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageCd).isEqualTo("LOAN");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageDescription).isEqualTo("Auto Loan/Lease Coverage");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageLimit).isEqualTo("0");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageLimitDisplay).isEqualTo(loanLeaseCovPendingV);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageType).isEqualTo("None");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).customerDisplayed).isEqualTo(true);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesVehicle2.get(3).coverageCd).isEqualTo("LOAN");
+			softly.assertThat(coveragesVehicle2.get(3).coverageDescription).isEqualTo("Auto Loan/Lease Coverage");
+			softly.assertThat(coveragesVehicle2.get(3).coverageLimit).isEqualTo("0");
+			softly.assertThat(coveragesVehicle2.get(3).coverageLimitDisplay).isEqualTo(loanLeaseCovPendingV);
+			softly.assertThat(coveragesVehicle2.get(3).coverageType).isEqualTo("None");
+			softly.assertThat(coveragesVehicle2.get(3).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesVehicle2.get(3).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitLoan(coverageResponse);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageCd).isEqualTo("RREIM");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageDescription).isEqualTo("Transportation Expense");
-			softly.assertThat(new Dollar(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimit)).isEqualTo(transportationExpensePendingV);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimitDisplay).contains(transportationExpensePendingV.toString().replace(".00", ""));
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageType).isEqualTo("Per Occurrence");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).customerDisplayed).isEqualTo(true);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesVehicle2.get(4).coverageCd).isEqualTo("RREIM");
+			softly.assertThat(coveragesVehicle2.get(4).coverageDescription).isEqualTo("Transportation Expense");
+			softly.assertThat(new Dollar(coveragesVehicle2.get(4).coverageLimit)).isEqualTo(transportationExpensePendingV);
+			softly.assertThat(coveragesVehicle2.get(4).coverageLimitDisplay).contains(transportationExpensePendingV.toString().replace(".00", ""));
+			softly.assertThat(coveragesVehicle2.get(4).coverageType).isEqualTo("Per Occurrence");
+			softly.assertThat(coveragesVehicle2.get(4).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesVehicle2.get(4).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitTransportationExpense(coverageResponse);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageCd).isEqualTo("TOWINGLABOR");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimit).isEqualTo("0/0");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimitDisplay).isEqualTo(towingAndLaborPendingV);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageType).isEqualTo("Per Disablement/Maximum");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).customerDisplayed).isEqualTo(true);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).canChangeCoverage).isEqualTo(true);
+			softly.assertThat(coveragesVehicle2.get(5).coverageCd).isEqualTo("TOWINGLABOR");
+			softly.assertThat(coveragesVehicle2.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
+			softly.assertThat(coveragesVehicle2.get(5).coverageLimit).isEqualTo("0/0");
+			softly.assertThat(coveragesVehicle2.get(5).coverageLimitDisplay).isEqualTo(towingAndLaborPendingV);
+			softly.assertThat(coveragesVehicle2.get(5).coverageType).isEqualTo("Per Disablement/Maximum");
+			softly.assertThat(coveragesVehicle2.get(5).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesVehicle2.get(5).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitTowingLabor(coverageResponse);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(6).coverageCd).isEqualTo("SPECEQUIP");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
-			softly.assertThat(new Dollar(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(6).coverageLimit)).isEqualTo(excessElectronicEquipmentPendingV);
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(6).customerDisplayed).isEqualTo(false);
+			softly.assertThat(coveragesVehicle2.get(6).coverageCd).isEqualTo("SPECEQUIP");
+			softly.assertThat(coveragesVehicle2.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
+			softly.assertThat(new Dollar(coveragesVehicle2.get(6).coverageLimit)).isEqualTo(excessElectronicEquipmentPendingV);
+			softly.assertThat(coveragesVehicle2.get(6).customerDisplayed).isEqualTo(false);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(7).coverageCd).isEqualTo("NEWCAR");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(7).coverageDescription).isEqualTo("New Car Added Protection");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(7).customerDisplayed).isEqualTo(false);
+			softly.assertThat(coveragesVehicle2.get(7).coverageCd).isEqualTo("NEWCAR");
+			softly.assertThat(coveragesVehicle2.get(7).coverageDescription).isEqualTo("New Car Added Protection");
+			softly.assertThat(coveragesVehicle2.get(7).customerDisplayed).isEqualTo(false);
 
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(8).coverageCd).isEqualTo("WL");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(8).coverageDescription).isEqualTo("Waive Liability");
-			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(8).customerDisplayed).isEqualTo(false);
+			softly.assertThat(coveragesVehicle2.get(8).coverageCd).isEqualTo("WL");
+			softly.assertThat(coveragesVehicle2.get(8).coverageDescription).isEqualTo("Waive Liability");
+			softly.assertThat(coveragesVehicle2.get(8).customerDisplayed).isEqualTo(false);
 		});
 
 		//Change coverages v1
@@ -4112,64 +4139,65 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		PolicyCoverageInfo coverageEndorsementResponseV1 = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, oid);
 		assertSoftly(softly -> {
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("COMPDED");
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(0).coverageDescription).isEqualTo("Other Than Collision");
-			softly.assertThat(new Dollar(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimit)).isEqualTo(comprehensiveDeductiblePendingV1);
-			softly.assertThat(new Dollar(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimitDisplay)).isEqualTo(comprehensiveDeductiblePendingV1);
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(0).coverageType).isEqualTo("Deductible");
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(0).customerDisplayed).isEqualTo(true);
+			List<Coverage> coveragesV1 = coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages;
+			softly.assertThat(coveragesV1.get(0).coverageCd).isEqualTo("COMPDED");
+			softly.assertThat(coveragesV1.get(0).coverageDescription).isEqualTo("Other Than Collision");
+			softly.assertThat(new Dollar(coveragesV1.get(0).coverageLimit)).isEqualTo(comprehensiveDeductiblePendingV1);
+			softly.assertThat(new Dollar(coveragesV1.get(0).coverageLimitDisplay)).isEqualTo(comprehensiveDeductiblePendingV1);
+			softly.assertThat(coveragesV1.get(0).coverageType).isEqualTo("Deductible");
+			softly.assertThat(coveragesV1.get(0).customerDisplayed).isEqualTo(true);
 
 			assertCoverageLimitForCompCollLoanLease(coverageEndorsementResponseV1);
 
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(1).coverageCd).isEqualTo("COLLDED");
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(1).coverageDescription).isEqualTo("Collision Deductible");
-			softly.assertThat(new Dollar(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(1).coverageLimit)).isEqualTo(collisionDeductiblePendingV1);
-			softly.assertThat(new Dollar(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(1).coverageLimitDisplay)).isEqualTo(collisionDeductiblePendingV1);
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(1).coverageType).isEqualTo("Deductible");
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(1).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesV1.get(1).coverageCd).isEqualTo("COLLDED");
+			softly.assertThat(coveragesV1.get(1).coverageDescription).isEqualTo("Collision Deductible");
+			softly.assertThat(new Dollar(coveragesV1.get(1).coverageLimit)).isEqualTo(collisionDeductiblePendingV1);
+			softly.assertThat(new Dollar(coveragesV1.get(1).coverageLimitDisplay)).isEqualTo(collisionDeductiblePendingV1);
+			softly.assertThat(coveragesV1.get(1).coverageType).isEqualTo("Deductible");
+			softly.assertThat(coveragesV1.get(1).customerDisplayed).isEqualTo(true);
 
 			assertCoverageLimitForCompCollLoanLease(coverageEndorsementResponseV1);
 
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(2).coverageCd).isEqualTo("GLASS");
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(2).coverageDescription).isEqualTo("Full Safety Glass");
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(2).coverageLimit).isEqualTo("true");
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(2).coverageLimitDisplay).isEqualTo(fullSafetyGlassVehPendingV1);
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(2).coverageType).isEqualTo("None");
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(2).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesV1.get(2).coverageCd).isEqualTo("GLASS");
+			softly.assertThat(coveragesV1.get(2).coverageDescription).isEqualTo("Full Safety Glass");
+			softly.assertThat(coveragesV1.get(2).coverageLimit).isEqualTo("true");
+			softly.assertThat(coveragesV1.get(2).coverageLimitDisplay).isEqualTo(fullSafetyGlassVehPendingV1);
+			softly.assertThat(coveragesV1.get(2).coverageType).isEqualTo("None");
+			softly.assertThat(coveragesV1.get(2).customerDisplayed).isEqualTo(true);
 
 			assertCoverageLimitFullGlassCov(coverageEndorsementResponseV1);
 
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(3).coverageCd).isEqualTo("LOAN");
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(3).coverageDescription).isEqualTo("Auto Loan/Lease Coverage");
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(3).coverageLimit).isEqualTo("1");
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(3).coverageLimitDisplay).isEqualTo(loanLeaseCovPendingV1);
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(3).coverageType).isEqualTo("None");
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(3).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesV1.get(3).coverageCd).isEqualTo("LOAN");
+			softly.assertThat(coveragesV1.get(3).coverageDescription).isEqualTo("Auto Loan/Lease Coverage");
+			softly.assertThat(coveragesV1.get(3).coverageLimit).isEqualTo("1");
+			softly.assertThat(coveragesV1.get(3).coverageLimitDisplay).isEqualTo(loanLeaseCovPendingV1);
+			softly.assertThat(coveragesV1.get(3).coverageType).isEqualTo("None");
+			softly.assertThat(coveragesV1.get(3).customerDisplayed).isEqualTo(true);
 
 			assertCoverageLimitLoan(coverageEndorsementResponseV1);
 
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(4).coverageCd).isEqualTo("RREIM");
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(4).coverageDescription).isEqualTo("Transportation Expense");
-			softly.assertThat(new Dollar(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimit)).isEqualTo(transportationExpensePendingV1);
-			softly.assertThat(new Dollar(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimitDisplay)).isEqualTo(transportationExpensePendingV1);
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(4).coverageType).isEqualTo("Per Occurrence");
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(4).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesV1.get(4).coverageCd).isEqualTo("RREIM");
+			softly.assertThat(coveragesV1.get(4).coverageDescription).isEqualTo("Transportation Expense");
+			softly.assertThat(new Dollar(coveragesV1.get(4).coverageLimit)).isEqualTo(transportationExpensePendingV1);
+			softly.assertThat(new Dollar(coveragesV1.get(4).coverageLimitDisplay)).isEqualTo(transportationExpensePendingV1);
+			softly.assertThat(coveragesV1.get(4).coverageType).isEqualTo("Per Occurrence");
+			softly.assertThat(coveragesV1.get(4).customerDisplayed).isEqualTo(true);
 
 			assertCoverageLimitTransportationExpense(coverageEndorsementResponseV1);
 
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(5).coverageCd).isEqualTo("TOWINGLABOR");
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimit).isEqualTo("50/300");
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimitDisplay.replace("$", "")).isEqualTo(towingAndLaborPendingV1);
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(5).coverageType).isEqualTo("Per Disablement/Maximum");
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(5).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesV1.get(5).coverageCd).isEqualTo("TOWINGLABOR");
+			softly.assertThat(coveragesV1.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
+			softly.assertThat(coveragesV1.get(5).coverageLimit).isEqualTo("50/300");
+			softly.assertThat(coveragesV1.get(5).coverageLimitDisplay.replace("$", "")).isEqualTo(towingAndLaborPendingV1);
+			softly.assertThat(coveragesV1.get(5).coverageType).isEqualTo("Per Disablement/Maximum");
+			softly.assertThat(coveragesV1.get(5).customerDisplayed).isEqualTo(true);
 
 			assertCoverageLimitTowingLabor(coverageEndorsementResponseV1);
 
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(6).coverageCd).isEqualTo("SPECEQUIP");
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
-			softly.assertThat(new Dollar(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(6).coverageLimit)).isEqualTo(excessElectronicEquipmentPendingV1);
-			softly.assertThat(coverageEndorsementResponseV1.vehicleLevelCoverages.get(0).coverages.get(6).customerDisplayed).isEqualTo(false);
+			softly.assertThat(coveragesV1.get(6).coverageCd).isEqualTo("SPECEQUIP");
+			softly.assertThat(coveragesV1.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
+			softly.assertThat(new Dollar(coveragesV1.get(6).coverageLimit)).isEqualTo(excessElectronicEquipmentPendingV1);
+			softly.assertThat(coveragesV1.get(6).customerDisplayed).isEqualTo(false);
 		});
 
 		//vehicle2
@@ -4183,64 +4211,65 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		PolicyCoverageInfo coverageEndorsementResponsePendingV2 = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid);
 		assertSoftly(softly -> {
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("COMPDED");
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(0).coverageDescription).isEqualTo("Other Than Collision");
-			softly.assertThat(new Dollar(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimit)).isEqualTo(comprehensiveDeductiblePendingV2);
-			softly.assertThat(new Dollar(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimitDisplay)).isEqualTo(comprehensiveDeductiblePendingV2);
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(0).coverageType).isEqualTo("Deductible");
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(0).customerDisplayed).isEqualTo(true);
+			List<Coverage> coveragesVehicle2 = coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages;
+			softly.assertThat(coveragesVehicle2.get(0).coverageCd).isEqualTo("COMPDED");
+			softly.assertThat(coveragesVehicle2.get(0).coverageDescription).isEqualTo("Other Than Collision");
+			softly.assertThat(new Dollar(coveragesVehicle2.get(0).coverageLimit)).isEqualTo(comprehensiveDeductiblePendingV2);
+			softly.assertThat(new Dollar(coveragesVehicle2.get(0).coverageLimitDisplay)).isEqualTo(comprehensiveDeductiblePendingV2);
+			softly.assertThat(coveragesVehicle2.get(0).coverageType).isEqualTo("Deductible");
+			softly.assertThat(coveragesVehicle2.get(0).customerDisplayed).isEqualTo(true);
 
 			assertCoverageLimitForCompCollLoanLease(coverageEndorsementResponsePendingV2);
 
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(1).coverageCd).isEqualTo("COLLDED");
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(1).coverageDescription).isEqualTo("Collision Deductible");
-			softly.assertThat(new Dollar(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(1).coverageLimit)).isEqualTo(collisionDeductiblePendingV2);
-			softly.assertThat(new Dollar(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(1).coverageLimitDisplay)).isEqualTo(collisionDeductiblePendingV2);
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(1).coverageType).isEqualTo("Deductible");
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(1).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesVehicle2.get(1).coverageCd).isEqualTo("COLLDED");
+			softly.assertThat(coveragesVehicle2.get(1).coverageDescription).isEqualTo("Collision Deductible");
+			softly.assertThat(new Dollar(coveragesVehicle2.get(1).coverageLimit)).isEqualTo(collisionDeductiblePendingV2);
+			softly.assertThat(new Dollar(coveragesVehicle2.get(1).coverageLimitDisplay)).isEqualTo(collisionDeductiblePendingV2);
+			softly.assertThat(coveragesVehicle2.get(1).coverageType).isEqualTo("Deductible");
+			softly.assertThat(coveragesVehicle2.get(1).customerDisplayed).isEqualTo(true);
 
 			assertCoverageLimitForCompCollLoanLease(coverageEndorsementResponsePendingV2);
 
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(2).coverageCd).isEqualTo("GLASS");
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(2).coverageDescription).isEqualTo("Full Safety Glass");
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(2).coverageLimit).isEqualTo("true");
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(2).coverageLimitDisplay).isEqualTo(fullSafetyGlassVehPendingV2);
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(2).coverageType).isEqualTo("None");
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(2).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesVehicle2.get(2).coverageCd).isEqualTo("GLASS");
+			softly.assertThat(coveragesVehicle2.get(2).coverageDescription).isEqualTo("Full Safety Glass");
+			softly.assertThat(coveragesVehicle2.get(2).coverageLimit).isEqualTo("true");
+			softly.assertThat(coveragesVehicle2.get(2).coverageLimitDisplay).isEqualTo(fullSafetyGlassVehPendingV2);
+			softly.assertThat(coveragesVehicle2.get(2).coverageType).isEqualTo("None");
+			softly.assertThat(coveragesVehicle2.get(2).customerDisplayed).isEqualTo(true);
 
 			assertCoverageLimitFullGlassCov(coverageEndorsementResponsePendingV2);
 
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(3).coverageCd).isEqualTo("LOAN");
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(3).coverageDescription).isEqualTo("Auto Loan/Lease Coverage");
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(3).coverageLimit).isEqualTo("1");
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(3).coverageLimitDisplay).isEqualTo(loanLeaseCovPendingV2);
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(3).coverageType).isEqualTo("None");
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(3).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesVehicle2.get(3).coverageCd).isEqualTo("LOAN");
+			softly.assertThat(coveragesVehicle2.get(3).coverageDescription).isEqualTo("Auto Loan/Lease Coverage");
+			softly.assertThat(coveragesVehicle2.get(3).coverageLimit).isEqualTo("1");
+			softly.assertThat(coveragesVehicle2.get(3).coverageLimitDisplay).isEqualTo(loanLeaseCovPendingV2);
+			softly.assertThat(coveragesVehicle2.get(3).coverageType).isEqualTo("None");
+			softly.assertThat(coveragesVehicle2.get(3).customerDisplayed).isEqualTo(true);
 
 			assertCoverageLimitLoan(coverageEndorsementResponsePendingV2);
 
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(4).coverageCd).isEqualTo("RREIM");
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(4).coverageDescription).isEqualTo("Transportation Expense");
-			softly.assertThat(new Dollar(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimit)).isEqualTo(transportationExpensePendingV2);
-			softly.assertThat(new Dollar(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimitDisplay)).isEqualTo(transportationExpensePendingV2);
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(4).coverageType).isEqualTo("Per Occurrence");
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(4).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesVehicle2.get(4).coverageCd).isEqualTo("RREIM");
+			softly.assertThat(coveragesVehicle2.get(4).coverageDescription).isEqualTo("Transportation Expense");
+			softly.assertThat(new Dollar(coveragesVehicle2.get(4).coverageLimit)).isEqualTo(transportationExpensePendingV2);
+			softly.assertThat(new Dollar(coveragesVehicle2.get(4).coverageLimitDisplay)).isEqualTo(transportationExpensePendingV2);
+			softly.assertThat(coveragesVehicle2.get(4).coverageType).isEqualTo("Per Occurrence");
+			softly.assertThat(coveragesVehicle2.get(4).customerDisplayed).isEqualTo(true);
 
 			assertCoverageLimitTransportationExpense(coverageEndorsementResponsePendingV2);
 
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(5).coverageCd).isEqualTo("TOWINGLABOR");
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimit).isEqualTo("50/300");
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimitDisplay.replace("$", "")).isEqualTo(towingAndLaborPendingV2);
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(5).coverageType).isEqualTo("Per Disablement/Maximum");
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(5).customerDisplayed).isEqualTo(true);
+			softly.assertThat(coveragesVehicle2.get(5).coverageCd).isEqualTo("TOWINGLABOR");
+			softly.assertThat(coveragesVehicle2.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
+			softly.assertThat(coveragesVehicle2.get(5).coverageLimit).isEqualTo("50/300");
+			softly.assertThat(coveragesVehicle2.get(5).coverageLimitDisplay.replace("$", "")).isEqualTo(towingAndLaborPendingV2);
+			softly.assertThat(coveragesVehicle2.get(5).coverageType).isEqualTo("Per Disablement/Maximum");
+			softly.assertThat(coveragesVehicle2.get(5).customerDisplayed).isEqualTo(true);
 
 			assertCoverageLimitTransportationExpense(coverageEndorsementResponsePendingV2);
 
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(6).coverageCd).isEqualTo("SPECEQUIP");
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
-			softly.assertThat(new Dollar(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(6).coverageLimit)).isEqualTo(excessElectronicEquipmentPendingV2);
-			softly.assertThat(coverageEndorsementResponsePendingV2.vehicleLevelCoverages.get(0).coverages.get(6).customerDisplayed).isEqualTo(false);
+			softly.assertThat(coveragesVehicle2.get(6).coverageCd).isEqualTo("SPECEQUIP");
+			softly.assertThat(coveragesVehicle2.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
+			softly.assertThat(new Dollar(coveragesVehicle2.get(6).coverageLimit)).isEqualTo(excessElectronicEquipmentPendingV2);
+			softly.assertThat(coveragesVehicle2.get(6).customerDisplayed).isEqualTo(false);
 		});
 	}
 
@@ -4420,7 +4449,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		});
 	}
 
-	protected void pas9493_TransactionInformationForEndorsementsAddVehicleBody (PolicyType policyType) {
+	protected void pas9493_TransactionInformationForEndorsementsAddVehicleBody(PolicyType policyType) {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = getCopiedPolicy();
