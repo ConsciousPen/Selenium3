@@ -35,7 +35,6 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	protected String pas730_vinDoesNotMatchChoice = "1MSRP15H1V1011111";
 	protected String vinMatchNBandNoMatchOnRenewal = "6MSRP15H8V1011111";
-	protected String vinPartialMatch = "7PRTLCAH9V1011111";
 
 	protected String vinIdCopyWithLowCompMatch = "";
 	protected String vinIdCopyWithHighCompMatch = "";
@@ -49,23 +48,6 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_CA_SELECT;
-	}
-
-	/**
-	 * @author Viktor Petrenko
-	 * @scenario Comp/Coll symbols refreshed from VIN table VIN partial match
-	 * 1. Create Auto quote: VIN doesn't match, Year/Make/Model/Series/Body Style prefilled with not 'Other', comp/coll symbols are found in VIN table
-	 * 2. Calculate premium and validate comp/coll symbols
-	 * 3. Add new Active VIN version to DB, Adjust values in Vehiclerefdatavin table
-	 * 4. Retrieve created quote
-	 * 5. Navigate to P&C page and validate comp/coll symbols
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-730")
-	public void pas730_PartialMatch(@Optional("") String state) {
-		partialMatch();
 	}
 
 	/**
@@ -356,7 +338,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 
 	@AfterClass(alwaysRun = true)
 	protected void resetVinControlTable() {
-		List<String> listOfVinNumbers = Arrays.asList(vinPartialMatch,vinMatchNBandNoMatchOnRenewal,pas730_vinDoesNotMatchChoice);
+		List<String> listOfVinNumbers = Arrays.asList(vinMatchNBandNoMatchOnRenewal,pas730_vinDoesNotMatchChoice);
 		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinNumbers,DefaultVinVersions.DefaultVersions.SignatureSeries);
 
 		List<String> listOfVinIds = Arrays.asList(vinIdCopyWithLowCompMatch, vinIdCopyWithHighCompMatch);

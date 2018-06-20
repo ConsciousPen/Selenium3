@@ -14,7 +14,6 @@ public class VinUploadCleanUpMethods {
 	/**
 	 *
 	 * @param listOfVinIds
-	 * @param version
 	 */
 	public static void deleteVinsById(List<String> listOfVinIds) {
 		for (String id : listOfVinIds) {

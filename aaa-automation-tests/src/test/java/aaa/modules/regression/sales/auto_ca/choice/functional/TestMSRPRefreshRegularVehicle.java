@@ -3,7 +3,6 @@ package aaa.modules.regression.sales.auto_ca.choice.functional;
 import static aaa.helpers.db.queries.MsrpQueries.CA_CHOICE_REGULAR_VEH_MSRP_VERSION;
 import static aaa.helpers.db.queries.VehicleQueries.REPAIR_COLLCOMP_BY_ID;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.testng.Assert.fail;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +38,6 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	protected String defaultVersion = DefaultVinVersions.DefaultVersions.CaliforniaChoice.get();
 
 	protected String vinMatchNBandNoMatchOnRenewal = "6MSRP15H8V1011111";
-	protected String vinPartialMatch = "7PRTLCAH9V1011111";
 
 	protected String vinIdCopyWithLowCompMatch = "";
 	protected String vinIdCopyWithHighCompMatch = "";
@@ -49,23 +47,6 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	protected Map<String,String> allNewBusinessValues;
 	protected String newBusinessCompNoCompMatch = "";
 	protected String newBusinessCollNoCompMatch = "";
-
-	/**
-	 * @author Viktor Petrenko
-	 * @scenario Comp/Coll symbols refreshed from VIN table VIN partial match
-	 * 1. Create Auto quote: VIN doesn't match, Year/Make/Model/Series/Body Style prefilled with not 'Other', comp/coll symbols are found in VIN table
-	 * 2. Calculate premium and validate comp/coll symbols(
-	 * 3. Add new Active VIN version to DB, Adjust values in Vehiclerefdatavin table
-	 * 4. Retrieve created quote
-	 * 5. Navigate to P&C page and validate comp/coll symbols
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730, PAS-12881")
-	public void pas730_PartialMatch(@Optional("") String state) {
-		partialMatch();
-	}
 
 	/**
 	 * @author Viktor Petrenko
@@ -312,7 +293,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	protected void resetVinControlTable() {
 		pas730_ChoiceCleanDataBase(CA_CHOICE_REGULAR_VEH_MSRP_VERSION, vehicleTypeRegular);
 
-		List<String> listOfVinNumbers = Arrays.asList(vinPartialMatch,vinMatchNBandNoMatchOnRenewal);
+		List<String> listOfVinNumbers = Arrays.asList(vinMatchNBandNoMatchOnRenewal);
 		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinNumbers,DefaultVinVersions.DefaultVersions.SignatureSeries);
 
 		List<String> listOfVinIds = Arrays.asList(vinIdCopyWithLowCompMatch, vinIdCopyWithHighCompMatch, vinIdCopyNoCompMatch);

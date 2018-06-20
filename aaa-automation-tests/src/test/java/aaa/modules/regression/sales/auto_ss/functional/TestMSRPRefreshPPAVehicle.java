@@ -2,7 +2,6 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.helpers.db.queries.VehicleQueries.REPAIR_COLLCOMP_BY_ID;
 import static org.assertj.core.api.Assertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -44,7 +43,6 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	}
 
 	protected String vinMatchNBandNoMatchOnRenewal = "6MSRPSSH5V1011111";
-	protected String vinPartialMatch = "7PRTL15H0V1011111";
 
 	protected String vinIdCopyWithLowComp = "";
 	protected String vinIdCopyWithHighComp = "";
@@ -54,76 +52,6 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	protected Map<String,String> allNewBusinessValues;
 	protected String newBusinessCompNoCompMatch = "";
 	protected String newBusinessCollNoCompMatch = "";
-
-	/**
-	 * @author Viktor Petrenko
-	 * @scenario Comp/Coll symbols refreshed from VIN table VIN partial match
-	 * 1. Create Auto quote: VIN doesn't match, Year/Make/Model/Series/Body Style prefilled with not 'Other', comp/coll symbols are found in VIN table
-	 * 2. Calculate premium and validate comp/coll symbols(
-	 * 3. Add new Active VIN version to DB, Adjust values in Vehiclerefdatavin table
-	 * 4. Retrieve created quote
-	 * 5. Navigate to P&C page and validate comp/coll symbols
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730, PAS-12881")
-	@StateList(statesExcept = {Constants.States.CA})
-	public void pas730_PartialMatch(@Optional("UT") String state) {
-		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
-
-		String vehYear = "2018";
-		String vehMake = "VOLKSWAGEN";
-		String vehModel = "PASSAT";
-		String vehSeries = "PASSAT S";
-		String vehBodyStyle = "SEDAN";
-
-		TestData testData = getPolicyTD()
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "")
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.YEAR.getLabel()), vehYear)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MAKE.getLabel()), vehMake)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MODEL.getLabel()), vehModel)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
-
-		createAndFillUpTo(testData, PremiumAndCoveragesTab.class);
-
-		premiumAndCoveragesTab.calculatePremium();
-
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-		// Values from VIN comp and coll symbol in excel sheet
-		assertSoftly(softly -> {
-			softly.assertThat(getCompSymbolFromVRD()).isNotEqualTo("55");
-			softly.assertThat(getCollSymbolFromVRD()).isNotEqualTo("66");
-		});
-
-		String compSymbol = PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue();
-		String collSymbol = PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
-
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-		VehicleTab.buttonSaveAndExit.click();
-
-		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-
-		adminApp().open();
-		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.PARTIAL_MATCH.get()));
-
-		findAndRateQuote(testData, quoteNumber);
-
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-		assertSoftly(softly -> {
-			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isNotEqualTo(compSymbol);
-			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isNotEqualTo(collSymbol);
-
-		});
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-		PremiumAndCoveragesTab.buttonSaveAndExit.click();
-
-		//PAS-12881: Update VIN Y/M/M/S/S to Store VIN Stub (quote): Verify in DB that VIN STUB is stored
-		String newBusinessCurrentVinBeforeNull = DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, quoteNumber)).get();
-		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, quoteNumber)).get()).isNotNull().isEqualTo(newBusinessCurrentVinBeforeNull);
-
-	}
 
 	/**
 	 * @author Viktor Petrenko
@@ -471,7 +399,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		List<String> listOfVinIds = Arrays.asList(vinIdCopyWithLowComp, vinIdCopyWithHighComp, vinIdCopyNoCompMatch);
 		VinUploadCleanUpMethods.deleteVinsById(listOfVinIds);
 
-		List<String> listOfVinNumbers = Arrays.asList(vinPartialMatch,vinMatchNBandNoMatchOnRenewal);
+		List<String> listOfVinNumbers = Arrays.asList(vinMatchNBandNoMatchOnRenewal);
 		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinNumbers,DefaultVinVersions.DefaultVersions.SignatureSeries);
 
 		if(vinIdOriginalNoCompMatch !=null && !vinIdOriginalNoCompMatch.isEmpty()){

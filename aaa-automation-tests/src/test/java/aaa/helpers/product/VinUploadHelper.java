@@ -50,7 +50,7 @@ public class VinUploadHelper {
 	public void uploadVinTable(String vinTableFileName) {
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		uploadToVINTableTab.uploadVinTable(vinTableFileName);
-		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.CACHE_MANAGER.get());
+		CacheManager.getToCacheManagerTab();
 		List<String> cacheName = Arrays.asList(CacheNameEnum.BASE_LOOKUP_CACHE.get(), CacheNameEnum.LOOKUP_CACHE.get(), CacheNameEnum.VEHICLE_VIN_REF_CACHE.get());
 		for (String cache : cacheName) {
 			CacheManager.clearFromCacheManagerTable(cache);

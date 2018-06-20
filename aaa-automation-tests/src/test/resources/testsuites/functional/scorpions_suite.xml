@@ -95,7 +95,6 @@
             </class>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefreshPPAVehicle">
                 <methods>
-                    <include name="pas730_PartialMatch"/>
                     <include name="pas730_VehicleTypePPA"/>
                 </methods>
             </class>
@@ -118,7 +117,6 @@
             </class>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefreshRegularVehicle">
                 <methods>
-                    <include name="pas730_PartialMatch"/>
                     <include name="pas730_VehicleTypeRegular"/>
                     <include name="pas730_vinDoesNotMatchDB"/>
                 </methods>
@@ -132,7 +130,6 @@
             </class>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMSRPRefreshRegularVehicle">
                 <methods>
-                    <include name="pas730_PartialMatch"/>
                     <include name="pas730_VehicleTypeRegular"/>
                 </methods>
             </class>

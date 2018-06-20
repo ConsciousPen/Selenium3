@@ -12,7 +12,6 @@ public enum VinUploadFileType {
 	VinDoesntMatchAfterProductChange("VinDoesntMatchAfterProductChange"),
 	MATCH_ON_NEW_BUSINESS_NO_MATCH_ON_RENEWAL("MatchOnNewBusinessNoMatchOnRenewal"),
 	NEW_VIN9("New9VIN"),
-	PARTIAL_MATCH("PartialMatch"),
 	R45("R45");
 
 	private String type;

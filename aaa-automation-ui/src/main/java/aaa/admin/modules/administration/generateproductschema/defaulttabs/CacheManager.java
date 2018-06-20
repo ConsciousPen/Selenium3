@@ -24,7 +24,21 @@ public class CacheManager extends DefaultTab {
 
 	public static void getToCacheManagerTab() {
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.CACHE_MANAGER.get());
+		long timeoutInSeconds = 10;
+		long timeout = System.currentTimeMillis() + timeoutInSeconds * 1000;
+
+		while (timeout > System.currentTimeMillis()) {
+			try {
+				NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.CACHE_MANAGER.get());
+				if (tableCacheManager.isPresent()) {
+					break;
+				}
+				Thread.sleep(1000);
+				log.info("Wait for CACHE_MANAGER tab, in miliseconds left: {}", timeout - System.currentTimeMillis());
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static void goClearCacheManagerTable() {
@@ -37,10 +51,11 @@ public class CacheManager extends DefaultTab {
 	}
 
 	public static void clearFromCacheManagerTable(String cacheName) {
-		if(tableCacheManager.getRow(CACHE_NAME.get(), cacheName).isPresent()){
+		if (tableCacheManager.getRow(CACHE_NAME.get(), cacheName).isPresent()) {
 			tableCacheManager.getRow(CACHE_NAME.get(), cacheName).getCell(CacheManagerTableColumns.ACTION.get()).controls.links.getFirst().click();
-		}else log.info(cacheName + " is not present in range of Cache Name column values : " + tableCacheManager.getColumn(CACHE_NAME.get()).getValue());
-
+		} else {
+			log.info(" is not present in range of Cache Name column values : {}", cacheName);
+		}
 	}
 
 	private static void removeAllFromCacheManagerTable() {

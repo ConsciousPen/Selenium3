@@ -14,8 +14,6 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
-import aaa.helpers.product.VinUploadFileType;
-import aaa.helpers.product.VinUploadHelper;
 import aaa.main.enums.DefaultVinVersions;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
@@ -242,66 +240,6 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		CompCollSymbolChecks_pas730(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
 
 		premiumAndCoveragesTab.saveAndExit();
-
-	}
-
-	protected void partialMatch() {
-		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
-
-		String vehYear = "2018";
-		String vehMake = "VOLKSWAGEN";
-		String vehModel = "PASSAT";
-		String vehSeries = "PASSAT S";
-		String vehBodyStyle = "SEDAN";
-
-		TestData testData = getPolicyTD()
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), "")
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.YEAR.getLabel()), vehYear)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MAKE.getLabel()), vehMake)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MODEL.getLabel()), vehModel)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VALUE.getLabel()), "50000").resolveLinks();
-
-		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();
-
-		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
-
-		premiumAndCoveragesTab.calculatePremium();
-
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-		// Values from VIN comp and coll symbol in excel sheet
-
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isNotEqualTo("55");
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isNotEqualTo("66");
-
-		String compSymbol = PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue();
-		String collSymbol = PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
-
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-		VehicleTab.buttonSaveAndExit.click();
-
-		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		log.info("Quote number is : {}" , quoteNumber);
-
-		adminApp().open();
-		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.PARTIAL_MATCH.get()));
-
-		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
-		findAndRateQuote(testData, quoteNumber);
-
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-		assertSoftly(softly -> {
-			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isEqualTo("55").isNotEqualTo(compSymbol);
-			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isEqualTo("66").isNotEqualTo(collSymbol);
-		});
-
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-		PremiumAndCoveragesTab.buttonSaveAndExit.click();
-
-		//PAS-12881: Update VIN Y/M/M/S/S to Store VIN Stub (quote): Verify in DB that VIN STUB is stored
-		String newBusinessCurrentVinBeforeNull = DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, quoteNumber)).get();
-		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, quoteNumber)).get()).isNotNull().isEqualTo(newBusinessCurrentVinBeforeNull);
 
 	}
 
