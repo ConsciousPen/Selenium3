@@ -43,8 +43,8 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private FormsTab formsTab = new FormsTab();
 	private CheckBox enhancedUIM = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UIM);
-	private final String formId = DocGenEnum.Documents.AAEUIMMD.getIdInXml();
-	private final String formDesc = DocGenEnum.Documents.AAEUIMMD.getName();
+	private String formId = DocGenEnum.Documents.AAEUIMMD.getIdInXml();
+	private String formDesc = DocGenEnum.Documents.AAEUIMMD.getName();
 
 	/**
 	 *@author Josh Carpenter

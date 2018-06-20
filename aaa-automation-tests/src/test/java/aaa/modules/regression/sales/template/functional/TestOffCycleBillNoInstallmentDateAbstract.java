@@ -25,7 +25,7 @@ import toolkit.datax.TestData;
 
 public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBaseTest {
 
-	private final Dollar zeroDollars = new Dollar(0.00);
+	private Dollar zeroDollars = new Dollar(0.00);
 	private String policyNumber;
 	private LocalDateTime dueDate;
 

@@ -35,9 +35,9 @@ import static toolkit.verification.CustomAssertions.assertThat;
 @SuppressWarnings("InstanceVariableMayNotBeInitialized")
 public class TestTierCalculation extends AutoSSBaseTest {
 
-    private final Tab generalTab = new GeneralTab();
-    private final Tab premiumCovTab = new PremiumAndCoveragesTab();
-    private final DocumentsAndBindTab documentsTab = new DocumentsAndBindTab();
+    private Tab generalTab = new GeneralTab();
+    private Tab premiumCovTab = new PremiumAndCoveragesTab();
+    private DocumentsAndBindTab documentsTab = new DocumentsAndBindTab();
     private String policyNumberNb;
     private String policyNumberConv;
     private Dollar premiumValue;
