@@ -8,7 +8,7 @@
 
     <!--Tests for Auto-->
 
-    <test name="Test Calculate Tier for NY converted policies" parallel="methods" thread-count="1024">
+    <test name="Test Calculate Tier for NY converted policies" parallel="instances" thread-count="1024">
         <parameter name="state" value="NY"/>
         <classes>
             <class name="aaa.modules.regression.conversions.auto_ss.functional.TestTierCalculation">
@@ -20,7 +20,7 @@
         </classes>
     </test>
 
-    <test name="Test Reinstatement point score lock during mid term transaction" parallel="methods" thread-count="1024">
+    <test name="Test Reinstatement point score lock during mid term transaction" parallel="instances" thread-count="1024">
         <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMidTermReinstatementPointLock">
@@ -31,7 +31,7 @@
         </classes>
     </test>
 
-    <test name="Test Enhanced UIM Coverage Forms" parallel="methods" thread-count="1024">
+    <test name="Test Enhanced UIM Coverage Forms" parallel="instances" thread-count="1024">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms">
@@ -52,7 +52,7 @@
         </classes>
     </test>
 
-    <test name="Test Locked BI Limits And UW Points" parallel="methods" thread-count="1024">
+    <test name="Test Locked BI Limits And UW Points" parallel="instances" thread-count="1024">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints">
@@ -68,7 +68,7 @@
 
     <!--Tests for Defects-->
 
-    <test name="Test Off Cycle Bill Generation With No Installment Date For SS" parallel="methods" thread-count="1024">
+    <test name="Test Off Cycle Bill Generation With No Installment Date For SS" parallel="instances" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestOffCycleBillNoInstallmentDate">
@@ -109,7 +109,7 @@
         </classes>
     </test>
 
-    <test name="Test Off Cycle Bill Generation With No Installment Date For CA" parallel="methods" thread-count="1024">
+    <test name="Test Off Cycle Bill Generation With No Installment Date For CA" parallel="instances" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestOffCycleBillNoInstallmentDate">
