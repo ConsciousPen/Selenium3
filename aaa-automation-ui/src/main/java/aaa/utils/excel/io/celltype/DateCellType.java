@@ -52,10 +52,10 @@ public abstract class DateCellType<T extends Temporal> extends AbstractCellType<
 	@Override
 	public void setRawValueTo(ExcelCell cell, T value) {
 		Cell poiCell = cell.getPoiCell();
-		if (!DateUtil.isCellDateFormatted(poiCell)) {
+		if (poiCell.getCellTypeEnum() != org.apache.poi.ss.usermodel.CellType.NUMERIC || !DateUtil.isCellDateFormatted(poiCell)) {
 			Workbook wb = poiCell.getSheet().getWorkbook();
 			CellStyle cellStyle = wb.createCellStyle();
-			cellStyle.setDataFormat(wb.getCreationHelper().createDataFormat().getFormat(getBasePattern()));
+			cellStyle.setDataFormat(poiCell.getSheet().getWorkbook().getCreationHelper().createDataFormat().getFormat(getBasePattern()));
 			poiCell.setCellStyle(cellStyle);
 		}
 		poiCell.setCellValue(convertToJavaDate(value));

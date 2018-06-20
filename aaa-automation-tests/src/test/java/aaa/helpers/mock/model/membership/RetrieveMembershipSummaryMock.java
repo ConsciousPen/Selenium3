@@ -54,7 +54,17 @@ public class RetrieveMembershipSummaryMock implements UpdatableMock {
 
 	@Override
 	public boolean update(UpdatableMock mock) {
+		/*List<MembershipRequest> newRequests = new ArrayList<>();
+		List<MembershipRequest> thisRequests = getMembershipRequests().stream().map(r -> r.setId("")).collect(Collectors.toList());
+		List<MembershipRequest> otherRequests = new ArrayList<>(((RetrieveMembershipSummaryMock) mock).getMembershipRequests());
+		thisRequests.forEach(r -> r.setId(""));
+		otherRequests.forEach(r -> r.setId(""));
+		
+		for (MembershipRequest otherMembershipRequest :((RetrieveMembershipSummaryMock) mock).getMembershipRequests()) {
+			if (getMembershipRequests().stream().fi)
+		}
 		//TODO-dchubkov: to be implemented...
+		*/
 		return false;
 	}
 	

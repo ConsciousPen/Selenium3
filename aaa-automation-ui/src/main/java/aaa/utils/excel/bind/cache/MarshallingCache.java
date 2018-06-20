@@ -6,13 +6,13 @@ import aaa.utils.excel.io.ExcelManager;
 import toolkit.exceptions.IstfException;
 
 public class MarshallingCache extends TableClassesCache<MarshallingClassInfo> {
-	public MarshallingCache(ExcelManager excelManager, boolean strictMatchBinding) {
-		super(excelManager, strictMatchBinding);
+	public MarshallingCache(ExcelManager excelManager) {
+		super(excelManager);
 	}
 	
 	@Override
 	protected MarshallingClassInfo getTableClassInfoInstance(Class<?> tableClass) {
-		return new MarshallingClassInfo(tableClass, getExcelManager(), isStrictMatchBinding());
+		return new MarshallingClassInfo(tableClass, getExcelManager());
 	}
 	
 	public MarshallingClassInfo of(Object tableObject) {

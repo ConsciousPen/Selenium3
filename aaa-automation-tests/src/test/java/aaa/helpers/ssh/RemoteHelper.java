@@ -1,5 +1,6 @@
 package aaa.helpers.ssh;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
@@ -9,25 +10,34 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.SftpATTRS;
+import com.jcraft.jsch.SftpException;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
 
-public class RemoteHelper {
-
-	private static Logger log = LoggerFactory.getLogger(RemoteHelper.class);
-	private static String hostName = PropertyProvider.getProperty(TestProperties.APP_HOST);
-	private static String user = PropertyProvider.getProperty(TestProperties.SSH_USER);
-	private static String password = PropertyProvider.getProperty(TestProperties.SSH_PASSWORD);
+public final class RemoteHelper {
+	
+	private static final Logger log = LoggerFactory.getLogger(RemoteHelper.class);
+	
+	private static String defaultHostName = PropertyProvider.getProperty(TestProperties.APP_HOST);
+	private static String defaultUser = PropertyProvider.getProperty(TestProperties.SSH_USER);
+	private static String defaultPassword = PropertyProvider.getProperty(TestProperties.SSH_PASSWORD);
 	private static Ssh ssh;
-
-	static {
-		try {
-			ssh = new Ssh(hostName, user, password);
-		} catch (Exception e) {
-			throw e;
+	
+	private static Ssh getSession() {
+		return getSession(defaultHostName, defaultUser, defaultPassword);
+	}
+	
+	private static Ssh getSession(String hostName, String user, String password) {
+		if (ssh == null || !defaultHostName.equals(hostName) || !user.equals(defaultUser)) {
+			try {
+				ssh = new Ssh(hostName, user, password);
+			} catch (RuntimeException e) {
+				throw new IstfException(String.format("Unable to create ssh connection to host=\"%1$s\" as user=\"%2$s\"", hostName, user), e);
+			}
 		}
+		return ssh;
 	}
 
 	public static String getServerTimeZone() {
@@ -43,9 +53,9 @@ public class RemoteHelper {
 
 	public static void clearFolder(String folder) {
 		if (isPathExist(folder)) {
-			ssh.removeFiles(folder);
+			getSession().removeFiles(folder);
 		} else {
-			log.warn("SSH: Folder '" + folder + "' doesn't exist.");
+			log.warn("SSH: Folder '{}' doesn't exist.", folder);
 		}
 	}
 
@@ -62,38 +72,36 @@ public class RemoteHelper {
 				throw new IstfException(e);
 			}
 		}
-		ssh.downloadFile(source, destination);
+		getSession().downloadFile(source, destination);
 	}
 
 	public static void downloadFile(String source, String destination) {
 		log.info(String.format("SSH: File '%s' downloading to '%s' destination folder has been started.", source, destination));
-		ssh.downloadFile(source, destination);
+		getSession().downloadFile(source, destination);
 	}
 
 	public static void downloadBatchFiles(String source, File destination) {
 		log.info(String.format("SSH: Files downloading from '%s' has been started,", source));
-		ssh.downloadBatchFile(source, destination);
+		getSession().downloadBatchFile(source, destination);
 	}
 
 	public static synchronized void uploadFile(String source, String destination) {
-		if (source == null) {
-			throw new IstfException("Stub file is NULL");
-		}
+		assertThat(source).as("Source file is NULL").isNotNull();
 		log.info(String.format("SSH: File '%s' uploading to '%s' destination folder has been started.", source, destination));
 //		Folders creation moved to Ssh class and made with sftp commands
 //		File destinationFile = File destinationFile = new File(destination);;
 //		if (!isPathExist(destinationFile.getParent())) {
-//			executeCommand("mkdir -p -m 777 " + ssh.parseFileName(destinationFile.getParent()));
+		//			executeCommand("mkdir -p -m 777 " + getSession().parseFileName(destinationFile.getParent()));
 //			if (destinationFile.getParentFile().getParentFile() != null) {
-//				executeCommand("chmod -R 777 " + ssh.parseFileName(destinationFile.getParentFile().getParent()));
+		//				executeCommand("chmod -R 777 " + getSession().parseFileName(destinationFile.getParentFile().getParent()));
 //			}
 //		}
-		ssh.putFile(source, destination);
+		getSession().putFile(source, destination);
 	}
 
 	public static void removeFile(String file) {
 		log.info(String.format("SSH: File '%s' deleting has been started.", file));
-		ssh.removeFile(file);
+		getSession().removeFile(file);
 	}
 
 	public static void uploadFiles(String sourceFolder, String destinationFolder) {
@@ -109,45 +117,49 @@ public class RemoteHelper {
 	}
 
 	public static String executeCommand(String command) {
-		log.info(String.format("SSH: Executing on host \"%s\" shell command: \"%s\"", hostName, command));
-		String result = ssh.executeCommand(command);
+		return executeCommandAsUser(command, defaultUser, defaultPassword);
+	}
+	
+	public static String executeCommandAsUser(String command, String user, String password) {
+		log.info(String.format("SSH: Executing on host \"%1$s\" shell command: \"%2$s\" as user \"%3$s\"", defaultHostName, command, user));
+		String result = getSession(defaultHostName, user, password).executeCommand(command);
 		log.info(String.format("SSH: command output is: \"%s\"", result));
 		return result;
 	}
 
 	public static boolean isPathExist(String path) {
 		SftpATTRS attrs = null;
-		path = ssh.parseFileName(path);
+		path = getSession().parseFileName(path);
 
 		try {
-			ChannelSftp channel = ssh.getSftpChannel();
+			ChannelSftp channel = getSession().getSftpChannel();
 			attrs = channel.stat(path);
-		} catch (Exception e) {
-			log.debug("SSH: File/folder '" + path + "' doesn't exist.");
+		} catch (SftpException | RuntimeException e) {
+			log.debug("SSH: File/folder '{}' doesn't exist.", path);
 		}
 		return attrs != null;
 	}
 
 	public static void createFolder(String source) {
-		source = ssh.parseFileName(source);
+		source = getSession().parseFileName(source);
 
 		log.info(String.format("SSH: Creating folder '%s'", source));
 		try {
 			executeCommand("mkdir -p " + source);
 			executeCommand("chmod 777 " + source);
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			throw new IstfException("SSH: Folder '" + source + "' couldn't be created. " + e.getMessage());
 		}
 		log.info(String.format("SSH: Folder '%s' was created", source));
 	}
 
 	public static void closeSession() {
-		ssh.closeSession();
+		getSession().closeSession();
 	}
 
 	public static String getFileContent(String filePath) {
 		log.info(String.format("SSH: Getting content from \"%s\" file", filePath));
-		return ssh.getFileContent(filePath);
+		return getSession().getFileContent(filePath);
 	}
 
 	public static List<String> waitForFilesAppearance(String sourceFolder, int timeout, String... textsToSearchPatterns) {
@@ -177,8 +189,8 @@ public class RemoteHelper {
 				fileExtension != null ? String.format(" with file extension \"%s\"", fileExtension) : "",
 				textsToSearchPatterns.length > 0 ? String.format(" containing text pattern(s): %s", Arrays.asList(textsToSearchPatterns)) : "",
 				sourceFolder, timeoutInSeconds);
-
-		log.info("Searching for file(s)" + searchParams);
+		
+		log.info("Searching for file(s) {}", searchParams);
 		long searchStart = System.currentTimeMillis();
 		long timeout = searchStart + timeoutInSeconds * 1000;
 		String commandOutput = "";
@@ -202,12 +214,12 @@ public class RemoteHelper {
 	}
 
 	@SuppressWarnings("unchecked")
-	public synchronized void verifyFolderIsEmpty(String source) {
-		source = ssh.parseFileName(source);
+	public static synchronized void verifyFolderIsEmpty(String source) {
+		source = getSession().parseFileName(source);
 		try {
-			Vector<ChannelSftp.LsEntry> list = ssh.getSftpChannel().ls("*");
-			CustomAssert.assertTrue("SSH: Folder should be empty", list.size() == 0);
-		} catch (Exception e) {
+			Vector<ChannelSftp.LsEntry> list = getSession().getSftpChannel().ls("*");
+			CustomAssert.assertTrue("SSH: Folder should be empty", list.isEmpty());
+		} catch (SftpException | RuntimeException e) {
 			throw new IstfException("SSH: Folder '" + source + "' doesn't exist.", e);
 		}
 	}

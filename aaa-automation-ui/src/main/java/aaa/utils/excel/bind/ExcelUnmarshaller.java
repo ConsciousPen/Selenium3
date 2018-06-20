@@ -87,7 +87,7 @@ public class ExcelUnmarshaller implements Closeable {
 	}
 	
 	public <T> List<T> unmarshalRows(Class<T> excelTableModel, List<Integer> rowsWithPrimaryKeyValues) {
-		log.info(String.format("Getting list of table row objects of \"%1$s\" model from %2$s%3$s %4$s strict match binding",
+		log.info(String.format("Getting table rows objects list of \"%1$s\" model from %2$s%3$s %4$s strict match binding",
 				excelTableModel.getSimpleName(),
 				this.excelManager.initializedFromFile() ? "file \"" + this.excelManager.getFile().getAbsolutePath() + "\"" : "InputStream",
 				CollectionUtils.isNotEmpty(rowsWithPrimaryKeyValues) ? ", containing values in primary key columns: " + rowsWithPrimaryKeyValues : "",
@@ -125,8 +125,8 @@ public class ExcelUnmarshaller implements Closeable {
 				case TABLE:
 					value = getTableValue(tableColumnField, row.getCell(cache.of(tableClass).getHeaderColumnIndex(tableColumnField)));
 					break;
-				case MULTY_COLUMNS:
-					value = getMultyColumnsFieldValue(tableClass, tableColumnField, row);
+				case MULTI_COLUMNS:
+					value = getMultiColumnsFieldValue(tableClass, tableColumnField, row);
 					break;
 			}
 			BindHelper.setFieldValue(tableColumnField, tableObject, value);
@@ -168,12 +168,12 @@ public class ExcelUnmarshaller implements Closeable {
 		return getTableObjectValues(cache.of(field).getTableClass(), linkedTableRowIds);
 	}
 	
-	private List<Object> getMultyColumnsFieldValue(Class<?> tableClass, Field field, TableRow row) {
-		List<Object> multyColumnsValues = new ArrayList<>(cache.of(tableClass).getHeaderColumnsIndexes(field).size());
+	private List<Object> getMultiColumnsFieldValue(Class<?> tableClass, Field field, TableRow row) {
+		List<Object> multiColumnsValues = new ArrayList<>(cache.of(tableClass).getHeaderColumnsIndexes(field).size());
 		for (Integer columnIndex : cache.of(tableClass).getHeaderColumnsIndexes(field)) {
-			multyColumnsValues.add(getFieldValue(tableClass, field, row.getCell(columnIndex)));
+			multiColumnsValues.add(getFieldValue(tableClass, field, row.getCell(columnIndex)));
 		}
-		return multyColumnsValues;
+		return multiColumnsValues;
 	}
 	
 	private List<Object> getTableObjectValues(Class<?> tableClass, List<Integer> tableRowsIds) {

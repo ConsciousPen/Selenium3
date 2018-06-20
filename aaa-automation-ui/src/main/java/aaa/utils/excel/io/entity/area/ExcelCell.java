@@ -88,12 +88,6 @@ public abstract class ExcelCell implements Writable {
 		return Collections.unmodifiableList(this.cellTypes);
 	}
 	
-	ExcelCell setCellTypes(List<CellType<?>> allowableCellTypes) {
-		this.allowableCellTypes = allowableCellTypes.stream().distinct().collect(Collectors.toList());
-		this.cellTypes = null;
-		return this;
-	}
-	
 	public int getRowIndex() {
 		return getRow().getIndex();
 	}
@@ -244,22 +238,32 @@ public abstract class ExcelCell implements Writable {
 	
 	@SuppressWarnings("unchecked")
 	public <T> CellType<T> getType(T value) {
+		CellType<T> returnType = null;
 		if (value == null) {
-			return null;
+			if (this.allowableCellTypes.contains(STRING_TYPE)) {
+				returnType = (CellType<T>) STRING_TYPE;
+			}
+		} else {
+			returnType = (CellType<T>) this.allowableCellTypes.stream().filter(t -> ClassUtils.isAssignable(t.getEndType(), value.getClass(), true)).findFirst().orElse(null);
 		}
-		return (CellType<T>) getCellTypes().stream().filter(t -> ClassUtils.isAssignable(t.getEndType(), value.getClass(), true)).findFirst().orElse(null);
+		
+		if (returnType == null) {
+			throw new IstfException(String.format("There is no allowable cell type for \"%1$s\" value in %2$s", value, this));
+		}
+		return returnType;
 	}
 	
 	public ExcelCell registerCellType(List<CellType<?>> cellTypes) {
 		this.allowableCellTypes.addAll(cellTypes);
-		return setCellTypes(this.allowableCellTypes);
+		this.cellTypes = null;
+		return this;
 	}
 	
 	public <T> ExcelCell setValue(T value, CellType<T> valueType) {
 		if (value == null) {
 			return clear();
 		}
-		assertThat(hasType(valueType)).as("There is no appropriate cell type to set %s value to cell %s", value, this).isTrue();
+		assertThat(this.allowableCellTypes.contains(valueType)).as("Cell type %s is not allowed to set \"%s\" value to cell %s", valueType, value, this).isTrue();
 		if (getPoiCell() == null) {
 			//TODO-dchubkov: maybe would be better to move this cell creation to "aaa.utils.excel.io.celltype.AbstractCellType.setValueTo" method
 			Row row = getRow().getPoiRow();
@@ -270,7 +274,6 @@ public abstract class ExcelCell implements Writable {
 			this.cell = row.createCell(getColumnIndexOnSheet() - 1);
 		}
 		valueType.setValueTo(this, value);
-		registerCellType(Collections.singletonList(valueType));
 		return this;
 	}
 	
@@ -278,7 +281,7 @@ public abstract class ExcelCell implements Writable {
 		if (!isEmpty()) {
 			getRow().getPoiRow().removeCell(getPoiCell());
 			this.cell = null;
-			setCellTypes(Collections.singletonList(STRING_TYPE));
+			this.cellTypes = null;
 		}
 		return this;
 	}
@@ -296,8 +299,6 @@ public abstract class ExcelCell implements Writable {
 	}
 	
 	public ExcelCell copy(ExcelCell destinationCell, boolean copyCellStyle, boolean copyComment, boolean copyHyperlink) {
-		destinationCell.setCellTypes(this.getCellTypes());
-		
 		Cell cell = this.getPoiCell();
 		if (cell == null) {
 			destinationCell.clear();

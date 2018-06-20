@@ -81,7 +81,7 @@ public class BindHelper {
 	//TODO-dchubkov: add getInt(), getLong(), etc... methods
 	public static Object getFieldValue(Field field, Object classInstance) {
 		if (!field.isAccessible()) {
-			//TODO-dchubkov: find appropriate setter method and use it for set value
+			//TODO-dchubkov: find appropriate getter method and use it for set value
 			field.setAccessible(true);
 		}
 		

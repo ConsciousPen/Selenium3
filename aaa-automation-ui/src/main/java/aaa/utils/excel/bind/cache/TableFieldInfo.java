@@ -93,7 +93,7 @@ public final class TableFieldInfo {
 			if (BindHelper.isTableClassField(getTableField())) {
 				this.bindType = BindType.TABLE;
 			} else if (List.class.equals(tableField.getType())) {
-				this.bindType = BindType.MULTY_COLUMNS;
+				this.bindType = BindType.MULTI_COLUMNS;
 			} else {
 				this.bindType = BindType.REGULAR;
 			}
@@ -169,7 +169,7 @@ public final class TableFieldInfo {
 				if (isColumnFound) {
 					columnsIndexes.add(cell.getColumnIndex());
 					isColumnFound = false;
-					if (!getBindType().equals(BindType.MULTY_COLUMNS)) {
+					if (!getBindType().equals(BindType.MULTI_COLUMNS)) {
 						break;
 					}
 				}
@@ -193,7 +193,7 @@ public final class TableFieldInfo {
 	
 	public enum BindType {
 		REGULAR,
-		MULTY_COLUMNS,
+		MULTI_COLUMNS,
 		TABLE
 	}
 }
