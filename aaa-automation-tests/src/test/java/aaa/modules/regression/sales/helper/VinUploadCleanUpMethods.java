@@ -19,7 +19,7 @@ public class VinUploadCleanUpMethods {
 			if (id != null && !id.isEmpty()) {
 				DatabaseCleanHelper.cleanVehicleRefDataVinTable(id, version.get());
 			}else{
-
+				log.info(id + " : vin is not present\n\n");
 			}
 		}
 	}
@@ -33,6 +33,9 @@ public class VinUploadCleanUpMethods {
 		for (String vin : listOfVinNumbers) {
 			if (vin != null && !vin.isEmpty()) {
 				DatabaseCleanHelper.cleanVehicleRefDataVinTable(vin, version.get());
+			}
+			else{
+				log.info(vin + " : id is not present\n\n");
 			}
 		}
 	}

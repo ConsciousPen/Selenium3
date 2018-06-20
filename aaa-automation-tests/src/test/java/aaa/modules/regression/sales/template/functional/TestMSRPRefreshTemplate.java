@@ -481,8 +481,6 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 	 * @param vehicleType
 	 */
 	protected void pas730_SelectCleanDataBase(String vehicleTypeMSRPVersion, String vehicleType) {
-		// Delete added version from VEHICLE REF DATA VIN
-		DBService.get().executeUpdate(String.format(DELETE_FROM_VEHICLEREFDATAVINCONTROL,formTypeSelect,DefaultVinVersions.DefaultVersions.CaliforniaSelect.get(),NEW_VEHREFVERSION_EFFECTIVEDATE,NEW_VEHREFVERSION_EXPIRATIONDATE));
 		// Reset default version in VEHICLE REF DATA VIN
 		resetDefaultVehicleDataVinVersion(vehicleTypeMSRPVersion);
 		// DELETE new MSRP version pas730_VehicleTypeRegular
