@@ -308,14 +308,6 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		assertThat(autoRenewalVersionCurrentVin).isNotNull().isNotEmpty();
 	}
 
-
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-12877")
-	public void test(@Optional("CA") String state) {
-		fail();
-	}
-
 	@AfterClass(alwaysRun = true)
 	protected void resetVinControlTable() {
 		pas730_ChoiceCleanDataBase(CA_CHOICE_REGULAR_VEH_MSRP_VERSION, vehicleTypeRegular);
