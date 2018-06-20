@@ -65,7 +65,7 @@ public class HelperCommon {
 
 	private static final String DXP_POLICIES_DRIVERS = "/api/v1/policies/%s/drivers";
 	private static final String DXP_POLICIES_ENDORSEMENT_DRIVERS = "/api/v1/policies/%s/endorsement/drivers";
-	private static final String DXP_POLICIES_ENDORSEMENT_DRIVER= "/api/v1/policies/%s/endorsement/drivers";
+	private static final String DXP_POLICIES_ENDORSEMENT_DRIVER = "/api/v1/policies/%s/endorsement/drivers";
 
 	private static final String DXP_POLICIES_POLICY_COVERAGES = "/api/v1/policies/%s/coverages";
 	private static final String DXP_POLICIES_ENDORSEMENT_COVERAGES = "/api/v1/policies/%s/endorsement/coverages";
@@ -295,7 +295,7 @@ public class HelperCommon {
 		return runJsonRequestPatchDxp(requestUrl, request, PolicyCoverageInfo.class);
 	}
 
-	static PolicyCoverageInfo updatePolicyLevelCoverageEndorsement(String policyNumber,String coverageCode, String availableLimits) {
+	static PolicyCoverageInfo updatePolicyLevelCoverageEndorsement(String policyNumber, String coverageCode, String availableLimits) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_UPDATE_COVERAGES, policyNumber));
 		UpdateCoverageRequest request = new UpdateCoverageRequest();
 		request.coverageCd = coverageCode;

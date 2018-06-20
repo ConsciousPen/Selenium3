@@ -898,6 +898,19 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * Create a active policy in the pas
+	 * Create an endorsement.
+	 * Scenario 1
+	 * run update coverage service
+	 * set BI Coverage 50000/100000 and verify response and check BI limit updated PD available limit should be up to upper limit of BI.
+	 * Scenario 2
+	 * run update coverage service to set PD 3000000
+	 * Verify since PD can not exceed BI so PD limit should set to 100000
+	 * Update set BI Coverage 500000/500000 and verify response PD available limit should be up to upper limit of BI
+	 * PD limit should not change.
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14648"})
