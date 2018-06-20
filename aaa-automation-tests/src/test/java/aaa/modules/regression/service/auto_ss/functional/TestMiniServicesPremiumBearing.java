@@ -959,7 +959,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14536"})
 	public void pas14536_TransportationExpensePart1(@Optional("VA") String state) {
 		assertSoftly(softly ->
-			pas14536_TransportationExpensePart1Body(getPolicyType())
+			pas14536_TransportationExpensePart1Body(getPolicyType(), softly)
 		);
 	}
 
@@ -981,7 +981,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14536"})
 	public void pas14536_TransportationExpensePart2(@Optional("VA") String state) {
 		assertSoftly(softly ->
-				pas14536_TransportationExpensePart2Body(getPolicyType())
+				pas14536_TransportationExpensePart2Body(getPolicyType(), softly)
 		);
 	}
 
@@ -1002,7 +1002,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14536"})
 	public void pas14536_TransportationExpensePart3(@Optional("VA") String state) {
 		assertSoftly(softly ->
-				pas14536_TransportationExpensePart3Body(getPolicyType())
+				pas14536_TransportationExpensePart3Body(getPolicyType(), softly)
 		);
 	}
 
