@@ -1,3 +1,16 @@
+TestData: {
+  UnderwritingAndApprovalTab: {
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?": "No",
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?":  "No",
+  "Has the property been in foreclosure proceedings within the past 18 months?": "Yes",
+  "Remarks": 'Remarks',
+  "Is any gas water heater located in a garage?": "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is there a business on premises?": "No",
+  "Is the dwelling located within 500 feet of bay or coastal waters?": "No"
+ }
+}
+
 TestData_Approval: {
   ErrorTab: {
     ErrorsOverride: {
