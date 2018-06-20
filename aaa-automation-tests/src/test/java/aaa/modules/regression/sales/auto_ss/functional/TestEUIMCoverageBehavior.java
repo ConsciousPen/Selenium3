@@ -73,7 +73,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11620_testEUIMCoverageBehaviorNB(@Optional("MD") String state) {
 
-        TimeSetterUtil.getInstance().nextPhase(algoDate);
+        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         // Initiate Policy, calculate premium
         mainApp().open();
@@ -130,7 +130,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11620")
     public void pas11620_PremiumChangeBetweenEnhancedAndStandardUIM(@Optional("MD") String state) {
 
-        TimeSetterUtil.getInstance().nextPhase(algoDate);
+        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         // Initiate Policy, calculate premium
         mainApp().open();
@@ -197,7 +197,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11620_testEUIMCoverageBehaviorEndorsement(@Optional("MD") String state) {
 
-        TimeSetterUtil.getInstance().nextPhase(algoDate);
+        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         // Initiate Policy, calculate premium
         mainApp().open();
@@ -238,7 +238,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11620_testEUIMCoverageBehaviorRenewal(@Optional("MD") String state) {
 
-        TimeSetterUtil.getInstance().nextPhase(algoDate);
+        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         // Create customer & policy
         mainApp().open();
@@ -292,7 +292,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11620_testEUIMCoverageBehaviorConversion(@Optional("MD") String state) {
 
-        TimeSetterUtil.getInstance().nextPhase(algoDate);
+        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
         TestData tdManualConversionInitiation = getManualConversionInitiationTd().adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),

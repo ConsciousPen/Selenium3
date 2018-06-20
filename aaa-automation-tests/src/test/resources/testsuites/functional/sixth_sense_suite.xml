@@ -87,6 +87,14 @@
         </classes>
     </test>
 
+    <test name="Test Enhanced UIM Coverage Behavior">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDNanoPolicyEUIMBehavior"/>
+        </classes>
+    </test>
+
     <!--Tests for Property-->
 
     <test name="Test Renovation Discount for KS DP3, HO3">

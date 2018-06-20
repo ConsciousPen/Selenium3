@@ -447,30 +447,68 @@ public class HelperCommon {
 		}
 	}
 
-	public static <T> T runJsonRequestPatchDxp(String url, RestBodyRequest request, Class<T> responseType) {
-		return runJsonRequestPatchDxp(url, request, responseType, Response.Status.OK.getStatusCode());
+	public static String runJsonRequestPatchDxp(String url, RestBodyRequest bodyRequest) {
+		return runJsonRequestPatchDxp(url, bodyRequest, String.class);
 	}
 
+	public static <T> T runJsonRequestPatchDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType) {
+		return runJsonRequestPatchDxp(url, bodyRequest, responseType, Response.Status.OK.getStatusCode());
+	}
+
+	//not working TODO fix the PATCH to use standard functionality
+	/*public static <T> T runJsonRequestPatchDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = url;
+		restRequestInfo.bodyRequest = bodyRequest;
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		return runJsonRequestPatchDxp(restRequestInfo);
+	}
+
+	public static <T> T runJsonRequestPatchDxp(RestRequestInfo<T> request) {
+		Client client = null;
+		Response response = null;
+		log.info("Request: " + asJson(request));
+		try {
+			client = ClientBuilder.newClient().property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true).register(JacksonJsonProvider.class);
+			response = createJsonRequest(client, request.url, request.sessionId).method("PATCH", Entity.json(request));
+			T responseObj = response.readEntity(request.responseType);
+			if (response.getStatus() != request.status) {
+				//handle error
+				throw new IstfException("PATCH json request failed");
+			}
+			log.info("Response: " + asJson(responseObj));
+			return responseObj;
+		} finally {
+			if (response != null) {
+				response.close();
+			}
+			if (client != null) {
+				client.close();
+			}
+		}
+	}*/
+
+	//WORKING
 	public static <T> T runJsonRequestPatchDxp(String url, RestBodyRequest request, Class<T> responseType, int status) {
 		Client client = null;
 		Response response = null;
 		log.info("Request: " + asJson(request));
 		try {
-			client = ClientBuilder.newClient()
-					.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true)
-					.register(JacksonJsonProvider.class);
-			WebTarget target = client.target(url);
+			client = ClientBuilder.newClient().property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true).register(JacksonJsonProvider.class);
 
-			response = target
+			String token = getBearerToken();
+
+			response =  client.target(url)
 					.request()
-					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("admin:admin".getBytes()))
+					.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
 					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
 					.method("PATCH", Entity.json(request));
 			T responseObj = response.readEntity(responseType);
 			log.info(response.toString());
 			if (response.getStatus() != status) {
 				//handle error
-				throw new IstfException("POST?PATCH? json response failed");
+				throw new IstfException("PATCH json response failed");
 			}
 			return responseObj;
 		} finally {
