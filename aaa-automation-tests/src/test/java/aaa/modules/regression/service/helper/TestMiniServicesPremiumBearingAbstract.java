@@ -4096,6 +4096,233 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		});
 	}
 
+	protected void pas14536_TransportationExpensePart1Body(PolicyType policyType) {
+		mainApp().open();
+		createCustomerIndividual();
+		createQuote();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+
+		//Remove Collision Deductible and issue
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.OTHER_THAN_COLLISION).setValueContains("No Coverage");
+		premiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
+		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
+
+		//Create pended endorsement
+		AAAEndorseResponse response = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
+
+		//Add first vehicle
+		String purchaseDate = "2013-02-22";
+		String vin1 = "1HGFA16526L081415";
+		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin1);
+		assertThat(addVehicle.oid).isNotEmpty();
+		String oid1 = addVehicle.oid;
+		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, oid1);
+
+		PolicyCoverageInfo coverageResponse1 = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, oid1);
+
+		//Transportation Expense
+		assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).coverageCd).isEqualTo("RREIM");
+		assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).coverageDescription).isEqualTo("Transportation Expense");
+		//Bug PAS-15473: Transportation Expense: coverageLimit is not displaying for new added vehicle
+		//assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimit).isEqualTo("600");
+		//assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimitDisplay).isEqualTo("$600");
+		assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).coverageType).isEqualTo("Per Occurrence");
+		assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).customerDisplayed).isEqualTo(true);
+		assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).canChangeCoverage).isEqualTo(true);
+		assertCoverageLimitTransportationExpense(coverageResponse1);
+
+		//Other Than Collision
+		assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("COMPDED");
+		assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).coverageDescription).isEqualTo("Other Than Collision");
+		assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimit).isEqualTo("250");
+		assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimitDisplay).isEqualTo("$250");
+		assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).coverageType).isEqualTo("Deductible");
+		assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).customerDisplayed).isEqualTo(true);
+		assertThat(coverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).canChangeCoverage).isEqualTo(true);
+		assertCoverageLimitForCompColl(coverageResponse1);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+	}
+
+	protected void pas14536_TransportationExpensePart2Body(PolicyType policyType) {
+		mainApp().open();
+		createCustomerIndividual();
+		createQuote();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+
+		//Remove Collision Deductible and issue
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.TRANSPORTATION_EXPENSE).setValueContains("$1,200");
+		premiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
+		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
+
+		//Create pended endorsement
+		AAAEndorseResponse response = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
+
+		//Add first vehicle
+		String purchaseDate = "2013-02-22";
+		String vin1 = "1HGFA16526L081415";
+		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin1);
+		assertThat(addVehicle.oid).isNotEmpty();
+		String oid1 = addVehicle.oid;
+		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, oid1);
+
+		String coverageCd = "COMPDED";
+		String availableLimits = "-1";
+		String availableLimits2 = "100";
+
+		//Remove COMPDED coverage and check Transportation Expense
+		PolicyCoverageInfo updateCoverageResponse1 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oid1, coverageCd, availableLimits);
+
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).coverageCd).isEqualTo("RREIM");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).coverageDescription).isEqualTo("Transportation Expense");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimit).isEqualTo("0");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).coverageType).isEqualTo("Per Occurrence");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).customerDisplayed).isEqualTo(true);
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).canChangeCoverage).isEqualTo(false);
+
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(0).coverageLimit).isEqualTo("600");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(0).coverageLimitDisplay).isEqualTo("$600 (Included)");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(1).coverageLimit).isEqualTo("1200");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(1).coverageLimitDisplay).isEqualTo("$1,200");
+
+		//Other Than Collision
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("COMPDED");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).coverageDescription).isEqualTo("Other Than Collision");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimit).isEqualTo("-1");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimitDisplay).isEqualTo("No Coverage");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).coverageType).isEqualTo("Deductible");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).customerDisplayed).isEqualTo(true);
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).canChangeCoverage).isEqualTo(true);
+		assertCoverageLimitForCompColl(updateCoverageResponse1);
+
+		//Add COMPDED coverage again and check Transportation Expense
+		PolicyCoverageInfo updateCoverageResponse2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oid1, coverageCd, availableLimits2);
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).coverageCd).isEqualTo("RREIM");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).coverageDescription).isEqualTo("Transportation Expense");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimit).isEqualTo("600");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimitDisplay).isEqualTo("$600 (Included)");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).coverageType).isEqualTo("Per Occurrence");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).customerDisplayed).isEqualTo(true);
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).canChangeCoverage).isEqualTo(true);
+
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(0).coverageLimit).isEqualTo("600");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(0).coverageLimitDisplay).isEqualTo("$600 (Included)");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(1).coverageLimit).isEqualTo("1200");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(1).coverageLimitDisplay).isEqualTo("$1,200");
+
+		//Other Than Collision
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("COMPDED");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(0).coverageDescription).isEqualTo("Other Than Collision");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimit).isEqualTo("100");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimitDisplay).isEqualTo("$100");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(0).coverageType).isEqualTo("Deductible");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(0).customerDisplayed).isEqualTo(true);
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(0).canChangeCoverage).isEqualTo(true);
+		assertCoverageLimitForCompColl(updateCoverageResponse2);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+	}
+
+	protected void pas14536_TransportationExpensePart3Body(PolicyType policyType) {
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNumber = getCopiedPolicy();
+
+		//Create pended endorsement
+		AAAEndorseResponse response = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
+
+		//Add first vehicle
+		String purchaseDate = "2013-02-22";
+		String vin1 = "1HGFA16526L081415";
+		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin1);
+		assertThat(addVehicle.oid).isNotEmpty();
+		String oid1 = addVehicle.oid;
+		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, oid1);
+
+		String coverageCd = "COMPDED";
+		String availableLimits = "-1";
+		String availableLimits2 = "100";
+
+		//Remove COMPDED coverage and check Transportation Expense
+		PolicyCoverageInfo updateCoverageResponse1 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oid1, coverageCd, availableLimits);
+
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).coverageCd).isEqualTo("RREIM");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).coverageDescription).isEqualTo("Transportation Expense");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimit).isEqualTo("0");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).coverageType).isEqualTo("Per Occurrence");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).customerDisplayed).isEqualTo(true);
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).canChangeCoverage).isEqualTo(false);
+
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(0).coverageLimit).isEqualTo("600");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(0).coverageLimitDisplay).isEqualTo("$600 (Included)");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(1).coverageLimit).isEqualTo("900");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(1).coverageLimitDisplay).isEqualTo("$900");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(2).coverageLimit).isEqualTo("1200");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(2).coverageLimitDisplay).isEqualTo("$1,200");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(3).coverageLimit).isEqualTo("1500");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(3).coverageLimitDisplay).isEqualTo("$1,500");
+
+		//Other Than Collision
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("COMPDED");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).coverageDescription).isEqualTo("Other Than Collision");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimit).isEqualTo("-1");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimitDisplay).isEqualTo("No Coverage");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).coverageType).isEqualTo("Deductible");
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).customerDisplayed).isEqualTo(true);
+		assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(0).canChangeCoverage).isEqualTo(true);
+		assertCoverageLimitForCompColl(updateCoverageResponse1);
+
+		//Add COMPDED coverage again and check Transportation Expense
+		PolicyCoverageInfo updateCoverageResponse2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oid1, coverageCd, availableLimits2);
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).coverageCd).isEqualTo("RREIM");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).coverageDescription).isEqualTo("Transportation Expense");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimit).isEqualTo("600");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).coverageLimitDisplay).isEqualTo("$600 (Included)");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).coverageType).isEqualTo("Per Occurrence");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).customerDisplayed).isEqualTo(true);
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).canChangeCoverage).isEqualTo(true);
+
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(0).coverageLimit).isEqualTo("600");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(0).coverageLimitDisplay).isEqualTo("$600 (Included)");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(1).coverageLimit).isEqualTo("900");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(1).coverageLimitDisplay).isEqualTo("$900");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(2).coverageLimit).isEqualTo("1200");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(2).coverageLimitDisplay).isEqualTo("$1,200");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(3).coverageLimit).isEqualTo("1500");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(3).coverageLimitDisplay).isEqualTo("$1,500");
+
+		//Other Than Collision
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("COMPDED");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(0).coverageDescription).isEqualTo("Other Than Collision");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimit).isEqualTo("100");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimitDisplay).isEqualTo("$100");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(0).coverageType).isEqualTo("Deductible");
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(0).customerDisplayed).isEqualTo(true);
+		assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(0).canChangeCoverage).isEqualTo(true);
+		assertCoverageLimitForCompColl(updateCoverageResponse2);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+	}
+
 	protected void pas7147_VehicleUpdateBusinessBody() {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();

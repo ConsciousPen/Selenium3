@@ -89,6 +89,9 @@
                     <include name="pas13994_UpdateDriverAssignmentServiceRule3"/>
                     <include name="pas502_DuplicateVinAddVehicleService"/>
                     <include name="pas9493_TransactionInformationForEndorsementsAddVehicle"/>
+                    <include name="pas14536_TransportationExpensePart1Body"/>
+                    <include name="pas14536_TransportationExpensePart2Body"/>
+                    <include name="pas14536_TransportationExpensePart3Body"/>
                     </methods>
             </class>
         </classes>
