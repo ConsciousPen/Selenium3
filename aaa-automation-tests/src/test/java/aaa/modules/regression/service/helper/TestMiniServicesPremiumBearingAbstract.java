@@ -4265,7 +4265,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		softly.assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).canChangeCoverage).isEqualTo(false);
 
 		softly.assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(0).coverageLimit).isEqualTo("600");
-		softly.assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(0).coverageLimitDisplay).isEqualTo("$6600 (Included)");
+		softly.assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(0).coverageLimitDisplay).isEqualTo("$600 (Included)");
 		softly.assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(1).coverageLimit).isEqualTo("900");
 		softly.assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(1).coverageLimitDisplay).isEqualTo("$900");
 		softly.assertThat(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.get(2).coverageLimit).isEqualTo("1200");
