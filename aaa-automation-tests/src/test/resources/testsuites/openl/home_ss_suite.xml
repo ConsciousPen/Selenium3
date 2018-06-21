@@ -49,14 +49,14 @@
     <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
     <!--</classes>-->
     <!--</test>-->
-    <!--<test name="HomeSS [ID] Premium Calculation Test" preserve-order="true">-->
-    <!--<parameter name="state" value="ID"/>-->
-    <!--<parameter name="fileName" value="IDTests-20170807.xls"/>-->
-    <!--<parameter name="policyNumbers" value="1"/>-->
-    <!--<classes>-->
-    <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
-    <!--</classes>-->
-    <!--</test>-->
+    <test name="HomeSS [ID] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="ID"/>
+        <parameter name="fileName" value="IDTests-20170807.xls"/>
+        <parameter name="policyNumbers" value="6000,6015"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSDP3PremiumCalculationTest"/>
+        </classes>
+    </test>
     <test name="HomeSS [IN] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="IN"/>
         <parameter name="fileName" value="INTests-20180508_part1.xls"/>
@@ -65,14 +65,14 @@
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
-    <!--<test name="HomeSS [KS] Premium Calculation Test" preserve-order="true">-->
-    <!--<parameter name="state" value="KS"/>-->
-    <!--<parameter name="fileName" value="KSTests+-+20171001.xls"/>-->
-    <!--<parameter name="policyNumbers" value="3"/>-->
-    <!--<classes>-->
-    <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
-    <!--</classes>-->
-    <!--</test>-->
+    <test name="HomeSS [KS] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="KS"/>
+        <parameter name="fileName" value="KSTests - 20171001.xls"/>
+        <parameter name="policyNumbers" value="115"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSDP3PremiumCalculationTest"/>
+        </classes>
+    </test>
     <!--<test name="HomeSS [KY] Premium Calculation Test" preserve-order="true">-->
     <!--<parameter name="state" value="KY"/>-->
     <!--<parameter name="fileName" value="KYTests-20160901.xls"/>-->
