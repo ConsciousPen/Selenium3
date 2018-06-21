@@ -4313,7 +4313,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		softly.assertThat(coveragesVehicle.get(4).coverageType).isEqualTo("Per Occurrence");
 		softly.assertThat(coveragesVehicle.get(4).customerDisplayed).isEqualTo(true);
 		softly.assertThat(coveragesVehicle.get(4).canChangeCoverage).isEqualTo(true);
-		assertCoverageLimitTransportationExpense(coverageResponse1);
+		assertCoverageLimitTransportationExpense(coverageResponse1, false);
 
 		//Other Than Collision
 		softly.assertThat(coveragesVehicle.get(0).coverageCd).isEqualTo("COMPDED");
