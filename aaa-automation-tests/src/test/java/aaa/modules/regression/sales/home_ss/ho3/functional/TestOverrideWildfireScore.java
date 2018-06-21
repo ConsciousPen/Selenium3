@@ -1,9 +1,9 @@
-package aaa.modules.regression.sales.home_ss.ho6.functional;
+package aaa.modules.regression.sales.home_ss.ho3.functional;
 
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.modules.policy.HomeSSHO6BaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.modules.regression.sales.template.functional.TestUpdateWildfireScore;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
@@ -12,13 +12,13 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.UT)
-public class TestOverrideWildfireScore extends HomeSSHO6BaseTest {
+public class TestOverrideWildfireScore extends HomeSSHO3BaseTest {
 
 	private TestUpdateWildfireScore template = new TestUpdateWildfireScore();
 
 	/**
 	 * @author Dominykas Razgunas
-	 * @name Test Update Wildfire Score HO6 - No privilege, NB
+	 * @name Test Update Wildfire Score HO3 - No privilege, NB
 	 * @scenario
 	 * 1. Sign in with unprivileged User.
 	 * 2. Create Customer.
@@ -29,8 +29,8 @@ public class TestOverrideWildfireScore extends HomeSSHO6BaseTest {
 	 **/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Update Wildfire Score HO6 - No privilege, NB")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-12922")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Update Wildfire Score HO3 - No privilege, NB")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-12922")
 	public void pas12922_UpdateWildfireScoreNoPrivilegeNB(@Optional("UT") String state) {
 
 		template.pas12922_UpdateWildfireScoreNoPrivilegeNB(getPolicyType());
@@ -38,7 +38,7 @@ public class TestOverrideWildfireScore extends HomeSSHO6BaseTest {
 
 	/**
 	 * @author Dominykas Razgunas
-	 * @name Test Update Wildfire Score HO6 - No Privilege, Endorsement
+	 * @name Test Update Wildfire Score HO3 - No Privilege, Endorsement
 	 * @scenario
 	 * 1. Sign in with unprivileged User.
 	 * 2. Create Customer.
@@ -50,8 +50,8 @@ public class TestOverrideWildfireScore extends HomeSSHO6BaseTest {
 	 **/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Update Wildfire Score HO6 - No Privilege, Endorsement")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-12922")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Update Wildfire Score HO3 - No Privilege, Endorsement")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-12922")
 	public void pas12922_UpdateWildfireScoreNoPrivilegeEdorsement(@Optional("UT") String state) {
 
 		template.pas12922_UpdateWildfireScoreNoPrivilegeEndorsement(getPolicyType());
@@ -59,7 +59,7 @@ public class TestOverrideWildfireScore extends HomeSSHO6BaseTest {
 
 	/**
 	 * @author Dominykas Razgunas
-	 * @name Test Update Wildfire Score HO6 - NB
+	 * @name Test Update Wildfire Score HO3 - NB
 	 * @scenario
 	 * 1. Sign in with privileged User.
 	 * 2. Create Customer.
@@ -76,8 +76,8 @@ public class TestOverrideWildfireScore extends HomeSSHO6BaseTest {
 	 **/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Update Wildfire Score HO6 - NB")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-12922")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Update Wildfire Score HO3 - NB")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-12922")
 	public void pas12922_UpdateWildfireScoreNB(@Optional("UT") String state) {
 
 		template.pas12922_UpdateWildfireScoreNB(getPolicyType());
@@ -85,7 +85,7 @@ public class TestOverrideWildfireScore extends HomeSSHO6BaseTest {
 
 	/**
 	 * @author Dominykas Razgunas
-	 * @name Test Update Wildfire Score HO6 - Endorsement
+	 * @name Test Update Wildfire Score HO3 - Endorsement
 	 * @scenario
 	 * 1. Sign in with privileged User.
 	 * 2. Create Customer.
@@ -102,8 +102,8 @@ public class TestOverrideWildfireScore extends HomeSSHO6BaseTest {
 	 **/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Update Wildfire Score HO6 - Endorsement")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-12922")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Update Wildfire Score HO3 - Endorsement")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-12922")
 	public void pas12922_UpdateWildfireScoreEndorsement(@Optional("UT") String state) {
 
 		template.pas12922_UpdateWildfireScoreEndorsement(getPolicyType());
@@ -111,7 +111,7 @@ public class TestOverrideWildfireScore extends HomeSSHO6BaseTest {
 
 	/**
 	 * @author Dominykas Razgunas
-	 * @name Test Update Wildfire Score HO6 - Renewal
+	 * @name Test Update Wildfire Score HO3 - Renewal
 	 * @scenario
 	 * 1. Sign in with privileged User.
 	 * 2. Create Customer.
@@ -128,8 +128,8 @@ public class TestOverrideWildfireScore extends HomeSSHO6BaseTest {
 	 **/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Update Wildfire Score HO6 - Renewal")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-12922")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Update Wildfire Score HO3 - Renewal")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-12922")
 	public void pas12922_UpdateWildfireScoreRenewal(@Optional("UT") String state) {
 
 		template.pas12922_UpdateWildfireScoreRenewal(getPolicyType());
@@ -137,7 +137,7 @@ public class TestOverrideWildfireScore extends HomeSSHO6BaseTest {
 
 	/**
 	 * @author Dominykas Razgunas
-	 * @name Test Update Wildfire Score HO6 - Renewal Manual Entry
+	 * @name Test Update Wildfire Score HO3 - Renewal Manual Entry
 	 * @scenario
 	 * 1. Sign in with privileged User.
 	 * 2. Create Customer.
@@ -154,8 +154,8 @@ public class TestOverrideWildfireScore extends HomeSSHO6BaseTest {
 	 **/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Update Wildfire Score HO6 - Renewal Manual Entry")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-12922")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Update Wildfire Score HO3 - Renewal Manual Entry")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-12922")
 	public void pas12922_UpdateWildfireScoreManualEntry(@Optional("UT") String state) {
 
 		template.pas12922_UpdateWildfireScoreManualEntry(getPolicyType());
