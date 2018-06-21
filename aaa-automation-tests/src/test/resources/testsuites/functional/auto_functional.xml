@@ -42,6 +42,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyRenewFlatCancellation"/>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.TestPolicyBilling"/>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestContactInformation"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestTriggersAH35XX"/>
         </classes>
     </test>
     <test name="AZ Auto Functional Tests" parallel="methods">

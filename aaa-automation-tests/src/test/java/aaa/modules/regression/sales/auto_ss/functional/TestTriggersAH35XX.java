@@ -61,7 +61,7 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, dependsOnMethods = "paymentCentralConfigCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, dependsOnMethods = "paymentCentralConfigCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-2241", "PAS-250"})
 	public void pas2241_TriggersUiAH35XX(@Optional("") String state) {
 

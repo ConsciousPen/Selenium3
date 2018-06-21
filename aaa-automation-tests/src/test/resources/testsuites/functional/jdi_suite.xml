@@ -155,12 +155,6 @@
         </classes>
     </test>
 
-    <test name="TestTriggersAH35XX" parallel="methods" thread-count="1024">
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestTriggersAH35XX"/>
-        </classes>
-    </test>
-
     <test name="TestMessagingVerificationOR" parallel="methods" thread-count="1024">
         <parameter name="state" value="OR"/>
         <classes>
