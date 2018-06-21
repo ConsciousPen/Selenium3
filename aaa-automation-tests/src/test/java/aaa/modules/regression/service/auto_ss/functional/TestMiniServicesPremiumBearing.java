@@ -1432,6 +1432,20 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		);
 	}
 
+	/**
+	 * @author mstrazds
+	 * @name Check UM/UIM delimiter
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ, Constants.States.DC, Constants.States.ID, Constants.States.KY, Constants.States.PA, Constants.States.SD})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15228"})
+	public void pas15228_UmUimDelimiter(@Optional("DC") String state) {
+		assertSoftly(softly ->
+				pas15228_UmUimDelimiter()
+		);
+	}
+
 	@Override
 	protected String getGeneralTab() {
 		return NavigationEnum.AutoSSTab.GENERAL.get();
