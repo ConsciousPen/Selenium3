@@ -612,7 +612,8 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		createCustomerIndividual();
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
 		policy.getDefaultView().fill(testData);
-		return PolicySummaryPage.linkPolicy.getValue();
+		PolicySummaryPage.buttonBackFromRenewals.click();
+		return PolicySummaryPage.getPolicyNumber();
 	}
 
 	private String createPolicyPupConvForTD(PolicyType policyType) {
@@ -637,7 +638,8 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
 		policy.getDefaultView().fill(testData);
-		return PolicySummaryPage.linkPolicy.getValue();
+		PolicySummaryPage.buttonBackFromRenewals.click();
+		return PolicySummaryPage.getPolicyNumber();
 	}
 
 	/**
@@ -651,7 +653,8 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		customer.initiateRenewalEntry().perform(testData);
 		testData = getStateTestData(testDataManager.policy.get(policyType), "Conversion", "TestData");
 		policyType.get().getDefaultView().fill(testData);
-		return PolicySummaryPage.linkPolicy.getValue();
+		PolicySummaryPage.buttonBackFromRenewals.click();
+		return PolicySummaryPage.getPolicyNumber();
 	}
 
 	/**
