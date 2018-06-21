@@ -2792,7 +2792,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).customerDisplayed).isEqualTo(true);
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).canChangeCoverage).isEqualTo(true);
 
-			assertCoverageLimitTransportationExpense(coverageResponse);
+			assertCoverageLimitTransportationExpense(coverageResponse, false);
 
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageCd).isEqualTo("TOWINGLABOR");
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
@@ -2895,7 +2895,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(coveragesV1.get(4).customerDisplayed).isEqualTo(true);
 			softly.assertThat(coveragesV1.get(4).canChangeCoverage).isEqualTo(true);
 
-			assertCoverageLimitTransportationExpense(coverageEndorsementResponse);
+			assertCoverageLimitTransportationExpense(coverageEndorsementResponse, true);
 
 			softly.assertThat(coveragesV1.get(5).coverageCd).isEqualTo("TOWINGLABOR");
 			softly.assertThat(coveragesV1.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
@@ -2995,7 +2995,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(coveragesLoanVehicle.get(4).customerDisplayed).isEqualTo(true);
 			assertThat(coveragesLoanVehicle.get(4).canChangeCoverage).isEqualTo(true);
 
-			assertCoverageLimitTransportationExpense(coverageResponse);
+			assertCoverageLimitTransportationExpense(coverageResponse, false);
 
 			softly.assertThat(coveragesLoanVehicle.get(5).coverageCd).isEqualTo("TOWINGLABOR");
 			softly.assertThat(coveragesLoanVehicle.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
@@ -3094,7 +3094,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(coveragesV1.get(4).customerDisplayed).isEqualTo(true);
 			assertThat(coveragesV1.get(4).canChangeCoverage).isEqualTo(true);
 
-			assertCoverageLimitTransportationExpense(coverageResponse1);
+			assertCoverageLimitTransportationExpense(coverageResponse1, false);
 
 			softly.assertThat(coveragesV1.get(5).coverageCd).isEqualTo("TOWINGLABOR");
 			softly.assertThat(coveragesV1.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
@@ -3356,7 +3356,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 					coverageXproperties(softly, 4, coverageResponse, "RREIM", "Transportation Expense", transportationExpense1.toPlaingString(), transportationExpense1.toPlaingString(), "Per Occurrence", true, true);
 
-					assertCoverageLimitTransportationExpense(coverageResponse);
+					assertCoverageLimitTransportationExpense(coverageResponse, false);
 
 					coverageXproperties(softly, 5, coverageResponse, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", towingAndLabor1, "Per Disablement/Maximum", true, true);
 
@@ -3742,7 +3742,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		});
 	}
 
-	private void assertCoverageLimitTransportationExpense(PolicyCoverageInfo coverageResponse) {
+	private void assertCoverageLimitTransportationExpense(PolicyCoverageInfo coverageResponse, boolean filtered) {
 		assertSoftly(softly -> {
 			Coverage coverageLimitTransportation = coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4);
 			softly.assertThat(coverageLimitTransportation.availableLimits.get(0).coverageLimit).isEqualTo("600");
@@ -3751,11 +3751,15 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(coverageLimitTransportation.availableLimits.get(1).coverageLimit).isEqualTo("900");
 			softly.assertThat(coverageLimitTransportation.availableLimits.get(1).coverageLimitDisplay).isEqualTo("$900");
 
-			softly.assertThat(coverageLimitTransportation.availableLimits.get(2).coverageLimit).isEqualTo("1200");
-			softly.assertThat(coverageLimitTransportation.availableLimits.get(2).coverageLimitDisplay).isEqualTo("$1,200");
+			if(filtered){
+				softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).availableLimits.size()).isEqualTo(2);
+			} else {
+				softly.assertThat(coverageLimitTransportation.availableLimits.get(2).coverageLimit).isEqualTo("1200");
+				softly.assertThat(coverageLimitTransportation.availableLimits.get(2).coverageLimitDisplay).isEqualTo("$1,200");
 
-			softly.assertThat(coverageLimitTransportation.availableLimits.get(3).coverageLimit).isEqualTo("1500");
-			softly.assertThat(coverageLimitTransportation.availableLimits.get(3).coverageLimitDisplay).isEqualTo("$1,500");
+				softly.assertThat(coverageLimitTransportation.availableLimits.get(3).coverageLimit).isEqualTo("1500");
+				softly.assertThat(coverageLimitTransportation.availableLimits.get(3).coverageLimitDisplay).isEqualTo("$1,500");
+			}
 		});
 	}
 
@@ -3999,7 +4003,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(coveragesVehicle.get(4).customerDisplayed).isEqualTo(true);
 			softly.assertThat(coveragesVehicle.get(4).canChangeCoverage).isEqualTo(true);
 
-			assertCoverageLimitTransportationExpense(coverageResponseV);
+			assertCoverageLimitTransportationExpense(coverageResponseV, false);
 
 			softly.assertThat(coveragesVehicle.get(5).coverageCd).isEqualTo("TOWINGLABOR");
 			softly.assertThat(coveragesVehicle.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
@@ -4078,7 +4082,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(coveragesVehicle2.get(4).customerDisplayed).isEqualTo(true);
 			softly.assertThat(coveragesVehicle2.get(4).canChangeCoverage).isEqualTo(true);
 
-			assertCoverageLimitTransportationExpense(coverageResponse);
+			assertCoverageLimitTransportationExpense(coverageResponse, false);
 
 			softly.assertThat(coveragesVehicle2.get(5).coverageCd).isEqualTo("TOWINGLABOR");
 			softly.assertThat(coveragesVehicle2.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
@@ -4183,7 +4187,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(coveragesV1.get(4).coverageType).isEqualTo("Per Occurrence");
 			softly.assertThat(coveragesV1.get(4).customerDisplayed).isEqualTo(true);
 
-			assertCoverageLimitTransportationExpense(coverageEndorsementResponseV1);
+			assertCoverageLimitTransportationExpense(coverageEndorsementResponseV1, true);
 
 			softly.assertThat(coveragesV1.get(5).coverageCd).isEqualTo("TOWINGLABOR");
 			softly.assertThat(coveragesV1.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
@@ -4255,7 +4259,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(coveragesVehicle2.get(4).coverageType).isEqualTo("Per Occurrence");
 			softly.assertThat(coveragesVehicle2.get(4).customerDisplayed).isEqualTo(true);
 
-			assertCoverageLimitTransportationExpense(coverageEndorsementResponsePendingV2);
+			assertCoverageLimitTransportationExpense(coverageEndorsementResponsePendingV2, true);
 
 			softly.assertThat(coveragesVehicle2.get(5).coverageCd).isEqualTo("TOWINGLABOR");
 			softly.assertThat(coveragesVehicle2.get(5).coverageDescription).isEqualTo("Towing and Labor Coverage");
@@ -4264,7 +4268,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(coveragesVehicle2.get(5).coverageType).isEqualTo("Per Disablement/Maximum");
 			softly.assertThat(coveragesVehicle2.get(5).customerDisplayed).isEqualTo(true);
 
-			assertCoverageLimitTransportationExpense(coverageEndorsementResponsePendingV2);
+			assertCoverageLimitTransportationExpense(coverageEndorsementResponsePendingV2, true);
 
 			softly.assertThat(coveragesVehicle2.get(6).coverageCd).isEqualTo("SPECEQUIP");
 			softly.assertThat(coveragesVehicle2.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
@@ -5996,3 +6000,4 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 }
+
