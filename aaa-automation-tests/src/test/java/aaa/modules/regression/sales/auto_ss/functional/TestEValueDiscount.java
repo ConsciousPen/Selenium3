@@ -1864,7 +1864,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 * 1. Policy Eff date==today.
 	 * 2. Policy Eff date in the future.
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-333", "PAS-336", "PAS-238", "PAS-313"})
