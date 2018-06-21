@@ -980,7 +980,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14536"})
 	public void pas14536_TransportationExpensePart1(@Optional("VA") String state) {
 		assertSoftly(softly ->
-			pas14536_TransportationExpensePart1Body(getPolicyType(), softly)
+				pas14536_TransportationExpensePart1Body(getPolicyType(), softly)
 		);
 	}
 
@@ -1430,6 +1430,43 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		assertSoftly(softly ->
 				pas14646_UimDelimiter(state, softly)
 		);
+	}
+
+	/**
+	 * @author mstrazds
+	 * @name Check UM/UIM delimiter
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ, Constants.States.DC, Constants.States.ID, Constants.States.KY, Constants.States.PA, Constants.States.SD})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15228"})
+	public void pas15228_UmUimDelimiter(@Optional("DC") String state) {
+		pas15228_UmUimDelimiterBody();
+	}
+
+	/**
+	 * @author mstrazds
+	 * @name Check UMPD delimiter
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.DE, Constants.States.MD, Constants.States.VA, Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15824"})
+	public void pas15824_UmpdDelimiter(@Optional("NJ") String state) {
+		pas15824_UmpdDelimiterBody();
+	}
+
+	/**
+	 * @author mstrazds
+	 * @name Check UMPD doesn't exit
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ, Constants.States.CT, Constants.States.KS, Constants.States.KY, Constants.States.MT, Constants.States.NY,
+			Constants.States.OK, Constants.States.PA, Constants.States.SD, Constants.States.WY, Constants.States.ID})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15325"})
+	public void pas15325_UmpdNotExist(@Optional("AZ") String state) {
+		pas15325_UmpdNotExistBody();
 	}
 
 	@Override
