@@ -16,18 +16,23 @@ public class LocalDateTimeCellType extends DateCellType<LocalDateTime> {
 	public LocalDateTimeCellType(Class<LocalDateTime> endType, DateTimeFormatter... dateTimeFormatters) {
 		super(endType, dateTimeFormatters);
 		if (ArrayUtils.isEmpty(dateTimeFormatters)) {
-			List<DateTimeFormatter> defaultFormatters = new ArrayList<>();
+			List<DateTimeFormatter> defaultFormatters = new ArrayList<>(2);
 			defaultFormatters.add(new DateTimeFormatterBuilder().appendPattern("MM/dd/yyyy")
 					.parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
 					.parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
 					.parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
 					.toFormatter());
-			defaultFormatters.add(DateTimeFormatter.ofPattern("MM/dd/yyyy HHmmss"));
+			defaultFormatters.add(DateTimeFormatter.ofPattern(getBasePattern()));
 
 			setFormatters(defaultFormatters);
 		}
 	}
-
+	
+	@Override
+	protected final String getBasePattern() {
+		return "MM/dd/yyyy HHmmss";
+	}
+	
 	@Override
 	protected LocalDateTime parseText(String dateInTextFormat, DateTimeFormatter dateTimeFormatter) {
 		return LocalDateTime.parse(dateInTextFormat, dateTimeFormatter);

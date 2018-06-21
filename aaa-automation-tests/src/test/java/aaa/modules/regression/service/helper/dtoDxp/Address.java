@@ -1,12 +1,13 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
+import aaa.modules.regression.service.helper.RestBodyRequest;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Address DTO.
  */
 
-public class Address {
+public class Address implements RestBodyRequest {
 
 	@ApiModelProperty(value = "Address Line 1", example ="123 Main St")
 	public String addressLine1;

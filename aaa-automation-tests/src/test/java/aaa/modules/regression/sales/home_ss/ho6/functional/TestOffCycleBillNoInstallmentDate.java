@@ -20,19 +20,19 @@ import toolkit.utils.TestInfo;
 @StateList(statesExcept = Constants.States.CA)
 public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstallmentDateAbstract {
 
-    @Override
-    protected PolicyType getPolicyType() {
-        return PolicyType.HOME_SS_HO6;
-    }
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_SS_HO6;
+	}
 
-    @Override
+	@Override
 	protected PurchaseTab getPurchaseTab() {
 		return new PurchaseTab();
 	}
 
 	@Override
 	protected BindTab getBindTab() {
-    	return new BindTab();
+		return new BindTab();
 	}
 
 	@Override
@@ -56,28 +56,28 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
 		new PremiumsAndCoveragesQuoteTab().getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM).click();
 	}
 
-    /**
-     * @author Josh Carpenter
-     * @name Test balance is invoiced as off cycle bill for SS HO6 policy when there is no future installment date on NB
-     * @scenario
-     * 1. Create new customer
-     * 2. Initiate SS HO6 policy and fill up to Purchase tab
-     * 3. Check option to change the minimum down payment, set to $0, and selection reason in drop down (first option)
-     * 4. Bind/purchase policy
-     * 5. Validate the min due is zero
-     * 6. Run offCycleBillingInvoiceAsyncJob
-     * 7. Refresh policy and navigate back to Billing Summary page
-     * 8. Validate the off cycle bill has been generated with correct amounts
-     * @details
-     */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-9001"})
-    public void pas9001_testInvoiceWithNoDownPaymentNB_HO6(@Optional("") String state) {
+	/**
+	 * @author Josh Carpenter
+	 * @name Test balance is invoiced as off cycle bill for SS HO6 policy when there is no future installment date on NB
+	 * @scenario
+	 * 1. Create new customer
+	 * 2. Initiate SS HO6 policy and fill up to Purchase tab
+	 * 3. Check option to change the minimum down payment, set to $0, and selection reason in drop down (first option)
+	 * 4. Bind/purchase policy
+	 * 5. Validate the min due is zero
+	 * 6. Run offCycleBillingInvoiceAsyncJob
+	 * 7. Refresh policy and navigate back to Billing Summary page
+	 * 8. Validate the off cycle bill has been generated with correct amounts
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-9001"})
+	public void pas9001_testInvoiceWithNoDownPaymentNB_HO6(@Optional("") String state) {
 
-        pas9001_testOffCycleBillNoDownPayment_NB();
+		pas9001_testOffCycleBillNoDownPayment_NB();
 
-    }
+	}
 
 	/**
 	 * @author Josh Carpenter
@@ -92,13 +92,13 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
 	 * 7. Validate the off cycle bill has been generated with correct amounts
 	 * @details
 	 */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Service.HOME_SS_HO6, testCaseId = {"PAS-9001"})
-    public void pas9001_testInvoiceWithNoDownPaymentEndorsement_HO6(@Optional("") String state) {
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO6, testCaseId = {"PAS-9001"})
+	public void pas9001_testInvoiceWithNoDownPaymentEndorsement_HO6(@Optional("") String state) {
 
-        pas9001_testOffCycleBillPremiumBearingEndorsement();
+		pas9001_testOffCycleBillPremiumBearingEndorsement();
 
-    }
+	}
 
 }

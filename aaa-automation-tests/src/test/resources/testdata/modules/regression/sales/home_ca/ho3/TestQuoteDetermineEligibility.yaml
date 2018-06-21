@@ -116,6 +116,15 @@ Stove_SoleSourceOfHeat: {
   }
 }
 
+Stove_SoleSourceOfHeat2: {
+  PropertyInfoTab: {
+    Stoves: {
+      "Was the stove installed by a licensed contractor?": 'Yes',
+      "Does the dwelling have at least one smoke detector per story?": 'Yes'
+    } 
+  }
+}
+
 Stove_NoFireAlarm: {
 PropertyInfoTab: {
     Stoves: {
