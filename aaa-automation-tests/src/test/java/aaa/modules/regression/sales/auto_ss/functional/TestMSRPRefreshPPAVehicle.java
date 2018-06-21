@@ -10,6 +10,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -152,7 +153,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), vinMatchNBandNoMatchOnRenewal);
 
 		adminApp().open();
-		vinMethods.uploadVinTable(vinTableFile);
+		new UploadToVINTableTab().uploadVinTable(vinTableFile);
 
 		String quoteNumber = createPreconds(testData);
 

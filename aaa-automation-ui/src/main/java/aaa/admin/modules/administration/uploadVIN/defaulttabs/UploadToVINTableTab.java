@@ -4,11 +4,17 @@ package aaa.admin.modules.administration.uploadVIN.defaulttabs;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 import org.openqa.selenium.By;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.admin.metadata.administration.AdministrationMetaData;
+import aaa.admin.modules.administration.generateproductschema.defaulttabs.CacheManager;
 import aaa.common.DefaultTab;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
+import aaa.main.enums.CacheManagerEnums;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.AssetList;
@@ -31,14 +37,36 @@ public class UploadToVINTableTab extends DefaultTab {
 
 	protected static final String DEFAULT_PATH = "src/test/resources/uploadingfiles/vinUploadFiles/";
 
+	/**
+	 * Go to the admin -> administration -> Vin upload and uploadControlTable
+	 * @param vinTableFile
+	 */
+	public void uploadFiles(String controlTableFile, String vinTableFile) {
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
+		uploadVinTable(vinTableFile);
+		uploadControlTable(controlTableFile);
+	}
+
 	public void uploadControlTable(String fileName) {
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION).setValue(true);
 		uploadFile(fileName);
 	}
 
-	public void uploadVinTable(String fileName) {
+	/**
+	 * Go to the admin -> administration -> Upload to vehicledatavin table
+	 * @param vinTableFileName xls
+	 */
+	public void uploadVinTable(String vinTableFileName) {
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION).setValue(true);
-		uploadFile(fileName);
+		uploadFile(vinTableFileName);
+		CacheManager.getToCacheManagerTab();
+		List<String> cacheName = Arrays.asList(CacheManagerEnums.CacheNameEnum.BASE_LOOKUP_CACHE.get(), CacheManagerEnums.CacheNameEnum.LOOKUP_CACHE.get(), CacheManagerEnums.CacheNameEnum.VEHICLE_VIN_REF_CACHE.get());
+		for (String cache : cacheName) {
+			CacheManager.clearFromCacheManagerTable(cache);
+		}
+		log.info("\n\nFile {} was uploaded\n\n", vinTableFileName);
 	}
 
 	private void uploadFile(String fileName) {

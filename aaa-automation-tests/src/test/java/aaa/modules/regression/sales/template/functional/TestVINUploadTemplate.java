@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -110,7 +111,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		//open Admin application and navigate to Administration tab
 		adminApp().open();
-		new VinUploadHelper(getPolicyType(), getState()).uploadVinTable(vinTableFile);
+		new UploadToVINTableTab().uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);
@@ -209,7 +210,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		//open Admin application and navigate to Administration tab
 		adminApp().open();
-		vinUploadHelper.uploadVinTable(vinTableFile);
+		new UploadToVINTableTab().uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, find created policy, initiate Renewal, verify if VIN value is applied
 		createAndRateRenewal(policyNumber);
@@ -265,7 +266,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		//open Admin application and navigate to Administration tab
 		adminApp().reopen();
-		vinUploadHelper.uploadVinTable(vinTableFile);
+		new UploadToVINTableTab().uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, find created policy, create Renewal image and verify if VIN was updated and new values are applied
 		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
@@ -328,7 +329,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		String policyNumber = createPreconds(testData);
 
 		adminApp().open();
-		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN9.get()));
+		new UploadToVINTableTab().uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN9.get()));
 
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -423,7 +424,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
 		adminApp().open();
-		new VinUploadHelper(getPolicyType(), getState()).uploadVinTable(vinTableFile);
+		new UploadToVINTableTab().uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		mainApp().open();
@@ -467,7 +468,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
 		adminApp().reopen();
-		new VinUploadHelper(getPolicyType(), getState()).uploadVinTable(vinTableFile);
+		new UploadToVINTableTab().uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);
