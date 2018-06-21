@@ -326,7 +326,8 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		}
 		policy.getDefaultView().fill(testData);
 		policy.dataGather().start();
-		return PolicySummaryPage.getPolicyNumber();
+
+		return Tab.labelPolicyNumber.getValue();
 	}
 
 	private void conditionalCustomerCreation() {

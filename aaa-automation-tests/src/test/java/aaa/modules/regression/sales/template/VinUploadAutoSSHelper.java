@@ -318,7 +318,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 		// Build MSRP Vehicle
 		TestData testDataVehicleTabMotorHome = new SimpleDataProvider()
 				.adjust(AutoSSMetaData.VehicleTab.TYPE.getLabel(), "Motor Home")
-				.adjust("InformationNoticeDialog", testDataInformationNoticeDialog)
+				//.adjust("InformationNoticeDialog", testDataInformationNoticeDialog)
 				.adjust(AutoSSMetaData.VehicleTab.MOTOR_HOME_TYPE.getLabel(), "index=1")
 				.adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), "5FDEU15H7KL055795")
 				.adjust(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "index=1")
