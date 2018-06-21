@@ -6055,7 +6055,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		});
 	}
 
-	protected void pas15228_UmUimDelimiter() {
+	protected void pas15228_UmUimDelimiterBody() {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -6081,6 +6081,25 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(filteredEndorsementCoverageResponseUIMBI.coverageType).isEqualTo("Per Person/Per Accident");
 			softly.assertThat(filteredEndorsementCoverageResponseUIMBI.availableLimits.size()).isNotEqualTo(0);
 			softly.assertThat(filteredEndorsementCoverageResponseUIMBI.canChangeCoverage).isFalse();
+		});
+	}
+
+	protected void pas15824_UmpdDelimiterBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		assertSoftly(softly -> {
+			PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber);
+			Coverage filteredPolicyCoverageResponseUMPD = policyCoverageResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.coverageCd)).findFirst().orElse(null);
+			softly.assertThat(filteredPolicyCoverageResponseUMPD.coverageType).isEqualTo("Per Accident");
+			softly.assertThat(filteredPolicyCoverageResponseUMPD.availableLimits.size()).isEqualTo(0);
+			softly.assertThat(filteredPolicyCoverageResponseUMPD.canChangeCoverage).isFalse();
+
+			PolicyCoverageInfo coverageEndorsementResponse = HelperCommon.viewEndorsementCoverages(policyNumber);
+			Coverage filteredEndorsementCoverageResponseUMPD = coverageEndorsementResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.coverageCd)).findFirst().orElse(null);
+			softly.assertThat(filteredEndorsementCoverageResponseUMPD.coverageType).isEqualTo("Per Accident");
+			softly.assertThat(filteredEndorsementCoverageResponseUMPD.availableLimits.size()).isEqualTo(0);
+			softly.assertThat(filteredEndorsementCoverageResponseUMPD.canChangeCoverage).isFalse();
 		});
 	}
 

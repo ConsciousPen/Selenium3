@@ -1442,7 +1442,21 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15228"})
 	public void pas15228_UmUimDelimiter(@Optional("DC") String state) {
 		assertSoftly(softly ->
-				pas15228_UmUimDelimiter()
+				pas15228_UmUimDelimiterBody()
+		);
+	}
+
+	/**
+	 * @author mstrazds
+	 * @name Check UMPD delimiter
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.DE, Constants.States.MD, Constants.States.VA, Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15824"})
+	public void pas15824_UmpdDelimiter(@Optional("DE") String state) {
+		assertSoftly(softly ->
+				pas15824_UmpdDelimiterBody()
 		);
 	}
 

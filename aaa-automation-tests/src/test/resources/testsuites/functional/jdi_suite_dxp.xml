@@ -322,4 +322,14 @@
             </class>
         </classes>
     </test>
+    <test name="pas15824_UmpdDelimiter">
+        <parameter name="state" value="DE, MD, VA, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas15824_UmpdDelimiter"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
