@@ -13,6 +13,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -31,10 +32,12 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.helper.VinUploadCleanUpMethods;
 import aaa.modules.regression.sales.template.VinUploadAutoSSHelper;
+import aaa.utils.StateList;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.TextBox;
 
@@ -573,7 +576,9 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		//3. Move to R-46 and generate  renewal image (in data gather status). Retrieve policy and verify VIN data
 		// did NOT refresh
-		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(46));
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(46),softly);
+		softly.close();
 	}
 
 	/**
@@ -594,11 +599,13 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11659")
+	@StateList(states = {Constants.States.UT},statesExcept = {Constants.States.CA})
 	public void pas11659_Renewal_VersionR45(@Optional("") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN2);
+
 		String configExcelName = vinMethods.getControlTableFile();
 		String uploadExcelR45 = vinMethods.getSpecificUploadFile(VinUploadFileType.R45.get());
 		String uploadExcelR40 = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN2.get());
@@ -614,7 +621,10 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		uploadToVINTableTab.uploadControlTable(configExcelName);
 		uploadToVINTableTab.uploadVinTable(uploadExcelR45);
-		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(45));
+
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+
+		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(45),softly);
 		/*
 		 * Automated Renewal at R-40
 		 */
@@ -625,7 +635,9 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		//4. Move to R-40 and generate automated renewal image (in data gather status). Retrieve policy and verify VIN data
 		// DID refresh
-		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(40));
+		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(40),softly);
+
+		softly.close();
 	}
 
 
@@ -661,7 +673,10 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		//3. Move to R-35 and generate automated renewal image. Retrieve policy and verify VIN data
 		// DID refresh
-		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(35));
+
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(35),softly);
+		softly.close();
 	}
 
 	/**
@@ -692,7 +707,9 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		 * Automated Renewal R-26 - renewal Version to Proposed Status
 		 */
 		//2. Move to R-26 and generate automated renewal image (in data proposed status).
-		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(26));
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+
+		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(26),softly);
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
 		//3. Upload Updated VIN Data
@@ -706,8 +723,9 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		//4. Move to R-25 and generate automated renewal image (in data gather status)
 		// Retrieve policy and verify VIN data
 		// did NOT refresh because renewal version has already been proposed
-		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(25));
+		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(25),softly);
 
+		softly.close();
 	}
 
 	/**
@@ -854,8 +872,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 	@AfterClass(alwaysRun = true)
 	protected void resetDefault() {
-		List<String> listOfVinIds = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5, NEW_VIN6,NEW_VIN7,NEW_VIN8);
-		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinIds,DefaultVinVersions.DefaultVersions.SignatureSeries);
+		List<String> listOfVinNumbers = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5, NEW_VIN6,NEW_VIN7,NEW_VIN8);
+		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinNumbers,DefaultVinVersions.DefaultVersions.SignatureSeries);
 
 		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_SS);
 		DBService.get().executeUpdate(String.format(VehicleQueries.REPAIR_COLLCOMP,"7MSRP15H%V"));

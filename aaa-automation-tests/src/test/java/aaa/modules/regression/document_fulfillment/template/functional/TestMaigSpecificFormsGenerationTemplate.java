@@ -325,7 +325,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 			testData.adjust(membershipFieldMetaKey, "4343433333333335");
 		}
 		policy.getDefaultView().fill(testData);
-
+		policy.dataGather().start();
 		return PolicySummaryPage.getPolicyNumber();
 	}
 
