@@ -982,6 +982,69 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	}
 
 	/**
+	 * @author Jovita Pukenaite
+	 * @name Add new vehicle when you had Vehicle, without Transportation Expense before.
+	 * @scenario 1. Create policy with one vehicle,
+	 * without Transportation Expense. (
+	 * 2. Start endorsement outside of PAS.
+	 * 3. Add vehicle.
+	 * 4. Hit View Coverage service.
+	 * 5. Check coverages for new vehicle:
+	 * Transportation Expense, Comprehensive Coverage
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14536"})
+	public void pas14536_TransportationExpensePart1(@Optional("VA") String state) {
+		assertSoftly(softly ->
+			pas14536_TransportationExpensePart1Body(getPolicyType(), softly)
+		);
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Transportation Expense remains the limit I chose
+	 * @scenario 1. Create policy with one vehicle,
+	 * with Transportation Expense 1.200$
+	 * 2. Start endorsement outside of PAS.
+	 * 3. Add vehicle.
+	 * 4. Remove "COMPDED" coverage from my newly added vehicle.
+	 * 5. Hit View Coverage service.
+	 * 6. Check if Transportation Expense remains the limit I chose.
+	 * 7. Update: add "COMPDED" coverage again.
+	 * 8. Hit View Coverage service.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14536"})
+	public void pas14536_TransportationExpensePart2(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas14536_TransportationExpensePart2Body(getPolicyType(), softly)
+		);
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Transportation Expense is defaulted
+	 * @scenario 1. Create policy with one vehicle,
+	 * with Transportation Expense 600$
+	 * 2. Start endorsement outside of PAS.
+	 * 3. Add vehicle.
+	 * 4. Remove "COMPDED" coverage from my newly added vehicle.
+	 * 5. Hit View Coverage service.
+	 * 6. Update: add "COMPDED" coverage again.
+	 * 7. Hit View Coverage service.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14536"})
+	public void pas14536_TransportationExpensePart3(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas14536_TransportationExpensePart3Body(getPolicyType(), softly)
+		);
+	}
+
+	/**
 	 * @author Oleg Stasyuk
 	 * @name Validation on Update/Rate/Bind for vehicle use = Business
 	 * @scenario 1. Create active policy

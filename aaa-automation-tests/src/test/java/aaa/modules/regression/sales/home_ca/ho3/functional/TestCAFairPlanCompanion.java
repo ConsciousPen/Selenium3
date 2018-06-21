@@ -2,18 +2,35 @@ package aaa.modules.regression.sales.home_ca.ho3.functional;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.docgen.AaaDocGenEntityQueries;
+import aaa.helpers.xml.XmlParser;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.metadata.policy.HomeCaMetaData;
+import aaa.main.modules.policy.home_ca.actiontabs.PolicyDocGenActionTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.DocumentsTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
+import org.apache.commons.io.filefilter.AgeFileFilter;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import org.xml.sax.SAXException;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -111,4 +128,43 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
         // Click FPCECA Endorsement
         myHelper.addFAIRPlanEndorsement("ho3");
     }
+
+    /**
+     * @scenario
+     * 1. Create a HO3 policy w/ FPCECA Endorsement
+     * 2. On Policy Summary Page, select "Take Action" > "OnDemandDocs"
+     * 3. On Doc Selection Page, select 62 65000 CA 05012013 doc.
+     * 4. Verify document contains correct FP verbage with DB query.
+     * @param state
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Send FAIR Plan data to DCS when rendering EOI document")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14675")
+    public void PAS_14675_IsFPCECAInEOI(@Optional("") String state) {
+
+        final String EXPECTED_NAME = "FairPlanYN";
+        defaultPolicyData = getPolicyTD();
+
+        // Open App, Create Customer and Initiate Quote
+        mainApp().open();
+        createCustomerIndividual();
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(defaultPolicyData, EndorsementTab.class, false);
+
+        // Add FPCECA Endorsement and complete Policy
+        myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
+        myHelper.completeFillAndVerifyFAIRPlanSign(policy, defaultPolicyData, EndorsementTab.class, DocumentsTab.class, getPolicyType().getShortName());
+
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+        // Generate EOI Documents
+        policy.policyDocGen().start();
+        PolicyDocGenActionTab documentActionTab = policy.policyDocGen().getView().getTab(PolicyDocGenActionTab.class);
+        documentActionTab.generateDocuments(DocGenEnum.Documents._62_6500);
+
+        // Pick Up File Generated
+        myHelper.validatePdfFromDb(policyNumber, DocGenEnum.Documents._62_6500,
+                AaaDocGenEntityQueries.EventNames.ADHOC_DOC_ON_DEMAND_GENERATE, EXPECTED_NAME, "Y");
+    }
+
 }
