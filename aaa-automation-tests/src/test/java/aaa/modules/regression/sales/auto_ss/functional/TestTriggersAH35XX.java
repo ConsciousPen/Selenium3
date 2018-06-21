@@ -43,7 +43,7 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 	private static final String PAYMENT_CENTRAL_CONFIG_CHECK = "select value from PROPERTYCONFIGURERENTITY\n" +
 			"where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')\n";
 
-	@Test(description = "Preconditions")
+	@Test(groups = {Groups.PRECONDITION}, description = "Preconditions")
 	private void paymentCentralConfigCheck() {
 		String appHost = PropertyProvider.getProperty("app.host");
 		CustomAssert.assertTrue("Adding Payment methods will not be possible because PaymentCentralEndpoints are looking at real service. Please run paymentCentralConfigUpdate", DBService.get()

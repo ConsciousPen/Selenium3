@@ -44,6 +44,7 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestContactInformation"/>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestTriggersAH35XX"/>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEndorsementActionRules"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestInstallmentFees"/>
         </classes>
     </test>
     <test name="AZ Auto Functional Tests" parallel="methods">
