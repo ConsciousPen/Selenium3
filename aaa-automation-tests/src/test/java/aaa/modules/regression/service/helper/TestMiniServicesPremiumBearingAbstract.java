@@ -5471,8 +5471,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		vehicleTab.saveAndExit();
 
 		AttributeMetadata[] metaDataResponse2 = HelperCommon.viewEndorsmentVehiclesMetaData(policyNumber, oid);
-		//BUG PAS-13252: "Is Garaging different from Residential?" radio button doesn't exist
-		getAttributeMetadata(metaDataResponse, "garagingAddress.different", true, true, true, null);
+		getAttributeMetadata(metaDataResponse2, "garagingDifferent", true, true, false, null);
 		getAttributeMetadata(metaDataResponse2, "garagingAddress.postalCode", true, true, true, "10");
 		getAttributeMetadata(metaDataResponse2, "garagingAddress.addressLine1", true, true, true, "40");
 		getAttributeMetadata(metaDataResponse2, "garagingAddress.addressLine2", true, true, false, "40");
