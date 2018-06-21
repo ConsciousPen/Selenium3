@@ -22,12 +22,8 @@ import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 import toolkit.webdriver.controls.composite.table.Table;
 
-import java.sql.Driver;
-import java.sql.DriverManager;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class HelperCommon extends HomeCaHO3BaseTest{
     private static final String AGE_VERIFICATION_SQL = "select ip.age from POLICYSUMMARY ps, INSUREDPRINCIPAL ip\n" +

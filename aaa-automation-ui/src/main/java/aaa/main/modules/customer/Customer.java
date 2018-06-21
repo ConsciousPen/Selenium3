@@ -28,16 +28,16 @@ public class Customer implements ICustomer {
 
     @Override
     public void create(TestData td) {
-        if (isRestCustomerEnabled) {
-            try {
-                createViaREST(td);
-            } catch (IstfException e) {
-	            log.info("REST customer creation failed: {}", e);
-                createViaUI(td);
-            }
-        } else {
+//        if (isRestCustomerEnabled) {
+//            try {
+//                createViaREST(td);
+//            } catch (IstfException e) {
+//	            log.info("REST customer creation failed: {}", e);
+//                createViaUI(td);
+//            }
+//        } else {
             createViaUI(td);
-        }
+//        }
     }
 
     @Override
@@ -46,10 +46,6 @@ public class Customer implements ICustomer {
         SearchPage.buttonCreateCustomer.click();
         getDefaultView().fill(td);
 	    log.info("Created {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.CUSTOMER));
-    }
-
-    @Override
-    public void createViaREST(TestData td) {
     }
 
     @Override

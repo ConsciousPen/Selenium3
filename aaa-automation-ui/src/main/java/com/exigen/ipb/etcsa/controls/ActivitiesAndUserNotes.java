@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.openqa.selenium.By;
-import aaa.main.enums.ActivitiesAndUserNotesConstants;
+import aaa.main.enums.ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.composite.table.Column;

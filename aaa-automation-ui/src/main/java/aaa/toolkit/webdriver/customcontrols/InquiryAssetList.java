@@ -39,6 +39,24 @@ public class InquiryAssetList extends AssetList {
 	}
 
 	/**
+	 * To check value of fields in inquiry mode. works with all fields when value to verify <>""
+	 * Calendar controls cant be checked with this method.
+	 *
+	 * @param elementName - field label
+	 */
+	public StaticElement getStaticElement(String elementName) {
+		String xpath1 = locator.toString().replace("By.xpath: ", "") +
+				String.format("//*[text()='%s']/parent::td/following-sibling::td[1]", elementName);
+		String postfix = "//span[string-length(text()) > 0 and not(contains(@style,'none')) and not(ancestor::span[contains(@style,'none')])]";
+		try {
+			getWebElement().findElement(By.xpath(xpath1 + postfix)).getText();
+		} catch (Exception e) {
+			return new StaticElement(By.xpath(xpath1 + "//*"));
+		}
+		return new StaticElement(By.xpath(xpath1 + postfix));
+	}
+
+	/**
 	 * Verifies section label is present in AssetList (form).
 	 * Note: Search by text will be performed in Asset's forms only.
 	 * Sensitive to {@link CustomAssert} softMode.
@@ -201,19 +219,6 @@ public class InquiryAssetList extends AssetList {
 	 */
 	public void assetFieldMandatory(String assetLabel, boolean isMandatory) {
 		assetFieldMandatory(assetLabel, isMandatory, getActualXpathValue(assetLabel, X_PATH_1, X_PATH_2, isMandatory));
-	}
-
-	/**
-	 * Verifies is Control from assetList mandatory with custom error message.
-	 * Sensitive to {@link CustomAssert} softMode.
-	 *
-	 * @param message     - custom error message in case if assertion fails
-	 * @param assetLabel  - assert field to be verified
-	 * @param isMandatory - if true - verify that field is mandatory, if false - otherwise
-	 * @throws AssertionError
-	 */
-	public void assetFieldMandatory(String message, String assetLabel, boolean isMandatory) {
-		assetFieldMandatory(message, assetLabel, isMandatory, getActualXpathValue(assetLabel, X_PATH_1, X_PATH_2, isMandatory));
 	}
 
 	public void assetFieldEnabled(String label) {
