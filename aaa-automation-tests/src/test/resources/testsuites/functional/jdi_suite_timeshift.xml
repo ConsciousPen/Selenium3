@@ -116,12 +116,6 @@
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestInstallmentFees"/>
         </classes>
     </test>
-    <test name="TestEndorsementActionRules" parallel="methods" thread-count="1024">
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEndorsementActionRules"/>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestEndorsementActionRules"/>
-        </classes>
-    </test>
 
     <test name="membership_eValueVA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
