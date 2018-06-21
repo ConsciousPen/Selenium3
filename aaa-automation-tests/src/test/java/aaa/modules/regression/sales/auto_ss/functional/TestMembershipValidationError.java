@@ -15,7 +15,11 @@ import aaa.helpers.db.queries.LookupQueries;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -29,7 +33,6 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 	private GeneralTab generalTab = new GeneralTab();
 	private ErrorTab errorTab = new ErrorTab();
 	private AssetList assetListAAAProductOwned = generalTab.getAAAProductOwnedAssetList();
-	private static final String TRIGGER_ON_EFFECTIVE_DATE = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 
 	/**
 	*@author Viktor Petrenko
@@ -38,7 +41,7 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 	*PAS-3795 New Business DE & NJ: Member Validation Failed Message
 	*@name Test No Prior Insurance Error and Message presence
 	*@scenario
-	 *0. Create customer
+	*0. Create customer
 	*1. Initiate Auto SS quote creation and make it ready for purchase
 	*2. Go to the GeneralTab and Change current carrier section to trigger error
 	*3. Verify warning message presence
@@ -105,7 +108,7 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 		TestData testDataGeneralTab = testData.getTestData(generalTab.getMetaKey());
 
 		TestData testDataPolicyInformation = testDataGeneralTab.getTestData(AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel())
-				.adjust(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), TRIGGER_ON_EFFECTIVE_DATE);
+				.adjust(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
 
 		TestData testDataAAAProductsOwned = testDataGeneralTab.getTestData(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel())
 				.adjust(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Yes")

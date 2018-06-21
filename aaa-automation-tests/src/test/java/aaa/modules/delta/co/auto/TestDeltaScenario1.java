@@ -25,6 +25,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -56,7 +57,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	private DriverTab driverTab = new DriverTab();
 	private PremiumAndCoveragesTab pacTab = new PremiumAndCoveragesTab();
 	private GeneralTab gTab = new GeneralTab();
-	private MultiInstanceBeforeAssetList aiAssetList = driverTab.getActivityInformationAssetList();
+	private ActivityInformationMultiAssetList aiAssetList = driverTab.getActivityInformationAssetList();
 	private ErrorTab errorTab = new ErrorTab();
 	
 	@Parameters({"state"})
@@ -214,7 +215,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		vTab.submitTab();
 
 		Tab.buttonNext.click();
-		PremiumAndCoveragesTab.buttonCalculatePremium.click();
+		new PremiumAndCoveragesTab().btnCalculatePremium().click();
 		//in old test this verification was skipped with comment 'PAS12:AS per RSG, commenting premium rating verifications'
 		//PremiumAndCoveragesTab.totalTermPremium.verify.value(new Dollar("3,409.00").toString());
 
@@ -275,7 +276,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		gTab.submitTab();
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.buttonCalculatePremium.click();
+		new PremiumAndCoveragesTab().btnCalculatePremium().click();
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertThat(pacTab.getRatingDetailsQuoteInfoData().getValue("Adversely Impacted Applied")).isEqualTo("No");
 		pacTab.submitTab();
@@ -288,7 +289,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		gTab.submitTab();
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.buttonCalculatePremium.click();
+		new PremiumAndCoveragesTab().btnCalculatePremium().click();
 
 		Tab.buttonSaveAndExit.click();
 	}
@@ -312,7 +313,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE)).isPresent(false);
 
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_PAYMENTS).setValueByRegex("No Coverage.*");
-		PremiumAndCoveragesTab.buttonCalculatePremium.click();
+		new PremiumAndCoveragesTab().btnCalculatePremium().click();
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_SAVINGS_OPTIONS).setValue("Yes");
 		assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.MOTORCYCLE)).isPresent(false);
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_SAVINGS_OPTIONS).setValue("No");

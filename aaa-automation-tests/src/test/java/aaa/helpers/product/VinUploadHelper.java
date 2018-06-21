@@ -1,5 +1,7 @@
 package aaa.helpers.product;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -11,6 +13,7 @@ public class VinUploadHelper {
 	private String policyType;
 	private String state;
 	private UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
+	protected static Logger log = LoggerFactory.getLogger(VinUploadHelper.class);
 
 	public VinUploadHelper(PolicyType policyType,String state) {
 		this.policyType = policyType.getShortName();
@@ -37,9 +40,14 @@ public class VinUploadHelper {
 		uploadToVINTableTab.uploadControlTable(controlTableFile);
 	}
 
-	public void uploadVinTable(String vinTableFile) {
+	/**
+	 * Go to the admin -> administration -> Upload to vehicledatavin table
+	 * @param vinTableFileName xls
+	 */
+	public void uploadVinTable(String vinTableFileName) {
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-		uploadToVINTableTab.uploadVinTable(vinTableFile);
+		uploadToVINTableTab.uploadVinTable(vinTableFileName);
+		log.info("File {} was uploaded", vinTableFileName);
 	}
 
 	public void verifyActivitiesAndUserNotes(String vinNumber) {
@@ -83,24 +91,5 @@ public class VinUploadHelper {
 				throw new IllegalArgumentException("Name of VIN Table file was not selected correctly");
 		}
 		return String.format(defaultControlFileName, state);
-	}
-
-	public enum UploadFilesTypes {
-		UPDATED_VIN("Updated"),
-		ADDED_VIN("Added");
-
-		private String type;
-
-		UploadFilesTypes(String type) {
-			set(type);
-		}
-
-		public void set(String type) {
-			this.type = type;
-		}
-
-		public String get() {
-			return type;
-		}
 	}
 }

@@ -6,16 +6,15 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
     <test name="AutoSS Scenario 35 CFT" parallel="none">
-        <parameter name="state" value="AZ, KY, MD"/>
+        <parameter name="state" value="DE, NJ, MD"/>
         <classes>
             <class name="aaa.modules.cft.auto_ss.TestCFTScenario35"/>
         </classes>
     </test>
     <test name="HomeSS Scenario 35 CFT" parallel="none">
-        <parameter name="state" value="DE, NJ, VA"/>
+        <parameter name="state" value="DE, MD, NJ, PA, VA"/>
         <classes>
             <class name="aaa.modules.cft.home_ss.ho3.TestCFTScenario35"/>
         </classes>
     </test>
-
 </suite>

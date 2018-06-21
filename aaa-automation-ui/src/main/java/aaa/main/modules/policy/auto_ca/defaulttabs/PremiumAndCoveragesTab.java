@@ -8,16 +8,15 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
-//import toolkit.verification.CustomAssert;
 import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.Button;
@@ -25,6 +24,8 @@ import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
+
+//import toolkit.verification.CustomAssert;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -35,7 +36,6 @@ import toolkit.webdriver.controls.waiters.Waiters;
  */
 public class PremiumAndCoveragesTab extends Tab {
 
-	public static Button buttonCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalc"));
 	public static StaticElement labelProductInquiry = new StaticElement(By.xpath("//span[@id='policyDataGatherForm:sedit_AAAProductOverride_policyFormCd']"));
 	public static StaticElement totalTermPremium = new StaticElement(By.xpath("//span[@class='TOTAL_TERM_PREMIUM']"));
 	public static Link buttonViewRatingDetails = new Link(By.id("policyDataGatherForm:viewRatingDetails_Link"));
@@ -50,6 +50,9 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Button buttonCommissionOverride = new Button(By.id("policyDataGatherForm:commissionOverrideButton"));
 	public Button btnContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
 
+	public static Link linkPaymentPlan = new Link(By.id("policyDataGatherForm:paymentPlansTogglePanel:header"), Waiters.AJAX);
+	public static Link linkViewApplicableFeeSchedule = new Link(By.id("policyDataGatherForm:installmentFeeDetails"), Waiters.AJAX);
+
 	// --
 	public PremiumAndCoveragesTab() {
 		super(AutoCaMetaData.PremiumAndCoveragesTab.class);
@@ -60,18 +63,39 @@ public class PremiumAndCoveragesTab extends Tab {
 		return new Dollar(tablePremiumSummary.getRow(1).getCell(4).getValue());
 	}
 
-	public static void calculatePremium() {
-		if (!buttonCalculatePremium.isPresent()) {
-			NavigationPage.toViewSubTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-		}
-		buttonCalculatePremium.click();
-	}
-	
 	public List<TestData> getRatingDetailsDriversData() {
 		ByT pagePattern = ByT.xpath("//div[@id='ratingDetailsPopupForm:driverPanel_body']//center//td[@class='pageText']//*[text()='%s']");
 		return getTestDataFromTable(tableRatingDetailsDrivers, pagePattern);
 	}
-	
+
+	@Override
+	public Tab fillTab(TestData td) {
+		super.fillTab(td);
+		if (td.getTestData(getMetaKey()) != null && !td.getTestData(getMetaKey()).containsKey(AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM.getLabel())) {
+			hideHeader();
+			btnCalculatePremium().click();
+			showHeader();
+		}
+		return this;
+	}
+
+	@Override
+	public Tab submitTab() {
+		btnContinue.click();
+		return this;
+	}
+
+	public void calculatePremium() {
+		if (!btnCalculatePremium().isPresent()) {
+			NavigationPage.toViewSubTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+		}
+		btnCalculatePremium().click();
+	}
+
+	public JavaScriptButton btnCalculatePremium() {
+		return getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM.getLabel(), JavaScriptButton.class);
+	}
+
 	private List<TestData> getTestDataFromTable(Table table, ByT pagePattern) {
 		List<TestData> testDataList = new ArrayList<>();
 
@@ -114,22 +138,5 @@ public class PremiumAndCoveragesTab extends Tab {
 			pageNumber++;
 		}
 		return testDataList;
-	}
-
-	@Override
-	public Tab fillTab(TestData td) {
-		super.fillTab(td);
-		if (td.getTestData(getMetaKey()) != null && !td.getTestData(getMetaKey()).containsKey(AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM.getLabel())) {
-			hideHeader();
-			buttonCalculatePremium.click();
-			showHeader();
-		}
-		return this;
-	}
-
-	@Override
-	public Tab submitTab() {
-		btnContinue.click();
-		return this;
 	}
 }

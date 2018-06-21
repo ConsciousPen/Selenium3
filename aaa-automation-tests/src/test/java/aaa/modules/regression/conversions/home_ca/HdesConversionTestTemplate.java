@@ -108,8 +108,6 @@ public class HdesConversionTestTemplate extends HomeCaHO3BaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(effDate);
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getPayLapsedRenewLong(effDate).plusDays(1))
-				.setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 
 	protected void hdesCAConversion_renewAfterPayment(String file, ITestContext context) {

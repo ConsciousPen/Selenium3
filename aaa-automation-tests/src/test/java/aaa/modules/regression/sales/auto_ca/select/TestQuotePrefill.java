@@ -21,6 +21,7 @@ import aaa.modules.policy.AutoCaSelectBaseTest;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import static aaa.main.metadata.policy.AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION;
 import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
@@ -150,7 +151,10 @@ public class TestQuotePrefill extends AutoCaSelectBaseTest {
 		assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab.tableInsuredList.getRowsCount()).isEqualTo(2);
 		generalTab.fillTab(getTestSpecificTD("TestDataFill_1_CA"));
 		
-		
+		generalTab.viewInsured(2);
+		generalTab.getAssetList().getAsset(NAMED_INSURED_INFORMATION).getAsset(NamedInsuredInformation.HAS_LIVED_LESS_THAN_3_YEARS).setValue("No");
+
+
 		//check Driver tab
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
 		aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab driverTab = new aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab();

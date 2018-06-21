@@ -26,10 +26,11 @@ public class TableColumn extends ExcelColumn<TableCell> {
 		return "TableColumn{" +
 				"sheetName=" + getSheetName() +
 				", columnIndex=" + getIndex() +
+				", columnIndexOnSheet=" + getIndexOnSheet() +
 				", headerColumnName=" + getHeaderName() +
 				", rowsNumber=" + getCellsNumber() +
-				", cellTypes=" + getCellTypes() +
 				", values=" + getStringValues() +
+				", cellTypes=" + getCellTypes() +
 				'}';
 	}
 

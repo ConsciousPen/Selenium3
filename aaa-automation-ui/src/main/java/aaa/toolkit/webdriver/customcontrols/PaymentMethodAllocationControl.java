@@ -19,58 +19,63 @@ import toolkit.webdriver.controls.waiters.Waiters;
  * <b>Example of Test Data:</b></br>
  * <pre>
  * PaymentAllocation: {
-      Cash: $123,
-      Visa: /50%,
-      Check: /rest,
-      Check Number Check: 41244,
-      Check Number Visa: 346342
-    }
+ Cash: $123,
+ Visa: /50%,
+ Check: /rest,
+ Check Number Check: 41244,
+ Check Number Visa: 346342
+ }
  * </pre>
  */
-public class PaymentMethodAllocationControl extends AbstractContainer<TestData, TestData>{
+public class PaymentMethodAllocationControl extends AbstractContainer<TestData, TestData> {
 
-    public static final String BALANCE_DUE_KEY = "Balance Due";
-	public static final String REST_KEY = "/rest";
-    
-    public PaymentMethodAllocationControl(BaseElement<?, ?> parent, By locator, Class<? extends MetaData> metaDataClass) {
-        super(parent, locator, metaDataClass);
-    }
+	public static final String BALANCE_DUE_KEY = "Balance Due";
+	public static final String TOTAL_PREMIUM_KEY = "Total Premium";
+	public static final String REST_VALUE = "/rest";
+	public static final String FULL_TERM_VALUE = "/full_term";
 
-    @Override
-    protected TestData getRawValue() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
+	public PaymentMethodAllocationControl(BaseElement<?, ?> parent, By locator, Class<? extends MetaData> metaDataClass) {
+		super(parent, locator, metaDataClass);
+	}
 
-    @Override
-    protected void setRawValue(TestData data) {
-        Dollar due = new Dollar(data.getValue(BALANCE_DUE_KEY));
-        Dollar enteredSum = new Dollar(0);
-        for (String key : data.getKeys()) {
-            if (key.equals(BALANCE_DUE_KEY)) {
-                continue;
-            }
-            TextBox input = null;
-            if (key.startsWith("Check Number ")) {
-	            input = new TextBox(this, By.xpath(String.format(".//tr[td/input[contains(@value,'%s')]]/td[3]/input", key.replace("Check Number ", ""))), Waiters.AJAX);
-            } else {
-	            input = new TextBox(this, By.xpath(String.format(".//tr[td/input[contains(@value,'%s')]]/td[2]/input", key)), Waiters.AJAX);
-            }
-            String value = data.getValue(key);
-            if (value.equals(REST_KEY)) {
-                value = due.subtract(enteredSum).toString();
-            } else if (value.endsWith("%")) {
-                value = due.getPercentage(Double.valueOf(value.replace("%", "").replace("/", ""))).toString();
-            }
-            input.setValue(value);
-            enteredSum = enteredSum.add(new Dollar(value));
-        }
-    }
+	@Override
+	protected TestData getRawValue() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public TestData.Type testDataType() {
-	    return TestData.Type.TESTDATA;
-    }
+	@Override
+	protected void setRawValue(TestData data) {
+		Dollar due = new Dollar(data.getValue(BALANCE_DUE_KEY));
+		Dollar full = new Dollar(data.getValue(TOTAL_PREMIUM_KEY));
+		Dollar enteredSum = new Dollar(0);
+		for (String key : data.getKeys()) {
+			if (key.equals(BALANCE_DUE_KEY) || key.equals(TOTAL_PREMIUM_KEY)) {
+				continue;
+			}
+			TextBox input = null;
+			if (key.startsWith("Check Number ")) {
+				input = new TextBox(this, By.xpath(String.format(".//tr[td/input[contains(@value,'%s')]]/td[3]/input", key.replace("Check Number ", ""))), Waiters.AJAX);
+			} else {
+				input = new TextBox(this, By.xpath(String.format(".//tr[td/input[contains(@value,'%s')]]/td[2]/input", key)), Waiters.AJAX);
+			}
+			String value = data.getValue(key);
+			if (value.equals(FULL_TERM_VALUE)) {
+				value = full.toString();
+			} else if (value.equals(REST_VALUE)) {
+				value = due.subtract(enteredSum).toString();
+			} else if (value.endsWith("%")) {
+				value = due.getPercentage(Double.valueOf(value.replace("%", "").replace("/", ""))).toString();
+			}
+			input.setValue(value);
+			enteredSum = enteredSum.add(new Dollar(value));
+		}
+	}
+
+	@Override
+	public TestData.Type testDataType() {
+		return TestData.Type.TESTDATA;
+	}
 
 	@Override
 	protected TestData normalize(Object rawValue) {
@@ -79,13 +84,13 @@ public class PaymentMethodAllocationControl extends AbstractContainer<TestData, 
 		} else {
 			throw new IllegalArgumentException("Value " + rawValue + " has incorrect type " + rawValue.getClass());
 		}
-    }
+	}
 
-    @Override
-    public void fill(TestData td) {
-        if (td.containsKey(name)) {
-            setValue(td.getTestData(name));
-        }
-    }
+	@Override
+	public void fill(TestData td) {
+		if (td.containsKey(name)) {
+			setValue(td.getTestData(name));
+		}
+	}
 
 }

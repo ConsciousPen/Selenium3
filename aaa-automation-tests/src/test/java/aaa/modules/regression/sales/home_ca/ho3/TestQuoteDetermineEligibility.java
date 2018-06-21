@@ -226,11 +226,11 @@ public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
 
 		// 3. Verify an eligibility error if CovA is more than 20% ABOVE the home replacement cost from ISO
-		propertyInfoTab.fillTab(getTestSpecificTD("CovA_MoreThan20PercentsOfReplacementCosts"));
+		/*propertyInfoTab.fillTab(getTestSpecificTD("CovA_MoreThan20PercentsOfReplacementCosts"));  // rule disabled according to PPS-371
 		goToBindAndVerifyError(Errors.ERROR_AAA_HO_CACovAReplacementCost);
 		String coverageA = getTestSpecificTD("CovA_MoreThan20PercentsOfReplacementCosts").getTestData(HomeCaMetaData.PropertyInfoTab.class.getSimpleName(),
 			HomeCaMetaData.PropertyInfoTab.PropertyValue.class.getSimpleName()).getValue(HomeCaMetaData.PropertyInfoTab.PropertyValue.ISO_REPLACEMENT_COST.getLabel());
-		propertyInfoTab.getPropertyValueAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT.getLabel(), TextBox.class).setValue(coverageA);
+		propertyInfoTab.getPropertyValueAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT.getLabel(), TextBox.class).setValue(coverageA); */
 
 		// 4. Verify an eligibility error if there are > 2 Additional Insured
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.MORTGAGEE_AND_ADDITIONAL_INTERESTS.get());

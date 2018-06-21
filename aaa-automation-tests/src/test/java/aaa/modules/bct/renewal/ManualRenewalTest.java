@@ -22,6 +22,7 @@ public class ManualRenewalTest extends BackwardCompatibilityBaseTest {
 	@Test
 	public void BCT_ONL_047_ManualRenewal(@Optional("") String state) {
 		IPolicy policy = findAndOpenPolicy("BCT_ONL_047_ManualRenewal", PolicyType.AUTO_SS);
+		deletePendingRenewals(policy);
 		policy.doNotRenew().perform(getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS), "DoNotRenew", "TestData"));
 		PolicySummaryPage.labelDoNotRenew.verify.present();
 	}
@@ -45,7 +46,7 @@ public class ManualRenewalTest extends BackwardCompatibilityBaseTest {
 		Tab.buttonOk.click();
 		Page.dialogConfirmation.confirm();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
 	}
@@ -54,6 +55,7 @@ public class ManualRenewalTest extends BackwardCompatibilityBaseTest {
 	@Test
 	public void BCT_ONL_003_ManualRenewal(@Optional("") String state) {
 		IPolicy policy = findAndOpenPolicy("BCT_ONL_003_ManualRenewal", PolicyType.AUTO_SS);
+		deletePendingRenewals(policy);
 		policy.doNotRenew().perform(getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS), "DoNotRenew", "TestData"));
 		PolicySummaryPage.labelDoNotRenew.verify.present();
 		policy.removeDoNotRenew().perform(new SimpleDataProvider());

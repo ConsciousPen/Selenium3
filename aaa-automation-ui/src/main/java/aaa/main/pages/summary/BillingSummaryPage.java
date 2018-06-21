@@ -2,25 +2,24 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.pages.summary;
 
+import java.time.LocalDateTime;
+import org.openqa.selenium.By;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.components.Dialog;
 import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.pages.NavigationPage;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.BillingConstants.BillingGeneralInformationTable;
 import aaa.toolkit.webdriver.customcontrols.TableWithPages;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.openqa.selenium.By;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
-
-import java.time.LocalDateTime;
 
 public class BillingSummaryPage extends SummaryPage {
 	private static final ByT PAGINATION_LOCATOR = ByT.xpath("//table[@id='%s']/ancestor::tr[1]/following-sibling::tr[1]/descendant::span[1]");
@@ -53,6 +52,8 @@ public class BillingSummaryPage extends SummaryPage {
 	public static Button buttonPaymentsBillingMaintenance = new Button(By.id("billingInfoForm:backOffice"));
 	public static Button buttonTasks = new Button(By.xpath("//*[contains(@id,'tasksList') and text()='Tasks']"));
 	protected static Logger log = LoggerFactory.getLogger(BillingSummaryPage.class);
+	public static StaticElement labelEarnedPremiumWriteOff = new StaticElement(By.xpath("//*[@id='billingInfoForm:header_panel']/div/div[2]/label"));
+	public static StaticElement labelAmountEarnedPremiumWriteOff = new StaticElement(By.id("billingInfoForm:epwo"));
 
 	public static boolean isVisible() {
 		return tableBillingGeneralInformation.isPresent() && tableBillingGeneralInformation.isVisible();
@@ -80,6 +81,10 @@ public class BillingSummaryPage extends SummaryPage {
 
 	public static Dollar getMinimumDue() {
 		return new Dollar(tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.MINIMUM_DUE).getValue());
+	}
+
+	public static Dollar getPastDue() {
+		return new Dollar(tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.PAST_DUE).getValue());
 	}
 
 	public static Dollar getTotalPaid() {

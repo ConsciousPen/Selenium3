@@ -4,7 +4,7 @@ import aaa.helpers.openl.model.AutoOpenLCoverage;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
-@ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME + "AZ", headerRowIndex = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
+@ExcelTableElement(containsSheetName = OpenLFile.COVERAGE_SHEET_NAME, headerRowIndex = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
 public class AutoSSOpenLCoverage extends AutoOpenLCoverage {
 	private String glassDeductible;
 

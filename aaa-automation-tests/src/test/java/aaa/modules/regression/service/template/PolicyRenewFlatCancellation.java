@@ -3,9 +3,7 @@
 package aaa.modules.regression.service.template;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import toolkit.datax.impl.SimpleDataProvider;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 
@@ -28,11 +26,8 @@ public class PolicyRenewFlatCancellation extends PolicyBaseTest {
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
 		log.info("Manual Renew for Policy #" + policyNumber);
-		if (getPolicyType().equals(PolicyType.AUTO_SS) || getPolicyType().equals(PolicyType.AUTO_CA_SELECT) || getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
-			policy.renew().perform(new SimpleDataProvider());
-		} else {
-			policy.renew().performAndExit(new SimpleDataProvider());
-		}
+		policy.renew().performAndExit();
+
 		log.info("TEST: Cancellation Policy Renewal #" + policyNumber);
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus3Days"));
 

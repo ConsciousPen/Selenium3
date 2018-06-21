@@ -7,7 +7,6 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.helpers.TestDataHelper;
-import aaa.helpers.openl.model.home_ca.ho6.HomeCaHO6OpenLDwelling;
 import aaa.helpers.openl.model.home_ca.ho6.HomeCaHO6OpenLForm;
 import aaa.helpers.openl.model.home_ca.ho6.HomeCaHO6OpenLPolicy;
 import aaa.main.metadata.policy.HomeCaMetaData;
@@ -15,6 +14,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 
 public class HomeCaHO6TestDataGenerator extends TestDataGenerator<HomeCaHO6OpenLPolicy> {
@@ -132,15 +132,18 @@ public class HomeCaHO6TestDataGenerator extends TestDataGenerator<HomeCaHO6OpenL
 			}
 		}
 
-		TestData dwellingAddressData;
+		TestData dwellingAddressData = DataProviderFactory.emptyData();
 		if (isHO42C) {
-			dwellingAddressData = DataProviderFactory.dataOf(
-					HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(),
-					"contains=" + openLPolicy.getForms().stream().filter(n -> "HO-42C".equals(n.getFormCode())).findFirst().get().getTerritoryCode());
-		} else {
-			dwellingAddressData = DataProviderFactory.dataOf(
-					HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(), "");
-		}
+			String territoryCode = openLPolicy.getForms().stream().filter(n -> "HO-42C".equals(n.getFormCode())).findFirst().get().getTerritoryCode(); 
+			if (territoryCode.equals("Office")) {
+				dwellingAddressData = DataProviderFactory.dataOf(
+						HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(), "contains=" + RandomUtils.nextInt(1, 4));
+			}
+			else {
+				dwellingAddressData = DataProviderFactory.dataOf(
+						HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(), "contains=" + territoryCode);
+			}
+		} 
 
 		TestData ppcData = DataProviderFactory.dataOf(
 				HomeCaMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS.getLabel(), openLPolicy.getDwelling().getPpcValue());
@@ -176,18 +179,16 @@ public class HomeCaHO6TestDataGenerator extends TestDataGenerator<HomeCaHO6OpenL
 					HomeCaMetaData.PropertyInfoTab.Interior.NUMBER_OF_RESIDENTS.getLabel(), "3",
 					HomeCaMetaData.PropertyInfoTab.Interior.NUMBER_OF_STORIES_INCLUDING_BASEMENT.getLabel(), "1"));
 		}
-
-		TestData theftProtectiveDeviceData = getTheftProtectiveDevice(openLPolicy.getDwelling());
-		if (openLPolicy.getDwelling().getGatedCommunity()) {
-			theftProtectiveDeviceData.adjust(DataProviderFactory.dataOf(
-					HomeCaMetaData.PropertyInfoTab.TheftProtectiveTPDD.GATED_COMMUNITY.getLabel(), Boolean.TRUE));
-		}
-
-		TestData fireProtectiveDeviceData = getFireProtectiveDevice(openLPolicy.getDwelling());
-		if (openLPolicy.getDwelling().getHasSprinklers()) {
-			fireProtectiveDeviceData.adjust(DataProviderFactory.dataOf(
-					HomeCaMetaData.PropertyInfoTab.FireProtectiveDD.FULL_RESIDENTIAL_SPRINKLERS.getLabel(), Boolean.TRUE));
-		}
+		
+		TestData theftProtectiveDeviceData = DataProviderFactory.dataOf(
+				HomeCaMetaData.PropertyInfoTab.TheftProtectiveTPDD.LOCAL_THEFT_ALARM.getLabel(), "Local".equals(openLPolicy.getDwelling().getBurglarAlarmType()), 
+				HomeCaMetaData.PropertyInfoTab.TheftProtectiveTPDD.CENTRAL_THEFT_ALARM.getLabel(), "Central".equals(openLPolicy.getDwelling().getBurglarAlarmType()), 
+				HomeCaMetaData.PropertyInfoTab.TheftProtectiveTPDD.GATED_COMMUNITY.getLabel(), openLPolicy.getDwelling().getGatedCommunity());
+		
+		TestData fireProtectiveDeviceData = DataProviderFactory.dataOf(
+				HomeCaMetaData.PropertyInfoTab.FireProtectiveDD.LOCAL_FIRE_ALARM.getLabel(), "Local".equals(openLPolicy.getDwelling().getFireAlarmType()), 
+				HomeCaMetaData.PropertyInfoTab.FireProtectiveDD.CENTRAL_FIRE_ALARM.getLabel(), "Central".equals(openLPolicy.getDwelling().getFireAlarmType()), 
+				HomeCaMetaData.PropertyInfoTab.FireProtectiveDD.FULL_RESIDENTIAL_SPRINKLERS.getLabel(), openLPolicy.getDwelling().getHasSprinklers());
 
 		List<TestData> claimHistoryData = getClaimsHistoryData(openLPolicy, openLPolicy.getExpClaimPoints(), openLPolicy.getClaimPoints());
 
@@ -201,32 +202,6 @@ public class HomeCaHO6TestDataGenerator extends TestDataGenerator<HomeCaHO6OpenL
 				HomeCaMetaData.PropertyInfoTab.THEFT_PROTECTIVE_DD.getLabel(), theftProtectiveDeviceData,
 				HomeCaMetaData.PropertyInfoTab.FIRE_PROTECTIVE_DD.getLabel(), fireProtectiveDeviceData,
 				HomeCaMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel(), claimHistoryData);
-	}
-
-	private TestData getTheftProtectiveDevice(HomeCaHO6OpenLDwelling dwelling) {
-		switch (dwelling.getBurglarAlarmType()) {
-			case "Central":
-				return DataProviderFactory.dataOf(HomeCaMetaData.PropertyInfoTab.TheftProtectiveTPDD.CENTRAL_THEFT_ALARM.getLabel(), Boolean.TRUE);
-			case "Local":
-				return DataProviderFactory.dataOf(HomeCaMetaData.PropertyInfoTab.TheftProtectiveTPDD.LOCAL_THEFT_ALARM.getLabel(), Boolean.TRUE);
-			case "None":
-				return DataProviderFactory.emptyData();
-			default:
-				return DataProviderFactory.emptyData();
-		}
-	}
-
-	private TestData getFireProtectiveDevice(HomeCaHO6OpenLDwelling dwelling) {
-		switch (dwelling.getFireAlarmType()) {
-			case "Central":
-				return DataProviderFactory.dataOf(HomeCaMetaData.PropertyInfoTab.FireProtectiveDD.CENTRAL_FIRE_ALARM.getLabel(), Boolean.TRUE);
-			case "Local":
-				return DataProviderFactory.dataOf(HomeCaMetaData.PropertyInfoTab.FireProtectiveDD.LOCAL_FIRE_ALARM.getLabel(), Boolean.TRUE);
-			case "None":
-				return DataProviderFactory.emptyData();
-			default:
-				return DataProviderFactory.emptyData();
-		}
 	}
 
 	private List<TestData> getClaimsHistoryData(HomeCaHO6OpenLPolicy openLPolicy, Integer aaaClaimPoints, Integer notAaaClaimPoints) {
@@ -385,18 +360,59 @@ public class HomeCaHO6TestDataGenerator extends TestDataGenerator<HomeCaHO6OpenL
 						break;
 				}
 			} else if ("HO-61C".equals(form.getFormCode())) {
+				/*
+				 * Class 1: Boat length < 144 and Horsepower < 16
+				 * Class 1: Boat length > 167 and Boat length < 192 and Horsepower < 26 
+				 * Class 1: Boat length > 191 and Boat length < 216 and Horsepower < 51
+				 */
+				String horsepower = "15";
+				String lenght_inches = "200";
+				if (getBoatType(form).equals("Outboard")) {
+					if (form.getFormClass().equals("Class 1")) {
+						horsepower = "12"; 
+						lenght_inches = "143";
+					}
+					if (form.getFormClass().equals("Class 2")) {
+						horsepower = "16"; 
+						lenght_inches = "143";
+					}
+				}
+
 				TestData boatsData = DataProviderFactory.dataOf(
-						HomeCaMetaData.PersonalPropertyTab.Boats.BOAT_TYPE.getLabel(), form.getType(),
-						HomeCaMetaData.PersonalPropertyTab.Boats.YEAR.getLabel(), "2015",
-						HomeCaMetaData.PersonalPropertyTab.Boats.HORSEPOWER.getLabel(), "50",
-						HomeCaMetaData.PersonalPropertyTab.Boats.LENGTH_INCHES.getLabel(), "300",
-						HomeCaMetaData.PersonalPropertyTab.Boats.DEDUCTIBLE.getLabel(), new Dollar(form.getDeductible()).toString().split("\\.")[0],
-						HomeCaMetaData.PersonalPropertyTab.Boats.AMOUNT_OF_INSURANCE.getLabel(), "500");
+						HomeCaMetaData.PersonalPropertyTab.Boats.BOAT_TYPE.getLabel(), getBoatType(form),
+						HomeCaMetaData.PersonalPropertyTab.Boats.YEAR.getLabel(), openLPolicy.getEffectiveDate().minusYears(form.getAge()).getYear(),
+						HomeCaMetaData.PersonalPropertyTab.Boats.HORSEPOWER.getLabel(), horsepower,
+						HomeCaMetaData.PersonalPropertyTab.Boats.LENGTH_INCHES.getLabel(), lenght_inches,
+						HomeCaMetaData.PersonalPropertyTab.Boats.DEDUCTIBLE.getLabel(), "contains=" + form.getDeductible().toString().split("\\.")[0],
+						HomeCaMetaData.PersonalPropertyTab.Boats.AMOUNT_OF_INSURANCE.getLabel(), form.getLimit().toString().split("\\.")[0]);
 				personalPropertyTabData.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.BOATS.getLabel(), boatsData));
 			}
 		}
 		return personalPropertyTabData;
-
+	}
+	
+	private String getBoatType(HomeCaHO6OpenLForm form) {
+		String boatType;
+		switch (form.getType()) {
+			case "Outboard":
+				boatType = "Outboard";
+				break;
+			case "Sailboat": 
+				boatType = "Sailboat";
+				break;
+			case "Inboard": 
+				boatType = "Inboard";
+				break;
+			case "In/Outboard": 
+				boatType = "Inboard/Outboard"; 
+				break;
+			case "Canoe": 
+				boatType = "Other";
+				break;
+			default: 
+				throw new IstfException("Unknown mapping for Boat Type = " + form.getType());
+		}
+		return boatType;
 	}
 
 	private TestData getPremiumsAndCoveragesQuoteTabData(HomeCaHO6OpenLPolicy openLPolicy) {

@@ -6,6 +6,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -17,14 +18,19 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 public class TestMidTermReinstatementPointLock extends AutoSSBaseTest {
+
+	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+	private PurchaseTab purchaseTab = new PurchaseTab();
+
 	/**
-	* @author Dominykas Razgunas
-	* @name Check if Mid Term Endorsement does not include reinstatement point change
-	* @scenario
+	 * @author Dominykas Razgunas
+	 * @name Check if Mid Term Endorsement does not include reinstatement point change
+	 * @scenario
 	 * 1. Create customer
 	 * 2. Create Auto SS Policy and Save Reinstatement Points Score value
 	 * 3. Cancel Policy
@@ -35,11 +41,9 @@ public class TestMidTermReinstatementPointLock extends AutoSSBaseTest {
 	 * 8. Calculate Premium
 	 * 9. View Rating Details
 	 * 10. Assert That the Reinstatement Points are the same
-	* @details
-	*/
-	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
-	private PurchaseTab purchaseTab = new PurchaseTab();
-
+	 * @details
+	 */
+    @StateList(statesExcept = Constants.States.CA)
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9687")
@@ -54,7 +58,6 @@ public class TestMidTermReinstatementPointLock extends AutoSSBaseTest {
 		policy.initiate();
 
 		//Calculate premium and open view rating details
-
 		policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, true);
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
@@ -62,35 +65,29 @@ public class TestMidTermReinstatementPointLock extends AutoSSBaseTest {
 		String reinstatementHistory = PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(6).getCell("Score").getValue();
 
 		// Issue Policy and cancel it
-
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		premiumAndCoveragesTab.submitTab();
 		policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, PurchaseTab.class, true);
 		purchaseTab.submitTab();
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		policy.cancel().perform(getTestSpecificTD("TestData_Cancellation"));
+		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
 		//Change system date to get policy reinstated with lapse
-
 		TimeSetterUtil.getInstance().nextPhase(reinstatementDate);
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
 		//Reinstate policy
-
-		policy.reinstate().perform(getTestSpecificTD("TestData_Reinstatement"));
+		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
 
 		//Endorse policy and check reinstatementHistory score
-
-		policy.endorse().perform(getTestSpecificTD("TestData_Endorse"));
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
-		//Check that the saved value is the same during mid term endorsement even after reinstatement was made
+		//Check that the saved value is the same during mid term endorsement even after reinstatement was made. Change time back to current day.
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(6).getCell("Score").getValue()).isEqualTo(reinstatementHistory);
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-
 	}
 }

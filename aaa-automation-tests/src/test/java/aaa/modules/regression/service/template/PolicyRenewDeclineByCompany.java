@@ -1,9 +1,7 @@
 package aaa.modules.regression.service.template;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import toolkit.datax.impl.SimpleDataProvider;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 
@@ -29,11 +27,7 @@ public class PolicyRenewDeclineByCompany extends PolicyBaseTest {
 
 		log.info("TEST: Decline By Company Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
 
-		if (getPolicyType().equals(PolicyType.AUTO_SS) || getPolicyType().equals(PolicyType.AUTO_CA_SELECT) || getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
-			policy.renew().perform(new SimpleDataProvider());
-		} else {
-			policy.renew().performAndExit(new SimpleDataProvider());
-		}
+		policy.renew().performAndExit();
 
 		PolicySummaryPage.buttonRenewals.click();
 

@@ -376,7 +376,7 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 
 	public ExcelArea<CELL, ROW, COLUMN> deleteRows(Integer... rowsIndexes) {
 		int rowsShifts = 0;
-		Set<Integer> uniqueSortedRowIndexes = Arrays.stream(rowsIndexes).sorted().collect(Collectors.toCollection(LinkedHashSet::new));
+		List<Integer> uniqueSortedRowIndexes = Arrays.stream(rowsIndexes).distinct().sorted().collect(Collectors.toList());
 		Sheet sheet = getPoiSheet();
 		for (int index : uniqueSortedRowIndexes) {
 			assertThat(hasRow(index - rowsShifts)).as("There is no row number %1$s in %2$s", index, this).isTrue();

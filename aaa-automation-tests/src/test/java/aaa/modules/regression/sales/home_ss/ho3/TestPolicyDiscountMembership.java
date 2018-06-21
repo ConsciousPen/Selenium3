@@ -3,11 +3,9 @@ package aaa.modules.regression.sales.home_ss.ho3;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -15,11 +13,7 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.datax.TestData;
@@ -138,9 +132,9 @@ public class TestPolicyDiscountMembership extends HomeSSHO3BaseTest {
         policyNumber2 = PolicySummaryPage.labelPolicyNumber.getValue();
         
         policy.copyPolicy(td_CopyPolicy);
-        policyNumber3 = PolicySummaryPage.labelPolicyNumber.getValue();;
-        
-        policy.copyPolicy(td_CopyPolicy);
+		policyNumber3 = PolicySummaryPage.labelPolicyNumber.getValue();
+
+		policy.copyPolicy(td_CopyPolicy);
         policyNumber4 = PolicySummaryPage.labelPolicyNumber.getValue();
         
         //==============================Policy#1===================================

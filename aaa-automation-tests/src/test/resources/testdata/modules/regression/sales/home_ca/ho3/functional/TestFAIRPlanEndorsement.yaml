@@ -1,0 +1,38 @@
+EndorsementTab_Add: {
+  'FPCECA': '@Endorsement_FPCECA_Add'
+}
+
+Endorsement_FPCECA_Add: {
+  Action: 'Add',
+  Confirm Object Addition: 'Confirm'
+}
+
+TestData_Endorsement: {
+  GeneralTab: {},
+  ApplicantTab: {DwellingAddress: '@DwellingAddress_Change'},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+  PurchaseTab: {}
+}
+
+DwellingAddress_Change: {
+  Zip code: '90201',
+  Street address 1: 250 CHIPMAN AVE,
+  County: Los Angeles,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+DocumentsTab_SignFairPlanEndorsement: {
+  DocumentsToIssue: {
+      California Residential Property Insurance Disclosure: 'Physically Signed',
+      FAIR Plan Companion Endorsement - California: 'Physically Signed',
+      Signed policy application: 'Physically Signed'
+     }
+}

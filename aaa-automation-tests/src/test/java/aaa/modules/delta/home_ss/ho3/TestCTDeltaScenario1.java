@@ -4,7 +4,6 @@ import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.delta.templates.CTDeltaScenario1;
 import toolkit.datax.TestData;
@@ -20,16 +19,16 @@ public class TestCTDeltaScenario1 extends CTDeltaScenario1 {
 	
 	@Parameters({"state"})
 	@Test
-	public void TC01_createQuote(@Optional("") String state) {	
-		tdPolicy = testDataManager.policy.get(getPolicyType()); 
+	public void TC01_createQuote(@Optional("") String state) {
+		tdPolicy = testDataManager.policy.get(getPolicyType());
 		TestData td = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
 		createQuote(td, scenarioPolicyType);
-		
+
 		SoftAssertions.assertSoftly(softly -> {
 			verifyLOVsOfImmediatePriorCarrier();
 			verifyWindstormMitigationDiscount();
 			verifyELC();
-			purchasePolicy(td, scenarioPolicyType); 
+			purchasePolicy(td, scenarioPolicyType);
 			verifyODDPolicy();
 			verifyCancelNoticeTab();
 		});

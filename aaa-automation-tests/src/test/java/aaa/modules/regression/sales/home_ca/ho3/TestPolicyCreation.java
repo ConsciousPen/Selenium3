@@ -6,7 +6,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
@@ -28,14 +27,14 @@ import toolkit.utils.TestInfo;
 public class TestPolicyCreation extends HomeCaHO3BaseTest {
 
 	@Parameters({"state"})
-	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER })
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)  
-    public void testPolicyCreation(@Optional("CA") String state) {
-        mainApp().open();
+	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
+	public void testPolicyCreation(@Optional("CA") String state) {
+		mainApp().open();
 
-        createCustomerIndividual();
+		createCustomerIndividual();
 		createPolicy();
 
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-    }
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+	}
 }

@@ -15,66 +15,67 @@ import toolkit.webdriver.controls.waiters.Waiters;
 
 public abstract class Efolder {
 
-    public static Link linkOpenEfolder = new Link(By.id("leftContextHeader"));
-    public static Link linkCloseEfolder = new Link(By.id("slide_panel_close_ctrl"));
+	public static Link linkOpenEfolder = new Link(By.id("leftContextHeader"));
+	public static Link linkCloseEfolder = new Link(By.id("slide_panel_close_ctrl"));
 
-    public static boolean isDocumentExist(String path, String documentName) {
-        if (!isTreeExpanded(path)) {
-            expandFolder(path);
-        }
-        return new StaticElement(By.xpath(String.format("//form[@id='efForm']//span[@class='rf-trn-lbl'][contains(.,'%s')]", documentName))).isPresent();
-    }
+	public static boolean isOpened() {
+		return linkCloseEfolder.isPresent() && linkCloseEfolder.isVisible();
+	}
 
-    public static boolean isDocumentExist(String pathWithDocumentName) {
-        expandFolder(FilenameUtils.getPath(pathWithDocumentName));
-        return new StaticElement(By.xpath(String.format("//form[@id='efForm']//span[@class='rf-trn-lbl'][contains(.,'%s')]", FilenameUtils.getName(pathWithDocumentName)))).isPresent();
-    }
+	public static boolean isDocumentExist(String path, String documentName) {
+		if (!isTreeExpanded(path)) {
+			expandFolder(path);
+		}
+		return new StaticElement(By.xpath(String.format("//form[@id='efForm']//span[@class='rf-trn-lbl'][contains(.,'%s')]", documentName))).isPresent();
+	}
 
-    public static void expandFolder(String path) {
-        if (!isOpened()) {
-            linkOpenEfolder.click();
-        }
+	public static boolean isDocumentExist(String pathWithDocumentName) {
+		expandFolder(FilenameUtils.getPath(pathWithDocumentName));
+		return new StaticElement(By.xpath(String.format("//form[@id='efForm']//span[@class='rf-trn-lbl'][contains(.,'%s')]", FilenameUtils.getName(pathWithDocumentName)))).isPresent();
+	}
 
-        String[] pathParts = path.split("/");
-        for (String p : pathParts) {
-            Waiters.SLEEP(3000).go();
-            new Link(By.xpath(String.format("//form[@id='efForm']//div[span/span/span[contains(@id, 'efForm:efTree') and .='%s']]/span[1]", p))).click();
-        }
-    }
+	public static void expandFolder(String path) {
+		if (!isOpened()) {
+			linkOpenEfolder.click();
+		}
 
-    public static boolean isOpened() {
-        return linkCloseEfolder.isPresent() && linkCloseEfolder.isVisible();
-    }
+		String[] pathParts = path.split("/");
+		for (String p : pathParts) {
+			Waiters.SLEEP(3000).go();
+			new Link(By.xpath(String.format("//form[@id='efForm']//div[span/span/span[contains(@id, 'efForm:efTree') and .='%s']]/span[1]", p))).click();
+		}
+	}
 
-    public static void addDocument(TestData testData, String path){
-        executeContextMenu(path, EfolderConstants.DocumentOparetions.ADD_DOCUMENT);
-        new AddDocumentTab().fillTab(testData).submitTab();
-    }
+	public static void addDocument(TestData testData, String path) {
+		executeContextMenu(path, EfolderConstants.DocumentOparetions.ADD_DOCUMENT);
+		new AddDocumentTab().fillTab(testData).submitTab();
+	}
 
-    private static void executeContextMenu(String path, String operation){
-        if (!isTreeExpanded(path)) {
-            expandFolder(path);
-        }
-        String[] pathParts = path.split("/");
-        new Actions(BrowserController.get().driver()).contextClick(getLabel(pathParts[pathParts.length-1]).getWebElement()).perform();
-        BrowserController.get().executeScript("$('.rf-tt.ef-tree-node-tooltip').hide();");
-        new Link(By.xpath(String.format("//div[@id='jqContextMenu']//li[.='%s']", operation))).click();
-    }
+	public static StaticElement getLabel(String label) {
+		if (!isOpened()) {
+			linkOpenEfolder.click();
+		}
+		return new StaticElement(By.xpath(String.format("//div[@id='efForm:efTree']//span[@class='rf-trn-lbl']/span[.='%s']", label)));
+	}
 
-    public static StaticElement getLabel(String label){
-        if (!isOpened()) {
-            linkOpenEfolder.click();
-        }
-        return new StaticElement(By.xpath(String.format("//div[@id='efForm:efTree']//span[@class='rf-trn-lbl']/span[.='%s']", label)));
-    }
+	private static void executeContextMenu(String path, String operation) {
+		if (!isTreeExpanded(path)) {
+			expandFolder(path);
+		}
+		String[] pathParts = path.split("/");
+		new Actions(BrowserController.get().driver()).contextClick(getLabel(pathParts[pathParts.length - 1]).getWebElement()).perform();
+		BrowserController.get().executeScript("$('.rf-tt.ef-tree-node-tooltip').hide();");
+		new Link(By.xpath(String.format("//div[@id='jqContextMenu']//li[.='%s']", operation))).click();
+	}
 
-    //TODO: functionality is not full, only one layer is checked
-    private static boolean isTreeExpanded(String path){
-        String[] pathParts = path.split("/");
-        StaticElement lastFolder = new StaticElement(By.xpath(String.format("//form[@id='efForm']//div[span/span/span[contains(@id, 'efForm:efTree') and .='%s']]/span[1]",
-                pathParts[pathParts.length-1])));
-        StaticElement expandButton = new StaticElement(By.xpath(String.format("//form[@id='efForm']//div[span/span/span[contains(@id, 'efForm:efTree') and .='%s']]/span[@class='rf-trn-hnd-colps rf-trn-hnd']",
-                pathParts[pathParts.length-1])));
-        return lastFolder.isPresent() && !expandButton.isPresent();
-    }
+	//TODO: functionality is not full, only one layer is checked
+	private static boolean isTreeExpanded(String path) {
+		String[] pathParts = path.split("/");
+		StaticElement lastFolder = new StaticElement(By.xpath(String.format("//form[@id='efForm']//div[span/span/span[contains(@id, 'efForm:efTree') and .='%s']]/span[1]",
+				pathParts[pathParts.length - 1])));
+		StaticElement expandButton =
+				new StaticElement(By.xpath(String.format("//form[@id='efForm']//div[span/span/span[contains(@id, 'efForm:efTree') and .='%s']]/span[@class='rf-trn-hnd-colps rf-trn-hnd']",
+						pathParts[pathParts.length - 1])));
+		return lastFolder.isPresent() && !expandButton.isPresent();
+	}
 }

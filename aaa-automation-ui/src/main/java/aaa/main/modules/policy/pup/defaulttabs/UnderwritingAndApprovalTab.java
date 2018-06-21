@@ -14,19 +14,19 @@ import toolkit.webdriver.controls.StaticElement;
  * @category Generated
  */
 public class UnderwritingAndApprovalTab extends Tab {
-    public UnderwritingAndApprovalTab() {
-        super(PersonalUmbrellaMetaData.UnderwritingAndApprovalTab.class);
-        assetList.applyConfiguration("UnderwritingTab");
-    }
+	public UnderwritingAndApprovalTab() {
+		super(PersonalUmbrellaMetaData.UnderwritingAndApprovalTab.class);
+		assetList.applyConfiguration("UnderwritingTab");
+	}
 
-    @Override
-    public Tab submitTab() {
-        buttonNext.click();
-        return this;
-    }
+	@Override
+	public Tab submitTab() {
+		buttonNext.click();
+		return this;
+	}
 
-    @Override
-    public StaticElement getBottomWarning() {
-        return new StaticElement(By.xpath("//span[@id='policyDataGatherForm:componentContextHolder']/ul"));
-    }
+	@Override
+	public StaticElement getBottomWarning() {
+		return new StaticElement(By.xpath("//span[@id='policyDataGatherForm:componentContextHolder']/ul"));
+	}
 }

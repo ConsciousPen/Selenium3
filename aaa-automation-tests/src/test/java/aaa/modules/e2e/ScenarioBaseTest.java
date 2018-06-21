@@ -123,16 +123,40 @@ public class ScenarioBaseTest extends BaseTest {
 		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).setDueDate(expirationDate).setMinDue(expOffer).verifyPresent();
 	}
 	
+	/**
+	 * @param intallmentDate
+	 *            - installment due date
+	 * @param billGenDate
+	 *            - Bill generation date
+	 *
+	 *      Verify Renewal Offer payment amount using Installment amount due. 
+	 *      Used in separate case: current installment is less then following
+	 */
 	protected void verifyRenewalOfferPaymentAmountByIntallmentAmount(LocalDateTime intallmentDate, LocalDateTime billGenDate) {
+		 verifyRenewalOfferPaymentAmountByIntallmentAmount(intallmentDate, billGenDate, new Dollar(0));
+	}
+	
+	/**
+	 * @param intallmentDate
+	 *            - installment due date
+	 * @param billGenDate
+	 *            - Bill generation date
+	 * @param correctionAmount
+	 *            - Amount needed for correction of base amount            
+	 *
+	 *      Verify Renewal Offer payment amount using Installment amount due. 
+	 *      Used in separate case: necessary update amount manually to simplify calculation
+	 */
+	protected void verifyRenewalOfferPaymentAmountByIntallmentAmount(LocalDateTime intallmentDate, LocalDateTime billGenDate, Dollar correctionAmount) {
 			BillingSummaryPage.showPriorTerms();
 			Dollar previousTermMinDueAmount = new Dollar(0);
 			if (BillingSummaryPage.tableBillingAccountPolicies.getRow(2).isPresent()) {
 				previousTermMinDueAmount = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(2).getCell(BillingAccountPoliciesTable.MIN_DUE).getValue());
 			}
 			Dollar fee = BillingHelper.getFeesValue(billGenDate);
-			Dollar expOffer = BillingHelper.getInstallmentDueByDueDate(intallmentDate).add(fee).add(previousTermMinDueAmount);
+			Dollar expOffer = BillingHelper.getInstallmentDueByDueDate(intallmentDate).add(fee).add(previousTermMinDueAmount).add(correctionAmount);
 			new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).setDueDate(intallmentDate).setMinDue(expOffer).verifyPresent();
-		}
+	}
 
 
 	/**

@@ -1,18 +1,33 @@
 package aaa.modules.regression.sales.home_ca.helper;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
+import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.assertj.core.api.Assertions;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
+import toolkit.webdriver.controls.composite.table.Table;
+
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class HelperCommon extends HomeCaHO3BaseTest{
     private static final String AGE_VERIFICATION_SQL = "select ip.age from POLICYSUMMARY ps, INSUREDPRINCIPAL ip\n" +
@@ -89,5 +104,152 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         // Begin Endorsement. Use Default data for Endorsement Reason Page. Using Custom Data From Adjustment.
         in_policy.endorse().perform(endorsementTestData.adjust(getPolicyTD("Endorsement", "TestData")));
         in_policy.getDefaultView().fillUpTo(endorsementTestData, PurchaseTab.class, false);
+    }
+
+    public static void addFAIRPlanEndorsement(String policyType) {
+        // Click FPCECA Endorsement
+        policyType = policyType.toLowerCase();
+        EndorsementTab endorsementTab = new EndorsementTab();
+
+        switch (policyType) {
+            case "homeca_ho3":
+                endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel()).click();
+                break;
+            case "homeca_dp3":
+                endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECADP.getLabel()).click();
+                break;
+        }
+
+        // Handle Endorsement Confirmation
+        Page.dialogConfirmation.confirm();
+        endorsementTab.btnSaveForm.click();
+    }
+
+    public static void addFAIRPlanThenCancelPopUp(String policyType) {
+        // Click FPCECA Endorsement
+        policyType = policyType.toLowerCase();
+        EndorsementTab endorsementTab = new EndorsementTab();
+
+        switch (policyType) {
+            case "homeca_ho3":
+                endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel()).click();
+                break;
+            case "homeca_dp3":
+                endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECADP.getLabel()).click();
+                break;
+        }
+
+        // Handle Endorsement Confirmation
+        Page.dialogConfirmation.reject();
+    }
+
+    public static void removeFAIRPlanEndorsement(String policyType) {
+        // Click FPCECA Endorsement
+        policyType = policyType.toLowerCase();
+        EndorsementTab endorsementTab = new EndorsementTab();
+
+        switch (policyType) {
+            case "homeca_ho3":
+                endorsementTab.getRemoveEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel(), 1).click();
+                break;
+            case "homeca_dp3":
+                endorsementTab.getRemoveEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECADP.getLabel(), 1).click();
+                break;
+        }
+
+        // Handle Endorsement Confirmation
+        Page.dialogConfirmation.confirm();
+    }
+
+    public static void moveJVMToDateAndRunRenewalJobs(LocalDateTime desiredJVMLocalDateTime, int howManyPartsToRun)
+    {
+        printToDebugLog(" -- Current Date = " + TimeSetterUtil.getInstance().getCurrentTime() + ". Moving JVM to input time = "
+                + desiredJVMLocalDateTime.toString() + " -- ");
+
+        // Advance JVM to Generate Renewal Image.
+        TimeSetterUtil.getInstance().nextPhase(desiredJVMLocalDateTime);
+        printToDebugLog("Current Date is now = " + TimeSetterUtil.getInstance().getCurrentTime());
+
+        if (howManyPartsToRun == 1)
+            JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+        if (howManyPartsToRun == 2) {
+            JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+            JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+        }
+
+
+        printToDebugLog(" -- Renewal Offer Generation Jobs Completed -- ");
+    }
+
+    public static void verifySelectedEndorsementsPresent(Table tableForms, String columnName, String endorsementToFind) {
+        assertThat(tableForms.getRowContains(columnName, endorsementToFind)).isNotNull();
+    }
+
+    public static void verifyEndorsementsNotVisible(Table tableForms, String columnName, ArrayList<String> endorsementsByLabel) {
+        ArrayList<String> foundColumnNames = new ArrayList<String>();
+        for (int i = 1; i < tableForms.getRowsCount(); i++) {
+            foundColumnNames.add(tableForms.getRow(i).getCell(columnName).getValue());
+        }
+
+        for (String name : foundColumnNames) {
+            for (String label : endorsementsByLabel)
+            Assertions.assertThat(name).isNotEqualToIgnoringCase(label);
+        }
+    }
+
+    public void verifyFPCECAEndorsementAvailable(String policyType) {
+        switch (policyType) {
+            case "HomeCA_HO3":
+                verifySelectedEndorsementsPresent(PremiumsAndCoveragesQuoteTab.tableEndorsementForms,
+                        PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, "FPCECA");
+                break;
+            case "HomeCA_DP3":
+                verifySelectedEndorsementsPresent(PremiumsAndCoveragesQuoteTab.tableEndorsementForms,
+                        PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, "FPCECADP");
+                break;
+        }
+    }
+
+    public void handleRenewalTesting(TestData defaultPolicyData) {
+
+        // Open App, Create Customer and Policy.
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createCustomerPolicyReturnPN(getCustomerIndividualTD("DataGather","TestData"), defaultPolicyData);
+        LocalDateTime policyExpirationDate  = PolicySummaryPage.getExpirationDate();
+        mainApp().close();
+
+        // Determine Time Values
+        LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
+        LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
+
+        // Move JVM to TP1 (R-73) & run Renewal jobs
+        moveJVMToDateAndRunRenewalJobs(renewImageGenDate, 2);
+        // Move JVM to TP2 (R-59) & run Renewal jobs
+        moveJVMToDateAndRunRenewalJobs(renewPreviewGenDate, 1);
+
+        // Open App, get renewal image.
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+
+        policy.renew().start().submit();
+    }
+
+    public static void completeFillAndVerifyFAIRPlanSign(IPolicy policy, TestData defaultPolicyData, Class<? extends Tab> tabClassTo1, Class<? extends Tab> tabClassTo2, String policyType) {
+        // Continue Fill Until Documents Tab.
+        policy.getDefaultView().fillFromTo(defaultPolicyData, tabClassTo1, tabClassTo2, true);
+
+        // Sign Document
+        String formattedInput = policyType.toLowerCase();
+        switch (formattedInput) {
+            case "homeca_ho3":
+                new DocumentsTab().getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FPCECA).setValue("Physically Signed");
+                break;
+            case "homeca_dp3":
+                new DocumentsTab().getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FPCECADP).setValue("Physically Signed");
+                break;
+        }
+        policy.getDefaultView().fillFromTo(defaultPolicyData, tabClassTo2, PurchaseTab.class, true);
+        new PurchaseTab().submitTab();
     }
 }

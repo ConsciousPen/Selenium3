@@ -1,11 +1,22 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
+import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.SearchEnum;
@@ -16,24 +27,22 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
+import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestVINUpload extends TestVINUploadTemplate {
 
-	private static final String UPDATABLE_VIN = "1HGEM215140028445";
-	private static final String NEW_VIN = "1FDEU15H7KL055795";
+	private static final String NEW_VIN = "AAANK3CC0F0455583";
+	private static final String NEW_VIN2 = "BBBNK3CC0F0455583";
+	private static final String NEW_VIN3 = "CCCNK3CC4F9455583";
+	private static final String NEW_VIN4 = "DDDNK3CC3F9455583";
+	private static final String NEW_VIN5 = "EEENK2CCXF9455583";
+	private static final String NEW_VIN6 = "FFFNK2CC9F9455583";
+	private static final String NEW_VIN7 = "GGGNK2CC8F9455583";
+	private static final String REFRESHABLE_VIN = "1HGEM215150028445";
+	private static final String HHHNK2CC7F9455583 = "HHHNK2CC7F9455583";
+
 	private VehicleTab vehicleTab = new VehicleTab();
 
 	@Override
@@ -42,7 +51,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	}
 
 	/**
-	 * @author Lev Kazarnovskiy
+	 * @author Lev Kazarnovskiy, Team Scorpions
 	 * PAS-533 Quote Refresh -Add New VIN
 	 * PAS-1406 ata Refresh
 	 *
@@ -55,7 +64,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	public void pas533_newVinAdded(@Optional("") String state) {
 	    VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
 
-		newVinAdded(vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get()), NEW_VIN);
+		newVinAdded(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get()), NEW_VIN);
 	}
 
 	/**
@@ -67,9 +76,9 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-4253")
-	public void pas4253_restrictVehicleRefreshNB(@Optional("") String state) {
+	public void pas4253_restrictVehicleRefreshNB(@Optional("CA") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
-		pas4253_restrictVehicleRefreshNB(vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get()), NEW_VIN);
+		pas4253_restrictVehicleRefreshNB(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN2.get()), NEW_VIN2);
 	}
 
 	/**
@@ -86,7 +95,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-527")
 	public void pas527_NewVinAddedRenewal(@Optional("") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
-		newVinAddedRenewal(vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get()), NEW_VIN);
+		newVinAddedRenewal(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN3.get()), NEW_VIN3);
 	}
 
 	/**
@@ -102,7 +111,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-527")
 	public void pas527_UpdatedVinRenewal(@Optional("") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
-		updatedVinRenewal(vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.UPDATED_VIN.get()), UPDATABLE_VIN);
+		updatedVinRenewal(vinMethods.getSpecificUploadFile(VinUploadFileType.REFRESHABLE_VIN.get()), REFRESHABLE_VIN);
 	}
 
 	/**
@@ -116,11 +125,10 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-2714")
-	public void pas2714_Endorsement(@Optional("") String state) {
-		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
-		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),NEW_VIN).resolveLinks();
+	public void pas2714_Endorsement(@Optional("CA") String state) {
+		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),HHHNK2CC7F9455583).resolveLinks();
 
-		endorsement(testData,vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get()),NEW_VIN);
+		endorsement(testData,HHHNK2CC7F9455583);
 	}
 
 	/**
@@ -141,16 +149,16 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-2716")
 	public void pas2716_AutomatedRenewal_ExpirationDate(@Optional("") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
-		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),NEW_VIN);
+		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),NEW_VIN4);
 
 		String policyNumber = createPolicyPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		adminApp().open();
-		vinMethods.uploadFiles(vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get()));
+		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN4.get()));
 		/*
 		 * Automated Renewal R-Expiration Date
 		 */
-		pas2716_AutomatedRenewal(policyNumber, policyExpirationDate, NEW_VIN);
+		pas2716_AutomatedRenewal(policyNumber, policyExpirationDate, NEW_VIN4);
 	}
 
 	/**
@@ -171,16 +179,16 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-2716")
 	public void pas2716_AutomatedRenewal_ExpirationDateMinus45(@Optional("") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
-		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),NEW_VIN);
+		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),NEW_VIN5);
 
 		String policyNumber = createPolicyPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		adminApp().open();
-		vinMethods.uploadFiles(vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get()));
+		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN5.get()));
 		/*
 		 * Automated Renewal R-45 Expiration Date
 		 */
-		pas2716_AutomatedRenewal(policyNumber, policyExpirationDate.minusDays(45), NEW_VIN);
+		pas2716_AutomatedRenewal(policyNumber, policyExpirationDate.minusDays(45), NEW_VIN5);
 	}
 
 	/**
@@ -201,16 +209,16 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-2716")
 	public void pas2716_AutomatedRenewal_ExpirationDateMinus35(@Optional("") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
-		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),NEW_VIN);
+		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),NEW_VIN6);
 
 		String policyNumber = createPolicyPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		adminApp().open();
-		vinMethods.uploadFiles(vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get()));
+		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN6.get()));
 		/*
 		 * Automated Renewal R-35 Expiration Date
 		 */
-		pas2716_AutomatedRenewal(policyNumber, policyExpirationDate.minusDays(35), NEW_VIN);
+		pas2716_AutomatedRenewal(policyNumber, policyExpirationDate.minusDays(35), NEW_VIN6);
 	}
 
 	@Parameters({"state"})
@@ -250,7 +258,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		String vinTableFile = "backdatedVinTable_CA_SS.xlsx";
 		String controlTableFile = "backdatedControlTable_UT_SS.xlsx";
 
-		TestData testData = getNonExistingVehicleTestData(getPolicyTD(), NEW_VIN).resolveLinks();
+		TestData testData = getNonExistingVehicleTestData(getPolicyTD(), NEW_VIN7).resolveLinks();
 
 		// 1. Create Auto policy with 2 vehicles
 		String policyNumber = createPolicyPreconds(testData);
@@ -280,33 +288,29 @@ public class TestVINUpload extends TestVINUploadTemplate {
 
 		List<TestData> renewalVerrsionVehicleTab = new ArrayList<>();
 		renewalVerrsionVehicleTab.add(getPolicyTD()
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), NEW_VIN).getTestData("VehicleTab"));
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), NEW_VIN7).getTestData("VehicleTab"));
 		renewalVerrsionVehicleTab.add(renewalVersionVehicle);
 
 		TestData testDataRenewalVersion = getPolicyTD().adjust(vehicleTab.getMetaKey(), renewalVerrsionVehicleTab)
 				.mask(TestData.makeKeyPath(new PremiumAndCoveragesTab().getMetaKey(), AutoCaMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()));
 
 		vehicleTab.fillTab(testDataRenewalVersion);
-		PremiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
 		new DocumentsAndBindTab().submitTab();
 	}
 
-	/**
-	* Info in each xml file for this test could be used only once, so for running of tests properly DB should be cleaned after
-	* each test method. So newly added values should be deleted from Vehiclerefdatavin, Vehiclerefdatamodel and VEHICLEREFDATAVINCONTROL
-	* tables. Default values should be set for EXPIRATIONDATE field for default rows in VEHICLEREFDATAVINCONTROL table.
-	* <p>
-	* 'SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT' are names of configurations which are used and listed in excel
-	* files for each product (choice config, select config and Signature Series config ONLY for UT state). So if they will be changed there
-	* this after method should be updated. But such updates are not supposed to be done.
-	* Please refer to the files with appropriate names in each test in /resources/uploadingfiles/vinUploadFiles.
-	*/
-
-	@AfterMethod(alwaysRun = true)
+	@AfterSuite(alwaysRun = true)
 	protected void vinTablesCleaner() {
-		String configNames = "('SYMBOL_2000_CA_SELECT')";
-		DatabaseCleanHelper.cleanVinUploadTables(configNames, getState());
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN,"SYMBOL_2000");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN2,"SYMBOL_2000");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN3,"SYMBOL_2000");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN4,"SYMBOL_2000");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN5,"SYMBOL_2000");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN6,"SYMBOL_2000");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN7,"SYMBOL_2000");
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(HHHNK2CC7F9455583,"SYMBOL_2000");
+		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_CAS);
 	}
 }

@@ -9,8 +9,10 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
-import toolkit.webdriver.controls.Button;
+import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
+import aaa.toolkit.webdriver.customcontrols.RatingDetailsTable;
 import toolkit.webdriver.controls.Link;
+import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -20,7 +22,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
  * LABEL>ActionTab (to prevent duplication). Modify this class if tab filling
  * procedure has to be customized, extra asset list to be added, custom testdata
  * key to be defined, etc.
- * 
+ *
  * @category Generated
  */
 public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
@@ -29,27 +31,41 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 		super(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class);
 	}
 
-	public Button btnCalculatePremium() {
-		return getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM.getLabel(), Button.class);
+	public JavaScriptButton btnCalculatePremium() {
+		return getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM.getLabel(), JavaScriptButton.class);
 	}
 
 	public static Table tablefeesSummary = new Table(By.id("policyDataGatherForm:feesSummaryTable"));
 	public static Table tableInstallmentFeeDetails = new Table(By.id("policyDataGatherForm:installmentFeeDetailsTable"));
-	public static Table autoPaySetupSavingMessage = new Table (By.id("policyDataGatherForm:installmentFeeAmountSavedPanel"));
-	public static RatingDetailsTable tableCappedPolicyPremium = new RatingDetailsTable ("//div[@id='cappingDetailsPopupPanel:vehicleCapPanel_body']//table");
+	public static Table tableDiscounts = new Table(By.xpath("//table[@id='policyDataGatherForm:discountInfoTable']"));
+	public static RatingDetailsTable tableCappedPolicyPremium = new RatingDetailsTable("//div[@id='cappingDetailsPopupPanel:vehicleCapPanel_body']//table");
+	public static Table autoPaySetupSavingMessage = new Table(By.id("policyDataGatherForm:installmentFeeAmountSavedPanel"));
+	public static Table tableCoverages = new Table(By.xpath("//table[@id='policyDataGatherForm:coverageSummaryTable']"));
 
 	public static Link linkPaymentPlan = new Link(By.id("policyDataGatherForm:paymentPlansTogglePanel:header"), Waiters.AJAX);
+	public static Table tablePaymentPlans = new Table(By.id("policyDataGatherForm:paymentPlansTable"));
+	public static Table tableUnrestrictedPaymentPlans = new Table(By.id("policyDataGatherForm:unrestrictedPaymentPlansTable"));
+	public static StaticElement labelPaymentPlanRestriction = new StaticElement(By.xpath("//*[@id='policyDataGatherForm:paymentPlansTogglePanel:content']/table[2]/tbody"));
+	public static StaticElement labelInstallmentFees = new StaticElement(By.xpath("(//*[@id='policyDataGatherForm:paymentPlansTogglePanel:content']/table)[last()]/tbody"));
+
 	public static Link linkViewApplicableFeeSchedule = new Link(By.id("policyDataGatherForm:installmentFeeDetails"), Waiters.AJAX);
 	public static Link linkViewCappingDetails = new Link(By.id("policyDataGatherForm:cappingHODetailsPopup"), Waiters.AJAX);
 
 	@Override
 	public void calculatePremium() {
+
 		if (!btnCalculatePremium().isPresent()) {
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 			NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		}
-		hideHeader();
-		btnCalculatePremium().click();
-		showHeader();
+		try {
+			hideHeader();
+			btnCalculatePremium().click();
+			showHeader();
+		} catch (Exception e) {
+			hideHeader();
+			btnCalculatePremium().click();
+			showHeader();
+		}
 	}
 }

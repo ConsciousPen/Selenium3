@@ -106,6 +106,7 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<ComboBox> CURRENT_AAA_MEMBER = declare("Current AAA Member", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> MEMBERSHIP_NUMBER = declare("Membership number", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last name", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> MEMBER_SINCE_DATE = declare("Member Since Date", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> OVERRIDE_TYPE = declare("Override Type", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> MEM_SINCE_DATE = declare("Member Since Date", TextBox.class, Waiters.AJAX);
 		}
@@ -371,7 +372,7 @@ public final class HomeSSMetaData {
 		public static final AssetDescriptor<AssetList> FIRE_PROTECTIVE_DD = declare("FireProtectiveDD", AssetList.class, FireProtectiveDD.class);
 		public static final AssetDescriptor<AssetList> THEFT_PROTECTIVE_DD = declare("TheftProtectiveTPDD", AssetList.class, TheftProtectiveTPDD.class);
 		public static final AssetDescriptor<AssetList> HOME_RENOVATION = declare("HomeRenovation", AssetList.class, HomeRenovation.class);
-		public static final AssetDescriptor<AssetList> PETS_OR_ANIMALS = declare("PetsOrAnimals", AssetList.class, PetsOrAnimals.class);
+		public static final AssetDescriptor<MultiInstanceAfterAssetList> PETS_OR_ANIMALS = declare("PetsOrAnimals", MultiInstanceAfterAssetList.class, PetsOrAnimals.class);
 		public static final AssetDescriptor<AssetList> STOVES = declare("Stoves", AssetList.class, Stoves.class);
 		public static final AssetDescriptor<AssetList> RECREATIONAL_EQUIPMENT = declare("RecreationalEquipment", AssetList.class, RecreationalEquipment.class);
 		public static final AssetDescriptor<AssetList> OIL_FUEL_OR_PROPANE_STORAGE_TANK = declare("OilFuelOrPropaneStorageTank", AssetList.class, OilPropaneStorageTank.class);
@@ -609,6 +610,7 @@ public final class HomeSSMetaData {
 				.xpath("//span[text()='Legacy']//ancestor::div[contains(@id, 'policyDataGatherForm:QuoteVariation')]"));
 		public static final AssetDescriptor<ProductOfferingVariationControl> PRESTIGE = declare("Prestige", ProductOfferingVariationControl.class, VariationControls.class, By
 				.xpath("//span[text()='Prestige']//ancestor::div[contains(@id, 'policyDataGatherForm:QuoteVariation')]"));
+		public static final AssetDescriptor<CheckBox> CAPPING_LOCK = declare("Capping Lock", CheckBox.class, Waiters.AJAX, By.id("policyDataGatherForm:cappingIndicatorLocked"));
 
 		public static final class VariationControls extends MetaData {
 			public static final AssetDescriptor<TextBox> COVERAGE_A = declare("Coverage A", TextBox.class, Waiters.AJAX, By.xpath(".//input[contains(@id, 'AAACoverageA_limitAmount_limitAmount')]"));
@@ -671,8 +673,8 @@ public final class HomeSSMetaData {
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> DS_04_95 = declare("DS 04 95", HomeSSEndorsementsMultiAssetList.class, EndorsementDS0495.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		// public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> DS_04_99 = declare("DS 04 99", HomeSSEndorsementsMultiAssetList.class, EndorsementDS0499.class,
-		// By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> DS_04_99 = declare("DS 04 99", HomeSSEndorsementsMultiAssetList.class, EndorsementDS0499.class,
+				By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		// public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> DS_04_99_08_12 = declare("DS 04 99 08 12", HomeSSEndorsementsMultiAssetList.class, EndorsementDS04990812.class,
 		// By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		// public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> DS_05_78 = declare("DS 05 78", HomeSSEndorsementsMultiAssetList.class, EndorsementDS0578.class,
@@ -717,8 +719,6 @@ public final class HomeSSMetaData {
 				By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_50 = declare("HS 04 50", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0450.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_52 = declare("HS 04 52", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0452.class,
-				By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_53 = declare("HS 04 53", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0453.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_54 = declare("HS 04 54", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0454.class, By
@@ -743,16 +743,16 @@ public final class HomeSSMetaData {
 				By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_95 = declare("HS 04 95", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0495.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		// public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_99 = declare("HS 04 99", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0499.class,
-		// By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_99 = declare("HS 04 99", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0499.class,
+				By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		// public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_99_08_12 = declare("HS 04 99 08 12", HomeSSEndorsementsMultiAssetList.class, EndorsementHS04990812.class,
 		// By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		// public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_05_24 = declare("HS 05 24", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0524.class,
 		// By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_05_46 = declare("HS 05 46", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0546.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		// public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_05_78 = declare("HS 05 78", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0578.class,
-		// By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_05_78 = declare("HS 05 78", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0578.class,
+				By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_06_14 = declare("HS 06 14", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0614.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_09_04 = declare("HS 09 04", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0904.class, By
@@ -801,6 +801,8 @@ public final class HomeSSMetaData {
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_24_73 = declare("HS 24 73", HomeSSEndorsementsMultiAssetList.class, EndorsementHS2473.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_52 = declare("HS 04 52", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0452.class,
+				By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_24_94 = declare("HS 24 94", HomeSSEndorsementsMultiAssetList.class, EndorsementHS2494.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		// public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_MS_I2 = declare("HS MS I2", HomeSSEndorsementsMultiAssetList.class, EndorsementHSMSI2.class,
@@ -858,6 +860,8 @@ public final class HomeSSMetaData {
 		public static final class EndorsementDS0495 extends MetaData {
 			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class, Waiters.AJAX);
 		}
+
+		public static final class EndorsementDS0499 extends MetaData {}
 
 		public static final class EndorsementDS0926 extends MetaData {
 			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class, Waiters.AJAX);
@@ -941,8 +945,6 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.AJAX);
 		}
 
-		public static final class EndorsementHS0452 extends MetaData {}
-
 		public static final class EndorsementHS0453 extends MetaData {
 			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class);
 		}
@@ -1013,10 +1015,14 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class, Waiters.AJAX);
 		}
 
+		public static final class EndorsementHS0499 extends MetaData {}
+
 		public static final class EndorsementHS0546 extends MetaData {
 			public static final AssetDescriptor<TextBox> DESCRIPTION_OF_RENTED_UNIT = declare("Description of rented unit", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> COVERAGE_AMOUNT = declare("Coverage amount", ComboBox.class, Waiters.AJAX);
 		}
+
+		public static final class EndorsementHS0578 extends MetaData {}
 
 		public static final class EndorsementHS0614 extends MetaData {
 			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
@@ -1190,6 +1196,11 @@ public final class HomeSSMetaData {
 					RadioGroup.class, Waiters.AJAX);
 		}
 
+		// Don't move, should be after HS2472/HS2473
+		public static final class EndorsementHS0452 extends MetaData {
+			public static final AssetDescriptor<TextBox> TOTAL_NUMBER_OF_LIVESTOCK = declare("Total number of livestock", TextBox.class);
+		}
+
 		public static final class EndorsementHS2494 extends MetaData {
 			public static final AssetDescriptor<RadioGroup> IS_THE_EMPLOYEE_A_PRIVATE_RESIDENCE_OR_ESTATE_FULL_TIME_INSERVANT = declare(
 					"Is the employee a Private Residence or Estate - Full Time Inservant?", RadioGroup.class, Waiters.AJAX);
@@ -1248,31 +1259,31 @@ public final class HomeSSMetaData {
 	// (add endorsement HS 04 61 to show this tab)
 	public static final class PersonalPropertyTab extends MetaData {
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> BICYCLES = declare("Bicycles", PersonalPropertyMultiAssetList.class, Bicycles.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyBicyclesItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyBicyclesItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> CAMERAS = declare("Cameras", PersonalPropertyMultiAssetList.class, Cameras.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyCamerasItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyCamerasItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> COINS = declare("Coins", PersonalPropertyMultiAssetList.class, Coins.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyCoinsItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyCoinsItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> FINE_ARTS = declare("Fine arts", PersonalPropertyMultiAssetList.class, FineArts.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyFineArtsItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyFineArtsItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> FIREARMS = declare("Firearms", PersonalPropertyMultiAssetList.class, Firearms.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyFirearmsItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyFirearmsItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> FURS = declare("Furs", PersonalPropertyMultiAssetList.class, Furs.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyFursItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyFursItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> GOLF_EQUIPMENT = declare("Golf equipment", PersonalPropertyMultiAssetList.class, GolfEquipment.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyGolfItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyGolfItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> JEWELRY = declare("Jewelry", PersonalPropertyMultiAssetList.class, Jewelry.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyJewelryItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyJewelryItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> MEDICAL_DEVICES = declare("Medical devices", PersonalPropertyMultiAssetList.class, MedicalDevices.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyMedicalItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyMedicalItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> MUSICAL_INSTRUMENTS = declare("Musical instruments", PersonalPropertyMultiAssetList.class, MusicalInstruments.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyMusicalItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyMusicalItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> POSTAGE_STAMPS = declare("Postage stamps", PersonalPropertyMultiAssetList.class, PostageStamps.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyPostageItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyPostageItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> SILVERWARE = declare("Silverware", PersonalPropertyMultiAssetList.class, Silverware.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertySilverwareItem']"));
-		public static final AssetDescriptor<PersonalPropertyMultiAssetList> TRADING_CARDS_OR_COMICS = declare("Trading cards or comics", PersonalPropertyMultiAssetList.class,
-				TradingCardsOrComics.class, By.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyTradingCardsItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertySilverwareItem']"));
+		public static final AssetDescriptor<PersonalPropertyMultiAssetList> TRADING_CARDS_OR_COMICS = declare("Trading cards or comics", PersonalPropertyMultiAssetList.class, TradingCardsOrComics.class, By
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyTradingCardsItem']"));
 
 		public static final class Bicycles extends MetaData {
 			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
@@ -1347,7 +1358,6 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<RadioGroup> CERTIFICATE_OF_AUTHENTICITY_RECEIVED = declare("Certificate of authenticity received", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.AJAX);
 		}
-
 	}
 
 	public static final class PremiumsAndCoveragesQuoteTab extends MetaData {
@@ -1382,10 +1392,18 @@ public final class HomeSSMetaData {
 		public static final AssetDescriptor<ComboBox> COVERAGE_C_BUILDING = declare(HomeSSCoverages.COVERAGE_C_BUILDING.get(), ComboBox.class, Waiters.AJAX, true,
 				By.xpath(String.format("//table[@id='policyDataGatherForm:coverageSummaryTable']//tr[td[.='%s']]//select", HomeSSCoverages.COVERAGE_C_BUILDING.get())));
 
-		public static final AssetDescriptor<Button> CALCULATE_PREMIUM = declare("Calculate Premium", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:premiumRecalcCov"));
+		public static final AssetDescriptor<JavaScriptButton> CALCULATE_PREMIUM = declare("Calculate Premium", JavaScriptButton.class, Waiters.AJAX, By.id("policyDataGatherForm:premiumRecalcCov"));
 
 		public static final AssetDescriptor<DialogAssetList> OVERRRIDE_PREMIUM_DIALOG = declare("Override Premium", DialogAssetList.class, OverridePremiumDialog.class,
 				By.xpath("//form[@id='premiumOverrideInfoFormAAAHOPremiumOverride']"));
+
+		public static final AssetDescriptor<FillableTable> INSTALLMENT_FEES_DETAILS_TABLE = declare("InstallemntFeesDetails",  FillableTable.class, ListOfFeeDetailsRow.class, By.id("policyDataGatherForm:installmentFeeDetailsTable"));
+
+		public static final class ListOfFeeDetailsRow extends MetaData {
+			public static final AssetDescriptor<StaticElement> PAYMENT_METHOD = declare("Payment Method", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> ENROLLED_IN_AUTO_PAY = declare("Enrolled in Auto Pay", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> INSTALLMENT_FEE = declare("Installment Fee", StaticElement.class);
+		}
 
 		public enum HomeSSCoverages {
 			COVERAGE_A("Coverage A - Dwelling limit"),
@@ -1674,12 +1692,30 @@ public final class HomeSSMetaData {
 	}
 
 	public static final class BindTab extends MetaData {
+		public static final AssetDescriptor<AssetList> PAPERLESS_PREFERENCES =
+				declare("PaperlessPreferences", AssetList.class, PersonalUmbrellaMetaData.BindTab.PaperlessPreferences.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAPaperlessPreferences']"));
+		public static final AssetDescriptor<AssetList> DOCUMENT_PRINTING_DETAILS =
+				declare("DocumentPrintingDetails", AssetList.class, PersonalUmbrellaMetaData.BindTab.DocumentPrintingDetails.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_PurchaseAction']"));
+
+		public static final class PaperlessPreferences extends MetaData {
+			public static final AssetDescriptor<TextBox> ENROLLED_IN_PAPERLESS = declare("Enrolled in Paperless?", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<Button> BTN_MANAGE_PAPERLESS_PREFERENCES = declare("Manage Paperless Preferences", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:paperlessPreferenceButton_AAAPaperlessPreferences"));
+			public static final AssetDescriptor<Button> EDIT_PAPERLESS_PREFERENCES_BTN_DONE = declare("Done", Button.class, By.xpath("//input[@id='policyDataGatherForm:preferencesPopupCancel']"));
+		}
+
+		public static final class DocumentPrintingDetails extends MetaData {
+			public static final AssetDescriptor<TextBox> ISSUE_DATE = declare("Issue Date", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> METHOD_OF_DELIVERY = declare("Method Of Delivery", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> INCLUDE_WITH_EMAIL = declare("Include with Email", ComboBox.class, Waiters.AJAX);
+		}
+
+		public static final AssetDescriptor<ComboBox> SUPPRESS_PRINT = declare("Suppress Print", ComboBox.class, Waiters.AJAX);
 	}
 
 	public static final class ErrorTab extends MetaData {
-		public static final AssetDescriptor<FillableErrorTable> ERROR_OVERRIDE = declare("ErrorsOverride", FillableErrorTable.class, RuleRow.class, By.id("errorsForm:msgList"));
+		public static final AssetDescriptor<FillableErrorTable> ERROR_OVERRIDE = declare("ErrorsOverride", FillableErrorTable.class, ErrorsOverride.class, By.id("errorsForm:msgList"));
 
-		public static final class RuleRow extends MetaData {
+		public static final class ErrorsOverride extends MetaData {
 			public static final AssetDescriptor<CheckBox> OVERRIDE = declare("Override", CheckBox.class);
 			public static final AssetDescriptor<CheckBox> APPROVAL = declare("Approval", CheckBox.class);
 			public static final AssetDescriptor<Link> CODE = declare("Code", Link.class);
@@ -1863,7 +1899,7 @@ public final class HomeSSMetaData {
 	public static final class GenerateOnDemandDocumentActionTab extends MetaData {
 		public static final AssetDescriptor<FillableDocumentsTable> ON_DEMAND_DOCUMENTS = declare("OnDemandDocuments", FillableDocumentsTable.class, DocumentRow.class, By
 				.xpath("(//div[@id='policyDataGatherForm:componentView_AAAHODocGen']//table)[1]"));
-		public static final AssetDescriptor<RadioGroup> DELIVERY_METHOD = declare("Delivery Method", RadioGroup.class, Waiters.AJAX, By
+		public static final AssetDescriptor<AdvancedRadioGroup> DELIVERY_METHOD = declare("Delivery Method", AdvancedRadioGroup.class, Waiters.AJAX, By
 				.xpath("//div[@id='policyDataGatherForm:componentView_AAAHODocGen_body']/table"));
 		public static final AssetDescriptor<TextBox> EMAIL_ADDRESS = declare("Email Address", TextBox.class, Waiters.AJAX);
 

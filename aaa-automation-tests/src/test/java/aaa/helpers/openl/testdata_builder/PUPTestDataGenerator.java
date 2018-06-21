@@ -17,6 +17,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.pup.defaulttabs.*;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomUtils;
 import toolkit.datax.DataProviderFactory;
@@ -25,7 +26,6 @@ import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
 
-import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -51,6 +51,33 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 				new PremiumAndCoveragesQuoteTab().getMetaKey(), getPremiumAndCoveragesData(openLPolicy)
 		);
 		return TestDataHelper.merge(getRatingDataPattern(), td);
+	}
+
+	protected TestData getStateTestData(TestData td, String fileName, String tdName) {
+		if (!td.containsKey(fileName)) {
+			throw new TestDataException("Can't get test data file " + fileName);
+		}
+		return getStateTestData(td.getTestData(fileName), tdName);
+	}
+
+	protected TestData getStateTestData(TestData td, String tdName) {
+		if (td == null) {
+			throw new RuntimeException(String.format("Can't get TestData '%s', parrent TestData is null", tdName));
+		}
+		if (td.containsKey(getStateTestDataName(tdName))) {
+			td = td.getTestData(getStateTestDataName(tdName));
+			log.info(String.format("==== %s Test Data is used: %s ====", getState(), getStateTestDataName(tdName)));
+		} else {
+			td = td.getTestData(tdName);
+			log.info(String.format("==== Default state UT Test Data is used. Requested Test Data: %s is missing ====", getStateTestDataName(tdName)));
+		}
+		return td;
+	}
+
+	private String getStateTestDataName(String tdName) {
+		String state = getState();
+		tdName = tdName + "_" + state;
+		return tdName;
 	}
 
 	private Map<String, String> getPrimaryPolicyForPup(TestData td, PUPOpenLPolicy openLPolicy) {
@@ -109,6 +136,9 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	private TestData getApplicantTabPrimaryPolicyData(PUPOpenLPolicy openLPolicy) {
 		TestData dwellingAddressData = new SimpleDataProvider();
 		dwellingAddressData.adjust(HomeSSMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel(), openLPolicy.getDwelling().getAddress().getZipCode());
+		if ("IN".equals(getState()) || "WV".equals(getState()) || "OH".equals(getState())) {
+			dwellingAddressData.adjust(HomeSSMetaData.ApplicantTab.DwellingAddress.COUNTY.getLabel(), "1");
+		}
 		if (Boolean.TRUE.equals(openLPolicy.getDwelling().getRetirementCommunityInd())) {
 			dwellingAddressData.adjust(HomeSSMetaData.ApplicantTab.DwellingAddress.RETIREMENT_COMMUNITY.getLabel(), "MountainBrook Village");
 		}
@@ -132,15 +162,16 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		}
 
 		if (Boolean.TRUE.equals(getPoolInd(openLPolicy))) {
-			if (Boolean.TRUE.equals(getSlideInd(openLPolicy) && getDivingBoardInd(openLPolicy))) {
+			if (getSlideInd(openLPolicy) && getDivingBoardInd(openLPolicy)) {
 				recreationalEquipment.adjust(HomeSSMetaData.PropertyInfoTab.RecreationalEquipment.SWIMMING_POOL.getLabel(), "Restricted access with slide and diving board");
 			}
-			if (Boolean.TRUE.equals(getSlideInd(openLPolicy) && Boolean.FALSE.equals(getDivingBoardInd(openLPolicy)))) {
+			if (getSlideInd(openLPolicy) && !getDivingBoardInd(openLPolicy)) {
 				recreationalEquipment.adjust(HomeSSMetaData.PropertyInfoTab.RecreationalEquipment.SWIMMING_POOL.getLabel(), "Restricted access with slide only");
 			}
-			if (Boolean.TRUE.equals(getDivingBoardInd(openLPolicy) && Boolean.FALSE.equals(getSlideInd(openLPolicy)))) {
+			if (getDivingBoardInd(openLPolicy) && !getSlideInd(openLPolicy)) {
 				recreationalEquipment.adjust(HomeSSMetaData.PropertyInfoTab.RecreationalEquipment.SWIMMING_POOL.getLabel(), "Restricted access with diving board only");
-			} else {
+			}
+			if (!getDivingBoardInd(openLPolicy) && !getSlideInd(openLPolicy)) {
 				recreationalEquipment.adjust(HomeSSMetaData.PropertyInfoTab.RecreationalEquipment.SWIMMING_POOL.getLabel(), "Restricted access with no accessories");
 			}
 		}
@@ -188,13 +219,6 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 
 	private Boolean getDivingBoardInd(PUPOpenLPolicy openLPolicy) {
 		return openLPolicy.getDwelling().getRecEquipmentInfo().getDivingBoardInd();
-	}
-
-	protected TestData getStateTestData(TestData td, String fileName, String tdName) {
-		if (!td.containsKey(fileName)) {
-			throw new TestDataException("Can't get test data file " + fileName);
-		}
-		return getStateTestData(td.getTestData(fileName), tdName);
 	}
 
 	private TestData getGeneralTabData() {
@@ -252,24 +276,6 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		return map;
 	}
 
-	protected TestData getStateTestData(TestData td, String tdName) {
-		if (td == null) {
-			throw new RuntimeException(String.format("Can't get TestData '%s', parrent TestData is null", tdName));
-		}
-		if (td.containsKey(getStateTestDataName(tdName))) {
-			td = td.getTestData(getStateTestDataName(tdName));
-			log.info(String.format("==== %s Test Data is used: %s ====", getState(), getStateTestDataName(tdName)));
-		} else {
-			td = td.getTestData(tdName);
-			if (getState().equals(Constants.States.CA)) {
-				log.info(String.format("==== CA Test Data is used: %s ====", getStateTestDataName(tdName)));
-			} else {
-				log.info(String.format("==== Default state UT Test Data is used. Requested Test Data: %s is missing ====", getStateTestDataName(tdName)));
-			}
-		}
-		return td;
-	}
-
 	private void getWatercraftData(List<TestData> tdWaterCrafts, int numOfWaterCrafts, String[] listOfValues) {
 		Map<String, Object> waterCrafts = new HashMap<>();
 		for (int i = 0; i < numOfWaterCrafts; i++) {
@@ -320,7 +326,6 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 				}
 			}
 		}
-
 		return DataProviderFactory.dataOf(
 				PersonalUmbrellaMetaData.ClaimsTab.AUTO_VIOLATIONS_CLAIMS.getLabel(), violationsTestDataList
 		);
@@ -336,7 +341,7 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		int numOfAntique = openLPolicy.getRiskItems().stream().filter(c -> "Antique".equals(c.getRiskItemCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
 		int numOfAddlAuto = openLPolicy.getRiskItems().stream().filter(c -> "AddlAuto".equals(c.getRiskItemCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
 		int numOfAutoCredit = openLPolicy.getRiskItems().stream().filter(c -> "AutoCredit".equals(c.getRiskItemCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
-		int maxAutoCount = getState().equals("CA") ? 1 : 2;
+		int maxAutoCount = getState().equals(Constants.States.CA) ? 1 : 2;
 
 		int numOfSeniorDriver = openLPolicy.getNumOfSeniorOps();
 		int numOfYouthDriver = openLPolicy.getNumOfYouthfulOps();
@@ -432,6 +437,9 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		}
 		if (numOfAddlAuto >= maxAutoCount) {
 			numOfAutoToAdd = numOfAddlAuto + maxAutoCount;
+		}
+		if (numOfAddlAuto == 1) {
+			numOfAutoToAdd = 1 + maxAutoCount;
 		}
 		for (int i = 0; i < numOfAutoToAdd; i++) {
 			Map<String, Object> addlAuto = new HashMap<>();
@@ -570,15 +578,9 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	private TestData getPremiumAndCoveragesData(PUPOpenLPolicy openLPolicy) {
 		TestData premiumAndCoverageTabData = new SimpleDataProvider();
 		if (openLPolicy.getCoverages().get(0).getLimit() != null) {
-			premiumAndCoverageTabData.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA.getLabel(), "$" + NumberFormat.getInstance(Locale.US).format(new Integer(openLPolicy.getCoverages().get(0).getLimit())));
+			premiumAndCoverageTabData.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA.getLabel(), new Dollar(openLPolicy.getCoverages().get(0).getLimit()).toString().replaceAll("\\.00", ""));
 		}
 		return premiumAndCoverageTabData;
-	}
-
-	private String getStateTestDataName(String tdName) {
-		String state = getState();
-		tdName = tdName + "_" + state;
-		return tdName;
 	}
 
 	@Override

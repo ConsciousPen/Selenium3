@@ -15,9 +15,12 @@ import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.xml.model.DataElementChoice;
 import aaa.helpers.xml.model.DocumentDataSection;
 import aaa.main.enums.DocGenEnum;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 
@@ -83,14 +86,54 @@ public class TestSymbolsPresenceTemplate extends PolicyBaseTest {
 			assertSoftly(softly -> softly.assertThat(actualNode).isNotEqualTo(new DataElementChoice().setTextField("N/A")).isNotNull());
 			// End PAS-2713 Scenario 1: all states except CA/NY  stat code != N/A
 
-			// Start Check that changes doesn't affect CA PAS-532
+			// Start Check from PAS-9064 that added the comp and coll symbols to the dec page, as such it will now check those values are populated
 			List<DocumentDataSection> compDmgSymbl = DocGenHelper.getDocumentDataElemByName("CompDmgSymbl", docID, query);
-			assertSoftly(softly -> softly.assertThat(compDmgSymbl).isNullOrEmpty());
+			assertSoftly(softly -> softly.assertThat(compDmgSymbl).isNotEmpty().isNotNull());
 
 			List<DocumentDataSection> collDmgSymbl = DocGenHelper.getDocumentDataElemByName("CollDmgSymbl", docID, query);
-			assertSoftly(softly -> softly.assertThat(collDmgSymbl).isNullOrEmpty());
-			// End Check that changes doesn't affect CA PAS-532
+			assertSoftly(softly -> softly.assertThat(collDmgSymbl).isNotEmpty().isNotNull());
+			// End Check from PAS-9064 that added the comp and coll symbols to the dec page, as such it will now check those values are populated
 		});
+	}
+
+	public void verifySymbolsPresenceInDocsAfterPremCalc() {
+		DocGenEnum.Documents selectDocument = DocGenEnum.Documents._554000;
+		DocGenEnum.Documents choiceDocument = DocGenEnum.Documents.AA11CA;
+
+		String query;
+		List<DocGenEnum.Documents> docsToCheck;
+		TestData td = getPolicyTD();
+
+		mainApp().open();
+		createCustomerIndividual();
+
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(td, PremiumAndCoveragesTab.class, true);
+		PremiumAndCoveragesTab.buttonSaveAndExit.click();
+
+		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+
+		policy.policyDocGen().start();
+		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
+			generateDocument(selectDocument, policyNumber);
+			query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "55 4000", ADHOC_DOC_ON_DEMAND_GENERATE);
+			docsToCheck = getEnumList(Arrays.asList("_55_4000"));
+		}
+		else{
+			generateDocument(choiceDocument, policyNumber);
+			query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, choiceDocument.getId(), ADHOC_DOC_ON_DEMAND_GENERATE);
+			docsToCheck = getEnumList(Arrays.asList(AA11CA.getId()));
+		}
+
+		docsToCheck.forEach(docID -> {
+			verifyCompCollSymbolsPresence(query, docID);
+		});
+	}
+
+	private void verifyCompCollSymbolsPresence(String query, DocGenEnum.Documents docID) {
+		//PAS-9365 Added few more liability symbols to check in the xml document generated
+		Arrays.asList("CompDmgSymbl", "CollDmgSymbl", "VehSym", "VehStAbrv", "BdyInjSymbl", "MPSymbl", "PdSymbl", "UmSymbl").forEach(v ->
+				assertThat(DocGenHelper.getDocumentDataElemByName(v, docID, query)).isNotEmpty().isNotNull());
 	}
 
 	public void generateDocument(DocGenEnum.Documents document, String policyNumber) {
@@ -99,7 +142,12 @@ public class TestSymbolsPresenceTemplate extends PolicyBaseTest {
 		generateOnDemandDocumentActionTab.generateDocuments(document);
 
 		mainApp().reopen();
-		SearchPage.openPolicy(policyNumber);
+
+		if (policyNumber.startsWith("Q")) {
+			SearchPage.openQuote(policyNumber);
+		} else {
+			SearchPage.openPolicy(policyNumber);
+		}
 	}
 
 	public void pas532_CommonChecks(String query, DocGenEnum.Documents docID) {

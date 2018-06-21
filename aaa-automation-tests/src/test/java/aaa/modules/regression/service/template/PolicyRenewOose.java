@@ -28,7 +28,7 @@ public class PolicyRenewOose extends PolicyBaseTest {
 	        createPolicy();
 	        
 	        //change payment plan value
-	        policy.createRenewal(getTestSpecificTD("TestData_Renew"));
+	        policy.renew().performAndExit(getTestSpecificTD("TestData_Renew"));
 	         
 	        //change value for some coverage
 	        policy.createEndorsement(getTestSpecificTD("TestData_endorsement_without_conflict").adjust(getPolicyTD("Endorsement", "TestData")));

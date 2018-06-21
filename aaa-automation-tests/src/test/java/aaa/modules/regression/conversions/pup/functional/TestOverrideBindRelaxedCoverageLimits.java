@@ -1,5 +1,6 @@
 package aaa.modules.regression.conversions.pup.functional;
 
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
@@ -19,9 +20,11 @@ import aaa.modules.regression.conversions.ConvPUPBaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
+@StateList(states = {Constants.States.MD, Constants.States.PA, Constants.States.DE, Constants.States.NJ, Constants.States.VA})
 public class TestOverrideBindRelaxedCoverageLimits extends ConvPUPBaseTest {
 
     private BindTab bindTab = policy.getDefaultView().getTab(BindTab.class);
@@ -185,7 +188,7 @@ public class TestOverrideBindRelaxedCoverageLimits extends ConvPUPBaseTest {
     private TestData getTdWithSpecificUnderlyingPolicies(TestData tdPUP) {
         TestData tdHO3 = getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3).getTestData("DataGather"), "TestData")
                 .mask(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()))
-                .mask(TestData.makeKeyPath(PremiumsAndCoveragesQuoteTab.class.getSimpleName(), HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel()));
+                .adjust(TestData.makeKeyPath(PremiumsAndCoveragesQuoteTab.class.getSimpleName(), HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel()), "$200,000");
 
         TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData")
                 .adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(),

@@ -4,11 +4,11 @@
  */
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
-import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import org.openqa.selenium.By;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.AssetList;
@@ -27,9 +27,6 @@ public class DocumentsAndBindTab extends Tab {
 	public DocumentsAndBindTab() {
 		super(AutoSSMetaData.DocumentsAndBindTab.class);
 	}
-
-	//public static Button btnPurchase = new Button(By.id("policyDataGatherForm:moveToBilling_footer"), Waiters.AJAX);
-	//public static Dialog confirmPurchase = new Dialog("//div[@id='policyDataGatherForm:confirmPurchaseDialog_container']");
 	public static Button btnGenerateDocuments = new Button(By.id("policyDataGatherForm:generate_link"), Waiters.AJAX);
 	public static Button btnPurchase = new Button(By.xpath(".//input[contains(@id, 'policyDataGatherForm:moveToBilling') and contains(@id, 'footer')]"), Waiters.AJAX);
 	public static Dialog confirmPurchase = new Dialog("//div[@id='policyDataGatherForm:confirmPurchaseDialog_container']");

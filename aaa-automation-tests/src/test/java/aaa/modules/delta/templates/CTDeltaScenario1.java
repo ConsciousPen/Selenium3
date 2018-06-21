@@ -4,7 +4,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -13,35 +12,30 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.home_ss.actiontabs.CancelNoticeActionTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 import toolkit.verification.CustomSoftAssertions;
 
-public class CTDeltaScenario1 extends BaseTest { 
-	
+public class CTDeltaScenario1 extends BaseTest {
+
 	protected IPolicy policy;
 	protected TestData tdPolicy;
 	protected String quoteNumber;
 	protected String policyNumber;
 	protected String effectiveDate;
-	
+
 	public void createQuote(TestData policyCreationTD, String scenarioPolicyType) {
 		//TestData td = getTestSpecificTD("TestData");
 		policy = getPolicyType().get();
 		
 		mainApp().open();		
         createCustomerIndividual();
-        
-        policy.initiate();        
-        policy.getDefaultView().fillUpTo(policyCreationTD, BindTab.class, true);
+
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(policyCreationTD, BindTab.class, true);
         BindTab.buttonSaveAndExit.click();
         
         quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
@@ -49,20 +43,20 @@ public class CTDeltaScenario1 extends BaseTest {
         
         effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue(); 		
 	}
-	
+
 	public void verifyLOVsOfImmediatePriorCarrier() {
 		mainApp().open(); 
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
-		
+
 		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrier(immediatePriorCarrierLOVs);
 		
 		GeneralTab.buttonSaveAndExit.click();
 	}
 	
 	//public void TC_verifyEndorsements() {}	
-	
-	public void verifyWindstormMitigationDiscount() {
+
+	public void verifyWindstormMitigationDiscount() {		
 		TestData td_WindstormMitigationYes = getTestSpecificTD("TestData_WindstormMitigationYes"); 
 		
 		Map<String, String> windstormMitigationDiscount_row = new HashMap<>();
@@ -114,15 +108,15 @@ public class CTDeltaScenario1 extends BaseTest {
 		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();	
 		CustomAssert.assertAll();		
 	}
-	
-	public void verifyELC() {
+
+	public void verifyELC() {		
 		TestData td_None_with_Score599 = getTestSpecificTD("TestData_None_with_Score599"); 
 		TestData td_Declined_with_Score999 = getTestSpecificTD("TestData_Declined_with_Score999"); 
 		TestData td_IdentityTheft_with_Score750 = getTestSpecificTD("TestData_IdentityTheft_with_Score750"); 
-		TestData td_MilitaryDeployment_with_Score599 = getTestSpecificTD("TestData_MilitaryDeployment_with_Score599"); 
-		TestData td_OtherEvents_with_Score999 = getTestSpecificTD("TestData_OtherEvents_with_Score999"); 
-		String messageOnReportsTab = "Extraordinary life circumstance was applied to the policy effective "+effectiveDate;
-
+		TestData td_MilitaryDeployment_with_Score599 = getTestSpecificTD("TestData_MilitaryDeployment_with_Score599");
+		TestData td_OtherEvents_with_Score999 = getTestSpecificTD("TestData_OtherEvents_with_Score999");
+		String messageOnReportsTab = "Extraordinary life circumstance was applied to the policy effective " + effectiveDate;
+		
 		mainApp().open(); 
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
@@ -143,7 +137,7 @@ public class CTDeltaScenario1 extends BaseTest {
 			ReportsTab.buttonSaveAndExit.click();
 		});
 	}
-	
+
 	public void purchasePolicy(TestData policyCreationTD, String scenarioPolicyType) {
 		//TestData td = getTestSpecificTD("TestData");
 		
@@ -165,11 +159,11 @@ public class CTDeltaScenario1 extends BaseTest {
         
         log.info("DELTA CT SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);
 	}
-	
+
 	public void verifyODDPolicy() {
 		//TODO add
-	} 
-	
+	}
+
 	public void verifyCancelNoticeTab() {
 		TestData td_plus34days = getTestSpecificTD("TestData_Plus34Days");
 		

@@ -11,6 +11,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -22,9 +23,11 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PersonalPropertyTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.toolkit.webdriver.customcontrols.PersonalPropertyMultiAssetList;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
+@StateList(statesExcept = Constants.States.CA)
 public class TestRemovingSppLowersTotalPremium extends HomeSSHO3BaseTest {
 
     private PersonalPropertyTab personalPropertyTab = new PersonalPropertyTab();

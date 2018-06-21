@@ -1,23 +1,21 @@
 package aaa.modules.regression.conversions.pup.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.pup.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import aaa.modules.regression.conversions.ConvPUPBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-import aaa.modules.regression.conversions.ConvPUPBaseTest;
-
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 /**
  * @author S. Jaraminas
@@ -38,7 +36,7 @@ public class TestPolicyRenewalManualEntryFieldsVerification extends ConvPUPBaseT
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Conversions.PUP, testCaseId = "PAS-6951, PAS-6831, PAS-6838")
-    public void pas6951_PolicyRenewalActions(@Optional("") String state) {
+    public void pas6951_PolicyRenewalActions(@Optional("DE") String state) {
 
         GeneralTab generalTab = new GeneralTab();
         String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
@@ -63,9 +61,9 @@ public class TestPolicyRenewalManualEntryFieldsVerification extends ConvPUPBaseT
         String policyState = String.valueOf(generalTab.getPolicyInfoAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.STATE).getValue());
         String pupPolicyNumberSuffix = policyState + "PU109";
 
-        assertThat(generalTab.getPolicyNumberForPup().startsWith(pupPolicyNumberSuffix)).isTrue();
-        assertThat(generalTab.getPolicyNumberForPup().substring(4).matches("^\\d+$")).isTrue();
-        assertThat(generalTab.getPolicyNumberForPup().length()).isEqualTo(13);
+	    assertThat(generalTab.getPolicyNumberForConversion().startsWith(pupPolicyNumberSuffix)).isTrue();
+	    assertThat(generalTab.getPolicyNumberForConversion().substring(4).matches("^\\d+$")).isTrue();
+	    assertThat(generalTab.getPolicyNumberForConversion().length()).isEqualTo(13);
 
     }
 }

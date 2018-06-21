@@ -8,6 +8,7 @@ import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.main.modules.policy.auto_ss.actiontabs.UpdateRulesOverrideActionTab;
 import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.Link;
@@ -128,6 +129,14 @@ public final class PolicyActions {
 		}
 
 		/**
+		 * Perform Renew action withot changing any values, confirm and stay in Data Gathering mode</br>
+		 * Use method like policy.getDefaultView().fillUpTo(td, tabClass) after this.
+		 */
+		public AbstractAction perform() {
+			return super.perform(new SimpleDataProvider());
+		}
+
+		/**
 		 * Fill Renew action tab, confirm and stay in Data Gathering mode</br>
 		 * Use method like policy.getDefaultView().fillUpTo(td, tabClass) after this.
 		 *
@@ -146,6 +155,13 @@ public final class PolicyActions {
 				Page.dialogConfirmation.confirm();
 			}
 			return this;
+		}
+
+		/**
+		 * Perform Renew action without changing any values, then click Save and Exit without filling policy
+		 */
+		public AbstractAction performAndExit() {
+			return performAndExit(new SimpleDataProvider());
 		}
 
 		/**
@@ -619,5 +635,24 @@ public final class PolicyActions {
 
 	public abstract static class PolicyChangeRenewalLapse extends AbstractAction {
 	}
+
+
+
+	public abstract static class InitiateHOQuote extends AbstractAction {
+
+		@Override
+		public String getName() {
+			return "Initiate HO Quote";
+		}
+
+		/**
+		 * Perform Initiate HO Quote action without changing any values, confirm and stay in Data Gathering mode</br>
+		 * Use method like policy.getDefaultView().fillUpTo(td, tabClass) after this.
+		 */
+		public AbstractAction perform() {
+			return super.perform(new SimpleDataProvider());
+		}
+}
+
 
 }

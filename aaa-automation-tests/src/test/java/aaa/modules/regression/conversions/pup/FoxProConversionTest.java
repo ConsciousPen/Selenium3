@@ -1,6 +1,14 @@
 package aaa.modules.regression.conversions.pup;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import java.util.Map;
+import org.testng.ITestContext;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -29,15 +37,6 @@ import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.ITestContext;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-
-import java.time.LocalDateTime;
-import java.util.Map;
 
 public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 
@@ -202,7 +201,7 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 				.setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 
-	private void fillPolicy() {
+	protected void fillPolicy() {
 		policy.dataGather().start();
 		PrefillTab prefillTab = new PrefillTab();
 		prefillTab.getNamedInsuredListChangeLink(2).click();

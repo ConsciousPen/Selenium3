@@ -1,0 +1,25 @@
+NamedInsured_CluePropertyViolation: {
+  First name: PropChargeable,
+  Last name: Activity
+}
+
+InsuranceScoreOverride_940: {
+  Action: Override Score,
+  EditInsuranceScoreDialog: {
+    Score after override: '940',
+    Reason for override: 'Fair Credit Reporting Act Dispute',
+    Save: click,
+  }
+}
+
+AAAMembership_CIN: {
+  Current AAA Member: 'No'
+}
+
+MembershipReport_CIN: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}

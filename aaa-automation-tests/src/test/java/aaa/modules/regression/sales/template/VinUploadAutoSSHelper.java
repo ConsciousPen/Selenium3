@@ -1,11 +1,18 @@
 package aaa.modules.regression.sales.template;
 
+import static aaa.helpers.db.queries.MsrpQueries.*;
+import static aaa.helpers.db.queries.VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.db.queries.MsrpQueries;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.VinUploadHelper;
@@ -15,7 +22,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.DefaultMarkupParser;
 import toolkit.datax.TestData;
@@ -23,15 +29,6 @@ import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
-import java.math.BigInteger;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import static aaa.helpers.db.queries.MsrpQueries.*;
-import static aaa.helpers.db.queries.VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class VinUploadAutoSSHelper extends PolicyBaseTest{
 	protected static VehicleTab vehicleTab = new VehicleTab();
@@ -76,24 +73,81 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertSoftly(softly -> {
 			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2005");
-			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("UT_SS");
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("TOYOTA");
 			//PAS-6576 Update "individual VIN retrieval" logic to use ENTRY DATE and VALID
 			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Gt").as("Row with VALID=Y and oldest Entry Date should be used");
 		});
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
 
+	protected void pas11659_CommonSteps(String event1, String policyNumber, LocalDateTime timeShiftedDate) {
+		//1. Move time to renewal time point and
+		moveTimeAndRunRenewJobs(timeShiftedDate);
+		//2. Retrieve the policy
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+
+		//3. Get Renewal Date for refresh validation
+		LocalDateTime renewalDate = PolicySummaryPage.getExpirationDate();
+
+		//4. Verify VIN Refresh Activity and user Notes Entry
+		if (event1 == "R35")  {
+			NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+			assertSoftly(softly -> {
+				softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "has been updated for the following vehicle").getCell("Description").getValue().contains("has been updated for the following vehicle"));
+			});
+			log.info("Activities and User Note present");
+		}
+		else log.info("Not Checking Activities and User Notes");
+
+		//5. Initiate a new renewal version
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+
+		//6. Validate vehicle information in VRD
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+
+		if (timeShiftedDate == (renewalDate.minusDays(46)) || timeShiftedDate == (renewalDate.minusDays(25))) {
+			assertSoftly(softly -> {
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isNotEqualTo("2018");
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isNotEqualTo("TOYOTA");
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isNotEqualTo("Gt");
+			});
+		}
+		else if (timeShiftedDate == (renewalDate.minusDays(40)) || timeShiftedDate == (renewalDate.minusDays(35))){
+			assertSoftly(softly -> {
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2018");
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("TOYOTA");
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Gt");
+				log.info("TEST PASSED at R-35");
+			});
+		}
+		//R-45 triggers a refresh so it is not enough to just check that the Y/M/Mo is NOT  equal to a given value, like the R-45 and R-25 checks
+		else if (timeShiftedDate == (renewalDate.minusDays(45)))	{
+			assertSoftly(softly -> {
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2007");
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("UT_SS_R45");
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Gt_R45");
+			});
+		}
+		else log.info("Doing Nothing, for now...");
+
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+	}
+
+
 	protected void pas527_533_2716_VehicleTabCommonChecks() {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
 		assertSoftly(softly -> {
 		    //Verification of tableVehicleList instead of Vehicle page field (to avoid cache issue)
-			softly.assertThat(VehicleTab.tableVehicleList.getRow("Make", "UT_SS")).exists();
+			softly.assertThat(VehicleTab.tableVehicleList.getRow("Make", "TOYOTA")).exists();
 			//PAS-6576 Update "individual VIN retrieval" logic to use ENTRY DATE and VALID
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL).getValue()).isEqualTo("Gt").as("Row with VALID=Y and oldest Entry Date should be used");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.BODY_STYLE).getValue()).isEqualTo("UT_SS");
 			// PAS-1487  No Match to Match but Year Doesn't Match
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.YEAR).getValue()).isEqualTo("2005");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.YEAR).getValue()).isEqualTo("2018");
 			// PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED).getValue()).isEqualTo("Yes");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.OTHER_MODEL).isPresent()).isEqualTo(false);
@@ -120,7 +174,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		searchForPolicy(policyNumber);
 		policy.renew().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		PremiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 	}
 
 	protected void findAndRateQuote(TestData testData, String quoteNumber) {
@@ -258,49 +312,50 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 	}
 
 	protected void addMotorHomeVehicleToDB_AutoSS() {
-		// Expire MSRP_2000 for AAA_SS product
-		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION, 20150101, getState(), "MSRP_2000"));
-
-		// Add new VEHICLEREFDATAVINCONTROL version
-		BigInteger getUniqId = MsrpQueries.getAvailableIdFromVehicleDataVinControl();
-
-		DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_VERSION,
-				getUniqId, "AAA_SS", null, getState(), "SYMBOL_2000", 20150102, 20500102, AUTO_SS_MOTORHOME_VEH_MSRP_VERSION));
+		//// Expire MSRP_2000 for AAA_SS product
+		//DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION, 20150101, getState(), "MSRP_2000"));
+//
+		//// Add new VEHICLEREFDATAVINCONTROL version
+		//BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
+//
+		//DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_VERSION,
+		//		getUniqId, "AAA_SS", null, getState(), "SYMBOL_2000", 20250102, 20500102, AUTO_SS_PPA_VEH_MSRP_VERSION));
 
 		// Add new MSRP version
-		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, "Motor", AUTO_SS_MOTORHOME_VEH_MSRP_VERSION, 4));
+		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2025, 9999, "Motor", AUTO_SS_PPA_VEH_MSRP_VERSION, 4));
 	}
 
 	protected void addPPAVehicleToDBAutoSS() {
-		// Expire MSRP_2000 for AAA_SS product
-		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION, 20150101, getState(), "MSRP_2000"));
-
-		// Add new VEHICLEREFDATAVINCONTROL version
-		BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
-
-		DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_VERSION,
-				getUniqId, "AAA_SS", null, getState(), "SYMBOL_2000", 20150102, 20500102, AUTO_SS_PPA_VEH_MSRP_VERSION));
+		//// Expire MSRP_2000 for AAA_SS product
+		//DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION, 20150101, getState(), "MSRP_2000"));
+//
+		//// Add new VEHICLEREFDATAVINCONTROL version
+		//BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
+//
+		//DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_VERSION,
+		//		getUniqId, "AAA_SS", null, getState(), "SYMBOL_2000", 20150102, 20500102, AUTO_SS_PPA_VEH_MSRP_VERSION));
 
 		// Add new MSRP version
-		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, "PPA", AUTO_SS_PPA_VEH_MSRP_VERSION, 4));
+		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2025, 9999, "PPA", AUTO_SS_PPA_VEH_MSRP_VERSION, 4));
 	}
 
 	/* DB cleaning methods */
 
 	public void resetMsrpHomeVehHelper() {
+		//resetDefaultMSRPVersionAtVinControlTable();
 		// Reset 'default' msrp version
-		resetMsrpVersionMSRPCompCollControlTable();
+		//resetMsrpVersionMSRPCompCollControlTable();
 		// DELETE new VEHICLEREFDATAVINCONTROL version
-		deleteVersionFromVehicleControlTable(AUTO_SS_MOTORHOME_VEH_MSRP_VERSION);
+		//deleteVersionFromVehicleControlTable(AUTO_SS_PPA_VEH_MSRP_VERSION);
 		// DELETE new MSRP version pas730_VehicleTypeNotPPA
-		deleteAddedMsrpVersionFormMsrpControlTable(AUTO_SS_MOTORHOME_VEH_MSRP_VERSION, "Motor");
+		deleteAddedMsrpVersionFormMsrpControlTable(AUTO_SS_PPA_VEH_MSRP_VERSION, "Motor");
 	}
 
 	public void resetMsrpPPAVeh() {
 		// Reset 'default' msrp version
-		resetMsrpVersionMSRPCompCollControlTable();
+		//resetMsrpVersionMSRPCompCollControlTable();
 		// DELETE new VEHICLEREFDATAVINCONTROL version
-		deleteVersionFromVehicleControlTable(AUTO_SS_PPA_VEH_MSRP_VERSION);
+		//deleteVersionFromVehicleControlTable(AUTO_SS_PPA_VEH_MSRP_VERSION);
 		// DELETE new MSRP version pas730_VehicleTypePPA
 		deleteAddedMsrpVersionFormMsrpControlTable(AUTO_SS_PPA_VEH_MSRP_VERSION, "PPA");
 	}
@@ -318,7 +373,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 	}
 
 	// Used in After suite method, cause of cross-test interruptions
-	public void resetDefaultMSRPVersionValuesVinControlTable() {
+	public void resetDefaultMSRPVersionAtVinControlTable() {
 		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE));
 	}
 

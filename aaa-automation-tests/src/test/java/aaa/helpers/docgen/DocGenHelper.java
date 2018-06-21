@@ -1,25 +1,32 @@
 package aaa.helpers.docgen;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
-import java.text.MessageFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.Assert;
 import aaa.helpers.db.DbXmlHelper;
 import aaa.helpers.docgen.searchNodes.SearchBy;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.helpers.xml.XmlHelper;
 import aaa.helpers.xml.model.*;
 import aaa.main.enums.DocGenEnum;
+import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
+
+import java.text.MessageFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 
 public class DocGenHelper {
 	public static final String DOCGEN_SOURCE_FOLDER = "/home/DocGen/";
@@ -219,7 +226,6 @@ public class DocGenHelper {
 				.findFirst().orElseThrow(() -> new NoSuchFieldException("Tag " + tag + " not found."))
 				.getDataElementChoice().getTextField();
 	}
-
 	/**
 	 * Extracts list of documents from {@link DocumentPackage} model
 	 *
@@ -255,6 +261,17 @@ public class DocGenHelper {
 	 */
 	public static Document waitForDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, AaaDocGenEntityQueries.EventNames eventName) 	{
 		return waitForDocumentsAppearanceInDB(docId, quoteNumber, eventName, true);
+	}
+
+	/**
+	 * Wait for document(s) request appearance in database for specific <b>docId</b> with timeout {@link DocGenHelper#DOCUMENT_GENERATION_TIMEOUT}
+	 *
+	 * @param docId       documents ids to be used for waiting xml document.
+	 * @param quoteNumber quote/policy number
+	 * @param eventName   event name of the generated document
+	 */
+	public static List<Document> waitForMultipleDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, AaaDocGenEntityQueries.EventNames eventName) 	{
+		return waitForMultipleDocumentsAppearanceInDB(docId, quoteNumber, eventName, true);
 	}
 
 		/**
@@ -298,9 +315,70 @@ public class DocGenHelper {
 		return document;
 	}
 
+	/**
+	 * Wait for document(s) request appearance in database for specific <b>docId</b> with timeout {@link DocGenHelper#DOCUMENT_GENERATION_TIMEOUT}
+	 *
+	 * @param docId       documents ids to be used for waiting xml document.
+	 * @param quoteNumber quote/policy number
+	 * @param eventName   event name of the generated document(s)
+	 * @param assertExists   assert if the generated documents exist
+	 */
+	public static List<Document> waitForMultipleDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, AaaDocGenEntityQueries.EventNames eventName, boolean assertExists) {
+		long conditionCheckPoolingIntervalInSeconds = 1;
+		log.info(String.format("Waiting for xml document \"%1$s\" request appearance in database.", docId.getId()));
+
+		long searchStart = System.currentTimeMillis();
+		long timeout = searchStart + DOCUMENT_GENERATION_TIMEOUT * 1000;
+		List<Document> documents;
+		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, quoteNumber, docId.getId(), eventName);
+		do {
+			try {
+				documents = getDocuments(docId, query);
+			} catch (Exception e) {
+				documents = null;
+			}
+			if (CollectionUtils.isNotEmpty(documents)) {
+				return documents;
+			}
+			try {
+				TimeUnit.SECONDS.sleep(conditionCheckPoolingIntervalInSeconds);
+			} catch (InterruptedException e) {
+				log.debug(e.getMessage());
+			}
+		}
+		while (timeout > System.currentTimeMillis());
+		long searchTime = System.currentTimeMillis() - searchStart;
+
+		if (assertExists) {
+			CustomAssert.assertTrue(MessageFormat.format("Xml document(s) \"{0}\" found. Search time:  \"{1}\"", docId.getId(), searchTime), CollectionUtils.isNotEmpty(documents));
+		}
+		log.info(MessageFormat.format(((CollectionUtils.isEmpty(documents))?"Document(s) not found " : "Found document(s) ") + "\"{0}\" after {1} milliseconds", docId.getId(), searchTime));
+		return documents;
+	}
+
 	public static Document getDocument(DocGenEnum.Documents value, String query) {
 		String xmlDocData = DbXmlHelper.getXmlByDocName(value, query);
 		return XmlHelper.xmlToModelByPartOfXml(xmlDocData, Document.class);
+	}
+
+	public static List<Document> getDocuments(DocGenEnum.Documents value, String query) {
+		String xmlDocData = DbXmlHelper.getXmlByDocName(value, query);
+		List<Document> docs = new ArrayList<>();
+
+		List<String> separateXmlDocs = splitToDocuments(xmlDocData);
+		for (String separateXmlDoc : separateXmlDocs) {
+			docs.add(XmlHelper.xmlToModelByPartOfXml(separateXmlDoc, Document.class));
+		}
+		return docs;
+	}
+
+	private static List<String> splitToDocuments(String xmlDocData) {
+		List<String> docs = new ArrayList<>();
+		Matcher matcher = Pattern.compile("<doc:Document(.*?)</doc:Document>").matcher(xmlDocData);
+		while (matcher.find()) {
+			docs.add(matcher.group());
+		}
+		return docs;
 	}
 
 	public static DocumentPackage getDocumentPackage(String policyNumber, AaaDocGenEntityQueries.EventNames eventName) {
@@ -308,6 +386,10 @@ public class DocGenHelper {
 
 		//TODO: Change this to 'always cast to DocumentPackage' once all VDMS get aaaDocGenSerializer.callDCSInstant set to TRUE
 		//In the meantime, this hook will work fine
+		return getDocumentPackage(xmlDocData);
+	}
+
+	public static DocumentPackage getDocumentPackage(String xmlDocData) {
 		DocumentPackage documentPackage;
 		boolean callDCSInstantly = !xmlDocData.startsWith("<doc:CreateDocuments");
 		if (callDCSInstantly) {
@@ -318,6 +400,33 @@ public class DocGenHelper {
 			documentPackage = doc.getStandardDocumentRequest().getDocumentPackages().get(0);
 		}
 		return documentPackage;
+	}
+
+	public static List<DocumentPackage> getAllDocumentPackages(String policyNumber, AaaDocGenEntityQueries.EventNames eventName) {
+		List<Map<String, String>> allDocs = DbXmlHelper.getXmlsByPolicyNumber(policyNumber, eventName);
+		List<DocumentPackage> listOfDocumentPackages = new ArrayList<>();
+
+		for(Map<String, String> doc: allDocs) {
+			String xmlDoc = doc.get("DATA");
+			DocumentPackage documentPackage = getDocumentPackage(xmlDoc);
+			listOfDocumentPackages.add(documentPackage);
+		}
+
+		return listOfDocumentPackages;
+	}
+
+
+	/**
+	 * Get All Documents from Document Package List
+	 * @param allDocumentPackages getAllDocumentPackages()
+	 * @return List<Document>
+	 */
+	public static List<Document> getDocumentsFromDocumentPackagesList(List<DocumentPackage> allDocumentPackages) {
+		List<Document> actualDocumentsListAfterFirstRenewal = new ArrayList<>();
+		for( DocumentPackage documentPackage: allDocumentPackages){
+			actualDocumentsListAfterFirstRenewal.addAll(documentPackage.getDocuments());
+		}
+		return actualDocumentsListAfterFirstRenewal;
 	}
 
 	private static boolean isRequestValid(DocumentWrapper dw, String policyNumber, DocGenEnum.Documents[] documents) {

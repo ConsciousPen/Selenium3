@@ -43,7 +43,7 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
 
 	private static final String EVALUE_PAYPLAN_ACKNOWLEDGEMENT_CHECK =
-			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "paymentPlanRequired", "FALSE");
+			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeValueQualifications", "paymentPlanRequired", "FALSE");
 
 	@Test(description = "Precondition")
 	public static void eValueAcknowledgementConfigCheck() {
@@ -80,7 +80,7 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7185, PAS-7192")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7185", "PAS-7192", "PAS-273", "PAS-274"})
 	public void pas7185_messagingConfigurablePayPlan1(@org.testng.annotations.Optional("OR") String state) {
 
 		TestData ccVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0);
@@ -96,7 +96,7 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7185, PAS-7192")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7185", "PAS-7192", "PAS-273", "PAS-274"})
 	public void pas7185_messagingConfigurablePayPlan2(@org.testng.annotations.Optional("OR") String state) {
 
 		CustomAssert.enableSoftMode();
@@ -109,7 +109,7 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7185, PAS-7192")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7185", "PAS-7192", "PAS-273", "PAS-274"})
 	public void pas7185_messagingConfigurablePayPlan3(@org.testng.annotations.Optional("OR") String state) {
 
 		TestData dcVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2);
@@ -124,7 +124,7 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7185, PAS-7192")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7185", "PAS-7192", "PAS-273", "PAS-274"})
 	public void pas7185_messagingConfigurablePayPlan4(@org.testng.annotations.Optional("OR") String state) {
 
 		TestData ccVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0);
@@ -139,7 +139,7 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7185, PAS-7192")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7185", "PAS-7192", "PAS-273", "PAS-274"})
 	public void pas7185_messagingConfigurablePayPlan5(@org.testng.annotations.Optional("OR") String state) {
 
 		CustomAssert.enableSoftMode();
@@ -152,7 +152,7 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7185, PAS-7192")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7185", "PAS-7192", "PAS-273", "PAS-274"})
 	public void pas7185_messagingConfigurablePayPlan6(@org.testng.annotations.Optional("OR") String state) {
 
 		TestData ccVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0);
@@ -167,7 +167,7 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7185, PAS-7192")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7185", "PAS-7192", "PAS-273", "PAS-274"})
 	public void pas7185_messagingConfigurablePayPlan7(@org.testng.annotations.Optional("OR") String state) {
 
 		TestData eft = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(1);
@@ -182,7 +182,7 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7185, PAS-7192")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7185", "PAS-7192", "PAS-273", "PAS-274"})
 	public void pas7185_messagingConfigurablePayPlan8(@org.testng.annotations.Optional("OR") String state) {
 
 		CustomAssert.enableSoftMode();
@@ -195,7 +195,7 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7185, PAS-7192")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7185", "PAS-7192", "PAS-273", "PAS-274"})
 	public void pas7185_messagingConfigurablePayPlan9(@org.testng.annotations.Optional("OR") String state) {
 
 		TestData dcVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2);
@@ -313,7 +313,7 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.POLICY_TERM).setValue(payTerm);
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN).setValue(payPlan);
-		PremiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 	}
 
 	private void fillGeneralTab(int days) {

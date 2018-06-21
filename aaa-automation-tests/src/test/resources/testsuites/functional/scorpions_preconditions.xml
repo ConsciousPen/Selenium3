@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Scorpions Precondition configuration changes" verbose="1" parallel="false" thread-count="1024">
+<suite name="Scorpions Precondition configuration changes" verbose="1" parallel="tests" thread-count="1024">
     <!-- Listener commented out for local runs-->
     <listeners>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
@@ -16,11 +16,11 @@
         </classes>
     </test>
 
-    <test name="Renewal job adding">
+    <test name="enable Vin Refresh">
         <classes>
             <class name="aaa.modules.preconditions.ScorpionsPreconditions">
                 <methods>
-                    <include name="renewalJobAdding"/>
+                    <include name="enableVinRefresh"/>
                 </methods>
             </class>
         </classes>

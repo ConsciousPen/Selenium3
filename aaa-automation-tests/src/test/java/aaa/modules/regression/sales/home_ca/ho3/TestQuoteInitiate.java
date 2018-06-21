@@ -6,7 +6,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
@@ -29,7 +28,7 @@ import toolkit.utils.TestInfo;
 public class TestQuoteInitiate extends HomeCaHO3BaseTest {
 
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
 	public void testQuoteInitiate(@Optional("CA") String state) {
 		mainApp().open();
@@ -37,9 +36,10 @@ public class TestQuoteInitiate extends HomeCaHO3BaseTest {
 		createCustomerIndividual();
 
 		CustomerSummaryPage.buttonAddQuote.click();
-		QuoteSummaryPage.comboBoxProduct.setValue(getPolicyType().getName());
-		assertThat(QuoteSummaryPage.buttonAddNewQuote).isEnabled();
-		QuoteSummaryPage.buttonAddNewQuote.click();
+		QuoteSummaryPage qsp = new QuoteSummaryPage();
+		assertThat(qsp.buttonAddNewQuote).isEnabled();
+		qsp.initiateQuote(getPolicyType());
+
 		assertThat(policy.getDefaultView().getTab(GeneralTab.class).getAssetList()).isEnabled();
 		GeneralTab.buttonSaveAndExit.click();
 		assertThat(PolicySummaryPage.labelPolicyNumber).isPresent();

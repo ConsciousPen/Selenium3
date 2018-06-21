@@ -38,4 +38,15 @@
             <class name="aaa.modules.regression.service.auto_ca.choice.TestPolicyEndorsementAdd"/>
         </classes>
     </test>
+
+    <test name="NJ MAIG Conversion Smoke Test" parallel="methods">
+        <parameter name="state" value="NJ" />
+        <classes>
+            <class name="aaa.modules.regression.conversions.auto_ss.MaigImportSmokeTest">
+                <methods>
+                    <include name="maigImportTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

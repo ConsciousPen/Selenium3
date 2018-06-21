@@ -13,11 +13,15 @@ import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
 import toolkit.webdriver.controls.composite.assets.AssetList;
+import aaa.common.enums.Constants.States;
+
+
 
 public class TestNoPriorInsuranceError extends AutoSSBaseTest {
 
@@ -47,6 +51,7 @@ public class TestNoPriorInsuranceError extends AutoSSBaseTest {
 	private static final String TRIGGER_ON_EFFECTIVE_DATE = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 
 	@Parameters({"state"})
+	@StateList(states = {States.NJ, States.DE})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4244")
 	public void pas4244_ErrorMessagePresence(@Optional("") String state) {

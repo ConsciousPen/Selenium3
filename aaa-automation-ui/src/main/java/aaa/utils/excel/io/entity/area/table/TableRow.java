@@ -3,6 +3,7 @@ package aaa.utils.excel.io.entity.area.table;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.Temporal;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.poi.ss.usermodel.Cell;
@@ -58,9 +59,10 @@ public class TableRow extends ExcelRow<TableCell> {
 		return "TableRow{" +
 				"sheetName=" + getSheetName() +
 				", rowIndex=" + getIndex() +
+				", rowIndexOnSheet=" + getIndexOnSheet() +
 				", columnsNumber=" + getCellsNumber() +
-				", cellTypes=" + getCellTypes() +
 				", values=" + getTableStringValues() +
+				", cellTypes=" + getCellTypes() +
 				'}';
 	}
 
@@ -133,6 +135,10 @@ public class TableRow extends ExcelRow<TableCell> {
 		return getDoubleValue(getIndex(headerColumnName));
 	}
 
+	public <T extends Temporal> T getDateValue(String headerColumnName, DateTimeFormatter... dateTimeFormatters) {
+		return getDateValue(getIndex(headerColumnName));
+	}
+
 	public TableRow setValue(String headerColumnName, Object value) {
 		return (TableRow) setValue(getIndex(headerColumnName), value);
 	}
@@ -186,21 +192,21 @@ public class TableRow extends ExcelRow<TableCell> {
 		return cells;
 	}
 
-	public int getSum(String... headerColumnNames) {
-		return getSum(false, headerColumnNames);
+	public int getIntSum(String... headerColumnNames) {
+		return getIntSum(false, headerColumnNames);
 	}
 
-	public int getSum(boolean ignoreCase, String... headerColumnNames) {
+	public int getIntSum(boolean ignoreCase, String... headerColumnNames) {
 		Integer[] indexes = getCells(ignoreCase, headerColumnNames).stream().map(ExcelCell::getColumnIndex).toArray(Integer[]::new);
-		return getSum(indexes);
+		return getIntSum(indexes);
 	}
 
-	public int getSumContains(String headerColumnNamePattern) {
-		return getSumContains(false, headerColumnNamePattern);
+	public int getIntSumContains(String headerColumnNamePattern) {
+		return getIntSumContains(false, headerColumnNamePattern);
 	}
 
-	public int getSumContains(boolean ignoreCase, String headerColumnNamePattern) {
+	public int getIntSumContains(boolean ignoreCase, String headerColumnNamePattern) {
 		Integer[] indexes = getCellsContains(headerColumnNamePattern, ignoreCase).stream().map(TableCell::getColumnIndex).toArray(Integer[]::new);
-		return getSum(indexes);
+		return getIntSum(indexes);
 	}
 }

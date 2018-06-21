@@ -35,7 +35,6 @@ public class TestPolicyEndorsement extends HomeCaHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
 	public void testPolicyEndorsement(@Optional("CA") String state) {
 		mainApp().open();
-
 		getCopiedPolicy();
 
 		log.info("TEST: Endorsement for CAH Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());

@@ -1,12 +1,16 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
 import static aaa.helpers.db.queries.MsrpQueries.CA_SELECT_REGULAR_VEH_MSRP_VERSION;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.product.DatabaseCleanHelper;
+import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
@@ -18,7 +22,8 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
-	PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+	final static String pas730_vinDoesNotMatchChoice = "1MSRP15H1V1011111";
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -55,10 +60,10 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-730")
-	public void pas730_VehicleTypeRegular(@Optional("") String state) {
+	public void pas730_VehicleTypeRegular(@Optional("CA") String state) {
 		TestData testData = new TestVINUploadTemplate().getNonExistingVehicleTestData(getPolicyTD(), "");
 		// required to match MSRP version which will be added later
-		testData.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(),AutoCaMetaData.VehicleTab.YEAR.getLabel()), "2018");
+		testData.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(),AutoCaMetaData.VehicleTab.YEAR.getLabel()), "2025");
 
 		vehicleTypeRegular(testData);
 	}
@@ -121,14 +126,12 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-730")
 	public void pas730_vinDoesNotMatchDB(@Optional("CA") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
-
-		String vinNumber = "7MSRP15H5V1011111";
-		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber).resolveLinks();
+;
+		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), pas730_vinDoesNotMatchChoice).resolveLinks();
 		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();
 
-		// Vin control table has version which overrides VERSION_2000, it is needed and important to get symbols for next steps
 		adminApp().open();
-		vinMethods.uploadFiles(vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get()));
+		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get()));
 
 		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
@@ -137,44 +140,25 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		String collSymbol = getCollSymbolFromVRD();
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 
-		premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY).setValueByRegex("No Coverage.*");
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY).setValueByRegex("No Coverage.*");
 
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT).setValue("CA Choice");
+		premiumAndCoveragesTab.calculatePremium();
 
+		// fill needed fields for rating
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VALUE).setValue("15000");
-		PremiumAndCoveragesTab.calculatePremium();
+		vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.BODY_STYLE).setValue("SEDAN 4 DOOR");
+		vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VALUE).setValue("150000");
+		premiumAndCoveragesTab.calculatePremium();
 
 		pas730_commonChecks(compSymbol, collSymbol);
 
 		premiumAndCoveragesTab.saveAndExit();
 	}
 
-	/**
-	 * Info in each xml file for this test could be used only once, so for running of tests properly DB should be cleaned after
-	 * each test method. So newly added values should be deleted from Vehiclerefdatavin, Vehiclerefdatamodel and VEHICLEREFDATAVINCONTROL
-	 * tables. Default values should be set for EXPIRATIONDATE field for default rows in VEHICLEREFDATAVINCONTROL table.
-	 * <p>
-	 * 'SYMBOL_2000_SS_TEST' are names of configurations which are used and listed in excel
-	 * files for each product (choice config, select config and Signature Series config ONLY for UT state). So if they will be changed there
-	 * this after method should be updated. But such updates are not supposed to be done.
-	 * Please refer to the files with appropriate names in each test in /resources/uploadingfiles/vinUploadFiles.
-	 */
-	@AfterMethod(alwaysRun = true)
-	protected void resetMSRPTables() {
-		pas730_SelectCleanDataBase(CA_SELECT_REGULAR_VEH_MSRP_VERSION,vehicleTypeRegular);
-	}
-
-	@AfterClass(alwaysRun = true)
-	protected void resetVinUploadTables() {
-		String configNames = "('SYMBOL_2000_CA_SELECT')";
-		DatabaseCleanHelper.cleanVinUploadTables(configNames, getState());
-	}
-
 	@AfterSuite(alwaysRun = true)
 	protected void resetVinControlTable() {
-		// Reset to the default state  MSRP_2000
-		resetSelectDefaultMSRPVersionValuesVinControlTable();
+		pas730_SelectCleanDataBase(CA_SELECT_REGULAR_VEH_MSRP_VERSION, vehicleTypeRegular);
+		DatabaseCleanHelper.cleanVehicleRefDataVinTable(pas730_vinDoesNotMatchChoice,"SYMBOL_2000");
 	}
 }

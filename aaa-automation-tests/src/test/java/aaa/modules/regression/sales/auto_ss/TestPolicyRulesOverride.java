@@ -20,7 +20,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -41,7 +40,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyRulesOverride extends AutoSSBaseTest {
 
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testPolicyRulesOverride(@Optional("") String state) {
 
@@ -86,7 +85,7 @@ public class TestPolicyRulesOverride extends AutoSSBaseTest {
 		checkRuleIsPresent("Life", "Temporary Issue");
 
 		//create renewal and check overridden for life rule
-		policy.createRenewal(DataProviderFactory.emptyData());
+		policy.renew().performAndExit();
 
 		PolicySummaryPage.buttonRenewals.click();
 		PolicySummaryPage.tableRenewals.getRow(1).getCell("Action").controls.comboBoxes.getFirst().setValue("Update Rules Override");
@@ -104,8 +103,8 @@ public class TestPolicyRulesOverride extends AutoSSBaseTest {
 
         assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query)).isPresent();
 
-        assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Duration").controls.radioGroups.getFirst().getValue()).isEqualTo(duration);
-        assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Reason for override").controls.comboBoxes.getFirst().getValue()).isEqualTo(reason);
+		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Duration").controls.radioGroups.getFirst().getValue()).isEqualTo(duration);
+		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Reason for override").controls.comboBoxes.getFirst().getValue()).isEqualTo(reason);
 
 		UpdateRulesOverrideActionTab.btnCancel.click();
 

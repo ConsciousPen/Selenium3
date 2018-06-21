@@ -34,9 +34,8 @@ public class TestScenario7 extends Scenario7 {
 			generateSecondBill(softly);
 			payTotalDue();
 			generateThirdBill();
-			renewalImageGeneration(); // from 01.03 (after February)
 			generateTenthBill();
-			//renewalImageGeneration(); // February fall into period from R-81 to R
+			renewalImageGeneration();
 			renewalPreviewGeneration();
 			endorsementRPBeforeRenewal();
 			endorsementAPBeforeRenewal();

@@ -17,13 +17,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.utils.TestInfo;
@@ -47,7 +41,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	public class TestDeltaScenario1 extends AutoSSBaseTest {
 
-	private String quoteNumber = null;
+		private String quoteNumber;
 	public String scenarioPolicyType = "Auto SS";
 
 	private DriverTab driverTab = new DriverTab();
@@ -335,14 +329,14 @@ import toolkit.webdriver.controls.waiters.Waiters;
 		preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY)
 				.setValueByRegex("\\$500,000.*1,000,000.*");
-		PremiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 		String expected_ER = "UMBI/UIMBI limits may not exceed twice the BI limits";
 		assertThat(errorTab.getErrorsControl().getTable().getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, expected_ER).isPresent()).isEqualTo(true);
 		errorTab.cancel();
 
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY)
 				.setValueByRegex("\\$50,000.*100,000.*");
-		PremiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 
 		Tab.buttonSaveAndExit.click();
 	}
@@ -364,7 +358,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY)
 				.setValueByRegex("\\$200,000.*600,000.*");
-		PremiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 
 		//default value for "Underinsured Motorist Conversion Coverage" = No
 		assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_CONVERSION_COVERAGE)).isEqualTo("No");
@@ -405,7 +399,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EXTRAORDINARY_LIFE_CIRCUMSTANCE).setValue("Identity theft");
 		//Go to Premium tab, calculate premium
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 
 		assertThat(premiumAndCoveragesTab.getRatingDetailsQuoteInfoData().getValue("ELC Applied")).contains("Yes");
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();

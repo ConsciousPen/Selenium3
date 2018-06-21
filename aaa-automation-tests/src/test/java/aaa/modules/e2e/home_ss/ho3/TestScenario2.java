@@ -51,10 +51,11 @@ public class TestScenario2 extends Scenario2 {
 				renewalImageGeneration();
 				generateTenthBill();
 			} else {
+				generateTenthBill();
 				if (getState().equals(Constants.States.KY)) {
 					renewalPreviewGeneration(); // from 01.03
 				}
-				generateTenthBill();
+			//	generateTenthBill();
 				if (!getState().equals(Constants.States.KY)) {
 					renewalImageGeneration();
 				}

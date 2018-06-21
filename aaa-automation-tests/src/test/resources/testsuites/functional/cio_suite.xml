@@ -6,91 +6,43 @@
 
     <parameter name="timeshift-scenario-mode" value="method"/>
 
-    <test name="PAS-3786, PAS-6668, PAS-6800 - Test Membership validation for Auto SS" parallel="methods" thread-count="1024">
-        <!--<parameter name="state" value="AZ"/>-->
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO3)" parallel="methods" thread-count="1024">
+        <parameter name="state" value="UT"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipValidation">
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPaymentPlanChangeOnEndorsement">
             </class>
         </classes>
     </test>
 
-    <test name="TestMembershipValidationHomeSS" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO4)" parallel="methods" thread-count="1024">
+        <parameter name="state" value="UT"/>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestMembershipValidation">
-                <methods>
-                    <include name="pas3786_validateMembership"/>
-                </methods>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPaymentPlanChangeOnEndorsement">
             </class>
         </classes>
     </test>
 
-    <test name="Test Not Ordered Membership Errors_1" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO6)" parallel="methods" thread-count="1024">
+        <parameter name="state" value="UT"/>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestNotOrderedMembershipError">
-                <methods>
-                    <include name="pas7524_checkNotOrderedMembershipErrors"/>
-                </methods>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPaymentPlanChangeOnEndorsement">
             </class>
         </classes>
     </test>
 
-    <test name="Test Not Ordered Membership Errors_2" parallel="methods" thread-count="1024">
-        <parameter name="state" value="CA"/>
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (DP3)" parallel="methods" thread-count="1024">
+        <parameter name="state" value="UT"/>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestNotOrderedMembershipError">
-                <methods>
-                    <include name="pas7524_checkNotOrderedMembershipErrors"/>
-                </methods>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPaymentPlanChangeOnEndorsement">
             </class>
         </classes>
     </test>
 
-    <test name="Test Not Ordered Membership Errors_3" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
+    <test name="PAS-11785 - Do not force payment plan change on mid-term changes (PUP)" parallel="methods" thread-count="1024">
+        <parameter name="state" value="UT"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestNotOrderedMembershipError">
-                <methods>
-                    <include name="pas6142_checkNotOrderedMembershipErrors"/>
-                </methods>
+            <class name="aaa.modules.regression.sales.pup.functional.TestPaymentPlanChangeOnEndorsement">
             </class>
         </classes>
     </test>
-
-    <test name="Test Not Ordered Membership Errors_4" parallel="methods" thread-count="1024">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestNotOrderedMembershipError">
-                <methods>
-                    <include name="pas6142_checkNotOrderedMembershipErrors"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="TestMembershipValidation" parallel="methods" thread-count="1024">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMembershipValidation">
-                <methods>
-                    <include name="pas3786_ScenarioAC1_Validate_Override"/>
-                    <include name="pas6800_pas3786_ScenarioAC1_Validate_NoOverride"/>
-                    <include name="pas3786_ScenarioAC1_Validate_Override_Endorsement"/>
-                    <include name="pas3786_ScenarioAC1_Validate_Override_Renewal"/>
-                    <include name="pas6668_ScenarioAC2_Dummy_Numbers_Manual_Renewal"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMembershipValidation">
-                <methods>
-                    <include name="pas3786_ScenarioAC1_Validate_Override"/>
-                    <include name="pas6800_pas3786_ScenarioAC1_Validate_NoOverride"/>
-                    <include name="pas3786_ScenarioAC1_Validate_Override_Endorsement"/>
-                    <include name="pas3786_ScenarioAC1_Validate_Override_Renewal"/>
-                    <include name="pas6668_ScenarioAC2_Dummy_Numbers_Manual_Renewal"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
 </suite>

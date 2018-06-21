@@ -6,12 +6,10 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.Tab;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.main.pages.summary.QuoteSummaryPage;
@@ -31,21 +29,21 @@ public class TestQuoteInitiate extends AutoSSBaseTest {
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void testQuoteInitiate(@Optional("") String state) {
-        mainApp().open();
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+	public void testQuoteInitiate(@Optional("") String state) {
+		mainApp().open();
 
-        createCustomerIndividual();
+		createCustomerIndividual();
 
-        CustomerSummaryPage.buttonAddQuote.click();
-        QuoteSummaryPage.comboBoxProduct.setValue(PolicyType.AUTO_SS.getName());
-        assertThat(QuoteSummaryPage.buttonAddNewQuote).isEnabled();
-        QuoteSummaryPage.buttonAddNewQuote.click();
-        Tab.buttonSaveAndExit.click();
-        assertThat(PolicySummaryPage.labelPolicyNumber).isPresent();
+		CustomerSummaryPage.buttonAddQuote.click();
+		QuoteSummaryPage qsp = new QuoteSummaryPage();
+		assertThat(qsp.buttonAddNewQuote).isEnabled();
+		qsp.initiateQuote(getPolicyType());
+		Tab.buttonSaveAndExit.click();
+		assertThat(PolicySummaryPage.labelPolicyNumber).isPresent();
 
-        log.info("Initiated Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
+		log.info("Initiated Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
 
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.DATA_GATHERING);
-    }
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.DATA_GATHERING);
+	}
 }

@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.AdvancedTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
@@ -42,8 +43,8 @@ public class DriverTab extends Tab {
 		};
 	}
 
-	public MultiInstanceBeforeAssetList getActivityInformationAssetList() {
-		return getAssetList().getAsset(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION);
+	public ActivityInformationMultiAssetList getActivityInformationAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), ActivityInformationMultiAssetList.class);
 	}
    
 	@Override

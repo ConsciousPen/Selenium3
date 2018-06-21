@@ -6,7 +6,6 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
-
     <test name="TestEValueDiscountJobAdding" parallel="methods" thread-count="1024">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
@@ -25,62 +24,18 @@
             </class>
         </classes>
     </test>
-    <test name="TestRefundProcess" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA"/>
+    <test name="pas5743_EnterTooMuchAndGetMessage MD VA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="MD, VA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
                     <include name="refundDocumentGenerationConfigCheck"/>
-                    <include name="pas5743_EnterTooMuchAndGetMessageCredit"/>
+                    <include name="pas5743_EnterTooMuchAndGetMessage"/>
                 </methods>
             </class>
         </classes>
     </test>
-    <test name="TestRefundProcessAZ" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
-                <methods>
-                    <include name="refundDocumentGenerationConfigCheck"/>
-                    <include name="pas5743_EnterTooMuchAndGetMessageDebit"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="TestRefundProcessMD" parallel="methods" thread-count="1024">
-        <parameter name="state" value="MD"/>
-        <classes>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
-                <methods>
-                    <include name="refundDocumentGenerationConfigCheck"/>
-                    <include name="pas5743_EnterTooMuchAndGetMessageEft"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="TestRefundProcessCT" parallel="methods" thread-count="1024">
-        <parameter name="state" value="CT"/>
-        <classes>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
-                <methods>
-                    <include name="eRefundLastPaymentMethodConfigCheck"/>
-                    <include name="pas1952_MessageWhenOnlyMethodIsCheckNoElectronicRefund"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="TestRefundProcessDC" parallel="methods" thread-count="1024">
-        <parameter name="state" value="DC"/>
-        <classes>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
-                <methods>
-                    <include name="eRefundLastPaymentMethodConfigCheck"/>
-                    <include name="pas1952_MessageWhenOnlyMethodIsCheck"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-       <test name="TestEValueDiscountVA" parallel="methods" thread-count="1024">
+    <test name="TestEValueDiscountVA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
@@ -91,7 +46,6 @@
                     <include name="eValueConfigCheck"/>
                     <include name="paperlessPreferencesConfigCheck"/>
                     <include name="precondJobAdding"/>
-
                     <include name="pas265_MinimumStateLimitsForBIPreBind"/>
                     <include name="pas278_eValueeSignedPledgeDocumentAHEVAXX"/>
                     <include name="pas300_eValueStatusConsViewPaperPrefPendingVa"/>
@@ -106,11 +60,15 @@
                     <include name="pas12294_PriorCarrierWithLapsePriorCarrierRequired"/>
                     <include name="pas12294_PriorCarrierLessThanSixMonthsPriorCarrierRequired"/>
                     <include name="pas12294_PriorCarrierNone"/>
+                    <include name="pas297_MidTermOptInNotificationToAgentAboutPaperlessPreferences"/>
+                    <include name="pas295_autopayKeepValueMessage"/>
+                    <include name="pas281_eValueIssuedWithDebitCard"/>
+                    <include name="pas321_eValueAtRenewalOrMidtermNoAutopay"/>
+                    <include name="pas317_membershipAndBiForRenewal"/>
                 </methods>
             </class>
         </classes>
     </test>
-
     <test name="TestEValueDiscountOR" parallel="methods" thread-count="1024">
         <parameter name="state" value="OR"/>
         <classes>
@@ -120,7 +78,6 @@
                     <include name="eValueAcknowledgementConfigCheck"/>
                     <include name="eValueMembershipConfigCheck"/>
                     <include name="eValueTerritoryChannelForORConfigCheck"/>
-
                     <include name="pas232_eValuePriorBiConfigurationDependency"/>
                     <include name="pas3693_eValueConfiguration1"/>
                     <include name="pas3693_eValueConfiguration2"/>
@@ -131,11 +88,11 @@
                     <include name="pas233_eValueTerritoryChannelDependency"/>
                     <include name="pas12294_PriorCarrierWithLapsePriorCarrierNotRequired"/>
                     <include name="pas12294_PriorCarrierLessThanSixMonthsPriorCarrierNotRequired"/>
+                    <include name="pas358_documentGenerationDefaultToPreferredChannel"/>
                 </methods>
             </class>
         </classes>
     </test>
-
     <test name="TestEValueDiscountDC" parallel="methods" thread-count="1024">
         <parameter name="state" value="DC"/>
         <classes>
@@ -155,11 +112,11 @@
                     <include name="eValueConfigCheck"/>
                     <include name="pas305_eValueNotApplicableForState"/>
                     <include name="pas3708_eValueStatusConsViewNotConfigured"/>
+                    <include name="pas12972_defaultConfigPA"/>
                 </methods>
             </class>
         </classes>
     </test>
-
     <test name="TestPaperlessPreferencesMD" parallel="methods" thread-count="1024">
         <parameter name="state" value="MD"/>
         <classes>
@@ -171,7 +128,6 @@
             </class>
         </classes>
     </test>
-
     <test name="TestPaperlessPreferencesVA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
@@ -183,7 +139,6 @@
             </class>
         </classes>
     </test>
-
     <test name="TestPaperlessPreferencesPA" parallel="methods" thread-count="1024">
         <parameter name="state" value="PA"/>
         <classes>
@@ -200,7 +155,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestTriggersAH35XX"/>
         </classes>
     </test>
-
     <test name="TestMessagingVerificationOR" parallel="methods" thread-count="1024">
         <parameter name="state" value="OR"/>
         <classes>
@@ -220,39 +174,28 @@
             </class>
         </classes>
     </test>
-    <test name="TestSeniorDiscount" parallel="methods" thread-count="1024">
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestSeniorDiscount"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestSeniorDiscount"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestSeniorDiscount"/>
-        </classes>
-    </test>
-    <test name="TestContactInformation" parallel="methods" thread-count="1024">
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestContactInformation"/>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestContactInformation"/>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestContactInformation"/>
-        </classes>
-    </test>
-    <test name="TestNonPremiumBearingEndorsementsCA" parallel="methods" thread-count="1024">
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing"/>
-            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing"/>
-        </classes>
-    </test>
-
-    <test name="TestRFI-AutoSS" parallel="methods" thread-count="1024">
+    <test name="TestPaymentPlanTable" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPaymentPlanTable">
+                <methods>
+                    <include name="pas13787_CheckPremiumInPaymentPlanTable"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestRFI-AutoSS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA, PA, NV, AZ"/>
+        <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
-            <methods>
-                <include name="pas349_rfiAuto"/>
-            </methods>
+                <methods>
+                    <include name="pas349_rfiAuto"/>
+                </methods>
             </class>
         </classes>
     </test>
     <test name="TestRFI-AutoSSNano" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ, IN, OH, OK, NV"/>
+        <parameter name="state" value="AZ, NV"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
                 <methods>
@@ -273,7 +216,7 @@
         </classes>
     </test>
     <test name="TestRFI-Ho3SS" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA"/>
+        <parameter name="state" value="VA, PA, NV, AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.home_ss.ho3.functional.TestServiceRFI"/>
         </classes>
@@ -288,63 +231,19 @@
         <parameter name="state" value="VA, PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestInstallmentFeesPopUpAndSavingsMsgMortgagee"/>
         </classes>
     </test>
-
-    <test name="GreenButtonServiceAZ" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
+    <test name="TestInstallmentFeesPopUpAndSavingsMsg-AutoCA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
-                <methods>
-                    <!--Commented out for PAS18.3 run-->
-                    <include name="miniServicesEndorsementDeleteDelayConfigCheck"/>
-<!--                    <include name="pas6560_endorsementValidateAllowed"/>
-                    <include name="pas6560_endorsementValidateAllowedPendedEndorsementUser"/>
-                    <include name="pas6560_endorsementValidateAllowedNoEffectiveDate"/>
-                    <include name="pas6562_endorsementValidateNotAllowedFutureDatedEndorsement"/>
-                    <include name="pas6562_endorsementValidateNotAllowedNano"/>
-                    <include name="pas6562_endorsementValidateNotAllowedOutOfBound"/>
-                    <include name="pas6562_endorsementValidateNotAllowedPendedEndorsementSystem"/>
-                    <include name="pas6562_endorsementValidateNotAllowedUBI"/>-->
-                    <include name="pas7332_deletePendingAgentEndorsementStartNewEndorsementThroughService"/>
-                    <include name="pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService"/>
-                    <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
-<!--                    <include name="pas8273_NanoPolicyShouldNotReturnVehicleInfo"/>
-                    <include name="pas7082_AddVehicle"/>-->
-                    <include name="pas8275_vinValidate"/>
-                    <include name="pas8784_endorsementValidateStateSpecificConfigVersioning"/>
-                    <include name="pas9337_StartEndorsementInfoServerResponseForCancelPolicy"/>
-<!--                    <include name="pas9337_StartEndorsementInfoServerResponseForFuturePolicy"/>
-                    <include name="pas9337_StartEndorsementInfoServerResponseForExpiredPolicy"/>-->
-                    <include name="pas9456_9455_PolicyLockUnlockServices"/>
-                    <include name="pas9997_paymentMethodsLookup"/>
-                    <include name="pas9997_paymentPlansLookup"/>
-                </methods>
-            </class>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
         </classes>
     </test>
-    <test name="GreenButtonServiceUT" parallel="methods" thread-count="1024">
-        <parameter name="state" value="UT"/>
+    <test name="TestInstallmentFeesPopUpAndSavingsMsg-Ho3CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
-                <methods>
-                    <include name="pas8784_endorsementValidateNoDelayAllowedAgent"/>
-                    <!--<include name="pas8784_endorsementValidateNoDelayNotAllowedSystem"/>-->
-                    <include name="pas8784_endorsementValidateNotAllowedCustomer"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="TestNonPremiumBearingEndorsementsSS" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA, WV, WY"/>
-        <!--commented out for PAS18.3 runs-->
-        <!--<parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>-->
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
-                <methods>
-                    <include name="pas1441_emailChangeOutOfPas"/>
-                </methods>
-            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
         </classes>
     </test>
     <test name="DiscountPercentageRetrievalCA_HO" parallel="methods" thread-count="1024">
@@ -354,6 +253,128 @@
             <class name="aaa.modules.regression.service.home_ca.ho4.functional.TestRatingServices"/>
             <class name="aaa.modules.regression.service.home_ca.ho6.functional.TestRatingServices"/>
             <class name="aaa.modules.regression.service.home_ca.dp3.functional.TestRatingServices"/>
+        </classes>
+    </test>
+    <!--Commented out to see how the tests will run in DXP suite-->
+    <!--    <test name="DXP E2E" parallel="methods" thread-count="1024">
+            <parameter name="state" value="VA"/>
+            <classes>
+                <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                    <methods>
+                        <include name="pas12866_e2e"/>
+                    </methods>
+                </class>
+            </classes>
+        </test>
+
+        <test name="DXP E2E BCT" parallel="methods" thread-count="1024">
+            <parameter name="state" value="AZ, KY"/>
+            <classes>
+                <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                    <methods>
+                        <include name="pas12866_e2eBct"/>
+                    </methods>
+                </class>
+            </classes>
+        </test>-->
+    <test name="pas283_paperlessPreferencesForAllStatesProducts SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferencesAllProducts">
+                <methods>
+                    <include name="pas283_paperlessPreferencesForAllStatesProducts"/>
+                    <include name="pas12458_documentDeliverySectionDuringEndorsement"/>
+                    <include name="pas12458_documentDeliverySectionDataGatherMode"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPaperlessPreferencesAllProducts">
+                <methods>
+                    <include name="pas283_paperlessPreferencesForAllStatesProducts"/>
+                    <include name="pas12458_documentDeliverySectionDuringEndorsement"/>
+                    <include name="pas12458_documentDeliverySectionDataGatherMode"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.pup.functional.TestPaperlessPreferencesAllProducts">
+                <methods>
+                    <include name="pas283_paperlessPreferencesForAllStatesProducts"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas283_paperlessPreferencesForAllStatesProducts CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestPaperlessPreferencesAllProducts">
+                <methods>
+                    <include name="pas283_paperlessPreferencesForAllStatesProducts"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestPaperlessPreferencesAllProducts">
+                <methods>
+                    <include name="pas283_paperlessPreferencesForAllStatesProducts"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas240_installmentFeesService CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestInstallmentFees">
+                <methods>
+                    <include name="pas240_installmentFeesService"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestInstallmentFees">
+                <methods>
+                    <include name="pas240_installmentFeesService"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.service.home_ca.ho3.functional.TestInstallmentFees">
+                <methods>
+                    <include name="pas240_installmentFeesService"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.service.pup.functional.TestInstallmentFees">
+                <methods>
+                    <include name="pas240_installmentFeesService"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas240_installmentFeesService VA PA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA, PA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestInstallmentFees">
+                <methods>
+                    <include name="pas240_installmentFeesService"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.service.home_ss.ho3.functional.TestInstallmentFees">
+                <methods>
+                    <include name="pas240_installmentFeesService"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.service.pup.functional.TestInstallmentFees">
+                <methods>
+                    <include name="pas240_installmentFeesService"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="pas14156_DecPagePlcyVehInfo" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.functional.TestDecPlcyVehInfo">
+                <methods>
+                    <include name="pas14156_DecPagePlcyVehInfo"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.functional.TestDecPlcyVehInfo">
+                <methods>
+                    <include name="pas14156_DecPagePlcyVehInfo"/>
+                </methods>
+            </class>
         </classes>
     </test>
 </suite>

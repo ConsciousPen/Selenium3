@@ -50,6 +50,8 @@ public class RefundProcessHelper extends PolicyBilling {
 
 	private static final String REFUND_GENERATION_FOLDER = "DSB_E_PASSYS_DSBCTRL_7025_D/outbound/";
 	private static final String REFUND_GENERATION_FOLDER_PATH = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + REFUND_GENERATION_FOLDER;
+	private static final String REFUND_VOID_GENERATION_FOLDER = "DSB_E_PASSYS_DSBCTRL_7026_D/outbound/";
+	private static final String REFUND_VOID_GENERATION_FOLDER_PATH = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + REFUND_VOID_GENERATION_FOLDER;
 	private static final String LOCAL_FOLDER_PATH = "src/test/resources/stubs/";
 	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
 	private AdvancedAllocationsActionTab advancedAllocationsActionTab = new AdvancedAllocationsActionTab();
@@ -214,6 +216,47 @@ public class RefundProcessHelper extends PolicyBilling {
 		}
 	}
 
+	@SuppressWarnings("Unchecked")
+	public void refundVoidRecordInFileCheck(String policyNumber, String transactionID, String productType, String companyId, String refundAmount)
+			throws IOException {
+		//TODO waitForFilesAppearance doesn't work in VDMs
+		if (!StringUtils.isEmpty(PropertyProvider.getProperty("scrum.envs.ssh")) && !"true".equals(PropertyProvider.getProperty("scrum.envs.ssh"))) {
+			//TODO doesn't work in VDMs
+			RemoteHelper.waitForFilesAppearance(REFUND_VOID_GENERATION_FOLDER_PATH, 10, policyNumber, transactionID);
+			String neededFilePath = RemoteHelper.waitForFilesAppearance(REFUND_VOID_GENERATION_FOLDER_PATH, "csv", 10, policyNumber).get(0);
+			String fileName = neededFilePath.replace(REFUND_VOID_GENERATION_FOLDER_PATH, "");
+
+			RemoteHelper.downloadFile(neededFilePath, LOCAL_FOLDER_PATH + fileName);
+
+			List<DisbursementEngineHelper.DisbursementVoidFile> listOfRecordsInFile = DisbursementEngineHelper.readDisbursementVoidFile(LOCAL_FOLDER_PATH + fileName);
+
+			DisbursementEngineHelper.DisbursementVoidFile neededLine = null;
+			for (DisbursementEngineHelper.DisbursementVoidFile s : listOfRecordsInFile) {
+				if (s.getAgreementNumber().equals(policyNumber)) {
+					neededLine = s;
+				}
+			}
+			CustomAssert.assertEquals(neededLine.getRecordType(), "D");
+			CustomAssert.assertEquals(neededLine.getRequestReferenceId(), transactionID + "VOID");
+			CustomAssert.assertEquals(neededLine.getPcReferenceId(), transactionID);
+			CustomAssert.assertEquals(neededLine.getRefundType(), "VOID");
+			CustomAssert.assertEquals(neededLine.getIssueDate(), TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MMddyyyy")));
+			CustomAssert.assertEquals(neededLine.getRefundDate(), TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MMddyyyy")));
+			CustomAssert.assertEquals(neededLine.getAgreementNumber(), policyNumber);
+			CustomAssert.assertEquals(neededLine.getAgreementSourceSystem(), "PAS");
+			CustomAssert.assertEquals(neededLine.getProductType(), productType);
+			CustomAssert.assertEquals(neededLine.getCompanyId(), companyId);
+			CustomAssert.assertEquals(neededLine.getDummy(), "");
+			CustomAssert.assertEquals(neededLine.getRefundAmount(), new Dollar(refundAmount).toPlaingString());
+			CustomAssert.assertEquals(neededLine.getRefundReason(), "Overpayment");
+		} else {
+			//to make sure Automated refund is generated also on SCRUM team envs
+			mainApp().open();
+			SearchPage.openBilling(policyNumber);
+			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(TYPE).controls.links.get("Refund").click();
+		}
+	}
+
 	/**
 	 * @author Oleg Stasyuk
 	 * @name pending manual refund processing
@@ -229,7 +272,6 @@ public class RefundProcessHelper extends PolicyBilling {
 	 * @details
 	 */
 	public void pas7298_pendingManualRefunds(String pendingRefundAmount, String approvedRefundAmount, String paymentMethod) {
-
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), new Dollar(pendingRefundAmount));
 
@@ -260,7 +302,6 @@ public class RefundProcessHelper extends PolicyBilling {
 	 * @details
 	 */
 	public void pas7298_pendingAutomatedRefunds(String policyNumber, String approvedRefundAmount, String pendingRefundAmount, String paymentMethod, TimePoints getTimePoints) {
-
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		Dollar totalDue1 = BillingSummaryPage.getTotalDue();
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue1.add(new Dollar(approvedRefundAmount)));
@@ -295,7 +336,7 @@ public class RefundProcessHelper extends PolicyBilling {
 		acceptPaymentActionTab.back();
 	}
 
-	private void approvedRefundVoid() {
+	public void approvedRefundVoid() {
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(ACTION).controls.links.get("Void").click();
 		Page.dialogConfirmation.confirm();
 	}
@@ -383,7 +424,6 @@ public class RefundProcessHelper extends PolicyBilling {
 	 * *@details
 	 */
 	public void manualRefundAmountMessageVerify(String amount, String paymentMethodMessage) {
-
 		billingAccount.refund().start();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).setValue(paymentMethodMessage);
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).setValue(new Dollar(amount).add(0.01).toString());
@@ -680,8 +720,6 @@ public class RefundProcessHelper extends PolicyBilling {
 		assertThat(AddPaymentMethodsMultiAssetList.buttonAddUpdatePaymentMethod).isPresent(false);
 		//PAS-1462 end
 	}
-
-
 
 	public Map<String, String> getRefundMap(String refundDate, String type, String subtypeReason, Dollar amount, String status) {
 		return ImmutableMap.of(TRANSACTION_DATE, refundDate,

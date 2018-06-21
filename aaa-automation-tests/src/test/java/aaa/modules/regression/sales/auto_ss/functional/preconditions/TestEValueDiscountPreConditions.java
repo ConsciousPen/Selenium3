@@ -6,7 +6,7 @@ public interface TestEValueDiscountPreConditions {
 			"select dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id from LOOKUPVALUE\n"
 					+ " where lookuplist_id = \n"
 					+ " (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup')\n"
-					+ " and CODE = 'eMember'\n"
+					+ " and CODE = 'eValue'\n"
 					+ " and RISKSTATECD = '%s'";
 
 	String PAPERLESS_PREFERENCES_CONFIGURATION_PER_STATE_CHECK =
@@ -30,7 +30,7 @@ public interface TestEValueDiscountPreConditions {
 			+ " SELECT ID \n"
 			+ " FROM LOOKUPLIST \n"
 			+ " WHERE LOOKUPNAME LIKE '%Rollout%') \n"
-			+ " AND CODE='eMember' \n"
+			+ " AND CODE='eValue' \n"
 			+ " and RiskStateCd = 'OR')";
 
 	String EVALUE_CHANNEL_FOR_VA_CONFIG_CHECK = "select ChannelCd from(\n"
@@ -40,7 +40,7 @@ public interface TestEValueDiscountPreConditions {
 			+ " SELECT ID \n"
 			+ " FROM LOOKUPLIST \n"
 			+ " WHERE LOOKUPNAME LIKE '%Rollout%') \n"
-			+ " AND CODE='eMember' \n"
+			+ " AND CODE='eValue' \n"
 			+ " and RiskStateCd = 'OR')";
 
 	String EVALUE_CURRENT_BI_CONFIG_CHECK = "select effective from (\n"
@@ -48,7 +48,7 @@ public interface TestEValueDiscountPreConditions {
 			+ "FROM LOOKUPVALUE WHERE LOOKUPLIST_ID IN \n"
 			+ " (SELECT ID \n"
 			+ " FROM LOOKUPLIST \n"
-			+ " WHERE LOOKUPNAME='AAAeMemberQualifications')\n"
+			+ " WHERE LOOKUPNAME='AAAeValueQualifications')\n"
 			+ "and riskstatecd = 'VA'\n"
 			+ "and productCD = 'AAA_SS'\n"
 			+ "and code = 'currentBILimits'\n"
@@ -59,7 +59,7 @@ public interface TestEValueDiscountPreConditions {
 			+ "FROM LOOKUPVALUE WHERE LOOKUPLIST_ID IN \n"
 			+ " (SELECT ID \n"
 			+ " FROM LOOKUPLIST \n"
-			+ " WHERE LOOKUPNAME='AAAeMemberQualifications')\n"
+			+ " WHERE LOOKUPNAME='AAAeValueQualifications')\n"
 			+ "and riskstatecd = 'OR'\n"
 			+ "and productCD = 'AAA_SS'\n"
 			+ "and code = 'priorBILimits'\n"
@@ -70,7 +70,7 @@ public interface TestEValueDiscountPreConditions {
 			+ "FROM LOOKUPVALUE WHERE LOOKUPLIST_ID IN \n"
 			+ " (SELECT ID \n"
 			+ " FROM LOOKUPLIST \n"
-			+ " WHERE LOOKUPNAME='AAAeMemberQualifications')\n"
+			+ " WHERE LOOKUPNAME='AAAeValueQualifications')\n"
 			+ "and riskstatecd = 'OR'\n"
 			+ "and productCD = 'AAA_SS'\n"
 			+ "and code = 'membershipEligibility'\n"

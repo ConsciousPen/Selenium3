@@ -1,4 +1,4 @@
-# ====================== TestData VA, DE, AZ =======================
+# ====================== TestData VA, DE, AZ, MD, PA =======================
 TestData: {
   InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab',
   GeneralTab: '@GeneralTab'
@@ -8,7 +8,6 @@ TestData: {
 TestData_NJ: {
   InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab',
   GeneralTab: '@GeneralTab_NJ',
-  ReportsTab: '@ReportsTab'
 }
 
 GeneralTab_NJ: {
@@ -21,12 +20,6 @@ GeneralTab: {
 
 InitiateRenewalEntryActionTab: {
   Renewal Policy Premium: 1500
-}
-
-# --------- View Capping Details----------
-TD_ViewCappingDetails: {
-  Ceiling Cap: 15,
-  Floor Cap: -15
 }
 
 TestData_OverideCappingDetails: {

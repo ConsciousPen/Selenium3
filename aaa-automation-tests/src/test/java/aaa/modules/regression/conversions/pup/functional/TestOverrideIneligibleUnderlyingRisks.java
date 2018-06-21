@@ -7,22 +7,21 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
-import aaa.main.enums.ProductConstants;
-import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
-import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
-import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.conversions.ConvPUPBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
+@StateList(states = {Constants.States.MD, Constants.States.PA, Constants.States.DE, Constants.States.NJ, Constants.States.VA})
 public class TestOverrideIneligibleUnderlyingRisks extends ConvPUPBaseTest {
 
 	private ErrorTab errorTab = policy.getDefaultView().getTab(ErrorTab.class);

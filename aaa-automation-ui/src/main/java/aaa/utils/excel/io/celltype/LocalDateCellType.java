@@ -12,7 +12,7 @@ import aaa.utils.excel.io.entity.area.ExcelCell;
 public class LocalDateCellType extends DateCellType<LocalDate> {
 
 	public LocalDateCellType(Class<LocalDate> endType, DateTimeFormatter... dateTimeFormatters) {
-		super(endType);
+		super(endType, dateTimeFormatters);
 		if (ArrayUtils.isEmpty(dateTimeFormatters)) {
 			List<DateTimeFormatter> defaultFormatters = new ArrayList<>();
 			defaultFormatters.add(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
@@ -28,7 +28,7 @@ public class LocalDateCellType extends DateCellType<LocalDate> {
 	}
 
 	@Override
-	protected LocalDate getDate(ExcelCell cell) {
+	protected LocalDate getRawValueFrom(ExcelCell cell) {
 		return cell.getPoiCell().getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 	}
 

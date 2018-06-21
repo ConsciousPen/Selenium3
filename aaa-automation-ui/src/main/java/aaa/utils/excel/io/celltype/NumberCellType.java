@@ -12,15 +12,8 @@ public abstract class NumberCellType<T extends Number> extends AbstractCellType<
 	}
 
 	@Override
-	public T getValueFrom(ExcelCell cell) {
-		assertThat(isTypeOf(cell)).as("Unable to get value with \"%1$s\" type from %2$s", getEndType(), cell).isTrue();
-		if (cell.getPoiCell() == null) {
-			return null;
-		}
-		if (hasValueInTextFormat(cell)) {
-			return parseText(getText(cell));
-		}
-		return parseDouble(cell.getPoiCell().getNumericCellValue());
+	public T getRawValueFrom(ExcelCell cell) {
+		return hasValueInTextFormat(cell) ? parseText(getText(cell)) : parseDouble(cell.getPoiCell().getNumericCellValue());
 	}
 
 	@Override
