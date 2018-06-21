@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.mock.model.UpdatableMock;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.utils.excel.bind.ExcelMarshaller;
@@ -16,6 +17,8 @@ import toolkit.config.TestProperties;
 public class ApplicationMocksManager {
 	protected static final Logger log = LoggerFactory.getLogger(ApplicationMocksManager.class);
 
+	private static final String EIS_USER = PropertyProvider.getProperty(CustomTestProperties.APP_ADMIN_USER);
+	private static final String APP_AUTH_KEYPATH = PropertyProvider.getProperty(CustomTestProperties.APP_AUTH_KEYPATH);
 	private static final String ENV_NAME = PropertyProvider.getProperty(TestProperties.APP_HOST).split("\\.")[0];
 	private static final String TEMP_MOCKS_FOLDER = "src/test/resources/mock";
 	//TODO-dchubkov: move to property
@@ -44,13 +47,12 @@ public class ApplicationMocksManager {
 		}
 
 		if (!updatedMocks.isEmpty()) {
-			RemoteHelper.clearFolder(TEMP_MOCKS_FOLDER);
-			
+			RemoteHelper.get().clearFolder(TEMP_MOCKS_FOLDER);
 			ExcelMarshaller excelMarshaller = new ExcelMarshaller();
 			for (Map.Entry<MockType, UpdatableMock> mock : updatedMocks.entrySet()) {
 				File updatedMock = new File(TEMP_MOCKS_FOLDER, mock.getKey().getFileName());
 				excelMarshaller.marshal(mock.getValue(), updatedMock);
-				RemoteHelper.uploadFile(updatedMock.getAbsolutePath(), APP_MOCKS_FOLDER);
+				RemoteHelper.get().uploadFile(updatedMock.getAbsolutePath(), APP_MOCKS_FOLDER);
 				if (!updatedMock.delete()) {
 					log.error("Unable to delete mock file: %s", updatedMock);
 				}
@@ -61,22 +63,24 @@ public class ApplicationMocksManager {
 	
 	public static void restartStubServer() {
 		//TODO-dchubkov: restart on Windows
-		String eisUser = "UNKNOWN";
-		String eisPasword = "UNKNOWN";
 		String command = "/opt/IBM/WebSphere/AppServer/profiles/AppSrv01/bin/wsadmin.sh -lang jacl -user admin -password admin -c \"\\$AdminControl %1$s cluster_external_stub_server %2$sNode01\"";
-		
 		//TimeSetterUtil.getInstance().adjustTime(); // set date to today
-		
-		//TODO-dchubkov: add executeCommandAsUser by timeout
-		RemoteHelper.executeCommandAsUser(String.format(command, "stopServer", ENV_NAME), eisUser, eisPasword);
-		RemoteHelper.executeCommandAsUser(String.format(command, "startServer", ENV_NAME), eisUser, eisPasword);
+		RemoteHelper ssh = RemoteHelper.with().user(EIS_USER).privateKey(APP_AUTH_KEYPATH).execTimeoutInSeconds(700).failIfExecTimeoutExceeded(true).get();
+
+		log.info("Stopping stub server...");
+		ssh.executeCommand(String.format(command, "stopServer", ENV_NAME));
+		log.info("Stub server has been stopped");
+
+		log.info("Starting stub server...it may take up to 10 minutes");
+		ssh.executeCommand(String.format(command, "startServer", ENV_NAME));
+		log.info("Stub server has been started");
 	}
 	
 	private static <M> M getMockDataObject(String fileName, Class<M> mockDataClass) {
 		String mockSourcePath = APP_MOCKS_FOLDER + "/" + fileName;
 		String mockTempDestinationPath = TEMP_MOCKS_FOLDER + "/" + RandomStringUtils.randomNumeric(10) + "_" + fileName;
 
-		RemoteHelper.downloadFile(mockSourcePath, mockTempDestinationPath);
+		RemoteHelper.get().downloadFile(mockSourcePath, mockTempDestinationPath);
 		File mockTempFile = new File(mockTempDestinationPath);
 		M mockObject;
 		try (ExcelUnmarshaller excelUnmarshaller = new ExcelUnmarshaller(mockTempFile)) {

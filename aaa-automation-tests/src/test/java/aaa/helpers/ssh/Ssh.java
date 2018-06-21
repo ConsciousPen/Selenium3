@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
+import java.util.concurrent.TimeUnit;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,41 +12,53 @@ import com.jcraft.jsch.*;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
 
-@SuppressWarnings("unchecked")
 public class Ssh {
 
 	private static Logger log = LoggerFactory.getLogger(Ssh.class);
 	private static ArrayList<Session> sessionPool = new ArrayList<>();
 	private static ArrayList<ChannelSftp> sftpChannelPool = new ArrayList<>();
-	// private static Ssh instance;
 	private Session session;
-	private JSch jsch = new JSch();
+	private JSch jsch;
 	private ChannelSftp sftpChannel;
 	private ChannelExec execChannel;
+
 	private String host;
+	private int port;
 	private String user;
 	private String password;
+	private String privateKeyPath;
+	private int execTimeoutInSeconds;
+	private int execRetryIntervalInMilliseconds;
+	private boolean failIfExecTimeoutExceeded;
 
-	public Ssh(String hostName, String user, String password) {
-		this.host = hostName;
-		this.user = user;
-		this.password = password;
+	public Ssh(String host, String user, String password) {
+		this(new ConnectionParams().host(host).user(user, password));
+	}
+
+	Ssh(ConnectionParams cp) {
+		this.host = cp.getHost();
+		this.port = cp.getPort();
+		this.user = cp.getUser();
+		this.password = cp.getPassword();
+		this.privateKeyPath = cp.getPrivateKeyPath();
+		this.execTimeoutInSeconds = cp.getExecTimeoutInSeconds();
+		this.execRetryIntervalInMilliseconds = cp.getExecRetryIntervalInMilliseconds();
+		this.failIfExecTimeoutExceeded = cp.isFailIfExecTimeoutExceeded();
 
 		try {
+			this.jsch = new JSch();
+			if (privateKeyPath != null) {
+				this.jsch.addIdentity(privateKeyPath);
+			}
+
 			createSession();
 			openSftpChannel();
 			sessionPool.add(session);
 			sftpChannelPool.add(sftpChannel);
-		} catch (RuntimeException e) {
+		} catch (JSchException e) {
 			throw new IstfException("SSH: Unable to establish ssh connection", e);
 		}
 	}
-
-	/*
-	 * public static Ssh getInstance(String hostName, String user, String
-	 * password) { if (instance == null) { instance = new Ssh(hostName, user,
-	 * password); } return instance; }
-	 */
 
 	public synchronized ChannelSftp getSftpChannel() {
 		openSftpChannel();
@@ -62,10 +75,9 @@ public class Ssh {
 				}
 			}
 			for (Session session : sessionPool) {
-				log.debug("{} session is closed", session.getHost());
 				if (session != null) {
 					session.disconnect();
-					session = null;
+					log.debug("SSH: {} session is closed", session.getHost());
 				}
 			}
 		} catch (RuntimeException e) {
@@ -73,6 +85,7 @@ public class Ssh {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public synchronized ArrayList<String> getListOfFiles(String folderName) {
 		ArrayList<String> listOfFiles = new ArrayList<>();
 
@@ -100,13 +113,14 @@ public class Ssh {
 			openSftpChannel();
 			destinationFile.getAbsoluteFile().getParentFile().mkdir();
 			sftpChannel.get(source, destinationFile.getAbsolutePath());
-			
-			log.info("SSH: File '{}' was downloaded to '{}'.", source, destinationFile.getAbsolutePath());
+
+			log.info("SSH: File \"{}\" was downloaded to \"{}\".", source, destinationFile.getAbsolutePath());
 		} catch (SftpException | RuntimeException e) {
 			throw new IstfException("SSH: Unable to download file '" + source + "': " + e.getMessage(), e);
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public synchronized void removeFiles(String source) {
 
 		source = parseFileName(source);
@@ -117,10 +131,10 @@ public class Ssh {
 			//sftpChannel.cd("/"); //replaced with closing session above
 			sftpChannel.cd(source);
 			Vector<ChannelSftp.LsEntry> list = sftpChannel.ls("*");
-			
+
 			if (list.isEmpty()) {
 				//closeSession();
-				log.info("SSH: No files to delete in '{}'.", source);
+				log.info("SSH: No files to delete in \"{}\".", source);
 				return;
 			}
 			for (ChannelSftp.LsEntry file : list) {
@@ -128,12 +142,13 @@ public class Ssh {
 					sftpChannel.rm(file.getFilename());
 				}
 			}
-			log.info("SSH: Files were removed from the folder '{}'.", source);
+			log.info("SSH: Files were removed from the folder \"{}\".", source);
 		} catch (SftpException | RuntimeException e) {
 			throw new IstfException("SSH: Error deleting files from folder '" + source + "'", e);
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public synchronized File downloadBatchFile(String source, File destination) {
 
 		source = parseFileName(source);
@@ -152,8 +167,8 @@ public class Ssh {
 				response = new File(destination.getAbsolutePath() + "/" + newName);
 				request.renameTo(response);
 			}
-			
-			log.info("SSH: File '{}' was downloaded to '{}'.", source, destination.getAbsolutePath());
+
+			log.info("SSH: File \"{}\" was downloaded to \"{}\".", source, destination.getAbsolutePath());
 			return response;
 		} catch (SftpException | RuntimeException e) {
 			throw new IstfException("SSH: Unable to download file: ", e);
@@ -162,8 +177,7 @@ public class Ssh {
 
 	public synchronized void putFile(String source, String destination) {
 		destination = parseFileName(destination);
-		InputStream fis = null;
-		try {
+		try (InputStream fis = new BufferedInputStream(new FileInputStream(new File(source)))) {
 			openSftpChannel();
 			String[] folders = destination.split("/");
 			folders = Arrays.copyOf(folders, folders.length - 1);
@@ -178,18 +192,10 @@ public class Ssh {
 					}
 				}
 			}
-			fis = new BufferedInputStream(new FileInputStream(new File(source)));
 			sftpChannel.put(fis, destination, ChannelSftp.OVERWRITE);
-			log.info("SSH: File '{}' was put to '{}'.", source, destination);
-		} catch (SftpException | FileNotFoundException | RuntimeException e) {
+			log.info("SSH: File \"{}\" was put to \"{}\".", source, destination);
+		} catch (SftpException | IOException | RuntimeException e) {
 			throw new IstfException("SSH: Unable to put file: ", e);
-		} finally {
-			if (fis != null) {
-				try {
-					fis.close();
-				} catch (IOException ignored) {
-				}
-			}
 		}
 	}
 
@@ -198,36 +204,34 @@ public class Ssh {
 		try {
 			openSftpChannel();
 			sftpChannel.rename(oldPath, newPath);
-			log.info("SSH: File '{}' was rename to '{}'.", oldPath, newPath);
+			log.info("SSH: File \"{}\" was rename to \"{}\".", oldPath, newPath);
 		} catch (SftpException | RuntimeException e) {
 			throw new IstfException("SSH: Unable to rename file: ", e);
 		}
 	}
 
 	public synchronized String executeCommand(String command) {
-
 		StringBuilder output = new StringBuilder();
-		InputStream in = null;
-		int totalNumberOfIterations = 4200; // ~ 7 minutes (4200 * 100 / 60)
+		StringBuilder errorOutput = new StringBuilder();
 
 		try {
-			try {
-				createSession();
-				execChannel = (ChannelExec) session.openChannel("exec");
-				execChannel.setCommand(command);
-				execChannel.setInputStream(null);
-				execChannel.setErrStream(System.err);
+			createSession();
+			execChannel = (ChannelExec) session.openChannel("exec");
+			execChannel.setCommand(command);
+			execChannel.setInputStream(null);
+			execChannel.setErrStream(System.err);
+			execChannel.connect();
+			log.info("SSH: Started EXEC Channel");
+		} catch (JSchException e) {
+			throw new IstfException("SSH: Unable to execute command: " + command + "\n", e);
+		}
 
-				in = execChannel.getInputStream();
-
-				execChannel.connect();
-				log.info("SSH: Started EXEC Channel");
-			} catch (JSchException e) {
-				throw new IstfException("Unable to execute command: " + command + "\n", e);
-			}
-
+		try (InputStream in = execChannel.getInputStream(); InputStream errStream = execChannel.getErrStream()) {
 			byte[] tmp = new byte[1024];
-			while (totalNumberOfIterations > 0) {
+			long startTime = System.currentTimeMillis();
+			long currentTime = startTime;
+			long endTime = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(this.execTimeoutInSeconds);
+			while (true) {
 				while (in.available() > 0) {
 					int i = in.read(tmp, 0, 1024);
 					if (i < 0) {
@@ -236,36 +240,51 @@ public class Ssh {
 					output.append(new String(tmp, 0, i));
 				}
 
+				while (errStream.available() > 0) {
+					int i = errStream.read(tmp, 0, 1024);
+					if (i < 0) {
+						break;
+					}
+					errorOutput.append(new String(tmp, 0, i));
+				}
+
 				if (execChannel.isClosed()) {
-					// System.out.println("exit-status: "+channel.getExitStatus());
+					long execDuration = System.currentTimeMillis() - startTime;
+					log.info("SSH: Command execution has been finished after {}",
+							execDuration > 1000 ? TimeUnit.MILLISECONDS.toSeconds(execDuration) + " seconds" : execDuration + " milliseconds");
+					break;
+				}
+
+				if (currentTime > endTime) {
+					String message = String.format("SSH: Command execution time has exeeded! Timed out after: %s seconds!", TimeUnit.MILLISECONDS.toSeconds(currentTime - startTime));
+					if (this.failIfExecTimeoutExceeded) {
+						throw new IstfException(message);
+					}
+					log.error(message);
 					break;
 				}
 
 				try {
-					Thread.sleep(100);
+					TimeUnit.MILLISECONDS.sleep(this.execRetryIntervalInMilliseconds);
+					currentTime = System.currentTimeMillis();
 				} catch (InterruptedException | RuntimeException e) {
 					throw new IstfException("SSH: Exception in Thread.sleep", e);
 				}
-				totalNumberOfIterations--;
 			}
 
-			if (totalNumberOfIterations == 0) {
-				throw new IstfException("Exec Command Time exeeded! Timed out after : 7 minutes!");
+			if (execChannel.getExitStatus() != 0) {
+				String error = errorOutput.toString();
+				log.error("Command returned exit code {}{}", execChannel.getExitStatus(), error.isEmpty() ? "" : " with error message:\n" + error);
 			}
 
-		} catch (IOException ex2) {
-			throw new IstfException(ex2.getMessage());
+		} catch (IOException e) {
+			throw new IstfException("SSH: Unable to execute command: " + command + "\n", e);
 		} finally {
-			if (in != null) {
-				try {
-					in.close();
-				} catch (IOException ignored) {
-				}
-			}
-			if (!execChannel.isClosed()) {
+			if (execChannel != null && !execChannel.isClosed()) {
 				execChannel.disconnect();
 			}
 		}
+
 		return output.toString();
 	}
 
@@ -282,19 +301,16 @@ public class Ssh {
 	}
 
 	public synchronized void removeFile(String pathToSourceFile) {
-
 		try {
 			openSftpChannel();
 			sftpChannel.rm(pathToSourceFile);
-			log.info("SSH: File was deleted'{}", pathToSourceFile);
-			
+			log.info("SSH: File was deleted \"{}\"", pathToSourceFile);
 		} catch (SftpException | RuntimeException e) {
 			throw new IstfException("SSH: Unable to remove files: ", e);
 		}
 	}
 
 	public synchronized void closeSession() {
-
 		try {
 			if (sftpChannel != null) {
 				sftpChannel.disconnect();
@@ -327,7 +343,7 @@ public class Ssh {
 				sftpChannel.connect();
 				log.info("SSH: Started SFTP Channel");
 			} catch (JSchException e) {
-				throw new IstfException("Unable to open SFTP channel: ", e);
+				throw new IstfException("SSH: Unable to open SFTP channel: ", e);
 			}
 		}
 	}
@@ -335,16 +351,17 @@ public class Ssh {
 	private synchronized void createSession() {
 		if (session == null || !session.isConnected()) {
 			try {
-				session = jsch.getSession(user, host, 22);
+				session = jsch.getSession(user, host, port);
 
 				session.setPassword(password);
 				session.setConfig("StrictHostKeyChecking", "no");
 				session.setConfig("PreferredAuthentications", "publickey,keyboard-interactive,password");
+				//todo remove redundant condition
 				if (Boolean.parseBoolean(PropertyProvider.getProperty("scrum.envs.ssh", "false"))) {
 					session.setConfig("PreferredAuthentications", "publickey,keyboard-interactive,password");
 				}
 				session.connect();
-				log.info("SSH: Started SSH Session for {} host", session.getHost());
+				log.info("SSH: Started SSH Session for \"{}\" host and user \"{}\"", session.getHost(), session.getUserName());
 			} catch (JSchException e) {
 				throw new IstfException("Unable to start SSH session: ", e);
 			}

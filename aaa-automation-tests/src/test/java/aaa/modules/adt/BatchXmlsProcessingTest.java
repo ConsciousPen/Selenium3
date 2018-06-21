@@ -42,13 +42,12 @@ public class BatchXmlsProcessingTest {
 		createTempFolder(LOCAL_DOCGEN_FOLDER);
 		createTempFolder(LOCAL_TXT_FOLDER);
 		
-		RemoteHelper.clearFolder(REMOTE_DOCGEN_FOLDER);
+		RemoteHelper.get().clearFolder(REMOTE_DOCGEN_FOLDER);
 		
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);	
 		
-		RemoteHelper.downloadBatchFiles(REMOTE_DOCGEN_FOLDER, new File(LOCAL_DOCGEN_FOLDER)); 
-		RemoteHelper.closeSession();
-		
+		RemoteHelper.get().downloadBatchFiles(REMOTE_DOCGEN_FOLDER, new File(LOCAL_DOCGEN_FOLDER)).closeSession();
+
 		//get policy numbers from xmls
 		createFileWithPolicyNumbers();
 		

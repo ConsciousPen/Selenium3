@@ -150,11 +150,11 @@ public class RefundProcessHelper extends PolicyBilling {
 			acceptPaymentActionTab.back();
 
 			//TODO doesn't work in VDMs
-			RemoteHelper.waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, 10, policyNumber, transactionID);
-			String neededFilePath = RemoteHelper.waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, "csv", 10, policyNumber).get(0);
+			RemoteHelper.get().waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, 10, policyNumber, transactionID);
+			String neededFilePath = RemoteHelper.get().waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, "csv", 10, policyNumber).get(0);
 			String fileName = neededFilePath.replace(REFUND_GENERATION_FOLDER_PATH, "");
 
-			RemoteHelper.downloadFile(neededFilePath, LOCAL_FOLDER_PATH + fileName);
+			RemoteHelper.get().downloadFile(neededFilePath, LOCAL_FOLDER_PATH + fileName);
 
 			List<DisbursementEngineHelper.DisbursementFile> listOfRecordsInFile = DisbursementEngineHelper.readDisbursementFile(LOCAL_FOLDER_PATH + fileName);
 			DisbursementEngineHelper.DisbursementFile neededLine = null;
@@ -221,11 +221,11 @@ public class RefundProcessHelper extends PolicyBilling {
 		//TODO waitForFilesAppearance doesn't work in VDMs
 		if (!StringUtils.isEmpty(PropertyProvider.getProperty("scrum.envs.ssh")) && !"true".equals(PropertyProvider.getProperty("scrum.envs.ssh"))) {
 			//TODO doesn't work in VDMs
-			RemoteHelper.waitForFilesAppearance(REFUND_VOID_GENERATION_FOLDER_PATH, 10, policyNumber, transactionID);
-			String neededFilePath = RemoteHelper.waitForFilesAppearance(REFUND_VOID_GENERATION_FOLDER_PATH, "csv", 10, policyNumber).get(0);
+			RemoteHelper.get().waitForFilesAppearance(REFUND_VOID_GENERATION_FOLDER_PATH, 10, policyNumber, transactionID);
+			String neededFilePath = RemoteHelper.get().waitForFilesAppearance(REFUND_VOID_GENERATION_FOLDER_PATH, "csv", 10, policyNumber).get(0);
 			String fileName = neededFilePath.replace(REFUND_VOID_GENERATION_FOLDER_PATH, "");
 
-			RemoteHelper.downloadFile(neededFilePath, LOCAL_FOLDER_PATH + fileName);
+			RemoteHelper.get().downloadFile(neededFilePath, LOCAL_FOLDER_PATH + fileName);
 
 			List<DisbursementEngineHelper.DisbursementVoidFile> listOfRecordsInFile = DisbursementEngineHelper.readDisbursementVoidFile(LOCAL_FOLDER_PATH + fileName);
 
