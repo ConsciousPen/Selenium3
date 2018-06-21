@@ -332,4 +332,14 @@
             </class>
         </classes>
     </test>
+    <test name="pas15325_UmpdNotExist">
+        <parameter name="state" value="AZ, CT, KS, KY, MT, NY, OK, PA, SD, WY, ID"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas15325_UmpdNotExist"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

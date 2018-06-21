@@ -1460,6 +1460,21 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		);
 	}
 
+	/**
+	 * @author mstrazds
+	 * @name Check UMPD doesn't exit
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ, Constants.States.CT, Constants.States.KS, Constants.States.KY, Constants.States.MT, Constants.States.NY,
+			Constants.States.OK, Constants.States.PA, Constants.States.SD, Constants.States.WY, Constants.States.ID })
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15325"})
+	public void pas15325_UmpdNotExist(@Optional("AZ") String state) {
+		assertSoftly(softly ->
+				pas15325_UmpdNotExistBody()
+		);
+	}
+
 	@Override
 	protected String getGeneralTab() {
 		return NavigationEnum.AutoSSTab.GENERAL.get();

@@ -6103,6 +6103,20 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		});
 	}
 
+	protected void pas15325_UmpdNotExistBody() {
+		mainApp().open();
+		//String policyNumber = getCopiedPolicy();
+		String policyNumber="AZSS952918959";
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		assertSoftly(softly -> {
+			PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber);
+			assertThat(policyCoverageResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.coverageCd)).findFirst().orElse(null)).isNull();
+
+			PolicyCoverageInfo coverageEndorsementResponse = HelperCommon.viewEndorsementCoverages(policyNumber);
+			assertThat(coverageEndorsementResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.coverageCd)).findFirst().orElse(null)).isNull();
+		});
+	}
+
 	protected void pas14646_UimDelimiter(String state, SoftAssertions softly) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
