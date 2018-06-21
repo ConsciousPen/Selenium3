@@ -51,11 +51,11 @@ public class UploadToVINTableTab extends DefaultTab {
 		while (timeout > System.currentTimeMillis()) {
 			try {
 				Thread.sleep(1000);
-				log.info("Wait for file upload, in miliseconds left: {}" , timeout-System.currentTimeMillis());
+				log.info("Wait for file upload, in miliseconds left: {}", timeout - System.currentTimeMillis());
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			assertThat(labelUploadSuccessful.getValue()).doesNotContain("Error");
+			assertThat(new StaticElement(By.xpath("//*[@id='uploadToVINTableForm']")).getValue()).doesNotContain("Error");
 		}
 	}
 }

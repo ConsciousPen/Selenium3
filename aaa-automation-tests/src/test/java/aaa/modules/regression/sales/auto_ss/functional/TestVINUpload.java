@@ -21,6 +21,7 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
+import aaa.main.enums.DefaultVinVersions;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.SearchEnum;
@@ -854,7 +855,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	@AfterClass(alwaysRun = true)
 	protected void resetDefault() {
 		List<String> listOfVinIds = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5, NEW_VIN6,NEW_VIN7,NEW_VIN8);
-		VinUploadCleanUpMethods.deleteVinsById(listOfVinIds);
+		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinIds,DefaultVinVersions.DefaultVersions.SignatureSeries);
 
 		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_SS);
 		DBService.get().executeUpdate(String.format(VehicleQueries.REPAIR_COLLCOMP,"7MSRP15H%V"));
