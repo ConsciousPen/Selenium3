@@ -900,6 +900,27 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 
 	/**
 	 * @author Megha Gubbala
+	 * Create a active policy in the pas
+	 * Create an endorsement.
+	 * Scenario 1
+	 * run update coverage service
+	 * set BI Coverage 50000/100000 and verify response and check BI limit updated PD available limit should be up to upper limit of BI.
+	 * Scenario 2
+	 * run update coverage service to set PD 3000000
+	 * Verify since PD can not exceed BI so PD limit should set to 100000
+	 * Update set BI Coverage 500000/500000 and verify response PD available limit should be up to upper limit of BI
+	 * PD limit should not change.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14648"})
+	public void pas14721_UpdateCoveragesBI_PD(@Optional("VA") String state) {
+
+		pas14721_UpdateCoveragesServiceBIPD(getPolicyType());
+	}
+
+	/**
+	 * @author Megha Gubbala
 	 * Create a active policy with 2018 and leased  vehicle
 	 * Create an endorsement.
 	 * run viewCoverageInfo service
@@ -941,6 +962,69 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	public void pas12769_ViewVehicleLevelCoveragesOneVehicle(@Optional("VA") String state) {
 
 		pas11741_ViewVehicleLevelCoverages(getPolicyType());
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Add new vehicle when you had Vehicle, without Transportation Expense before.
+	 * @scenario 1. Create policy with one vehicle,
+	 * without Transportation Expense. (
+	 * 2. Start endorsement outside of PAS.
+	 * 3. Add vehicle.
+	 * 4. Hit View Coverage service.
+	 * 5. Check coverages for new vehicle:
+	 * Transportation Expense, Comprehensive Coverage
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14536"})
+	public void pas14536_TransportationExpensePart1(@Optional("VA") String state) {
+		assertSoftly(softly ->
+			pas14536_TransportationExpensePart1Body(getPolicyType(), softly)
+		);
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Transportation Expense remains the limit I chose
+	 * @scenario 1. Create policy with one vehicle,
+	 * with Transportation Expense 1.200$
+	 * 2. Start endorsement outside of PAS.
+	 * 3. Add vehicle.
+	 * 4. Remove "COMPDED" coverage from my newly added vehicle.
+	 * 5. Hit View Coverage service.
+	 * 6. Check if Transportation Expense remains the limit I chose.
+	 * 7. Update: add "COMPDED" coverage again.
+	 * 8. Hit View Coverage service.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14536"})
+	public void pas14536_TransportationExpensePart2(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas14536_TransportationExpensePart2Body(getPolicyType(), softly)
+		);
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Transportation Expense is defaulted
+	 * @scenario 1. Create policy with one vehicle,
+	 * with Transportation Expense 600$
+	 * 2. Start endorsement outside of PAS.
+	 * 3. Add vehicle.
+	 * 4. Remove "COMPDED" coverage from my newly added vehicle.
+	 * 5. Hit View Coverage service.
+	 * 6. Update: add "COMPDED" coverage again.
+	 * 7. Hit View Coverage service.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14536"})
+	public void pas14536_TransportationExpensePart3(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas14536_TransportationExpensePart3Body(getPolicyType(), softly)
+		);
 	}
 
 	/**
