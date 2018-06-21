@@ -3,6 +3,7 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -48,9 +49,11 @@ public class TestMiniServicesBilling extends TestMiniServicesBillingAbstract {
 		createCustomerIndividual();
 		String policyNumber = createPolicy(policyTdAdjusted);
 
-		assertSoftly(softly ->
-				pas13663_CurrentBillServiceBody(softly, policyNumber)
-		);
+		SoftAssertions softly = new SoftAssertions();
+
+		pas13663_CurrentBillServiceBody(softly, policyNumber);
+
+		softly.assertAll();
 	}
 
 	/**
