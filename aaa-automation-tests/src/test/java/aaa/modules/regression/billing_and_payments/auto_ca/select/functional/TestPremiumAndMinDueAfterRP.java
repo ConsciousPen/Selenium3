@@ -21,9 +21,9 @@ import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
-import aaa.main.metadata.policy.HomeCaMetaData;
-import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
@@ -38,8 +38,8 @@ public class TestPremiumAndMinDueAfterRP extends AutoCaSelectBaseTest {
     private static String policyNumber;
     private static LocalDateTime policyExpirationDate;
     private static LocalDateTime renewImageGenDate;
-    private static PremiumsAndCoveragesQuoteTab
-            premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
+    private static PremiumAndCoveragesTab
+            premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 
     /**
      * @author Reda Kazlauskiene
@@ -77,7 +77,7 @@ public class TestPremiumAndMinDueAfterRP extends AutoCaSelectBaseTest {
      * @name Test CA Renewal Premium and Minimum Due to be accurately updated after an Return Premium endorsement
      * @scenario
      * 1. Create new Customer;
-     * 2. Create CA HOME Policy: Monthly or Annual payment plan
+     * 2. Create CA Auto Select Policy: Monthly or Annual payment plan
      * 3. Create Renewal proposal at R-35
      * 4. Create RP Endorsement for RENEWAL TERM by reducing coverages
      * 5. Navigate to Billing Account and review changes
@@ -143,13 +143,11 @@ public class TestPremiumAndMinDueAfterRP extends AutoCaSelectBaseTest {
     private void createRevisedRenewalProposal() {
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
-        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
-        NavigationPage.toViewSubTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-        premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE).setValueContains("$7,500");
-        premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E).setValueContains("$100,000");
-        premiumsAndCoveragesQuoteTab.calculatePremium();
-        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
-        new BindTab().submitTab();
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY).setValueContains("$10,000");
+        premiumAndCoveragesTab.calculatePremium();
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+        new DocumentsAndBindTab().submitTab();
     }
 
     private void createEndorsement() {
