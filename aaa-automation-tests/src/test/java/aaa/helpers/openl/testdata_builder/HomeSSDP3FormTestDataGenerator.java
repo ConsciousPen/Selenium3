@@ -33,13 +33,20 @@ public class HomeSSDP3FormTestDataGenerator {
 		List<TestData> tdList = new ArrayList<>();
 		for (HomeSSOpenLForm form : openLPolicy.getForms()) {
 			if ("DS0463".equals(form.getFormCode())) {
-				tdList.add(DataProviderFactory.dataOf(
-						"Action", "Add",
-						HomeSSMetaData.EndorsementTab.EndorsementDS0463.LOCATION_TYPE.getLabel(), "Residential".equals(form.getType()) ? "Described Location" : "Other Structure off Premises",
-						//						HomeSSMetaData.EndorsementTab.EndorsementDS0463.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().getZip(),
-						//						HomeSSMetaData.EndorsementTab.EndorsementDS0463.STREET_ADDRESS_1.getLabel(), "Street address 1",
-						//						HomeSSMetaData.EndorsementTab.EndorsementDS0463.DESCRIPTION_OF_STRUCTURE.getLabel(), "index=2",
-						HomeSSMetaData.EndorsementTab.EndorsementDS0463.COVERAGE_LIMIT.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]));
+				if ("Residential".equals(form.getType())) {
+					tdList.add(DataProviderFactory.dataOf(
+							"Action", "Add",
+							HomeSSMetaData.EndorsementTab.EndorsementDS0463.LOCATION_TYPE.getLabel(), "Described Location",
+							HomeSSMetaData.EndorsementTab.EndorsementDS0463.COVERAGE_LIMIT.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]));
+				} else {
+					tdList.add(DataProviderFactory.dataOf(
+							"Action", "Add",
+							HomeSSMetaData.EndorsementTab.EndorsementDS0463.LOCATION_TYPE.getLabel(), "Other structure off Premises",
+							HomeSSMetaData.EndorsementTab.EndorsementDS0463.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().getZip(),
+							HomeSSMetaData.EndorsementTab.EndorsementDS0463.STREET_ADDRESS_1.getLabel(), "Street address 1",
+							HomeSSMetaData.EndorsementTab.EndorsementDS0463.DESCRIPTION_OF_STRUCTURE.getLabel(), "index=2",
+							HomeSSMetaData.EndorsementTab.EndorsementDS0463.COVERAGE_LIMIT.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]));
+				}
 			}
 		}
 		return tdList;
@@ -50,7 +57,7 @@ public class HomeSSDP3FormTestDataGenerator {
 		HomeSSOpenLForm form = openLPolicy.getForms().stream().filter(c -> "DS0471".equals(c.getFormCode())).findFirst().get();
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", "Add",
-				HomeSSMetaData.EndorsementTab.EndorsementDS0471.COVERAGE_LIMIT.getLabel(), form.getCovPercentage() + "%"));
+				HomeSSMetaData.EndorsementTab.EndorsementDS0471.COVERAGE_LIMIT.getLabel(), "contains=" + form.getCovPercentage()));
 		return tdList;
 	};
 
@@ -68,6 +75,14 @@ public class HomeSSDP3FormTestDataGenerator {
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", "Add",
 				HomeSSMetaData.EndorsementTab.EndorsementDS0495.COVERAGE_LIMIT.getLabel(), limit));
+		return tdList;
+	};
+
+	private static Function<HomeSSOpenLPolicy, List<TestData>> formDS0926DataFunction = openLPolicy -> {
+		List<TestData> tdList = new ArrayList<>();
+		tdList.add(DataProviderFactory.dataOf(
+				"Action", "Add",
+				HomeSSMetaData.EndorsementTab.EndorsementDS0926.COVERAGE_LIMIT.getLabel(), new Dollar(openLPolicy.getForms().stream().filter(c -> "DS0926".equals(c.getFormCode())).findFirst().get().getLimit()).toString().split("\\.")[0]));
 		return tdList;
 	};
 
@@ -409,6 +424,7 @@ public class HomeSSDP3FormTestDataGenerator {
 		DS0471(HomeSSMetaData.EndorsementTab.DS_04_71.getLabel(), "DS0471", formDS0471DataFunction),    //*
 		DS0473(HomeSSMetaData.EndorsementTab.DS_04_73.getLabel(), "DS0473", formDS0473DataFunction),    //*
 		DS0495(HomeSSMetaData.EndorsementTab.DS_04_95.getLabel(), "HS0495", formDS0495DataFunction),    // HS 04 95 --> DS 04 95
+		DS0926(HomeSSMetaData.EndorsementTab.DS_09_26.getLabel(), "DS0926", formDS0926DataFunction),    //*
 		DS0934(HomeSSMetaData.EndorsementTab.DS_09_34.getLabel(), "DS0934", formDS0934DataFunction),    //*
 		HS0412(HomeSSMetaData.EndorsementTab.HS_04_12.getLabel(), "HS0412", formHS0412DataFunction),
 		HS0435(HomeSSMetaData.EndorsementTab.HS_04_35.getLabel(), "HS0435", formHS0435DataFunction),

@@ -23,7 +23,7 @@ public class TestEndorsementActionRules extends TestEndorsementActionRulesAbstra
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-5860")
 	public void pas5860_EndorsementActionTabRules(@Optional("") String state) {
 
