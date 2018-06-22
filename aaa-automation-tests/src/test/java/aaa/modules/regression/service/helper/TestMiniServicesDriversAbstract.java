@@ -148,6 +148,26 @@ public class TestMiniServicesDriversAbstract extends PolicyBaseTest {
 			softly.assertThat(addDriverRequestService.birthDate).isEqualTo(addDriverRequest.birthDate);
 		});
 
+		addDriverRequest.firstName = "Young";
+		addDriverRequest.middleName = "Driver";
+		addDriverRequest.lastName = "Jill";
+		addDriverRequest.birthDate = "1999-01-13";
+		addDriverRequest.suffix = "III";
+
+		DriversDto addDriverRequestService1 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+		assertSoftly(softly -> {
+			softly.assertThat(addDriverRequestService1.firstName).isEqualTo(addDriverRequest.firstName);
+			softly.assertThat(addDriverRequestService1.middleName).isEqualTo(addDriverRequest.middleName);
+			softly.assertThat(addDriverRequestService1.lastName).isEqualTo(addDriverRequest.lastName);
+			softly.assertThat(addDriverRequestService1.suffix).isEqualTo(addDriverRequest.suffix);
+			softly.assertThat(addDriverRequestService1.driverType).isEqualTo("afr");
+			softly.assertThat(addDriverRequestService1.namedInsuredType).isEqualTo("Not a Named Insured");
+			softly.assertThat(addDriverRequestService1.relationToApplicantCd).isEqualTo("CH");
+			softly.assertThat(addDriverRequestService1.maritalStatusCd).isEqualTo("SSS");
+			softly.assertThat(addDriverRequestService1.driverStatus).isEqualTo("pendingAdd");
+			softly.assertThat(addDriverRequestService1.birthDate).isEqualTo(addDriverRequest.birthDate);
+		});
+
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -155,6 +175,10 @@ public class TestMiniServicesDriversAbstract extends PolicyBaseTest {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
 		assertThat(DriverTab.tableDriverList.getRow(2).getCell(2).getValue()).isEqualTo("Justin");
+
+		DriverTab.tableDriverList.getRow(2).getCell(5).getValue();
+
+		assertThat(DriverTab.tableDriverList.getRow(3).getCell(2).getValue()).isEqualTo("Young");
 		driverTab.saveAndExit();
 
 		ViewDriversResponse responseViewDriverEndorsement = HelperCommon.viewEndorsementDrivers(policyNumber);
