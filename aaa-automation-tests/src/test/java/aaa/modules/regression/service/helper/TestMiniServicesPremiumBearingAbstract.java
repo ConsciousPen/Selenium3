@@ -4259,136 +4259,77 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber);
 		assertSoftly(softly -> {
-
-			Coverage coverageLimit = policyCoverageResponse.policyCoverages.get(0);
-			softly.assertThat(coverageLimit.coverageCd).isEqualTo("BI");
-			softly.assertThat(coverageLimit.coverageDescription).isEqualTo("Bodily Injury Liability");
-			softly.assertThat(coverageLimit.coverageLimit).isEqualTo("100000/300000");
-			softly.assertThat(coverageLimit.coverageLimitDisplay).isEqualTo("$100,000/$300,000");
-			softly.assertThat(coverageLimit.coverageType).isEqualTo("Per Person/Per Accident");
-			softly.assertThat(coverageLimit.customerDisplayed).isEqualTo(true);
-			softly.assertThat(coverageLimit.canChangeCoverage).isEqualTo(true);
-
-			softly.assertThat(coverageLimit.availableLimits.get(0).coverageLimit).isEqualTo("25000/50000");
-			softly.assertThat(coverageLimit.availableLimits.get(0).coverageLimitDisplay).isEqualTo("$25,000/$50,000");
-
-			softly.assertThat(coverageLimit.availableLimits.get(1).coverageLimit).isEqualTo("50000/100000");
-			softly.assertThat(coverageLimit.availableLimits.get(1).coverageLimitDisplay).isEqualTo("$50,000/$100,000");
-
-			softly.assertThat(coverageLimit.availableLimits.get(2).coverageLimit).isEqualTo("100000/300000");
-			softly.assertThat(coverageLimit.availableLimits.get(2).coverageLimitDisplay).isEqualTo("$100,000/$300,000");
-
-			softly.assertThat(coverageLimit.availableLimits.get(3).coverageLimit).isEqualTo("250000/500000");
-			softly.assertThat(coverageLimit.availableLimits.get(3).coverageLimitDisplay).isEqualTo("$250,000/$500,000");
-
-			softly.assertThat(coverageLimit.availableLimits.get(4).coverageLimit).isEqualTo("300000/500000");
-			softly.assertThat(coverageLimit.availableLimits.get(4).coverageLimitDisplay).isEqualTo("$300,000/$500,000");
-
-			softly.assertThat(coverageLimit.availableLimits.get(5).coverageLimit).isEqualTo("500000/500000");
-			softly.assertThat(coverageLimit.availableLimits.get(5).coverageLimitDisplay).isEqualTo("$500,000/$500,000");
-
-			softly.assertThat(coverageLimit.availableLimits.get(6).coverageLimit).isEqualTo("500000/1000000");
-			softly.assertThat(coverageLimit.availableLimits.get(6).coverageLimitDisplay).isEqualTo("$500,000/$1,000,000");
-
-			softly.assertThat(coverageLimit.availableLimits.get(7).coverageLimit).isEqualTo("1000000/1000000");
-			softly.assertThat(coverageLimit.availableLimits.get(7).coverageLimitDisplay).isEqualTo("$1,000,000/$1,000,000");
-
-			Coverage coveragePD = policyCoverageResponse.policyCoverages.get(1);
-			softly.assertThat(coveragePD.coverageCd).isEqualTo("PD");
-			softly.assertThat(coveragePD.coverageDescription).isEqualTo("Property Damage Liability");
-			softly.assertThat(coveragePD.coverageLimit).isEqualTo("50000");
-			softly.assertThat(coveragePD.coverageLimitDisplay).isEqualTo("$50,000");
-			softly.assertThat(coveragePD.coverageType).isEqualTo("Per Accident");
-			softly.assertThat(coveragePD.customerDisplayed).isEqualTo(true);
-			softly.assertThat(coveragePD.canChangeCoverage).isEqualTo(true);
-
-			softly.assertThat(coveragePD.availableLimits.get(0).coverageLimit).isEqualTo("20000");
-			softly.assertThat(coveragePD.availableLimits.get(0).coverageLimitDisplay).isEqualTo("$20,000");
-
-			softly.assertThat(coveragePD.availableLimits.get(1).coverageLimit).isEqualTo("25000");
-			softly.assertThat(coveragePD.availableLimits.get(1).coverageLimitDisplay).isEqualTo("$25,000");
-
-			softly.assertThat(coveragePD.availableLimits.get(2).coverageLimit).isEqualTo("40000");
-			softly.assertThat(coveragePD.availableLimits.get(2).coverageLimitDisplay).isEqualTo("$40,000");
-
-			softly.assertThat(coveragePD.availableLimits.get(3).coverageLimit).isEqualTo("50000");
-			softly.assertThat(coveragePD.availableLimits.get(3).coverageLimitDisplay).isEqualTo("$50,000");
-
-			softly.assertThat(coveragePD.availableLimits.get(4).coverageLimit).isEqualTo("100000");
-			softly.assertThat(coveragePD.availableLimits.get(4).coverageLimitDisplay).isEqualTo("$100,000");
-
-			softly.assertThat(coveragePD.availableLimits.get(5).coverageLimit).isEqualTo("300000");
-			softly.assertThat(coveragePD.availableLimits.get(5).coverageLimitDisplay).isEqualTo("$300,000");
-
+			viewCoveragesBiPd(policyCoverageResponse, softly);
 		});
 
-		//Perform Endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		PolicyCoverageInfo policyCoverageEndorsementResponse = HelperCommon.viewEndorsementCoverages(policyNumber);
 		assertSoftly(softly -> {
-
-			Coverage coverageBI = policyCoverageEndorsementResponse.policyCoverages.get(0);
-			softly.assertThat(coverageBI.coverageCd).isEqualTo("BI");
-			softly.assertThat(coverageBI.coverageDescription).isEqualTo("Bodily Injury Liability");
-			softly.assertThat(coverageBI.coverageLimit).isEqualTo("100000/300000");
-			softly.assertThat(coverageBI.coverageLimitDisplay).isEqualTo("$100,000/$300,000");
-			softly.assertThat(coverageBI.coverageType).isEqualTo("Per Person/Per Accident");
-			softly.assertThat(coverageBI.customerDisplayed).isEqualTo(true);
-			softly.assertThat(coverageBI.canChangeCoverage).isEqualTo(true);
-
-			softly.assertThat(coverageBI.availableLimits.get(0).coverageLimit).isEqualTo("25000/50000");
-			softly.assertThat(coverageBI.availableLimits.get(0).coverageLimitDisplay).isEqualTo("$25,000/$50,000");
-
-			softly.assertThat(coverageBI.availableLimits.get(1).coverageLimit).isEqualTo("50000/100000");
-			softly.assertThat(coverageBI.availableLimits.get(1).coverageLimitDisplay).isEqualTo("$50,000/$100,000");
-
-			softly.assertThat(coverageBI.availableLimits.get(2).coverageLimit).isEqualTo("100000/300000");
-			softly.assertThat(coverageBI.availableLimits.get(2).coverageLimitDisplay).isEqualTo("$100,000/$300,000");
-
-			softly.assertThat(coverageBI.availableLimits.get(3).coverageLimit).isEqualTo("250000/500000");
-			softly.assertThat(coverageBI.availableLimits.get(3).coverageLimitDisplay).isEqualTo("$250,000/$500,000");
-
-			softly.assertThat(coverageBI.availableLimits.get(4).coverageLimit).isEqualTo("300000/500000");
-			softly.assertThat(coverageBI.availableLimits.get(4).coverageLimitDisplay).isEqualTo("$300,000/$500,000");
-
-			softly.assertThat(coverageBI.availableLimits.get(5).coverageLimit).isEqualTo("500000/500000");
-			softly.assertThat(coverageBI.availableLimits.get(5).coverageLimitDisplay).isEqualTo("$500,000/$500,000");
-
-			softly.assertThat(coverageBI.availableLimits.get(6).coverageLimit).isEqualTo("500000/1000000");
-			softly.assertThat(coverageBI.availableLimits.get(6).coverageLimitDisplay).isEqualTo("$500,000/$1,000,000");
-
-			softly.assertThat(coverageBI.availableLimits.get(7).coverageLimit).isEqualTo("1000000/1000000");
-			softly.assertThat(coverageBI.availableLimits.get(7).coverageLimitDisplay).isEqualTo("$1,000,000/$1,000,000");
-
-			Coverage coverageLimitPD = policyCoverageEndorsementResponse.policyCoverages.get(1);
-			softly.assertThat(coverageLimitPD.coverageCd).isEqualTo("PD");
-			softly.assertThat(coverageLimitPD.coverageDescription).isEqualTo("Property Damage Liability");
-			softly.assertThat(coverageLimitPD.coverageLimit).isEqualTo("50000");
-			softly.assertThat(coverageLimitPD.coverageLimitDisplay).isEqualTo("$50,000");
-			softly.assertThat(coverageLimitPD.coverageType).isEqualTo("Per Accident");
-			softly.assertThat(coverageLimitPD.customerDisplayed).isEqualTo(true);
-			softly.assertThat(coverageLimitPD.canChangeCoverage).isEqualTo(true);
-
-			softly.assertThat(coverageLimitPD.availableLimits.get(0).coverageLimit).isEqualTo("20000");
-			softly.assertThat(coverageLimitPD.availableLimits.get(0).coverageLimitDisplay).isEqualTo("$20,000");
-
-			softly.assertThat(coverageLimitPD.availableLimits.get(1).coverageLimit).isEqualTo("25000");
-			softly.assertThat(coverageLimitPD.availableLimits.get(1).coverageLimitDisplay).isEqualTo("$25,000");
-
-			softly.assertThat(coverageLimitPD.availableLimits.get(2).coverageLimit).isEqualTo("40000");
-			softly.assertThat(coverageLimitPD.availableLimits.get(2).coverageLimitDisplay).isEqualTo("$40,000");
-
-			softly.assertThat(coverageLimitPD.availableLimits.get(3).coverageLimit).isEqualTo("50000");
-			softly.assertThat(coverageLimitPD.availableLimits.get(3).coverageLimitDisplay).isEqualTo("$50,000");
-
-			softly.assertThat(coverageLimitPD.availableLimits.get(4).coverageLimit).isEqualTo("100000");
-			softly.assertThat(coverageLimitPD.availableLimits.get(4).coverageLimitDisplay).isEqualTo("$100,000");
-
-			softly.assertThat(coverageLimitPD.availableLimits.get(5).coverageLimit).isEqualTo("300000");
-			softly.assertThat(coverageLimitPD.availableLimits.get(5).coverageLimitDisplay).isEqualTo("$300,000");
-
+			viewCoveragesBiPd(policyCoverageEndorsementResponse, softly);
 		});
+	}
+
+	private void viewCoveragesBiPd(PolicyCoverageInfo policyCoverageResponse, SoftAssertions softly) {
+		Coverage coverageLimit = policyCoverageResponse.policyCoverages.get(0);
+		softly.assertThat(coverageLimit.coverageCd).isEqualTo("BI");
+		softly.assertThat(coverageLimit.coverageDescription).isEqualTo("Bodily Injury Liability");
+		softly.assertThat(coverageLimit.coverageLimit).isEqualTo("100000/300000");
+		softly.assertThat(coverageLimit.coverageLimitDisplay).isEqualTo("$100,000/$300,000");
+		softly.assertThat(coverageLimit.coverageType).isEqualTo("Per Person/Per Accident");
+		softly.assertThat(coverageLimit.customerDisplayed).isEqualTo(true);
+		softly.assertThat(coverageLimit.canChangeCoverage).isEqualTo(true);
+
+		softly.assertThat(coverageLimit.availableLimits.get(0).coverageLimit).isEqualTo("25000/50000");
+		softly.assertThat(coverageLimit.availableLimits.get(0).coverageLimitDisplay).isEqualTo("$25,000/$50,000");
+
+		softly.assertThat(coverageLimit.availableLimits.get(1).coverageLimit).isEqualTo("50000/100000");
+		softly.assertThat(coverageLimit.availableLimits.get(1).coverageLimitDisplay).isEqualTo("$50,000/$100,000");
+
+		softly.assertThat(coverageLimit.availableLimits.get(2).coverageLimit).isEqualTo("100000/300000");
+		softly.assertThat(coverageLimit.availableLimits.get(2).coverageLimitDisplay).isEqualTo("$100,000/$300,000");
+
+		softly.assertThat(coverageLimit.availableLimits.get(3).coverageLimit).isEqualTo("250000/500000");
+		softly.assertThat(coverageLimit.availableLimits.get(3).coverageLimitDisplay).isEqualTo("$250,000/$500,000");
+
+		softly.assertThat(coverageLimit.availableLimits.get(4).coverageLimit).isEqualTo("300000/500000");
+		softly.assertThat(coverageLimit.availableLimits.get(4).coverageLimitDisplay).isEqualTo("$300,000/$500,000");
+
+		softly.assertThat(coverageLimit.availableLimits.get(5).coverageLimit).isEqualTo("500000/500000");
+		softly.assertThat(coverageLimit.availableLimits.get(5).coverageLimitDisplay).isEqualTo("$500,000/$500,000");
+
+		softly.assertThat(coverageLimit.availableLimits.get(6).coverageLimit).isEqualTo("500000/1000000");
+		softly.assertThat(coverageLimit.availableLimits.get(6).coverageLimitDisplay).isEqualTo("$500,000/$1,000,000");
+
+		softly.assertThat(coverageLimit.availableLimits.get(7).coverageLimit).isEqualTo("1000000/1000000");
+		softly.assertThat(coverageLimit.availableLimits.get(7).coverageLimitDisplay).isEqualTo("$1,000,000/$1,000,000");
+
+		Coverage coveragePD = policyCoverageResponse.policyCoverages.get(1);
+		softly.assertThat(coveragePD.coverageCd).isEqualTo("PD");
+		softly.assertThat(coveragePD.coverageDescription).isEqualTo("Property Damage Liability");
+		softly.assertThat(coveragePD.coverageLimit).isEqualTo("50000");
+		softly.assertThat(coveragePD.coverageLimitDisplay).isEqualTo("$50,000");
+		softly.assertThat(coveragePD.coverageType).isEqualTo("Per Accident");
+		softly.assertThat(coveragePD.customerDisplayed).isEqualTo(true);
+		softly.assertThat(coveragePD.canChangeCoverage).isEqualTo(true);
+
+		softly.assertThat(coveragePD.availableLimits.get(0).coverageLimit).isEqualTo("20000");
+		softly.assertThat(coveragePD.availableLimits.get(0).coverageLimitDisplay).isEqualTo("$20,000");
+
+		softly.assertThat(coveragePD.availableLimits.get(1).coverageLimit).isEqualTo("25000");
+		softly.assertThat(coveragePD.availableLimits.get(1).coverageLimitDisplay).isEqualTo("$25,000");
+
+		softly.assertThat(coveragePD.availableLimits.get(2).coverageLimit).isEqualTo("40000");
+		softly.assertThat(coveragePD.availableLimits.get(2).coverageLimitDisplay).isEqualTo("$40,000");
+
+		softly.assertThat(coveragePD.availableLimits.get(3).coverageLimit).isEqualTo("50000");
+		softly.assertThat(coveragePD.availableLimits.get(3).coverageLimitDisplay).isEqualTo("$50,000");
+
+		softly.assertThat(coveragePD.availableLimits.get(4).coverageLimit).isEqualTo("100000");
+		softly.assertThat(coveragePD.availableLimits.get(4).coverageLimitDisplay).isEqualTo("$100,000");
+
+		softly.assertThat(coveragePD.availableLimits.get(5).coverageLimit).isEqualTo("300000");
+		softly.assertThat(coveragePD.availableLimits.get(5).coverageLimitDisplay).isEqualTo("$300,000");
 	}
 
 	protected void pas11741_ViewVehicleLevelCoverages(PolicyType policyType) {
