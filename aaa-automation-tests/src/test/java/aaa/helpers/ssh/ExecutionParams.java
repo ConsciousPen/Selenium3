@@ -3,12 +3,6 @@ package aaa.helpers.ssh;
 public final class ExecutionParams {
 	public static final ExecutionParams DEFAULT = new ExecutionParams();
 
-	private static final int DEFAULT_TIMEOUT_IN_SECONDS = 300;
-	private static final int DEFAULT_RETRY_INTERVAL_IN_MILLISECONDS = 100;
-	private static final boolean DEFAULT_FAIL_ON_TIMEOUT = false;
-	private static final boolean DEFAULT_FAIL_ON_ERROR = false;
-	private static final boolean DEFAULT_RETURN_ERROR_OUTPUT = false;
-
 	private int timeoutInSeconds;
 	private int retryIntervalInMilliseconds;
 	private boolean failOnTimeout;
@@ -16,11 +10,11 @@ public final class ExecutionParams {
 	private boolean returnErrorOutput;
 
 	private ExecutionParams() {
-		this.timeoutInSeconds = DEFAULT_TIMEOUT_IN_SECONDS;
-		this.retryIntervalInMilliseconds = DEFAULT_RETRY_INTERVAL_IN_MILLISECONDS;
-		this.failOnTimeout = DEFAULT_FAIL_ON_TIMEOUT;
-		this.failOnError = DEFAULT_FAIL_ON_ERROR;
-		this.returnErrorOutput = DEFAULT_RETURN_ERROR_OUTPUT;
+		this.timeoutInSeconds = 300;
+		this.retryIntervalInMilliseconds = 100;
+		this.failOnTimeout = false;
+		this.failOnError = false;
+		this.returnErrorOutput = false;
 	}
 
 	int getTimeoutInSeconds() {

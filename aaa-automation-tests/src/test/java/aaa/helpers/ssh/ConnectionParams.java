@@ -6,10 +6,6 @@ import toolkit.config.TestProperties;
 
 public final class ConnectionParams {
 	static final ConnectionParams DEFAULT = new ConnectionParams();
-	private static final int DEFAULT_SSH_PORT = 22;
-	private static final String DEFAULT_HOST = PropertyProvider.getProperty(TestProperties.APP_HOST);
-	private static final String DEFAULT_USER = PropertyProvider.getProperty(TestProperties.SSH_USER);
-	private static final String DEFAULT_PASSWORD = PropertyProvider.getProperty(TestProperties.SSH_PASSWORD);
 
 	private String host;
 	private int port;
@@ -18,10 +14,10 @@ public final class ConnectionParams {
 	private String privateKeyPath;
 
 	ConnectionParams() {
-		this.port = DEFAULT_SSH_PORT;
-		this.host = DEFAULT_HOST;
-		this.user = DEFAULT_USER;
-		this.password = DEFAULT_PASSWORD;
+		this.port = 22;
+		this.host = PropertyProvider.getProperty(TestProperties.APP_HOST);
+		this.user = PropertyProvider.getProperty(TestProperties.SSH_USER);
+		this.password = PropertyProvider.getProperty(TestProperties.SSH_PASSWORD);
 		this.privateKeyPath = null;
 	}
 
