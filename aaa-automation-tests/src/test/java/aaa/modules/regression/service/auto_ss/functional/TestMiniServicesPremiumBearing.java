@@ -929,11 +929,14 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 
 	/**
 	 * @author Maris Strazds
-	 * Create a active policy in the pas
-	 * Create an endorsement.
-	 * run update coverage service
-	 * set BI Coverage and verify that UM and UIM (or UM/UIM where it is not seperate coverages) response limit is set to the same limit as updated BI limit
-	 */
+	 * @name UM, UIM, UM/UIM rule dependency on UI
+	 * @scenario
+	 * 1. Create a active policy in the pas
+	 * 2. Create an endorsement.
+	 * 3. Run update coverage service
+	 * 4. Set BI Coverage and verify that UM and UIM (or UM/UIM where it is not separate coverages) response limit is set to the same limit as updated BI limit
+	 * @details
+	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@StateList(states = {Constants.States.AZ, Constants.States.ID, Constants.States.KY, Constants.States.PA, Constants.States.SD, Constants.States.UT, Constants.States.WV, //applicable states for PAS-15254

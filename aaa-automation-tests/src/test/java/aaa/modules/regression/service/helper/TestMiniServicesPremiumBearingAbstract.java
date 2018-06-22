@@ -4155,6 +4155,12 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			validateUIMBI_pas15254(softly, state, coverageResponse2, newBILimits); //validate UIMBI for states where it is separate coverage
 		});
 
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		secondEndorsementIssueCheck();
+
 	}
 
 	//validate UIMBI for states where it is separate coverage
