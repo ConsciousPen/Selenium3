@@ -87,7 +87,8 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 	 * PAS-9607	BFC for Conversion Renewal Offer and Billing Packages (HO3, HO4, HO6, DP3, PUP)
 	 * PAS-9651	Print Sequence: Conversion Renewal OFFER (PA & MD)
 	 *
-	 * @scenario 1. Initiate manual entry on RENEW_GENERATE_OFFER
+	 * @scenario
+	 * 1. Initiate manual entry on RENEW_GENERATE_OFFER
 	 * 2. Verify conversion specific renewal offer packet was generated in right sequence
 	 * 3. Verify Policy Transaction Code
 	 * 4. Run renewalOfferGenerationPart2 and aaaBatchMarkerJob
@@ -482,7 +483,11 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 	private boolean isHOProduct(PolicyType policyType) {
 		// Specific conditions which will reflected in forms which will be verified later
-		return Arrays.asList("HomeSS", "HomeSS_HO4", "HomeSS_HO6", "HomeSS_DP3").contains(policyType.getShortName());
+		return Arrays.asList(
+				PolicyType.HOME_SS_HO3.getShortName(),
+				PolicyType.HOME_SS_HO4.getShortName(),
+				PolicyType.HOME_SS_HO6.getShortName(),
+				PolicyType.HOME_SS_DP3.getShortName()).contains(policyType.getShortName());
 	}
 
 	/* Data */
