@@ -19,8 +19,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.sun.jersey.api.client.ClientResponse;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.mock.ApplicationMocksManager;
-import aaa.helpers.mock.MockType;
-import aaa.helpers.mock.model.UpdatableMock;
+import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.model.OpenLTest;
 import aaa.helpers.openl.model.auto_ca.choice.AutoCaChoiceOpenLPolicy;
@@ -54,20 +53,13 @@ public final class OpenLTestsManager {
 	}
 	
 	public void updateMocks() {
-		Map<MockType, UpdatableMock> requiredMocks = new HashMap<>();
-
+		MocksCollection commonRequiredMocks = new MocksCollection();
 		for (OpenLTestInfo<? extends OpenLPolicy> testInfo : this.openLTests) {
 			for (OpenLPolicy policy : testInfo.getOpenLPolicies()) {
-				for (Map.Entry<MockType, UpdatableMock> policyMock : policy.getRequiredMocks().entrySet()) {
-					if (requiredMocks.containsKey(policyMock.getKey())) {
-						requiredMocks.get(policyMock.getKey()).update(policyMock.getValue());
-					} else {
-						requiredMocks.put(policyMock.getKey(), policyMock.getValue());
-					}
-				}
+				commonRequiredMocks.addAll(policy.getRequiredMocks());
 			}
 		}
-		ApplicationMocksManager.updateMocks(requiredMocks);
+		ApplicationMocksManager.updateMocks(commonRequiredMocks);
 	}
 	
 	@SuppressWarnings("unchecked")

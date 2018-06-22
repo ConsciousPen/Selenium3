@@ -57,7 +57,7 @@ public class AAARecurringPaymentResponseHelper {
 		if (file == null) {
 			throw new IstfException("Disbursement engine file is NULL");
 		}
-		RemoteHelper.uploadFile(file.getAbsolutePath(), String.format(PAYMENT_CENTRAL_FILE_PATH, file.getName()));
+		RemoteHelper.get().uploadFile(file.getAbsolutePath(), String.format(PAYMENT_CENTRAL_FILE_PATH, file.getName()));
 	}
 
 	public class AAARecurringPaymentResponseFileBuilder {

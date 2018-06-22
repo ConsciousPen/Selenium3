@@ -19,13 +19,19 @@ import toolkit.exceptions.IstfException;
 
 public class UnmarshallingClassInfo extends TableClassInfo {
 	private final Map<Integer, Object> rowsIndexesAndCreatedObjects;
+	private final boolean strictMatchBinding;
 	private Map<Integer, TableRow> primaryKeyColumnValuesAndRows;
 	private ExcelSheet excelSheet;
 	private ExcelTable excelTable;
 	
 	UnmarshallingClassInfo(Class<?> tableClass, ExcelManager excelManager, boolean strictMatchBinding) {
-		super(tableClass, excelManager, strictMatchBinding);
+		super(tableClass, excelManager);
 		this.rowsIndexesAndCreatedObjects = new HashMap<>();
+		this.strictMatchBinding = strictMatchBinding;
+	}
+	
+	public boolean isStrictMatchBinding() {
+		return strictMatchBinding;
 	}
 	
 	@Override

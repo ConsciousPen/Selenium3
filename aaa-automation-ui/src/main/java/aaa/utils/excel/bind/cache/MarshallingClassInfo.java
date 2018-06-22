@@ -16,12 +16,12 @@ public class MarshallingClassInfo extends TableClassInfo {
 	private ExcelSheet excelSheet;
 	private List<?> tableRowsObjects;
 	
-	MarshallingClassInfo(Class<?> tableClass, ExcelManager excelManager, boolean strictMatchBinding) {
-		super(tableClass, excelManager, strictMatchBinding);
+	MarshallingClassInfo(Class<?> tableClass, ExcelManager excelManager) {
+		super(tableClass, excelManager);
 	}
 	
-	MarshallingClassInfo(Class<?> tableClass, List<Object> tableRowsObjects, ExcelManager excelManager, boolean strictMatchBinding) {
-		super(tableClass, excelManager, strictMatchBinding);
+	MarshallingClassInfo(Class<?> tableClass, List<Object> tableRowsObjects, ExcelManager excelManager) {
+		super(tableClass, excelManager);
 		this.tableRowsObjects = Collections.unmodifiableList(tableRowsObjects);
 	}
 	
@@ -42,7 +42,7 @@ public class MarshallingClassInfo extends TableClassInfo {
 			ExcelSheet sheet = getExcelSheet();
 			int headerRowIndex = getAnnotatedTableClass().getAnnotation(ExcelTableElement.class).headerRowIndex();
 			if (headerRowIndex < 0) {
-				log.warn("Table model class {} has negative parameter headerRowIndex()={}, first row from sheet will be used as table's header row", getTableClass().getName(), headerRowIndex);
+				log.warn("Table model class \"{}\" has negative parameter headerRowIndex()={}, first row from sheet will be used as table's header row", getTableClass().getName(), headerRowIndex);
 				headerRowIndex = 1;
 			}
 			this.excelTable = sheet.addTable(headerRowIndex, getHeaderColumnNames().toArray(new String[0]));
@@ -60,11 +60,11 @@ public class MarshallingClassInfo extends TableClassInfo {
 				sheetName = getAnnotatedTableClass().getAnnotation(ExcelTableElement.class).containsSheetName();
 				List<ExcelSheet> sheets = getExcelManager().getSheetsContains(sheetName);
 				if (sheets.isEmpty()) {
-					log.warn("Table model class {} has parameter containsSheetName()={} in ExcelTableElement annotation, excel sheet will be created using this name pattern.", getTableClass().getName(), sheetName);
+					log.warn("Table model class \"{}\" has parameter containsSheetName()=\"{}\" in ExcelTableElement annotation, excel sheet will be created using this name pattern.", getTableClass().getName(), sheetName);
 					this.excelSheet = getExcelManager().addSheet(sheetName);
 				} else {
 					if (sheets.size() > 1) {
-						log.warn("Table model class {} has parameter containsSheetName()={} in ExcelTableElement annotation.\n"
+						log.warn("Table model class \"{}\" has parameter containsSheetName()=\"{}\" in ExcelTableElement annotation.\n"
 								+ "ExcelManager already has more than one sheet with this name pattern, first one with \"{}\" name will be used for this class", getTableClass().getName(), sheets.get(0).getSheetName());
 					}
 					this.excelSheet = sheets.get(0);
@@ -105,9 +105,9 @@ public class MarshallingClassInfo extends TableClassInfo {
 		for (Field field : getTableColumnsFields()) {
 			TableFieldInfo fieldInfo = getFieldInfo(field);
 			headerColumnNames.add(fieldInfo.getHeaderColumnName());
-			if (fieldInfo.getBindType().equals(TableFieldInfo.BindType.MULTY_COLUMNS)) {
+			if (fieldInfo.getBindType().equals(TableFieldInfo.BindType.MULTI_COLUMNS)) {
 				int maxMultiColumnsNumber = 0;
-				//TODO-dchubkov: check contains...
+				//TODO-dchubkov: check multi columns with containsName() parameter...
 				for (Object tableRowObject : getRowsObjects()) {
 					//noinspection unchecked
 					if (((List<Object>) BindHelper.getFieldValue(field, tableRowObject)).size() > maxMultiColumnsNumber) {
