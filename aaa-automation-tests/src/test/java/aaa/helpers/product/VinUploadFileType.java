@@ -9,12 +9,13 @@ public enum VinUploadFileType {
 	NEW_VIN5("New5"),
 	NEW_VIN6("New6"),
 	NEW_VIN7("New7"),
-	NEW_VIN8("New8"),
+	//NEW_VIN8("New8"),
 	NEW_VIN9("New9"),
-	NEW_VIN10("New10"),
-	NEW_VIN11("New11"),
-	REFRESHABLE_VIN2("Refreshable2"),
 	PARTIAL_MATCH("PartialMatch"),
+	NO_MATCH_NEW_QUOTE("NoMatchNewQuote"),
+	NO_MATCH_ON_RENEWAL("NoMatchORenewal"),
+	NO_MATCH_ON_NEW_BUSINESS_FULL_MATCH_ON_RENEWAL("NoMatchOnNewBusinessFullMatchOnRenewal"),
+	PARTIAL_MATCH_NEW_QUOTE("PartialMatchNewQuote"),
 	R45("R45");
 
 	private String type;

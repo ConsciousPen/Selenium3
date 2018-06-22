@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
@@ -51,7 +52,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	private static final String NEW_VIN7 = "GGGKN3DD0E0344466";
 	private static final String NEW_VIN8 = "HHHKN3DD4E0344466";
 	private static final String NEW_VIN9 = "ZZXKN3DD2E0344466";
-	private static final String NEW_VIN10 = "SSAKN3DD4E0344466";
+	private static final String NEW_VIN10 = "SSGKN3DD7E0344466";
+	private static final String NEW_VIN11 = "DDAKN3DD1E0344466";
 	private static final String REFRESHABLE_VIN = "1HGEM215140028445";
 
 	@Override
@@ -117,14 +119,14 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		findAndRateQuote(testData, quoteNumber);
 		// Start PAS-2714 NB
 		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		buttonViewRatingDetails.click();
 
-		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()).isEqualTo(true));
+		pas2712Fields.forEach(f -> assertThat(tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()).isEqualTo(true));
 		// PAS-2714 using Oldest Entry Date, PAS-2716 Entry date overlap between VIN versions
 		// PAS-7345 Update "individual VIN retrieval" logic to get liab symbols instead of STAT/Choice Tier
-		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue()).isEqualToIgnoringCase("AC"));
+		pas2712Fields.forEach(f -> assertThat(tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue()).isEqualToIgnoringCase("AC"));
 
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		buttonRatingDetailsOk.click();
 		// End PAS-2714 NB
 		// Covers 2716 NB vin refresh case.
 		pas527_533_2716_VehicleTabCommonChecks();
@@ -174,7 +176,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		//start pas 938
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.buttonSaveAndExit.click();
+		buttonSaveAndExit.click();
 
 		//save quote number to open it later
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
@@ -279,14 +281,14 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		// Start PAS-2714 Renewal Update Vehicle
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		buttonViewRatingDetails.click();
 
 		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
-		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()).isEqualTo(true));
+		pas2712Fields.forEach(f -> assertThat(tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()).isEqualTo(true));
 		// PAS-7345 Update "individual VIN retrieval" logic to get liab symbols instead of STAT/Choice Tier
-		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue()).isEqualToIgnoringCase("AX"));
+		pas2712Fields.forEach(f -> assertThat(tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue()).isEqualToIgnoringCase("AX"));
 
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		buttonRatingDetailsOk.click();
 		// End PAS-2714 Renewal Update Vehicle
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
@@ -363,22 +365,22 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		new PremiumAndCoveragesTab().calculatePremium();
 
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		buttonViewRatingDetails.click();
 
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("Other Make");
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualToIgnoringCase("Model");
+		assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("Other Make");
+		assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualToIgnoringCase("Model");
 
 		String pageNumbers = "//*[@id='%1$s']/ancestor::div[@id='ratingDetailsPopupForm:vehiclePanel_body']//center//a[contains(text(),'%2$s')]";
-		new Link(By.xpath(String.format(pageNumbers, PremiumAndCoveragesTab.tableRatingDetailsVehicles.getLocator().toString().split(" ")[1], 2))).click();
+		new Link(By.xpath(String.format(pageNumbers, tableRatingDetailsVehicles.getLocator().toString().split(" ")[1], 2))).click();
 
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue()).isEqualToIgnoringCase("TOYOTA");
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue()).isEqualToIgnoringCase("Gt");
+		assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue()).isEqualToIgnoringCase("TOYOTA");
+		assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue()).isEqualToIgnoringCase("Gt");
 
 		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
-		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()).isEqualTo(true));
-		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(3).getValue()).isEqualToIgnoringCase("AC"));
+		pas2712Fields.forEach(f -> assertThat(tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()).isEqualTo(true));
+		pas2712Fields.forEach(f -> assertThat(tableRatingDetailsVehicles.getRow(1, f).getCell(3).getValue()).isEqualToIgnoringCase("AC"));
 
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		buttonRatingDetailsOk.click();
 
 		premiumAndCoveragesTab.saveAndExit();
 
@@ -702,7 +704,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		 */
 		//2. Move to R-26 and generate automated renewal image (in data proposed status).
 		pas11659_CommonSteps(NEW_VIN4, policyNumber, policyExpirationDate.minusDays(26));
-		PremiumAndCoveragesTab.buttonSaveAndExit.click();
+		buttonSaveAndExit.click();
 
 		//3. Upload Updated VIN Data
 		adminApp().open();
@@ -877,12 +879,12 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12872")
 	public void pas12872_VINRefreshPartialMatchUnboundQuote(@Optional("UT") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
-		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.REFRESHABLE_VIN2.get());
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.PARTIAL_MATCH_NEW_QUOTE.get());
 		String vehYear = "2016";
 		String vehMake = "CHEVROLET";
 		String vehModel = "MALIBU" ;
 		String vehSeries = "MALIBU HYBRID";
-		String vehBodyStyle = "SUV";
+		String vehBodyStyle = "SEDAN";
 
 		TestData testData = getPolicyTD()
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "")
@@ -895,8 +897,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		//1. Create a quote with partial VIN matched data and save the quote number
 		createAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 		new PremiumAndCoveragesTab().calculatePremium();
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		buttonViewRatingDetails.click();
+		buttonRatingDetailsOk.click();
 		VehicleTab.buttonSaveAndExit.click();
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
@@ -906,13 +908,13 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		//3. Retrieve the created quote
 		findAndRateQuote(testData, quoteNumber);
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		buttonViewRatingDetails.click();
 
 		//4. Check for the updated Y/M/M values in View Rating Details table
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2016");
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("CHEVROLET AUTO");
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("CHEVROLET MALIBU");
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		assertThat(tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2016");
+		assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("CHEVROLET AUTO");
+		assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("CHEVROLET MALIBU");
+		buttonRatingDetailsOk.click();
 	}
 
 	/**
@@ -934,7 +936,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12872")
 	public void pas12872_VINRefreshNoMatchRenewalTimeline(@Optional("UT") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
-		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN9.get());
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NO_MATCH_ON_RENEWAL.get());
 		String vehYear = "2017";
 		String vehMake = "FORD";
 		String vehModel = "FIESTA";
@@ -958,7 +960,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		vinMethods.uploadVinTable(vinTableFile);
 
 		//3. Generate automated renewal image according to renewal timeline
-		pas12872_VINRefreshNoMatchCommonSteps(NEW_VIN9, policyNumber, policyExpirationDate.minusDays(45));
+		pas12872_VINRefreshCommonsteps(NEW_VIN9, policyNumber, policyExpirationDate.minusDays(45), "2017","FORD MOTOR","FORD FIESTA");
 	}
 
 	/**
@@ -978,7 +980,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12872")
 	public void pas12872_VINRefreshPartialtoFullMatchRenewaltimeline(@Optional("UT") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
-		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN10.get());
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NO_MATCH_ON_NEW_BUSINESS_FULL_MATCH_ON_RENEWAL.get());
 		String vehYear = "2016";
 		String vehMake = "ACURA";
 		String vehModel = "MDX";
@@ -1002,8 +1004,9 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		vinMethods.uploadVinTable(vinTableFile);
 
 		//3. Generate automated renewal image according to renewal timeline
-		pas12872_VINRefreshPartialToFullMatchCommonsteps(NEW_VIN10, policyNumber, policyExpirationDate.minusDays(45));
+		pas12872_VINRefreshCommonsteps(NEW_VIN10, policyNumber, policyExpirationDate.minusDays(45), "2017","ACURA MOTOR", "ACC MDX");
 	}
+
 
 	@AfterSuite(alwaysRun = true)
 	protected void resetDefault() {
@@ -1021,9 +1024,9 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		DBService.get().executeUpdate(VehicleQueries.REPAIR_7MSRP15H_COMP);
 		DBService.get().executeUpdate(VehicleQueries.REPAIR_7MSRP15H_COLL);
 		DBService.get().executeUpdate(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE);
-		DBService.get().executeUpdate(VehicleQueries.UPDATE_VEHICLEREFDATAVIN_VALID_NEWPOLICY_AUTO_SS_CLEANUP);
-		DBService.get().executeUpdate(VehicleQueries.DELETE_VEHICLEREFDATAVIN_REFRESHABLE_VIN_CLEANER1_SS);
-		DBService.get().executeUpdate(VehicleQueries.UPDATE_VEHICLEREFDATAVIN_VALID_RENEWAL_AUTO_SS_CLEANUP);
-		DBService.get().executeUpdate(VehicleQueries.DELETE_VEHICLEREFDATAVIN_REFRESHABLE_VIN_CLEANER2_SS);
+		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1","1G1ZJ5SU%G","SYMBOL_2000","CHEVROLET");
+		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("1G1ZJ5SU%G", "CHEVROLET AUTO");
+		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1","3FADP4BE%H","SYMBOL_2000","FORD");
+		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("3FADP4BE%H", "FORD MOTOR");
 	}
 }

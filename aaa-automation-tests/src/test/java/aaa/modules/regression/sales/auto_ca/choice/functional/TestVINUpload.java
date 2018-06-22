@@ -2,8 +2,6 @@ package aaa.modules.regression.sales.auto_ca.choice.functional;
 
 import java.time.LocalDateTime;
 
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import org.testng.annotations.AfterSuite;
@@ -25,6 +23,7 @@ import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
+import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestVINUpload extends TestVINUploadTemplate {
@@ -247,7 +246,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-12872")
 	public void pas12872_VINRefreshNoMatchUnboundAutoCAQuote(@Optional("CA") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
-		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN7.get());
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NO_MATCH_NEW_QUOTE.get());
 		String vehYear = "2009";
 		String vehMake = "HYUNDAI";
 		String vehModel = "ACCENT";
@@ -266,8 +265,8 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		//1. Create a quote with no VIN matched data and save the quote number
 		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 		new  PremiumAndCoveragesTab().calculatePremium();
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		buttonViewRatingDetails.click();
+		buttonRatingDetailsOk.click();
 		VehicleTab.buttonSaveAndExit.click();
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.debug("quoteNumber after creating auto_ca quote is "+quoteNumber);
@@ -278,13 +277,13 @@ public class TestVINUpload extends TestVINUploadTemplate {
 
 		//3. Retrieve the created quote
 		findAndRateQuote(testData, quoteNumber);
-		aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		buttonViewRatingDetails.click();
 
 		//4. Check for the updated Y/M/M values in View Rating Details table
-		assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2009");
-		assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("HYUNDAI MOTOR");
-		assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("HYUNDAI ACCENT");
-		aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		assertThat(tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2009");
+		assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("HYUNDAI MOTOR");
+		assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("HYUNDAI ACCENT");
+		buttonRatingDetailsOk.click();
 	}
 
 	/**
@@ -303,9 +302,9 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-12872")
-	public void pas12872_VINRefreshNoMatchOnRenewalAutoCAQuote(@Optional("CA") String state) {
+	public void pas12872_VINRefreshNoMatchOnRenewalAutoCA(@Optional("CA") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
-		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN9.get());
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NO_MATCH_ON_RENEWAL.get());
 		String vehYear = "2017";
 		String vehMake = "NISSAN";
 		String vehModel = "ALTIMA";
@@ -330,7 +329,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		vinMethods.uploadVinTable(vinTableFile);
 
 		//3. Generate automated renewal image according to renewal timeline
-		pas12872_AutomatedRenewal_CAChoice(policyNumber, policyExpirationDate.minusDays(45), NEW_VIN8);
+		pas12872_VINRefreshCommonSteps(policyNumber, policyExpirationDate.minusDays(45), NEW_VIN8, "2017", "NISSAN MOTOR", "NISS ALTIMA");
 	}
 
 	@AfterSuite(alwaysRun = true)
@@ -343,9 +342,9 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(NEW_VIN6,"SYMBOL_2000_CHOICE");
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(GGGVB2CC8W9455583,"SYMBOL_2000_CHOICE");
 		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_CAC);
-		DBService.get().executeUpdate(VehicleQueries.UPDATE_VEHICLEREFDATAVIN_VALID_NEWPOLICY_CA_CHOICE_CLEANUP);
-		DBService.get().executeUpdate(VehicleQueries.DELETE_VEHICLEREFDATAVIN_REFRESHABLE_VIN_CLEANER1_CAC);
-		DBService.get().executeUpdate(VehicleQueries.UPDATE_VEHICLEREFDATAVIN_VALID_ONRENEWAL_CA_CHOICE_CLEANUP);
-		DBService.get().executeUpdate(VehicleQueries.DELETE_VEHICLEREFDATAVIN_REFRESHABLE_VIN_CLEANER2_CAC);
-		}
+		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1","KMHCN35C%9","SYMBOL_2000_CHOICE","HYUNDAI");
+		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("KMHCN35C%9", "HYUNDAI MOTOR");
+		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1","1N4BL3AP%H","SYMBOL_2000_CHOICE","NISSAN");
+		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("1N4BL3AP%H", "NISSAN MOTOR");
+	}
 }
