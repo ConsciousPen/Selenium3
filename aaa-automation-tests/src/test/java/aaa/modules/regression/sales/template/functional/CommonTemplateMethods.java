@@ -23,7 +23,7 @@ import toolkit.datax.impl.SimpleDataProvider;
 public class CommonTemplateMethods extends PolicyBaseTest {
 	private MembershipTab membershipTab = new MembershipTab();
 
-	protected String createPolicyPreconds(TestData testData) {
+ 	protected String createPreconds(TestData testData) {
 		mainApp().open();
 		createCustomerIndividual();
 		return createPolicy(testData);

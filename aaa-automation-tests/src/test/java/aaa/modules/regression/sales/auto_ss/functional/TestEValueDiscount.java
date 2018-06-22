@@ -880,7 +880,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		DBService.get().executeUpdate(eValueCurrentConfigPaInsert);
 		adminApp().open();
-		CacheManager.clearCache();
+		CacheManager.goClearCacheManagerTable();
 
 		eValueQuoteCreation();
 
@@ -2481,6 +2481,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-111")
 	public void pas111_clearCache() {
 		adminApp().open();
-		CacheManager.clearCache();
+		CacheManager.goClearCacheManagerTable();
 	}
 }

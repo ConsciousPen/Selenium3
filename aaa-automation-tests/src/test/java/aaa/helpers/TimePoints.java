@@ -273,7 +273,7 @@ public class TimePoints {
 	 */
 	public LocalDateTime getEffectiveDateForTimePoint(TimepointsList timePoint) {
 		List<String> timepoint = td.getList(timePoint.get());
-		return TimeSetterUtil.getInstance().getCurrentTime().with(DateTimeUtils.closestPastWorkingDay).minusDays(Integer.parseInt(timepoint.get(0)));
+		return TimeSetterUtil.getInstance().getPhaseStartTime().with(DateTimeUtils.closestPastWorkingDay).minusDays(Integer.parseInt(timepoint.get(0)));
 	}
 
 	/**
