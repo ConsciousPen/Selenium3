@@ -46,7 +46,7 @@ public class ConversionUtils {
 
 	public static String importPolicy(ConversionPolicyData conversionData, ITestContext context, boolean useTimeshift) {
 		File importFile = prepareXML(conversionData);
-		RemoteHelper.uploadFile(importFile.getAbsolutePath(), conversionData.getConversionType().getRemoteImportFolder() + importFile.getName());
+		RemoteHelper.get().uploadFile(importFile.getAbsolutePath(), conversionData.getConversionType().getRemoteImportFolder() + importFile.getName());
 		if (useTimeshift) {
 			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 		}
@@ -94,7 +94,7 @@ public class ConversionUtils {
 	protected static String verifyResponseSuccessAndGetNumber(ConversionType conversionType, String fileName, ITestContext context) {
 		String responseFilePath = conversionType.getRemoteResponseFolder() + fileName;
 		String downloadTo = CustomLogger.getLogDirectory() + File.separator + "downloaded_files" + File.separator + fileName;
-		RemoteHelper.downloadFileWithWait(responseFilePath, downloadTo, 30000);
+		RemoteHelper.get().downloadFileWithWait(responseFilePath, downloadTo, 30000);
 		if (context != null) {
 			context.setAttribute("attachment", downloadTo);
 		}

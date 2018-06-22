@@ -3,8 +3,15 @@ package aaa.utils.excel.bind.cache;
 import aaa.utils.excel.io.ExcelManager;
 
 public class UnmarshallingCache extends TableClassesCache<UnmarshallingClassInfo> {
+	private final boolean strictMatchBinding;
+	
 	public UnmarshallingCache(ExcelManager excelManager, boolean strictMatchBinding) {
-		super(excelManager, strictMatchBinding);
+		super(excelManager);
+		this.strictMatchBinding = strictMatchBinding;
+	}
+	
+	public boolean isStrictMatchBinding() {
+		return this.strictMatchBinding;
 	}
 	
 	@Override

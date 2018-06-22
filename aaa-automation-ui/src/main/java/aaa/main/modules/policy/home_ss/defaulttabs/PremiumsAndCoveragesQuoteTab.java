@@ -50,6 +50,7 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 
 	public static Link linkViewApplicableFeeSchedule = new Link(By.id("policyDataGatherForm:installmentFeeDetails"), Waiters.AJAX);
 	public static Link linkViewCappingDetails = new Link(By.id("policyDataGatherForm:cappingHODetailsPopup"), Waiters.AJAX);
+	public static Link linkViewPropertyQuote = new Link(By.id("policyDataGatherForm:viewHomeQuote_Link"), Waiters.AJAX);
 
 	@Override
 	public void calculatePremium() {

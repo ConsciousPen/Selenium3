@@ -6,11 +6,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.commons.lang.StringUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.helpers.mock.model.UpdatableMock;
+import aaa.helpers.mock.model.AbstractMock;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 import toolkit.exceptions.IstfException;
 
-public class RetrieveMembershipSummaryMock implements UpdatableMock {
+public class RetrieveMembershipSummaryMock extends AbstractMock {
 	@ExcelTransient
 	private static final Double AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE = 99.9;
 
@@ -50,12 +50,6 @@ public class RetrieveMembershipSummaryMock implements UpdatableMock {
 		}
 		assertThat(membershipNembers).as("There is no active and primary membership numbers without fault codes").isNotEmpty();
 		return membershipNembers;
-	}
-
-	@Override
-	public boolean update(UpdatableMock mock) {
-		//TODO-dchubkov: to be implemented...
-		return false;
 	}
 	
 	public String getMembershipNumber(LocalDate policyEffectiveDate, Integer memberPersistency) {

@@ -1,5 +1,13 @@
 package aaa.modules.regression.document_fulfillment.home_ss.dp3.functional;
 
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.PRE_RENEWAL;
+import static org.assertj.core.api.Assertions.assertThat;
+import java.util.ArrayList;
+import java.util.List;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -7,19 +15,8 @@ import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestMaigSpecificFormsGenerationTemplate;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.PRE_RENEWAL;
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenerationTemplate {
 
@@ -27,10 +24,6 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	protected PolicyType getPolicyType() {
 		return PolicyType.HOME_SS_DP3;
 	}
-
-	private static LocalDateTime renewalOfferEffectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(70);
-	private static LocalDateTime preRenewalGenerationDate = renewalOfferEffectiveDate.minusDays(65);
-	private static LocalDateTime wrongPreRenewalGenDate = renewalOfferEffectiveDate.minusDays(55);
 
 	/**
 	 * Specific Conversion Packet Generation for CW, DE, VA , MD, PA with default payment plan
@@ -97,7 +90,8 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-6731"})
 	public void pas6731_PreRenewalLetterGeneration(@Optional("PA") String state) throws NoSuchFieldException {
-		String policyNumber = generatePreRenewalEvent(getConversionPolicyDefaultTD(),renewalOfferEffectiveDate, preRenewalGenerationDate);
+		String policyNumber = generatePreRenewalEvent(getConversionPolicyDefaultTD(),
+				TimeSetterUtil.getInstance().getCurrentTime().plusDays(70), TimeSetterUtil.getInstance().getCurrentTime().plusDays(5));
 
 		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber,PRE_RENEWAL);
 		assertThat(docs.stream().map(Document::getTemplateId).toArray()).contains(DocGenEnum.Documents.HSPRNXX.getIdInXml());
@@ -117,7 +111,8 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-6731"})
 	public void pas6731_PreRenewalLetterGenerationNegativeScenario(@Optional("PA") String state){
-		String policyNumber = generatePreRenewalEvent(getConversionPolicyDefaultTD(),renewalOfferEffectiveDate, wrongPreRenewalGenDate);
+		String policyNumber = generatePreRenewalEvent(getConversionPolicyDefaultTD(),
+				TimeSetterUtil.getInstance().getCurrentTime().plusDays(70), TimeSetterUtil.getInstance().getCurrentTime().plusDays(15));
 
 		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber,PRE_RENEWAL);
 		assertThat(docs.stream().map(Document::getTemplateId).toArray()).doesNotContain(DocGenEnum.Documents.HSPRNXX.getIdInXml());
@@ -136,7 +131,8 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-6731"})
 	public void pas10666_PreRenewalLetterGeneration(@Optional("PA") String state){
-		String policyNumber = generatePreRenewalEvent(adjustWithMortgageeData(getConversionPolicyDefaultTD()),renewalOfferEffectiveDate, preRenewalGenerationDate);
+		String policyNumber = generatePreRenewalEvent(adjustWithMortgageeData(getConversionPolicyDefaultTD()),
+				TimeSetterUtil.getInstance().getCurrentTime().plusDays(70), TimeSetterUtil.getInstance().getCurrentTime().plusDays(5));
 
 		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber,PRE_RENEWAL);
 		assertThat(docs.stream().map(Document::getTemplateId).toArray()).contains(DocGenEnum.Documents.HSPRNMXX.getIdInXml());
@@ -155,7 +151,8 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-10666"})
 	public void pas10666_PreRenewalLetterGenerationNegativeScenario(@Optional("PA") String state){
-		String policyNumber = generatePreRenewalEvent(adjustWithMortgageeData(getConversionPolicyDefaultTD()),renewalOfferEffectiveDate, wrongPreRenewalGenDate);
+		String policyNumber = generatePreRenewalEvent(adjustWithMortgageeData(getConversionPolicyDefaultTD()),
+				TimeSetterUtil.getInstance().getCurrentTime().plusDays(70), TimeSetterUtil.getInstance().getCurrentTime().plusDays(15));
 		List<Document> docs = new ArrayList<>();
 		try {
 			docs = DocGenHelper.getDocumentsList(policyNumber,PRE_RENEWAL);
@@ -176,7 +173,8 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-9114"})
 	public void pas9114_PreRenewalPrintSequence(@Optional("PA") String state) throws NoSuchFieldException {
-		verifyPreRenewalFormsSequence(getConversionPolicyDefaultTD(),renewalOfferEffectiveDate, preRenewalGenerationDate);
+		verifyPreRenewalFormsSequence(getConversionPolicyDefaultTD(),
+				TimeSetterUtil.getInstance().getCurrentTime().plusDays(70), TimeSetterUtil.getInstance().getCurrentTime().plusDays(5));
 
 	}
 
@@ -191,7 +189,8 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-9114"})
 	public void pas9114_PreRenewalPrintSequenceMortgagee(@Optional("PA") String state) throws NoSuchFieldException {
-		verifyPreRenewalFormsSequence(adjustWithMortgageeData(getConversionPolicyDefaultTD()),renewalOfferEffectiveDate, preRenewalGenerationDate);
+		verifyPreRenewalFormsSequence(adjustWithMortgageeData(getConversionPolicyDefaultTD()),
+				TimeSetterUtil.getInstance().getCurrentTime().plusDays(70), TimeSetterUtil.getInstance().getCurrentTime().plusDays(5));
 	}
 
 

@@ -2,15 +2,19 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.admin.modules.administration.uploadVIN.defaulttabs;
 
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThat;
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 import org.openqa.selenium.By;
-import aaa.admin.metadata.administration.AdministrationMetaData;
-import aaa.common.DefaultTab;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import aaa.admin.metadata.administration.AdministrationMetaData;
+import aaa.admin.modules.administration.generateproductschema.defaulttabs.CacheManager;
+import aaa.common.DefaultTab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.main.enums.CacheManagerEnums;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.AssetList;
@@ -26,35 +30,60 @@ public class UploadToVINTableTab extends DefaultTab {
 
 	public static StaticElement labelUploadSuccessful = new StaticElement(By.id("uploadToVINTableForm:uploadSuccesful"));
 	public static StaticElement labelUploadFailed = new StaticElement(By.id("uploadToVINTableForm:messagesBlock"));
+	public static StaticElement uploadToVINTableForm = new StaticElement(By.xpath("//*[@id='uploadToVINTableForm:successStatusMessage']//*[@id='uploadToVINTableForm:uploadSuccesful']"));
 
 	public static Button buttonUpload = new Button(By.className("start"));
 	public static Button buttonChoose = new Button(By.className("fileinput-button"));
 
 	protected static final String DEFAULT_PATH = "src/test/resources/uploadingfiles/vinUploadFiles/";
 
+	/**
+	 * Go to the admin -> administration -> Vin upload and uploadControlTable
+	 * @param vinTableFile
+	 */
+	public void uploadFiles(String controlTableFile, String vinTableFile) {
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
+		uploadVinTable(vinTableFile);
+		uploadControlTable(controlTableFile);
+	}
+
 	public void uploadControlTable(String fileName) {
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION).setValue(true);
 		uploadFile(fileName);
 	}
 
-	public void uploadVinTable(String fileName) {
+	/**
+	 * Go to the admin -> administration -> Upload to vehicledatavin table
+	 * @param vinTableFileName xls
+	 */
+	public void uploadVinTable(String vinTableFileName) {
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION).setValue(true);
-		uploadFile(fileName);
+		uploadFile(vinTableFileName);
+		CacheManager.getToCacheManagerTab();
+		List<String> cacheName = Arrays.asList(CacheManagerEnums.CacheNameEnum.BASE_LOOKUP_CACHE.get(), CacheManagerEnums.CacheNameEnum.LOOKUP_CACHE.get(), CacheManagerEnums.CacheNameEnum.VEHICLE_VIN_REF_CACHE.get());
+		for (String cache : cacheName) {
+			CacheManager.clearFromCacheManagerTable(cache);
+		}
+		log.info("\n\nFile {} was uploaded\n\n", vinTableFileName);
 	}
-
-
 
 	private void uploadFile(String fileName) {
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(DEFAULT_PATH + fileName));
-
 		buttonUpload.click();
 
-		//TODO - Fix these 'upload successful' checks. The loading animations on the page are causing the upload checks to fail, even though the upload passed with no issues.
-//		if (labelUploadSuccessful.getValue().contains("Rows added")) {
-//			// check successfull
-//			log.info("File {} was uploaded successfully", fileName);
-//		}
-//		else {
-//			fail("File " + fileName + " was not uploaded. See error: \n" + labelUploadFailed.getValue());
+		long timeoutInSeconds = 10;
+		long timeout = System.currentTimeMillis() + timeoutInSeconds * 1000;
+
+		while (timeout > System.currentTimeMillis()) {
+			try {
+				Thread.sleep(1000);
+				log.info("Wait for file upload, in miliseconds left: {}", timeout - System.currentTimeMillis());
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			assertThat(new StaticElement(By.xpath("//*[@id='uploadToVINTableForm']")).getValue()).doesNotContain("Error");
 		}
 	}
+}

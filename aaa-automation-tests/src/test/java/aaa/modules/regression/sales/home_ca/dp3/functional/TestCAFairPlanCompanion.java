@@ -4,9 +4,13 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.docgen.AaaDocGenEntityQueries;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.HomeCaMetaData;
+import aaa.main.modules.policy.home_ca.actiontabs.PolicyDocGenActionTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaDP3BaseTest;
 import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
 import org.testng.annotations.Optional;
@@ -120,6 +124,44 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
         policy.getDefaultView().fillUpTo(getTestSpecificTD("Renewal_AC3"), EndorsementTab.class, false);
 
         myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
+    }
+
+    /**
+     * @scenario
+     * 1. Create an HO3 policy.
+     * 2. Create a DP3 policy w/ FPCECA Endorsement
+     * 3. On Policy Summary Page, select "Take Action" > "OnDemandDocs"
+     * 4. On Doc Selection Page, select 62 65000 CA 05012013 doc.
+     * 5. Verify document contains correct FP verbage with DB query.
+     * @param state
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Send FAIR Plan data to DCS when rendering EOI document")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-14675")
+    public void PAS_14675_IsFPCECAInEOI(@Optional("") String state) {
+
+        final String EXPECTED_NAME = "FairPlanYN";
+        defaultPolicyData = buildTD(defaultPolicyData);
+
+        setupHO3Policy(ho3TestData);
+
+        // Open App and Initiate DP3 Quote
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(defaultPolicyData, EndorsementTab.class, false);
+
+        // Add FPCECA Endorsement and complete Policy
+        myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
+        myHelper.completeFillAndVerifyFAIRPlanSign(policy, defaultPolicyData, EndorsementTab.class, DocumentsTab.class, getPolicyType().getShortName());
+
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+        // Generate EOI Documents
+        policy.policyDocGen().start();
+        PolicyDocGenActionTab documentActionTab = policy.policyDocGen().getView().getTab(PolicyDocGenActionTab.class);
+        documentActionTab.generateDocuments(DocGenEnum.Documents._62_6500);
+
+        myHelper.validatePdfFromDb(policyNumber, DocGenEnum.Documents._62_6500,
+                AaaDocGenEntityQueries.EventNames.ADHOC_DOC_ON_DEMAND_GENERATE, EXPECTED_NAME, "Y");
     }
 
     private TestData buildTD(TestData in_defaultPolicyData) {
