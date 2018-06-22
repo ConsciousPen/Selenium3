@@ -669,7 +669,8 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
 		customer.initiateRenewalEntry().perform(testData);
 		Tab.buttonSaveAndExit.click();
-		log.info("Conversion PUP policy number: " + PolicySummaryPage.linkPolicy.getValue());
+		PolicySummaryPage.buttonBackFromRenewals.click();
+		log.info("Conversion PUP policy number: " + PolicySummaryPage.getPolicyNumber());
 		return legacyPolicyNumber;
 	}
 
