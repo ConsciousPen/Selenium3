@@ -34,6 +34,6 @@ public class TestViewPropertyQuoteLink extends TestViewPropertyQuoteLinkTemplate
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-14842")
     public void pas14842_testViewPropertyQuoteLinkCAHO4NB(@Optional("") String state) {
 
-        pas14842_testViewPropertyQuoteLinkSS(getPolicyTD());
+        pas14842_testViewPropertyQuoteLinkCA(getPolicyTD());
     }
 }
