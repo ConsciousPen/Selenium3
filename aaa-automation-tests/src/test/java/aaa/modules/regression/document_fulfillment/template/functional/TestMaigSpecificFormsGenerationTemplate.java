@@ -487,7 +487,8 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 				PolicyType.HOME_SS_HO3.getShortName(),
 				PolicyType.HOME_SS_HO4.getShortName(),
 				PolicyType.HOME_SS_HO6.getShortName(),
-				PolicyType.HOME_SS_DP3.getShortName()).contains(policyType.getShortName());
+				PolicyType.HOME_SS_DP3.getShortName())
+				.contains(policyType.getShortName());
 	}
 
 	/* Data */
