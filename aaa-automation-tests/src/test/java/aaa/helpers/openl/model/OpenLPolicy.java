@@ -1,11 +1,8 @@
 package aaa.helpers.openl.model;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
 import com.exigen.ipb.etcsa.utils.Dollar;
-import aaa.helpers.mock.MockType;
-import aaa.helpers.mock.model.UpdatableMock;
+import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
@@ -54,9 +51,9 @@ public abstract class OpenLPolicy {
 
 	public abstract LocalDate getEffectiveDate();
 
-	public Map<MockType, UpdatableMock> getRequiredMocks() {
+	public MocksCollection getRequiredMocks() {
 		//TODO-dchubkov: to be implemented in child classes
-		return new HashMap<>();
+		return null;
 	}
 	
 	@Override

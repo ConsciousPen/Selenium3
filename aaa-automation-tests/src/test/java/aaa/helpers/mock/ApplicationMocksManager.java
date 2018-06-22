@@ -1,8 +1,8 @@
 package aaa.helpers.mock;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,33 +26,31 @@ public class ApplicationMocksManager {
 	private static final String APP_MOCKS_FOLDER = String.format(PropertyProvider.getProperty(CustomTestProperties.APP_STUB_FOLDER_TEMPLATE), ENV_NAME);
 	private static final String APP_MOCKS_RESTART_SCRIPT = PropertyProvider.getProperty(CustomTestProperties.APP_STUB_RESTART_SCRIPT);
 
-	private static Map<MockType, UpdatableMock> appMocks = new HashMap<>();
+	private static MocksCollection appMocks = new MocksCollection();
 
 	@SuppressWarnings("unchecked")
 	public static synchronized <M extends UpdatableMock> M getMock(MockType mockType) {
-		if (!appMocks.containsKey(mockType)) {
+		if (!appMocks.has(mockType)) {
 			M mock = getMockDataObject(mockType.getFileName(), mockType.getMockModel());
-			appMocks.put(mockType, mock);
+			appMocks.add(mock);
 		}
 		return (M) appMocks.get(mockType);
 	}
 
-	public static synchronized void updateMocks(Map<MockType, UpdatableMock> requiredMocks) {
-		Map<MockType, UpdatableMock> updatedMocks = new HashMap<>();
+	public static synchronized void updateMocks(MocksCollection requiredMocks) {
+		List<UpdatableMock> mocksToUpload = new ArrayList<>();
 
-		for (Map.Entry<MockType, UpdatableMock> requiredMock : requiredMocks.entrySet()) {
-			UpdatableMock appMock = getMock(requiredMock.getKey());
-			if (appMock.update(requiredMock.getValue())) {
-				updatedMocks.put(requiredMock.getKey(), appMock);
-			}
+		for (UpdatableMock mock : requiredMocks) {
+			UpdatableMock appMock = getMock(mock.getType());
+			mocksToUpload.add(appMock.merge(mock));
 		}
 
-		if (!updatedMocks.isEmpty()) {
+		if (!mocksToUpload.isEmpty()) {
 			RemoteHelper.get().clearFolder(TEMP_MOCKS_FOLDER);
 			ExcelMarshaller excelMarshaller = new ExcelMarshaller();
-			for (Map.Entry<MockType, UpdatableMock> mock : updatedMocks.entrySet()) {
-				File updatedMock = new File(TEMP_MOCKS_FOLDER, mock.getKey().getFileName());
-				excelMarshaller.marshal(mock.getValue(), updatedMock);
+			for (UpdatableMock mock : mocksToUpload) {
+				File output = new File(TEMP_MOCKS_FOLDER, mock.getType().getFileName());
+				excelMarshaller.marshal(mock, output);
 			}
 			RemoteHelper.get()
 					.uploadFiles(TEMP_MOCKS_FOLDER, APP_MOCKS_FOLDER)
