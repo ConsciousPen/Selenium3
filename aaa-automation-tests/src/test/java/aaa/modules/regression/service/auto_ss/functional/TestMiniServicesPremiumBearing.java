@@ -928,6 +928,22 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	}
 
 	/**
+	 * @author Maris Strazds
+	 * Create a active policy in the pas
+	 * Create an endorsement.
+	 * run update coverage service
+	 * set BI Coverage and verify that UM and UIM (or UM/UIM where it is not seperate coverages) response limit is set to the same limit as updated BI limit
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@StateList(states = {Constants.States.AZ, Constants.States.ID, Constants.States.KY, Constants.States.PA, Constants.States.SD, Constants.States.UT, Constants.States.WV, //applicable states for PAS-15254
+			Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS, Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR}) //applicable states for PAS-14733
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15254", "PAS-14733"})
+	public void pas15254_14733_UpdateCoveragesBI_UM_UIM(@Optional("AZ") String state) {
+		pas15254_14733_UpdateCoveragesUM_UIM_Body(getPolicyType(), getState());
+	}
+
+	/**
 	 * @author Megha Gubbala
 	 * Create a active policy with 2018 and leased  vehicle
 	 * Create an endorsement.
