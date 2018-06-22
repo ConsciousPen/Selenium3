@@ -17,13 +17,13 @@ import toolkit.config.TestProperties;
 public class ApplicationMocksManager {
 	protected static final Logger log = LoggerFactory.getLogger(ApplicationMocksManager.class);
 
-	private static final String EIS_USER = PropertyProvider.getProperty(CustomTestProperties.APP_ADMIN_USER);
-	private static final String APP_AUTH_KEYPATH = PropertyProvider.getProperty(CustomTestProperties.APP_AUTH_KEYPATH);
+	private static final String APP_ADMIN_USER = PropertyProvider.getProperty(CustomTestProperties.APP_ADMIN_USER);
+	private static final String APP_ADMIN_PASSWORD = PropertyProvider.getProperty(CustomTestProperties.APP_ADMIN_PASSWORD);
+	private static final String APP_AUTH_KEYPATH = PropertyProvider.getProperty(CustomTestProperties.APP_SSH_AUTH_KEYPATH);
 	private static final String ENV_NAME = PropertyProvider.getProperty(TestProperties.APP_HOST).split("\\.")[0];
 	private static final String TEMP_MOCKS_FOLDER = "src/test/resources/mock";
-	//TODO-dchubkov: move to property
-	private static final String APP_MOCKS_FOLDER = String.format(
-			"/opt/IBM/WebSphere/AppServer/profiles/AppSrv01/installedApps/%sCell01/aaa-external-stub-services-app-ear.ear/aaa-external-stub-services-app.war/WEB-INF/classes/META-INF/mock", ENV_NAME);
+	private static final String APP_MOCKS_FOLDER = String.format(PropertyProvider.getProperty(CustomTestProperties.APP_STUB_FOLDER_TEMPLATE), ENV_NAME);
+	private static final String APP_MOCKS_RESTART_SCRIPT = PropertyProvider.getProperty(CustomTestProperties.APP_STUB_RESTART_SCRIPT);
 
 	private static Map<MockType, UpdatableMock> appMocks = new HashMap<>();
 
@@ -62,10 +62,10 @@ public class ApplicationMocksManager {
 	}
 	
 	public static void restartStubServer() {
-		//TODO-dchubkov: restart on Windows
-		String command = "/opt/IBM/WebSphere/AppServer/profiles/AppSrv01/bin/wsadmin.sh -lang jacl -user admin -password admin -c \"\\$AdminControl %1$s cluster_external_stub_server %2$sNode01\"";
+		//TODO-dchubkov: restart on Windows and Tomcat
+		String command = APP_MOCKS_RESTART_SCRIPT + " -lang jacl -user admin -password admin -c \"\\$AdminControl %1$s cluster_external_stub_server %2$sNode01\"";
 		//TimeSetterUtil.getInstance().adjustTime(); // set date to today
-		RemoteHelper ssh = RemoteHelper.with().user(EIS_USER).privateKey(APP_AUTH_KEYPATH).execTimeoutInSeconds(700).failIfExecTimeoutExceeded(true).get();
+		RemoteHelper ssh = RemoteHelper.with().user(APP_ADMIN_USER, APP_ADMIN_PASSWORD).privateKey(APP_AUTH_KEYPATH).execTimeoutInSeconds(700).failIfExecTimeoutExceeded(true).get();
 
 		log.info("Stopping stub server...");
 		ssh.executeCommand(String.format(command, "stopServer", ENV_NAME));
