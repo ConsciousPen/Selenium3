@@ -904,7 +904,6 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	public void pas10352_ManageVehicleCoverageUpdateCoverageOtherThanVa(@Optional("AZ") String state) {
 
 		pas10352_ManageVehicleCoverageUpdateCoverageOtherState(getPolicyType());
-
 	}
 
 	/**

@@ -3655,8 +3655,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		//Perform Endorsement
-		AAAEndorseResponse endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		String purchaseDate = "2012-02-21";
 		String vin = "SHHFK7H41JU201444";
@@ -3688,9 +3687,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		VehicleUpdateResponseDto ownershipUpdateResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
 		assertThat(ownershipUpdateResponse.vehicleOwnership.ownership).isEqualTo("LSD");
 
-		//   String policyNumber="AZSS952918733";
-		//  String newVehicleOid ="j0VHe9R4Iwr-heXO5LlKbw";
-
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
@@ -3708,8 +3704,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		String coverageCd = "COMPDED";
 		String availableLimits = "100";
 
-		 PolicyCoverageInfo coverageResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, coverageCd, availableLimits);
-	assertSoftly(softly -> {
+		PolicyCoverageInfo coverageResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, coverageCd, availableLimits);
+		assertSoftly(softly -> {
 
 			coverageXproperties(softly, 0, coverageResponse, "COMPDED", "Comprehensive Deductible", availableLimits, availableLimits, "Deductible", true, true);
 
@@ -3766,7 +3762,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		String coverageCd3 = "LOAN";
 		String availableLimits3 = "1";
 
-	   PolicyCoverageInfo coverageResponse3 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, coverageCd3, availableLimits3);
+		PolicyCoverageInfo coverageResponse3 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, coverageCd3, availableLimits3);
 		assertSoftly(softly -> {
 			coverageXproperties(softly, 0, coverageResponse3, "COMPDED", "Comprehensive Deductible", availableLimits, availableLimits, "Deductible", true, true);
 
@@ -3801,7 +3797,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		});
 
-	    String coverageCd5 = "TOWINGLABOR";
+		String coverageCd5 = "TOWINGLABOR";
 		String availableLimits5 = "50/300";
 
 		PolicyCoverageInfo coverageResponse5 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, coverageCd5, availableLimits5);
@@ -4327,8 +4323,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		});
 
 		//Perform Endorsement
-		AAAEndorseResponse endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		PolicyCoverageInfo policyCoverageEndorsementResponse = HelperCommon.viewEndorsementCoverages(policyNumber);
 		assertSoftly(softly -> {
