@@ -24,4 +24,6 @@ public class CustomTestProperties extends TestProperties {
 	public static final String BATCHJOB_RUN_MODE = "batchjob.run.mode"; // available values: http, soap
 	public static final String RATING_REPO_USER = "rating.repo.user";
 	public static final String RATING_REPO_PASSWORD = "rating.repo.password";
+	public static final String APP_ADMIN_USER = "app.admin.user";
+	public static final String APP_AUTH_KEYPATH = "app.auth.keypath";
 }
