@@ -131,7 +131,7 @@ public class TestMiniServicesDriversAbstract extends PolicyBaseTest {
 		addDriverRequest.firstName = "Justin";
 		addDriverRequest.middleName = "Doc";
 		addDriverRequest.lastName = "Jill";
-		addDriverRequest.birthDate = "1985-01-31";
+		addDriverRequest.birthDate = "1999-01-31";
 		addDriverRequest.suffix = "III";
 
 		DriversDto addDriverRequestService = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);

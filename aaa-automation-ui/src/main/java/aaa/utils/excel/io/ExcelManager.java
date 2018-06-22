@@ -244,7 +244,7 @@ public class ExcelManager implements Closeable {
 		boolean overwriteOpenedFile = false;
 		
 		if (initializedFromFile() && destinationFile.exists() && getFile().equals(destinationFile)) {
-			writeToFile = new File(FilenameUtils.removeExtension(destinationFile.getAbsolutePath()) + "_TEMP" + FilenameUtils.getExtension(destinationFile.getName()));
+			writeToFile = new File(FilenameUtils.removeExtension(destinationFile.getAbsolutePath()) + "_TEMP." + FilenameUtils.getExtension(destinationFile.getName()));
 			overwriteOpenedFile = true;
 		} else {
 			writeToFile = destinationFile;

@@ -898,6 +898,14 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 
 	}
 
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10352"})
+	public void pas10352_ManageVehicleCoverageUpdateCoverageOtherThanVa(@Optional("AZ") String state) {
+
+		pas10352_ManageVehicleCoverageUpdateCoverageOtherState(getPolicyType());
+	}
+
 	/**
 	 * @author Megha Gubbala
 	 * Create a active policy in the pas
@@ -962,6 +970,14 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	public void pas12769_ViewVehicleLevelCoveragesOneVehicle(@Optional("VA") String state) {
 
 		pas11741_ViewVehicleLevelCoverages(getPolicyType());
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14648"})
+	public void pas14645_ViewPolicyLevelCoverages(@Optional("VA") String state) {
+
+		pas14645_ViewCoveragesBiPd(getPolicyType());
 	}
 
 	/**

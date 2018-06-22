@@ -231,7 +231,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 			methodName = result.getClassName() + "." + result.getMethodName() + "_" + getState();
 		}
 		String pathToLogs = "/AAA/tcserver/pivotal-tc-server-developer-3.0.0.RELEASE/tomcat-7.0.55.A.RELEASE/logs/aaa.log";
-		String log = RemoteHelper.getFileContent(pathToLogs);
+		String log = RemoteHelper.get().getFileContent(pathToLogs);
 
 	}
 

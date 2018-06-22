@@ -63,6 +63,7 @@
                     <include name="pas14463_ViewDriverService"/>
                     <include name="pas482_ViewDriverServiceOrderOfDriver"/>
                     <include name="pas478_AddDrivers"/>
+                    <include name="pas10352_ManageVehicleCoverageUpdateCoverageOtherThanVa"/>
                 </methods>
             </class>
         </classes>

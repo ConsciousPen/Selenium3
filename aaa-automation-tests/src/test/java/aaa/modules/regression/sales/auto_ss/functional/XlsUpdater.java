@@ -73,11 +73,11 @@ public class XlsUpdater {
 		if (file == null) {
 			throw new IstfException("Stub file is NULL");
 		}
-		RemoteHelper.uploadFile(new File(ORIGIN_STUB_PATH + file).getAbsolutePath(), DESTINATION_STUB_PATH + file);
+		RemoteHelper.get().uploadFile(new File(ORIGIN_STUB_PATH + file).getAbsolutePath(), DESTINATION_STUB_PATH + file);
 	}
 
 	private static synchronized void removeFileFromServer(File file) {
-		RemoteHelper.removeFile(DESTINATION_STUB_PATH + file);
+		RemoteHelper.get().removeFile(DESTINATION_STUB_PATH + file);
 	}
 
 }

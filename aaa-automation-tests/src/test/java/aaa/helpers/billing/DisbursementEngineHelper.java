@@ -70,7 +70,7 @@ public class DisbursementEngineHelper {
 		if (file == null) {
 			throw new IstfException("Disbursement engine file is NULL");
 		}
-		RemoteHelper.uploadFile(file.getAbsolutePath(), String.format(DISBURSEMENT_ENGINE_PATH, folderName, file.getName()));
+		RemoteHelper.get().uploadFile(file.getAbsolutePath(), String.format(DISBURSEMENT_ENGINE_PATH, folderName, file.getName()));
 	}
 
 	public static class DisbursementEngineFileBuilder {
