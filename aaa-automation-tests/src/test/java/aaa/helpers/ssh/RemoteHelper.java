@@ -12,7 +12,7 @@ import com.jcraft.jsch.SftpException;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
 
-public class RemoteHelper {
+public final class RemoteHelper {
 
 	private static final Logger log = LoggerFactory.getLogger(RemoteHelper.class);
 	private static Map<ConnectionParams, RemoteHelper> sshConnections = new HashMap<>();
@@ -23,11 +23,20 @@ public class RemoteHelper {
 	private RemoteHelper(ConnectionParams connectionParams) {
 		this.connectionParams = connectionParams;
 		log.info("Establishing remote connection with {}", connectionParams);
-		ssh = new Ssh(connectionParams);
+		this.ssh = new Ssh(connectionParams);
+	}
+
+	public String getServerTimeZone() {
+		String cmd = "timedatectl | grep -oP 'Time zone: \\K.*(?= \\()'";
+		return executeCommand(cmd).trim();
 	}
 
 	public static RemoteHelper get() {
-		return get(ConnectionParams.getDefault());
+		return get(ConnectionParams.DEFAULT);
+	}
+
+	public static ConnectionParams with() {
+		return new ConnectionParams();
 	}
 
 	static synchronized RemoteHelper get(ConnectionParams cp) {
@@ -37,15 +46,6 @@ public class RemoteHelper {
 			return remoteHelper;
 		}
 		return sshConnections.get(cp);
-	}
-
-	public static ConnectionParams with() {
-		return new ConnectionParams();
-	}
-
-	public String getServerTimeZone() {
-		String cmd = "timedatectl | grep -oP 'Time zone: \\K.*(?= \\()'";
-		return executeCommand(cmd).trim();
 	}
 
 	public RemoteHelper clearFolder(List<String> folderNames) {
@@ -128,8 +128,12 @@ public class RemoteHelper {
 	}
 
 	public String executeCommand(String command) {
-		log.info(String.format("SSH: Executing on host \"%1$s\" shell command: \"%2$s\" as user \"%3$s\"", connectionParams.getHost(), command, connectionParams.getUser()));
-		String result = ssh.executeCommand(command);
+		return executeCommand(command, ExecutionParams.DEFAULT);
+	}
+
+	public String executeCommand(String command, ExecutionParams execParams) {
+		log.info(String.format("SSH: Executing on host \"%1$s\" shell command: \"%2$s\" as user \"%3$s\" with %4$s", connectionParams.getHost(), command, connectionParams.getUser(), execParams));
+		String result = ssh.executeCommand(command, execParams);
 		log.info(String.format("SSH: command output is: \"%s\"", result));
 		return result;
 	}
@@ -202,7 +206,7 @@ public class RemoteHelper {
 		log.info("Searching for file(s) {}", searchParams);
 		long searchStart = System.currentTimeMillis();
 		long timeout = searchStart + timeoutInSeconds * 1000;
-		String commandOutput = "";
+		String commandOutput;
 		do {
 			if (!(commandOutput = executeCommand(cmd)).isEmpty()) {
 				break;

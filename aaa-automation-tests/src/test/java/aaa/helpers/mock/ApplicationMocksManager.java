@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.mock.model.UpdatableMock;
+import aaa.helpers.ssh.ExecutionParams;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.utils.excel.bind.ExcelMarshaller;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
@@ -52,30 +53,30 @@ public class ApplicationMocksManager {
 			for (Map.Entry<MockType, UpdatableMock> mock : updatedMocks.entrySet()) {
 				File updatedMock = new File(TEMP_MOCKS_FOLDER, mock.getKey().getFileName());
 				excelMarshaller.marshal(mock.getValue(), updatedMock);
-				RemoteHelper.get().uploadFile(updatedMock.getAbsolutePath(), APP_MOCKS_FOLDER);
-				if (!updatedMock.delete()) {
-					log.error("Unable to delete mock file: %s", updatedMock);
-				}
 			}
+			RemoteHelper.get()
+					.uploadFiles(TEMP_MOCKS_FOLDER, APP_MOCKS_FOLDER)
+					.clearFolder(TEMP_MOCKS_FOLDER);
+
 			restartStubServer();
 		}
 	}
-	
+
 	public static void restartStubServer() {
 		//TODO-dchubkov: restart on Windows and Tomcat
 		String command = APP_MOCKS_RESTART_SCRIPT + " -lang jacl -user admin -password admin -c \"\\$AdminControl %1$s cluster_external_stub_server %2$sNode01\"";
 		//TimeSetterUtil.getInstance().adjustTime(); // set date to today
-		RemoteHelper ssh = RemoteHelper.with().user(APP_ADMIN_USER, APP_ADMIN_PASSWORD).privateKey(APP_AUTH_KEYPATH).execTimeoutInSeconds(700).failIfExecTimeoutExceeded(true).get();
+		RemoteHelper ssh = RemoteHelper.with().user(APP_ADMIN_USER, APP_ADMIN_PASSWORD).privateKey(APP_AUTH_KEYPATH).get();
 
 		log.info("Stopping stub server...");
-		ssh.executeCommand(String.format(command, "stopServer", ENV_NAME));
+		ssh.executeCommand(String.format(command, "stopServer", ENV_NAME), ExecutionParams.with().timeoutInSeconds(300).failOnTimeout().failOnError());
 		log.info("Stub server has been stopped");
 
 		log.info("Starting stub server...it may take up to 10 minutes");
-		ssh.executeCommand(String.format(command, "startServer", ENV_NAME));
+		ssh.executeCommand(String.format(command, "startServer", ENV_NAME), ExecutionParams.with().timeoutInSeconds(700).failOnTimeout().failOnError());
 		log.info("Stub server has been started");
 	}
-	
+
 	private static <M> M getMockDataObject(String fileName, Class<M> mockDataClass) {
 		String mockSourcePath = APP_MOCKS_FOLDER + "/" + fileName;
 		String mockTempDestinationPath = TEMP_MOCKS_FOLDER + "/" + RandomStringUtils.randomNumeric(10) + "_" + fileName;

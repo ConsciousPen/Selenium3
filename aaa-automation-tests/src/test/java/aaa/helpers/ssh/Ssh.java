@@ -27,9 +27,6 @@ public class Ssh {
 	private String user;
 	private String password;
 	private String privateKeyPath;
-	private int execTimeoutInSeconds;
-	private int execRetryIntervalInMilliseconds;
-	private boolean failIfExecTimeoutExceeded;
 
 	public Ssh(String host, String user, String password) {
 		this(new ConnectionParams().host(host).user(user, password));
@@ -41,9 +38,6 @@ public class Ssh {
 		this.user = cp.getUser();
 		this.password = cp.getPassword();
 		this.privateKeyPath = cp.getPrivateKeyPath();
-		this.execTimeoutInSeconds = cp.getExecTimeoutInSeconds();
-		this.execRetryIntervalInMilliseconds = cp.getExecRetryIntervalInMilliseconds();
-		this.failIfExecTimeoutExceeded = cp.isFailIfExecTimeoutExceeded();
 
 		try {
 			this.jsch = new JSch();
@@ -210,9 +204,10 @@ public class Ssh {
 		}
 	}
 
-	public synchronized String executeCommand(String command) {
-		StringBuilder output = new StringBuilder();
-		StringBuilder errorOutput = new StringBuilder();
+	public synchronized String executeCommand(String command, ExecutionParams execParams) {
+		StringBuilder outputBuilder = new StringBuilder();
+		StringBuilder errorOutputBuilder = new StringBuilder();
+		String errorOutput;
 
 		try {
 			createSession();
@@ -228,16 +223,16 @@ public class Ssh {
 
 		try (InputStream in = execChannel.getInputStream(); InputStream errStream = execChannel.getErrStream()) {
 			byte[] tmp = new byte[1024];
-			long startTime = System.currentTimeMillis();
-			long currentTime = startTime;
-			long endTime = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(this.execTimeoutInSeconds);
-			while (true) {
+			long currentTime = System.currentTimeMillis();
+			long startTime = currentTime;
+			long endTime = currentTime + TimeUnit.SECONDS.toMillis(execParams.getTimeoutInSeconds());
+			while (currentTime < endTime) {
 				while (in.available() > 0) {
 					int i = in.read(tmp, 0, 1024);
 					if (i < 0) {
 						break;
 					}
-					output.append(new String(tmp, 0, i));
+					outputBuilder.append(new String(tmp, 0, i));
 				}
 
 				while (errStream.available() > 0) {
@@ -245,7 +240,7 @@ public class Ssh {
 					if (i < 0) {
 						break;
 					}
-					errorOutput.append(new String(tmp, 0, i));
+					errorOutputBuilder.append(new String(tmp, 0, i));
 				}
 
 				if (execChannel.isClosed()) {
@@ -255,28 +250,30 @@ public class Ssh {
 					break;
 				}
 
-				if (currentTime > endTime) {
-					String message = String.format("SSH: Command execution time has exeeded! Timed out after: %s seconds!", TimeUnit.MILLISECONDS.toSeconds(currentTime - startTime));
-					if (this.failIfExecTimeoutExceeded) {
-						throw new IstfException(message);
-					}
-					log.error(message);
-					break;
-				}
-
 				try {
-					TimeUnit.MILLISECONDS.sleep(this.execRetryIntervalInMilliseconds);
+					TimeUnit.MILLISECONDS.sleep(execParams.getRetryIntervalInMilliseconds());
 					currentTime = System.currentTimeMillis();
 				} catch (InterruptedException | RuntimeException e) {
 					throw new IstfException("SSH: Exception in Thread.sleep", e);
 				}
 			}
 
-			if (execChannel.getExitStatus() != 0) {
-				String error = errorOutput.toString();
-				log.error("Command returned exit code {}{}", execChannel.getExitStatus(), error.isEmpty() ? "" : " with error message:\n" + error);
+			if (currentTime >= endTime) {
+				String message = String.format("SSH: Command execution time has exeeded! Timed out after: %s seconds!", TimeUnit.MILLISECONDS.toSeconds(currentTime - startTime));
+				if (execParams.isFailOnTimeout()) {
+					throw new IstfException(message);
+				}
+				log.error(message);
 			}
 
+			errorOutput = errorOutputBuilder.toString();
+			if (execChannel.getExitStatus() != 0 || !errorOutput.isEmpty()) {
+				String message = String.format("Command returned exit code %1$s and %2$s", execChannel.getExitStatus(), errorOutput.isEmpty() ? "empty error message" : "error message:\n" + errorOutput);
+				if (execParams.isFailOnError()) {
+					throw new IstfException(message);
+				}
+				log.error(message);
+			}
 		} catch (IOException e) {
 			throw new IstfException("SSH: Unable to execute command: " + command + "\n", e);
 		} finally {
@@ -285,7 +282,10 @@ public class Ssh {
 			}
 		}
 
-		return output.toString();
+		if (execParams.isReturnErrorOutput()) {
+			return errorOutput;
+		}
+		return outputBuilder.toString();
 	}
 
 	public String parseFileName(String source) {
