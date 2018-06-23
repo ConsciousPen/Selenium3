@@ -594,28 +594,6 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		pas10227_ViewPremiumServiceForPendedEndorsement();
 	}
 
-	/**
-	 * @author Jovita Pukenaite
-	 * @name Transaction Information For Endorsements outside of PAS - AddVehicle
-	 * @scenario 1. Create policy.
-	 * 2. Start do endorsement outside of PAS.
-	 * 3. Hit "Transaction History Service". Check if response is empty.
-	 * 4. Add Vehicle.
-	 * 5. Hit "Transaction History Service". Check new vehicle info.
-	 * 6. Update "Usage".
-	 * 7. Rate endorsement
-	 * 8. Add one more vehicle.
-	 * 9. Hit "Transaction History Service". Check new vehicle info.
-	 * 10. Bind endorsement.
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9493"})
-	public void pas9493_TransactionInformationForEndorsementsAddVehicle(@Optional("VA") String state) {
-		assertSoftly(softly ->
-				pas9493_TransactionInformationForEndorsementsAddVehicleBody(getPolicyType())
-		);
-	}
 
 	/**
 	 * @author Oleg Stasyuk
