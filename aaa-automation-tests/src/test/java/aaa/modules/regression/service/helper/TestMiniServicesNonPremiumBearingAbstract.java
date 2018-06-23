@@ -39,11 +39,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	protected abstract AssetDescriptor<JavaScriptButton> getCalculatePremium();
 
 	protected void pas1441_emailChangeOutOfPasTestBody() {
-		//TestData endorsementTd =
 		mainApp().open();
-		//String policyNumber = getCopiedPolicy();
-		String policyNumber = "AZSS926232005";
-		SearchPage.openPolicy(policyNumber);
+		String policyNumber = getCopiedPolicy();
+
 		//BUG PAS-5815 There is an extra Endorse action available for product
 		NavigationPage.comboBoxListAction.verify.noOption("Endorse");
 

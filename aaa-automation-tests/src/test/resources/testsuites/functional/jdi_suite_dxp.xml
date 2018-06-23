@@ -68,8 +68,8 @@
             </class>
         </classes>
     </test>
-    <test name="TestMiniServicesPremiumBearingAZ" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
+    <test name="TestMiniServicesPremiumBearingVA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
