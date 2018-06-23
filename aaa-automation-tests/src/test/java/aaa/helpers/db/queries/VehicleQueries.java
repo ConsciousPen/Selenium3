@@ -48,4 +48,7 @@ public class VehicleQueries {
 	public static final String UPDATE_DISPLAYVALUE_BY_CODE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = '%1$s' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST "
 			+ "WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'vinRefresh'";
 	public static final String PAYMENT_CENTRAL_CONFIG_CHECK = "select value from PROPERTYCONFIGURERENTITY where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')";
+
+	public static final String INSERT_EFF_DATE_INTO_CONTROL_TABLE = "update VEHICLEREFDATAVINCONTROL set EFFECTIVEDATE = '%s' where EFFECTIVEDATE = '0'";
+	public static final String INSERT_EXP_DATE_INTO_CONTROL_TABLE = "update VEHICLEREFDATAVINCONTROL set EXPIRATIONDATE = '%s' where EXPIRATIONDATE = '0'";
 }
