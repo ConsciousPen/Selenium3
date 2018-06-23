@@ -7,14 +7,9 @@ import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import toolkit.utils.TestInfo;
 
 public class TestMiniServicesGeneral extends aaa.modules.regression.service.helper.TestMiniServicesGeneral {
-
-	private final DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
-	private final TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 
 	@Override
 	protected PolicyType getPolicyType() {
