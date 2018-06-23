@@ -337,24 +337,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		);
 	}
 
-	/**
-	 * @author Jovita Pukenaite
-	 * @name view Drivers service, check info.
-	 * @scenario
-	 * 1. Create policy with two drivers.
-	 * 2. Check if the same drivers are displaying in dxp service.
-	 * 3. Initiate endorsement, and add driver middle name and suffix for one of the drivers. Don't bind.
-	 * 4. Check if user can't be able to see new driver information.
-	 * 5. Bind the endorsement.
-	 * 6. Check if new information from endorsement is displaying.
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11932", "PAS-12768"})
-	public void pas11932_viewDrivers(@Optional("VA") String state) {
 
-		pas11932_viewDriversInfo(getPolicyType(), state);
-	}
 
 	/**
 	 * @author Jovita Pukenaite
@@ -581,35 +564,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		);
 	}
 
-	/**
-	 * @author Oleg Stasyuk
-	 * @name Retrieve lookup data service - Payment Methods
-	 * @scenario 1. Add State Specific configurations for specific dates, which changes Default configuration's values
-	 * 2. Add State Specific configurations for specific dates, which adds new values to it
-	 * 3. Retrieve lookup values for the mentioned dates, check value
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9997"})
-	public void pas9997_paymentMethodsLookup(@Optional("") String state) {
 
-		pas9997_paymentMethodsLookup();
-	}
-
-	/**
-	 * @author Oleg Stasyuk
-	 * @name Retrieve lookup data service - Payment Plans
-	 * @scenario 1. Add State Specific configurations for specific dates, which changes Default configuration's values
-	 * 2. Add State Specific configurations for specific dates, which adds new values to it
-	 * 3. Retrieve lookup values for the mentioned dates, check value
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9997"})
-	public void pas9997_paymentPlansLookup(@Optional("") String state) {
-
-		pas9997_paymentPlansLookup();
-	}
 
 	/**
 	 * @author Jovita Pukenaite
@@ -677,100 +632,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		pas9610_UpdateVehicleService();
 	}
 
-	/**
-	 * @author Megha Gubbala
-	 * Create a policy with 2 driver and 2 vehicle
-	 * Create pended endorsement using DXP
-	 * For 2 driver and 1 vehicle check primary response
-	 * Add vehicle Using DXP
-	 * Hit driver assignement service to verify unassigned response
-	 * Pas go to assign page and save
-	 * Hit driver assignement service to verify unassigned response
-	 * Verify Occasional Satatus
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10484"})
-	public void pas10484_ViewDriverAssignment(@Optional("VA") String state) {
 
-		pas10484_ViewDriverAssignmentService(getPolicyType());
-	}
-
-	/**
-	 * @author Megha Gubbala
-	 * Create a policy with 1 driver and 1 vehicle
-	 * Create pended endorsement using DXP
-	 * Add vehicle Using DXP
-	 * Hit driver assignement service to verify Response
-	 * Pas go to assign page and get information
-	 * Hit driver assignement service to verify 1 driver is assigned to both vehicle
-	 * Verify primary for first vehicle and ocasional for 2nd vehicle
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11633"})
-	public void pas11633_ViewDriverAssignmentAutoAssign(@Optional("VA") String state) {
-
-		pas11633_ViewDriverAssignmentAutoAssignService(getPolicyType());
-	}
-
-	/**
-	 * @author Jovita Pukenaite
-	 * @name Update driver assignment, rule D=V
-	 * @scenario 1. Create a policy with V1 and D1, D2.
-	 * 2. Hit view driver assignment service. Get all info.
-	 * 3. Add V2.
-	 * 4. Hit DA update service.
-	 * a) V2-->D1 and check response (V2-->D1, V1-->D2)
-	 * b) Update , V1-->D1 (V1-->D1, V2-->Unn)
-	 * c) Update V2-->D2 (V1-->D1, V2-->D2)
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994"})
-	public void pas13994_UpdateDriverAssignmentServiceRule1(@Optional("VA") String state) {
-
-		pas13994_UpdateDriverAssignmentServiceRule1Body(getPolicyType());
-	}
-
-	/**
-	 * @author Jovita Pukenaite
-	 * @name Update driver assignment, rule V>D
-	 * @scenario 1. Create a policy with 3V and 2D
-	 * 2. Hit view driver assignment service. Get all info.
-	 * 3. Add V4.
-	 * 4. Hit view vehicle service, get all info.
-	 * 4. Hit DA update service:
-	 * a) V4-->D1 (D1-->V1,V3,V4, D2-->V2)
-	 * b) V4-->D2 (D1-->V1,V3 D2-->V2,V4)
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994"})
-	public void pas13994_UpdateDriverAssignmentServiceRule2(@Optional("VA") String state) {
-
-		pas13994_UpdateDriverAssignmentServiceRule2Body(getPolicyType());
-	}
-
-	/**
-	 * @author Jovita Pukenaite
-	 * @name Update driver assignment, rule V<D
-	 * @scenario 1. Create a policy with 2V and 4D
-	 * 2. Hit view driver assignment service. Get all info.
-	 * 3. Add one more vehicle V3.
-	 * 4. Hit view vehicle service, get all info.
-	 * 4. Hit DA update service:
-	 * a) V3-->D1 (V1-->D2, V2-->D3,D4, V3-->D1)
-	 * b) V2-->D2 (V1-->D2, V2-->D3,D4,D2 V3-->D1)
-	 * c) V2-->D1 (V1-->Unn, V2-->D3,D4,D2,D1 V3-->Unn)
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994"})
-	public void pas13994_UpdateDriverAssignmentServiceRule3(@Optional("VA") String state) {
-
-		pas13994_UpdateDriverAssignmentServiceRule3Body(getPolicyType());
-	}
 
 	/**
 	 * @author Oleg Stasyuk
@@ -1102,64 +964,11 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		pas7147_VehicleUpdateRegisteredOwnerBody();
 	}
 
-	/**
-	 * @author Oleg Stasyuk
-	 * @name Validation of E2E flow in DXP
-	 * @scenario 1. see script body
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12866"})
-	public void pas12866_e2e(@Optional("AZ") String state) {
-		assertSoftly(softly ->
-				pas12866_e2eBctBody(state, true, softly)
-		);
-	}
 
-	/**
-	 * @author Oleg Stasyuk
-	 * @name Validation of E2E flow in DXP
-	 * @scenario 1. see script body
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12866"})
-	public void pas12866_e2eBct(@Optional("ID") String state) {
-		assertSoftly(softly ->
-				pas12866_e2eBctBody(state, false, softly)
-		);
-	}
 
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11684"})
-	public void pas11684_DriverAssignmentExistsForState(@Optional("UT") String state) {
-		assertSoftly(softly ->
-				pas11684_DriverAssignmentExistsForStateBody(state, softly)
-		);
-	}
 
-	/**
-	 * @author Megha Gubbala
-	 * @name Validate Meta data for Vehicle
-	 * Create a va policy
-	 * Create an endorsement using DXP
-	 * Hit view vehicle service to get OID
-	 * Hit Meta data service
-	 * Validate the response
-	 * Add garage address different than Residential
-	 * Hit Meta Data service again.
-	 * Validate the garage address response.
-	 * @scenario
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12407"})
-	public void pas12407_BigMetaDataService(@Optional("VA") String state) {
-		assertSoftly(softly ->
-				pas12407_bigDataService(softly)
-		);
-	}
+
+
 
 	/**
 	 * @author Oleg Stasyuk

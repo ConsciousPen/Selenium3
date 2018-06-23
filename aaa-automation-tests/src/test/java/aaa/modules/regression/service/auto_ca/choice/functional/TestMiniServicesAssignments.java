@@ -1,6 +1,6 @@
 /* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
-package aaa.modules.regression.service.auto_ca.select.functional;
+package aaa.modules.regression.service.auto_ca.choice.functional;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import org.testng.annotations.Optional;
@@ -9,14 +9,13 @@ import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.regression.service.helper.TestMiniServicesAssignments;
 import toolkit.utils.TestInfo;
 
-public class TestMiniServicesPremiumBearing extends TestMiniServicesAssignments {
+public class TestMiniServicesAssignments extends aaa.modules.regression.service.helper.TestMiniServicesAssignments {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_CA_SELECT;
+		return PolicyType.AUTO_CA_CHOICE;
 	}
 
 
@@ -28,6 +27,4 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesAssignments 
 				pas11684_DriverAssignmentExistsForStateBody(state, softly)
 		);
 	}
-
-
 }
