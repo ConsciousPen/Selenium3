@@ -2474,6 +2474,16 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		simplifiedPendedEndorsementIssue();
 	}
 
+	public void secondEndorsementIssueCheck() {
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		premiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
+
+		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+		testEValueDiscount.simplifiedPendedEndorsementIssue();
+		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+	}
+
 	/**
 	 * example to clear cache for the product
 	 */

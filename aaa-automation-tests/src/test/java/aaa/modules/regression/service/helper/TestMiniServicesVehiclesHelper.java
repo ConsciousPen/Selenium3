@@ -622,7 +622,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 			mainApp().open();
 			SearchPage.openPolicy(policyNumber);
-			helperMiniServices.secondEndorsementIssueCheck();
+			testEValueDiscount.secondEndorsementIssueCheck();
 		});
 	}
 
@@ -709,7 +709,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 			helperMiniServices.bindEndorsementWithCheck(policyNumber);
 
-			helperMiniServices.secondEndorsementIssueCheck();
+			testEValueDiscount.secondEndorsementIssueCheck();
 		});
 	}
 
@@ -789,7 +789,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//Bind endorsement
 		helperMiniServices.bindEndorsementWithCheck(policyNumber);
 
-		helperMiniServices.secondEndorsementIssueCheck();
+		testEValueDiscount.secondEndorsementIssueCheck();
 
 		policy.updateRulesOverride().start();
 		CustomAssertions.assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRowContains(RULE_NAME.getLabel(), "200021").getCell(1)).isAbsent();
@@ -1027,7 +1027,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		helperMiniServices.secondEndorsementIssueCheck();
+		testEValueDiscount.secondEndorsementIssueCheck();
 	}
 
 	protected void pas9490_ViewVehicleServiceCheckVehiclesStatus() {
@@ -1290,7 +1290,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		SearchPage.openPolicy(policyNumber);
 		softly.assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 
-		helperMiniServices.secondEndorsementIssueCheck();
+		testEValueDiscount.secondEndorsementIssueCheck();
 
 		policy.updateRulesOverride().start();
 		CustomAssertions.assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRowContains(RULE_NAME.getLabel(), "200021").getCell(1)).isAbsent();

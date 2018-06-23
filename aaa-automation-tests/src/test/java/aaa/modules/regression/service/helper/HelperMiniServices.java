@@ -10,7 +10,6 @@ import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 
 public class HelperMiniServices extends PolicyBaseTest {
@@ -93,15 +92,5 @@ public class HelperMiniServices extends PolicyBaseTest {
 		ErrorResponseDto bindResponseFiltered = bindResponse.errors.stream().filter(errors -> errorCode.equals(errors.errorCode)).findFirst().orElse(null);
 		assertThat(bindResponseFiltered.message).contains(errorMessage);
 		assertThat(bindResponseFiltered.field).isEqualTo(field);
-	}
-
-	void secondEndorsementIssueCheck() {
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-		premiumAndCoveragesTab.calculatePremium();
-		premiumAndCoveragesTab.saveAndExit();
-
-		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-		testEValueDiscount.simplifiedPendedEndorsementIssue();
-		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 	}
 }

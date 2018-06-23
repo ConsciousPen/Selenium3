@@ -19,6 +19,7 @@ import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.db.DBService;
 
@@ -27,6 +28,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 	private static final String SESSION_ID_1 = "oid1";
 	private VehicleTab vehicleTab = new VehicleTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
+	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 
 	protected void pas9997_paymentMethodsLookupBody() {
 		assertSoftly(softly -> {
@@ -528,11 +530,10 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		Coverage filteredViewPolicyCoverageResponse = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(compDedCovCd2)).findFirst().orElse(null);
 		assertThat(filteredViewPolicyCoverageResponse.coverageLimit).isEqualTo("500");
 
-		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		//BUG PAS-13652 When Endorsement screen shows Endorsement Date field twice, if creating endorsement after endorsement created/issued through service
 		//BUG PAS-13651 Instantiate state specific coverages
-		helperMiniServices.secondEndorsementIssueCheck();
+		testEValueDiscount.secondEndorsementIssueCheck();
 
 		//Create pended endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);

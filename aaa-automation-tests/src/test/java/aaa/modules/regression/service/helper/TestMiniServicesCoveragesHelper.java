@@ -23,10 +23,9 @@ import toolkit.datax.TestData;
 
 public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
-	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
-
+	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 
 	protected void pas11741_ViewManageVehicleLevelCoverages(PolicyType policyType) {
 		mainApp().open();
@@ -1039,7 +1038,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
-		helperMiniServices.secondEndorsementIssueCheck();
+		testEValueDiscount.secondEndorsementIssueCheck();
 	}
 
 	protected void pas10352_ManageVehicleCoverageUpdateCoverageOtherState(PolicyType policyType) {
@@ -1624,7 +1623,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		helperMiniServices.secondEndorsementIssueCheck();
+		testEValueDiscount.secondEndorsementIssueCheck();
 
 	}
 

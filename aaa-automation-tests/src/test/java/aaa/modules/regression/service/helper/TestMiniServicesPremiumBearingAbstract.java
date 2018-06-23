@@ -103,7 +103,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		String policyNumber = getCopiedPolicy();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		helperMiniServices.secondEndorsementIssueCheck();
+		testEValueDiscount.secondEndorsementIssueCheck();
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		ValidateEndorsementResponse response = HelperCommon.startEndorsement(policyNumber, endorsementDate);
@@ -1442,7 +1442,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		//Create additional endorsement
 		SearchPage.openPolicy(policyNumber);
-		helperMiniServices.secondEndorsementIssueCheck();
+		testEValueDiscount.secondEndorsementIssueCheck();
 	}
 
 	protected void pas508_BindServiceEndorsement() {
@@ -1477,7 +1477,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			//Create additional endorsement
 			SearchPage.openPolicy(policyNumber);
-			helperMiniServices.secondEndorsementIssueCheck();
+			testEValueDiscount.secondEndorsementIssueCheck();
 		});
 	}
 

@@ -7,9 +7,9 @@ import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.db.DBService;
 import toolkit.verification.CustomAssert;
@@ -18,8 +18,7 @@ import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBaseTest {
 
 
-	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
-	private HelperMiniServices helperMiniServices = new HelperMiniServices();
+	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 
 	protected abstract String getGeneralTab();
 
@@ -40,14 +39,16 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	protected abstract AssetDescriptor<JavaScriptButton> getCalculatePremium();
 
 	protected void pas1441_emailChangeOutOfPasTestBody() {
+		//TestData endorsementTd =
 		mainApp().open();
-		String policyNumber = getCopiedPolicy();
-
+		//String policyNumber = getCopiedPolicy();
+		String policyNumber = "AZSS926232005";
+		SearchPage.openPolicy(policyNumber);
 		//BUG PAS-5815 There is an extra Endorse action available for product
 		NavigationPage.comboBoxListAction.verify.noOption("Endorse");
 
 		//will be used to check PAS-6364 Sleepy hollow: when doing Service Endorsement after regular endorsement, components are loaded in incorrect order
-		helperMiniServices.secondEndorsementIssueCheck();
+		testEValueDiscount.secondEndorsementIssueCheck();
 
 		//PAS-343 start
 		String numberOfDocumentsRecordsInDbQuery = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "%%", "%%");
@@ -75,7 +76,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		Page.dialogConfirmation.reject();
 
 		SearchPage.openPolicy(policyNumber);
-		helperMiniServices.secondEndorsementIssueCheck();
+		testEValueDiscount.secondEndorsementIssueCheck();
 	}
 
 
@@ -104,6 +105,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").verify.value("Email Updated - Exte...");
 		Tab.buttonCancel.click();
 	}
+
 
 
 }
