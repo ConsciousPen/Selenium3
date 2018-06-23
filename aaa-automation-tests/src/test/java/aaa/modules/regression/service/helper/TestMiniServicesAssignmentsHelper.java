@@ -19,22 +19,17 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.AssignmentTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.datax.TestData;
 
-public class TestMiniServicesAssignments extends PolicyBaseTest {
+public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 
-	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
-	private ErrorTab errorTab = new ErrorTab();
 	private AssignmentTab assignmentTab = new AssignmentTab();
-	private VehicleTab vehicleTab = new VehicleTab();
-	private DriverTab driverTab = new DriverTab();
-	private GeneralTab generalTab = new GeneralTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
 
 

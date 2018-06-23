@@ -8,10 +8,11 @@ import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
+import aaa.modules.regression.service.helper.TestMiniServicesCoveragesHelper;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
-public class TestMiniServicesCoverages extends aaa.modules.regression.service.helper.TestMiniServicesCoverages {
+public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 	@Override
 	protected PolicyType getPolicyType() {

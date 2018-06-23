@@ -1,7 +1,6 @@
 package aaa.modules.regression.service.helper;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -106,21 +105,5 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		Tab.buttonCancel.click();
 	}
 
-	public Dollar getCoverage(int index, String coverageCd, String... replacement) {
-		String coverage = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(index, coverageCd);
-		for (String replace : replacement) {
-			coverage = coverage.replace(replace, "");
-		}
-		return new Dollar(coverage);
-	}
-
-	public String getCoverages(int index, String coverageCd, String... replacement) {
-		String coverage = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(index, coverageCd);
-		for (String replace : replacement) {
-			coverage = coverage.replace(replace, "");
-
-		}
-		return coverage;
-	}
 
 }

@@ -16,27 +16,17 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.ErrorDxpEnum;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.db.DBService;
 
-public class TestMiniServicesGeneral extends PolicyBaseTest {
+public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 
 	private static final String SESSION_ID_1 = "oid1";
-	private static final String SESSION_ID_2 = "oid2";
-	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
-	private ErrorTab errorTab = new ErrorTab();
-	private AssignmentTab assignmentTab = new AssignmentTab();
 	private VehicleTab vehicleTab = new VehicleTab();
-	private DriverTab driverTab = new DriverTab();
-	private GeneralTab generalTab = new GeneralTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
-	private TestMiniServicesGeneral testMiniServicesGeneral = new TestMiniServicesGeneral();
-
 
 	protected void pas9997_paymentMethodsLookupBody() {
 		assertSoftly(softly -> {
@@ -563,7 +553,6 @@ public class TestMiniServicesGeneral extends PolicyBaseTest {
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
-
 
 }
 

@@ -21,7 +21,9 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.actiontabs.UpdateRulesOverrideActionTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
@@ -31,19 +33,14 @@ import toolkit.db.DBService;
 import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.ComboBox;
 
-public class TestMiniServicesVehicles extends PolicyBaseTest {
+public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
-	private static final String SESSION_ID_1 = "oid1";
-	private static final String SESSION_ID_2 = "oid2";
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
-	private ErrorTab errorTab = new ErrorTab();
-	private AssignmentTab assignmentTab = new AssignmentTab();
 	private VehicleTab vehicleTab = new VehicleTab();
-	private DriverTab driverTab = new DriverTab();
 	private GeneralTab generalTab = new GeneralTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
-	private TestMiniServicesGeneral testMiniServicesGeneral = new TestMiniServicesGeneral();
+	private TestMiniServicesGeneralHelper testMiniServicesGeneral = new TestMiniServicesGeneralHelper();
 
 	protected void pas8275_vinValidateCheck(SoftAssertions softly, PolicyType policyType) {
 		String getAnyActivePolicy = "select ps.policyNumber, ps.POLICYSTATUSCD, ps.EFFECTIVE\n"

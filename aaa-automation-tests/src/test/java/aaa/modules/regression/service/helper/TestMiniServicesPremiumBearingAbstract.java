@@ -30,7 +30,10 @@ import aaa.main.enums.*;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.modules.policy.home_ss.actiontabs.ReinstatementActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -56,12 +59,9 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private ErrorTab errorTab = new ErrorTab();
-	private AssignmentTab assignmentTab = new AssignmentTab();
 	private VehicleTab vehicleTab = new VehicleTab();
-	private DriverTab driverTab = new DriverTab();
 	private GeneralTab generalTab = new GeneralTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
-	private TestMiniServicesGeneral testMiniServicesGeneral = new TestMiniServicesGeneral();
 
 	protected abstract String getGeneralTab();
 

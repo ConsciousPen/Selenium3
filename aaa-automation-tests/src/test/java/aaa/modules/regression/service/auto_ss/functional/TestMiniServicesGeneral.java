@@ -7,9 +7,10 @@ import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
+import aaa.modules.regression.service.helper.TestMiniServicesGeneralHelper;
 import toolkit.utils.TestInfo;
 
-public class TestMiniServicesGeneral extends aaa.modules.regression.service.helper.TestMiniServicesGeneral {
+public class TestMiniServicesGeneral extends TestMiniServicesGeneralHelper {
 
 	@Override
 	protected PolicyType getPolicyType() {
