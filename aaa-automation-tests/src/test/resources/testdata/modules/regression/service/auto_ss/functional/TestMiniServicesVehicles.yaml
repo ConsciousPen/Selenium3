@@ -1,0 +1,39 @@
+TestData_VehicleOtherTypes: {
+    VehicleTab: ['@VehicleTab_1','@VehicleTab_Van','@VehicleTab_2','@VehicleTab_Motor_Home'],
+}
+
+VehicleTab_1: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: WDCYC7BB0B6729451
+}
+
+VehicleTab_2: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: 1GAZG1FG7D1145543
+}
+
+VehicleTab_Van: {
+    Type: Conversion Van,
+    Usage: Pleasure,
+    VIN: 5FNRL5H64GB087983,
+    Make: 'OTHER',
+    Other Make: 'Other Make',
+    Other Model: 'Model',
+    Other Series: 'Series',
+   'Other Body Style': 'Sedan',
+    Stat Code: 'Cargo Van',
+   'Stated Amount': '50000',
+}
+
+VehicleTab_Motor_Home: {
+    Add Vehicle: Click,
+    Type: Motor Home,
+    Motor Home Type: Mini Motor Home (Class C),
+    Usage: Pleasure Use - Occupied Less than 30 Days a Year,
+    VIN: 5B4MP67G123353230,
+    Other Make: 'Motor',
+    Other Model: 'Motor',
+   Stated Amount: '50000',
+}

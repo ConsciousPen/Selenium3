@@ -289,3 +289,55 @@ DocumentsAndBindTab1: {
    },
     Agreement: I agree
 }
+
+TestData_ThreeDrivers: {
+    DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three_nafr'],
+}
+
+Driver_one: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  Date of Birth: '$<today-21y:MM/dd/yyyy>',
+  License Type: 'Licensed (US)',
+  License Number: 400064773
+  }
+
+Driver_two: {
+   Add drivers: 'Yes',
+    DriverSearchDialog: {},
+   "Policy #": '123456789',
+    Rel. to First Named Insured: Child,
+    First Name: 'John',
+    Middle Name: 'Sam',
+    Last Name: 'Smith',
+    Date of Birth: '12/12/1980',
+    Gender: 'Male',
+    Suffix: 'II',
+    Marital Status: Married,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: 'T60355298',
+    License Status: 'Licensed (US)'
+}
+
+Driver_three_nafr: {
+   Add drivers: 'Yes',
+    DriverSearchDialog: {},
+   "Policy #": '123456788',
+    Rel. to First Named Insured: Child,
+    Driver Type: 'Not Available for Rating',
+    Reason: 'Other',
+    First Name: 'Laura',
+    Middle Name: 'Sara',
+    Last Name: 'Smith',
+    Suffix: 'III',
+    Date of Birth: '12/12/1991',
+    Gender: 'Female',
+    Marital Status: Single,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: 'T60355777',
+    License Status: 'Licensed (US)'
+}
