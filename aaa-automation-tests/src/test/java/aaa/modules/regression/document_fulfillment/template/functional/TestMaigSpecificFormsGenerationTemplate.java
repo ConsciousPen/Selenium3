@@ -71,7 +71,10 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		createCustomerIndividual();
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
 		policy.getDefaultView().fill(testData);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		PolicySummaryPage.buttonBackFromRenewals.click();
+
+		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
 		TimeSetterUtil.getInstance().nextPhase(preRenewalGenDate);
 
