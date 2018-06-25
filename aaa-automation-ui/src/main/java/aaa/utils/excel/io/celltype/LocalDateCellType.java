@@ -14,14 +14,19 @@ public class LocalDateCellType extends DateCellType<LocalDate> {
 	public LocalDateCellType(Class<LocalDate> endType, DateTimeFormatter... dateTimeFormatters) {
 		super(endType, dateTimeFormatters);
 		if (ArrayUtils.isEmpty(dateTimeFormatters)) {
-			List<DateTimeFormatter> defaultFormatters = new ArrayList<>();
-			defaultFormatters.add(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+			List<DateTimeFormatter> defaultFormatters = new ArrayList<>(2);
+			defaultFormatters.add(DateTimeFormatter.ofPattern(getBasePattern()));
 			defaultFormatters.add(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
 			setFormatters(defaultFormatters);
 		}
 	}
-
+	
+	@Override
+	protected final String getBasePattern() {
+		return "MM/dd/yyyy";
+	}
+	
 	@Override
 	protected LocalDate parseText(String dateInTextFormat, DateTimeFormatter dateTimeFormatter) {
 		return LocalDate.parse(dateInTextFormat, dateTimeFormatter);

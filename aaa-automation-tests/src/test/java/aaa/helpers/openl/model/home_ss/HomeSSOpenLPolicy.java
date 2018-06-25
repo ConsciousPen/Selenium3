@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLPolicy;
+//import aaa.helpers.openl.testdata_builder.HomeSSHO4TestDataGenerator;
 import aaa.helpers.openl.testdata_builder.HomeSSTestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
@@ -272,6 +273,13 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 		return new HomeSSTestDataGenerator(state, baseTestData);
 	}
 
+	/*
+	@Override
+	public HomeSSHO4TestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
+		return new HomeSSHO4TestDataGenerator(state, baseTestData);
+	}
+	*/
+	
 	public void setEffectiveDate(LocalDate effectiveDate) {
 		this.effectiveDate = effectiveDate;
 	}

@@ -9,7 +9,6 @@
     <!-- Local tests execution parameters -->
     <!--<parameter name="testsDir" value="src/test/resources/openl/home_ss"/>-->
     <!--<parameter name="localTests" value="true"/>-->
-
     <test name="HomeSS [AZ] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="AZ"/>
         <parameter name="fileName" value="AZTests-20170920_part1.xls"/>
@@ -34,7 +33,6 @@
     <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
     <!--</classes>-->
     <!--</test>-->
-
     <test name="HomeSS [DC] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="DC"/>
         <parameter name="fileName" value="DCTests-20170126.xls"/>
@@ -43,7 +41,6 @@
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
-
     <!--<test name="HomeSS [DE] Premium Calculation Test" preserve-order="true">-->
     <!--<parameter name="state" value="DE"/>-->
     <!--<parameter name="fileName" value="DETests-20170528.xls"/>-->
@@ -52,30 +49,30 @@
     <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
     <!--</classes>-->
     <!--</test>-->
-    <!--<test name="HomeSS [ID] Premium Calculation Test" preserve-order="true">-->
-    <!--<parameter name="state" value="ID"/>-->
-    <!--<parameter name="fileName" value="IDTests-20170807.xls"/>-->
-    <!--<parameter name="policyNumbers" value="1"/>-->
-    <!--<classes>-->
-    <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
-    <!--</classes>-->
-    <!--</test>-->
-    <!--<test name="HomeSS [IN] Premium Calculation Test" preserve-order="true">-->
-    <!--<parameter name="state" value="IN"/>-->
-    <!--<parameter name="fileName" value="INTests-20170508.xls"/>-->
-    <!--<parameter name="policyNumbers" value="1"/>-->
-    <!--<classes>-->
-    <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
-    <!--</classes>-->
-    <!--</test>-->
-    <!--<test name="HomeSS [KS] Premium Calculation Test" preserve-order="true">-->
-    <!--<parameter name="state" value="KS"/>-->
-    <!--<parameter name="fileName" value="KSTests+-+20171001.xls"/>-->
-    <!--<parameter name="policyNumbers" value="3"/>-->
-    <!--<classes>-->
-    <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
-    <!--</classes>-->
-    <!--</test>-->
+    <test name="HomeSS [ID] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="ID"/>
+        <parameter name="fileName" value="IDTests-20170807.xls"/>
+        <parameter name="policyNumbers" value="6000,6015"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSDP3PremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="HomeSS [IN] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="IN"/>
+        <parameter name="fileName" value="INTests-20180508_part1.xls"/>
+        <parameter name="policyNumbers" value="1,5"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="HomeSS [KS] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="KS"/>
+        <parameter name="fileName" value="KSTests - 20171001.xls"/>
+        <parameter name="policyNumbers" value="115,135"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSDP3PremiumCalculationTest"/>
+        </classes>
+    </test>
     <!--<test name="HomeSS [KY] Premium Calculation Test" preserve-order="true">-->
     <!--<parameter name="state" value="KY"/>-->
     <!--<parameter name="fileName" value="KYTests-20160901.xls"/>-->
@@ -92,15 +89,15 @@
     <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
     <!--</classes>-->
     <!--</test>-->
-    <!--<test name="HomeSS [MT] Premium Calculation Test" preserve-order="true">-->
-    <!--<parameter name="state" value="MT"/>-->
-    <!--<parameter name="fileName" value="MTTests-20170501.xls"/>-->
-    <!--&lt;!&ndash;<parameter name="policyNumbers" value="10,20,30,40,50"/>&ndash;&gt;-->
-    <!--<parameter name="policyNumbers" value="10,30"/>-->
-    <!--<classes>-->
-    <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
-    <!--</classes>-->
-    <!--</test>-->
+    <test name="HomeSS [MT] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="MT"/>
+        <parameter name="fileName" value="MTTests-20170501.xls"/>
+        <!--<parameter name="policyNumbers" value="10,20,30,40,50"/>-->
+        <parameter name="policyNumbers" value="1510"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSDP3PremiumCalculationTest"/>
+        </classes>
+    </test>
     <test name="HomeSS [NJ] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="NJ"/>
         <parameter name="fileName" value="NJTests-20180401_part1.xls"/>
@@ -117,7 +114,6 @@
     <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
     <!--</classes>-->
     <!--</test>-->
-
     <test name="HomeSS [NY] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="NY"/>
         <parameter name="fileName" value="NYTests-20170915.xls"/>
@@ -190,12 +186,12 @@
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
-    <!--<test name="HomeSS [WY] Premium Calculation Test" preserve-order="true">-->
-    <!--<parameter name="state" value="WY"/>-->
-    <!--<parameter name="fileName" value="WYTests-20170501.xls"/>-->
-    <!--<parameter name="policyNumbers" value="1"/>-->
-    <!--<classes>-->
-    <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
-    <!--</classes>-->
-    <!--</test>-->
+    <test name="HomeSS [WY] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="WY"/>
+        <parameter name="fileName" value="WYTests-20180501.xls"/>
+        <parameter name="policyNumbers" value="1,2"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
+        </classes>
+    </test>
 </suite>

@@ -50,7 +50,7 @@ public class DriversDto implements RestBodyRequest {
 	@ApiModelProperty(value = "Date of birth", example = "2000-01-31")
 	public String birthDate;
 
-	//public String driverStatus;
+
 
 	public static final Comparator<DriversDto> DRIVERS_COMPARATOR = (driver1, driver2) -> ComparisonChain.start()
 			.compareTrueFirst(DRIVER_FIRST_NAME_INSURED.equals(driver1.namedInsuredType), DRIVER_FIRST_NAME_INSURED.equals(driver2.namedInsuredType))

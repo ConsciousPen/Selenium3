@@ -2,7 +2,7 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import java.time.LocalDateTime;
 import java.util.Map;
-import org.testng.annotations.AfterSuite;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -72,7 +72,7 @@ public class TestMSRPRefreshMotorHomeVehicle extends VinUploadAutoSSHelper {
 
 		findAndRateQuote(testData, quoteNumber);
 
-		pas730_commonChecks(compSymbol, collSymbol);
+		compCollSymbolCheck_pas730(compSymbol, collSymbol);
 
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 	}
@@ -110,13 +110,13 @@ public class TestMSRPRefreshMotorHomeVehicle extends VinUploadAutoSSHelper {
 		findQuoteAndOpenRenewal(quoteNumber);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		pas730_commonChecks(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
+		compCollSymbolCheck_pas730(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
 
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 	}
 
 
-	@AfterSuite(alwaysRun = true)
+	@AfterClass(alwaysRun = true)
 	protected void resetVinControlTable() {
 		// Reset to the default state  MSRP_2000
 		resetMsrpHomeVehHelper();
