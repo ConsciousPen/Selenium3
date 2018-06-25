@@ -9,16 +9,10 @@ import aaa.utils.excel.io.ExcelManager;
 public abstract class TableClassesCache<T extends TableClassInfo> {
 	protected final Map<Class<?>, T> tableClassesMap;
 	private final ExcelManager excelManager;
-	private final boolean strictMatchBinding;
 	
-	public TableClassesCache(ExcelManager excelManager, boolean strictMatchBinding) {
+	public TableClassesCache(ExcelManager excelManager) {
 		this.excelManager = excelManager;
-		this.strictMatchBinding = strictMatchBinding;
 		this.tableClassesMap = new HashMap<>();
-	}
-	
-	public boolean isStrictMatchBinding() {
-		return this.strictMatchBinding;
 	}
 	
 	protected ExcelManager getExcelManager() {

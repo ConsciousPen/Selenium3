@@ -1,7 +1,6 @@
 package aaa.modules.openl;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
-
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
@@ -48,11 +47,11 @@ public class HomeSSHO4PremiumCalculationTest extends OpenLRatingBaseTest<HomeSSO
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
 			policy.getDefaultView().fillUpTo(formHS0492Data, PremiumsAndCoveragesQuoteTab.class, false);
 		}
-		
-		TestData documentsProofData = tdGenerator.getDocumentsProofData(openLPolicy);
-		if (!documentsProofData.equals(DataProviderFactory.emptyData())) {
+
+		TestData documentsToBindData = tdGenerator.getDocumentsToBindData(openLPolicy);
+		if (!documentsToBindData.equals(DataProviderFactory.emptyData())) {
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.DOCUMENTS.get());
-			policy.getDefaultView().fill(documentsProofData);
+			policy.getDefaultView().fill(documentsToBindData);
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		}

@@ -10,6 +10,7 @@ import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.home_ss.defaulttabs.DocumentsTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
@@ -58,11 +59,11 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
 			policy.getDefaultView().fillUpTo(formHS0492Data, PremiumsAndCoveragesQuoteTab.class, false);
 		}
-		
-		TestData documentsProofData = tdGenerator.getDocumentsProofData(openLPolicy);
-		if (!documentsProofData.equals(DataProviderFactory.emptyData())) {
+
+		TestData documentsToBindData = tdGenerator.getDocumentsToBindData(openLPolicy);
+		if (!documentsToBindData.equals(DataProviderFactory.emptyData())) {
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.DOCUMENTS.get());
-			policy.getDefaultView().fill(documentsProofData);
+			policy.getDefaultView().fill(DataProviderFactory.dataOf(DocumentsTab.class.getSimpleName(), documentsToBindData));
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		}

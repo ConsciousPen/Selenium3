@@ -18,8 +18,6 @@ import toolkit.exceptions.IstfException;
 public abstract class TableClassInfo {
 	protected static Logger log = LoggerFactory.getLogger(TableClassInfo.class);
 	private final Class<?> tableClass;
-	private final boolean strictMatchBinding;
-	
 	protected List<Field> tableColumnsFields;
 	private ExcelManager excelManager;
 	private Class<?> annotatedTableClass;
@@ -29,10 +27,9 @@ public abstract class TableClassInfo {
 	private Field primaryKeyColumnField;
 	private Integer primaryKeyColumnIndex;
 	
-	TableClassInfo(Class<?> tableClass, ExcelManager excelManager, boolean strictMatchBinding) {
+	TableClassInfo(Class<?> tableClass, ExcelManager excelManager) {
 		this.tableClass = tableClass;
 		this.excelManager = excelManager;
-		this.strictMatchBinding = strictMatchBinding;
 	}
 	
 	public Class<?> getTableClass() {
@@ -94,10 +91,6 @@ public abstract class TableClassInfo {
 	
 	public boolean isCaseIgnoredInAnyColumnField() {
 		return getTableColumnsFields().stream().anyMatch(this::isCaseIgnored);
-	}
-	
-	public boolean isStrictMatchBinding() {
-		return strictMatchBinding;
 	}
 	
 	ExcelManager getExcelManager() {

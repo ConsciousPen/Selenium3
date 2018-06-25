@@ -9,6 +9,8 @@ public class CustomTestProperties extends TestProperties {
 	public static final String DXP_PROTOCOL = "dxp.protocol";
 	public static final String ADMIN_PORT = "admin.port";
 	public static final String APP_STUB_URL_TEMPLATE = "app.stub.urltemplate";
+	public static final String APP_STUB_FOLDER_TEMPLATE = "app.stub.foldertemplate";
+	public static final String APP_STUB_RESTART_SCRIPT = "app.stub.restart.script";
 	public static final String DOMAIN_NAME = "domain.name";
 	public static final String JOB_FOLDER = "job.folder";
 	public static final String WIRE_MOCK_STUB_URL_TEMPLATE = "wire.mock.stub.urltemplate";
@@ -24,4 +26,7 @@ public class CustomTestProperties extends TestProperties {
 	public static final String BATCHJOB_RUN_MODE = "batchjob.run.mode"; // available values: http, soap
 	public static final String RATING_REPO_USER = "rating.repo.user";
 	public static final String RATING_REPO_PASSWORD = "rating.repo.password";
+	public static final String APP_ADMIN_USER = "app.admin.user";
+	public static final String APP_ADMIN_PASSWORD = "app.admin.password"; // not necessary if APP_SSH_AUTH_KEYPATH is set
+	public static final String APP_SSH_AUTH_KEYPATH = "app.ssh.auth.keypath";
 }

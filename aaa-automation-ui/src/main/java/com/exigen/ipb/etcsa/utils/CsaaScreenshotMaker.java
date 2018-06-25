@@ -21,16 +21,17 @@ import toolkit.webdriver.BrowserController;
 /**
  * @author ikisly
  */
-public class ETCSAScreenshotMaker extends BasicScreenshotMaker {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ETCSAScreenshotMaker.class);
+public class CsaaScreenshotMaker extends BasicScreenshotMaker {
+	private static final Logger LOGGER = LoggerFactory.getLogger(CsaaScreenshotMaker.class);
 
 	@Override
 	public boolean capture(File file) throws IOException {
 		boolean result;
-		hideFooter();
 		try {
+			hideFooter();
 			BrowserController.get().executeScript("document.body.scrollTop = document.documentElement.scrollTop = 0;");
 			result = isProfileChrome() ? getChromeFullScreenShot(file) : super.capture(file);
+			showFooter();
 		} catch (IstfException ie) {
 			LOGGER.info("Unable to make Screenshot: {}", ie.getMessage());
 			return false;
@@ -39,7 +40,6 @@ public class ETCSAScreenshotMaker extends BasicScreenshotMaker {
 			e.printStackTrace();
 			return false;
 		}
-		showFooter();
 		return result;
 	}
 

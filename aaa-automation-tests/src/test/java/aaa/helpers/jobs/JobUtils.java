@@ -120,7 +120,7 @@ public class JobUtils {
 		try {
 			Jobs.setJobState(job.getJobName(), Jobs.JobState.TRUE);
 			if (!job.getJobFolders().isEmpty()) {
-				RemoteHelper.clearFolder(job.getJobFolders());
+				RemoteHelper.get().clearFolder(job.getJobFolders());
 			}
 			executeJob(job.getJobName());
 		} catch (IstfException e) {
@@ -141,7 +141,7 @@ public class JobUtils {
 				try {
 					log.info("Attempt to execute job '{}' in callback (testName='{}',testThreadId={},curThreadId={})", job.getJobName(), testName, testThreadId, curThreadId);
 					if (!job.getJobFolders().isEmpty()) {
-						RemoteHelper.clearFolder(job.getJobFolders());
+						RemoteHelper.get().clearFolder(job.getJobFolders());
 					}
 					executeJob(job.getJobName());
 					log.info("Job '{}' callback was executed successfully (testName='{}')", job.getJobName(), testName);
@@ -152,7 +152,7 @@ public class JobUtils {
 					jobException.set(e);
 					return Boolean.FALSE;
 
-				} catch (Exception e) {
+				} catch (RuntimeException e) {
 					log.error(String.format("Exception was caught (job='%s',testName='%s',testThreadId=%d,curThreadId=%d)", job.getJobName(), testName, testThreadId, curThreadId), e);
 					jobException.set(e);
 					return Boolean.FALSE;
