@@ -1,8 +1,8 @@
 package aaa.helpers.mock;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,10 +10,10 @@ import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.mock.model.UpdatableMock;
 import aaa.helpers.ssh.ExecutionParams;
 import aaa.helpers.ssh.RemoteHelper;
-import aaa.utils.excel.bind.ExcelMarshaller;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
+import toolkit.exceptions.IstfException;
 
 public class ApplicationMocksManager {
 	protected static final Logger log = LoggerFactory.getLogger(ApplicationMocksManager.class);
@@ -38,24 +38,23 @@ public class ApplicationMocksManager {
 	}
 
 	public static synchronized void updateMocks(MocksCollection requiredMocks) {
-		List<UpdatableMock> mocksToUpload = new ArrayList<>();
+		MocksCollection mocksToUpload = new MocksCollection();
 
 		for (UpdatableMock mock : requiredMocks) {
 			UpdatableMock appMock = getMock(mock.getType());
-			mocksToUpload.add(appMock.merge(mock));
+			if (appMock.add(mock)) {
+				mocksToUpload.add(appMock);
+			}
 		}
 
 		if (!mocksToUpload.isEmpty()) {
-			RemoteHelper.get().clearFolder(TEMP_MOCKS_FOLDER);
-			ExcelMarshaller excelMarshaller = new ExcelMarshaller();
-			for (UpdatableMock mock : mocksToUpload) {
-				File output = new File(TEMP_MOCKS_FOLDER, mock.getType().getFileName());
-				excelMarshaller.marshal(mock, output);
+			cleanTempDirectory();
+			try {
+				mocksToUpload.dump(TEMP_MOCKS_FOLDER);
+				RemoteHelper.with().user(APP_ADMIN_USER, APP_ADMIN_PASSWORD).privateKey(APP_AUTH_KEYPATH).get().uploadFiles(TEMP_MOCKS_FOLDER, APP_MOCKS_FOLDER);
+			} finally {
+				cleanTempDirectory();
 			}
-			RemoteHelper.get()
-					.uploadFiles(TEMP_MOCKS_FOLDER, APP_MOCKS_FOLDER)
-					.clearFolder(TEMP_MOCKS_FOLDER);
-
 			restartStubServer();
 		}
 	}
@@ -90,5 +89,13 @@ public class ApplicationMocksManager {
 			}
 		}
 		return mockObject;
+	}
+
+	private static void cleanTempDirectory() {
+		try {
+			FileUtils.cleanDirectory(new File(TEMP_MOCKS_FOLDER));
+		} catch (IOException e) {
+			throw new IstfException("Unable to clean mocks temp directory: " + TEMP_MOCKS_FOLDER, e);
+		}
 	}
 }

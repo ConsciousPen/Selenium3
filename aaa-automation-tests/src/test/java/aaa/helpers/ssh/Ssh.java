@@ -189,7 +189,7 @@ public class Ssh {
 			sftpChannel.put(fis, destination, ChannelSftp.OVERWRITE);
 			log.info("SSH: File \"{}\" was put to \"{}\".", source, destination);
 		} catch (SftpException | IOException | RuntimeException e) {
-			throw new IstfException("SSH: Unable to put file: ", e);
+			throw new IstfException(String.format("SSH: Unable to put file \"%1$s\" to \"%2$s\" folder", source, destination), e);
 		}
 	}
 

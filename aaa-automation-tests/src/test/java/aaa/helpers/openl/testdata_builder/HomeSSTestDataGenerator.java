@@ -1,5 +1,6 @@
 package aaa.helpers.openl.testdata_builder;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -25,7 +26,6 @@ import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssertions;
 
 public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy> {
 	public HomeSSTestDataGenerator(String state, TestData ratingDataPattern) {
@@ -263,9 +263,13 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		TestData aaaMembershipData;
 		if (Boolean.TRUE.equals(openLPolicy.getPolicyDiscountInformation().isCurrAAAMember())) {
 			RetrieveMembershipSummaryMock membershipMock = ApplicationMocksManager.getMock(MockType.RETRIEVE_MEMBERSHIP_SUMMARY);
+			String membershipNumber = membershipMock.getMembershipNumber(openLPolicy.getEffectiveDate(), openLPolicy.getPolicyDiscountInformation().getMemberPersistency());
+			assertThat(membershipNumber).as("No valid membership number was found for effectiveDate=%1$s and memberPersistency=%2$s fields", openLPolicy.getEffectiveDate(), openLPolicy.getPolicyDiscountInformation().getMemberPersistency())
+					.isNotNull();
+
 			aaaMembershipData = DataProviderFactory.dataOf(
 					HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes",
-					HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), membershipMock.getMembershipNumber(openLPolicy.getEffectiveDate(), openLPolicy.getPolicyDiscountInformation().getMemberPersistency()),
+					HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), membershipNumber,
 					HomeSSMetaData.ApplicantTab.AAAMembership.LAST_NAME.getLabel(), "Smith"
 			);
 		} else {
@@ -729,7 +733,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 						break;
 					//TODO add all types of Coverages
 					default:
-						CustomAssertions.assertThat(Boolean.TRUE).as("Unknown Type of Coverage: %s", form.getType()).isFalse();
+						assertThat(Boolean.TRUE).as("Unknown Type of Coverage: %s", form.getType()).isFalse();
 				}
 			}
 		}

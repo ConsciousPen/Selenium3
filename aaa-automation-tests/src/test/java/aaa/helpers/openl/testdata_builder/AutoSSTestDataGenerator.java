@@ -65,6 +65,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		if (Boolean.TRUE.equals(openLPolicy.isAAAMember())) {
 			RetrieveMembershipSummaryMock membershipMock = ApplicationMocksManager.getMock(MockType.RETRIEVE_MEMBERSHIP_SUMMARY);
 			membershipNumber = membershipMock.getMembershipNumberForAvgAnnualERSperMember(openLPolicy.getEffectiveDate(), openLPolicy.getMemberPersistency(), openLPolicy.getAvgAnnualERSperMember());
+			assertThat(membershipNumber).as("No valid membership number was found for effectiveDate=%1$s, memberPersistency=%2$s and avgAnnualERSperMember=%3$s fields",
+					openLPolicy.getEffectiveDate(), openLPolicy.getMemberPersistency(), openLPolicy.getAvgAnnualERSperMember()).isNotNull();
 		} else {
 			ratingDataPattern
 					.mask(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel())

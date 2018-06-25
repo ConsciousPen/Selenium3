@@ -116,6 +116,9 @@ public class BindHelper {
 	}
 	
 	public static List<?> getValueAsList(Object value) {
+		if (value == null) {
+			return null;
+		}
 		if (List.class.isAssignableFrom(value.getClass())) {
 			return (List<?>) value;
 		}

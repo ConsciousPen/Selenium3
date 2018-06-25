@@ -12,7 +12,7 @@ import toolkit.exceptions.IstfException;
 
 public class RetrieveMembershipSummaryMock extends AbstractMock {
 	@ExcelTransient
-	private static final Double AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE = 99.9;
+	public static final Double AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE = 99.9;
 
 	private List<MembershipRequest> membershipRequests;
 	private List<MembershipResponse> membershipResponses;
@@ -58,16 +58,14 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 
 	public String getMembershipNumberForAvgAnnualERSperMember(LocalDate policyEffectiveDate, Integer memberPersistency, Double avgAnnualERSperMember) {
 		Set<String> membershipNumbersSet = getActiveAndPrimaryMembershipNumbers(policyEffectiveDate.minusYears(memberPersistency));
-		assertThat(membershipNumbersSet).as("No active and primary membership numbers were found for policyEffectiveDate=%1$s and memberPersistency=%2$s", policyEffectiveDate, memberPersistency)
-				.isNotEmpty();
+		if (!membershipNumbersSet.isEmpty()) {
+			if (avgAnnualERSperMember.equals(AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE)) {
+				return membershipNumbersSet.stream().findFirst().get();
+			}
 
-		if (avgAnnualERSperMember.equals(AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE)) {
-			return membershipNumbersSet.stream().findFirst().get();
+			return getMembershipNumberForAvgAnnualERSperMember(membershipNumbersSet, policyEffectiveDate, avgAnnualERSperMember);
 		}
-		String membershipNumber = getMembershipNumberForAvgAnnualERSperMember(membershipNumbersSet, policyEffectiveDate, avgAnnualERSperMember);
-		assertThat(membershipNumber).as("No valid membership number was found for effectiveDate=%1$s, memberPersistency=%2$s and avgAnnualERSperMember=%3$s fields",
-				policyEffectiveDate, memberPersistency, avgAnnualERSperMember).isNotNull();
-		return membershipNumber;
+		return null;
 	}
 
 	public Set<String> getActiveAndPrimaryMembershipNumbers(LocalDate memberSinceDate) {
