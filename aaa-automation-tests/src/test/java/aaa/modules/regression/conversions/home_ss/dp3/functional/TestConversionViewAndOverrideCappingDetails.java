@@ -45,7 +45,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 public class TestConversionViewAndOverrideCappingDetails extends HomeSSDP3BaseTest {
 
     @Parameters({"state"})
-    @StateList(states = {Constants.States.AZ, Constants.States.DE, Constants.States.MD,Constants.States.NJ, Constants.States.PA, Constants.States.VA})
+    @StateList(states = {Constants.States.AZ, Constants.States.DE, Constants.States.MD, Constants.States.NJ, Constants.States.PA, Constants.States.VA, Constants.States.NJ, Constants.States.UT})
     @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_DP3, testCaseId = "PAS-3002")
     public void testPolicyViewCappingDetails(@Optional("VA") String state) {
