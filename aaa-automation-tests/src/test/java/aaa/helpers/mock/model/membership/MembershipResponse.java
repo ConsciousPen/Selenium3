@@ -2,10 +2,12 @@ package aaa.helpers.mock.model.membership;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import aaa.helpers.mock.MockResponse;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
+@MockResponse
 @ExcelTableElement(sheetName = "MEMBERSHIP_RESPONSE")
 public class MembershipResponse {
 	@ExcelTransient
@@ -13,7 +15,7 @@ public class MembershipResponse {
 
 	@ExcelTransient
 	private static final String DATE_PATTERN_2 = "MM-dd-yy";
-	
+
 	@ExcelTransient
 	private static final String DATE_PATTERN_3 = "M.d.yyyy";
 
@@ -22,20 +24,20 @@ public class MembershipResponse {
 
 	@ExcelColumnElement(name = "membershipStatus_A_C_L")
 	private String membershipStatusAcl;
-	
+
 	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
 	private LocalDate membershipEndDate;
-	
+
 	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
 	private LocalDate membershipEffectiveDate;
-	
+
 	private Integer membershipEffectiveDateOffset;
 	private Integer membershipEndDateOffset;
 	private String membershipNumber;
-	
+
 	@ExcelColumnElement(name = "ersUsageCountPerActive_Member")
 	private Double ersUsageCountPerActiveMember;
-	
+
 	@ExcelColumnElement(name = "ersUsage_Abuse")
 	private Boolean ersUsageAbuse;
 
@@ -43,17 +45,17 @@ public class MembershipResponse {
 
 	@ExcelColumnElement(name = "Service")
 	private String service;
-	
+
 	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2, DATE_PATTERN_3})
 	private LocalDate memberStartDate;
-	
+
 	private Integer memberStartDateMonthsOffset;
 	private String status;
 	private String memberType;
-	
+
 	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
 	private LocalDate serviceDate;
-	
+
 	private String type;
 	private Boolean chargeble;
 	private String memberCoverageType;
@@ -62,33 +64,33 @@ public class MembershipResponse {
 	private String middleName;
 	private String suffixTitle;
 	private String prefixTitle;
-	
+
 	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
 	private LocalDate birthDate;
-	
+
 	private String city;
 	private String region;
 	private String postalCode;
 	private String addressLine1;
 	private String addressLine2;
 	private String comment;
-	
+
 	@ExcelColumnElement(name = "faultcode")
 	private String faultCode;
-	
+
 	@ExcelColumnElement(name = "faultstring")
 	private String faultString;
-	
+
 	@ExcelColumnElement(dateFormatPatterns = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
 	private LocalDateTime errorTimeStamp;
-	
+
 	private String errorCode;
 	private String errorMessageText;
 	private String friendlyErrorMessage;
 	private String serviceName;
 	private String sourceSystem;
 	private String ruleDecision;
-	
+
 	public String getId() {
 		return id;
 	}

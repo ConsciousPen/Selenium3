@@ -1,13 +1,14 @@
 package aaa.helpers.mock;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.mock.model.UpdatableMock;
+import aaa.helpers.ssh.ExecutionParams;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.utils.excel.bind.ExcelMarshaller;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
@@ -17,65 +18,63 @@ import toolkit.config.TestProperties;
 public class ApplicationMocksManager {
 	protected static final Logger log = LoggerFactory.getLogger(ApplicationMocksManager.class);
 
-	private static final String EIS_USER = PropertyProvider.getProperty(CustomTestProperties.APP_ADMIN_USER);
-	private static final String APP_AUTH_KEYPATH = PropertyProvider.getProperty(CustomTestProperties.APP_AUTH_KEYPATH);
+	private static final String APP_ADMIN_USER = PropertyProvider.getProperty(CustomTestProperties.APP_ADMIN_USER);
+	private static final String APP_ADMIN_PASSWORD = PropertyProvider.getProperty(CustomTestProperties.APP_ADMIN_PASSWORD);
+	private static final String APP_AUTH_KEYPATH = PropertyProvider.getProperty(CustomTestProperties.APP_SSH_AUTH_KEYPATH);
 	private static final String ENV_NAME = PropertyProvider.getProperty(TestProperties.APP_HOST).split("\\.")[0];
 	private static final String TEMP_MOCKS_FOLDER = "src/test/resources/mock";
-	//TODO-dchubkov: move to property
-	private static final String APP_MOCKS_FOLDER = String.format(
-			"/opt/IBM/WebSphere/AppServer/profiles/AppSrv01/installedApps/%sCell01/aaa-external-stub-services-app-ear.ear/aaa-external-stub-services-app.war/WEB-INF/classes/META-INF/mock", ENV_NAME);
+	private static final String APP_MOCKS_FOLDER = String.format(PropertyProvider.getProperty(CustomTestProperties.APP_STUB_FOLDER_TEMPLATE), ENV_NAME);
+	private static final String APP_MOCKS_RESTART_SCRIPT = PropertyProvider.getProperty(CustomTestProperties.APP_STUB_RESTART_SCRIPT);
 
-	private static Map<MockType, UpdatableMock> appMocks = new HashMap<>();
+	private static MocksCollection appMocks = new MocksCollection();
 
 	@SuppressWarnings("unchecked")
 	public static synchronized <M extends UpdatableMock> M getMock(MockType mockType) {
-		if (!appMocks.containsKey(mockType)) {
+		if (!appMocks.has(mockType)) {
 			M mock = getMockDataObject(mockType.getFileName(), mockType.getMockModel());
-			appMocks.put(mockType, mock);
+			appMocks.add(mock);
 		}
 		return (M) appMocks.get(mockType);
 	}
 
-	public static synchronized void updateMocks(Map<MockType, UpdatableMock> requiredMocks) {
-		Map<MockType, UpdatableMock> updatedMocks = new HashMap<>();
+	public static synchronized void updateMocks(MocksCollection requiredMocks) {
+		List<UpdatableMock> mocksToUpload = new ArrayList<>();
 
-		for (Map.Entry<MockType, UpdatableMock> requiredMock : requiredMocks.entrySet()) {
-			UpdatableMock appMock = getMock(requiredMock.getKey());
-			if (appMock.update(requiredMock.getValue())) {
-				updatedMocks.put(requiredMock.getKey(), appMock);
-			}
+		for (UpdatableMock mock : requiredMocks) {
+			UpdatableMock appMock = getMock(mock.getType());
+			mocksToUpload.add(appMock.merge(mock));
 		}
 
-		if (!updatedMocks.isEmpty()) {
+		if (!mocksToUpload.isEmpty()) {
 			RemoteHelper.get().clearFolder(TEMP_MOCKS_FOLDER);
 			ExcelMarshaller excelMarshaller = new ExcelMarshaller();
-			for (Map.Entry<MockType, UpdatableMock> mock : updatedMocks.entrySet()) {
-				File updatedMock = new File(TEMP_MOCKS_FOLDER, mock.getKey().getFileName());
-				excelMarshaller.marshal(mock.getValue(), updatedMock);
-				RemoteHelper.get().uploadFile(updatedMock.getAbsolutePath(), APP_MOCKS_FOLDER);
-				if (!updatedMock.delete()) {
-					log.error("Unable to delete mock file: %s", updatedMock);
-				}
+			for (UpdatableMock mock : mocksToUpload) {
+				File output = new File(TEMP_MOCKS_FOLDER, mock.getType().getFileName());
+				excelMarshaller.marshal(mock, output);
 			}
+			RemoteHelper.get()
+					.uploadFiles(TEMP_MOCKS_FOLDER, APP_MOCKS_FOLDER)
+					.clearFolder(TEMP_MOCKS_FOLDER);
+
 			restartStubServer();
 		}
 	}
-	
+
 	public static void restartStubServer() {
-		//TODO-dchubkov: restart on Windows
-		String command = "/opt/IBM/WebSphere/AppServer/profiles/AppSrv01/bin/wsadmin.sh -lang jacl -user admin -password admin -c \"\\$AdminControl %1$s cluster_external_stub_server %2$sNode01\"";
+		//TODO-dchubkov: restart on Windows and Tomcat
+		String command = APP_MOCKS_RESTART_SCRIPT + " -lang jacl -user admin -password admin -c \"\\$AdminControl %1$s cluster_external_stub_server %2$sNode01\"";
 		//TimeSetterUtil.getInstance().adjustTime(); // set date to today
-		RemoteHelper ssh = RemoteHelper.with().user(EIS_USER).privateKey(APP_AUTH_KEYPATH).execTimeoutInSeconds(700).failIfExecTimeoutExceeded(true).get();
+		RemoteHelper ssh = RemoteHelper.with().user(APP_ADMIN_USER, APP_ADMIN_PASSWORD).privateKey(APP_AUTH_KEYPATH).get();
 
 		log.info("Stopping stub server...");
-		ssh.executeCommand(String.format(command, "stopServer", ENV_NAME));
+		ssh.executeCommand(String.format(command, "stopServer", ENV_NAME), ExecutionParams.with().timeoutInSeconds(300).failOnTimeout().failOnError());
 		log.info("Stub server has been stopped");
 
 		log.info("Starting stub server...it may take up to 10 minutes");
-		ssh.executeCommand(String.format(command, "startServer", ENV_NAME));
+		ssh.executeCommand(String.format(command, "startServer", ENV_NAME), ExecutionParams.with().timeoutInSeconds(700).failOnTimeout().failOnError());
 		log.info("Stub server has been started");
 	}
-	
+
 	private static <M> M getMockDataObject(String fileName, Class<M> mockDataClass) {
 		String mockSourcePath = APP_MOCKS_FOLDER + "/" + fileName;
 		String mockTempDestinationPath = TEMP_MOCKS_FOLDER + "/" + RandomStringUtils.randomNumeric(10) + "_" + fileName;
