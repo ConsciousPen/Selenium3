@@ -458,9 +458,12 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				HomeSSMetaData.PropertyInfoTab.Construction.YEAR_BUILT.getLabel(), String.format("%d", openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDwellingRatingInfo().getHomeAge()).getYear()),
 				HomeSSMetaData.PropertyInfoTab.Construction.ROOF_TYPE.getLabel(), openLPolicy.getPolicyDwellingRatingInfo().getRoofType(),
 				HomeSSMetaData.PropertyInfoTab.Construction.CONSTRUCTION_TYPE.getLabel(), "contains=" + openLPolicy.getPolicyConstructionInfo().getConstructionType().split(" ")[0],
-				HomeSSMetaData.PropertyInfoTab.Construction.MASONRY_VENEER.getLabel(), "Masonry Veneer".equals(openLPolicy.getPolicyConstructionInfo().getConstructionType()) ? "Yes" : "No",
-				HomeSSMetaData.PropertyInfoTab.Construction.IS_THIS_A_LOG_HOME_ASSEMBLED_BY_A_LICENSED_BUILDING_CONTRACTOR.getLabel(), "Log Home".equals(openLPolicy.getPolicyConstructionInfo().getConstructionType()) ? "Yes" : null
+				HomeSSMetaData.PropertyInfoTab.Construction.MASONRY_VENEER.getLabel(), "Masonry Veneer".equals(openLPolicy.getPolicyConstructionInfo().getConstructionType()) ? "Yes" : "No"//,
+				//HomeSSMetaData.PropertyInfoTab.Construction.IS_THIS_A_LOG_HOME_ASSEMBLED_BY_A_LICENSED_BUILDING_CONTRACTOR.getLabel(), "Log Home".equals(openLPolicy.getPolicyConstructionInfo().getConstructionType()) ? "Yes" : null
 		);
+		if (!"HO4".equals(openLPolicy.getPolicyType())) {
+			constructionData.adjust(DataProviderFactory.dataOf(HomeSSMetaData.PropertyInfoTab.Construction.IS_THIS_A_LOG_HOME_ASSEMBLED_BY_A_LICENSED_BUILDING_CONTRACTOR.getLabel(), "Log Home".equals(openLPolicy.getPolicyConstructionInfo().getConstructionType()) ? "Yes" : null));
+		}
 
 		TestData additionalQuestionsData = getAdditionalQuestionsData(openLPolicy);
 
@@ -599,7 +602,11 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 					}
 				}
 				break;
-			case "HO4":
+			case "HO4": 
+				if (isFormPresent(openLPolicy, "HS0436")) {
+					endorsementData.adjust(DataProviderFactory.dataOf(
+							HomeSSMetaData.EndorsementTab.HS_04_54.getLabel(), DataProviderFactory.dataOf("Action", "Add")));
+				}
 				for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
 					String formCode = openLForm.getFormCode();
 					if (!endorsementData.containsKey(HomeSSHO4FormTestDataGenerator.getFormMetaKey(formCode))) {
@@ -630,6 +637,16 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		//					)));
 		//		}
 		return endorsementData;
+	}
+	
+	private boolean isFormPresent (HomeSSOpenLPolicy openLPolicy, String formCode) {
+		boolean isFormPresent = false;
+		for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
+			if (formCode.equals(openLForm.getFormCode())) {
+				isFormPresent = true;
+			}
+		}
+		return isFormPresent;
 	}
 
 	private TestData getPersonalPropertyTabData(HomeSSOpenLPolicy openLPolicy) {
@@ -819,7 +836,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 						HomeSSMetaData.PropertyInfoTab.PropertyValue.NEW_LOAN.getLabel(), true);
 			case "HO4":
 				return DataProviderFactory.dataOf(
-						HomeSSMetaData.PropertyInfoTab.PropertyValue.PERSONAL_PROPERTY_VALUE.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimit());
+						HomeSSMetaData.PropertyInfoTab.PropertyValue.PERSONAL_PROPERTY_VALUE.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovC".equals(c.getCoverageCd())).findFirst().get().getLimit());
 			default:
 				throw new IstfException("Unknown Policy Type: " + openLPolicy.getPolicyType());
 		}
