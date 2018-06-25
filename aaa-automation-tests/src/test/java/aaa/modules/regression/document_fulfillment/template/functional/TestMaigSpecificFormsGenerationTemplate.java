@@ -290,9 +290,6 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 		verifyFormSequence(forms, docs);
 
-		//PAS-9607	BFC for Conversion Renewal Offer and Billing Packages (HO3, HO4, HO6, DP3, PUP)
-		assertThat(DocGenHelper.getPackageDataElemByName(policyNumber,"PolicyDetails","PlcyTransCd",PRE_RENEWAL)).isEqualTo("CONV");
-
 	}
 
 	/**
