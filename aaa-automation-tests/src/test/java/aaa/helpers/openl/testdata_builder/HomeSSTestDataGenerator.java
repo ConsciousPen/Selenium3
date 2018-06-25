@@ -132,22 +132,8 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		);
 		policyIssueData = TestDataHelper.merge(mortgageeTabData, policyIssueData);
 
-		LinkedHashMap<String, String> documentsToBindData = new LinkedHashMap<>();
-		if ("Central".equals(openLPolicy.getPolicyDiscountInformation().getFireAlarmType())) {
-			documentsToBindData.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().getProofCentralFireAlarm()));
-		}
-		if ("Central".equals(openLPolicy.getPolicyDiscountInformation().getTheftAlarmType())) {
-			documentsToBindData.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().getProofCentralTheftAlarm()));
-		}
-		if (isVisibleProofOfPEHCR(openLPolicy)) {
-			documentsToBindData.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().getProofOfPEHCR()));
-		}
-
-		if (receiptIsRequired(openLPolicy)) {
-			documentsToBindData.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.APPRAISALS_SALES_RECEIPTS_FOR_SCHEDULED_PROPERTY.getLabel(), "Yes");
-		}
 		TestData documentsTabData = DataProviderFactory.dataOf(
-				DocumentsTab.class.getSimpleName(), DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(), new SimpleDataProvider(documentsToBindData)));
+				DocumentsTab.class.getSimpleName(), getDocumentsToBindData(openLPolicy));
 
 		return TestDataHelper.merge(documentsTabData, policyIssueData);
 	}
@@ -221,31 +207,31 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		);
 	}
 
-	public boolean isProofAvailable(HomeSSOpenLPolicy openLPolicy) {
-		return "Central".equals(openLPolicy.getPolicyDiscountInformation().getTheftAlarmType()) ||
-				"Central".equals(openLPolicy.getPolicyDiscountInformation().getFireAlarmType()) ||
-				isVisibleProofOfPEHCR(openLPolicy);
-	}
+	//	public boolean isProofAvailable(HomeSSOpenLPolicy openLPolicy) {
+	//		return "Central".equals(openLPolicy.getPolicyDiscountInformation().getTheftAlarmType()) ||
+	//				"Central".equals(openLPolicy.getPolicyDiscountInformation().getFireAlarmType()) ||
+	//				isVisibleProofOfPEHCR(openLPolicy);
+	//	}
 
-	public TestData getDocumentsProofData(HomeSSOpenLPolicy openLPolicy) {
-		TestData documentsProofData = DataProviderFactory.emptyData();
+	public TestData getDocumentsToBindData(HomeSSOpenLPolicy openLPolicy) {
+		//		TestData documentsToBindData = DataProviderFactory.emptyData();
+		LinkedHashMap<String, String> tdMap = new LinkedHashMap<>();
 		if ("Central".equals(openLPolicy.getPolicyDiscountInformation().getTheftAlarmType())) {
-			documentsProofData.adjust(DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(),
-					DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), openLPolicy.getPolicyDiscountInformation().getProofCentralTheftAlarm() ? "Yes" : "No")
-			));
+			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().getProofCentralTheftAlarm()));
 		}
 		if ("Central".equals(openLPolicy.getPolicyDiscountInformation().getFireAlarmType())) {
-			documentsProofData.adjust(DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(),
-					DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), openLPolicy.getPolicyDiscountInformation().getProofCentralFireAlarm() ? "Yes" : "No")
-			));
+			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().getProofCentralFireAlarm()));
+		}
+		if (isVisibleProofOfPEHCR(openLPolicy)) {
+			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().getProofOfPEHCR()));
+		}
+		if (receiptIsRequired(openLPolicy)) {
+			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.APPRAISALS_SALES_RECEIPTS_FOR_SCHEDULED_PROPERTY.getLabel(), "Yes");
 		}
 		if ("DP3".equals(openLPolicy.getPolicyType()) && openLPolicy.getPolicyDiscountInformation().isUnderlyingRenterPolicy()) {
-			documentsProofData.adjust(DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(),
-					DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_UNDERLYING_INSURANCE_POLICY.getLabel(), openLPolicy.getPolicyDiscountInformation().getProofOfTenant() ? "Yes" : "No")
-			));
+			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_UNDERLYING_INSURANCE_POLICY.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().getProofOfTenant()));
 		}
-
-		return documentsProofData;
+		return DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(), new SimpleDataProvider(tdMap));
 	}
 
 	private TestData getGeneralTabData(HomeSSOpenLPolicy openLPolicy) {
@@ -472,6 +458,8 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				HomeSSMetaData.PropertyInfoTab.Construction.IS_THIS_A_LOG_HOME_ASSEMBLED_BY_A_LICENSED_BUILDING_CONTRACTOR.getLabel(), "Log Home".equals(openLPolicy.getPolicyConstructionInfo().getConstructionType()) ? "Yes" : null
 		);
 
+		TestData additionalQuestionsData = getAdditionalQuestionsData(openLPolicy);
+
 		TestData interiorData = DataProviderFactory.dataOf(
 				HomeSSMetaData.PropertyInfoTab.Interior.DWELLING_USAGE.getLabel(), Boolean.TRUE.equals(openLPolicy.getPolicyDwellingRatingInfo().getSecondaryHome()) ? "Secondary" : "Primary",
 				HomeSSMetaData.PropertyInfoTab.Interior.NUMBER_OF_RESIDENTS.getLabel(), openLPolicy.getPolicyNamedInsured().getNumofOccupants(),
@@ -486,7 +474,6 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 					HomeSSMetaData.PropertyInfoTab.RentalInformation.DOES_THE_TENANT_HAVE_AN_UNDERLYING_HO4_POLICY.getLabel(), openLPolicy.getPolicyDiscountInformation().isUnderlyingRenterPolicy() ? "Yes" : "No"
 			);
 		}
-
 
 		TestData fireProtectiveDeviceDiscountData = DataProviderFactory.dataOf(
 				HomeSSMetaData.PropertyInfoTab.FireProtectiveDD.LOCAL_FIRE_ALARM.getLabel(),
@@ -568,6 +555,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				HomeSSMetaData.PropertyInfoTab.RISKMETER.getLabel(), riskMeterData,
 				HomeSSMetaData.PropertyInfoTab.PROPERTY_VALUE.getLabel(), propertyValueData,
 				HomeSSMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), constructionData,
+				HomeSSMetaData.PropertyInfoTab.ADDITIONAL_QUESTIONS.getLabel(), additionalQuestionsData,
 				HomeSSMetaData.PropertyInfoTab.INTERIOR.getLabel(), interiorData,
 				HomeSSMetaData.PropertyInfoTab.RENTAL_INFORMATION.getLabel(), rentalInformationData,
 				HomeSSMetaData.PropertyInfoTab.FIRE_PROTECTIVE_DD.getLabel(), fireProtectiveDeviceDiscountData,
@@ -831,6 +819,22 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			default:
 				throw new IstfException("Unknown Policy Type: " + openLPolicy.getPolicyType());
 		}
+	}
+
+	private TestData getAdditionalQuestionsData(HomeSSOpenLPolicy openLPolicy) {
+		TestData additionalQuestionsData = null;
+		String protectionClass = openLPolicy.getPolicyDwellingRatingInfo().getProtectionClass();
+		if ("HO4".equals(openLPolicy.getPolicyType()) && ("10".equals(protectionClass) || "10W".equals(protectionClass)) ||
+				!"HO4".equals(openLPolicy.getPolicyType()) && ("10".equals(protectionClass) || "10W".equals(protectionClass))
+						&& !"Wood shingle/Wood shake".equals(openLPolicy.getPolicyDwellingRatingInfo().getRoofType())
+						&& Double.parseDouble(openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimit()) <= 500000.0) {
+			additionalQuestionsData = DataProviderFactory.dataOf(
+					HomeSSMetaData.PropertyInfoTab.AdditionalQuestions.IS_THE_LENGTH_OF_DRIVEWAY_LESS_THAN_500_FEET.getLabel(), "No",
+					HomeSSMetaData.PropertyInfoTab.AdditionalQuestions.IS_THE_ROAD_TO_THE_HOME_AND_DRIVEWAY_PAVED.getLabel(), "No",
+					HomeSSMetaData.PropertyInfoTab.AdditionalQuestions.IS_THERE_A_CREDITABLE_ALTERNATIVE_WATER_SOURCE_WITHIN_1_000_FEET_OF_THE_PROPERTY.getLabel(), "No"
+			);
+		}
+		return additionalQuestionsData;
 	}
 
 	private String getNumberOfStories(Double noOfFloors) {
