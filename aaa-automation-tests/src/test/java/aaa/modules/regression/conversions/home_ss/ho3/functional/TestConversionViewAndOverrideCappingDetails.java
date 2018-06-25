@@ -51,10 +51,10 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 	 *
 	 **/
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.AZ, Constants.States.DE, Constants.States.MD, Constants.States.NJ, Constants.States.PA, Constants.States.VA, Constants.States.NJ})
+	@StateList(states = {Constants.States.AZ, Constants.States.DE, Constants.States.MD, Constants.States.NJ, Constants.States.PA, Constants.States.VA, Constants.States.UT})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-3002")
-	public void testPolicyViewCappingDetails(@Optional("UT") String state) {
+	public void testPolicyViewCappingDetails(@Optional("VA") String state) {
 
 		TestData td = initTestData();
 		TestData initiateRenewalEntry = initInitiateRenewalEntry();
@@ -123,10 +123,10 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
  * 7. Check Capping factor
  * **/
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.AZ, Constants.States.DE, Constants.States.MD, Constants.States.NJ, Constants.States.PA, Constants.States.VA, Constants.States.NJ, Constants.States.UT})
+	@StateList(states = {Constants.States.AZ, Constants.States.DE, Constants.States.MD, Constants.States.NJ, Constants.States.PA, Constants.States.VA, Constants.States.UT})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-9350")
-	public void testPolicyCheckCappingFactor(@Optional("UT") String state) {
+	public void testPolicyCheckCappingFactor(@Optional("VA") String state) {
 
 		TestData td = initTestData();
 		TestData initiateRenewalEntry = initInitiateRenewalEntry();
@@ -233,11 +233,11 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 	 *
 	 **/
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.AZ, Constants.States.DE, Constants.States.MD, Constants.States.NJ, Constants.States.PA, Constants.States.VA, Constants.States.NJ, Constants.States.UT})
+	@StateList(states = {Constants.States.AZ, Constants.States.DE, Constants.States.MD, Constants.States.NJ, Constants.States.PA, Constants.States.VA, Constants.States.UT})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-8847")
 
-	public void testCappingLockNotSelected(@Optional("UT") String state) {
+	public void testCappingLockNotSelected(@Optional("VA") String state) {
 
 		TestData td = initTestData();
 		TestData initiateRenewalEntry = initInitiateRenewalEntry();
