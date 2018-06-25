@@ -138,11 +138,12 @@
             <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestPolicyRenewalManualEntryFieldsPropertyInfoTab"/>
         </classes>
     </test>
-    <test name=" PAS-13304Home: Renewal Premium and Minimum Due to be accurately updated after an Return Premium endorsement - CA Home"
-          parallel="methods" thread-count="1024">
+    <test name="PAS-13304 Home, Auto: Renewal Premium and Minimum Due to be accurately updated after an Return Premium endorsement - CA Home" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.functional.TestPremiumAndMinDueAfterRP"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.choice.functional.TestPremiumAndMinDueAfterRP"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.functional.TestPremiumAndMinDueAfterRP"/>
         </classes>
     </test>
 </suite>

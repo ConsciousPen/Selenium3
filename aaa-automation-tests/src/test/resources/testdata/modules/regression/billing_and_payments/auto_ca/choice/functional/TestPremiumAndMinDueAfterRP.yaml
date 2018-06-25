@@ -1,0 +1,13 @@
+TestData_EndorsementRP: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Property Damage Liability: 'contains=$25,000',
+  },
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
