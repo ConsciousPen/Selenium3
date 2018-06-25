@@ -2,9 +2,6 @@ package aaa.helpers.product;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 
@@ -12,42 +9,11 @@ public class VinUploadHelper {
 
 	private String policyType;
 	private String state;
-	private UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 	protected static Logger log = LoggerFactory.getLogger(VinUploadHelper.class);
 
-	public VinUploadHelper(PolicyType policyType,String state) {
+	public VinUploadHelper(PolicyType policyType, String state) {
 		this.policyType = policyType.getShortName();
 		this.state = state;
-	}
-
-	/**
-	 * Go to the admin -> administration -> Vin upload and upload two tables
-	 * @param vinTableFile
-	 */
-	public void uploadFiles(String vinTableFile) {
-		uploadFiles(getControlTableFile(),vinTableFile);
-	}
-
-	/**
-	 * Go to the admin -> administration -> Vin upload and upload two tables
-	 * @param vinTableFile
-	 * @param controlTableFile
-	 */
-	public void uploadFiles(String controlTableFile, String vinTableFile) {
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-		uploadToVINTableTab.uploadVinTable(vinTableFile);
-		uploadToVINTableTab.uploadControlTable(controlTableFile);
-	}
-
-	/**
-	 * Go to the admin -> administration -> Upload to vehicledatavin table
-	 * @param vinTableFileName xls
-	 */
-	public void uploadVinTable(String vinTableFileName) {
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-		uploadToVINTableTab.uploadVinTable(vinTableFileName);
-		log.info("File {} was uploaded", vinTableFileName);
 	}
 
 	public void verifyActivitiesAndUserNotes(String vinNumber) {
@@ -61,13 +27,13 @@ public class VinUploadHelper {
 		String defaultFileName = null;
 		switch (policyType) {
 			case "AutoSS":
-				defaultFileName = "%sVIN_%s_SS.xlsx";
+				defaultFileName = "%s_%s_SS.xlsx";
 				break;
 			case "AutoCA":
-				defaultFileName = "%sVIN_%s_SELECT.xlsx";
+				defaultFileName = "%s_%s_SELECT.xlsx";
 				break;
 			case "AutoCAC":
-				defaultFileName = "%sVIN_%s_CHOICE.xlsx";
+				defaultFileName = "%s_%s_CHOICE.xlsx";
 				break;
 			default:
 				throw new IllegalArgumentException("Name of VIN Table file was not selected correctly");
