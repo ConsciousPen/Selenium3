@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import aaa.helpers.mock.MockRequest;
 import aaa.helpers.mock.MockResponse;
@@ -21,7 +22,7 @@ public class AbstractMock implements UpdatableMock {
 	@Override
 	public MockType getType() {
 		if (this.type == null) {
-			type = Arrays.stream(MockType.values()).filter(mockType -> mockType.getMockModel().equals(this.getClass())).findFirst()
+			type = Arrays.stream(MockType.values()).filter(mockType -> Objects.equals(mockType.getMockModel(), this.getClass())).findFirst()
 					.orElseThrow(() -> new IstfException(String.format("Class \"%s\" is related to unknown mock type", this.getClass().getName())));
 		}
 		return this.type;
