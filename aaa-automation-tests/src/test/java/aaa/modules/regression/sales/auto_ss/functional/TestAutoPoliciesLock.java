@@ -4,11 +4,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import org.eclipse.jetty.util.ConcurrentHashSet;
+import java.util.*;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -32,7 +28,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	private static final String currentDate = getDate.format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
 	private static final String lookUpId = "(SELECT ll.id FROM lookupList ll WHERE ll.lookupName LIKE '%AAAFactorsLockLookup')";
 	private static final String toDate = "to_date('%s', 'YYYY-MM-DD')";
-	private static Set<String> elementNames = new ConcurrentHashSet<>();
+	private static Set<String> elementNames = new HashSet<>();
 	private static final String tomorrowDate = getDate.plusDays(1).format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
 
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();

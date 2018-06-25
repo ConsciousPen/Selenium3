@@ -1,7 +1,7 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
 import static aaa.helpers.db.queries.MsrpQueries.CA_SELECT_REGULAR_VEH_MSRP_VERSION;
-import org.testng.annotations.AfterSuite;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -61,7 +61,7 @@ public class TestMSRPRefreshNotRegularVehicle extends TestMSRPRefreshTemplate{
 		renewalVehicleTypeNotRegular(testData);
 	}
 
-	@AfterSuite(alwaysRun = true)
+	@AfterClass(alwaysRun = true)
 	protected void resetVinControlTable() {
 		pas730_SelectCleanDataBase(CA_SELECT_REGULAR_VEH_MSRP_VERSION,vehicleTypeMotorHome);
 	}

@@ -15,12 +15,37 @@ public class VehicleQueries {
 
 	public static final String SELECT_VIN_STUB_ON_QUOTE = "SELECT r.currentVin FROM Riskitem R, Vehicleratinginfo I, Vehiclebaseinfo B, Policysummary Ps, Policydetail Pd WHERE R.Ratinginfo_Id = I.Id AND B.Id = R.Baseinfo_Id AND ps.policydetail_id = pd.id AND pd.id = r.policydetail_id AND policynumber LIKE '%1$s'";
 
+	//	VIN STUB QUERIES FOR PAS-12877
+	// SORT BY r.ID DESC ORDER.
+	public static final String SELECT_VIN_ID_BY_VIN_VERSION = "SELECT v.* FROM VEHICLEREFDATAVIN v WHERE VIN LIKE '%s' and v.VERSION='%s'";
+	public static final String SELECT_LATEST_VIN_STUB_ON_QUOTE = "SELECT r.currentVin FROM Riskitem R, Vehicleratinginfo I, Vehiclebaseinfo B, Policysummary Ps, Policydetail Pd WHERE R.Ratinginfo_Id = I.Id AND B.Id = R.Baseinfo_Id AND ps.policydetail_id = pd.id AND pd.id = r.policydetail_id AND policynumber LIKE '%1$s' ORDER BY r.ID DESC";
+	public static final String SELECT_LATEST_VIN_STUB_WITH_SYMBOLS_ON_QUOTE = "SELECT r.currentVin,I.COMPSYMBOL, I.COLLSYMBOL , R.version FROM Riskitem R, Vehicleratinginfo I, Vehiclebaseinfo B, Policysummary Ps, Policydetail Pd WHERE R.Ratinginfo_Id = I.Id AND B.Id = R.Baseinfo_Id AND ps.policydetail_id = pd.id AND pd.id = r.policydetail_id AND policynumber LIKE '%1$s' ORDER BY r.ID DESC";
+
+	public static final String COPY_EXISTING_ROW_BY_VIN = "INSERT INTO VEHICLEREFDATAVIN (SELECT * FROM VEHICLEREFDATAVIN WHERE VIN LIKE '%s' and VERSION = '%s')";
+	public static final String COPY_EXISTING_ROW_BY_ID = "INSERT INTO VEHICLEREFDATAVIN (SELECT * FROM VEHICLEREFDATAVIN WHERE id = '%s' and VERSION = '%s')";
+
+	public static final String UPDATE_ID_FOR_COPIED_ROW = "UPDATE VEHICLEREFDATAVIN SET id = '%s' WHERE VIN LIKE '%s' and VERSION='%s' AND ROWNUM = 1";
+	public static final String UPDATE_COMP_COLL_SYMBOL = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOLLISION ='%d' , PHYSICALDAMAGECOMPREHENSIVE = '%d' where id = '%s' and vin like '%s' and VERSION = '%s'";
+
+	public static final String UPDATE_COMP_VIN = "UPDATE Vehiclerefdatavin SET VIN ='%s' where vin like '%s' and  PHYSICALDAMAGECOMPREHENSIVE = '%d'";
+	public static final String UPDATE_NO_COMP_VIN = "UPDATE Vehiclerefdatavin SET VIN ='%s' where vin like '%s' AND ID ='%s'";
+
+	public static final String NULL_POLICY_STUB = "UPDATE Riskitem SET CURRENTVIN = NULL WHERE CURRENTVIN like 'JH4CU2F4%C'";
+	public static final String EDIT_COMP_VALUE = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOMPREHENSIVE = PHYSICALDAMAGECOMPREHENSIVE + 50 where vin like '5TFEZ5CN%H' and VERSION like 'SYMBOL_2000'";
+	public static final String REPAIR_COMP_VALUE = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOMPREHENSIVE = PHYSICALDAMAGECOMPREHENSIVE - 50 where vin like '5TFEZ5CN%H' and VERSION like 'SYMBOL_2000'";
+	public static final String MINUS_50_FROM_COMP_VALUE = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOMPREHENSIVE = PHYSICALDAMAGECOMPREHENSIVE - 50 where vin like '%s' and VERSION like 'SYMBOL_2000'";
+
+	public static final String NULL_SPECIFIC_POLICY_STUB = "UPDATE Riskitem SET CURRENTVIN = NULL WHERE CURRENTVIN like '%s'";
+	public static final String EDIT_SPECIFIC_COMP_VALUE = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOMPREHENSIVE = PHYSICALDAMAGECOMPREHENSIVE + 50 where vin like '%s' and VERSION like '%s'";
+	public static final String REPAIR_COLLCOMP_BY_ID = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOLLISION ='%s', PHYSICALDAMAGECOMPREHENSIVE ='%s' where id = '%s' and VERSION like '%s'";
+
 	public static final String REPAIR_7MSRP15H_COMP = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOMPREHENSIVE ='44' where vin like '7MSRP15H%V' and VERSION like 'SYMBOL_2000'";
 	public static final String REPAIR_7MSRP15H_COLL = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOLLISION ='35' where vin like '7MSRP15H%V' and VERSION like 'SYMBOL_2000'";
+	public static final String REPAIR_COLLCOMP = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOLLISION ='35', PHYSICALDAMAGECOMPREHENSIVE ='44' where vin like '%s' and VERSION like 'SYMBOL_2000'";
 	public static final String REPAIR_7MSRP15H_COMP_CHOICE = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOMPREHENSIVE ='43' where vin like '7MSRP15H%V' and VERSION like 'SYMBOL_2000_CHOICE'";
 	public static final String REPAIR_7MSRP15H_COLL_CHOICE = "UPDATE Vehiclerefdatavin SET PHYSICALDAMAGECOLLISION ='33' where vin like '7MSRP15H%V' and VERSION like 'SYMBOL_2000_CHOICE'";
 
-
+	public static final String DELETE_VEHICLEREFDATAVIN_BY_ID = "DELETE FROM VEHICLEREFDATAVIN WHERE ID = '%s'";
 	public static final String DELETE_FROM_VEHICLEREFDATAVIN_BY_VERSION = "DELETE FROM vehiclerefdatavin V WHERE V.VERSION IN %1$s";
 	public static final String DELETE_FROM_VEHICLEREFDATAVIN_BY_VIN_AND_VERSION = "DELETE FROM VEHICLEREFDATAVIN v WHERE VIN like '%1$s' AND VERSION = '%2$s'";
 	public static final String REFRESHABLE_VIN_CLEANER_SS = "DELETE FROM VEHICLEREFDATAVIN v WHERE VIN like '1HGEM215%4' AND make_text IN ('TEST', 'invalidVIN', 'SecondValid')";
@@ -48,4 +73,8 @@ public class VehicleQueries {
 	public static final String UPDATE_DISPLAYVALUE_BY_CODE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = '%1$s' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST "
 			+ "WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'vinRefresh'";
 	public static final String PAYMENT_CENTRAL_CONFIG_CHECK = "select value from PROPERTYCONFIGURERENTITY where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')";
+
+	public static final String INSERT_VEHICLEREFDATAVINCONTROL_VERSION =
+			"Insert into VEHICLEREFDATAVINCONTROL (ID,PRODUCTCD,FORMTYPE,STATECD,VERSION,EFFECTIVEDATE,EXPIRATIONDATE,MSRP_VERSION) values"
+					+ "(%1$d,'%2$s',%3$s,'%4$s','%5$s','%6$d','%7$d','%8$s')";
 }
