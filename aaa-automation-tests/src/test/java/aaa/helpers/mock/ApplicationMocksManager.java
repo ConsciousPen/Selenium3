@@ -2,12 +2,14 @@ package aaa.helpers.mock;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.mock.model.UpdatableMock;
+import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.ssh.ExecutionParams;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
@@ -74,9 +76,14 @@ public class ApplicationMocksManager {
 		log.info("Stub server has been started");
 	}
 
-	private static <M> M getMockDataObject(String fileName, Class<M> mockDataClass) {
-		String mockSourcePath = APP_MOCKS_FOLDER + "/" + fileName;
-		String mockTempDestinationPath = TEMP_MOCKS_FOLDER + "/" + RandomStringUtils.randomNumeric(10) + "_" + fileName;
+	private static <M extends UpdatableMock> M getMockDataObject(String fileName, Class<M> mockDataClass) {
+		String mockSourcePath = Paths.get(APP_MOCKS_FOLDER, fileName).normalize().toString();
+		String mockTempDestinationPath = Paths.get(TEMP_MOCKS_FOLDER, RandomStringUtils.randomNumeric(10) + "_" + fileName).normalize().toString();
+
+		if (!RemoteHelper.get().isPathExist(mockSourcePath)) {
+			log.warn("There is no \"{}\" mock in application server, empty mock object will be returned", mockSourcePath);
+			return MockGenerator.getEmptyMock(mockDataClass);
+		}
 
 		RemoteHelper.get().downloadFile(mockSourcePath, mockTempDestinationPath);
 		File mockTempFile = new File(mockTempDestinationPath);

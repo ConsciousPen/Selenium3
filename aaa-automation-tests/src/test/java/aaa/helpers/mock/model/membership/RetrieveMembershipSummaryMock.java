@@ -1,6 +1,5 @@
 package aaa.helpers.mock.model.membership;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -48,7 +47,6 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 				membershipNembers.add(request.getMembershipNumber());
 			}
 		}
-		assertThat(membershipNembers).as("There is no active and primary membership numbers without fault codes").isNotEmpty();
 		return membershipNembers;
 	}
 	
