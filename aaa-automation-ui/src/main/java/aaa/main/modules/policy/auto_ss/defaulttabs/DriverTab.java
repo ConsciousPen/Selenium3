@@ -28,8 +28,6 @@ public class DriverTab extends Tab {
 	public static AdvancedTable tableDriverList = new AdvancedTable(By.id("policyDataGatherForm:dataGatherView_ListDriver"));
 	public static AdvancedTable tableActivityInformationList = new AdvancedTable(By.id("policyDataGatherForm:dataGatherView_ListDrivingRecord"));
 
-	public static AdvancedTable tableActivityInformationViewEdit = new AdvancedTable(By.id("policyDataGatherForm:dataGatherView_ListDrivingRecord"));
-	   
 	public DriverTab() {
 		super(AutoSSMetaData.DriverTab.class);
 		assetList = new MultiInstanceAfterAssetList(By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER), metaDataClass) {

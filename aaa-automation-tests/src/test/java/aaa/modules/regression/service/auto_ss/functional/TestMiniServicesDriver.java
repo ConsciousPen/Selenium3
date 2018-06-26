@@ -66,13 +66,40 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversAbstract {
 	 * 4. go to Pas ui and verify if driver is added
 	 * 5. hit view driver service and check all defaults
 	 * 6. verify status of driver pending
+	 * @Megha : added Update driver
+	 * 1. Add drive more than 55 years old
+	 * 2. update driver with these parameters  stateLicensed,licenseNumber,gender,relationToApplicantCd,maritalStatusCd,ageFirstLicensed
+	 * 3.Verify Response
+	 * 4. Go to Pas and validate Defensive Driver course Completed = No
+	 * 5. rate and bind
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-478"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-478", "PAS-477"})
 	public void pas478_AddDrivers(@Optional("AZ") String state) {
 
 		pas478_AddDriversBody(getPolicyType());
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Update Drivers service, check info.
+	 * @scenario
+	 * 1. Create policy on Pas.
+	 * 2. To add driver send request first name, middle name, last name, suffix and Date of Birth < 26
+	 * 3. run add driver service
+	 * 4. go to Pas ui and verify if driver is added
+	 * 5. update driver with these parameters  stateLicensed,licenseNumber,gender,relationToApplicantCd,maritalStatusCd,ageFirstLicensed
+	 * 6. Go TO pas UI and verify Most Recent GPA = None and Smart Driver Course = No
+	 * 6. Rate and Bind
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-477"})
+	public void pas477_UpdateDrivers(@Optional("AZ") String state) {
+
+		pas477_UpdateDriversBody(getPolicyType());
 	}
 }
 
