@@ -1,9 +1,11 @@
 package aaa.helpers.mock;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import aaa.helpers.mock.model.UpdatableMock;
+import aaa.utils.excel.bind.ExcelMarshaller;
 
 public class MocksCollection implements Iterable<UpdatableMock> {
 	private Map<MockType, UpdatableMock> mocks;
@@ -14,48 +16,71 @@ public class MocksCollection implements Iterable<UpdatableMock> {
 
 	public MocksCollection(UpdatableMock mock) {
 		mocks = new HashMap<>();
-		mocks.put(mock.getType(), mock);
+		if (mock != null) {
+			mocks.put(mock.getType(), mock);
+		}
+	}
+
+	public boolean isEmpty() {
+		return mocks.isEmpty();
 	}
 
 	@Override
 	public Iterator<UpdatableMock> iterator() {
-		return new MocksIterator();
+		return new MocksIterator(mocks.values().iterator());
 	}
 
 	public boolean has(MockType mockType) {
 		return mocks.containsKey(mockType);
 	}
 
-	public UpdatableMock add(UpdatableMock mock) {
-		return add(mock.getType(), mock);
+	public UpdatableMock get(MockType mockType) {
+		return mocks.get(mockType);
 	}
 
-	public UpdatableMock add(MockType mockType, UpdatableMock mock) {
-		UpdatableMock mergedMock;
-		if (!has(mockType)) {
-			mergedMock = mock;
-		} else {
-			mergedMock = get(mockType).merge(mock);
-		}
+	public boolean add(UpdatableMock mock) {
+		return mock != null && add(mock.getType(), mock);
+	}
 
-		mocks.put(mockType, mergedMock);
-		return mergedMock;
+	public boolean add(MockType mockType, UpdatableMock mock) {
+		if (mock == null) {
+			return false;
+		}
+		if (!has(mockType)) {
+			mocks.put(mockType, mock);
+			return true;
+		}
+		return get(mockType).add(mock);
 	}
 
 	public boolean addAll(MocksCollection requiredMocks) {
 		boolean isUpdated = false;
 		for (UpdatableMock mock : requiredMocks) {
-			add(mock);
+			if (add(mock)) {
+				isUpdated = true;
+			}
 		}
 		return isUpdated;
 	}
 
-	public UpdatableMock get(MockType mockType) {
-		return mocks.get(mockType);
+	public void dump(String folderPath) {
+		ExcelMarshaller excelMarshaller = new ExcelMarshaller();
+		for (UpdatableMock mock : this) {
+			File output = new File(folderPath, mock.getType().getFileName());
+			excelMarshaller.marshal(mock, output);
+		}
 	}
 
-	private class MocksIterator implements Iterator<UpdatableMock> {
-		private Iterator<UpdatableMock> iterator = mocks.values().iterator();
+	private int size() {
+		return mocks.size();
+	}
+
+	private static final class MocksIterator implements Iterator<UpdatableMock> {
+		private Iterator<UpdatableMock> iterator;
+
+		private MocksIterator(Iterator<UpdatableMock> iterator) {
+			this.iterator = iterator;
+		}
 
 		@Override
 		public boolean hasNext() {
