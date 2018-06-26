@@ -976,30 +976,30 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		softly.assertThat(newVehicle1.vehicleOwnership.secondName).isEqualTo(secondName);
 
 		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsmentVehiclesMetaData(policyNumber, newVehicleOid);
-		AttributeMetadata metaDataFieldResponse = testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.ownership", true, true, false, null);
+		AttributeMetadata metaDataFieldResponse = testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.ownership", true, true, false, null, "String");
 		softly.assertThat(metaDataFieldResponse.valueRange.get("OWN")).isEqualTo("Owned");
 		softly.assertThat(metaDataFieldResponse.valueRange.get("FNC")).isEqualTo("Financed");
 		softly.assertThat(metaDataFieldResponse.valueRange.get("LSD")).isEqualTo("Leased");
 
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.name", true, true, false, "100");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.secondName", true, true, false, "100");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.postalCode", true, true, false, "10");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.addressLine1", true, true, false, "40");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.addressLine2", true, true, false, "40");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.city", true, true, false, "30");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.stateProvCd", true, true, false, null);
+		testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.name", true, true, false, "100", "String");
+		testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.secondName", true, true, false, "100", "String");
+		testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.postalCode", true, true, false, "10", "String");
+		testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.addressLine1", true, true, false, "40", "String");
+		testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.addressLine2", true, true, false, "40", "String");
+		testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.city", true, true, false, "30", "String");
+		testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.stateProvCd", true, true, false, null, "String");
 
 		ViewVehicleResponse policyValidateVehicleInfoResponse = HelperCommon.viewPolicyVehicles(policyNumber);
 		String oldVehicleOid = policyValidateVehicleInfoResponse.vehicleList.get(0).oid;
 		AttributeMetadata[] metaDataResponseOwned = HelperCommon.viewEndorsmentVehiclesMetaData(policyNumber, oldVehicleOid);
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.ownership", true, true, false, null);
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.name", false, false, false, "100");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.secondName", false, false, false, "100");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.postalCode", false, false, false, "10");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.addressLine1", false, false, false, "40");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.addressLine2", false, false, false, "40");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.city", false, false, false, "30");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.stateProvCd", false, false, false, null);
+		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.ownership", true, true, false, null, "String");
+		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.name", false, false, false, "100", "String");
+		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.secondName", false, false, false, "100", "String");
+		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.postalCode", false, false, false, "10", "String");
+		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.addressLine1", false, false, false, "40", "String");
+		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.addressLine2", false, false, false, "40", "String");
+		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.city", false, false, false, "30", "String");
+		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.stateProvCd", false, false, false, null, "String");
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 

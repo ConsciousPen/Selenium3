@@ -4,6 +4,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
@@ -27,7 +28,8 @@ public class ManualConversionTemplate extends PolicyBaseTest{
 		TestData policyTd = getConversionPolicyDefaultTD();
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), effDate);
 		getPolicyType().get().getDefaultView().fill(policyTd);
-		String policyNum = PolicySummaryPage.linkPolicy.getValue();
+		Tab.buttonBack.click();
+		String policyNum = PolicySummaryPage.getPolicyNumber();
 
 		SearchPage.openPolicy(policyNum);
 		if (!getState().equals(Constants.States.MD)) {

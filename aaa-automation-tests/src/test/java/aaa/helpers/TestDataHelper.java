@@ -92,7 +92,7 @@ public class TestDataHelper {
 	 * Merges two test datas into one unified test data.<p>
 	 *
 	 * It makes copy of <b>leftTestData</b> using {@link TestDataHelper#clone(TestData)} method and adds to it all missing key-value pairs from <b>rightTestData</b>.
-	 * When both test datas have same keys but different values (aka merge conflict) then:
+	 * When both test datas have same keys but different values (aka add conflict) then:
 	 * <pre>
 	 * - If value type is {@link TestData.Type#STRING} then String value from <b>rightTestData<b/> will be accepted;
 	 * - If value type is {@link TestData.Type#TESTDATA} then these nested test datas will be merged (by recursive invocation of same method);
@@ -105,7 +105,7 @@ public class TestDataHelper {
 	 *</pre>
 	 *
 	 * @param leftTestData leftTestData left test data to be merged
-	 * @param rightTestData right test data to be merged (on merge conflicts values from this data will be accepted)
+	 * @param rightTestData right test data to be merged (on add conflicts values from this data will be accepted)
 	 * @param convertStringToList if <b>true</b> and value from one test data is {@code String} and value from other test data is {@code List<String>} value,
 	 *                               then String value will be converted to the single {@code List<String>} of this one value. Then appropriate merging of lists of Strings will be performed.
 	 *                               Otherwise (when {@code convertStringToList} is false) - exception will be thrown due to same keys has different value types.
@@ -125,14 +125,14 @@ public class TestDataHelper {
 
 		if (resultData.equals(tdRight)) {
 			if (isFirstCycleMerge) {
-				log.warn("Both provided test datas are equal, there is nothing to merge");
+				log.warn("Both provided test datas are equal, there is nothing to add");
 			}
 			return resultData;
 		}
 
 		for (String key : resultData.getKeys()) {
 			if (!tdRight.containsKey(key)) {
-				continue; //nothing to merge, tdRight does not have key from tdLeft, tdLeft value is copied to result data
+				continue; //nothing to add, tdRight does not have key from tdLeft, tdLeft value is copied to result data
 			}
 
 			TestData.Type valueType = getValueType(resultData, key);
@@ -151,7 +151,7 @@ public class TestDataHelper {
 						key, valueType, valueTypeRight));
 			}
 			if (Objects.equals(resultData.getValue(valueType, key), tdRight.getValue(valueType, key))) {
-				continue; //nothing to merge, tdLeft and tdRight values are equal, tdLeft value is copied to result data
+				continue; //nothing to add, tdLeft and tdRight values are equal, tdLeft value is copied to result data
 			}
 
 			switch (valueType) {
