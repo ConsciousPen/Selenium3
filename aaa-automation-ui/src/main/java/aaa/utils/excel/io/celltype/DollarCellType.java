@@ -22,7 +22,7 @@ public class DollarCellType extends AbstractCellType<Dollar> {
 	}
 
 	@Override
-	public void setValueTo(ExcelCell cell, Dollar value) {
+	public void setRawValueTo(ExcelCell cell, Dollar value) {
 		cell.getPoiCell().setCellValue(value.toString());
 	}
 

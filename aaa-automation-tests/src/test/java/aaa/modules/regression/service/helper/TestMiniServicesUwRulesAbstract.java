@@ -260,7 +260,7 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 		assertSoftly(softly -> {
 			mainApp().open();
 			String policyNumber = getCopiedPolicy();
-			//String policyNumber = "VASS952918552";
+
 			ViewVehicleResponse responseViewVehicles = HelperCommon.viewPolicyVehicles(policyNumber);
 			String originalVehicleOid = responseViewVehicles.vehicleList.get(0).oid;
 
@@ -274,9 +274,9 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			premiumAndCoveragesTab.calculatePremium();
 			premiumAndCoveragesTab.saveAndExit();
 			//TODO Adding below steps makes PAS-15483 non-reproducible
-/*			testEValueDiscount.simplifiedPendedEndorsementIssue();
+			testEValueDiscount.simplifiedPendedEndorsementIssue();
 
-			helperMiniServices.createEndorsementWithCheck(policyNumber);*/
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 			//TODO uncomment for scenario, when deleteVehicles returns proper response
 /*		String purchaseDate2 = "2013-02-22";

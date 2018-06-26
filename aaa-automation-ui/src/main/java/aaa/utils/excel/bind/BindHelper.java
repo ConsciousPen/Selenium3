@@ -5,6 +5,7 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
@@ -75,5 +76,49 @@ public class BindHelper {
 		} catch (ClassCastException e) {
 			throw new IstfException("Can't get generic type of field " + field.getClass().getName(), e);
 		}
+	}
+	
+	//TODO-dchubkov: add getInt(), getLong(), etc... methods
+	public static Object getFieldValue(Field field, Object classInstance) {
+		if (!field.isAccessible()) {
+			//TODO-dchubkov: find appropriate getter method and use it for set value
+			field.setAccessible(true);
+		}
+		
+		try {
+			return field.get(classInstance);
+		} catch (IllegalAccessException | IllegalArgumentException e) {
+			throw new IstfException(String.format("Unable to get value from the field \"%1$s\" with type \"%2$s\" in class \"%3$s\"",
+					field.getName(), field.getType(), classInstance.getClass().getName()), e);
+		}
+	}
+	
+	public static void setFieldValue(Field field, Object classInstance, Object value) {
+		if (field.getType().isPrimitive() && value == null) {
+			return; // unable to set null values to fields of primitive types, leave this field with its default type value
+		}
+		
+		if (!field.isAccessible()) {
+			//TODO-dchubkov: find appropriate setter method and use it for set value
+			field.setAccessible(true);
+		}
+		
+		try {
+			field.set(classInstance, value);
+		} catch (IllegalAccessException | IllegalArgumentException e) {
+			throw new IstfException(String.format("Unable to set value \"%1$s\" to the field \"%2$s\" with type \"%3$s\" in class \"%4$s\"",
+					value != null ? value.toString() : null, field.getName(), field.getType(), classInstance.getClass().getName()), e);
+		}
+	}
+	
+	public static List<?> getValueAsList(Field tableField, Object classInstance) {
+		return getValueAsList(getFieldValue(tableField, classInstance));
+	}
+	
+	public static List<?> getValueAsList(Object value) {
+		if (List.class.isAssignableFrom(value.getClass())) {
+			return (List<?>) value;
+		}
+		return Collections.singletonList(value);
 	}
 }

@@ -51,7 +51,7 @@ ConversionForms_MD: {
 }
 #HSWSBMD
 EndorsementTab_MD: {
-  HS 04 95:{
+  DS 04 95:{
     Action: "Add"
   }
 }
