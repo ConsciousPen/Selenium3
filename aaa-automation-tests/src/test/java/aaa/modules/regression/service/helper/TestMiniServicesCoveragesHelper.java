@@ -1613,10 +1613,10 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			//assertCoverageLimitForPD(coverageResponse2); //TODO-mstrazds: uncomment when pas14721_UpdateCoveragesServiceBIPD is implemented for all states
 
 			Coverage filteredCoverageResponseUMBI = coverageResponse2.policyCoverages.stream().filter(cov -> "UMBI".equals(cov.coverageCd)).findFirst().orElse(null);
-			softly.assertThat(newBILimits.equals(filteredCoverageResponseUMBI.coverageLimit)).isEqualTo(true);
+			softly.assertThat(newBI2.equals(filteredCoverageResponseUMBI.coverageLimit)).isEqualTo(true);
 			softly.assertThat("$50,000/$100,000".equals(filteredCoverageResponseUMBI.coverageLimitDisplay)).isEqualTo(true);
 
-			validateUIMBI_pas15254(softly, state, coverageResponse2, newBILimits); //validate UIMBI for states where it is separate coverage
+			validateUIMBI_pas15254(softly, state, coverageResponse2, newBI2); //validate UIMBI for states where it is separate coverage
 		});
 
 		mainApp().close();
