@@ -97,6 +97,16 @@
 
     <!--Tests for Property-->
 
+    <!--- Commented until PAS-12922 is fixed.
+    <test name="Test Update Wildfire Score">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestOverrideWildfireScore"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestOverrideWildfireScore"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestOverrideWildfireScore"/>
+        </classes>
+    </test> -->
+
     <test name="Test Renovation Discount for KS DP3, HO3">
         <parameter name="state" value="KS"/>
         <classes>
