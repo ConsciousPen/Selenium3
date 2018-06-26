@@ -11,8 +11,6 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.Constants;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.mock.ApplicationMocksManager;
-import aaa.helpers.mock.MockType;
-import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLForm;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
 import aaa.main.enums.BillingConstants;
@@ -237,9 +235,8 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	public Dollar getMineSubsidence(HomeSSOpenLPolicy openLPolicy) {
 		if (Constants.States.OH.equals(openLPolicy.getPolicyAddress().getState())) {
 			return new Dollar(1);
-		} else {
-			return new Dollar(0);
 		}
+		return new Dollar(0);
 	}
 
 	private TestData getGeneralTabData(HomeSSOpenLPolicy openLPolicy) {
@@ -270,8 +267,8 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 
 		TestData aaaMembershipData;
 		if (Boolean.TRUE.equals(openLPolicy.getPolicyDiscountInformation().isCurrAAAMember())) {
-			RetrieveMembershipSummaryMock membershipMock = ApplicationMocksManager.getMock(MockType.RETRIEVE_MEMBERSHIP_SUMMARY);
-			String membershipNumber = membershipMock.getMembershipNumber(openLPolicy.getEffectiveDate(), openLPolicy.getPolicyDiscountInformation().getMemberPersistency());
+			String membershipNumber = ApplicationMocksManager.getRetrieveMembershipSummaryMock()
+					.getMembershipNumber(openLPolicy.getEffectiveDate(), openLPolicy.getPolicyDiscountInformation().getMemberPersistency());
 			assertThat(membershipNumber).as("No valid membership number was found for effectiveDate=%1$s and memberPersistency=%2$s fields", openLPolicy.getEffectiveDate(), openLPolicy.getPolicyDiscountInformation().getMemberPersistency())
 					.isNotNull();
 

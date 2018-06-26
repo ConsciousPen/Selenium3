@@ -2,27 +2,10 @@ package aaa.helpers.mock.model;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import aaa.helpers.mock.MockType;
 import aaa.utils.excel.bind.BindHelper;
-import aaa.utils.excel.bind.annotation.ExcelTransient;
-import toolkit.exceptions.IstfException;
 
-public class AbstractMock implements UpdatableMock {
-	@ExcelTransient
-	private MockType type;
-
-	@Override
-	public MockType getType() {
-		if (this.type == null) {
-			type = Arrays.stream(MockType.values()).filter(mockType -> Objects.equals(mockType.getMockModel(), this.getClass())).findFirst()
-					.orElseThrow(() -> new IstfException(String.format("Class \"%s\" is related to unknown mock type", this.getClass().getName())));
-		}
-		return this.type;
-	}
-
+public abstract class AbstractMock implements UpdatableMock {
 	@Override
 	@SuppressWarnings("unchecked")
 	public boolean add(UpdatableMock otherMock) {

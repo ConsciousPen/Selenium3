@@ -1,7 +1,9 @@
 package aaa.helpers.mock.model.property_classification;
 
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = "FIRELINE_REQUEST")
 public class FirelineRequest {
 	@ExcelColumnElement(name = "ID")
 	private String id;
@@ -60,5 +62,17 @@ public class FirelineRequest {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	@Override
+	public String toString() {
+		return "FirelineRequest{" +
+				"id='" + id + '\'' +
+				", protectionCodeType='" + protectionCodeType + '\'' +
+				", cityName='" + cityName + '\'' +
+				", zipCode='" + zipCode + '\'' +
+				", streetAddressLine='" + streetAddressLine + '\'' +
+				", state='" + state + '\'' +
+				'}';
 	}
 }

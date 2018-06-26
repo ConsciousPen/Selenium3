@@ -1,9 +1,7 @@
 package aaa.helpers.mock.model;
 
-import aaa.helpers.mock.MockType;
-
 public interface UpdatableMock {
-	MockType getType();
+	String getFileName();
 
 	boolean add(UpdatableMock mock);
 }

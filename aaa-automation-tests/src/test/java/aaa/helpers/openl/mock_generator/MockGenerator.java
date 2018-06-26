@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.RandomStringUtils;
 import aaa.helpers.mock.ApplicationMocksManager;
-import aaa.helpers.mock.MockType;
 import aaa.helpers.mock.model.UpdatableMock;
 import aaa.helpers.mock.model.membership.MembershipRequest;
 import aaa.helpers.mock.model.membership.MembershipResponse;
@@ -64,8 +63,7 @@ public class MockGenerator {
 
 	private static synchronized String generateMembershipId() {
 		String idPrefix = "OPENL_";
-		RetrieveMembershipSummaryMock retrieveMembershipSummaryMock = ApplicationMocksManager.getMock(MockType.RETRIEVE_MEMBERSHIP_SUMMARY);
-		List<String> existingIDs = retrieveMembershipSummaryMock.getMembershipRequests().stream().map(MembershipRequest::getId).collect(Collectors.toList());
+		List<String> existingIDs = ApplicationMocksManager.getRetrieveMembershipSummaryMock().getMembershipRequests().stream().map(MembershipRequest::getId).collect(Collectors.toList());
 
 		int idNumber = 1;
 		if (!generatedMembershipIDs.isEmpty()) {
@@ -84,8 +82,8 @@ public class MockGenerator {
 	}
 
 	private static synchronized String generateMembershipNumber() {
-		RetrieveMembershipSummaryMock retrieveMembershipSummaryMock = ApplicationMocksManager.getMock(MockType.RETRIEVE_MEMBERSHIP_SUMMARY);
-		List<String> existingMembershipNumbers = retrieveMembershipSummaryMock.getMembershipRequests().stream().map(MembershipRequest::getMembershipNumber).collect(Collectors.toList());
+		List<String> existingMembershipNumbers = ApplicationMocksManager.getRetrieveMembershipSummaryMock().getMembershipRequests()
+				.stream().map(MembershipRequest::getMembershipNumber).collect(Collectors.toList());
 
 		if (!generatedMembershipNumbers.isEmpty()) {
 			existingMembershipNumbers.addAll(generatedMembershipNumbers);

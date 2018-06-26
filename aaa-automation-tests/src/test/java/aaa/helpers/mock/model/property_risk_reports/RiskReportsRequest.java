@@ -1,20 +1,18 @@
-package aaa.helpers.mock.model.property_classification;
+package aaa.helpers.mock.model.property_risk_reports;
 
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
-@ExcelTableElement(sheetName = "PPC_REQUEST")
-public class PPCREequest {
+@ExcelTableElement(sheetName = "RISKREPORTS_REQUEST")
+public class RiskReportsRequest {
 	@ExcelColumnElement(name = "ID")
 	private String id;
 
-	private String protectionCodeType;
+	private String state;
 	private String cityName;
 	private String zipCode;
 	private String streetAddressLine;
-
-	@ExcelColumnElement(name = "state")
-	private String state;
+	private String streetAddressLine2;
 
 	public String getId() {
 		return id;
@@ -24,12 +22,12 @@ public class PPCREequest {
 		this.id = id;
 	}
 
-	public String getProtectionCodeType() {
-		return protectionCodeType;
+	public String getState() {
+		return state;
 	}
 
-	public void setProtectionCodeType(String protectionCodeType) {
-		this.protectionCodeType = protectionCodeType;
+	public void setState(String state) {
+		this.state = state;
 	}
 
 	public String getCityName() {
@@ -56,23 +54,23 @@ public class PPCREequest {
 		this.streetAddressLine = streetAddressLine;
 	}
 
-	public String getState() {
-		return state;
+	public String getStreetAddressLine2() {
+		return streetAddressLine2;
 	}
 
-	public void setState(String state) {
-		this.state = state;
+	public void setStreetAddressLine2(String streetAddressLine2) {
+		this.streetAddressLine2 = streetAddressLine2;
 	}
 
 	@Override
 	public String toString() {
-		return "PPCREequest{" +
+		return "RiskReportsRequest{" +
 				"id='" + id + '\'' +
-				", protectionCodeType='" + protectionCodeType + '\'' +
+				", state='" + state + '\'' +
 				", cityName='" + cityName + '\'' +
 				", zipCode='" + zipCode + '\'' +
 				", streetAddressLine='" + streetAddressLine + '\'' +
-				", state='" + state + '\'' +
+				", streetAddressLine2='" + streetAddressLine2 + '\'' +
 				'}';
 	}
 }

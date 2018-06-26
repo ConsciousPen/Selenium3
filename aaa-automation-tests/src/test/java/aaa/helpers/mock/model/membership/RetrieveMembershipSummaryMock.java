@@ -12,6 +12,9 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 	@ExcelTransient
 	public static final Double AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE = 99.9;
 
+	@ExcelTransient
+	public static final String FILE_NAME = "RetrieveMembershipSummaryMockData.xls";
+
 	private List<MembershipRequest> membershipRequests;
 	private List<MembershipResponse> membershipResponses;
 
@@ -43,6 +46,19 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 			}
 		}
 		return membershipNembers;
+	}
+
+	@Override
+	public String getFileName() {
+		return FILE_NAME;
+	}
+
+	@Override
+	public String toString() {
+		return "RetrieveMembershipSummaryMock{" +
+				"membershipRequests=" + membershipRequests +
+				", membershipResponses=" + membershipResponses +
+				'}';
 	}
 
 	public String getMembershipNumber(LocalDate policyEffectiveDate, Integer memberPersistency) {

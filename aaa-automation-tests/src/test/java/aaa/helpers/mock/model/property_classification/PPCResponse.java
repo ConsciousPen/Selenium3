@@ -2,8 +2,10 @@ package aaa.helpers.mock.model.property_classification;
 
 import java.time.LocalDate;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
-public class PPCresponse {
+@ExcelTableElement(sheetName = "PPC_RESPONSE")
+public class PPCResponse {
 	@ExcelColumnElement(name = "ID")
 	private String id;
 
@@ -16,6 +18,8 @@ public class PPCresponse {
 	private String feReturnSource;
 	private Boolean availabilityIndicator;
 	private String fePpcValue;
+
+	@ExcelColumnElement(dateFormatPatterns = "M/d/yyyy")
 	private LocalDate feEffectiveDate;
 	private String ppcValue;
 	private String ppcValue1;
@@ -367,5 +371,51 @@ public class PPCresponse {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	@Override
+	public String toString() {
+		return "PPCresponse{" +
+				"id='" + id + '\'' +
+				", responseCode=" + responseCode +
+				", responseDescription='" + responseDescription + '\'' +
+				", returnCode='" + returnCode + '\'' +
+				", returnMessage='" + returnMessage + '\'' +
+				", returnSource='" + returnSource + '\'' +
+				", reportName='" + reportName + '\'' +
+				", feReturnSource='" + feReturnSource + '\'' +
+				", availabilityIndicator=" + availabilityIndicator +
+				", fePpcValue='" + fePpcValue + '\'' +
+				", feEffectiveDate=" + feEffectiveDate +
+				", ppcValue='" + ppcValue + '\'' +
+				", ppcValue1='" + ppcValue1 + '\'' +
+				", ppcValue2='" + ppcValue2 + '\'' +
+				", ppcPercentage=" + ppcPercentage +
+				", ppcPercentage1=" + ppcPercentage1 +
+				", ppcPercentage2=" + ppcPercentage2 +
+				", altPPC='" + altPPC + '\'' +
+				", ppcCountyFIPS='" + ppcCountyFIPS + '\'' +
+				", ppcCountyFIPS1='" + ppcCountyFIPS1 + '\'' +
+				", ppcCountyFIPS2='" + ppcCountyFIPS2 + '\'' +
+				", ppcCountyName='" + ppcCountyName + '\'' +
+				", ppcCountyName1='" + ppcCountyName1 + '\'' +
+				", ppcCountyName2='" + ppcCountyName2 + '\'' +
+				", stateSpecificCode='" + stateSpecificCode + '\'' +
+				", stateSpecificCode1='" + stateSpecificCode1 + '\'' +
+				", stateSpecificCode2='" + stateSpecificCode2 + '\'' +
+				", statePlacedIndic='" + statePlacedIndic + '\'' +
+				", fireDistrict='" + fireDistrict + '\'' +
+				", fireDistrict1='" + fireDistrict1 + '\'' +
+				", fireDistrict2='" + fireDistrict2 + '\'' +
+				", fireSubscriberDistrCode='" + fireSubscriberDistrCode + '\'' +
+				", fireSubscriberDistrCode1='" + fireSubscriberDistrCode1 + '\'' +
+				", fireSubscriberDistrCode2='" + fireSubscriberDistrCode2 + '\'' +
+				", fireStationDistBand='" + fireStationDistBand + '\'' +
+				", fireStationDistRange='" + fireStationDistRange + '\'' +
+				", respFireStation='" + respFireStation + '\'' +
+				", waterSupplyCode='" + waterSupplyCode + '\'' +
+				", waterSupply='" + waterSupply + '\'' +
+				", state='" + state + '\'' +
+				'}';
 	}
 }

@@ -8,7 +8,7 @@ import aaa.helpers.mock.model.UpdatableMock;
 import aaa.utils.excel.bind.ExcelMarshaller;
 
 public class MocksCollection implements Iterable<UpdatableMock> {
-	private Map<MockType, UpdatableMock> mocks;
+	private Map<Class<? extends UpdatableMock>, UpdatableMock> mocks;
 
 	public MocksCollection() {
 		mocks = new HashMap<>();
@@ -17,7 +17,7 @@ public class MocksCollection implements Iterable<UpdatableMock> {
 	public MocksCollection(UpdatableMock mock) {
 		mocks = new HashMap<>();
 		if (mock != null) {
-			mocks.put(mock.getType(), mock);
+			mocks.put(mock.getClass(), mock);
 		}
 	}
 
@@ -30,32 +30,34 @@ public class MocksCollection implements Iterable<UpdatableMock> {
 		return new MocksIterator(mocks.values().iterator());
 	}
 
-	public boolean has(MockType mockType) {
-		return mocks.containsKey(mockType);
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for (UpdatableMock mock : this) {
+			sb.append(mock).append("\n");
+		}
+		return "MocksCollection{" + sb + "}";
 	}
 
-	public UpdatableMock get(MockType mockType) {
-		return mocks.get(mockType);
+	public boolean has(Class<? extends UpdatableMock> mockModelClass) {
+		return mocks.containsKey(mockModelClass);
+	}
+
+	public UpdatableMock get(Class<? extends UpdatableMock> mockModelClass) {
+		return mocks.get(mockModelClass);
 	}
 
 	public boolean add(UpdatableMock mock) {
-		return mock != null && add(mock.getType(), mock);
+		return mock != null && add(mock.getClass(), mock);
 	}
 
-	public boolean add(MockType mockType, UpdatableMock mock) {
-		if (mock == null) {
+	public boolean addAll(MocksCollection mocks) {
+		if (mocks == null) {
 			return false;
 		}
-		if (!has(mockType)) {
-			mocks.put(mockType, mock);
-			return true;
-		}
-		return get(mockType).add(mock);
-	}
 
-	public boolean addAll(MocksCollection requiredMocks) {
 		boolean isUpdated = false;
-		for (UpdatableMock mock : requiredMocks) {
+		for (UpdatableMock mock : mocks) {
 			if (add(mock)) {
 				isUpdated = true;
 			}
@@ -66,9 +68,20 @@ public class MocksCollection implements Iterable<UpdatableMock> {
 	public void dump(String folderPath) {
 		ExcelMarshaller excelMarshaller = new ExcelMarshaller();
 		for (UpdatableMock mock : this) {
-			File output = new File(folderPath, mock.getType().getFileName());
+			File output = new File(folderPath, mock.getFileName());
 			excelMarshaller.marshal(mock, output);
 		}
+	}
+
+	private boolean add(Class<? extends UpdatableMock> mockModelClass, UpdatableMock mock) {
+		if (mock == null) {
+			return false;
+		}
+		if (!has(mockModelClass)) {
+			mocks.put(mockModelClass, mock);
+			return true;
+		}
+		return get(mockModelClass).add(mock);
 	}
 
 	private int size() {
