@@ -1604,9 +1604,119 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "MEDPM");
 		policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "IL");
 
-
-
 		helperMiniServices.bindEndorsementWithCheck(policyNumber);
+	}
+
+
+
+	protected void pas12175_RemoveReplaceAllVehiclesBody() {
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_VehicleOtherTypes").getTestDataList("VehicleTab")).resolveLinks();
+
+		mainApp().open();
+	/*	createCustomerIndividual();
+		policy.createPolicy(testData);*/
+		SearchPage.openPolicy("VASS952918539");
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+
+		String vehicleVinPpa1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN");
+		String vehicleVinConv = td.getTestDataList("VehicleTab").get(1).getValue("VIN");
+		String vehicleVinPpa2 = td.getTestDataList("VehicleTab").get(2).getValue("VIN");
+		String vehicleVinMotor = td.getTestDataList("VehicleTab").get(3).getValue("VIN");
+
+		ViewVehicleResponse viewPolicyVehicleResponse1 = HelperCommon.viewPolicyVehicles(policyNumber);
+		String vehiclePpa1Oid = viewPolicyVehicleResponse1.vehicleList.stream().filter(vehicle -> vehicleVinPpa1.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null).oid;
+		String vehicleConvOid = viewPolicyVehicleResponse1.vehicleList.stream().filter(vehicle -> vehicleVinConv.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null).oid;
+		String vehiclePpa2Oid = viewPolicyVehicleResponse1.vehicleList.stream().filter(vehicle -> vehicleVinPpa2.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null).oid;
+		String vehicleMotorOid = viewPolicyVehicleResponse1.vehicleList.stream().filter(vehicle -> vehicleVinMotor.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null).oid;
+
+		assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse1, vehiclePpa1Oid)).contains("Remove, Replace");
+		assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse1, vehiclePpa2Oid)).contains("Remove, Replace");
+		assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse1, vehicleConvOid)).contains("Remove");
+		assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse1, vehicleMotorOid)).contains("Remove");
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		ViewVehicleResponse viewEndorsementVehicleResponse1 = HelperCommon.viewEndorsementVehicles(policyNumber);
+		assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse1, vehiclePpa1Oid)).contains("Remove, Replace");
+		assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse1, vehiclePpa2Oid)).contains("Remove, Replace");
+		assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse1, vehicleConvOid)).contains("Remove");
+		assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse1, vehicleMotorOid)).contains("Remove");
+
+		VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, vehiclePpa1Oid);
+
+		ViewVehicleResponse viewEndorsementVehicleResponse2 = HelperCommon.viewEndorsementVehicles(policyNumber);
+		assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse2, vehiclePpa1Oid)).contains("");
+		assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse2, vehiclePpa2Oid)).contains("Replace");
+		assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse2, vehicleConvOid)).contains("Remove");
+		assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse2, vehicleMotorOid)).contains("Remove");
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+		ViewVehicleResponse viewPolicyVehicleResponse2 = HelperCommon.viewPolicyVehicles(policyNumber);
+		assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse2, vehiclePpa2Oid)).contains("Replace");
+		assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse2, vehicleConvOid)).contains("Remove");
+		assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse2, vehicleMotorOid)).contains("Remove");
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		String newVehicleOid = addVehicleWithChecks(policyNumber, "2013-02-22", "1FADP3J2XJL222680", true);
+		ViewVehicleResponse viewEndorsementVehicleResponse3 = HelperCommon.viewEndorsementVehicles(policyNumber);
+		assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, newVehicleOid)).contains("");
+	}
+
+	protected void pas12175_RemoveReplaceWaiveLiabilityBody() {
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_WaiveLiability").getTestDataList("VehicleTab"))
+				.adjust(new PremiumAndCoveragesTab().getMetaKey(), getTestSpecificTD("TestData_WaiveLiability").getTestData("PremiumAndCoveragesTab"))
+				.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError)
+				.resolveLinks();
+
+		mainApp().open();
+		createCustomerIndividual();
+		policy.createPolicy(testData);
+/*		SearchPage.openQuote("QVASS952918544");
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.fillTab(td);*/
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+
+		String vehicleVinPpa1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN");
+		String vehicleVinWl = td.getTestDataList("VehicleTab").get(1).getValue("VIN");
+
+		ViewVehicleResponse viewPolicyVehicleResponse1 = HelperCommon.viewPolicyVehicles(policyNumber);
+		String vehiclePpa1Oid = viewPolicyVehicleResponse1.vehicleList.stream().filter(vehicle -> vehicleVinPpa1.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null).oid;
+		String vehicleWlOid = viewPolicyVehicleResponse1.vehicleList.stream().filter(vehicle -> vehicleVinWl.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null).oid;
+
+		assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse1, vehiclePpa1Oid)).contains("Replace");
+		assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse1, vehicleWlOid)).contains("Remove");
+
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		ViewVehicleResponse viewEndorsementVehicleResponse1 = HelperCommon.viewEndorsementVehicles(policyNumber);
+		assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse1, vehiclePpa1Oid)).contains("Replace");
+		assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse1, vehicleWlOid)).contains("Remove");
+
+
+		String newVehicleOid = addVehicleWithChecks(policyNumber, "2013-02-22", "1FADP3J2XJL222680", true);
+		ViewVehicleResponse viewEndorsementVehicleResponse3 = HelperCommon.viewEndorsementVehicles(policyNumber);
+		assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, vehiclePpa1Oid)).contains("Remove, Replace");
+		assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, vehicleWlOid)).contains("Remove");
+		assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, newVehicleOid)).contains("");
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		ViewVehicleResponse viewPolicyVehicleResponse2 = HelperCommon.viewPolicyVehicles(policyNumber);
+		assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse2, vehiclePpa1Oid)).contains("Remove, Replace");
+		assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse2, vehicleWlOid)).contains("Remove");
+		assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse2, newVehicleOid)).contains("Remove, Replace");
+	}
+
+	private String checkAvailableActionsByVehicleOid(ViewVehicleResponse viewVehicleResponse, String vehiclePpa1Oid) {
+		return viewVehicleResponse.vehicleList.stream().filter(vehicle -> vehiclePpa1Oid.equals(vehicle.oid)).findFirst().orElse(null).availableActions.toString();
 	}
 
 	private void coverageComparisonByCoverageCd(PolicyCoverageInfo response1, PolicyCoverageInfo response2, String coverageCd) {

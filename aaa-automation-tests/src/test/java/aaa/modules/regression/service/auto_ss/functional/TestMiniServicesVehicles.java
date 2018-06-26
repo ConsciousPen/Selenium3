@@ -357,18 +357,14 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Check Vehicle vehicle service
-	 * @scenario 1.Create a policy with 4 vehicles (1.PPA 2.PPA 3. Conversion Van 4. Trailer )
-	 * 2.hit view vehicle service
-	 * 3.get a response in right sequence
-	 * 4.perform endorsement
-	 * 5.add new vehicle (that will be pending)
-	 * 6.hit view vehicle service
-	 * 7.validate response shows pending vehicle first.
-	 * Added Pas 12244
-	 * Add 2 PPA vehicle
-	 * hit view vehicle service on pended endorsement
-	 * verify order of vehicle
+	 * @name Check Vehicle coverages after replacing the vehicle
+	 * @scenario 1.Create a policy with 1 leased vehicle, 1 New Car coverage
+	 * 2.Check coverages
+	 * 3.Start an endorsement, Replace vehicles
+	 * 4.check coverages:
+	 * loan/lease coverage = No Coverage, not shown, cant edit
+	 * new car coverage = No Coverage, not shown, cant edit
+	 * the rest coverages are not changed
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -385,6 +381,22 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	public void pas13920_testas(@Optional("VA") String state) {
 
 		pas13920_test(state);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12175"})
+	public void pas12175_RemoveReplaceAllVehicles(@Optional("VA") String state) {
+
+		pas12175_RemoveReplaceAllVehiclesBody();
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12175"})
+	public void pas12175_RemoveReplaceWaiveLiability(@Optional("VA") String state) {
+
+		pas12175_RemoveReplaceWaiveLiabilityBody();
 	}
 }
 

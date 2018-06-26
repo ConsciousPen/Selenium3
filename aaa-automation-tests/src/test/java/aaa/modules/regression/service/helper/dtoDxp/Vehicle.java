@@ -1,6 +1,7 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
 import java.util.Comparator;
+import java.util.List;
 import com.google.common.collect.ComparisonChain;
 import aaa.modules.regression.service.helper.RestBodyRequest;
 import io.swagger.annotations.ApiModel;
@@ -64,6 +65,8 @@ public class Vehicle implements RestBodyRequest {
 
 	@ApiModelProperty(value = "Ownership info", dataType = "com.eisgroup.aaa.policy.services.dto.VehicleOwnership")
 	public VehicleOwnership vehicleOwnership;
+
+	public List<String> availableActions;
 
 	public static final Comparator<Vehicle> ACTIVE_POLICY_COMPARATOR = (vehicle1, vehicle2) -> ComparisonChain.start()
 			.compareTrueFirst(VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO.equals(vehicle1.vehTypeCd),

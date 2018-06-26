@@ -77,3 +77,23 @@ PremiumAndCoveragesTab_2018: {
   ]
 }
 
+#---------------------------------------------
+TestData_WaiveLiability: {
+    VehicleTab: ['@VehicleTab_2018_Leased', '@VehicleTab_2018_New'],
+    PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_WaiveLiability',
+}
+
+PremiumAndCoveragesTab_WaiveLiability: {
+  Payment Plan: Annual,
+  Apply eValue Discount: 'Yes',
+  Bodily Injury Liability: 'contains=$50,000/$100,000',
+  DetailedVehicleCoverages: [
+    {
+      Full Safety Glass: 'Yes',
+      Towing and Labor Coverage: 'index=1',
+    },
+    {
+      Waive Liability: 'Yes',
+    }
+  ]
+}
