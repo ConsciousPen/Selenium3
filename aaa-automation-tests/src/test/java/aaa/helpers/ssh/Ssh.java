@@ -246,7 +246,7 @@ public class Ssh {
 				if (execChannel.isClosed()) {
 					long execDuration = System.currentTimeMillis() - startTime;
 					log.info("SSH: Command execution has been finished after {}",
-							execDuration > 1000 ? TimeUnit.MILLISECONDS.toSeconds(execDuration) + " seconds" : execDuration + " milliseconds");
+							execDuration > 1000 ? TimeUnit.MILLISECONDS.toSeconds(execDuration) + " second(s)" : execDuration + " milliseconds");
 					break;
 				}
 

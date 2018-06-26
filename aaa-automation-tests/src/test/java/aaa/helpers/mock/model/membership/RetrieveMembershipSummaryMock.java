@@ -7,7 +7,6 @@ import org.apache.commons.lang.StringUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.mock.model.AbstractMock;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
-import toolkit.exceptions.IstfException;
 
 public class RetrieveMembershipSummaryMock extends AbstractMock {
 	@ExcelTransient
@@ -32,10 +31,6 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 		this.membershipResponses = new ArrayList<>(membershipResponses);
 	}
 
-	public List<String> getMembershipRequestNumbers() {
-		return getMembershipRequests().stream().map(MembershipRequest::getMembershipNumber).collect(Collectors.toList());
-	}
-
 	public Set<String> getActiveAndPrimaryMembershipNumbersWithoutFaultCodes() {
 		Set<String> membershipNembers = new HashSet<>();
 		for (MembershipRequest request : getMembershipRequests()) {
@@ -49,7 +44,7 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 		}
 		return membershipNembers;
 	}
-	
+
 	public String getMembershipNumber(LocalDate policyEffectiveDate, Integer memberPersistency) {
 		return getMembershipNumberForAvgAnnualERSperMember(policyEffectiveDate, memberPersistency, AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE);
 	}
@@ -96,11 +91,6 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 	public List<MembershipResponse> getMembershipResponses(String membershipRequestNumber) {
 		String membershipRequestId = getMembershipRequests().stream().filter(m -> Objects.equals(m.getMembershipNumber(), membershipRequestNumber)).map(MembershipRequest::getId).findFirst().get();
 		return getMembershipResponses().stream().filter(m -> Objects.equals(m.getId(), membershipRequestId)).collect(Collectors.toList());
-	}
-
-	public String getMembershipRequestNumber(String id) {
-		return getMembershipRequests().stream().filter(m -> m.getId().equals(id)).findFirst()
-				.orElseThrow(() -> new IstfException("There is no request membership number with id=" + id)).getMembershipNumber();
 	}
 
 	private String getMembershipNumberForAvgAnnualERSperMember(Set<String> membershipNumbers, LocalDate policyEffectiveDate, Double avgAnnualERSperMember) {

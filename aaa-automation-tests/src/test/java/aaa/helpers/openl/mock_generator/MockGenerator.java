@@ -20,7 +20,7 @@ public class MockGenerator {
 	private static List<String> generatedMembershipNumbers = new ArrayList<>();
 
 	public static RetrieveMembershipSummaryMock getRetrieveMembershipSummaryMock(LocalDate policyEffectiveDate, Integer memberPersistency) {
-		return getRetrieveMembershipSummaryMock(policyEffectiveDate, memberPersistency, 0.0);
+		return getRetrieveMembershipSummaryMock(policyEffectiveDate, memberPersistency, RetrieveMembershipSummaryMock.AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE);
 	}
 
 	public static RetrieveMembershipSummaryMock getRetrieveMembershipSummaryMock(LocalDate policyEffectiveDate, Integer memberPersistency, Double avgAnnualERSperMember) {
@@ -33,13 +33,14 @@ public class MockGenerator {
 		mRequest.setMembershipNumber(membershipNumber);
 
 		int ersCount = avgAnnualERSperMember.equals(RetrieveMembershipSummaryMock.AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE) || avgAnnualERSperMember.equals(0.0) ? 1 : avgAnnualERSperMember.intValue();
+		LocalDate serviceDate = avgAnnualERSperMember.equals(0.0) ? policyEffectiveDate.minusYears(4) : policyEffectiveDate.minusYears(1);
+		LocalDate memberStartDate = policyEffectiveDate.minusYears(memberPersistency);
+
 		List<MembershipResponse> membershipResponses = new ArrayList<>(ersCount);
 		for (int i = 0; i < ersCount; i++) {
-			LocalDate serviceDate = avgAnnualERSperMember.equals(0.0) ? policyEffectiveDate.minusYears(4) : policyEffectiveDate.minusYears(1);
-			LocalDate memberStartDate = policyEffectiveDate.minusYears(memberPersistency);
 			boolean isPrimaryType = false;
 			if (i == ersCount - 1) {
-				if (!avgAnnualERSperMember.equals(0.0)) {
+				if (ersCount > 1) {
 					memberStartDate = policyEffectiveDate.minusYears(1);
 				}
 				isPrimaryType = true;
