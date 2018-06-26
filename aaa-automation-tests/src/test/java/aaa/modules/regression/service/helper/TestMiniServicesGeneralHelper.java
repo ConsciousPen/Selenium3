@@ -464,7 +464,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 
 		//View driver assignment if VA
 		if ("VA, NY, CA".contains(state)) {
-			DriverAssignmentDto[] responseDriverAssignment = HelperCommon.viewEndorsementAssignments(policyNumber);
+			DriverAssignment[] responseDriverAssignment = HelperCommon.viewEndorsementAssignments(policyNumber);
 			softly.assertThat(responseDriverAssignment[0].vehicleOid).isNotEmpty();
 			softly.assertThat(responseDriverAssignment[0].driverOid).isNotEmpty();
 			softly.assertThat(responseDriverAssignment[0].relationshipType).isEqualTo("primary");
