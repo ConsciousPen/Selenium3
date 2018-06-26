@@ -1,20 +1,18 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.util.Arrays;
+import java.util.List;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.queries.LookupQueries;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.AutoSSBaseTest;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestStatCodeRefresh extends AutoSSBaseTest {
 
@@ -62,6 +60,6 @@ public class TestStatCodeRefresh extends AutoSSBaseTest {
 
         List<String> ratingDetailsTable = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
         ratingDetailsTable.forEach(f -> assertThat(PremiumAndCoveragesTab
-                .tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue()).isEqualToIgnoringCase("AX"));
+                .tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue()).isEqualToIgnoringCase("AN"));
     }
 }

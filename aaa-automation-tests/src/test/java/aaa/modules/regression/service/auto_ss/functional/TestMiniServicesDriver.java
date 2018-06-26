@@ -22,6 +22,26 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversAbstract {
 		return PolicyType.AUTO_SS;
 	}
 
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name view Drivers service, check info.
+	 * @scenario
+	 * 1. Create policy with two drivers.
+	 * 2. Check if the same drivers are displaying in dxp service.
+	 * 3. Initiate endorsement, and add driver middle name and suffix for one of the drivers. Don't bind.
+	 * 4. Check if user can't be able to see new driver information.
+	 * 5. Bind the endorsement.
+	 * 6. Check if new information from endorsement is displaying.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11932", "PAS-12768"})
+	public void pas11932_viewDrivers(@Optional("VA") String state) {
+
+		pas11932_viewDriversInfo(getPolicyType());
+	}
+
 	/**
 	 * @author Megha Gubbala
 	 * @name View Drivers service, check info.

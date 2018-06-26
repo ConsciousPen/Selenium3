@@ -12,6 +12,7 @@ import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -28,6 +29,7 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 
 	public static Table tableEndorsementForms = new Table(By.id("policyDataGatherForm:formSummaryTable"));
 	public static Button btnContinue = new Button(By.id("policyDataGatherForm:next_footer"), Waiters.AJAX);
+	public static Link linkViewPropertyQuote = new Link(By.id("policyDataGatherForm:viewHomeQuoteCA_Link"), Waiters.AJAX);
 
 	public PremiumsAndCoveragesQuoteTab() {
 		super(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.class);

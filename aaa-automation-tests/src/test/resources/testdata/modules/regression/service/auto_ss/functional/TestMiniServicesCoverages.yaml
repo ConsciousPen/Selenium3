@@ -1,0 +1,14 @@
+TestData_NewVehicle: {
+    VehicleTab: ['@VehicleTab_2018'],
+}
+
+VehicleTab_2018: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: 1FM5K8D86JGA29926,
+    Ownership: {
+     Ownership Type: Leased,
+     First Name: BANK OF AMERICA
+    }
+}
+

@@ -6,12 +6,7 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
-    <test name="PAS-2247, PAS-2248 - Lock Membership and Auto Ins Persistency, Not at Fault and Comp Claims">
-        <parameter name="state" value="CT"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAutoPoliciesLock"/>
-        </classes>
-    </test>
+
     <test name="pas2704_DeclarationPage AA02NY">
         <parameter name="state" value="NY"/>
         <classes>
@@ -53,71 +48,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVehiclePageStatCodes"/>
         </classes>
     </test>
-    <test name="Auto SS TestVINUpload tests">
-        <parameter name="state" value="UT"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVINUpload">
-                <methods>
-                    <include name="pas533_newVinAdded"/>
-                    <include name="pas2714_Endorsement"/>
-                    <include name="pas4253_restrictVehicleRefreshNB"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefreshMotorHomeVehicle">
-                <methods>
-                    <include name="pas730_VehicleTypeNotPPA"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefreshPPAVehicle">
-                <methods>
-                    <include name="pas730_PartialMatch"/>
-                    <include name="pas730_VehicleTypePPA"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="Auto CA TestVINUpload tests">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVINUpload">
-                <methods>
-                    <include name="pas533_newVinAdded"/>
-                    <include name="pas2714_Endorsement"/>
-                    <include name="pas4253_restrictVehicleRefreshNB"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefreshNotRegularVehicle">
-                <methods>
-                    <include name="pas730_VehicleTypeNotRegular"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefreshRegularVehicle">
-                <methods>
-                    <include name="pas730_PartialMatch"/>
-                    <include name="pas730_VehicleTypeRegular"/>
-                    <include name="pas730_vinDoesNotMatchDB"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload">
-                <methods>
-                    <include name="pas533_newVinAdded"/>
-                    <include name="pas2714_Endorsement"/>
-                    <include name="pas4253_restrictVehicleRefreshNB"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMSRPRefreshRegularVehicle">
-                <methods>
-                    <include name="pas730_PartialMatch"/>
-                    <include name="pas730_VehicleTypeRegular"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMSRPRefreshNotRegularVehicle">
-                <methods>
-                    <include name="pas730_VehicleTypeNotRegular"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test name="Auto SS PAS-535,PAS-2712,PAS-1904  Modifies View Rating Details to display separate comp and coll symbols, split stat code.">
         <parameter name="state" value="AZ"/>
         <classes>
@@ -148,7 +78,68 @@
             </class>
         </classes>
     </test>
-
+    <test name="Auto SS TestVINUpload tests">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVINUpload">
+                <methods>
+                    <include name="pas533_newVinAdded"/>
+                    <include name="pas2714_Endorsement"/>
+                    <include name="pas4253_restrictVehicleRefreshNB"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefreshMotorHomeVehicle">
+                <methods>
+                    <include name="pas730_VehicleTypeNotPPA"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefreshPPAVehicle">
+                <methods>
+                    <include name="pas730_VehicleTypePPA"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Auto CA TestVINUpload tests">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVINUpload">
+                <methods>
+                    <include name="pas533_newVinAdded"/>
+                    <include name="pas2714_Endorsement"/>
+                    <include name="pas4253_restrictVehicleRefreshNB"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefreshNotRegularVehicle">
+                <methods>
+                    <include name="pas730_VehicleTypeNotRegular"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefreshRegularVehicle">
+                <methods>
+                    <include name="pas730_VehicleTypeRegular"/>
+                    <include name="pas730_vinDoesNotMatchDB"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload">
+                <methods>
+                    <include name="pas533_newVinAdded"/>
+                    <include name="pas2714_Endorsement"/>
+                    <include name="pas4253_restrictVehicleRefreshNB"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMSRPRefreshRegularVehicle">
+                <methods>
+                    <include name="pas730_VehicleTypeRegular"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMSRPRefreshNotRegularVehicle">
+                <methods>
+                    <include name="pas730_VehicleTypeNotRegular"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="pas2713 Application Form Stat Code NA All states">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
         <classes>
@@ -229,6 +220,12 @@
                     <include name="pas12879_EnsureStatCodeIsRrefreshed"/>
                 </methods>
             </class>
+        </classes>
+    </test>
+    <test name="PAS-2247, PAS-2248 - Lock Membership and Auto Ins Persistency, Not at Fault and Comp Claims">
+        <parameter name="state" value="CT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAutoPoliciesLock"/>
         </classes>
     </test>
 </suite>
