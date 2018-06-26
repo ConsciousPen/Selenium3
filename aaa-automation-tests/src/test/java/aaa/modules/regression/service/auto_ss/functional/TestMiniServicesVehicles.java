@@ -354,6 +354,38 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 				pas9493_TransactionInformationForEndorsementsAddVehicleBody(getPolicyType())
 		);
 	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Check Vehicle vehicle service
+	 * @scenario 1.Create a policy with 4 vehicles (1.PPA 2.PPA 3. Conversion Van 4. Trailer )
+	 * 2.hit view vehicle service
+	 * 3.get a response in right sequence
+	 * 4.perform endorsement
+	 * 5.add new vehicle (that will be pending)
+	 * 6.hit view vehicle service
+	 * 7.validate response shows pending vehicle first.
+	 * Added Pas 12244
+	 * Add 2 PPA vehicle
+	 * hit view vehicle service on pended endorsement
+	 * verify order of vehicle
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320"})
+	public void pas13920_ReplaceVehicleVehicle(@Optional("VA") String state) {
+
+		pas13920_ReplaceVehicle(state);
+	}
+
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920"})
+	public void pas13920_testas(@Optional("VA") String state) {
+
+		pas13920_test(state);
+	}
 }
 
 

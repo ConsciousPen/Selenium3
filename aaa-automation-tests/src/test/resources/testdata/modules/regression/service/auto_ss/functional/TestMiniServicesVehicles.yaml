@@ -37,3 +37,43 @@ VehicleTab_Motor_Home: {
     Other Model: 'Motor',
    Stated Amount: '50000',
 }
+
+#---------------------------------------------
+TestData_NewVehicle: {
+    VehicleTab: ['@VehicleTab_2018_Leased', '@VehicleTab_2018_New'],
+    PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_2018',
+}
+
+VehicleTab_2018_Leased: {
+    Usage: Pleasure,
+    VIN: JTDKDTB38J1600184, #toyota prius 2018
+    Ownership: {
+     Ownership Type: Leased,
+     First Name: BANK OF AMERICA
+    }
+}
+
+VehicleTab_2018_New: {
+    Usage: Pleasure,
+    VIN: 1FADP3J2XJL222680, #Ford Focus 2018
+}
+
+PremiumAndCoveragesTab_2018: {
+  Payment Plan: Annual,
+  Apply eValue Discount: 'Yes',
+  Bodily Injury Liability: 'contains=$50,000/$100,000',
+  DetailedVehicleCoverages: [
+    {
+      Full Safety Glass: 'Yes',
+      Towing and Labor Coverage: 'index=1',
+      Auto Loan/Lease Coverage: 'contains=Yes'
+    },
+    {
+      Full Safety Glass: 'Yes',
+      Towing and Labor Coverage: 'index=1',
+      New Car Added Protection: 'Yes',
+      Purchase Date: '$<today-20d>'
+    }
+  ]
+}
+
