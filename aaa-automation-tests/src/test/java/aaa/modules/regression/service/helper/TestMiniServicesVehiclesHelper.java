@@ -43,8 +43,9 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	private VehicleTab vehicleTab = new VehicleTab();
 	private GeneralTab generalTab = new GeneralTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
-	private TestMiniServicesGeneralHelper testMiniServicesGeneral = new TestMiniServicesGeneralHelper();
-
+	private TestMiniServicesGeneralHelper testMiniServicesGeneralHelper = new TestMiniServicesGeneralHelper();
+	private TestMiniServicesCoveragesHelper testMiniServicesCoveragesHelper = new TestMiniServicesCoveragesHelper();
+	
 	protected void pas8275_vinValidateCheck(SoftAssertions softly, PolicyType policyType) {
 		String getAnyActivePolicy = "select ps.policyNumber, ps.POLICYSTATUSCD, ps.EFFECTIVE\n"
 				+ "from policySummary ps\n"
@@ -979,30 +980,30 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		softly.assertThat(newVehicle1.vehicleOwnership.secondName).isEqualTo(secondName);
 
 		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsmentVehiclesMetaData(policyNumber, newVehicleOid);
-		AttributeMetadata metaDataFieldResponse = testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.ownership", true, true, false, null);
+		AttributeMetadata metaDataFieldResponse = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "vehicleOwnership.ownership", true, true, false, null);
 		softly.assertThat(metaDataFieldResponse.valueRange.get("OWN")).isEqualTo("Owned");
 		softly.assertThat(metaDataFieldResponse.valueRange.get("FNC")).isEqualTo("Financed");
 		softly.assertThat(metaDataFieldResponse.valueRange.get("LSD")).isEqualTo("Leased");
 
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.name", true, true, false, "100");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.secondName", true, true, false, "100");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.postalCode", true, true, false, "10");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.addressLine1", true, true, false, "40");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.addressLine2", true, true, false, "40");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.city", true, true, false, "30");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponse, "vehicleOwnership.stateProvCd", true, true, false, null);
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "vehicleOwnership.name", true, true, false, "100");
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "vehicleOwnership.secondName", true, true, false, "100");
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "vehicleOwnership.postalCode", true, true, false, "10");
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "vehicleOwnership.addressLine1", true, true, false, "40");
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "vehicleOwnership.addressLine2", true, true, false, "40");
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "vehicleOwnership.city", true, true, false, "30");
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "vehicleOwnership.stateProvCd", true, true, false, null);
 
 		ViewVehicleResponse policyValidateVehicleInfoResponse = HelperCommon.viewPolicyVehicles(policyNumber);
 		String oldVehicleOid = policyValidateVehicleInfoResponse.vehicleList.get(0).oid;
 		AttributeMetadata[] metaDataResponseOwned = HelperCommon.viewEndorsmentVehiclesMetaData(policyNumber, oldVehicleOid);
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.ownership", true, true, false, null);
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.name", false, false, false, "100");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.secondName", false, false, false, "100");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.postalCode", false, false, false, "10");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.addressLine1", false, false, false, "40");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.addressLine2", false, false, false, "40");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.city", false, false, false, "30");
-		testMiniServicesGeneral.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.stateProvCd", false, false, false, null);
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.ownership", true, true, false, null);
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.name", false, false, false, "100");
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.secondName", false, false, false, "100");
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.postalCode", false, false, false, "10");
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.addressLine1", false, false, false, "40");
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.addressLine2", false, false, false, "40");
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.city", false, false, false, "30");
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.stateProvCd", false, false, false, null);
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
@@ -1471,13 +1472,13 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 		//PAS-13920 start
 		PolicyCoverageInfo policyCoverageResponseLeasedVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleLeasedOid);
-		Coverage policyCoverageResponseLeasedVehFiltered = getVehicleCoverageDetails(policyCoverageResponseLeasedVeh, "LOAN");
+		Coverage policyCoverageResponseLeasedVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseLeasedVeh, "LOAN");
 		assertThat(policyCoverageResponseLeasedVehFiltered.coverageLimit).isEqualTo("1");
 		assertThat(policyCoverageResponseLeasedVehFiltered.customerDisplayed).isEqualTo(true);
 		assertThat(policyCoverageResponseLeasedVehFiltered.canChangeCoverage).isEqualTo(true);
 
 		PolicyCoverageInfo policyCoverageResponseNewCarCoverageVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleNewVehCoverageOid);
-		Coverage policyCoverageResponseNewCarCoverageVehFiltered = getVehicleCoverageDetails(policyCoverageResponseNewCarCoverageVeh, "NEWCAR");
+		Coverage policyCoverageResponseNewCarCoverageVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseNewCarCoverageVeh, "NEWCAR");
 		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.coverageLimit).isNull();
 		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.customerDisplayed).isEqualTo(false);
 		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.canChangeCoverage).isNull();
@@ -1515,48 +1516,48 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//check different behaviour coverages of the vehicles
 		//PAS-13920 start
 		PolicyCoverageInfo policyCoverageResponseReplacedLeasedVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleLeasedOid);
-		Coverage policyCoverageResponseReplacedLeasedVehFiltered = getVehicleCoverageDetails(policyCoverageResponseReplacedLeasedVeh, "LOAN");
+		Coverage policyCoverageResponseReplacedLeasedVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseReplacedLeasedVeh, "LOAN");
 		assertThat(policyCoverageResponseReplacedLeasedVehFiltered.coverageLimit).isEqualTo("0");
 		assertThat(policyCoverageResponseReplacedLeasedVehFiltered.customerDisplayed).isEqualTo(false);
 		assertThat(policyCoverageResponseReplacedLeasedVehFiltered.canChangeCoverage).isEqualTo(false);
 
 		PolicyCoverageInfo policyCoverageResponseReplacedNewCarCoverageVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleNewVehCoverageOid);
-		Coverage policyCoverageResponseReplacedNewCarCoverageVehFiltered =  getVehicleCoverageDetails(policyCoverageResponseReplacedNewCarCoverageVeh, "NEWCAR");
+		Coverage policyCoverageResponseReplacedNewCarCoverageVehFiltered =  testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseReplacedNewCarCoverageVeh, "NEWCAR");
 		assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.coverageLimit).isNull();
 		assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.customerDisplayed).isEqualTo(false);
 		assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.canChangeCoverage).isNull();
 		//PAS-13920 end
 
 		//check common coverages of the vehicles
-		policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "BI");
-		policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "PD");
-		policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "UMBI");
-		policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "UMPD");
-		policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "MEDPM");
-		policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "IL");
+		testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "BI");
+		testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "PD");
+		testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "UMBI");
+		testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "UMPD");
+		testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "MEDPM");
+		testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "IL");
 
-		coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "COMPDED");
-		coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "COLLDED");
-		coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "GLASS");
-		coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "RREIM");
-		coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "TOWINGLABOR");
-		coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "SPECEQUIP");
-		coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "WL");
+		testMiniServicesCoveragesHelper.coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "COMPDED");
+		testMiniServicesCoveragesHelper.coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "COLLDED");
+		testMiniServicesCoveragesHelper.coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "GLASS");
+		testMiniServicesCoveragesHelper.coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "RREIM");
+		testMiniServicesCoveragesHelper.coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "TOWINGLABOR");
+		testMiniServicesCoveragesHelper.coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "SPECEQUIP");
+		testMiniServicesCoveragesHelper.coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "WL");
 
-		policyCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "BI");
-		policyCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "PD");
-		policyCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "UMBI");
-		policyCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "UMPD");
-		policyCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "MEDPM");
-		policyCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "IL");
+		testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "BI");
+		testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "PD");
+		testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "UMBI");
+		testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "UMPD");
+		testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "MEDPM");
+		testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "IL");
 
-		coverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "COMPDED");
-		coverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "COLLDED");
-		coverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "GLASS");
-		coverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "RREIM");
-		coverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "TOWINGLABOR");
-		coverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "SPECEQUIP");
-		coverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "WL");
+		testMiniServicesCoveragesHelper.coverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "COMPDED");
+		testMiniServicesCoveragesHelper.coverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "COLLDED");
+		testMiniServicesCoveragesHelper.coverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "GLASS");
+		testMiniServicesCoveragesHelper.coverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "RREIM");
+		testMiniServicesCoveragesHelper.coverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "TOWINGLABOR");
+		testMiniServicesCoveragesHelper.coverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "SPECEQUIP");
+		testMiniServicesCoveragesHelper.coverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "WL");
 
 		helperMiniServices.bindEndorsementWithCheck(policyNumber);
 	}
@@ -1589,20 +1590,20 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		PolicyCoverageInfo policyCoverageResponseLeasedVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleLeasedOid);
 		PolicyCoverageInfo policyCoverageResponseReplacedLeasedVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleLeasedOid);
 
-		coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "COMPDED");
-		coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "COLLDED");
-		coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "GLASS");
-		coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "RREIM");
-		coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "TOWINGLABOR");
-		coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "SPECEQUIP");
-		coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "WL");
+		testMiniServicesCoveragesHelper.coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "COMPDED");
+		testMiniServicesCoveragesHelper.coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "COLLDED");
+		testMiniServicesCoveragesHelper.coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "GLASS");
+		testMiniServicesCoveragesHelper.coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "RREIM");
+		testMiniServicesCoveragesHelper.coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "TOWINGLABOR");
+		testMiniServicesCoveragesHelper.coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "SPECEQUIP");
+		testMiniServicesCoveragesHelper.coverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "WL");
 
-		policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "BI");
-		policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "PD");
-		policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "UMBI");
-		policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "UMPD");
-		policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "MEDPM");
-		policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "IL");
+		testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "BI");
+		testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "PD");
+		testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "UMBI");
+		testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "UMPD");
+		testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "MEDPM");
+		testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "IL");
 
 		helperMiniServices.bindEndorsementWithCheck(policyNumber);
 	}
@@ -1719,41 +1720,6 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		return viewVehicleResponse.vehicleList.stream().filter(vehicle -> vehiclePpa1Oid.equals(vehicle.oid)).findFirst().orElse(null).availableActions.toString();
 	}
 
-	private void coverageComparisonByCoverageCd(PolicyCoverageInfo response1, PolicyCoverageInfo response2, String coverageCd) {
-		assertSoftly(softly -> {
-			Coverage coverageResponse1 = getVehicleCoverageDetails(response1, coverageCd);
-			Coverage coverageResponse2 = getVehicleCoverageDetails(response2, coverageCd);
-			softly.assertThat(coverageResponse1.coverageCd).isEqualTo(coverageResponse2.coverageCd);
-			softly.assertThat(coverageResponse1.coverageDescription).isEqualTo(coverageResponse2.coverageDescription);
-			softly.assertThat(coverageResponse1.coverageLimit).isEqualTo(coverageResponse2.coverageLimit);
-			softly.assertThat(coverageResponse1.coverageLimitDisplay).isEqualTo(coverageResponse2.coverageLimitDisplay);
-			softly.assertThat(coverageResponse1.coverageType).isEqualTo(coverageResponse2.coverageType);
-			softly.assertThat(coverageResponse1.customerDisplayed).isEqualTo(coverageResponse2.customerDisplayed);
-			softly.assertThat(coverageResponse1.canChangeCoverage).isEqualTo(coverageResponse2.canChangeCoverage);
-		});
-	}
-
-	private void policyCoverageComparisonByCoverageCd(PolicyCoverageInfo response1, PolicyCoverageInfo response2, String coverageCd) {
-		assertSoftly(softly -> {
-			Coverage coverageResponse1 = getPolicyCoverageDetails(response1, coverageCd);
-			Coverage coverageResponse2 = getPolicyCoverageDetails(response2, coverageCd);
-			softly.assertThat(coverageResponse1.coverageCd).isEqualTo(coverageResponse2.coverageCd);
-			softly.assertThat(coverageResponse1.coverageDescription).isEqualTo(coverageResponse2.coverageDescription);
-			softly.assertThat(coverageResponse1.coverageLimit).isEqualTo(coverageResponse2.coverageLimit);
-			softly.assertThat(coverageResponse1.coverageLimitDisplay).isEqualTo(coverageResponse2.coverageLimitDisplay);
-			softly.assertThat(coverageResponse1.coverageType).isEqualTo(coverageResponse2.coverageType);
-			softly.assertThat(coverageResponse1.customerDisplayed).isEqualTo(coverageResponse2.customerDisplayed);
-			softly.assertThat(coverageResponse1.canChangeCoverage).isEqualTo(coverageResponse2.canChangeCoverage);
-		});
-	}
-
-	private Coverage getVehicleCoverageDetails(PolicyCoverageInfo policyCoverageResponseReplacedLeasedVeh, String coverageCode) {
-		return policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> coverageCode.equals(attribute.coverageCd)).findFirst().orElse(null);
-	}
-
-	private Coverage getPolicyCoverageDetails(PolicyCoverageInfo policyCoverageResponseReplacedLeasedVeh, String coverageCode) {
-		return policyCoverageResponseReplacedLeasedVeh.policyCoverages.stream().filter(attribute -> coverageCode.equals(attribute.coverageCd)).findFirst().orElse(null);
-	}
 
 	private String addVehicleWithChecks(String policyNumber, String purchaseDate, String vin, boolean allowedToAddVehicle) {
 		//Add new vehicle
