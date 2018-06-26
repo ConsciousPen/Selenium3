@@ -119,6 +119,9 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSDP3
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         policy.getDefaultView().fillFromTo(td, PremiumsAndCoveragesQuoteTab.class, BindTab.class, true).getTab(BindTab.class).btnPurchase.click();
         Page.dialogConfirmation.confirm();
+        if (PolicySummaryPage.buttonRenewals.isPresent()) {
+            PolicySummaryPage.buttonRenewals.click();
+        }
         return PolicySummaryPage.linkPolicy.getValue();
     }
 
