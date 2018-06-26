@@ -5,12 +5,18 @@ import static aaa.helpers.openl.model.OpenLFile.POLICY_SHEET_NAME;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import aaa.helpers.mock.ApplicationMocksManager;
+import aaa.helpers.mock.MockType;
+import aaa.helpers.mock.MocksCollection;
+import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
+import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.openl.model.OpenLPolicy;
-//import aaa.helpers.openl.testdata_builder.HomeSSHO4TestDataGenerator;
 import aaa.helpers.openl.testdata_builder.HomeSSTestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
+
+//import aaa.helpers.openl.testdata_builder.HomeSSHO4TestDataGenerator;
 
 @ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
 public class HomeSSOpenLPolicy extends OpenLPolicy {
@@ -271,6 +277,17 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	@Override
 	public HomeSSTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
 		return new HomeSSTestDataGenerator(state, baseTestData);
+	}
+
+	@Override
+	public MocksCollection getRequiredMocks() {
+		MocksCollection requiredMocks = new MocksCollection();
+		RetrieveMembershipSummaryMock membershipAppMock = ApplicationMocksManager.getMock(MockType.RETRIEVE_MEMBERSHIP_SUMMARY);
+		if (membershipAppMock.getMembershipNumber(getEffectiveDate(), getPolicyDiscountInformation().getMemberPersistency()) == null) {
+			RetrieveMembershipSummaryMock membershipMock = MockGenerator.getRetrieveMembershipSummaryMock(getEffectiveDate(), getPolicyDiscountInformation().getMemberPersistency());
+			requiredMocks.add(membershipMock);
+		}
+		return requiredMocks;
 	}
 
 	/*
