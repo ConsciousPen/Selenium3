@@ -1,12 +1,14 @@
 package aaa.helpers.mock;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import aaa.helpers.mock.model.UpdatableMock;
+import aaa.utils.excel.bind.ExcelMarshaller;
 
 public class MocksCollection implements Iterable<UpdatableMock> {
-	private Map<MockType, UpdatableMock> mocks;
+	private Map<Class<? extends UpdatableMock>, UpdatableMock> mocks;
 
 	public MocksCollection() {
 		mocks = new HashMap<>();
@@ -14,48 +16,84 @@ public class MocksCollection implements Iterable<UpdatableMock> {
 
 	public MocksCollection(UpdatableMock mock) {
 		mocks = new HashMap<>();
-		mocks.put(mock.getType(), mock);
+		if (mock != null) {
+			mocks.put(mock.getClass(), mock);
+		}
+	}
+
+	public boolean isEmpty() {
+		return mocks.isEmpty();
 	}
 
 	@Override
 	public Iterator<UpdatableMock> iterator() {
-		return new MocksIterator();
+		return new MocksIterator(mocks.values().iterator());
 	}
 
-	public boolean has(MockType mockType) {
-		return mocks.containsKey(mockType);
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for (UpdatableMock mock : this) {
+			sb.append(mock).append("\n");
+		}
+		return "MocksCollection{" + sb + "}";
 	}
 
-	public UpdatableMock add(UpdatableMock mock) {
-		return add(mock.getType(), mock);
+	public boolean has(Class<? extends UpdatableMock> mockModelClass) {
+		return mocks.containsKey(mockModelClass);
 	}
 
-	public UpdatableMock add(MockType mockType, UpdatableMock mock) {
-		UpdatableMock mergedMock;
-		if (!has(mockType)) {
-			mergedMock = mock;
-		} else {
-			mergedMock = get(mockType).merge(mock);
+	public UpdatableMock get(Class<? extends UpdatableMock> mockModelClass) {
+		return mocks.get(mockModelClass);
+	}
+
+	public boolean add(UpdatableMock mock) {
+		return mock != null && add(mock.getClass(), mock);
+	}
+
+	public boolean addAll(MocksCollection mocks) {
+		if (mocks == null) {
+			return false;
 		}
 
-		mocks.put(mockType, mergedMock);
-		return mergedMock;
-	}
-
-	public boolean addAll(MocksCollection requiredMocks) {
 		boolean isUpdated = false;
-		for (UpdatableMock mock : requiredMocks) {
-			add(mock);
+		for (UpdatableMock mock : mocks) {
+			if (add(mock)) {
+				isUpdated = true;
+			}
 		}
 		return isUpdated;
 	}
 
-	public UpdatableMock get(MockType mockType) {
-		return mocks.get(mockType);
+	public void dump(String folderPath) {
+		ExcelMarshaller excelMarshaller = new ExcelMarshaller();
+		for (UpdatableMock mock : this) {
+			File output = new File(folderPath, mock.getFileName());
+			excelMarshaller.marshal(mock, output);
+		}
 	}
 
-	private class MocksIterator implements Iterator<UpdatableMock> {
-		private Iterator<UpdatableMock> iterator = mocks.values().iterator();
+	private boolean add(Class<? extends UpdatableMock> mockModelClass, UpdatableMock mock) {
+		if (mock == null) {
+			return false;
+		}
+		if (!has(mockModelClass)) {
+			mocks.put(mockModelClass, mock);
+			return true;
+		}
+		return get(mockModelClass).add(mock);
+	}
+
+	private int size() {
+		return mocks.size();
+	}
+
+	private static final class MocksIterator implements Iterator<UpdatableMock> {
+		private Iterator<UpdatableMock> iterator;
+
+		private MocksIterator(Iterator<UpdatableMock> iterator) {
+			this.iterator = iterator;
+		}
 
 		@Override
 		public boolean hasNext() {

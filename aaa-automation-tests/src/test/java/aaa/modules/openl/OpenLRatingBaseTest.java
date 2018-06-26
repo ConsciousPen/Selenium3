@@ -48,7 +48,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		synchronized (TESTS_PREPARATIONS_LOCK) {
 			if (openLTestsManager == null) {
 				openLTestsManager = new OpenLTestsManager(context);
-				//openLTestsManager.updateMocks();
+				openLTestsManager.updateMocks();
 			}
 		}
 	}

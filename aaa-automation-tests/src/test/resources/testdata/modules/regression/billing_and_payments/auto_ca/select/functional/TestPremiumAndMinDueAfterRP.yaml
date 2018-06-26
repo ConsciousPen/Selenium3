@@ -1,0 +1,15 @@
+TestData_EndorsementRP: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$15,000/$30,000',
+    Uninsured Motorists Bodily Injury: 'contains=$15,000/$30,000'
+  },
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
