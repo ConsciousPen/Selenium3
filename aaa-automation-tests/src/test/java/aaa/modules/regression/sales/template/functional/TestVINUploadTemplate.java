@@ -29,6 +29,7 @@ import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Link;
 
 public class TestVINUploadTemplate extends CommonTemplateMethods {
@@ -37,6 +38,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 	private PurchaseTab purchaseTab = new PurchaseTab();
 	private MembershipTab membershipTab = new MembershipTab();
 	private AssignmentTab assignmentTab = new AssignmentTab();
+	private UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 
 	protected void pas2716_AutomatedRenewal(String policyNumber, LocalDateTime nextPhaseDate, String vinNumber) {
@@ -52,29 +54,32 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		//5. Validate vehicle was updated
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
-		assertSoftly(softly -> {
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE.getLabel()).getValue()).isEqualTo("TOYOTA");
-			//PAS-6576 Update "individual VIN retrieval" logic to use ENTRY DATE and VALID
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("Gt");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel()).getValue()).isEqualTo("TEST");
-			// PAS-1487  No Match to Match but Year Doesn't Match
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.YEAR.getLabel()).getValue()).isEqualTo("2018");
-			// PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("Yes");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()).isPresent()).isEqualTo(false);
-		});
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+
+		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE.getLabel()).getValue()).isEqualTo("TOYOTA");
+		//PAS-6576 Update "individual VIN retrieval" logic to use ENTRY DATE and VALID
+		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("Gt");
+		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel()).getValue()).isEqualTo("TEST");
+		// PAS-1487  No Match to Match but Year Doesn't Match
+		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.YEAR.getLabel()).getValue()).isEqualTo("2018");
+		// PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
+		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("Yes");
+		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()).isPresent()).isEqualTo(false);
+
 		//  Validate vehicle information in VRD
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-		assertSoftly(softly -> {
-			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"Year").getCell(2).getValue()).isEqualTo("2018");
-			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"Make").getCell(2).getValue()).isEqualTo("TOYOTA");
-			//PAS-6576 Update "individual VIN retrieval" logic to use ENTRY DATE and VALID
-			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Gt");
-		});
+
+		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"Year").getCell(2).getValue()).isEqualTo("2018");
+		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"Make").getCell(2).getValue()).isEqualTo("TOYOTA");
+		//PAS-6576 Update "individual VIN retrieval" logic to use ENTRY DATE and VALID
+		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Gt");
+
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("VIN data has been updated for the following vehicle(s): %s", vinNumber));
+
+		softly.close();
 	}
 
 	/**
@@ -111,7 +116,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		//open Admin application and navigate to Administration tab
 		adminApp().open();
-		new UploadToVINTableTab().uploadVinTable(vinTableFile);
+		uploadToVINTableTab.uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);
@@ -210,7 +215,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		//open Admin application and navigate to Administration tab
 		adminApp().open();
-		new UploadToVINTableTab().uploadVinTable(vinTableFile);
+		uploadToVINTableTab.uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, find created policy, initiate Renewal, verify if VIN value is applied
 		createAndRateRenewal(policyNumber);
@@ -266,7 +271,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		//open Admin application and navigate to Administration tab
 		adminApp().reopen();
-		new UploadToVINTableTab().uploadVinTable(vinTableFile);
+		uploadToVINTableTab.uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, find created policy, create Renewal image and verify if VIN was updated and new values are applied
 		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
@@ -329,7 +334,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		String policyNumber = createPreconds(testData);
 
 		adminApp().open();
-		new UploadToVINTableTab().uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN9.get()));
+		uploadToVINTableTab.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN9.get()));
 
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -424,7 +429,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
 		adminApp().open();
-		new UploadToVINTableTab().uploadVinTable(vinTableFile);
+		uploadToVINTableTab.uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		mainApp().open();
@@ -468,7 +473,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
 		adminApp().reopen();
-		new UploadToVINTableTab().uploadVinTable(vinTableFile);
+		uploadToVINTableTab.uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);
