@@ -2,12 +2,10 @@ package aaa.helpers.mock.model.membership;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import aaa.helpers.mock.MockResponse;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
-@MockResponse
 @ExcelTableElement(sheetName = "MEMBERSHIP_RESPONSE")
 public class MembershipResponse {
 	@ExcelTransient

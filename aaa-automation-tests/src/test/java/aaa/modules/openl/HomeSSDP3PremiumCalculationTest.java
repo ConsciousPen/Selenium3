@@ -7,6 +7,7 @@ import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
 import aaa.helpers.openl.testdata_builder.HomeSSTestDataGenerator;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.metadata.CustomerMetaData;
+import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.DocumentsTab;
@@ -48,10 +49,10 @@ public class HomeSSDP3PremiumCalculationTest extends OpenLRatingBaseTest<HomeSSO
 		//			policy.getDefaultView().fillUpTo(formHS0492Data, PremiumsAndCoveragesQuoteTab.class, false);
 		//		}
 
-		TestData documentsProofData = tdGenerator.getDocumentsProofData(openLPolicy);
-		if (!documentsProofData.equals(DataProviderFactory.emptyData())) {
+		TestData documentsToBindData = tdGenerator.getDocumentsToBindData(openLPolicy);
+		if (!documentsToBindData.equals(DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(), DataProviderFactory.emptyData()))) {
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.DOCUMENTS.get());
-			policy.getDefaultView().fill(DataProviderFactory.dataOf(DocumentsTab.class.getSimpleName(), documentsProofData));
+			policy.getDefaultView().fill(DataProviderFactory.dataOf(DocumentsTab.class.getSimpleName(), documentsToBindData));
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		}
@@ -79,6 +80,6 @@ public class HomeSSDP3PremiumCalculationTest extends OpenLRatingBaseTest<HomeSSO
 		//			new PremiumsAndCoveragesQuoteTab().calculatePremium();
 		//		}
 
-		return PremiumsAndCoveragesQuoteTab.getPolicyTermPremium();
+		return PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().subtract(tdGenerator.getMineSubsidence(openLPolicy));
 	}
 }
