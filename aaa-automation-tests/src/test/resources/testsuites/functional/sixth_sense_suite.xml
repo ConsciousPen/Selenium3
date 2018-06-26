@@ -95,6 +95,20 @@
         </classes>
     </test>
 
+    <test name="Test Locked BI Limits And UW Points" parallel="methods" thread-count="1024">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints">
+                <methods>
+                    <include name="pas9063_verifyLockedUWPoints"/>
+                    <include name="pas9063_verifyLockedUWPointsEndorsement"/>
+                    <include name="pas9063_verifyLockedUWPointsRenewal"/>
+                    <include name="pas9063_verifyLockedUWPointsConversion"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <!--Tests for Property-->
 
     <test name="Test Renovation Discount for KS DP3, HO3">
