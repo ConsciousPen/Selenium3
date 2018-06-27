@@ -61,10 +61,11 @@ public class UploadToVINTableTab extends DefaultTab {
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION).setValue(true);
 		uploadFile(vinTableFileName);
-		CacheManager.getToCacheManagerTab();
+		CacheManager cacheManager = new CacheManager();
+		cacheManager.getToCacheManagerTab();
 		List<String> cacheName = Arrays.asList(CacheManagerEnums.CacheNameEnum.BASE_LOOKUP_CACHE.get(), CacheManagerEnums.CacheNameEnum.LOOKUP_CACHE.get(), CacheManagerEnums.CacheNameEnum.VEHICLE_VIN_REF_CACHE.get());
 		for (String cache : cacheName) {
-			CacheManager.clearFromCacheManagerTable(cache);
+			cacheManager.clearFromCacheManagerTable(cache);
 		}
 		log.info("\n\nFile {} was uploaded\n\n", vinTableFileName);
 	}

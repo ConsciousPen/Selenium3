@@ -286,4 +286,6 @@ PAS-15907:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload.pas2716_AutomatedRenewal_ExpirationDate]
-      messages: ['<"[TOYOTA]"> but was:<"[OTHER]">','<"[Gt]"> but was:<"[OTHER]">','<"[TEST]"> but was:<"[OTHER]">','<[fals]e> but was:<[tru]e>','DDDVB3CC3W9455583 expected [true] but found [false]']
+      messages: ['OTHER]">','<"[TEST]"> but was:<"[OTHER]">','<[fals]e> but was:<[tru]e>','expected [true] but found [false]']
+    - tests: [aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload.pas527_UpdatedVinRenewal]
+      messages: ['<"[TEST]"> but was:<"[CAMRY]">', '<"20[18]"> but was']

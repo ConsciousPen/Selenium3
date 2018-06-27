@@ -18,11 +18,11 @@ public class CacheManager extends DefaultTab {
 
 	protected static Logger log = LoggerFactory.getLogger(CacheManager.class);
 
-	protected CacheManager() {
+	public CacheManager() {
 		super(AdministrationMetaData.CacheManager.class);
 	}
 
-	public static void getToCacheManagerTab() {
+	public void getToCacheManagerTab() {
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		long timeoutInSeconds = 10;
 		long timeout = System.currentTimeMillis() + timeoutInSeconds * 1000;
@@ -41,16 +41,16 @@ public class CacheManager extends DefaultTab {
 		}
 	}
 
-	public static void goClearCacheManagerTable() {
+	public void goClearCacheManagerTable() {
 		getToCacheManagerTab();
 		removeAllFromCacheManagerTable();
 	}
 
-	public static void clearFromCacheManagerTable() {
+	public void clearFromCacheManagerTable() {
 		removeAllFromCacheManagerTable();
 	}
 
-	public static void clearFromCacheManagerTable(String cacheName) {
+	public void clearFromCacheManagerTable(String cacheName) {
 		if (tableCacheManager.getRow(CACHE_NAME.get(), cacheName).isPresent()) {
 			tableCacheManager.getRow(CACHE_NAME.get(), cacheName).getCell(CacheManagerTableColumns.ACTION.get()).controls.links.getFirst().click();
 		} else {
@@ -58,13 +58,13 @@ public class CacheManager extends DefaultTab {
 		}
 	}
 
-	private static void removeAllFromCacheManagerTable() {
+	private void removeAllFromCacheManagerTable() {
 		for (int i = tableCacheManager.getRowsCount(); i > 0; i--) {
 			tableCacheManager.getRow(i).getCell(CacheManagerTableColumns.ACTION.get()).controls.links.get("Remove").click();
 		}
 	}
 
-	private static void removeAllFromCachedProjectTable() {
+	private void removeAllFromCachedProjectTable() {
 		for (int i = tableСachedProject.getRowsCount(); i > 0; i--) {
 			tableСachedProject.getRow(i).getCell(CachedProjectNameTableColumns.ACTION.get()).controls.links.get("Remove").click();
 		}
