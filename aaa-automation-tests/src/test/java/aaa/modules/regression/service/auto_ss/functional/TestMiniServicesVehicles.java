@@ -368,13 +368,13 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
 	public void pas13920_ReplaceVehicleVehicle(@Optional("VA") String state) {
 
 		pas13920_ReplaceVehicle(state);
 	}
 
-
+	//TODO delete the test
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920"})
@@ -383,6 +383,13 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 		pas13920_test(state);
 	}
 
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Check Vehicle available actions for vehicle
+	 * @scenario 1. the only PPA vehicle can be only replaced
+	 * 2. NON-PPA vehicle can be only removed
+	 * 3. PendingAdd vehicle has no available actions
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12175"})
@@ -391,6 +398,11 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 		pas12175_RemoveReplaceAllVehiclesBody();
 	}
 
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Check Vehicle available actions for vehicle
+	 * @scenario 1. Waive Liablity vehicle can only be removed
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12175"})

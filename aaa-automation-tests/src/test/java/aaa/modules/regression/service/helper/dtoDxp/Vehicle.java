@@ -66,7 +66,12 @@ public class Vehicle implements RestBodyRequest {
 	@ApiModelProperty(value = "Ownership info", dataType = "com.eisgroup.aaa.policy.services.dto.VehicleOwnership")
 	public VehicleOwnership vehicleOwnership;
 
+	@ApiModelProperty(value = "OID of vehicle replaced by this vehicle", example = "vKceby6oeNj4Hcu8rUJB7Q")
+	public String vehicleReplacedBy;
+
+	@ApiModelProperty(value = "Available Actions for the vehicle")
 	public List<String> availableActions;
+
 
 	public static final Comparator<Vehicle> ACTIVE_POLICY_COMPARATOR = (vehicle1, vehicle2) -> ComparisonChain.start()
 			.compareTrueFirst(VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO.equals(vehicle1.vehTypeCd),
