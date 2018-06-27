@@ -229,6 +229,15 @@ public class HomeSSHO4FormTestDataGenerator {
 		return tdList;
 	};
 	
+	private static Function<HomeSSOpenLPolicy, List<TestData>> formHS0930DataFunction = (openLPolicy) -> {
+		List<TestData> tdList = new ArrayList<>();
+		tdList.add(DataProviderFactory.dataOf(
+				"Action", "Add",
+				HomeSSMetaData.EndorsementTab.EndorsementHS0930.PROPERTY_COVERAGE_LIMIT.getLabel(), new Dollar(openLPolicy.getForms().stream().filter(c -> "HS0930".equals(c.getFormCode())).findFirst().get().getLimit()).toString().split("\\.")[0], 
+				HomeSSMetaData.EndorsementTab.EndorsementHS0930.LIABILITY_COVERAGE_LIMIT.getLabel(), new Dollar(openLPolicy.getForms().stream().filter(c -> "HS0930".equals(c.getFormCode())).findFirst().get().getOptionalValue()).toString().split("\\.")[0]));
+		return tdList;
+	};
+	
 	private static Function<HomeSSOpenLPolicy, List<TestData>> formHS0965DataFunction = (openLPolicy) -> {
 		List<TestData> tdList = new ArrayList<>();
 		tdList.add(DataProviderFactory.dataOf(
@@ -339,6 +348,27 @@ public class HomeSSHO4FormTestDataGenerator {
 		return tdList;
 	};
 	
+	private static Function<HomeSSOpenLPolicy, List<TestData>> formHS2494DataFunction = (openLPolicy) -> {
+		List<TestData> tdList = new ArrayList<>();
+		Integer numberOfEmpl = openLPolicy.getForms().stream().filter(c -> "HS2494".equals(c.getFormCode())).findFirst().get().getOptionalValue().intValue();
+		if (numberOfEmpl == 0) {
+			tdList.add(DataProviderFactory.dataOf(
+					"Action", "Add",
+					HomeSSMetaData.EndorsementTab.EndorsementHS2494.IS_THE_EMPLOYEE_A_PRIVATE_RESIDENCE_OR_ESTATE_FULL_TIME_INSERVANT.getLabel(), "No", 
+					HomeSSMetaData.EndorsementTab.EndorsementHS2494.IS_THE_EMPLOYEE_A_PRIVATE_RESIDENCE_FULL_TIME_OUTSERVANT_INCLUDING_DRIVERS.getLabel(), "No",
+					HomeSSMetaData.EndorsementTab.EndorsementHS2494.IS_THE_EMPLOYEE_A_PRIVATE_ESTATE_FULL_TIME_OUTSERVANT_INCLUDING_DRIVERS.getLabel(), "No"));
+		}
+		if (numberOfEmpl >= 1) {
+			tdList.add(DataProviderFactory.dataOf(
+					"Action", "Add",
+					HomeSSMetaData.EndorsementTab.EndorsementHS2494.IS_THE_EMPLOYEE_A_PRIVATE_RESIDENCE_OR_ESTATE_FULL_TIME_INSERVANT.getLabel(), "No", 
+					HomeSSMetaData.EndorsementTab.EndorsementHS2494.IS_THE_EMPLOYEE_A_PRIVATE_RESIDENCE_FULL_TIME_OUTSERVANT_INCLUDING_DRIVERS.getLabel(), "No",
+					HomeSSMetaData.EndorsementTab.EndorsementHS2494.IS_THE_EMPLOYEE_A_PRIVATE_ESTATE_FULL_TIME_OUTSERVANT_INCLUDING_DRIVERS.getLabel(), "Yes", 
+					HomeSSMetaData.EndorsementTab.EndorsementHS2494.NUMBER_OF_EMPLOYEES_VALUE3.getLabel(), numberOfEmpl.toString()));
+		}
+		return tdList;
+	};
+	
 	public static List<TestData> getFormTestData(HomeSSOpenLPolicy openLPolicy, String formCode) {
 		return getFormEnum(formCode).getTestData(openLPolicy);
 	}
@@ -370,12 +400,14 @@ public class HomeSSHO4FormTestDataGenerator {
 		HS0524(HomeSSMetaData.EndorsementTab.HS_05_24.getLabel(), "HS0524", formHS0524DataFunction),
 		HS0614(HomeSSMetaData.EndorsementTab.HS_06_14.getLabel(), "HS0614", formHS0614DataFunction),
 		HS0926(HomeSSMetaData.EndorsementTab.HS_09_26.getLabel(), "HS0926", formHS0926DataFunction), 
+		HS0930(HomeSSMetaData.EndorsementTab.HS_09_30.getLabel(), "HS0930", formHS0930DataFunction), 
 		HS0965(HomeSSMetaData.EndorsementTab.HS_09_65.getLabel(), "HS0965", formHS0965DataFunction),
 		HS0988(HomeSSMetaData.EndorsementTab.HS_09_88.getLabel(), "HS0988", formHS0988DataFunction),
 		HS2443(HomeSSMetaData.EndorsementTab.HS_24_43.getLabel(), "HS2443", formHS2443DataFunction),
 		HS2464(HomeSSMetaData.EndorsementTab.HS_24_64.getLabel(), "HS2464", formHS2464DataFunction),
 		HS2471(HomeSSMetaData.EndorsementTab.HS_24_71.getLabel(), "HS2471", formHS2471DataFunction),
-		HS2472(HomeSSMetaData.EndorsementTab.HS_24_72.getLabel(), "HS2472", formHS2472DataFunction);
+		HS2472(HomeSSMetaData.EndorsementTab.HS_24_72.getLabel(), "HS2472", formHS2472DataFunction), 
+		HS2494(HomeSSMetaData.EndorsementTab.HS_24_94.getLabel(), "HS2494", formHS2494DataFunction),;
 		
 		private final String metaKey;
 		private final String formCode;
