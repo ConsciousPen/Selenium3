@@ -9,7 +9,7 @@ public enum VinUploadFileType {
 	NEW_VIN5("New5VIN"),
 	NEW_VIN6("New6VIN"),
 	NEW_VIN7("New7VIN"),
-	VinDoesntMatchAfterProductChange("VinDoesntMatchAfterProductChange"),
+	VIN_DOESNT_MATCH_AFTER_PRODUCT_CHANGE("VinDoesntMatchAfterProductChange"),
 	MATCH_ON_NEW_BUSINESS_NO_MATCH_ON_RENEWAL("MatchOnNewBusinessNoMatchOnRenewal"),
 	NEW_VIN9("New9VIN"),
 	R45("R45VIN");

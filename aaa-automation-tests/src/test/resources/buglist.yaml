@@ -281,3 +281,9 @@ PAS-5419:
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["Cannot get value of Cell", "'Liability Code' is not in within range"]
+PAS-15907:
+  summary: "VIN refresh is not happening during automated renewal"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload.pas2716_AutomatedRenewal_ExpirationDate]
+      messages: ['<"[TOYOTA]"> but was:<"[OTHER]">','<"[Gt]"> but was:<"[OTHER]">','<"[TEST]"> but was:<"[OTHER]">','<[fals]e> but was:<[tru]e>','DDDVB3CC3W9455583 expected [true] but found [false]']
