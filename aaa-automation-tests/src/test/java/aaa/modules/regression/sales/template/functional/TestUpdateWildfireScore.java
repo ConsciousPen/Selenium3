@@ -185,7 +185,8 @@ public class TestUpdateWildfireScore extends PolicyBaseTest {
     public void pas12922_UpdateCAWildfireScoreNoPrivilegeNB(PolicyType policyType) {
 
         // Create Test data for appropriate policy type. Mask is there because field is disabled for unprivileged user
-        TestData testData = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData");
+        TestData testData = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData")
+                .mask(TestData.makeKeyPath(aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class.getSimpleName(), HomeCaMetaData.GeneralTab.CurrentCarrier.class.getSimpleName(), HomeCaMetaData.GeneralTab.CurrentCarrier.BASE_DATE_WITH_AAA.getLabel()));
 
         // Open App with unprivileged user. Create Customer. get Policy Type and initiate policy. Fill policy to PropertyInfo Tab.
         loginA30();
@@ -201,7 +202,8 @@ public class TestUpdateWildfireScore extends PolicyBaseTest {
     public void pas12922_UpdateCAWildfireScoreNoPrivilegeEndorsement(PolicyType policyType) {
 
         // Create Test data for appropriate policy type. Mask is there because field is disabled for unprivileged user
-        TestData testData = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData");
+        TestData testData = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData")
+                .mask(TestData.makeKeyPath(aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class.getSimpleName(), HomeCaMetaData.GeneralTab.CurrentCarrier.class.getSimpleName(), HomeCaMetaData.GeneralTab.CurrentCarrier.BASE_DATE_WITH_AAA.getLabel()));
 
         // Open App with unprivileged user. Create Customer. get Policy Type and initiate policy. Fill policy to PropertyInfo Tab.
         loginA30();
