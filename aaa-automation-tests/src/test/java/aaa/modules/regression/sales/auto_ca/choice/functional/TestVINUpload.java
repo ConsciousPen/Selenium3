@@ -27,6 +27,7 @@ import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -257,38 +258,11 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		String vehModel = "ACCENT";
 		String vehSeries = "ACCENT SE";
 		String vehBodyStyle = "HATCHBACK 2 DOOR";
+		String expectedYear = "2009";
+		String expectedMake = "HYUNDAI MOTOR";
+		String expectedModel = "HYUNDAI ACCENT";
 
-		TestData testData = getPolicyTD()
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), NEW_VIN7)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.YEAR.getLabel()), vehYear)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MAKE.getLabel()), vehMake)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MODEL.getLabel()), vehModel)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
-
-		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();
-		//1. Create a quote with no VIN matched data and save the quote number
-		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
-		new  PremiumAndCoveragesTab().calculatePremium();
-		buttonViewRatingDetails.click();
-		buttonRatingDetailsOk.click();
-		VehicleTab.buttonSaveAndExit.click();
-		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		log.debug("quoteNumber after creating auto_ca quote is "+quoteNumber);
-
-		//2. Upload new vin data with updated Y/M/M/S/S
-		adminApp().open();
-        new UploadToVINTableTab().uploadVinTable(vinTableFile);
-
-		//3. Retrieve the created quote
-		findAndRateQuote(testData, quoteNumber);
-		buttonViewRatingDetails.click();
-
-		//4. Check for the updated Y/M/M values in View Rating Details table
-		assertThat(tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2009");
-		assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("HYUNDAI MOTOR");
-		assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("HYUNDAI ACCENT");
-		buttonRatingDetailsOk.click();
+		pas12872_VINRefreshNoMatchUnboundAutoCAQuote(NEW_VIN7, vinTableFile, vehYear, vehMake, vehModel, vehSeries, vehBodyStyle, expectedYear, expectedMake, expectedModel);
 	}
 
 	/**
@@ -315,26 +289,11 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		String vehModel = "ALTIMA";
 		String vehSeries = "ALTIMA 3.5SL";
 		String vehBodyStyle = "SEDAN";
+		String expectedYear = "2017";
+		String expectedMake = "NISSAN MOTOR";
+		String expectedModel = "NISS ALTIMA";
 
-		TestData testData = getPolicyTD()
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), NEW_VIN8)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.YEAR.getLabel()), vehYear)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MAKE.getLabel()), vehMake)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MODEL.getLabel()), vehModel)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
-
-		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();
-		//1. Create a policy with VIN no matched data and save the expiration data
-		String policyNumber = createPreconds(testData);
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-
-		//2. Upload new vin data with updated Y/M/M/S/S
-		adminApp().open();
-        new UploadToVINTableTab().uploadVinTable(vinTableFile);
-
-		//3. Generate automated renewal image according to renewal timeline
-		pas12872_VINRefreshCommonSteps(policyNumber, policyExpirationDate.minusDays(45), NEW_VIN8, "2017", "NISSAN MOTOR", "NISS ALTIMA");
+		pas12872_VINRefreshNoMatchOnRenewalAutoCA(NEW_VIN8, vinTableFile, vehYear, vehMake, vehModel, vehSeries, vehBodyStyle, expectedYear, expectedMake, expectedModel);
 	}
 
     @AfterClass(alwaysRun = true)

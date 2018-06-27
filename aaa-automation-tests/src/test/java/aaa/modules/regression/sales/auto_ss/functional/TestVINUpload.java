@@ -916,11 +916,15 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		findAndRateQuote(testData, quoteNumber);
 		buttonViewRatingDetails.click();
 
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+
 		//4. Check for the updated Y/M/M values in View Rating Details table
-		assertThat(tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2016");
-		assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("CHEVROLET AUTO");
-		assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("CHEVROLET MALIBU");
+		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2016");
+		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("CHEVROLET AUTO");
+		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("CHEVROLET MALIBU");
+
 		buttonRatingDetailsOk.click();
+		softly.close();
 	}
 
 	/**
@@ -948,25 +952,11 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		String vehModel = "FIESTA";
 		String vehSeries = "FIESTA SE";
 		String vehBodyStyle = "SEDAN";
+		String expectedYear = "2017";
+		String expectedMake = "FORD MOTOR";
+		String expectedModel = "FORD FIESTA";
 
-		TestData testData = getPolicyTD()
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN9)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.YEAR.getLabel()), vehYear)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MAKE.getLabel()), vehMake)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MODEL.getLabel()), vehModel)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
-
-		//1. Create a policy with VIN no matched data and save the expiration data
-		String policyNumber = createPreconds(testData);
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-
-		//2. Upload vin data with updated Y/M/M/S/S
-		adminApp().open();
-        new UploadToVINTableTab().uploadVinTable(vinTableFile);
-
-		//3. Generate automated renewal image according to renewal timeline
-		pas12872_VINRefreshCommonsteps(NEW_VIN9, policyNumber, policyExpirationDate.minusDays(45), "2017","FORD MOTOR","FORD FIESTA");
+		pas12872_VINRefreshOnRenewal(NEW_VIN9, vehYear, vehMake, vehModel, vehSeries, vehBodyStyle, vinTableFile, expectedYear, expectedMake, expectedModel);
 	}
 
 	/**
@@ -992,25 +982,11 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		String vehModel = "MDX";
 		String vehSeries = "MDX";
 		String vehBodyStyle = "SUV";
+		String expectedYear = "2017";
+		String expectedMake = "ACURA MOTOR";
+		String expectedModel = "ACC MDX";
 
-		TestData testData = getPolicyTD()
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN10)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.YEAR.getLabel()), vehYear)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MAKE.getLabel()), vehMake)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MODEL.getLabel()), vehModel)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
-
-		//1. Create a policy with VIN no matched data and save the expiration data
-		String policyNumber = createPreconds(testData);
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-
-		//2. Upload new vin data with updated Y/M/M/S/S
-		adminApp().open();
-        new UploadToVINTableTab().uploadVinTable(vinTableFile);
-
-		//3. Generate automated renewal image according to renewal timeline
-		pas12872_VINRefreshCommonsteps(NEW_VIN10, policyNumber, policyExpirationDate.minusDays(45), "2017","ACURA MOTOR", "ACC MDX");
+		pas12872_VINRefreshOnRenewal(NEW_VIN10, vehYear, vehMake, vehModel, vehSeries, vehBodyStyle, vinTableFile, expectedYear, expectedMake, expectedModel);
 	}
 
 
