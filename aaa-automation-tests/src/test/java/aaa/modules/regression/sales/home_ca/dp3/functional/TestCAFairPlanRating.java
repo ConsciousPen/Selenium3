@@ -86,7 +86,7 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
     public void validateAC1() {
 
         endorsement_FPCECADP.put("Form ID", "FPCECADP");
-        endorsement_FPCECADP.put("Name", "Fair Plan Companion Endorsement - California");
+        endorsement_FPCECADP.put("Name", "FAIR Plan Companion Endorsement - California");
 
         new HomeCaPolicyActions.DataGather().start();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
@@ -119,7 +119,7 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
 
     public void validateAC2() {
         endorsement_FPCECADP.put("Form ID", "FPCECADP");
-        endorsement_FPCECADP.put("Name", "Fair Plan Companion Endorsement - California");
+        endorsement_FPCECADP.put("Name", "FAIR Plan Companion Endorsement - California");
 
         new HomeCaPolicyActions.DataGather().start();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());

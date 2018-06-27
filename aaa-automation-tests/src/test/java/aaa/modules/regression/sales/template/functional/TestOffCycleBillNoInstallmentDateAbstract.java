@@ -41,16 +41,16 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
 
 	protected abstract void calculatePremium();
 
-    protected void pas9001_testOffCycleBillNoDownPayment_NB() {
+	protected void pas9001_testOffCycleBillNoDownPayment_NB() {
 
-        // Create Customer
-        mainApp().open();
-        createCustomerIndividual();
+		// Create Customer
+		mainApp().open();
+		createCustomerIndividual();
 
-        // Create policy with updated min deposit on Purchase tab
+		// Create policy with updated min deposit on Purchase tab
 		TestData td = getPolicyDefaultTD();
-        getPolicyType().get().initiate();
-        getPolicyType().get().getDefaultView().fillUpTo(td, getPurchaseTab().getClass());
+		getPolicyType().get().initiate();
+		getPolicyType().get().getDefaultView().fillUpTo(td, getPurchaseTab().getClass());
 		getPurchaseTab().getAssetList().getAsset(PurchaseMetaData.PurchaseTab.CHANGE_MINIMUM_DOWNPAYMENT).setValue(true);
 		getPurchaseTab().getAssetList().getAsset(PurchaseMetaData.PurchaseTab.MINIMUM_REQUIRED_DOWNPAYMENT).setValue("0.00");
 		getPurchaseTab().getAssetList().getAsset(PurchaseMetaData.PurchaseTab.REASON_FOR_CHANGING).setValue("index=1");
@@ -61,54 +61,54 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
 		// Min Due and off cycle billing validation
 		validateMinDueAndOffCycleBillingInvoice();
 
-    }
+	}
 
-    protected void pas9001_testOffCycleBillPremiumBearingEndorsement() {
+	protected void pas9001_testOffCycleBillPremiumBearingEndorsement() {
 
-        // Create customer and policy
-        mainApp().open();
-        createCustomerIndividual();
-        getPolicyType().get().createPolicy(getPolicyDefaultTD());
+		// Create customer and policy
+		mainApp().open();
+		createCustomerIndividual();
+		getPolicyType().get().createPolicy(getPolicyDefaultTD());
 		setPolicyInfo();
 
-        // Create a premium-bearing endorsement (increase) at effective date plus 5 days
-        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getEffectiveDate().plusDays(5));
-        reopenPolicy(policyNumber);
-        getPolicyType().get().endorse().perform(getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Endorsement"), "TestData"));
-        navigateToPremiumAndCoveragesTab();
-        adjustPremiumBearingValue();
+		// Create a premium-bearing endorsement (increase) at effective date plus 5 days
+		TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getEffectiveDate().plusDays(5));
+		reopenPolicy(policyNumber);
+		getPolicyType().get().endorse().perform(getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Endorsement"), "TestData"));
+		navigateToPremiumAndCoveragesTab();
+		adjustPremiumBearingValue();
 		calculatePremium();
-        navigateToBindTab();
-        getBindTab().submitTab();
+		navigateToBindTab();
+		getBindTab().submitTab();
 
-        // Override UW rule for PUP policy
-        if (getPolicyType().equals(PolicyType.PUP)) {
+		// Override UW rule for PUP policy
+		if (getPolicyType().equals(PolicyType.PUP)) {
 			ErrorTab errorTab = new ErrorTab();
-        	if (getState().equals(Constants.States.CA)) {
+			if (getState().equals(Constants.States.CA)) {
 				errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_PUP_SS7121080_CA);
 			} else {
 				errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_PUP_SS7121080);
 			}
-        	errorTab.override();
-        	getBindTab().submitTab();
+			errorTab.override();
+			getBindTab().submitTab();
 		}
 
-        // Min Due and off cycle billing validation
+		// Min Due and off cycle billing validation
 		validateMinDueAndOffCycleBillingInvoice();
 
-    }
+	}
 
-    private void reopenPolicy(String policyNumber) {
-        mainApp().reopen();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-    }
+	private void reopenPolicy(String policyNumber) {
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+	}
 
-    private void setPolicyInfo() {
+	private void setPolicyInfo() {
 		policyNumber = PolicySummaryPage.getPolicyNumber();
 		dueDate = PolicySummaryPage.getEffectiveDate().plusMonths(1);
 	}
 
-    private void validateMinDueAndOffCycleBillingInvoice() {
+	private void validateMinDueAndOffCycleBillingInvoice() {
 		// Verify min due
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		assertThat(BillingSummaryPage.getMinimumDue()).isEqualTo(zeroDollars);

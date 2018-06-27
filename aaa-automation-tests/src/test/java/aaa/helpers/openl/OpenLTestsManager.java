@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Response;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +18,8 @@ import org.testng.xml.XmlTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.sun.jersey.api.client.ClientResponse;
 import aaa.helpers.config.CustomTestProperties;
+import aaa.helpers.mock.ApplicationMocksManager;
+import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.model.OpenLTest;
 import aaa.helpers.openl.model.auto_ca.choice.AutoCaChoiceOpenLPolicy;
@@ -40,7 +41,7 @@ import toolkit.utils.teststoragex.utils.TestNGUtils;
 
 public final class OpenLTestsManager {
 	private static final Logger log = LoggerFactory.getLogger(OpenLTestsManager.class);
-	private List<OpenLTestInfo<? extends OpenLPolicy>> openlTests;
+	private List<OpenLTestInfo<? extends OpenLPolicy>> openLTests;
 	
 	public OpenLTestsManager(ITestContext context) {
 		XmlSuite parentSuite = TestNGUtils.getRootSuite(context.getSuite());
@@ -48,12 +49,29 @@ public final class OpenLTestsManager {
 		if (!parentSuite.getTests().isEmpty()) {
 			openLSuites.add(parentSuite);
 		}
-		this.openlTests = getOpenLTests(openLSuites);
+		this.openLTests = getOpenLTests(openLSuites);
 	}
 	
 	public void updateMocks() {
-		//TODO-dchubkov: to be implemented
-		throw new NotImplementedException("Mocks update is not implemented yet");
+		MocksCollection commonRequiredMocks = new MocksCollection();
+		for (OpenLTestInfo<? extends OpenLPolicy> testInfo : this.openLTests) {
+			if (!testInfo.isFailed()) {
+				for (OpenLPolicy policy : testInfo.getOpenLPolicies()) {
+					MocksCollection requiredMocks = policy.getRequiredMocks();
+					if (requiredMocks != null && !requiredMocks.isEmpty()) {
+						log.info("Mocks has been generated for test with policy number {} from \"{}\" file:\n{}", policy.getNumber(), testInfo.getOpenLFilePath(), requiredMocks);
+						commonRequiredMocks.addAll(requiredMocks);
+					}
+				}
+			}
+		}
+
+		if (commonRequiredMocks.isEmpty()) {
+			log.info("Application server has all required mocks");
+		} else {
+			log.info("Application server has missed test specific mocks");
+			ApplicationMocksManager.updateMocks(commonRequiredMocks);
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -64,12 +82,13 @@ public final class OpenLTestsManager {
 	public <P extends OpenLPolicy> OpenLTestInfo<P> getTestInfo(ITestContext context) {
 		return getTestInfo(getFilePath(context.getCurrentXmlTest()));
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	private <P extends OpenLPolicy> OpenLTestInfo<P> getTestInfo(String filePath) {
-		return (OpenLTestInfo<P>) this.openlTests.stream().filter(t -> t.getOpenLFilePath().equals(filePath)).findFirst().get();
+	public <P extends OpenLPolicy> OpenLTestInfo<P> getTestInfo(String filePath) {
+		return (OpenLTestInfo<P>) this.openLTests.stream().filter(t -> Objects.equals(t.getOpenLFilePath(), filePath)).findFirst()
+				.orElseThrow(() -> new IstfException(String.format("There is no OpenLTestInfo object with \"%s\" filePath", filePath)));
 	}
-	
+
 	private List<OpenLTestInfo<? extends OpenLPolicy>> getOpenLTests(List<XmlSuite> openLSuites) {
 		List<OpenLTestInfo<? extends OpenLPolicy>> openLTests = new ArrayList<>();
 		
@@ -84,13 +103,13 @@ public final class OpenLTestsManager {
 				} catch (Exception e) {
 					testInfo.setException(e);
 				}
-				
+
 				openLTests.add(testInfo);
 			}
 		}
 		return openLTests;
 	}
-	
+
 	private <P extends OpenLPolicy> List<P> getOpenLPolicies(XmlTest test) throws Exception {
 		String filePath = getFilePath(test);
 		List<CellType<?>> cellTypes = Arrays.asList(ExcelCell.INTEGER_TYPE, ExcelCell.DOUBLE_TYPE, ExcelCell.BOOLEAN_TYPE, ExcelCell.LOCAL_DATE_TYPE, ExcelCell.STRING_TYPE, ExcelCell.DOLLAR_CELL_TYPE);
@@ -139,9 +158,6 @@ public final class OpenLTestsManager {
 			Dollar expectedPremium = policy.getTerm() == 6 ? openLTest.getTotalPremium().divide(2) : openLTest.getTotalPremium();
 			policy.setExpectedPremium(expectedPremium);
 		}
-		
-		//Sort policies list by effective date for further valid time shifts
-		openLPolicies = openLPolicies.stream().sorted(Comparator.comparing(OpenLPolicy::getEffectiveDate)).collect(Collectors.toList());
 		
 		return openLPolicies;
 	}
@@ -234,6 +250,7 @@ public final class OpenLTestsManager {
 		AUTO_CA_CHOICE(PolicyType.AUTO_CA_CHOICE.getShortName(), AutoCaChoiceOpenLPolicy.class),
 		AUTO_SS(PolicyType.AUTO_SS.getShortName(), AutoSSOpenLPolicy.class),
 		HOME_SS("HomeSS", HomeSSOpenLPolicy.class),
+		HOME_SS_HO4("HomeSS_HO4", HomeSSOpenLPolicy.class),
 		HOME_CA_HO3(PolicyType.HOME_CA_HO3.getShortName(), HomeCaHO3OpenLPolicy.class),
 		HOME_CA_HO4(PolicyType.HOME_CA_HO4.getShortName(), HomeCaHO4OpenLPolicy.class),
 		HOME_CA_HO6(PolicyType.HOME_CA_HO6.getShortName(), HomeCaHO6OpenLPolicy.class),
@@ -251,7 +268,7 @@ public final class OpenLTestsManager {
 		public String getName() {
 			return name;
 		}
-		
+
 		@SuppressWarnings("unchecked")
 		public <P extends OpenLPolicy> Class<P> getOpenLPolicyModel() {
 			return (Class<P>) openLPolicyModel;

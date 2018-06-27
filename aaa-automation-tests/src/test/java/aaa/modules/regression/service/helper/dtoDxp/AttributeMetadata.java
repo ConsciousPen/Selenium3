@@ -18,6 +18,9 @@ public class AttributeMetadata {
 	@ApiModelProperty(value = "Max length", example = "15", required = true)
 	public String maxLength;
 
+	@ApiModelProperty(value = "Attribute Type", example = "String", required = true)
+	public String attributeType;
+
 	@ApiModelProperty(value = "Lookup value range", example = "{\"someCode\" : \"someValue\"}", required = true)
 	public Map<String, String> valueRange;
 }

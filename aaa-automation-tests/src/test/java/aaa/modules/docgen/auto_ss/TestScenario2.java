@@ -365,7 +365,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 										.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "PlcySpclEqpmtTotAmt"), plcySpclEqpmtTotAmt)
 										.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehBdyInjPrem"), vehBdyInjPrem)
 										.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehPDPrem"), vehPDPrem)
-										.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehUMStckPrem"), vehUMStckPrem)
+										//.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehUMStckPrem"), vehUMStckPrem)
 										.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehUIMBStckPrem"), vehUIMBStckPrem)
 										.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehCompPrem"), vehCompPrem)
 										.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehClsnPrem"), vehClsnPrem)
@@ -638,7 +638,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 										.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "PlcySpclEqpmtTotAmt"), plcySpclEqpmtTotAmt)
 										.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehBdyInjPrem"), vehBdyInjPrem)
 										.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehPDPrem"), vehPDPrem)
-										.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehUMNonStckPrem"), vehUMNonStckPrem)
+										//.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehUMNonStckPrem"), vehUMNonStckPrem)
 										.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehUIMBNonStckPrem"), vehUIMBNonStckPrem)
 										.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehCompPrem"), vehCompPrem)
 										.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehClsnPrem"), vehClsnPrem)
@@ -859,7 +859,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 										.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "PlcySpclEqpmtTotAmt"), plcySpclEqpmtTotAmt)
 										.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehBdyInjPrem"), vehBdyInjPrem)
 										.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehPDPrem"), vehPDPrem)
-										.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehUMNonStckPrem"), vehUMNonStckPrem)
+										//.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehUMNonStckPrem"), vehUMNonStckPrem)
 										.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehUIMBNonStckPrem"), vehUIMBNonStckPrem)
 										.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehCompPrem"), vehCompPrem)
 										.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehClsnPrem"), vehClsnPrem)
@@ -886,7 +886,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 										//					.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "PlcySpclEqpmtTotAmt"), plcySpclEqpmtTotAmt) //TODO defect_44888 the field was missed in xml file
 										.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "VehBdyInjPrem"), vehBdyInjPrem)
 										.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "VehPDPrem"), vehPDPrem)
-										.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "VehUMNonStckPrem"), vehUMNonStckPrem)
+										//.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "VehUMNonStckPrem"), vehUMNonStckPrem)
 										.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "VehUIMBNonStckPrem"), vehUIMBNonStckPrem)
 										.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "VehCompPrem"), vehCompPrem)
 										.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "VehClsnPrem"), vehClsnPrem)
@@ -1100,8 +1100,8 @@ public class TestScenario2 extends AutoSSBaseTest {
 				for (TestData td : premiumAndCoveragesTab.getTermPremiumByVehicleData()) {
 					vehBdyInjPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Bodily Injury Liability"))));
 					vehPDPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Property Damage Liability"))));
-					vehUMStckPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Uninsured Motorists Bodily Injury"))));
-					vehUMNonStckPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Uninsured Motorists Bodily Injury"))));
+					//vehUMStckPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Uninsured Motorists Bodily Injury"))));
+					//vehUMNonStckPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Uninsured Motorists Bodily Injury"))));
 					vehUIMBStckPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Underinsured Motorists Bodily Injury"))));
 					vehUIMBNonStckPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Underinsured Motorists Bodily Injury"))));
 					vehClsnPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Collision Deductible"))));

@@ -13,77 +13,66 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.Workbook;
 import aaa.utils.excel.io.entity.area.ExcelCell;
 import toolkit.exceptions.IstfException;
 
 public abstract class DateCellType<T extends Temporal> extends AbstractCellType<T> {
 	private DateTimeFormatter[] dateTimeFormatters;
-
+	
 	public DateCellType(Class<T> endType, DateTimeFormatter... dateTimeFormatters) {
 		super(endType);
 		if (ArrayUtils.isNotEmpty(dateTimeFormatters)) {
 			this.dateTimeFormatters = Arrays.stream(dateTimeFormatters).distinct().collect(Collectors.toList()).toArray(new DateTimeFormatter[0]);
 		}
 	}
-
+	
 	public List<DateTimeFormatter> getFormatters() {
 		return Stream.of(this.dateTimeFormatters).collect(Collectors.toList());
 	}
-
+	
 	protected final void setFormatters(List<DateTimeFormatter> dateTimeFormatters) {
 		this.dateTimeFormatters = dateTimeFormatters.toArray(new DateTimeFormatter[0]);
 	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		if (!super.equals(o)) {
-			return false;
-		}
-		DateCellType<?> cellType = (DateCellType<?>) o;
-		return Objects.equals(endType, cellType.getEndType()) && Arrays.equals(dateTimeFormatters, cellType.dateTimeFormatters);
-	}
-
-	@Override
-	public int hashCode() {
-		int result = super.hashCode();
-		result = 31 * result + Arrays.hashCode(dateTimeFormatters);
-		return result;
-	}
-
+	
+	protected abstract String getBasePattern();
+	
 	@Override
 	public boolean isTypeOf(ExcelCell cell) {
 		return isTypeOf(cell, this.dateTimeFormatters);
 	}
-
-	@Override
-	public void setValueTo(ExcelCell cell, T value) {
-		cell.getPoiCell().setCellValue(convertToJavaDate(value));
-	}
-
+	
 	@Override
 	public boolean hasValueInTextFormat(ExcelCell cell) {
 		return hasValueInTextFormat(cell, this.dateTimeFormatters);
 	}
-
+	
+	@Override
+	public void setRawValueTo(ExcelCell cell, T value) {
+		Cell poiCell = cell.getPoiCell();
+		if (poiCell.getCellTypeEnum() != org.apache.poi.ss.usermodel.CellType.NUMERIC || !DateUtil.isCellDateFormatted(poiCell)) {
+			Workbook wb = poiCell.getSheet().getWorkbook();
+			CellStyle cellStyle = wb.createCellStyle();
+			cellStyle.setDataFormat(poiCell.getSheet().getWorkbook().getCreationHelper().createDataFormat().getFormat(getBasePattern()));
+			poiCell.setCellStyle(cellStyle);
+		}
+		poiCell.setCellValue(convertToJavaDate(value));
+	}
+	
 	@Override
 	public T getValueFrom(ExcelCell cell) {
 		return getValueFrom(cell, this.dateTimeFormatters);
 	}
-
+	
 	public T getValueFrom(ExcelCell cell, DateTimeFormatter... dateTimeFormatters) {
 		assertThat(isTypeOf(cell, dateTimeFormatters)).as("Unable to get value with \"%1$s\" type from %2$s%3$s", getEndType(), cell,
 				ArrayUtils.isNotEmpty(dateTimeFormatters) ? " using date formatters: " + Arrays.asList(dateTimeFormatters) : "").isTrue();
 		if (cell.getPoiCell() == null) {
 			return null;
 		}
-
+		
 		T dateValue;
 		try {
 			if (hasStringValue(cell)) {
@@ -101,24 +90,46 @@ public abstract class DateCellType<T extends Temporal> extends AbstractCellType<
 		}
 		return dateValue;
 	}
-
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		if (!super.equals(o)) {
+			return false;
+		}
+		DateCellType<?> cellType = (DateCellType<?>) o;
+		return Objects.equals(endType, cellType.getEndType()) && Arrays.equals(dateTimeFormatters, cellType.dateTimeFormatters);
+	}
+	
+	@Override
+	public int hashCode() {
+		int result = super.hashCode();
+		result = 31 * result + Arrays.hashCode(dateTimeFormatters);
+		return result;
+	}
+	
 	public boolean isTypeOf(ExcelCell cell, DateTimeFormatter... dateTimeFormatters) {
 		Cell c = cell.getPoiCell();
 		return c == null || c.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.NUMERIC && DateUtil.isCellDateFormatted(c) || hasValueInTextFormat(cell, dateTimeFormatters);
 	}
-
+	
 	public boolean hasValueInTextFormat(ExcelCell cell, DateTimeFormatter... dateTimeFormatters) {
 		return hasStringValue(cell) && getValidFormatter(cell, dateTimeFormatters) != null;
 	}
-
+	
 	protected abstract T parseText(String dateInTextFormat, DateTimeFormatter dateTimeFormatter) throws DateTimeParseException;
-
+	
 	protected abstract Date convertToJavaDate(T value);
-
+	
 	protected boolean hasStringValue(ExcelCell cell) {
 		return cell.getPoiCell() != null && cell.getPoiCell().getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.STRING;
 	}
-
+	
 	protected DateTimeFormatter getValidFormatter(ExcelCell cell, DateTimeFormatter... dateTimeFormatters) {
 		String text = getText(cell);
 		if (text == null) {
@@ -134,5 +145,5 @@ public abstract class DateCellType<T extends Temporal> extends AbstractCellType<
 		}
 		return null;
 	}
-
+	
 }

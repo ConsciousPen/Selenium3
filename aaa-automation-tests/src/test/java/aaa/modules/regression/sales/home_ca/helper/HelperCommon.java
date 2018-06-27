@@ -5,8 +5,11 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.helpers.xml.model.Document;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.IPolicy;
@@ -15,6 +18,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -22,11 +26,13 @@ import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 import toolkit.webdriver.controls.composite.table.Table;
 
-import java.sql.Driver;
-import java.sql.DriverManager;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.*;
+import static java.lang.String.format;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class HelperCommon extends HomeCaHO3BaseTest{
@@ -85,7 +91,7 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         String seniorDiscountApplicabilityAge = TimeSetterUtil.getInstance().getCurrentTime().minusYears(seniorDiscountApplicabilityAgeYears).minusDays(dateOfBirthDaysDelta).format(DateTimeUtils.MM_DD_YYYY);
         applicantTab.getAssetList().getAsset(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), MultiAssetList.class).getAsset(HomeCaMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH).setValue(seniorDiscountApplicabilityAge);
         premiumsAndCoveragesQuoteTab.calculatePremium();
-        int ageFromDb = Integer.parseInt(DBService.get().getValue(String.format(AGE_VERIFICATION_SQL, policyNumber)).get());
+        int ageFromDb = Integer.parseInt(DBService.get().getValue(format(AGE_VERIFICATION_SQL, policyNumber)).get());
         CustomAssert.assertEquals(ageFromDb, ageInDbYears);
     }
 
@@ -251,5 +257,23 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         }
         policy.getDefaultView().fillFromTo(defaultPolicyData, tabClassTo2, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
+    }
+
+    /**
+     * @author Tyrone Jemison
+     * @description This method is usable during any test to verify the value of a data element contained within a document on the database.
+     * @param policyNumber The policy which generated the document.
+     * @param docGenDoc The Document to verify.
+     * @param eventName Event which Generated Document.
+     * @param expectedElementName The data element, via text within a "aaan:Name" label.
+     * @param expectedTagValue The expected value of the associated "aaan:DataElementChoice"
+     */
+    public static void validatePdfFromDb(String policyNumber, DocGenEnum.Documents docGenDoc, EventNames eventName, String expectedElementName, String expectedTagValue) {
+        String actualValueFound;
+        String query = format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, docGenDoc.getIdInXml(), eventName);
+        Document docToValidate = DocGenHelper.getDocument(docGenDoc, query);
+        actualValueFound = DocGenHelper.getDocumentDataElemByName(expectedElementName, docToValidate).getDataElementChoice().getTextField();
+
+        Assertions.assertThat(actualValueFound.contentEquals(expectedTagValue));
     }
 }

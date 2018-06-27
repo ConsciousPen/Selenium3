@@ -6,12 +6,12 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
 import toolkit.datax.TestData;
 
 public class AutoCaSelectPremiumCalculationTest extends AutoCaPremiumCalculationTest<AutoCaSelectOpenLPolicy> {
-	
+
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_CA_SELECT;
 	}
-	
+
 	@Override
 	protected TestData getRatingDataPattern() {
 		return super.getRatingDataPattern().mask(new AssignmentTab().getMetaKey());

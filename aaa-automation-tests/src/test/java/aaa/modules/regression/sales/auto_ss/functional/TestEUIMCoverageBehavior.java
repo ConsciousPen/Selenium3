@@ -42,7 +42,6 @@ import toolkit.webdriver.controls.ComboBox;
 public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
     private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
-    private PurchaseTab purchaseTab = new PurchaseTab();
     private ErrorTab errorTab = new ErrorTab();
 
     private ComboBox bodilyInjury = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY);
@@ -50,6 +49,8 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     private CheckBox enhancedUIM = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UIM);
     private ComboBox uninsuredBodilyInjury = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY);
     private ComboBox uninsuredPropertyDamage = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE);
+
+    private LocalDateTime algoDate = LocalDateTime.of(2018, Month.JULY, 1, 0, 0);
 
     /**
      *@author Dominykas Razgunas, Josh Carpenter, Sreekanth Kopparapu
@@ -72,7 +73,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11620_testEUIMCoverageBehaviorNB(@Optional("MD") String state) {
 
-        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
+        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         // Initiate Policy, calculate premium
         mainApp().open();
@@ -129,7 +130,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11620")
     public void pas11620_PremiumChangeBetweenEnhancedAndStandardUIM(@Optional("MD") String state) {
 
-        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
+        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         // Initiate Policy, calculate premium
         mainApp().open();
@@ -196,7 +197,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11620_testEUIMCoverageBehaviorEndorsement(@Optional("MD") String state) {
 
-        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
+        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         // Initiate Policy, calculate premium
         mainApp().open();
@@ -237,7 +238,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11620_testEUIMCoverageBehaviorRenewal(@Optional("MD") String state) {
 
-        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
+        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         // Create customer & policy
         mainApp().open();
@@ -291,7 +292,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11620_testEUIMCoverageBehaviorConversion(@Optional("MD") String state) {
 
-        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
+        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
         TestData tdManualConversionInitiation = getManualConversionInitiationTd().adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
@@ -315,6 +316,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_CSACN0100);
         errorTab.override();
         new DocumentsAndBindTab().submitTab();
+        PolicySummaryPage.buttonBackFromRenewals.click();
         String policyNum = PolicySummaryPage.getPolicyNumber();
         purchaseRenewal(policyNum);
 

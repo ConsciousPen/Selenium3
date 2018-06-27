@@ -75,6 +75,12 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0436DataFunction = (openLPolicy, policyLevel) -> {
 		List<TestData> tdList = new ArrayList<>();
 		HomeSSOpenLForm form = openLPolicy.getForms().stream().filter(c -> "HS0436".equals(c.getFormCode())).findFirst().get();
+		// validate limit
+		List<Double> validLimits = new ArrayList<>(Arrays.asList(1000.0, 5000.0, 10000.0, 15000.0, 20000.0, 25000.0, 30000.0, 35000.0, 40000.0, 45000.0, 50000.0));
+		if (!validLimits.contains(form.getLimit())) {
+			throw new IstfException(String.format("Form HS0436 - invalid limit %s", form.getLimit().toString()));
+		}
+		//
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", isFormAdded("HS0436", policyLevel) ? "Edit" : "Add",
 				HomeSSMetaData.EndorsementTab.EndorsementHS0436.COVERAGE_LIMIT.getLabel(), "$" + form.getLimit().toString().split("\\.")[0],
@@ -142,8 +148,8 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", isFormAdded("HS0454", policyLevel) ? "Edit" : "Add",
 				HomeSSMetaData.EndorsementTab.EndorsementHS0454.DEDUCTIBLE.getLabel(), form.getOptionalValue().toString().split("\\.")[0] + "%",
-				HomeSSMetaData.EndorsementTab.EndorsementHS0454.INCLUDE_COVERAGE_FOR_EARTHQUAKE_LOSS_TO_EXTERIOR_MASONRY_VENEER.getLabel(), form.getMasonaryOrFarmPremisesInd() ? "Yes" : "No"));
-		//				"Masonry Veneer".equals(openLPolicy.getPolicyConstructionInfo().getConstructionType()) ? form.getMasonaryOrFarmPremisesInd() ? "Yes" : "No" : "No"));
+				//				HomeSSMetaData.EndorsementTab.EndorsementHS0454.INCLUDE_COVERAGE_FOR_EARTHQUAKE_LOSS_TO_EXTERIOR_MASONRY_VENEER.getLabel(), form.getMasonaryOrFarmPremisesInd() ? "Yes" : "No"));
+				HomeSSMetaData.EndorsementTab.EndorsementHS0454.INCLUDE_COVERAGE_FOR_EARTHQUAKE_LOSS_TO_EXTERIOR_MASONRY_VENEER.getLabel(), "Masonry Veneer".equals(openLPolicy.getPolicyConstructionInfo().getConstructionType()) ? form.getMasonaryOrFarmPremisesInd() ? "Yes" : "No" : "No"));
 
 		return tdList;
 	};
@@ -349,10 +355,17 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0929DataFunction = (openLPolicy, policyLevel) -> {
 		List<TestData> tdList = new ArrayList<>();
+		HomeSSOpenLForm form = openLPolicy.getForms().stream().filter(c -> "HS0929".equals(c.getFormCode())).findFirst().get();
+		//
+		List<Double> validLimits = new ArrayList<>(Arrays.asList(15000.0, 25000.0, 50000.0));
+		if (!validLimits.contains(form.getLimit())) {
+			throw new IstfException(String.format("Form HS0929 - invalid limit %s", form.getLimit().toString()));
+		}
+		//
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", isFormAdded("HS0929", policyLevel) ? "Edit" : "Add",
-				HomeSSMetaData.EndorsementTab.EndorsementHS0929.PROPERTY_COVERAGE_LIMIT.getLabel(), new Dollar(openLPolicy.getForms().stream().filter(c -> "HS0929".equals(c.getFormCode())).findFirst().get().getLimit()).toString().split("\\.")[0],
-				HomeSSMetaData.EndorsementTab.EndorsementHS0929.LIABILITY_COVERAGE_LIMIT.getLabel(), new Dollar(openLPolicy.getForms().stream().filter(c -> "HS0929".equals(c.getFormCode())).findFirst().get().getOptionalValue()).toString().split("\\.")[0]));
+				HomeSSMetaData.EndorsementTab.EndorsementHS0929.PROPERTY_COVERAGE_LIMIT.getLabel(), new Dollar(form.getLimit()).toString().split("\\.")[0],
+				HomeSSMetaData.EndorsementTab.EndorsementHS0929.LIABILITY_COVERAGE_LIMIT.getLabel(), new Dollar(form.getOptionalValue()).toString().split("\\.")[0]));
 		return tdList;
 	};
 
@@ -375,9 +388,16 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0965DataFunction = (openLPolicy, policyLevel) -> {
 		List<TestData> tdList = new ArrayList<>();
+		HomeSSOpenLForm form = openLPolicy.getForms().stream().filter(c -> "HS0965".equals(c.getFormCode())).findFirst().get();
+		// validate limit
+		List<Double> validLimits = new ArrayList<>(Arrays.asList(2500.0, 5000.0));
+		if (!validLimits.contains(form.getLimit())) {
+			throw new IstfException(String.format("Form HS0965 - invalid limit %s", form.getLimit().toString()));
+		}
+		//
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", isFormAdded("HS0965", policyLevel) ? "Edit" : "Add",
-				HomeSSMetaData.EndorsementTab.EndorsementHS0965.COVERAGE_LIMIT.getLabel(), "$" + openLPolicy.getForms().stream().filter(c -> "HS0965".equals(c.getFormCode())).findFirst().get().getLimit().toString().split("\\.")[0]));
+				HomeSSMetaData.EndorsementTab.EndorsementHS0965.COVERAGE_LIMIT.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]));
 		return tdList;
 	};
 
@@ -564,6 +584,7 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 	}
 
 	public enum Forms {
+		DS0499(HomeSSMetaData.EndorsementTab.HS_04_99.getLabel(), "DS0499", formHS0499DataFunction),    //temporary
 		HS0412(HomeSSMetaData.EndorsementTab.HS_04_12.getLabel(), "HS0412", formHS0412DataFunction),
 		HS0420(HomeSSMetaData.EndorsementTab.HS_04_20.getLabel(), "HS0420", formHS0420DataFunction),
 		HS0435(HomeSSMetaData.EndorsementTab.HS_04_35.getLabel(), "HS0435", formHS0435DataFunction),

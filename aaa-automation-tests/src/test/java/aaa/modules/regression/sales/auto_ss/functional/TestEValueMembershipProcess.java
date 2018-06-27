@@ -2,9 +2,32 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
+import static aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData.*;
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.io.File;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+import javax.ws.rs.core.Response;
+import org.assertj.core.api.SoftAssertions;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
+import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
 import aaa.admin.pages.general.GeneralAsyncTasksPage;
 import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -34,17 +57,7 @@ import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueM
 import aaa.modules.regression.service.helper.HelperCommon;
 import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
 import aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
-import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.SftpException;
-import org.assertj.core.api.SoftAssertions;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import aaa.utils.StateList;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 import toolkit.utils.SSHController;
@@ -54,19 +67,6 @@ import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
-
-import javax.ws.rs.core.Response;
-import java.io.File;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData.*;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestEValueMembershipProcessPreConditions {
 
@@ -150,8 +150,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive" + "/*.*"));
 		sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive" + "/*.*"));
 
-		if (RemoteHelper.isPathExist(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound")) {
-			RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound");
+		if (RemoteHelper.get().isPathExist(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound")) {
+			RemoteHelper.get().clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound");
 		}
 		printToLog("Clear membership folders completed");
 	}
@@ -240,6 +240,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		jobsNBplus15plus30runNoChecks();
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		//BUG PAS-15479 EValue remains Pending after NB+30 if Membership Status = Erred
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
 		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "");
@@ -534,6 +535,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		renewalTransactionHistoryCheck(policyNumber, true, true, "inquiry");
 		ahdexxGeneratedCheck(false, policyNumber, 0);
 		renewalTransactionHistoryCheck(policyNumber, true, true, "dataGather");
+		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 	}
 
 	@Parameters({"state"})
@@ -561,6 +563,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry");
 		ahdexxGeneratedCheck(false, policyNumber, 0);
 		renewalTransactionHistoryCheck(policyNumber, true, false, "dataGather");
+		eValueDiscountStatusCheck(policyNumber, "NOTENROLLED");
 	}
 
 	@Parameters({"state"})
@@ -590,6 +593,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		ahdexxGeneratedCheck(true, policyNumber, 1);
 		checkDocumentContentAHDEXX(policyNumber, true, true, true, false, false);
 		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");
+		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 	}
 
 	@Parameters({"state"})
@@ -619,6 +623,45 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		ahdexxGeneratedCheck(true, policyNumber, 1);
 		checkDocumentContentAHDEXX(policyNumber, true, true, false, false, false);
 		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");
+		eValueDiscountStatusCheck(policyNumber, "NOTENROLLED");
+	}
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.OK})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-15287"})
+	public void pas15287_eValueNotEligibleActiveMembershipNoEValueRenewalMinus48(@Optional("OK") String state) {
+		String membershipDiscountEligibilitySwitch = "TRUE";
+		String membershipStatus = "Pending";
+		boolean eValueSet = false;
+
+		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
+		String policyNumber = membershipEligibilityPolicyCreation(membershipStatus, eValueSet);
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+		cancelReinstateToAvoidNbPlus15Plus30Jobs(policyNumber);
+
+		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); //-96
+		LocalDateTime renewReportOrderingDate = getTimePoints().getRenewReportsDate(policyExpirationDate); //-63
+
+		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(35));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+		/*executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, true);
+		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry");
+		ahdexxGeneratedCheck(true, policyNumber, 1);
+
+		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
+		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry");
+		ahdexxGeneratedCheck(true, policyNumber, 1);
+		checkDocumentContentAHDEXX(policyNumber, true, true, false, false, false);
+		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");*/
+		eValueDiscountStatusCheck(policyNumber, "NOTENROLLED");
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
 	}
 
 	@Parameters({"state"})
@@ -652,6 +695,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		ahdexxGeneratedCheck(true, policyNumber, 1);
 		checkDocumentContentAHDEXX(policyNumber, true, true, true, false, false);
 		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");
+		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 	}
 
 	@Parameters({"state"})
@@ -683,6 +727,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		ahdexxGeneratedCheck(true, policyNumber, 1);
 		checkDocumentContentAHDEXX(policyNumber, true, true, false, false, false);
 		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");
+		eValueDiscountStatusCheck(policyNumber, "NOTENROLLED");
 	}
 
 	private void cancelReinstateToAvoidNbPlus15Plus30Jobs(String policyNumber) {
@@ -1425,7 +1470,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		jobsNBplus15plus30runNoChecks();
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Underwriting - Substantial Increase in Hazard");
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high");
 		lastTransactionHistoryEValueDiscountCheck(true);
 		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
 
@@ -1833,8 +1878,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		if(eValueApplied){
 			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("Yes");
+			eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		}else{
 			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("No");
+			eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		}
 		//PAS-319 end
 
@@ -2286,7 +2333,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	}
 
 	private HelperWireMockStub createPaperlessPreferencesRequestId(String policyNumber, String paperlessAction) {
-		PaperlessPreferencesTemplateData template = PaperlessPreferencesTemplateData.create(policyNumber, paperlessAction);
+		PaperlessPreferencesTemplateData template = create(policyNumber, paperlessAction);
 		HelperWireMockStub stub = HelperWireMockStub.create("paperless-preferences-200", template).mock();
 		stubList.add(stub);
 		printToLog("THE REQUEST ID WAS CREATED " + stub.getId());
