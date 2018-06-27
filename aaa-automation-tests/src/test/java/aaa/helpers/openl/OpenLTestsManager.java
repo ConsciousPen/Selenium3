@@ -55,11 +55,23 @@ public final class OpenLTestsManager {
 	public void updateMocks() {
 		MocksCollection commonRequiredMocks = new MocksCollection();
 		for (OpenLTestInfo<? extends OpenLPolicy> testInfo : this.openLTests) {
-			for (OpenLPolicy policy : testInfo.getOpenLPolicies()) {
-				commonRequiredMocks.addAll(policy.getRequiredMocks());
+			if (!testInfo.isFailed()) {
+				for (OpenLPolicy policy : testInfo.getOpenLPolicies()) {
+					MocksCollection requiredMocks = policy.getRequiredMocks();
+					if (requiredMocks != null && !requiredMocks.isEmpty()) {
+						log.info("Mocks has been generated for test with policy number {} from \"{}\" file:\n{}", policy.getNumber(), testInfo.getOpenLFilePath(), requiredMocks);
+						commonRequiredMocks.addAll(requiredMocks);
+					}
+				}
 			}
 		}
-		ApplicationMocksManager.updateMocks(commonRequiredMocks);
+
+		if (commonRequiredMocks.isEmpty()) {
+			log.info("Application server has all required mocks");
+		} else {
+			log.info("Application server has missed test specific mocks");
+			ApplicationMocksManager.updateMocks(commonRequiredMocks);
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
