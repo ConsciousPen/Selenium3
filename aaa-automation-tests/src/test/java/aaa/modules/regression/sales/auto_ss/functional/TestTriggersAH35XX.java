@@ -7,7 +7,6 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUN
 import static aaa.main.enums.BillingConstants.BillingAccountPoliciesTable.POLICY_NUM;
 import static aaa.main.enums.PolicyConstants.PolicyCoverageInstallmentFeeTable.INSTALLMENT_FEE;
 import static aaa.main.enums.PolicyConstants.PolicyCoverageInstallmentFeeTable.PAYMENT_METHOD;
-import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.*;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -44,7 +43,7 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 			"where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')\n";
 
 	@Test(groups = {Groups.PRECONDITION}, description = "Preconditions")
-	private void paymentCentralConfigCheck() {
+	public void paymentCentralConfigCheck() {
 		String appHost = PropertyProvider.getProperty("app.host");
 		CustomAssert.assertTrue("Adding Payment methods will not be possible because PaymentCentralEndpoints are looking at real service. Please run paymentCentralConfigUpdate", DBService.get()
 				.getValue(PAYMENT_CENTRAL_CONFIG_CHECK).get().contains(appHost));

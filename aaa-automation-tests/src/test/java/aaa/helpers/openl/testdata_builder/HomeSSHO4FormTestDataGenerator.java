@@ -125,9 +125,9 @@ public class HomeSSHO4FormTestDataGenerator {
 			if ("HS0459".equals(form.getFormCode())) {
 				tdList.add(DataProviderFactory.dataOf(
 						"Action", "Add",
-						HomeSSMetaData.EndorsementTab.EndorsementHS0459.NAME_OF_RELATIVE.getLabel(), "Name of relative",
+						HomeSSMetaData.EndorsementTab.EndorsementHS0459.NAME_OF_RELATIVE.getLabel(), "Name of relative" + instanceNum.toString(),
 						HomeSSMetaData.EndorsementTab.EndorsementHS0459.DOES_THE_FACILITY_PROVIDE_LIVING_SERVICES_SUCH_AS_DINING_THERAPY_MEDICAL_SUPERVISION_HOUSEKEEPING_AND_SOCIAL_ACTIVITIES.getLabel(), "Yes",
-						HomeSSMetaData.EndorsementTab.EndorsementHS0459.NAME_OF_FACILITY.getLabel(), "Name of facility",
+						HomeSSMetaData.EndorsementTab.EndorsementHS0459.NAME_OF_FACILITY.getLabel(), "Name of facility" + instanceNum.toString(),
 						HomeSSMetaData.EndorsementTab.EndorsementHS0459.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().getZip(),
 						HomeSSMetaData.EndorsementTab.EndorsementHS0459.STREET_ADDRESS_1.getLabel(), "Street Address 1" + instanceNum.toString(),
 						HomeSSMetaData.EndorsementTab.EndorsementHS0459.COVERAGE_C_LIMIT.getLabel(), form.getLimit().toString().split("\\.")[0],
@@ -169,6 +169,9 @@ public class HomeSSHO4FormTestDataGenerator {
 					case "Watercraft":
 						td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0465.WATERCRAFT.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]);
 						break;
+					case "Portable Electronic Equipment":
+						td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0465.PORTABLE_ELECTRONIC_EQUIPMENT.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]);
+						break;
 					//TODO add all Special Limits
 					default:
 						CustomAssertions.assertThat(Boolean.TRUE).as("Unknown Type of Special Limit: %s", form.getType()).isFalse();
@@ -203,7 +206,9 @@ public class HomeSSHO4FormTestDataGenerator {
 	}; 
 	
 	private static Function<HomeSSOpenLPolicy, List<TestData>> formHS0524DataFunction = (openLPolicy) -> {
-		return null;
+		List<TestData> tdList = new ArrayList<>();
+		tdList.add(DataProviderFactory.dataOf("Action", "Add"));
+		return tdList;
 	};
 	
 	private static Function<HomeSSOpenLPolicy, List<TestData>> formHS0614DataFunction = (openLPolicy) -> {
