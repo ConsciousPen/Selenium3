@@ -1,0 +1,203 @@
+TestData: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: ['@DriverTab_Driver_01','@DriverTab_Driver_02'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab'
+}
+
+DriverTab_Driver_01: {
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: 215487451
+}
+
+DriverTab_Driver_02: {
+  DriverSearchDialog: {},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Other,
+  First Name: Jack,
+  Last Name: Book,
+  Date of Birth: '01/01/1980',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: 235689875
+}
+
+DriverTab_TC04: {
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: 215487451,
+  ActivityInformation: [
+    {
+      Type: 'Minor Violation',
+      Description: 'Improper Passing',
+      Occurrence Date: '01/10/2012',
+      Conviction Date: '$<today-30d:MM/dd/yyyy>'
+    },
+    {
+      Type: 'Minor Violation',
+      Description: 'Improper Signal',
+      Occurrence Date: '01/12/2012',
+      Conviction Date: '$<today-250d:MM/dd/yyyy>'
+    },
+    {
+      Type: 'Minor Violation',
+      Description: 'Illegal Riding',
+      Occurrence Date: '01/02/2013',
+      Conviction Date: '$<today-20d:MM/dd/yyyy>'
+    }
+  ]
+}
+
+TestData_TC11: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab',
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: {}
+}
+
+GeneralTab: {
+  AAAProductOwned: {
+      Life: 'No',
+      Home: 'No',
+      Renters: 'No',
+      Condo: 'No'
+  }
+}
+
+DriverTab: {
+    List of Driver: {
+        'column=1': '2',
+        'column=5': 'View/Edit'
+      },
+    Driver Type: Excluded,
+    Reason: Company Request
+}
+
+PremiumAndCoveragesTab: {
+    Medical Payments: 'contains=No Coverage',
+    'Uninsured/Underinsured Motorist Bodily Injury': 'contains=$50,000/$100,000'
+}
+
+TestData_DocGen: {
+  'AA10XX': 'Insurance Identification Card',
+  'AA11CO': 'Colorado Auto Insurance Application',
+  'AA43CO': 'Named Driver Exclusion Endorsement',
+#  'AU03': 'Notice of Declination',
+  'AHAPXX': 'AutoPay Authorization Form',
+  'AHFMXX': 'Fax Memorandum',
+  'AHRCTXX': 'Insured Receipt for Funds',
+  'AA06XX': 'Agent Advise Memo',
+  '605005': 'Returning Payment',
+  'AU02': 'Notice of Cancellation',
+  'AU07': 'Notice of Non-Renewal',
+  'AU09': 'Uprate Notice',
+  'AU10': 'Potential Uprate',
+  'AU08': 'Request for Additional Information',
+  'AU06': 'Free Form to Producer',
+  'AU04': 'Free Form to Insured',
+  'AU05': 'Premium Misquote Information',
+  '605004': 'Remove Recurring Payments',
+  'AA52COB': 'Statement Electing Lower Limits for Uninsured/Underinsured Motorists Coverage',
+  'AA16CO': 'MEDICAL PAYMENTS REJECTION OF COVERAGE',
+  'AADNCO': 'Colorado Private Passenger Automobile Insurance Summary Disclosure Form'
+}
+
+TestData_TC18: {
+  EndorsementActionTab: {
+    EndorsementActionTab: {
+      Endorsement Date: $<today>,
+      Endorsement Reason: Maintain Vehicle(s)
+    }
+  },
+  Policy: {
+    GeneralTab: {
+      PolicyInformation: {
+        Policy Type: Named Non Owner,
+        Change Policy Type Confirmation: 'Continue'
+      }
+    },
+    DriverTab: {
+        List of Driver: {
+            'column=1': '2',
+            'column=5': 'View/Edit'
+          },
+        Driver Type: Available for Rating,
+        Rel. to First Named Insured: Employee
+    },
+    RatingDetailReportsTab: {},
+    VehicleTab: {},
+    FormsTab: {}
+  }
+}
+
+TestData_TC19: {
+  Policy1: {
+    DriverTab: ['@EditDriver', '@AddDriver'],
+    RatingDetailReportsTab: {},
+    VehicleTab: {},
+    FormsTab: {}
+  },
+  Policy2: {
+    DriverTab: '@RemoveDriver',
+    RatingDetailReportsTab: {},
+    VehicleTab: {},
+    FormsTab: {},
+    PremiumAndCoveragesTab: {},
+    DriverActivityReportsTab: {},
+    DocumentsAndBindTab: {}
+  }
+}
+
+EditDriver: {
+   List of Driver: {
+            'column=1': '2',
+            'column=5': 'View/Edit'
+   },
+   Rel. to First Named Insured: Spouse
+}
+
+AddDriver: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Other,
+  First Name: Mike,
+  Last Name: Smith,
+  Date of Birth: '01/01/1980',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: 238689875
+}
+
+RemoveDriver: {
+  List of Driver: {
+    'column=1': '3',
+    'column=5': 'Remove',
+    Confirm Remove: ''
+  }
+}
+
+TestData_TC20: {
+  DoNotRenewActionTab: {
+    Reason: 'Unacceptable Violation(s)',
+    Supporting Data: Test,
+  }
+}
+
