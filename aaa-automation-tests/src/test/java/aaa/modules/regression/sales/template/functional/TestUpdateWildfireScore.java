@@ -5,6 +5,8 @@ import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
@@ -24,6 +26,8 @@ public class TestUpdateWildfireScore extends PolicyBaseTest {
 
     private TextBox wildfireScore = propertyInfoTab.getFireReportAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.FireReport.WILDFIRE_SCORE);
     private TextBox wildfireScoreCA = propertyInfoTabCA.getFireReportAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.FireReport.WILDFIRE_SCORE);
+
+    private String updatedValue = "99";
 
 
     public void pas12922_UpdateWildfireScoreNoPrivilegeNB(PolicyType policyType) {
@@ -71,7 +75,7 @@ public class TestUpdateWildfireScore extends PolicyBaseTest {
         createCustomerIndividual();
         policyType.get().initiate();
         policyType.get().getDefaultView().fillUpTo(testData, ReportsTab.class, true);
-        String wildfireScoreValue = reportsTab.tblFirelineReport.getRow(1).getCell("Wildfire Score").getValue();
+        String wildfireScoreValue = reportsTab.tblFirelineReport.getRow(1).getCell(HomeSSMetaData.ReportsTab.FirelineReportRow.WILDFIRE_SCORE.getLabel()).getValue();
         reportsTab.submitTab();
 
         // Assert that Wildfire Score is enabled.
@@ -79,11 +83,12 @@ public class TestUpdateWildfireScore extends PolicyBaseTest {
         assertThat(wildfireScore).isEnabled();
 
         // Update Wildfire Score and check if it is used.
-        wildfireScore.setValue("99");
+        wildfireScore.setValue(updatedValue);
 
         // Check that report value is the same
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        assertThat(reportsTab.tblFirelineReport.getRow(1).getCell("Wildfire Score").getValue()).isEqualTo(wildfireScoreValue);
+        assertThat(reportsTab.tblFirelineReport.getRow(1).getCell(HomeSSMetaData.ReportsTab.FirelineReportRow.WILDFIRE_SCORE.getLabel()).getValue())
+                .isEqualTo(wildfireScoreValue);
         mainApp().close();
     }
 
@@ -100,18 +105,19 @@ public class TestUpdateWildfireScore extends PolicyBaseTest {
         // Endorse Policy. Open reports tab Save Wildfire Score. Submit Tab.
         policyType.get().endorse().perform(testDataManager.policy.get(policyType).getTestData("Endorsement", "TestData"));
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        String wildfireScoreValue = reportsTab.tblFirelineReport.getRow(1).getCell("Wildfire Score").getValue();
+        String wildfireScoreValue = reportsTab.tblFirelineReport.getRow(1).getCell(HomeSSMetaData.ReportsTab.FirelineReportRow.WILDFIRE_SCORE.getLabel()).getValue();
         reportsTab.submitTab();
 
         // Make sure Wildfire Score is enabled
         assertThat(wildfireScore).isEnabled();
 
         // Update Wildfire Score .
-        wildfireScore.setValue("99");
+        wildfireScore.setValue(updatedValue);
 
         // Check that Reports Tab Wildfire Score did not change
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        assertThat(reportsTab.tblFirelineReport.getRow(1).getCell("Wildfire Score").getValue()).isEqualTo(wildfireScoreValue);
+        assertThat(reportsTab.tblFirelineReport.getRow(1).getCell(HomeSSMetaData.ReportsTab.FirelineReportRow.WILDFIRE_SCORE.getLabel()).getValue())
+                .isEqualTo(wildfireScoreValue);
         mainApp().close();
     }
 
@@ -128,18 +134,19 @@ public class TestUpdateWildfireScore extends PolicyBaseTest {
         // Renew Policy. Open reports tab Save Wildfire Score. Submit Tab.
         policyType.get().renew().perform();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        String wildfireScoreValue = reportsTab.tblFirelineReport.getRow(1).getCell("Wildfire Score").getValue();
+        String wildfireScoreValue = reportsTab.tblFirelineReport.getRow(1).getCell(HomeSSMetaData.ReportsTab.FirelineReportRow.WILDFIRE_SCORE.getLabel()).getValue();
         reportsTab.submitTab();
 
         // Make sure Wildfire Score is enabled
         assertThat(wildfireScore).isEnabled();
 
         // Update Wildfire Score .
-        wildfireScore.setValue("99");
+        wildfireScore.setValue(updatedValue);
 
         // Check that Reports Tab Wildfire Score did not change
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        assertThat(reportsTab.tblFirelineReport.getRow(1).getCell("Wildfire Score").getValue()).isEqualTo(wildfireScoreValue);
+        assertThat(reportsTab.tblFirelineReport.getRow(1).getCell(HomeSSMetaData.ReportsTab.FirelineReportRow.WILDFIRE_SCORE.getLabel()).getValue())
+                .isEqualTo(wildfireScoreValue);
         mainApp().close();
     }
 
@@ -158,7 +165,7 @@ public class TestUpdateWildfireScore extends PolicyBaseTest {
         // Initiate manual entry. fill policy to reports Tab. Save Wildfire Score. Submit Tab.
         customer.initiateRenewalEntry().perform(initiateRenewal);
         policyType.get().getDefaultView().fillUpTo(testData, ReportsTab.class, true);
-        String wildfireScoreValue = reportsTab.tblFirelineReport.getRow(1).getCell("Wildfire Score").getValue();
+        String wildfireScoreValue = reportsTab.tblFirelineReport.getRow(1).getCell(HomeSSMetaData.ReportsTab.FirelineReportRow.WILDFIRE_SCORE.getLabel()).getValue();
         reportsTab.submitTab();
 
         // Assert that Wildfire Score is enabled.
@@ -166,11 +173,12 @@ public class TestUpdateWildfireScore extends PolicyBaseTest {
         assertThat(wildfireScore).isEnabled();
 
         // Update Wildfire Score and check if it is used.
-        wildfireScore.setValue("99");
+        wildfireScore.setValue(updatedValue);
 
         // Check that report value is the same
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        assertThat(reportsTab.tblFirelineReport.getRow(1).getCell("Wildfire Score").getValue()).isEqualTo(wildfireScoreValue);
+        assertThat(reportsTab.tblFirelineReport.getRow(1).getCell(HomeSSMetaData.ReportsTab.FirelineReportRow.WILDFIRE_SCORE.getLabel()).getValue())
+                .isEqualTo(wildfireScoreValue);
         mainApp().close();
     }
 
@@ -217,19 +225,22 @@ public class TestUpdateWildfireScore extends PolicyBaseTest {
         createCustomerIndividual();
         policyType.get().initiate();
         policyType.get().getDefaultView().fillUpTo(testData, ReportsTab.class, true);
-        String wildfireScoreValue = reportsTabCA.tblFirelineReport.getRow(1).getCell("Wildfire Score").getValue();
+        String wildfireScoreValue = reportsTabCA.tblFirelineReport.getRow(1).getCell(HomeCaMetaData.ReportsTab.FirelineReportTblHeaders.WILDFIRE_SCORE.get()).getValue();
         reportsTabCA.submitTab();
-
-        // Assert that Wildfire Score is enabled.
         propertyInfoTabCA.fillTab(testData);
+
+        // Make sure Wildfire Score is enabled.
         assertThat(wildfireScoreCA).isEnabled();
 
-        // Update Wildfire Score and check if it is used.
-        wildfireScoreCA.setValue("99");
+        // Update Wildfire Score.
+        wildfireScoreCA.setValue(updatedValue);
 
-        // Check that report value is the same
+        // Check that Reports Tab Wildfire Score did not change
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.REPORTS.get());
-        assertThat(reportsTabCA.tblFirelineReport.getRow(1).getCell("Wildfire Score").getValue()).isEqualTo(wildfireScoreValue);
+        assertThat(reportsTabCA.tblFirelineReport.getRow(1).getCell(HomeCaMetaData.ReportsTab.FirelineReportTblHeaders.WILDFIRE_SCORE.get()).getValue())
+                .isEqualTo(wildfireScoreValue);
+
+        checkFirelineScoreCA();
         mainApp().close();
     }
 
@@ -246,18 +257,21 @@ public class TestUpdateWildfireScore extends PolicyBaseTest {
         // Endorse Policy. Open reports tab Save Wildfire Score. Submit Tab.
         policyType.get().endorse().perform(testDataManager.policy.get(policyType).getTestData("Endorsement", "TestData"));
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.REPORTS.get());
-        String wildfireScoreValue = reportsTabCA.tblFirelineReport.getRow(1).getCell("Wildfire Score").getValue();
+        String wildfireScoreValue = reportsTabCA.tblFirelineReport.getRow(1).getCell(HomeCaMetaData.ReportsTab.FirelineReportTblHeaders.WILDFIRE_SCORE.get()).getValue();
         reportsTabCA.submitTab();
 
-        // Make sure Wildfire Score is enabled
+        // Make sure Wildfire Score is enabled.
         assertThat(wildfireScoreCA).isEnabled();
 
-        // Update Wildfire Score .
-        wildfireScoreCA.setValue("99");
+        // Update Wildfire Score.
+        wildfireScoreCA.setValue(updatedValue);
 
         // Check that Reports Tab Wildfire Score did not change
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.REPORTS.get());
-        assertThat(reportsTabCA.tblFirelineReport.getRow(1).getCell("Wildfire Score").getValue()).isEqualTo(wildfireScoreValue);
+        assertThat(reportsTabCA.tblFirelineReport.getRow(1).getCell(HomeCaMetaData.ReportsTab.FirelineReportTblHeaders.WILDFIRE_SCORE.get()).getValue())
+                .isEqualTo(wildfireScoreValue);
+
+        checkFirelineScoreCA();
         mainApp().close();
     }
 
@@ -274,21 +288,35 @@ public class TestUpdateWildfireScore extends PolicyBaseTest {
         // Renew Policy. Open reports tab Save Wildfire Score. Submit Tab.
         policyType.get().renew().perform();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.REPORTS.get());
-        String wildfireScoreValue = reportsTabCA.tblFirelineReport.getRow(1).getCell("Wildfire Score").getValue();
+        String wildfireScoreValue = reportsTabCA.tblFirelineReport.getRow(1).getCell(HomeCaMetaData.ReportsTab.FirelineReportTblHeaders.WILDFIRE_SCORE.get()).getValue();
         reportsTabCA.submitTab();
 
-        // Make sure Wildfire Score is enabled
+        // Make sure Wildfire Score is enabled.
         assertThat(wildfireScoreCA).isEnabled();
 
-        // Update Wildfire Score .
-        wildfireScoreCA.setValue("99");
+        // Update Wildfire Score.
+        wildfireScoreCA.setValue(updatedValue);
 
         // Check that Reports Tab Wildfire Score did not change
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.REPORTS.get());
-        assertThat(reportsTabCA.tblFirelineReport.getRow(1).getCell("Wildfire Score").getValue()).isEqualTo(wildfireScoreValue);
+        assertThat(reportsTabCA.tblFirelineReport.getRow(1).getCell(HomeCaMetaData.ReportsTab.FirelineReportTblHeaders.WILDFIRE_SCORE.get()).getValue())
+                .isEqualTo(wildfireScoreValue);
+
+        checkFirelineScoreCA();
         mainApp().close();
     }
 
+
+    private void checkFirelineScoreCA(){
+
+        // Check that View Rating Details shows the updated Value
+        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
+        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+        new PremiumsAndCoveragesQuoteTab().calculatePremium();
+        PropertyQuoteTab.RatingDetailsView.open();
+        assertThat(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Fireline score")).contains(updatedValue);
+        PropertyQuoteTab.RatingDetailsView.close();
+    }
 
     private void loginA30(){
         TestData loginTD = initiateLoginTD().adjust("Groups", "A30");
