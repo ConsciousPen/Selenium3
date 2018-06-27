@@ -2,6 +2,7 @@ package aaa.helpers.ssh;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
@@ -72,7 +73,7 @@ public final class RemoteHelper {
 				throw new AssertionError(String.format("File '%s' wasn't found after %s ms of wait", source, timeout));
 			}
 			try {
-				Thread.sleep(2000);
+				TimeUnit.MILLISECONDS.sleep(2000);
 			} catch (InterruptedException e) {
 				throw new IstfException(e);
 			}
@@ -120,7 +121,7 @@ public final class RemoteHelper {
 		log.info(String.format("SSH: Files uploading from '%s' folder to '%s' destination folder has been started.", sourceFolder, destinationFolder));
 		if (files != null && files.length != 0) {
 			for (File file : files) {
-				uploadFile(sourceFolder + file.getName(), destinationFolder + file.getName());
+				uploadFile(file.getAbsolutePath(), Paths.get(destinationFolder, file.getName()).normalize().toString());
 			}
 		}
 		log.info(String.format("SSH: All files from '%s' folder were uploaded to '%s' destination folder.", sourceFolder, destinationFolder));
