@@ -529,9 +529,9 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 
 		//4. Check for the updated Y/M/M values in View Rating Details table
-		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("expectedYear");
-		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("expectedMake");
-		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("expectedModel");
+		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo(expectedYear);
+		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo(expectedMake);
+		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo(expectedModel);
 
 		buttonRatingDetailsOk.click();
 
