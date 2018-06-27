@@ -48,7 +48,8 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		synchronized (TESTS_PREPARATIONS_LOCK) {
 			if (openLTestsManager == null) {
 				openLTestsManager = new OpenLTestsManager(context);
-				openLTestsManager.updateMocks();
+				// not finished...
+				//openLTestsManager.updateMocks();
 			}
 		}
 	}
@@ -78,10 +79,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		OpenLTestInfo<P> testInfo = openLTestsManager.getTestInfo(filePath);
 		P openLPolicy = testInfo.getOpenLPolicy(policyNumber);
 
-		if (openLPolicy.getEffectiveDate().isAfter(TimeSetterUtil.getInstance().getCurrentTime().toLocalDate())) {
-			TimeSetterUtil.getInstance().nextPhase(openLPolicy.getEffectiveDate().atStartOfDay());
-		}
-
+		TimeSetterUtil.getInstance().confirmDateIsAfter(openLPolicy.getEffectiveDate().atStartOfDay());
 		mainApp().open();
 		createOrOpenExistingCustomer(testInfo);
 

@@ -163,7 +163,7 @@ public final class OpenLTestsManager {
 	}
 	
 	private String getFilePath(XmlTest test) {
-		return FilenameUtils.separatorsToUnix(Paths.get(TestParams.TESTS_DIR.getValue(test), TestParams.TEST_FILENAME.getValue(test)).toString());
+		return FilenameUtils.separatorsToUnix(Paths.get(TestParams.TESTS_DIR.getValue(test), TestParams.TEST_FILENAME.getValue(test)).normalize().toString());
 	}
 	
 	/**

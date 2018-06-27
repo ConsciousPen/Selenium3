@@ -4,7 +4,7 @@ import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 @ExcelTableElement(sheetName = "PPC_REQUEST")
-public class PPCREequest {
+public class PPCRequest {
 	@ExcelColumnElement(name = "ID")
 	private String id;
 
@@ -13,7 +13,7 @@ public class PPCREequest {
 	private String zipCode;
 	private String streetAddressLine;
 
-	@ExcelColumnElement(name = "state")
+	@ExcelColumnElement(name = "State")
 	private String state;
 
 	public String getId() {

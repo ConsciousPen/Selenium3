@@ -4,6 +4,11 @@ import static aaa.helpers.openl.model.pup.PUPOpenLFile.PUP_POLICY_SHEET_NAME;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import aaa.helpers.mock.MocksCollection;
+import aaa.helpers.mock.model.property_classification.RetrievePropertyClassificationMock;
+import aaa.helpers.mock.model.property_risk_reports.RetrievePropertyRiskReportsMock;
+import aaa.helpers.openl.mock_generator.MockGenerator;
+import aaa.helpers.openl.mock_generator.PUPMockGenerator;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.testdata_builder.PUPTestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
@@ -98,6 +103,24 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 	@Override
 	public PUPTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
 		return new PUPTestDataGenerator(state, baseTestData);
+	}
+
+	@Override
+	public MocksCollection getRequiredMocks() {
+		MocksCollection requiredMocks = new MocksCollection();
+		MockGenerator mockGenerator = new PUPMockGenerator();
+
+		if (!mockGenerator.isPropertyClassificationMockPresent()) {
+			RetrievePropertyClassificationMock propertyClassificationMock = mockGenerator.getRetrievePropertyClassificationMock();
+			requiredMocks.add(propertyClassificationMock);
+		}
+
+		if (!mockGenerator.isPropertyRiskReportsMockPresent()) {
+			RetrievePropertyRiskReportsMock propertyRiskReportsMockData = mockGenerator.getRetrievePropertyRiskReportsMock();
+			requiredMocks.add(propertyRiskReportsMockData);
+		}
+
+		return requiredMocks;
 	}
 
 	public void setEffectiveDate(LocalDate effectiveDate) {
