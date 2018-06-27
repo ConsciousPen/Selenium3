@@ -108,9 +108,6 @@ protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 		assertThat(driverOid1).isEqualTo(driverOid3);
 		assertThat(driverOid2).isEqualTo(driverOid4);
 
-		List<TestData> assignmentsUnassigned = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getValue();
-		String driverAssignment5 = assignmentsUnassigned.get(0).toString();
-
 		ViewDriverAssignmentResponse response2 = HelperCommon.viewEndorsementAssignments(policyNumber);
 		assertSoftly(softly -> {
 
@@ -224,18 +221,28 @@ protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 		String vehicleOid1 = viewEndorsementVehicleResponse2.vehicleList.get(0).oid;
 		String vehicleOid2 = viewEndorsementVehicleResponse2.vehicleList.get(1).oid;
 
-//		DriverAssignment[] driverAssignmentAfterAddingVehicleResponse = HelperCommon.viewEndorsementAssignments(policyNumber);
-//		assertSoftly(softly -> {
-//			assertThat(driverAssignmentAfterAddingVehicleResponse[0].vehicleDisplayValue).isEqualTo(vehicle1);
-//			assertThat(driverAssignmentAfterAddingVehicleResponse[0].vehicleOid).isEqualTo(vehicleOid2);
-//			assertThat(driverAssignmentAfterAddingVehicleResponse[0].driverDisplayValue).isEqualTo(driver1);
-//			assertThat(driverAssignmentAfterAddingVehicleResponse[0].relationshipType).isEqualTo("primary");
-//
-//			assertThat(driverAssignmentAfterAddingVehicleResponse[1].vehicleDisplayValue).isEqualTo(vehicle2);
-//			assertThat(driverAssignmentAfterAddingVehicleResponse[1].vehicleOid).isEqualTo(vehicleOid1);
-//			assertThat(driverAssignmentAfterAddingVehicleResponse[1].driverDisplayValue).isEqualTo(driver1);
-//			assertThat(driverAssignmentAfterAddingVehicleResponse[1].relationshipType).isEqualTo("occasional");
-//		});
+		ViewDriverAssignmentResponse response = HelperCommon.viewEndorsementAssignments(policyNumber);
+		assertSoftly(softly -> {
+			assertThat(response.driverVehicleAssignments.get(0).vehicleDisplayValue).isEqualTo(vehicle1);
+			assertThat(response.driverVehicleAssignments.get(0).vehicleOid).isEqualTo(vehicleOid2);
+			assertThat(response.driverVehicleAssignments.get(0).driverOid).isNotEmpty();
+			assertThat(response.driverVehicleAssignments.get(0).driverDisplayValue).isEqualTo(driver1);
+			assertThat(response.driverVehicleAssignments.get(0).relationshipType).isEqualTo("primary");
+
+			assertThat(response.driverVehicleAssignments.get(1).vehicleDisplayValue).isEqualTo(vehicle2);
+			assertThat(response.driverVehicleAssignments.get(1).vehicleOid).isEqualTo(vehicleOid1);
+			assertThat(response.driverVehicleAssignments.get(1).driverOid).isNotEmpty();
+			assertThat(response.driverVehicleAssignments.get(1).driverDisplayValue).isEqualTo(driver1);
+			assertThat(response.driverVehicleAssignments.get(1).relationshipType).isEqualTo("occasional");
+
+			softly.assertThat(response.assignableDrivers.size()).isEqualTo(1);
+
+			softly.assertThat(response.assignableVehicles.size()).isEqualTo(2);
+			softly.assertThat(response.unassignedDrivers.isEmpty()).isTrue();
+			softly.assertThat(response.unassignedVehicles.isEmpty()).isTrue();
+			softly.assertThat(response.vehiclesWithTooManyDrivers.isEmpty()).isTrue();
+			softly.assertThat(response.maxOneDriverPerVehicle).isEqualTo(true);
+		});
 	}
 
 	protected void pas11684_DriverAssignmentExistsForStateBody(String state, SoftAssertions softly) {
