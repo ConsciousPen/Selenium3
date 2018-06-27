@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.mock.ApplicationMocksManager;
-import aaa.helpers.mock.MockType;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
 import aaa.helpers.openl.mock_generator.MockGenerator;
@@ -282,7 +281,7 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	@Override
 	public MocksCollection getRequiredMocks() {
 		MocksCollection requiredMocks = new MocksCollection();
-		RetrieveMembershipSummaryMock membershipAppMock = ApplicationMocksManager.getMock(MockType.RETRIEVE_MEMBERSHIP_SUMMARY);
+		RetrieveMembershipSummaryMock membershipAppMock = ApplicationMocksManager.getRetrieveMembershipSummaryMock();
 		if (membershipAppMock.getMembershipNumber(getEffectiveDate(), getPolicyDiscountInformation().getMemberPersistency()) == null) {
 			RetrieveMembershipSummaryMock membershipMock = MockGenerator.getRetrieveMembershipSummaryMock(getEffectiveDate(), getPolicyDiscountInformation().getMemberPersistency());
 			requiredMocks.add(membershipMock);

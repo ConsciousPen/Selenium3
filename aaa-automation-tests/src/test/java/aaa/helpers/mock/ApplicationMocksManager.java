@@ -1,5 +1,6 @@
 package aaa.helpers.mock;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -9,9 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.mock.model.UpdatableMock;
+import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
+import aaa.helpers.mock.model.property_classification.RetrievePropertyClassificationMock;
+import aaa.helpers.mock.model.property_risk_reports.RetrievePropertyRiskReportsMock;
 import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.ssh.ExecutionParams;
 import aaa.helpers.ssh.RemoteHelper;
+import aaa.utils.excel.bind.BindHelper;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
@@ -30,20 +35,37 @@ public class ApplicationMocksManager {
 
 	private static MocksCollection appMocks = new MocksCollection();
 
+	public static RetrieveMembershipSummaryMock getRetrieveMembershipSummaryMock() {
+		return getMock(RetrieveMembershipSummaryMock.class, RetrieveMembershipSummaryMock.FILE_NAME);
+	}
+
+	public static RetrievePropertyClassificationMock getRetrievePropertyClassificationMock() {
+		return getMock(RetrievePropertyClassificationMock.class, RetrievePropertyClassificationMock.FILE_NAME);
+	}
+
+	public static RetrievePropertyRiskReportsMock getRetrievePropertyRiskReportsMock() {
+		return getMock(RetrievePropertyRiskReportsMock.class, RetrievePropertyRiskReportsMock.FILE_NAME);
+	}
+
+	public static synchronized <M extends UpdatableMock> M getMock(Class<M> mockModelClass) {
+		return getMock(mockModelClass, getFileName(mockModelClass));
+	}
+
 	@SuppressWarnings("unchecked")
-	public static synchronized <M extends UpdatableMock> M getMock(MockType mockType) {
-		if (!appMocks.has(mockType)) {
-			M mock = getMockDataObject(mockType.getFileName(), mockType.getMockModel());
+	public static synchronized <M extends UpdatableMock> M getMock(Class<M> mockModelClass, String fileName) {
+		if (!appMocks.has(mockModelClass)) {
+			M mock = getMockDataObject(mockModelClass, fileName);
 			appMocks.add(mock);
 		}
-		return (M) appMocks.get(mockType);
+		return (M) appMocks.get(mockModelClass);
 	}
 
 	public static synchronized void updateMocks(MocksCollection requiredMocks) {
+		assertThat(requiredMocks).as("Unable to update application mocks with null value").isNotNull();
+		log.info("Application mocks update initiated");
 		MocksCollection mocksToUpload = new MocksCollection();
-
 		for (UpdatableMock mock : requiredMocks) {
-			UpdatableMock appMock = getMock(mock.getType());
+			UpdatableMock appMock = getMock(mock.getClass(), mock.getFileName());
 			if (appMock.add(mock)) {
 				mocksToUpload.add(appMock);
 			}
@@ -58,10 +80,13 @@ public class ApplicationMocksManager {
 				cleanTempDirectory();
 			}
 			restartStubServer();
+			log.info("Application mocks update has been finished");
+		} else {
+			log.info("Application server has all required mocks, nothing to update");
 		}
 	}
 
-	public static void restartStubServer() {
+	public static synchronized void restartStubServer() {
 		//TODO-dchubkov: restart on Windows and Tomcat
 		String command = APP_MOCKS_RESTART_SCRIPT + " -lang jacl -user admin -password admin -c \"\\$AdminControl %1$s cluster_external_stub_server %2$sNode01\"";
 		//TimeSetterUtil.getInstance().adjustTime(); // set date to today
@@ -76,7 +101,7 @@ public class ApplicationMocksManager {
 		log.info("Stub server has been started");
 	}
 
-	private static <M extends UpdatableMock> M getMockDataObject(String fileName, Class<M> mockDataClass) {
+	private static <M extends UpdatableMock> M getMockDataObject(Class<M> mockDataClass, String fileName) {
 		String mockSourcePath = Paths.get(APP_MOCKS_FOLDER, fileName).normalize().toString();
 		String mockTempDestinationPath = Paths.get(TEMP_MOCKS_FOLDER, RandomStringUtils.randomNumeric(10) + "_" + fileName).normalize().toString();
 
@@ -104,5 +129,16 @@ public class ApplicationMocksManager {
 		} catch (IOException e) {
 			throw new IstfException("Unable to clean mocks temp directory: " + TEMP_MOCKS_FOLDER, e);
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private static <M extends UpdatableMock> String getFileName(Class<M> mockModelClass) {
+		M mock;
+		try {
+			mock = (M) BindHelper.getInstance(mockModelClass);
+		} catch (RuntimeException e) {
+			throw new IstfException("Unable to get filename for mock of class: " + mockModelClass.getName());
+		}
+		return mock.getFileName();
 	}
 }

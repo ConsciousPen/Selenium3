@@ -1,7 +1,9 @@
 package aaa.helpers.mock.model.property_classification;
 
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = "FIRELINE_RESPONSE")
 public class FirelineResponse {
 	@ExcelColumnElement(name = "ID")
 	private String id;
@@ -211,5 +213,34 @@ public class FirelineResponse {
 
 	public void setAdjRateScorePercentage(Double adjRateScorePercentage) {
 		this.adjRateScorePercentage = adjRateScorePercentage;
+	}
+
+	@Override
+	public String toString() {
+		return "FirelineResponse{" +
+				"id='" + id + '\'' +
+				", responseCode=" + responseCode +
+				", responseDescription='" + responseDescription + '\'' +
+				", returnCode='" + returnCode + '\'' +
+				", returnMessage='" + returnMessage + '\'' +
+				", returnSource='" + returnSource + '\'' +
+				", reportName='" + reportName + '\'' +
+				", globeXSatMapURL='" + globeXSatMapURL + '\'' +
+				", fireLineRingMapURL='" + fireLineRingMapURL + '\'' +
+				", fips='" + fips + '\'' +
+				", countyName='" + countyName + '\'' +
+				", matchType='" + matchType + '\'' +
+				", accessType='" + accessType + '\'' +
+				", adjFuelRating=" + adjFuelRating +
+				", wfRiskAssessment='" + wfRiskAssessment + '\'' +
+				", gaugeMapURL='" + gaugeMapURL + '\'' +
+				", geocodeSrc='" + geocodeSrc + '\'' +
+				", fuelType='" + fuelType + '\'' +
+				", fuelPercentage=" + fuelPercentage +
+				", slopeType='" + slopeType + '\'' +
+				", slopePercentage=" + slopePercentage +
+				", adjRateScoreType1=" + adjRateScoreType1 +
+				", adjRateScorePercentage=" + adjRateScorePercentage +
+				'}';
 	}
 }

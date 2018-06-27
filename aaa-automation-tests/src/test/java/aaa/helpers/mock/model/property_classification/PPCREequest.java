@@ -1,7 +1,9 @@
 package aaa.helpers.mock.model.property_classification;
 
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = "PPC_REQUEST")
 public class PPCREequest {
 	@ExcelColumnElement(name = "ID")
 	private String id;
@@ -11,8 +13,8 @@ public class PPCREequest {
 	private String zipCode;
 	private String streetAddressLine;
 
-	@ExcelColumnElement(name = "State")
-	private String State;
+	@ExcelColumnElement(name = "state")
+	private String state;
 
 	public String getId() {
 		return id;
@@ -55,10 +57,22 @@ public class PPCREequest {
 	}
 
 	public String getState() {
-		return State;
+		return state;
 	}
 
 	public void setState(String state) {
-		State = state;
+		this.state = state;
+	}
+
+	@Override
+	public String toString() {
+		return "PPCREequest{" +
+				"id='" + id + '\'' +
+				", protectionCodeType='" + protectionCodeType + '\'' +
+				", cityName='" + cityName + '\'' +
+				", zipCode='" + zipCode + '\'' +
+				", streetAddressLine='" + streetAddressLine + '\'' +
+				", state='" + state + '\'' +
+				'}';
 	}
 }
