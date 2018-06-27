@@ -135,30 +135,4 @@ public class TestOverrideWildfireScore extends HomeCaDP3BaseTest {
 		template.pas12922_UpdateCAWildfireScoreRenewal(getPolicyType());
 	}
 
-	/**
-	 * @author Dominykas Razgunas
-	 * @name Test Update Wildfire Score DP3 CA - Renewal Manual Entry
-	 * @scenario
-	 * 1. Sign in with privileged User.
-	 * 2. Create Customer.
-	 * 3. Initiate Home Owners Renewal Entry.
-	 * 4. Fill Quote up to Reports Tab.
-	 * 5. Save Wildfire Score Value.
-	 * 6. Submit Tab.
-	 * 7. Fill Property Info Tab.
-	 * 8. Assert That Wildfire Score field is enabled (editable).
-	 * 9. Update Wildfire Score Value.
-	 * 10. Navigate To reports Tab.
-	 * 11. Assert That Wildfire Score Value did not change.
-	 * @details
-	 **/
-
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Update Wildfire Score DP3 CA - Renewal Manual Entry")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-12922")
-	public void pas12922_UpdateCAWildfireScoreManualEntry(@Optional("CA") String state) {
-
-		template.pas12922_UpdateCAWildfireScoreManualEntry(getPolicyType());
-	}
-
 }

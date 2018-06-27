@@ -289,37 +289,6 @@ public class TestUpdateWildfireScore extends PolicyBaseTest {
         mainApp().close();
     }
 
-    public void pas12922_UpdateCAWildfireScoreManualEntry(PolicyType policyType) {
-
-        // Create Test data for appropriate policy type Conversion
-        TestData testData = getStateTestData(testDataManager.policy.get(policyType).getTestData("Conversion"), "TestData");
-
-        // Create Test data for Initiate Renewal Entry
-        TestData initiateRenewal = getStateTestData(testDataManager.policy.get(policyType).getTestData("InitiateRenewalEntry"), "TestData");
-
-        // Open App with user. Create Customer. get Policy Type and initiate policy. Fill policy to PropertyInfo Tab.
-        mainApp().open();
-        createCustomerIndividual();
-
-        // Initiate manual entry. fill policy to reports Tab. Save Wildfire Score. Submit Tab.
-        customer.initiateRenewalEntry().perform(initiateRenewal);
-        policyType.get().getDefaultView().fillUpTo(testData, ReportsTab.class, true);
-        String wildfireScoreValue = reportsTabCA.tblFirelineReport.getRow(1).getCell("Wildfire Score").getValue();
-        reportsTabCA.submitTab();
-
-        // Assert that Wildfire Score is enabled.
-        propertyInfoTabCA.fillTab(testData);
-        assertThat(wildfireScoreCA).isEnabled();
-
-        // Update Wildfire Score and check if it is used.
-        wildfireScoreCA.setValue("99");
-
-        // Check that report value is the same
-        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.REPORTS.get());
-        assertThat(reportsTabCA.tblFirelineReport.getRow(1).getCell("Wildfire Score").getValue()).isEqualTo(wildfireScoreValue);
-        mainApp().close();
-    }
-
 
     private void loginA30(){
         TestData loginTD = initiateLoginTD().adjust("Groups", "A30");
