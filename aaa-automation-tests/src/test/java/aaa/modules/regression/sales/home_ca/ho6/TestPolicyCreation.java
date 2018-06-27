@@ -4,9 +4,6 @@ package aaa.modules.regression.sales.home_ca.ho6;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import aaa.common.pages.SearchPage;
-import aaa.main.enums.SearchEnum;
-import aaa.main.modules.policy.PolicyType;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -16,7 +13,6 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO6BaseTest;
-import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 
@@ -40,14 +36,6 @@ public class TestPolicyCreation extends HomeCaHO6BaseTest {
 
         createCustomerIndividual();
         policy.createPolicy(getPolicyTD("DataGather", "TestData"));
-        SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, "700032268");
-
-        createCustomerIndividual();
-        PolicyType.HOME_CA_HO3.get().createPolicy(getStateTestData(testDataManager.policy.get(PolicyType.HOME_CA_HO3), "DataGather", "TestData"));
-        createCustomerIndividual();
-        PolicyType.HOME_CA_HO4.get().createPolicy(getStateTestData(testDataManager.policy.get(PolicyType.HOME_CA_HO4), "DataGather", "TestData"));
-        createCustomerIndividual();
-        PolicyType.HOME_CA_DP3.get().createPolicy(getStateTestData(testDataManager.policy.get(PolicyType.HOME_CA_DP3), "DataGather", "TestData"));
 
 		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
