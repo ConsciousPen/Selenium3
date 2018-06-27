@@ -12,3 +12,21 @@ VehicleTab_2018: {
     }
 }
 
+TestData_PPAandTrailer: {
+    VehicleTab: ['@VehicleTab_2018', '@VehicleTab_Trailer'],
+}
+
+VehicleTab_Trailer: {
+   Add Vehicle: Click,
+   Type: Trailer,
+   Trailer Type: Travel Trailer,
+   Usage: Traveling Primary Residence,
+   VIN: 1GNWGPFG8B65,
+   Year: 2018,
+   Other Make: BHN,
+   Other Model: 456,
+   Stat Code: Recreational Trailer,
+   Stated Amount: 55000
+    }
+
+

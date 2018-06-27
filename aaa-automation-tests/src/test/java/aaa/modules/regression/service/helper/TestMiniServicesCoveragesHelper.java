@@ -2608,6 +2608,111 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 	}
 
+	protected void pas14680_TrailersCoveragesThatDoNotApplyBody(PolicyType policyType) {
+		mainApp().open();
+		createCustomerIndividual();
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_PPAandTrailer").getTestDataList("VehicleTab")).resolveLinks();
+		policyType.get().createPolicy(testData);
+		//SearchPage.openPolicy("VASS952918642"); //TODO-mstrazds:remove line
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		//TODO-mstrazds:remove this block after development finished?
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+
+		PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber);
+
+		//TODO-mstrazds:validate that viewPolicyCoverages response contains only one instance of Policy level coverages (For policy)
+		assertThatOnlyOneInstanceOfPolicyLevelCoverages(policyCoverageResponse);
+
+		//TODO-mstrazds:validate that viewPolicyCoverages response contains only one instance of Policy level coverages (For endorsement)
+		PolicyCoverageInfo endorsementCoverageResponse = HelperCommon.viewEndorsementCoverages(policyNumber);
+		assertThatOnlyOneInstanceOfPolicyLevelCoverages(endorsementCoverageResponse);
+
+		// view vehicle to get OID
+		ViewVehicleResponse viewVehicleResponse = HelperCommon.viewPolicyVehicles(policyNumber);
+		String oid = viewVehicleResponse.vehicleList.get(1).oid;
+
+		//TODO-mstrazds: validate that viewPolicyCoveragesByVehicle response for Trailer contains all vehicle level coverages AND only comp and coll have CanChangecoverage = true AND CustomerDisplay = true (For policy)
+		PolicyCoverageInfo viewPolicyCoveragesByVehicleResponse = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, oid);
+		validateTrailerCoverages(viewPolicyCoveragesByVehicleResponse);
+		assertThatOnlyOneInstanceOfPolicyLevelCoverages(viewPolicyCoveragesByVehicleResponse);
+
+		//TODO-mstrazds: validate that viewEndorsementCoveragesByVehicle response for Trailer contains all vehicle level coverages AND only comp and coll have CanChangecoverage = true AND CustomerDisplay = true (For endorsement)
+		PolicyCoverageInfo viewEndorsementCoveragesByVehicleResponse = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, oid);
+		validateTrailerCoverages(viewEndorsementCoveragesByVehicleResponse);
+		assertThatOnlyOneInstanceOfPolicyLevelCoverages(viewEndorsementCoveragesByVehicleResponse);
+
+	}
+
+	private void assertThatOnlyOneInstanceOfPolicyLevelCoverages(PolicyCoverageInfo coverageResponse) {
+		assertSoftly(softly -> {
+			List<Coverage> filteredPolicyCoverageResponseBI = coverageResponse.policyCoverages.stream().filter(cov -> "BI".equals(cov.coverageCd)).collect(Collectors.toList());
+			softly.assertThat(filteredPolicyCoverageResponseBI.size()).isBetween(1, 2);//TODO-mstrazds:change to .isEqualTo(1) in all places
+
+			List<Coverage> filteredPolicyCoverageResponsePD = coverageResponse.policyCoverages.stream().filter(cov -> "PD".equals(cov.coverageCd)).collect(Collectors.toList());
+			softly.assertThat(filteredPolicyCoverageResponsePD.size()).isBetween(1, 2);
+
+			List<Coverage> filteredPolicyCoverageResponseUMBI = coverageResponse.policyCoverages.stream().filter(cov -> "UMBI".equals(cov.coverageCd)).collect(Collectors.toList());
+			softly.assertThat(filteredPolicyCoverageResponseUMBI.size()).isBetween(1, 2);
+
+			List<Coverage> filteredPolicyCoverageResponseUMPD = coverageResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.coverageCd)).collect(Collectors.toList());
+			softly.assertThat(filteredPolicyCoverageResponseUMPD.size()).isBetween(1, 2);
+
+			List<Coverage> filteredPolicyCoverageResponseMEDPM = coverageResponse.policyCoverages.stream().filter(cov -> "MEDPM".equals(cov.coverageCd)).collect(Collectors.toList());
+			softly.assertThat(filteredPolicyCoverageResponseMEDPM.size()).isBetween(1, 2);
+
+			List<Coverage> filteredPolicyCoverageResponseIL = coverageResponse.policyCoverages.stream().filter(cov -> "IL".equals(cov.coverageCd)).collect(Collectors.toList());
+			softly.assertThat(filteredPolicyCoverageResponseIL.size()).isBetween(1, 2);
+		});
+	}
+
+	private void validateTrailerCoverages(PolicyCoverageInfo viewPolicyCoveragesByVehicleResponse) {
+		assertSoftly(softly -> {
+			Coverage filteredPolicyCoverageResponseCOMPDED = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
+			softly.assertThat(filteredPolicyCoverageResponseCOMPDED.canChangeCoverage).isTrue();
+			softly.assertThat(filteredPolicyCoverageResponseCOMPDED.customerDisplayed).isTrue();
+
+			Coverage filteredPolicyCoverageResponseCOLLDED = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COLLDED".equals(cov.coverageCd)).findFirst().orElse(null);
+			softly.assertThat(filteredPolicyCoverageResponseCOLLDED.canChangeCoverage).isTrue();
+			softly.assertThat(filteredPolicyCoverageResponseCOLLDED.customerDisplayed).isTrue();//TODO-mstrazds:change to false for all other
+
+			Coverage filteredPolicyCoverageResponseGLASS = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "GLASS".equals(cov.coverageCd)).findFirst().orElse(null);
+			softly.assertThat(filteredPolicyCoverageResponseGLASS.canChangeCoverage).isTrue();
+			softly.assertThat(filteredPolicyCoverageResponseGLASS.customerDisplayed).isTrue();
+
+			Coverage filteredPolicyCoverageResponseLOAN = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "LOAN".equals(cov.coverageCd)).findFirst().orElse(null);
+			softly.assertThat(filteredPolicyCoverageResponseLOAN.canChangeCoverage).isFalse();
+			softly.assertThat(filteredPolicyCoverageResponseLOAN.customerDisplayed).isFalse();
+
+			Coverage filteredPolicyCoverageResponseRREIM = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "RREIM".equals(cov.coverageCd)).findFirst().orElse(null);
+			softly.assertThat(filteredPolicyCoverageResponseRREIM.canChangeCoverage).isTrue();
+			softly.assertThat(filteredPolicyCoverageResponseRREIM.customerDisplayed).isTrue();
+
+			Coverage filteredPolicyCoverageResponseTOWINGLABOR = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "TOWINGLABOR".equals(cov.coverageCd)).findFirst().orElse(null);
+			softly.assertThat(filteredPolicyCoverageResponseTOWINGLABOR.canChangeCoverage).isTrue();
+			softly.assertThat(filteredPolicyCoverageResponseTOWINGLABOR.customerDisplayed).isTrue();
+
+			Coverage filteredPolicyCoverageResponseSPECEQUIP = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "SPECEQUIP".equals(cov.coverageCd)).findFirst().orElse(null);
+			softly.assertThat(filteredPolicyCoverageResponseSPECEQUIP.canChangeCoverage).isTrue();
+			softly.assertThat(filteredPolicyCoverageResponseSPECEQUIP.customerDisplayed).isFalse();
+
+			Coverage filteredPolicyCoverageResponseNEWCAR = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "NEWCAR".equals(cov.coverageCd)).findFirst().orElse(null);
+			//softly.assertThat(filteredPolicyCoverageResponseNEWCAR.canChangeCoverage).isFalse();
+			softly.assertThat(filteredPolicyCoverageResponseNEWCAR.customerDisplayed).isFalse();
+
+			Coverage filteredPolicyCoverageResponseWL = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "WL".equals(cov.coverageCd)).findFirst().orElse(null);
+			//softly.assertThat(filteredPolicyCoverageResponseWL.canChangeCoverage).isFalse();
+			softly.assertThat(filteredPolicyCoverageResponseWL.customerDisplayed).isFalse();
+
+		});
+	}
+
 	private Dollar getCoverage(int index, String coverageCd, String... replacement) {
 		String coverage = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(index, coverageCd);
 		for (String replace : replacement) {
