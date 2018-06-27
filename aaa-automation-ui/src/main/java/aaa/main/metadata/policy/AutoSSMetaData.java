@@ -1081,10 +1081,6 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<ComboBox> REASON = declare("Reason", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> DO_NOT_RENEW_STATUS = declare("Do Not Renew Status", ComboBox.class);
 		public static final AssetDescriptor<TextBox> SUPPORTING_DATA = declare("Supporting Data", TextBox.class);
-		public static final AssetDescriptor<Table> TABLE_DRIVER_ACTIVITY = declare("Table Driver Activity",
-				Table.class, By.id("policyDataGatherForm:driverActivities"));
-		public static final AssetDescriptor<StaticElement> UNDERWRITING_GUIDELINES = declare("Underwriting Guidelines",
-				StaticElement.class, By.id("policyDataGatherForm:underwritingGuidelinesLabel"));
 	}
 
 	public static final class DeclineByCustomerActionTab extends MetaData {

@@ -184,7 +184,6 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
     public void testSC1_TC03(@Optional("") String state) {
         preconditions(NavigationEnum.AutoSSTab.DRIVER);
-        //driverTab.fillTab(getTestSpecificTD("TestData"));
 
         aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ADD_ACTIVITY).click();
         aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.TYPE).setValue("Principally At-Fault Accident");
@@ -212,7 +211,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
         DriverTab.tableActivityInformationList.isPresent();
 
         DriverTab.tableActivityInformationList.removeRow(1);
-        //DriverTab.tableActivityInformationList.verify.empty();
+        //#TODO [DriverTab.tableActivityInformationList.verify.empty();]
 
         Tab.buttonSaveAndExit.click();
     }
@@ -395,7 +394,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
 
         goddTab.verify
                 .documentsPresent(DocGenEnum.Documents.AA11CO, DocGenEnum.Documents.AA43CO, DocGenEnum.Documents.AAIQCO, DocGenEnum.Documents.AHFMXX, DocGenEnum.Documents.AU03, DocGenEnum.Documents.AA16CO, DocGenEnum.Documents.AADNCO);
-        //, DocGenEnum.Documents.AHAUXX
+        //#TODO: not presented DocGenEnum.Documents.AHAUXX
         goddTab.getDocumentsControl().getTable().getRow(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, DocGenEnum.Documents.AA43CO.getId())
                 .getCell(DocGenConstants.OnDemandDocumentsTable.SELECT).controls.checkBoxes.getFirst().verify.enabled(false);
         TestData td = DataProviderFactory.dataOf(AutoSSMetaData.GenerateOnDemandDocumentActionTab.DocumentsRow.FREE_FORM_TEXT.getLabel(), "Free Text");
@@ -415,7 +414,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
     public void testSC1_TC10(@Optional("") String state) {
         DocGenHelper
                 .verifyDocumentsGenerated(getQuoteNumber(), DocGenEnum.Documents.AA11CO, DocGenEnum.Documents.AAIQCO, DocGenEnum.Documents.AHFMXX, DocGenEnum.Documents.AU03, DocGenEnum.Documents.AA16CO, DocGenEnum.Documents.AADNCO);
-        //DocGenEnum.Documents.AHAUXX);
+        //#TODO: not presented DocGenEnum.Documents.AHAUXX);
     }
 
     /**
@@ -437,7 +436,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
         CustomSoftAssertions.assertSoftly(softly -> {
             softly.assertThat(driverForms.tableSelectedForms).hasMatchingRows(1, ImmutableMap.of("Name", "AA43CO 01 13", "Description", "Named Driver Exclusion Endorsement"));
             softly.assertThat(policyForms.tableSelectedForms).hasMatchingRows(1, ImmutableMap.of("Name", "AA16CO 08 09", "Description", "Medical Payments Rejection Coverage"));
-            //softly.assertThat(policyForms.tableSelectedForms).hasMatchingRows(1, ImmutableMap.of("Name", "AA52COA 07 06", "Description", "Rejection of Uninsured/Underinsured Motorists Coverage"));
+            //#TODO: another NAME displayed -  softly.assertThat(policyForms.tableSelectedForms).hasMatchingRows(1, ImmutableMap.of("Name", "AA52COA 07 06", "Description", "Rejection of Uninsured/Underinsured Motorists Coverage"));
         });
     }
 
@@ -510,6 +509,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
             }
         });
 
+        //#TODO: every doc need different data to fill
         /*for (Row row : table.getRows()) {
             if (row.getCell("Select").controls.checkBoxes.getFirst().isEnabled())
                 row.getCell("Select").controls.checkBoxes.getFirst().setValue(true);
@@ -562,11 +562,12 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
         policy.doNotRenew().start();
         doNotRenewActionTab.fillTab(getTestSpecificTD("TestData_TC20"));
         CustomSoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(doNotRenewActionTab.getAssetList().getAsset(AutoSSMetaData.DoNotRenewActionTab.TABLE_DRIVER_ACTIVITY).getHeader().getValue()).
+            softly.assertThat(doNotRenewActionTab.tableDriverActivities.getHeader().getValue()).
                     contains("Driver Name", "Accident/Violation Date", "Accident/Violation Description", "Acc/Loss Payment", "Source");
-            softly.assertThat(doNotRenewActionTab.getAssetList().getAsset(AutoSSMetaData.DoNotRenewActionTab.UNDERWRITING_GUIDELINES)).isPresent();
+            softly.assertThat(doNotRenewActionTab.underwritingGuidelines).isPresent();
         });
 
+        //#TODO: AJAX Loading error
         //Tab.buttonOk.click(Waiters.AJAX(60 * 1000));
         //CustomAssertions.assertThat(errorTab.tableErrors).hasMatchingRows(1, ImmutableMap.of("Message", "Please select the Driver Activity resulting in non-renewal of the policy."));
 
