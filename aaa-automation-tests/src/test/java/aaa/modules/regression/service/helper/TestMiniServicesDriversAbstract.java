@@ -250,10 +250,7 @@ public class TestMiniServicesDriversAbstract extends PolicyBaseTest {
 
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-		//Create pended endorsement
-		AAAEndorseResponse response = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		assertThat(response.policyNumber).isEqualTo(policyNumber);
-
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
 		AddDriverRequest addDriverRequest = new AddDriverRequest();
@@ -288,7 +285,7 @@ public class TestMiniServicesDriversAbstract extends PolicyBaseTest {
 
 		DriverTab.tableDriverList.selectRow(2);
 		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData
-				.DriverTab.DEFENSIVE_DRIVER_COURSE_COMPLETED).getValue().equals("No")).isTrue();
+				.DriverTab.DEFENSIVE_DRIVER_COURSE_COMPLETED).getValue()).isEqualTo("No");
 		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData
 				.DriverTab.OCCUPATION).getValue().equals("Employed")).isTrue();
 
