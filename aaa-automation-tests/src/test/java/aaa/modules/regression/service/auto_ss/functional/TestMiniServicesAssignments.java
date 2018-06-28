@@ -90,6 +90,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	public void pas13994_UpdateDriverAssignmentServiceRule2(@Optional("VA") String state) {
 
 		pas13994_UpdateDriverAssignmentServiceRule2Body1(getPolicyType());
+		pas13994_UpdateDriverAssignmentServiceRule2Body2(getPolicyType());
 	}
 
 	/**
