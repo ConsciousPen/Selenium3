@@ -2653,6 +2653,10 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	private void assertThatOnlyOneInstanceOfPolicyLevelCoverages(PolicyCoverageInfo coverageResponse) {
 		assertSoftly(softly -> {
+			//make sure that no coverages are missed //TODO-mstrazds:possibly needs to be removed
+			softly.assertThat(coverageResponse.policyCoverages.size()).isBetween(5, 7);
+			softly.assertThat(coverageResponse.policyCoverages.size()).isNotEqualTo(6);
+
 			List<Coverage> filteredPolicyCoverageResponseBI = coverageResponse.policyCoverages.stream().filter(cov -> "BI".equals(cov.coverageCd)).collect(Collectors.toList());
 			softly.assertThat(filteredPolicyCoverageResponseBI.size()).isBetween(1, 2);//TODO-mstrazds:change to .isEqualTo(1) in all places
 
