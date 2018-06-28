@@ -2662,14 +2662,24 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			List<Coverage> filteredPolicyCoverageResponseUMBI = coverageResponse.policyCoverages.stream().filter(cov -> "UMBI".equals(cov.coverageCd)).collect(Collectors.toList());
 			softly.assertThat(filteredPolicyCoverageResponseUMBI.size()).isBetween(1, 2);
 
+			List<Coverage> filteredPolicyCoverageResponseUIMBI = coverageResponse.policyCoverages.stream().filter(cov -> "UIMBI".equals(cov.coverageCd)).collect(Collectors.toList());
+			if (!filteredPolicyCoverageResponseUIMBI.isEmpty()) {
+				softly.assertThat(filteredPolicyCoverageResponseUIMBI.size()).isBetween(1, 2);
+			}
+
 			List<Coverage> filteredPolicyCoverageResponseUMPD = coverageResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.coverageCd)).collect(Collectors.toList());
-			softly.assertThat(filteredPolicyCoverageResponseUMPD.size()).isBetween(1, 2);
+			if (!filteredPolicyCoverageResponseUIMBI.isEmpty()) {
+				softly.assertThat(filteredPolicyCoverageResponseUMPD.size()).isBetween(1, 2);
+			}
 
 			List<Coverage> filteredPolicyCoverageResponseMEDPM = coverageResponse.policyCoverages.stream().filter(cov -> "MEDPM".equals(cov.coverageCd)).collect(Collectors.toList());
 			softly.assertThat(filteredPolicyCoverageResponseMEDPM.size()).isBetween(1, 2);
 
 			List<Coverage> filteredPolicyCoverageResponseIL = coverageResponse.policyCoverages.stream().filter(cov -> "IL".equals(cov.coverageCd)).collect(Collectors.toList());
-			softly.assertThat(filteredPolicyCoverageResponseIL.size()).isBetween(1, 2);
+			if (!filteredPolicyCoverageResponseUIMBI.isEmpty()) {
+				softly.assertThat(filteredPolicyCoverageResponseIL.size()).isBetween(1, 2);
+			}
+
 		});
 	}
 
