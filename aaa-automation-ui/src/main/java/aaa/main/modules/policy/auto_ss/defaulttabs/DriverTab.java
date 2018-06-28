@@ -20,11 +20,11 @@ import toolkit.webdriver.controls.Button;
  * LABEL>ActionTab (to prevent duplication). Modify this class if tab filling
  * procedure has to be customized, extra asset list to be added, custom testdata
  * key to be defined, etc.
- * 
+ *
  * @category Generated
  */
 public class DriverTab extends Tab {
-	
+
 	public static AdvancedTable tableDriverList = new AdvancedTable(By.id("policyDataGatherForm:dataGatherView_ListDriver"));
 	public static AdvancedTable tableActivityInformationList = new AdvancedTable(By.id("policyDataGatherForm:dataGatherView_ListDrivingRecord"));
 
@@ -46,14 +46,14 @@ public class DriverTab extends Tab {
 	public ActivityInformationMultiAssetList getActivityInformationAssetList() {
 		return getAssetList().getAsset(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), ActivityInformationMultiAssetList.class);
 	}
-   
+
 	@Override
 	public Tab submitTab() {
 		buttonNext.click();
 		return this;
 	}
 
-	public static void viewDriver(int index){
+	public static void viewDriver(int index) {
 		tableDriverList.selectRow(index);
 	}
 }
