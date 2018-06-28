@@ -22,7 +22,6 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversAbstract {
 		return PolicyType.AUTO_SS;
 	}
 
-
 	/**
 	 * @author Jovita Pukenaite
 	 * @name view Drivers service, check info.

@@ -287,7 +287,7 @@ public class TestMiniServicesDriversAbstract extends PolicyBaseTest {
 		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData
 				.DriverTab.DEFENSIVE_DRIVER_COURSE_COMPLETED).getValue()).isEqualTo("No");
 		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData
-				.DriverTab.OCCUPATION).getValue().equals("Employed")).isTrue();
+				.DriverTab.OCCUPATION).getValue()).isEqualTo("Employed");
 
 		driverTab.saveAndExit();
 
@@ -344,9 +344,9 @@ public class TestMiniServicesDriversAbstract extends PolicyBaseTest {
 		DriverTab.tableDriverList.selectRow(2);
 		assertThat(DriverTab.tableDriverList.getRow(2).getCell(2).getValue()).isEqualTo("Young");
 		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData
-				.DriverTab.DEFENSIVE_DRIVER_COURSE_COMPLETED).getValue().equals("No")).isTrue();
+				.DriverTab.DEFENSIVE_DRIVER_COURSE_COMPLETED).getValue()).isEqualTo("No");
 		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData
-				.DriverTab.AFFINITY_GROUP).getValue().equals("None")).isTrue();
+				.DriverTab.AFFINITY_GROUP).getValue()).isEqualTo("None");
 		driverTab.saveAndExit();
 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
@@ -374,10 +374,8 @@ public class TestMiniServicesDriversAbstract extends PolicyBaseTest {
 
 		DriversDto addDriverRequestService = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
 		String driverOid = addDriverRequestService.oid;
-		assertSoftly(softly -> {
-			softly.assertThat(addDriverRequestService.firstName).isEqualTo(addDriverRequest.firstName);
 
-		});
+		assertThat(addDriverRequestService.firstName).isEqualTo(addDriverRequest.firstName);
 
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -389,7 +387,7 @@ public class TestMiniServicesDriversAbstract extends PolicyBaseTest {
 
 		DriverTab.tableDriverList.selectRow(2);
 		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData
-				.DriverTab.OCCUPATION).getValue().equals("Employed")).isTrue();
+				.DriverTab.OCCUPATION).getValue()).isEqualTo("Employed");
 
 		driverTab.saveAndExit();
 
@@ -423,12 +421,12 @@ public class TestMiniServicesDriversAbstract extends PolicyBaseTest {
 		assertThat(DriverTab.tableDriverList.getRow(2).getCell(2).getValue()).isEqualTo("Young");
 		DriverTab.tableDriverList.selectRow(2);
 		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData
-				.DriverTab.SMART_DRIVER_COURSE_COMPLETED).getValue().equals("No")).isTrue();
+				.DriverTab.SMART_DRIVER_COURSE_COMPLETED).getValue()).isEqualTo("No");
 		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData
-				.DriverTab.AFFINITY_GROUP).getValue().equals("None")).isTrue().isTrue();
+				.DriverTab.AFFINITY_GROUP).getValue()).isEqualTo("None");
 
 		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData
-				.DriverTab.MOST_RECENT_GPA).getValue().equals("None")).isTrue().isTrue();
+				.DriverTab.MOST_RECENT_GPA).getValue()).isEqualTo("None");
 
 		driverTab.saveAndExit();
 
