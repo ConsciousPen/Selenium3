@@ -379,6 +379,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14680"})
 	public void pas14680_TrailersCoveragesThatDoNotApply(@Optional("") String state) {
 		pas14680_TrailersCoveragesThatDoNotApplyBody(getPolicyType());
+		//BUG:PAS-15952 Premium calculation fails if Trailer is added to Quote (Auto SS) (KS only)
 	}
 
 }
