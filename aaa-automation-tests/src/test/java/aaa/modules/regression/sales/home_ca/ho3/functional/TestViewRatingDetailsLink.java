@@ -21,8 +21,6 @@ public class TestViewRatingDetailsLink extends TestViewRatingDetailsLinkTemplate
         return PolicyType.HOME_CA_HO3;
     }
 
-    protected LocalDateTime policyExpirationDate;
-
     /**
      * @author Dakota Berg
      * @name View Rating Details Link Unavailable for CA HO policy in pending renewal status
