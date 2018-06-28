@@ -37,10 +37,10 @@ public class TestVINUpload extends TestVINUploadTemplate {
 
 	private static final String NEW_VIN = "AAANK3CC0F0455583"; // Refreshable_CA_SELECT
 	private static final String NEW_VIN2 = "BBBNK3CCXF0455583"; // New2VIN_CA_SELECT
-	private static final String NEW_VIN3 = "CCCNK3CC4F9455583"; // New6VIN_CA_SELECT // New3VIN_CA_SELECT
+	private static final String NEW_VIN_ADDED = "CCCNK3CC4F9455583"; // New6VIN_CA_SELECT // New3VIN_CA_SELECT
 	private static final String NEW_VIN4 = "DDDNK3CC3F9455583"; // New4VIN_CA_SELECT
 	private static final String NEW_VIN5 = "EEENK2CCXF9455583"; // New5VIN_CA_SELECT
-	private static final String NEW_VIN6 = "FFFNK2CC9F9455583";
+	private static final String NEW_VIN6 = "FFFNK2CC9F9455583"; // New Vin Added
 	private static final String NEW_VIN7 = "GGGNK2CC8F9455583"; // New7VIN_CA_SELECT
 	private static final String REFRESHABLE_VIN = "1HGEM215150028445";
 	private static final String HHHNK2CC7F9455583 = "HHHNK2CC7F9455583"; // New9VIN_CA_SELECT
@@ -81,22 +81,6 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	public void pas4253_restrictVehicleRefreshNB(@Optional("CA") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
 		pas4253_restrictVehicleRefreshNB(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN2.get()), NEW_VIN2);
-	}
-
-	/**
-	 * @author Lev Kazarnovskiy
-	 * PAS-527 Renewal Refresh -Add New VIN & Update Existing
-	 * PAS-1406 - Data Refresh
-	 * PAS-938 Throw Rerate Error if User Skips P&C Page after a quote is a day old
-	 *
-	 * See detailed steps in template file
-	 * {@link TestVINUploadTemplate#newVinAddedRenewal(String, String)}
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-527")
-	public void pas527_NewVinAddedRenewal(@Optional("") String state) {
-		newVinAddedRenewal(new VinUploadHelper(getPolicyType(),getState()).getSpecificUploadFile(VinUploadFileType.NEW_VIN3.get()), NEW_VIN3);
 	}
 
 	/**
@@ -304,7 +288,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 
 	@AfterClass(alwaysRun = true)
 	protected void vinTablesCleaner() {
-		List<String> listOfVinIds = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5, NEW_VIN6, NEW_VIN7, HHHNK2CC7F9455583);
+		List<String> listOfVinIds = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN_ADDED, NEW_VIN4, NEW_VIN5, NEW_VIN6, NEW_VIN7, HHHNK2CC7F9455583);
 		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinIds,DefaultVinVersions.DefaultVersions.CaliforniaSelect);
 
 		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_CAS);

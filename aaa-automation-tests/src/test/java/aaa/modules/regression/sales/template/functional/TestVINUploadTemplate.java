@@ -134,7 +134,6 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		// End PAS-2714 NB
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 
 		pas533_CommonChecks();
 	}
@@ -163,7 +162,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 	 * 9. Verify that VIN was uploaded and all fields are populated
 	 * @details
 	 */
-	protected void newVinAddedRenewal(String vinTableFile, String vinNumber) {
+	protected void  newVinAddedRenewal(String vinTableFile, String vinNumber) {
 
 		TestData testData = getNonExistingVehicleTestData(getPolicyTD(), vinNumber);
 
@@ -173,7 +172,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No");
 		vehicleTab.submitTab();
 		//Start PAS-938 - edited steps for CA products
-		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
+		//NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
 		policy.getDefaultView().fillFromTo(testData, AssignmentTab.class, PremiumAndCoveragesTab.class, true);
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
@@ -217,7 +216,6 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		//Go back to MainApp, find created policy, initiate Renewal, verify if VIN value is applied
 		createAndRateRenewal(policyNumber);
-		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 
 		pas533_CommonChecks();
 
@@ -488,6 +486,8 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 	}
 
 	private void pas533_CommonChecks() {
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
+
 		assertSoftly(softly -> {
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()).isPresent()).isEqualTo(false);
 			//PAS-6576 Update "individual VIN retrieval" logic to use ENTRY DATE and VALID

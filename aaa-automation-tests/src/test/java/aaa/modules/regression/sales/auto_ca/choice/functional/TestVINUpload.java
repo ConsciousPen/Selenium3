@@ -66,24 +66,6 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	 *
 	 * PAS-1406 Data Refresh
 	 * PAS-527 Renewal Refresh - Add New VIN & Update Existing
-	 * PAS-938 Throw Rerate Error if User Skips P&C Page after a quote is a day old
-	 * See detailed steps in template file
-	 * {@link TestVINUploadTemplate#newVinAddedRenewal(String, String)}
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-527")
-	public void pas527_NewVinAddedRenewal(@Optional("CA") String state) {
-		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
-
-		newVinAddedRenewal(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN2.get()), NEW_VIN2);
-	}
-
-	/**
-	 * @author Lev Kazarnovskiy
-	 *
-	 * PAS-1406 Data Refresh
-	 * PAS-527 Renewal Refresh - Add New VIN & Update Existing
 	 *
 	 * See detailed steps in template file
 	 * {@link TestVINUploadTemplate#updatedVinRenewal(String, String)}

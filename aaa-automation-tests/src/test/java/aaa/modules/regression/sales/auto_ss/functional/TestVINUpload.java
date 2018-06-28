@@ -23,8 +23,6 @@ import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.main.enums.DefaultVinVersions;
-import aaa.main.enums.ErrorEnum;
-import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
@@ -121,98 +119,6 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		// End PAS-2714 NB
 		// Covers 2716 NB vin refresh case.
 		vehicleTabChecks_527_533_2716();
-	}
-
-	/**
-	 * @author Lev Kazarnovskiy
-	 * <p>
-	 * PAS-527 Renewal Refresh -Add New VIN & Update Existing
-	 * PAS-1406 Data Refresh
-	 * PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
-	 * PAS-1487 No Match to Match but Year Doesn't Match
-	 * PAS-544 Activities and User Notes
-	 * PAS-6455 Make Entry Date Part of Key for VIN Table Upload
-	 * PAS-938 Throw Rerate Error if User Skips P&C Page after a day
-	 *
-	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
-	 * @scenario 0. Create customer
-	 * 1. Initiate Auto SS quote creation
-	 * 2. Go to the vehicle tab, fill info with not existing VIN, and calculate the premium
-	 * 3. Save and exit the quote, move system time by 2 days and retrieve the quote
-	 * 4. Attempt to bind without calculating premium; verify the Rerate Error message
-	 * 5. Continue to bind the quote
-	 * 6. On Administration tab in Admin upload Excel to add this VIN to the system
-	 * 7. Open application and policy
-	 * 8. Initiate Renewal for policy
-	 * 9. Verify that VIN was uploaded and all fields are populated
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-527,PAS-544,PAS-1406,PAS-1487,PAS-1551, PAS-938")
-	public void pas527_NewVinAddedRenewal(@Optional("") String state) {
-
-		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
-
-		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN2.get());
-
-		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN2);
-
-		createAndFillUpTo(testData, VehicleTab.class);
-
-		//Verify that VIN which will be uploaded is not exist yet in the system
-		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No");
-		vehicleTab.submitTab();
-
-		//start pas 938
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.buttonSaveAndExit.click();
-
-		//save quote number to open it later
-		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		log.info("Quote {} is successfully saved for further use", quoteNumber);
-
-		//Move system time by one day - The re-rate error message will only present itself if the quote is at least one day old
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
-
-		//Go back to MainApp, open quote, verify re-rate error message, calculate premium and verify if VIN value is applied
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		DocumentsAndBindTab.btnPurchase.click();
-
-		//Verify pas-938 'Rerate' Error message on error tab
-		ErrorTab errorTab = new ErrorTab();
-		assertThat(errorTab.tableErrors.getRowContains
-				(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_SS1801266BZWW.getMessage())).exists();
-
-		log.info("PAS-938 Rerate Error Verified as Present");
-		errorTab.cancel();
-
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
-
-		//end pas 938
-		policy.getDefaultView().fillFromTo(testData, FormsTab.class, PurchaseTab.class, true);
-		purchaseTab.submitTab();
-
-		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-
-		log.info("Policy {} is successfully saved for further use", policyNumber);
-		adminApp().open();
-		uploadToVINTableTab.uploadVinTable(vinTableFile);
-
-		//Go back to MainApp, find created policy, initiate Renewal, verify if VIN value is applied
-		createAndRateRenewal(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
-
-		vehicleTabChecks_527_533_2716();
-
-		VehicleTab.buttonSaveAndExit.click();
-
-    	//"PAS-544 - Activities and User Notes may be broken: VIN refresh record is missed in Activities and User Notes:"
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getColumn("Description").getValue()).contains("VIN data has been updated for the following vehicle(s): " + NEW_VIN2);
 	}
 
 	/**

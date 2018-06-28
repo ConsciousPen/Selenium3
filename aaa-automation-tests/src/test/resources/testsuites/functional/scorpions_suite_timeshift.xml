@@ -167,7 +167,6 @@
                     <include name="pas2716_AutomatedRenewal_ExpirationDate"/>
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus35"/>
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus45"/>
-                    <include name="pas527_NewVinAddedRenewal"/>
                     <include name="pas527_UpdatedVinRenewal"/>
                     <include name="pas11659_Renewal_VersionR46"/>
                     <include name="pas11659_Renewal_VersionR45"/>
@@ -199,7 +198,6 @@
                     <include name="pas2716_AutomatedRenewal_ExpirationDate"/>
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus35"/>
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus45"/>
-                    <include name="pas527_NewVinAddedRenewal"/>
                     <include name="pas527_UpdatedVinRenewal"/>
                 </methods>
             </class>
@@ -227,7 +225,7 @@
                     <include name="pas2716_AutomatedRenewal_ExpirationDate"/>
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus35"/>
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus45"/>
-                    <include name="pas527_NewVinAddedRenewal"/>
+
                     <include name="pas527_UpdatedVinRenewal"/>
                 </methods>
             </class>
