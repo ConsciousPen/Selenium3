@@ -67,10 +67,11 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994", "PAS-15529"})
 	public void pas13994_UpdateDriverAssignmentServiceRule1(@Optional("VA") String state) {
 
-		pas13994_UpdateDriverAssignmentServiceRule1Body(getPolicyType());
+		pas13994_UpdateDriverAssignmentServiceRule1Body1(getPolicyType());
+		pas15529_UpdateDriverAssignmentServiceRule1Body2(getPolicyType());
 	}
 
 	/**
@@ -86,7 +87,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994", "PAS-14699", "PAS-15529"})
 	public void pas13994_UpdateDriverAssignmentServiceRule2(@Optional("VA") String state) {
 
 		pas13994_UpdateDriverAssignmentServiceRule2Body1(getPolicyType());
@@ -107,10 +108,10 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994", "PAS-15529"})
 	public void pas13994_UpdateDriverAssignmentServiceRule3(@Optional("VA") String state) {
 
-	//	pas13994_UpdateDriverAssignmentServiceRule3Body(getPolicyType());
+		pas13994_UpdateDriverAssignmentServiceRule3Body(getPolicyType());
 	}
 
 	@Parameters({"state"})
