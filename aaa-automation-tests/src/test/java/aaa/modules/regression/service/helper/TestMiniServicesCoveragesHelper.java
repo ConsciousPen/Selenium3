@@ -2744,16 +2744,43 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			}
 
 			List<Coverage> filteredPolicyCoverageResponseUMPD = coverageResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.coverageCd)).collect(Collectors.toList());
-			if (!filteredPolicyCoverageResponseUIMBI.isEmpty()) {
+			if (!filteredPolicyCoverageResponseUMPD.isEmpty()) {
 				softly.assertThat(filteredPolicyCoverageResponseUMPD.size()).isBetween(1, 2);
 			}
 
 			List<Coverage> filteredPolicyCoverageResponseMEDPM = coverageResponse.policyCoverages.stream().filter(cov -> "MEDPM".equals(cov.coverageCd)).collect(Collectors.toList());
-			softly.assertThat(filteredPolicyCoverageResponseMEDPM.size()).isBetween(1, 2);
+			if (!filteredPolicyCoverageResponseMEDPM.isEmpty()) {
+				softly.assertThat(filteredPolicyCoverageResponseMEDPM.size()).isBetween(1, 2);
+			}
 
 			List<Coverage> filteredPolicyCoverageResponseIL = coverageResponse.policyCoverages.stream().filter(cov -> "IL".equals(cov.coverageCd)).collect(Collectors.toList());
-			if (!filteredPolicyCoverageResponseUIMBI.isEmpty()) {
+			if (!filteredPolicyCoverageResponseIL.isEmpty()) {
 				softly.assertThat(filteredPolicyCoverageResponseIL.size()).isBetween(1, 2);
+			}
+
+			List<Coverage> filteredPolicyCoverageResponsePIP = coverageResponse.policyCoverages.stream().filter(cov -> "PIP".equals(cov.coverageCd)).collect(Collectors.toList());
+			if (!filteredPolicyCoverageResponsePIP.isEmpty()) {
+				softly.assertThat(filteredPolicyCoverageResponsePIP.size()).isBetween(1, 2);
+			}
+
+			List<Coverage> filteredPolicyCoverageResponseUMSU = coverageResponse.policyCoverages.stream().filter(cov -> "Underinsured Motorist Stacked/Unstacked".equals(cov.coverageDescription)).collect(Collectors.toList());
+			if (!filteredPolicyCoverageResponseUMSU.isEmpty()) {
+				softly.assertThat(filteredPolicyCoverageResponseUMSU.size()).isBetween(1, 2);
+			}
+
+			List<Coverage> filteredPolicyCoverageResponseFPB = coverageResponse.policyCoverages.stream().filter(cov -> "First Party Benefits".equals(cov.coverageDescription)).collect(Collectors.toList());
+			if (!filteredPolicyCoverageResponseFPB.isEmpty()) {
+				softly.assertThat(filteredPolicyCoverageResponseFPB.size()).isBetween(1, 2);
+			}
+
+			List<Coverage> filteredPolicyCoverageResponseTH = coverageResponse.policyCoverages.stream().filter(cov -> "Tort Threshold".equals(cov.coverageDescription)).collect(Collectors.toList());
+			if (!filteredPolicyCoverageResponseTH.isEmpty()) {
+				softly.assertThat(filteredPolicyCoverageResponseTH.size()).isBetween(1, 2);
+			}
+
+			List<Coverage> filteredPolicyCoverageResponseRoWLB = coverageResponse.policyCoverages.stream().filter(cov -> "Rejection of Work Loss Benefit (Y/N)".equals(cov.coverageDescription)).collect(Collectors.toList());
+			if (!filteredPolicyCoverageResponseRoWLB.isEmpty()) {
+				softly.assertThat(filteredPolicyCoverageResponseRoWLB.size()).isBetween(1, 2);
 			}
 
 		});
