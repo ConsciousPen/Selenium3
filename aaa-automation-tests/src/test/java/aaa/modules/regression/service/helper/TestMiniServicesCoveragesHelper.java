@@ -14,12 +14,14 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 
 public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
@@ -2610,10 +2612,13 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas14680_TrailersCoveragesThatDoNotApplyBody(PolicyType policyType) {
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_PPAandTrailer").getTestDataList("VehicleTab"))
+				.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
+
 		mainApp().open();
 		createCustomerIndividual();
-		TestData td = getPolicyTD("DataGather", "TestData");
-		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_PPAandTrailer").getTestDataList("VehicleTab")).resolveLinks();
 		policyType.get().createPolicy(testData);
 		//SearchPage.openPolicy("VASS952918642"); //TODO-mstrazds:remove line
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
@@ -2653,79 +2658,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	private void assertThatOnlyOneInstanceOfPolicyLevelCoverages(PolicyCoverageInfo coverageResponse) {
 		assertSoftly(softly -> {
-			//make sure that no coverages are missed
-			switch (getState()) {//TODO-mstrazds: remove ||!!!!!!!
-				case "AZ":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();
-					break;
-				case "CO":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 4 || coverageResponse.policyCoverages.size() == 8).isTrue();
-					break;
-				case "CT":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();
-					break;
-				case "DC":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 9 || coverageResponse.policyCoverages.size() == 18).isTrue();
-					break;
-				case "MD":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 6 || coverageResponse.policyCoverages.size() == 12).isTrue();
-					break;
-				case "NJ":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();//TODO-mstrazds: yaml
-					break;
-				case "NV":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();
-					break;
-				case "WV":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 7 || coverageResponse.policyCoverages.size() == 14).isTrue();
-					break;
-				case "WY":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 4 || coverageResponse.policyCoverages.size() == 8).isTrue();
-					break;
-				case "DE":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 7 || coverageResponse.policyCoverages.size() == 14).isTrue();
-					break;
-				case "ID":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();
-					break;
-				case "IN":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 3 || coverageResponse.policyCoverages.size() == 7).isTrue();//TODO-mstrazds: 11 coverages rerun lcoally and check response!
-					break;
-				case "KS":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();//TODO-mstrazds: yaml
-					break;
-				case "KY":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 8 || coverageResponse.policyCoverages.size() == 16).isTrue();
-					break;
-				case "MT":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();
-					break;
-				case "NY":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();//TODO-mstrazds:
-					break;
-				case "OK":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 4 || coverageResponse.policyCoverages.size() == 8).isTrue();
-					break;
-				case "SD":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();
-					break;
-				case "VA":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 6 || coverageResponse.policyCoverages.size() == 12).isTrue();
-					break;
-				case "UT":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 7 || coverageResponse.policyCoverages.size() == 14).isTrue();
-					break;
-				case "OH":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();
-					break;
-				case "OR":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 6 || coverageResponse.policyCoverages.size() == 12).isTrue();
-					break;
-				case "PA":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 9 || coverageResponse.policyCoverages.size() == 18).isTrue();
-					break;
-				default:
-			}
+			//make sure that no Policy Level coverages are missed
+			validateCountOfPolicyLevelCoverages(coverageResponse, softly);
 
 			List<Coverage> filteredPolicyCoverageResponseBI = coverageResponse.policyCoverages.stream().filter(cov -> "BI".equals(cov.coverageCd)).collect(Collectors.toList());
 			softly.assertThat(filteredPolicyCoverageResponseBI.size()).isBetween(1, 2);//TODO-mstrazds:change to .isEqualTo(1) in all places
@@ -2733,8 +2667,10 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			List<Coverage> filteredPolicyCoverageResponsePD = coverageResponse.policyCoverages.stream().filter(cov -> "PD".equals(cov.coverageCd)).collect(Collectors.toList());
 			softly.assertThat(filteredPolicyCoverageResponsePD.size()).isBetween(1, 2);
 
-			List<Coverage> filteredPolicyCoverageResponseUMBI = coverageResponse.policyCoverages.stream().filter(cov -> "UMBI".equals(cov.coverageCd)).collect(Collectors.toList());
-			softly.assertThat(filteredPolicyCoverageResponseUMBI.size()).isBetween(1, 2);
+			if (!"NY".contains(getState())){
+				List<Coverage> filteredPolicyCoverageResponseUMBI = coverageResponse.policyCoverages.stream().filter(cov -> "UMBI".equals(cov.coverageCd)).collect(Collectors.toList());
+				softly.assertThat(filteredPolicyCoverageResponseUMBI.size()).isBetween(1, 2);
+			}
 
 			List<Coverage> filteredPolicyCoverageResponseUIMBI = coverageResponse.policyCoverages.stream().filter(cov -> "UIMBI".equals(cov.coverageCd)).collect(Collectors.toList());
 			if (!filteredPolicyCoverageResponseUIMBI.isEmpty()) {
@@ -2801,11 +2737,122 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				softly.assertThat(filteredPolicyCoverageResponsePIPD.size()).isBetween(1, 2);
 			}
 
+			List<Coverage> filteredPolicyCoverageResponseUMSUMny = coverageResponse.policyCoverages.stream().filter(cov -> "UM/SUM".equals(cov.coverageCd)).collect(Collectors.toList());
+			if ("NY".contains(getState())) {
+				softly.assertThat(filteredPolicyCoverageResponseUMSUMny.size()).isBetween(1, 2);
+			}
+
+			List<Coverage> filteredPolicyCoverageResponseSSLny = coverageResponse.policyCoverages.stream().filter(cov -> "Supplemental Spousal Liability".equals(cov.coverageDescription)).collect(Collectors.toList());
+			if ("NY".contains(getState())) {
+				softly.assertThat(filteredPolicyCoverageResponseSSLny.size()).isBetween(1, 2);
+			}
+
+			List<Coverage> filteredPolicyCoverageResponsePIPny = coverageResponse.policyCoverages.stream().filter(cov -> "Personal Injury Protection".equals(cov.coverageDescription)).collect(Collectors.toList());
+			if ("NY".contains(getState())) {
+				softly.assertThat(filteredPolicyCoverageResponsePIPny.size()).isBetween(1, 2);
+			}
+
+			List<Coverage> filteredPolicyCoverageResponseAPIPny = coverageResponse.policyCoverages.stream().filter(cov -> "APIP".equals(cov.coverageCd)).collect(Collectors.toList());
+			if ("NY".contains(getState())) {
+				softly.assertThat(filteredPolicyCoverageResponseAPIPny.size()).isBetween(1, 2);
+			}
+
+			List<Coverage> filteredPolicyCoverageResponseMEEny = coverageResponse.policyCoverages.stream().filter(cov -> "Medical Expense Elimination".equals(cov.coverageDescription)).collect(Collectors.toList());
+			if ("NY".contains(getState())) {
+				softly.assertThat(filteredPolicyCoverageResponseMEEny.size()).isBetween(1, 2);
+			}
+
+			List<Coverage> filteredPolicyCoverageResponseOBELny = coverageResponse.policyCoverages.stream().filter(cov -> "OBEL".equals(cov.coverageCd)).collect(Collectors.toList());
+			if ("NY".contains(getState())) {
+				softly.assertThat(filteredPolicyCoverageResponseOBELny.size()).isBetween(1, 2);
+			}
+
 		});
+	}
+
+	private void validateCountOfPolicyLevelCoverages(PolicyCoverageInfo coverageResponse, SoftAssertions softly) {
+		switch (getState()) {//TODO-mstrazds: remove ||!!!!!!!
+			case "AZ":
+				softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();
+				break;
+			case "CO":
+				softly.assertThat(coverageResponse.policyCoverages.size() == 4 || coverageResponse.policyCoverages.size() == 8).isTrue();
+				break;
+			case "CT":
+				softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();
+				break;
+			case "DC":
+				softly.assertThat(coverageResponse.policyCoverages.size() == 9 || coverageResponse.policyCoverages.size() == 18).isTrue();
+				break;
+			case "MD":
+				softly.assertThat(coverageResponse.policyCoverages.size() == 6 || coverageResponse.policyCoverages.size() == 12).isTrue();
+				break;
+			case "NJ":
+				softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();//TODO-mstrazds: yaml
+				break;
+			case "NV":
+				softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();
+				break;
+			case "WV":
+				softly.assertThat(coverageResponse.policyCoverages.size() == 7 || coverageResponse.policyCoverages.size() == 14).isTrue();
+				break;
+			case "WY":
+				softly.assertThat(coverageResponse.policyCoverages.size() == 4 || coverageResponse.policyCoverages.size() == 8).isTrue();
+				break;
+			case "DE":
+				softly.assertThat(coverageResponse.policyCoverages.size() == 7 || coverageResponse.policyCoverages.size() == 14).isTrue();
+				break;
+			case "ID":
+				softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();
+				break;
+			case "IN":
+				softly.assertThat(coverageResponse.policyCoverages.size() == 6 || coverageResponse.policyCoverages.size() == 11).isTrue();//TODO-mstrazds: 11 coverages rerun lcoally and check response!
+				break;
+			case "KS":
+				softly.assertThat(coverageResponse.policyCoverages.size() == 4 || coverageResponse.policyCoverages.size() == 8).isTrue();//TODO-mstrazds:rate defect with trailer
+				break;
+			case "KY":
+				softly.assertThat(coverageResponse.policyCoverages.size() == 8 || coverageResponse.policyCoverages.size() == 16).isTrue();
+				break;
+			case "MT":
+				softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();
+				break;
+			case "NY":
+				softly.assertThat(coverageResponse.policyCoverages.size() == 10 || coverageResponse.policyCoverages.size() == 19).isTrue();//TODO-mstrazds: one coverage is not duplicated
+				break;
+			case "OK":
+				softly.assertThat(coverageResponse.policyCoverages.size() == 4 || coverageResponse.policyCoverages.size() == 8).isTrue();
+				break;
+			case "SD":
+				softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();
+				break;
+			case "VA":
+				softly.assertThat(coverageResponse.policyCoverages.size() == 6 || coverageResponse.policyCoverages.size() == 12).isTrue();
+				break;
+			case "UT":
+				softly.assertThat(coverageResponse.policyCoverages.size() == 7 || coverageResponse.policyCoverages.size() == 14).isTrue();
+				break;
+			case "OH":
+				softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();
+				break;
+			case "OR":
+				softly.assertThat(coverageResponse.policyCoverages.size() == 6 || coverageResponse.policyCoverages.size() == 12).isTrue();
+				break;
+			case "PA":
+				softly.assertThat(coverageResponse.policyCoverages.size() == 9 || coverageResponse.policyCoverages.size() == 18).isTrue();
+				break;
+			default:
+		}
 	}
 
 	private void validateTrailerCoverages(PolicyCoverageInfo viewPolicyCoveragesByVehicleResponse) {
 		assertSoftly(softly -> {
+			//make sure that no Vehilce Level coverages are missed
+			if (!"KY".equals(getState())) {
+				softly.assertThat(viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.size() == 9).isTrue();
+			} else {
+				softly.assertThat(viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.size() == 8).isTrue();
+			}
 			Coverage filteredPolicyCoverageResponseCOMPDED = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
 			softly.assertThat(filteredPolicyCoverageResponseCOMPDED.canChangeCoverage).isTrue();
 			softly.assertThat(filteredPolicyCoverageResponseCOMPDED.customerDisplayed).isTrue();
@@ -2814,9 +2861,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(filteredPolicyCoverageResponseCOLLDED.canChangeCoverage).isTrue();
 			softly.assertThat(filteredPolicyCoverageResponseCOLLDED.customerDisplayed).isTrue();//TODO-mstrazds:change to false for all other
 
-
 			Coverage filteredPolicyCoverageResponseGLASS = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "GLASS".equals(cov.coverageCd)).findFirst().orElse(null);
-			if (!"KY".equals(getState())){
+			if (!"KY".equals(getState())) {
 				softly.assertThat(filteredPolicyCoverageResponseGLASS.canChangeCoverage).isTrue();
 				softly.assertThat(filteredPolicyCoverageResponseGLASS.customerDisplayed).isTrue();
 			}
