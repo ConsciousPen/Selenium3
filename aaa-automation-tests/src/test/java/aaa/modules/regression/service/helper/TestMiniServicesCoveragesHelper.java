@@ -2671,7 +2671,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 					softly.assertThat(coverageResponse.policyCoverages.size() == 6 || coverageResponse.policyCoverages.size() == 12).isTrue();
 					break;
 				case "NJ":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();//TODO-mstrazds:
+					softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();//TODO-mstrazds: yaml
 					break;
 				case "NV":
 					softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();
@@ -2689,10 +2689,10 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 					softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();
 					break;
 				case "IN":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 3 || coverageResponse.policyCoverages.size() == 7).isTrue();//TODO-mstrazds: 11 coverages
+					softly.assertThat(coverageResponse.policyCoverages.size() == 3 || coverageResponse.policyCoverages.size() == 7).isTrue();//TODO-mstrazds: 11 coverages rerun lcoally and check response!
 					break;
 				case "KS":
-					softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();//TODO-mstrazds:
+					softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();//TODO-mstrazds: yaml
 					break;
 				case "KY":
 					softly.assertThat(coverageResponse.policyCoverages.size() == 8 || coverageResponse.policyCoverages.size() == 16).isTrue();
@@ -2726,7 +2726,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 					break;
 				default:
 			}
-			
+
 			List<Coverage> filteredPolicyCoverageResponseBI = coverageResponse.policyCoverages.stream().filter(cov -> "BI".equals(cov.coverageCd)).collect(Collectors.toList());
 			softly.assertThat(filteredPolicyCoverageResponseBI.size()).isBetween(1, 2);//TODO-mstrazds:change to .isEqualTo(1) in all places
 
@@ -2761,6 +2761,21 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				softly.assertThat(filteredPolicyCoverageResponsePIP.size()).isBetween(1, 2);
 			}
 
+			List<Coverage> filteredPolicyCoverageResponseBPIP = coverageResponse.policyCoverages.stream().filter(cov -> "BPIP".equals(cov.coverageCd)).collect(Collectors.toList());
+			if (!filteredPolicyCoverageResponseBPIP.isEmpty()) {
+				softly.assertThat(filteredPolicyCoverageResponseBPIP.size()).isBetween(1, 2);
+			}
+
+			List<Coverage> filteredPolicyCoverageResponseADDPIP = coverageResponse.policyCoverages.stream().filter(cov -> "ADDPIP".equals(cov.coverageCd)).collect(Collectors.toList());
+			if (!filteredPolicyCoverageResponseADDPIP.isEmpty()) {
+				softly.assertThat(filteredPolicyCoverageResponseADDPIP.size()).isBetween(1, 2);
+			}
+
+			List<Coverage> filteredPolicyCoverageResponseGPIP = coverageResponse.policyCoverages.stream().filter(cov -> "GPIP".equals(cov.coverageCd)).collect(Collectors.toList());
+			if (!filteredPolicyCoverageResponseGPIP.isEmpty()) {
+				softly.assertThat(filteredPolicyCoverageResponseGPIP.size()).isBetween(1, 2);
+			}
+
 			List<Coverage> filteredPolicyCoverageResponseUMSU = coverageResponse.policyCoverages.stream().filter(cov -> "Underinsured Motorist Stacked/Unstacked".equals(cov.coverageDescription)).collect(Collectors.toList());
 			if (!filteredPolicyCoverageResponseUMSU.isEmpty()) {
 				softly.assertThat(filteredPolicyCoverageResponseUMSU.size()).isBetween(1, 2);
@@ -2781,6 +2796,11 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				softly.assertThat(filteredPolicyCoverageResponseRoWLB.size()).isBetween(1, 2);
 			}
 
+			List<Coverage> filteredPolicyCoverageResponsePIPD = coverageResponse.policyCoverages.stream().filter(cov -> "Personal Injury Protection Deductible".equals(cov.coverageDescription)).collect(Collectors.toList());
+			if (!filteredPolicyCoverageResponsePIPD.isEmpty()) {
+				softly.assertThat(filteredPolicyCoverageResponsePIPD.size()).isBetween(1, 2);
+			}
+
 		});
 	}
 
@@ -2794,9 +2814,12 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(filteredPolicyCoverageResponseCOLLDED.canChangeCoverage).isTrue();
 			softly.assertThat(filteredPolicyCoverageResponseCOLLDED.customerDisplayed).isTrue();//TODO-mstrazds:change to false for all other
 
+
 			Coverage filteredPolicyCoverageResponseGLASS = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "GLASS".equals(cov.coverageCd)).findFirst().orElse(null);
-			softly.assertThat(filteredPolicyCoverageResponseGLASS.canChangeCoverage).isTrue();
-			softly.assertThat(filteredPolicyCoverageResponseGLASS.customerDisplayed).isTrue();
+			if (!"KY".equals(getState())){
+				softly.assertThat(filteredPolicyCoverageResponseGLASS.canChangeCoverage).isTrue();
+				softly.assertThat(filteredPolicyCoverageResponseGLASS.customerDisplayed).isTrue();
+			}
 
 			Coverage filteredPolicyCoverageResponseLOAN = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "LOAN".equals(cov.coverageCd)).findFirst().orElse(null);
 			softly.assertThat(filteredPolicyCoverageResponseLOAN.canChangeCoverage).isFalse();
