@@ -287,5 +287,11 @@ PAS-15907:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload.pas2716_AutomatedRenewal_ExpirationDate]
       messages: ['OTHER]">','<"[TEST]"> but was:<"[OTHER]">','<[fals]e> but was:<[tru]e>','expected [true] but found [false]']
+    - tests: [aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload.pas2716_AutomatedRenewal_ExpirationDateMinus35]
+      messages: ['[true] but found [false]']
+    - tests: [aaa.modules.regression.sales.auto_ca.select.functional.TestVINUpload.pas2716_AutomatedRenewal_ExpirationDateMinus35]
+      messages: ['[true] but found [false]']
+    - tests: [aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload.pas2716_AutomatedRenewal_ExpirationDateMinus45]
+      messages: ['<"[Gt]"> but was:<"[OTHER]">']
     - tests: [aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload.pas527_UpdatedVinRenewal]
       messages: ['<"[TEST]"> but was:<"[CAMRY]">', '<"20[18]"> but was']

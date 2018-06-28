@@ -165,8 +165,6 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 	 */
 	protected void newVinAddedRenewal(String vinTableFile, String vinNumber) {
 
-		VinUploadHelper vinUploadHelper = new VinUploadHelper(getPolicyType(), getState());
-
 		TestData testData = getNonExistingVehicleTestData(getPolicyTD(), vinNumber);
 
 		createQuoteAndFillUpTo(testData, VehicleTab.class);
@@ -225,7 +223,9 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		VehicleTab.buttonSaveAndExit.click();
 
-		vinUploadHelper.verifyActivitiesAndUserNotes(vinNumber);
+		//"PAS-544 - Activities and User Notes may be broken: VIN refresh record is missed in Activities and User Notes:"
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getColumn("Description").getValue()).contains("VIN data has been updated for the following vehicle(s): " + vinNumber);
 	}
 
 	/**
@@ -247,8 +247,6 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 	 * @details
 	 */
 	protected void updatedVinRenewal(String vinTableFile, String vinNumber) {
-
-		VinUploadHelper vinUploadHelper = new VinUploadHelper(getPolicyType(), getState());
 
 		TestData testData = getPolicyTD()
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
@@ -308,7 +306,9 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		VehicleTab.buttonSaveAndExit.click();
 
-		vinUploadHelper.verifyActivitiesAndUserNotes(vinNumber);
+		//"PAS-544 - Activities and User Notes may be broken: VIN refresh record is missed in Activities and User Notes:"
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getColumn("Description").getValue()).contains("VIN data has been updated for the following vehicle(s): " + vinNumber);
 	}
 
 	/**

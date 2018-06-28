@@ -21,7 +21,7 @@ import toolkit.webdriver.controls.composite.assets.AssetList;
 
 public class UploadToVINTableTab extends DefaultTab {
 
-	protected static Logger log = LoggerFactory.getLogger(UploadToVINTableTab.class);
+	protected Logger log = LoggerFactory.getLogger(UploadToVINTableTab.class);
 
 	public UploadToVINTableTab() {
 		super(AdministrationMetaData.VinTableTab.class);

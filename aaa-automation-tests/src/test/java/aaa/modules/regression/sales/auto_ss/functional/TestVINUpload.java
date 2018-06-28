@@ -29,6 +29,7 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.helper.VinUploadCleanUpMethods;
 import aaa.modules.regression.sales.template.VinUploadAutoSSHelper;
@@ -209,7 +210,9 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		VehicleTab.buttonSaveAndExit.click();
 
-		vinMethods.verifyActivitiesAndUserNotes(NEW_VIN2);
+    	//"PAS-544 - Activities and User Notes may be broken: VIN refresh record is missed in Activities and User Notes:"
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getColumn("Description").getValue()).contains("VIN data has been updated for the following vehicle(s): " + NEW_VIN2);
 	}
 
 	/**
@@ -297,8 +300,10 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		VehicleTab.buttonSaveAndExit.click();
 
-		//method added for verification of PAS-544 - Activities and User Notes
-		vinMethods.verifyActivitiesAndUserNotes(REFRESHABLE_VIN);
+		//"PAS-544 - Activities and User Notes may be broken: VIN refresh record is missed in Activities and User Notes:"
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getColumn("Description").getValue()).contains("VIN data has been updated for the following vehicle(s): " + REFRESHABLE_VIN);
+
 	}
 
 	/**
