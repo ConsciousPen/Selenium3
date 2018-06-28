@@ -2613,10 +2613,18 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void pas14680_TrailersCoveragesThatDoNotApplyBody(PolicyType policyType) {
 		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData;
 		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
-		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_PPAandTrailer").getTestDataList("VehicleTab"))
-				.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
 
+		//adjust test data to override errors for NJ and NY
+		if ("NJ, NY".contains(getState())){
+			testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_PPAandTrailer").getTestDataList("VehicleTab"))
+					.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
+		}else{
+			testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_PPAandTrailer").getTestDataList("VehicleTab")).resolveLinks();
+		}
+
+//NJ, NY
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(testData);
