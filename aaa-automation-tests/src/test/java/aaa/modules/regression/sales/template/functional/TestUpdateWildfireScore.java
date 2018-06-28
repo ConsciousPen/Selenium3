@@ -2,6 +2,8 @@ package aaa.modules.regression.sales.template.functional;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
+import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
@@ -10,6 +12,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.TextBox;
@@ -50,15 +53,18 @@ public class TestUpdateWildfireScore extends PolicyBaseTest {
     public void pas12922_UpdateWildfireScoreNoPrivilegeEndorsement(PolicyType policyType) {
 
         // Create Test data for appropriate policy type. Mask is there because field is disabled for unprivileged user
-        TestData testData = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData")
-                .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), HomeSSMetaData.GeneralTab.PROPERTY_INSURANCE_BASE_DATE_WITH_CSAA_IG.getLabel()));
+        TestData testData = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData");
 
-        // Open App with unprivileged user. Create Customer. get Policy Type and initiate policy. Fill policy to PropertyInfo Tab.
-        loginA30();
+        // Open App. Create Customer. get Policy Type and initiate policy. Fill policy to PropertyInfo Tab.
+        mainApp().open();
         createCustomerIndividual();
         policyType.get().createPolicy(testData);
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
+        mainApp().close();
 
         // Endorse Policy. Assert that Wildfire Score is disabled. Save and Exit.
+        loginA30();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         policyType.get().endorse().perform(testDataManager.policy.get(policyType).getTestData("Endorsement", "TestData"));
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
         assertThat(wildfireScore).isDisabled();
@@ -202,15 +208,18 @@ public class TestUpdateWildfireScore extends PolicyBaseTest {
     public void pas12922_UpdateCAWildfireScoreNoPrivilegeEndorsement(PolicyType policyType) {
 
         // Create Test data for appropriate policy type. Mask is there because field is disabled for unprivileged user
-        TestData testData = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData")
-                .mask(TestData.makeKeyPath(aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class.getSimpleName(), HomeCaMetaData.GeneralTab.CurrentCarrier.class.getSimpleName(), HomeCaMetaData.GeneralTab.CurrentCarrier.BASE_DATE_WITH_AAA.getLabel()));
+        TestData testData = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData");
 
-        // Open App with unprivileged user. Create Customer. get Policy Type and initiate policy. Fill policy to PropertyInfo Tab.
-        loginA30();
+        // Open App. Create Customer. get Policy Type and initiate policy. Fill policy to PropertyInfo Tab.
+        mainApp().open();
         createCustomerIndividual();
         policyType.get().createPolicy(testData);
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
+        mainApp().close();
 
-        // Endorse Policy. Assert that Wildfire Score is disabled. Save and Exit.
+        // Log in with unprivileged user. Endorse Policy. Assert that Wildfire Score is disabled. Save and Exit.
+        loginA30();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         policyType.get().endorse().perform(testDataManager.policy.get(policyType).getTestData("Endorsement", "TestData"));
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
         assertThat(wildfireScoreCA).isDisabled();
