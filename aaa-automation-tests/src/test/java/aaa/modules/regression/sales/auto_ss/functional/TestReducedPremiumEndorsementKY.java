@@ -10,7 +10,6 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
-import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
@@ -45,7 +44,7 @@ public class TestReducedPremiumEndorsementKY extends AutoSSBaseTest {
      * 5. Create an endorsement
      * 5.1 Remove one of the vehicles
      * 5.2 Lower the Collision Deductible on the Premium and Coverages tab
-     * 5.3 Bind the endorsement
+     * 5.3 Calculate the premium then bind the endorsement
      * @details
      */
     @Parameters({"state"})
