@@ -34,8 +34,20 @@ import java.util.List;
 @StateList(states = Constants.States.KY)
 public class TestPremiumBearingEndorsement extends AutoSSBaseTest {
 
-    private LocalDateTime dd1;
-
+    /**
+     * @author Dakota Berg
+     * @name Agent cannot bind endorsement due to error message: "Cannot transfer payment"
+     * @scenario
+     * 1. Create a KY Auto SS policy with two (2) vehicles and monthly installments
+     * 2. Set the system date to the first installment due date and run the 'aaaBillingInvoiceAsyncJob'
+     * 3. Accept the minimum due payment for the first installment
+     * 4. Decline the payment
+     * 5. Create an endorsement
+     * 5.1 Remove one of the vehicles
+     * 5.2 Lower the Collision Deductible on the Premium and Coverages tab
+     * 5.3 Bind the endorsement
+     * @details
+     */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-5260")
@@ -53,7 +65,7 @@ public class TestPremiumBearingEndorsement extends AutoSSBaseTest {
         String policyNumber = PolicySummaryPage.getPolicyNumber();
 
         //Change the VDM date to the next bill due date and generate billing invoice
-        dd1 = PolicySummaryPage.getEffectiveDate().plusMonths(1);
+        LocalDateTime dd1 = PolicySummaryPage.getEffectiveDate().plusMonths(1);
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dd1));
         JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 

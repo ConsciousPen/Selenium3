@@ -55,7 +55,8 @@ public class TestViewRatingDetailsLinkTemplate extends PolicyBaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 
-     //   assertThat(PremiumsAndCoveragesQuoteTab.linkViewRatingDetails.isEnabled());
+        assertThat(PremiumsAndCoveragesQuoteTab.linkViewRatingDetails.isEnabled());
+        PremiumsAndCoveragesQuoteTab.linkViewRatingDetails.click();
 
     }
 }
