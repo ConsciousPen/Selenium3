@@ -144,9 +144,35 @@
     <test name="Test Premium Bearing Endorsement RP for KY" parallel="methods" thread-count="1024">
         <parameter name="state" value="KY"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPremiumBearingEndorsement">
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestReducedPremiumEndorsementKY">
                 <methods>
                     <include name="pas5260_testEndorsementRPBind"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test View Rating Details Link" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestViewRatingDetailsLink">
+                <methods>
+                    <include name="pas8871_testViewRatingDetailsLink_DP3"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestViewRatingDetailsLink">
+                <methods>
+                    <include name="pas8871_testViewRatingDetailsLink_HO3"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestViewRatingDetailsLink">
+                <methods>
+                    <include name="pas8871_testViewRatingDetailsLink_HO4"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestViewRatingDetailsLink">
+                <methods>
+                    <include name="pas8871_testViewRatingDetailsLink_HO6"/>
                 </methods>
             </class>
         </classes>

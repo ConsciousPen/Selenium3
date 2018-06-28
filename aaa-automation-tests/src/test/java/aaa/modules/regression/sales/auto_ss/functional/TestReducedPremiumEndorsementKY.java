@@ -32,7 +32,7 @@ import java.util.List;
 
 
 @StateList(states = Constants.States.KY)
-public class TestPremiumBearingEndorsement extends AutoSSBaseTest {
+public class TestReducedPremiumEndorsementKY extends AutoSSBaseTest {
 
     /**
      * @author Dakota Berg

@@ -23,6 +23,20 @@ public class TestViewRatingDetailsLink extends TestViewRatingDetailsLinkTemplate
 
     protected LocalDateTime policyExpirationDate;
 
+    /**
+     * @author Dakota Berg
+     * @name View Rating Details Link Unavailable for CA HO policy in pending renewal status
+     * @scenario
+     * 1. Create a policy
+     * 2. Set the system date to R - 35
+     * 3. Run jobs: 'renewalOfferGenerationPart1' and 'renewalOfferGenerationPart2'
+     * 4. Create a renewal
+     * 5. Pay the minimum due payment for the renewal
+     * 6. Select the pending policy
+     * 7. Go to the Premium and Coverages tab and verify that the View Rating Details Link is enabled
+     * @details
+     */
+
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-8871")
