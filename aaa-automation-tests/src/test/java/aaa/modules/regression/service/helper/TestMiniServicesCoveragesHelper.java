@@ -2726,9 +2726,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 					break;
 				default:
 			}
-			softly.assertThat(coverageResponse.policyCoverages.size()).isBetween(5, 12);
-			softly.assertThat(coverageResponse.policyCoverages.size()).isNotEqualTo(6);
-
+			
 			List<Coverage> filteredPolicyCoverageResponseBI = coverageResponse.policyCoverages.stream().filter(cov -> "BI".equals(cov.coverageCd)).collect(Collectors.toList());
 			softly.assertThat(filteredPolicyCoverageResponseBI.size()).isBetween(1, 2);//TODO-mstrazds:change to .isEqualTo(1) in all places
 
