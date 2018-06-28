@@ -101,7 +101,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * 2. Hit view driver assignment service. Get all info.
 	 * 3. Add one more vehicle V3.
 	 * 4. Hit view vehicle service, get all info.
-	 * 4. Hit DA update service:
+	 * 4. Hit DA update service with these changes, and always check the r:
 	 * a) V3-->D1 (V1-->D2, V2-->D3,D4, V3-->D1)
 	 * b) V2-->D2 (V1-->D2, V2-->D3,D4,D2 V3-->D1)
 	 * c) V2-->D1 (V1-->Unn, V2-->D3,D4,D2,D1 V3-->Unn)
