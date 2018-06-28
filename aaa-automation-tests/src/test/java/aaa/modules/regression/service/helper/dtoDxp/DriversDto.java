@@ -80,7 +80,7 @@ public class DriversDto implements RestBodyRequest {
 	public Integer ageFirstLicensed;
 
 	@ApiModelProperty(value = "Driving license info", dataType = "com.eisgroup.aaa.policy.services.dto.DrivingLicense")
-	public DrivingLicense driverLicense;
+	public DrivingLicense drivingLicense;
 
 	@JsonProperty("occupationTypeCd")
 	public String occupationTypeCd;

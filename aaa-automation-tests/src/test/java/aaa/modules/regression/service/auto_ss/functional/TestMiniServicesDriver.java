@@ -117,7 +117,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversAbstract {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-477"})
-	public void pas477_UpdateDrivers(@Optional("AZ") String state) {
+	public void pas477_UpdateDrivers(@Optional("DC") String state) {
 
 		pas477_UpdateDriversBody(getPolicyType());
 	}
