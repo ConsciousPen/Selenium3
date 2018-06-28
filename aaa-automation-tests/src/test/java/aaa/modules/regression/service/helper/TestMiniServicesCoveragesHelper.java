@@ -2618,9 +2618,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
 
 		mainApp().open();
-//		createCustomerIndividual();
-//		policyType.get().createPolicy(testData);
-		SearchPage.openPolicy("NYSS952918778"); //TODO-mstrazds:remove line
+		createCustomerIndividual();
+		policyType.get().createPolicy(testData);
+		//SearchPage.openPolicy("NYSS952918778"); //TODO-mstrazds:remove line
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
