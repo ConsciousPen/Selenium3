@@ -2797,7 +2797,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				softly.assertThat(coverageResponse.policyCoverages.size() == 6 || coverageResponse.policyCoverages.size() == 12).isTrue();
 				break;
 			case "NJ":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();//TODO-mstrazds: yaml
+				softly.assertThat(coverageResponse.policyCoverages.size() == 12 || coverageResponse.policyCoverages.size() == 24).isTrue();//TODO-mstrazds: yaml
 				break;
 			case "NV":
 				softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();
@@ -2815,7 +2815,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				softly.assertThat(coverageResponse.policyCoverages.size() == 5 || coverageResponse.policyCoverages.size() == 10).isTrue();
 				break;
 			case "IN":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 6 || coverageResponse.policyCoverages.size() == 11).isTrue();//TODO-mstrazds: 11 coverages rerun lcoally and check response!
+				softly.assertThat(coverageResponse.policyCoverages.size() == 6 || coverageResponse.policyCoverages.size() == 11).isTrue();//TODO-mstrazds: 11 coverages rerun lcoally and check response! set to 6 at the end
 				break;
 			case "KS":
 				softly.assertThat(coverageResponse.policyCoverages.size() == 4 || coverageResponse.policyCoverages.size() == 8).isTrue();//TODO-mstrazds:rate defect with trailer
