@@ -5,7 +5,7 @@
 		<browserProfile>googlechrome</browserProfile>
 		<useXpathLibrary>true</useXpathLibrary>
 		<allowNativeXPath>true</allowNativeXPath>
-		<browserLifetime>0</browserLifetime>
+		<browserLifetime>1</browserLifetime>
 		<timeout>200000</timeout>
 		<capability name="unexpectedAlertBehaviour">ignore</capability>
 	</properties>
