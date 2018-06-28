@@ -1,6 +1,5 @@
 package aaa.helpers.mock.model.membership;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -8,11 +7,13 @@ import org.apache.commons.lang.StringUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.mock.model.AbstractMock;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
-import toolkit.exceptions.IstfException;
 
 public class RetrieveMembershipSummaryMock extends AbstractMock {
 	@ExcelTransient
-	private static final Double AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE = 99.9;
+	public static final Double AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE = 99.9;
+
+	@ExcelTransient
+	public static final String FILE_NAME = "RetrieveMembershipSummaryMockData.xls";
 
 	private List<MembershipRequest> membershipRequests;
 	private List<MembershipResponse> membershipResponses;
@@ -33,10 +34,6 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 		this.membershipResponses = new ArrayList<>(membershipResponses);
 	}
 
-	public List<String> getMembershipRequestNumbers() {
-		return getMembershipRequests().stream().map(MembershipRequest::getMembershipNumber).collect(Collectors.toList());
-	}
-
 	public Set<String> getActiveAndPrimaryMembershipNumbersWithoutFaultCodes() {
 		Set<String> membershipNembers = new HashSet<>();
 		for (MembershipRequest request : getMembershipRequests()) {
@@ -48,8 +45,20 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 				membershipNembers.add(request.getMembershipNumber());
 			}
 		}
-		assertThat(membershipNembers).as("There is no active and primary membership numbers without fault codes").isNotEmpty();
 		return membershipNembers;
+	}
+
+	@Override
+	public String getFileName() {
+		return FILE_NAME;
+	}
+
+	@Override
+	public String toString() {
+		return "RetrieveMembershipSummaryMock{" +
+				"membershipRequests=" + membershipRequests +
+				", membershipResponses=" + membershipResponses +
+				'}';
 	}
 
 	public String getMembershipNumber(LocalDate policyEffectiveDate, Integer memberPersistency) {
@@ -58,16 +67,14 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 
 	public String getMembershipNumberForAvgAnnualERSperMember(LocalDate policyEffectiveDate, Integer memberPersistency, Double avgAnnualERSperMember) {
 		Set<String> membershipNumbersSet = getActiveAndPrimaryMembershipNumbers(policyEffectiveDate.minusYears(memberPersistency));
-		assertThat(membershipNumbersSet).as("No active and primary membership numbers were found for policyEffectiveDate=%1$s and memberPersistency=%2$s", policyEffectiveDate, memberPersistency)
-				.isNotEmpty();
+		if (!membershipNumbersSet.isEmpty()) {
+			if (avgAnnualERSperMember.equals(AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE)) {
+				return membershipNumbersSet.stream().findFirst().get();
+			}
 
-		if (avgAnnualERSperMember.equals(AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE)) {
-			return membershipNumbersSet.stream().findFirst().get();
+			return getMembershipNumberForAvgAnnualERSperMember(membershipNumbersSet, policyEffectiveDate, avgAnnualERSperMember);
 		}
-		String membershipNumber = getMembershipNumberForAvgAnnualERSperMember(membershipNumbersSet, policyEffectiveDate, avgAnnualERSperMember);
-		assertThat(membershipNumber).as("No valid membership number was found for effectiveDate=%1$s, memberPersistency=%2$s and avgAnnualERSperMember=%3$s fields",
-				policyEffectiveDate, memberPersistency, avgAnnualERSperMember).isNotNull();
-		return membershipNumber;
+		return null;
 	}
 
 	public Set<String> getActiveAndPrimaryMembershipNumbers(LocalDate memberSinceDate) {
@@ -100,11 +107,6 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 	public List<MembershipResponse> getMembershipResponses(String membershipRequestNumber) {
 		String membershipRequestId = getMembershipRequests().stream().filter(m -> Objects.equals(m.getMembershipNumber(), membershipRequestNumber)).map(MembershipRequest::getId).findFirst().get();
 		return getMembershipResponses().stream().filter(m -> Objects.equals(m.getId(), membershipRequestId)).collect(Collectors.toList());
-	}
-
-	public String getMembershipRequestNumber(String id) {
-		return getMembershipRequests().stream().filter(m -> m.getId().equals(id)).findFirst()
-				.orElseThrow(() -> new IstfException("There is no request membership number with id=" + id)).getMembershipNumber();
 	}
 
 	private String getMembershipNumberForAvgAnnualERSperMember(Set<String> membershipNumbers, LocalDate policyEffectiveDate, Double avgAnnualERSperMember) {
