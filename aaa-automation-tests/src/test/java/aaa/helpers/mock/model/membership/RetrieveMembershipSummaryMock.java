@@ -51,7 +51,7 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 		assertThat(membershipNembers).as("There is no active and primary membership numbers without fault codes").isNotEmpty();
 		return membershipNembers;
 	}
-	
+
 	public String getMembershipNumber(LocalDate policyEffectiveDate, Integer memberPersistency) {
 		return getMembershipNumberForAvgAnnualERSperMember(policyEffectiveDate, memberPersistency, AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE);
 	}

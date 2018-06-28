@@ -1133,7 +1133,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			createCustomerIndividual();
 			customer.initiateRenewalEntry().perform(getPolicyTD("InitiateRenewalEntry", "TestData"), effDate);
 			policy.getDefaultView().fill(getPolicyTD("Conversion", "TestData"));
-			String policyNum = PolicySummaryPage.linkPolicy.getValue();
+			Tab.buttonBack.click();
+			String policyNum = PolicySummaryPage.getPolicyNumber();
 			SearchPage.openPolicy(policyNum);
 			new ProductRenewalsVerifier().setStatus(PREMIUM_CALCULATED).verify(1);
 
