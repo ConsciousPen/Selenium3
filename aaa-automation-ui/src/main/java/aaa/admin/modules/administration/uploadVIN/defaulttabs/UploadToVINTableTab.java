@@ -49,6 +49,7 @@ public class UploadToVINTableTab extends DefaultTab {
 	}
 
 	public void uploadControlTable(String fileName) {
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION).setValue(true);
 		uploadFile(fileName);
 	}
