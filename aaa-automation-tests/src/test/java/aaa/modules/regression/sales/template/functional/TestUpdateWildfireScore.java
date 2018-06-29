@@ -235,7 +235,7 @@ public class TestUpdateWildfireScore extends PolicyBaseTest {
         mainApp().open();
         createCustomerIndividual();
         policyType.get().initiate();
-        policyType.get().getDefaultView().fillUpTo(testData, ReportsTab.class, true);
+        policyType.get().getDefaultView().fillUpTo(testData, aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab.class, true);
         String wildfireScoreValue = reportsTabCA.tblFirelineReport.getRow(1).getCell(HomeCaMetaData.ReportsTab.FirelineReportTblHeaders.WILDFIRE_SCORE.get()).getValue();
         reportsTabCA.submitTab();
         propertyInfoTabCA.fillTab(testData);
