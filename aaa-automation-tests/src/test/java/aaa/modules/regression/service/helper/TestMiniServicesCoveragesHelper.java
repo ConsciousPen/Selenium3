@@ -2637,9 +2637,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
-		PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber);
-
 		//validate that viewPolicyCoverages response contains only one instance of Policy level coverages (For policy)
+		PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber);
 		assertThatOnlyOneInstanceOfPolicyLevelCoverages(policyCoverageResponse);
 
 		//validate that viewPolicyCoverages response contains only one instance of Policy level coverages (For endorsement)
