@@ -400,6 +400,8 @@
                 <methods>
                     <include name="pas12175_RemoveReplaceAllVehiclesBody"/>
                     <include name="pas12175_RemoveReplaceWaiveLiabilityBody"/>
+                    <include name="pas13920_ReplaceVehicleKeepAssignmentsOneDriver"/>
+                    <include name="pas13920_ReplaceVehicleDontKeepAssignmentsOneDriver"/>
                 </methods>
             </class>
         </classes>

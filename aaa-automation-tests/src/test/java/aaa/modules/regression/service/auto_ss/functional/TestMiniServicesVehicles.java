@@ -401,6 +401,22 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 		pas13920_ReplaceVehicleKeepAssignmentsNoCoveragesBody(state);
 	}
 
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
+	public void pas13920_ReplaceVehicleKeepAssignmentsOneDriver(@Optional("VA") String state) {
+
+		pas13920_ReplaceVehicleKeepAssignmentsOneDriverBody(state, true);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
+	public void pas13920_ReplaceVehicleDontKeepAssignmentsOneDriver(@Optional("VA") String state) {
+
+		pas13920_ReplaceVehicleKeepAssignmentsOneDriverBody(state, false);
+	}
+
 	//TODO delete the test
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
