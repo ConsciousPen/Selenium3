@@ -463,20 +463,20 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		assertThat(responseViewDriver.driverList.stream().filter(driver -> originalDriver.equals(driver.oid)).findFirst().orElse(null)).isNotNull();
 
 		//View driver assignment if VA
-//		if ("VA, NY, CA".contains(state)) {
-//			DriverAssignment[] responseDriverAssignment = HelperCommon.viewEndorsementAssignments(policyNumber);
-//			softly.assertThat(responseDriverAssignment[0].vehicleOid).isNotEmpty();
-//			softly.assertThat(responseDriverAssignment[0].driverOid).isNotEmpty();
-//			softly.assertThat(responseDriverAssignment[0].relationshipType).isEqualTo("primary");
-//
-//			softly.assertThat(responseDriverAssignment[1].vehicleOid).isNotEmpty();
-//			softly.assertThat(responseDriverAssignment[1].driverOid).isNotEmpty();
-//			softly.assertThat(responseDriverAssignment[1].relationshipType).isEqualTo("occasional");
-//		} else {
-//			ErrorResponseDto responseDriverAssignment = HelperCommon.viewEndorsementAssignmentsError(policyNumber, 422);
-//			softly.assertThat(responseDriverAssignment.errorCode).isEqualTo(ErrorDxpEnum.Errors.OPERATION_NOT_APPLICABLE_FOR_THE_STATE.getCode());
-//			softly.assertThat(responseDriverAssignment.message).isEqualTo(ErrorDxpEnum.Errors.OPERATION_NOT_APPLICABLE_FOR_THE_STATE.getMessage());
-//		}
+		if ("VA, NY, CA".contains(state)) {
+			ViewDriverAssignmentResponse responseDriverAssignment = HelperCommon.viewEndorsementAssignments(policyNumber);
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(0).vehicleOid).isNotEmpty();
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(0).driverOid).isNotEmpty();
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(0).relationshipType).isEqualTo("primary");
+
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(1).vehicleOid).isNotEmpty();
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(1).driverOid).isNotEmpty();
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(1).relationshipType).isEqualTo("occasional");
+		} else {
+			ErrorResponseDto responseDriverAssignment = HelperCommon.viewEndorsementAssignmentsError(policyNumber, 422);
+			softly.assertThat(responseDriverAssignment.errorCode).isEqualTo(ErrorDxpEnum.Errors.OPERATION_NOT_APPLICABLE_FOR_THE_STATE.getCode());
+			softly.assertThat(responseDriverAssignment.message).isEqualTo(ErrorDxpEnum.Errors.OPERATION_NOT_APPLICABLE_FOR_THE_STATE.getMessage());
+		}
 
 		//update coverages
 		String compDedCovCd = "COMPDED";
