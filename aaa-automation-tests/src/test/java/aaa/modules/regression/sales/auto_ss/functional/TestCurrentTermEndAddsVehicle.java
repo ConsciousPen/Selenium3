@@ -11,17 +11,11 @@ import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.DatabaseCleanHelper;
-import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
-import aaa.main.enums.DefaultVinVersions;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import aaa.modules.policy.PolicyBaseTest;
-import aaa.modules.regression.sales.helper.VinUploadCleanUpMethods;
-import aaa.modules.regression.sales.template.VinUploadAutoSSHelper;
-import aaa.soap.aaaCSPolicyRate.com.exigenservices.Policy;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
@@ -35,13 +29,7 @@ import toolkit.verification.ETCSCoreSoftAssertions;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.MAKE;
-import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.MODEL;
-import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.YEAR;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestCurrentTermEndAddsVehicle extends AutoSSBaseTest {
 
@@ -55,7 +43,7 @@ public class TestCurrentTermEndAddsVehicle extends AutoSSBaseTest {
     private static final String VEHICLE1_VIN = "KNDJT2A2XA7038383";
     private static final String VEHICLE2_VIN = "JT2AE91A7M3425407";
     private static final String VEHICLE3_VIN = "1FTRE1421YHA89455";
-    private static final String VEHICLE2_UPDATED_VIN = "2GTEC19V531282646";
+    private static final String VEHICLE1_UPDATED_VIN = "2GTEC19V531282646";
     private static final String SYMBOL_2000 = "SYMBOL_2000";
     private static final String SYMBOL_2018 = "SYMBOL_2018";
     private TestData testDataThreeVehicles;
@@ -85,7 +73,7 @@ public class TestCurrentTermEndAddsVehicle extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14532")
-    public void pas14532_refreshForCurrentAndRenewalTermsSecondVinNotMatched(@Optional("AZ") String state) {
+    public void pas14532_refreshForCurrentAndRenewalTermsVinNotMatched(@Optional("AZ") String state) {
         pas14532_refreshForCurrentAndRenewalTerms(state,"NOT_MATCHED");
     }
 
@@ -93,7 +81,7 @@ public class TestCurrentTermEndAddsVehicle extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14532")
-    public void pas14532_refreshForCurrentAndRenewalTermsSecondVinMatched(@Optional("AZ") String state) {
+    public void pas14532_refreshForCurrentAndRenewalTermsVinMatched(@Optional("AZ") String state) {
         pas14532_refreshForCurrentAndRenewalTerms(state,"MATCHED");
     }
 
@@ -162,7 +150,7 @@ public class TestCurrentTermEndAddsVehicle extends AutoSSBaseTest {
 //        The third Vehicle - displayed new data according to version;
         ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 
-        if(scenario.equals("NOT_MATCHED")) { //scenario 1
+        if(scenario.equals("NOT_MATCHED")) { //scenario 1 blocked by defect PAS-15964 (Ajax error)
 
         } else if(scenario.equals("MATCHED")) { //scenario 2
             PolicySummaryPage.buttonRenewalQuoteVersion.click();
@@ -187,6 +175,7 @@ public class TestCurrentTermEndAddsVehicle extends AutoSSBaseTest {
     public TestData getTestDataWithTwoVehicles(TestData testData) {
         TestData firstVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
                 .adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), VEHICLE1_VIN);
+       // TestData secondVehicle = null;
 
         TestData secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
                 .adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), VEHICLE2_VIN);
@@ -201,25 +190,27 @@ public class TestCurrentTermEndAddsVehicle extends AutoSSBaseTest {
                 .adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks();
     }
 
-    //FOR ENDORSEMENT - UPDATE SECOND VEHICLE AND ADD THIRD
+    //FOR ENDORSEMENT - UPDATE first VEHICLE AND ADD THIRD
       public TestData getTestDataWithThreeVehicles(TestData testData2, String scenario) {
         TestData firstVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
                     .adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), VEHICLE1_VIN);
-          TestData updateSecondVehicle = null;
+          TestData secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
+                  .adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), VEHICLE2_VIN);
+          TestData thirdVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
+                  .adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), VEHICLE3_VIN);
+
+          TestData updateFirstVehicle = null;
           if(scenario.equals("NOT_MATCHED")) { //scenario 1
-                updateSecondVehicle = modifyVehicleTabNonExistingVin(getPolicyTD()).getTestData("VehicleTab");
+              updateFirstVehicle = modifyVehicleTabNonExistingVin(getPolicyTD()).getTestData("VehicleTab");
           } else if(scenario.equals("MATCHED")) { //scenario 2
-                updateSecondVehicle = modifyVehicleTabWithExistingVin(getPolicyTD()).getTestData("VehicleTab");
+              updateFirstVehicle = modifyVehicleTabWithExistingVin(getPolicyTD()).getTestData("VehicleTab");
           } else if(scenario.equals("STUB")) { //scenario 3
             //TODO - to be added later
           }
-          TestData thirdVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
-                    .adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), VEHICLE3_VIN);
-
         // Build Vehicle Tab old version vin + updated vehicle
         List<TestData> testDataVehicleTab = new ArrayList<>();
-            testDataVehicleTab.add(firstVehicle);
-            testDataVehicleTab.add(updateSecondVehicle);
+            testDataVehicleTab.add(updateFirstVehicle);
+            testDataVehicleTab.add(secondVehicle);
             testDataVehicleTab.add(thirdVehicle);
 
         // add 2 vehicles
@@ -230,7 +221,7 @@ public class TestCurrentTermEndAddsVehicle extends AutoSSBaseTest {
     //Update vehicle 2 with VIN matched
     public TestData modifyVehicleTabWithExistingVin(TestData testData){
         testData
-                .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), VEHICLE2_UPDATED_VIN);
+                .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), VEHICLE1_UPDATED_VIN);
         return testData;
     }
 

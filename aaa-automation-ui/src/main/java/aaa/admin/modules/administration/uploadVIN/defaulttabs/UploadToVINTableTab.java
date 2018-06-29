@@ -52,6 +52,7 @@ public class UploadToVINTableTab extends DefaultTab {
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION).setValue(true);
 		uploadFile(fileName);
+		log.info("\n\nFile {} was uploaded\n\n", fileName);
 	}
 
 	/**
@@ -62,19 +63,24 @@ public class UploadToVINTableTab extends DefaultTab {
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION).setValue(true);
 		uploadFile(vinTableFileName);
+		log.info("\n\nFile {} was uploaded\n\n", vinTableFileName);
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		CacheManager.getToCacheManagerTab();
 		List<String> cacheName = Arrays.asList(CacheManagerEnums.CacheNameEnum.BASE_LOOKUP_CACHE.get(), CacheManagerEnums.CacheNameEnum.LOOKUP_CACHE.get(), CacheManagerEnums.CacheNameEnum.VEHICLE_VIN_REF_CACHE.get());
 		for (String cache : cacheName) {
 			CacheManager.clearFromCacheManagerTable(cache);
 		}
-		log.info("\n\nFile {} was uploaded\n\n", vinTableFileName);
 	}
 
 	private void uploadFile(String fileName) {
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(DEFAULT_PATH + fileName));
 		buttonUpload.click();
 
-		long timeoutInSeconds = 10;
+		long timeoutInSeconds = 60;
 		long timeout = System.currentTimeMillis() + timeoutInSeconds * 1000;
 
 		while (timeout > System.currentTimeMillis()) {
