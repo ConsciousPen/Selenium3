@@ -4,10 +4,7 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 import toolkit.exceptions.IstfException;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -79,6 +76,14 @@ public class BindHelper {
 		}
 	}
 
+	public static Object getInstance(Class<?> clazz) {
+		try {
+			return clazz.getConstructor().newInstance();
+		} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+			throw new IstfException(String.format("Failed to create instance of \"%s\" class.", clazz.getName()), e);
+		}
+	}
+
 	//TODO-dchubkov: add getInt(), getLong(), etc... methods
 	public static Object getFieldValue(Field field, Object classInstance) {
 		if (!field.isAccessible()) {
@@ -117,6 +122,9 @@ public class BindHelper {
 	}
 
 	public static List<?> getValueAsList(Object value) {
+		if (value == null) {
+			return null;
+		}
 		if (List.class.isAssignableFrom(value.getClass())) {
 			return (List<?>) value;
 		}
