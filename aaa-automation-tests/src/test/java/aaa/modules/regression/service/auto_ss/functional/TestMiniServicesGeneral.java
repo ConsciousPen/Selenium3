@@ -62,7 +62,7 @@ public class TestMiniServicesGeneral extends TestMiniServicesGeneralHelper {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12407"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12407", "PAS-15058"})
 	public void pas12407_BigMetaDataService(@Optional("VA") String state) {
 		pas12407_bigDataService();
 	}

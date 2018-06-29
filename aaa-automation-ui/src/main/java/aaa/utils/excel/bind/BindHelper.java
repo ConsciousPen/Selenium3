@@ -1,14 +1,13 @@
 package aaa.utils.excel.bind;
 
-import aaa.utils.excel.bind.annotation.ExcelTableElement;
-import aaa.utils.excel.bind.annotation.ExcelTransient;
-import toolkit.exceptions.IstfException;
-
 import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTransient;
+import toolkit.exceptions.IstfException;
 
 public class BindHelper {
 	public static List<Field> getAllAccessibleFields(Class<?> tableClass, boolean onlyTables) {

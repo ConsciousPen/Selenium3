@@ -67,6 +67,7 @@ public class HelperCommon {
 
 	private static final String DXP_POLICIES_DRIVERS = "/api/v1/policies/%s/drivers";
 	private static final String DXP_POLICIES_ENDORSEMENT_DRIVERS = "/api/v1/policies/%s/endorsement/drivers";
+	private static final String DXP_POLICIES_UPDATE_DRIVERS = "/api/v1/policies/%s/endorsement/drivers/%s";
 
 	private static final String DXP_POLICIES_POLICY_COVERAGES = "/api/v1/policies/%s/coverages";
 	private static final String DXP_POLICIES_ENDORSEMENT_COVERAGES = "/api/v1/policies/%s/endorsement/coverages";
@@ -240,6 +241,11 @@ public class HelperCommon {
 	public static DriversDto executeEndorsementAddDriver(String policyNumber, AddDriverRequest request) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS, policyNumber));
 		return runJsonRequestPostDxp(requestUrl, request, DriversDto.class, 201);
+	}
+
+	public static DriverWithRuleSets updateDriver(String policyNumber, String oid, UpdateDriverRequest request) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_UPDATE_DRIVERS, policyNumber, oid));
+		return runJsonRequestPatchDxp(requestUrl, request, DriverWithRuleSets.class);
 	}
 
 	public static DriverAssignmentDto[] viewEndorsementAssignments(String policyNumber) {
@@ -507,7 +513,7 @@ public class HelperCommon {
 
 			String token = getBearerToken();
 
-			response =  client.target(url)
+			response = client.target(url)
 					.request()
 					.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
 					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)

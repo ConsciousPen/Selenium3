@@ -15,7 +15,6 @@ import aaa.modules.regression.service.helper.dtoDxp.*;
 public class HelperMiniServices extends PolicyBaseTest {
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 
-
 	void createEndorsementWithCheck(String policyNumber) {
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		AAAEndorseResponse response = HelperCommon.createEndorsement(policyNumber, endorsementDate);

@@ -104,7 +104,7 @@ public class MembershipRequest {
 	public int hashCode() {
 		return Objects.hash(getId(), getMembershipNumber(), getUserId(), getTransactionType(), getApplication(), getSubSystem(), getAddress(), getCorrelationId());
 	}
-	
+
 	@Override
 	public String toString() {
 		return "MembershipRequest{" +
