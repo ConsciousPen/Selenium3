@@ -1989,7 +1989,6 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		policy.createPolicy(testData);
-		//SearchPage.openPolicy("VASS952918539");
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		String vehicleVinPpa1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN");
@@ -2004,38 +2003,38 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			String vehiclePpa2Oid = viewPolicyVehicleResponse1.vehicleList.stream().filter(vehicle -> vehicleVinPpa2.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null).oid;
 			String vehicleMotorOid = viewPolicyVehicleResponse1.vehicleList.stream().filter(vehicle -> vehicleVinMotor.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null).oid;
 
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse1, vehiclePpa1Oid)).contains("Remove, Replace");
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse1, vehiclePpa2Oid)).contains("Remove, Replace");
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse1, vehicleConvOid)).contains("Remove");
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse1, vehicleMotorOid)).contains("Remove");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse1, vehiclePpa1Oid)).isEqualTo("[replace, remove]");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse1, vehiclePpa2Oid)).isEqualTo("[replace, remove]");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse1, vehicleConvOid)).isEqualTo("[remove]");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse1, vehicleMotorOid)).isEqualTo("[remove]");
 
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 			ViewVehicleResponse viewEndorsementVehicleResponse1 = HelperCommon.viewEndorsementVehicles(policyNumber);
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse1, vehiclePpa1Oid)).contains("Remove, Replace");
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse1, vehiclePpa2Oid)).contains("Remove, Replace");
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse1, vehicleConvOid)).contains("Remove");
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse1, vehicleMotorOid)).contains("Remove");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse1, vehiclePpa1Oid)).isEqualTo("[replace, remove]");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse1, vehiclePpa2Oid)).isEqualTo("[replace, remove]");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse1, vehicleConvOid)).isEqualTo("[remove]");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse1, vehicleMotorOid)).isEqualTo("[remove]");
 
 			VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, vehiclePpa1Oid);
 
 			ViewVehicleResponse viewEndorsementVehicleResponse2 = HelperCommon.viewEndorsementVehicles(policyNumber);
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse2, vehiclePpa1Oid)).contains("");
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse2, vehiclePpa2Oid)).contains("Replace");
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse2, vehicleConvOid)).contains("Remove");
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse2, vehicleMotorOid)).contains("Remove");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse2, vehiclePpa1Oid)).isEqualTo("");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse2, vehiclePpa2Oid)).isEqualTo("[replace]");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse2, vehicleConvOid)).isEqualTo("[remove]");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse2, vehicleMotorOid)).isEqualTo("[remove]");
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 			ViewVehicleResponse viewPolicyVehicleResponse2 = HelperCommon.viewPolicyVehicles(policyNumber);
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse2, vehiclePpa2Oid)).contains("Replace");
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse2, vehicleConvOid)).contains("Remove");
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse2, vehicleMotorOid)).contains("Remove");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse2, vehiclePpa2Oid)).isEqualTo("[replace]");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse2, vehicleConvOid)).isEqualTo("[remove]");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse2, vehicleMotorOid)).isEqualTo("[remove]");
 
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 			String newVehicleOid = addVehicleWithChecks(policyNumber, "2013-02-22", "1FADP3J2XJL222680", true);
 			ViewVehicleResponse viewEndorsementVehicleResponse3 = HelperCommon.viewEndorsementVehicles(policyNumber);
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, vehiclePpa2Oid)).contains("Remove", "Replace");
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, newVehicleOid)).contains("");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, vehiclePpa2Oid)).isEqualTo("[replace, remove]");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, newVehicleOid)).isEqualTo("[replace, remove]");
 		});
 	}
 
@@ -2049,13 +2048,9 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 				.resolveLinks();
 
 		mainApp().open();
-/*		createCustomerIndividual();
-		policy.createPolicy(testData);*/
-/*		SearchPage.openQuote("QVASS952918560");
-		policy.dataGather().start();
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.fillTab(td);*/
-		SearchPage.openPolicy("VASS952918560");
+		createCustomerIndividual();
+		policy.createPolicy(testData);
+
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		String vehicleVinPpa1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN");
@@ -2066,32 +2061,36 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			String vehiclePpa1Oid = viewPolicyVehicleResponse1.vehicleList.stream().filter(vehicle -> vehicleVinPpa1.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null).oid;
 			String vehicleWlOid = viewPolicyVehicleResponse1.vehicleList.stream().filter(vehicle -> vehicleVinWl.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null).oid;
 
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse1, vehiclePpa1Oid)).contains("Replace");
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse1, vehicleWlOid)).contains("Remove");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse1, vehiclePpa1Oid)).isEqualTo("[replace, remove]");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse1, vehicleWlOid)).isEqualTo("[remove]");
 
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 			ViewVehicleResponse viewEndorsementVehicleResponse1 = HelperCommon.viewEndorsementVehicles(policyNumber);
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse1, vehiclePpa1Oid)).contains("Replace");
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse1, vehicleWlOid)).contains("Remove");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse1, vehiclePpa1Oid)).isEqualTo("[replace, remove]");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse1, vehicleWlOid)).isEqualTo("[remove]");
 
 			String newVehicleOid = addVehicleWithChecks(policyNumber, "2013-02-22", "1HGEM21504L055795", true);
 			ViewVehicleResponse viewEndorsementVehicleResponse3 = HelperCommon.viewEndorsementVehicles(policyNumber);
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, vehiclePpa1Oid)).contains("Remove, Replace");
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, vehicleWlOid)).contains("Remove");
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, newVehicleOid)).contains("");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, vehiclePpa1Oid)).isEqualTo("[replace, remove]");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, vehicleWlOid)).isEqualTo("[remove]");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, newVehicleOid)).isEqualTo("[replace, remove]");
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 
 			ViewVehicleResponse viewPolicyVehicleResponse2 = HelperCommon.viewPolicyVehicles(policyNumber);
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse2, vehiclePpa1Oid)).contains("Remove, Replace");
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse2, vehicleWlOid)).contains("Remove");
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse2, newVehicleOid)).contains("Remove, Replace");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse2, vehiclePpa1Oid)).isEqualTo("[replace, remove]");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse2, vehicleWlOid)).isEqualTo("[remove]");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewPolicyVehicleResponse2, newVehicleOid)).isEqualTo("[replace, remove]");
 		});
 	}
 
 	private String checkAvailableActionsByVehicleOid(ViewVehicleResponse viewVehicleResponse, String vehiclePpa1Oid) {
-		return viewVehicleResponse.vehicleList.stream().filter(vehicle -> vehiclePpa1Oid.equals(vehicle.oid)).findFirst().orElse(null).availableActions.toString();
+		String availableActions = "";
+		if(!"pendingRemoval".equals(viewVehicleResponse.vehicleList.stream().filter(vehicle -> vehiclePpa1Oid.equals(vehicle.oid)).findFirst().orElse(null).vehicleStatus)) {
+			availableActions = viewVehicleResponse.vehicleList.stream().filter(vehicle -> vehiclePpa1Oid.equals(vehicle.oid)).findFirst().orElse(null).availableActions.toString();
+		}
+		return availableActions;
 	}
 
 	private String addVehicleWithChecks(String policyNumber, String purchaseDate, String vin, boolean allowedToAddVehicle) {

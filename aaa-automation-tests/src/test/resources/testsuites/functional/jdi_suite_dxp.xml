@@ -393,4 +393,15 @@
             </class>
         </classes>
     </test>
+    <test name="Replace vehiclesVA">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas12175_RemoveReplaceAllVehiclesBody"/>
+                    <include name="pas12175_RemoveReplaceWaiveLiabilityBody"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
