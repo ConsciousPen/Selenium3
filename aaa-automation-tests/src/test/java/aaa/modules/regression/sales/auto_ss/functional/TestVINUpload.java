@@ -50,6 +50,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	private static final String NEW_VIN4 = "DDDKN3DD8E0344466";
 	private static final String NEW_VIN5 = "EEEKN3DD7E0344466";
 	private static final String NEW_VIN6 = "FFFKN3DD6E0344466";
+	private static final String SUBSEQUENT_RENEWAL_45 = "ZZZKN3DD3E0344466";
+	private static final String SUBSEQUENT_RENEWAL_46 = "YYYKN3DD4E0344466";
 	private static final String NEW_VIN7 = "GGGKN3DD5E0344466";
 	private static final String NEW_VIN8 = "HHHKN3DD4E0344466";
 	private static final String REFRESHABLE_VIN = "1HGEM215X50028445";
@@ -439,8 +441,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN6);
-		String pas2716VinTableFileName = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN6.get());
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), SUBSEQUENT_RENEWAL_45);
+		String pas2716VinTableFileName = vinMethods.getSpecificUploadFile(VinUploadFileType.SUBSEQUENT_RENEWAL_45.get());
 		/*
 		 * Automated Renewal R-45
 		 */
@@ -451,7 +453,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		adminApp().open();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		uploadToVINTableTab.uploadVinTable( pas2716VinTableFileName);
-		verifyAutomatedRenewal(NEW_VIN6, policyNumber, policyExpirationDate.minusDays(45));
+		verifyAutomatedRenewal(SUBSEQUENT_RENEWAL_45, policyNumber, policyExpirationDate.minusDays(45));
 	}
 
 	/**
@@ -468,12 +470,12 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11659")
-	public void pas11659_Renewal_VersionR46(@Optional("") String state) {
+	public void pas11659_Renewal_VersionR46(@Optional("UT") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN);
-		String uploadExcelR45 = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get());
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), SUBSEQUENT_RENEWAL_46);
+		String uploadExcelR45 = vinMethods.getSpecificUploadFile(VinUploadFileType.SUBSEQUENT_RENEWAL_46.get());
 
 		//1. Create a policy with VIN matched data and save the expiration data
 		String policyNumber = createPreconds(testData);
