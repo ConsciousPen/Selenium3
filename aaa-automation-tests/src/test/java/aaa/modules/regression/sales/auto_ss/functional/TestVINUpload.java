@@ -52,7 +52,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	private static final String NEW_VIN6 = "FFFKN3DD6E0344466";
 	private static final String NEW_VIN7 = "GGGKN3DD5E0344466";
 	private static final String NEW_VIN8 = "HHHKN3DD4E0344466";
-	private static final String REFRESHABLE_VIN = "1HGEM215140028445";
+	private static final String REFRESHABLE_VIN = "1HGEM215X50028445";
 
 	@Override
 	protected PolicyType getPolicyType() {
