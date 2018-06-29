@@ -369,9 +369,36 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
-	public void pas13920_ReplaceVehicleVehicle(@Optional("VA") String state) {
+	public void pas13920_ReplaceVehicleKeepAssignmentsKeepCoverages(@Optional("VA") String state) {
 
-		pas13920_ReplaceVehicle(state);
+		pas13920_ReplaceVehicleKeepAssignmentsKeepCoveragesBody(state);
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Check Vehicle coverages after replacing the vehicle
+	 * @scenario 1.Create a policy with 1 leased vehicle, 1 New Car coverage
+	 * 2.Check coverages
+	 * 3.Start an endorsement, Replace vehicles
+	 * 4.check coverages:
+	 * loan/lease coverage = No Coverage, not shown, cant edit
+	 * new car coverage = No Coverage, not shown, cant edit
+	 * the rest coverages are not changed
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
+	public void pas13920_ReplaceVehicleNoAssignmentsKeepCoverages(@Optional("VA") String state) {
+
+		pas13920_ReplaceVehicleNoAssignmentsKeepCoveragesBody(state);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
+	public void pas13920_ReplaceVehicleKeepAssignmentsNoCoverages(@Optional("VA") String state) {
+
+		pas13920_ReplaceVehicleKeepAssignmentsNoCoveragesBody(state);
 	}
 
 	//TODO delete the test

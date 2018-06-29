@@ -20,7 +20,7 @@ public class DetailedVehicleCoveragesRepeatAssetList extends RepeatAssetList {
 	public static final String VEHICLE_COVERAGE = "Vehicle Coverage";
 
 	private static final ByT VEHICLE_COMMON_LOCATOR = ByT.id("policyDataGatherForm:vehicle_detail_%1$s");
-	private static final ByT WAIVE_LIABILITY_COMMON_LOCATOR = ByT.id("policyDataGatherForm:vehicle_detail_%1$s:0");//0:j_id_1_27_4j_1_o_2_d_6_1_policyDataGatherForm:vehicle_detail_%1$s:1_aq_5k
+	private static final ByT WAIVE_LIABILITY_COMMON_LOCATOR = ByT.id("policyDataGatherForm:vehicle_detail_%1$s:0");
 	private static final ByT VEHICLE_COVERAGE_COMMON_LOCATOR = ByT.id("policyDataGatherForm:subtotalVehiclePremium_%1$s");
 
 	public DetailedVehicleCoveragesRepeatAssetList(BaseElement<?, ?> parent, Class<? extends MetaData> metaDataClass) {

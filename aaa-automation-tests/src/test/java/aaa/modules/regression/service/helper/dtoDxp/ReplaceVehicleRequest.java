@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 public class ReplaceVehicleRequest implements RestBodyRequest {
 
     @ApiModelProperty(value = "Added Vehicle object")
-    public Vehicle addedVehicle;
+    public Vehicle vehicleToBeAdded;
 
     @ApiModelProperty(value = "Keep driver assignments?", example = "true")
     public boolean keepAssignments;

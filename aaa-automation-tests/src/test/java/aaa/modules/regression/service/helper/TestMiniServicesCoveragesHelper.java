@@ -2625,7 +2625,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		return coverage;
 	}
 
-	void coverageComparisonByCoverageCd(PolicyCoverageInfo response1, PolicyCoverageInfo response2, String coverageCd) {
+	void vehicleCoverageComparisonByCoverageCd(PolicyCoverageInfo response1, PolicyCoverageInfo response2, String coverageCd) {
 		assertSoftly(softly -> {
 			Coverage coverageResponse1 = getVehicleCoverageDetails(response1, coverageCd);
 			Coverage coverageResponse2 = getVehicleCoverageDetails(response2, coverageCd);
@@ -2639,7 +2639,23 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		});
 	}
 
-	 void policyCoverageComparisonByCoverageCd(PolicyCoverageInfo response1, PolicyCoverageInfo response2, String coverageCd) {
+	void vehicleCoverageComparisonByCoverageCdNotEqual(PolicyCoverageInfo response1, PolicyCoverageInfo response2, String coverageCd) {
+		assertSoftly(softly -> {
+			Coverage coverageResponse1 = getVehicleCoverageDetails(response1, coverageCd);
+			Coverage coverageResponse2 = getVehicleCoverageDetails(response2, coverageCd);
+			softly.assertThat(coverageResponse1.coverageCd).isEqualTo(coverageResponse2.coverageCd);
+			softly.assertThat(coverageResponse1.coverageDescription).isEqualTo(coverageResponse2.coverageDescription);
+			softly.assertThat(coverageResponse1.coverageLimit).isNotEqualTo(coverageResponse2.coverageLimit);
+			if (!"SPECEQUIP".equals(coverageCd)) {
+				softly.assertThat(coverageResponse1.coverageLimitDisplay).isNotEqualTo(coverageResponse2.coverageLimitDisplay);
+			}
+			softly.assertThat(coverageResponse1.coverageType).isEqualTo(coverageResponse2.coverageType);
+			softly.assertThat(coverageResponse1.customerDisplayed).isEqualTo(coverageResponse2.customerDisplayed);
+			softly.assertThat(coverageResponse1.canChangeCoverage).isEqualTo(coverageResponse2.canChangeCoverage);
+		});
+	}
+
+	void policyCoverageComparisonByCoverageCd(PolicyCoverageInfo response1, PolicyCoverageInfo response2, String coverageCd) {
 		assertSoftly(softly -> {
 			Coverage coverageResponse1 = getPolicyCoverageDetails(response1, coverageCd);
 			Coverage coverageResponse2 = getPolicyCoverageDetails(response2, coverageCd);
