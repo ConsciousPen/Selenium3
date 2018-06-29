@@ -725,11 +725,9 @@ protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		assertSoftly(softly -> {
 			mainApp().open();
-		//	createCustomerIndividual();
-
-		//	policyType.get().createPolicy(td);
-		//	String policyNumber = PolicySummaryPage.getPolicyNumber();
-			String policyNumber = "VASS952918589";
+			createCustomerIndividual();
+			policyType.get().createPolicy(td);
+			String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 			//Create a pended Endorsement
 			AAAEndorseResponse endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
