@@ -85,7 +85,6 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 
 		if (Arrays.asList(renewalDate.minusDays(46), renewalDate.minusDays(25)).contains(timeShiftedDate)) {
 			log.info("Renewal date is : " + renewalDate);
-				softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).as("Vehicle Year").isNotEqualTo("2018");
 				softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).as("Vehicle Make").isNotEqualTo("TOYOTA");
 				softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).as("Vehicle Model").isNotEqualTo("Gt");
 		} else if (Arrays.asList(renewalDate.minusDays(40), renewalDate.minusDays(35)).contains(timeShiftedDate)) {
