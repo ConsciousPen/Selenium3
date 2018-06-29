@@ -28,7 +28,7 @@ import aaa.modules.regression.service.helper.dtoDxp.ViewDriversResponse;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.datax.TestData;
 
-public class TestMiniServicesDriversAbstract extends PolicyBaseTest {
+public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	private DriverTab driverTab = new DriverTab();
 	private AddDriverRequest addDriverRequest = new AddDriverRequest();

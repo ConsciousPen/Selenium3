@@ -8,11 +8,11 @@ import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
-import aaa.modules.regression.service.helper.TestMiniServicesDriversAbstract;
+import aaa.modules.regression.service.helper.TestMiniServicesDriversHelper;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-public class TestMiniServicesDriver extends TestMiniServicesDriversAbstract {
+public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 
 	private final DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 	private final TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
