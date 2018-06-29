@@ -215,7 +215,7 @@
             </class>
         </classes>
     </test>
-    <test name="ContactInfoUpdateServiceSS" parallel="methods" thread-count="1024">
+    <test name="UpdateDriverServiceSS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ,NY,VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
