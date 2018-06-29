@@ -21,10 +21,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
-import aaa.modules.regression.service.helper.dtoDxp.AAAEndorseResponse;
-import aaa.modules.regression.service.helper.dtoDxp.AddDriverRequest;
-import aaa.modules.regression.service.helper.dtoDxp.DriversDto;
-import aaa.modules.regression.service.helper.dtoDxp.ViewDriversResponse;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.datax.TestData;
 

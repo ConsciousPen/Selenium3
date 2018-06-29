@@ -422,6 +422,10 @@
                     <include name="pas12175_RemoveReplaceWaiveLiabilityBody"/>
                     <include name="pas13920_ReplaceVehicleKeepAssignmentsOneDriver"/>
                     <include name="pas13920_ReplaceVehicleDontKeepAssignmentsOneDriver"/>
+
+                    <include name="pas13920_ReplaceVehicleKeepAssignmentsKeepCoverages"/>
+                    <include name="pas13920_ReplaceVehicleKeepAssignmentsNoCoverages"/>
+                    <include name="pas13920_ReplaceVehicleNoAssignmentsKeepCoverages"/>
                 </methods>
             </class>
         </classes>
