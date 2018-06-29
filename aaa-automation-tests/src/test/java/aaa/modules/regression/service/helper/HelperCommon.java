@@ -244,9 +244,7 @@ public class HelperCommon {
 	}
 
 	public static DriverWithRuleSets updateDriver(String policyNumber, String oid, UpdateDriverRequest request) {
-
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_UPDATE_DRIVERS, policyNumber, oid));
-
 		return runJsonRequestPatchDxp(requestUrl, request, DriverWithRuleSets.class);
 	}
 
