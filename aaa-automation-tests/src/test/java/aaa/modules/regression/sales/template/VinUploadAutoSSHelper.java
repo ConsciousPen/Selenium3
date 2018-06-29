@@ -316,7 +316,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 				.adjust(AutoSSMetaData.VehicleTab.MOTOR_HOME_TYPE.getLabel(), "index=1")
 				.adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), "5FDEU15H7KL055795")
 				.adjust(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "index=1")
-				.adjust(AutoSSMetaData.VehicleTab.YEAR.getLabel(), "2018")
+				.adjust(AutoSSMetaData.VehicleTab.YEAR.getLabel(), "2025")
 				.adjust(AutoSSMetaData.VehicleTab.OTHER_MAKE.getLabel(), "Other Make")
 				.adjust(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel(), "Other Model")
 				.adjust(AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel(), "10000");
