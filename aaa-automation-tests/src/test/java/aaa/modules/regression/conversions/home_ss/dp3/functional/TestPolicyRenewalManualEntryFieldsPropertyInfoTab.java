@@ -122,7 +122,7 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSDP3
         if (PolicySummaryPage.buttonRenewals.isPresent()) {
             PolicySummaryPage.buttonRenewals.click();
         }
-        return PolicySummaryPage.linkPolicy.getValue();
+        return PolicySummaryPage.labellinkPolicy.getValue();
     }
 
     /*
