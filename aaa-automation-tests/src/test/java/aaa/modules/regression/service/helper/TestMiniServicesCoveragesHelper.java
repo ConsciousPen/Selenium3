@@ -2765,7 +2765,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			// Possible issue that this coverage will be missing. It is possible, that it should be displayed only for one of the vehicles. Seems this coverage is only for IN.
 			List<Coverage> filteredPolicyCoverageResponseUMPDD = coverageResponse.policyCoverages.stream().filter(cov -> "Uninsured Motorist Property Damage Deductible".equals(cov.coverageDescription)).collect(Collectors.toList());
-			if (!filteredPolicyCoverageResponseUMPDD.isEmpty()) {
+			if (!filteredPolicyCoverageResponseUMPDD.isEmpty() || "IN".contains(getState())) {
 				softly.assertThat(filteredPolicyCoverageResponseUMPDD.size()).isEqualTo(1);
 			}
 
