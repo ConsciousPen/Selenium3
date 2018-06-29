@@ -1,5 +1,18 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.math.BigDecimal;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
@@ -10,32 +23,17 @@ import aaa.soap.aaaCSPolicyRate.com.exigeninsurance.eis.schema.*;
 import aaa.soap.aaaCSPolicyRate.com.exigenservices.MessageStatusEnum;
 import aaa.soap.aaaCSPolicyRate.com.exigenservices.Policy;
 import aaa.soap.aaaCSPolicyRate.com.exigenservices.RatePolicyRequest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
-
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
-import java.math.BigDecimal;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestAAACSPolicyRate extends AutoCaChoiceBaseTest {
 	private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
-	private CSPolicyRateWSClient csPolicyRateWSClient = new CSPolicyRateWSClient();
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "")
 	public void pas12465_TestAAACSPolicyRate(@Optional("") String state) throws DatatypeConfigurationException {
+		CSPolicyRateWSClient csPolicyRateWSClient = new CSPolicyRateWSClient();
 		RatePolicyRequest actualResponse = csPolicyRateWSClient.getCSPolicyRateServiceResponse(pas12465_CSRatePolicyRequest());
 		assertThat(actualResponse.getPolicy().getMessageStatus().getMsgStatus()).isEqualTo(MessageStatusEnum.SUCCESS);
 
