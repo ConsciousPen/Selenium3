@@ -349,9 +349,7 @@ public class TestMiniServicesDriversAbstract extends PolicyBaseTest {
 				.DriverTab.AFFINITY_GROUP).getValue()).isEqualTo("None");
 		driverTab.saveAndExit();
 
-		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-		helperMiniServices.bindEndorsementWithCheck(policyNumber);
-
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
 	protected void pas477_UpdateDriversBody(PolicyType policyType) {
@@ -430,8 +428,7 @@ public class TestMiniServicesDriversAbstract extends PolicyBaseTest {
 
 		driverTab.saveAndExit();
 
-		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-		helperMiniServices.bindEndorsementWithCheck(policyNumber);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
 }
