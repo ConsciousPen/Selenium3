@@ -49,8 +49,16 @@ public class UploadToVINTableTab extends DefaultTab {
 	}
 
 	public void uploadControlTable(String fileName) {
+		openUploadToVinTableTab();
+
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION).setValue(true);
 		uploadFile(fileName);
+	}
+
+	public void openUploadToVinTableTab() {
+		if(!isOpened()){
+			NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.UPLOAD_TO_VIN_TABLE.get());
+		}
 	}
 
 	/**
@@ -58,7 +66,8 @@ public class UploadToVINTableTab extends DefaultTab {
 	 * @param vinTableFileName xls
 	 */
 	public void uploadVinTable(String vinTableFileName) {
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		openUploadToVinTableTab();
+
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION).setValue(true);
 		uploadFile(vinTableFileName);
 		CacheManager cacheManager = new CacheManager();
@@ -86,5 +95,9 @@ public class UploadToVINTableTab extends DefaultTab {
 			}
 			assertThat(new StaticElement(By.xpath("//*[@id='uploadToVINTableForm']")).getValue()).doesNotContain("Error");
 		}
+	}
+
+	public boolean isOpened(){
+		return new StaticElement(By.xpath(String.format(NavigationPage.LABEL_NAVIGATION_VIEW_LEFT_MENU, NavigationEnum.AdminAppLeftMenu.UPLOAD_TO_VIN_TABLE.get()) + "/ancestor::li[1]")).getAttribute("class").contains("selected");
 	}
 }

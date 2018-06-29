@@ -3,7 +3,6 @@ package aaa.modules.regression.sales.template;
 import static aaa.helpers.db.queries.MsrpQueries.*;
 import static aaa.helpers.db.queries.VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE;
 import static aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab.tableRatingDetailsVehicles;
-import static org.testng.Assert.fail;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -84,12 +83,12 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
-		if (Arrays.asList(renewalDate.minusDays(46), renewalDate.minusDays(25)).contains(renewalDate)) {
+		if (Arrays.asList(renewalDate.minusDays(46), renewalDate.minusDays(25)).contains(timeShiftedDate)) {
 			log.info("Renewal date is : " + renewalDate);
 				softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).as("Vehicle Year").isNotEqualTo("2018");
 				softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).as("Vehicle Make").isNotEqualTo("TOYOTA");
 				softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).as("Vehicle Model").isNotEqualTo("Gt");
-		} else if (timeShiftedDate.equals(renewalDate.minusDays(40)) || timeShiftedDate.equals(renewalDate.minusDays(35))) {
+		} else if (Arrays.asList(renewalDate.minusDays(40), renewalDate.minusDays(35)).contains(timeShiftedDate)) {
 				softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).as("Vehicle Year").isEqualTo("2018");
 				softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).as("Vehicle Make").isEqualTo("TOYOTA");
 				softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).as("Vehicle Model").isEqualTo("Gt");
@@ -101,7 +100,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 				softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).as("Vehicle Make").isEqualTo("UT_SS_R45");
 				softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).as("Vehicle Model").isEqualTo("Gt_R45");
 		} else {
-			fail();
+			log.info("CONDITION TO JUST MAKE RENEWAL PREP or post.");
 		}
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();

@@ -278,9 +278,9 @@ PAS-15907:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload.pas2716_AutomatedRenewal_ExpirationDate]
-      messages: ['OTHER]">','<"[TEST]"> but was:<"[OTHER]">','<[fals]e> but was:<[tru]e>','expected [true] but found [false]']
+      messages: ['OTHER]">','<"[TEST]"> but was:<"[OTHER]">','<[fals]e> but was:<[tru]e>','[true] but found [false]']
     - tests: [aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload.pas2716_AutomatedRenewal_ExpirationDateMinus35]
-      messages: ['[true] but found [false]']
+      messages: ['[true] but found [false]','expected:<"[Gt]"> but was:<"[Model]">']
     - tests: [aaa.modules.regression.sales.auto_ca.select.functional.TestVINUpload.pas2716_AutomatedRenewal_ExpirationDateMinus35]
       messages: ['[true] but found [false]']
     - tests: [aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload.pas2716_AutomatedRenewal_ExpirationDateMinus45]

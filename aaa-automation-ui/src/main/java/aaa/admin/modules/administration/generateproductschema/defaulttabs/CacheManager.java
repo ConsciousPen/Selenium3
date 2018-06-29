@@ -10,6 +10,7 @@ import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.common.DefaultTab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
 
 public class CacheManager extends DefaultTab {
@@ -23,10 +24,10 @@ public class CacheManager extends DefaultTab {
 	}
 
 	public void getToCacheManagerTab() {
-		long timeoutInSeconds = 10;
+		long timeoutInSeconds = 15;
 		long timeout = System.currentTimeMillis() + timeoutInSeconds * 1000;
 
-		while (timeout > System.currentTimeMillis()) {
+		while (timeout > System.currentTimeMillis() || !isOpened()) {
 			try {
 				NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.CACHE_MANAGER.get());
 				if (tableCacheManager.isPresent()) {
@@ -67,5 +68,9 @@ public class CacheManager extends DefaultTab {
 		for (int i = tableСachedProject.getRowsCount(); i > 0; i--) {
 			tableСachedProject.getRow(i).getCell(CachedProjectNameTableColumns.ACTION.get()).controls.links.get("Remove").click();
 		}
+	}
+
+	public boolean isOpened(){
+		return new StaticElement(By.xpath(String.format(NavigationPage.LABEL_NAVIGATION_VIEW_LEFT_MENU, NavigationEnum.AdminAppLeftMenu.CACHE_MANAGER.get()) + "/ancestor::li[1]")).getAttribute("class").contains("selected");
 	}
 }

@@ -116,6 +116,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		//open Admin application and navigate to Administration tab
 		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		uploadToVINTableTab.uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
@@ -212,6 +213,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		//open Admin application and navigate to Administration tab
 		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		uploadToVINTableTab.uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, find created policy, initiate Renewal, verify if VIN value is applied
@@ -267,6 +269,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		//open Admin application and navigate to Administration tab
 		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		uploadToVINTableTab.uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, find created policy, create Renewal image and verify if VIN was updated and new values are applied
@@ -332,6 +335,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		String policyNumber = createPreconds(testData);
 
 		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		uploadToVINTableTab.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN9.get()));
 
 		mainApp().open();
@@ -427,6 +431,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
 		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		uploadToVINTableTab.uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
@@ -470,7 +475,8 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
 		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-		adminApp().reopen();
+		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		uploadToVINTableTab.uploadVinTable(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied

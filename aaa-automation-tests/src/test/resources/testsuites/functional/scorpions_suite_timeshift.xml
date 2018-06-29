@@ -159,7 +159,7 @@
         </classes>
     </test>
     <!-- Auto SS -->
-    <test name="PAS-2716 Update VIN Refresh Auto SS" >
+    <test name="Update VIN Refresh Auto SS" >
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVINUpload">
@@ -190,7 +190,7 @@
 
     <!-- Auto Ca Select-->
 
-    <test name="PAS-2716 Update VIN Refresh CA Select" >
+    <test name="Update VIN Refresh CA Select" >
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVINUpload">
@@ -217,7 +217,7 @@
 
     <!-- Auto Choice -->
 
-    <test name="PAS-2716 Update VIN Refresh CA Choice" >
+    <test name="Update VIN Refresh CA Choice" >
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload">
