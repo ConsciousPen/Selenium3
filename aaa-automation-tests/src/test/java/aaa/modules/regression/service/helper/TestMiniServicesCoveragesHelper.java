@@ -2815,11 +2815,11 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(filteredPolicyCoverageResponseSPECEQUIP.customerDisplayed).isFalse();
 
 			Coverage filteredPolicyCoverageResponseNEWCAR = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "NEWCAR".equals(cov.coverageCd)).findFirst().orElse(null);
-			softly.assertThat(filteredPolicyCoverageResponseNEWCAR.canChangeCoverage).isNull(); // This field doesn't exist in response
+			softly.assertThat(filteredPolicyCoverageResponseNEWCAR.canChangeCoverage).isFalse();
 			softly.assertThat(filteredPolicyCoverageResponseNEWCAR.customerDisplayed).isFalse();
 
 			Coverage filteredPolicyCoverageResponseWL = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "WL".equals(cov.coverageCd)).findFirst().orElse(null);
-			softly.assertThat(filteredPolicyCoverageResponseWL.canChangeCoverage).isNull(); //This field doesn't exist in response
+			softly.assertThat(filteredPolicyCoverageResponseWL.canChangeCoverage).isFalse();
 			softly.assertThat(filteredPolicyCoverageResponseWL.customerDisplayed).isFalse();
 
 		});
