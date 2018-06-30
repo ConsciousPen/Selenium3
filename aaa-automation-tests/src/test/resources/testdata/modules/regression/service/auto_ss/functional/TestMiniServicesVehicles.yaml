@@ -97,7 +97,6 @@ VehicleTab_2018_New: {
 
 PremiumAndCoveragesTab_2018: {
   Payment Plan: Annual,
-  Apply eValue Discount: 'Yes',
   Bodily Injury Liability: 'contains=$50,000/$100,000',
   DetailedVehicleCoverages: [
     {
@@ -130,7 +129,6 @@ TestData_WaiveLiability: {
 
 PremiumAndCoveragesTab_WaiveLiability: {
   Payment Plan: Annual,
-  Apply eValue Discount: 'Yes',
   Bodily Injury Liability: 'contains=$50,000/$100,000',
   DetailedVehicleCoverages: [
     {
@@ -139,6 +137,28 @@ PremiumAndCoveragesTab_WaiveLiability: {
     },
     {
       Waive Liability: 'Yes'
+    }
+  ]
+}
+
+#---------------------------------------------
+TestData_OneVeh: {
+    VehicleTab: ['@VehicleTab_2018_Leased'],
+    PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_OneVeh',
+}
+
+PremiumAndCoveragesTab_OneVeh: {
+  Payment Plan: Annual,
+  Bodily Injury Liability: 'contains=$50,000/$100,000',
+  DetailedVehicleCoverages: [
+    {
+      Other Than Collision: 'contains=$750',
+      Collision Deductible: 'contains=$500',
+      Excess Electronic Equipment: 1500,
+      Transportation Expense: 'contains=900',
+      Full Safety Glass: 'Yes',
+      Towing and Labor Coverage: 'index=1',
+      Auto Loan/Lease Coverage: 'contains=Yes'
     }
   ]
 }

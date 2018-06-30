@@ -420,12 +420,26 @@
                 <methods>
                     <include name="pas12175_RemoveReplaceAllVehiclesBody"/>
                     <include name="pas12175_RemoveReplaceWaiveLiabilityBody"/>
-                    <include name="pas13920_ReplaceVehicleKeepAssignmentsOneDriver"/>
+
                     <include name="pas13920_ReplaceVehicleDontKeepAssignmentsOneDriver"/>
+                    <include name="pas13920_ReplaceVehicleDontKeepCoveragesOneDriverOneVehicle"/>
 
                     <include name="pas13920_ReplaceVehicleKeepAssignmentsKeepCoverages"/>
                     <include name="pas13920_ReplaceVehicleKeepAssignmentsNoCoverages"/>
+                    <include name="pas13920_ReplaceVehicleKeepAssignmentsOneDriver"/>
+                    <include name="pas13920_ReplaceVehicleKeepCoveragesOneDriverOneVehicle"/>
                     <include name="pas13920_ReplaceVehicleNoAssignmentsKeepCoverages"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Replace vehiclesAZ">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas13920_ReplaceVehicleDontKeepAssignmentsOneDriverAz"/>
+                    <include name="pas13920_ReplaceVehicleKeepAssignmentsOneDriverAz"/>
                 </methods>
             </class>
         </classes>

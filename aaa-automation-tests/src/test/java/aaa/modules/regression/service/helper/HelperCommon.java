@@ -553,7 +553,7 @@ public class HelperCommon {
 
 			String token = getBearerToken();
 
-			response =  client.target(url)
+			response = client.target(url)
 					.request()
 					.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
 					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
