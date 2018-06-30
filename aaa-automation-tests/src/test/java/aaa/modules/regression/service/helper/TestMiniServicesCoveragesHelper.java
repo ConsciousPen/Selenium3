@@ -2828,73 +2828,73 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	private void validateCountOfPolicyLevelCoverages(PolicyCoverageInfo coverageResponse, SoftAssertions softly) {
 		switch (getState()) {
 			case "AZ":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 5).isTrue();
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(5);
 				break;
 			case "CO":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 4).isTrue();
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(4);
 				break;
 			case "CT":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 5).isTrue();
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(5);
 				break;
 			case "DC":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 9).isTrue();
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(9);
 				break;
 			case "MD":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 6).isTrue();
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(6);
 				break;
 			case "NJ":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 12).isTrue();
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(12);
 				break;
 			case "NV":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 5).isTrue();
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(5);
 				break;
 			case "WV":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 7).isTrue();
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(7);
 				break;
 			case "WY":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 4).isTrue();
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(4);
 				break;
 			case "DE":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 7).isTrue();
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(7);
 				break;
 			case "ID":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 5).isTrue();
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(5);
 				break;
 			case "IN":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 6).isTrue();//possible issue with missing "Uninsured Motorist Property Damage Deductible"
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(6);//possible issue with missing "Uninsured Motorist Property Damage Deductible"
 				break;
 			case "KS":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 4).isTrue();
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(4);
 				break;
 			case "KY":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 8).isTrue();
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(8);
 				break;
 			case "MT":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 5).isTrue();
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(5);
 				break;
 			case "NY":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 10).isTrue();//possible issue with missing "Medical Expense Elimination"
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(10);//possible issue with missing "Medical Expense Elimination"
 				break;
 			case "OK":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 4).isTrue();
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(4);
 				break;
 			case "SD":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 5).isTrue();
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(5);
 				break;
 			case "VA":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 6).isTrue();
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(6);
 				break;
 			case "UT":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 7).isTrue();
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(7);
 				break;
 			case "OH":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 5).isTrue();
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(5);
 				break;
 			case "OR":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 6).isTrue();
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(6);
 				break;
 			case "PA":
-				softly.assertThat(coverageResponse.policyCoverages.size() == 9).isTrue();
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(9);
 				break;
 			default:
 		}
