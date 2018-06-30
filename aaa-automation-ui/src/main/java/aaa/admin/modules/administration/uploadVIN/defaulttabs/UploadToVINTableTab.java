@@ -48,11 +48,13 @@ public class UploadToVINTableTab extends DefaultTab {
 		uploadControlTable(controlTableFile);
 	}
 
-	public void uploadControlTable(String fileName) {
+	public void uploadControlTable(String controlTable) {
+		log.info("WARN Vin control file {} upload started",controlTable);
 		openUploadToVinTableTab();
 
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION).setValue(true);
-		uploadFile(fileName);
+		uploadFile(controlTable);
+		log.info("WARN Vin control file {} upload finished",controlTable);
 	}
 
 	public void openUploadToVinTableTab() {
@@ -66,6 +68,7 @@ public class UploadToVINTableTab extends DefaultTab {
 	 * @param vinTableFileName xls
 	 */
 	public void uploadVinTable(String vinTableFileName) {
+		log.info("WARN Vin table {} upload started",vinTableFileName);
 		openUploadToVinTableTab();
 
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION).setValue(true);
@@ -76,7 +79,7 @@ public class UploadToVINTableTab extends DefaultTab {
 		for (String cache : cacheName) {
 			cacheManager.clearFromCacheManagerTable(cache);
 		}
-		log.info("\n\nFile {} was uploaded\n\n", vinTableFileName);
+		log.info("WARN Vin table {} upload finished",vinTableFileName);
 	}
 
 	private void uploadFile(String fileName) {

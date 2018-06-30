@@ -27,17 +27,12 @@ public class CacheManager extends DefaultTab {
 		long timeoutInSeconds = 15;
 		long timeout = System.currentTimeMillis() + timeoutInSeconds * 1000;
 
-		while (timeout > System.currentTimeMillis() || !isOpened()) {
-			try {
-				NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.CACHE_MANAGER.get());
-				if (tableCacheManager.isPresent()) {
-					break;
-				}
-				Thread.sleep(1000);
-				log.info("Wait for CACHE_MANAGER tab, in miliseconds left: {}", timeout - System.currentTimeMillis());
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+		while (timeout > System.currentTimeMillis()) {
+			NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.CACHE_MANAGER.get());
+			if (tableCacheManager.isPresent()) {
+				break;
 			}
+			log.info("Wait for CACHE_MANAGER tab, in miliseconds left: {}", timeout - System.currentTimeMillis());
 		}
 	}
 
@@ -70,7 +65,7 @@ public class CacheManager extends DefaultTab {
 		}
 	}
 
-	public boolean isOpened(){
+	public boolean isOpened() {
 		return new StaticElement(By.xpath(String.format(NavigationPage.LABEL_NAVIGATION_VIEW_LEFT_MENU, NavigationEnum.AdminAppLeftMenu.CACHE_MANAGER.get()) + "/ancestor::li[1]")).getAttribute("class").contains("selected");
 	}
 }

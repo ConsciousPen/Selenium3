@@ -52,6 +52,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	private static final String NEW_VIN6 = "FFFKN3DD6E0344466";
 	private static final String SUBSEQUENT_RENEWAL_45 = "ZZZKN3DD3E0344466";
 	private static final String SUBSEQUENT_RENEWAL_46 = "YYYKN3DD4E0344466";
+	private static final String SUBSEQUENT_RENEWAL_35 = "XXXKN3DD4E0344466";
 	private static final String NEW_VIN7 = "GGGKN3DD5E0344466";
 	private static final String NEW_VIN8 = "HHHKN3DD4E0344466";
 	private static final String REFRESHABLE_VIN = "1HGEM215X50028445";
@@ -568,29 +569,34 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11659")
-	public void pas11659_Renewal_VersionR35(@Optional("") String state) {
+	public void pas11659_Renewal_VersionR35(@Optional("UT") String state) {
+		adminApp().open();
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
+		String controlTableR35 = vinMethods.getControlTableFile();
+		String vinTableR35 = vinMethods.getSpecificUploadFile(VinUploadFileType.SUBSEQUENT_RENEWAL_35.get());
+		uploadToVINTableTab.uploadFiles(controlTableR35,vinTableR35);
+
+		/*VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN3);
-		String configExcelName = vinMethods.getControlTableFile();
-		String uploadExcelR35 = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN3.get());
-		String EVENT = "R35";
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), SUBSEQUENT_RENEWAL_35);
+		String controlTableR35 = vinMethods.getControlTableFile();
+		String vinTableR35 = vinMethods.getSpecificUploadFile(VinUploadFileType.SUBSEQUENT_RENEWAL_35.get());
+
 		//1. Create a policy with VIN matched data and save the expiration data
 		String policyNumber = createPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		//2. Upload Updated VIN Data for utilized VIN
 		adminApp().open();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-		uploadToVINTableTab.uploadControlTable(configExcelName);
-		uploadToVINTableTab.uploadVinTable(uploadExcelR35);
+		uploadToVINTableTab.uploadFiles(controlTableR35,vinTableR35);
 
 		//3. Move to R-35 and generate automated renewal image. Retrieve policy and verify VIN data
 		// DID refresh
 
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(35),softly);
-		softly.close();
+		softly.close();*/
 	}
 
 	/**
