@@ -570,13 +570,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11659")
 	public void pas11659_Renewal_VersionR35(@Optional("UT") String state) {
-		adminApp().open();
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
-		String controlTableR35 = vinMethods.getControlTableFile();
-		String vinTableR35 = vinMethods.getSpecificUploadFile(VinUploadFileType.SUBSEQUENT_RENEWAL_35.get());
-		uploadToVINTableTab.uploadFiles(controlTableR35,vinTableR35);
-
-		/*VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), SUBSEQUENT_RENEWAL_35);
@@ -596,7 +590,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(35),softly);
-		softly.close();*/
+		softly.close();
 	}
 
 	/**
