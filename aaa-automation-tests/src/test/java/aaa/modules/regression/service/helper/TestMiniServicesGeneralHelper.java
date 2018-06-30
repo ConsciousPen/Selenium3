@@ -464,14 +464,14 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 
 		//View driver assignment if VA
 		if ("VA, NY, CA".contains(state)) {
-			DriverAssignmentDto[] responseDriverAssignment = HelperCommon.viewEndorsementAssignments(policyNumber);
-			softly.assertThat(responseDriverAssignment[0].vehicleOid).isNotEmpty();
-			softly.assertThat(responseDriverAssignment[0].driverOid).isNotEmpty();
-			softly.assertThat(responseDriverAssignment[0].relationshipType).isEqualTo("primary");
+			ViewDriverAssignmentResponse responseDriverAssignment = HelperCommon.viewEndorsementAssignments(policyNumber);
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(0).vehicleOid).isNotEmpty();
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(0).driverOid).isNotEmpty();
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(0).relationshipType).isEqualTo("primary");
 
-			softly.assertThat(responseDriverAssignment[1].vehicleOid).isNotEmpty();
-			softly.assertThat(responseDriverAssignment[1].driverOid).isNotEmpty();
-			softly.assertThat(responseDriverAssignment[1].relationshipType).isEqualTo("occasional");
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(1).vehicleOid).isNotEmpty();
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(1).driverOid).isNotEmpty();
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(1).relationshipType).isEqualTo("occasional");
 		} else {
 			ErrorResponseDto responseDriverAssignment = HelperCommon.viewEndorsementAssignmentsError(policyNumber, 422);
 			softly.assertThat(responseDriverAssignment.errorCode).isEqualTo(ErrorDxpEnum.Errors.OPERATION_NOT_APPLICABLE_FOR_THE_STATE.getCode());
