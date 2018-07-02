@@ -57,39 +57,71 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	/**
 	 * @author Jovita Pukenaite
 	 * @name Update driver assignment, rule D=V
-	 * @scenario 1. Create a policy with V1 and D1, D2.
+	 * @scenario Nr1
+	 * 1. Create a policy with V1 and D2.
 	 * 2. Hit view driver assignment service. Get all info.
-	 * 3. Add V2.
-	 * 4. Hit DA update service.
-	 * a) V2-->D1 and check response (V2-->D1, V1-->D2)
-	 * b) Update , V1-->D1 (V1-->D1, V2-->Unn)
-	 * c) Update V2-->D2 (V1-->D1, V2-->D2)
+	 * 3. Add one more vehicle V2.
+	 * 4. Hit view vehicle service, get all info.
+	 * 5. Hit DA update service, Rate after, check response.
+	 * a) Update: V2-->D1, Check V2-->D1, V1-->D2
+	 * b) Update: V1-->D1, D2, Check V1-->D1,D2, V2-->Unn
+	 * c) Update: V2-->D2, V1-->D1, V2-->D2
+	 * 6. Rate and Bind. Check if endorsement doesn't exist.
+	 *
+	 * @scenario Nr2
+	 * 1. Create a policy with V2 and D4.
+	 * 2. Hit view driver assignment service. Get all info.
+	 * 3. Add one more vehicle V2.
+	 * 4. Hit view vehicle service, get all info.
+	 * 5. Hit DA update service, Rate after, check response.
+	 * a) Update: V3-->D1, Check V1-->D2 V2-->D3,D4, V3-->D1, V4-->Unn
+	 * b) Update: V4-->D2, Check V1-->Unn, V2-->D4,D3 V3-->D1, V4-->D2
+	 * c) Update: V2-->D3, Check V1-->Unn, V2-->D3, V3-->D1, V4-->D2, D4-->Unn
+	 * d) Update: V1-->D3, Check V1-->D3, V2-->Unn, V3-->D1, V4-->D2, D4-->Unn
+	 * e) Update: V2-->D4, Check V1-->D3, V2-->D4, V3-->D1, V4-->D2
+	 * 6. Rate and Bind. Check if endorsement doesn't exist.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994", "PAS-14699", "PAS-15529"})
 	public void pas13994_UpdateDriverAssignmentServiceRule1(@Optional("VA") String state) {
 
-		pas13994_UpdateDriverAssignmentServiceRule1Body(getPolicyType());
+		pas13994_UpdateDriverAssignmentServiceRule1Body1(getPolicyType());
+		pas15529_UpdateDriverAssignmentServiceRule1Body2(getPolicyType());
 	}
 
 	/**
 	 * @author Jovita Pukenaite
 	 * @name Update driver assignment, rule V>D
-	 * @scenario 1. Create a policy with 3V and 2D
+	 * @scenario Nr1
+	 * 1. Create a policy with V2 and D4.
 	 * 2. Hit view driver assignment service. Get all info.
-	 * 3. Add V4.
+	 * 3. Add one more vehicle V2.
 	 * 4. Hit view vehicle service, get all info.
-	 * 4. Hit DA update service:
-	 * a) V4-->D1 (D1-->V1,V3,V4, D2-->V2)
-	 * b) V4-->D2 (D1-->V1,V3 D2-->V2,V4)
+	 * 5. Hit DA update service, Rate after, check response.
+	 * a) Update: Update: V4-->D1, Check V1-->D1, V2-->D2, V3-->D1, V4-->D1
+	 * b) Update V2-->D1 Check V1-->D1, V2-->D1, V3-->D1, V4-->D1
+	 * c) Update add: V2-->D2, Check V1-->D1, V2-->D2, V3-->D1, V4-->D1
+	 * 6. Rate and Bind. Check if endorsement doesn't exist.
+	 * @scenario Nr2
+	 * 1. Create a policy with V3 and D4.
+	 * 2. Hit view driver assignment service. Get all info.
+	 * 3. Add two more vehicles.
+	 * 4. Hit view vehicle service, get all info.
+	 * 5. Hit DA update service, Rate after, check response.
+	 * a) Update V4-->D1 AND V5-->D2 (V1-->D1, V2-->D2, V3-->D3, V4-->D1, V5-->D2)
+	 * b) Update D1-->All V, (V1-->D1, V2-->D1,  V3-->D1, V4-->D1, V5-->D1, D2,D3-->Unn)
+	 * c) Update V1,V2-->D2, V3,V4,V5-->D3, (V1-->D2, V2-->D2,  V3-->D3, V4-->D3, V5-->D3, D1 -->Unn)
+	 * d) Update V5-->D1, (V1-->D2, V2-->D2,  V3-->D3, V4-->D3, V5-->D1)
+	 * 6. Rate and Bind. Check if endorsement doesn't exist.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994", "PAS-14699", "PAS-15529"})
 	public void pas13994_UpdateDriverAssignmentServiceRule2(@Optional("VA") String state) {
 
-		pas13994_UpdateDriverAssignmentServiceRule2Body(getPolicyType());
+		pas13994_UpdateDriverAssignmentServiceRule2Body1(getPolicyType());
+		pas13994_UpdateDriverAssignmentServiceRule2Body2(getPolicyType());
 	}
 
 	/**
@@ -99,14 +131,16 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * 2. Hit view driver assignment service. Get all info.
 	 * 3. Add one more vehicle V3.
 	 * 4. Hit view vehicle service, get all info.
-	 * 4. Hit DA update service:
-	 * a) V3-->D1 (V1-->D2, V2-->D3,D4, V3-->D1)
-	 * b) V2-->D2 (V1-->D2, V2-->D3,D4,D2 V3-->D1)
-	 * c) V2-->D1 (V1-->Unn, V2-->D3,D4,D2,D1 V3-->Unn)
+	 * 5. Hit DA update service, Rate after, check response.
+	 * a) Update: V3-->D1, Check V1-->D2, V2-->D3, D4, V3-->D1
+	 * b) Update: V2-->D2, Check V1-->Unn, V2-->D2, V3-->D1, D3,D4-->Unn
+	 * c) Update: V1-->D3,D4,D2 Check V2-->Unn, V3-->D1, V1-->D3,D4,D2
+	 * d) Update: V2-->D3 Check V2-->D3, V3-->D1, V1-->D4,D2
+	 * 6. Rate and Bind. Check if endorsement doesn't exist.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994", "PAS-15529", "PAS-15253"})
 	public void pas13994_UpdateDriverAssignmentServiceRule3(@Optional("VA") String state) {
 
 		pas13994_UpdateDriverAssignmentServiceRule3Body(getPolicyType());
