@@ -111,6 +111,16 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas10352_ManageVehicleCoverageUpdateCoverageOtherState(getPolicyType());
 	}
 
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14693"})
+	public void pas14693_viewCoverageAndUpdateCoverageRentalReimbursement(@Optional("AZ") String state) {
+		assertSoftly(softly ->
+
+		pas14693_viewCoverageAndUpdateCoverageRentalReimbursement(getPolicyType(),softly)
+		);
+	}
+
 	/**
 	 * @author Megha Gubbala
 	 * Create a active policy in the pas
@@ -127,9 +137,9 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14648"})
-	public void pas14721_UpdateCoveragesBI_PD(@Optional("VA") String state) {
+	public void pas14721_UpdateCoveragesBI_PD(@Optional("AZ") String state) {
 
-		pas14721_UpdateCoveragesServiceBIPD(getPolicyType());
+		pas14721_UpdateCoveragesServiceBIPD(getPolicyType(),state);
 	}
 
 	/**
@@ -251,7 +261,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * @scenario 1. Create policy with one vehicle,
 	 * with Transportation Expense 1.200$
 	 * 2. Start endorsement outside of PAS.
-	 * 3. Add vehicle.
+	 * 	 * 3. Add vehicle.
 	 * 4. Remove "COMPDED" coverage from my newly added vehicle.
 	 * 5. Hit View Coverage service.
 	 * 6. Check if Transportation Expense remains the limit I chose.
