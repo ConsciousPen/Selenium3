@@ -211,7 +211,7 @@ PT-1421:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails.pt1421_testManuallyAddedAutoTier]
-      messages: ['expected:<"[7]"> but was:<"[2]">']
+      messages: ['expected:<"[11]"> but was:<"[7]">']
 PAS-13338:
   summary: "Unable to rate Home_SS PA conversion policies"
   reason: PROD
