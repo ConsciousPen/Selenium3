@@ -626,10 +626,10 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			default:
 				for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
 					String formCode = openLForm.getFormCode();
-					if (!endorsementData.containsKey(HomeSSFormTestDataGenerator.getFormMetaKey(formCode))) {
-						List<TestData> tdList = HomeSSFormTestDataGenerator.getFormTestData(openLPolicy, formCode);
+					if (!endorsementData.containsKey(HomeSSHO3FormTestDataGenerator.getFormMetaKey(formCode))) {
+						List<TestData> tdList = HomeSSHO3FormTestDataGenerator.getFormTestData(openLPolicy, formCode);
 						if (tdList != null) {
-							TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeSSFormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeSSFormTestDataGenerator.getFormMetaKey(formCode), tdList);
+							TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeSSHO3FormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeSSHO3FormTestDataGenerator.getFormMetaKey(formCode), tdList);
 							endorsementData.adjust(td);
 						}
 					}

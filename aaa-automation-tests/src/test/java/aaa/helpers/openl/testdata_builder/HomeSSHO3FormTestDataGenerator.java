@@ -18,7 +18,7 @@ import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssertions;
 
-public class HomeSSFormTestDataGenerator extends BaseTest {
+public class HomeSSHO3FormTestDataGenerator extends BaseTest {
 	private static Map<String, List<String>> selectedForms = new HashMap<>();
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0412DataFunction = (openLPolicy, policyLevel) -> {

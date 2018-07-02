@@ -2,9 +2,9 @@ package aaa.modules.openl;
 
 import aaa.main.modules.policy.PolicyType;
 
-public class HomeSSDP3PremiumCalculationTest extends HomeSSPremiumCalculationTest {
+public class HomeSSHO3PremiumCalculationTest extends HomeSSPremiumCalculationTest {
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_DP3;
+		return PolicyType.HOME_SS_HO3;
 	}
 }
