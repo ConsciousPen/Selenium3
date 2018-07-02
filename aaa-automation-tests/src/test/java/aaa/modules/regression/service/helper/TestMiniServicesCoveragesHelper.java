@@ -2766,8 +2766,14 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			// Possible issue that this coverage will be missing. It is possible, that it should be displayed only for one of the vehicles. Seems this coverage is only for IN.
 			List<Coverage> filteredPolicyCoverageResponseUMPDD = coverageResponse.policyCoverages.stream().filter(cov -> "Uninsured Motorist Property Damage Deductible".equals(cov.coverageDescription)).collect(Collectors.toList());
-			if (!filteredPolicyCoverageResponseUMPDD.isEmpty() || "IN".contains(getState())) {
+			if (!filteredPolicyCoverageResponseUMPDD.isEmpty()) {
 				softly.assertThat(filteredPolicyCoverageResponseUMPDD.size()).isEqualTo(1);
+			}
+
+			//For CT this coverage is without coverageCD
+			List<Coverage> filteredPolicyCoverageResponseUMCC = coverageResponse.policyCoverages.stream().filter(cov -> "Underinsured Motorist Conversion Coverage".equals(cov.coverageDescription)).collect(Collectors.toList());
+			if (!filteredPolicyCoverageResponseUMCC.isEmpty()) {
+				softly.assertThat(filteredPolicyCoverageResponseUMCC.size()).isEqualTo(1);
 			}
 
 		});
@@ -2778,7 +2784,10 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			//make sure that no Vehicle Level coverages are missed
 			if (!"KY".equals(getState())) {
 				softly.assertThat(viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.size()).isEqualTo(9);
-			} else {
+			}else if ("NV, OR, UT".contains(getState())){
+				softly.assertThat(viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.size()).isEqualTo(10);
+			}
+			else {
 				softly.assertThat(viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.size()).isEqualTo(8);
 			}
 
@@ -2822,6 +2831,14 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(filteredPolicyCoverageResponseWL.canChangeCoverage).isFalse();
 			softly.assertThat(filteredPolicyCoverageResponseWL.customerDisplayed).isFalse();
 
+			//UMPD is Vehicle level coverage for NV, OR, UT
+			if ("NV, OR, UT".contains(getState())){
+				Coverage filteredPolicyCoverageResponseUMPD = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "UMPD".equals(cov.coverageCd)).findFirst().orElse(null);
+				softly.assertThat(filteredPolicyCoverageResponseUMPD).isNotNull();
+				//softly.assertThat(filteredPolicyCoverageResponseUMPD.canChangeCoverage).isFalse(); //not clear yet what value should be
+				//softly.assertThat(filteredPolicyCoverageResponseUMPD.customerDisplayed).isFalse(); //not clear yet what value should be
+			}
+
 		});
 	}
 
@@ -2834,7 +2851,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(4);
 				break;
 			case "CT":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(5);
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(4);
 				break;
 			case "DC":
 				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(9);
@@ -2843,10 +2860,10 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(6);
 				break;
 			case "NJ":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(12);
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(4);
 				break;
 			case "NV":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(5);
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(4);
 				break;
 			case "WV":
 				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(7);
@@ -2855,25 +2872,25 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(4);
 				break;
 			case "DE":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(7);
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(5);
 				break;
 			case "ID":
 				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(5);
 				break;
 			case "IN":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(6);//possible issue with missing "Uninsured Motorist Property Damage Deductible"
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(5);//possible issue with missing "Uninsured Motorist Property Damage Deductible"
 				break;
 			case "KS":
 				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(4);
 				break;
 			case "KY":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(8);
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(7);
 				break;
 			case "MT":
 				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(5);
 				break;
 			case "NY":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(10);//possible issue with missing "Medical Expense Elimination"
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(6);//possible issue with missing "Medical Expense Elimination"
 				break;
 			case "OK":
 				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(4);
@@ -2885,13 +2902,13 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(6);
 				break;
 			case "UT":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(7);
-				break;
-			case "OH":
 				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(5);
 				break;
+			case "OH":
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(4);
+				break;
 			case "OR":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(6);
+				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(4);
 				break;
 			case "PA":
 				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(9);
