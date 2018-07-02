@@ -328,9 +328,5 @@ public class TestCurrentTermEndAddsVehicle extends AutoSSBaseTest {
         PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(1).click();
         PolicySummaryPage.tableTransactionHistory.getRow(2).getCell(1).click();
         PolicySummaryPage.buttonCompare.click();
-<<<<<<< HEAD
     }
-=======
-            }
->>>>>>> master
-}
+ }
