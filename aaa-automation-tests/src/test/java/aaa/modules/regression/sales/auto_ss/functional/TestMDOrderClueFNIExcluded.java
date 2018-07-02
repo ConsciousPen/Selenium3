@@ -13,6 +13,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig;
+import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.utils.StateList;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -118,8 +119,7 @@ public class TestMDOrderClueFNIExcluded extends AutoSSBaseTest {
 
 		mainApp().open();
 		createCustomerIndividual();
-		createPolicy(getPolicyTD().adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
-				AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TYPE.getLabel()), "Named Non Owner"));
+		createPolicy(getStateTestData(testDataManager.getDefault(TestPolicyNano.class), "TestData"));
 
 		initiateEndorsementAndValidateCLUE();
 
@@ -140,6 +140,7 @@ public class TestMDOrderClueFNIExcluded extends AutoSSBaseTest {
 	private void initiateEndorsementAndValidateCLUE() {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		policy.getDefaultView().fillFromTo(getTestSpecificTD("TestData"), GeneralTab.class, DriverActivityReportsTab.class, true);
+
 		assertThat(DriverActivityReportsTab.tableCLUEReports.getRows().size()).isEqualTo(2);
 		assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(1).getCell("Select").controls.radioGroups.getFirst()).isDisabled();
 		assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(2).getCell("Select").controls.radioGroups.getFirst()).isEnabled();
