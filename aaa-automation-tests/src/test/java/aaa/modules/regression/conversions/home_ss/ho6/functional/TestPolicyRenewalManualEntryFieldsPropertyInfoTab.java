@@ -117,6 +117,9 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSHO6
         if (PolicySummaryPage.buttonRenewals.isPresent()) {
             PolicySummaryPage.buttonRenewals.click();
         }
+        if(PolicySummaryPage.buttonBackFromRenewals.isEnabled()){
+            PolicySummaryPage.buttonBackFromRenewals.click();
+        }
         return PolicySummaryPage.labellinkPolicy.getValue();
     }
 
