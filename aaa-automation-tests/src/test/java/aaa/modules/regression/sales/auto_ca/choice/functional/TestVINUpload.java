@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import org.testng.annotations.AfterClass;
+import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -24,6 +27,10 @@ import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
+import toolkit.verification.ETCSCoreSoftAssertions;
+
+import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestVINUpload extends TestVINUploadTemplate {
 	private static final String NEW_VIN = "AAAVB3CC0W0455583";
@@ -32,6 +39,8 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	private static final String NEW_VIN4 = "DDDVB3CC3W9455583";
 	private static final String NEW_VIN5 = "EEEVB2CCXW9455583";
 	private static final String NEW_VIN6 = "FFFVB2CC9W9455583";
+	private static final String NEW_VIN7 = "MMXKN3DD3E0344488";
+	private static final String NEW_VIN8 = "HHDDN3DD0E0344488";
 	private static final String REFRESHABLE_VIN = "4T1BE30K46U656311";
 	private static final String GGGVB2CC8W9455583 = "GGGVB2CC8W9455583";
 
@@ -226,12 +235,77 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		pas2716_AutomatedRenewal(policyNumber, policyExpirationDate.minusDays(35), NEW_VIN6);
 	}
 
-	@AfterClass(alwaysRun = true)
+	/**
+	 * @author Kiruthika Rajendran
+	 * <p>
+	 * PAS-12872 Update VIN Refresh Y/M/M/S/S Match to use VIN Stub
+	 * @name Y/M/M/S/S refreshed from VIN table VIN no match
+	 * @scenario
+	 * 0. Create a customer and an auto CA quote with VIN no match
+	 * 1. Update Y/M/M/S/S
+	 * 2. Retrieve the created quote
+	 * 3. Navigate to P&C page and validate the updated Y/M/M/S/S for the VIN stub
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-12872")
+	public void pas12872_VINRefreshNoMatchUnboundAutoCAQuote(@Optional("CA") String state) {
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NO_MATCH_NEW_QUOTE.get());
+		String vehYear = "2009";
+		String vehMake = "HYUNDAI";
+		String vehModel = "ACCENT";
+		String vehSeries = "ACCENT SE";
+		String vehBodyStyle = "HATCHBACK 2 DOOR";
+		String expectedYear = "2009";
+		String expectedMake = "HYUNDAI MOTOR";
+		String expectedModel = "HYUNDAI ACCENT";
+
+		pas12872_VINRefreshNoMatchUnboundAutoCAQuote(NEW_VIN7, vinTableFile, vehYear, vehMake, vehModel, vehSeries, vehBodyStyle, expectedYear, expectedMake, expectedModel);
+	}
+
+	/**
+	 * @author Kiruthika Rajendran
+	 * <p>
+	 * PAS-12872 Update VIN Refresh Y/M/M/S/S Match to use VIN Stub
+	 * @name VIN refresh no match at renewal timeline R-45
+	 * @scenario
+	 * 0. Create a customer and an auto CA quote with VIN no match
+	 * 1. Update Y/M/M/S/S
+	 * 2. Generate automated renewal image R-45
+	 * 3. Retrieve the policy
+	 * 3. Navigate to P&C page and validate the updated Y/M/M/S/S for the VIN stub
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-12872")
+	public void pas12872_VINRefreshNoMatchOnRenewalAutoCA(@Optional("CA") String state) {
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NO_MATCH_ON_RENEWAL.get());
+		String vehYear = "2017";
+		String vehMake = "NISSAN";
+		String vehModel = "ALTIMA";
+		String vehSeries = "ALTIMA 3.5SL";
+		String vehBodyStyle = "SEDAN";
+		String expectedYear = "2017";
+		String expectedMake = "NISSAN MOTOR";
+		String expectedModel = "NISS ALTIMA";
+
+		pas12872_VINRefreshNoMatchOnRenewalAutoCA(NEW_VIN8, vinTableFile, vehYear, vehMake, vehModel, vehSeries, vehBodyStyle, expectedYear, expectedMake, expectedModel);
+	}
+
+    @AfterClass(alwaysRun = true)
 	protected void vinTablesCleaner() {
 		List<String> listOfVinNumbers = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5, NEW_VIN6, GGGVB2CC8W9455583);
 		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinNumbers,DefaultVinVersions.DefaultVersions.CaliforniaChoice);
 
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(GGGVB2CC8W9455583,DefaultVinVersions.DefaultVersions.CaliforniaChoice.get());
 		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_CAC);
+		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1","KMHCN35C%9","SYMBOL_2000_CHOICE","HYUNDAI");
+		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("KMHCN35C%9", "HYUNDAI MOTOR");
+		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1","1N4BL3AP%H","SYMBOL_2000_CHOICE","NISSAN");
+		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("1N4BL3AP%H", "NISSAN MOTOR");
 	}
 }

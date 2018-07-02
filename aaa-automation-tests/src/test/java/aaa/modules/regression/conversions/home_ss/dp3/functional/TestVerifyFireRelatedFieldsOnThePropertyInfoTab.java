@@ -23,7 +23,9 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
+
 import java.time.LocalDateTime;
+
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSDP3BaseTest {
@@ -107,9 +109,7 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSDP3Ba
 		activeFirstRenewal();
 		initiateSecondRenewal();
 
-		if (PolicySummaryPage.buttonRenewals.isPresent()) {
-			PolicySummaryPage.buttonRenewals.click();
-		}
+
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
 
