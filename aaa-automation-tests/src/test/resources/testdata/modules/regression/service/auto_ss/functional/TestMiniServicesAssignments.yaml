@@ -28,6 +28,10 @@ TestData_TwoDrivers: {
     DriverTab: ['@Driver_one', '@Driver_two'],
 }
 
+TestData_ThreeDrivers: {
+    DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three'],
+}
+
 TestData_FourDrivers: {
     DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three', '@Driver_four'],
 }
@@ -97,11 +101,13 @@ Driver_four: {
     License Status: 'Licensed (US)'
 }
 
-
-
 AssignmentTabFourDrivers: {
   DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver2', '@AssignedDriver3', '@AssignedDriver4' ]
 }
+
+AssignmentTabThreeDrivers: {
+DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver5', '@AssignedDriver6' ]
+ }
 
 AssignedDriver1: {
     Driver: 'contains=Ben',
@@ -122,6 +128,17 @@ AssignedDriver4: {
     Driver: 'contains=Laura',
     Select Vehicle: 'index=2'
 }
+
+AssignedDriver5: {
+    Driver: 'contains=John',
+    Select Vehicle: 'index=2'
+}
+
+AssignedDriver6: {
+    Driver: 'contains=Monica',
+    Select Vehicle: 'index=3'
+}
+
 
 AssignmentTab: {
   DriverVehicleRelationshipTable: [
