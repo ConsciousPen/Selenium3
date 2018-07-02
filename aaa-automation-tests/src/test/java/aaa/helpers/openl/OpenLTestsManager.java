@@ -151,7 +151,7 @@ public final class OpenLTestsManager {
 				openLTests = excelUnmarshaller.unmarshalRows(OpenLTest.class, policyNumbers);
 			}
 		}
-		
+
 		for (OpenLPolicy policy : openLPolicies) {
 			OpenLTest openLTest = openLTests.stream().filter(t -> Objects.equals(t.getPolicy(), policy.getNumber())).findFirst()
 					.orElseThrow(() -> new IstfException("There is no test for policy number " + policy.getNumber()));

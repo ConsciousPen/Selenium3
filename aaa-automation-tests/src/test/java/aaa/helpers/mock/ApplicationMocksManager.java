@@ -138,12 +138,21 @@ public class ApplicationMocksManager {
 
 	@SuppressWarnings("unchecked")
 	private static <M extends UpdatableMock> String getFileName(Class<M> mockModelClass) {
-		M mock;
-		try {
-			mock = (M) BindHelper.getInstance(mockModelClass);
-		} catch (RuntimeException e) {
-			throw new IstfException("Unable to get filename for mock of class: " + mockModelClass.getName());
+		switch (mockModelClass.getSimpleName()) {
+			case "RetrieveMembershipSummaryMock":
+				return RetrieveMembershipSummaryMock.FILE_NAME;
+			case "RetrievePropertyClassificationMock":
+				return RetrievePropertyClassificationMock.FILE_NAME;
+			case "RetrievePropertyRiskReportsMock":
+				return RetrievePropertyRiskReportsMock.FILE_NAME;
+			default:
+				M mock;
+				try {
+					mock = (M) BindHelper.getInstance(mockModelClass);
+				} catch (RuntimeException e) {
+					throw new IstfException("Unable to get filename for mock of class: " + mockModelClass.getName());
+				}
+				return mock.getFileName();
 		}
-		return mock.getFileName();
 	}
 }

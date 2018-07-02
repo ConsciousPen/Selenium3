@@ -4,8 +4,8 @@ import aaa.helpers.mock.model.property_classification.RetrievePropertyClassifica
 
 public class HomeSSMockGenerator extends MockGenerator {
 	@Override
-	public RetrievePropertyClassificationMock getRetrievePropertyClassificationMock() {
-		RetrievePropertyClassificationMock propertyClassificationMock = super.getRetrievePropertyClassificationMock();
+	public RetrievePropertyClassificationMock buildRetrievePropertyClassificationMock() {
+		RetrievePropertyClassificationMock propertyClassificationMock = super.buildRetrievePropertyClassificationMock();
 		propertyClassificationMock.getPpcResponses().forEach(r -> {
 			r.setFireStationDistBand("1");
 			r.setFireStationDistRange("1 MILE OR LESS");

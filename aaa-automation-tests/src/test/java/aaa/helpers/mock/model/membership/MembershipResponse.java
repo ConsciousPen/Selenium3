@@ -6,7 +6,7 @@ import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
-@ExcelTableElement(sheetName = "MEMBERSHIP_RESPONSE")
+@ExcelTableElement(sheetName = "MEMBERSHIP_RESPONSE", hasEmptyRows = true)
 public class MembershipResponse {
 	@ExcelTransient
 	private static final String DATE_PATTERN_1 = "M/d/yyyy";

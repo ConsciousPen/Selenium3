@@ -37,6 +37,9 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 	public Set<String> getActiveAndPrimaryMembershipNumbersWithoutFaultCodes() {
 		Set<String> membershipNembers = new HashSet<>();
 		for (MembershipRequest request : getMembershipRequests()) {
+			if (request.getMembershipNumber() == null) {
+				continue;
+			}
 			List<MembershipResponse> responses = getMembershipResponses(request.getMembershipNumber());
 			if (responses.stream().anyMatch(r -> StringUtils.isNotBlank(r.getFaultCode()))) {
 				continue;

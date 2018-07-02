@@ -3,7 +3,7 @@ package aaa.helpers.mock.model.property_classification;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
-@ExcelTableElement(sheetName = "PPC_REQUEST")
+@ExcelTableElement(sheetName = "PPC_REQUEST", hasEmptyRows = true)
 public class PPCRequest {
 	@ExcelColumnElement(name = "ID")
 	private String id;
