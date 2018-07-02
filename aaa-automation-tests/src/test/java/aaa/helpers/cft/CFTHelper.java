@@ -11,25 +11,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.exigen.ipb.etcsa.utils.ExcelUtils;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.SftpException;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
 import aaa.modules.BaseTest;
 import aaa.modules.cft.csv.model.FinancialPSFTGLObject;
 import aaa.modules.cft.csv.model.Footer;
 import aaa.modules.cft.csv.model.Header;
 import aaa.modules.cft.csv.model.Record;
+import aaa.utils.excel.io.ExcelManager;
+import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
 import toolkit.db.DBService;
 import toolkit.utils.SSHController;
 
@@ -58,22 +56,22 @@ public class CFTHelper extends BaseTest {
 			if (!reportFile.getName().contains(suffix)) {
 				continue;
 			}
-			int totalBalanceCell = reportFile.getName().contains("Policy") ? 14 : 15;
-			Sheet sheet = ExcelUtils.getSheet(reportFile.getAbsolutePath());
-			for (int i = 0; i < sheet.getPhysicalNumberOfRows(); i++) {
+			int totalBalanceCell = reportFile.getName().contains("Policy") ? 15 : 16;
+			ExcelSheet sheet = new ExcelManager(reportFile).getSheet(1);
+			for (int i = 1; i <= sheet.getRowsNumber(); i++) {
 				if (null == sheet.getRow(i)) {
 					continue;
 				}
-				String cellValue = ExcelUtils.getCellValue(sheet.getRow(i).getCell(3));
+				String cellValue = sheet.getStringValue(i, 4);
 				if (StringUtils.isEmpty(cellValue) || !cellValue.matches("\\d+")) {
 					continue;
 				}
-				if (accountsMapSummaryFromOR.containsKey(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)))) {
-					double amount = accountsMapSummaryFromOR.get(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)))
-							+ Double.parseDouble(ExcelUtils.getCellValue(sheet.getRow(i).getCell(totalBalanceCell)));
-					accountsMapSummaryFromOR.put(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)), amount);
+				if (accountsMapSummaryFromOR.containsKey(sheet.getStringValue(i, 4))) {
+					double amount = accountsMapSummaryFromOR.get(sheet.getStringValue(i, 4))
+							+ Double.valueOf((Double) sheet.getValue(i, totalBalanceCell));
+					accountsMapSummaryFromOR.put(sheet.getStringValue(i, 4), amount);
 				} else {
-					accountsMapSummaryFromOR.put(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)), Double.parseDouble(ExcelUtils.getCellValue(sheet.getRow(i).getCell(totalBalanceCell))));
+					accountsMapSummaryFromOR.put(sheet.getStringValue(i, 4), Double.valueOf((Double) sheet.getValue(i, totalBalanceCell)));
 				}
 			}
 		}
