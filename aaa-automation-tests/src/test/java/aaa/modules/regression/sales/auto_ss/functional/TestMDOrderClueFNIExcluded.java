@@ -148,18 +148,4 @@ public class TestMDOrderClueFNIExcluded extends AutoSSBaseTest {
 		assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(2).getCell("Response").getValue()).isNotEmpty();
 	}
 
-	//		TestData td = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData");
-	//		TestData tdGeneralTab = td.getTestData(GeneralTab.class.getSimpleName()).getTestDataList(AutoSSMetaData.GeneralTab.NamedInsuredInformation.class.getSimpleName()).get(1)
-	//				.adjust(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ADD_INSURED.getLabel(), "Click");
-	//		TestData tdDriverTab = td.getTestDataList(DriverTab.class.getSimpleName()).get(1)
-	//				.adjust(AutoSSMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click");
-
-	//		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-	//		new GeneralTab().fillTab(tdGeneralTab);
-	//		new GeneralTab().submitTab();
-	//		new DriverTab().fillTab(tdDriverTab);
-	//		new DriverTab().submitTab();
-	//		new RatingDetailReportsTab().fillTab(td.getTestData(RatingDetailReportsTab.class.getSimpleName()));
-	//		new PremiumAndCoveragesTab().calculatePremium();
-
 }
