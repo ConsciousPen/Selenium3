@@ -3,6 +3,7 @@ package aaa.modules.regression.sales.auto_ss.functional;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -12,11 +13,13 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig;
+import aaa.utils.StateList;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import static toolkit.verification.CustomAssertions.assertThat;
 
+@StateList(states = Constants.States.MD)
 public class TestMDOrderClueFNIExcluded extends AutoSSBaseTest {
 
 	/**
