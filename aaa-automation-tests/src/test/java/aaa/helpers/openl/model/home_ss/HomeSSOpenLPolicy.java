@@ -5,9 +5,11 @@ import static aaa.helpers.openl.model.OpenLFile.POLICY_SHEET_NAME;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import aaa.helpers.mock.ApplicationMocksManager;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
+import aaa.helpers.mock.model.property_classification.RetrievePropertyClassificationMock;
+import aaa.helpers.mock.model.property_risk_reports.RetrievePropertyRiskReportsMock;
+import aaa.helpers.openl.mock_generator.HomeSSMockGenerator;
 import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.testdata_builder.HomeSSTestDataGenerator;
@@ -80,10 +82,6 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 		return policyAddress;
 	}
 
-	public void setPolicyAddressHomeSSOpenLAddress(HomeSSOpenLAddress policyAddress) {
-		this.policyAddress = policyAddress;
-	}
-
 	public OpenLConstructionInfo getPolicyConstructionInfo() {
 		return policyConstructionInfo;
 	}
@@ -138,14 +136,6 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 
 	public void setRiskMeterData(OpenLRiskMeterData riskMeterData) {
 		this.riskMeterData = riskMeterData;
-	}
-
-	public Boolean isVariationRequest() {
-		return isVariationRequest;
-	}
-
-	public void setVariationRequest(Boolean isVariationRequest) {
-		this.isVariationRequest = isVariationRequest;
 	}
 
 	public String getLevel() {
@@ -268,11 +258,23 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 		this.paymentPlanVariations = paymentPlanVariations;
 	}
 
+	public void setPolicyAddressHomeSSOpenLAddress(HomeSSOpenLAddress policyAddress) {
+		this.policyAddress = policyAddress;
+	}
+
+	public void setVariationRequest(Boolean isVariationRequest) {
+		this.isVariationRequest = isVariationRequest;
+	}
+
 	@Override
 	public LocalDate getEffectiveDate() {
 		return effectiveDate;
 	}
-	
+
+	public void setEffectiveDate(LocalDate effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
+
 	@Override
 	public HomeSSTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
 		return new HomeSSTestDataGenerator(state, baseTestData);
@@ -281,11 +283,24 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	@Override
 	public MocksCollection getRequiredMocks() {
 		MocksCollection requiredMocks = new MocksCollection();
-		RetrieveMembershipSummaryMock membershipAppMock = ApplicationMocksManager.getRetrieveMembershipSummaryMock();
-		if (membershipAppMock.getMembershipNumber(getEffectiveDate(), getPolicyDiscountInformation().getMemberPersistency()) == null) {
-			RetrieveMembershipSummaryMock membershipMock = MockGenerator.getRetrieveMembershipSummaryMock(getEffectiveDate(), getPolicyDiscountInformation().getMemberPersistency());
+		MockGenerator mockGenerator = new HomeSSMockGenerator();
+		Integer memberPersistency = getPolicyDiscountInformation().getMemberPersistency();
+
+		if (!mockGenerator.isMembershipSummaryMockPresent(getEffectiveDate(), memberPersistency)) {
+			RetrieveMembershipSummaryMock membershipMock = mockGenerator.getRetrieveMembershipSummaryMock(getEffectiveDate(), memberPersistency);
 			requiredMocks.add(membershipMock);
 		}
+
+		if (!mockGenerator.isPropertyClassificationMockPresent()) {
+			RetrievePropertyClassificationMock propertyClassificationMock = mockGenerator.getRetrievePropertyClassificationMock();
+			requiredMocks.add(propertyClassificationMock);
+		}
+
+		if (!mockGenerator.isPropertyRiskReportsMockPresent()) {
+			RetrievePropertyRiskReportsMock propertyRiskReportsMockData = mockGenerator.getRetrievePropertyRiskReportsMock();
+			requiredMocks.add(propertyRiskReportsMockData);
+		}
+
 		return requiredMocks;
 	}
 
@@ -295,10 +310,6 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 		return new HomeSSHO4TestDataGenerator(state, baseTestData);
 	}
 	*/
-	
-	public void setEffectiveDate(LocalDate effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
 
 	@Override
 	public String getPolicyNumber() {
@@ -357,5 +368,9 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 				", number=" + number +
 				", policyNumber='" + policyNumber + '\'' +
 				'}';
+	}
+
+	public Boolean isVariationRequest() {
+		return isVariationRequest;
 	}
 }
