@@ -96,7 +96,7 @@ public class TestMDOrderClueFNIExcluded extends AutoSSBaseTest {
 		createCustomerIndividual();
 		createPolicy();
 
-		initiateEndorsementAndValidateCLUE();
+		initiateEndorsementAndValidateCLUE(getTestSpecificTD("TestData"));
 	}
 
 	/**
@@ -121,7 +121,10 @@ public class TestMDOrderClueFNIExcluded extends AutoSSBaseTest {
 		createCustomerIndividual();
 		createPolicy(getStateTestData(testDataManager.getDefault(TestPolicyNano.class), "TestData"));
 
-		initiateEndorsementAndValidateCLUE();
+		initiateEndorsementAndValidateCLUE(getTestSpecificTD("TestData")
+				.mask(TestData.makeKeyPath(VehicleTab.class.getSimpleName(), AutoSSMetaData.VehicleTab.ADD_VEHICLE.getLabel()))
+				.mask(TestData.makeKeyPath(VehicleTab.class.getSimpleName(), AutoSSMetaData.VehicleTab.USAGE.getLabel()))
+				.mask(TestData.makeKeyPath(VehicleTab.class.getSimpleName(), AutoSSMetaData.VehicleTab.VIN.getLabel())));
 
 	}
 
@@ -137,9 +140,9 @@ public class TestMDOrderClueFNIExcluded extends AutoSSBaseTest {
 		assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(1).getCell("Response").getValue()).isNotEmpty();
 	}
 
-	private void initiateEndorsementAndValidateCLUE() {
+	private void initiateEndorsementAndValidateCLUE(TestData td) {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-		policy.getDefaultView().fillFromTo(getTestSpecificTD("TestData"), GeneralTab.class, DriverActivityReportsTab.class, true);
+		policy.getDefaultView().fillFromTo(td, GeneralTab.class, DriverActivityReportsTab.class, true);
 
 		assertThat(DriverActivityReportsTab.tableCLUEReports.getRows().size()).isEqualTo(2);
 		assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(1).getCell("Select").controls.radioGroups.getFirst()).isDisabled();
