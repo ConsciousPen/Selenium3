@@ -21,7 +21,7 @@ public class TestMDOrderClueFNIExcluded extends AutoSSBaseTest {
 
 	/**
 	 * @author Josh Carpenter
-	 * @name Test ability to order CLUE in MD when the FNI is excluded
+	 * @name Test ability to order CLUE in MD when the FNI is excluded for standard policies
 	 * @scenario
 	 * 1. Create new customer
 	 * 2. Initiate MD SS Auto quote
@@ -45,7 +45,7 @@ public class TestMDOrderClueFNIExcluded extends AutoSSBaseTest {
 
 	/**
 	 * @author Josh Carpenter
-	 * @name Test ability to order CLUE in MD when the FNI is excluded
+	 * @name Test ability to order CLUE in MD when the FNI is excluded for nano policies
 	 * @scenario
 	 * 1. Create new customer
 	 * 2. Initiate Nano MD SS Auto quote
@@ -76,10 +76,9 @@ public class TestMDOrderClueFNIExcluded extends AutoSSBaseTest {
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(td, DriverActivityReportsTab.class, true);
 
-		assertThat(DriverActivityReportsTab.tableCLUEReports.getRows()).isEqualTo(2);
+		assertThat(DriverActivityReportsTab.tableCLUEReports.getRows().size()).isEqualTo(1);
 		assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(1).getCell("Select").controls.radioGroups.getFirst()).isEnabled();
-		assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(2).getCell("Select").controls.radioGroups.getFirst()).isEnabled();
-		//TODO these assertions may need adjusted after dev fix is implemented
+		assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(1).getCell("Response").getValue()).isNotEmpty();
 	}
 
 }
