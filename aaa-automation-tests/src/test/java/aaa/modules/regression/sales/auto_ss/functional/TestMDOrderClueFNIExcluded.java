@@ -128,7 +128,6 @@ public class TestMDOrderClueFNIExcluded extends AutoSSBaseTest {
 
 	}
 
-
 	private void fillQuoteAndValidateCLUE(TestData td) {
 		mainApp().open();
 		createCustomerIndividual();
