@@ -1396,13 +1396,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		PolicyCoverageInfo coverageResponse1 = HelperCommon.viewPolicyCoverages(policyNumber);
 		List<Coverage> coveragesVehicle = coverageResponse1.vehicleLevelCoverages.get(0).coverages;
-		softly.assertThat(coveragesVehicle.get(4).coverageCd).isEqualTo("RREIM");
-		softly.assertThat(coveragesVehicle.get(4).coverageDescription).isEqualTo("Rental Reimbursement");
-		softly.assertThat(coveragesVehicle.get(4).coverageLimit).isEqualTo("0/0");
-		softly.assertThat(coveragesVehicle.get(4).coverageLimitDisplay).isEqualTo("No Coverage");
-		softly.assertThat(coveragesVehicle.get(4).coverageType).isEqualTo("Per Day/Maximum");
-		softly.assertThat(coveragesVehicle.get(4).customerDisplayed).isEqualTo(true);
-		softly.assertThat(coveragesVehicle.get(4).canChangeCoverage).isEqualTo(true);
+		verifyRREIM(softly, coveragesVehicle);
 		assertCoverageLimitRentalReimbursement(coverageResponse1);
 
 		//Add first vehicle
@@ -1416,13 +1410,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		PolicyCoverageInfo coverageResponse2 = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, oid1);
 
 		List<Coverage> coveragesVehicle1 = coverageResponse2.vehicleLevelCoverages.get(0).coverages;
-		softly.assertThat(coveragesVehicle1.get(4).coverageCd).isEqualTo("RREIM");
-		softly.assertThat(coveragesVehicle1.get(4).coverageDescription).isEqualTo("Rental Reimbursement");
-		softly.assertThat(coveragesVehicle1.get(4).coverageLimit).isEqualTo("0/0");
-		softly.assertThat(coveragesVehicle1.get(4).coverageLimitDisplay).isEqualTo("No Coverage");
-		softly.assertThat(coveragesVehicle1.get(4).coverageType).isEqualTo("Per Day/Maximum");
-		softly.assertThat(coveragesVehicle1.get(4).customerDisplayed).isEqualTo(true);
-		softly.assertThat(coveragesVehicle1.get(4).canChangeCoverage).isEqualTo(true);
+		verifyRREIM(softly, coveragesVehicle1);
 		assertCoverageLimitRentalReimbursement(coverageResponse2);
 
 		String coverageCdChangeTransport = "RREIM";
@@ -1445,6 +1433,16 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	}
 
+	private void verifyRREIM(SoftAssertions softly, List<Coverage> coveragesVehicle) {
+		softly.assertThat(coveragesVehicle.get(4).coverageCd).isEqualTo("RREIM");
+		softly.assertThat(coveragesVehicle.get(4).coverageDescription).isEqualTo("Rental Reimbursement");
+		softly.assertThat(coveragesVehicle.get(4).coverageLimit).isEqualTo("0/0");
+		softly.assertThat(coveragesVehicle.get(4).coverageLimitDisplay).isEqualTo("No Coverage");
+		softly.assertThat(coveragesVehicle.get(4).coverageType).isEqualTo("Per Day/Maximum");
+		softly.assertThat(coveragesVehicle.get(4).customerDisplayed).isEqualTo(true);
+		softly.assertThat(coveragesVehicle.get(4).canChangeCoverage).isEqualTo(true);
+	}
+
 	protected void pas14693_updateCoverageRentalReimbursementBody(PolicyType policyType, SoftAssertions softly) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -1458,13 +1456,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		PolicyCoverageInfo coverageResponse1 = HelperCommon.viewPolicyCoverages(policyNumber);
 		List<Coverage> coveragesVehicle = coverageResponse1.vehicleLevelCoverages.get(0).coverages;
-		softly.assertThat(coveragesVehicle.get(4).coverageCd).isEqualTo("RREIM");
-		softly.assertThat(coveragesVehicle.get(4).coverageDescription).isEqualTo("Rental Reimbursement");
-		softly.assertThat(coveragesVehicle.get(4).coverageLimit).isEqualTo("0/0");
-		softly.assertThat(coveragesVehicle.get(4).coverageLimitDisplay).isEqualTo("No Coverage");
-		softly.assertThat(coveragesVehicle.get(4).coverageType).isEqualTo("Per Day/Maximum");
-		softly.assertThat(coveragesVehicle.get(4).customerDisplayed).isEqualTo(true);
-		softly.assertThat(coveragesVehicle.get(4).canChangeCoverage).isEqualTo(true);
+		verifyRREIM(softly, coveragesVehicle);
 		assertCoverageLimitRentalReimbursement(coverageResponse1);
 
 		//Add first vehicle
@@ -1478,13 +1470,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		PolicyCoverageInfo coverageResponse2 = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, oid1);
 
 		List<Coverage> coveragesVehicle1 = coverageResponse2.vehicleLevelCoverages.get(0).coverages;
-		softly.assertThat(coveragesVehicle1.get(4).coverageCd).isEqualTo("RREIM");
-		softly.assertThat(coveragesVehicle1.get(4).coverageDescription).isEqualTo("Rental Reimbursement");
-		softly.assertThat(coveragesVehicle1.get(4).coverageLimit).isEqualTo("0/0");
-		softly.assertThat(coveragesVehicle1.get(4).coverageLimitDisplay).isEqualTo("No Coverage");
-		softly.assertThat(coveragesVehicle1.get(4).coverageType).isEqualTo("Per Day/Maximum");
-		softly.assertThat(coveragesVehicle1.get(4).customerDisplayed).isEqualTo(true);
-		softly.assertThat(coveragesVehicle1.get(4).canChangeCoverage).isEqualTo(true);
+		verifyRREIM(softly, coveragesVehicle1);
 		assertCoverageLimitRentalReimbursement(coverageResponse2);
 
 		String coverageCdChangeTransport = "RREIM";
