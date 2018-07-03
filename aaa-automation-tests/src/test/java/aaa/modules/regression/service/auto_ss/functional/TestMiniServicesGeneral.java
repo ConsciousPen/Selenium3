@@ -89,7 +89,7 @@ public class TestMiniServicesGeneral extends TestMiniServicesGeneralHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12866"})
-	public void pas12866_e2eBct(@Optional("ID") String state) {
+	public void pas12866_e2eBct(@Optional("NJ") String state) {
 		assertSoftly(softly ->
 				pas12866_e2eBctBody(state, false, softly)
 		);

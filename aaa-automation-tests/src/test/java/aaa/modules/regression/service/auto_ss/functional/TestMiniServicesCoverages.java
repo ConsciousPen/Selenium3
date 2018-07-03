@@ -111,17 +111,40 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas10352_ManageVehicleCoverageUpdateCoverageOtherState(getPolicyType());
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * Create a active policy with 2018 vehicle
+	 * Create an endorsement.
+	 * add new vehicle
+	 * get a default coverage for rental Reimbursement
+	 * Change RREIM to 30/900 and validate available coverages only no coverage and 30/900
+	 * Change RREIM to 0/0 and verify if we are getting all coverages in available limit
+	 * scanario 2:
+	 * take COMPDED off and verify  RentalReimbursement shows all available limits
+	 * collded make it 500 and verify  RentalReimbursement shows all available limits
+	 * update rreim 50/1500 and verify limits
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14693"})
 	public void pas14693_viewCoverageAndUpdateCoverageRentalReimbursement(@Optional("AZ") String state) {
 		assertSoftly(softly ->
 
-		pas14693_viewCoverageAndUpdateCoverageRentalReimbursement(getPolicyType(),softly)
+				pas14693_viewCoverageAndUpdateCoverageRentalReimbursement(getPolicyType(), softly)
 		);
 	}
 
-	/**
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14693"})
+	public void pas14693_updateCoverageRentalReimbursement(@Optional("AZ") String state) {
+		assertSoftly(softly ->
+
+				pas14693_updateCoverageRentalReimbursementBody(getPolicyType(), softly)
+		);
+	}
+
+	/**`
 	 * @author Megha Gubbala
 	 * Create a active policy in the pas
 	 * Create an endorsement.
@@ -139,7 +162,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14648"})
 	public void pas14721_UpdateCoveragesBI_PD(@Optional("AZ") String state) {
 
-		pas14721_UpdateCoveragesServiceBIPD(getPolicyType(),state);
+		pas14721_UpdateCoveragesServiceBIPD(getPolicyType(), state);
 	}
 
 	/**
