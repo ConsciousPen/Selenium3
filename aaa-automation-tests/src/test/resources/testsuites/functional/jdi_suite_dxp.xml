@@ -108,7 +108,6 @@
             </class>
         </classes>
     </test>
-
     <test name="GeneralVA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
@@ -212,6 +211,17 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
                 <methods>
                     <include name="pas1441_emailChangeOutOfPas"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="UpdateDriverServiceSS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ,NY,VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas478_AddDrivers"/>
+                    <include name="pas477_UpdateDrivers"/>
                 </methods>
             </class>
         </classes>

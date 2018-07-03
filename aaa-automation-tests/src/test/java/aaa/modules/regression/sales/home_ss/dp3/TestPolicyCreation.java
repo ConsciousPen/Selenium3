@@ -33,7 +33,7 @@ public class TestPolicyCreation extends HomeSSDP3BaseTest {
         mainApp().open();
         createCustomerIndividual();
         policy.createPolicy(getPolicyTD("DataGather", "TestData"));
-        
+
         assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 }
