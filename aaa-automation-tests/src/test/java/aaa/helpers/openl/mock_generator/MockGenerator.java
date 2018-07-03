@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import aaa.helpers.mock.ApplicationMocksManager;
 import aaa.helpers.mock.MocksCollection;
-import aaa.helpers.mock.model.AbstractMock;
 import aaa.helpers.mock.model.UpdatableMock;
 import aaa.helpers.mock.model.membership.MembershipRequest;
 import aaa.helpers.mock.model.membership.MembershipResponse;
@@ -184,7 +183,7 @@ public class MockGenerator {
 
 	@SuppressWarnings("unchecked")
 	protected static synchronized <M extends UpdatableMock> M getMock(Class<M> mockModelClass) {
-		UpdatableMock mock = ((AbstractMock) ApplicationMocksManager.getMock(mockModelClass)).clone();
+		UpdatableMock mock = ApplicationMocksManager.getMock(mockModelClass).clone();
 		if (generatedMocks.has(mockModelClass)) {
 			mock.add(generatedMocks.get(mockModelClass));
 		}

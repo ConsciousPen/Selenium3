@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import aaa.helpers.mock.model.AbstractMock;
 import aaa.helpers.mock.model.UpdatableMock;
 import aaa.utils.excel.bind.ExcelMarshaller;
 
@@ -79,7 +78,7 @@ public class MocksCollection implements Iterable<UpdatableMock> {
 			return false;
 		}
 		if (!has(mockModelClass)) {
-			mocks.put(mockModelClass, ((AbstractMock) mock).clone());
+			mocks.put(mockModelClass, mock.clone());
 			return true;
 		}
 		return get(mockModelClass).add(mock);

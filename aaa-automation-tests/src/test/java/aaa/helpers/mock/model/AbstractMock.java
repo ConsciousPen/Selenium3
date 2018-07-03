@@ -5,13 +5,14 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.utils.excel.bind.BindHelper;
+import toolkit.exceptions.IstfException;
 
-public abstract class AbstractMock implements UpdatableMock, Cloneable {
+public abstract class AbstractMock implements UpdatableMock {
 	@Override
 	@SuppressWarnings("unchecked")
 	public boolean add(UpdatableMock otherMock) {
 		assertThat(otherMock).as("Unable to add objects of different classes").hasSameClassAs(this);
-		AbstractMock clonedMock = ((AbstractMock) otherMock).clone();
+		UpdatableMock clonedMock = otherMock.clone();
 
 		boolean isUpdated = false;
 		for (Field tableField : BindHelper.getAllAccessibleFields(clonedMock.getClass(), true)) {
@@ -31,11 +32,18 @@ public abstract class AbstractMock implements UpdatableMock, Cloneable {
 
 	@Override
 	public AbstractMock clone() {
-		AbstractMock clonedMock = (AbstractMock) BindHelper.getInstance(this.getClass());
-		for (Field tableField : BindHelper.getAllAccessibleFields(this.getClass(), true)) {
-			List<Object> tableObjects = new ArrayList<>(BindHelper.getValueAsList(tableField, this));
-			BindHelper.setFieldValue(tableField, clonedMock, tableObjects);
+		AbstractMock clone = null;
+		try {
+			clone = (AbstractMock) super.clone();
+			for (Field tableField : BindHelper.getAllAccessibleFields(this.getClass(), true)) {
+				List<Object> tableObjects = new ArrayList<>(BindHelper.getValueAsList(tableField, this));
+				BindHelper.setFieldValue(tableField, clone, tableObjects);
+			}
+		} catch (CloneNotSupportedException ignore) {
+			// never should happen
+		} catch (Throwable e) {
+			throw new IstfException("Unable to clone object " + this.getClass().getName(), e);
 		}
-		return clonedMock;
+		return clone;
 	}
 }
