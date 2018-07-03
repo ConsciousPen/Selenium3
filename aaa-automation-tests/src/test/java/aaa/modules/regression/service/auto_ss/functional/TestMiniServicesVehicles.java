@@ -458,7 +458,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
 	public void pas13920_ReplaceVehicleKeepAssignmentsOneDriverAz(@Optional("AZ") String state) {
-		//TODO Question to Sabra, error 500 when replacing vehicle with KeepAssignments=true for state with no assignments
+		//BUG PAS-16113 Replace Vehicle and Driver Assignment - when a state doesn't have driver assignment
 		pas13920_ReplaceVehicleKeepAssignmentsOneDriverAzBody(true);
 	}
 

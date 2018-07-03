@@ -163,16 +163,19 @@ public class HelperCommon {
 	}
 
 	public static VehicleUpdateResponseDto replaceVehicle(String policyNumber, String oid, ReplaceVehicleRequest request) {
+		log.info("Replace vehicle params: policyNumber: " + policyNumber + ", oid: " + oid);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES_OID, policyNumber, oid));
 		return runJsonRequestPutDxp(requestUrl, request, VehicleUpdateResponseDto.class);
 	}
 
 	public static VehicleUpdateResponseDto deleteVehicle(String policyNumber, String oid) {
+		log.info("Delete vehicle params: policyNumber: " + policyNumber + ", oid: " + oid);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES_OID, policyNumber, oid));
 		return runJsonRequestDeleteDxp(requestUrl, VehicleUpdateResponseDto.class);
 	}
 
 	public static AAAVehicleVinInfoRestResponseWrapper executeVinInfo(String policyNumber, String vin, String endorsementDate) {
+		log.info("VIN info params: policyNumber: " + policyNumber + ", vin: " + vin + ", endorsementDate: " + endorsementDate);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_VIN_INFO, policyNumber, vin));
 		if (endorsementDate != null) {
 			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
@@ -180,7 +183,8 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, AAAVehicleVinInfoRestResponseWrapper.class);
 	}
 
-	public static AttributeMetadata[] viewEndorsmentVehiclesMetaData(String policyNumber, String oid) {
+	public static AttributeMetadata[] viewEndoresmentVehiclesMetaData(String policyNumber, String oid) {
+		log.info("Vehicle MetaData params: policyNumber: " + policyNumber + ", oid: " + oid);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES_METADATA, policyNumber, oid));
 		return runJsonRequestGetDxp(requestUrl, AttributeMetadata[].class);
 	}
@@ -214,6 +218,7 @@ public class HelperCommon {
 	}
 
 	public static Vehicle executeEndorsementAddVehicle(String policyNumber, String purchaseDate, String vin) {
+		log.info("Add Vehicles params: policyNumber: " + policyNumber + ", purchaseDate: " + purchaseDate + ", vin: " + vin);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES, policyNumber));
 		Vehicle request = new Vehicle();
 		request.purchaseDate = purchaseDate;
@@ -237,6 +242,7 @@ public class HelperCommon {
 	}
 
 	public static ErrorResponseDto viewAddVehicleServiceErrors(String policyNumber, String purchaseDate, String vin) {
+		log.info("Add Vehicles params: policyNumber: " + policyNumber + ", purchaseDate: " + purchaseDate + ", vin: " + vin);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES, policyNumber));
 		Vehicle request = new Vehicle();
 		request.purchaseDate = purchaseDate;
@@ -250,6 +256,7 @@ public class HelperCommon {
 	}
 
 	public static DriverWithRuleSets updateDriver(String policyNumber, String oid, UpdateDriverRequest request) {
+		log.info("Update Driver params: policyNumber: " + policyNumber + ", oid: " + oid);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_UPDATE_DRIVERS, policyNumber, oid));
 		return runJsonRequestPatchDxp(requestUrl, request, DriverWithRuleSets.class);
 	}
@@ -260,6 +267,7 @@ public class HelperCommon {
 	}
 
 	public static ViewDriverAssignmentResponse updateDriverAssignment(String policyNumber, String vehicleOid, List<String> driverOids) {
+		log.info("Update Driver Assignment: policyNumber: " + policyNumber + ", vehicleOid: " + vehicleOid + ", driverOids: " + driverOids);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
 		UpdateDriverAssignmentRequest request = new UpdateDriverAssignmentRequest();
 		request.assignmentRequests = new ArrayList<>();
@@ -286,6 +294,7 @@ public class HelperCommon {
 	}
 
 	static PolicyCoverageInfo viewPolicyCoveragesByVehicle(String policyNumber, String oid) {
+		log.info("Update policy coverages by vehicle: policyNumber: " + policyNumber + ", oid: " + oid);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_POLICY_VEHICLE_OID_COVERAGES, policyNumber, oid));
 		return runJsonRequestGetDxp(requestUrl, PolicyCoverageInfo.class);
 	}
@@ -296,11 +305,13 @@ public class HelperCommon {
 	}
 
 	static PolicyCoverageInfo viewEndorsementCoveragesByVehicle(String policyNumber, String newVehicleOid) {
+		log.info("Update endorsement coverages by vehicle: policyNumber: " + policyNumber + ", newVehicleOid: " + newVehicleOid);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLE_OID_COVERAGES, policyNumber, newVehicleOid));
 		return runJsonRequestGetDxp(requestUrl, PolicyCoverageInfo.class);
 	}
 
 	static PolicyCoverageInfo updateEndorsementCoveragesByVehicle(String policyNumber, String vehicleOid, String coverageCode, String availableLimits) {
+		log.info("Update coverage by vehicle: policyNumber: " + policyNumber + ", vehicleOid: " + vehicleOid + ", coverageCode: " + coverageCode + ", availableLimits: " + availableLimits);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLE_OID_COVERAGES, policyNumber, vehicleOid));
 		UpdateCoverageRequest request = new UpdateCoverageRequest();
 		request.coverageCd = coverageCode;
@@ -309,6 +320,7 @@ public class HelperCommon {
 	}
 
 	static PolicyCoverageInfo updatePolicyLevelCoverageEndorsement(String policyNumber, String coverageCode, String availableLimits) {
+		log.info("Update policy evel coverage: policyNumber: " + policyNumber + ", coverageCode: " + coverageCode + ", availableLimits: " + availableLimits);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_UPDATE_COVERAGES, policyNumber));
 		UpdateCoverageRequest request = new UpdateCoverageRequest();
 		request.coverageCd = coverageCode;
