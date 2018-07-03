@@ -2748,17 +2748,17 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				softly.assertThat(filteredPolicyCoverageResponseUMSUMny.size()).isEqualTo(1);
 
 				List<Coverage> filteredPolicyCoverageResponseSSLny = coverageResponse.policyCoverages.stream().filter(cov -> "Supplemental Spousal Liability".equals(cov.coverageDescription)).collect(Collectors.toList());
-				softly.assertThat(filteredPolicyCoverageResponseSSLny.size()).isEqualTo(1);
+				softly.assertThat(filteredPolicyCoverageResponseSSLny.size()).isEqualTo(0);
 
 				List<Coverage> filteredPolicyCoverageResponsePIPny = coverageResponse.policyCoverages.stream().filter(cov -> "Personal Injury Protection".equals(cov.coverageDescription)).collect(Collectors.toList());
-				softly.assertThat(filteredPolicyCoverageResponsePIPny.size()).isEqualTo(1);
+				softly.assertThat(filteredPolicyCoverageResponsePIPny.size()).isEqualTo(0);
 
 				List<Coverage> filteredPolicyCoverageResponseAPIPny = coverageResponse.policyCoverages.stream().filter(cov -> "APIP".equals(cov.coverageCd)).collect(Collectors.toList());
 				softly.assertThat(filteredPolicyCoverageResponseAPIPny.size()).isEqualTo(1);
 
 				// Possible issue that this coverage will be missing. It is possible, that it should be displayed only for one of the vehicles.
 				List<Coverage> filteredPolicyCoverageResponseMEEny = coverageResponse.policyCoverages.stream().filter(cov -> "Medical Expense Elimination".equals(cov.coverageDescription)).collect(Collectors.toList());
-				softly.assertThat(filteredPolicyCoverageResponseMEEny.size()).isEqualTo(1);
+				softly.assertThat(filteredPolicyCoverageResponseMEEny.size()).isEqualTo(0);
 
 				List<Coverage> filteredPolicyCoverageResponseOBELny = coverageResponse.policyCoverages.stream().filter(cov -> "OBEL".equals(cov.coverageCd)).collect(Collectors.toList());
 				softly.assertThat(filteredPolicyCoverageResponseOBELny.size()).isEqualTo(1);
@@ -2782,13 +2782,12 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	private void validateTrailerCoverages(PolicyCoverageInfo viewPolicyCoveragesByVehicleResponse) {
 		assertSoftly(softly -> {
 			//make sure that no Vehicle Level coverages are missed
-			if (!"KY".equals(getState())) {
-				softly.assertThat(viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.size()).isEqualTo(9);
-			}else if ("NV, OR, UT".contains(getState())){
+			if ("NV, OR, UT".contains(getState())) {
 				softly.assertThat(viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.size()).isEqualTo(10);
-			}
-			else {
+			} else if ("KY".equals(getState())) {
 				softly.assertThat(viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.size()).isEqualTo(8);
+			} else {
+				softly.assertThat(viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.size()).isEqualTo(9);
 			}
 
 			Coverage filteredPolicyCoverageResponseCOMPDED = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
@@ -2800,7 +2799,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(filteredPolicyCoverageResponseCOLLDED.customerDisplayed).isTrue();
 
 			Coverage filteredPolicyCoverageResponseGLASS = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "GLASS".equals(cov.coverageCd)).findFirst().orElse(null);
-			if ("KY".equals(getState())) {
+			if ("KY".equals(getState())) { //TODO-mstrazds: PAS-15329
 				softly.assertThat(filteredPolicyCoverageResponseGLASS).isNull();
 			} else {
 				softly.assertThat(filteredPolicyCoverageResponseGLASS.canChangeCoverage).isFalse();
@@ -2832,7 +2831,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(filteredPolicyCoverageResponseWL.customerDisplayed).isFalse();
 
 			//UMPD is Vehicle level coverage for NV, OR, UT
-			if ("NV, OR, UT".contains(getState())){
+			if ("NV, OR, UT".contains(getState())) {
 				Coverage filteredPolicyCoverageResponseUMPD = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "UMPD".equals(cov.coverageCd)).findFirst().orElse(null);
 				softly.assertThat(filteredPolicyCoverageResponseUMPD).isNotNull();
 				//softly.assertThat(filteredPolicyCoverageResponseUMPD.canChangeCoverage).isFalse(); //not clear yet what value should be
