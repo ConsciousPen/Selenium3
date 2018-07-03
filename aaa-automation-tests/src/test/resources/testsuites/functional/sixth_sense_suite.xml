@@ -111,7 +111,6 @@
 
     <!--Tests for Property-->
 
-    <!--- Commented until PAS-12922 is fixed.
     <test name="Test Update Wildfire Score">
         <parameter name="state" value="UT"/>
         <classes>
@@ -122,7 +121,7 @@
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestOverrideWildfireScore"/>
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestOverrideWildfireScore"/>
         </classes>
-    </test> -->
+    </test>
 
     <test name="Test Renovation Discount for KS DP3, HO3">
         <parameter name="state" value="KS"/>
@@ -329,6 +328,13 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestClueReportOnCopyActions"/>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestClueReportOnCopyActions"/>
+        </classes>
+    </test>
+
+    <test name="Test CLUE reports in MD when the FNI is excluded">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDOrderClueFNIExcluded"/>
         </classes>
     </test>
 
