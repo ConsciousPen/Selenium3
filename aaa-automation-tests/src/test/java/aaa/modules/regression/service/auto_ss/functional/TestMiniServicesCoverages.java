@@ -356,7 +356,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 	/**
 	 * @author Maris Strazds
-	 * @name UM, UIM, UM/UIM rule dependency on UI
+	 * @name Trailers - Coverages that do not apply
 	 * @scenario
 	 * 1. Create a policy in PAS with with more than 1 vehicle (one of them must be Trailer)
 	 * 2. Run View Coverages service (Policy)
@@ -379,7 +379,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14680"})
 	public void pas14680_TrailersCoveragesThatDoNotApply(@Optional("") String state) {
 		pas14680_TrailersCoveragesThatDoNotApplyBody(getPolicyType());
-		//BUG:PAS-15952 Premium calculation fails if Trailer is added to Quote (Auto SS) (KS only)
+
 	}
 
 }

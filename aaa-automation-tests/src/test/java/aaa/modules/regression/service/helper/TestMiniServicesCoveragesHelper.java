@@ -2739,7 +2739,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			}
 
 			List<Coverage> filteredPolicyCoverageResponsePIPD = coverageResponse.policyCoverages.stream().filter(cov -> "Personal Injury Protection Deductible".equals(cov.coverageDescription)).collect(Collectors.toList());
-			if (!filteredPolicyCoverageResponsePIPD.isEmpty()) {
+			if (!filteredPolicyCoverageResponsePIPD.isEmpty()) {//TODO-mstrazds: US needed
 				softly.assertThat(filteredPolicyCoverageResponsePIPD.size()).isEqualTo(1);
 			}
 
@@ -2751,10 +2751,10 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				softly.assertThat(filteredPolicyCoverageResponseSSLny.size()).isEqualTo(0);//TODO-mstrazds: PAS-15309 View Coverage - Supplementary UM/UIM - New York
 
 				List<Coverage> filteredPolicyCoverageResponsePIPny = coverageResponse.policyCoverages.stream().filter(cov -> "Personal Injury Protection".equals(cov.coverageDescription)).collect(Collectors.toList());
-				softly.assertThat(filteredPolicyCoverageResponsePIPny.size()).isEqualTo(0);
+				softly.assertThat(filteredPolicyCoverageResponsePIPny.size()).isEqualTo(0);//TODO-mstrazds: PAS-15363 View Coverages - PIP - New York (Only for Ny or also for othr states?)
 
 				List<Coverage> filteredPolicyCoverageResponseAPIPny = coverageResponse.policyCoverages.stream().filter(cov -> "APIP".equals(cov.coverageCd)).collect(Collectors.toList());
-				softly.assertThat(filteredPolicyCoverageResponseAPIPny.size()).isEqualTo(1); //TODO-mstrazds: PAS-15363 View Coverages - PIP - New York (is this correct coverage)
+				softly.assertThat(filteredPolicyCoverageResponseAPIPny.size()).isEqualTo(1); //TODO-mstrazds: PAS-15363 View Coverages - PIP - New York (is this correct coverage or it really is about PIP)
 
 				// Possible issue that this coverage will be missing. It is possible, that it should be displayed only for one of the vehicles.
 				List<Coverage> filteredPolicyCoverageResponseMEEny = coverageResponse.policyCoverages.stream().filter(cov -> "Medical Expense Elimination".equals(cov.coverageDescription)).collect(Collectors.toList());
@@ -2764,13 +2764,13 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				softly.assertThat(filteredPolicyCoverageResponseOBELny.size()).isEqualTo(1);
 			}
 
-			// Possible issue that this coverage will be missing. It is possible, that it should be displayed only for one of the vehicles. Seems this coverage is only for IN.
+			// Possible issue that this coverage will be missing. It is possible, that it should be displayed only for one of the vehicles. Seems this coverage is only for IN.//TODO-mstrazds:US needed
 			List<Coverage> filteredPolicyCoverageResponseUMPDD = coverageResponse.policyCoverages.stream().filter(cov -> "Uninsured Motorist Property Damage Deductible".equals(cov.coverageDescription)).collect(Collectors.toList());
 			if (!filteredPolicyCoverageResponseUMPDD.isEmpty()) {
 				softly.assertThat(filteredPolicyCoverageResponseUMPDD.size()).isEqualTo(1);
 			}
 
-			//For CT this coverage is without coverageCD
+			//For CT this coverage is without coverageCD//TODO-mstrazds: PAS-15265 View Coverages - UM Conversion Coverage - CT
 			List<Coverage> filteredPolicyCoverageResponseUMCC = coverageResponse.policyCoverages.stream().filter(cov -> "Underinsured Motorist Conversion Coverage".equals(cov.coverageDescription)).collect(Collectors.toList());
 			if (!filteredPolicyCoverageResponseUMCC.isEmpty()) {
 				softly.assertThat(filteredPolicyCoverageResponseUMCC.size()).isEqualTo(1);
@@ -2829,7 +2829,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(filteredPolicyCoverageResponseWL.canChangeCoverage).isFalse();
 			softly.assertThat(filteredPolicyCoverageResponseWL.customerDisplayed).isFalse();
 
-			//UMPD is Vehicle level coverage for NV, OR, UT, OH
+			//UMPD is Vehicle level coverage for NV, OR, UT, OH //TODO-mstrazds:PAS-15496 View Coverages - UMPD Colorado, NV, Ohio, Utah // PAS-16112 View Coverages - UMPD - Oregon
 			if ("NV, OR, UT, OH".contains(getState())) {
 				Coverage filteredPolicyCoverageResponseUMPD = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "UMPD".equals(cov.coverageCd)).findFirst().orElse(null);
 				softly.assertThat(filteredPolicyCoverageResponseUMPD).isNotNull();
@@ -2837,11 +2837,11 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				//softly.assertThat(filteredPolicyCoverageResponseUMPD.customerDisplayed).isFalse(); //not clear yet what value should be
 			}
 
-			//MEDPM ("Medical Payments") is Vehicle level coverage for KY
+			//MEDPM ("Medical Payments") is Vehicle level coverage for KY, DE
 			Coverage filteredPolicyCoverageResponseMEDPM = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "MEDPM".equals(cov.coverageCd)).findFirst().orElse(null);
 			if ("KY, DE".contains(getState())) {
 				softly.assertThat(filteredPolicyCoverageResponseMEDPM).isNotNull();
-				softly.assertThat(filteredPolicyCoverageResponseMEDPM.canChangeCoverage).isNull(); //TODO-mstrazds: US needed?
+				softly.assertThat(filteredPolicyCoverageResponseMEDPM.canChangeCoverage).isNull(); //TODO-mstrazds: US needed
 				softly.assertThat(filteredPolicyCoverageResponseMEDPM.customerDisplayed).isFalse();
 			} else {
 				softly.assertThat(filteredPolicyCoverageResponseMEDPM).isNull();
