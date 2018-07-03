@@ -28,6 +28,19 @@ public class MockGenerator {
 
 	private static MocksCollection generatedMocks = new MocksCollection();
 
+	public static void flushGeneratedMocks() {
+		generatedMocks.clear();
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <M extends UpdatableMock> M getEmptyMock(Class<M> mockDataClass) {
+		M mockInstance = (M) BindHelper.getInstance(mockDataClass);
+		for (Field tableField : BindHelper.getAllAccessibleFields(mockDataClass, true)) {
+			BindHelper.setFieldValue(tableField, mockInstance, new ArrayList<>());
+		}
+		return mockInstance;
+	}
+
 	public boolean isPropertyClassificationMockPresent() {
 		List<String> validFirelineRequestIDs = getMock(RetrievePropertyClassificationMock.class).getFirelineRequests().stream()
 				.filter(r -> StringUtils.isBlank(r.getCityName())
@@ -139,15 +152,6 @@ public class MockGenerator {
 
 		generatedMocks.add(membershipMock);
 		return membershipMock;
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <M extends UpdatableMock> M getEmptyMock(Class<M> mockDataClass) {
-		M mockInstance = (M) BindHelper.getInstance(mockDataClass);
-		for (Field tableField : BindHelper.getAllAccessibleFields(mockDataClass, true)) {
-			BindHelper.setFieldValue(tableField, mockInstance, new ArrayList<>());
-		}
-		return mockInstance;
 	}
 
 	protected static synchronized String generateMockId(List<String> existingMockIDs) {

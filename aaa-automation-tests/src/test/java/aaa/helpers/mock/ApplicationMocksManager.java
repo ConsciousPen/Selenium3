@@ -82,6 +82,7 @@ public class ApplicationMocksManager {
 				cleanTempDirectory();
 			}
 			restartStubServer();
+			MockGenerator.flushGeneratedMocks();
 			log.info("Application mocks update has been finished");
 		} else {
 			log.info("Application server has all required mocks, nothing to update");

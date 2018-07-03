@@ -73,6 +73,14 @@ public class MocksCollection implements Iterable<UpdatableMock> {
 		}
 	}
 
+	public void clear() {
+		mocks.clear();
+	}
+
+	public int size() {
+		return mocks.size();
+	}
+
 	private boolean add(Class<? extends UpdatableMock> mockModelClass, UpdatableMock mock) {
 		if (mock == null) {
 			return false;
@@ -82,10 +90,6 @@ public class MocksCollection implements Iterable<UpdatableMock> {
 			return true;
 		}
 		return get(mockModelClass).add(mock);
-	}
-
-	private int size() {
-		return mocks.size();
 	}
 
 	private static final class MocksIterator implements Iterator<UpdatableMock> {
