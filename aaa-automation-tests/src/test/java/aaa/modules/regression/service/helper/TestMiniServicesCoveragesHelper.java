@@ -2839,7 +2839,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			//MEDPM ("Medical Payments") is Vehicle level coverage for KY
 			Coverage filteredPolicyCoverageResponseMEDPM = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "MEDPM".equals(cov.coverageCd)).findFirst().orElse(null);
-			if ("KY, DE".equals(getState())) {
+			if ("KY, DE".contains(getState())) {
 				softly.assertThat(filteredPolicyCoverageResponseMEDPM).isNotNull();
 				softly.assertThat(filteredPolicyCoverageResponseMEDPM.canChangeCoverage).isNull(); //TODO-mstrazds: US needed?
 				softly.assertThat(filteredPolicyCoverageResponseMEDPM.customerDisplayed).isFalse();
