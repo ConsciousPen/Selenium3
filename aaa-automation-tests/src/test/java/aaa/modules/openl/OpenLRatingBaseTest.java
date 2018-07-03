@@ -16,7 +16,7 @@ import aaa.helpers.openl.OpenLTestInfo;
 import aaa.helpers.openl.OpenLTestsManager;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
-import aaa.helpers.openl.testdata_builder.TestDataGenerator;
+import aaa.helpers.openl.testdata_generator.TestDataGenerator;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 

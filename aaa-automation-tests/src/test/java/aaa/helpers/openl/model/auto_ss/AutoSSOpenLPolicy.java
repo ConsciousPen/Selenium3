@@ -8,7 +8,7 @@ import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
 import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
-import aaa.helpers.openl.testdata_builder.AutoSSTestDataGenerator;
+import aaa.helpers.openl.testdata_generator.AutoSSTestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
 

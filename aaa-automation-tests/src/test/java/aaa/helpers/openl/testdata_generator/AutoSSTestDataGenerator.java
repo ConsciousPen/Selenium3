@@ -1,4 +1,4 @@
-package aaa.helpers.openl.testdata_builder;
+package aaa.helpers.openl.testdata_generator;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDate;

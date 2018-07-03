@@ -6,7 +6,7 @@ import java.util.List;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
-import aaa.helpers.openl.testdata_builder.AutoCaChoiceTestDataGenerator;
+import aaa.helpers.openl.testdata_generator.AutoCaChoiceTestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 import toolkit.datax.TestData;

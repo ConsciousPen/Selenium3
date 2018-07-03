@@ -1,10 +1,9 @@
-package aaa.helpers.openl.testdata_builder;
+package aaa.helpers.openl.testdata_generator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLForm;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLPolicy;
@@ -15,7 +14,7 @@ import toolkit.exceptions.IstfException;
 
 public class HomeCAFormTestDataGenerator {		
 	//Form is included
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO29DataFunction =  (openLPolicy) -> {
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO29DataFunction = openLPolicy -> {
 		if (Boolean.FALSE.equals(openLPolicy.getHasPolicySupportingForm())) {
 			List<TestData> tdList = new ArrayList<>();
 			tdList.add(DataProviderFactory.dataOf("Action", "Remove"));
@@ -26,12 +25,11 @@ public class HomeCAFormTestDataGenerator {
 	}; 
 	
 	//Form is included if Detached Structure (Rented to Other = Yes) is added on Property Info Tab
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO40DataFunction = (openLPolicy) -> {
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO40DataFunction = openLPolicy -> {
 		return null;
 	};
-	
-	
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO210DataFunction =  (openLPolicy) -> {
+
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO210DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
 		Dollar coverageLimit = new Dollar(openLPolicy.getForms().stream().filter(c -> "HO-210".equals(c.getFormCode())).findFirst().get().getLimit());
 		tdList.add(DataProviderFactory.dataOf(
@@ -40,8 +38,7 @@ public class HomeCAFormTestDataGenerator {
 		return tdList;
 	};
 
-	
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO42DataFunction = (openLPolicy) -> {
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO42DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", "Add",
@@ -55,15 +52,15 @@ public class HomeCAFormTestDataGenerator {
 				HomeCaMetaData.EndorsementTab.EndorsementHO42.IS_BUSINESS_CONDUCTED_OR_IS_THERE_EQUIPMENT_STORED.getLabel(), "No"));
 		return tdList;
 	};
-	
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO43DataFunction = (openLPolicy) -> {
+
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO43DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
 		Integer instanceNum = 1;
 		for(HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
 			if ("HO-43".equals(form.getFormCode())) {
 				tdList.add(DataProviderFactory.dataOf(
 						"Action", "Add",
-						HomeCaMetaData.EndorsementTab.EndorsementHO43.DESCRIPTION_OF_BUSINESS_EQUIPMENT.getLabel(), "Test" + instanceNum.toString(), 
+						HomeCaMetaData.EndorsementTab.EndorsementHO43.DESCRIPTION_OF_BUSINESS_EQUIPMENT.getLabel(), "Test" + instanceNum,
 						HomeCaMetaData.EndorsementTab.EndorsementHO43.STREET_ADDRESS_1.getLabel(), "111 Test street", 
 						HomeCaMetaData.EndorsementTab.EndorsementHO43.CITY.getLabel(), "Beverly Hills", 
 						HomeCaMetaData.EndorsementTab.EndorsementHO43.STATE.getLabel(), "CA",
@@ -82,28 +79,28 @@ public class HomeCAFormTestDataGenerator {
 	};
 	
 	//Form is included if 'Number of family units' is 3 or 4 on Property Info Tab
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO44DataFunction = (openLPolicy) -> {
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO44DataFunction = openLPolicy -> {
 		return null;
 	};
 	
 	//Form is included if Detached Structure (Rented to Other = No) is added on Property Info Tab
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO48DataFunction = (openLPolicy) -> {
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO48DataFunction = openLPolicy -> {
 		return null;
 	};
-	
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO57DataFunction = (openLPolicy) -> {
+
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO57DataFunction = openLPolicy -> {
 		return null;
 	};
-	
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO59DataFunction = (openLPolicy) -> {
+
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO59DataFunction = openLPolicy -> {
 		return null;
 	};
-	
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO60DataFunction = (openLPolicy) -> {
+
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO60DataFunction = openLPolicy -> {
 		return null;
 	};
-	
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO61DataFunction = (openLPolicy) -> {
+
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO61DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
 		Integer instanceNum = 1;
 		for(HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
@@ -116,8 +113,8 @@ public class HomeCAFormTestDataGenerator {
 		}
 		return tdList;
 	};
-	
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO61CDataFunction = (openLPolicy) -> {
+
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO61CDataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
 		Integer instanceNum = 1;
 		for(HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
@@ -132,8 +129,8 @@ public class HomeCAFormTestDataGenerator {
 		}
 		return tdList;
 	};
-	
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO70DataFunction =  (openLPolicy) -> {
+
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO70DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
 		int instanceNum = 1;
 		for(HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
@@ -151,8 +148,8 @@ public class HomeCAFormTestDataGenerator {
 		}
 		return tdList;
 	};
-	
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO71DataFunction =  (openLPolicy) -> {
+
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO71DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", "Add",
@@ -161,9 +158,9 @@ public class HomeCAFormTestDataGenerator {
 				HomeCaMetaData.EndorsementTab.EndorsementHO71.CLASSIFICATION_OCCUPATION.getLabel(), "index=2", 
 				HomeCaMetaData.EndorsementTab.EndorsementHO71.IS_THE_INSURED_SELF_EMPLOYED_A_PARTNER_IN_THE_BUSINESS.getLabel(), "No"));
 		return tdList;
-	}; 
-	
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO75DataFunction = (openLPolicy) -> {
+	};
+
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO75DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
 		int instanceNum = 1;
 		for(HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
@@ -179,60 +176,60 @@ public class HomeCAFormTestDataGenerator {
 		}
 		return tdList;
 	};
-	
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO76DataFunction = (openLPolicy) -> {
+
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO76DataFunction = openLPolicy -> {
 		return null;
 	};
-	
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO77DataFunction = (openLPolicy) -> {
+
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO77DataFunction = openLPolicy -> {
 		return null;
 	};
-	
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO78DataFunction = (openLPolicy) -> {
+
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO78DataFunction = openLPolicy -> {
 		return null;
 	};
-	
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO79DataFunction = (openLPolicy) -> {
+
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO79DataFunction = openLPolicy -> {
 		return null;
 	};
-	
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO80DataFunction = (openLPolicy) -> {
+
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO80DataFunction = openLPolicy -> {
 		return null;
 	};
-	
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO81DataFunction = (openLPolicy) -> {
+
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO81DataFunction = openLPolicy -> {
 		return null;
 	};
-	
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO82DataFunction = (openLPolicy) -> {
+
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO82DataFunction = openLPolicy -> {
 		return null;
 	};
-	
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO90DataFunction = (openLPolicy) -> {
+
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO90DataFunction = openLPolicy -> {
 		return null;
 	};
-	
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO164DataFunction = (openLPolicy) -> {
+
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO164DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
 		Integer instanceNum = 1;
 		for(HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
 			if ("HO-164".equals(form.getFormCode())) {
 				tdList.add(DataProviderFactory.dataOf(
-						"Action", "Add", 
-						HomeCaMetaData.EndorsementTab.EndorsementHO164.MAKE.getLabel(), "Test" + instanceNum.toString(), 
-						HomeCaMetaData.EndorsementTab.EndorsementHO164.MODEL.getLabel(), "Model" + instanceNum.toString(), 
+						"Action", "Add",
+						HomeCaMetaData.EndorsementTab.EndorsementHO164.MAKE.getLabel(), "Test" + instanceNum,
+						HomeCaMetaData.EndorsementTab.EndorsementHO164.MODEL.getLabel(), "Model" + instanceNum,
 						HomeCaMetaData.EndorsementTab.EndorsementHO164.HORSEPOWER.getLabel(), "50"));
 				instanceNum++;
 			}
 		}
 		return tdList;
-	};  
-	
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO177DataFunction = (openLPolicy) -> {
+	};
+
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO177DataFunction = openLPolicy -> {
 		return null;
 	};
-	
-	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHARIDataFunction = (openLPolicy) -> {
+
+	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHARIDataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
 		Integer instanceNum = 1;
 		for(HomeCaHO3OpenLForm form: openLPolicy.getForms()) {

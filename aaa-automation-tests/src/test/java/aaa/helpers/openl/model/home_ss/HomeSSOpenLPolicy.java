@@ -12,7 +12,7 @@ import aaa.helpers.mock.model.property_risk_reports.RetrievePropertyRiskReportsM
 import aaa.helpers.openl.mock_generator.HomeSSMockGenerator;
 import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.openl.model.OpenLPolicy;
-import aaa.helpers.openl.testdata_builder.HomeSSTestDataGenerator;
+import aaa.helpers.openl.testdata_generator.HomeSSTestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
