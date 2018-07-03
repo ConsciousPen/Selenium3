@@ -43,6 +43,7 @@ public class TestCurrentTermEndAddsVehicle extends AutoSSBaseTest {
     private static final String VEHICLE1_VIN = "KNDJT2A2XA7038383";
     private static final String VEHICLE2_VIN = "JT2AE91A7M3425407";
     private static final String VEHICLE3_VIN = "1FTRE1421YHA89455";
+	private static final String VEHICLE4_VIN = "5NPEU46C991234567";
     private static final String VEHICLE1_UPDATED_VIN = "2GTEC19V531282646";
     private static final String SYMBOL_2000 = "SYMBOL_2000";
     private static final String SYMBOL_2018 = "SYMBOL_2018";
@@ -111,8 +112,8 @@ public class TestCurrentTermEndAddsVehicle extends AutoSSBaseTest {
         // vin upload to update second VIN To another VIN where VIN will be matched
         adminApp().open();
         uploadToVINTableTab.uploadFiles(controlTableFile, vinTableFile);
-        LocalDateTime expirationDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(2);
-        LocalDateTime effectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(3);
+        LocalDateTime expirationDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(360);
+        LocalDateTime effectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(361);
         updateControlTable(state,expirationDate,effectiveDate);
 
         //3. Change system date to R-35 and renew it
@@ -136,21 +137,45 @@ public class TestCurrentTermEndAddsVehicle extends AutoSSBaseTest {
         }
 
         //6. Calculate Premium and bind the endorsement.
+	    ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
         policy.getDefaultView().fillFromTo(testDataThreeVehicles, VehicleTab.class, PremiumAndCoveragesTab.class,true);
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.submitTab();
 
-       //7. compareRenewalVersions
-//        TODO
-//        add assertions here to
-//        Open the last renewal inscription in 'Transaction history'.
-//                Expected Result:
-//        The First Vehicle - NOT updated will not change/not refresh;
-//        The second Vehicle - updated according to 4th step VIN details;
-//        The third Vehicle - displayed new data according to version;
-        ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		//Verify the Vehicle data on the policy summary page shows the SYMBOL_200 data - NOT refreshed data
+//	    softly.assertThat(PolicySummaryPage.getVehicleInfo(1)).isEqualTo("2009 HYUNDAI SONATA");
+	    softly.assertThat(PolicySummaryPage.getVehicleInfo(1)).doesNotContainPattern("MOTOR");
+	    softly.assertThat(PolicySummaryPage.getVehicleInfo(2)).doesNotContainPattern("MOTOR");
+	    softly.assertThat(PolicySummaryPage.getVehicleInfo(3)).doesNotContainPattern("MOTOR");
+//	    softly.assertThat(PolicySummaryPage.getVehicleInfo(2)).isEqualTo("1991 TOYOTA COROLLA");
+//	    softly.assertThat(PolicySummaryPage.getVehicleInfo(3)).isEqualTo("2000 FORD ECONOLINE VAN");
+
+       //7. Verify Latest Renewal Version has correct vehicle details
+	    // The First Vehicle - Displayed Updated data according to version;
+       // The second Vehicle - NOT updated will not change/not refresh;
+	   // The third Vehicle - displayed new data according to version;
 
         if(scenario.equals("NOT_MATCHED")) { //scenario 1 blocked by defect PAS-15964 (Ajax error)
+            PolicySummaryPage.buttonRenewalQuoteVersion.click();
+            PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(2).controls.links.get(1).click(); //click to enter second renewal image
+	        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+	        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+
+	        softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("HYUNDAI MOTOR");
+	        softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isEqualTo("55");
+	        softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isEqualTo("15");
+
+	        softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue()).isEqualToIgnoringCase("TOYOTA MOTOR");
+	        softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue()).isEqualToIgnoringCase("TOYT COROLLA");
+	        softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(3).getValue()).isEqualTo("50");
+	        softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(3).getValue()).isEqualTo("51");
+
+	        softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(4).getValue()).isEqualToIgnoringCase("FORD MOTOR");
+	        softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(4).getValue()).isEqualTo("24");
+	        softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(4).getValue()).isEqualTo("14");
+
+	        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+	        PremiumAndCoveragesTab.buttonCancel.click();
 
         } else if(scenario.equals("MATCHED")) { //scenario 2
             PolicySummaryPage.buttonRenewalQuoteVersion.click();
@@ -158,11 +183,6 @@ public class TestCurrentTermEndAddsVehicle extends AutoSSBaseTest {
             softly.assertThat(PolicySummaryPage.getVehicleInfo(1)).isEqualTo("2010 KIA MOTOR KIA SOUL");
             softly.assertThat(PolicySummaryPage.getVehicleInfo(2)).isEqualTo("2003 GMC SIERRA");
             softly.assertThat(PolicySummaryPage.getVehicleInfo(3)).isEqualTo("2000 FORD ECONOLINE VAN");
-
-//            PolicySummaryPage.buttonRenewalQuoteVersion.click();
-//            PolicySummaryPage.tableTransactionHistory.getRow(2).getCell(2).click(); //first renewal
-//            softly.assertThat(PolicySummaryPage.getVehicleInfo(1)).isEqualTo("2010 KIA MOTOR KIA SOUL");
-//            softly.assertThat(PolicySummaryPage.getVehicleInfo(2)).isEqualTo("1991 TOYOTA MOTOR TOYT COROLLA");
             softly.close();
         } else if(scenario.equals("STUB")) { //scenario 3
             //TODO - to be added later
@@ -230,9 +250,9 @@ public class TestCurrentTermEndAddsVehicle extends AutoSSBaseTest {
             testData2
                     .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "ZZXKN3DD2E0344466")
                     .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.YEAR.getLabel()), "2009")
-                    .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MAKE.getLabel()), "HYUNDI")
-                    .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MODEL.getLabel()), "SONAT")
-                    .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.SERIES.getLabel()), "SONAT SE/LIMITED")
+                    .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MAKE.getLabel()), "HYUNDAI")
+                    .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MODEL.getLabel()), "SONATA")
+                    .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.SERIES.getLabel()), "SONATA SE/LIMITED")
                     .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()), "SEDAN 4 DOOR");
             return testData2;
     }
@@ -254,6 +274,8 @@ public class TestCurrentTermEndAddsVehicle extends AutoSSBaseTest {
     protected void resetDefault() {
         DatabaseCleanHelper.cleanVehicleRefDataVinTable(VEHICLE1_VIN,SYMBOL_2018);
         DatabaseCleanHelper.cleanVehicleRefDataVinTable(VEHICLE2_VIN,SYMBOL_2018);
+	    DatabaseCleanHelper.cleanVehicleRefDataVinTable(VEHICLE3_VIN,SYMBOL_2018);
+	    DatabaseCleanHelper.cleanVehicleRefDataVinTable(VEHICLE4_VIN,SYMBOL_2018);
         DBService.get().executeUpdate(String.format(VehicleQueries.DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_STATECD_VERSION,"AZ",SYMBOL_2018));
         DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION, "99999999", "AZ", SYMBOL_2000));
     }

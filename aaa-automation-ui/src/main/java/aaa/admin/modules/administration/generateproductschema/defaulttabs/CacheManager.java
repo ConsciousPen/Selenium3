@@ -23,7 +23,7 @@ public class CacheManager extends DefaultTab {
 	}
 
 	public static void getToCacheManagerTab() {
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+//		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		long timeoutInSeconds = 10;
 		long timeout = System.currentTimeMillis() + timeoutInSeconds * 1000;
 
