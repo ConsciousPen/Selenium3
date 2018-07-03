@@ -2782,7 +2782,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	private void validateTrailerCoverages(PolicyCoverageInfo viewPolicyCoveragesByVehicleResponse) {
 		assertSoftly(softly -> {
 			//make sure that no Vehicle Level coverages are missed
-			if ("NV, OR, UT".contains(getState())) {
+			if ("NV, OR, UT, DE, OH".contains(getState())) {
 				softly.assertThat(viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.size()).isEqualTo(10);
 			} else if ("KY".equals(getState())) {
 				softly.assertThat(viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.size()).isEqualTo(8);
@@ -2831,8 +2831,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(filteredPolicyCoverageResponseWL.canChangeCoverage).isFalse();
 			softly.assertThat(filteredPolicyCoverageResponseWL.customerDisplayed).isFalse();
 
-			//UMPD is Vehicle level coverage for NV, OR, UT
-			if ("NV, OR, UT".contains(getState())) {
+			//UMPD is Vehicle level coverage for NV, OR, UT, OH
+			if ("NV, OR, UT, OH".contains(getState())) {
 				Coverage filteredPolicyCoverageResponseUMPD = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "UMPD".equals(cov.coverageCd)).findFirst().orElse(null);
 				softly.assertThat(filteredPolicyCoverageResponseUMPD).isNotNull();
 				//softly.assertThat(filteredPolicyCoverageResponseUMPD.canChangeCoverage).isFalse(); //not clear yet what value should be
