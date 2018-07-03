@@ -355,19 +355,19 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         openRatingDetails();
 
         // Verify That Auto tier is the same as Manually added policies
-        assertThat(autoTierValue).isEqualTo(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier"));
+        assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier")).isEqualTo(autoTierValue);
         PropertyQuoteTab.RatingDetailsViewPUP.close();
 
         // Change Manually Added Auto policies tier
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS.get());
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
-        underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER).setValueByIndex(10);
+        underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER).setValue("11");
         String autoTierValue1 = underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER).getValue();
 
         openRatingDetails();
 
         // Verify That Auto tier is the same as Manually added policies
-        assertThat(autoTierValue1).isEqualTo(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier"));
+        assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier")).isEqualTo(autoTierValue1);
 
         // Issue Policy
         issuePupFromPremiumTab();
