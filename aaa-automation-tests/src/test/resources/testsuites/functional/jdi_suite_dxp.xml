@@ -413,4 +413,14 @@
             </class>
         </classes>
     </test>
+    <test name="pas14680_TrailersCoveragesThatDoNotApply" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA, UT, KY, AZ, CO, CT, DC, DE, ID, IN, KS, MD, MT, NV, NY, OH, OK, OR, SD, WV, WY, PA, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas14680_TrailersCoveragesThatDoNotApply"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
