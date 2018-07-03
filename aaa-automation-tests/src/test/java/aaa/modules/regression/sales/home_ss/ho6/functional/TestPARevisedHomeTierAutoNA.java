@@ -7,14 +7,14 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.modules.policy.HomeSSHO6BaseTest;
-import aaa.modules.regression.sales.home_ss.helper.HelperRevisedHomeTierPA;
+import aaa.modules.regression.sales.template.functional.RevisedHomeTierPATemplate;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.PA)
 public class TestPARevisedHomeTierAutoNA extends HomeSSHO6BaseTest {
 
-    private HelperRevisedHomeTierPA helper = new HelperRevisedHomeTierPA();
+    private RevisedHomeTierPATemplate template = new RevisedHomeTierPATemplate();
 
     /**
      * @author Josh Carpenter
@@ -35,7 +35,7 @@ public class TestPARevisedHomeTierAutoNA extends HomeSSHO6BaseTest {
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6849")
     public void pas6849_TestDisplayAutoTierOnApplicantTab(@Optional("PA") String state) {
 
-        helper.pas6849_TestDisplayAutoTierOnApplicantTab(getPolicyType());
+        template.pas6849_TestDisplayAutoTierOnApplicantTab(getPolicyType());
 
     }
 
@@ -58,7 +58,7 @@ public class TestPARevisedHomeTierAutoNA extends HomeSSHO6BaseTest {
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6849")
     public void pas6849_TestAutoNAValueWithNonPACompanionAuto(@Optional("PA") String state) {
 
-        helper.pas6849_TestAutoNAValueWithNonPACompanionAuto(getPolicyType());
+        template.pas6849_TestAutoNAValueWithNonPACompanionAuto(getPolicyType());
 
     }
 }
