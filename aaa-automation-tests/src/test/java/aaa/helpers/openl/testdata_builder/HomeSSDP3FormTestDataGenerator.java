@@ -78,7 +78,6 @@ public class HomeSSDP3FormTestDataGenerator {
 		return tdList;
 	};
 
-
 	private static Function<HomeSSOpenLPolicy, List<TestData>> formDS0471DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
 		HomeSSOpenLForm form = openLPolicy.getForms().stream().filter(c -> "DS0471".equals(c.getFormCode())).findFirst().get();
@@ -120,6 +119,16 @@ public class HomeSSDP3FormTestDataGenerator {
 		return tdList;
 	};
 
+	private static Function<HomeSSOpenLPolicy, List<TestData>> formDS0929DataFunction = openLPolicy -> {
+		List<TestData> tdList = new ArrayList<>();
+		HomeSSOpenLForm form = openLPolicy.getForms().stream().filter(c -> "DS0929".equals(c.getFormCode())).findFirst().get();
+		tdList.add(DataProviderFactory.dataOf(
+				"Action", "Add",
+				HomeSSMetaData.EndorsementTab.EndorsementDS0929.PROPERTY_COVERAGE_LIMIT.getLabel(), new Dollar(form.getLimit()).toString().split("\\.")[0],
+				HomeSSMetaData.EndorsementTab.EndorsementDS0929.LIABILITY_COVERAGE_LIMIT.getLabel(), new Dollar(form.getOptionalValue()).toString().split("\\.")[0]));
+		return tdList;
+	};
+
 	private static Function<HomeSSOpenLPolicy, List<TestData>> formDS0934DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
 		tdList.add(DataProviderFactory.dataOf(
@@ -131,6 +140,16 @@ public class HomeSSDP3FormTestDataGenerator {
 		List<TestData> tdList = new ArrayList<>();
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", "Add"));
+		return tdList;
+	};
+
+	private static Function<HomeSSOpenLPolicy, List<TestData>> formDS2494DataFunction = openLPolicy -> {
+		List<TestData> tdList = new ArrayList<>();
+		tdList.add(DataProviderFactory.dataOf(
+				"Action", "Add",
+				HomeSSMetaData.EndorsementTab.EndorsementDS2494.IS_THE_EMPLOYEE_A_PRIVATE_RESIDENCE_OR_ESTATE_FULL_TIME_INSERVANT.getLabel(), "No",
+				HomeSSMetaData.EndorsementTab.EndorsementDS2494.IS_THE_EMPLOYEE_A_PRIVATE_RESIDENCE_FULL_TIME_OUTSERVANT_INCLUDING_DRIVERS.getLabel(), "No",
+				HomeSSMetaData.EndorsementTab.EndorsementDS2494.IS_THE_EMPLOYEE_A_PRIVATE_ESTATE_FULL_TIME_OUTSERVANT_INCLUDING_DRIVERS.getLabel(), "No"));
 		return tdList;
 	};
 
@@ -460,17 +479,19 @@ public class HomeSSDP3FormTestDataGenerator {
 	}
 
 	public enum Forms {
-		DS0420(HomeSSMetaData.EndorsementTab.DS_04_20.getLabel(), "DS0420", formDS0420DataFunction),    //*
-		DS0463(HomeSSMetaData.EndorsementTab.DS_04_63.getLabel(), "DS0463", formDS0463DataFunction),    //*
+		DS0420(HomeSSMetaData.EndorsementTab.DS_04_20.getLabel(), "DS0420", formDS0420DataFunction),
+		DS0463(HomeSSMetaData.EndorsementTab.DS_04_63.getLabel(), "DS0463", formDS0463DataFunction),
 		DS0468(HomeSSMetaData.EndorsementTab.DS_04_68.getLabel(), "HS0436", formDS0468DataFunction),    // HS 04 36 --> DS 04 68
-		DS0469(HomeSSMetaData.EndorsementTab.DS_04_69.getLabel(), "DS0469", formDS0469DataFunction),    //*
-		DS0471(HomeSSMetaData.EndorsementTab.DS_04_71.getLabel(), "DS0471", formDS0471DataFunction),    //*
-		DS0473(HomeSSMetaData.EndorsementTab.DS_04_73.getLabel(), "DS0473", formDS0473DataFunction),    //*
-		DS0475(HomeSSMetaData.EndorsementTab.DS_04_75.getLabel(), "DS0475", formDS0475DataFunction),    //*
+		DS0469(HomeSSMetaData.EndorsementTab.DS_04_69.getLabel(), "DS0469", formDS0469DataFunction),
+		DS0471(HomeSSMetaData.EndorsementTab.DS_04_71.getLabel(), "DS0471", formDS0471DataFunction),
+		DS0473(HomeSSMetaData.EndorsementTab.DS_04_73.getLabel(), "DS0473", formDS0473DataFunction),
+		DS0475(HomeSSMetaData.EndorsementTab.DS_04_75.getLabel(), "DS0475", formDS0475DataFunction),
 		DS0495(HomeSSMetaData.EndorsementTab.DS_04_95.getLabel(), "HS0495", formDS0495DataFunction),    // HS 04 95 --> DS 04 95
-		DS0926(HomeSSMetaData.EndorsementTab.DS_09_26.getLabel(), "DS0926", formDS0926DataFunction),    //*
-		DS0934(HomeSSMetaData.EndorsementTab.DS_09_34.getLabel(), "DS0934", formDS0934DataFunction),    //*
-		DS2482(HomeSSMetaData.EndorsementTab.DS_24_82.getLabel(), "DS2482", formDS2482DataFunction),    //*
+		DS0926(HomeSSMetaData.EndorsementTab.DS_09_26.getLabel(), "DS0926", formDS0926DataFunction),
+		DS0929(HomeSSMetaData.EndorsementTab.DS_09_29.getLabel(), "DS0929", formDS0929DataFunction),
+		DS0934(HomeSSMetaData.EndorsementTab.DS_09_34.getLabel(), "DS0934", formDS0934DataFunction),
+		DS2482(HomeSSMetaData.EndorsementTab.DS_24_82.getLabel(), "DS2482", formDS2482DataFunction),
+		DS2494(HomeSSMetaData.EndorsementTab.DS_24_94.getLabel(), "DS2494", formDS2494DataFunction),
 
 		// TODO HO3 forms - to be removed?
 		HS0412(HomeSSMetaData.EndorsementTab.HS_04_12.getLabel(), "HS0412", formHS0412DataFunction),
