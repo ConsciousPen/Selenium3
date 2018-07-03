@@ -2799,8 +2799,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(filteredPolicyCoverageResponseCOLLDED.customerDisplayed).isTrue();
 
 			Coverage filteredPolicyCoverageResponseGLASS = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "GLASS".equals(cov.coverageCd)).findFirst().orElse(null);
-			if ("KY".equals(getState())) { //TODO-mstrazds: PAS-15329
-				softly.assertThat(filteredPolicyCoverageResponseGLASS).isNull();
+			if ("KY".equals(getState())) {
+				softly.assertThat(filteredPolicyCoverageResponseGLASS.canChangeCoverage).isNull(); //TODO-mstrazds: PAS-15329 View Coverages - Full Safety Glass - Kentucky
+				softly.assertThat(filteredPolicyCoverageResponseGLASS.customerDisplayed).isFalse();
 			} else {
 				softly.assertThat(filteredPolicyCoverageResponseGLASS.canChangeCoverage).isFalse();
 				softly.assertThat(filteredPolicyCoverageResponseGLASS.customerDisplayed).isFalse();
