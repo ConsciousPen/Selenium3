@@ -2086,7 +2086,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				softly.assertThat(availableLimits.get(7).coverageLimit).isEqualTo("1000000/1000000");
 				softly.assertThat(availableLimits.get(7).coverageLimitDisplay).isEqualTo("$1,000,000/$1,000,000");
 
-			} else if ("AZ, UT".contains(state)) {
+			} else if ("AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY".contains(state)) {
 				List<CoverageLimit> availableLimits = coverageResponse.policyCoverages.get(0).availableLimits;
 
 				softly.assertThat(availableLimits.get(0).coverageLimit).isEqualTo("15000/30000");
