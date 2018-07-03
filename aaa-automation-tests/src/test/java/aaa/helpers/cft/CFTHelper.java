@@ -16,8 +16,12 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
@@ -26,8 +30,6 @@ import aaa.modules.cft.csv.model.FinancialPSFTGLObject;
 import aaa.modules.cft.csv.model.Footer;
 import aaa.modules.cft.csv.model.Header;
 import aaa.modules.cft.csv.model.Record;
-import aaa.utils.excel.io.ExcelManager;
-import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
 import toolkit.db.DBService;
 import toolkit.utils.SSHController;
 
@@ -46,7 +48,7 @@ public class CFTHelper extends BaseTest {
 		if (directory.mkdirs()) {
 			log.info("\"{}\" folder was created", directory.getAbsolutePath());
 		} else {
-			FileUtils.deleteQuietly(new File (dirPath+fileName));
+			FileUtils.deleteQuietly(new File(dirPath + fileName));
 		}
 	}
 
@@ -56,23 +58,30 @@ public class CFTHelper extends BaseTest {
 			if (!reportFile.getName().contains(suffix)) {
 				continue;
 			}
-			int totalBalanceCell = reportFile.getName().contains("Policy") ? 15 : 16;
-			ExcelSheet sheet = new ExcelManager(reportFile).getSheet(1);
-			for (int i = 1; i <= sheet.getRowsNumber(); i++) {
-				if (null == sheet.getRow(i)) {
-					continue;
+			int totalBalanceCell = reportFile.getName().contains("Policy") ? 14 : 15;
+
+			try {
+				XSSFSheet sheet = new XSSFWorkbook(reportFile).getSheetAt(0);
+				for (Row row : sheet) {
+					if (row.equals(null)) {
+						continue;
+					}
+					String cellValue = row.getCell(3).getStringCellValue();
+					if (StringUtils.isEmpty(cellValue) || !cellValue.matches("\\d+")) {
+						continue;
+					}
+					if (accountsMapSummaryFromOR.containsKey(row.getCell(3).getStringCellValue())) {
+						double amount = accountsMapSummaryFromOR.get(row.getCell(3).getStringCellValue())
+								+ row.getCell(totalBalanceCell).getNumericCellValue();
+						accountsMapSummaryFromOR.put(row.getCell(3).getStringCellValue(), amount);
+					} else {
+						accountsMapSummaryFromOR.put(row.getCell(3).getStringCellValue(), row.getCell(totalBalanceCell).getNumericCellValue());
+					}
 				}
-				String cellValue = sheet.getStringValue(i, 4);
-				if (StringUtils.isEmpty(cellValue) || !cellValue.matches("\\d+")) {
-					continue;
-				}
-				if (accountsMapSummaryFromOR.containsKey(sheet.getStringValue(i, 4))) {
-					double amount = accountsMapSummaryFromOR.get(sheet.getStringValue(i, 4))
-							+ Double.valueOf((Double) sheet.getValue(i, totalBalanceCell));
-					accountsMapSummaryFromOR.put(sheet.getStringValue(i, 4), amount);
-				} else {
-					accountsMapSummaryFromOR.put(sheet.getStringValue(i, 4), Double.valueOf((Double) sheet.getValue(i, totalBalanceCell)));
-				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InvalidFormatException e) {
+				e.printStackTrace();
 			}
 		}
 		return accountsMapSummaryFromOR;
