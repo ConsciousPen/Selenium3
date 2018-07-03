@@ -5,7 +5,7 @@ import static aaa.helpers.openl.model.OpenLFile.POLICY_SHEET_NAME;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
-import aaa.helpers.openl.testdata_builder.HomeCaHO6TestDataGenerator;
+import aaa.helpers.openl.testdata_generator.HomeCaHO6TestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
 

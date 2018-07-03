@@ -1,4 +1,4 @@
-package aaa.helpers.openl.testdata_builder;
+package aaa.helpers.openl.testdata_generator;
 
 import java.util.ArrayList;
 import java.util.List;

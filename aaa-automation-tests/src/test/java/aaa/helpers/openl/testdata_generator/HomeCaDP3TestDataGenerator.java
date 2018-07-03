@@ -1,22 +1,16 @@
-package aaa.helpers.openl.testdata_builder;
+package aaa.helpers.openl.testdata_generator;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.helpers.TestDataHelper;
-import aaa.helpers.openl.model.home_ca.dp3.HomeCaDP3OpenLPolicy;
 import aaa.helpers.openl.model.home_ca.dp3.HomeCaDP3OpenLForm;
+import aaa.helpers.openl.model.home_ca.dp3.HomeCaDP3OpenLPolicy;
 import aaa.main.metadata.policy.HomeCaMetaData;
-import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;

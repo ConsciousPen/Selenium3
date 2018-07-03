@@ -1,4 +1,4 @@
-package aaa.helpers.openl.testdata_builder;
+package aaa.helpers.openl.testdata_generator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.Duration;

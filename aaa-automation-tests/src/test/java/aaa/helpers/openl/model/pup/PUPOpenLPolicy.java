@@ -9,7 +9,7 @@ import aaa.helpers.mock.model.property_classification.RetrievePropertyClassifica
 import aaa.helpers.mock.model.property_risk_reports.RetrievePropertyRiskReportsMock;
 import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.openl.model.OpenLPolicy;
-import aaa.helpers.openl.testdata_builder.PUPTestDataGenerator;
+import aaa.helpers.openl.testdata_generator.PUPTestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
 
