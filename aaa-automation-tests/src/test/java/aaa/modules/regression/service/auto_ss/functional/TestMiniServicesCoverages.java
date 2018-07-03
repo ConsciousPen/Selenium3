@@ -119,7 +119,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * get a default coverage for rental Reimbursement
 	 * Change RREIM to 30/900 and validate available coverages only no coverage and 30/900
 	 * Change RREIM to 0/0 and verify if we are getting all coverages in available limit
-	 * scanario 2:
+	 * scenario 2:
 	 * take COMPDED off and verify  RentalReimbursement shows all available limits
 	 * collded make it 500 and verify  RentalReimbursement shows all available limits
 	 * update rreim 50/1500 and verify limits
@@ -134,6 +134,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		);
 	}
 
+    //scenario 2
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14693"})
