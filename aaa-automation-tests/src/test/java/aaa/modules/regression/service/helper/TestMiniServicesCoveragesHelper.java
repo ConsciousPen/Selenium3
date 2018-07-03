@@ -1417,18 +1417,20 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		String availableLimitsChangeTransport = "30/900";
 
 		PolicyCoverageInfo rreimUpdatedCoverage = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oid1, coverageCdChangeTransport, availableLimitsChangeTransport);
-		List<Coverage> updatedCoverageVehicle1 = rreimUpdatedCoverage.vehicleLevelCoverages.get(0).coverages;
-		softly.assertThat(updatedCoverageVehicle1.get(4).coverageLimit).isEqualTo("30/900");
-		softly.assertThat(updatedCoverageVehicle1.get(4).coverageLimitDisplay).isEqualTo("$30/$900");
+		Coverage filteredCoverageResponseRREIM = rreimUpdatedCoverage.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "RREIM".equals(cov.coverageCd)).findFirst().orElse(null);
+
+		softly.assertThat(filteredCoverageResponseRREIM.coverageLimit).isEqualTo("30/900");
+		softly.assertThat(filteredCoverageResponseRREIM.coverageLimitDisplay).isEqualTo("$30/$900");
 		assertCoverageLimitRentalReimbursementAfterUpdate(rreimUpdatedCoverage);
 
 		String coverageCdChangeTransport1 = "RREIM";
 		String availableLimitsChangeTransport1 = "0/0";
 
 		PolicyCoverageInfo rreimUpdatedCoverage1 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oid1, coverageCdChangeTransport1, availableLimitsChangeTransport1);
-		List<Coverage> updatedCoverageVehicle2 = rreimUpdatedCoverage1.vehicleLevelCoverages.get(0).coverages;
-		softly.assertThat(updatedCoverageVehicle2.get(4).coverageLimit).isEqualTo("0/0");
-		softly.assertThat(updatedCoverageVehicle2.get(4).coverageLimitDisplay).isEqualTo("No Coverage");
+		Coverage filteredCoverageResponseRREIM1 = rreimUpdatedCoverage1.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "RREIM".equals(cov.coverageCd)).findFirst().orElse(null);
+
+		softly.assertThat(filteredCoverageResponseRREIM1.coverageLimit).isEqualTo("0/0");
+		softly.assertThat(filteredCoverageResponseRREIM1.coverageLimitDisplay).isEqualTo("No Coverage");
 		assertCoverageLimitRentalReimbursement(rreimUpdatedCoverage1);
 
 	}
@@ -1477,36 +1479,39 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		String availableLimitsChangeTransport = "30/900";
 
 		PolicyCoverageInfo rreimUpdatedCoverage = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oid1, coverageCdChangeTransport, availableLimitsChangeTransport);
-		List<Coverage> updatedCoverageVehicle1 = rreimUpdatedCoverage.vehicleLevelCoverages.get(0).coverages;
-		softly.assertThat(updatedCoverageVehicle1.get(4).coverageLimit).isEqualTo("30/900");
-		softly.assertThat(updatedCoverageVehicle1.get(4).coverageLimitDisplay).isEqualTo("$30/$900");
+		Coverage filteredCoverageResponseRREIM1 = rreimUpdatedCoverage.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "RREIM".equals(cov.coverageCd)).findFirst().orElse(null);
+
+		softly.assertThat(filteredCoverageResponseRREIM1.coverageLimit).isEqualTo("30/900");
+		softly.assertThat(filteredCoverageResponseRREIM1.coverageLimitDisplay).isEqualTo("$30/$900");
 		assertCoverageLimitRentalReimbursementAfterUpdate(rreimUpdatedCoverage);
 
 		String coverageCdChange = "COMPDED";
 		String availableLimitsChange = "-1";
 
 		PolicyCoverageInfo rreimUpdatedCoverage1 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oid1, coverageCdChange, availableLimitsChange);
-		List<Coverage> updatedCoverageVehicle2 = rreimUpdatedCoverage1.vehicleLevelCoverages.get(0).coverages;
+		Coverage filteredCoverageResponseComp = rreimUpdatedCoverage1.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
+		Coverage filteredCoverageResponseRreim = rreimUpdatedCoverage1.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "RREIM".equals(cov.coverageCd)).findFirst().orElse(null);
 
-		softly.assertThat(updatedCoverageVehicle2.get(0).coverageLimit).isEqualTo("-1");
-		softly.assertThat(updatedCoverageVehicle2.get(0).coverageLimitDisplay).isEqualTo("No Coverage");
+		softly.assertThat(filteredCoverageResponseComp.coverageLimit).isEqualTo("-1");
+		softly.assertThat(filteredCoverageResponseComp.coverageLimitDisplay).isEqualTo("No Coverage");
 
-		softly.assertThat(updatedCoverageVehicle2.get(4).coverageLimit).isEqualTo("0/0");
-		softly.assertThat(updatedCoverageVehicle2.get(4).coverageLimitDisplay).isEqualTo("No Coverage");
-		softly.assertThat(updatedCoverageVehicle2.get(4).canChangeCoverage).isEqualTo(false);
+		softly.assertThat(filteredCoverageResponseRreim.coverageLimit).isEqualTo("0/0");
+		softly.assertThat(filteredCoverageResponseRreim.coverageLimitDisplay).isEqualTo("No Coverage");
+		softly.assertThat(filteredCoverageResponseRreim.canChangeCoverage).isEqualTo(false);
 		assertCoverageLimitRentalReimbursement(rreimUpdatedCoverage1);
 
 		String coverageCdChangeCom = "COMPDED";
 		String availableLimitsChangeCom = "500";
 
 		PolicyCoverageInfo rreimUpdatedCoverageComp = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oid1, coverageCdChangeCom, availableLimitsChangeCom);
-		List<Coverage> updatedCoverageVehicleComp = rreimUpdatedCoverageComp.vehicleLevelCoverages.get(0).coverages;
+		Coverage filteredCoverageResponseComp1 = rreimUpdatedCoverageComp.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
+		Coverage filteredCoverageResponseRreim1 = rreimUpdatedCoverageComp.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "RREIM".equals(cov.coverageCd)).findFirst().orElse(null);
 
-		softly.assertThat(updatedCoverageVehicleComp.get(0).coverageLimit).isEqualTo("500");
-		softly.assertThat(updatedCoverageVehicleComp.get(0).coverageLimitDisplay).isEqualTo("$500");
+		softly.assertThat(filteredCoverageResponseComp1.coverageLimit).isEqualTo("500");
+		softly.assertThat(filteredCoverageResponseComp1.coverageLimitDisplay).isEqualTo("$500");
 
-		softly.assertThat(updatedCoverageVehicleComp.get(4).coverageLimit).isEqualTo("0/0");
-		softly.assertThat(updatedCoverageVehicleComp.get(4).coverageLimitDisplay).isEqualTo("No Coverage");
+		softly.assertThat(filteredCoverageResponseRreim1.coverageLimit).isEqualTo("0/0");
+		softly.assertThat(filteredCoverageResponseRreim1.coverageLimitDisplay).isEqualTo("No Coverage");
 		assertCoverageLimitRentalReimbursement(rreimUpdatedCoverageComp);
 
 		String coverageCdChangeColl = "COLLDED";
@@ -1514,22 +1519,24 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		PolicyCoverageInfo rreimUpdatedCoverageColl1 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oid1, coverageCdChangeColl, availableLimitsChangeColl);
 
-		List<Coverage> rreimUpdatedCoverageColl = rreimUpdatedCoverageColl1.vehicleLevelCoverages.get(0).coverages;
+		Coverage filteredCoverageResponseColl = rreimUpdatedCoverageColl1.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COLLDED".equals(cov.coverageCd)).findFirst().orElse(null);
+		Coverage filteredCoverageResponseRreimColl = rreimUpdatedCoverageColl1.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "RREIM".equals(cov.coverageCd)).findFirst().orElse(null);
 
-		softly.assertThat(rreimUpdatedCoverageColl.get(1).coverageLimit).isEqualTo("500");
-		softly.assertThat(rreimUpdatedCoverageColl.get(1).coverageLimitDisplay).isEqualTo("$500");
+		softly.assertThat(filteredCoverageResponseColl.coverageLimit).isEqualTo("500");
+		softly.assertThat(filteredCoverageResponseColl.coverageLimitDisplay).isEqualTo("$500");
 
-		softly.assertThat(rreimUpdatedCoverageColl.get(4).coverageLimit).isEqualTo("0/0");
-		softly.assertThat(rreimUpdatedCoverageColl.get(4).coverageLimitDisplay).isEqualTo("No Coverage");
+		softly.assertThat(filteredCoverageResponseRreimColl.coverageLimit).isEqualTo("0/0");
+		softly.assertThat(filteredCoverageResponseRreimColl.coverageLimitDisplay).isEqualTo("No Coverage");
 		assertCoverageLimitRentalReimbursement(rreimUpdatedCoverageColl1);
 
 		String coverageChangeTransport = "RREIM";
 		String availableLimitsTransport = "50/1500";
 
 		PolicyCoverageInfo rreimUpdatedCoverageHigh = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oid1, coverageChangeTransport, availableLimitsTransport);
-		List<Coverage> updatedCoverageVehicle = rreimUpdatedCoverageHigh.vehicleLevelCoverages.get(0).coverages;
-		softly.assertThat(updatedCoverageVehicle.get(4).coverageLimit).isEqualTo("50/1500");
-		softly.assertThat(updatedCoverageVehicle.get(4).coverageLimitDisplay).isEqualTo("$50/$1,500");
+		Coverage filteredCoverageResponseRreimHigh = rreimUpdatedCoverageHigh.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "RREIM".equals(cov.coverageCd)).findFirst().orElse(null);
+
+		softly.assertThat(filteredCoverageResponseRreimHigh.coverageLimit).isEqualTo("50/1500");
+		softly.assertThat(filteredCoverageResponseRreimHigh.coverageLimitDisplay).isEqualTo("$50/$1,500");
 		assertCoverageLimitRentalReimbursementAfterUpdateRreim(rreimUpdatedCoverageHigh);
 	}
 
