@@ -557,7 +557,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
     public void testSC1_TC20(@Optional("") String state) {
         mainApp().open();
-        SearchPage.openPolicy("COSS954077150");
+        SearchPage.openPolicy(getPolicyNumber());
 
         policy.doNotRenew().start();
         doNotRenewActionTab.fillTab(getTestSpecificTD("TestData_TC20"));
@@ -568,11 +568,11 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
         });
 
         //#TODO: AJAX Loading error
-        //Tab.buttonOk.click(Waiters.AJAX(60 * 1000));
-        //CustomAssertions.assertThat(errorTab.tableErrors).hasMatchingRows(1, ImmutableMap.of("Message", "Please select the Driver Activity resulting in non-renewal of the policy."));
+        Tab.buttonOk.click(Waiters.AJAX(60 * 1000));
+        CustomAssertions.assertThat(errorTab.tableErrors).hasMatchingRows(1, ImmutableMap.of("Message", "Please select the Driver Activity resulting in non-renewal of the policy."));
 
-        //doNotRenewActionTab.getAssetList().getAsset(AutoSSMetaData.DoNotRenewActionTab.TABLE_DRIVER_ACTIVITY).getRow(1).getCell(1).controls.checkBoxes.getFirst().setValue(true);
-        //Tab.buttonOk.click();
+        DoNotRenewActionTab.tableDriverActivities.getRow(1).getCell(1).controls.checkBoxes.getFirst().setValue(true);
+        Tab.buttonOk.click();
     }
 
     private void preconditions(NavigationEnum.AutoSSTab navigateTo) {
