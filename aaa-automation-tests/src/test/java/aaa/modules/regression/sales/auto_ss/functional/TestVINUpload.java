@@ -439,11 +439,9 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2716")
 	public void pas2716_AutomatedRenewal_ExpirationDateMinus45(@Optional("UT") String state) {
-		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
-
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), SUBSEQUENT_RENEWAL_45);
-		String pas2716VinTableFileName = vinMethods.getSpecificUploadFile(VinUploadFileType.SUBSEQUENT_RENEWAL_45.get());
+		String pas2716VinTableFileName = new VinUploadHelper(getPolicyType(), getState()).getSpecificUploadFile(VinUploadFileType.SUBSEQUENT_RENEWAL_45.get());
 		/*
 		 * Automated Renewal R-45
 		 */
@@ -784,7 +782,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 	@AfterClass(alwaysRun = true)
 	protected void resetDefault() {
-		List<String> listOfVinNumbers = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5, NEW_VIN6,NEW_VIN7,NEW_VIN8);
+		List<String> listOfVinNumbers = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5, NEW_VIN6,NEW_VIN7,NEW_VIN8,SUBSEQUENT_RENEWAL_35,SUBSEQUENT_RENEWAL_45,SUBSEQUENT_RENEWAL_46,REFRESHABLE_VIN);
 		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinNumbers,DefaultVinVersions.DefaultVersions.SignatureSeries);
 
 		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_SS);
