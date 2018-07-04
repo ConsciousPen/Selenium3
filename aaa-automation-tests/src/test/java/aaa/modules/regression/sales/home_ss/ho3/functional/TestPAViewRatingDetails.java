@@ -8,14 +8,14 @@ import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.modules.policy.HomeSSHO3BaseTest;
-import aaa.modules.regression.sales.home_ss.helper.HelperRevisedHomeTierPA;
+import aaa.modules.regression.sales.template.functional.RevisedHomeTierPATemplate;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.PA)
 public class TestPAViewRatingDetails extends HomeSSHO3BaseTest {
 
-	private HelperRevisedHomeTierPA helper = new HelperRevisedHomeTierPA();
+	private RevisedHomeTierPATemplate template = new RevisedHomeTierPATemplate();
 
 	/**
 	 * @author Dominykas Razgunas
@@ -41,6 +41,6 @@ public class TestPAViewRatingDetails extends HomeSSHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6676, PAS-7025, PAS-7024")
 	public void pas6676_testPAViewRatingDetails(@Optional("PA") String state) {
 
-		helper.pas6676_TestPAViewRatingDetails(getPolicyType());
+		template.pas6676_TestPAViewRatingDetails(getPolicyType());
 	}
 }

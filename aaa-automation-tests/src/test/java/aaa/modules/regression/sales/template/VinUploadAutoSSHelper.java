@@ -2,7 +2,6 @@ package aaa.modules.regression.sales.template;
 
 import static aaa.helpers.db.queries.MsrpQueries.*;
 import static aaa.helpers.db.queries.VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE;
-import static org.assertj.core.api.Assertions.assertThat;
 import static aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab.tableRatingDetailsVehicles;
 import static org.testng.Assert.fail;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
