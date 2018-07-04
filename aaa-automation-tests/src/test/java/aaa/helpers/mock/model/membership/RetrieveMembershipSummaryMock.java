@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.commons.lang.StringUtils;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.istf.timesetter.client.TimeSetterClient;
 import aaa.helpers.mock.model.AbstractMock;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
@@ -80,8 +82,8 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 	}
 
 	public Set<String> getActiveAndPrimaryMembershipNumbers(LocalDate memberSinceDate) {
-		//LocalDate today = TimeSetterUtil.getInstance().getCurrentTime().toLocalDate(); // breaks time shifting if executed in before suite and "timeshift-scenario-mode" != "suite"
-		LocalDate today = LocalDate.now(); //TODO-dchubkov: find out how get JVM date without TimeSetterUtil
+		// TimeSetterUtil.getInstance().getCurrentTime() breaks time shifting if executed in before suite and "timeshift-scenario-mode" != "suite"
+		LocalDate today = TimeSetterUtil.istfDateToJava(new TimeSetterClient().getStartTime()).toLocalDate();
 		Set<String> validMembershipNumbers = new HashSet<>();
 		for (String membershipNumber : getActiveAndPrimaryMembershipNumbersWithoutFaultCodes()) {
 			for (MembershipResponse r : getMembershipResponses(membershipNumber)) {
@@ -113,8 +115,8 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 	}
 
 	private String getMembershipNumberForAvgAnnualERSperMember(Set<String> membershipNumbers, LocalDate policyEffectiveDate, Double avgAnnualERSperMember) {
-		//LocalDate today = TimeSetterUtil.getInstance().getCurrentTime().toLocalDate(); // breaks time shifting if executed in before suite and "timeshift-scenario-mode" != "suite"
-		LocalDate today = LocalDate.now(); //TODO-dchubkov: find out how get JVM date without TimeSetterUtil
+		// TimeSetterUtil.getInstance().getCurrentTime() breaks time shifting if executed in before suite and "timeshift-scenario-mode" != "suite"
+		LocalDate today = TimeSetterUtil.istfDateToJava(new TimeSetterClient().getStartTime()).toLocalDate();
 		for (String mNumber : membershipNumbers) {
 			int ersCount = 0;
 			int totalYearsCount = 0;
