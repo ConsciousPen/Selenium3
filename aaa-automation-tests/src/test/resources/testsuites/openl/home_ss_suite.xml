@@ -97,7 +97,7 @@
             <class name="aaa.modules.openl.HomeSSDP3PremiumCalculationTest"/>
         </classes>
     </test>
-    <test name="HomeSS [NJ] Premium Calculation Test" preserve-order="true">
+    <test name="HomeSS_HO3 [NJ] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="NJ"/>
         <parameter name="fileName" value="NJTests-20180401_part1.xls"/>
         <parameter name="policyNumbers" value="2"/>
@@ -105,7 +105,7 @@
             <class name="aaa.modules.openl.HomeSSHO3PremiumCalculationTest"/>
         </classes>
     </test>
-    <test name="HomeSS [NJ] Premium Calculation Test" preserve-order="true">
+    <test name="HomeSS_DP3 [NJ] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="NJ"/>
         <parameter name="fileName" value="NJTests-20180401_part2.xls"/>
         <parameter name="policyNumbers" value="2012"/>
