@@ -388,6 +388,34 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		);
 	}
 
+	/**
+	 * @author Maris Strazds
+	 * @name Trailers - Coverages that do not apply
+	 * @scenario
+	 * 1. Create a policy in PAS with with more than 1 vehicle (one of them must be Trailer)
+	 * 2. Run View Coverages service (Policy)
+	 * 3. Validate that View coverages Service response contains only  one instance of Policy level coverages
+	 * 4. Run View Coverages service (Policy) for Trailer
+	 * 5. Validate that View Coverages service response should contain  all vehicle level coverages
+	 *      AND only comp and coll should have CanChangecoverage = true
+	 *      AND CustomerDisplay = true
+	 * 6. Create an endorsement through service
+	 * 7. Run View Coverages service (Endorsement)
+	 * 8. Validate that View coverages Service response contains only  one instance of Policy level coverages
+	 * 9. Run View Coverages service (Endorsement) for Trailer
+	 * 10. Validate that View Coverages service response should contain  all vehicle level coverages
+	 *      AND only comp and coll should have CanChangecoverage = true
+	 *      AND CustomerDisplay = true
+	 * @details
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14680"})
+	public void pas14680_TrailersCoveragesThatDoNotApply(@Optional("") String state) {
+		pas14680_TrailersCoveragesThatDoNotApplyBody(getPolicyType());
+
+	}
+
 }
 
 
