@@ -3,11 +3,9 @@
 package aaa.modules.regression.sales.home_ss.dp3;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
