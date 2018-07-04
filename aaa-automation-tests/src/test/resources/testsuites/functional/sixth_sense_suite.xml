@@ -95,7 +95,33 @@
         </classes>
     </test>
 
+    <test name="Test Locked BI Limits And UW Points">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints">
+                <methods>
+                    <include name="pas9063_verifyLockedUWPoints"/>
+                    <include name="pas9063_verifyLockedUWPointsEndorsement"/>
+                    <include name="pas9063_verifyLockedUWPointsRenewal"/>
+                    <include name="pas9063_verifyLockedUWPointsConversion"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <!--Tests for Property-->
+
+    <test name="Test Update Wildfire Score">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestOverrideWildfireScore"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestOverrideWildfireScore"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestOverrideWildfireScore"/>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestOverrideWildfireScore"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestOverrideWildfireScore"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestOverrideWildfireScore"/>
+        </classes>
+    </test>
 
     <test name="Test Renovation Discount for KS DP3, HO3">
         <parameter name="state" value="KS"/>
@@ -302,6 +328,13 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestClueReportOnCopyActions"/>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestClueReportOnCopyActions"/>
+        </classes>
+    </test>
+
+    <test name="Test CLUE reports in MD when the FNI is excluded">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDOrderClueFNIExcluded"/>
         </classes>
     </test>
 

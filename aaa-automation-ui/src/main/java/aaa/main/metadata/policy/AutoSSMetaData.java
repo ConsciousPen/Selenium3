@@ -2,10 +2,6 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.metadata.policy;
 
-import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.controls.PartySearchTextBox;
-import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
-import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.customcontrols.*;
@@ -14,6 +10,10 @@ import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import aaa.toolkit.webdriver.customcontrols.endorsements.AutoSSForms;
+import com.exigen.ipb.etcsa.controls.PartySearchTextBox;
+import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
+import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
+import org.openqa.selenium.By;
 import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
@@ -625,10 +625,10 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<ComboBox> FULL_SAFETY_GLASS = declare("Full Safety Glass", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> RENTAL_REIMBURSEMENT = declare("Rental Reimbursement", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> TRANSPORTATION_EXPENSE = declare("Transportation Expense", ComboBox.class);
-		public static final AssetDescriptor<ComboBox> TOWING_AND_LABOR_COVERAGE = declare("Towing and Labor Coverage", ComboBox.class);
-		public static final AssetDescriptor<TextBox> EXCESS_ELECTRONIC_EQUIPMENT = declare("Excess Electronic Equipment", TextBox.class);
 		public static final AssetDescriptor<ComboBox> AUTO_LOAN_LEASE_COVERAGE = declare("Auto Loan/Lease Coverage", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> VEHICLE_LOAN_LEASE_PROTECTION = declare("Vehicle Loan/Lease Protection", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> TOWING_AND_LABOR_COVERAGE = declare("Towing and Labor Coverage", ComboBox.class);
+		public static final AssetDescriptor<TextBox> EXCESS_ELECTRONIC_EQUIPMENT = declare("Excess Electronic Equipment", TextBox.class);
 		public static final AssetDescriptor<ComboBox> NEW_CAR_ADDED_PROTECTION = declare("New Car Added Protection", ComboBox.class);
 		public static final AssetDescriptor<TextBox> PURCHASE_DATE = declare("Purchase Date", TextBox.class);
 
@@ -717,6 +717,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<ComboBox> NEW_CAR_ADDED_PROTECTION = declare("New Car Added Protection", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> UNINSURED_MOTORIST_PROPERTY_DAMAGE = declare("Uninsured Motorist Property Damage", ComboBox.class);
 			public static final AssetDescriptor<TextBox> PURCHASE_DATE = declare("Purchase Date", TextBox.class);
+			public static final AssetDescriptor<ComboBox> AUTO_LOAN_LEASE_COVERAGE = declare("Auto Loan/Lease Coverage", ComboBox.class);
 			public static final AssetDescriptor<AdvancedComboBox> VEHICLE_LOAN_OR_LEASE_PROTECTION = declare("Vehicle Loan/Lease Protection", AdvancedComboBox.class);
 			// *** DO NOT DECLARE "Waive Liability" and "Vehicle Coverage" controls in this MetaData. They are added within DetailedVehicleCoveragesRepeatAssetList.class ***
 		}

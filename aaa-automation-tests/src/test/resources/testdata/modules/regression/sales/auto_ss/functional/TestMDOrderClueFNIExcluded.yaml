@@ -1,0 +1,52 @@
+#Test data to add a second NI/driver to MD Auto Policy during endorsement
+
+TestData: {
+  GeneralTab: {
+    NamedInsuredInformation: {
+      Add: 'Click',
+      InsuredSearchDialog: {},
+      First Name: Jenny,
+      Last Name: Smith,
+      Base Date: $<today>,
+      Social Security Number: 223456789,
+      "Has lived here for less than three years?": 'No',
+      Residence: Own Home,
+    }
+  },
+
+  DriverTab: ['@Driver1', '@Driver2'],
+
+  RatingDetailReportsTab: {
+    Customer Agreement: Customer Agrees,
+    Order Report: click
+  },
+
+  VehicleTab: {
+    Add Vehicle: "Click",
+    Usage: Pleasure,
+    VIN: WDCYC7BB0B6729451,
+  },
+
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click
+  }
+}
+
+Driver1: {
+  Driver Type: 'Excluded'
+}
+
+Driver2: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: S123456789998
+}

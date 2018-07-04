@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
@@ -29,6 +30,7 @@ import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Link;
 
 public class TestVINUploadTemplate extends CommonTemplateMethods {
@@ -493,6 +495,87 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 			// PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("Yes");
 		});
+	}
+
+	protected void pas12872_VINRefreshNoMatchUnboundAutoCAQuote(String vinNumber, String vinTableFile, String vehYear, String vehMake, String vehModel, String vehSeries, String vehBodyStyle, String expectedYear, String expectedMake, String expectedModel) {
+		TestData testData = getPolicyTD()
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.YEAR.getLabel()), vehYear)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MAKE.getLabel()), vehMake)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MODEL.getLabel()), vehModel)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
+
+		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();
+		//1. Create a quote with no VIN matched data and save the quote number
+		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
+		new  PremiumAndCoveragesTab().calculatePremium();
+		buttonViewRatingDetails.click();
+		buttonRatingDetailsOk.click();
+		VehicleTab.buttonSaveAndExit.click();
+		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		log.debug("quoteNumber after creating auto_ca quote is "+quoteNumber);
+
+		//2. Upload new vin data with updated Y/M/M/S/S
+		adminApp().open();
+		new UploadToVINTableTab().uploadVinTable(vinTableFile);
+
+		//3. Retrieve the created quote
+		findAndRateQuote(testData, quoteNumber);
+		buttonViewRatingDetails.click();
+
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+
+		//4. Check for the updated Y/M/M values in View Rating Details table
+		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo(expectedYear);
+		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo(expectedMake);
+		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo(expectedModel);
+
+		buttonRatingDetailsOk.click();
+
+		softly.close();
+	}
+
+	protected void pas12872_VINRefreshNoMatchOnRenewalAutoCA(String vinNumber, String vinTableFile, String vehYear, String vehMake, String vehModel, String vehSeries, String vehBodyStyle, String expectedYear, String expectedMake, String expectedModel) {
+		TestData testData = getPolicyTD()
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.YEAR.getLabel()), vehYear)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MAKE.getLabel()), vehMake)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MODEL.getLabel()), vehModel)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
+
+		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();
+		//1. Create a policy with VIN no matched data and save the expiration data
+		String policyNumber = createPreconds(testData);
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+		//2. Upload new vin data with updated Y/M/M/S/S
+		adminApp().open();
+		new UploadToVINTableTab().uploadVinTable(vinTableFile);
+
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+
+		//4. Generate automated renewal image according to renewal timeline
+		//5. Move time to renewal time point
+		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
+		//6. Retrieve the policy
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		//7. System rates renewal image according to renewal timeline
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		//8. Navigate to Premium and Coverages tab and calculate premium
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		//9. Check for the updated Y/M/M values in View Rating Details table
+		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo(expectedYear);
+		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo(expectedMake);
+		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo(expectedModel);
+
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+
+		softly.close();
 	}
 
 	private TestData getTestDataTwoVehicles(String vinNumber) {
