@@ -1,8 +1,6 @@
 package aaa.modules.regression.sales.template.functional;
 
-import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.buttonRatingDetailsOk;
-import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.buttonViewRatingDetails;
-import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.tableRatingDetailsVehicles;
+import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;

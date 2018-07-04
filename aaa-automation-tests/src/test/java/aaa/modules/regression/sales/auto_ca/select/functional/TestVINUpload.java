@@ -1,17 +1,11 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
-import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.buttonRatingDetailsOk;
-import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.buttonViewRatingDetails;
-import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.tableRatingDetailsVehicles;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import aaa.helpers.product.DatabaseCleanHelper;
 import org.testng.annotations.AfterClass;
-import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -22,6 +16,7 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.queries.VehicleQueries;
+import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.helpers.ssh.RemoteHelper;
@@ -29,13 +24,15 @@ import aaa.main.enums.DefaultVinVersions;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.helper.VinUploadCleanUpMethods;
 import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
-import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class TestVINUpload extends TestVINUploadTemplate {
 

@@ -3225,6 +3225,60 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		}
 		return coverage;
 	}
+
+	void vehicleCoverageComparisonByCoverageCd(PolicyCoverageInfo response1, PolicyCoverageInfo response2, String coverageCd) {
+		assertSoftly(softly -> {
+			Coverage coverageResponse1 = getVehicleCoverageDetails(response1, coverageCd);
+			Coverage coverageResponse2 = getVehicleCoverageDetails(response2, coverageCd);
+			softly.assertThat(coverageResponse1.coverageCd).isEqualTo(coverageResponse2.coverageCd);
+			softly.assertThat(coverageResponse1.coverageDescription).isEqualTo(coverageResponse2.coverageDescription);
+			softly.assertThat(coverageResponse1.coverageLimit).isEqualTo(coverageResponse2.coverageLimit);
+			softly.assertThat(coverageResponse1.coverageLimitDisplay).isEqualTo(coverageResponse2.coverageLimitDisplay);
+			softly.assertThat(coverageResponse1.coverageType).isEqualTo(coverageResponse2.coverageType);
+			softly.assertThat(coverageResponse1.customerDisplayed).isEqualTo(coverageResponse2.customerDisplayed);
+			softly.assertThat(coverageResponse1.canChangeCoverage).isEqualTo(coverageResponse2.canChangeCoverage);
+		});
+	}
+
+	void vehicleCoverageComparisonByCoverageCdNotEqual(PolicyCoverageInfo response1, PolicyCoverageInfo response2, String coverageCd) {
+		assertSoftly(softly -> {
+			Coverage coverageResponse1 = getVehicleCoverageDetails(response1, coverageCd);
+			Coverage coverageResponse2 = getVehicleCoverageDetails(response2, coverageCd);
+			softly.assertThat(coverageResponse1.coverageCd).isEqualTo(coverageResponse2.coverageCd);
+			softly.assertThat(coverageResponse1.coverageDescription).isEqualTo(coverageResponse2.coverageDescription);
+			softly.assertThat(coverageResponse1.coverageLimit).isNotEqualTo(coverageResponse2.coverageLimit);
+			if (!"SPECEQUIP".equals(coverageCd)) {
+				softly.assertThat(coverageResponse1.coverageLimitDisplay).isNotEqualTo(coverageResponse2.coverageLimitDisplay);
+			}
+			softly.assertThat(coverageResponse1.coverageType).isEqualTo(coverageResponse2.coverageType);
+			softly.assertThat(coverageResponse1.customerDisplayed).isEqualTo(coverageResponse2.customerDisplayed);
+			softly.assertThat(coverageResponse1.canChangeCoverage).isEqualTo(coverageResponse2.canChangeCoverage);
+		});
+	}
+
+	void policyCoverageComparisonByCoverageCd(PolicyCoverageInfo response1, PolicyCoverageInfo response2, String coverageCd) {
+		assertSoftly(softly -> {
+			Coverage coverageResponse1 = getPolicyCoverageDetails(response1, coverageCd);
+			Coverage coverageResponse2 = getPolicyCoverageDetails(response2, coverageCd);
+			softly.assertThat(coverageResponse1.coverageCd).isEqualTo(coverageResponse2.coverageCd);
+			softly.assertThat(coverageResponse1.coverageDescription).isEqualTo(coverageResponse2.coverageDescription);
+			softly.assertThat(coverageResponse1.coverageLimit).isEqualTo(coverageResponse2.coverageLimit);
+			softly.assertThat(coverageResponse1.coverageLimitDisplay).isEqualTo(coverageResponse2.coverageLimitDisplay);
+			softly.assertThat(coverageResponse1.coverageType).isEqualTo(coverageResponse2.coverageType);
+			softly.assertThat(coverageResponse1.customerDisplayed).isEqualTo(coverageResponse2.customerDisplayed);
+			softly.assertThat(coverageResponse1.canChangeCoverage).isEqualTo(coverageResponse2.canChangeCoverage);
+		});
+	}
+
+	Coverage getVehicleCoverageDetails(PolicyCoverageInfo policyCoverageResponseReplacedLeasedVeh, String coverageCode) {
+		return policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> coverageCode.equals(attribute.coverageCd)).findFirst().orElse(null);
+	}
+
+	private Coverage getPolicyCoverageDetails(PolicyCoverageInfo policyCoverageResponseReplacedLeasedVeh, String coverageCode) {
+
+		return policyCoverageResponseReplacedLeasedVeh.policyCoverages.stream().filter(attribute -> coverageCode.equals(attribute.coverageCd)).findFirst().orElse(null);
+	}
+
 }
 
 

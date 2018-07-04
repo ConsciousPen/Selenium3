@@ -4,9 +4,6 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import org.testng.annotations.AfterClass;
-import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
-import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -27,10 +24,6 @@ import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
-import toolkit.verification.ETCSCoreSoftAssertions;
-
-import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.*;
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestVINUpload extends TestVINUploadTemplate {
 	private static final String NEW_VIN = "AAAVB3CC0W0455583";
