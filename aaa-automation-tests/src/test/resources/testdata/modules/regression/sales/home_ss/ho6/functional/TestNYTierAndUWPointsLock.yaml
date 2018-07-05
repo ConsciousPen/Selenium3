@@ -1,0 +1,12 @@
+InsuranceScoreOverride920: {
+  ReportsTab: {
+    InsuranceScoreOverride: {
+      Action: '',
+      EditInsuranceScoreDialog: {
+        Score after override: '920',
+        Reason for override: 'Fair Credit Reporting Act Dispute',
+        Save: ''
+      }
+    }
+  }
+  }
