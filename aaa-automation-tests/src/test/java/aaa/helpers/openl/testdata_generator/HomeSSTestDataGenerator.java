@@ -466,7 +466,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				HomeSSMetaData.PropertyInfoTab.Construction.MASONRY_VENEER.getLabel(), "Masonry Veneer".equals(openLPolicy.getPolicyConstructionInfo().getConstructionType()) ? "Yes" : "No"//,
 				//HomeSSMetaData.PropertyInfoTab.Construction.IS_THIS_A_LOG_HOME_ASSEMBLED_BY_A_LICENSED_BUILDING_CONTRACTOR.getLabel(), "Log Home".equals(openLPolicy.getPolicyConstructionInfo().getConstructionType()) ? "Yes" : null
 		);
-		if (!"HO4".equals(openLPolicy.getPolicyType()) && "Log Home".equals(openLPolicy.getPolicyConstructionInfo().getConstructionType())) {
+		if (("HO3".equals(openLPolicy.getPolicyType()) || "DP3".equals(openLPolicy.getPolicyType())) && "Log Home".equals(openLPolicy.getPolicyConstructionInfo().getConstructionType())) {
 			constructionData.adjust(DataProviderFactory.dataOf(HomeSSMetaData.PropertyInfoTab.Construction.IS_THIS_A_LOG_HOME_ASSEMBLED_BY_A_LICENSED_BUILDING_CONTRACTOR.getLabel(), "Yes"));
 		}
 
@@ -618,6 +618,18 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 						List<TestData> tdList = HomeSSHO4FormTestDataGenerator.getFormTestData(openLPolicy, formCode);
 						if (tdList != null) {
 							TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeSSHO4FormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeSSHO4FormTestDataGenerator.getFormMetaKey(formCode), tdList);
+							endorsementData.adjust(td);
+						}
+					}
+				}
+				break;
+			case "HO6": 
+				for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
+					String formCode = openLForm.getFormCode();
+					if (!endorsementData.containsKey(HomeSSHO6FormTestDataGenerator.getFormMetaKey(formCode))) {
+						List<TestData> tdList = HomeSSHO6FormTestDataGenerator.getFormTestData(openLPolicy, formCode);
+						if (tdList != null) {
+							TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeSSHO6FormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeSSHO6FormTestDataGenerator.getFormMetaKey(formCode), tdList);
 							endorsementData.adjust(td);
 						}
 					}
