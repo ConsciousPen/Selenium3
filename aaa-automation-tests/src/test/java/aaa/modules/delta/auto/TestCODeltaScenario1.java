@@ -32,8 +32,6 @@ import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssertions;
-import toolkit.verification.CustomSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Row;
@@ -43,7 +41,8 @@ import toolkit.webdriver.controls.waiters.Waiters;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 /**
  * @author Dmitry Chubkov
@@ -85,7 +84,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
     public void testSC1_TC01(@Optional("") String state) {
         preconditions(NavigationEnum.AutoSSTab.GENERAL);
 
-        CustomSoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
             //Verify Dropdown Values on General tab
             softly.assertThat(gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getLabel(), ComboBox.class)).hasOptions(
                     Arrays.asList("Own Home", "Own Condo", "Own Mobile Home", "Rents Multi-Family Dwelling", "Rents Single-Family Dwelling", "Lives with Parent", "Other"));
@@ -140,7 +139,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
 
         driverTab.fillTab(getTestSpecificTD("TestData"));
 
-        CustomSoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
 
             softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DRIVER_TYPE.getLabel(), ComboBox.class)).hasOptions(
                     Arrays.asList("Available for Rating", "Not Available for Rating", "Excluded"));
@@ -197,7 +196,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
         aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION).setValue("Improper Passing");
         aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE).setValue("01/10/2012");
 
-        CustomSoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
             softly.assertThat(aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE)).isPresent();
             softly.assertThat(aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE)).isEnabled();
             softly.assertThat(aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE)).hasValue("");
@@ -206,7 +205,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
         aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE).setValue("01/01/2015");
 
         aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().plusDays(5).format(DateTimeUtils.MM_DD_YYYY));
-        CustomAssertions.assertThat(aiAssetList.getWarning(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE)).hasValue("Conviction Date later than current date");
+        assertThat(aiAssetList.getWarning(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE)).hasValue("Conviction Date later than current date");
         Tab.buttonNext.click();
         NavigationPage.Verify.viewTabSelected(NavigationEnum.AutoSSTab.DRIVER.get());
         DriverTab.tableActivityInformationList.isPresent();
@@ -231,7 +230,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
         TestData adjustedData = getTestSpecificTD("TestData").adjust(driverTab.getMetaKey(), Collections.singletonList(getTestSpecificTD("DriverTab_TC04")));
         policy.getDefaultView().fillFromTo(adjustedData, DriverTab.class, VehicleTab.class, true);
 
-        CustomSoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
             softly.assertThat(vTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.TYPE)).hasOptions(Arrays.asList("Private Passenger Auto", "Limited Production/Antique", "Trailer", "Motor Home", "Conversion Van", "Trailer"));
             softly.assertThat(vTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.USAGE)).hasOptions(Arrays.asList("Pleasure", "Commute", "Business", "Artisan", "Farm"));
         });
@@ -256,7 +255,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
     public void testSC1_TC05(@Optional("") String state) {
         preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
 
-        CustomSoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
             softly.assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY)).hasValue("$100,000/$300,000 (+$0.00)");
             softly.assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY)).hasValue("$50,000  (+$0.00)");
             softly.assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY)).hasValue("$100,000/$300,000 (+$0.00)");
@@ -284,7 +283,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
         //CO DELTA - No full safety glass
         //Update: 080-006CO_VA_V3.0 is updated to add Full safety glass coverage
-        CustomSoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
             softly.assertThat(pacTab.getRatingDetailsVehiclesData().stream().allMatch(td -> td.containsKey("Full Safety Glass"))).isTrue();
             softly.assertThat(pacTab.getRatingDetailsQuoteInfoData().getValue("Adversely Impacted Applied")).isEqualTo("Yes");
         });
@@ -298,7 +297,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
 
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
         StaticElement warningMessage = new StaticElement(By.id("policyDataGatherForm:warningMessage"));
-        CustomAssertions.assertThat(warningMessage).hasValue(String.format("Adversely Impacted was applied to the policy effective %s.", QuoteDataGatherPage.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY)));
+        assertThat(warningMessage).hasValue(String.format("Adversely Impacted was applied to the policy effective %s.", QuoteDataGatherPage.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY)));
 
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
         gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.ADVERSELY_IMPACTED).setValue("None");
@@ -311,7 +310,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
         pacTab.submitTab();
 
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
-        CustomAssertions.assertThat(warningMessage).isPresent(false);
+        assertThat(warningMessage).isPresent(false);
 
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
         gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.ADVERSELY_IMPACTED).setAnyValueExcept("None");
@@ -333,7 +332,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
     public void testSC1_TC07(@Optional("") String state) {
         preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
 
-        CustomSoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
             softly.assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.FULL_SAFETY_GLASS)).hasValue("No Coverage");
             softly.assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.SPECIAL_EQUIPMENT_COVERAGE)).hasValue(new Dollar(1500).toString());
 
@@ -365,7 +364,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
 
         preconditions(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS);
 
-        CustomSoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
             policy.getDefaultView().fillFromTo(getPolicyTD(), DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
             softly.assertThat(dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.MEDICAL_PAYMENTS_REJECTION_OF_COVERAGE)).isPresent();
             softly.assertThat(dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.MEDICAL_PAYMENTS_REJECTION_OF_COVERAGE)).hasValue("Yes");
@@ -410,7 +409,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
         goddTab.verify
                 .documentsPresent(DocGenEnum.Documents.AA11CO, DocGenEnum.Documents.AA43CO, DocGenEnum.Documents.AAIQCO, DocGenEnum.Documents.AHFMXX, DocGenEnum.Documents.AU03, DocGenEnum.Documents.AA16CO, DocGenEnum.Documents.AADNCO);
         //#TODO: not presented DocGenEnum.Documents.AHAUXX
-        CustomAssertions.assertThat(goddTab.getDocumentsControl().getTable().getRow(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, DocGenEnum.Documents.AA43CO.getId())
+        assertThat(goddTab.getDocumentsControl().getTable().getRow(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, DocGenEnum.Documents.AA43CO.getId())
                 .getCell(DocGenConstants.OnDemandDocumentsTable.SELECT).controls.checkBoxes.getFirst()).isDisabled();
 
         TestData td = DataProviderFactory.dataOf(AutoSSMetaData.GenerateOnDemandDocumentActionTab.DocumentsRow.FREE_FORM_TEXT.getLabel(), "Free Text");
@@ -449,7 +448,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
 
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
 
-        CustomSoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
             softly.assertThat(driverForms.tableSelectedForms).hasMatchingRows(1, ImmutableMap.of("Name", "AA43CO 01 13", "Description", "Named Driver Exclusion Endorsement"));
             softly.assertThat(policyForms.tableSelectedForms).hasMatchingRows(1, ImmutableMap.of("Name", "AA16CO 08 09", "Description", "Medical Payments Rejection Coverage"));
             //#TODO: another NAME displayed -  softly.assertThat(policyForms.tableSelectedForms).hasMatchingRows(1, ImmutableMap.of("Name", "AA52COA 07 06", "Description", "Rejection of Uninsured/Underinsured Motorists Coverage"));
@@ -468,13 +467,13 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
         SearchPage.openQuote(getQuoteNumber());
         policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-        CustomAssertions.assertThat(dTab.getDocumentsForPrintingAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.STATEMENT_ELECTING_LOWER_LIMITS_FOR_UM_UIM_COVERAGE)).isPresent();
+        assertThat(dTab.getDocumentsForPrintingAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.STATEMENT_ELECTING_LOWER_LIMITS_FOR_UM_UIM_COVERAGE)).isPresent();
         dTab.getDocumentsForPrintingAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.STATEMENT_ELECTING_LOWER_LIMITS_FOR_UM_UIM_COVERAGE).setValue("No");
         dTab.submitTab();
 
-        CustomAssertions.assertThat(errorTab.tableErrors).hasMatchingRows(1, ImmutableMap.of("Code", "200037_CO", "Message", "A signed Uninsured and Underinsured motorist coverage selection form must be ..."));
+        assertThat(errorTab.tableErrors).hasMatchingRows(1, ImmutableMap.of("Code", "200037_CO", "Message", "A signed Uninsured and Underinsured motorist coverage selection form must be ..."));
         errorTab.tableErrors.getRowContains("Code", "200037_CO").getCell("Code").controls.links.getFirst().click();
-        CustomAssertions.assertThat(dTab.getDocumentsForPrintingAssetList()).isPresent();
+        assertThat(dTab.getDocumentsForPrintingAssetList()).isPresent();
 
         dTab.submitTab();
         overrideAllErrors();
@@ -497,7 +496,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
         mainApp().open();
         SearchPage.openPolicy(getPolicyNumber());
         PolicySummaryPage.buttonTasks.click();
-        CustomSoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
             softly.assertThat(MyWorkSummaryPage.tableTasks).hasMatchingRows(1, ImmutableMap.of("Task Name", "If Medical Payments coverage is rejected, a signed form must be received. Need to go to RFI if overridden"));
             softly.assertThat(MyWorkSummaryPage.tableTasks).hasMatchingRows(1, ImmutableMap.of("Task Name", "A Signed Statement Electing Lower Limits for Uninsured and Underinsured Motorists Coverage must be received"));
         });
@@ -518,7 +517,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
 
         Table table = onDemandDocumentActionTab.getAssetList().getAsset(AutoSSMetaData.GenerateOnDemandDocumentActionTab.ON_DEMAND_DOCUMENTS).getTable();
 
-        CustomSoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
             for (String key : getTestSpecificTD("TestData_DocGen").getKeys()) {
                 softly.assertThat(table)
                         .hasMatchingRows(1, ImmutableMap.of("Document #", key, "Document Name", getTestSpecificTD("TestData_DocGen").getValue(key)));
@@ -548,18 +547,18 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
         policy.endorse().perform(getTestSpecificTD("TestData_TC18").getTestData("EndorsementActionTab"));
 
         policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData_TC18").getTestData("Policy"), FormsTab.class, false);
-        CustomAssertions.assertThat(policyForms.tableSelectedForms).hasMatchingRows(1, ImmutableMap.of("Name", "AA41CO 01 12", "Description", "Named Non-Owner Coverage Endorsement"));
+        assertThat(policyForms.tableSelectedForms).hasMatchingRows(1, ImmutableMap.of("Name", "AA41CO 01 12", "Description", "Named Non-Owner Coverage Endorsement"));
 
         fTab.submitTab();
-        CustomAssertions.assertThat(errorTab.tableErrors).hasMatchingRows(1, ImmutableMap.of("Code", "AAA_SS10260450_CO", "Message", "Only \"spouse\" or \"registered domestic partner/civil union\" can be selected fo..."));
+        assertThat(errorTab.tableErrors).hasMatchingRows(1, ImmutableMap.of("Code", "AAA_SS10260450_CO", "Message", "Only \"spouse\" or \"registered domestic partner/civil union\" can be selected fo..."));
 
         errorTab.tableErrors.getRowContains("Code", "AAA_SS10260450_CO").getCell("Code").controls.links.getFirst().click();
-        CustomAssertions.assertThat(driverTab.tableDriverList).isPresent();
+        assertThat(driverTab.tableDriverList).isPresent();
 
         policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData_TC19").getTestData("Policy1"), PremiumAndCoveragesTab.class, false);
-        CustomAssertions.assertThat(errorTab.tableErrors).hasMatchingRows(1, ImmutableMap.of("Code", "AAA_SS10260110", "Message", "NANO policy cannot have more than 2 insureds, a Named Insured and Spouse"));
+        assertThat(errorTab.tableErrors).hasMatchingRows(1, ImmutableMap.of("Code", "AAA_SS10260110", "Message", "NANO policy cannot have more than 2 insureds, a Named Insured and Spouse"));
         errorTab.tableErrors.getRowContains("Code", "AAA_SS10260110").getCell("Code").controls.links.getFirst().click();
-        CustomAssertions.assertThat(driverTab.tableDriverList).isPresent();
+        assertThat(driverTab.tableDriverList).isPresent();
 
         policy.getDefaultView().fill(getTestSpecificTD("TestData_TC19").getTestData("Policy2"));
     }
@@ -577,7 +576,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
 
         policy.doNotRenew().start();
         doNotRenewActionTab.fillTab(getTestSpecificTD("TestData_TC20"));
-        CustomSoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
             softly.assertThat(doNotRenewActionTab.tableDriverActivities.getHeader().getValue()).
                     contains("Driver Name", "Accident/Violation Date", "Accident/Violation Description", "Acc/Loss Payment", "Source");
             softly.assertThat(doNotRenewActionTab.underwritingGuidelines).isPresent();
@@ -585,7 +584,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
 
         //#TODO: AJAX Loading error
         Tab.buttonOk.click(Waiters.AJAX(60 * 1000));
-        CustomAssertions.assertThat(errorTab.tableErrors).hasMatchingRows(1, ImmutableMap.of("Message", "Please select the Driver Activity resulting in non-renewal of the policy."));
+        assertThat(errorTab.tableErrors).hasMatchingRows(1, ImmutableMap.of("Message", "Please select the Driver Activity resulting in non-renewal of the policy."));
 
         DoNotRenewActionTab.tableDriverActivities.getRow(1).getCell(1).controls.checkBoxes.getFirst().setValue(true);
         Tab.buttonOk.click();
