@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.helper;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
 import aaa.common.Tab;
 import aaa.common.pages.NavigationPage;
@@ -100,7 +101,4 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason")).hasValue("Email Updated - Exte...");
 		Tab.buttonCancel.click();
 	}
-
-
-
 }

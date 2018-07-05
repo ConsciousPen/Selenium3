@@ -3,7 +3,6 @@
 package aaa.modules.regression.sales.auto_ss;
 
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;

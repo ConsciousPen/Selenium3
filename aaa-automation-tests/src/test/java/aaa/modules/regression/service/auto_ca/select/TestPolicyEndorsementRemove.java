@@ -20,7 +20,7 @@ import aaa.modules.policy.AutoCaSelectBaseTest;
 import aaa.modules.regression.sales.auto_ca.select.TestPolicyCreationBig;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 /**
  * @author Jelena Dembovska
@@ -44,8 +44,6 @@ public class TestPolicyEndorsementRemove extends AutoCaSelectBaseTest {
     	
     	new TestPolicyCreationBig().testPolicyCreationBig(state);
 		
-        CustomAssert.enableSoftMode();
-        
 		//1. initiate endorsement
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		
@@ -75,14 +73,12 @@ public class TestPolicyEndorsementRemove extends AutoCaSelectBaseTest {
         new DocumentsAndBindTab().submitTab();
         
         //6. check drivers and vehicles are removed
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        
-        assertThat(PolicySummaryPage.tablePolicyDrivers).hasRows(1);
-        assertThat(PolicySummaryPage.tablePolicyVehicles).hasRows(1);
-        assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(1);
-        
-        CustomAssert.assertAll();
+	    CustomSoftAssertions.assertSoftly(softly -> {
+		    softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+		    softly.assertThat(PolicySummaryPage.tablePolicyDrivers).hasRows(1);
+		    softly.assertThat(PolicySummaryPage.tablePolicyVehicles).hasRows(1);
+		    softly.assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(1);
+	    });
     }
-    
-    
 }

@@ -17,7 +17,6 @@ import aaa.common.enums.NavigationEnum.AdminAppMainTabs;
 import aaa.common.pages.NavigationPage;
 import aaa.main.enums.ActionConstants;
 import toolkit.datax.TestData;
-import toolkit.webdriver.controls.ComboBox;
 
 public class Role implements IRole {
     private Workspace defaultView = new DefaultView();

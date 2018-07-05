@@ -10,7 +10,6 @@ import org.openqa.selenium.WebElement;
 import com.exigen.ipb.etcsa.base.app.Application;
 import aaa.common.Tab;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptLink;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;

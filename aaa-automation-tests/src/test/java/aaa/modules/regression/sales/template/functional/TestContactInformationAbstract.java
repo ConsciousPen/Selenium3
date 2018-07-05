@@ -12,7 +12,7 @@ import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
@@ -138,8 +138,7 @@ public abstract class TestContactInformationAbstract extends PolicyBaseTest {
         assetList.getAsset(getValidateDrivingHistory()).click();
         getDriverActivityReportsTabElement().submitTab();
         getDocumentsAndBindElement().submitTab();
-        CustomAssert.assertEquals(String.format("%s should be displayed only for first named insured", getVerificationError().getCode()),
-                1, getErrorTabElement().getErrorsControl().getTable().getRowsCount());
+        assertThat(getErrorTabElement().getErrorsControl().getTable()).as("%s should be displayed only for first named insured", getVerificationError().getCode()).hasRows(1);
         getErrorTabElement().cancel();
     }
 

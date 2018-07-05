@@ -14,7 +14,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 /**
  * @author
@@ -41,19 +41,15 @@ public class TestPolicyEndorsementAdd extends AutoCaChoiceBaseTest {
 		//BUG PAS-6310 VIN retrieve doesnt work when adding or editing a vehicle in Endorsement for CA auto product
 		getPolicyType().get().createEndorsement(tdEndorsement.adjust(getPolicyTD("Endorsement", "TestData")));
 
-		CustomAssert.enableSoftMode();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			softly.assertThat(PolicySummaryPage.tablePolicyDrivers).hasRows(2);
+			softly.assertThat(PolicySummaryPage.tablePolicyVehicles).hasRows(2);
+			softly.assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(2);
 
-		assertThat(PolicySummaryPage.tablePolicyDrivers).hasRows(2);
-		assertThat(PolicySummaryPage.tablePolicyVehicles).hasRows(2);
-		assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(2);
-
-		assertThat(policyPremium).isNotEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			softly.assertThat(policyPremium).isNotEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());
+		});
 	}
-
 }

@@ -12,7 +12,6 @@ import aaa.main.modules.customer.views.DefaultView;
 import aaa.utils.EntityLogger;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
-import toolkit.exceptions.IstfException;
 
 public class Customer implements ICustomer {
 

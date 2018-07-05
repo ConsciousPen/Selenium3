@@ -11,7 +11,7 @@ import aaa.helpers.xml.model.StandardDocumentRequest;
 import aaa.main.enums.DocGenEnum;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomAssertions;
 
 public class DocumentWrapper {
 	public Verify verify = new Verify();
@@ -84,7 +84,7 @@ public class DocumentWrapper {
 		public <D> void exists(boolean expectedValue, String assertionMessage, SearchBy<?, D> searchFilter) {
 			assertionMessage =
 					Objects.isNull(assertionMessage) ? String.format("Entries are %1$s in xml file by search criteria:\n%2$s", expectedValue ? "absent" : "present", searchFilter) : assertionMessage;
-			CustomAssert.assertEquals(assertionMessage, getList(searchFilter).isEmpty(), !expectedValue);
+			CustomAssertions.assertThat(getList(searchFilter).isEmpty()).as(assertionMessage).isEqualTo(!expectedValue);
 		}
 
 		public void mapping(TestData td, String policyNumber) {

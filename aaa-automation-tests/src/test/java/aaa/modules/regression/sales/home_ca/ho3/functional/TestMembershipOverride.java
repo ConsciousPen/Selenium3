@@ -131,6 +131,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
             // This is expected to fail- which would normally fail the test. When it does, we verify the positive failure AFTER the catch.
             createCustomerIndividual();
             policy.createPolicy(defaultPolicyData);
+            TimeSetterUtil.getInstance().getCurrentTime();
         }
         catch(Exception ex){}
 

@@ -5,7 +5,6 @@ import aaa.common.ActionTab;
 import aaa.common.Tab;
 import aaa.main.metadata.CustomerMetaData;
 import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.StaticElement;
 
 public class InitiateRenewalEntryActionTab extends ActionTab {
 

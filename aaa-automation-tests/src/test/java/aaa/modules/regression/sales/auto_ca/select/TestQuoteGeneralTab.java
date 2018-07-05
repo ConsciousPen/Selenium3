@@ -12,11 +12,8 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.AbstractEditableStringElement;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
-
-import java.util.Arrays;
 
 import static aaa.main.metadata.policy.AutoCaMetaData.DocumentsAndBindTab.*;
 import static aaa.main.metadata.policy.AutoCaMetaData.GeneralTab.*;
@@ -94,17 +91,17 @@ public class TestQuoteGeneralTab extends AutoCaSelectBaseTest {
 		policy.getDefaultView().fillUpTo(td, GeneralTab.class, false);
 
 		verifyFieldProperties(PolicyInformation.SOURCE_OF_BUSINESS, true, "New Business");
-		generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset("Source of Business", ComboBox.class).verify.
-				optionsContain(Arrays.asList("New Business", "Non-pay Rewrite", "Spin-Off", "Split", "Rewrite", "Continuation"));
+		assertThat(generalTab.getPolicyInfoAssetList().getAsset(PolicyInformation.SOURCE_OF_BUSINESS)).
+				hasOptions("New Business", "Non-pay Rewrite", "Spin-Off", "Split", "Rewrite", "Continuation");
 		verifyFieldProperties(PolicyInformation.POLICY_STATE, false, getState());
 		verifyFieldProperties(PolicyInformation.POLICY_TYPE, true, "Standard");
-		generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset("Policy Type", ComboBox.class).verify.
-				optionsContain(Arrays.asList("Standard", "TRUST", "Doing Business As", "Named Non Owner"));
+		assertThat(generalTab.getPolicyInfoAssetList().getAsset(PolicyInformation.POLICY_TYPE)).
+				hasOptions("Standard", "TRUST", "Doing Business As", "Named Non Owner");
 		verifyFieldProperties(PolicyInformation.EFFECTIVE_DATE, true);
 		verifyFieldProperties(PolicyInformation.EXPIRATION_DATE, false);
 		verifyFieldProperties(PolicyInformation.CHANNEL_TYPE, true);
-		generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset("Channel Type", ComboBox.class).verify.
-				optionsContain(Arrays.asList("Phone (Direct Sales Unit)", "AAA Agent", "Sub Producer"));
+		assertThat(generalTab.getPolicyInfoAssetList().getAsset(PolicyInformation.CHANNEL_TYPE)).
+				hasOptions("Phone (Direct Sales Unit)", "AAA Agent", "Sub Producer");
 		verifyFieldProperties(PolicyInformation.AGENCY, true);
 		verifyFieldProperties(PolicyInformation.AGENCY_OF_RECORD, false);
 		verifyFieldProperties(PolicyInformation.AGENT, true);
@@ -141,7 +138,7 @@ public class TestQuoteGeneralTab extends AutoCaSelectBaseTest {
 		log.info("General tab for Auto CA policy works properly. Test is passed for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
 	}
 
-	private void verifyFieldProperties(AssetDescriptor fieldDescriptor, boolean isEnabled) {
+	private void verifyFieldProperties(AssetDescriptor<? extends AbstractEditableStringElement> fieldDescriptor, boolean isEnabled) {
 		GeneralTab generalTab = new GeneralTab();
 		if (isEnabled) {
 			//verification that field is enabled
@@ -153,7 +150,7 @@ public class TestQuoteGeneralTab extends AutoCaSelectBaseTest {
 		}
 	}
 
-	private void verifyFieldProperties(AssetDescriptor fieldDescriptor, boolean isEnabled, String expectedFieldValue) {
+	private void verifyFieldProperties(AssetDescriptor<? extends AbstractEditableStringElement> fieldDescriptor, boolean isEnabled, String expectedFieldValue) {
 		GeneralTab generalTab = new GeneralTab();
 		this.verifyFieldProperties(fieldDescriptor, isEnabled);
 		assertThat(generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(fieldDescriptor).getValue()).isEqualTo(expectedFieldValue);

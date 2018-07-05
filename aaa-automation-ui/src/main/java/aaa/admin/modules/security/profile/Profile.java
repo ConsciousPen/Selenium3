@@ -17,7 +17,6 @@ import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import toolkit.datax.TestData;
-import toolkit.webdriver.controls.ComboBox;
 
 public class Profile implements IProfile {
     private ChannelType channelType;

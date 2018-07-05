@@ -38,7 +38,7 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 	}
 
 	/**
-	 * @return only previously added tables by {@link #addTable(ExcelTable)} or found by {@link #getTable(String...)}, {@link #getTable(boolean, String...)} and  {@link #getTable(int, List, boolean, String...)} methods
+	 * @return only previously added tables by {@link #addTable(ExcelTable)} or found by {@link #getTable(String...)}, {@link #getTable(boolean, String...)} and  {@link #getTable(int, List, boolean, boolean, String...)} methods
 	 */
 	public List<ExcelTable> getTables() {
 		return Collections.unmodifiableList(this.tables);
@@ -163,7 +163,7 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 			}
 		}
 
-		ExcelTable t = new ExcelTable(headerRow.getPoiRow(), columnsIndexesOnSheet, rowsIndexesOnSheet, this, getCellTypes());
+		ExcelTable t = new ExcelTable(headerRow.getPoiRow(), columnsIndexesOnSheet, rowsIndexesOnSheet, hasEmptyRows, this, getCellTypes());
 		return addTable(t).getTable(t);
 	}
 
