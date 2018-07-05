@@ -1,9 +1,9 @@
-package aaa.modules.regression.sales.home_ss.ho6.functional;
+package aaa.modules.regression.sales.home_ss.ho4.functional;
 
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.modules.policy.HomeSSHO6BaseTest;
+import aaa.modules.policy.HomeSSHO4BaseTest;
 import aaa.modules.regression.sales.template.functional.TestNYPropertyTierAndUWPointsLock;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.NY)
-public class TestNYTierAndUWPointsLock extends HomeSSHO6BaseTest {
+public class TestNYTierAndUWPointsLock extends HomeSSHO4BaseTest {
 
 	private TestNYPropertyTierAndUWPointsLock template = new TestNYPropertyTierAndUWPointsLock();
 
@@ -20,7 +20,7 @@ public class TestNYTierAndUWPointsLock extends HomeSSHO6BaseTest {
 	 * @author Dominykas Razgunas
 	 * @name Test NY Lock UW points and Market Tier - View Rating Detail
 	 * @scenario
-	 * 1. Create NY HO6 Policy
+	 * 1. Create NY HO4 Policy
 	 * 2. Fill All required fields and Calculate Premium
 	 * 3. View Rating Details
 	 * 4. Check that Market tier value is between A and J
@@ -41,7 +41,7 @@ public class TestNYTierAndUWPointsLock extends HomeSSHO6BaseTest {
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-14030")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-14030")
 	public void pas14030_testNYViewRatingDetailsRenewal(@Optional("NY") String state) {
 
 		template.pas14030_TestNYViewRatingDetailsRenewal(getPolicyType());

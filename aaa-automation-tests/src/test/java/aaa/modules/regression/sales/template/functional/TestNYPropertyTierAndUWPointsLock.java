@@ -2,39 +2,20 @@ package aaa.modules.regression.sales.template.functional;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import aaa.common.pages.SearchPage;
-import aaa.helpers.openl.testdata_builder.HomeSSTestDataGenerator;
-import aaa.main.enums.ProductConstants;
-import aaa.main.enums.SearchEnum;
+import aaa.main.enums.BillingConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.home_ss.dp3.functional.TestPARevisedHomeTierAutoNA;
-import aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport;
 import aaa.modules.regression.sales.home_ss.ho6.functional.TestNYTierAndUWPointsLock;
-import aaa.toolkit.webdriver.customcontrols.FillableTable;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import org.apache.commons.lang3.Range;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.RadioGroup;
-
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.INSURANCE_SCORE_REPORT;
-import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.InsuranceScoreReportRow.CUSTOMER_AGREEMENT;
-import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.SALES_AGENT_AGREEMENT;
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
@@ -57,9 +38,6 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
 
 
     public void pas14030_TestNYViewRatingDetailsRenewal(PolicyType policyType) {
-
-        List<String> rangeAutoTier = IntStream.rangeClosed(1, 16).boxed().map(String::valueOf).collect(Collectors.toList());
-        rangeAutoTier.add("N/A");
 
         mainApp().open();
         createCustomerIndividual();
@@ -98,16 +76,26 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
         reportsTab.fillTab(testDataManager.getDefault(TestNYTierAndUWPointsLock.class).getTestData("InsuranceScoreOverride920"));
 
-        //  Navigate to P&C calculate premium and Open VRD
+        //  Navigate to P&C
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+
+        // Calculate Premium and save the amount
         premiumsAndCoveragesQuoteTab.calculatePremium();
+        Dollar premium = new Dollar(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
+
+        // Change payment plan for bigger premium calculate premium
+        premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).setValue(BillingConstants.PaymentPlan.QUARTERLY_RENEWAL);
+        premiumsAndCoveragesQuoteTab.calculatePremium();
+
+        // Check if premium is higher and Open VRD
+        Dollar changedPremium = new Dollar(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
+        assertThat(changedPremium.moreThan(premium)).isTrue();
         PropertyQuoteTab.RatingDetailsView.open();
 
         // Validate Market Tier and UW points are the same saved value from NB policy.
         assertThat(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier")).isEqualTo(marketTierValue);
         assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Total points")).isEqualTo(totalUWPoints);
-
         PropertyQuoteTab.RatingDetailsView.close();
         mainApp().close();
     }
