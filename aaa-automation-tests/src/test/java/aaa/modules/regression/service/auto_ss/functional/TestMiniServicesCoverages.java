@@ -113,8 +113,42 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 	/**
 	 * @author Megha Gubbala
-	 * Create a active policy in the pas
-	 * Create an endorsement.
+	 * 1. Create a active policy with 2018 vehicle
+	 * 2. Create an endorsement.
+	 * 3.add new vehicle
+	 * 4. get a default coverage for rental Reimbursement
+	 * 5. Change RREIM to 30/900 and validate available coverages only no coverage and 30/900
+	 * 6.Change RREIM to 0/0 and verify if we are getting all coverages in available limit
+	 * scenario 2:
+	 * 1.take COMPDED off and verify  RentalReimbursement shows all available limits
+	 * 2. collded make it 500 and verify  RentalReimbursement shows all available limits
+	 * 3.update rreim 50/1500 and verify limits
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14693"})
+	public void pas14693_viewCoverageAndUpdateCoverageRentalReimbursement(@Optional("AZ") String state) {
+		assertSoftly(softly ->
+
+				pas14693_viewCoverageAndUpdateCoverageRentalReimbursement(getPolicyType(), softly)
+		);
+	}
+
+	//scenario 2
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14693"})
+	public void pas14693_updateCoverageRentalReimbursement(@Optional("AZ") String state) {
+		assertSoftly(softly ->
+
+				pas14693_updateCoverageRentalReimbursementBody(getPolicyType(), softly)
+		);
+	}
+
+	/**`
+	 * @author Megha Gubbala
+	 * 1. Create a active policy in the pas
+	 * 2.Create an endorsement.
 	 * Scenario 1
 	 * run update coverage service
 	 * set BI Coverage 50000/100000 and verify response and check BI limit updated PD available limit should be up to upper limit of BI.
@@ -127,9 +161,9 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14648"})
-	public void pas14721_UpdateCoveragesBI_PD(@Optional("VA") String state) {
+	public void pas14721_UpdateCoveragesBI_PD(@Optional("AZ") String state) {
 
-		pas14721_UpdateCoveragesServiceBIPD(getPolicyType());
+		pas14721_UpdateCoveragesServiceBIPD(getPolicyType(), state);
 	}
 
 	/**
@@ -147,7 +181,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@StateList(states = {Constants.States.AZ, Constants.States.ID, Constants.States.KY, Constants.States.PA, Constants.States.SD, Constants.States.UT, Constants.States.WV, //applicable states for PAS-15254
 			Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS, Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR}) //applicable states for PAS-14733
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15254", "PAS-14733"})
-	public void pas15254_14733_UpdateCoveragesBI_UM_UIM(@Optional("AZ") String state) {
+	public void pas15254_14733_UpdateCoveragesBI_UM_UIM(@Optional("") String state) {
 		pas15254_14733_UpdateCoveragesUM_UIM_Body(getPolicyType(), getState());
 	}
 
@@ -251,7 +285,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * @scenario 1. Create policy with one vehicle,
 	 * with Transportation Expense 1.200$
 	 * 2. Start endorsement outside of PAS.
-	 * 3. Add vehicle.
+	 * 	 * 3. Add vehicle.
 	 * 4. Remove "COMPDED" coverage from my newly added vehicle.
 	 * 5. Hit View Coverage service.
 	 * 6. Check if Transportation Expense remains the limit I chose.
@@ -352,6 +386,34 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		assertSoftly(softly ->
 				pas14648_MedpmDelimiter(getPolicyType())
 		);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Trailers - Coverages that do not apply
+	 * @scenario
+	 * 1. Create a policy in PAS with with more than 1 vehicle (one of them must be Trailer)
+	 * 2. Run View Coverages service (Policy)
+	 * 3. Validate that View coverages Service response contains only  one instance of Policy level coverages
+	 * 4. Run View Coverages service (Policy) for Trailer
+	 * 5. Validate that View Coverages service response should contain  all vehicle level coverages
+	 *      AND only comp and coll should have CanChangecoverage = true
+	 *      AND CustomerDisplay = true
+	 * 6. Create an endorsement through service
+	 * 7. Run View Coverages service (Endorsement)
+	 * 8. Validate that View coverages Service response contains only  one instance of Policy level coverages
+	 * 9. Run View Coverages service (Endorsement) for Trailer
+	 * 10. Validate that View Coverages service response should contain  all vehicle level coverages
+	 *      AND only comp and coll should have CanChangecoverage = true
+	 *      AND CustomerDisplay = true
+	 * @details
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14680"})
+	public void pas14680_TrailersCoveragesThatDoNotApply(@Optional("") String state) {
+		pas14680_TrailersCoveragesThatDoNotApplyBody(getPolicyType());
+
 	}
 
 }

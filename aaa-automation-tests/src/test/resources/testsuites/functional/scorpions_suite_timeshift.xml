@@ -172,6 +172,8 @@
                     <include name="pas11659_Renewal_VersionR45"/>
                     <include name="pas11659_Renewal_VersionR35"/>
                     <include name="pas11659_Renewal_VersionR25"/>
+                    <include name="pas12872_VINRefreshNoMatchRenewalTimeline"/>
+                    <include name="pas12872_VINRefreshPartialtoFullMatchRenewaltimeline"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefreshMotorHomeVehicle">
@@ -199,6 +201,7 @@
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus35"/>
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus45"/>
                     <include name="pas527_UpdatedVinRenewal"/>
+                    <include name="pas12872_VINRefreshNoMatchOnRenewalAutoCA"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefreshNotRegularVehicle">
@@ -227,6 +230,7 @@
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus45"/>
 
                     <include name="pas527_UpdatedVinRenewal"/>
+                    <include name="pas12872_VINRefreshNoMatchOnRenewalAutoCA"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMSRPRefreshNotRegularVehicle">

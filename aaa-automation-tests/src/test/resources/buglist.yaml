@@ -180,6 +180,14 @@ PAS-12949:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueNsfAHDRXX.pas7454_eValueRemovedAutopayNsfDeclineRecurringPaymentResponse]
       messages: ["Checked value of Cell"]
+PAS-13094:
+  summary: "Regression: PUP: VIN resolver doesn't work for underlying auto policies"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.pup.*,aaa.modules.regression.service.pup.*,aaa.modules.regression.conversions.pup.*,aaa.modules.regression.document_fulfillment.pup.*,aaa.modules.docgen.pup.*]
+      messages: ["Cannot set value of AssetList {UnderlyingRisksAutoTab"]
+    - tests: [aaa.modules.regression.service.pup.*]
+      messages: ["Cannot set value of AssetList {UnderlyingRisksAutoTab", "Errors: 'Make' is required; 'Model' is required"]
 PAS-12478:
   summary: "Enable Fuel related fields on the Property info tab is not disabled for all stated on second renewal"
   reason: PROD
@@ -203,7 +211,7 @@ PT-1421:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails.pt1421_testManuallyAddedAutoTier]
-      messages: ['expected:<"[7]"> but was:<"[2]">']
+      messages: ["expected", "but was"]
 PAS-13338:
   summary: "Unable to rate Home_SS PA conversion policies"
   reason: PROD
@@ -273,6 +281,30 @@ PAS-5419:
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["Cannot get value of Cell", "'Liability Code' is not in within range"]
+QC-45011:
+  summary: "Cancellation notice is not generated for AutoSS NJ after endorsement and Off cycle bill generation"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e.auto_ss.TestScenario4.TC01_createPolicy]
+      messages: ["'Cancel Notice' flag is present expected [true] but found [false]"]
+PAS-15970:
+  summary: "Regression: Auto SS: Unable to remove second insured in copied quote"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.document_fulfillment.auto_ss.TestScenario4.TC02_CopyFromPolicy]
+      messages: ["Cannot set value of  {DriverTab", "Errors: Unprepared data; Error; You must order the Membership report"]
+PAS-15912:
+  summary: "Regression: Auto Insurance Quote doc (AAIQAZ) incorrectly displays Payment Plan Options"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.docgen.auto_ss.TestScenario5.TC01_GenerateQuoteDocuments]
+      messages: ["AAIQAZ"]
+PAS-16002:
+  summary: "Regression: Home HO3: Payment Restriction Notice doc (60 5003) is not generated"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.docgen.home_ss.ho3.TestDocgenScenarios.testReturnPaymentDocuments]
+      messages: ["60 5003"]
 PAS-15907:
   summary: "VIN refresh is not happening during automated renewal"
   reason: PROD

@@ -120,15 +120,16 @@ public class UnmarshallingClassInfo extends TableClassInfo {
 		assertThat(getTableClass().isPrimitive()).as("\"%s\" is primitive type. Only non-primitive types are supported for excel table model definition", getTableClass().getSimpleName()).isFalse();
 		int headerRowIndex = getAnnotatedTableClass().getAnnotation(ExcelTableElement.class).headerRowIndex();
 		ExcelTable table;
-		
+
+		boolean hasEmptyRows = getAnnotatedTableClass().getAnnotation(ExcelTableElement.class).hasEmptyRows();
 		ExcelSheet sheet = getExcelSheet();
 		if (headerRowIndex < 0) {
 			List<String> headerColumnNames = getHeaderColumnNames();
-			table = sheet.getTable(isCaseIgnoredInAnyColumnField(), headerColumnNames.toArray(new String[headerColumnNames.size()]));
+			table = sheet.getTable(isCaseIgnoredInAnyColumnField(), hasEmptyRows, headerColumnNames.toArray(new String[headerColumnNames.size()]));
 		} else {
 			if (isStrictMatchBinding()) {
 				List<String> headerColumnNames = getHeaderColumnNames();
-				table = sheet.getTable(headerRowIndex, null, isCaseIgnoredInAnyColumnField(), headerColumnNames.toArray(new String[headerColumnNames.size()]));
+				table = sheet.getTable(headerRowIndex, null, hasEmptyRows, isCaseIgnoredInAnyColumnField(), headerColumnNames.toArray(new String[headerColumnNames.size()]));
 			} else {
 				table = sheet.getTable(headerRowIndex);
 			}

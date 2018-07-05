@@ -5,8 +5,8 @@ import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
-import aaa.helpers.openl.testdata_builder.HomeSSTestDataGenerator;
-import aaa.helpers.openl.testdata_builder.TestDataGenerator;
+import aaa.helpers.openl.testdata_generator.HomeSSTestDataGenerator;
+import aaa.helpers.openl.testdata_generator.TestDataGenerator;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.PolicyType;
@@ -17,16 +17,21 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.exceptions.IstfException;
 
 public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpenLPolicy> {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_HO3;
+		throw new IstfException("Please override method in appropriate child class with relevant policy type");
 	}
 
 	@Override
 	protected Dollar createAndRateQuote(HomeSSOpenLPolicy openLPolicy) {
+		//		ApplicationMocksManager.restartStubServer();
+		if (!getPolicyType().getShortName().contains(openLPolicy.getPolicyType())) {
+			throw new IstfException(String.format("Test can't use selected policy with policy type '%s'", openLPolicy.getPolicyType()));
+		}
 		HomeSSTestDataGenerator tdGenerator = openLPolicy.getTestDataGenerator(getState(), getRatingDataPattern());
 		// create real Auto Policy for PA state
 		if (Constants.States.PA.equals(openLPolicy.getPolicyAddress().getState()) && openLPolicy.getPolicyDiscountInformation().isAutoPolicyInd()) {
@@ -49,7 +54,7 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 		} else {
 			policy.initiate();
 		}
-		
+
 		TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy, isLegacyConvPolicy);
 
 		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumsAndCoveragesQuoteTab.class, false);
@@ -82,7 +87,7 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 				errorTab.submitTab();
 			}
 			policy.getDefaultView().fill(DataProviderFactory.dataOf(PurchaseTab.class.getSimpleName(), getPolicyTD("DataGather", "PurchaseTab_WithAutopay")));
-			
+
 			TestData endorsementData = tdGenerator.getEndorsementData(openLPolicy);
 			if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.POLICY.get())) {
 				NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());

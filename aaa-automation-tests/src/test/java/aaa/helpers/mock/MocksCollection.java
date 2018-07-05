@@ -73,19 +73,23 @@ public class MocksCollection implements Iterable<UpdatableMock> {
 		}
 	}
 
+	public void clear() {
+		mocks.clear();
+	}
+
+	public int size() {
+		return mocks.size();
+	}
+
 	private boolean add(Class<? extends UpdatableMock> mockModelClass, UpdatableMock mock) {
 		if (mock == null) {
 			return false;
 		}
 		if (!has(mockModelClass)) {
-			mocks.put(mockModelClass, mock);
+			mocks.put(mockModelClass, mock.clone());
 			return true;
 		}
 		return get(mockModelClass).add(mock);
-	}
-
-	private int size() {
-		return mocks.size();
 	}
 
 	private static final class MocksIterator implements Iterator<UpdatableMock> {

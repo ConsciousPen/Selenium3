@@ -146,4 +146,10 @@
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.functional.TestPremiumAndMinDueAfterRP"/>
         </classes>
     </test>
+    <test name="PAS-14087 Implement Subsequent Renewal Capping for Home Converted policies - CW" parallel="methods" thread-count="1024">
+        <parameter name="state" value="UT, AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestCappingForSubsequentRenewals"/>
+        </classes>
+    </test>
 </suite>

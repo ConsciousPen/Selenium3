@@ -8,14 +8,14 @@ import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.modules.policy.HomeSSHO6BaseTest;
-import aaa.modules.regression.sales.home_ss.helper.HelperRevisedHomeTierPA;
+import aaa.modules.regression.sales.template.functional.RevisedHomeTierPATemplate;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.PA)
 public class TestPrivilegeToEditCompanionAutoTier extends HomeSSHO6BaseTest {
 
-	private HelperRevisedHomeTierPA helper = new HelperRevisedHomeTierPA();
+	private RevisedHomeTierPATemplate template = new RevisedHomeTierPATemplate();
 
 	/**
 	 * @author Dominykas Razgunas
@@ -42,7 +42,7 @@ public class TestPrivilegeToEditCompanionAutoTier extends HomeSSHO6BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6829")
 	public void pas6676_testPAViewRatingDetailsAutoTier(@Optional("PA") String state) {
 
-		helper.pas6829_TestPrivelegeToEditCompanionAutoTier(getPolicyType());
+		template.pas6829_TestPrivelegeToEditCompanionAutoTier(getPolicyType());
 	}
 	/**
 	 * @author Dominykas Razgunas
@@ -69,6 +69,6 @@ public class TestPrivilegeToEditCompanionAutoTier extends HomeSSHO6BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6829")
 	public void pas6676_testPAViewRatingDetailsManualAutoTier(@Optional("PA") String state) {
 
-		helper.pas6829_TestPrivelegeToEditManualCompanionAutoTier(getPolicyType());
+		template.pas6829_TestPrivelegeToEditManualCompanionAutoTier(getPolicyType());
 	}
 }

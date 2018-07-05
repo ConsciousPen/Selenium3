@@ -12,7 +12,7 @@ public class RetrievePropertyClassificationMock extends AbstractMock {
 
 	private List<FirelineRequest> firelineRequests;
 	private List<FirelineResponse> firelineResponses;
-	private List<PPCREequest> ppcRequests;
+	private List<PPCRequest> ppcRequests;
 	private List<PPCResponse> ppcResponses;
 
 	public List<FirelineRequest> getFirelineRequests() {
@@ -31,11 +31,11 @@ public class RetrievePropertyClassificationMock extends AbstractMock {
 		this.firelineResponses = new ArrayList<>(firelineResponses);
 	}
 
-	public List<PPCREequest> getPpcRequests() {
+	public List<PPCRequest> getPpcRequests() {
 		return Collections.unmodifiableList(ppcRequests);
 	}
 
-	public void setPpcRequests(List<PPCREequest> ppcRequests) {
+	public void setPpcRequests(List<PPCRequest> ppcRequests) {
 		this.ppcRequests = new ArrayList<>(ppcRequests);
 	}
 

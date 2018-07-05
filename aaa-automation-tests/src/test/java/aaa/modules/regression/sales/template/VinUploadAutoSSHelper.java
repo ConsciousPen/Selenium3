@@ -133,6 +133,42 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 		});
 	}
 
+	protected void pas12872_VINRefreshOnRenewal(String vinNumber, String vehYear, String vehMake, String vehModel, String vehSeries, String vehBodyStyle, String vinTableFile, String expectedYear, String expectedMake, String expectedModel) {
+		TestData testData = getPolicyTD()
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), vinNumber)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.YEAR.getLabel()), vehYear)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MAKE.getLabel()), vehMake)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MODEL.getLabel()), vehModel)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
+
+		//1. Create a policy with VIN no matched data and save the expiration data
+		String policyNumber = createPreconds(testData);
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		//2. Upload vin data with updated Y/M/M/S/S
+		adminApp().open();
+		new UploadToVINTableTab().uploadVinTable(vinTableFile);
+		//3. Generate automated renewal image according to renewal timeline
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		//4. Move time to renewal time point
+		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
+		//5. Retrieve the policy
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		//6. System rates renewal image according to renewal timeline
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		//7. Navigate to Premium and Coverages tab and calculate premium
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		//8. Check for the updated Y/M/M values in View Rating Details table
+		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo(expectedYear);
+		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo(expectedMake);
+		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo(expectedModel);
+
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+	}
+
 	protected void compCollSymbolCheck_pas730(String compSymbol, String collSymbol) {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertSoftly(softly -> {
