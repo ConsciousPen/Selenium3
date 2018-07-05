@@ -779,10 +779,10 @@ public final class HomeSSMetaData {
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_09_88 = declare("HS 09 88", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0988.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		// public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_17_31 = declare("HS 17 31", HomeSSEndorsementsMultiAssetList.class, EndorsementHS1731.class,
-		// By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		// public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_17_33 = declare("HS 17 33", HomeSSEndorsementsMultiAssetList.class, EndorsementHS1733.class,
-		// By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_17_31 = declare("HS 17 31", HomeSSEndorsementsMultiAssetList.class, EndorsementHS1731.class, By
+				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_17_33 = declare("HS 17 33", HomeSSEndorsementsMultiAssetList.class, EndorsementHS1733.class, By
+				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_23_38 = declare("HS 23 38", HomeSSEndorsementsMultiAssetList.class, EndorsementHS2338.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_23_83 = declare("HS 23 83", HomeSSEndorsementsMultiAssetList.class, EndorsementHS2383.class, By
@@ -1134,6 +1134,9 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<RadioGroup> WILL_THE_EVENT_BE_HELD_ON_LAND = declare("Will the event be held on land?", RadioGroup.class, Waiters.AJAX);
 		}
 
+		public static final class EndorsementHS1731 extends MetaData {}
+		public static final class EndorsementHS1733 extends MetaData {}
+		
 		public static final class EndorsementHS2383 extends MetaData {
 			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY_OTHER_STRUCTURES = declare("Limit of liability - Other Structures", TextBox.class, Waiters.AJAX);
 		}
