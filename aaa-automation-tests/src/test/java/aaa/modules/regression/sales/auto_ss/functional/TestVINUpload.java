@@ -14,6 +14,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -60,7 +61,6 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	private static final String NEW_VIN9 = "ZZXKN3DD2E0344466";
 	private static final String NEW_VIN10 = "SSGKN3DD7E0344466";
 	private static final String NEW_VIN11 = "DDAKN3DD1E0344466";
-	private static final String REFRESHABLE_VIN = "1HGEM215140028445";
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -381,13 +381,13 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		//Uploading of VIN_Control table
 
 		//Verify that the proper number or rows were added in the Control table; one row will be added
-//		assertThat(UploadToVINTableTab.labelUploadSuccessful).valueContains(added);
+		//		assertThat(UploadToVINTableTab.labelUploadSuccessful).valueContains(added);
 
 		//Uploading of VIN table
 		uploadToVINTableTab.uploadVinTable(uploadExcelName);
 
 		//Verify that the proper number or rows were added in the VIN table; one row will be added
-//		assertThat(UploadToVINTableTab.labelUploadSuccessful).valueContains(added);
+		//		assertThat(UploadToVINTableTab.labelUploadSuccessful).valueContains(added);
 	}
 
 	/**
@@ -456,7 +456,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		//2. Generate automated renewal image (in data gather status) according to renewal timeline
 		adminApp().open();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-		uploadToVINTableTab.uploadVinTable( pas2716VinTableFileName);
+		uploadToVINTableTab.uploadVinTable(pas2716VinTableFileName);
 		verifyAutomatedRenewal(SUBSEQUENT_RENEWAL_45, policyNumber, policyExpirationDate.minusDays(45));
 	}
 
@@ -495,7 +495,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		//3. Move to R-46 and generate  renewal image (in data gather status). Retrieve policy and verify VIN data
 		// did NOT refresh
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
-		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(46),softly);
+		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(46), softly);
 		softly.close();
 	}
 
@@ -517,7 +517,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11659")
-	@StateList(states = {Constants.States.UT},statesExcept = {Constants.States.CA})
+	@StateList(states = {Constants.States.UT}, statesExcept = {Constants.States.CA})
 	public void pas11659_Renewal_VersionR45(@Optional("UT") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
@@ -542,7 +542,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 
-		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(45),softly);
+		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(45), softly);
 		/*
 		 * Automated Renewal at R-40
 		 */
@@ -553,11 +553,10 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		//4. Move to R-40 and generate automated renewal image (in data gather status). Retrieve policy and verify VIN data
 		// DID refresh
-		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(40),softly);
+		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(40), softly);
 
 		softly.close();
 	}
-
 
 	/**
 	 * @author Chris Johns
@@ -586,13 +585,13 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		//2. Upload Updated VIN Data for utilized VIN
 		adminApp().open();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-		uploadToVINTableTab.uploadFiles(controlTableR35,vinTableR35);
+		uploadToVINTableTab.uploadFiles(controlTableR35, vinTableR35);
 
 		//3. Move to R-35 and generate automated renewal image. Retrieve policy and verify VIN data
 		// DID refresh
 
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
-		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(35),softly);
+		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(35), softly);
 		softly.close();
 	}
 
@@ -626,19 +625,19 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		//2. Move to R-26 and generate automated renewal image (in data proposed status).
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 
-		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(26),softly);
+		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(26), softly);
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
 		//3. Upload Updated VIN Data
 		adminApp().open();
-		uploadToVINTableTab.uploadFiles(controlTableR45,vinTableR45);
+		uploadToVINTableTab.uploadFiles(controlTableR45, vinTableR45);
 		/*
 		 * Automated Renewal R-25
 		 */
 		//4. Move to R-25 and generate automated renewal image (in data gather status)
 		// Retrieve policy and verify VIN data
 		// did NOT refresh because renewal version has already been proposed
-		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(25),softly);
+		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(25), softly);
 
 		softly.close();
 	}
@@ -805,7 +804,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.PARTIAL_MATCH_NEW_QUOTE.get());
 		String vehYear = "2016";
 		String vehMake = "CHEVROLET";
-		String vehModel = "MALIBU" ;
+		String vehModel = "MALIBU";
 		String vehSeries = "MALIBU HYBRID";
 		String vehBodyStyle = "SEDAN";
 
@@ -827,7 +826,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		//2. Upload new vin data with updated Y/M/M/S/S
 		adminApp().open();
-        new UploadToVINTableTab().uploadVinTable(vinTableFile);
+		new UploadToVINTableTab().uploadVinTable(vinTableFile);
 
 		//3. Retrieve the created quote
 		findAndRateQuote(testData, quoteNumber);
@@ -906,18 +905,17 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		pas12872_VINRefreshOnRenewal(NEW_VIN10, vehYear, vehMake, vehModel, vehSeries, vehBodyStyle, vinTableFile, expectedYear, expectedMake, expectedModel);
 	}
 
-
 	@AfterClass(alwaysRun = true)
 	protected void resetDefault() {
-		List<String> listOfVinNumbers = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5, NEW_VIN6,NEW_VIN7,NEW_VIN8,SUBSEQUENT_RENEWAL_35,SUBSEQUENT_RENEWAL_45,SUBSEQUENT_RENEWAL_46,REFRESHABLE_VIN,NEW_VIN10);
-		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinNumbers,DefaultVinVersions.DefaultVersions.SignatureSeries);
+		List<String> listOfVinNumbers = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5, NEW_VIN6, NEW_VIN7, NEW_VIN8, SUBSEQUENT_RENEWAL_35, SUBSEQUENT_RENEWAL_45, SUBSEQUENT_RENEWAL_46, REFRESHABLE_VIN, NEW_VIN10);
+		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinNumbers, DefaultVinVersions.DefaultVersions.SignatureSeries);
 
 		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_SS);
-		DBService.get().executeUpdate(String.format(VehicleQueries.REPAIR_COLLCOMP,"7MSRP15H%V"));
+		DBService.get().executeUpdate(String.format(VehicleQueries.REPAIR_COLLCOMP, "7MSRP15H%V"));
 		DBService.get().executeUpdate(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE);
-		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1","1G1ZJ5SU%G","SYMBOL_2000","CHEVROLET");
+		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1", "1G1ZJ5SU%G", "SYMBOL_2000", "CHEVROLET");
 		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("1G1ZJ5SU%G", "CHEVROLET AUTO");
-		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1","3FADP4BE%H","SYMBOL_2000","FORD");
+		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1", "3FADP4BE%H", "SYMBOL_2000", "FORD");
 		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("3FADP4BE%H", "FORD MOTOR");
 	}
 }

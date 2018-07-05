@@ -45,17 +45,8 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	private static final String NEW_VIN7 = "GGGNK2CC8F9455583"; // New7VIN_CA_SELECT
 	private static final String REFRESHABLE_VIN = "1HGEM215X50028445";
 	private static final String HHHNK2CC7F9455583 = "HHHNK2CC7F9455583"; // New9VIN_CA_SELECT
-	private static final String NEW_VIN = "AAANK3CC0F0455583";
-	private static final String NEW_VIN2 = "BBBNK3CCXF0455583";
-	private static final String NEW_VIN3 = "CCCNK3CC4F9455583";
-	private static final String NEW_VIN4 = "DDDNK3CC3F9455583";
-	private static final String NEW_VIN5 = "EEENK2CCXF9455583";
-	private static final String NEW_VIN6 = "FFFNK2CC9F9455583";
-	private static final String NEW_VIN7 = "GGGNK2CC8F9455583";
 	private static final String NEW_VIN8 = "ABXKN3DDXE0344466";
 	private static final String NEW_VIN9 = "LLXKN3DD0E0344466";
-	private static final String REFRESHABLE_VIN = "1HGEM215150028445";
-	private static final String HHHNK2CC7F9455583 = "HHHNK2CC7F9455583";
 
 	private VehicleTab vehicleTab = new VehicleTab();
 
