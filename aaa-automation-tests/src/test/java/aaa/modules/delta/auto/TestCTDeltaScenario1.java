@@ -19,6 +19,8 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
+import toolkit.verification.CustomAssertions;
+import toolkit.verification.CustomSoftAssertions;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 import java.util.Arrays;
@@ -256,14 +258,16 @@ public class TestCTDeltaScenario1 extends AutoSSBaseTest {
         driverTab.fillTab(getPolicyTD());
         driverTab.fillTab(getTestSpecificTD("TestData_CT8"));
 
+        CustomSoftAssertions.assertSoftly(softly -> {
         //violation points should be = 7
-        DriverTab.tableActivityInformationList.getRow("Description", "Accident (Resulting in Bodily Injury)").getCell("Points").verify.value("7");
+            softly.assertThat(DriverTab.tableActivityInformationList.getRow("Description", "Accident (Resulting in Bodily Injury)").getCell("Points")).hasValue("7");
         //violation points should be = 4
-        DriverTab.tableActivityInformationList.getRow("Description", "Hit and Run").getCell("Points").verify.value("4");
+            softly.assertThat(DriverTab.tableActivityInformationList.getRow("Description", "Hit and Run").getCell("Points")).hasValue("4");
         //go to Major accident, points for the same day should be = 0
         DriverTab.tableActivityInformationList.getRow("Description", "Hit and Run").getCell(8).controls.links.getFirst().click(Waiters.AJAX);
         driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER).setValue("No");
-        driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.VIOLATION_POINTS).verify.value("0");
+            softly.assertThat(driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.VIOLATION_POINTS)).hasValue("0");
+        });
     }
 
     /**
@@ -365,7 +369,7 @@ public class TestCTDeltaScenario1 extends AutoSSBaseTest {
         new PremiumAndCoveragesTab().calculatePremium();
 
         //default value for "Underinsured Motorist Conversion Coverage" = No
-        assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_CONVERSION_COVERAGE).getValue()).isEqualTo("No");
+        CustomAssertions.assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_CONVERSION_COVERAGE)).hasValue("No");
 
         assertThat(PremiumAndCoveragesTab.tableTermPremiumbyVehicle.getColumn(1).getValue().contains("UIM Conversion Coverage not selected")).isEqualTo(true);
 
@@ -398,7 +402,7 @@ public class TestCTDeltaScenario1 extends AutoSSBaseTest {
     public void testSC1_TC14(@Optional("") String state) {
         preconditions(NavigationEnum.AutoSSTab.GENERAL);
 
-        generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EXTRAORDINARY_LIFE_CIRCUMSTANCE).verify.value("None");
+        CustomAssertions.assertThat(generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EXTRAORDINARY_LIFE_CIRCUMSTANCE)).hasValue("None");
         generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EXTRAORDINARY_LIFE_CIRCUMSTANCE).setValue("Identity theft");
         //Go to Premium tab, calculate premium
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
