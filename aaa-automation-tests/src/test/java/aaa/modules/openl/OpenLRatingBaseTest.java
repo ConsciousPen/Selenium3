@@ -83,9 +83,14 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		createOrOpenExistingCustomer(testInfo);
 
 		log.info("Premium calculation verification initiated for test {} and expected premium {} from \"{}\" OpenL file", policyNumber, openLPolicy.getExpectedPremium(), filePath);
-		Dollar actualPremium = createAndRateQuote(openLPolicy);
-		assertThat(actualPremium).as("Total premium for policy number %s is not equal to expected one", openLPolicy.getNumber()).isEqualTo(openLPolicy.getExpectedPremium());
-		Tab.buttonSaveAndExit.click();
+		try {
+			Dollar actualPremium = createAndRateQuote(openLPolicy);
+			assertThat(actualPremium).as("Total premium for policy number %s is not equal to expected one", openLPolicy.getNumber()).isEqualTo(openLPolicy.getExpectedPremium());
+		} finally {
+			if (Tab.buttonSaveAndExit.isPresent()) {
+				Tab.buttonSaveAndExit.click();
+			}
+		}
 	}
 
 	/**
