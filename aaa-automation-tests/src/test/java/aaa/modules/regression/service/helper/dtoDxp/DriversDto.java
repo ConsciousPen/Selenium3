@@ -71,7 +71,7 @@ public class DriversDto implements RestBodyRequest {
 	public Boolean financialResponsibilityInd;
 
 	@JsonProperty("birthDate")
-	public Date birthDate;
+	public String birthDate;
 
 	@ApiModelProperty(value = "Gender", example = "male")
 	public String gender;
