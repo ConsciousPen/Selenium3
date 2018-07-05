@@ -12,15 +12,19 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData.DriverTab;
+import aaa.main.metadata.policy.AutoSSMetaData.VehicleTab;
 import aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.NamedInsuredInformation;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomSoftAssertions;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
  * @author Jelena Dembovska
@@ -65,12 +69,11 @@ public class TestQuotePrefill extends AutoSSBaseTest {
 			softly.assertThat(PrefillTab.tableDrivers.getRow(1).getCell("First Name")).hasValue(expectedFN);
 			softly.assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Last Name")).hasValue(expectedLN);
 			softly.assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Date of Birth")).hasValue(expectedBirthDay);
+		});
 
-			if (!getState().equals("IN")) //additional vehicle is returned from stub for IN
-				softly.assertThat(PrefillTab.tableVehicles).as("No vehicles should be returned from stub").hasRows(0);
+		prefillTab.submitTab();
 
-			prefillTab.submitTab();
-
+		CustomSoftAssertions.assertSoftly(softly -> {
 			//check GeneralTab
 			aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab generalTab = new aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab();
 
@@ -138,37 +141,55 @@ public class TestQuotePrefill extends AutoSSBaseTest {
 			PrefillTab.tableVehicles.getRow(2).getCell(1).controls.checkBoxes.getFirst().setValue(true);
 			PrefillTab.tableDrivers.getRow(2).getCell("Named Insured").controls.checkBoxes.getFirst().setValue(true);
 			softly.assertThat(PrefillTab.tableDrivers.getRow(2).getCell("Driver").controls.checkBoxes.getFirst()).hasValue(true);
-
-			prefillTab.submitTab();
-
-			//check GeneralTab
-			GeneralTab generalTab = new GeneralTab();
-
-			softly.assertThat(generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.FIRST_NAMED_INSURED)).hasValue(expectedNI_1);
-
-			softly.assertThat(GeneralTab.tblInsuredList).hasRows(2);
-
-			//check Driver tab
-			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-
-			aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab driverTab = new aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab();
-
-			softly.assertThat(driverTab.getAssetList().getAsset(DriverTab.NAMED_INSURED)).hasValue(expectedNI_1);
-
-			aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableDriverList.selectRow(2);
-			softly.assertThat(driverTab.getAssetList().getAsset(DriverTab.NAMED_INSURED)).hasValue(expectedNI_2);
-
-			//check Vehicle tab
-			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-
-			VehicleTab vehicleTab = new VehicleTab();
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN)).hasValue(VIN_1);
-
-			VehicleTab.tableVehicleList.selectRow(2);
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN)).hasValue(VIN_2);
-
-			Tab.buttonSaveAndExit.click();
 		});
+
+		prefillTab.submitTab();
+
+		//check GeneralTab
+		aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab generalTab = new aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab();
+
+		assertThat(generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.FIRST_NAMED_INSURED)).hasValue(expectedNI_1);
+
+		assertThat(GeneralTab.tblInsuredList).hasRows(2);
+
+		//fill General tab
+		generalTab.fillTab(getTestSpecificTD("TestData_Fill_Insured1").resolveLinks());
+		generalTab.viewInsured(2);
+		generalTab.fillTab(getTestSpecificTD("TestData_Fill_Insured2").resolveLinks());
+
+
+		//check Driver tab
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+
+		aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab driverTab = new aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab();
+
+		assertThat(driverTab.getAssetList().getAsset(DriverTab.NAMED_INSURED)).hasValue(expectedNI_1);
+		driverTab.fillTab(getTestSpecificTD("TestData_Fill_Insured1").resolveLinks());
+
+		aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableDriverList.selectRow(2);
+		assertThat(driverTab.getAssetList().getAsset(DriverTab.NAMED_INSURED)).hasValue(expectedNI_2);
+		driverTab.fillTab(getTestSpecificTD("TestData_Fill_Insured2").resolveLinks());
+		driverTab.submitTab();
+
+		aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab ratingDetailReportsTab = new aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab();
+		ratingDetailReportsTab.fillTab(getTestSpecificTD("TestData_Fill_Insured1").resolveLinks());
+
+		//check Vehicle tab
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+
+		aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab vehicleTab = new aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab();
+		assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN)).hasValue(VIN_1);
+		vehicleTab.getAssetList().getAsset(VehicleTab.USAGE).setValue("Pleasure");
+
+		aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab.tableVehicleList.selectRow(2);
+		assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN)).hasValue(VIN_2);
+		vehicleTab.getAssetList().getAsset(VehicleTab.USAGE).setValue("Pleasure");
+		vehicleTab.submitTab();
+
+		//Tab.buttonSaveAndExit.click();
+		policy.getDefaultView().fill(getTestSpecificTD("TestData_Bind"));
+
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 }

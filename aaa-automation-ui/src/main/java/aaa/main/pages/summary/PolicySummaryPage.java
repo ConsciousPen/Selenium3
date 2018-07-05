@@ -2,25 +2,15 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.pages.summary;
 
-import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.MAKE;
-import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.MODEL;
-import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.YEAR;
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import org.apache.commons.lang.StringUtils;
-import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.enums.PolicyConstants;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.apache.commons.lang.StringUtils;
+import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -32,6 +22,16 @@ import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
+
+import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.*;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class PolicySummaryPage extends SummaryPage {
 
@@ -63,8 +63,10 @@ public class PolicySummaryPage extends SummaryPage {
 	public static Button buttonTasks = new Button(By.xpath("//*[contains(@id,'tasksList') and text()='Tasks']"));
 	public static Button buttonProceed = new Button(By.xpath("//button[.//span[@class='ui-button-text ui-c' and text()='Proceed'] or @value='Proceed']"));
 	public static Button buttonRenewalQuoteVersion = new Button(By.id("productContextInfoForm:stubRenewalQuoteVersions"));
+	public static Button buttonBackFromRenewals = new Button(By.id("renewalForm:backToSummary_footer"));
 
 	public static Link linkPolicy = new Link(By.id("productContextInfoForm:policyDetail_policyNumLnk"));
+	public static StaticElement labellinkPolicy = new StaticElement(By.id("productContextInfoForm:policyDetail_policyNumTxt"));
 
 	public static ComboBox comboboxPolicyTerm = new ComboBox(By.id("historyForm:transactionsFilter"));
 

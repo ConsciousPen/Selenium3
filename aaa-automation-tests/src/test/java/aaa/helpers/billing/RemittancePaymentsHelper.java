@@ -56,6 +56,6 @@ public class RemittancePaymentsHelper {
 	public static synchronized void copyRemittanceFileToServer(File file) {
 		if (file == null)
 			throw new IstfException("Remmitance file is NULL");
-		RemoteHelper.uploadFile(file.getAbsolutePath(), REMITTANCE_REMOTE_PATH + file.getName());
+		RemoteHelper.get().uploadFile(file.getAbsolutePath(), REMITTANCE_REMOTE_PATH + file.getName());
 	}
 }

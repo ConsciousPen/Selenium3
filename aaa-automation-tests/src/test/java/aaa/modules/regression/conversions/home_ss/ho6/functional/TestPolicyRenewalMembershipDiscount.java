@@ -85,6 +85,9 @@ public class TestPolicyRenewalMembershipDiscount extends HomeSSHO6BaseTest {
         PremiumsAndCoveragesQuoteTab.buttonNext.click();
         policy.getDefaultView().fillFromTo(td, MortgageesTab.class, BindTab.class, true);
         bindTab.submitTab();
+        if(PolicySummaryPage.buttonBackFromRenewals.isEnabled()){
+            PolicySummaryPage.buttonBackFromRenewals.click();
+        }
     }
 
     private void policyDateSavingAndChanging() {

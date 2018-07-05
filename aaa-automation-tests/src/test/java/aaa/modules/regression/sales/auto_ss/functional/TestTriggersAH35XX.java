@@ -8,7 +8,6 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUN
 import static aaa.main.enums.BillingConstants.BillingAccountPoliciesTable.POLICY_NUM;
 import static aaa.main.enums.PolicyConstants.PolicyCoverageInstallmentFeeTable.INSTALLMENT_FEE;
 import static aaa.main.enums.PolicyConstants.PolicyCoverageInstallmentFeeTable.PAYMENT_METHOD;
-import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.*;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -44,8 +43,8 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 	private static final String PAYMENT_CENTRAL_CONFIG_CHECK = "select value from PROPERTYCONFIGURERENTITY\n" +
 			"where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')\n";
 
-	@Test(description = "Preconditions")
-	private void paymentCentralConfigCheck() {
+	@Test(groups = {Groups.PRECONDITION}, description = "Preconditions")
+	public void paymentCentralConfigCheck() {
 		String appHost = PropertyProvider.getProperty("app.host");
 		CustomAssert.assertTrue("Adding Payment methods will not be possible because PaymentCentralEndpoints are looking at real service. Please run paymentCentralConfigUpdate", DBService.get()
 				.getValue(PAYMENT_CENTRAL_CONFIG_CHECK).get().contains(appHost));
@@ -62,7 +61,7 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, dependsOnMethods = "paymentCentralConfigCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, dependsOnMethods = "paymentCentralConfigCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-2241", "PAS-250"})
 	public void pas2241_TriggersUiAH35XX(@Optional("") String state) {
 

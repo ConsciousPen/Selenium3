@@ -71,7 +71,7 @@ public class TestInstallmentFees extends PolicyBilling {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-1943")
 	public void pas1943_InstallmentFeeCreditDebitCardSplit(@Optional("UT") String state) {
 		String paymentPlan = "contains=Standard"; //"Monthly"

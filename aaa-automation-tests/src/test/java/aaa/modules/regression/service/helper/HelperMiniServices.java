@@ -28,6 +28,7 @@ public class HelperMiniServices extends PolicyBaseTest {
 	}
 
 	void updateVehicleUsageRegisteredOwner(String policyNumber, String newVehicleOid) {
+		printToLog("Update vehicle usage registered owner params: policyNumber: " + policyNumber + ", newVehicleOid: " + newVehicleOid);
 		//Update Vehicle with proper Usage and Registered Owner
 		VehicleUpdateDto updateVehicleUsageRequest = new VehicleUpdateDto();
 		updateVehicleUsageRequest.usage = "Pleasure";
@@ -70,9 +71,9 @@ public class HelperMiniServices extends PolicyBaseTest {
 		ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
 		assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 		assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-		ErrorResponseDto bindResponseFiltered = rateResponse.errors.stream().filter(errors -> errorCode.equals(errors.errorCode)).findFirst().orElse(null);
-		assertThat(bindResponseFiltered.message).contains(errorMessage);
-		assertThat(bindResponseFiltered.field).isEqualTo(field);
+		ErrorResponseDto rateResponseFiltered = rateResponse.errors.stream().filter(errors -> errorCode.equals(errors.errorCode)).findFirst().orElse(null);
+		assertThat(rateResponseFiltered.message).contains(errorMessage);
+		assertThat(rateResponseFiltered.field).isEqualTo(field);
 	}
 
 	void bindEndorsementWithCheck(String policyNumber) {

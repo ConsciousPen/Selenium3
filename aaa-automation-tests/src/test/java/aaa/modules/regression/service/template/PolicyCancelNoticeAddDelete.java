@@ -7,7 +7,6 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.verification.CustomAssert;
 
 /**
  * @author Lina Li
@@ -28,14 +27,12 @@ public abstract class PolicyCancelNoticeAddDelete extends PolicyBaseTest {
     	
         mainApp().open();
           
-       getCopiedPolicy();       
+        getCopiedPolicy();
         
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        
-        CustomAssert.enableSoftMode();
-        
+
         log.info("TEST: Cancel Notice for Policy #" + policyNumber);
         policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData"));
         assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
@@ -43,8 +40,6 @@ public abstract class PolicyCancelNoticeAddDelete extends PolicyBaseTest {
         log.info("TEST: Delete Cancel Notice for Policy #" + policyNumber);
 		policy.deleteCancelNotice().perform(new SimpleDataProvider());
 		assertThat(PolicySummaryPage.labelCancelNotice).isPresent(false);
-        
-		CustomAssert.assertAll();
 
     }   
 }

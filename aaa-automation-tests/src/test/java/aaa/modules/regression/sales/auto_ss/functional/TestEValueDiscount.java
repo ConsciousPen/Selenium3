@@ -868,7 +868,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		DBService.get().executeUpdate(eValueCurrentConfigPaInsert);
 		adminApp().open();
-		CacheManager.clearCache();
+		CacheManager.goClearCacheManagerTable();
 
 		eValueQuoteCreation();
 
@@ -1852,7 +1852,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 * 1. Policy Eff date==today.
 	 * 2. Policy Eff date in the future.
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-333", "PAS-336", "PAS-238", "PAS-313"})
@@ -2463,6 +2462,16 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		simplifiedPendedEndorsementIssue();
 	}
 
+	public void secondEndorsementIssueCheck() {
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		premiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
+
+		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+		testEValueDiscount.simplifiedPendedEndorsementIssue();
+		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+	}
+
 	/**
 	 * example to clear cache for the product
 	 */
@@ -2470,6 +2479,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-111")
 	public void pas111_clearCache() {
 		adminApp().open();
-		CacheManager.clearCache();
+		CacheManager.goClearCacheManagerTable();
 	}
 }

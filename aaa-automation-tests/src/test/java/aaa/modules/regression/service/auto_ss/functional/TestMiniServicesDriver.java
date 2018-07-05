@@ -8,11 +8,11 @@ import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
-import aaa.modules.regression.service.helper.TestMiniServicesDriversAbstract;
+import aaa.modules.regression.service.helper.TestMiniServicesDriversHelper;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-public class TestMiniServicesDriver extends TestMiniServicesDriversAbstract {
+public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 
 	private final DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 	private final TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
@@ -20,6 +20,25 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversAbstract {
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_SS;
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name view Drivers service, check info.
+	 * @scenario
+	 * 1. Create policy with two drivers.
+	 * 2. Check if the same drivers are displaying in dxp service.
+	 * 3. Initiate endorsement, and add driver middle name and suffix for one of the drivers. Don't bind.
+	 * 4. Check if user can't be able to see new driver information.
+	 * 5. Bind the endorsement.
+	 * 6. Check if new information from endorsement is displaying.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11932", "PAS-12768"})
+	public void pas11932_viewDrivers(@Optional("VA") String state) {
+
+		pas11932_viewDriversInfo(getPolicyType());
 	}
 
 	/**
@@ -66,13 +85,40 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversAbstract {
 	 * 4. go to Pas ui and verify if driver is added
 	 * 5. hit view driver service and check all defaults
 	 * 6. verify status of driver pending
+	 * @Megha : added Update driver
+	 * 1. Add drive more than 55 years old
+	 * 2. update driver with these parameters  stateLicensed,licenseNumber,gender,relationToApplicantCd,maritalStatusCd,ageFirstLicensed
+	 * 3.Verify Response
+	 * 4. Go to Pas and validate Defensive Driver course Completed = No
+	 * 5. rate and bind
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-478"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-478", "PAS-477"})
 	public void pas478_AddDrivers(@Optional("AZ") String state) {
 
 		pas478_AddDriversBody(getPolicyType());
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Update Drivers service, check info.
+	 * @scenario
+	 * 1. Create policy on Pas.
+	 * 2. To add driver send request first name, middle name, last name, suffix and Date of Birth < 26
+	 * 3. run add driver service
+	 * 4. go to Pas ui and verify if driver is added
+	 * 5. update driver with these parameters  stateLicensed,licenseNumber,gender,relationToApplicantCd,maritalStatusCd,ageFirstLicensed
+	 * 6. Go TO pas UI and verify Most Recent GPA = None and Smart Driver Course = No
+	 * 6. Rate and Bind
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-477"})
+	public void pas477_UpdateDrivers(@Optional("DC") String state) {
+
+		pas477_UpdateDriversBody(getPolicyType());
 	}
 }
 

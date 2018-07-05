@@ -3,9 +3,12 @@ package aaa.helpers.openl.model.auto_ss;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import aaa.helpers.mock.MocksCollection;
+import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
+import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
-import aaa.helpers.openl.testdata_builder.AutoSSTestDataGenerator;
+import aaa.helpers.openl.testdata_generator.AutoSSTestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
 
@@ -80,6 +83,17 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	@Override
 	public String getUnderwriterCode() {
 		return getCappingDetails().getUnderwriterCode();
+	}
+
+	@Override
+	public MocksCollection getRequiredMocks() {
+		MocksCollection requiredMocks = new MocksCollection();
+		MockGenerator mockGenerator = new MockGenerator();
+		if (!mockGenerator.isMembershipSummaryMockPresent(getEffectiveDate(), getMemberPersistency(), getAvgAnnualERSperMember())) {
+			RetrieveMembershipSummaryMock membershipMock = mockGenerator.getRetrieveMembershipSummaryMock(getEffectiveDate(), getMemberPersistency(), getAvgAnnualERSperMember());
+			requiredMocks.add(membershipMock);
+		}
+		return requiredMocks;
 	}
 
 	public Integer getCreditScore() {

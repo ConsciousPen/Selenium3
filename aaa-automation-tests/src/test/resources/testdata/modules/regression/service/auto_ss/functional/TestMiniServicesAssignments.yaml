@@ -1,0 +1,160 @@
+TestData_TwoVehicles: {
+    VehicleTab: ['@VehicleTab_1', '@VehicleTab_2'],
+}
+
+TestData_ThreeVehicles: {
+    VehicleTab: ['@VehicleTab_1', '@VehicleTab_2', '@VehicleTab_3'],
+}
+
+VehicleTab_1: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: WDCYC7BB0B6729451
+}
+
+VehicleTab_2: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: 1GAZG1FG7D1145543
+}
+
+VehicleTab_3: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: 1G2NE52T9XM924276
+}
+
+TestData_TwoDrivers: {
+    DriverTab: ['@Driver_one', '@Driver_two'],
+}
+
+TestData_ThreeDrivers: {
+    DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three'],
+}
+
+TestData_FourDrivers: {
+    DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three', '@Driver_four'],
+}
+
+Driver_one: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  Date of Birth: '$<today-21y:MM/dd/yyyy>',
+  License Type: 'Licensed (US)',
+  License Number: 400064773
+  }
+
+Driver_two: {
+   Add drivers: 'Yes',
+    DriverSearchDialog: {},
+   "Policy #": '123456789',
+    Rel. to First Named Insured: Child,
+    First Name: 'John',
+    Middle Name: 'Sam',
+    Last Name: 'Smith',
+    Date of Birth: '12/12/1980',
+    Gender: 'Male',
+    Suffix: 'II',
+    Marital Status: Married,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: 'T60355298',
+    License Status: 'Licensed (US)'
+}
+
+Driver_three: {
+   Add drivers: 'Yes',
+    DriverSearchDialog: {},
+   "Policy #": '123456754',
+    Rel. to First Named Insured: Child,
+    First Name: 'Monica',
+    Middle Name: 'Maja',
+    Last Name: 'Logan',
+    Suffix: 'II',
+    Date of Birth: '12/12/1981',
+    Gender: 'Female',
+    Marital Status: Single,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: 'T60355111',
+    License Status: 'Licensed (US)'
+}
+
+Driver_four: {
+   Add drivers: 'Yes',
+    DriverSearchDialog: {},
+   "Policy #": '123456758',
+    Rel. to First Named Insured: Child,
+    First Name: 'Laura',
+    Middle Name: 'Sara',
+    Last Name: 'Smith',
+    Suffix: 'III',
+    Date of Birth: '12/12/1991',
+    Gender: 'Female',
+    Marital Status: Single,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: 'T60355777',
+    License Status: 'Licensed (US)'
+}
+
+AssignmentTabFourDrivers: {
+  DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver2', '@AssignedDriver3', '@AssignedDriver4' ]
+}
+
+AssignmentTabThreeDrivers: {
+DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver5', '@AssignedDriver6' ]
+ }
+
+AssignedDriver1: {
+    Driver: 'contains=Ben',
+    Select Vehicle: 'index=1'
+}
+
+AssignedDriver2: {
+    Driver: 'contains=John',
+    Select Vehicle: 'index=1'
+}
+
+AssignedDriver3: {
+    Driver: 'contains=Monica',
+    Select Vehicle: 'index=2'
+}
+
+AssignedDriver4: {
+    Driver: 'contains=Laura',
+    Select Vehicle: 'index=2'
+}
+
+AssignedDriver5: {
+    Driver: 'contains=John',
+    Select Vehicle: 'index=2'
+}
+
+AssignedDriver6: {
+    Driver: 'contains=Monica',
+    Select Vehicle: 'index=3'
+}
+
+
+AssignmentTab: {
+  DriverVehicleRelationshipTable: [
+    {
+      Driver: 'contains=Ben',
+      Select Vehicle: 'index=1'
+    },
+    {
+      Driver: 'contains=John',
+      Select Vehicle: 'index=2'
+    }
+  ],
+  Assign: '',
+  ExcessVehiclesTable: [
+    {
+      Select Driver: 'index=1'
+    }
+  ]
+}

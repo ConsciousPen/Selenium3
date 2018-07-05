@@ -1,15 +1,12 @@
 package aaa.modules.regression.service.helper;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static toolkit.verification.CustomAssertions.assertThat;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
@@ -20,8 +17,7 @@ import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBaseTest {
 
 
-	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
-
+	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 
 	protected abstract String getGeneralTab();
 
@@ -49,7 +45,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		assertThat(NavigationPage.comboBoxListAction).doesNotContainOption("Endorse");
 
 		//will be used to check PAS-6364 Sleepy hollow: when doing Service Endorsement after regular endorsement, components are loaded in incorrect order
-		secondEndorsementIssueCheck();
+		testEValueDiscount.secondEndorsementIssueCheck();
 
 		//PAS-343 start
 		String numberOfDocumentsRecordsInDbQuery = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "%%", "%%");
@@ -75,7 +71,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		Page.dialogConfirmation.reject();
 
 		SearchPage.openPolicy(policyNumber);
-		secondEndorsementIssueCheck();
+		testEValueDiscount.secondEndorsementIssueCheck();
 	}
 
 
@@ -94,17 +90,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		Tab.buttonCancel.click();
 	}
 
-	private void secondEndorsementIssueCheck() {
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-		NavigationPage.toViewTab(getPremiumAndCoverageTab());
-		getPremiumAndCoverageTabElement().getAssetList().getAsset(getCalculatePremium()).click();
-		getPremiumAndCoverageTabElement().saveAndExit();
-
-		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-		testEValueDiscount.simplifiedPendedEndorsementIssue();
-		assertThat(PolicySummaryPage.buttonPendedEndorsement).isEnabled(false);
-	}
-
 	private void emailUpdateTransactionHistoryCheck(String policyNumber) {
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -116,21 +101,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		Tab.buttonCancel.click();
 	}
 
-	public Dollar getCoverage(int index, String coverageCd, String... replacement) {
-		String coverage = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(index, coverageCd);
-		for (String replace : replacement) {
-			coverage = coverage.replace(replace, "");
-		}
-		return new Dollar(coverage);
-	}
 
-	public String getCoverages(int index, String coverageCd, String... replacement) {
-		String coverage = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(index, coverageCd);
-		for (String replace : replacement) {
-			coverage = coverage.replace(replace, "");
-
-		}
-		return coverage;
-	}
 
 }

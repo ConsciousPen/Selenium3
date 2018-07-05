@@ -20,10 +20,10 @@ import toolkit.utils.TestInfo;
 @StateList(statesExcept = Constants.States.CA)
 public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstallmentDateAbstract {
 
-    @Override
-    protected PolicyType getPolicyType() {
-        return PolicyType.HOME_SS_DP3;
-    }
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_SS_DP3;
+	}
 
 	@Override
 	protected PurchaseTab getPurchaseTab() {
@@ -70,14 +70,14 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
 	 * 8. Validate the off cycle bill has been generated with correct amounts
 	 * @details
 	 */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = {"PAS-9001"})
-    public void pas9001_testInvoiceWithNoDownPaymentNB_DP3(@Optional("") String state) {
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = {"PAS-9001"})
+	public void pas9001_testInvoiceWithNoDownPaymentNB_DP3(@Optional("") String state) {
 
-        pas9001_testOffCycleBillNoDownPayment_NB();
+		pas9001_testOffCycleBillNoDownPayment_NB();
 
-    }
+	}
 
 	/**
 	 * @author Josh Carpenter
@@ -92,13 +92,13 @@ public class TestOffCycleBillNoInstallmentDate extends TestOffCycleBillNoInstall
 	 * 7. Validate the off cycle bill has been generated with correct amounts
 	 * @details
 	 */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Service.HOME_SS_DP3, testCaseId = {"PAS-9001"})
-    public void pas9001_testInvoiceWithNoDownPaymentEndorsement_DP3(@Optional("") String state) {
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Service.HOME_SS_DP3, testCaseId = {"PAS-9001"})
+	public void pas9001_testInvoiceWithNoDownPaymentEndorsement_DP3(@Optional("") String state) {
 
-        pas9001_testOffCycleBillPremiumBearingEndorsement();
+		pas9001_testOffCycleBillPremiumBearingEndorsement();
 
-    }
+	}
 
 }

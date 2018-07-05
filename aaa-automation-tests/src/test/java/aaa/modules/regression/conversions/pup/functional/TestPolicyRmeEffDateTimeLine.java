@@ -27,38 +27,38 @@ import toolkit.utils.TestInfo;
 
 public class TestPolicyRmeEffDateTimeLine extends ConvPUPBaseTest {
 
-    @Parameters({"state"})
-    @StateList(states = {Constants.States.AZ, Constants.States.KY, Constants.States.WV, Constants.States.NJ, Constants.States.MD, Constants.States.PA})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-    @TestInfo(component = ComponentConstant.Conversions.PUP, testCaseId = "PAS-14206,PAS-14207,PAS-14208")
-    public void testPolicyRmeTimeLine(@Optional("") String state) {
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ, Constants.States.KY, Constants.States.WV, Constants.States.NJ, Constants.States.MD, Constants.States.PA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Conversions.PUP, testCaseId = "PAS-14206,PAS-14207,PAS-14208")
+	public void testPolicyRmeTimeLine(@Optional("") String state) {
 
-        InitiateRenewalEntryActionTab initiateRenewalEntryActionTab = new InitiateRenewalEntryActionTab();
-        mainApp().open();
+		InitiateRenewalEntryActionTab initiateRenewalEntryActionTab = new InitiateRenewalEntryActionTab();
+		mainApp().open();
 
-        // Create customer
-        createCustomerIndividual();
-        customer.initiateRenewalEntry().start();
+		// Create customer
+		createCustomerIndividual();
+		customer.initiateRenewalEntry().start();
 
-        // Fill the data with future date time line and verify the error message
-        initiateRenewalEntryActionTab.fillTab(getTestSpecificTD("TestData_Future_Date"));
-        initiateRenewalEntryActionTab.submitTab();
-        ErrorTab errorTab = new ErrorTab();
-        assertThat(errorTab.tableTabFormErrors.getRow(1).getCell("Description").getValue()).isEqualTo(ErrorEnum.Errors.ERROR_AAA_MES_IRE_06.getMessage());
-        Tab.buttonBack.click();
+		// Fill the data with future date time line and verify the error message
+		initiateRenewalEntryActionTab.fillTab(getTestSpecificTD("TestData_Future_Date"));
+		initiateRenewalEntryActionTab.submitTab();
+		ErrorTab errorTab = new ErrorTab();
+		assertThat(errorTab.tableTabFormErrors.getRow(1).getCell("Description").getValue()).isEqualTo(ErrorEnum.Errors.ERROR_AAA_MES_IRE_06.getMessage());
+		Tab.buttonBack.click();
 
-        // Fill the data with past date time line and verify the error message
-        initiateRenewalEntryActionTab.fillTab(getTestSpecificTD("TestData_Past_Date"));
-        initiateRenewalEntryActionTab.submitTab();
-        assertThat(errorTab.tableTabFormErrors.getRow(1).getCell("Description").getValue()).isEqualTo(ErrorEnum.Errors.ERROR_AAA_MES_IRE_07.getMessage());
-        Tab.buttonBack.click();
+		// Fill the data with past date time line and verify the error message
+		initiateRenewalEntryActionTab.fillTab(getTestSpecificTD("TestData_Past_Date"));
+		initiateRenewalEntryActionTab.submitTab();
+		assertThat(errorTab.tableTabFormErrors.getRow(1).getCell("Description").getValue()).isEqualTo(ErrorEnum.Errors.ERROR_AAA_MES_IRE_07.getMessage());
+		Tab.buttonBack.click();
 
-        // Fill the data with correct time line and verify the data gather mode
-        initiateRenewalEntryActionTab.fillTab(getTestSpecificTD("TestData_Within_Timeline"));
-        initiateRenewalEntryActionTab.submitTab();
+		// Fill the data with correct time line and verify the data gather mode
+		initiateRenewalEntryActionTab.fillTab(getTestSpecificTD("TestData_Within_Timeline"));
+		initiateRenewalEntryActionTab.submitTab();
 
-        new CustomerActions.InitiateRenewalEntry().submit();
-        assertThat(PersonalUmbrellaMetaData.PrefillTab.NamedInsured.OCCUPATION.getLabel()).isEqualTo("Occupation");
+		new CustomerActions.InitiateRenewalEntry().submit();
+		assertThat(PersonalUmbrellaMetaData.PrefillTab.NamedInsured.OCCUPATION.getLabel()).isEqualTo("Occupation");
 
-    }
+	}
 }

@@ -17,7 +17,7 @@ public abstract class NumberCellType<T extends Number> extends AbstractCellType<
 	}
 
 	@Override
-	public void setValueTo(ExcelCell cell, Number value) {
+	public void setRawValueTo(ExcelCell cell, Number value) {
 		cell.getPoiCell().setCellValue(value.doubleValue());
 	}
 

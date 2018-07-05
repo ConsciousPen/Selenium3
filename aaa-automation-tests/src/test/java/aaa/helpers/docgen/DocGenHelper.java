@@ -42,10 +42,11 @@ public class DocGenHelper {
 	 */
 	public static void clearDocGenFolders() {
 		try {
-			RemoteHelper.clearFolder(JOBS_DOCGEN_SOURCE_FOLDER);
-			RemoteHelper.clearFolder(DOCGEN_SOURCE_FOLDER);
-			RemoteHelper.clearFolder(DOCGEN_BATCH_SOURCE_FOLDER);
-		} catch (Exception e) {
+			RemoteHelper.get()
+					.clearFolder(JOBS_DOCGEN_SOURCE_FOLDER)
+					.clearFolder(DOCGEN_SOURCE_FOLDER)
+					.clearFolder(DOCGEN_BATCH_SOURCE_FOLDER);
+		} catch (RuntimeException e) {
 			Assert.fail("Clearing doc gen folder failed: \n", e);
 		}
 	}
@@ -130,7 +131,7 @@ public class DocGenHelper {
 							documentsFilePaths));
 		}
 
-		String content = RemoteHelper.getFileContent(documentsFilePaths.get(0));
+		String content = RemoteHelper.get().getFileContent(documentsFilePaths.get(0));
 		log.info(String.format("Getting object model from found xml document: \"%s\".", documentsFilePaths.get(0)));
 
 		StandardDocumentRequest standardDocumentRequest;
@@ -166,11 +167,11 @@ public class DocGenHelper {
 		for (int i = 0; i < documents.length; i++) {
 			textsToSearchPatterns[i + 1] = String.format("<%1$s:TemplateId>%2$s</%1$s:TemplateId>", DocGenEnum.XmlnsNamespaces.DOC_PREFIX, documents[i].getIdInXml());
 		}
-		return RemoteHelper.waitForFilesAppearance(docGenSourcePath, "xml", DOCUMENT_GENERATION_TIMEOUT, textsToSearchPatterns);
+		return RemoteHelper.get().waitForFilesAppearance(docGenSourcePath, "xml", DOCUMENT_GENERATION_TIMEOUT, textsToSearchPatterns);
 	}
 
 	public static String convertToZonedDateTime(LocalDateTime date) {
-		String zoneId = RemoteHelper.getServerTimeZone();
+		String zoneId = RemoteHelper.get().getServerTimeZone();
 		return date.atZone(ZoneId.of(zoneId)).format(DATE_TIME_FIELD_FORMAT);
 	}
 

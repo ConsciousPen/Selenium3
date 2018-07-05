@@ -14,8 +14,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
-import aaa.helpers.product.VinUploadFileType;
-import aaa.helpers.product.VinUploadHelper;
+import aaa.main.enums.DefaultVinVersions;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
@@ -38,7 +37,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 					+ "(%1$d,'%2$s','%3$s','%4$s','%5$s','%6$d','%7$d','%8$s')";
 	protected final String DELETE_VEHICLEREFDATAVINCONTROL_BY_VERSION_VEHICLETYPE =
 			"DELETE from MSRPCompCollCONTROL WHERE VEHICLETYPE = '%1$s' AND MSRPVERSION = '%2$s'";
-	String DELETE_FROM_VEHICLEREFDATAVINCONTROL  = "DELETE FROM VEHICLEREFDATAVINCONTROL WHERE FORMTYPE = '%s' AND VERSION = '%s' AND EFFECTIVEDATE = %d AND EXPIRATIONDATE = %d";
+	protected String DELETE_FROM_VEHICLEREFDATAVINCONTROL  = "DELETE FROM VEHICLEREFDATAVINCONTROL WHERE FORMTYPE = '%s' AND VERSION = '%s' AND EFFECTIVEDATE = %d AND EXPIRATIONDATE = %d";
 
 	protected static final int EXPECTED_MSRP_KEY = 4;
 	protected static final int COMP_COLL_SYMBOL_KEY = 44;
@@ -63,6 +62,52 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 	protected PurchaseTab purchaseTab = new PurchaseTab();
 	protected PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 
+
+	public void verifyStoreStubRenewal() {
+		String vehYear = "2018";
+		String vehMake = "BUICK";
+		String vehModel = "ENVISION";
+		String vehSeries = "ENVISION";
+		String vehBodyStyle = "SUV";
+
+		TestData testData = getPolicyTD()
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), "ZZYKN3DD8E0344466")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.YEAR.getLabel()), vehYear)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MAKE.getLabel()), vehMake)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MODEL.getLabel()), vehModel)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
+		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();
+
+		//1. Create a Policy with specific test data
+		String policyNumber = createPreconds(testData);
+		String newBusinessCurrentVinBeforeNull = DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get();
+		assertThat(newBusinessCurrentVinBeforeNull).isNotNull().isNotEmpty();
+		log.info("Curren Vin # is : {}", newBusinessCurrentVinBeforeNull);
+		//2. Clear the Current VIN Stub Stored at NB
+		assertThat(DBService.get().executeUpdate(String.format(VehicleQueries.NULL_SPECIFIC_POLICY_STUB,newBusinessCurrentVinBeforeNull))).isGreaterThan(0);
+		Map<String,String> allNewBusinessValues = DBService.get().getRow(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_WITH_SYMBOLS_ON_QUOTE, policyNumber));
+		String newBusinessComp = allNewBusinessValues.get("COMPSYMBOL");
+		String newBusinessColl = allNewBusinessValues.get("COLLSYMBOL");
+		assertThat(allNewBusinessValues.get("CURRENTVIN")).isNullOrEmpty();
+
+		log.info("New business compsymbol: {}, and collsymbol: {}", newBusinessComp, newBusinessColl);
+
+		//3. Generate Renewal Image
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
+
+		Map<String,String> allRenewalVersionValues = DBService.get().getRow(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_WITH_SYMBOLS_ON_QUOTE, policyNumber));
+		String renewalVersionComp = allRenewalVersionValues.get("COMPSYMBOL");
+		String renewalVersionColl = allRenewalVersionValues.get("COLLSYMBOL");
+		String renewalVersionCurrentVin = allRenewalVersionValues.get("CURRENTVIN");
+
+		//6. Verify VIN Stub was Stored at renewal in the DB
+		assertThat(renewalVersionComp).isEqualTo(newBusinessComp);
+		assertThat(renewalVersionColl).isEqualTo(newBusinessColl);
+		assertThat(renewalVersionCurrentVin).isEqualTo(newBusinessCurrentVinBeforeNull);
+	}
+
 	protected void vehicleTypeRegular(TestData testData) {
 
 		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
@@ -83,7 +128,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 		findAndRateQuote(testData, quoteNumber);
 
-		pas730_commonChecks(compSymbol, collSymbol);
+		CompCollSymbolChecks_pas730(compSymbol, collSymbol);
 
 		premiumAndCoveragesTab.saveAndExit();
 	}
@@ -108,14 +153,14 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 		findAndRateQuote(testData, quoteNumber);
 
-		pas730_commonChecks(compSymbol, collSymbol);
+		CompCollSymbolChecks_pas730(compSymbol, collSymbol);
 
 		premiumAndCoveragesTab.saveAndExit();
 
 	}
 
 	protected void renewalVehicleTypeRegular(TestData testData) {
-		String quoteNumber = createPolicyPreconds(testData);
+		String quoteNumber = createPreconds(testData);
 
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
@@ -136,14 +181,14 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
-		pas730_commonChecks(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
+		CompCollSymbolChecks_pas730(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
 
 		premiumAndCoveragesTab.saveAndExit();
 	}
 
 	protected void renewalVehicleTypeNotRegular(TestData testData) {
 
-		String quoteNumber = createPolicyPreconds(testData);
+		String quoteNumber = createPreconds(testData);
 
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
@@ -164,14 +209,14 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
-		pas730_commonChecks(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
+		CompCollSymbolChecks_pas730(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
 
 		premiumAndCoveragesTab.saveAndExit();
 	}
 
-	protected void renewalVINDoesMatchNBandNoMatchOnRenewal(TestData testData) {
+	protected void checkMatchOnNBWithNoMatchOnRenewal(TestData testData, String vinNumber) {
 		// Should be added after VinUpload Tests
-		String quoteNumber = createPolicyPreconds(testData);
+		String quoteNumber = createPreconds(testData);
 
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
@@ -180,10 +225,10 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		String collSymbolBeforeRenewal = policyInfoBeforeRenewal.get("COLLSYMBOL");
 		// Preconditions to to vin is not match
 		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
-			DatabaseCleanHelper.cleanVehicleRefDataVinTable("7MSRP15H5V1011111","SYMBOL_2000_CA_SELECT");
+			DatabaseCleanHelper.cleanVehicleRefDataVinTable(vinNumber,DefaultVinVersions.DefaultVersions.CaliforniaSelect.get());
 		} else {
-			DatabaseCleanHelper.cleanVehicleRefDataVinTable("7MSRP15H5V1011111","SYMBOL_2000_CHOICE");
-		}
+			DatabaseCleanHelper.cleanVehicleRefDataVinTable(vinNumber,DefaultVinVersions.DefaultVersions.CaliforniaChoice.get());
+			}
 
 		// Move time to get refresh
 		moveTimeAndRunRenewJobs(policyExpirationDate);
@@ -192,73 +237,10 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
-		pas730_commonChecks(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
+		CompCollSymbolChecks_pas730(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
 
 		premiumAndCoveragesTab.saveAndExit();
 
-	}
-
-	protected void partialMatch() {
-		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
-
-		String vehYear = "2018";
-		String vehMake = "VOLKSWAGEN";
-		String vehModel = "PASSAT";
-		String vehSeries = "PASSAT S";
-		String vehBodyStyle = "SEDAN";
-
-		TestData testData = getPolicyTD()
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), "")
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.YEAR.getLabel()), vehYear)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MAKE.getLabel()), vehMake)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MODEL.getLabel()), vehModel)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VALUE.getLabel()), "50000").resolveLinks();
-
-		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();
-
-		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
-
-		premiumAndCoveragesTab.calculatePremium();
-
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-		// Values from VIN comp and coll symbol in excel sheet
-		assertSoftly(softly -> {
-			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isNotEqualTo("55");
-			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isNotEqualTo("66");
-
-		});
-
-		String compSymbol = PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue();
-		String collSymbol = PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-
-		VehicleTab.buttonSaveAndExit.click();
-
-		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-
-		// Vin control table has version which overrides VERSION_2000, it is needed and important to get symbols for next steps
-		adminApp().open();
-		vinMethods.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.PARTIAL_MATCH.get()));
-
-		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
-		findAndRateQuote(testData, quoteNumber);
-
-		//PAS-12881: Update VIN Y/M/M/S/S to Store VIN Stub (quote): Verify in DB that VIN STUB is stored
-		String expectedSTUB = "7MSRP15H&V";
-		assertThat(DBService.get().getValue(String.format(VehicleQueries.SELECT_VIN_STUB_ON_QUOTE, quoteNumber)).get()).isNotNull().isEqualTo(expectedSTUB);
-
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-		assertSoftly(softly -> {
-			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isEqualTo("55");
-			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isNotEqualTo(compSymbol);
-
-			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isEqualTo("66");
-			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isNotEqualTo(collSymbol);
-
-		});
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
 
 	/* ############ HELPERS ############ */
@@ -324,7 +306,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		//BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
 		// Insert Vehicle with needed type
 		//DBService.get().executeUpdate(String.format(
-		//		INSERT_VEHICLEREFDATAVINCONTROL_BY_VERSION,getUniqId, productTypeAAACSA, formTypeSelect, getState(), "SYMBOL_2000", NEW_VEHREFVERSION_EFFECTIVEDATE, NEW_VEHREFVERSION_EXPIRATIONDATE, CA_SELECT_REGULAR_VEH_MSRP_VERSION));
+		//		INSERT_VEHICLEREFDATAVINCONTROL_BY_VERSION,getUniqId, productTypeAAACSA, formTypeSelect, getState(), DefaultVinVersions.DefaultVersions.CaliforniaSelect.get(), NEW_VEHREFVERSION_EFFECTIVEDATE, NEW_VEHREFVERSION_EXPIRATIONDATE, CA_SELECT_REGULAR_VEH_MSRP_VERSION));
 
 		// Add New  msrp version
 		DBService.get().executeUpdate(String.format(
@@ -340,7 +322,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		//BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
 
 		/*DBService.get().executeUpdate(String.format(
-				INSERT_VEHICLEREFDATAVINCONTROL_BY_VERSION,getUniqId, productTypeAAACSA, formTypeChoice, getState(), "SYMBOL_2000_CHOICE", NEW_VEHREFVERSION_EFFECTIVEDATE, NEW_VEHREFVERSION_EXPIRATIONDATE, CA_CHOICE_REGULAR_VEH_MSRP_VERSION));
+				INSERT_VEHICLEREFDATAVINCONTROL_BY_VERSION,getUniqId, productTypeAAACSA, formTypeChoice, getState(), DefaultVinVersions.DefaultVersions.CaliforniaChoice.get(), NEW_VEHREFVERSION_EFFECTIVEDATE, NEW_VEHREFVERSION_EXPIRATIONDATE, CA_CHOICE_REGULAR_VEH_MSRP_VERSION));
 */
 		// Update needed msrp version
 		DBService.get().executeUpdate(String.format(
@@ -359,7 +341,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		//BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
 
 		//DBService.get().executeUpdate(String.format(
-		//		INSERT_VEHICLEREFDATAVINCONTROL_BY_VERSION,getUniqId, productTypeAAACSA, formTypeSelect, getState(), "SYMBOL_2000", NEW_VEHREFVERSION_EFFECTIVEDATE, NEW_VEHREFVERSION_EXPIRATIONDATE, CA_SELECT_REGULAR_VEH_MSRP_VERSION));
+		//		INSERT_VEHICLEREFDATAVINCONTROL_BY_VERSION,getUniqId, productTypeAAACSA, formTypeSelect, getState(), DefaultVinVersions.DefaultVersions.CaliforniaSelect.get(), NEW_VEHREFVERSION_EFFECTIVEDATE, NEW_VEHREFVERSION_EXPIRATIONDATE, CA_SELECT_REGULAR_VEH_MSRP_VERSION));
 
 		// Add New  msrp version
 		DBService.get().executeUpdate(String.format(
@@ -374,7 +356,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		//BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
 //
 		//DBService. get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_BY_VERSION,
-		//		getUniqId, productTypeAAACSA, formTypeChoice, getState(), "SYMBOL_2000_CHOICE", NEW_VEHREFVERSION_EFFECTIVEDATE, NEW_VEHREFVERSION_EXPIRATIONDATE, CA_CHOICE_REGULAR_VEH_MSRP_VERSION));
+		//		getUniqId, productTypeAAACSA, formTypeChoice, getState(), DefaultVinVersions.DefaultVersions.CaliforniaChoice.get(), NEW_VEHREFVERSION_EFFECTIVEDATE, NEW_VEHREFVERSION_EXPIRATIONDATE, CA_CHOICE_REGULAR_VEH_MSRP_VERSION));
 
 		// Expire original msrp version
 		DBService.get().executeUpdate(String.format(UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX_BY_VEHICLEYEARMIN_KEY, DEFAULT_MSRPCOMPCOLLCONTROL_VEHICLYEARMAX_ADDED, DEFAULT_MSRPCOMPCOLLCONTROL_VEHICLYEARMIN_ADDED, 4));
@@ -398,7 +380,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		return PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
 	}
 
-	protected void pas730_commonChecks(String compSymbol, String collSymbol) {
+	protected void CompCollSymbolChecks_pas730(String compSymbol, String collSymbol) {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertSoftly(softly -> {
 			softly.assertThat(getCompSymbolFromVRD()).isNotEmpty();
@@ -418,7 +400,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 	protected void pas730_ChoiceCleanDataBase(String vehicleTypeMSRPVersion, String vehicleType) {
 		// Delete added version from VEHICLE REF DATA VIN
 		/*DBService.get().executeUpdate(String.format(
-				DELETE_FROM_VEHICLEREFDATAVINCONTROL,formTypeChoice,"SYMBOL_2000_CHOICE",NEW_VEHREFVERSION_EFFECTIVEDATE,NEW_VEHREFVERSION_EXPIRATIONDATE));*/
+				DELETE_FROM_VEHICLEREFDATAVINCONTROL,formTypeChoice,DefaultVinVersions.DefaultVersions.CaliforniaChoice.get(),NEW_VEHREFVERSION_EFFECTIVEDATE,NEW_VEHREFVERSION_EXPIRATIONDATE));*/
 		// Reset default version in VEHICLE REF DATA VIN
 		/*resetChoiceDefaultVEHICLEREFDATAVINCONTROL();*/
 		// DELETE new MSRP version pas730_VehicleTypeNotPPA
@@ -434,8 +416,6 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 	 * @param vehicleType
 	 */
 	protected void pas730_SelectCleanDataBase(String vehicleTypeMSRPVersion, String vehicleType) {
-		// Delete added version from VEHICLE REF DATA VIN
-		DBService.get().executeUpdate(String.format(DELETE_FROM_VEHICLEREFDATAVINCONTROL,formTypeSelect,"SYMBOL_2000",NEW_VEHREFVERSION_EFFECTIVEDATE,NEW_VEHREFVERSION_EXPIRATIONDATE));
 		// Reset default version in VEHICLE REF DATA VIN
 		resetDefaultVehicleDataVinVersion(vehicleTypeMSRPVersion);
 		// DELETE new MSRP version pas730_VehicleTypeRegular

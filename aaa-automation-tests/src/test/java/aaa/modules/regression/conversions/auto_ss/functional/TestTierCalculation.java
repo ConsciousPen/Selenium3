@@ -36,10 +36,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
 public class TestTierCalculation extends AutoSSBaseTest {
 
     private final Tab generalTab = new GeneralTab();
-    private final Tab driverReportTab = new DriverActivityReportsTab();
     private final Tab premiumCovTab = new PremiumAndCoveragesTab();
     private final DocumentsAndBindTab documentsTab = new DocumentsAndBindTab();
-    private final ErrorTab errorTab = new ErrorTab();
     private String policyNumberNb;
     private String policyNumberConv;
     private Dollar premiumValue;
@@ -101,7 +99,8 @@ public class TestTierCalculation extends AutoSSBaseTest {
         //Finish policy and save/exit
         policy.getDefaultView().fillFromTo(tdAutoConv, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
         documentsTab.submitTab();
-        policyNumberConv = PolicySummaryPage.linkPolicy.getValue();
+        PolicySummaryPage.buttonBackFromRenewals.click();
+        policyNumberConv = PolicySummaryPage.getPolicyNumber();
 
         //Compare new business and conversion values
         assertThat(nbParams).isEqualTo(convParams);
@@ -142,7 +141,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(PolicySummaryPage.getExpirationDate()));
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-	    assertThat(getRenewalValues(policyNumberConv)).isEqualTo(getRenewalValues(policyNumberNb));
+        assertThat(getRenewalValues(policyNumberConv)).isEqualTo(getRenewalValues(policyNumberNb));
 
     }
 

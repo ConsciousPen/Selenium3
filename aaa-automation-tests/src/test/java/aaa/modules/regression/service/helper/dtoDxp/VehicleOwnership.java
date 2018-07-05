@@ -1,10 +1,11 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
+import aaa.modules.regression.service.helper.RestBodyRequest;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class VehicleOwnership extends Address {
+public class VehicleOwnership extends Address implements RestBodyRequest {
 
     @ApiModelProperty(value = "Ownership type", example = "OWN")
     public String ownership;

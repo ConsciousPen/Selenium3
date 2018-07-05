@@ -1,9 +1,10 @@
 package aaa.helpers.mock.model.membership;
 
+import java.util.Objects;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
-@ExcelTableElement(sheetName = "MEMBERSHIP_REQUEST")
+@ExcelTableElement(sheetName = "MEMBERSHIP_REQUEST", hasEmptyRows = true)
 public class MembershipRequest {
 	@ExcelColumnElement(name = "ID")
 	private String id;
@@ -78,6 +79,30 @@ public class MembershipRequest {
 
 	public void setCorrelationId(String correlationId) {
 		this.correlationId = correlationId;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		MembershipRequest otherMembershipRequest = (MembershipRequest) o;
+		return Objects.equals(getId(), otherMembershipRequest.getId()) &&
+				Objects.equals(getMembershipNumber(), otherMembershipRequest.getMembershipNumber()) &&
+				Objects.equals(getUserId(), otherMembershipRequest.getUserId()) &&
+				Objects.equals(getTransactionType(), otherMembershipRequest.getTransactionType()) &&
+				Objects.equals(getApplication(), otherMembershipRequest.getApplication()) &&
+				Objects.equals(getSubSystem(), otherMembershipRequest.getSubSystem()) &&
+				Objects.equals(getAddress(), otherMembershipRequest.getAddress()) &&
+				Objects.equals(getCorrelationId(), otherMembershipRequest.getCorrelationId());
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(getId(), getMembershipNumber(), getUserId(), getTransactionType(), getApplication(), getSubSystem(), getAddress(), getCorrelationId());
 	}
 
 	@Override

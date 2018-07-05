@@ -80,8 +80,6 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12202")
     public void pas12202_PremiumChangeBetweenEnhancedAndStandardUIMNanoPolicy(@Optional("MD") String state) {
 
-        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
-
         TestData tdPolicy = getTestSpecificTD("TestData_MD");
 
         // Initiate Policy, calculate premium
@@ -153,8 +151,6 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12202")
     public void pas12202_testNanoPolicyEUIMCoverageBehaviorNB(@Optional("MD") String state) {
 
-        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
-
         TestData tdPolicy = getTestSpecificTD("TestData_MD");
         // Initiate Policy, calculate premium
         mainApp().open();
@@ -201,8 +197,6 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-12202")
     public void pas12202_testNanoPolicyEUIMCoverageBehaviorEndorsement(@Optional("MD") String state) {
 
-        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
-
 	    TestData tdPolicy = getTestSpecificTD("TestData_MD");
         // Initiate Policy, calculate premium
         mainApp().open();
@@ -243,8 +237,6 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-12202")
     public void pas12202_testNanoPolicyEUIMCoverageBehaviorRenewal(@Optional("MD") String state) {
-
-        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
 	    TestData tdPolicy = getTestSpecificTD("TestData_MD");
         // Create customer & policy
@@ -301,7 +293,6 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-12202")
     public void pas12202_testNanoPolicyEUIMCoverageBehaviorConversion(@Optional("MD") String state) {
 
-        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
         TestData tdPolicy = getTestSpecificTD("TestData_Conversion");
 
         String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
@@ -326,6 +317,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
         errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_CSACN0100);
         errorTab.override();
         documentsAndBindTab.submitTab();
+        PolicySummaryPage.buttonBackFromRenewals.click();
         String policyNum = PolicySummaryPage.getPolicyNumber();
         purchaseRenewal(policyNum);
 

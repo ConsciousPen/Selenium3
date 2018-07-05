@@ -151,8 +151,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive" + "/*.*"));
 		sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive" + "/*.*"));
 
-		if (RemoteHelper.isPathExist(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound")) {
-			RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound");
+		if (RemoteHelper.get().isPathExist(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound")) {
+			RemoteHelper.get().clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound");
 		}
 		printToLog("Clear membership folders completed");
 	}
@@ -2317,7 +2317,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	}
 
 	private HelperWireMockStub createPaperlessPreferencesRequestId(String policyNumber, String paperlessAction) {
-		PaperlessPreferencesTemplateData template = PaperlessPreferencesTemplateData.create(policyNumber, paperlessAction);
+		PaperlessPreferencesTemplateData template = create(policyNumber, paperlessAction);
 		HelperWireMockStub stub = HelperWireMockStub.create("paperless-preferences-200", template).mock();
 		stubList.add(stub);
 		printToLog("THE REQUEST ID WAS CREATED " + stub.getId());

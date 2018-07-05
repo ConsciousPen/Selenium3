@@ -6,7 +6,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
@@ -32,7 +31,7 @@ public class TestPolicyCreation extends HomeSSDP3BaseTest {
         mainApp().open();
         createCustomerIndividual();
 		createPolicy();
-        
+
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 }

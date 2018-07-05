@@ -3,6 +3,7 @@ package aaa.modules.regression.service.helper;
 import static aaa.admin.modules.IAdmin.log;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.HttpHeaders;
@@ -59,17 +60,20 @@ public class HelperCommon {
 
 	private static final String DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS = "/api/v1/policies/%s/endorsement/assignments";
 
+	private static final String DXP_POLICIES_ENDORSEMENT_TRANSACTION_INFORMATION = "/api/v1/policies/%s/endorsement/change-log";
+
 	private static final String DXP_POLICIES_POLICY_PREMIUMS = "/api/v1/policies/%s/premiums";
 	private static final String DXP_POLICIES_ENDORSEMENT_PREMIUMS = "/api/v1/policies/%s/endorsement/premiums";
 	private static final String DXP_POLICIES_RENEWAL_PREMIUMS = "/api/v1/policies/%s/renewal/premiums";
 
 	private static final String DXP_POLICIES_DRIVERS = "/api/v1/policies/%s/drivers";
 	private static final String DXP_POLICIES_ENDORSEMENT_DRIVERS = "/api/v1/policies/%s/endorsement/drivers";
-	private static final String DXP_POLICIES_ENDORSEMENT_DRIVER= "/api/v1/policies/%s/endorsement/drivers";
+	private static final String DXP_POLICIES_UPDATE_DRIVERS = "/api/v1/policies/%s/endorsement/drivers/%s";
 
 	private static final String DXP_POLICIES_POLICY_COVERAGES = "/api/v1/policies/%s/coverages";
 	private static final String DXP_POLICIES_ENDORSEMENT_COVERAGES = "/api/v1/policies/%s/endorsement/coverages";
 	private static final String DXP_POLICIES_POLICY_VEHICLE_OID_COVERAGES = "/api/v1/policies/%s/vehicles/%s/coverages";
+	private static final String DXP_POLICIES_ENDORSEMENT_UPDATE_COVERAGES = "/api/v1/policies/%s/endorsement/coverages";
 	private static final String DXP_POLICIES_ENDORSEMENT_VEHICLE_OID_COVERAGES = "/api/v1/policies/%s/endorsement/vehicles/%s/coverages";
 
 	private static final String AAA_VEHICLE_INFO_RS_PREFIX = "/aaa-admin/services/aaa-vehicle-info-rs/v1/vin-info/";
@@ -158,12 +162,20 @@ public class HelperCommon {
 		return runJsonRequestPatchDxp(requestUrl, request, VehicleUpdateResponseDto.class);
 	}
 
+	public static VehicleUpdateResponseDto replaceVehicle(String policyNumber, String oid, ReplaceVehicleRequest request) {
+		log.info("Replace vehicle params: policyNumber: " + policyNumber + ", oid: " + oid);
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES_OID, policyNumber, oid));
+		return runJsonRequestPutDxp(requestUrl, request, VehicleUpdateResponseDto.class);
+	}
+
 	public static VehicleUpdateResponseDto deleteVehicle(String policyNumber, String oid) {
+		log.info("Delete vehicle params: policyNumber: " + policyNumber + ", oid: " + oid);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES_OID, policyNumber, oid));
 		return runJsonRequestDeleteDxp(requestUrl, VehicleUpdateResponseDto.class);
 	}
 
 	public static AAAVehicleVinInfoRestResponseWrapper executeVinInfo(String policyNumber, String vin, String endorsementDate) {
+		log.info("VIN info params: policyNumber: " + policyNumber + ", vin: " + vin + ", endorsementDate: " + endorsementDate);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_VIN_INFO, policyNumber, vin));
 		if (endorsementDate != null) {
 			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
@@ -171,7 +183,8 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, AAAVehicleVinInfoRestResponseWrapper.class);
 	}
 
-	public static AttributeMetadata[] viewEndorsmentVehiclesMetaData(String policyNumber, String oid) {
+	public static AttributeMetadata[] viewEndoresmentVehiclesMetaData(String policyNumber, String oid) {
+		log.info("Vehicle MetaData params: policyNumber: " + policyNumber + ", oid: " + oid);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES_METADATA, policyNumber, oid));
 		return runJsonRequestGetDxp(requestUrl, AttributeMetadata[].class);
 	}
@@ -205,6 +218,7 @@ public class HelperCommon {
 	}
 
 	public static Vehicle executeEndorsementAddVehicle(String policyNumber, String purchaseDate, String vin) {
+		log.info("Add Vehicles params: policyNumber: " + policyNumber + ", purchaseDate: " + purchaseDate + ", vin: " + vin);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES, policyNumber));
 		Vehicle request = new Vehicle();
 		request.purchaseDate = purchaseDate;
@@ -228,6 +242,7 @@ public class HelperCommon {
 	}
 
 	public static ErrorResponseDto viewAddVehicleServiceErrors(String policyNumber, String purchaseDate, String vin) {
+		log.info("Add Vehicles params: policyNumber: " + policyNumber + ", purchaseDate: " + purchaseDate + ", vin: " + vin);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES, policyNumber));
 		Vehicle request = new Vehicle();
 		request.purchaseDate = purchaseDate;
@@ -236,24 +251,31 @@ public class HelperCommon {
 	}
 
 	public static DriversDto executeEndorsementAddDriver(String policyNumber, AddDriverRequest request) {
-		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVER, policyNumber));
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS, policyNumber));
 		return runJsonRequestPostDxp(requestUrl, request, DriversDto.class, 201);
 	}
 
-	public static DriverAssignmentDto[] viewEndorsementAssignments(String policyNumber) {
-		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
-		return runJsonRequestGetDxp(requestUrl, DriverAssignmentDto[].class);
+	public static DriverWithRuleSets updateDriver(String policyNumber, String oid, UpdateDriverRequest request) {
+		log.info("Update Driver params: policyNumber: " + policyNumber + ", oid: " + oid);
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_UPDATE_DRIVERS, policyNumber, oid));
+		return runJsonRequestPatchDxp(requestUrl, request, DriverWithRuleSets.class);
 	}
 
-	public static DriverAssignmentDto[] updateDriverAssignment(String policyNumber, String vehicleOid, String driverOid) {
+	public static ViewDriverAssignmentResponse viewEndorsementAssignments(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, ViewDriverAssignmentResponse.class);
+	}
+
+	public static ViewDriverAssignmentResponse updateDriverAssignment(String policyNumber, String vehicleOid, List<String> driverOids) {
+		log.info("Update Driver Assignment: policyNumber: " + policyNumber + ", vehicleOid: " + vehicleOid + ", driverOids: " + driverOids);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
 		UpdateDriverAssignmentRequest request = new UpdateDriverAssignmentRequest();
 		request.assignmentRequests = new ArrayList<>();
-		DriverAssignmentDto assignmentDto = new DriverAssignmentDto();
-		assignmentDto.driverOid = driverOid;
+		DriverAssignmentRequest assignmentDto = new DriverAssignmentRequest();
+		assignmentDto.driverOids = driverOids;
 		assignmentDto.vehicleOid = vehicleOid;
 		request.assignmentRequests.add(assignmentDto);
-		return runJsonRequestPostDxp(requestUrl, request, DriverAssignmentDto[].class, 200);
+		return runJsonRequestPostDxp(requestUrl, request, ViewDriverAssignmentResponse.class, 200);
 	}
 
 	public static ViewDriversResponse viewPolicyDrivers(String policyNumber) {
@@ -272,6 +294,7 @@ public class HelperCommon {
 	}
 
 	static PolicyCoverageInfo viewPolicyCoveragesByVehicle(String policyNumber, String oid) {
+		log.info("Update policy coverages by vehicle: policyNumber: " + policyNumber + ", oid: " + oid);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_POLICY_VEHICLE_OID_COVERAGES, policyNumber, oid));
 		return runJsonRequestGetDxp(requestUrl, PolicyCoverageInfo.class);
 	}
@@ -282,12 +305,23 @@ public class HelperCommon {
 	}
 
 	static PolicyCoverageInfo viewEndorsementCoveragesByVehicle(String policyNumber, String newVehicleOid) {
+		log.info("Update endorsement coverages by vehicle: policyNumber: " + policyNumber + ", newVehicleOid: " + newVehicleOid);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLE_OID_COVERAGES, policyNumber, newVehicleOid));
 		return runJsonRequestGetDxp(requestUrl, PolicyCoverageInfo.class);
 	}
 
 	static PolicyCoverageInfo updateEndorsementCoveragesByVehicle(String policyNumber, String vehicleOid, String coverageCode, String availableLimits) {
+		log.info("Update coverage by vehicle: policyNumber: " + policyNumber + ", vehicleOid: " + vehicleOid + ", coverageCode: " + coverageCode + ", availableLimits: " + availableLimits);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLE_OID_COVERAGES, policyNumber, vehicleOid));
+		UpdateCoverageRequest request = new UpdateCoverageRequest();
+		request.coverageCd = coverageCode;
+		request.limit = availableLimits;
+		return runJsonRequestPatchDxp(requestUrl, request, PolicyCoverageInfo.class);
+	}
+
+	static PolicyCoverageInfo updatePolicyLevelCoverageEndorsement(String policyNumber, String coverageCode, String availableLimits) {
+		log.info("Update policy evel coverage: policyNumber: " + policyNumber + ", coverageCode: " + coverageCode + ", availableLimits: " + availableLimits);
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_UPDATE_COVERAGES, policyNumber));
 		UpdateCoverageRequest request = new UpdateCoverageRequest();
 		request.coverageCd = coverageCode;
 		request.limit = availableLimits;
@@ -317,6 +351,11 @@ public class HelperCommon {
 	public static ErrorResponseDto viewEndorsementPremiumsError(String policyNumber, int status) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_PREMIUMS, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, ErrorResponseDto.class, status);
+	}
+
+	static ComparablePolicy viewEndorsementChangeLog(String policyNumber, int status) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_TRANSACTION_INFORMATION, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, ComparablePolicy.class);
 	}
 
 	public static AAAEndorseResponse createEndorsement(String policyNumber, String endorsementDate) {
@@ -440,30 +479,103 @@ public class HelperCommon {
 		}
 	}
 
-	public static <T> T runJsonRequestPatchDxp(String url, RestBodyRequest request, Class<T> responseType) {
-		return runJsonRequestPatchDxp(url, request, responseType, Response.Status.OK.getStatusCode());
+	public static String runJsonRequestPatchDxp(String url, RestBodyRequest bodyRequest) {
+		return runJsonRequestPatchDxp(url, bodyRequest, String.class);
 	}
 
+	public static <T> T runJsonRequestPatchDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType) {
+		return runJsonRequestPatchDxp(url, bodyRequest, responseType, Response.Status.OK.getStatusCode());
+	}
+
+	//not working TODO fix the PATCH to use standard functionality
+	/*public static <T> T runJsonRequestPatchDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = url;
+		restRequestInfo.bodyRequest = bodyRequest;
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		return runJsonRequestPatchDxp(restRequestInfo);
+	}
+
+	public static <T> T runJsonRequestPatchDxp(RestRequestInfo<T> request) {
+		Client client = null;
+		Response response = null;
+		log.info("Request: " + asJson(request));
+		try {
+			client = ClientBuilder.newClient().property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true).register(JacksonJsonProvider.class);
+			response = createJsonRequest(client, request.url, request.sessionId).method("PATCH", Entity.json(request));
+			T responseObj = response.readEntity(request.responseType);
+			if (response.getStatus() != request.status) {
+				//handle error
+				throw new IstfException("PATCH json request failed");
+			}
+			log.info("Response: " + asJson(responseObj));
+			return responseObj;
+		} finally {
+			if (response != null) {
+				response.close();
+			}
+			if (client != null) {
+				client.close();
+			}
+		}
+	}*/
+
+	//WORKING
 	public static <T> T runJsonRequestPatchDxp(String url, RestBodyRequest request, Class<T> responseType, int status) {
 		Client client = null;
 		Response response = null;
 		log.info("Request: " + asJson(request));
 		try {
-			client = ClientBuilder.newClient()
-					.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true)
-					.register(JacksonJsonProvider.class);
-			WebTarget target = client.target(url);
+			client = ClientBuilder.newClient().property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true).register(JacksonJsonProvider.class);
 
-			response = target
+			String token = getBearerToken();
+
+			response = client.target(url)
 					.request()
-					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("admin:admin".getBytes()))
+					.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
 					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
 					.method("PATCH", Entity.json(request));
 			T responseObj = response.readEntity(responseType);
 			log.info(response.toString());
 			if (response.getStatus() != status) {
 				//handle error
-				throw new IstfException("POST?PATCH? json response failed");
+				throw new IstfException("PATCH json response failed");
+			}
+			return responseObj;
+		} finally {
+			if (response != null) {
+				response.close();
+			}
+			if (client != null) {
+				client.close();
+			}
+		}
+	}
+
+	public static <T> T runJsonRequestPutDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType) {
+		return runJsonRequestPutDxp(url, bodyRequest, responseType, Response.Status.OK.getStatusCode());
+	}
+
+	public static <T> T runJsonRequestPutDxp(String url, RestBodyRequest request, Class<T> responseType, int status) {
+		Client client = null;
+		Response response = null;
+		log.info("Request: " + asJson(request));
+		try {
+			client = ClientBuilder.newClient().property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true).register(JacksonJsonProvider.class);
+
+			String token = getBearerToken();
+
+			response = client.target(url)
+					.request()
+					.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+					.method("PUT", Entity.json(request));
+			T responseObj = response.readEntity(responseType);
+			log.info(response.toString());
+			if (response.getStatus() != status) {
+				//handle error
+				throw new IstfException("PATCH json response failed");
 			}
 			return responseObj;
 		} finally {
@@ -646,10 +758,8 @@ public class HelperCommon {
 		try {
 			ApplicationContext applicationContext = new ApplicationContext();
 			applicationContext.address = "AutomationTest";
-			applicationContext.application = "AutomationTest";
+			applicationContext.application = "MyPolicy";
 			applicationContext.correlationId = Guid.GUID.newGuid().toString();
-			applicationContext.sourceApplication = "AutomationTest";
-			applicationContext.userId = "MyPolicy";
 			applicationContext.sessionId = sessionId;
 			return DEFAULT_OBJECT_MAPPER.writeValueAsString(applicationContext);
 		} catch (JsonProcessingException e) {
