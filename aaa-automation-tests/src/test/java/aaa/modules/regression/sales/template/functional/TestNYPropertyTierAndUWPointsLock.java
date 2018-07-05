@@ -6,7 +6,11 @@ import aaa.main.enums.BillingConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.*;
+import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.home_ss.dp3.functional.TestPARevisedHomeTierAutoNA;
@@ -15,7 +19,6 @@ import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import org.apache.commons.lang3.Range;
 import toolkit.datax.TestData;
-import toolkit.webdriver.controls.ComboBox;
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
@@ -24,13 +27,7 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
     private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
     private PurchaseTab purchaseTab = new PurchaseTab();
     private ReportsTab reportsTab = new ReportsTab();
-    private BindTab bindTab = new BindTab();
     private Range<String> rangeMarketTier = Range.between("A", "J");
-
-    private ComboBox policyTier = applicantTab.getAssetList()
-            .getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES)
-            .getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_MANUAL)
-            .getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.POLICY_TIER);
 
     private SingleSelectSearchDialog policySearchDialog = applicantTab.getAssetList()
             .getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES)
@@ -71,27 +68,9 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
         policyType.get().getDefaultView().fillFromTo(tdHome, MortgageesTab.class, PurchaseTab.class, true);
         purchaseTab.submitTab();
 
-        // Initiate renewal. Override Insurance Score.
+        // Initiate renewal. Make Policy Changes to change Total UW Points and Market Tier.
         policyType.get().renew().start().submit();
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        reportsTab.fillTab(testDataManager.getDefault(TestNYTierAndUWPointsLock.class).getTestData("InsuranceScoreOverride920"));
-
-        //  Navigate to P&C
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-
-        // Calculate Premium and save the amount
-        premiumsAndCoveragesQuoteTab.calculatePremium();
-        Dollar premium = new Dollar(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
-
-        // Change payment plan for bigger premium calculate premium
-        premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).setValue(BillingConstants.PaymentPlan.QUARTERLY_RENEWAL);
-        premiumsAndCoveragesQuoteTab.calculatePremium();
-
-        // Check if premium is higher and Open VRD
-        Dollar changedPremium = new Dollar(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
-        assertThat(changedPremium.moreThan(premium)).isTrue();
-        PropertyQuoteTab.RatingDetailsView.open();
+        policyChangesForTotalUWPointsAndMarketTier();
 
         // Validate Market Tier and UW points are the same saved value from NB policy.
         assertThat(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier")).isEqualTo(marketTierValue);
@@ -134,27 +113,9 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
         policyType.get().getDefaultView().fillFromTo(tdHome, MortgageesTab.class, PurchaseTab.class, true);
         purchaseTab.submitTab();
 
-        // Initiate endorsement. Override Insurance Score.
+        // Initiate endorsement. Make Policy Changes to change Total UW Points and Market Tier.
         policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3).getTestData("Endorsement"), "TestData_Plus1Month"));
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        reportsTab.fillTab(testDataManager.getDefault(TestNYTierAndUWPointsLock.class).getTestData("InsuranceScoreOverride920"));
-
-        //  Navigate to P&C
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-
-        // Calculate Premium and save the amount
-        premiumsAndCoveragesQuoteTab.calculatePremium();
-        Dollar premium = new Dollar(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
-
-        // Change payment plan for bigger premium calculate premium
-        premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).setValue(BillingConstants.PaymentPlan.QUARTERLY_RENEWAL);
-        premiumsAndCoveragesQuoteTab.calculatePremium();
-
-        // Check if premium is higher and Open VRD
-        Dollar changedPremium = new Dollar(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
-        assertThat(changedPremium.moreThan(premium)).isTrue();
-        PropertyQuoteTab.RatingDetailsView.open();
+        policyChangesForTotalUWPointsAndMarketTier();
 
         // Validate Market Tier and UW points are the same saved value from NB policy.
         assertThat(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier")).isEqualTo(marketTierValue);
@@ -197,8 +158,19 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
         policyType.get().getDefaultView().fillFromTo(tdHome, MortgageesTab.class, PurchaseTab.class, true);
         purchaseTab.submitTab();
 
-        // Initiate endorsement. Override Insurance Score.
+        // Initiate endorsement. Make Policy Changes to change Total UW Points and Market Tier.
         policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3).getTestData("Endorsement"), "TestData"));
+        policyChangesForTotalUWPointsAndMarketTier();
+
+        // Validate Market Tier and UW points are recalculated.
+        assertThat(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier")).isNotEqualTo(marketTierValue);
+        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Total points")).isNotEqualTo(totalUWPoints);
+        PropertyQuoteTab.RatingDetailsView.close();
+        mainApp().close();
+    }
+
+    private void policyChangesForTotalUWPointsAndMarketTier(){
+        // Override FR Score
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
         reportsTab.fillTab(testDataManager.getDefault(TestNYTierAndUWPointsLock.class).getTestData("InsuranceScoreOverride920"));
 
@@ -210,22 +182,15 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
         premiumsAndCoveragesQuoteTab.calculatePremium();
         Dollar premium = new Dollar(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
 
-        // Change payment plan for bigger premium calculate premium
-        premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).setValue(BillingConstants.PaymentPlan.QUARTERLY_RENEWAL);
+        // Change Cov E for bigger premium calculate premium
+        premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E).setValueContains("1,000,000");
         premiumsAndCoveragesQuoteTab.calculatePremium();
 
         // Check if premium is higher and Open VRD
         Dollar changedPremium = new Dollar(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
         assertThat(changedPremium.moreThan(premium)).isTrue();
         PropertyQuoteTab.RatingDetailsView.open();
-
-        // Validate Market Tier and UW points are recalculated.
-        assertThat(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier")).isNotEqualTo(marketTierValue);
-        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Total points")).isNotEqualTo(totalUWPoints);
-        PropertyQuoteTab.RatingDetailsView.close();
-        mainApp().close();
     }
-
 
     private TestData getTdWithAutoPolicy(TestData tdAuto, PolicyType policyType) {
         PolicyType.AUTO_SS.get().createPolicy(tdAuto);
@@ -234,6 +199,4 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
         return getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData")
                 .adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()), tdOtherActive);
     }
-
-
 }

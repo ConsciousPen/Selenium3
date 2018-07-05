@@ -30,7 +30,7 @@ public class TestNYTierAndUWPointsLock extends HomeSSHO3BaseTest {
 	 * 8. Navigate to Reports Tab
 	 * 9. Change FR Score
 	 * 10. Navigate to P&C
-	 * 11. Calculate And Save Premium. Change Payment Plan to Quarterly
+	 * 11. Calculate And Save Premium. Change Cov E for bigger premium
 	 * 12. Calculate Premium
 	 * 13. Check that Premium is bigger than previously one
 	 * 14. Open VRD
@@ -61,7 +61,7 @@ public class TestNYTierAndUWPointsLock extends HomeSSHO3BaseTest {
 	 * 8. Navigate to Reports Tab
 	 * 9. Change FR Score
 	 * 10. Navigate to P&C
-	 * 11. Calculate And Save Premium. Change Payment Plan to Quarterly
+	 * 11. Calculate And Save Premium. Change Cov E for bigger premium
 	 * 12. Calculate Premium
 	 * 13. Check that Premium is bigger than previously one
 	 * 14. Open VRD
@@ -92,7 +92,7 @@ public class TestNYTierAndUWPointsLock extends HomeSSHO3BaseTest {
 	 * 8. Navigate to Reports Tab
 	 * 9. Change FR Score
 	 * 10. Navigate to P&C
-	 * 11. Calculate And Save Premium. Change Payment Plan to Quarterly
+	 * 11. Calculate And Save Premium. Change Cov E for bigger premium
 	 * 12. Calculate Premium
 	 * 13. Check that Premium is bigger than previously one
 	 * 14. Open VRD
