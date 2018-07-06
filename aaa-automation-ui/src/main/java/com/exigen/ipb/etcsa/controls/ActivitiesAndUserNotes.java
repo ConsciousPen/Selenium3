@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.openqa.selenium.By;
-import aaa.main.enums.ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable;
+import aaa.main.enums.ActivitiesAndUserNotesConstants;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.composite.table.Column;
@@ -131,30 +131,30 @@ public class ActivitiesAndUserNotes extends Table {
         return super.getRows();
     }
 
-    public class Verify extends Table.Verify {
+	public class Verify {
         public Verify() {}
 
         public void description(int rowIndex, String expectedDescription) {
-            assertThat(ActivitiesAndUserNotes.this.getRow(rowIndex).getCell(ActivitiesAndUserNotesTable.DESCRIPTION)).hasValue(expectedDescription);
+			assertThat(ActivitiesAndUserNotes.this.getRow(rowIndex).getCell(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION)).hasValue(expectedDescription);
         }
 
         public void descriptionContains(int rowIndex, String expectedDescription) {
-            assertThat(ActivitiesAndUserNotes.this.getRow(rowIndex).getCell(ActivitiesAndUserNotesTable.DESCRIPTION)).valueContains(expectedDescription);
+			assertThat(ActivitiesAndUserNotes.this.getRow(rowIndex).getCell(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION)).valueContains(expectedDescription);
         }
 
         public void descriptionContains(LocalDateTime date, String expectedDescription) {
             Map<String, String> values = new HashMap<>();
-            values.put(ActivitiesAndUserNotesTable.DATE_TIME, date.format(DateTimeUtils.MM_DD_YYYY));
-            values.put(ActivitiesAndUserNotesTable.DESCRIPTION, expectedDescription);
+			values.put(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DATE_TIME, date.format(DateTimeUtils.MM_DD_YYYY));
+			values.put(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION, expectedDescription);
             assertThat(ActivitiesAndUserNotes.this.getRowContains(values)).exists();
         }
 
         public void descriptionByRegex(int rowIndex, String expectedDescription) {
-            assertThat(ActivitiesAndUserNotes.this.getRow(rowIndex).getCell(ActivitiesAndUserNotesTable.DESCRIPTION)).valueMatches(expectedDescription);
+			assertThat(ActivitiesAndUserNotes.this.getRow(rowIndex).getCell(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION)).valueMatches(expectedDescription);
         }
 
         public void status(int rowIndex, String expectedStatus) {
-            assertThat(ActivitiesAndUserNotes.this.getRow(rowIndex).getCell(ActivitiesAndUserNotesTable.STATUS)).hasValue(expectedStatus);
+			assertThat(ActivitiesAndUserNotes.this.getRow(rowIndex).getCell(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.STATUS)).hasValue(expectedStatus);
         }
 
         public void descriptionExist(String expectedDescription) {
