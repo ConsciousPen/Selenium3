@@ -69,7 +69,10 @@ public class TestNotOrderedMembershipError extends AutoCaSelectBaseTest {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
         vehicleTab.getAssetList().fill(getTestSpecificTD("TestData_NotOrderedMembershipValidationAU_CA")); // order all reports except Membership, and then select No
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage).verify.present();
+        //TODO:Fixed here
+        //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
+        errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage).verify.contains(notOrderedMembershipSecondMessage);
+        //errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage).verify.present();
         errorTab.cancel();
         premiumsAndCoveragesTab.saveAndExit();
         log.info("Not Ordered Membership Errors Validation for NB Quote Successfully Completed..");
@@ -94,7 +97,10 @@ public class TestNotOrderedMembershipError extends AutoCaSelectBaseTest {
         membershipTab.getAssetList().fill(getTestSpecificTD("TestData_DontOrderMembership")); // Select 'No' for AAAMembership before ordering
         membershipTab.getAssetList().fill(getTestSpecificTD("TestData_NotOrderedMembershipValidationAU_CA"));
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
+        //TODO:Fixed here
+        //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
+        errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.contains(notOrderedMembershipFirstMessage);
+        //errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
         errorTab.cancel();
         membershipTab.saveAndExit();
         log.info("Not Ordered Membership Errors Validation for Endorsement Quote Successfully Completed..");
@@ -109,7 +115,10 @@ public class TestNotOrderedMembershipError extends AutoCaSelectBaseTest {
         membershipTab.getAssetList().fill(getTestSpecificTD("TestData_DontOrderMembership")); // Select 'No' for AAAMembership before ordering
         membershipTab.getAssetList().fill(getTestSpecificTD("TestData_NotOrderedMembershipValidationAU_CA"));
         membershipTab.submitTab();
-        errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
+        //TODO:Fixed here
+        //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
+        errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.contains(notOrderedMembershipFirstMessage);
+        //errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
         errorTab.cancel();
     }
 
@@ -118,7 +127,10 @@ public class TestNotOrderedMembershipError extends AutoCaSelectBaseTest {
     */
     private void validateSecondError(String notOrderedMembershipFirstMessage){
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
-        errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
+        //TODO:Fixed here
+        //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
+        errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.contains(notOrderedMembershipFirstMessage);
+        //errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
         errorTab.cancel();
         membershipTab.saveAndExit();
     }
