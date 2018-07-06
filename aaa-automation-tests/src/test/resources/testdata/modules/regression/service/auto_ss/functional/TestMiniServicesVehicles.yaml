@@ -1,3 +1,40 @@
+TestData_Drivers: {
+    DriverTab: ['@<auto_ss>@DataGather@DriverTab','@DriverTab_2'],
+}
+
+TestData_Assignments: {'@AssignmentTab'}
+
+AssignmentTab: {
+  DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver2']
+}
+
+AssignedDriver1: {
+    Driver: 'contains=Ben',
+    Select Vehicle: 'index=1'
+}
+
+AssignedDriver2: {
+    Driver: 'contains=Second',
+    Select Vehicle: 'index=2'
+}
+
+DriverTab_2: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Sibling,
+  First Name: Second,
+  Last Name: Driver,
+  Date of Birth: $<today-16y>,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Student,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: 400064774,
+  Most Recent GPA: B Student
+}
+
 TestData_VehicleOtherTypes: {
     VehicleTab: ['@VehicleTab_1','@VehicleTab_Van','@VehicleTab_2','@VehicleTab_Motor_Home'],
 }
@@ -36,4 +73,92 @@ VehicleTab_Motor_Home: {
     Other Make: 'Motor',
     Other Model: 'Motor',
    Stated Amount: '50000',
+}
+
+#---------------------------------------------
+TestData_NewVehicle: {
+    VehicleTab: ['@VehicleTab_2018_Leased', '@VehicleTab_2018_New'],
+    PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_2018',
+}
+
+VehicleTab_2018_Leased: {
+    Usage: Pleasure,
+    VIN: JTDKDTB38J1600184, #toyota prius 2018
+    Ownership: {
+     Ownership Type: Leased,
+     First Name: BANK OF AMERICA
+    }
+}
+
+VehicleTab_2018_New: {
+    Usage: Pleasure,
+    VIN: 1FADP3J2XJL222680, #Ford Focus 2018
+}
+
+PremiumAndCoveragesTab_2018: {
+  Payment Plan: Annual,
+  Bodily Injury Liability: 'contains=$50,000/$100,000',
+  DetailedVehicleCoverages: [
+    {
+      Other Than Collision: 'contains=$750',
+      Collision Deductible: 'contains=$500',
+      Excess Electronic Equipment: 1500,
+      Transportation Expense: 'contains=900',
+      Full Safety Glass: 'Yes',
+      Towing and Labor Coverage: 'index=1',
+      Auto Loan/Lease Coverage: 'contains=Yes'
+    },
+    {
+      Other Than Collision: 'contains=$750',
+      Collision Deductible: 'contains=$500',
+      Excess Electronic Equipment: 1500,
+      Transportation Expense: 'contains=900',
+      Full Safety Glass: 'Yes',
+      Towing and Labor Coverage: 'index=1',
+      New Car Added Protection: 'Yes',
+      Purchase Date: '$<today-20d>'
+    }
+  ]
+}
+
+#---------------------------------------------
+TestData_WaiveLiability: {
+    VehicleTab: ['@VehicleTab_2018_Leased', '@VehicleTab_2018_New'],
+    PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_WaiveLiability',
+}
+
+PremiumAndCoveragesTab_WaiveLiability: {
+  Payment Plan: Annual,
+  Bodily Injury Liability: 'contains=$50,000/$100,000',
+  DetailedVehicleCoverages: [
+    {
+      Full Safety Glass: 'Yes',
+      Towing and Labor Coverage: 'index=1',
+    },
+    {
+      Waive Liability: 'Yes'
+    }
+  ]
+}
+
+#---------------------------------------------
+TestData_OneVeh: {
+    VehicleTab: ['@VehicleTab_2018_Leased'],
+    PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_OneVeh',
+}
+
+PremiumAndCoveragesTab_OneVeh: {
+  Payment Plan: Annual,
+  Bodily Injury Liability: 'contains=$50,000/$100,000',
+  DetailedVehicleCoverages: [
+    {
+      Other Than Collision: 'contains=$750',
+      Collision Deductible: 'contains=$500',
+      Excess Electronic Equipment: 1500,
+      Transportation Expense: 'contains=900',
+      Full Safety Glass: 'Yes',
+      Towing and Labor Coverage: 'index=1',
+      Auto Loan/Lease Coverage: 'contains=Yes'
+    }
+  ]
 }

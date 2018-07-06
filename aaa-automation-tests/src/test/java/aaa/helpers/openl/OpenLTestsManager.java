@@ -151,7 +151,7 @@ public final class OpenLTestsManager {
 				openLTests = excelUnmarshaller.unmarshalRows(OpenLTest.class, policyNumbers);
 			}
 		}
-		
+
 		for (OpenLPolicy policy : openLPolicies) {
 			OpenLTest openLTest = openLTests.stream().filter(t -> Objects.equals(t.getPolicy(), policy.getNumber())).findFirst()
 					.orElseThrow(() -> new IstfException("There is no test for policy number " + policy.getNumber()));
@@ -163,7 +163,7 @@ public final class OpenLTestsManager {
 	}
 	
 	private String getFilePath(XmlTest test) {
-		return FilenameUtils.separatorsToUnix(Paths.get(TestParams.TESTS_DIR.getValue(test), TestParams.TEST_FILENAME.getValue(test)).toString());
+		return FilenameUtils.separatorsToUnix(Paths.get(TestParams.TESTS_DIR.getValue(test), TestParams.TEST_FILENAME.getValue(test)).normalize().toString());
 	}
 	
 	/**

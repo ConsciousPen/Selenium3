@@ -38,7 +38,7 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 	}
 	
 	/**
-	 * @return only previously added tables by {@link #addTable(ExcelTable)} or found by {@link #getTable(String...)}, {@link #getTable(boolean, String...)} and  {@link #getTable(int, List, boolean, String...)} methods
+	 * @return only previously added tables by {@link #addTable(ExcelTable)} or found by {@link #getTable(String...)}, {@link #getTable(boolean, String...)} and  {@link #getTable(int, List, boolean, boolean, String...)} methods
 	 */
 	public List<ExcelTable> getTables() {
 		return Collections.unmodifiableList(this.tables);
@@ -105,27 +105,38 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 	
 	public ExcelTable getTable(boolean ignoreCase, String... headerColumnsNames) {
 		SheetRow row = getRow(ignoreCase, headerColumnsNames);
-		return getTable(row.getIndex(), null, ignoreCase, headerColumnsNames);
+		return getTable(row.getIndex(), null, false, ignoreCase, headerColumnsNames);
+	}
+
+	public ExcelTable getTable(boolean ignoreCase, boolean hasEmptyRows, String... headerColumnsNames) {
+		SheetRow row = getRow(ignoreCase, headerColumnsNames);
+		return getTable(row.getIndex(), null, hasEmptyRows, ignoreCase, headerColumnsNames);
 	}
 	
 	public ExcelTable getTable(int headerRowIndexOnSheet, String... headerColumnsNames) {
 		return getTable(headerRowIndexOnSheet, null, headerColumnsNames);
 	}
+
+	public ExcelTable getTable(int headerRowIndexOnSheet, boolean hasEmptyRows, String... headerColumnsNames) {
+		return getTable(headerRowIndexOnSheet, null, hasEmptyRows, false, headerColumnsNames);
+	}
 	
 	public ExcelTable getTable(int headerRowIndexOnSheet, List<Integer> rowsIndexesInTable, String... headerColumnsNames) {
-		return getTable(headerRowIndexOnSheet, rowsIndexesInTable, false, headerColumnsNames);
+		return getTable(headerRowIndexOnSheet, rowsIndexesInTable, false, false, headerColumnsNames);
 	}
 	
 	/**
 	 *  Get ExcelTable object on current sheet with provided {@code headerColumnsNames} header columns found in {@code headerRowIndexOnSheet} row number.
 	 *
 	 * @param headerRowIndexOnSheet Table's header row number on current sheet. Index starts from 1
-	 * @param rowsIndexesInTable rows indexes in table to be used as table rows. If null then all rows from header row up to first row with all empty {@code headerColumnsNames} will be used as tables' rows
+	 * @param rowsIndexesInTable rows indexes in table to be used as table rows. If null and {@code hasEmptyRows} is false then all rows from header row up to first row with all empty {@code headerColumnsNames} will be used as tables' rows
+	 * @param hasEmptyRows if true then all rows starting from {@code headerRowIndexOnSheet} will be used as table rows including empty rows. Otherwise all rows starting from {@code headerRowIndexOnSheet} up to first occurrence of empty row will be used as table's rows.
+	 *                     ignored if {@code rowsIndexesInTable} is not null
 	 * @param ignoreCase if true then ignore header column names while searching header columns indexes within {@code headerRowIndexOnSheet} row
 	 * @param headerColumnsNames header column names of needed ExcelTable. If array is empty then all columns from {@code headerRowIndexOnSheet} will be used as column names
 	 * @return {@link ExcelTable} object representation of found excel table
 	 */
-	public ExcelTable getTable(int headerRowIndexOnSheet, List<Integer> rowsIndexesInTable, boolean ignoreCase, String... headerColumnsNames) {
+	public ExcelTable getTable(int headerRowIndexOnSheet, List<Integer> rowsIndexesInTable, boolean hasEmptyRows, boolean ignoreCase, String... headerColumnsNames) {
 		assertThat(headerRowIndexOnSheet).as("Header row number should be greater than 0").isPositive();
 		SheetRow headerRow = getRow(headerRowIndexOnSheet);
 		assertThat(headerRow.isEmpty()).as("Table header row #%1$s should not be empty on \"%2$s\" sheet", headerRowIndexOnSheet, headerRow.getSheetName()).isFalse();
@@ -151,8 +162,8 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 				throw new IstfException(String.format("There are missed header columns %1$s in row number %2$s on sheet \"%3$s\"", missedHeaderColumnsNames, headerRowIndexOnSheet, getSheetName()));
 			}
 		}
-		
-		ExcelTable t = new ExcelTable(headerRow.getPoiRow(), columnsIndexesOnSheet, rowsIndexesOnSheet, this, getCellTypes());
+
+		ExcelTable t = new ExcelTable(headerRow.getPoiRow(), columnsIndexesOnSheet, rowsIndexesOnSheet, hasEmptyRows, this, getCellTypes());
 		return addTable(t).getTable(t);
 	}
 	
@@ -169,8 +180,8 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 		for (Map.Entry<Integer, String> indexAndName : headerColumnsIndexesOnSheetAndNames.entrySet()) {
 			headerRow.createCell(indexAndName.getKey() - 1).setCellValue(indexAndName.getValue());
 		}
-		
-		ExcelTable newTable = new ExcelTable(headerRow, new ArrayList<>(headerColumnsIndexesOnSheetAndNames.keySet()), null, this, getCellTypes());
+
+		ExcelTable newTable = new ExcelTable(headerRow, new ArrayList<>(headerColumnsIndexesOnSheetAndNames.keySet()), null, false, this, getCellTypes());
 		return addTable(newTable).getTable(newTable);
 	}
 	

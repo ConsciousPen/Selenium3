@@ -126,7 +126,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 			ViewVehicleResponse viewVehicleResponse = HelperCommon.viewPolicyVehicles(policyNumber);
 			String oid = viewVehicleResponse.vehicleList.get(0).oid;
 
-			AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsmentVehiclesMetaData(policyNumber, oid);
+			AttributeMetadata[] metaDataResponse = HelperCommon.viewEndoresmentVehiclesMetaData(policyNumber, oid);
 			AttributeMetadata metaDataFieldResponseVehTypeCd = getAttributeMetadata(metaDataResponse, "vehTypeCd", true, true, true, null, "String");
 			softly.assertThat(metaDataFieldResponseVehTypeCd.valueRange.get("PPA")).isEqualTo("Private Passenger Auto");
 			softly.assertThat(metaDataFieldResponseVehTypeCd.valueRange.get("Conversion")).isEqualTo("Conversion Van");
@@ -192,7 +192,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 			vehicleTab.getOwnershipAssetList().getAsset(Ownership.FIRST_NAME).setValue("GMAC");
 			vehicleTab.saveAndExit();
 
-			AttributeMetadata[] metaDataResponse2 = HelperCommon.viewEndorsmentVehiclesMetaData(policyNumber, oid);
+			AttributeMetadata[] metaDataResponse2 = HelperCommon.viewEndoresmentVehiclesMetaData(policyNumber, oid);
 			getAttributeMetadata(metaDataResponse2, "garagingDifferent", true, true, false, null, "Boolean");
 			getAttributeMetadata(metaDataResponse2, "garagingAddress.postalCode", true, true, true, "10", "String");
 			getAttributeMetadata(metaDataResponse2, "garagingAddress.addressLine1", true, true, true, "40", "String");
@@ -464,14 +464,14 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 
 		//View driver assignment if VA
 		if ("VA, NY, CA".contains(state)) {
-			DriverAssignmentDto[] responseDriverAssignment = HelperCommon.viewEndorsementAssignments(policyNumber);
-			softly.assertThat(responseDriverAssignment[0].vehicleOid).isNotEmpty();
-			softly.assertThat(responseDriverAssignment[0].driverOid).isNotEmpty();
-			softly.assertThat(responseDriverAssignment[0].relationshipType).isEqualTo("primary");
+			ViewDriverAssignmentResponse responseDriverAssignment = HelperCommon.viewEndorsementAssignments(policyNumber);
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(0).vehicleOid).isNotEmpty();
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(0).driverOid).isNotEmpty();
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(0).relationshipType).isEqualTo("primary");
 
-			softly.assertThat(responseDriverAssignment[1].vehicleOid).isNotEmpty();
-			softly.assertThat(responseDriverAssignment[1].driverOid).isNotEmpty();
-			softly.assertThat(responseDriverAssignment[1].relationshipType).isEqualTo("occasional");
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(1).vehicleOid).isNotEmpty();
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(1).driverOid).isNotEmpty();
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(1).relationshipType).isEqualTo("occasional");
 		} else {
 			ErrorResponseDto responseDriverAssignment = HelperCommon.viewEndorsementAssignmentsError(policyNumber, 422);
 			softly.assertThat(responseDriverAssignment.errorCode).isEqualTo(ErrorDxpEnum.Errors.OPERATION_NOT_APPLICABLE_FOR_THE_STATE.getCode());

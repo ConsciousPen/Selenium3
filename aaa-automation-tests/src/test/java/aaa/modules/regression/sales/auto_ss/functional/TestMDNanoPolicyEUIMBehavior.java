@@ -52,8 +52,6 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
     private ComboBox uninsuredBodilyInjury = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY);
     private ComboBox uninsuredPropertyDamage = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE);
 
-	private LocalDateTime algoDate = LocalDateTime.of(2018, Month.JULY, 1, 0, 0);
-
     /**
      *@author Dominykas Razgunas
      *@name MD NANO Auto Total premium difference for enhanced and standard UIM NB,Endorsement, Renewal
@@ -81,8 +79,6 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12202")
     public void pas12202_PremiumChangeBetweenEnhancedAndStandardUIMNanoPolicy(@Optional("MD") String state) {
-
-        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         TestData tdPolicy = getTestSpecificTD("TestData_MD");
 
@@ -155,8 +151,6 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12202")
     public void pas12202_testNanoPolicyEUIMCoverageBehaviorNB(@Optional("MD") String state) {
 
-        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
-
         TestData tdPolicy = getTestSpecificTD("TestData_MD");
         // Initiate Policy, calculate premium
         mainApp().open();
@@ -203,8 +197,6 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-12202")
     public void pas12202_testNanoPolicyEUIMCoverageBehaviorEndorsement(@Optional("MD") String state) {
 
-        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
-
 	    TestData tdPolicy = getTestSpecificTD("TestData_MD");
         // Initiate Policy, calculate premium
         mainApp().open();
@@ -245,8 +237,6 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-12202")
     public void pas12202_testNanoPolicyEUIMCoverageBehaviorRenewal(@Optional("MD") String state) {
-
-        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
 	    TestData tdPolicy = getTestSpecificTD("TestData_MD");
         // Create customer & policy
@@ -302,8 +292,6 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-12202")
     public void pas12202_testNanoPolicyEUIMCoverageBehaviorConversion(@Optional("MD") String state) {
-
-        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         TestData tdPolicy = getTestSpecificTD("TestData_Conversion");
 

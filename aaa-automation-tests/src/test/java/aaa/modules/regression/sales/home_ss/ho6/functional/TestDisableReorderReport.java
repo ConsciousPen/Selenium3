@@ -7,7 +7,7 @@ import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.modules.policy.HomeSSHO6BaseTest;
-import aaa.modules.regression.sales.home_ss.helper.HelperRevisedHomeTierPA;
+import aaa.modules.regression.sales.template.functional.RevisedHomeTierPATemplate;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
@@ -31,7 +31,7 @@ public class TestDisableReorderReport extends HomeSSHO6BaseTest {
     @TestInfo(component = ComponentConstant.Service.HOME_SS_HO6, testCaseId = "PAS-6795")
     public void pas6795_disableReorderReportEndorsement(@Optional("PA") String state) {
 
-        new HelperRevisedHomeTierPA().pas6795_disableReorderReportEndorsement(getPolicyType());
+        new RevisedHomeTierPATemplate().pas6795_disableReorderReportEndorsement(getPolicyType());
 
     }
 
@@ -52,7 +52,7 @@ public class TestDisableReorderReport extends HomeSSHO6BaseTest {
     @TestInfo(component = ComponentConstant.Renewal.HOME_SS_HO6, testCaseId = "PAS-6827, PAS-12770")
     public void pas6827_disableReorderReportRenewal(@Optional("PA") String state) {
 
-        new HelperRevisedHomeTierPA().pas6827_disableReorderReportRenewal(getPolicyType());
+        new RevisedHomeTierPATemplate().pas6827_disableReorderReportRenewal(getPolicyType());
 
     }
 

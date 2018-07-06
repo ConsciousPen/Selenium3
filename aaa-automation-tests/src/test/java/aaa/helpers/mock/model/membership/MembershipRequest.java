@@ -4,7 +4,7 @@ import java.util.Objects;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
-@ExcelTableElement(sheetName = "MEMBERSHIP_REQUEST")
+@ExcelTableElement(sheetName = "MEMBERSHIP_REQUEST", hasEmptyRows = true)
 public class MembershipRequest {
 	@ExcelColumnElement(name = "ID")
 	private String id;

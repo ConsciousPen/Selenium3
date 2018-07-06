@@ -49,7 +49,8 @@ public class TestPremiumAndMinDueAfterRP extends HomeCaHO3BaseTest {
 	 * 3. Create Renewal proposal at R-35
 	 * 4. Create RP Endorsement for CURRENT TERM by reducing coverages
 	 * 5. Navigate to Billing Account and review changes
-	 * 6. Verify that first Offer is declined and New offer is created
+	 * 6. Verify that the credit balance is not transferred automatically
+	 * 7. Verify that first Offer is declined and New offer is created
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -68,6 +69,10 @@ public class TestPremiumAndMinDueAfterRP extends HomeCaHO3BaseTest {
 		createEndorsement();
 		//Navigate to BA
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		//Verify that Credit balance is not transferred automatically to the renewal
+		String amount = BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,
+				BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT_PROPERTY_EXPOSURES).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue();
+		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(2).getCell(BillingConstants.BillingAccountPoliciesTable.PREPAID).getValue()).isEqualTo(amount);
 		verifyRenewalOffer();
 	}
 

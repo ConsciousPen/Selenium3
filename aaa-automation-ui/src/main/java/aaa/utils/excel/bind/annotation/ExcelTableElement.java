@@ -38,4 +38,11 @@ public @interface ExcelTableElement {
 	 * Default value is false.
 	 */
 	boolean ignoreCase() default false;
+
+	/**
+	 * If <b>true</b> then all rows from sheet starting from {@code headerRowIndex} will be used as tables' rows even if they are empty.<p>
+	 * If <b>false</b> then all rows from header row up to first empty row will be used as tables' rows. Default value is false.
+	 * @return
+	 */
+	boolean hasEmptyRows() default false;
 }
