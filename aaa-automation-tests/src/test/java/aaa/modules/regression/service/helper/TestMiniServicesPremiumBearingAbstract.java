@@ -9,6 +9,8 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang.BooleanUtils;
 import org.assertj.core.api.SoftAssertions;
@@ -1557,8 +1559,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		});
 	}
 
-
-
 	protected void pas12767_ServiceEndorsementCancelBody() {
 		assertSoftly(softly -> {
 			mainApp().open();
@@ -1581,6 +1581,25 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			SearchPage.openPolicy(policyNumber);
 			assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 		});
+	}
+
+	protected void pas15897_TransactionHistoryAndMessage() {
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNumber = createPolicy(getPolicyTD());
+
+		//Perform Endorsement
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		ComparablePolicy policyResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
+		assertSoftly(softly -> {
+			softly.assertThat(policyResponse.changeType).isEqualTo("NO_CHANGES");
+		});
+
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+		SearchPage.openPolicy(policyNumber);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 	}
 
 	protected void pas12767_ManualEndorsementCancelBody() {

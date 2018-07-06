@@ -623,6 +623,24 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		);
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * Create a policy
+	 * create a pended endorsment
+	 * hit 
+	 * rate policy
+	 * hit view premium service
+	 * Validate premium with pas
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15897"})
+	public void pas15897_transactionHistoryAndMessage(@Optional("VA") String state) {
+
+		pas15897_TransactionHistoryAndMessage();
+	}
+
+
 	@Override
 	protected String getGeneralTab() {
 		return NavigationEnum.AutoSSTab.GENERAL.get();
