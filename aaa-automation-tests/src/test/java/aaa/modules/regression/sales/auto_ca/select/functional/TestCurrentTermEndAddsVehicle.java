@@ -224,26 +224,17 @@ public class TestCurrentTermEndAddsVehicle extends AutoCaSelectBaseTest {
         } else if (scenario.equals("STUB")) { //scenario 3
             //TODO - Scenario to be added later, if needed
         }
-//        // Build Vehicle Tab old version vin + updated vehicle
-//        List<TestData> testDataVehicleTab = new ArrayList<>();
-//        testDataVehicleTab.add(updateFirstVehicle);
-//        testDataVehicleTab.add(secondVehicle);
-//        testDataVehicleTab.add(thirdVehicle);
-//
-//        // add 2 vehicles
-//        return testData2
-//                .adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks();
 
 	    // Build Vehicle Tab old version vin + updated vehicle
 	    List<TestData> testDataVehicleTab = new ArrayList<>();
-	    testDataVehicleTab.add(firstVehicle);
+	    testDataVehicleTab.add(updateFirstVehicle);
 	    testDataVehicleTab.add(secondVehicle);
 	    testDataVehicleTab.add(thirdVehicle);
 
-	    // Build Assignment Tab
-	    TestData testDataAssignmentTab = getTwoAssignmentsTestData();
+	    // Build Assignment Tab for endorsement
+	    TestData testDataAssignmentTab = getThreeAssignmentsTestData();
 
-	    // add 2 vehicles
+	    // add 3 vehicles
 	    return testData2
 			    .adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks()
 			    .adjust(assignmentTab.getMetaKey(), testDataAssignmentTab).resolveLinks();
@@ -271,15 +262,28 @@ public class TestCurrentTermEndAddsVehicle extends AutoCaSelectBaseTest {
     }
 
 	private TestData getTwoAssignmentsTestData() {
-		TestData  firstAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0).ksam("Primary Driver");
-		TestData  secondAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0).ksam("Primary Driver");
+        TestData  firstAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0).ksam("Primary Driver");
+        TestData  secondAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0).ksam("Primary Driver");
 
-		List<TestData> listDataAssignmentTab = new ArrayList<>();
-		listDataAssignmentTab.add(firstAssignment);
-		listDataAssignmentTab.add(secondAssignment);
+        List<TestData> listDataAssignmentTab = new ArrayList<>();
+        listDataAssignmentTab.add(firstAssignment);
+        listDataAssignmentTab.add(secondAssignment);
 
-		return new SimpleDataProvider().adjust("DriverVehicleRelationshipTable", listDataAssignmentTab);
-	}
+        return new SimpleDataProvider().adjust("DriverVehicleRelationshipTable", listDataAssignmentTab);
+    }
+
+    private TestData getThreeAssignmentsTestData() {
+        TestData  firstAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0).ksam("Primary Driver");
+        TestData  secondAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0).ksam("Primary Driver");
+        TestData  thirdAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0).ksam("Primary Driver");
+
+        List<TestData> listDataAssignmentTab = new ArrayList<>();
+        listDataAssignmentTab.add(firstAssignment);
+        listDataAssignmentTab.add(secondAssignment);
+        listDataAssignmentTab.add(thirdAssignment);
+
+        return new SimpleDataProvider().adjust("DriverVehicleRelationshipTable", listDataAssignmentTab);
+    }
 
 	private void initiateEndorsement() {
         mainApp().open();
