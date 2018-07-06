@@ -87,9 +87,11 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-730")
 	public void pas730_RenewalVehicleTypeRegular(@Optional("") String state) {
 		// Some kind of random vin number
-		TestData testDataVehicleTab = testDataManager.getDefault(TestVINUpload.class).getTestData("TestData")
-				.getTestData(vehicleTab.getMetaKey()).adjust("VIN", "6FDEU15H7KL055795").resolveLinks();
+		TestData testDataVehicleTab = testDataManager.getDefault(TestVINUpload.class)
+				.getTestData("TestData").getTestData(vehicleTab.getMetaKey())
+				.adjust("VIN", "6FDEU15H7KL055795").adjust("VIN", "6FDEU15H7KL055795").adjust("Year", "2025").resolveLinks();
 		TestData testData = getPolicyTD().adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks();
+		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();
 
 		renewalVehicleTypeRegular(testData);
 	}
@@ -113,6 +115,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();
 
 		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		new UploadToVINTableTab().uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.MATCH_ON_NEW_BUSINESS_NO_MATCH_ON_RENEWAL.get()));
 
 		checkMatchOnNBWithNoMatchOnRenewal(testData, vinMatchNBandNoMatchOnRenewal);
@@ -139,7 +142,8 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();
 
 		adminApp().open();
-		new UploadToVINTableTab().uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.VinDoesntMatchAfterProductChange.get()));
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		new UploadToVINTableTab().uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.VIN_DOESNT_MATCH_AFTER_PRODUCT_CHANGE.get()));
 
 		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
@@ -154,7 +158,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		premiumAndCoveragesTab.calculatePremium();
 
 		// fill needed fields for rating
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 		vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.BODY_STYLE).setValue("SUV");
 
 		vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VALUE).setValue("150000");
