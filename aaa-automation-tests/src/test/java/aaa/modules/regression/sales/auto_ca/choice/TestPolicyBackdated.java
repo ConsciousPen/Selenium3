@@ -53,9 +53,7 @@ public class TestPolicyBackdated extends AutoCaChoiceBaseTest {
 
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		PolicySummaryPage.labelPolicyEffectiveDate.verify
-				.contains(td.getTestData("GeneralTab", AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel()).getValue(AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()));
-
-
+		assertThat(PolicySummaryPage.labelPolicyEffectiveDate).valueContains(td.getTestData("GeneralTab", AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel())
+				.getValue(AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()));
 	}
 }

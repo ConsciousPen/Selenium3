@@ -126,7 +126,7 @@ public class TestDCDeltaScenario1 extends PersonalUmbrellaBaseTest {
 		// add verification of On-Demand Documents Tab
 		policy.policyDocGen().start();
 		goddTab.verify.documentsPresent(HSU01XX, HSU02XX, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU07XX, HSU08XX, HSU09XX, F605005, AHAPXX, HSRFIXX, AHRCTXX, AHFMXX, PS11, AHAUXX);
-		goddTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, PS11.getId()).getCell(SELECT).controls.checkBoxes.getFirst().verify.enabled(true);
+		assertThat(goddTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, PS11.getId()).getCell(SELECT).controls.checkBoxes.getFirst()).isEnabled();
 		goddTab.generateDocuments(PS11);
 		NavigationPage.Verify.mainTabSelected(NavigationEnum.AppMainTabs.POLICY.get());
 		DocGenHelper.verifyDocumentsGenerated(policyNumber, PS11);

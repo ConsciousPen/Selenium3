@@ -279,7 +279,7 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 			applyAutoPay(paymentPlan);
 		} else {
 			purchaseTab.submitTab();
-			purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.AUTOPAY_MESSAGE_WARNING_BLOCK).verify.present(true);
+			assertThat(purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.AUTOPAY_MESSAGE_WARNING_BLOCK)).isPresent();
 			applyAutoPay(paymentPlan);
 		}
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);

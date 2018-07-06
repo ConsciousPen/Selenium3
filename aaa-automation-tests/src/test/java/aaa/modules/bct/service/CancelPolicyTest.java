@@ -54,7 +54,6 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_009_CancelPolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.HOME_SS_HO3.get();
-		CustomAssert.enableSoftMode();
 
 		// Search and open the active policy
 		SearchPage.openPolicy(policyNumber);
@@ -70,8 +69,6 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM)
 				.setSubtypeReason("Cancellation - New Business Rescission - NSF on Down Payment")
 				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED).verifyPresent();
-
-		CustomAssert.assertAll();
 	}
 
 	@Parameters({"state"})

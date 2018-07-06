@@ -248,7 +248,7 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
 
         // Check if Auto tier value is N/A.   PAS-10391
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
-        assertThat(underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER.getLabel()).getValue()).isEqualTo("N/A");
+        assertThat(underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER)).hasValue("N/A");
 
         openRatingDetails();
 
@@ -264,7 +264,7 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         // Check if Auto tier value is N/A.   PAS-10391
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS.get());
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
-        assertThat(underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER.getLabel()).getValue()).isEqualTo("N/A");
+        assertThat(underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER)).hasValue("N/A");
 
         // Open rating details
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());

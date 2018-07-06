@@ -92,6 +92,6 @@ public class TestEnrollUsageBasedEndorsementCheck extends AutoSSBaseTest {
         VehicleTab.tableVehicleList.getRow(1).getCell(5).controls.links.get(2).click();
         Page.dialogConfirmation.confirm();
         new VehicleTab().getAssetList().getAsset(VIN.getLabel(), TextBox.class).setValue("1G1JC124627237595");
-        assertThat(new VehicleTab().getAssetList().getAsset(ENROLL_IN_USAGE_BASED_INSURANCE.getLabel(), RadioGroup.class).getValue()).isEqualTo(ubiValue);
+        assertThat(new VehicleTab().getAssetList().getAsset(ENROLL_IN_USAGE_BASED_INSURANCE.getLabel(), RadioGroup.class)).hasValue(ubiValue);
     }
 }

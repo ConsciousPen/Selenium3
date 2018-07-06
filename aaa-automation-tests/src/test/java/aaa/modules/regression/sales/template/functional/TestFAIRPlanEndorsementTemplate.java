@@ -1,7 +1,7 @@
 package aaa.modules.regression.sales.template.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.*;
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -99,7 +99,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		bindTab.submitTab();
 		purchaseTab.fillTab(testData);
 		purchaseTab.submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		generateRenewalImageAndRetrievePolicyRMinus67(getTimePoints());
 
@@ -166,7 +166,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		bindTab.submitTab();
 		purchaseTab.fillTab(testData);
 		purchaseTab.submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 	}
 
@@ -242,7 +242,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		purchaseTab.fillTab(testData);
 		purchaseTab.submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 	}
 
@@ -263,7 +263,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		validateRuleIsFiredWithAndWithoutFAIRPlanEndorsement(); //because rule should still fire if "Is this a log home assembled by a licensed building contractor?" = "No"
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 	}
 
@@ -287,7 +287,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		validateRuleIsFiredWithAndWithoutFAIRPlanEndorsement(); //because rule should still fire if "Is this a log home assembled by a licensed building contractor?" = "No"
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 	}
 
@@ -299,7 +299,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		createCustomerIndividual();
 
 		createPolicy(tdWithFAIRPlanEndorsement);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		validateDocumentIsGeneratedInPackage(policyNumber, POLICY_ISSUE);
@@ -315,7 +315,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 		new BindTab().submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		validateDocumentIsNotGeneratedInPackage(policyNumber, ENDORSEMENT_ISSUE, true);
 
@@ -337,7 +337,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 		new BindTab().submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		// 8. Validate that form FPCECA/FPCECADP is NOT included in revised renewal package, but is listed in other documents
 		validateDocumentIsNotGeneratedInPackage(policyNumber, RENEWAL_OFFER, true);
@@ -349,7 +349,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		validateDocumentIsNotGeneratedInPackage(policyNumber, POLICY_ISSUE, false);
 
@@ -366,7 +366,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		validateDocumentIsNotGeneratedInPackage(policyNumber, POLICY_ISSUE, false);
@@ -404,7 +404,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		generateRenewalOfferAtOfferGenDate();
@@ -431,7 +431,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		generateRenewalOfferAtOfferGenDate();
 		validateDocumentIsNotGeneratedInPackage(policyNumber, RENEWAL_OFFER, false);
@@ -784,7 +784,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		documentsTab.getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FAIR_PLAN_COMPANION_ENDORSEMENT_CALIFORNIA).setValue("Physically Signed");
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 		new BindTab().submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	private void switchToFAIRPlanEndorsementAndNavigateToBindTab() {

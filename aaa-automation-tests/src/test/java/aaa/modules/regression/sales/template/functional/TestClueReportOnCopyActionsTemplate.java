@@ -1,6 +1,6 @@
 package aaa.modules.regression.sales.template.functional;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.List;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;

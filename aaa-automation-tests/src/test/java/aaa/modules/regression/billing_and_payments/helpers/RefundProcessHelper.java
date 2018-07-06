@@ -237,19 +237,19 @@ public class RefundProcessHelper extends PolicyBilling {
 					neededLine = s;
 				}
 			}
-			CustomAssert.assertEquals(neededLine.getRecordType(), "D");
-			CustomAssert.assertEquals(neededLine.getRequestReferenceId(), transactionID + "VOID");
-			CustomAssert.assertEquals(neededLine.getPcReferenceId(), transactionID);
-			CustomAssert.assertEquals(neededLine.getRefundType(), "VOID");
-			CustomAssert.assertEquals(neededLine.getIssueDate(), TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MMddyyyy")));
-			CustomAssert.assertEquals(neededLine.getRefundDate(), TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MMddyyyy")));
-			CustomAssert.assertEquals(neededLine.getAgreementNumber(), policyNumber);
-			CustomAssert.assertEquals(neededLine.getAgreementSourceSystem(), "PAS");
-			CustomAssert.assertEquals(neededLine.getProductType(), productType);
-			CustomAssert.assertEquals(neededLine.getCompanyId(), companyId);
-			CustomAssert.assertEquals(neededLine.getDummy(), "");
-			CustomAssert.assertEquals(neededLine.getRefundAmount(), new Dollar(refundAmount).toPlaingString());
-			CustomAssert.assertEquals(neededLine.getRefundReason(), "Overpayment");
+			assertThat(neededLine.getRecordType()).isEqualTo("D");
+			assertThat(neededLine.getRequestReferenceId()).isEqualTo(transactionID + "VOID");
+			assertThat(neededLine.getPcReferenceId()).isEqualTo(transactionID);
+			assertThat(neededLine.getRefundType()).isEqualTo("VOID");
+			assertThat(neededLine.getIssueDate()).isEqualTo(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MMddyyyy")));
+			assertThat(neededLine.getRefundDate()).isEqualTo(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MMddyyyy")));
+			assertThat(neededLine.getAgreementNumber()).isEqualTo(policyNumber);
+			assertThat(neededLine.getAgreementSourceSystem()).isEqualTo("PAS");
+			assertThat(neededLine.getProductType()).isEqualTo(productType);
+			assertThat(neededLine.getCompanyId()).isEqualTo(companyId);
+			assertThat(neededLine.getDummy()).isEqualTo("");
+			assertThat(neededLine.getRefundAmount()).isEqualTo(new Dollar(refundAmount).toPlaingString());
+			assertThat(neededLine.getRefundReason()).isEqualTo("Overpayment");
 		} else {
 			//to make sure Automated refund is generated also on SCRUM team envs
 			mainApp().open();
@@ -458,9 +458,8 @@ public class RefundProcessHelper extends PolicyBilling {
 
 			if (!isCheck) {
 				//PAS-1937 Start
-				acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD_MESSAGE_TABLE).getValue();
-				acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD_MESSAGE_TABLE).verify
-						.value("$" + amountPaymentTypeStub.get() + " is the maximum amount available for this payment method.");
+				assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD_MESSAGE_TABLE))
+					.hasValue("$" + amountPaymentTypeStub.get() + " is the maximum amount available for this payment method.");
 				//PAS-1937 End
 			}
 			acceptPaymentActionTab.submitTab();

@@ -189,7 +189,7 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 		policy.policyDocGen().start();
 
 		goddTab.verify.documentsPresent(PS11);
-		goddTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, PS11.getId()).getCell(SELECT).controls.checkBoxes.getFirst().verify.enabled(true);
+		assertThat(goddTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, PS11.getId()).getCell(SELECT).controls.checkBoxes.getFirst()).isEnabled();
 		goddTab.generateDocuments(PS11);
 		DocGenHelper.verifyDocumentsGenerated(policyNumber, PS11);
 	}

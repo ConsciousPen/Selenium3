@@ -60,11 +60,11 @@ public class TestQuotePrefill extends AutoCaSelectBaseTest {
 
 		prefillTab.fillTab(td);
 		
-		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Named Insured").controls.checkBoxes.getFirst().getValue()).isEqualTo(true);
-		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Driver").controls.checkBoxes.getFirst().getValue()).isEqualTo(true);
-		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("First Name").getValue()).isEqualTo(expectedFN);
-		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Last Name").getValue()).isEqualTo(expectedLN);
-		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Date of Birth").getValue()).isEqualTo(expectedBirthDay);
+		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Named Insured").controls.checkBoxes.getFirst()).hasValue(true);
+		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Driver").controls.checkBoxes.getFirst()).hasValue(true);
+		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("First Name")).hasValue(expectedFN);
+		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Last Name")).hasValue(expectedLN);
+		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Date of Birth")).hasValue(expectedBirthDay);
 
 		assertThat(PrefillTab.tableVehicles.getRowsCount()).isEqualTo(0);
 
@@ -94,7 +94,7 @@ public class TestQuotePrefill extends AutoCaSelectBaseTest {
 		
 		policy.getDefaultView().fill(getTestSpecificTD("TestDataFill_1_CA"));
 
-        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 
 	}
@@ -126,22 +126,22 @@ public class TestQuotePrefill extends AutoCaSelectBaseTest {
 
 		prefillTab.fillTab(td);
 
-		assertThat(PrefillTab.tableVehicles.getRow(1).getCell(1).controls.checkBoxes.getFirst().getValue()).isEqualTo(false);
-		assertThat(PrefillTab.tableVehicles.getRow(2).getCell(1).controls.checkBoxes.getFirst().getValue()).isEqualTo(false);
-		assertThat(PrefillTab.tableVehicles.getRow(1).getCell("VIN").getValue()).isEqualTo(VIN_1);
-		assertThat(PrefillTab.tableVehicles.getRow(2).getCell("VIN").getValue()).isEqualTo(VIN_2);
+		assertThat(PrefillTab.tableVehicles.getRow(1).getCell(1).controls.checkBoxes.getFirst()).hasValue(false);
+		assertThat(PrefillTab.tableVehicles.getRow(2).getCell(1).controls.checkBoxes.getFirst()).hasValue(false);
+		assertThat(PrefillTab.tableVehicles.getRow(1).getCell("VIN")).hasValue(VIN_1);
+		assertThat(PrefillTab.tableVehicles.getRow(2).getCell("VIN")).hasValue(VIN_2);
 
-		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Named Insured").controls.checkBoxes.getFirst().getValue()).isEqualTo(true);
-		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Driver").controls.checkBoxes.getFirst().getValue()).isEqualTo(true);
+		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Named Insured").controls.checkBoxes.getFirst()).hasValue(true);
+		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Driver").controls.checkBoxes.getFirst()).hasValue(true);
 		
-		assertThat(PrefillTab.tableDrivers.getRow(2).getCell("Named Insured").controls.checkBoxes.getFirst().getValue()).isEqualTo(false);
-		assertThat(PrefillTab.tableDrivers.getRow(2).getCell("Driver").controls.checkBoxes.getFirst().getValue()).isEqualTo(false);
+		assertThat(PrefillTab.tableDrivers.getRow(2).getCell("Named Insured").controls.checkBoxes.getFirst()).hasValue(false);
+		assertThat(PrefillTab.tableDrivers.getRow(2).getCell("Driver").controls.checkBoxes.getFirst()).hasValue(false);
 
 
 		PrefillTab.tableVehicles.getRow(1).getCell(1).controls.checkBoxes.getFirst().setValue(true);
 		PrefillTab.tableVehicles.getRow(2).getCell(1).controls.checkBoxes.getFirst().setValue(true);
 		PrefillTab.tableDrivers.getRow(2).getCell("Named Insured").controls.checkBoxes.getFirst().setValue(true);
-		assertThat(PrefillTab.tableDrivers.getRow(2).getCell("Driver").controls.checkBoxes.getFirst().getValue()).isEqualTo(true);
+		assertThat(PrefillTab.tableDrivers.getRow(2).getCell("Driver").controls.checkBoxes.getFirst()).hasValue(true);
 
 		prefillTab.submitTab();
 
@@ -188,7 +188,7 @@ public class TestQuotePrefill extends AutoCaSelectBaseTest {
 		policy.getDefaultView().fill(getTestSpecificTD("TestDataFill_2_CA"));
 		
 		
-        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 
 	}

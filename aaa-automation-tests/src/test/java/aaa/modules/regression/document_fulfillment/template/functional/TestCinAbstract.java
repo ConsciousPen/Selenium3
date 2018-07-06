@@ -1,19 +1,17 @@
 package aaa.modules.regression.document_fulfillment.template.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
-import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.xml.model.Document;
 import aaa.helpers.xml.model.DocumentDataElement;
 import aaa.helpers.xml.model.DocumentDataSection;
-import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.assertj.core.api.SoftAssertions;
 import toolkit.datax.TestData;
 
 import java.time.LocalDateTime;
@@ -70,7 +68,7 @@ public abstract class TestCinAbstract extends BaseTest {
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         performRenewal(renewalTD);
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 
     /**
@@ -90,7 +88,7 @@ public abstract class TestCinAbstract extends BaseTest {
         mainApp().open();
         createCustomerIndividual();
         super.createPolicy(policyTD);
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         return PolicySummaryPage.getPolicyNumber();
     }
 }

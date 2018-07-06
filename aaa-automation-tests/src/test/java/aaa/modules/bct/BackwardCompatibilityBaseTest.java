@@ -1,5 +1,6 @@
 package aaa.modules.bct;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.Job;
 import aaa.helpers.jobs.JobUtils;
@@ -12,6 +13,7 @@ import org.testng.SkipException;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -49,9 +51,9 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 		}
 		List<String> processedPolicies = getPoliciesFromQuery(queryResult.get(postKey), "PostValidation");
 
-		CustomAssert.enableSoftMode();
-		foundPolicies.forEach(policy -> CustomAssert.assertTrue("Policy " + policy + " was processed by " + job.getJobName(), processedPolicies.contains(policy)));
-		CustomAssert.disableSoftMode();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			foundPolicies.forEach(policy -> assertThat(processedPolicies).as("Policy " + policy + " was processed by " + job.getJobName()).contains(policy));
+		});
 	}
 
 	protected List<String> getPoliciesByQuery(String testName, String queryName) {
@@ -94,7 +96,7 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 				}
 				break;
 			case "PostValidation":
-				CustomAssert.assertFalse("No policies found by '" + queryName + "' query", policies.size() == 0);
+				assertThat(policies).as("No policies found by '" + queryName + "' query").isEmpty();
 				break;
 			default:
 				if (policies.size() == 0) {

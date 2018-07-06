@@ -1,7 +1,7 @@
 package aaa.modules.regression.document_fulfillment.home_ss.dp3.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.PRE_RENEWAL;
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
 import java.util.List;
 import org.testng.annotations.Optional;

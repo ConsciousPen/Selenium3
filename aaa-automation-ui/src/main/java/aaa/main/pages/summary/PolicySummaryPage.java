@@ -342,7 +342,7 @@ public class PolicySummaryPage extends SummaryPage {
 
 	public static void transactionHistoryRecordCountCheck(String policyNumber, int rowCount, String value) {
 		buttonTransactionHistory.click();
-		CustomAssert.assertEquals(tableTransactionHistory.getRowsCount(), rowCount);
+		assertThat(tableTransactionHistory).hasRows(rowCount);
 		String valueShort = "";
 		if (!StringUtils.isEmpty(value)) {
 			valueShort = value.substring(0, 20);

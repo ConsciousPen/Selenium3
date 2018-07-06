@@ -292,7 +292,7 @@ public class TestMembershipValidation extends AutoCaChoiceBaseTest {
 
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-        PolicySummaryPage.buttonRenewals.verify.enabled(true);
+        assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
 

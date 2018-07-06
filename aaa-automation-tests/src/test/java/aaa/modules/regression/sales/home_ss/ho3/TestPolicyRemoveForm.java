@@ -56,7 +56,7 @@ public class TestPolicyRemoveForm extends HomeSSHO3BaseTest {
 				tdEndorsement.getTestData("EndorsementTab").getTestData("HS 09 88").getValue("Effective date"),
 				tdEndorsement.getTestData("EndorsementTab").getTestData("HS 09 88").getValue("Expiration date"));
 
-		PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains("Description", expectedEndorsementName).verify.present();
+		assertThat(PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains("Description", expectedEndorsementName)).isPresent();
 
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_ENDORSEMENT.get());
 		policy.getDefaultView().getTab(EndorsementTab.class).fillTab(tdEndorsementDelete).submitTab();

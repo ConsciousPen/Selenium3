@@ -81,7 +81,7 @@ public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
 		Purchase.confirmVoiceSignature.confirm();
 		//Verify that the policy is in active state.
 
-		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 	}
 
@@ -102,7 +102,7 @@ public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
 		assertThat(Purchase.confirmVoiceSignature.isVisible()).isTrue();
 		Purchase.confirmVoiceSignature.confirm();
 		// Verify that the policy is in active state.
-		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	private void precondition() {

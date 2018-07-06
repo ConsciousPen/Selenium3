@@ -192,7 +192,7 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 		purchaseTab.fillTab(getTestSpecificTD("TestData_CorrectValue").adjust(
 			TestData.makeKeyPath(PurchaseTab.class.getSimpleName(), PurchaseMetaData.PurchaseTab.PAYMENT_ALLOCATION.getLabel(), PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH.getLabel()),
 			origMinimumRequiredDownPayment.toString()));
-		Purchase.btnApplyPayment.verify.enabled(true);
+		assertThat(Purchase.btnApplyPayment).isEnabled();
 		Purchase.btnApplyPayment.click();
 		Purchase.confirmPurchase.confirm();
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);

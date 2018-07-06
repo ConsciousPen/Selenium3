@@ -1,5 +1,6 @@
 package aaa.modules.bct.renewal;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -24,7 +25,7 @@ public class ManualRenewalTest extends BackwardCompatibilityBaseTest {
 		IPolicy policy = findAndOpenPolicy("BCT_ONL_047_ManualRenewal", PolicyType.AUTO_SS);
 		deletePendingRenewals(policy);
 		policy.doNotRenew().perform(getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS), "DoNotRenew", "TestData"));
-		PolicySummaryPage.labelDoNotRenew.verify.present();
+		assertThat(PolicySummaryPage.labelDoNotRenew).isPresent();
 	}
 
 	@Parameters({"state"})
@@ -57,9 +58,9 @@ public class ManualRenewalTest extends BackwardCompatibilityBaseTest {
 		IPolicy policy = findAndOpenPolicy("BCT_ONL_003_ManualRenewal", PolicyType.AUTO_SS);
 		deletePendingRenewals(policy);
 		policy.doNotRenew().perform(getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS), "DoNotRenew", "TestData"));
-		PolicySummaryPage.labelDoNotRenew.verify.present();
+		assertThat(PolicySummaryPage.labelDoNotRenew).isPresent();
 		policy.removeDoNotRenew().perform(new SimpleDataProvider());
-		PolicySummaryPage.labelDoNotRenew.verify.present(false);
+		assertThat(PolicySummaryPage.labelDoNotRenew).isPresent(false);
 	}
 
 	@Parameters({"state"})
@@ -67,6 +68,6 @@ public class ManualRenewalTest extends BackwardCompatibilityBaseTest {
 	public void BCT_ONL_004_ManualRenewal(@Optional("") String state) {
 		IPolicy policy = findAndOpenPolicy("BCT_ONL_004_ManualRenewal", PolicyType.AUTO_SS);
 		policy.removeDoNotRenew().perform(new SimpleDataProvider());
-		PolicySummaryPage.labelDoNotRenew.verify.present(false);
+		assertThat(PolicySummaryPage.labelDoNotRenew).isPresent(false);
 	}
 }

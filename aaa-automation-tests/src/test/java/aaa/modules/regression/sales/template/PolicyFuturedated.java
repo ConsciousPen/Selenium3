@@ -42,10 +42,8 @@ public abstract class PolicyFuturedated extends PolicyBaseTest {
 
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_PENDING);
 
-		PolicySummaryPage.labelPolicyEffectiveDate.verify
-				.contains(td.getTestData(new GeneralTab().getMetaKey(), 
+		assertThat(PolicySummaryPage.labelPolicyEffectiveDate).valueContains(td.getTestData(new GeneralTab().getMetaKey(),
 										AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel()).getValue(AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()));
 
 	}
-
 }

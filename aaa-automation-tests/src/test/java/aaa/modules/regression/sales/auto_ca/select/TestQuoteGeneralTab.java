@@ -153,6 +153,6 @@ public class TestQuoteGeneralTab extends AutoCaSelectBaseTest {
 	private void verifyFieldProperties(AssetDescriptor<? extends AbstractEditableStringElement> fieldDescriptor, boolean isEnabled, String expectedFieldValue) {
 		GeneralTab generalTab = new GeneralTab();
 		this.verifyFieldProperties(fieldDescriptor, isEnabled);
-		assertThat(generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(fieldDescriptor).getValue()).isEqualTo(expectedFieldValue);
+		assertThat(generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(fieldDescriptor)).hasValue(expectedFieldValue);
 	}
 }

@@ -1,7 +1,7 @@
 package aaa.modules.regression.service.helper;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +23,7 @@ import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
@@ -576,7 +577,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		});
 	}
 
-	private void availableCoverageCompdedForAz(PolicyCoverageInfo coverageResponse, SoftAssertions softly) {
+	private void availableCoverageCompdedForAz(PolicyCoverageInfo coverageResponse, ETCSCoreSoftAssertions softly) {
 		softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(0).coverageLimit).isEqualTo("50");
 		softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(0).coverageLimitDisplay).isEqualTo("$50");
 
@@ -596,7 +597,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(5).coverageLimitDisplay).isEqualTo("$1,000");
 	}
 
-	protected void pas14316_LoanLeasedCovForFinancedNewVehicleBody(SoftAssertions softly, String ownershipType) {
+	protected void pas14316_LoanLeasedCovForFinancedNewVehicleBody(ETCSCoreSoftAssertions softly, String ownershipType) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -671,7 +672,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		loanLeaseCovPropertiesCheck(softly, endorsementCoverageResponseOwnedOldVeh2Filtered, "0", "No Coverage", false, false);
 	}
 
-	private void loanLeaseCovPropertiesCheck(SoftAssertions softly, Coverage endorsementCoverageResponseOwnedOldVeh2Filtered, String coverageLimit, String coverageDisplayLimit, boolean customerDisplayed, boolean canChangeCoverage) {
+	private void loanLeaseCovPropertiesCheck(ETCSCoreSoftAssertions softly, Coverage endorsementCoverageResponseOwnedOldVeh2Filtered, String coverageLimit, String coverageDisplayLimit, boolean customerDisplayed, boolean canChangeCoverage) {
 		softly.assertThat(endorsementCoverageResponseOwnedOldVeh2Filtered.coverageCd).isEqualTo("LOAN");
 		softly.assertThat(endorsementCoverageResponseOwnedOldVeh2Filtered.coverageDescription).isEqualTo("Auto Loan/Lease Coverage");
 		softly.assertThat(endorsementCoverageResponseOwnedOldVeh2Filtered.coverageLimit).isEqualTo(coverageLimit);
@@ -1386,7 +1387,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas14693_viewCoverageAndUpdateCoverageRentalReimbursement(PolicyType policyType, SoftAssertions softly) {
+	protected void pas14693_viewCoverageAndUpdateCoverageRentalReimbursement(PolicyType policyType, ETCSCoreSoftAssertions softly) {
 		mainApp().open();
 		createCustomerIndividual();
 
@@ -1438,7 +1439,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	}
 
-	private void verifyRREIM(SoftAssertions softly, List<Coverage> coveragesVehicle) {
+	private void verifyRREIM(ETCSCoreSoftAssertions softly, List<Coverage> coveragesVehicle) {
 		softly.assertThat(coveragesVehicle.get(4).coverageCd).isEqualTo("RREIM");
 		softly.assertThat(coveragesVehicle.get(4).coverageDescription).isEqualTo("Rental Reimbursement");
 		softly.assertThat(coveragesVehicle.get(4).coverageLimit).isEqualTo("0/0");
@@ -1448,7 +1449,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		softly.assertThat(coveragesVehicle.get(4).canChangeCoverage).isEqualTo(true);
 	}
 
-	protected void pas14693_updateCoverageRentalReimbursementBody(PolicyType policyType, SoftAssertions softly) {
+	protected void pas14693_updateCoverageRentalReimbursementBody(PolicyType policyType, ETCSCoreSoftAssertions softly) {
 		mainApp().open();
 		createCustomerIndividual();
 
@@ -1543,7 +1544,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertCoverageLimitRentalReimbursementAfterUpdateRreim(rreimUpdatedCoverageHigh);
 	}
 
-	protected void pas14316_LoanLeasedCovForLeasedOldVehicleBody(SoftAssertions softly, String ownershipType) {
+	protected void pas14316_LoanLeasedCovForLeasedOldVehicleBody(ETCSCoreSoftAssertions softly, String ownershipType) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -1788,7 +1789,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	}
 
-	protected void pas14646_UimDelimiter(String state, SoftAssertions softly) {
+	protected void pas14646_UimDelimiter(String state, ETCSCoreSoftAssertions softly) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		SearchPage.openPolicy(policyNumber);
@@ -1889,7 +1890,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	}
 
 	//validate UIMBI for states where it is separate coverage
-	private void validateUIMBI_pas15254(SoftAssertions softly, String state, PolicyCoverageInfo coverageResponse, String newBILimits) {
+	private void validateUIMBI_pas15254(ETCSCoreSoftAssertions softly, String state, PolicyCoverageInfo coverageResponse, String newBILimits) {
 		if (state.equals(Constants.States.AZ) || state.equals(Constants.States.ID) || state.equals(Constants.States.KY) || state.equals(Constants.States.PA)
 				|| state.equals(Constants.States.SD) || state.equals(Constants.States.UT) || state.equals(Constants.States.WV)) {
 			Coverage filteredCoverageResponseUIMBI = coverageResponse.policyCoverages.stream().filter(cov -> "UIMBI".equals(cov.coverageCd)).findFirst().orElse(null);
@@ -1897,7 +1898,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		}
 	}
 
-	private void coverageXproperties(SoftAssertions softly, int coverageXnumber, PolicyCoverageInfo coverageResponse, String coverageCd, String coverageDesc, String availableLimits, String coverageLimitDisplay, String coverageType, boolean customerDisplay, boolean canChangeCoverage) {
+	private void coverageXproperties(ETCSCoreSoftAssertions softly, int coverageXnumber, PolicyCoverageInfo coverageResponse, String coverageCd, String coverageDesc, String availableLimits, String coverageLimitDisplay, String coverageType, boolean customerDisplay, boolean canChangeCoverage) {
 		softly.assertThat(getCoverageX(coverageResponse, coverageXnumber).coverageCd).isEqualTo(coverageCd);
 		softly.assertThat(getCoverageX(coverageResponse, coverageXnumber).coverageDescription).isEqualTo(coverageDesc);
 		softly.assertThat(getCoverageX(coverageResponse, coverageXnumber).coverageLimit.replace(".00", "")).isEqualTo(availableLimits.replace(".00", ""));
@@ -2232,7 +2233,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		);
 	}
 
-	private void viewCoveragesBiPd(PolicyCoverageInfo policyCoverageResponse, SoftAssertions softly) {
+	private void viewCoveragesBiPd(PolicyCoverageInfo policyCoverageResponse, ETCSCoreSoftAssertions softly) {
 		Coverage coverageLimit = policyCoverageResponse.policyCoverages.get(0);
 		softly.assertThat(coverageLimit.coverageCd).isEqualTo("BI");
 		softly.assertThat(coverageLimit.coverageDescription).isEqualTo("Bodily Injury Liability");
@@ -2664,7 +2665,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas14536_TransportationExpensePart1Body(PolicyType policyType, SoftAssertions softly) {
+	protected void pas14536_TransportationExpensePart1Body(PolicyType policyType, ETCSCoreSoftAssertions softly) {
 		mainApp().open();
 		createCustomerIndividual();
 		createQuote();
@@ -2719,7 +2720,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 	}
 
-	protected void pas14536_TransportationExpensePart2Body(PolicyType policyType, SoftAssertions softly) {
+	protected void pas14536_TransportationExpensePart2Body(PolicyType policyType, ETCSCoreSoftAssertions softly) {
 		mainApp().open();
 		createCustomerIndividual();
 		createQuote();
@@ -2808,7 +2809,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 	}
 
-	protected void pas14536_TransportationExpensePart3Body(PolicyType policyType, SoftAssertions softly) {
+	protected void pas14536_TransportationExpensePart3Body(PolicyType policyType, ETCSCoreSoftAssertions softly) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
@@ -3134,7 +3135,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		});
 	}
 
-	private void validateCountOfPolicyLevelCoverages(PolicyCoverageInfo coverageResponse, SoftAssertions softly) {
+	private void validateCountOfPolicyLevelCoverages(PolicyCoverageInfo coverageResponse, ETCSCoreSoftAssertions softly) {
 		switch (getState()) {
 			case "AZ":
 				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(5);

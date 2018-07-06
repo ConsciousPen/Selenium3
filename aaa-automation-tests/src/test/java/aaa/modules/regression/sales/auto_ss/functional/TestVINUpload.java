@@ -292,12 +292,12 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE)).doesNotHaveValue(oldModelValue);
 			//PAS-6576 Update "individual VIN retrieval" logic to use ENTRY DATE and VALID
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL).getValue()).isEqualTo("TEST").as("Row with VALID=Y and oldest Entry Date should be used");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.BODY_STYLE).getValue()).isEqualTo("TEST");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.BODY_STYLE)).hasValue("TEST");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.OTHER_MODEL)).isPresent(false);
 			// PAS-1487  No Match to Match but Year Doesn't Match
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.YEAR).getValue()).isEqualTo("2005");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.YEAR)).hasValue("2005");
 			// PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED).getValue()).isEqualTo("Yes");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED)).hasValue("Yes");
 		});
 
 		VehicleTab.buttonSaveAndExit.click();
@@ -345,8 +345,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		assertSoftly(softly -> {
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE).getValue()).isEqualTo("OTHER");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.OTHER_MAKE).getValue()).isEqualTo("Other Make");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE)).hasValue("OTHER");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.OTHER_MAKE)).hasValue("Other Make");
 		});
 
 		// add Vehicle
@@ -355,8 +355,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		policy.getDefaultView().fillFromTo(twoVehicles, VehicleTab.class, PremiumAndCoveragesTab.class);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE).getValue()).isEqualTo("TOYOTA");
-		assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL).getValue()).isEqualTo("Gt");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE)).hasValue("TOYOTA");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL)).hasValue("Gt");
 
 		premiumAndCoveragesTab.calculatePremium();
 
@@ -428,8 +428,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		assertSoftly(softly -> {
 			verifyVehicleInfo_pas2453(softly);
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.OTHER_MAKE).getValue()).isEqualTo("Other Make");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.OTHER_MODEL).getValue()).isEqualTo("Model");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.OTHER_MAKE)).hasValue("Other Make");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.OTHER_MODEL)).hasValue("Model");
 		});
 
 		vehicleTab.saveAndExit();
@@ -806,8 +806,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		// Make sure refresh occurs
-		assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE.getLabel()).getValue()).isEqualTo("BACKDATED_SS_MAKE");
-		assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("Gt");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE)).hasValue("BACKDATED_SS_MAKE");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL)).hasValue("Gt");
 		// Add Vehicle to new renewal version
 		TestData renewalVersionVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
 				.adjust(AutoSSMetaData.VehicleTab.TYPE.getLabel(), "Private Passenger Auto")
@@ -921,9 +921,9 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 
 		//4. Check for the updated Y/M/M values in View Rating Details table
-		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2016");
-		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("CHEVROLET AUTO");
-		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("CHEVROLET MALIBU");
+		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Year").getCell(2)).hasValue("2016");
+		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2)).hasValue("CHEVROLET AUTO");
+		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2)).hasValue("CHEVROLET MALIBU");
 
 		buttonRatingDetailsOk.click();
 		softly.close();

@@ -103,8 +103,8 @@ public class TestPolicyRulesOverride extends AutoSSBaseTest {
 
         assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query)).isPresent();
 
-		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Duration").controls.radioGroups.getFirst().getValue()).isEqualTo(duration);
-		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Reason for override").controls.comboBoxes.getFirst().getValue()).isEqualTo(reason);
+		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Duration").controls.radioGroups.getFirst()).hasValue(duration);
+		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Reason for override").controls.comboBoxes.getFirst()).hasValue(reason);
 
 		UpdateRulesOverrideActionTab.btnCancel.click();
 

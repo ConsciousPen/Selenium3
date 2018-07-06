@@ -177,7 +177,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 				.minusDays(2).format(DateTimeUtils.MM_DD_YYYY);
 		policy.endorse().performAndFill(getTestSpecificTD("TestData_OOSEndorsement").adjust(keyPath, endorseDate));
 		assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
 		});
 		policy.rollOn().perform(true, false);
 		assertSoftly(softly -> {
@@ -185,7 +185,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 					String.format("Bind Endorsement effective %1$s for Policy %2$s", endorseDate, policyNumber)).isPresent());
 		});
 		assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		});
 		log.info("OOS Endorsement action completed successfully");
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
@@ -217,11 +217,11 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 					String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementDate, policyNumber)).isPresent());
 		});
 		assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
 		});
 		policy.rollOn().perform(false, true);
 		assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		});
 		log.info("OOS Endorsment action completed successfully");
 	}
@@ -663,7 +663,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		Page.dialogConfirmation.confirm();
 
 		assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		});
 		log.info("Manual cancellation action completed successfully");
 
@@ -677,14 +677,14 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameDate"));
 		assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.DATA_GATHERING);
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.DATA_GATHERING);
 		});
 		String rewritePolicyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("TEST: Rewriting Policy #" + rewritePolicyNumber);
 		policy.dataGather().start();
 		policy.getDefaultView().fill(getPolicyTD("Rewrite", "TestDataForBindRewrittenPolicy"));
 		assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		});
 	}
 
@@ -696,7 +696,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		});
 		log.info("Policy status update job completed successfully");
 	}
@@ -1088,7 +1088,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		});
 		log.info("Cancellation action completed successfully");
 	}
@@ -1157,7 +1157,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		policy.cancel().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		});
 		log.info("Manual cancellation action completed successfully");
 	}
@@ -1170,7 +1170,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		policy.cancel().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
 		});
 		log.info("Manual cancellation action completed successfully");
 	}
@@ -1270,7 +1270,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(policyStatus);
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(policyStatus);
 		});
 		log.info("Policy status is {}", policyStatus);
 	}

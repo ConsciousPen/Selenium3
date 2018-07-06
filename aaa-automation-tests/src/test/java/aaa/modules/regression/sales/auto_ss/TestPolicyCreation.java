@@ -34,7 +34,7 @@ public class TestPolicyCreation extends AutoSSBaseTest {
         createCustomerIndividual();
         createPolicy();
 
-        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
     }
 }

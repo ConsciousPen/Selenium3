@@ -20,14 +20,15 @@ import aaa.modules.regression.service.helper.dtoDxp.*;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.assertj.core.api.SoftAssertions;
 import toolkit.datax.TestData;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 
@@ -186,7 +187,7 @@ protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		mainApp().close();
 
@@ -1067,7 +1068,7 @@ protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 		});
 	}
 
-	protected void pas11684_DriverAssignmentExistsForStateBody(String state, SoftAssertions softly) {
+	protected void pas11684_DriverAssignmentExistsForStateBody(String state, ETCSCoreSoftAssertions softly) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);

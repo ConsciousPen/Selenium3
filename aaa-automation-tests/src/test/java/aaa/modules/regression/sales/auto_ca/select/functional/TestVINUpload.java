@@ -284,8 +284,8 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		// Make sure refresh occurs
-		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE.getLabel()).getValue()).isEqualTo("BACKDATED_SS_MAKE");
-		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("Gt");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE)).hasValue("BACKDATED_SS_MAKE");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL)).hasValue("Gt");
 		// Add Vehicle to new renewal version
 		TestData renewalVersionVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
 				.adjust(AutoCaMetaData.VehicleTab.TYPE.getLabel(), "Private Passenger Auto")

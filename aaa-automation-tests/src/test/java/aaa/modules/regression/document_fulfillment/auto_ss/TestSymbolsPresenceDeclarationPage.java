@@ -97,7 +97,7 @@ public class TestSymbolsPresenceDeclarationPage extends AutoSSBaseTest {
 
 		policy.policyDocGen().start();
 		generateOnDemandDocumentActionTab.verify.documentsPresent(AA11NY);
-		generateOnDemandDocumentActionTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, AA11NY.getId()).getCell(SELECT).controls.checkBoxes.getFirst().verify.enabled(true);
+		assertThat(generateOnDemandDocumentActionTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, AA11NY.getId()).getCell(SELECT).controls.checkBoxes.getFirst()).isEnabled();
 		generateOnDemandDocumentActionTab.generateDocuments(AA11NY);
 
 		mainApp().open();
@@ -150,7 +150,7 @@ public class TestSymbolsPresenceDeclarationPage extends AutoSSBaseTest {
 		policy.policyDocGen().start();
 
 		generateOnDemandDocumentActionTab.verify.documentsPresent(document);
-		generateOnDemandDocumentActionTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, document.getId()).getCell(SELECT).controls.checkBoxes.getFirst().verify.enabled(true);
+		assertThat(generateOnDemandDocumentActionTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, document.getId()).getCell(SELECT).controls.checkBoxes.getFirst()).isEnabled();
 		generateOnDemandDocumentActionTab.generateDocuments(document);
 
 		mainApp().open();

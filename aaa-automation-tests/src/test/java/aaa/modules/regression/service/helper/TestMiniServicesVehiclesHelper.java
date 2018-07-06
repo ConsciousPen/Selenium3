@@ -2,8 +2,8 @@ package aaa.modules.regression.service.helper;
 
 import static aaa.main.metadata.policy.AutoSSMetaData.UpdateRulesOverrideActionTab.RuleRow.RULE_NAME;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +32,7 @@ import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.verification.CustomAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
 
 public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
@@ -45,7 +46,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	private TestMiniServicesGeneralHelper testMiniServicesGeneralHelper = new TestMiniServicesGeneralHelper();
 	private TestMiniServicesCoveragesHelper testMiniServicesCoveragesHelper = new TestMiniServicesCoveragesHelper();
 
-	protected void pas8275_vinValidateCheck(SoftAssertions softly, PolicyType policyType) {
+	protected void pas8275_vinValidateCheck(ETCSCoreSoftAssertions softly, PolicyType policyType) {
 		String getAnyActivePolicy = "select ps.policyNumber, ps.POLICYSTATUSCD, ps.EFFECTIVE\n"
 				+ "from policySummary ps\n"
 				+ "where 1=1\n"
@@ -106,7 +107,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		policy.policyInquiry().start();
@@ -608,11 +609,11 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			policy.dataGather().start();
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 			VehicleTab.tableVehicleList.selectRow(2);
-			vehicleTab.getAssetList().getAsset(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL).verify.value("Yes");
-			vehicleTab.getAssetList().getAsset(ZIP_CODE).verify.value(zipCode);
-			vehicleTab.getAssetList().getAsset(ADDRESS_LINE_1).verify.value(addressLine1);
-			vehicleTab.getAssetList().getAsset(CITY).verify.value(city);
-			vehicleTab.getAssetList().getAsset(STATE).verify.value(state);
+			assertThat(vehicleTab.getAssetList().getAsset(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL)).hasValue("Yes");
+			assertThat(vehicleTab.getAssetList().getAsset(ZIP_CODE)).hasValue(zipCode);
+			assertThat(vehicleTab.getAssetList().getAsset(ADDRESS_LINE_1)).hasValue(addressLine1);
+			assertThat(vehicleTab.getAssetList().getAsset(CITY)).hasValue(city);
+			assertThat(vehicleTab.getAssetList().getAsset(STATE)).hasValue(state);
 
 			mainApp().close();
 			helperMiniServices.endorsementRateAndBind(policyNumber);
@@ -720,7 +721,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	 * 5. Create endorsement in UI, rate bind
 	 * 6. Check no overridden rule 200021 about the garaging zip code
 	 */
-	protected void pas14501_garagingDifferentBody(String state, SoftAssertions softly) {
+	protected void pas14501_garagingDifferentBody(String state, ETCSCoreSoftAssertions softly) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
@@ -896,7 +897,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas11618_UpdateVehicleLeasedFinancedInfoBody(SoftAssertions softly, String ownershipType) {
+	protected void pas11618_UpdateVehicleLeasedFinancedInfoBody(ETCSCoreSoftAssertions softly, String ownershipType) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -1166,7 +1167,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas14952_EndorsementStatusResetForVehRatingFactorsBody(String state, SoftAssertions softly) {
+	protected void pas14952_EndorsementStatusResetForVehRatingFactorsBody(String state, ETCSCoreSoftAssertions softly) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);

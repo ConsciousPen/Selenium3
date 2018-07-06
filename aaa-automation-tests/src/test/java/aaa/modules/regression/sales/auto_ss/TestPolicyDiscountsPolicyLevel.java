@@ -139,7 +139,7 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 		policy.getDefaultView().fillFromTo(getTestSpecificTD("DataGather_WO_Discounts"), DriverActivityReportsTab.class, PurchaseTab.class, true);
 		purchaseTab.submitTab();
 		
-		softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		log.info("Policy created: "+policyNumber+" with Discounts: "+currentDiscounts);
@@ -353,7 +353,7 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 		policy.getDefaultView().fillFromTo(getTestSpecificTD("DataGather_WO_Discounts"), DriverActivityReportsTab.class, PurchaseTab.class, true);
 		purchaseTab.submitTab();
 				
-		softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_PENDING);
+		softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_PENDING);
 		
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 

@@ -6,7 +6,7 @@ import static aaa.modules.regression.sales.auto_ss.functional.preconditions.Eval
 import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.DOC_GEN_WEB_CLIENT;
 import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.PAYMENT_CENTRAL_STUB_ENDPOINT_UPDATE;
 import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE;
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.Arrays;
 import java.util.List;
 import org.testng.annotations.Test;

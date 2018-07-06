@@ -12,6 +12,7 @@ import aaa.soap.autopolicy.models.wsdl.ErrorInfo;
 import aaa.soap.autopolicy.models.wsdl.GetAutoPolicyDetailResponse;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 public class TestGetAutoPolicyDetails extends AutoCaSelectBaseTest {
 	/**
@@ -38,13 +39,9 @@ public class TestGetAutoPolicyDetails extends AutoCaSelectBaseTest {
 		String vehicleCollSymbolCode = actualResponse.getAutoPolicySummary().getVehicles().getVehicle().get(0).getRiskFactors().getVehicleCollSymbolCode();
 		String vehicleCompSymbolCode = actualResponse.getAutoPolicySummary().getVehicles().getVehicle().get(0).getRiskFactors().getVehicleCompSymbolCode();
 
-		CustomAssert.enableSoftMode();
-		log.info("\nComp Symbol Code is: {}", vehicleCompSymbolCode);
-		CustomAssert.assertFalse("Comp Symbol Code is empty", vehicleCompSymbolCode.isEmpty());
-		log.info("\nColl Symbol Code is: {}\n", vehicleCollSymbolCode);
-		CustomAssert.assertFalse("Coll Symbol Code is empty", vehicleCollSymbolCode.isEmpty());
-		CustomAssert.disableSoftMode();
-
-		CustomAssert.assertAll();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(vehicleCompSymbolCode).as("Comp Symbol Code should not be empty").isNotEmpty();
+			softly.assertThat(vehicleCollSymbolCode).as("Coll Symbol Code should not be empty").isNotEmpty();
+		});
 	}
 }

@@ -470,7 +470,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		//PAS-11302 AC2
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
 		AutoSSForms.AutoSSPolicyFormsController policyForms = formsTab.getAssetList().getAsset(AutoSSMetaData.FormsTab.POLICY_FORMS);
-		assertThat(policyForms.tableSelectedForms.getRowContains("Name", formId).getCell(2).getValue()).isEqualTo(formDesc);
+		assertThat(policyForms.tableSelectedForms.getRowContains("Name", formId).getCell(2)).hasValue(formDesc);
 		assertThat(policyForms.getRemoveLink(formId)).isPresent(false);
 	}
 

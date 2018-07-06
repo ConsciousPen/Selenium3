@@ -1,35 +1,22 @@
 package aaa.modules.regression.sales.home_ca.dp3.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
-import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeCaMetaData;
-import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.main.modules.policy.home_ca.HomeCaPolicyActions;
-import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
-import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaDP3BaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
-import org.assertj.core.api.Assertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import org.testng.reporters.jq.Main;
-import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.ComboBox;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
     Map<String, String> endorsement_FPCECADP = new HashMap<>();
@@ -93,7 +80,7 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
 
         //Verify the ENDo is not selected already
         aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab endorsementTab = new aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab();
-        endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_FPCECADP).verify.present(true);
+        assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_FPCECADP)).isPresent();
 
         //Scrape the total premium from the Prem summary asset list on PnC tab prior to Fair Plan Endo
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
@@ -106,14 +93,14 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
         Page.dialogConfirmation.confirm();
 
         endorsementTab.btnSaveForm.click();
-        endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECADP).verify.present(true);
+        assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECADP)).isPresent();
 
         //Verify premium is reduced after
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         new PremiumsAndCoveragesQuoteTab().btnCalculatePremium().click();
         Dollar postEndoPremium = PremiumsAndCoveragesQuoteTab.getPolicyTermPremium();
 
-        CustomAssert.assertTrue(postEndoPremium.lessThan(preEndoPremium));
+        postEndoPremium.verify.lessThan(preEndoPremium);
         mainApp().close();
     }
 
@@ -132,13 +119,13 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
         Page.dialogConfirmation.confirm();
 
         endorsementTab.btnSaveForm.click();
-        endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECADP).verify.present(true);
+        assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECADP)).isPresent();
 
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         new PremiumsAndCoveragesQuoteTab().btnCalculatePremium().click();
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Protection class").contains("1"));
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Fireline score").contains("0"));
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Protection class")).contains("1");
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Fireline score")).contains("0");
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
         mainApp().close();
     }

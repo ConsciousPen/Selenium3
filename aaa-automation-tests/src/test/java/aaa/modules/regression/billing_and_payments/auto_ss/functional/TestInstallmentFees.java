@@ -81,7 +81,7 @@ public class TestInstallmentFees extends PolicyBilling {
 		mainApp().open();
 		createCustomerIndividual();
 		getPolicyType().get().createPolicy(policyTdAdjusted);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		CustomAssert.enableSoftMode();
@@ -191,7 +191,7 @@ public class TestInstallmentFees extends PolicyBilling {
 		//PAS-241 Start
 		String installmentSavingInfo = String.format(AUTOPAY_SAVING_MESSAGE, nonEftInstallmentFee.subtract(eftInstallmentFeeACH).toString().replace(".00", ""));
 		//PAS-241 End
-		assertThat(BillingAccount.tableInstallmentSavingInfo.getRow(1).getCell(2).getValue()).isEqualTo(installmentSavingInfo);
+		assertThat(BillingAccount.tableInstallmentSavingInfo.getRow(1).getCell(2)).hasValue(installmentSavingInfo);
 
 		//PAS-3846 start - will change in future
 		AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();

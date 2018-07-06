@@ -138,7 +138,7 @@ public class TestSymbolsPresenceTemplate extends PolicyBaseTest {
 
 	public void generateDocument(DocGenEnum.Documents document, String policyNumber) {
 		generateOnDemandDocumentActionTab.verify.documentsPresent(document);
-		generateOnDemandDocumentActionTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, document.getId()).getCell(SELECT).controls.checkBoxes.getFirst().verify.enabled(true);
+		assertThat(generateOnDemandDocumentActionTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, document.getId()).getCell(SELECT).controls.checkBoxes.getFirst()).isEnabled();
 		generateOnDemandDocumentActionTab.generateDocuments(document);
 
 		mainApp().reopen();

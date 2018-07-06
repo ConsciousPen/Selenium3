@@ -1,5 +1,6 @@
 package aaa.modules.regression.document_fulfillment.template.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
 import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.MAKE;
@@ -27,7 +28,7 @@ public class TestDecPlcyVehInfoHelper extends BaseTest {
 		createCustomerIndividual();
 
 		policyType.get().createPolicy(policyTdAdjusted);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		String vehicle1 = getVehicleInfo(1);

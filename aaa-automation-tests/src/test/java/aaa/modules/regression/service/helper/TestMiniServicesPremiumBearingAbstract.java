@@ -5,7 +5,7 @@ import static aaa.main.enums.ProductConstants.PolicyStatus.PREMIUM_CALCULATED;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
 import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.DELETE_INSERT_EFFECTIVE_DATE;
 import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.INSERT_EFFECTIVE_DATE;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -46,6 +46,7 @@ import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
@@ -101,7 +102,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	protected void pas6560_endorsementValidateAllowed() {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		testEValueDiscount.secondEndorsementIssueCheck();
 
@@ -141,13 +142,13 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	protected void pas6560_endorsementValidateAllowedPendedEndorsementUser(PolicyType policyType) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		//Endorsement creation
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 		getDocumentsAndBindTabElement().saveAndExit();
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(true);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement).isEnabled();
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		ValidateEndorsementResponse response = HelperCommon.startEndorsement(policyNumber, endorsementDate);
@@ -166,14 +167,14 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		//Endorsement creation
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 		getDocumentsAndBindTabElement().saveAndExit();
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(true);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement).isEnabled();
 		//Update to make the endorsement SYSTEM
 		String getPolicySummaryId = "select id from (\n"
 				+ "select ps.id, ps.SYSGENERATEDTXIND\n"
@@ -204,7 +205,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	protected void pas6562_endorsementValidateNotAllowedFutureDatedEndorsement(PolicyType policyType) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		//Future Dated Endorsement creation
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus10Day"));
@@ -212,7 +213,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		getDocumentsAndBindTabElement().saveAndExit();
 
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		ValidateEndorsementResponse response = HelperCommon.startEndorsement(policyNumber, endorsementDate);
@@ -260,7 +261,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	protected void pas6562_endorsementValidateNotAllowedOutOfBound(PolicyType policyType) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		mainApp().close();
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -371,7 +372,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	protected void pas8784_endorsementValidateNoDelayNotAllowedSystem(PolicyType policyType) {
 		mainApp().open();
 		getCopiedPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		manualPendedEndorsementCreate();
@@ -395,7 +396,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		//Pended Endorsement creation
@@ -413,7 +414,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		pas8785_createdEndorsementTransactionProperties("Gathering Info", TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY), "MyPolicy MyPolicy");
 	}
 
-	protected void pas8273_CheckIfOnlyActiveVehiclesAreAllowed(SoftAssertions softly, PolicyType policyType) {
+	protected void pas8273_CheckIfOnlyActiveVehiclesAreAllowed(ETCSCoreSoftAssertions softly, PolicyType policyType) {
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td = getPolicyTD("DataGather", "TestData");
@@ -666,7 +667,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		//Future policy
 		policyType.get().createPolicy(td);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_PENDING);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		mainApp().close();
 
@@ -691,11 +692,11 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		//Policy cancellation
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
-		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		mainApp().close();
 
@@ -717,7 +718,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		String reinstatementKey = TestData.makeKeyPath(reinstatementTab.getMetaKey(), AutoSSMetaData.ReinstatementActionTab.REINSTATE_DATE.getLabel());
 		policy.reinstate().perform(getStateTestData(tdPolicy, "Reinstatement", "TestData").adjust(reinstatementKey, reinstatementDate));
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.verifyLapseExistFlagPresent();
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(5));
 
@@ -730,7 +731,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		mainApp().close();
 
@@ -760,7 +761,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			mainApp().open();
 			createCustomerIndividual();
 			policyType.get().createPolicy(td);
-			PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);
+			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_PENDING);
 
 			//Start PAS-10351
 			policy.policyInquiry().start();
@@ -1330,7 +1331,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 			mainApp().open();
 			SearchPage.openPolicy(policyNum);
-			PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 			PolicySummary responsePolicyActivated = HelperCommon.viewPolicyRenewalSummary(policyNum, "policy", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyActivated.policyNumber).isEqualTo(policyNum);
@@ -1348,7 +1349,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		});
 	}
 
-	private void eValueStatusCheck(SoftAssertions softly, PolicySummary responsePolicyPending, String state, String eValueStatus) {
+	private void eValueStatusCheck(ETCSCoreSoftAssertions softly, PolicySummary responsePolicyPending, String state, String eValueStatus) {
 		if ("CA".equals(state)) {
 			softly.assertThat(responsePolicyPending.eValueStatus).isEqualTo(null);
 		} else {
@@ -1486,7 +1487,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		policy.policyInquiry().start();
 		NavigationPage.toViewTab(getDocumentsAndBindTab());
 		if (getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY.getLabel()).isPresent()) {
-			getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY.getLabel()).verify.value(authorizedBy);
+			assertThat(getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY.getLabel())).hasValue(authorizedBy);
 		}
 		Tab.buttonCancel.click();
 	}
@@ -1606,9 +1607,9 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 	private void pas8785_createdEndorsementTransactionProperties(String status, String date, String user) {
 		PolicySummaryPage.buttonPendedEndorsement.click();
-		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").verify.value(status);
-		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Eff. Date").verify.value(date);
-		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Last Performer").verify.value(user);
+		assertThat(PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status")).hasValue(status);
+		assertThat(PolicySummaryPage.tableEndorsements.getRow(1).getCell("Eff. Date")).hasValue(date);
+		assertThat(PolicySummaryPage.tableEndorsements.getRow(1).getCell("Last Performer")).hasValue(user);
 	}
 
 	private void convertAgentEndorsementToSystemEndorsement(String policyNumber) {

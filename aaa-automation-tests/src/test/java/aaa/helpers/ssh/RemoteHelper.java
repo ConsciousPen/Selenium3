@@ -11,7 +11,6 @@ import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
 import toolkit.exceptions.IstfException;
-import toolkit.verification.CustomAssert;
 
 public final class RemoteHelper {
 
@@ -232,7 +231,7 @@ public final class RemoteHelper {
 		source = ssh.parseFileName(source);
 		try {
 			Vector<ChannelSftp.LsEntry> list = ssh.getSftpChannel().ls("*");
-			CustomAssert.assertTrue("SSH: Folder should be empty", list.isEmpty());
+			assertThat(list).as("SSH: Folder should be empty").isEmpty();
 		} catch (SftpException | RuntimeException e) {
 			throw new IstfException("SSH: Folder '" + source + "' doesn't exist.", e);
 		}

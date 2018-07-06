@@ -60,7 +60,7 @@ public class TestQuotePrefill extends PersonalUmbrellaBaseTest {
 		checkPolicyTable();
 		prefillTab.submitTab();
 		policy.getDefaultView().fill(td.mask(prefillTab.getMetaKey()));
-		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		pupPolicyNum = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("Created PUP Policy " + pupPolicyNum);
 		checkPolicySearch();
@@ -105,6 +105,6 @@ public class TestQuotePrefill extends PersonalUmbrellaBaseTest {
 		}
 
 		//PolicySummaryPage.labelPolicyNumber.verify.value(pupPolicyNum);
-		assertThat(PolicySummaryPage.labelPolicyNumber.getValue()).isEqualTo(pupPolicyNum);
+		assertThat(PolicySummaryPage.labelPolicyNumber).hasValue(pupPolicyNum);
 	}
 }

@@ -10,18 +10,15 @@ import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.HomeCaPolicyActions;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.modules.policy.HomeCaHO3BaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import org.assertj.core.api.Assertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestCAFairPlanSignature extends HomeCaHO3BaseTest {
     /**
@@ -66,10 +63,10 @@ public class TestCAFairPlanSignature extends HomeCaHO3BaseTest {
         Page.dialogConfirmation.confirm();
 
         endorsementTab.btnSaveForm.click();
-        Assertions.assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECA).isPresent());
+        assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECA).isPresent());
 
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
-        Assertions.assertThat(new DocumentsTab().getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FAIR_PLAN_COMPANION_ENDORSEMENT_CALIFORNIA).getValue()).isEqualTo("Not Signed");
+        assertThat(new DocumentsTab().getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FAIR_PLAN_COMPANION_ENDORSEMENT_CALIFORNIA)).hasValue("Not Signed");
 
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
         new BindTab().btnPurchase.click();

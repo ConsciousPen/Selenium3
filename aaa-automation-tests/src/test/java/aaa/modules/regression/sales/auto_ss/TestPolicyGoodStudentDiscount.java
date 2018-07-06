@@ -16,9 +16,10 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
-	protected SoftAssertions softly = new SoftAssertions();	
+	protected ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 	protected TestData tdPolicy;
 	private String origPolicyNum;
 	private String policyNum1;
@@ -122,7 +123,7 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
 	    new DocumentsAndBindTab().fillTab(td_quote).submitTab();
         new PurchaseTab().fillTab(td_quote).submitTab();
 
-		softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         return PolicySummaryPage.labelPolicyNumber.getValue();
 	}
 
@@ -144,7 +145,7 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         new DocumentsAndBindTab().submitTab();
 
-		softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         log.info("TEST: Endorsement is created for policy with #" + policyNum2);
 	}
 
@@ -161,7 +162,7 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         new PremiumAndCoveragesTab().saveAndExit();
 
-		softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         softly.assertThat(PolicySummaryPage.buttonRenewals.isEnabled()).isTrue();
         PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);

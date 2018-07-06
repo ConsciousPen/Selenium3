@@ -54,13 +54,13 @@ public class TestPolicyBillingAccountOnHold extends HomeCaHO3BaseTest {
         new BillingAccount().addHold().start();
         addHoldActoinTab.fillTab(getTestSpecificTD("AddHold"));
         AddHoldActionTab.buttonAddUpdate.click();
-        assertThat(addHoldActoinTab.getAssetList().getWarning(BillingAccountMetaData.AddHoldActionTab.HOLD_EFFECTIVE_DATE.getLabel())).hasValue("Cannot be earlier than today");
-        assertThat(addHoldActoinTab.getAssetList().getWarning(BillingAccountMetaData.AddHoldActionTab.HOLD_EXPIRATION_DATE.getLabel())).hasValue("Date must be after effective date");
+        assertThat(addHoldActoinTab.getAssetList().getWarning(BillingAccountMetaData.AddHoldActionTab.HOLD_EFFECTIVE_DATE)).hasValue("Cannot be earlier than today");
+        assertThat(addHoldActoinTab.getAssetList().getWarning(BillingAccountMetaData.AddHoldActionTab.HOLD_EXPIRATION_DATE)).hasValue("Date must be after effective date");
 
         // 7. Change 'Effective Date' = current date, 'Expiration Date' = current date + 2 days, 'Reason' to 'Other' and verify error
         addHoldActoinTab.fillTab(new SimpleDataProvider().adjust(getTestSpecificTD("AddHold_Adjustment")));
         AddHoldActionTab.buttonAddUpdate.click();
-        assertThat(addHoldActoinTab.getAssetList().getWarning(BillingAccountMetaData.AddHoldActionTab.ADDITIONAL_INFO.getLabel())).hasValue("Value is required");
+        assertThat(addHoldActoinTab.getAssetList().getWarning(BillingAccountMetaData.AddHoldActionTab.ADDITIONAL_INFO)).hasValue("Value is required");
 
         // 8.  Fill 'Additional information' field
         addHoldActoinTab.fillTab(new SimpleDataProvider().adjust(BillingAccountMetaData.AddHoldActionTab.class.getSimpleName(),
