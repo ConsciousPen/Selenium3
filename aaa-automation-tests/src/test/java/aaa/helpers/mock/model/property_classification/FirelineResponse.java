@@ -3,12 +3,12 @@ package aaa.helpers.mock.model.property_classification;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
-@ExcelTableElement(sheetName = "FIRELINE_RESPONSE")
+@ExcelTableElement(sheetName = "FIRELINE_RESPONSE", hasEmptyRows = true)
 public class FirelineResponse {
 	@ExcelColumnElement(name = "ID")
 	private String id;
 
-	private Integer responseCode;
+	private String responseCode;
 	private String responseDescription;
 	private String returnCode;
 	private String returnMessage;
@@ -39,11 +39,11 @@ public class FirelineResponse {
 		this.id = id;
 	}
 
-	public Integer getResponseCode() {
+	public String getResponseCode() {
 		return responseCode;
 	}
 
-	public void setResponseCode(Integer responseCode) {
+	public void setResponseCode(String responseCode) {
 		this.responseCode = responseCode;
 	}
 

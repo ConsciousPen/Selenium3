@@ -80,6 +80,7 @@ public class ApplicationMocksManager {
 				cleanTempDirectory();
 			}
 			restartStubServer();
+			MockGenerator.flushGeneratedMocks();
 			log.info("Application mocks update has been finished");
 		} else {
 			log.info("Application server has all required mocks, nothing to update");
@@ -87,9 +88,13 @@ public class ApplicationMocksManager {
 	}
 
 	public static synchronized void restartStubServer() {
+		//TODO-dchubkov: find out how get JVM date without TimeSetterUtil
+		//LocalDate serverDate = TimeSetterUtil.getInstance().getCurrentTime().toLocalDate();
+		//assertThat(serverDate).as("Stub server restart is not allowed on instance with shifted time.\nCurrent date is %1$s, Current date on server is: %2$s", LocalDate.now(), serverDate)
+		//		.isEqualTo(LocalDate.now());
+
 		//TODO-dchubkov: restart on Windows and Tomcat
 		String command = APP_MOCKS_RESTART_SCRIPT + " -lang jacl -user admin -password admin -c \"\\$AdminControl %1$s cluster_external_stub_server %2$sNode01\"";
-		//TimeSetterUtil.getInstance().adjustTime(); // set date to today
 		RemoteHelper ssh = RemoteHelper.with().user(APP_ADMIN_USER, APP_ADMIN_PASSWORD).privateKey(APP_AUTH_KEYPATH).get();
 
 		log.info("Stopping stub server...");
@@ -133,12 +138,21 @@ public class ApplicationMocksManager {
 
 	@SuppressWarnings("unchecked")
 	private static <M extends UpdatableMock> String getFileName(Class<M> mockModelClass) {
-		M mock;
-		try {
-			mock = (M) BindHelper.getInstance(mockModelClass);
-		} catch (RuntimeException e) {
-			throw new IstfException("Unable to get filename for mock of class: " + mockModelClass.getName());
+		switch (mockModelClass.getSimpleName()) {
+			case "RetrieveMembershipSummaryMock":
+				return RetrieveMembershipSummaryMock.FILE_NAME;
+			case "RetrievePropertyClassificationMock":
+				return RetrievePropertyClassificationMock.FILE_NAME;
+			case "RetrievePropertyRiskReportsMock":
+				return RetrievePropertyRiskReportsMock.FILE_NAME;
+			default:
+				M mock;
+				try {
+					mock = (M) BindHelper.getInstance(mockModelClass);
+				} catch (RuntimeException e) {
+					throw new IstfException("Unable to get filename for mock of class: " + mockModelClass.getName());
+				}
+				return mock.getFileName();
 		}
-		return mock.getFileName();
 	}
 }

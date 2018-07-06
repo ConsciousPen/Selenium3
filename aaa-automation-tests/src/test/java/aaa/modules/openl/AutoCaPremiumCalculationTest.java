@@ -2,7 +2,7 @@ package aaa.modules.openl;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
-import aaa.helpers.openl.testdata_builder.TestDataGenerator;
+import aaa.helpers.openl.testdata_generator.TestDataGenerator;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;

@@ -7,7 +7,7 @@ import java.util.List;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLCoverage;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLDwelling;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
-import aaa.helpers.openl.testdata_builder.HomeCaHO4TestDataGenerator;
+import aaa.helpers.openl.testdata_generator.HomeCaHO4TestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
 

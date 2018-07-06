@@ -145,6 +145,8 @@ public final class BillingConstants {
 		public static final String REFUND_PAYMENT_VOIDED = "Refund Payment Voided";
 		public static final String ESCHEATMENT = "Escheatment";
 		public static final String SMALL_BALANCE_WRITE_OFF = "Small Balance Write-off";
+		public static final String ENDORSEMENT_PROPERTY_EXPOSURES = "Endorsement - Property/exposures";
+		public static final String ENDORSEMENT_MAINTAIN_VECHICLES = "Endorsement - Maintain Vehicle(s)";
 	}
 
 	public static final class PaymentsAndOtherTransactionReason {
