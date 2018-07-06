@@ -292,7 +292,7 @@ PAS-15970:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.document_fulfillment.auto_ss.TestScenario4.TC02_CopyFromPolicy]
-      messages: ["Cannot set value of {DriverTab", "Errors: Unprepared data; Error; You must order the Membership report"]
+      messages: ["Cannot set value of  {DriverTab", "Errors: Unprepared data; Error; You must order the Membership report"]
 PAS-15912:
   summary: "Regression: Auto Insurance Quote doc (AAIQAZ) incorrectly displays Payment Plan Options"
   reason: PROD
@@ -305,3 +305,17 @@ PAS-16002:
   failures:
     - tests: [aaa.modules.docgen.home_ss.ho3.TestDocgenScenarios.testReturnPaymentDocuments]
       messages: ["60 5003"]
+PAS-15907:
+  summary: "VIN refresh is not happening during automated renewal"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload.pas2716_AutomatedRenewal_ExpirationDate]
+      messages: ['OTHER]">','<"[TEST]"> but was:<"[OTHER]">','<[fals]e> but was:<[tru]e>','[true] but found [false]']
+    - tests: [aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload.pas2716_AutomatedRenewal_ExpirationDateMinus35]
+      messages: ['[true] but found [false]','expected:<"[Gt]"> but was:<"[Model]">']
+    - tests: [aaa.modules.regression.sales.auto_ca.select.functional.TestVINUpload.pas2716_AutomatedRenewal_ExpirationDateMinus35]
+      messages: ['[true] but found [false]']
+    - tests: [aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload.pas2716_AutomatedRenewal_ExpirationDateMinus45]
+      messages: ['<"[Gt]"> but was:<"[OTHER]">']
+    - tests: [aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload.pas527_UpdatedVinRenewal]
+      messages: ['<"[TEST]"> but was:<"[CAMRY]">', '<"20[18]"> but was']

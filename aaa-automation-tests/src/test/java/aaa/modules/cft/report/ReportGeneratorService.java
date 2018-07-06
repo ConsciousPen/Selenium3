@@ -1,6 +1,7 @@
 package aaa.modules.cft.report;
 
-import java.awt.Color;
+import static aaa.helpers.cft.CFTHelper.setBorderToCellStyle;
+import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -8,13 +9,10 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellUtil;
 import org.apache.poi.xssf.model.StylesTable;
@@ -22,14 +20,9 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import aaa.modules.cft.report.model.DataSourceKey;
 import aaa.modules.cft.report.model.EntryStatus;
 import aaa.modules.cft.report.model.ReportEntry;
-
-import com.exigen.ipb.etcsa.utils.ExcelUtils;
-
-import static aaa.helpers.cft.CFTHelper.*;
 
 public class ReportGeneratorService {
 
@@ -151,6 +144,17 @@ public class ReportGeneratorService {
 			CellUtil.createCell(totalRow, 12, dbdTotal.toString(), totalCellStyle);
 			CellUtil.createCell(totalRow, 14, ffdTotal.subtract(dbdTotal).toString(), totalCellStyle);
 
+			// auto size for all involved cells
+			sheet.autoSizeColumn(1);
+			sheet.autoSizeColumn(2);
+			sheet.autoSizeColumn(4);
+			sheet.autoSizeColumn(6);
+			sheet.autoSizeColumn(7);
+			sheet.autoSizeColumn(9);
+			sheet.autoSizeColumn(11);
+			sheet.autoSizeColumn(12);
+			sheet.autoSizeColumn(14);
+
 			FileOutputStream outputStream = null;
 			try {
 				outputStream = new FileOutputStream(filePath);
@@ -164,35 +168,6 @@ public class ReportGeneratorService {
 				try {
 					outputStream.flush();
 					outputStream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			// auto size for all involved cells
-			Workbook formatCellsWorkbook = ExcelUtils.getWorkbook(filePath);
-			Sheet resultSheet = formatCellsWorkbook.getSheet("Result");
-			resultSheet.autoSizeColumn(1, true);
-			resultSheet.autoSizeColumn(2, true);
-			resultSheet.autoSizeColumn(4, true);
-			resultSheet.autoSizeColumn(6, true);
-			resultSheet.autoSizeColumn(7, true);
-			resultSheet.autoSizeColumn(9, true);
-			resultSheet.autoSizeColumn(11, true);
-			resultSheet.autoSizeColumn(12, true);
-			resultSheet.autoSizeColumn(14, true);
-			FileOutputStream outputStream2 = null;
-			try {
-				outputStream2 = new FileOutputStream(filePath);
-				formatCellsWorkbook.write(outputStream2);
-
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					outputStream2.flush();
-					outputStream2.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

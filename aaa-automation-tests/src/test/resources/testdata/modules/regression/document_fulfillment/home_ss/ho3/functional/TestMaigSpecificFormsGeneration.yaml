@@ -31,7 +31,7 @@ PremiumsAndCoveragesQuoteTab_Mortgagee: {
 }
 
 ConversionForms_NJ: {
-  FormsList: ["stub","HSTP","DS02","AHAUXX","AHPNXX","AHMVCNV","HSMPDCNVXX","HSCSNA"]
+  FormsList: ["stub","HSTP","AHAUXX","AHPNXX","AHMVCNV","HSMPDCNVXX","HSCSNA"]
 }
 
 ConversionForms_DE: {
