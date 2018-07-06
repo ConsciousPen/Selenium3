@@ -280,40 +280,27 @@ public class TestCurrentTermEndAddsVehicle extends AutoSSBaseTest {
 //    String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.VIN_UPLOAD_ON_CURRENT_TERM.get());
        // multipleVinTable = VIN_UPLOAD_ON_CURRENT_TERM
       // VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
-
       // String vinTableFile = "multipleVinTable.xlsx";
  //      String controlTableFile = "controlTable_AZ_SS.xlsx";
-//
-//       adminApp().open();
+////       adminApp().open();
 //       vinMethods.uploadFiles(controlTableFile, vinTableFile);
-//
-//        effDateForControlTable = TimeSetterUtil.getInstance().getCurrentTime().plusDays(3);
+////        effDateForControlTable = TimeSetterUtil.getInstance().getCurrentTime().plusDays(3);
 //        expDateForControlTable = TimeSetterUtil.getInstance().getCurrentTime().plusDays(2);
-//
-//        insertDatesForControlTable(effDateForControlTable, expDateForControlTable);
-
+////        insertDatesForControlTable(effDateForControlTable, expDateForControlTable);
         mainApp().open();
         createCustomerIndividual();
-
         TestData testDataTwoVehicles = getTestDataWithTwoVehicles(getPolicyTD());
         policyNumber = createPolicy(testDataTwoVehicles);
-
   //     adminApp().open();
  //      new UploadToVINTableTab().uploadVinTable(controlTableFile, vinTableFile);
-
         preconditionToDoFirstRenewal();
         initiateEndorsement();
-
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-
         TestData testDataThreeVehicles = getTestDataWithThreeVehicles(getPolicyTD());
-
         policy.getDefaultView().fillFromTo(testDataThreeVehicles, VehicleTab.class, PremiumAndCoveragesTab.class,true);
-
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.submitTab();
-
-        compareRenewalVersions();
+       compareRenewalVersions();
     }
 
     */
