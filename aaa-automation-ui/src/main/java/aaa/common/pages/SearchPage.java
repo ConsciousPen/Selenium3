@@ -52,9 +52,6 @@ public class SearchPage extends MainPage {
 		//TODO-dchubkov: call search dialog instead?
 		if (!buttonSearch.isPresent()) {
 			MainPage.QuickSearch.buttonSearchPlus.click();
-			if (Page.dialogConfirmation.isPresent()) { // may occur if previous failed test started quote creation and didn't save it
-				Page.dialogConfirmation.confirm();
-			}
 		}
 		String searchFor = tdSearch.getTestData(SearchMetaData.Search.class.getSimpleName()).getValue(LABEL_SEARCH);
 		if (StringUtils.isNotBlank(searchFor)) {

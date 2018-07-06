@@ -10,6 +10,8 @@ import org.testng.annotations.*;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
+import aaa.common.pages.MainPage;
+import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.openl.OpenLTestInfo;
@@ -57,7 +59,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 	protected Object[][] getOpenLTestData(ITestContext context) {
 		OpenLTestInfo<P> testInfo = openLTestsManager.getTestInfo(context);
 		if (testInfo.isFailed()) {
-			Assert.fail("OpenL test preparation has been failed", testInfo.getException());
+			Assert.fail(String.format("OpenL test preparation for file \"%s\" has been failed", testInfo.getOpenLFilePath()), testInfo.getException());
 		}
 
 		//Sort policies list by effective date for further valid time shifts
@@ -103,6 +105,10 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 			String customerNumber = createCustomerIndividual();
 			testInfo.setCustomerNumber(customerNumber);
 		} else {
+			MainPage.QuickSearch.buttonSearchPlus.click();
+			if (Page.dialogConfirmation.isPresent()) { // may occur if previous failed test started quote creation and didn't save it
+				Page.dialogConfirmation.confirm();
+			}
 			SearchPage.openCustomer(testInfo.getCustomerNumber());
 		}
 	}
