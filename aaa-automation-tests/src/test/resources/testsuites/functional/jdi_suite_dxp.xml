@@ -420,8 +420,8 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
                 <methods>
-                    <include name="pas12175_RemoveReplaceAllVehiclesBody"/>
-                    <include name="pas12175_RemoveReplaceWaiveLiabilityBody"/>
+                    <include name="pas12175_RemoveReplaceAllVehicles"/>
+                    <include name="pas12175_RemoveReplaceWaiveLiability"/>
 
                     <include name="pas13920_ReplaceVehicleDontKeepAssignmentsOneDriver"/>
                     <include name="pas13920_ReplaceVehicleDontKeepCoveragesOneDriverOneVehicle"/>
