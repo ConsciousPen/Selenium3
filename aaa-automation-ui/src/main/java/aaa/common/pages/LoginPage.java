@@ -40,7 +40,7 @@ public class LoginPage extends Page implements ILogin {
 		password = appPw;
 		state = null;
 	}
-	
+
 	public LoginPage(TestData td) {
 		user = td.getValue(LoginPageMeta.USER.getLabel());
 		password = td.getValue(LoginPageMeta.PASSWORD.getLabel());
@@ -189,6 +189,9 @@ public class LoginPage extends Page implements ILogin {
 		if (result != null) {
 			methodName = result.getClassName() + "." + result.getMethodName();
 		}
-		BrowserController.get().open(BrowserController.get().driver().getCurrentUrl().replace("#noback", "") + "&scenarioName=" + methodName + "_" + state);
+		//BrowserController.get().open(BrowserController.get().driver().getCurrentUrl().replace("#noback", "") + "&scenarioName=" + methodName + "_" + state);
+
+		String url = BrowserController.get().driver().getCurrentUrl().replace("#noback", "");
+		BrowserController.get().open((url.contains("flow") || url.contains("windowId") ? url : url.concat("flow%3F_flowId%3Dipb-entry-flow")).concat("&scenarioName=").concat(methodName).concat("_").concat(state));
 	}
 }
