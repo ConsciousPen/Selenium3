@@ -38,7 +38,8 @@ public abstract class PolicyBilling extends PolicyBaseTest {
 	private TestData check_payment = tdBilling.getTestData("AcceptPayment", "TestData_Check");
 	private TestData cc_payment = tdBilling.getTestData("AcceptPayment", "TestData_CC");
 	private TestData eft_payment = tdBilling.getTestData("AcceptPayment", "TestData_EFT");
-	private TestData refund = tdBilling.getTestData("Refund", "TestData_Cash");
+	//private TestData refund = tdBilling.getTestData("Refund", "TestData_Cash");
+	private TestData refund = tdBilling.getTestData("Refund", "TestData_Check");
 	
     
     

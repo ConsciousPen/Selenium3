@@ -61,6 +61,54 @@ VerificationData2_UT: {
  VIN: '1B3BA46K4KF440231'
 }
 
+# -- filling ----
+
+TestData_Fill_Insured1: {
+  GeneralTab: '@GeneralTab_Insured1',
+  DriverTab: '@DriverTab_Insured1',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab'
+}
+
+GeneralTab_Insured1: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
+}
+
+DriverTab_Insured1: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18
+}
+
+
+TestData_Fill_Insured2: {
+  GeneralTab: '@GeneralTab_Insured2',
+  DriverTab: '@DriverTab_Insured2',
+}
+
+GeneralTab_Insured2: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+}
+
+DriverTab_Insured2: {
+  'Rel. to First Named Insured': Spouse,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18
+}
+
+# --- fill remaining tabs required to bind policy ---
+
+TestData_Bind: {
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
 # ------- AZ ----
 
 # ------ AZ case 1 ---- 
@@ -125,6 +173,28 @@ VerificationData2_AZ: {
  First Named Insured: 'Jack Tennant',
  VIN: '1B3BA46K4KF440231'
 }
+
+# -- filling ----
+
+TestData_Fill_Insured1_AZ: {
+  GeneralTab: '@GeneralTab_Insured1_AZ',
+  DriverTab: '@DriverTab_Insured1_AZ',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab'
+}
+
+GeneralTab_Insured1_AZ: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
+}
+
+DriverTab_Insured1_AZ: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18
+}
+
 
 # ------- CO ----
 

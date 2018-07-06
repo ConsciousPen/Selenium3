@@ -292,7 +292,7 @@ PAS-15970:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.document_fulfillment.auto_ss.TestScenario4.TC02_CopyFromPolicy]
-      messages: ["Cannot set value of {DriverTab", "Errors: Unprepared data; Error; You must order the Membership report"]
+      messages: ["Cannot set value of  {DriverTab", "Errors: Unprepared data; Error; You must order the Membership report"]
 PAS-15912:
   summary: "Regression: Auto Insurance Quote doc (AAIQAZ) incorrectly displays Payment Plan Options"
   reason: PROD
