@@ -343,7 +343,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 
 		//get all coverages
 		PolicyCoverageInfo coverageResponse = HelperCommon.viewPolicyCoverages(policyNumber);
-		softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("COMPDED");
+		softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null)).isNotNull();
 
 		//get all discounts
 		DiscountSummary policyDiscountsResponse = HelperCommon.viewDiscounts(policyNumber, "policy", 200);

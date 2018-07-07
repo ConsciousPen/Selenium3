@@ -195,6 +195,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
 		assertSoftly(softly -> {
 			softly.assertThat(updateVehicleResponse.usage).isEqualTo("Business");
+			//BUG : PAS-16391
 			assertThat(((VehicleUpdateResponseDto) updateVehicleResponse).ruleSets.get(0).errors.get(0)).contains("Usage is Business");
 		});
 
