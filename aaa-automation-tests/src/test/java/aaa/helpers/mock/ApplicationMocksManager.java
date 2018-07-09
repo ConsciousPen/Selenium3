@@ -34,7 +34,10 @@ public class ApplicationMocksManager {
 	private static final String ENV_NAME = PropertyProvider.getProperty(TestProperties.APP_HOST).split("\\.")[0];
 	private static final String TEMP_MOCKS_FOLDER = "src/test/resources/mock";
 	private static final String APP_MOCKS_FOLDER = String.format(PropertyProvider.getProperty(CustomTestProperties.APP_STUB_FOLDER_TEMPLATE), ENV_NAME);
-	private static final String APP_MOCKS_RESTART_SCRIPT = PropertyProvider.getProperty(CustomTestProperties.APP_STUB_RESTART_SCRIPT);
+	private static final String APP_MOCKS_SCRIPT_WORKDIR = PropertyProvider.getProperty(CustomTestProperties.APP_STUB_SCRIPT_WORKDIR);
+	private static final String APP_MOCKS_SCRIPT_START = String.format(PropertyProvider.getProperty(CustomTestProperties.APP_STUB_SCRIPT_START), ENV_NAME);
+	private static final String APP_MOCKS_SCRIPT_STOP = String.format(PropertyProvider.getProperty(CustomTestProperties.APP_STUB_SCRIPT_STOP), ENV_NAME);
+	private static OS currentOS;
 
 	private static MocksCollection appMocks = new MocksCollection();
 
@@ -78,7 +81,7 @@ public class ApplicationMocksManager {
 			cleanTempDirectory();
 			try {
 				mocksToUpload.dump(TEMP_MOCKS_FOLDER);
-				RemoteHelper.with().user(APP_ADMIN_USER, APP_ADMIN_PASSWORD).privateKey(APP_AUTH_KEYPATH).get().uploadFiles(TEMP_MOCKS_FOLDER, APP_MOCKS_FOLDER);
+				getRemoteHelper().uploadFiles(TEMP_MOCKS_FOLDER, APP_MOCKS_FOLDER);
 			} finally {
 				cleanTempDirectory();
 			}
@@ -96,17 +99,45 @@ public class ApplicationMocksManager {
 		assertThat(serverDate).as("Stub server restart is not allowed on instance with shifted time.\nCurrent date is %1$s, Current date on server is: %2$s", LocalDate.now(), serverDate)
 				.isEqualTo(LocalDate.now());
 
-		//TODO-dchubkov: restart on Windows and Tomcat
-		String command = APP_MOCKS_RESTART_SCRIPT + " -lang jacl -user admin -password admin -c \"\\$AdminControl %1$s cluster_external_stub_server %2$sNode01\"";
-		RemoteHelper ssh = RemoteHelper.with().user(APP_ADMIN_USER, APP_ADMIN_PASSWORD).privateKey(APP_AUTH_KEYPATH).get();
-
+		String startCommand = null;
+		String stopCommand = null;
 		log.info("Stopping stub server...");
-		ssh.executeCommand(String.format(command, "stopServer", ENV_NAME), ExecutionParams.with().timeoutInSeconds(300).failOnTimeout().failOnError());
+		switch (getCurrentOS()) {
+			case WINDOWS:
+				startCommand = String.format("cmd /c cd %1$s && cmd /c %2$s", APP_MOCKS_SCRIPT_WORKDIR, APP_MOCKS_SCRIPT_START);
+				stopCommand = String.format("cmd /c cd %1$s && cmd /c %2$s", APP_MOCKS_SCRIPT_WORKDIR, APP_MOCKS_SCRIPT_STOP);
+				break;
+			case LINUX:
+			case MAC_OS:
+				startCommand = String.format("cd %1$s && ./%2$s", APP_MOCKS_SCRIPT_WORKDIR, APP_MOCKS_SCRIPT_START);
+				stopCommand = String.format("cd %1$s && ./%2$s", APP_MOCKS_SCRIPT_WORKDIR, APP_MOCKS_SCRIPT_STOP);
+				break;
+			case UNKNOWN:
+				throw new IstfException("Unknown OS detected, unable to restart stub server");
+		}
+
+		getRemoteHelper().executeCommand(stopCommand, ExecutionParams.with().timeoutInSeconds(300).failOnTimeout().failOnError());
 		log.info("Stub server has been stopped");
 
-		log.info("Starting stub server...it may take up to 10 minutes");
-		ssh.executeCommand(String.format(command, "startServer", ENV_NAME), ExecutionParams.with().timeoutInSeconds(700).failOnTimeout().failOnError());
+		log.info("Starting stub server... it may take up to 10 minutes");
+		getRemoteHelper().executeCommand(startCommand, ExecutionParams.with().timeoutInSeconds(700).failOnTimeout().failOnError());
 		log.info("Stub server has been started");
+	}
+
+	public static synchronized OS getCurrentOS() {
+		if (currentOS == null) {
+			String osType = getRemoteHelper().executeCommand("uname -s");
+			if (osType.contains("Unable to execute command or shell on remote system") || osType.contains("CYGWIN") || osType.contains("MINGW32") || osType.contains("MSYS")) {
+				currentOS = OS.WINDOWS;
+			} else if (osType.contains("Linux")) {
+				currentOS = OS.LINUX;
+			} else if (osType.contains("Darwin")) {
+				currentOS = OS.MAC_OS;
+			} else {
+				currentOS = OS.UNKNOWN;
+			}
+		}
+		return currentOS;
 	}
 
 	private static <M extends UpdatableMock> M getMockDataObject(Class<M> mockDataClass, String fileName) {
@@ -139,6 +170,13 @@ public class ApplicationMocksManager {
 		}
 	}
 
+	private static RemoteHelper getRemoteHelper() {
+		if (APP_ADMIN_USER.isEmpty() && (APP_ADMIN_PASSWORD.isEmpty() || APP_AUTH_KEYPATH.isEmpty())) {
+			return RemoteHelper.get();
+		}
+		return RemoteHelper.with().user(APP_ADMIN_USER, APP_ADMIN_PASSWORD).privateKey(APP_AUTH_KEYPATH).get();
+	}
+
 	@SuppressWarnings("unchecked")
 	private static <M extends UpdatableMock> String getFileName(Class<M> mockModelClass) {
 		switch (mockModelClass.getSimpleName()) {
@@ -157,5 +195,12 @@ public class ApplicationMocksManager {
 				}
 				return mock.getFileName();
 		}
+	}
+
+	private enum OS {
+		WINDOWS,
+		LINUX,
+		MAC_OS,
+		UNKNOWN
 	}
 }
