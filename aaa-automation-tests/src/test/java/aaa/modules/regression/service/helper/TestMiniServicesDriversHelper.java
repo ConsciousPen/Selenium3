@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import aaa.main.enums.ErrorDxpEnum;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
 import aaa.common.enums.NavigationEnum;
@@ -31,6 +33,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+	private UpdateDriverRequest updateDriverRequest = new UpdateDriverRequest();
 
 	protected void pas11932_viewDriversInfo(PolicyType policyType) {
 		assertSoftly(softly -> {
@@ -320,7 +323,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		});
 
-		UpdateDriverRequest updateDriverRequest = new UpdateDriverRequest();
 		updateDriverRequest.stateLicensed = "AZ";
 		updateDriverRequest.licenseNumber = "D32329585";
 		updateDriverRequest.gender = "female";
@@ -434,6 +436,100 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
+	protected void pas9662_maxDriversBody(PolicyType policyType) {
+		TestData td = getPolicyTD("DataGather", "TestData");
+		td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_FiveDrivers").getTestDataList("DriverTab")).resolveLinks();
+
+			assertSoftly(softly -> {
+				mainApp().open();
+				createCustomerIndividual();
+				policyType.get().createPolicy(td);
+				String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+				//Check view drivers service response
+				ViewDriversResponse viewDrivers = HelperCommon.viewPolicyDrivers(policyNumber);
+				assertThat(viewDrivers.canAddDriver).isEqualTo(true);
+
+				//Create a pended Endorsement
+				helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+				//hit view driver endorsement service
+				ViewDriversResponse responseViewDriverEndorsement = HelperCommon.viewEndorsementDrivers(policyNumber);
+				assertThat(responseViewDriverEndorsement.canAddDriver).isEqualTo(true);
+
+				//Add D6
+				addDriverRequest.firstName = "Justin";
+				addDriverRequest.lastName = "Jill";
+				addDriverRequest.birthDate = "1960-02-08";
+
+				DriversDto addDriver6 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+				String driverOid6 = addDriver6.oid;
+
+				updateDriverRequest.stateLicensed = "VA";
+				updateDriverRequest.licenseNumber = "T32329585";
+				updateDriverRequest.gender = "male";
+				updateDriverRequest.relationToApplicantCd = "CH";
+				updateDriverRequest.maritalStatusCd = "SSS";
+				updateDriverRequest.ageFirstLicensed = 18;
+				HelperCommon.updateDriver(policyNumber, driverOid6, updateDriverRequest);
+
+				//hit view driver endorsement service
+				ViewDriversResponse responseViewDriverEndorsement2 = HelperCommon.viewEndorsementDrivers(policyNumber);
+				assertThat(responseViewDriverEndorsement2.canAddDriver).isEqualTo(true);
+
+				//Add D7
+				addDriverRequest.firstName = "Maris";
+				addDriverRequest.lastName = "Smith";
+				addDriverRequest.birthDate = "1990-02-08";
+
+				DriversDto addDriver7 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+				String driverOid7 = addDriver7.oid;
+
+				updateDriverRequest.stateLicensed = "VA";
+				updateDriverRequest.licenseNumber = "T32329222";
+				updateDriverRequest.gender = "male";
+				updateDriverRequest.relationToApplicantCd = "CH";
+				updateDriverRequest.maritalStatusCd = "SSS";
+				updateDriverRequest.ageFirstLicensed = 18;
+				HelperCommon.updateDriver(policyNumber, driverOid7, updateDriverRequest);
+
+				//hit view driver endorsement service
+				ViewDriversResponse responseViewDriverEndorsement3 = HelperCommon.viewEndorsementDrivers(policyNumber);
+				assertThat(responseViewDriverEndorsement3.canAddDriver).isEqualTo(false);
+
+				//Add D8
+				addDriverRequest.firstName = "Vadym";
+				addDriverRequest.lastName = "Smith";
+				addDriverRequest.birthDate = "1990-05-01";
+
+				ErrorResponseDto addDriver8 = HelperCommon.executeEndorsementAddDriverError(policyNumber, addDriverRequest);
+				softly.assertThat(addDriver8.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+				softly.assertThat(addDriver8.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+				softly.assertThat(addDriver8.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.MAX_NUMBER_OF_DRIVERS.getCode());
+				softly.assertThat(addDriver8.errors.get(0).message).contains(ErrorDxpEnum.Errors.MAX_NUMBER_OF_DRIVERS.getMessage());
+
+				helperMiniServices.endorsementRateAndBind(policyNumber);
+
+				//Check view drivers service response after first endorsement
+				ViewDriversResponse viewDrivers2 = HelperCommon.viewPolicyDrivers(policyNumber);
+				assertThat(viewDrivers2.canAddDriver).isEqualTo(false);
+
+				//Create second pended Endorsement
+				helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+				//hit view driver endorsement service
+				ViewDriversResponse responseViewDriverEndorsement4 = HelperCommon.viewEndorsementDrivers(policyNumber);
+				assertThat(responseViewDriverEndorsement4.canAddDriver).isEqualTo(false);
+
+				ErrorResponseDto addDriver9 = HelperCommon.executeEndorsementAddDriverError(policyNumber, addDriverRequest);
+				softly.assertThat(addDriver9.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+				softly.assertThat(addDriver9.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+				softly.assertThat(addDriver9.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.MAX_NUMBER_OF_DRIVERS.getCode());
+				softly.assertThat(addDriver9.errors.get(0).message).contains(ErrorDxpEnum.Errors.MAX_NUMBER_OF_DRIVERS.getMessage());
+
+				helperMiniServices.endorsementRateAndBind(policyNumber);
+		});
+	}
 }
 
 

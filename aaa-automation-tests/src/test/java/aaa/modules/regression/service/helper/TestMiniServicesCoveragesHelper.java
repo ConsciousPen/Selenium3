@@ -456,7 +456,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		Dollar collisionDeductible = new Dollar(premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.COLLISION_DEDUCTIBLE.getLabel()).replace("(+$0.00)", "").trim());
 		String fullSafetyGlassVeh1 = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.FULL_SAFETY_GLASS.getLabel());
 		String loanLeaseCov = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.VEHICLE_LOAN_LEASE_PROTECTION.getLabel()).replace("(+$0.00)", "").trim();
-		String transportationExpense = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.RENTAL_REIMBURSEMENT.getLabel().replace("(+$0.00)", "").trim());
+		String transportationExpense = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.RENTAL_REIMBURSEMENT.getLabel()).replace("(+$0.00)", "").trim();
 		String towingAndLabor = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.TOWING_AND_LABOR_COVERAGE.getLabel()).replace("(Included)", "").replace("(+$0.00)", "").replace("$", "").trim();
 		Dollar excessElectronicEquipment = new Dollar(premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.SPECIAL_EQUIPMENT_COVERAGE.getLabel()));
 
@@ -527,7 +527,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(coverageRreim.coverageCd).isEqualTo("RREIM");
 			softly.assertThat(coverageRreim.coverageDescription).isEqualTo("Rental Reimbursement");
 			softly.assertThat(coverageRreim.coverageLimit).isEqualTo("0/0");
-			assertThat(coverageRreim.coverageLimitDisplay).isEqualTo(transportationExpense.toString().replace(".00", "").replace("(+$0)", ""));
+			softly.assertThat(coverageRreim.coverageLimitDisplay).isEqualTo(transportationExpense.toString().replace(".00", "").replace("(+$0)", ""));
 			softly.assertThat(coverageRreim.coverageType).isEqualTo("Per Day/Maximum");
 			softly.assertThat(coverageRreim.customerDisplayed).isEqualTo(true);
 
@@ -1812,17 +1812,19 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber);
+		Coverage filteredPolicyCoverageResponse = policyCoverageResponse.policyCoverages.stream().filter(cov -> "MEDPM".equals(cov.coverageCd)).findFirst().orElse(null);
 		assertSoftly(softly -> {
-			softly.assertThat(policyCoverageResponse.policyCoverages.get(4).coverageCd).isEqualTo("MEDPM");
-			softly.assertThat(policyCoverageResponse.policyCoverages.get(4).coverageType).isEqualTo("Per Person");
-			softly.assertThat(policyCoverageResponse.policyCoverages.get(4).availableLimits.size()).isNotEqualTo(0);
+			softly.assertThat(filteredPolicyCoverageResponse.coverageCd).isEqualTo("MEDPM");
+			softly.assertThat(filteredPolicyCoverageResponse.coverageType).isEqualTo("Per Person");
+			softly.assertThat(filteredPolicyCoverageResponse.availableLimits.size()).isNotEqualTo(0);
 		});
 
 		PolicyCoverageInfo coverageEndorsementResponse = HelperCommon.viewEndorsementCoverages(policyNumber);
+		Coverage filteredPolicyCoverageResponse1 = coverageEndorsementResponse.policyCoverages.stream().filter(cov -> "MEDPM".equals(cov.coverageCd)).findFirst().orElse(null);
 		assertSoftly(softly -> {
-			softly.assertThat(coverageEndorsementResponse.policyCoverages.get(4).coverageCd).isEqualTo("MEDPM");
-			softly.assertThat(coverageEndorsementResponse.policyCoverages.get(4).coverageType).isEqualTo("Per Person");
-			softly.assertThat(coverageEndorsementResponse.policyCoverages.get(4).availableLimits.size()).isNotEqualTo(0);
+			softly.assertThat(filteredPolicyCoverageResponse1.coverageCd).isEqualTo("MEDPM");
+			softly.assertThat(filteredPolicyCoverageResponse1.coverageType).isEqualTo("Per Person");
+			softly.assertThat(filteredPolicyCoverageResponse1.availableLimits.size()).isNotEqualTo(0);
 		});
 	}
 

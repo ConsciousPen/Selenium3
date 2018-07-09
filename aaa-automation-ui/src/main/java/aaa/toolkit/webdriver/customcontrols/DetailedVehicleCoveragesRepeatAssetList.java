@@ -20,7 +20,7 @@ public class DetailedVehicleCoveragesRepeatAssetList extends RepeatAssetList {
 	public static final String VEHICLE_COVERAGE = "Vehicle Coverage";
 
 	private static final ByT VEHICLE_COMMON_LOCATOR = ByT.id("policyDataGatherForm:vehicle_detail_%1$s");
-	private static final ByT WAIVE_LIABILITY_COMMON_LOCATOR = ByT.id("policyDataGatherForm:vehicle_detail_%1$s:0");
+	private static final ByT WAIVE_LIABILITY_COMMON_LOCATOR = ByT.xpath("//td[contains(@id, 'policyDataGatherForm:vehicle_detail_%1$s:0') or contains(@id, 'policyDataGatherForm:waive_Liability_%1$s:0')]");
 	private static final ByT VEHICLE_COVERAGE_COMMON_LOCATOR = ByT.id("policyDataGatherForm:subtotalVehiclePremium_%1$s");
 
 	public DetailedVehicleCoveragesRepeatAssetList(BaseElement<?, ?> parent, Class<? extends MetaData> metaDataClass) {
