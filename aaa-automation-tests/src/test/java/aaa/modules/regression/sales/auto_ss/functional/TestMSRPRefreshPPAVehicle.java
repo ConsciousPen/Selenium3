@@ -153,6 +153,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), vinMatchNBandNoMatchOnRenewal);
 
 		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		new UploadToVINTableTab().uploadVinTable(vinTableFile);
 
 		String quoteNumber = createPreconds(testData);

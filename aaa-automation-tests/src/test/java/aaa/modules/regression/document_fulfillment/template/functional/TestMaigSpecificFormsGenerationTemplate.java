@@ -71,7 +71,10 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		createCustomerIndividual();
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
 		policy.getDefaultView().fill(testData);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		PolicySummaryPage.buttonBackFromRenewals.click();
+
+		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
 		TimeSetterUtil.getInstance().nextPhase(preRenewalGenDate);
 
@@ -287,9 +290,6 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 		verifyFormSequence(forms, docs);
 
-		//PAS-9607	BFC for Conversion Renewal Offer and Billing Packages (HO3, HO4, HO6, DP3, PUP)
-		assertThat(DocGenHelper.getPackageDataElemByName(policyNumber,"PolicyDetails","PlcyTransCd",PRE_RENEWAL)).isEqualTo("CONV");
-
 	}
 
 	/**
@@ -464,7 +464,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 				}
 			}
 			// Check sequence
-			softly.assertThat(intersectionsWithActualList).isEqualTo(expectedFormsOrder);
+			softly.assertThat(intersectionsWithActualList).as("Actual List:").isEqualTo(expectedFormsOrder).as("Expected List:");
 		});
 	}
 
