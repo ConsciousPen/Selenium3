@@ -12,6 +12,8 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.queries.VehicleQueries;
@@ -85,8 +87,9 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
 	public void pas730_RenewalVehicleTypeRegular(@Optional("") String state) {
 		// Some kind of random vin number
-		TestData vehicleTab = testDataManager.getDefault(TestVINUpload.class).getTestData("TestData")
-				.getTestData(new VehicleTab().getMetaKey()).adjust("VIN", "6FDEU15H7KL055795").resolveLinks();
+		TestData vehicleTab = testDataManager.getDefault(TestVINUpload.class).getTestData("TestData").getTestData(new VehicleTab().getMetaKey())
+				.adjust("VIN", "6FDEU15H7KL055795")
+				.adjust("Year", "2025").resolveLinks();
 		TestData testData = getPolicyTD().adjust(new VehicleTab().getMetaKey(), vehicleTab).resolveLinks();
 
 		renewalVehicleTypeRegular(testData);
@@ -113,6 +116,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Value($)"), "40000");
 
 		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		new UploadToVINTableTab().uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.MATCH_ON_NEW_BUSINESS_NO_MATCH_ON_RENEWAL.get()));
 
 		checkMatchOnNBWithNoMatchOnRenewal(testData, vinMatchNBandNoMatchOnRenewal);
@@ -274,6 +278,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		DBService.get().executeUpdate(String.format(VehicleQueries.COPY_EXISTING_ROW_BY_VIN,sqlNoCompMatchVin,defaultVersion));
 		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_ID_FOR_COPIED_ROW, vinIdCopyNoCompMatch,sqlNoCompMatchVin,defaultVersion));
 		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_COMP_COLL_SYMBOL, Integer.parseInt(newBusinessCompNoCompMatch)+15, Integer.parseInt(newBusinessCompNoCompMatch)+15, vinIdCopyNoCompMatch,sqlNoCompMatchVin,defaultVersion));
+		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_COMP_VIN, newBusinessCurrentVinBeforeNull.substring(0,newBusinessCurrentVinBeforeNull.length()-1)+"K", newBusinessCurrentVinBeforeNull, Integer.parseInt(newBusinessCompNoCompMatch)+15));
 		//3. Generate Renewal Image
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));

@@ -3,7 +3,6 @@ package aaa.modules.regression.sales.auto_ss.functional;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.testng.annotations.Optional;
@@ -274,7 +273,8 @@ public class TestEUIMForms extends AutoSSBaseTest {
 
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
 		policy.getDefaultView().fill(tdEUIM);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
+		String policyNumber = PolicySummaryPage.tablePolicyList.getRow(1).getCell(1).getValue();
 		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob); //not necessary - can be used if QA needs actual generated xml files
 
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);

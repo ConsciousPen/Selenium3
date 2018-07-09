@@ -296,7 +296,12 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		coveragesMap.put("APIP", AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PIP.getLabel());
 		coveragesMap.put("TOWING", AutoSSMetaData.PremiumAndCoveragesTab.TOWING_AND_LABOR_COVERAGE.getLabel());
 		coveragesMap.put("RENTAL", AutoSSMetaData.PremiumAndCoveragesTab.RENTAL_REIMBURSEMENT.getLabel());
-		coveragesMap.put("LOAN", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.VEHICLE_LOAN_OR_LEASE_PROTECTION.getLabel());
+
+		if (getState().equals(Constants.States.VA)) {
+			coveragesMap.put("LOAN", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.AUTO_LOAN_LEASE_COVERAGE.getLabel());
+		} else {
+			coveragesMap.put("LOAN", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.VEHICLE_LOAN_OR_LEASE_PROTECTION.getLabel());
+		}
 
 		//AutoCa Choice
 		coveragesMap.put("UM", AutoCaMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel());

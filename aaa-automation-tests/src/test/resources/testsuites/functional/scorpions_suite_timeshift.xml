@@ -159,7 +159,7 @@
         </classes>
     </test>
     <!-- Auto SS -->
-    <test name="PAS-2716 Update VIN Refresh Auto SS" >
+    <test name="Update VIN Refresh Auto SS" >
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVINUpload">
@@ -167,7 +167,6 @@
                     <include name="pas2716_AutomatedRenewal_ExpirationDate"/>
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus35"/>
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus45"/>
-                    <include name="pas527_NewVinAddedRenewal"/>
                     <include name="pas527_UpdatedVinRenewal"/>
                     <include name="pas11659_Renewal_VersionR46"/>
                     <include name="pas11659_Renewal_VersionR45"/>
@@ -193,7 +192,7 @@
 
     <!-- Auto Ca Select-->
 
-    <test name="PAS-2716 Update VIN Refresh CA Select" >
+    <test name="Update VIN Refresh CA Select" >
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVINUpload">
@@ -201,7 +200,6 @@
                     <include name="pas2716_AutomatedRenewal_ExpirationDate"/>
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus35"/>
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus45"/>
-                    <include name="pas527_NewVinAddedRenewal"/>
                     <include name="pas527_UpdatedVinRenewal"/>
                     <include name="pas12872_VINRefreshNoMatchOnRenewalAutoCA"/>
                 </methods>
@@ -222,7 +220,7 @@
 
     <!-- Auto Choice -->
 
-    <test name="PAS-2716 Update VIN Refresh CA Choice" >
+    <test name="Update VIN Refresh CA Choice" >
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload">
@@ -230,7 +228,7 @@
                     <include name="pas2716_AutomatedRenewal_ExpirationDate"/>
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus35"/>
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus45"/>
-                    <include name="pas527_NewVinAddedRenewal"/>
+
                     <include name="pas527_UpdatedVinRenewal"/>
                     <include name="pas12872_VINRefreshNoMatchOnRenewalAutoCA"/>
                 </methods>

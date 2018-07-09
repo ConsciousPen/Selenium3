@@ -63,7 +63,7 @@ public class TestNotOrderedMembershipError extends HomeCaHO3BaseTest {
         // Validating third error condition [NB Quote]
         policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
-        policy.getDefaultView().fillFromTo(tdMembershipQuote, PropertyInfoTab.class, PremiumsAndCoveragesQuoteTab.class, true);
+        policy.getDefaultView().fillFromTo(tdMembershipQuote, PropertyInfoTab.class, PremiumsAndCoveragesQuoteTab.class, true);//TODO: FIX HERE - likely can remove as its redundant checks
         validateThirdError(notOrderedMembershipSecondMessage);
         log.info("Not Ordered Membership Errors Validation for NB Quote Successfully Completed..");
 
@@ -94,7 +94,10 @@ public class TestNotOrderedMembershipError extends HomeCaHO3BaseTest {
     */
     private void validateFirstError(String notOrderedMembershipFirstMessage){
         reportsTab.submitTab();
-        errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
+        //TODO: Fixed here
+        //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
+        errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.contains(notOrderedMembershipFirstMessage);
+        //errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
         errorTab.cancel();
     }
 
@@ -103,7 +106,10 @@ public class TestNotOrderedMembershipError extends HomeCaHO3BaseTest {
     */
     private void validateSecondError(String notOrderedMembershipFirstMessage){
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
-        errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
+        //TODO: Fixed here
+        //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
+        errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.contains(notOrderedMembershipFirstMessage);
+        //errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
         errorTab.cancel();
         reportsTab.saveAndExit();
     }
@@ -112,7 +118,10 @@ public class TestNotOrderedMembershipError extends HomeCaHO3BaseTest {
     Method validates that second type error is being thrown after pressing on Premium and Coverages Tab and after pressing Calculate Premium button
     */
     private void validateThirdError(String notOrderedMembershipSecondMessage){
-        errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage).verify.present();
+        //TODO: Fixed here
+        //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
+        errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage).verify.contains(notOrderedMembershipSecondMessage);
+        //errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage).verify.present();
         errorTab.cancel();
         premiumsAndCoveragesQuoteTab.saveAndExit();
     }
