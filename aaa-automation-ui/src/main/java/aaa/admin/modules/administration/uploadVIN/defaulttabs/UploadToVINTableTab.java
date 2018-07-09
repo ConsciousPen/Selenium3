@@ -21,7 +21,7 @@ import toolkit.webdriver.controls.composite.assets.AssetList;
 
 public class UploadToVINTableTab extends DefaultTab {
 
-	protected static Logger log = LoggerFactory.getLogger(UploadToVINTableTab.class);
+	protected Logger log = LoggerFactory.getLogger(UploadToVINTableTab.class);
 
 	public UploadToVINTableTab() {
 		super(AdministrationMetaData.VinTableTab.class);
@@ -48,11 +48,19 @@ public class UploadToVINTableTab extends DefaultTab {
 		uploadControlTable(controlTableFile);
 	}
 
-	public void uploadControlTable(String fileName) {
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+	public void uploadControlTable(String controlTable) {
+		log.info("WARN Vin control file {} upload started",controlTable);
+		openUploadToVinTableTab();
+
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION).setValue(true);
-		uploadFile(fileName);
-		log.info("\n\nFile {} was uploaded\n\n", fileName);
+		uploadFile(controlTable);
+		log.info("WARN Vin control file {} upload finished",controlTable);
+	}
+
+	public void openUploadToVinTableTab() {
+		if(!isOpened()){
+			NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.UPLOAD_TO_VIN_TABLE.get());
+		}
 	}
 
 	/**
@@ -60,27 +68,25 @@ public class UploadToVINTableTab extends DefaultTab {
 	 * @param vinTableFileName xls
 	 */
 	public void uploadVinTable(String vinTableFileName) {
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		log.info("WARN Vin table {} upload started",vinTableFileName);
+		openUploadToVinTableTab();
+
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION).setValue(true);
 		uploadFile(vinTableFileName);
-		log.info("\n\nFile {} was uploaded\n\n", vinTableFileName);
-		try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		CacheManager.getToCacheManagerTab();
+		CacheManager cacheManager = new CacheManager();
+		cacheManager.getToCacheManagerTab();
 		List<String> cacheName = Arrays.asList(CacheManagerEnums.CacheNameEnum.BASE_LOOKUP_CACHE.get(), CacheManagerEnums.CacheNameEnum.LOOKUP_CACHE.get(), CacheManagerEnums.CacheNameEnum.VEHICLE_VIN_REF_CACHE.get());
 		for (String cache : cacheName) {
-			CacheManager.clearFromCacheManagerTable(cache);
+			cacheManager.clearFromCacheManagerTable(cache);
 		}
+		log.info("WARN Vin table {} upload finished",vinTableFileName);
 	}
 
 	private void uploadFile(String fileName) {
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(DEFAULT_PATH + fileName));
 		buttonUpload.click();
 
-		long timeoutInSeconds = 60;
+		long timeoutInSeconds = 20;
 		long timeout = System.currentTimeMillis() + timeoutInSeconds * 1000;
 
 		while (timeout > System.currentTimeMillis()) {
@@ -92,5 +98,9 @@ public class UploadToVINTableTab extends DefaultTab {
 			}
 			assertThat(new StaticElement(By.xpath("//*[@id='uploadToVINTableForm']")).getValue()).doesNotContain("Error");
 		}
+	}
+
+	public boolean isOpened(){
+		return new StaticElement(By.xpath(String.format(NavigationPage.LABEL_NAVIGATION_VIEW_LEFT_MENU, NavigationEnum.AdminAppLeftMenu.UPLOAD_TO_VIN_TABLE.get()) + "/ancestor::li[1]")).getAttribute("class").contains("selected");
 	}
 }
