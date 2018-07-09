@@ -294,6 +294,10 @@ TestData_ThreeDrivers: {
     DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three_nafr'],
 }
 
+TestData_FiveDrivers: {
+    DriverTab: ['@Driver_one', '@Driver_two', '@Driver_four', '@Driver_five', '@Driver_six'],
+}
+
 Driver_one: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
@@ -339,5 +343,61 @@ Driver_three_nafr: {
     License Type: 'Licensed (US)',
     Age First Licensed: '18',
     License Number: 'T60355777',
+    License Status: 'Licensed (US)'
+}
+
+Driver_four: {
+   Add drivers: 'Yes',
+    DriverSearchDialog: {},
+   "Policy #": '123456789',
+    Rel. to First Named Insured: Child,
+    First Name: 'Jovita',
+    Middle Name: 'Julia',
+    Last Name: 'Puk',
+    Date of Birth: '12/12/1991',
+    Gender: 'Female',
+    Suffix: 'II',
+    Marital Status: Married,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: 'T68785298',
+    License Status: 'Licensed (US)'
+}
+
+Driver_five: {
+   Add drivers: 'Yes',
+    DriverSearchDialog: {},
+   "Policy #": '123456789',
+    Rel. to First Named Insured: Child,
+    First Name: 'Megha',
+    Middle Name: 'Maja',
+    Last Name: 'Smith',
+    Date of Birth: '12/12/1990',
+    Gender: 'Female',
+    Suffix: 'II',
+    Marital Status: Single,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: 'T68747798',
+    License Status: 'Licensed (US)'
+}
+
+Driver_six: {
+   Add drivers: 'Yes',
+    DriverSearchDialog: {},
+   "Policy #": '123456789',
+    Rel. to First Named Insured: Child,
+    First Name: 'Dorota',
+    Last Name: 'Smith',
+    Date of Birth: '12/12/1988',
+    Gender: 'Female',
+    Suffix: 'II',
+    Marital Status: Single,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: 'T68744498',
     License Status: 'Licensed (US)'
 }
