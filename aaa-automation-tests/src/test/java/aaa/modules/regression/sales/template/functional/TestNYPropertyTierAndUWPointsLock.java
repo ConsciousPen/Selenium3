@@ -2,10 +2,16 @@ package aaa.modules.regression.sales.template.functional;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
+import aaa.helpers.billing.BillingHelper;
+import aaa.main.enums.BillingConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
@@ -16,15 +22,21 @@ import aaa.modules.regression.sales.home_ss.dp3.functional.TestPARevisedHomeTier
 import aaa.modules.regression.sales.home_ss.ho6.functional.TestNYTierAndUWPointsLock;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.apache.commons.lang3.Range;
 import toolkit.datax.TestData;
+
+import java.time.LocalDateTime;
+
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
 
     private ApplicantTab applicantTab = new ApplicantTab();
+    private ErrorTab errorTab = new ErrorTab();
     private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
     private PurchaseTab purchaseTab = new PurchaseTab();
+    private BindTab bindTab = new BindTab();
     private ReportsTab reportsTab = new ReportsTab();
     private Range<String> rangeMarketTier = Range.between("A", "J");
 
@@ -66,10 +78,50 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
         premiumsAndCoveragesQuoteTab.submitTab();
         policyType.get().getDefaultView().fillFromTo(tdHome, MortgageesTab.class, PurchaseTab.class, true);
         purchaseTab.submitTab();
+        String policyNum = PolicySummaryPage.getPolicyNumber();
+
+        // Change system date
+        LocalDateTime reneweff = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
+        TimeSetterUtil.getInstance().nextPhase(reneweff);
+        mainApp().open();
+        SearchPage.openPolicy(policyNum);
 
         // Initiate renewal. Make Policy Changes to change Total UW Points and Market Tier.
         policyType.get().renew().start().submit();
         policyChangesForTotalUWPointsAndMarketTier();
+
+//        // Validate Market Tier and UW points are the same saved value from NB policy.
+//        assertThat(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier")).isEqualTo(marketTierValue);
+//        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Total points")).isEqualTo(totalUWPoints);
+        PropertyQuoteTab.RatingDetailsView.close();
+
+        // Override errors Issue Renewal
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+        bindTab.submitTab();
+        if (errorTab.isVisible()){
+        errorTab.overrideAllErrors();
+        errorTab.override();
+            bindTab.submitTab();
+        }
+
+        purchaseRenewal(reneweff, policyNum);
+
+        // Navigate to Renewal
+        PolicySummaryPage.buttonRenewals.click();
+
+        // Initiate endorsement. Make Policy Changes to change Total UW Points and Market Tier.
+        policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3).getTestData("Endorsement"), "TestData"));
+        // Override FR Score
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
+        reportsTab.fillTab(testDataManager.getDefault(TestNYTierAndUWPointsLock.class).getTestData("InsuranceScoreOverride150"));
+
+        //  Navigate to P&C
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+
+        // Calculate Premium open VRD
+        premiumsAndCoveragesQuoteTab.calculatePremium();
+        PropertyQuoteTab.RatingDetailsView.open();
 
         // Validate Market Tier and UW points are the same saved value from NB policy.
         assertThat(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier")).isEqualTo(marketTierValue);
@@ -197,5 +249,15 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
                 .adjust(TestData.makeKeyPath("ActiveUnderlyingPoliciesSearch", "Policy number"), PolicySummaryPage.getPolicyNumber());
         return getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData")
                 .adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()), tdOtherActive);
+    }
+
+    private void purchaseRenewal(LocalDateTime minDueDate, String policyNumber){
+        // Open Billing account and Pay min due for the renewal
+        SearchPage.openBilling(policyNumber);
+        Dollar minDue = new Dollar(BillingHelper.getBillCellValue(minDueDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
+        new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+
+        // Open Policy
+        SearchPage.openPolicy(policyNumber);
     }
 }

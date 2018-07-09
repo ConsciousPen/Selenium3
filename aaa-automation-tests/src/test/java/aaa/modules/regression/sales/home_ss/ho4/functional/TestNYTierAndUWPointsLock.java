@@ -36,6 +36,12 @@ public class TestNYTierAndUWPointsLock extends HomeSSHO4BaseTest {
 	 * 14. Open VRD
 	 * 15. Check that Market tier is the saved value in step 5
 	 * 16. Check that Total UW points are the same value saved in step 5
+	 * 17. Issue Renewal
+	 * 18. Flat Endorse Renewal Change FR Score
+	 * 19. Calculate Premium
+	 * 20. Open VRD
+	 * 21. Check that Market tier is the saved value in step 5
+	 * 22. Check that Total UW points are the same value saved in step 5
 	 * @details
 	 **/
 
