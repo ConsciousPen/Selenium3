@@ -12,16 +12,3 @@ InsuranceScoreOverride920: {
     }
   }
   }
-
-  InsuranceScoreOverride150: {
-    ReportsTab: {
-      InsuranceScoreOverride: {
-        Action: '',
-        EditInsuranceScoreDialog: {
-          Score after override: '150',
-          Reason for override: 'Fair Credit Reporting Act Dispute',
-          Save: ''
-        }
-      }
-    }
-    }
