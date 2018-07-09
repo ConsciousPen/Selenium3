@@ -833,7 +833,7 @@ public class RefundProcessHelper extends PolicyBilling {
 			String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "55 3500", "REFUND");
 			assertThat(DbAwaitHelper.waitForQueryResult(query, 5)).isTrue();
 			String query2 = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "55 3500", "REFUND");
-			assertThat(Integer.parseInt(DBService.get().getValue(query2).get())).isEqualTo(1);
+			assertThat(DBService.get().getValue(query2).map(Integer::parseInt)).hasValue(1);
 		}
 		//PAS-443 end
 	}

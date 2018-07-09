@@ -23,7 +23,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 /**
  * @author Olga Reva
@@ -76,39 +76,42 @@ public class TestPolicyDiscountSafe extends HomeSSHO3BaseTest {
         premiumsTab.calculatePremium();
         premiumWithDiscount = PremiumsAndCoveragesQuoteTab.getPolicyTermPremium();
 
-        CustomAssert.enableSoftMode();
-        assertThat(premiumWithoutDiscount).as("Premium after Safe Home discount applied equals to initial premium").isNotEqualTo(premiumWithDiscount);
-        
-        Map<String, String> safeHomeDiscounts_dataRow = new HashMap<>();
-        safeHomeDiscounts_dataRow.put("Discount Category", "Safe Home");
-        safeHomeDiscounts_dataRow.put("Discounts Applied", "Theft Protection, Newer Home, Fire Protection");
-        
-        assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(safeHomeDiscounts_dataRow)).exists();
-		
-        PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Safe Home Discount Category")).as("Safe Home Discount is not applied").isNotEqualTo("0.0");
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Newer Home discount")).as("Newer Home discount is not applied").isNotEqualTo("0.0");
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Theft Alarm")).as("Incorrect value of Theft Alarm in Rating Details").isEqualTo("Central");
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Private community")).as("Incorrect value of Private community in Rating Details").isEqualTo("Yes");
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Theft Protective Devices discount")).as("Theft Protective Devices discount is not applied").isNotEqualTo("0.0");
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Fire alarm")).as("Incorrect value of Fire alarm in Rating Details").isEqualTo("Central");
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Sprinkler protection")).as("Incorrect value of Sprinkler protection in Rating Details").isEqualTo("Full");
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Fire Protective Device discount")).as("Fire Protective Device discount is not applied").isNotEqualTo("0.0");
-        PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
-        
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.DOCUMENTS.get());
-        DocumentsTab documentsTab = new DocumentsTab(); 
-        documentsTab.fillTab(td_safeHome);
-        documentsTab.submitTab();
-        
-        policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);
-        new PurchaseTab().submitTab();
-        
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        log.info("TEST: HSS Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        
-        assertThat(premiumWithDiscount).as("Incorrect premium value on Consolidated page").isEqualTo(PolicySummaryPage.getTotalPremiumSummaryForProperty());
-        CustomAssert.assertAll();
+        CustomSoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(premiumWithoutDiscount).as("Premium after Safe Home discount applied equals to initial premium").isNotEqualTo(premiumWithDiscount);
+
+            Map<String, String> safeHomeDiscounts_dataRow = new HashMap<>();
+            safeHomeDiscounts_dataRow.put("Discount Category", "Safe Home");
+            safeHomeDiscounts_dataRow.put("Discounts Applied", "Theft Protection, Newer Home, Fire Protection");
+
+            softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(safeHomeDiscounts_dataRow)).exists();
+
+            PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+            softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Safe Home Discount Category")).as("Safe Home Discount is not applied").isNotEqualTo("0.0");
+            softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Newer Home discount")).as("Newer Home discount is not applied").isNotEqualTo("0.0");
+            softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Theft Alarm")).as("Incorrect value of Theft Alarm in Rating Details").isEqualTo("Central");
+            softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Private community")).as("Incorrect value of Private community in Rating Details").isEqualTo("Yes");
+            softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Theft Protective Devices discount")).as("Theft Protective Devices discount is not applied")
+                    .isNotEqualTo("0.0");
+            softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Fire alarm")).as("Incorrect value of Fire alarm in Rating Details").isEqualTo("Central");
+            softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Sprinkler protection")).as("Incorrect value of Sprinkler protection in Rating Details")
+                    .isEqualTo("Full");
+            softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Fire Protective Device discount")).as("Fire Protective Device discount is not applied")
+                    .isNotEqualTo("0.0");
+            PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
+
+            NavigationPage.toViewTab(NavigationEnum.HomeSSTab.DOCUMENTS.get());
+            DocumentsTab documentsTab = new DocumentsTab();
+            documentsTab.fillTab(td_safeHome);
+            documentsTab.submitTab();
+
+            policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);
+            new PurchaseTab().submitTab();
+
+            softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+            log.info("TEST: HSS Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
+
+            softly.assertThat(premiumWithDiscount).as("Incorrect premium value on Consolidated page").isEqualTo(PolicySummaryPage.getTotalPremiumSummaryForProperty());
+        });
         
 	}
 

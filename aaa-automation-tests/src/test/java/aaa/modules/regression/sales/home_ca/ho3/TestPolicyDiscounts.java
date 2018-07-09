@@ -61,7 +61,7 @@ public class TestPolicyDiscounts extends HomeCaHO3BaseTest {
         PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
 
         Dollar premiumAutoMultiPolice = new Dollar(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
-        PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied").verify.contains("Multi-policy");
+        assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied")).valueContains("Multi-policy");
 
         PremiumsAndCoveragesQuoteTab.btnContinue.click();
         policy.getDefaultView().fillFromTo(getPolicyTD(), MortgageesTab.class, PurchaseTab.class, true);
@@ -80,7 +80,7 @@ public class TestPolicyDiscounts extends HomeCaHO3BaseTest {
         PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
 
         Dollar premiumPUPMultiPolice = new Dollar(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
-        PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied").verify.contains("Multi-policy");
+        assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied")).valueContains("Multi-policy");
 
         PremiumsAndCoveragesQuoteTab.btnContinue.click();
         policy.getDefaultView().fillFromTo(getPolicyTD(), MortgageesTab.class, BindTab.class, true);

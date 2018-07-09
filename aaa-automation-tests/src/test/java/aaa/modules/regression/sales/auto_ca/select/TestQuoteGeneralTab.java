@@ -120,9 +120,9 @@ public class TestQuoteGeneralTab extends AutoCaSelectBaseTest {
 		generalTab.submitTab();
 
 		policy.getDefaultView().fillFromTo(td, DriverTab.class, DocumentsAndBindTab.class);
-		documentsAndBindTab.verifyFieldIsEnabled(WORK_PHONE_NUM.getLabel());
-		documentsAndBindTab.verifyFieldIsEnabled(MOBILE_PHONE_NUM.getLabel());
-		documentsAndBindTab.verifyFieldIsEnabled(MOTORCYCLE_POLICY_NUM.getLabel());
+		assertThat(documentsAndBindTab.getAssetList().getAsset(WORK_PHONE_NUM)).isEnabled();
+		assertThat(documentsAndBindTab.getAssetList().getAsset(MOBILE_PHONE_NUM)).isEnabled();
+		assertThat(documentsAndBindTab.getAssetList().getAsset(MOTORCYCLE_POLICY_NUM)).isEnabled();
 		assertThat(documentsAndBindTab.getAssetList().getAsset(MOTORCYCLE_POLICY_NUM).getAttribute("class").contains("required")).isTrue(); // verification that field is mandatory
 		documentsAndBindTab.fillTab(td).submitTab();
 

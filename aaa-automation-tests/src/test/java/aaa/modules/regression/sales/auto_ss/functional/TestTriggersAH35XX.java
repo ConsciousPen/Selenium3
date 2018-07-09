@@ -31,10 +31,12 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.config.PropertyProvider;
+import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
 
 public class TestTriggersAH35XX extends AutoSSBaseTest {
@@ -45,9 +47,9 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 
 	@Test(groups = {Groups.PRECONDITION}, description = "Preconditions")
 	public void paymentCentralConfigCheck() {
-		String appHost = PropertyProvider.getProperty("app.host");
-		CustomAssert.assertTrue("Adding Payment methods will not be possible because PaymentCentralEndpoints are looking at real service. Please run paymentCentralConfigUpdate", DBService.get()
-				.getValue(PAYMENT_CENTRAL_CONFIG_CHECK).get().contains(appHost));
+		String appHost = PropertyProvider.getProperty(TestProperties.APP_HOST);
+		assertThat( DBService.get().getValue(PAYMENT_CENTRAL_CONFIG_CHECK))
+				.as("Adding Payment methods will not be possible because PaymentCentralEndpoints are looking at real service. Please run paymentCentralConfigUpdate").contains(appHost);
 	}
 
 	/**
@@ -91,85 +93,82 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 		Tab.buttonTopCancel.click();
 		//PAS-250 preconditions end
 
-		CustomAssert.enableSoftMode();
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		BillingAccount billingAccount = new BillingAccount();
-		billingAccount.update().perform(getTestSpecificTD("TestData_UpdateBilling"));
-		//ACH
-		String numberACH = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(1).getValue("Account #");
-		documentPaymentMethodCheckInDb(policyNumber, numberACH, 1);
-		pas2777_documentContainsVehicleInfoCheckInDb(policyNumber, "AUTO_PAY_METNOD_CHANGED", eftFee, 1, vehicle1);
-		//Visa
-		autopaySelection("contains=Visa");
-		String visaNumber = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0).getValue("Number");
-		documentPaymentMethodCheckInDb(policyNumber, visaNumber, 2);
-		pas2777_documentContainsVehicleInfoCheckInDb(policyNumber, "AUTO_PAY_METNOD_CHANGED", ccFee, 2, vehicle1);
-		//Master Card
-		autopaySelection("contains=Master");
-		String numberMaster = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2).getValue("Number");
-		documentPaymentMethodCheckInDb(policyNumber, numberMaster, 3);
-		pas2777_documentContainsVehicleInfoCheckInDb(policyNumber, "AUTO_PAY_METNOD_CHANGED", dcFee, 3, vehicle1);
+		CustomSoftAssertions.assertSoftly(softly -> {
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+			BillingAccount billingAccount = new BillingAccount();
+			billingAccount.update().perform(getTestSpecificTD("TestData_UpdateBilling"));
+			//ACH
+			String numberACH = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(1).getValue("Account #");
+			documentPaymentMethodCheckInDb(policyNumber, numberACH, 1, softly);
+			pas2777_documentContainsVehicleInfoCheckInDb(softly, policyNumber, "AUTO_PAY_METNOD_CHANGED", eftFee, 1, vehicle1);
+			//Visa
+			autopaySelection("contains=Visa");
+			String visaNumber = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0).getValue("Number");
+			documentPaymentMethodCheckInDb(policyNumber, visaNumber, 2, softly);
+			pas2777_documentContainsVehicleInfoCheckInDb(softly, policyNumber, "AUTO_PAY_METNOD_CHANGED", ccFee, 2, vehicle1);
+			//Master Card
+			autopaySelection("contains=Master");
+			String numberMaster = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2).getValue("Number");
+			documentPaymentMethodCheckInDb(policyNumber, numberMaster, 3, softly);
+			pas2777_documentContainsVehicleInfoCheckInDb(softly, policyNumber, "AUTO_PAY_METNOD_CHANGED", dcFee, 3, vehicle1);
 
-		BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_NUM).controls.links.get(policyNumber).click();
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+			BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_NUM).controls.links.get(policyNumber).click();
+			policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		VehicleTab.buttonAddVehicle.click();
-		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.USAGE).setValue(getTestSpecificTD("VehicleTab").getValue("Usage"));
-		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN).setValue(getTestSpecificTD("VehicleTab").getValue("VIN"));
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+			VehicleTab.buttonAddVehicle.click();
+			vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.USAGE).setValue(getTestSpecificTD("VehicleTab").getValue("Usage"));
+			vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN).setValue(getTestSpecificTD("VehicleTab").getValue("VIN"));
 
-		//PAS-2777 start
-		new PremiumAndCoveragesTab().calculatePremium();
-		vehicleTab.saveAndExit();
+			//PAS-2777 start
+			new PremiumAndCoveragesTab().calculatePremium();
+			vehicleTab.saveAndExit();
 
-		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-		testEValueDiscount.simplifiedPendedEndorsementIssue();
-		String vehicle2 = PolicySummaryPage.getVehicleInfo(2);
+			TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+			testEValueDiscount.simplifiedPendedEndorsementIssue();
+			String vehicle2 = PolicySummaryPage.getVehicleInfo(2);
 
-		pas2777_documentContainsVehicleInfoCheckInDb(policyNumber, "ENDORSEMENT_ISSUE", ccFee,1, vehicle1, vehicle2);
+			pas2777_documentContainsVehicleInfoCheckInDb(softly, policyNumber, "ENDORSEMENT_ISSUE", ccFee,1, vehicle1, vehicle2);
 
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		autopaySelection("contains=Visa");
-		documentPaymentMethodCheckInDb(policyNumber, visaNumber, 4);
-		pas2777_documentContainsVehicleInfoCheckInDb(policyNumber, "AUTO_PAY_METNOD_CHANGED", ccFee, 4, vehicle1, vehicle2);
-		//PAS-2777 end
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+			autopaySelection("contains=Visa");
+			documentPaymentMethodCheckInDb(policyNumber, visaNumber, 4, softly);
+			pas2777_documentContainsVehicleInfoCheckInDb(softly, policyNumber, "AUTO_PAY_METNOD_CHANGED", ccFee, 4, vehicle1, vehicle2);
+			//PAS-2777 end
+		});
 	}
 
-	private void documentPaymentMethodCheckInDb(String policyNum, String numberCCACH, int numberOfDocuments) {
+	private void documentPaymentMethodCheckInDb(String policyNum, String numberCCACH, int numberOfDocuments, ETCSCoreSoftAssertions softly) {
 		String visaNumberScreened = "***" + numberCCACH.substring(numberCCACH.length() - 4, numberCCACH.length());
 		String query = GET_DOCUMENT_BY_EVENT_NAME + " and data like '%%" + visaNumberScreened + "%%'";
 		String queryFull = String.format(query, policyNum, "AH35XX", "AUTO_PAY_METNOD_CHANGED");
-		CustomAssert.assertTrue(DbAwaitHelper.waitForQueryResult(queryFull, 5));
-		CustomAssert.assertTrue(DocGenHelper.getDocumentDataElemByName("AcctNum", DocGenEnum.Documents.AH35XX, queryFull).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()
-				.contains(visaNumberScreened));
+		softly.assertThat(DbAwaitHelper.waitForQueryResult(queryFull, 5)).isTrue();
+		softly.assertThat(DocGenHelper.getDocumentDataElemByName("AcctNum", DocGenEnum.Documents.AH35XX, queryFull).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField())
+				.contains(visaNumberScreened);
 
 		String query2 = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNum, "AH35XX", "AUTO_PAY_METNOD_CHANGED");
-		CustomAssert.assertEquals(Integer.parseInt(DBService.get().getValue(query2).get()), numberOfDocuments);
+		softly.assertThat(DBService.get().getValue(query2).map(Integer::parseInt)).hasValue(numberOfDocuments);
 	}
 
-	private void pas2777_documentContainsVehicleInfoCheckInDb(String policyNum, String eventName, String feeAmount, int numberOfDocuments, String... vehicleInfos) {
+	private void pas2777_documentContainsVehicleInfoCheckInDb(ETCSCoreSoftAssertions softly, String policyNum, String eventName, String feeAmount, int numberOfDocuments, String... vehicleInfos) {
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNum, "AH35XX", eventName);
 
-		CustomAssert.assertEquals(DocGenHelper.getDocumentDataSectionsByName("VehicleDetails", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-				.getTextField(), vehicleInfos[0]);
-		CustomAssert.assertEquals(DocGenHelper.getDocumentDataElemByName("PlcyVehInfo", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-				.getTextField(), vehicleInfos[0]);
+		softly.assertThat(DocGenHelper.getDocumentDataSectionsByName("VehicleDetails", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+				.getTextField()).isEqualTo(vehicleInfos[0]);
+		softly.assertThat(DocGenHelper.getDocumentDataElemByName("PlcyVehInfo", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+				.getTextField()).isEqualTo(vehicleInfos[0]);
 		//PAS-250 start
-		CustomAssert.assertEquals("$"+DocGenHelper.getDocumentDataElemByName("InstlFee", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-				.getTextField(), feeAmount);
+		softly.assertThat("$"+DocGenHelper.getDocumentDataElemByName("InstlFee", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+				.getTextField()).isEqualTo(feeAmount);
 		//PAS-250 end
 		for (int index = 0; index < vehicleInfos.length; index++) {
-			CustomAssert.assertEquals(DocGenHelper.getDocumentDataElemByName("PlcyVehInfo", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().
-							get(index).getDataElementChoice().getTextField(),
-					vehicleInfos[index++]);
+			softly.assertThat(DocGenHelper.getDocumentDataElemByName("PlcyVehInfo", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().
+							get(index).getDataElementChoice().getTextField()).isEqualTo(vehicleInfos[index++]);
 			++index;
 		}
 
 		String query2 = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNum, "AH35XX", eventName);
-		CustomAssert.assertEquals(Integer.parseInt(DBService.get().getValue(query2).get()), numberOfDocuments);
+		softly.assertThat(DBService.get().getValue(query2).map(Integer::parseInt)).hasValue(numberOfDocuments);
 	}
 
 	private void autopaySelection(String autopaySelectionValue) {

@@ -41,9 +41,10 @@ public class InquiryAssetList extends AssetList {
 	/**
 	 * To check value of fields in inquiry mode. works with all fields when value to verify <>""
 	 * Calendar controls cant be checked with this method.
-	 *
+	 * @deprecated Use getAsset() instead
 	 * @param elementName - field label
 	 */
+	@Deprecated
 	public StaticElement getStaticElement(String elementName) {
 		String xpath1 = locator.toString().replace("By.xpath: ", "") +
 				String.format("//*[text()='%s']/parent::td/following-sibling::td[1]", elementName);
@@ -103,19 +104,6 @@ public class InquiryAssetList extends AssetList {
 	 * Note: Search by text label will be performed in Asset's forms only.
 	 * Sensitive to {@link CustomAssert} softMode.
 	 * <br/>NOTE: Not works with Additional Interest assets on Vehicle tab as well as with duplicated Labels within a page
-	 *
-	 * @param label {@link String} - text to find By (can be @id->label)
-	 * @throws AssertionError in case of field absence
-	 */
-	public void assetFieldPresence(String label) {
-		assetFieldPresence(label, true);
-	}
-
-	/**
-	 * Verifies is element(field) presence in AssetList (form).
-	 * Note: Search by text label will be performed in Asset's forms only.
-	 * Sensitive to {@link CustomAssert} softMode.
-	 * <br/>NOTE: Not works with Additional Interest assets on Vehicle tab as well as with duplicated Labels within a page
 	 * <br/> Workaround for duplicate controls check use following format of the label String :
 	 * <br/> formId->labelName
 	 *
@@ -130,7 +118,7 @@ public class InquiryAssetList extends AssetList {
 		return String.format("//*[@id='%1$s']", params[0]) + String.format(xPath, params[1]);
 	}
 
-	public void assetFieldPresence(String label, boolean isPresent) {
+	private void assetFieldPresence(String label, boolean isPresent) {
 		boolean present;
 		try {
 			present = getControl(label).isPresent();
@@ -155,99 +143,15 @@ public class InquiryAssetList extends AssetList {
 	 * @param absentFields - fields labels to check
 	 * @throws AssertionError
 	 */
-	public void assetFieldsAbsence(List<String> absentFields) {
+	private void assetFieldsAbsence(List<String> absentFields) {
 		for (String label : absentFields) {
 			assetFieldPresence(label, false);
 		}
 	}
 
+	@Deprecated
 	public void assetFieldsAbsence(String... presentFields) {
 		assetFieldsAbsence(Arrays.asList(presentFields));
-	}
-
-	/**
-	 * Verifies are elements(fields) present in AssetList (form).
-	 * Note: Search by text label will be performed in Asset's forms only.
-	 * Sensitive to {@link CustomAssert} softMode.
-	 * <br/>NOTE: Not works with Additional Interest assets on Vehicle tab as well as with duplicated Labels within a page
-	 *
-	 * @param presentFields - fields labels to check
-	 * @throws AssertionError
-	 */
-	public void assetFieldsPresence(List<String> presentFields) {
-		for (String label : presentFields) {
-			assetFieldPresence(label, true);
-		}
-	}
-
-	public void assetFieldsPresence(String... presentFields) {
-		assetFieldsPresence(Arrays.asList(presentFields));
-	}
-
-	/**
-	 * Verifies is Control from assetList mandatory.
-	 * Sensitive to {@link CustomAssert} softMode.
-	 *
-	 * @param assetLabel (can be @id->assetLabel)
-	 * @param -          condition   check for mandatory
-	 * @throws AssertionError in case if asset field is not mandatory (has attribute "required")
-	 */
-	public void assetFieldMandatory(String assetLabel) {
-		assetFieldMandatory(assetLabel, true);
-	}
-
-	public void assetFieldsMandatory(String... assetLabels) {
-		for (String assetLabel : assetLabels) {
-			assetFieldMandatory(assetLabel, true);
-		}
-
-	}
-
-	public void assetFieldsOptional(String... assetLabels) {
-		for (String assetLabel : assetLabels) {
-			assetFieldMandatory(assetLabel, false);
-		}
-	}
-
-	/**
-	 * Verifies is Control from assetList mandatory.
-	 * Sensitive to {@link CustomAssert} softMode.
-	 *
-	 * @param assetLabel  - assert field to be verified
-	 * @param isMandatory - if true - verify that field is mandatory, if false - otherwise
-	 * @throws AssertionError
-	 */
-	public void assetFieldMandatory(String assetLabel, boolean isMandatory) {
-		assetFieldMandatory(assetLabel, isMandatory, getActualXpathValue(assetLabel, X_PATH_1, X_PATH_2, isMandatory));
-	}
-
-	public void assetFieldEnabled(String label) {
-		assetFieldEnabled(label, true);
-	}
-
-	/**
-	 * Verifies is Control from assetList present, enabled and mandatory.
-	 * Sensitive to {@link CustomAssert} softMode.
-	 *
-	 * @param label       text to find By or "@id->labelName"
-	 * @param isEnabled   is element Enabled
-	 * @throws AssertionError
-	 */
-	public void assetFieldEnabled(String label, boolean isEnabled) {
-		try {
-			getControl(label).verify.enabled(isEnabled);
-		} catch (RuntimeException e) {
-			if (isElementPresent(String.format(X_PATH_1, label))) {
-				TextBox field = new TextBox(By.xpath(String.format(X_PATH_1, label)), Waiters.AJAX);
-				field.verify.enabled(isEnabled);
-			}
-		}
-		if (label.contains("->")) {
-			String[] query = label.split("\\->");
-			TextBox field = new TextBox(By.xpath(String.format(getQueryXPath(X_PATH_2, query), query[0])), Waiters.AJAX);
-			field.verify.enabled(isEnabled);
-
-		}
 	}
 
 	/**
@@ -260,19 +164,18 @@ public class InquiryAssetList extends AssetList {
 	 * @param isMandatory is element Mandatory
 	 * @throws AssertionError
 	 */
+	@Deprecated
 	public void assetFieldUnionCheck(String label, boolean isPresent, boolean isEnabled, boolean isMandatory) {
 		try {
 			getControl(label).verify.present(isPresent);
 			if (isPresent) {
 				getControl(label).verify.enabled(isEnabled);
-				this.assetFieldMandatory(label, isMandatory);
 			}
 		} catch (RuntimeException e) {
 			if (isElementPresent(String.format(X_PATH_1, label))) {
 				TextBox field = new TextBox(By.xpath(String.format(X_PATH_1, label)), Waiters.AJAX);
 				if (isPresent) {
 					field.verify.enabled(isEnabled);
-					this.assetFieldMandatory(label, isMandatory);
 				}
 			}
 		}
@@ -281,71 +184,9 @@ public class InquiryAssetList extends AssetList {
 			TextBox field = new TextBox(By.xpath(String.format(getQueryXPath(X_PATH_2, query), query[0])), Waiters.AJAX);
 			if (isPresent) {
 				field.verify.enabled(isEnabled);
-				this.assetFieldMandatory(label, isMandatory);
 			}
 		}
 	}
-
-	private void assetFieldMandatory(String assetLabel, boolean isMandatory, String actualXpath) {
-		if (isMandatory) {
-			CustomAssert.assertTrue(String.format("Asset field %1$s is not mandatory but should be", assetLabel), actualXpath.contains("required"));
-		} else {
-			CustomAssert.assertFalse(String.format("\"%1$s\" set as %2$s instead of not \"required\"", assetLabel, actualXpath), actualXpath.contains("required"));
-		}
-	}
-
-	//TODO review
-	private String getActualXpathValue(String assetLabel, String xPath1, String xPath2, boolean isMandatory) {
-		try {
-			String classValue = getAsset(assetLabel).getAttribute("class");
-			if (classValue.contains("required")) {
-				return classValue;
-			}
-			List<WebElement> parents = getAsset(assetLabel).getWebElement().findElements(By.xpath("ancestor::tr[contains(@class,'Row') and not(contains(@class,'hidden'))][1]"));
-			String parentClass = !parents.isEmpty() ? parents.get(0).getAttribute("class") : "";
-			if (parentClass.contains("required")) {
-				log.info("Required class has been found in check #1");
-				return parentClass;
-			}
-			String prepareXpath = getParentElementXpath(assetLabel);
-			if (isWrappedElement(prepareXpath)) {
-				log.info("Required class has been found in check #2");
-				classValue = getAttribute(prepareXpath).trim();
-			}
-			if (isMandatory && classValue.isEmpty() || classValue.contains("validatedData") || !isWrappedElement(prepareXpath)) {
-				log.info("!!!!!!!!!!! can't find Class attribute for " + assetLabel + ". Trying to find in parent ...");
-				//TODO take a look possible refactor
-				classValue = getAttribute(prepareXpath).trim();
-				if (!classValue.isEmpty() && classValue.contains("required")) {
-					log.info("Required class has been found in check #3");
-				}
-			}
-			return classValue;
-		} catch (RuntimeException ignored) {
-			if (isElementPresent(String.format(xPath1, assetLabel))) {
-				log.info("Required class was not found, I am in catch block");
-				return getAttribute(String.format(xPath1, assetLabel) + "@class").trim();
-			}
-		}
-
-		if (assetLabel.contains("->")) {
-			String[] query = assetLabel.split("\\->");
-			xPath2 = String.format("//*[@id='%1$s']", query[0]) + String.format(xPath2, query[1]);
-			return getAttribute(xPath2 + "@class").trim();
-		}
-		return "";
-	}
-
-	private boolean isWrappedElement(String prepareXpath) {
-		return getAttribute(prepareXpath).toLowerCase().trim().contains("wrapper");
-	}
-
-	private String getParentElementXpath(String assetLabel) {
-		String prepareXpath = getControl(assetLabel).getLocator() + "/..@class";
-		prepareXpath = prepareXpath.substring(prepareXpath.indexOf("/"));
-		return prepareXpath;
-	}
-
 }
 
 

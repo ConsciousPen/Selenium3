@@ -65,7 +65,7 @@ public abstract class TestEndorsementActionRulesAbstract extends PolicyBaseTest 
 			softly.assertThat(getEndorsementActionTab().getAssetList().getAsset(getEndorsementReason())).hasValue("");
 			getEndorsementActionTab().getInquiryAssetList().assetFieldUnionCheck(getEndorsementOtherReason().getLabel(), false, false, false);
 
-			getEndorsementActionTab().getAssetList().getAsset(getEndorsementReason().getLabel(), ComboBox.class).setValue("contains=Other");
+			getEndorsementActionTab().getAssetList().getAsset(getEndorsementReason()).setValue("contains=Other");
 			getEndorsementActionTab().getInquiryAssetList().assetFieldUnionCheck(getEndorsementOtherReason().getLabel(), true, true, true);
 			softly.assertThat(getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason())).hasValue("");
 
@@ -73,12 +73,12 @@ public abstract class TestEndorsementActionRulesAbstract extends PolicyBaseTest 
 			getEndorsementActionTab().getAssetList().getAsset(getEndorsementReason().getLabel(), ComboBox.class).setValue("contains=Maintain");
 			getEndorsementActionTab().getInquiryAssetList().assetFieldUnionCheck(getEndorsementOtherReason().getLabel(), false, false, false);
 
-			getEndorsementActionTab().getAssetList().getAsset(getEndorsementReason().getLabel(), ComboBox.class).setValue("contains=Other");
+			getEndorsementActionTab().getAssetList().getAsset(getEndorsementReason()).setValue("contains=Other");
 			//BUG PAS-6205 'Other' field value is not reset to Blank after Endorsment Reason is set to Other for the second time
 			softly.assertThat(getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason())).hasValue("");
 
 			//BUG PAS-6204 When entering endorsement reason into 'Other' field in Endorsement Action tab longer than 255 characters, error 500 is thrown
-			getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason().getLabel(),TextBox.class).setValue(RandomStringUtils.randomAlphanumeric(256));
+			getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason()).setValue(RandomStringUtils.randomAlphanumeric(256));
 			softly.assertThat(getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason()).getValue()).hasSize(255);
 			Tab.buttonOk.click();
 

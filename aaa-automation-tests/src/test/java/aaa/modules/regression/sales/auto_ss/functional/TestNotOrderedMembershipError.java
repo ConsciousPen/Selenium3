@@ -46,7 +46,7 @@ public class TestNotOrderedMembershipError extends AutoSSBaseTest {
         TestData tdMembershipEndorsementChanges = getTestSpecificTD("TestData_NotOrderedMembershipValidationAU_SS_Endorsement_Changes");
 
         String notOrderedMembershipFirstMessage = "You must order the Membership report.";
-        String notOrderedMembershipSecondMessage = "Please order membership report. (AAA_SS171219-yBKH1) [for AAAAzMembershipRepo...";
+        String notOrderedMembershipSecondMessage = "Please order membership report.";
 
         mainApp().open();
         createCustomerIndividual();
@@ -98,8 +98,7 @@ public class TestNotOrderedMembershipError extends AutoSSBaseTest {
         ratingDetailsReportsTab.buttonNext.click();
         //TODO:Fixed here
         //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
-        errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.contains(notOrderedMembershipFirstMessage);
-        //errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
+        assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage)).exists();
         errorTab.cancel();
     }
 
@@ -110,8 +109,7 @@ public class TestNotOrderedMembershipError extends AutoSSBaseTest {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
         //TODO:Fixed here
         //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
-        errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.contains(notOrderedMembershipFirstMessage);
-        //errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
+        assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage)).exists();
         errorTab.cancel();
         ratingDetailsReportsTab.saveAndExit();
     }
@@ -123,8 +121,7 @@ public class TestNotOrderedMembershipError extends AutoSSBaseTest {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         //TODO:Fixed here
         //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
-        errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage).verify.contains(notOrderedMembershipSecondMessage);
-        //errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage).verify.present();
+        assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage)).exists();
         errorTab.cancel();
         premiumsAndCoveragesTab.saveAndExit();
     }

@@ -56,17 +56,17 @@ public class TestQuoteUnderwritingRules extends HomeCaHO3BaseTest {
         underwritingAndApprovalTab.submitTab();
 
         //  5.  Check error messages
-        underwritingAndApprovalTab.getAssetList().getWarning(HomeCaMetaData.UnderwritingAndApprovalTab.HAVE_ANY_OF_THE_APPLICANT_S_CURRENT_PETS_INJURED_CREATURE.getLabel()).verify
-                .contains("Applicants/insureds with any dogs or other animals, reptiles, or pets with any prior biting history are unacceptable.");
-        underwritingAndApprovalTab.getAssetList().getWarning(HomeCaMetaData.UnderwritingAndApprovalTab.ARE_ALL_WATER_HEATERS_STRAPPED_TO_THE_WALL.getLabel()).verify
-                .contains("Water heaters (except electric heaters) must be strapped to the wall or if located in the garage must be raised at least 18 inches from the floor.");
-        underwritingAndApprovalTab.getAssetList().getWarning(HomeCaMetaData.UnderwritingAndApprovalTab.DO_YOU_HAVE_A_LICENSE.getLabel()).verify
-                .contains("Dwellings or applicants that perform a home day care, including child day care, adult day care, or pet day care, are unacceptable unless they are licensed and insured.");
-        underwritingAndApprovalTab.getAssetList().getWarning(HomeCaMetaData.UnderwritingAndApprovalTab.IS_IT_A_FOR_PROFIT_BUSINESS.getLabel()).verify
-                .contains("Farming/Ranching on premises is unacceptable unless it is incidental and not for profit.");
-        underwritingAndApprovalTab.getAssetList().getWarning(HomeCaMetaData.UnderwritingAndApprovalTab.INCIDENTAL_BUSINESS_OCCUPANCY.getLabel()).verify
-                .contains("Policies must be endorsed with the HO 04 42 10 00 Permitted Incidental Occupancies – Residence Premises Endorsement when a permitted incidental occupancy exposure is present on the premises and is deemed eligible for coverage.");
-        assertThat(underwritingAndApprovalTab.getAssetList().getWarning(HomeCaMetaData.UnderwritingAndApprovalTab.OTHERS.getLabel())).valueContains("Other business exposures on premises are unacceptable.");
+        assertThat(underwritingAndApprovalTab.getAssetList().getWarning(HomeCaMetaData.UnderwritingAndApprovalTab.HAVE_ANY_OF_THE_APPLICANT_S_CURRENT_PETS_INJURED_CREATURE))
+                .valueContains("Applicants/insureds with any dogs or other animals, reptiles, or pets with any prior biting history are unacceptable.");
+        assertThat(underwritingAndApprovalTab.getAssetList().getWarning(HomeCaMetaData.UnderwritingAndApprovalTab.ARE_ALL_WATER_HEATERS_STRAPPED_TO_THE_WALL))
+                .valueContains("Water heaters (except electric heaters) must be strapped to the wall or if located in the garage must be raised at least 18 inches from the floor.");
+        assertThat(underwritingAndApprovalTab.getAssetList().getWarning(HomeCaMetaData.UnderwritingAndApprovalTab.DO_YOU_HAVE_A_LICENSE))
+                .valueContains("Dwellings or applicants that perform a home day care, including child day care, adult day care, or pet day care, are unacceptable unless they are licensed and insured.");
+        assertThat(underwritingAndApprovalTab.getAssetList().getWarning(HomeCaMetaData.UnderwritingAndApprovalTab.IS_IT_A_FOR_PROFIT_BUSINESS))
+                .valueContains("Farming/Ranching on premises is unacceptable unless it is incidental and not for profit.");
+        assertThat(underwritingAndApprovalTab.getAssetList().getWarning(HomeCaMetaData.UnderwritingAndApprovalTab.INCIDENTAL_BUSINESS_OCCUPANCY))
+                .valueContains("Policies must be endorsed with the HO 04 42 10 00 Permitted Incidental Occupancies – Residence Premises Endorsement when a permitted incidental occupancy exposure is present on the premises and is deemed eligible for coverage.");
+        assertThat(underwritingAndApprovalTab.getAssetList().getWarning(HomeCaMetaData.UnderwritingAndApprovalTab.OTHERS)).valueContains("Other business exposures on premises are unacceptable.");
 
         //  6.  Set 3 to Total number of part time and full time resident employees, fill Remarks, check WM0541 error on Bind action
         policy.getDefaultView().fill(getTestSpecificTD("TestData_TotalNumber3"));

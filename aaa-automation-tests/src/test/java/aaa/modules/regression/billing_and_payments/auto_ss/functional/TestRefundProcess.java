@@ -1,5 +1,6 @@
 package aaa.modules.regression.billing_and_payments.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT;
 import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE;
 import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.APP_STUB_URL;
@@ -91,30 +92,23 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 	@Test(description = "Precondition for TestRefundProcess tests", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void refundDocumentGenerationConfigCheck() {
-		CustomAssert
-				.assertFalse("The configuration is missing, run refundDocumentGenerationConfigInsert and restart the env.", DBService.get().getValue(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL)
-						.get().isEmpty());
+		assertThat(DBService.get().getValue(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL))
+				.as("The configuration is missing, run refundDocumentGenerationConfigInsert and restart the env.").isNotEmpty();
 	}
 
 	@Test(description = "Precondition for TestRefundProcess tests", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void pendingRefundPaymentMethodConfigCheck() {
-		CustomAssert.assertEquals("The configuration is missing, run pendingRefundConfigurationUpdate and restart the env.", DBService.get().getValue(PENDING_REFUND_PAYMENT_METHOD_CONFIG_CHECK)
-				.get(), "pendingRefund");
+		assertThat(DBService.get().getValue(PENDING_REFUND_PAYMENT_METHOD_CONFIG_CHECK))
+				.as("The configuration is missing, run pendingRefundConfigurationUpdate and restart the env.").isEqualTo("pendingRefund");
 	}
 
 	@Test(description = "Precondition for refund last payment method", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void eRefundLastPaymentMethodConfigCheck() {
-		CustomAssert.enableSoftMode();
-		CustomAssert.assertTrue("eRefunds lookup value is not true, please run REFUND_CONFIG_INSERT", DBService.get().getValue(REFUND_CONFIG_CHECK).isPresent());
-
-		CustomAssert.assertTrue("eRefund stub point is set incorrect, please run LAST_PAYMENT_METHOD_STUB_POINT_UPDATE",
-				DBService.get().getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST)).get().contains(APP_HOST));
-
-		CustomAssert.assertTrue("Authentication stub point is set incorrect, please run AUTHENTICATION_STUB_POINT_UPDATE",
-				DBService.get().getValue(String.format(AUTHENTICATION_STUB_END_POINT_CHECK, APP_HOST, APP_STUB_URL)).get().toLowerCase().contains(APP_HOST));
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		assertThat(DBService.get().getValue(REFUND_CONFIG_CHECK)).as("eRefunds lookup value is not true, please run REFUND_CONFIG_INSERT").isPresent();
+		assertThat(DBService.get().getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST)))
+				.as("eRefund stub point is set incorrect, please run LAST_PAYMENT_METHOD_STUB_POINT_UPDATE").contains(APP_HOST);
+		assertThat(DBService.get().getValue(String.format(AUTHENTICATION_STUB_END_POINT_CHECK, APP_HOST, APP_STUB_URL)))
+				.as("Authentication stub point is set incorrect, please run AUTHENTICATION_STUB_POINT_UPDATE").contains(APP_HOST);
 	}
 
 	@Parameters({"state"})

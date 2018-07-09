@@ -358,7 +358,7 @@ public class PolicySummaryPage extends SummaryPage {
 				+ "        where POLICYNUMBER = '%s')\n"
 				+ "    order by pt.TXDATE desc)\n"
 				+ "    where rownum=1";
-		assertThat(DBService.get().getValue(String.format(transactionHistoryQuery, policyNumber)).orElse(StringUtils.EMPTY)).isEqualTo(value);*/
+		assertThat(DBService.get().getValue(String.format(transactionHistoryQuery, policyNumber)).orElse(StringUtils.EMPTY)).hasValue(value);*/
 	}
 
 	public static String getVehicleInfo(int rowNum) {

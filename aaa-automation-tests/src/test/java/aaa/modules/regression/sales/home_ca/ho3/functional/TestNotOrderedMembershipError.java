@@ -44,7 +44,7 @@ public class TestNotOrderedMembershipError extends HomeCaHO3BaseTest {
         TestData tdMembershipEndorsement = getTestSpecificTD("TestData_NotOrderedMembershipValidationHO3_Endorsement");
 
         String notOrderedMembershipFirstMessage = "You must order the Membership report.";
-        String notOrderedMembershipSecondMessage = "Please order membership report. (AAA_HO_CA171221-1PsQ6) [for AAAHOMembershipR...";
+        String notOrderedMembershipSecondMessage = "Please order membership report.";
 
         mainApp().open();
         createCustomerIndividual();
@@ -97,8 +97,7 @@ public class TestNotOrderedMembershipError extends HomeCaHO3BaseTest {
         reportsTab.submitTab();
         //TODO: Fixed here
         //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
-        errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.contains(notOrderedMembershipFirstMessage);
-        //errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
+        assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage)).exists();
         errorTab.cancel();
     }
 
@@ -109,8 +108,7 @@ public class TestNotOrderedMembershipError extends HomeCaHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
         //TODO: Fixed here
         //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
-        errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.contains(notOrderedMembershipFirstMessage);
-        //errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
+        assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage)).exists();
         errorTab.cancel();
         reportsTab.saveAndExit();
     }
@@ -121,8 +119,7 @@ public class TestNotOrderedMembershipError extends HomeCaHO3BaseTest {
     private void validateThirdError(String notOrderedMembershipSecondMessage){
         //TODO: Fixed here
         //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
-        errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage).verify.contains(notOrderedMembershipSecondMessage);
-        //errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage).verify.present();
+        assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage)).exists();
         errorTab.cancel();
         premiumsAndCoveragesQuoteTab.saveAndExit();
     }

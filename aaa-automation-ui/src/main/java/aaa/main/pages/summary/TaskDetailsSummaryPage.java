@@ -10,7 +10,6 @@ import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.controls.ActivitiesAndUserNotes;
 
 import aaa.main.enums.MyWorkConstants;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
@@ -83,7 +82,7 @@ public class TaskDetailsSummaryPage extends SummaryPage {
                 String temp = getRow(rowIndex).getCell(MyWorkConstants.MyWorkTasksTable.TASK_NAME).getValue();
 
                 if (temp.endsWith("...")) {
-                    CustomAssert.assertTrue(expectedtaskName.startsWith(temp.replace("...", "")));
+                    assertThat(temp.replace("...", "")).startsWith(expectedtaskName);
                 } else {
                     assertThat(expectedtaskName).isEqualTo(temp);
                 }
@@ -98,16 +97,15 @@ public class TaskDetailsSummaryPage extends SummaryPage {
             }
 
             public void descriptionByRegex(int rowIndex, String expectedDescription) {
-                getRow(rowIndex).getCell(MyWorkConstants.MyWorkTasksTable.NOTE_DESCRIPTION).verify.valueByRegex(expectedDescription);
+                assertThat(getRow(rowIndex).getCell(MyWorkConstants.MyWorkTasksTable.NOTE_DESCRIPTION)).valueMatches(expectedDescription);
             }
 
             public void descriptionExist(String expectedDescription) {
-                CustomAssert.assertTrue("Description doesn't contains record " + expectedDescription,
-                        getColumn(MyWorkConstants.MyWorkTasksTable.NOTE_DESCRIPTION).getValue().contains(expectedDescription));
+                assertThat(getColumn(MyWorkConstants.MyWorkTasksTable.NOTE_DESCRIPTION).getValue()).as("Description doesn't contains record " + expectedDescription).contains(expectedDescription);
             }
 
             public void descriptionExist(String expectedDescription, int expectedCount) {
-                CustomAssert.assertEquals(expectedCount, Collections.frequency(getColumn(MyWorkConstants.MyWorkTasksTable.NOTE_DESCRIPTION).getValue(), expectedDescription));
+                assertThat(Collections.frequency(getColumn(MyWorkConstants.MyWorkTasksTable.NOTE_DESCRIPTION).getValue(), expectedDescription)).isEqualTo(expectedCount);
             }
         }
     }

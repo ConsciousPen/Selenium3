@@ -2,7 +2,6 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.components.Dialog;
 import aaa.common.pages.Page;
 import aaa.main.metadata.DialogsMetaData;
@@ -12,16 +11,12 @@ import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
-import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Abstract tab class.
@@ -132,15 +127,6 @@ public abstract class Tab {
 		return this;
 	}
 
-	public Tab verifyTab(TestData td) {
-		if (td.containsKey(assetList.getName())) {
-			((AssetList) assetList).verify.someValues(td.getTestData(assetList.getName()));
-		} else {
-			((AssetList) assetList).verify.someValues(td);
-		}
-		return this;
-	}
-
 	/**
 	 * Finish filling the tab. By default is a NOOP. For multi-tab workspaces it
 	 * should click "Next" button, but sometimes a different button is used or
@@ -151,58 +137,11 @@ public abstract class Tab {
 		return this;
 	}
 
-	public boolean isEmpty(TestData td) {
-		return td.getTestData(metaDataClass.getSimpleName()).getKeys().isEmpty();
-	}
-
-	public Tab verifyFieldIsDisplayed(String label) {
-		BaseElement<?, ?> control = assetList.getAsset(label);
-		CustomAssert.assertTrue("Field '" + label + "' must be displayed but it is not", control.isPresent() && control.isVisible());
-		return this;
-	}
-
-	public Tab verifyFieldIsNotDisplayed(String label) {
-		BaseElement<?, ?> control = assetList.getAsset(label);
-		if (control.isPresent()) {
-			CustomAssert.assertFalse("Field '" + label + "' must not be displayed but it is", control.isVisible());
-		}
-		return this;
-	}
-
-	public Tab verifyFieldsAreNotDisplayed(String[] labels) {
-		List<String> listOfLabels = Arrays.asList(labels);
-		for (String label : listOfLabels) {
-			verifyFieldIsNotDisplayed(label);
-		}
-		return this;
-	}
-
-	public Tab verifyFieldIsEnabled(String label) {
-		CustomAssert.assertTrue("Field '" + label + "' must be enabled but it is not", assetList.getAsset(label).isEnabled());
-		return this;
-	}
-
-	public Tab verifyFieldIsDisabled(String label) {
-		CustomAssert.assertFalse("Field '" + label + "' must be disabled but it is not", assetList.getAsset(label).isEnabled());
-		return this;
-	}
-
-	public Tab verifyFieldHasNotValue(String label, String expectedValue) {
-		String actualValue = assetList.getAsset(label).getValue().toString();
-		String errorMessage = String.format("'%s' field's actual value '%s' is not equal to the expected value of '%s'", label, actualValue, expectedValue);
-		CustomAssert.assertFalse(errorMessage, expectedValue.equals(actualValue));
-		return this;
-	}
-
+	@Deprecated
 	public Tab verifyFieldHasMessage(String label, String expectedValue) {
 		String actualValue = assetList.getWarning(label).getValue();
 		String errorMessage = String.format("'%s' field's actual warning '%s' is not equal to the expected warning of '%s'", label, actualValue, expectedValue);
 		CustomAssert.assertEquals(errorMessage, expectedValue, actualValue);
-		return this;
-	}
-
-	public Tab verifyTabHasBottomMessage(String errorMessage) {
-		assertThat(getBottomWarning()).valueContains(errorMessage);
 		return this;
 	}
 

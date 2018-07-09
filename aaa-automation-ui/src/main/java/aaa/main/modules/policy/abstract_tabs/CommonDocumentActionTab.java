@@ -1,5 +1,6 @@
 package aaa.main.modules.policy.abstract_tabs;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static org.openqa.selenium.By.id;
 import java.util.HashMap;
 import java.util.Map;
@@ -112,7 +113,7 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 				String message = String.format("On demand document %1$s is not %2$s as expected.", doc, expectedValue ? "present" : "absent");
 				documentQuery.put(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, doc.getId());
 				documentQuery.put(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, doc.getName());
-				getDocumentsControl().getTable().getRow(documentQuery).verify.present(message, expectedValue);
+				assertThat(getDocumentsControl().getTable().getRow(documentQuery)).as(message).isPresent(expectedValue);
 			}
 		}
 
@@ -127,7 +128,8 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 				String message = String.format("On demand document %1$s is not %2$s as expected.", doc, expectedValue ? "enabled" : "disabled");
 				documentQuery.put(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, doc.getId());
 				documentQuery.put(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, doc.getName());
-				getDocumentsControl().getTable().getRow(documentQuery).getCell(DocGenConstants.OnDemandDocumentsTable.SELECT).controls.checkBoxes.getFirst().verify.enabled(message, expectedValue);
+				assertThat(getDocumentsControl().getTable().getRow(documentQuery).getCell(DocGenConstants.OnDemandDocumentsTable.SELECT).controls.checkBoxes.getFirst())
+						.as(message).isEnabled(expectedValue);
 			}
 		}
 	}

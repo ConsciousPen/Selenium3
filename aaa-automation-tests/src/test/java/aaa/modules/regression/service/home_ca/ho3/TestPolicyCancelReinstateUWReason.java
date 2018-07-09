@@ -87,7 +87,7 @@ public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
                 HomeCaMetaData.CancelActionTab.DESCRIPTION.getLabel());
 
         //  5.  Verify that default value in 'Cancellation effective date' field is today + 1 day
-        cancelActionTab.getAssetList().getAsset(HomeCaMetaData.CancelActionTab.CANCELLATION_EFFECTIVE_DATE).verify.contains(DateTimeUtils.getCurrentDateTime().plusDays(1)
+        assertThat(cancelActionTab.getAssetList().getAsset(HomeCaMetaData.CancelActionTab.CANCELLATION_EFFECTIVE_DATE)).valueContains(DateTimeUtils.getCurrentDateTime().plusDays(1)
                 .format(DateTimeUtils.MM_DD_YYYY));
 
         //  6.  Leave the cancellation date and cancellation reason fields empty and click Ok
@@ -146,7 +146,7 @@ public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
         verifyFieldsPresentAndEnabled(reinstatementActionTab.getAssetList(), false, HomeCaMetaData.ReinstatementActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel());
         assertThat(reinstatementActionTab.getAssetList().getAsset(HomeCaMetaData.ReinstatementActionTab.CANCELLATION_EFFECTIVE_DATE)).valueContains(policyEffectiveDate);
         verifyFieldsPresentAndEnabled(reinstatementActionTab.getAssetList(), true, HomeCaMetaData.ReinstatementActionTab.REINSTATE_DATE.getLabel());
-        reinstatementActionTab.getAssetList().getAsset(HomeCaMetaData.ReinstatementActionTab.REINSTATE_DATE).verify.contains(DateTimeUtils.getCurrentDateTime().plusDays(1)
+        assertThat(reinstatementActionTab.getAssetList().getAsset(HomeCaMetaData.ReinstatementActionTab.REINSTATE_DATE)).valueContains(DateTimeUtils.getCurrentDateTime().plusDays(1)
                 .format(DateTimeUtils.MM_DD_YYYY));
 
         // 13. Leave the reinstate date field empty, click Ok and verify that error message is appears
@@ -190,7 +190,7 @@ public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
 
     private void verifyFieldsPresentAndEnabled(AbstractContainer<?, ?> assetList, boolean isEnabled, String... fields) {
         for (String field : fields) {
-            assetList.getAsset(field).verify.enabled(isEnabled);
+            assertThat(assetList.getAsset(field)).isEnabled(isEnabled);
         }
     }
 }

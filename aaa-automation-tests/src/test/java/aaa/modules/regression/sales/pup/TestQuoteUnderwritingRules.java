@@ -111,7 +111,7 @@ public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest {
 	
 	private void checkBottomError(TestData td) {
 		for (String error : td.getList(BOTTOM_ERROR_KEY)) {
-			underwritingTab.verifyTabHasBottomMessage(error);
+			assertThat(underwritingTab.getBottomWarning()).valueContains(error);
 		}
 	}
 	

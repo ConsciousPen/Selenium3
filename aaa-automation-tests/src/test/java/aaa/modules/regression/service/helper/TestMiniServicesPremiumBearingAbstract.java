@@ -1440,7 +1440,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		checkAuthorizedByChanged(authorizedBy);
 
 		//check number of documents in DB
-		assertThat(Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get())).isEqualTo(numberOfDocumentsRecordsInDb + 1);
+		assertThat(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).map(Integer::parseInt)).hasValue(numberOfDocumentsRecordsInDb + 1);
 
 		//Create additional endorsement
 		SearchPage.openPolicy(policyNumber);
@@ -1475,7 +1475,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			checkAuthorizedByChanged(authorizedBy);
 
 			//check number of documents in DB
-			softly.assertThat(Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get())).isEqualTo(numberOfDocumentsRecordsInDb + 1);
+			softly.assertThat(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).map(Integer::parseInt)).hasValue(numberOfDocumentsRecordsInDb + 1);
 
 			//Create additional endorsement
 			SearchPage.openPolicy(policyNumber);

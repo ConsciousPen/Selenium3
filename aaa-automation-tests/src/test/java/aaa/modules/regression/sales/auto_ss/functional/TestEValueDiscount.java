@@ -368,11 +368,11 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		policy.dataGather().start();
 
-		//PAS-439, PAS-234 start
-		generalTab.getInquiryAssetList().assetFieldsAbsence("Apply eValue Discount");
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-
 		CustomSoftAssertions.assertSoftly(softly -> {
+			//PAS-439, PAS-234 start
+			generalTab.getInquiryAssetList().assetFieldsAbsence("Apply eValue Discount");
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+
 			//Check field properties and default value of eValue Discount
 			softly.assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).isPresent();
 			softly.assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).isEnabled();
@@ -545,7 +545,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("Pending");
 
 			//PAS-302 start VC1
-			softly.assertThat(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber))).isEqualTo("PENDING");
+			softly.assertThat(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber))).hasValue("PENDING");
 			//PAS-302 end
 		});
 	}
