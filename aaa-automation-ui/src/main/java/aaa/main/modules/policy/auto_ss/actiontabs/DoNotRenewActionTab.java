@@ -6,6 +6,10 @@ package aaa.main.modules.policy.auto_ss.actiontabs;
 
 import aaa.common.ActionTab;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import org.openqa.selenium.By;
+import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+import toolkit.webdriver.controls.composite.table.Table;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -17,4 +21,7 @@ public class DoNotRenewActionTab extends ActionTab {
     public DoNotRenewActionTab() {
         super(AutoSSMetaData.DoNotRenewActionTab.class);
     }
+
+    public static final Table tableDriverActivities = new Table(By.id("policyDataGatherForm:driverActivities"));
+    public static final StaticElement underwritingGuidelines = new StaticElement(By.id("policyDataGatherForm:underwritingGuidelinesLabel"));
 }
