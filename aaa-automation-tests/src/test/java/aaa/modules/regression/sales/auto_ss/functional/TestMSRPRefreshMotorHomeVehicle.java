@@ -90,7 +90,7 @@ public class TestMSRPRefreshMotorHomeVehicle extends VinUploadAutoSSHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
-	public void pas730_RenewalVehicleTypeNotPPA(@Optional("") String state) {
+	public void pas730_RenewalVehicleTypeNotPPA(@Optional("UT") String state) {
 		TestData testData = getMSRPTestDataTwoVehicles(getPolicyTD());
 
 		String quoteNumber = createPreconds(testData);

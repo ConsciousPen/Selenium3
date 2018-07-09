@@ -3,7 +3,6 @@ package aaa.modules.regression.sales.template;
 import static aaa.helpers.db.queries.MsrpQueries.*;
 import static aaa.helpers.db.queries.VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE;
 import static aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab.tableRatingDetailsVehicles;
-import static org.testng.Assert.fail;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,7 +17,6 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.helpers.product.VinUploadHelper;
 import aaa.main.enums.DefaultVinVersions;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -39,13 +37,8 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 	protected static UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 	protected static PurchaseTab purchaseTab = new PurchaseTab();
 	private static RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
-	protected VinUploadHelper vinMethods;
 
 	int AutoSSPPAVehicleMSRPKey = 4;
-
-	String INSERT_VEHICLEREFDATAVINCONTROL_VERSION =
-			"Insert into VEHICLEREFDATAVINCONTROL (ID,PRODUCTCD,FORMTYPE,STATECD,VERSION,EFFECTIVEDATE,EXPIRATIONDATE,MSRP_VERSION) values"
-					+ "(%1$d,'%2$s',%3$s,'%4$s','%5$s','%6$d','%7$d','%8$s')";
 
 	protected void verifyAutomatedRenewal(String vinNumber, String policyNumber, LocalDateTime policyExpirationDate) {
 		//2. Generate automated renewal image (in data gather status) according to renewal timeline
@@ -90,12 +83,11 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
-		if (Arrays.asList(renewalDate.minusDays(46), renewalDate.minusDays(25)).contains(renewalDate)) {
+		if (Arrays.asList(renewalDate.minusDays(46), renewalDate.minusDays(25)).contains(timeShiftedDate)) {
 			log.info("Renewal date is : " + renewalDate);
-				softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).as("Vehicle Year").isNotEqualTo("2018");
 				softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).as("Vehicle Make").isNotEqualTo("TOYOTA");
 				softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).as("Vehicle Model").isNotEqualTo("Gt");
-		} else if (timeShiftedDate.equals(renewalDate.minusDays(40)) || timeShiftedDate.equals(renewalDate.minusDays(35))) {
+		} else if (Arrays.asList(renewalDate.minusDays(40), renewalDate.minusDays(35)).contains(timeShiftedDate)) {
 				softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).as("Vehicle Year").isEqualTo("2018");
 				softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).as("Vehicle Make").isEqualTo("TOYOTA");
 				softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).as("Vehicle Model").isEqualTo("Gt");
@@ -107,7 +99,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 				softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).as("Vehicle Make").isEqualTo("UT_SS_R45");
 				softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).as("Vehicle Model").isEqualTo("Gt_R45");
 		} else {
-			fail();
+			log.info("CONDITION TO JUST MAKE RENEWAL PREP or post.");
 		}
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
@@ -116,7 +108,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 	protected void checkVehicleInfo_pas2716() {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertSoftly(softly -> {
-			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2005");
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2018");
 			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("TOYOTA");
 			//PAS-6576 Update "individual VIN retrieval" logic to use ENTRY DATE and VALID
 			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Gt").as("Row with VALID=Y and oldest Entry Date should be used");
@@ -358,7 +350,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 				.adjust(AutoSSMetaData.VehicleTab.MOTOR_HOME_TYPE.getLabel(), "index=1")
 				.adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), "5FDEU15H7KL055795")
 				.adjust(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "index=1")
-				.adjust(AutoSSMetaData.VehicleTab.YEAR.getLabel(), "2018")
+				.adjust(AutoSSMetaData.VehicleTab.YEAR.getLabel(), "2025")
 				.adjust(AutoSSMetaData.VehicleTab.OTHER_MAKE.getLabel(), "Other Make")
 				.adjust(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel(), "Other Model")
 				.adjust(AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel(), "10000");
