@@ -18,6 +18,7 @@
                 <exclude name="Medium"/>
                 <exclude name="Low"/>
                 <exclude name="Timepoint"/>
+                <exclude name="Functional"/>
             </run>
         </groups>
         <packages>
@@ -41,6 +42,7 @@
                 <exclude name="Medium"/>
                 <exclude name="Low"/>
                 <exclude name="Timepoint"/>
+                <exclude name="Functional"/>
             </run>
         </groups>
         <packages>
@@ -64,6 +66,7 @@
                 <exclude name="Medium"/>
                 <exclude name="Low"/>
                 <exclude name="Timepoint"/>
+                <exclude name="Functional"/>
             </run>
         </groups>
         <packages>
@@ -87,6 +90,7 @@
                 <exclude name="Medium"/>
                 <exclude name="Low"/>
                 <exclude name="Timepoint"/>
+                <exclude name="Functional"/>
             </run>
         </groups>
         <packages>
@@ -110,6 +114,7 @@
                 <exclude name="Medium"/>
                 <exclude name="Low"/>
                 <exclude name="Timepoint"/>
+                <exclude name="Functional"/>
             </run>
         </groups>
         <packages>
