@@ -126,9 +126,26 @@
     <test name="Test Tier And UW Points Lock NY">
         <parameter name="state" value="NY"/>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestNYTierAndUWPointsLock"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestNYTierAndUWPointsLock"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestNYTierAndUWPointsLock"/>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <exclude name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <exclude name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <exclude name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <exclude name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                </methods>
+            </class>
         </classes>
     </test>
 
