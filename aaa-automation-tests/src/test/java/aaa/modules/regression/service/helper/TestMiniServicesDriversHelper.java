@@ -34,7 +34,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
-	private VehicleTab vehicleTab = new VehicleTab();
 	private UpdateDriverRequest updateDriverRequest = new UpdateDriverRequest();
 
 	protected void pas11932_viewDriversInfo(PolicyType policyType) {
