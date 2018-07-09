@@ -12,7 +12,6 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.SkipException;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
-import toolkit.verification.CustomAssert;
 import toolkit.verification.CustomSoftAssertions;
 
 import java.time.format.DateTimeFormatter;

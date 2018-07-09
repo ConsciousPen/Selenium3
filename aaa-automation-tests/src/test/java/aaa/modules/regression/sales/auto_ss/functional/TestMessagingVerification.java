@@ -29,7 +29,8 @@ import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class TestMessagingVerification extends AutoSSBaseTest implements TestEValueDiscountPreConditions {
 
@@ -47,15 +48,12 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 
 	@Test(description = "Precondition")
 	public static void eValueAcknowledgementConfigCheck() {
-		CustomAssert.enableSoftMode();
 		verifyAcknowledgementConfiguration(20, 17);
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	private static void verifyAcknowledgementConfiguration(int sysAndEffDateDelta, int sysAndExpDateDelta) {
 		String query = MessageFormat.format(EVALUE_PAYPLAN_ACKNOWLEDGEMENT_CHECK, sysAndEffDateDelta + 1, sysAndEffDateDelta, sysAndExpDateDelta + 1, sysAndExpDateDelta);
-		CustomAssert.assertTrue("Configuration for acknowledgement should be present. Please run eValuePayPlanAcknowledgementConfigInsert", DBService.get().getValue(query).isPresent());
+		assertThat(DBService.get().getValue(query)).as("Configuration for acknowledgement should be present. Please run eValuePayPlanAcknowledgementConfigInsert").isPresent();
 	}
 
 	/**
@@ -85,13 +83,11 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 
 		TestData ccVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0);
 
-		CustomAssert.enableSoftMode();
-		creationPolicyWithDiffPayPlan("Annual", "Eleven Pay - Standard", true, "Debit");
-		updatePaymentMethodBillingAccount(true, true, Optional.of(ccVisa), Optional.of("Credit"));
-		verifyEvalueDiscount(false);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			creationPolicyWithDiffPayPlan("Annual", "Eleven Pay - Standard", true, "Debit", softly);
+			updatePaymentMethodBillingAccount(true, true, Optional.of(ccVisa), Optional.of("Credit"), softly);
+			verifyEvalueDiscount(false, softly);
+		});
 	}
 
 	@Parameters({"state"})
@@ -99,12 +95,11 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7185", "PAS-7192", "PAS-273", "PAS-274"})
 	public void pas7185_messagingConfigurablePayPlan2(@org.testng.annotations.Optional("OR") String state) {
 
-		CustomAssert.enableSoftMode();
-		creationPolicyWithDiffPayPlan("Semi-annual", "Five Pay - Standard", true, "Debit");
-		updatePaymentMethodBillingAccount(true, false, Optional.empty(), Optional.empty());
-		verifyEvalueDiscount(false);
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			creationPolicyWithDiffPayPlan("Semi-annual", "Five Pay - Standard", true, "Debit", softly);
+			updatePaymentMethodBillingAccount(true, false, Optional.empty(), Optional.empty(), softly);
+			verifyEvalueDiscount(false, softly);
+		});
 	}
 
 	@Parameters({"state"})
@@ -114,12 +109,11 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 
 		TestData dcVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2);
 
-		CustomAssert.enableSoftMode();
-		creationPolicyWithDiffPayPlan("Annual", "Quarterly", true, "ACH");
-		updatePaymentMethodBillingAccount(false, true, Optional.of(dcVisa), Optional.of("Debit"));
-		verifyEvalueDiscount(true);
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			creationPolicyWithDiffPayPlan("Annual", "Quarterly", true, "ACH", softly);
+			updatePaymentMethodBillingAccount(false, true, Optional.of(dcVisa), Optional.of("Debit"), softly);
+			verifyEvalueDiscount(true, softly);
+		});
 	}
 
 	@Parameters({"state"})
@@ -129,12 +123,11 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 
 		TestData ccVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0);
 
-		CustomAssert.enableSoftMode();
-		creationPolicyWithDiffPayPlan("Semi-annual", "Semi-Annual", true, "Cash");
-		updatePaymentMethodBillingAccount(false, true, Optional.of(ccVisa), Optional.of("Credit"));
-		verifyEvalueDiscount(true);
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			creationPolicyWithDiffPayPlan("Semi-annual", "Semi-Annual", true, "Cash", softly);
+			updatePaymentMethodBillingAccount(false, true, Optional.of(ccVisa), Optional.of("Credit"), softly);
+			verifyEvalueDiscount(true, softly);
+		});
 	}
 
 	@Parameters({"state"})
@@ -142,12 +135,11 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7185", "PAS-7192", "PAS-273", "PAS-274"})
 	public void pas7185_messagingConfigurablePayPlan5(@org.testng.annotations.Optional("OR") String state) {
 
-		CustomAssert.enableSoftMode();
-		creationPolicyWithDiffPayPlan("Annual", "Annual", true, "Debit");
-		updatePaymentMethodBillingAccount(false, false, Optional.empty(), Optional.empty());
-		verifyEvalueDiscount(true);
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			creationPolicyWithDiffPayPlan("Annual", "Annual", true, "Debit", softly);
+			updatePaymentMethodBillingAccount(false, false, Optional.empty(), Optional.empty(), softly);
+			verifyEvalueDiscount(true, softly);
+		});
 	}
 
 	@Parameters({"state"})
@@ -157,12 +149,11 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 
 		TestData ccVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0);
 
-		CustomAssert.enableSoftMode();
-		creationPolicyWithDiffPayPlan("Annual", "Quarterly", false, "Cash");
-		updatePaymentMethodBillingAccount(false, true, Optional.of(ccVisa), Optional.of("Credit"));
-		verifyEvalueDiscount(true);
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			creationPolicyWithDiffPayPlan("Annual", "Quarterly", false, "Cash", softly);
+			updatePaymentMethodBillingAccount(false, true, Optional.of(ccVisa), Optional.of("Credit"), softly);
+			verifyEvalueDiscount(true, softly);
+		});
 	}
 
 	@Parameters({"state"})
@@ -172,12 +163,11 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 
 		TestData eft = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(1);
 
-		CustomAssert.enableSoftMode();
-		creationPolicyWithDiffPayPlan("Annual", "Eleven Pay - Standard", false, "Credit");
-		updatePaymentMethodBillingAccount(false, true, Optional.of(eft), Optional.of("ACH"));
-		verifyEvalueDiscount(true);
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			creationPolicyWithDiffPayPlan("Annual", "Eleven Pay - Standard", false, "Credit", softly);
+			updatePaymentMethodBillingAccount(false, true, Optional.of(eft), Optional.of("ACH"), softly);
+			verifyEvalueDiscount(true, softly);
+		});
 	}
 
 	@Parameters({"state"})
@@ -185,12 +175,11 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7185", "PAS-7192", "PAS-273", "PAS-274"})
 	public void pas7185_messagingConfigurablePayPlan8(@org.testng.annotations.Optional("OR") String state) {
 
-		CustomAssert.enableSoftMode();
-		creationPolicyWithDiffPayPlan("Semi-annual", "Five Pay - Standard", false, "ACH");
-		updatePaymentMethodBillingAccount(false, false, Optional.empty(), Optional.empty());
-		verifyEvalueDiscount(true);
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			creationPolicyWithDiffPayPlan("Semi-annual", "Five Pay - Standard", false, "ACH", softly);
+			updatePaymentMethodBillingAccount(false, false, Optional.empty(), Optional.empty(), softly);
+			verifyEvalueDiscount(true, softly);
+		});
 	}
 
 	@Parameters({"state"})
@@ -200,20 +189,19 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 
 		TestData dcVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2);
 
-		CustomAssert.enableSoftMode();
-		creationPolicyWithDiffPayPlan("Annual", "Semi-Annual", false, "Check");
-		updatePaymentMethodBillingAccount(false, true, Optional.of(dcVisa), Optional.of("Debit"));
-		verifyEvalueDiscount(true);
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			creationPolicyWithDiffPayPlan("Annual", "Semi-Annual", false, "Check", softly);
+			updatePaymentMethodBillingAccount(false, true, Optional.of(dcVisa), Optional.of("Debit"), softly);
+			verifyEvalueDiscount(true, softly);
+		});
 	}
 
-	private void verifyEvalueDiscount(boolean evaluePresent) {
+	private void verifyEvalueDiscount(boolean evaluePresent, ETCSCoreSoftAssertions softly) {
 		BillingSummaryPage.openPolicy(1);
-		PolicySummaryPage.tableAppliedDiscountsPolicy.getRowContains(2, "eValue Discount").verify.present(evaluePresent);
+		softly.assertThat(PolicySummaryPage.tableAppliedDiscountsPolicy.getRowContains(2, "eValue Discount")).isPresent(evaluePresent);
 	}
 
-	private void updatePaymentMethodBillingAccount(boolean removeEvalueDialogPresent, boolean updateToAutopay, Optional<TestData> paymentMethod, Optional<String> paymentType) {
+	private void updatePaymentMethodBillingAccount(boolean removeEvalueDialogPresent, boolean updateToAutopay, Optional<TestData> paymentMethod, Optional<String> paymentType, ETCSCoreSoftAssertions softly) {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		billingAccount.update().start();
 		if (updateToAutopay) {
@@ -236,22 +224,22 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 			if ("ACH".equals(paymentType.get())) {
 				updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.SIGNATURE_ON_FILE_INDICATOR).setValue("Yes");
 			}
-			verifyRemoveEvalueDialog(removeEvalueDialogPresent);
+			verifyRemoveEvalueDialog(removeEvalueDialogPresent, softly);
 		} else {
 			updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).setValue(false);
-			verifyRemoveEvalueDialog(removeEvalueDialogPresent);
+			verifyRemoveEvalueDialog(removeEvalueDialogPresent, softly);
 		}
 	}
 
-	private void verifyRemoveEvalueDialog(boolean removeEvalueDialogPresent) {
+	private void verifyRemoveEvalueDialog(boolean removeEvalueDialogPresent, ETCSCoreSoftAssertions softly) {
 		Tab.buttonSave.click();
 		if (removeEvalueDialogPresent) {
-			CustomAssert.assertEquals(Page.dialogConfirmation.labelMessage.getValue(), "Customer acknowledges that removing recurring payments will cause the eValue to be removed.");
+			softly.assertThat(Page.dialogConfirmation.labelMessage).hasValue("Customer acknowledges that removing recurring payments will cause the eValue to be removed.");
 			Page.dialogConfirmation.confirm();
 		}
 	}
 
-	private void creationPolicyWithDiffPayPlan(String payTerm, String payPlan, boolean payPlanRequired, String paymentPlan) {
+	private void creationPolicyWithDiffPayPlan(String payTerm, String payPlan, boolean payPlanRequired, String paymentPlan, ETCSCoreSoftAssertions softly) {
 		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 		testEValueDiscount.eValueQuoteCreation();
 		int days = 0;
@@ -263,26 +251,26 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 		fillPremiumAndCoveragesTab(payTerm, payPlan);
 		fillDocumentAndBindTab();
 		if (!payPlanRequired || payPlanRequired && (isAnnual(payTerm, payPlan) || isSemiAnnual(payTerm, payPlan))) {
-			purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH).isPresent();
-			purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CHECK).isPresent();
+			softly.assertThat(purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH)).isPresent();
+			softly.assertThat(purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CHECK)).isPresent();
 		} else {
-			assertThat(purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH)).isPresent(false);
-			assertThat(purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CHECK)).isPresent(false);
+			softly.assertThat(purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH)).isPresent(false);
+			softly.assertThat(purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CHECK)).isPresent(false);
 		}
 		TestData purchaseTabData = getPolicyTD("DataGather", "TestData");
 		purchaseTabData.adjust("PurchaseTab", getTestSpecificTD("PurchaseTab_" + paymentPlan));
 		purchaseTab.fillTab(purchaseTabData);
-		assertThat(purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.AUTOPAY_MESSAGE_WARNING_BLOCK)).isPresent(false);
+		softly.assertThat(purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.AUTOPAY_MESSAGE_WARNING_BLOCK)).isPresent(false);
 		if ("Cash".equals(paymentPlan) || "Check".equals(paymentPlan)) {
 			purchaseTab.submitTab();
 		} else if (!payPlanRequired || payPlanRequired && (isAnnual(payTerm, payPlan) || isSemiAnnual(payTerm, payPlan))) {
 			applyAutoPay(paymentPlan);
 		} else {
 			purchaseTab.submitTab();
-			assertThat(purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.AUTOPAY_MESSAGE_WARNING_BLOCK)).isPresent();
+			softly.assertThat(purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.AUTOPAY_MESSAGE_WARNING_BLOCK)).isPresent();
 			applyAutoPay(paymentPlan);
 		}
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		log.info("policyNumber: {}", policyNumber);
 	}

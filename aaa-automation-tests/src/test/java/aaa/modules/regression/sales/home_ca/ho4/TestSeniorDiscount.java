@@ -1,6 +1,5 @@
 package aaa.modules.regression.sales.home_ca.ho4;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -14,7 +13,7 @@ import aaa.modules.policy.HomeCaHO4BaseTest;
 import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 public class TestSeniorDiscount extends HomeCaHO4BaseTest {
 
@@ -53,23 +52,21 @@ public class TestSeniorDiscount extends HomeCaHO4BaseTest {
 		policy.createQuote(policyTestDataAdjusted);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-		CustomAssert.enableSoftMode();
-		policy.dataGather().start();
-		helperCommon.seniorDiscountDependencyOnEffectiveDate(policyNumber, seniorDiscountApplicabilityAgeYears, 0, SENIOR_DISCOUNT_NAME);
+		CustomSoftAssertions.assertSoftly(softly -> {
+			policy.dataGather().start();
+			helperCommon.seniorDiscountDependencyOnEffectiveDate(policyNumber, seniorDiscountApplicabilityAgeYears, 0, SENIOR_DISCOUNT_NAME, softly);
 
-		helperCommon.seniorDiscountDependencyOnEffectiveDate(policyNumber, seniorDiscountApplicabilityAgeYears, 7, SENIOR_DISCOUNT_NAME);
+			helperCommon.seniorDiscountDependencyOnEffectiveDate(policyNumber, seniorDiscountApplicabilityAgeYears, 7, SENIOR_DISCOUNT_NAME, softly);
 
-		helperCommon.seniorDiscountDependencyOnEffectiveDate(policyNumber, seniorDiscountApplicabilityAgeYears, -7, SENIOR_DISCOUNT_NAME);
+			helperCommon.seniorDiscountDependencyOnEffectiveDate(policyNumber, seniorDiscountApplicabilityAgeYears, -7, SENIOR_DISCOUNT_NAME, softly);
 
-		//PAS-3712 start
-		helperCommon.seniorDiscountDwellingUsageCheck("Secondary");
-		assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).getValue().contains(SENIOR_DISCOUNT_NAME)).isFalse();
+			//PAS-3712 start
+			helperCommon.seniorDiscountDwellingUsageCheck("Secondary");
+			softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).getValue().contains(SENIOR_DISCOUNT_NAME)).isFalse();
 
-		helperCommon.seniorDiscountDwellingUsageCheck("Primary");
-		assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1)).valueContains(SENIOR_DISCOUNT_NAME);
-		//PAS-3712 end
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			helperCommon.seniorDiscountDwellingUsageCheck("Primary");
+			softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1)).valueContains(SENIOR_DISCOUNT_NAME);
+			//PAS-3712 end
+		});
 	}
 }

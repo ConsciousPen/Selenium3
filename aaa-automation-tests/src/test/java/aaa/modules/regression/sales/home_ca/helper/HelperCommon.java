@@ -21,6 +21,7 @@ import org.assertj.core.api.Assertions;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 import toolkit.webdriver.controls.composite.table.Table;
 
@@ -48,22 +49,22 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         premiumsAndCoveragesQuoteTab.calculatePremium();
     }
 
-    public void seniorDiscountDependencyOnEffectiveDate(String policyNumber, int seniorDiscountApplicabilityAgeYears, int effectiveDateDaysDelta, String seniorDiscountName) {
+    public void seniorDiscountDependencyOnEffectiveDate(String policyNumber, int seniorDiscountApplicabilityAgeYears, int effectiveDateDaysDelta, String seniorDiscountName, ETCSCoreSoftAssertions softly) {
         if (!generalTab.getPolicyInfoAssetList().getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE).isPresent()) {
             NavigationPage.toViewTab(NavigationEnum.HomeCaTab.GENERAL.get());
         }
         generalTab.getPolicyInfoAssetList().getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().minusDays(effectiveDateDaysDelta).format(DateTimeUtils.MM_DD_YYYY));
 
         seniorDiscountAppliedAndAgeCheck(policyNumber, seniorDiscountApplicabilityAgeYears, effectiveDateDaysDelta, seniorDiscountApplicabilityAgeYears);
-        assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1)).valueContains(seniorDiscountName);
+        softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1)).valueContains(seniorDiscountName);
         seniorDiscountViewRatingDetailsCheck(seniorDiscountName, "Yes");
 
         seniorDiscountAppliedAndAgeCheck(policyNumber, seniorDiscountApplicabilityAgeYears, -1 + effectiveDateDaysDelta, seniorDiscountApplicabilityAgeYears - 1);
-        assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).getValue()).doesNotContain(seniorDiscountName);
+        softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).getValue()).doesNotContain(seniorDiscountName);
         seniorDiscountViewRatingDetailsCheck(seniorDiscountName, "No");
 
         seniorDiscountAppliedAndAgeCheck(policyNumber, seniorDiscountApplicabilityAgeYears, 1 + effectiveDateDaysDelta, seniorDiscountApplicabilityAgeYears);
-        assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1)).valueContains(seniorDiscountName);
+        softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1)).valueContains(seniorDiscountName);
         seniorDiscountViewRatingDetailsCheck(seniorDiscountName, "Yes");
     }
 
@@ -88,8 +89,7 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         String seniorDiscountApplicabilityAge = TimeSetterUtil.getInstance().getCurrentTime().minusYears(seniorDiscountApplicabilityAgeYears).minusDays(dateOfBirthDaysDelta).format(DateTimeUtils.MM_DD_YYYY);
         applicantTab.getAssetList().getAsset(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), MultiAssetList.class).getAsset(HomeCaMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH).setValue(seniorDiscountApplicabilityAge);
         premiumsAndCoveragesQuoteTab.calculatePremium();
-        int ageFromDb = Integer.parseInt(DBService.get().getValue(String.format(AGE_VERIFICATION_SQL, policyNumber)).get());
-        assertThat(ageFromDb).isEqualTo(ageInDbYears);
+        assertThat(DBService.get().getValue(String.format(AGE_VERIFICATION_SQL, policyNumber)).map(Integer::parseInt)).isEqualTo(ageInDbYears);
     }
 
     // This creates a customer, policy and return the policy number as a String.

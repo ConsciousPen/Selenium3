@@ -53,7 +53,7 @@ public class TestQuoteUpdateVehicleUI extends AutoCaSelectBaseTest {
         policy.getDefaultView().fillUpTo(td.adjust(vehicleData), VehicleTab.class, true);
 
         // verify if symbol field is not displayed for both vehicle
-        assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.COBP_COLL_SYMBOL)).isPresent(false);
+        assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.COMP_COLL_SYMBOL)).isPresent(false);
 
         vehicleTab.submitTab();
         policy.getDefaultView().fillFromTo(td.adjust(vehicleData), AssignmentTab.class, PurchaseTab.class, true);
@@ -61,7 +61,7 @@ public class TestQuoteUpdateVehicleUI extends AutoCaSelectBaseTest {
         policy.policyInquiry().start();
         NavigationPage.toViewTab("Vehicle");
         //verify comp/coll symbols
-        assertThat(inquiryAssetList.getAsset(AutoCaMetaData.VehicleTab.COBP_COLL_SYMBOL)).isPresent(false);
+        assertThat(inquiryAssetList.getAsset(AutoCaMetaData.VehicleTab.COMP_COLL_SYMBOL)).isPresent(false);
         Tab.buttonCancel.click();
 
         policy.renew().start();
@@ -70,7 +70,7 @@ public class TestQuoteUpdateVehicleUI extends AutoCaSelectBaseTest {
         policy.policyInquiry().start();
         NavigationPage.toViewTab("Vehicle");
         // verify coll/comp symbols
-        assertThat(inquiryAssetList.getAsset(AutoCaMetaData.VehicleTab.COBP_COLL_SYMBOL)).isPresent(false);
+        assertThat(inquiryAssetList.getAsset(AutoCaMetaData.VehicleTab.COMP_COLL_SYMBOL)).isPresent(false);
         Tab.buttonCancel.click();
 
         PolicySummaryPage.buttonRenewals.click();
@@ -79,7 +79,7 @@ public class TestQuoteUpdateVehicleUI extends AutoCaSelectBaseTest {
         VehicleTab.buttonAddVehicle.click();
         vehicleTab.fillTab(renewalVehicleInfo);
         //verify coll/comp symbols
-        assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.COBP_COLL_SYMBOL)).isPresent(false);
+        assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.COMP_COLL_SYMBOL)).isPresent(false);
 
         vehicleTab.submitTab();
         policy.getDefaultView().fillFromTo(td.adjust(renewalVehicleInfo), AssignmentTab.class, PremiumAndCoveragesTab.class, true);

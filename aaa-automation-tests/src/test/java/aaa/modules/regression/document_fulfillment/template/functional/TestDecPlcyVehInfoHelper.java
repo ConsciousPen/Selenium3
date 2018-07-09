@@ -17,7 +17,6 @@ import aaa.modules.BaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 public class TestDecPlcyVehInfoHelper extends BaseTest {
@@ -55,16 +54,15 @@ public class TestDecPlcyVehInfoHelper extends BaseTest {
 	private void checkDecPlcyVehInfo(String policyNum, String templateId, DocGenEnum.Documents documents, String eventName, int numberOfDocuments, String... vehicleInfos) {
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNum, templateId, eventName);
 
-		CustomAssert.assertEquals(DocGenHelper.getDocumentDataElemByName("PlcyVehInfo", documents, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField(), vehicleInfos[0]);
+		assertThat(DocGenHelper.getDocumentDataElemByName("PlcyVehInfo", documents, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()).isEqualTo(vehicleInfos[0]);
 
 		for (int index = 0; index < vehicleInfos.length; index++) {
-			CustomAssert.assertEquals(DocGenHelper.getDocumentDataElemByName("PlcyVehInfo", documents, query).get(0).getDocumentDataElements().
-							get(index).getDataElementChoice().getTextField(),
-					vehicleInfos[index++]);
+			assertThat(DocGenHelper.getDocumentDataElemByName("PlcyVehInfo", documents, query).get(0).getDocumentDataElements().
+							get(index).getDataElementChoice().getTextField()).isEqualTo(vehicleInfos[index++]);
 			++index;
 		}
 
 		String query2 = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNum, templateId, eventName);
-		CustomAssert.assertEquals(Integer.parseInt(DBService.get().getValue(query2).get()), numberOfDocuments);
+		assertThat(DBService.get().getValue(query2).map(Integer::parseInt)).isEqualTo(numberOfDocuments);
 	}
 }

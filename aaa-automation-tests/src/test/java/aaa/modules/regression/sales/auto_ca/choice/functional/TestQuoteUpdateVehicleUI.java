@@ -42,12 +42,12 @@ public class TestQuoteUpdateVehicleUI extends AutoCaChoiceBaseTest {
         policy.initiate();
 
         policy.getDefaultView().fillUpTo(td.adjust(vehicleData), VehicleTab.class, true);
-        assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.COBP_COLL_SYMBOL)).isPresent(false);
+        assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.COMP_COLL_SYMBOL)).isPresent(false);
         vehicleTab.submitTab();
         policy.getDefaultView().fillFromTo(td.adjust(vehicleData), AssignmentTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
         policy.policyInquiry().start();
         NavigationPage.toViewTab("Vehicle");
-        assertThat(inquiryAssetList.getAsset(AutoCaMetaData.VehicleTab.COBP_COLL_SYMBOL)).isPresent(false); //VERIFY FIELDS
+        assertThat(inquiryAssetList.getAsset(AutoCaMetaData.VehicleTab.COMP_COLL_SYMBOL)).isPresent(false); //VERIFY FIELDS
     }
 }

@@ -14,7 +14,7 @@ import aaa.main.enums.SearchEnum;
 import aaa.toolkit.webdriver.customcontrols.TableWithPages;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
@@ -100,17 +100,17 @@ public class SearchPage extends MainPage {
 
 	//---------- verify methods ----------
 
-	public static void verifyWarningsExist(String... warningMessages) {
-		verifyWarningsExist(true, warningMessages);
+	public static void verifyWarningsExist(ETCSCoreSoftAssertions softly, String... warningMessages) {
+		verifyWarningsExist(softly, true, warningMessages);
 	}
 
-	public static void verifyWarningsExist(boolean expectedValue, String... warningMessages) {
+	public static void verifyWarningsExist(ETCSCoreSoftAssertions softly, boolean expectedValue, String... warningMessages) {
 		if (expectedValue) {
-			CustomAssertions.assertThat(warningsExist(warningMessages))
+			softly.assertThat(warningsExist(warningMessages))
 					.as("Warning message(s) is(are) absent on search page: " + CollectionUtils.removeAll(Arrays.asList(warningMessages), getBottomWarningsList())).isTrue();
 		} else {
 			Collection<String> existedWarnings = CollectionUtils.retainAll(getBottomWarningsList(), Arrays.asList(warningMessages));
-			CustomAssertions.assertThat(existedWarnings).as("Unexpeted warning message(s) is(are) present on search page: " + existedWarnings).isEmpty();
+			softly.assertThat(existedWarnings).as("Unexpeted warning message(s) is(are) present on search page: " + existedWarnings).isEmpty();
 		}
 	}
 }

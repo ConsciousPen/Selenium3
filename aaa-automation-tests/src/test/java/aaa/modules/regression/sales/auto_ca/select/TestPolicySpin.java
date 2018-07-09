@@ -16,7 +16,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 /**
  * @author Jelena Dembovska
@@ -47,59 +47,58 @@ public class TestPolicySpin extends AutoCaSelectBaseTest {
 		//Read and store zip code from UI, will need it to fill values for spun quote
 		//String zip_code = PolicySummaryPage.tablePolicyVehicles.getRow(1).getCell("Garaging Zip").getValue();
 
-		CustomAssert.enableSoftMode();
+		CustomSoftAssertions.assertSoftly(softly -> {
 
-		//1. initiate spin action
-		policy.policySpin().perform(getTestSpecificTD("SpinTestData"));
+			//1. initiate spin action
+			policy.policySpin().perform(getTestSpecificTD("SpinTestData"));
 
-		//as a result on Spin action two items are created: 
-		//A) pended endorsement for current policy
-		//B) new quote with one driver and one vehicle which has been spun from current policy 
-		//mainApp().open();
-		//SearchPage.search(SearchFor.POLICY, SearchBy.POLICY_QUOTE, "CAAS950542807");
-		//2. open activities section, check spin has been executed, store spun quote number 
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		String description = NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "has been spun to a new quote").getCell("Description").getValue();
-		CustomAssert.assertTrue("Spin action is missing in Activities and User Notes", description.contains("has been spun to a new quote"));
-		String quoteNumber = description.substring(description.indexOf("QCAAS"));
+			//as a result on Spin action two items are created:
+			//A) pended endorsement for current policy
+			//B) new quote with one driver and one vehicle which has been spun from current policy
+			//mainApp().open();
+			//SearchPage.search(SearchFor.POLICY, SearchBy.POLICY_QUOTE, "CAAS950542807");
+			//2. open activities section, check spin has been executed, store spun quote number
+			NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+			String description = NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "has been spun to a new quote").getCell("Description").getValue();
+			softly.assertThat(description).as("Spin action should be present in Activities and User Notes").contains("has been spun to a new quote");
+			String quoteNumber = description.substring(description.indexOf("QCAAS"));
 
-		//A. Steps for checking pended endorsement for current policy
-		//3. Open pended endorsement, fill all mandatory fields to bind policy
-		PolicySummaryPage.buttonPendedEndorsement.click();
-		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Action").controls.comboBoxes.getFirst().setValue("Data Gathering");
-		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Action").controls.buttons.getFirst().click();
+			//A. Steps for checking pended endorsement for current policy
+			//3. Open pended endorsement, fill all mandatory fields to bind policy
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			PolicySummaryPage.tableEndorsements.getRow(1).getCell("Action").controls.comboBoxes.getFirst().setValue("Data Gathering");
+			PolicySummaryPage.tableEndorsements.getRow(1).getCell("Action").controls.buttons.getFirst().click();
 
-		policy.dataGather().getView().fill(getTestSpecificTD("TestData_endorsement"));
+			policy.dataGather().getView().fill(getTestSpecificTD("TestData_endorsement"));
 
-		//4. Check policy is bind and now has 1NI/1Driver/1Vehicle
-		assertThat(PolicySummaryPage.tablePolicyDrivers).hasRows(1);
-		assertThat(PolicySummaryPage.tablePolicyVehicles).hasRows(1);
-		assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(1);
+			//4. Check policy is bind and now has 1NI/1Driver/1Vehicle
+			softly.assertThat(PolicySummaryPage.tablePolicyDrivers).hasRows(1);
+			softly.assertThat(PolicySummaryPage.tablePolicyVehicles).hasRows(1);
+			softly.assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(1);
 
-		//B. Steps to checking new quote which has been spun from initial policy
-		//5. Search spun quote
-		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
-		//SearchPage.search(SearchFor.QUOTE, SearchBy.POLICY_QUOTE, "QUTSS927278692");
+			//B. Steps to checking new quote which has been spun from initial policy
+			//5. Search spun quote
+			SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
+			//SearchPage.search(SearchFor.QUOTE, SearchBy.POLICY_QUOTE, "QUTSS927278692");
 
-		//modify zip code corresponding to state
-		TestData quoteTestData = getTestSpecificTD("TestData");
+			//modify zip code corresponding to state
+			TestData quoteTestData = getTestSpecificTD("TestData");
 
-		//TestData namedInsured = quoteTestData.getTestData("GeneralTab").getTestDataList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel()).get(0)
-		//		.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ZIP_CODE.getLabel()), zip_code);
+			//TestData namedInsured = quoteTestData.getTestData("GeneralTab").getTestDataList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel()).get(0)
+			//		.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ZIP_CODE.getLabel()), zip_code);
 
-		//List<TestData> namedInsuredList = new ArrayList<>();
-		//namedInsuredList.add(namedInsured);
+			//List<TestData> namedInsuredList = new ArrayList<>();
+			//namedInsuredList.add(namedInsured);
 
-		//6. Open quote for data gather and fill all mandatory fields required to bind and purchase
-		policy.dataGather().start();
-		policy.getDefaultView().fill(quoteTestData);
+			//6. Open quote for data gather and fill all mandatory fields required to bind and purchase
+			policy.dataGather().start();
+			policy.getDefaultView().fill(quoteTestData);
 
-		//7. Check policy is bind and now has 1NI/1Driver/1Vehicle
-		assertThat(PolicySummaryPage.tablePolicyDrivers).hasRows(1);
-		assertThat(PolicySummaryPage.tablePolicyVehicles).hasRows(1);
-		assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(1);
-
-		CustomAssert.assertAll();
+			//7. Check policy is bind and now has 1NI/1Driver/1Vehicle
+			softly.assertThat(PolicySummaryPage.tablePolicyDrivers).hasRows(1);
+			softly.assertThat(PolicySummaryPage.tablePolicyVehicles).hasRows(1);
+			softly.assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(1);
+		});
 	}
 
 }

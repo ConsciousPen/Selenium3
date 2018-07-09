@@ -16,7 +16,6 @@ import org.testng.annotations.Test;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 
 /**
  * Created by lkazarnovskiy on 8/11/2017.
@@ -78,7 +77,7 @@ public class TestQuotePremiumOverride extends HomeSSHO3BaseTest {
 //		9. Override premium by Flat Amount ($400), check calculated values.
 		pcTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.OVERRRIDE_PREMIUM_DIALOG).fill(tdOverridePremiumF.getTestData(PremiumsAndCoveragesQuoteTab.class.getSimpleName()), false);
 		//CustomAssert.assertTrue(PremiumsAndCoveragesQuoteTab.calculatedOverridePercentageAmount().equals(PremiumsAndCoveragesQuoteTab.getOverridenPremiumPercentageAmount()));
-		CustomAssert.assertEquals(PremiumsAndCoveragesQuoteTab.calculatedOverridePercentageAmount(), PremiumsAndCoveragesQuoteTab.getOverridenPremiumPercentageAmount());
+		assertThat(PremiumsAndCoveragesQuoteTab.getOverridenPremiumPercentageAmount()).isEqualTo(PremiumsAndCoveragesQuoteTab.calculatedOverridePercentageAmount());
 		PremiumsAndCoveragesQuoteTab.dialogOverridePremium.reject();
 
 //		10. Override premium by Percentage (20%), check calculated values. Confirm Override.

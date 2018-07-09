@@ -83,6 +83,7 @@ public abstract class PropertyQuoteTab extends Tab {
 		return new Dollar(textBoxOverrideFlatAmount.getValue());
 	}
 
+	//TODO delete this method and use the one that returns Dollar
 	public static int getOverridenPremiumPercentageAmount() {
 		DecimalFormat df = new DecimalFormat("#.##");
 		return new Double(df.format(new Double(textBoxOverridePercentageAmount.getValue()))).intValue();
@@ -96,6 +97,7 @@ public abstract class PropertyQuoteTab extends Tab {
 		return new Dollar(getPolicyDwellingPremium().getPercentage(getOverridenPremiumPercentageAmount()));
 	}
 
+	//TODO delete this method and use the one that returns Dollar
 	public static int calculatedOverridePercentageAmount() {
 		DecimalFormat df = new DecimalFormat("#.##");
 		return new Double(df.format(new Double(getOverridenPremiumFlatAmount().toPlaingString()) /

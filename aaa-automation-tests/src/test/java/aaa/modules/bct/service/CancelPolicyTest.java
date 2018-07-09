@@ -18,7 +18,6 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 
 public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 

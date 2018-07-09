@@ -11,7 +11,6 @@ import aaa.modules.policy.AutoCaSelectBaseTest;
 import aaa.soap.autopolicy.models.wsdl.ErrorInfo;
 import aaa.soap.autopolicy.models.wsdl.GetAutoPolicyDetailResponse;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 import toolkit.verification.CustomSoftAssertions;
 
 public class TestGetAutoPolicyDetails extends AutoCaSelectBaseTest {
