@@ -54,7 +54,6 @@ public class TestCurrentTermEndAddsVehicle extends AutoCaSelectBaseTest {
     private aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab assignmentTab = new aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab();
 
 
-
     /**
      ** @author Kiruthika Rajendran/Chris Johns
      *
