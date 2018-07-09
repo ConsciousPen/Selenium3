@@ -104,6 +104,8 @@
                 <methods>
                     <include name="pas10352_ManageVehicleCoverageUpdateCoverageOtherThanVa"/>
                     <include name="pas11741_ManageVehicleLevelCoveragesOtherThanVA"/>
+                    <include name="pas14693_viewCoverageAndUpdateCoverageRentalReimbursement"/>
+                    <include name="pas14693_updateCoverageRentalReimbursement"/>
                 </methods>
             </class>
         </classes>
@@ -126,6 +128,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
                 <methods>
                     <include name="pas11932_viewDrivers"/>
+                    <include name="pas9662_maxDrivers"/>
                 </methods>
             </class>
         </classes>
@@ -234,7 +237,7 @@
                     <include name="pas9716_policySummaryForPolicy"/>
                     <include name="pas9716_policySummaryForLapsedRenewal"/>
                     <include name="pas9716_policySummaryForConversionManual"/>
-                </methods>
+                    </methods>
             </class>
         </classes>
     </test>
@@ -409,6 +412,47 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas15254_14733_UpdateCoveragesBI_UM_UIM"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Replace vehiclesVA">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas12175_RemoveReplaceAllVehicles"/>
+                    <include name="pas12175_RemoveReplaceWaiveLiability"/>
+
+                    <include name="pas13920_ReplaceVehicleDontKeepAssignmentsOneDriver"/>
+                    <include name="pas13920_ReplaceVehicleDontKeepCoveragesOneDriverOneVehicle"/>
+
+                    <include name="pas13920_ReplaceVehicleKeepAssignmentsKeepCoverages"/>
+                    <include name="pas13920_ReplaceVehicleKeepAssignmentsNoCoverages"/>
+                    <include name="pas13920_ReplaceVehicleKeepAssignmentsOneDriver"/>
+                    <include name="pas13920_ReplaceVehicleKeepCoveragesOneDriverOneVehicle"/>
+                    <include name="pas13920_ReplaceVehicleNoAssignmentsKeepCoverages"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Replace vehiclesAZ">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas13920_ReplaceVehicleDontKeepAssignmentsOneDriverAz"/>
+                    <include name="pas13920_ReplaceVehicleKeepAssignmentsOneDriverAz"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas14680_TrailersCoveragesThatDoNotApply" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA, UT, KY, AZ, CO, CT, DC, DE, ID, IN, KS, MD, MT, NV, NY, OH, OK, OR, SD, WV, WY, PA, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas14680_TrailersCoveragesThatDoNotApply"/>
                 </methods>
             </class>
         </classes>

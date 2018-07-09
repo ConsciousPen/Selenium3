@@ -3,7 +3,7 @@ package aaa.helpers.openl.model;
 import java.time.LocalDate;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.helpers.mock.MocksCollection;
-import aaa.helpers.openl.testdata_builder.TestDataGenerator;
+import aaa.helpers.openl.testdata_generator.TestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 import toolkit.datax.TestData;
@@ -52,7 +52,7 @@ public abstract class OpenLPolicy {
 	public abstract LocalDate getEffectiveDate();
 
 	public MocksCollection getRequiredMocks() {
-		//TODO-dchubkov: to be implemented in child classes
+		//override this method in child classes if this type of policy require specific mocks.
 		return null;
 	}
 	

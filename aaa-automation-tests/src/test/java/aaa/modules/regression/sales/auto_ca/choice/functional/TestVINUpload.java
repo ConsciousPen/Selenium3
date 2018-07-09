@@ -4,13 +4,12 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import org.testng.annotations.AfterClass;
-import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
-import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.queries.VehicleQueries;
@@ -27,10 +26,6 @@ import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
-import toolkit.verification.ETCSCoreSoftAssertions;
-
-import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.*;
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestVINUpload extends TestVINUploadTemplate {
 	private static final String NEW_VIN = "AAAVB3CC0W0455583";
@@ -45,6 +40,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	private static final String GGGVB2CC8W9455583 = "GGGVB2CC8W9455583";
 
 	private VehicleTab vehicleTab = new VehicleTab();
+	private UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -74,24 +70,6 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	 *
 	 * PAS-1406 Data Refresh
 	 * PAS-527 Renewal Refresh - Add New VIN & Update Existing
-	 * PAS-938 Throw Rerate Error if User Skips P&C Page after a quote is a day old
-	 * See detailed steps in template file
-	 * {@link TestVINUploadTemplate#newVinAddedRenewal(String, String)}
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-527")
-	public void pas527_NewVinAddedRenewal(@Optional("CA") String state) {
-		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
-
-		newVinAddedRenewal(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN2.get()), NEW_VIN2);
-	}
-
-	/**
-	 * @author Lev Kazarnovskiy
-	 *
-	 * PAS-1406 Data Refresh
-	 * PAS-527 Renewal Refresh - Add New VIN & Update Existing
 	 *
 	 * See detailed steps in template file
 	 * {@link TestVINUploadTemplate#updatedVinRenewal(String, String)}
@@ -99,7 +77,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-527,PAS-1406")
-	public void pas527_updatedVinRenewal(@Optional("") String state) {
+	public void pas527_UpdatedVinRenewal(@Optional("") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
 
 		updatedVinRenewal(vinMethods.getSpecificUploadFile(VinUploadFileType.REFRESHABLE_VIN.get()), REFRESHABLE_VIN);
@@ -162,7 +140,8 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		String policyNumber = createPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		adminApp().open();
-		new UploadToVINTableTab().uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN4.get()));
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		uploadToVINTableTab.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN4.get()));
 		/*
 		 * Automated Renewal R-Expiration Date
 		 */
@@ -195,7 +174,8 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		String policyNumber = createPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		adminApp().open();
-		new UploadToVINTableTab().uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN5.get()));
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		uploadToVINTableTab.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN5.get()));
 		/*
 		 * Automated Renewal R-45 Expiration Date
 		 */
@@ -228,6 +208,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		String policyNumber = createPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		new UploadToVINTableTab().uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN6.get()));
 		/*
 		 * Automated Renewal R-35 Expiration Date

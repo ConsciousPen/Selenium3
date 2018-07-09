@@ -3,7 +3,7 @@ package aaa.helpers.mock.model.property_risk_reports;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
-@ExcelTableElement(sheetName = "RISKREPORTS_REQUEST")
+@ExcelTableElement(sheetName = "RISKREPORTS_REQUEST", hasEmptyRows = true)
 public class RiskReportsRequest {
 	@ExcelColumnElement(name = "ID")
 	private String id;

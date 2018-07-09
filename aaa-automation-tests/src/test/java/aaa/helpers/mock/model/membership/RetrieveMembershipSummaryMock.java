@@ -5,6 +5,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.commons.lang.StringUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.istf.timesetter.client.TimeSetterClient;
 import aaa.helpers.mock.model.AbstractMock;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
@@ -37,6 +38,9 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 	public Set<String> getActiveAndPrimaryMembershipNumbersWithoutFaultCodes() {
 		Set<String> membershipNembers = new HashSet<>();
 		for (MembershipRequest request : getMembershipRequests()) {
+			if (request.getMembershipNumber() == null) {
+				continue;
+			}
 			List<MembershipResponse> responses = getMembershipResponses(request.getMembershipNumber());
 			if (responses.stream().anyMatch(r -> StringUtils.isNotBlank(r.getFaultCode()))) {
 				continue;
@@ -78,7 +82,8 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 	}
 
 	public Set<String> getActiveAndPrimaryMembershipNumbers(LocalDate memberSinceDate) {
-		LocalDate today = TimeSetterUtil.getInstance().getCurrentTime().toLocalDate();
+		// TimeSetterUtil.getInstance().getCurrentTime() breaks time shifting if executed in before suite and "timeshift-scenario-mode" != "suite"
+		LocalDate today = TimeSetterUtil.istfDateToJava(new TimeSetterClient().getStartTime()).toLocalDate();
 		Set<String> validMembershipNumbers = new HashSet<>();
 		for (String membershipNumber : getActiveAndPrimaryMembershipNumbersWithoutFaultCodes()) {
 			for (MembershipResponse r : getMembershipResponses(membershipNumber)) {
@@ -110,7 +115,8 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 	}
 
 	private String getMembershipNumberForAvgAnnualERSperMember(Set<String> membershipNumbers, LocalDate policyEffectiveDate, Double avgAnnualERSperMember) {
-		LocalDate today = TimeSetterUtil.getInstance().getCurrentTime().toLocalDate();
+		// TimeSetterUtil.getInstance().getCurrentTime() breaks time shifting if executed in before suite and "timeshift-scenario-mode" != "suite"
+		LocalDate today = TimeSetterUtil.istfDateToJava(new TimeSetterClient().getStartTime()).toLocalDate();
 		for (String mNumber : membershipNumbers) {
 			int ersCount = 0;
 			int totalYearsCount = 0;

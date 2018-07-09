@@ -4,10 +4,13 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.istf.timesetter.client.TimeSetterClient;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.mock.model.UpdatableMock;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
@@ -80,6 +83,7 @@ public class ApplicationMocksManager {
 				cleanTempDirectory();
 			}
 			restartStubServer();
+			MockGenerator.flushGeneratedMocks();
 			log.info("Application mocks update has been finished");
 		} else {
 			log.info("Application server has all required mocks, nothing to update");
@@ -87,9 +91,13 @@ public class ApplicationMocksManager {
 	}
 
 	public static synchronized void restartStubServer() {
+		// TimeSetterUtil.getInstance().getCurrentTime() breaks time shifting if executed in before suite and "timeshift-scenario-mode" != "suite"
+		LocalDate serverDate = TimeSetterUtil.istfDateToJava(new TimeSetterClient().getStartTime()).toLocalDate();
+		assertThat(serverDate).as("Stub server restart is not allowed on instance with shifted time.\nCurrent date is %1$s, Current date on server is: %2$s", LocalDate.now(), serverDate)
+				.isEqualTo(LocalDate.now());
+
 		//TODO-dchubkov: restart on Windows and Tomcat
 		String command = APP_MOCKS_RESTART_SCRIPT + " -lang jacl -user admin -password admin -c \"\\$AdminControl %1$s cluster_external_stub_server %2$sNode01\"";
-		//TimeSetterUtil.getInstance().adjustTime(); // set date to today
 		RemoteHelper ssh = RemoteHelper.with().user(APP_ADMIN_USER, APP_ADMIN_PASSWORD).privateKey(APP_AUTH_KEYPATH).get();
 
 		log.info("Stopping stub server...");
@@ -133,12 +141,21 @@ public class ApplicationMocksManager {
 
 	@SuppressWarnings("unchecked")
 	private static <M extends UpdatableMock> String getFileName(Class<M> mockModelClass) {
-		M mock;
-		try {
-			mock = (M) BindHelper.getInstance(mockModelClass);
-		} catch (RuntimeException e) {
-			throw new IstfException("Unable to get filename for mock of class: " + mockModelClass.getName());
+		switch (mockModelClass.getSimpleName()) {
+			case "RetrieveMembershipSummaryMock":
+				return RetrieveMembershipSummaryMock.FILE_NAME;
+			case "RetrievePropertyClassificationMock":
+				return RetrievePropertyClassificationMock.FILE_NAME;
+			case "RetrievePropertyRiskReportsMock":
+				return RetrievePropertyRiskReportsMock.FILE_NAME;
+			default:
+				M mock;
+				try {
+					mock = (M) BindHelper.getInstance(mockModelClass);
+				} catch (RuntimeException e) {
+					throw new IstfException("Unable to get filename for mock of class: " + mockModelClass.getName());
+				}
+				return mock.getFileName();
 		}
-		return mock.getFileName();
 	}
 }

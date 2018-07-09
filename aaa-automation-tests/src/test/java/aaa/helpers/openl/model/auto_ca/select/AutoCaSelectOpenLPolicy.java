@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
-import aaa.helpers.openl.testdata_builder.AutoCaSelectTestDataGenerator;
+import aaa.helpers.openl.testdata_generator.AutoCaSelectTestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
 

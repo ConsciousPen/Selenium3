@@ -120,6 +120,33 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 
 		pas477_UpdateDriversBody(getPolicyType());
 	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Validation of max drivers on DXP
+	 * @scenario 1. Create a policy with 5 drivers
+	 * 2. Check view drivers service response (true)
+	 * 3. Create endorsement outside of PAS
+	 * 4. Hit view driver endorsement service (true).
+	 * 5. Add Driver 6, update new driver.
+	 * 6. Hit view driver endorsement service (true).
+	 * 7. Add Driver 7, update new driver.
+	 * 8. Hit view driver endorsement service (false).
+	 * 9. Try add one more driver. Check error response.
+	 * 10. Rate and Bind endorsement.
+	 * 11. Create second endorsement outside of PAS.
+	 * 12. Hit view driver endorsement service (false).
+	 * 13. Try add driver. Check error.
+	 * 14. Rate and Bind endorsement.
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9662"})
+	public void pas9662_maxDrivers(@Optional("VA") String state) {
+
+		pas9662_maxDriversBody(getPolicyType());
+	}
 }
 
 
