@@ -131,6 +131,8 @@ public class TestCurrentTermEndAddsVehicle extends AutoSSBaseTest {
              testDataThreeVehicles = getTestDataWithThreeVehicles(getPolicyTD(), "MATCHED");
         } else if(scenario.equals("STUB")) { //scenario 3
             //TODO - to be added later, if needed
+            //TODO - update the y/m/m/s/s/ to vehicle 1
+
         }
 
         //6. Calculate Premium and bind the endorsement.
