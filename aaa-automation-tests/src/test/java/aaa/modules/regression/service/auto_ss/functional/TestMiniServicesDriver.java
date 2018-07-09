@@ -124,19 +124,20 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	/**
 	 * @author Jovita Pukenaite
 	 * @name Validation of max drivers on DXP
-	 * @scenario 1. Create a policy
-	 * 2. Add maximum number of vehicle
-	 * 3. Check when the last vehicle is added, the response contains canAddVehicle = false
-	 * 4. Try to add 1 more vehicle
-	 * 5. Check there is an error message
-	 * 6. Rate, Bind
-	 * 7. Start new endorsement
-	 * 8. add 1 more vehicle - check error
-	 * 9. remove a vehicle
-	 * 10. add a vehicle
-	 * 11. Check when the last vehicle is added, the response contains canAddVehicle = false
-	 * 12. rate, bind
-	 * 13. Create 1 more endorsement in UI
+	 * @scenario 1. Create a policy with 5 drivers
+	 * 2. Check view drivers service response (true)
+	 * 3. Create endorsement outside of PAS
+	 * 4. Hit view driver endorsement service (true).
+	 * 5. Add Driver 6, update new driver.
+	 * 6. Hit view driver endorsement service (true).
+	 * 7. Add Driver 7, update new driver.
+	 * 8. Hit view driver endorsement service (false).
+	 * 9. Try add one more driver. Check error response.
+	 * 10. Rate and Bind endorsement.
+	 * 11. Create second endorsement outside of PAS.
+	 * 12. Hit view driver endorsement service (false).
+	 * 13. Try add driver. Check error.
+	 * 14. Rate and Bind endorsement.
 	 */
 
 	@Parameters({"state"})

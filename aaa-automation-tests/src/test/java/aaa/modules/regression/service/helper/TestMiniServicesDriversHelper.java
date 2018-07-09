@@ -499,28 +499,37 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 				ViewDriversResponse responseViewDriverEndorsement3 = HelperCommon.viewEndorsementDrivers(policyNumber);
 				assertThat(responseViewDriverEndorsement3.canAddDriver).isEqualTo(false);
 
-				//Add D7
-				addDriverRequest.firstName = "Jovita";
+				//Add D8
+				addDriverRequest.firstName = "Vadym";
 				addDriverRequest.lastName = "Smith";
-				addDriverRequest.birthDate = "1990-05-08";
+				addDriverRequest.birthDate = "1990-05-01";
 
 				ErrorResponseDto addDriver8 = HelperCommon.executeEndorsementAddDriverError(policyNumber, addDriverRequest);
 				softly.assertThat(addDriver8.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 				softly.assertThat(addDriver8.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-				softly.assertThat(addDriver8.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.MAX_NUMBER_OF_VEHICLES.getCode());
-				softly.assertThat(addDriver8.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.MAX_NUMBER_OF_VEHICLES.getMessage());
+				softly.assertThat(addDriver8.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.MAX_NUMBER_OF_DRIVERS.getCode());
+				softly.assertThat(addDriver8.errors.get(0).message).contains(ErrorDxpEnum.Errors.MAX_NUMBER_OF_DRIVERS.getMessage());
 
 				helperMiniServices.endorsementRateAndBind(policyNumber);
 
+				//Check view drivers service response after first endorsement
+				ViewDriversResponse viewDrivers2 = HelperCommon.viewPolicyDrivers(policyNumber);
+				assertThat(viewDrivers2.canAddDriver).isEqualTo(false);
 
+				//Create second pended Endorsement
+				helperMiniServices.createEndorsementWithCheck(policyNumber);
 
+				//hit view driver endorsement service
+				ViewDriversResponse responseViewDriverEndorsement4 = HelperCommon.viewEndorsementDrivers(policyNumber);
+				assertThat(responseViewDriverEndorsement4.canAddDriver).isEqualTo(false);
 
+				ErrorResponseDto addDriver9 = HelperCommon.executeEndorsementAddDriverError(policyNumber, addDriverRequest);
+				softly.assertThat(addDriver9.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+				softly.assertThat(addDriver9.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+				softly.assertThat(addDriver9.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.MAX_NUMBER_OF_DRIVERS.getCode());
+				softly.assertThat(addDriver9.errors.get(0).message).contains(ErrorDxpEnum.Errors.MAX_NUMBER_OF_DRIVERS.getMessage());
 
-
-
-
-
-
+				helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
 	}
 }
