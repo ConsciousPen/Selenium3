@@ -115,7 +115,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 			String policyNumber = getCopiedPolicy();
 
 			//Create pended endorsement
-			AAAEndorseResponse response = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			PolicySummary response = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 			assertThat(response.policyNumber).isEqualTo(policyNumber);
 
 			SearchPage.openPolicy(policyNumber);
