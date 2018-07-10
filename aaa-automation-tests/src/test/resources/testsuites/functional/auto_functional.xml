@@ -95,6 +95,18 @@
                     <include name="testPriorBILimitLessThan500k"/>
                 </methods>
             </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestRestrictedPaymentPlan">
+                <methods>
+                    <include name="pas10870_restrictionPaymentPlansMembershipPending"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipNo"/>
+                    <include name="pas11366_restrictionPaymentPlansMembershipOverride"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestEarnedPremiumWriteOff">
+                <methods>
+                    <include name="pas11697_testEarnedPremiumWriteOffEqualDecline"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <test name="CO Auto Functional Tests" parallel="methods">
@@ -501,6 +513,11 @@
                     <include name="testCinRenewalMVR"/>
                 </methods>
             </class>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.functional.TestEarnedPremiumWriteOff">
+                <methods>
+                    <include name="pas11697_testEarnedPremiumWriteOffMoreProposed"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <test name="CA Choice Auto Functional Tests" parallel="methods">
@@ -528,6 +545,11 @@
             <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.functional.TestCinNewBusinessAutoCAChoice">
                 <methods>
                     <include name="testCinNewBusiness"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.choice.functional.TestEarnedPremiumWriteOff">
+                <methods>
+                    <include name="pas11697_testEarnedPremiumWriteOffEqualProposed"/>
                 </methods>
             </class>
         </classes>
