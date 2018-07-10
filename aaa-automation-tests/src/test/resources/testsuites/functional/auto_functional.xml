@@ -45,11 +45,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestTriggersAH35XX"/>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEndorsementActionRules"/>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestInstallmentFees"/>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ss.functional.TestCinRenewalAutoSS">
-                <methods>
-                    <include name="testCinCLUE"/>
-                </methods>
-            </class>
         </classes>
     </test>
     <test name="AZ Auto Functional Tests" parallel="methods">
@@ -93,6 +88,11 @@
             <class name="aaa.modules.regression.document_fulfillment.auto_ss.functional.TestCinNewBusinessAutoSS">
                 <methods>
                     <include name="testPriorBILimitLessThan500k"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.functional.TestCinRenewalAutoSS">
+                <methods>
+                    <include name="testCinCLUE"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestRestrictedPaymentPlan">
