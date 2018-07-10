@@ -71,6 +71,12 @@ public class UploadToVINTableTab extends DefaultTab {
 		log.info("WARN Vin table {} upload started",vinTableFileName);
 		openUploadToVinTableTab();
 
+		try {
+			Thread.sleep(20000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION).setValue(true);
 		uploadFile(vinTableFileName);
 		CacheManager cacheManager = new CacheManager();
@@ -86,7 +92,7 @@ public class UploadToVINTableTab extends DefaultTab {
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(DEFAULT_PATH + fileName));
 		buttonUpload.click();
 
-		long timeoutInSeconds = 20;
+		long timeoutInSeconds = 60;
 		long timeout = System.currentTimeMillis() + timeoutInSeconds * 1000;
 
 		while (timeout > System.currentTimeMillis()) {

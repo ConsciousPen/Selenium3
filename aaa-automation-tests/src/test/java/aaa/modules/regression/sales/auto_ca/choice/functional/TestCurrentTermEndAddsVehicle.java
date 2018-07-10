@@ -88,7 +88,7 @@ public class TestCurrentTermEndAddsVehicle extends AutoCaSelectBaseTest {
     public void pas14532_refreshForCurrentAndRenewalTerms(@Optional("CA") String state, String scenario) {
         VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
         UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
-        String vinTableFile = "VinUploadOnCurrentTerm_AZ_SS.xlsx";
+        String vinTableFile = "VinUploadOnCurrentTerm.xlsx";
         String controlTableFile = "controlTable_CA.xlsx";
 
         //1. Create auto SS quote with two vins and save the expiration date

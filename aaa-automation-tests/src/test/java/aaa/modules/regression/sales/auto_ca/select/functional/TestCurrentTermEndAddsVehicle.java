@@ -91,7 +91,7 @@ public class TestCurrentTermEndAddsVehicle extends AutoCaSelectBaseTest {
     public void pas14532_refreshForCurrentAndRenewalTerms(@Optional("CA") String state, String scenario) {
         VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
         UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
-        String vinTableFile = "VinUploadOnCurrentTerm_AZ_SS.xlsx";
+        String vinTableFile = "VinUploadOnCurrentTerm.xlsx";
         String controlTableFile = "controlTable_CA.xlsx";
 
         //1. Create auto SS quote with two vins and save the expiration date
@@ -149,24 +149,24 @@ public class TestCurrentTermEndAddsVehicle extends AutoCaSelectBaseTest {
         if (scenario.equals("NOT_MATCHED")) { //scenario 1 blocked by defect PAS-15964 (Ajax error)
             PolicySummaryPage.buttonRenewalQuoteVersion.click();
             PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(2).controls.links.get(1).click(); //click to enter second renewal image
-            NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+            NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
             PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
             // The First Vehicle - Displays Updated/refreshed data according to version;
             softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("HYUNDAI MOTOR");
-            softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isEqualTo("55");
-            softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isEqualTo("15");
+            softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isEqualTo("12");
+            softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isEqualTo("17");
 
             // The second Vehicle - NOT updated will not change/not refresh;
             softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue()).isEqualToIgnoringCase("TOYOTA MOTOR");
             softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue()).isEqualToIgnoringCase("TOYT COROLLA");
-            softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(3).getValue()).isEqualTo("50");
-            softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(3).getValue()).isEqualTo("51");
+            softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(3).getValue()).isEqualTo("20");
+            softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(3).getValue()).isEqualTo("30");
 
             // The third Vehicle - displayed updated/refreshed data according to version;
             softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(4).getValue()).isEqualToIgnoringCase("FORD MOTOR");
-            softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(4).getValue()).isEqualTo("24");
-            softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(4).getValue()).isEqualTo("14");
+            softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(4).getValue()).isEqualTo("25");
+            softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(4).getValue()).isEqualTo("37");
 
             //Close the Renewal Image
             PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
@@ -174,9 +174,35 @@ public class TestCurrentTermEndAddsVehicle extends AutoCaSelectBaseTest {
 
             //Catch any assertion errors seen during test
             softly.close();
-
         } else if (scenario.equals("MATCHED")) { //scenario 2
             //TODO - Scenario to be added later, if needed
+            PolicySummaryPage.buttonRenewalQuoteVersion.click();
+            PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(2).controls.links.get(1).click(); //click to enter second renewal image
+            NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+            PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+
+            // The First Vehicle - Displays Updated/refreshed data according to version;
+            softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("GMC MOTOR");
+            softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isEqualTo("50");
+            softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isEqualTo("50");
+
+            // The second Vehicle - NOT updated will not change/not refresh;
+            softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue()).isEqualToIgnoringCase("TOYOTA MOTOR");
+            softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue()).isEqualToIgnoringCase("TOYT COROLLA");
+            softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(3).getValue()).isEqualTo("20");
+            softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(3).getValue()).isEqualTo("30");
+
+            // The third Vehicle - displayed updated/refreshed data according to version;
+            softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(4).getValue()).isEqualToIgnoringCase("FORD MOTOR");
+            softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(4).getValue()).isEqualTo("25");
+            softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(4).getValue()).isEqualTo("37");
+
+            //Close the Renewal Image
+            PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+            PremiumAndCoveragesTab.buttonCancel.click();
+
+            //Catch any assertion errors seen during test
+            softly.close();
         } else if (scenario.equals("STUB")) { //scenario 3
             //TODO - Scenario to be added later, if needed
         }
@@ -221,6 +247,7 @@ public class TestCurrentTermEndAddsVehicle extends AutoCaSelectBaseTest {
             updateFirstVehicle = modifyVehicleTabNonExistingVin(getPolicyTD()).getTestData("VehicleTab");
         } else if (scenario.equals("MATCHED")) { //scenario 2
             //TODO - Scenario to be added later, if needed
+            updateFirstVehicle = modifyVehicleTabWithExistingVin(getPolicyTD()).getTestData("VehicleTab");
         } else if (scenario.equals("STUB")) { //scenario 3
             //TODO - Scenario to be added later, if needed
         }
@@ -240,14 +267,14 @@ public class TestCurrentTermEndAddsVehicle extends AutoCaSelectBaseTest {
 			    .adjust(assignmentTab.getMetaKey(), testDataAssignmentTab).resolveLinks();
     }
 
-    //Update vehicle 2 with VIN matched
+    //Update vehicle 1 with VIN matched
     public TestData modifyVehicleTabWithExistingVin(TestData testData) {
         testData
                 .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), VEHICLE1_UPDATED_VIN);
         return testData;
     }
 
-    //Update Vehicle 2 info to Vin no match
+    //Update Vehicle 1 info to Vin no match
     public TestData modifyVehicleTabNonExistingVin(TestData testData2) {
         testData2
                 .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), "ZZXKN3DD2E0344466")
@@ -300,14 +327,14 @@ public class TestCurrentTermEndAddsVehicle extends AutoCaSelectBaseTest {
 
     @AfterClass(alwaysRun = true)
     protected void resetDefault() {
-        DatabaseCleanHelper.cleanVehicleRefDataVinTable(VEHICLE1_VIN, SYMBOL_2018);
+      /*  DatabaseCleanHelper.cleanVehicleRefDataVinTable(VEHICLE1_VIN, SYMBOL_2018);
         DatabaseCleanHelper.cleanVehicleRefDataVinTable(VEHICLE2_VIN, SYMBOL_2018);
         DatabaseCleanHelper.cleanVehicleRefDataVinTable(VEHICLE3_VIN, SYMBOL_2018);
         DatabaseCleanHelper.cleanVehicleRefDataVinTable(VEHICLE4_VIN, SYMBOL_2018);
         DBService.get().executeUpdate(String.format(VehicleQueries.DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_STATECD_VERSION, "CA", SYMBOL_2018));
         DBService.get().executeUpdate(String.format(VehicleQueries.DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_STATECD_VERSION, "CA", SYMBOL_2018_CHOICE));
         DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION, "99999999", "CA", SYMBOL_2000));
-        DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION, "99999999", "CA", SYMBOL_2000_CHOICE));
+        DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION, "99999999", "CA", SYMBOL_2000_CHOICE));*/
     }
 }
 
