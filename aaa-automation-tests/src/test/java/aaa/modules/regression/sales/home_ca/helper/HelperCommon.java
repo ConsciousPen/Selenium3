@@ -89,7 +89,7 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         String seniorDiscountApplicabilityAge = TimeSetterUtil.getInstance().getCurrentTime().minusYears(seniorDiscountApplicabilityAgeYears).minusDays(dateOfBirthDaysDelta).format(DateTimeUtils.MM_DD_YYYY);
         applicantTab.getAssetList().getAsset(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), MultiAssetList.class).getAsset(HomeCaMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH).setValue(seniorDiscountApplicabilityAge);
         premiumsAndCoveragesQuoteTab.calculatePremium();
-        assertThat(DBService.get().getValue(String.format(AGE_VERIFICATION_SQL, policyNumber)).map(Integer::parseInt)).isEqualTo(ageInDbYears);
+        assertThat(DBService.get().getValue(String.format(AGE_VERIFICATION_SQL, policyNumber)).map(Integer::parseInt)).hasValue(ageInDbYears);
     }
 
     // This creates a customer, policy and return the policy number as a String.

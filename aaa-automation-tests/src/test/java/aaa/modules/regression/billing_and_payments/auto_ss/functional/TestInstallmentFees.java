@@ -38,7 +38,6 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.TextBox;
 
 public class TestInstallmentFees extends PolicyBilling {
 
@@ -144,7 +143,7 @@ public class TestInstallmentFees extends PolicyBilling {
 		Page.dialogConfirmation.buttonCloseWithCross.click();
 
 		//PAS-1455 start
-		CustomAssert.assertTrue(PremiumAndCoveragesTab.autoPaySetupSavingMessage.getRow(1).getCell(2).getValue().equals(String.format(AUTOPAY_SAVING_MESSAGE, nonEftInstallmentFee.subtract(eftInstallmentFeeACH).toString().replace(".00", ""))));
+		assertThat(PremiumAndCoveragesTab.autoPaySetupSavingMessage.getRow(1).getCell(2)).hasValue(String.format(AUTOPAY_SAVING_MESSAGE, nonEftInstallmentFee.subtract(eftInstallmentFeeACH).toString().replace(".00", "")));
 		//PAS-1455 end
 
 		premiumAndCoveragesTab.saveAndExit();
@@ -155,13 +154,13 @@ public class TestInstallmentFees extends PolicyBilling {
 		//PAS-241 Start
 		String installmentSavingInfo = String.format(AUTOPAY_SAVING_MESSAGE, nonEftInstallmentFee.subtract(eftInstallmentFeeACH).toString().replace(".00", ""));
 		//PAS-241 End
-		CustomAssert.assertTrue(BillingAccount.tableInstallmentSavingInfo.getRow(1).getCell(2).getValue().equals(installmentSavingInfo));
+		assertThat(BillingAccount.tableInstallmentSavingInfo.getRow(1).getCell(2)).hasValue(installmentSavingInfo);
 
 		//PAS-3846 start - will change in future
 		AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("contains=Card");
 		//PAS-4127 start
-		updateBillingAccountActionTab.getInquiryAssetList().assetFieldsAbsence("Card Type");
+		assertThat(updateBillingAccountActionTab.isFieldThatIsNotInAssetListIsPresent("Card Type")).as("Fiels 'Card Type' should be absent").isFalse();
 		//PAS-4127 end
 	}
 
@@ -197,7 +196,7 @@ public class TestInstallmentFees extends PolicyBilling {
 		AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("contains=Card");
 		//PAS-4127 start
-		updateBillingAccountActionTab.getInquiryAssetList().assetFieldsAbsence("Card Type");
+		assertThat(updateBillingAccountActionTab.isFieldThatIsNotInAssetListIsPresent("Card Type")).as("Fiels 'Card Type' should be absent").isFalse();
 		//PAS-4127 end
 
 		TestData dcPayment = getTestSpecificTD("TestData_DebitCard");

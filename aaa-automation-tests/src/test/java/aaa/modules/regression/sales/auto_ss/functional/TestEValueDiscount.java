@@ -370,7 +370,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		CustomSoftAssertions.assertSoftly(softly -> {
 			//PAS-439, PAS-234 start
-			generalTab.getInquiryAssetList().assetFieldsAbsence("Apply eValue Discount");
+			softly.assertThat(generalTab.isFieldThatIsNotInAssetListIsPresent("Apply eValue Discount")).as("Control 'Apply eValue Discount' should not be present").isFalse();
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
 			//Check field properties and default value of eValue Discount
@@ -440,8 +440,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			policy.dataGather().start();
 			new PremiumAndCoveragesTab().calculatePremium();
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-			InquiryAssetList inquiryAssetDocumentTabGeneralInfoSection = new InquiryAssetList(By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER), AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.class);
-			inquiryAssetDocumentTabGeneralInfoSection.assetFieldUnionCheck(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL.getLabel(), true, true, true);
+			softly.assertThat(documentsAndBindTab.getGeneralInformationAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL)).isPresent().isEnabled().isRequired();
 			documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION.getLabel(), AssetList.class)
 					.getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL).setValue("");
 			DocumentsAndBindTab.btnPurchase.click();
@@ -717,7 +716,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
 			new PremiumAndCoveragesTab().calculatePremium();
-			generalTab.getInquiryAssetList().assetFieldsAbsence("Has the insured ever been enrolled in eValue?");
+			softly.assertThat(generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.HAS_THE_INSURED_EVER_BEEN_ENROLLED_IN_EVALUE)).isAbsent();
 			//PAS-2054 end
 			//PAS-325 end
 			premiumAndCoveragesTab.saveAndExit();
@@ -726,12 +725,12 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 			//Inquiry doesn't show the field
 			policy.policyInquiry().start();
-			generalTab.getInquiryAssetList().assetFieldUnionCheck(AutoSSMetaData.GeneralTab.PolicyInformation.HAS_THE_INSURED_EVER_BEEN_ENROLLED_IN_EVALUE.getLabel(), false, false, false);
+			softly.assertThat(generalTab.getPolicyInfoInquiryAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.HAS_THE_INSURED_EVER_BEEN_ENROLLED_IN_EVALUE)).isAbsent();
 			generalTab.cancel();
 
 			//Endorsement doesn't show the field
 			policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-			generalTab.getInquiryAssetList().assetFieldUnionCheck(AutoSSMetaData.GeneralTab.PolicyInformation.HAS_THE_INSURED_EVER_BEEN_ENROLLED_IN_EVALUE.getLabel(), false, false, false);
+			softly.assertThat(generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.HAS_THE_INSURED_EVER_BEEN_ENROLLED_IN_EVALUE)).isAbsent();
 			//PAS-306, PAS-320, PAS-323, PAS-289 start
 			commissionTypeCheck(expectedEvalueCommissionTypeOptions, "No", "eValue New Business", softly);//because the issue happened with eValue Discount = True
 			commissionTypeCheck(expectedEvalueCommissionTypeOptions, "Yes", "eValue New Business", softly);
@@ -742,7 +741,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 			//Renewal doesn't show the field
 			policy.renew().start();
-			generalTab.getInquiryAssetList().assetFieldUnionCheck(AutoSSMetaData.GeneralTab.PolicyInformation.HAS_THE_INSURED_EVER_BEEN_ENROLLED_IN_EVALUE.getLabel(), false, false, false);
+			softly.assertThat(generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.HAS_THE_INSURED_EVER_BEEN_ENROLLED_IN_EVALUE)).isAbsent();
 			//PAS-306, PAS-320, PAS-323, PAS-318, PAS-292 start
 			commissionTypeCheck(expectedEvalueCommissionTypeOptions, "No", "eValue Renewal", softly);
 			commissionTypeCheck(expectedEvalueCommissionTypeOptions, "Yes", "eValue Renewal", softly);

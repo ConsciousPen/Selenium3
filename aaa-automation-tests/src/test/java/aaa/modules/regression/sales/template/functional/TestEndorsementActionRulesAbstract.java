@@ -1,6 +1,5 @@
 package aaa.modules.regression.sales.template.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import org.apache.commons.lang3.RandomStringUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
@@ -35,7 +34,7 @@ public abstract class TestEndorsementActionRulesAbstract extends PolicyBaseTest 
 		policy.endorse().start();
 
 		CustomSoftAssertions.assertSoftly(softly -> {
-			getEndorsementActionTab().getInquiryAssetList().assetFieldUnionCheck(getEndorsementDate().getLabel(), true, true, true);
+			softly.assertThat(getEndorsementActionTab().getAssetList().getAsset(getEndorsementDate())).isPresent().isEnabled().isRequired();
 			softly.assertThat(getEndorsementActionTab().getAssetList().getAsset(getEndorsementDate()))
 					.hasValue(TimeSetterUtil.getInstance().getCurrentTime().minusDays(0).format(DateTimeUtils.MM_DD_YYYY));
 
@@ -61,17 +60,17 @@ public abstract class TestEndorsementActionRulesAbstract extends PolicyBaseTest 
 			getEndorsementActionTab().getAssetList().getAsset(getEndorsementDate())
 					.setValue(TimeSetterUtil.getInstance().getCurrentTime().minusDays(0).format(DateTimeUtils.MM_DD_YYYY));
 
-			getEndorsementActionTab().getInquiryAssetList().assetFieldUnionCheck(getEndorsementReason().getLabel(), true, true, true);
+			softly.assertThat(getEndorsementActionTab().getAssetList().getAsset(getEndorsementReason())).isPresent().isEnabled().isRequired();
 			softly.assertThat(getEndorsementActionTab().getAssetList().getAsset(getEndorsementReason())).hasValue("");
-			getEndorsementActionTab().getInquiryAssetList().assetFieldUnionCheck(getEndorsementOtherReason().getLabel(), false, false, false);
+			softly.assertThat(getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason())).isPresent(false);
 
 			getEndorsementActionTab().getAssetList().getAsset(getEndorsementReason()).setValue("contains=Other");
-			getEndorsementActionTab().getInquiryAssetList().assetFieldUnionCheck(getEndorsementOtherReason().getLabel(), true, true, true);
+			softly.assertThat(getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason())).isPresent().isEnabled().isRequired();
 			softly.assertThat(getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason())).hasValue("");
 
 			getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason()).setValue("other value");
 			getEndorsementActionTab().getAssetList().getAsset(getEndorsementReason().getLabel(), ComboBox.class).setValue("contains=Maintain");
-			getEndorsementActionTab().getInquiryAssetList().assetFieldUnionCheck(getEndorsementOtherReason().getLabel(), false, false, false);
+			softly.assertThat(getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason())).isPresent(false);
 
 			getEndorsementActionTab().getAssetList().getAsset(getEndorsementReason()).setValue("contains=Other");
 			//BUG PAS-6205 'Other' field value is not reset to Blank after Endorsment Reason is set to Other for the second time

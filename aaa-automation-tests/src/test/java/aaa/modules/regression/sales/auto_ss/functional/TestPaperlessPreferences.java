@@ -53,8 +53,8 @@ public class TestPaperlessPreferences extends AutoSSBaseTest {
             NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
             //PAS-282, PAS-268 start
-            inquiryAssetList.assetSectionPresence("Paperless Preferences");
-            inquiryAssetList.assetSectionPresence("Document Delivery Details", false);
+            softly.assertThat(documentsAndBindTab.isSectionPresent("Paperless Preferences")).as("'Paperless Preferences' section should be present").isTrue();
+            softly.assertThat(documentsAndBindTab.isSectionPresent("Document Delivery Details")).as("'Document Delivery Details' section should be absent").isFalse();
             softly.assertThat(documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS)).isPresent();
             softly.assertThat(documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS)).isEnabled(false);
             softly.assertThat(documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS)).hasValue("Yes");
@@ -64,19 +64,16 @@ public class TestPaperlessPreferences extends AutoSSBaseTest {
 
             //left overs of previous functionality. Showing Hiding rules will change with new story
             softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.SUPPRESS_PRINT)).isPresent();
-            softly.assertThat(documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.METHOD_OF_DELIVERY)).isPresent(false);
-            softly.assertThat(documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.INCLUDE_WITH_EMAIL)).isPresent(false);
+            softly.assertThat(documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.METHOD_OF_DELIVERY)).isAbsent();
+            softly.assertThat(documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.INCLUDE_WITH_EMAIL)).isAbsent();
             //left overs of previous functionality. Lookup list will change with new story
 
             //PAS-3097 remove the Issue Date field from Bind tab (VA state)
-            inquiryAssetList.assetFieldsAbsence( "Issue Date");
             softly.assertThat(documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.ISSUE_DATE)).isPresent(false);
             //PAS-3097 end
 
-            inquiryAssetList.assetFieldsAbsence( "Method Of Delivery");
-            softly.assertThat(documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.METHOD_OF_DELIVERY)).isPresent(false);
-            inquiryAssetList.assetFieldsAbsence( "Include with Email");
-            softly.assertThat(documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.INCLUDE_WITH_EMAIL)).isPresent(false);
+            softly.assertThat(documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.METHOD_OF_DELIVERY)).isAbsent();
+            softly.assertThat(documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.INCLUDE_WITH_EMAIL)).isAbsent();
 
             //PAS-266 start
             documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES).click();
@@ -90,8 +87,17 @@ public class TestPaperlessPreferences extends AutoSSBaseTest {
             //PAS-287 end
 
             //PAS-277 start
-            inquiryAssetList.assetSectionPresence("Document Delivery Details", false);
-            inquiryAssetList.assetFieldsAbsence("Send To", "Country", "Zip/Postal Code", "Address Line 1", "Address Line 2", "Address Line 3", "City", "State / Province", "Notes", "Issue Date");
+            softly.assertThat(documentsAndBindTab.isSectionPresent("Document Delivery Details")).as("'Document Delivery Details' section should be absent").isFalse();
+            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Send To")).as("Field 'Send To' is absent").isFalse();
+            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Country")).as("Field 'Country' is absent").isFalse();
+            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Zip/Postal Code")).as("Field 'Zip/Postal Code' is absent").isFalse();
+            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Address Line 1")).as("Field 'Address Line 1' is absent").isFalse();
+            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Address Line 2")).as("Field 'Address Line 2' is absent").isFalse();
+            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Address Line 3")).as("Field 'Address Line 3' is absent").isFalse();
+            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("City")).as("Field 'City' is absent").isFalse();
+            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("State / Province")).as("Field 'State / Province' is absent").isFalse();
+            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Notes")).as("Field 'Notes' is absent").isFalse();
+            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Issue Date")).as("Field 'Issue Date' is absent").isFalse();
             //PAS-277 end
 
             documentsAndBindTab.saveAndExit();
@@ -99,9 +105,9 @@ public class TestPaperlessPreferences extends AutoSSBaseTest {
 
             //PAS-269 start
             NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-            inquiryAssetList.assetSectionPresence("Paperless Preferences");
+            softly.assertThat(documentsAndBindTab.isSectionPresent("Paperless Preferences")).as("'Paperless Preferences' section should be present").isTrue();
             softly.assertThat(documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES)).isPresent();
-            softly.assertThat(documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES)).isPresent(false);
+            softly.assertThat(documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES)).isEnabled(false);
             softly.assertThat(inquiryAssetList.getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS)).isPresent();
             softly.assertThat(inquiryAssetList.getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.ISSUE_DATE)).isPresent(false);
             softly.assertThat(inquiryAssetList.getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.METHOD_OF_DELIVERY)).isPresent(false);
@@ -155,16 +161,25 @@ public class TestPaperlessPreferences extends AutoSSBaseTest {
             policy.dataGather().start();
             NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
-            inquiryAssetList.assetSectionPresence("Paperless Preferences", false);
+            softly.assertThat(documentsAndBindTab.isSectionPresent("Paperless Preferences")).as("'Paperless Preferences' section should be absent").isFalse();
             softly.assertThat(documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS)).isPresent(false);
             softly.assertThat(documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES)).isPresent(false);
 
-            inquiryAssetList.assetSectionPresence("Document Print Details", true);
+            softly.assertThat(documentsAndBindTab.isSectionPresent("Paperless Preferences")).as("'Paperless Preferences' section should be present").isTrue();
             softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.SUPPRESS_PRINT)).isPresent();
 
             //PAS-277 start
-            inquiryAssetList.assetSectionPresence("Document Delivery Details", false);
-            inquiryAssetList.assetFieldsAbsence("Send To", "Country", "Zip/Postal Code", "Address Line 1", "Address Line 2", "Address Line 3", "City", "State / Province", "Notes", "Issue Date");
+            softly.assertThat(documentsAndBindTab.isSectionPresent("Document Delivery Details")).as("'Document Delivery Details' section should be absent").isFalse();
+            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Send To")).as("Field 'Send To' is absent").isFalse();
+            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Country")).as("Field 'Country' is absent").isFalse();
+            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Zip/Postal Code")).as("Field 'Zip/Postal Code' is absent").isFalse();
+            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Address Line 1")).as("Field 'Address Line 1' is absent").isFalse();
+            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Address Line 2")).as("Field 'Address Line 2' is absent").isFalse();
+            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Address Line 3")).as("Field 'Address Line 3' is absent").isFalse();
+            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("City")).as("Field 'City' is absent").isFalse();
+            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("State / Province")).as("Field 'State / Province' is absent").isFalse();
+            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Notes")).as("Field 'Notes' is absent").isFalse();
+            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Issue Date")).as("Field 'Issue Date' is absent").isFalse();
             //PAS-277 end
 
             //PAS-3097 start
@@ -223,7 +238,7 @@ public class TestPaperlessPreferences extends AutoSSBaseTest {
             policy.dataGather().start();
             NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
-            inquiryAssetList.assetSectionPresence("Paperless Preferences");
+            softly.assertThat(documentsAndBindTab.isSectionPresent("Paperless Preferences")).as("'Paperless Preferences' section should be present").isTrue();
 
             softly.assertThat(documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS)).isPresent();
             softly.assertThat(documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS)).isEnabled(false);

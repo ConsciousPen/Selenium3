@@ -63,6 +63,6 @@ public class TestDecPlcyVehInfoHelper extends BaseTest {
 		}
 
 		String query2 = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNum, templateId, eventName);
-		assertThat(DBService.get().getValue(query2).map(Integer::parseInt)).isEqualTo(numberOfDocuments);
+		assertThat(DBService.get().getValue(query2).map(Integer::parseInt)).hasValue(numberOfDocuments);
 	}
 }

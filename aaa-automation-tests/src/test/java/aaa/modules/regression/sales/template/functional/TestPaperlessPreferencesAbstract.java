@@ -84,8 +84,8 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 		InquiryAssetList inquiryAssetList = new InquiryAssetList(new DocumentsAndBindTab().getAssetList().getLocator(), AutoSSMetaData.DocumentsAndBindTab.class);
 
-		inquiryAssetList.assetSectionPresence("Paperless Preferences");
-		inquiryAssetList.assetSectionPresence("Document Delivery Details", false);
+		assertThat(getDocumentsAndBindTabElement().isSectionPresent("Paperless Preferences")).as("'Paperless Preferences' section should be present").isTrue();
+		assertThat(getDocumentsAndBindTabElement().isSectionPresent("Document Delivery Details")).as("'Document Delivery Details' section should be absent").isFalse();
 		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).isPresent();
 		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).isDisabled();
 		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).hasValue("Yes");
@@ -100,13 +100,10 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		//left overs of previous functionality. Lookup list will change with new story
 
 		//PAS-3097 remove the Issue Date field from Bind tab (VA state)
-		inquiryAssetList.assetFieldsAbsence("Issue Date");
 		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getIssueDate())).isPresent(false);
 		//PAS-3097 end
 
-		inquiryAssetList.assetFieldsAbsence("Method Of Delivery");
 		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery())).isPresent(false);
-		inquiryAssetList.assetFieldsAbsence("Include with Email");
 		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getIncludeWithEmail())).isPresent(false);
 
 		//PAS-266 start
@@ -121,8 +118,17 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		//PAS-287 end
 
 		//PAS-277 start
-		inquiryAssetList.assetSectionPresence("Document Delivery Details", false);
-		inquiryAssetList.assetFieldsAbsence("Send To", "Country", "Zip/Postal Code", "Address Line 1", "Address Line 2", "Address Line 3", "City", "State / Province", "Notes", "Issue Date");
+		assertThat(getDocumentsAndBindTabElement().isSectionPresent("Document Delivery Details")).as("'Document Delivery Details' section should be absent").isFalse();
+		assertThat(getDocumentsAndBindTabElement().isFieldThatIsNotInAssetListIsPresent("Send To")).as("Field 'Send To' is absent").isFalse();
+		assertThat(getDocumentsAndBindTabElement().isFieldThatIsNotInAssetListIsPresent("Country")).as("Field 'Country' is absent").isFalse();
+		assertThat(getDocumentsAndBindTabElement().isFieldThatIsNotInAssetListIsPresent("Zip/Postal Code")).as("Field 'Zip/Postal Code' is absent").isFalse();
+		assertThat(getDocumentsAndBindTabElement().isFieldThatIsNotInAssetListIsPresent("Address Line 1")).as("Field 'Address Line 1' is absent").isFalse();
+		assertThat(getDocumentsAndBindTabElement().isFieldThatIsNotInAssetListIsPresent("Address Line 2")).as("Field 'Address Line 2' is absent").isFalse();
+		assertThat(getDocumentsAndBindTabElement().isFieldThatIsNotInAssetListIsPresent("Address Line 3")).as("Field 'Address Line 3' is absent").isFalse();
+		assertThat(getDocumentsAndBindTabElement().isFieldThatIsNotInAssetListIsPresent("City")).as("Field 'City' is absent").isFalse();
+		assertThat(getDocumentsAndBindTabElement().isFieldThatIsNotInAssetListIsPresent("State / Province")).as("Field 'State / Province' is absent").isFalse();
+		assertThat(getDocumentsAndBindTabElement().isFieldThatIsNotInAssetListIsPresent("Notes")).as("Field 'Notes' is absent").isFalse();
+		assertThat(getDocumentsAndBindTabElement().isFieldThatIsNotInAssetListIsPresent("Issue Date")).as("Field 'Issue Date' is absent").isFalse();
 		//PAS-277 end
 
 		getDocumentsAndBindTabElement().saveAndExit();
@@ -130,7 +136,7 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 
 		//PAS-269 start
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
-		inquiryAssetList.assetSectionPresence("Paperless Preferences");
+		assertThat(getDocumentsAndBindTabElement().isSectionPresent("Paperless Preferences")).as("'Paperless Preferences' section should be present").isTrue();
 		assertThat(getPaperlessPreferencesAssetList().getAsset(getButtonManagePaperlessPreferences())).isPresent();
 		assertThat(getPaperlessPreferencesAssetList().getAsset(getButtonManagePaperlessPreferences())).isDisabled();
 		assertThat(inquiryAssetList.getStaticElement(getEnrolledInPaperless().getLabel())).isPresent();
@@ -162,7 +168,7 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 
 		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).hasValue("No");
-		getInquiryAssetList().assetSectionPresence("Document Delivery", true);
+		assertThat(getDocumentsAndBindTabElement().isSectionPresent("Document Delivery")).as("'Document Delivery' section should be present").isTrue();
 		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery())).isPresent();
 		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).setValue("Email");
 		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getIncludeWithEmail())).isPresent();
@@ -174,7 +180,7 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).hasValue("Yes");
-		getInquiryAssetList().assetSectionPresence("Document Delivery", false);
+		assertThat(getDocumentsAndBindTabElement().isSectionPresent("Document Delivery")).as("'Document Delivery' section should be absent").isFalse();
 		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery())).isPresent(false);
 		deleteSinglePaperlessPreferenceRequest(stub2);
 	}
@@ -202,7 +208,7 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).hasValue("Pending");
-		getInquiryAssetList().assetSectionPresence("Document Delivery", false);
+		assertThat(getDocumentsAndBindTabElement().isSectionPresent("Document Delivery")).as("'Document Delivery' section should be absent").isFalse();
 		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery())).isPresent(false);
 		deleteSinglePaperlessPreferenceRequest(stub);
 		getDocumentsAndBindTabElement().cancel(true);
@@ -211,7 +217,7 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).hasValue("Yes");
-		getInquiryAssetList().assetSectionPresence("Document Delivery", false);
+		assertThat(getDocumentsAndBindTabElement().isSectionPresent("Document Delivery")).as("'Document Delivery' section should be absent").isFalse();
 		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery())).isPresent(false);
 		deleteSinglePaperlessPreferenceRequest(stub2);
 		getDocumentsAndBindTabElement().cancel(true);
@@ -220,7 +226,7 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).hasValue("No");
-		getInquiryAssetList().assetSectionPresence("Document Delivery", false);
+		assertThat(getDocumentsAndBindTabElement().isSectionPresent("Document Delivery")).as("'Document Delivery' section should be absent").isFalse();
 		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery())).isPresent(false);
 		deleteSinglePaperlessPreferenceRequest(stub3);
 	}

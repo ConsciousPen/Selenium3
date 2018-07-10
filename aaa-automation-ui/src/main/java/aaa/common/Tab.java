@@ -2,9 +2,11 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import aaa.common.components.Dialog;
 import aaa.common.pages.Page;
 import aaa.main.metadata.DialogsMetaData;
+import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import org.openqa.selenium.By;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
@@ -193,5 +195,36 @@ public abstract class Tab {
 	protected Tab showHeader() {
 		BrowserController.get().executeScript("$(\'#headerForm\').show();");
 		return this;
+	}
+
+	/**
+	 * Verifies is section label presence in AssetList (form).
+	 * Note: Search by text will be performed in Asset's forms only.
+	 *
+	 * @param sectionName - section to check (can be @id->sectionName)
+	 */
+	public boolean isSectionPresent(String sectionName) {
+		String xPath = String.format("//span[@class='componentViewPanelHeader']//label[text()='%s']", sectionName);
+		String xPath2 = String.format("//span[text()='%s']", sectionName);
+		String xPath3 = String.format("//span[text()=\"%s\"]", sectionName); //for ' in the text
+		boolean present = isElementPresent(xPath) || isElementPresent(xPath2) || isElementPresent(xPath3);
+		if (sectionName.contains("->")) {
+			String[] query = sectionName.split("\\->");
+			xPath = String.format("//*[@id='%1$s']", query[0]) + String.format("//label[text()='%s']", query[1]);
+			present = isElementPresent(xPath) || isElementPresent(xPath2) || isElementPresent(xPath3);
+		}
+		return present;
+	}
+
+	private static boolean isElementPresent(String xPath) {
+		try {
+			return BrowserController.get().driver().findElement(By.xpath(xPath)).isDisplayed();
+		} catch (RuntimeException ignored) {
+			return false;
+		}
+	}
+
+	public boolean isFieldThatIsNotInAssetListIsPresent(String label) {
+		return WebDriverHelper.getControlsWithText(label).size() > 0;
 	}
 }

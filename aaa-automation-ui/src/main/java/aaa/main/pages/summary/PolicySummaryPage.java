@@ -14,6 +14,7 @@ import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
@@ -339,15 +340,15 @@ public class PolicySummaryPage extends SummaryPage {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 	}
 
-	public static void transactionHistoryRecordCountCheck(String policyNumber, int rowCount, String value) {
+	public static void transactionHistoryRecordCountCheck(String policyNumber, int rowCount, String value, ETCSCoreSoftAssertions softly) {
 		buttonTransactionHistory.click();
-		assertThat(tableTransactionHistory).hasRows(rowCount);
+		softly.assertThat(tableTransactionHistory).hasRows(rowCount);
 		String valueShort = "";
 		if (!StringUtils.isEmpty(value)) {
 			valueShort = value.substring(0, 20);
-			assertThat(tableTransactionHistory.getRow(1).getCell("Reason").getHintValue()).contains(value);
+			softly.assertThat(tableTransactionHistory.getRow(1).getCell("Reason").getHintValue()).contains(value);
 		}
-		assertThat(tableTransactionHistory.getRow(1).getCell("Reason").getValue()).contains(valueShort);
+		softly.assertThat(tableTransactionHistory.getRow(1).getCell("Reason").getValue()).contains(valueShort);
 		/*not needed, because  getHint value already works
 		String transactionHistoryQuery = "select * from(\n"
 				+ "select pt.TXREASONTEXT\n"

@@ -23,12 +23,10 @@ import toolkit.webdriver.controls.ComboBox;
 
 public class TestContactInformation extends AutoSSBaseTest {
 
-	private final InquiryAssetList inquiryAssetList = new InquiryAssetList(new GeneralTab().getAssetList().getLocator(), AutoSSMetaData.GeneralTab.class);
 	private final ErrorTab errorTab = new ErrorTab();
 	private final GeneralTab generalTab = new GeneralTab();
 	private final DriverTab driverTab = new DriverTab();
 	private final DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
-	private final DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 	private final PurchaseTab purchaseTab = new PurchaseTab();
 
 	/**
@@ -129,7 +127,7 @@ public class TestContactInformation extends AutoSSBaseTest {
 
 	private void presenceOfContactInformationSection(int insuredNumber, boolean isPresent) {
 		generalTab.viewInsured(insuredNumber);
-		inquiryAssetList.assetSectionPresence("Contact Information", isPresent);
+		assertThat(generalTab.isSectionPresent("Contact Information")).as("'Contact Information' section is present").isEqualTo(isPresent);
 	}
 
 	private void setRelationshipToNI(int driverNumber, int relationship) {

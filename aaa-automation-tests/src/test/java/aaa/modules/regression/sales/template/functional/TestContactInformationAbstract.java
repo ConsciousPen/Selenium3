@@ -11,8 +11,6 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
-import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
@@ -55,7 +53,6 @@ public abstract class TestContactInformationAbstract extends PolicyBaseTest {
     protected abstract Tab getDocumentsAndBindElement();
     protected abstract Tab getPurchaseTabElement();
 
-    protected abstract InquiryAssetList getInquiryAssetList();
     protected abstract CommonErrorTab getErrorTabElement();
     protected abstract AssetDescriptor<RadioGroup> getSalesAgentAgreement();
     protected abstract AssetDescriptor<Button> getValidateDrivingHistory();

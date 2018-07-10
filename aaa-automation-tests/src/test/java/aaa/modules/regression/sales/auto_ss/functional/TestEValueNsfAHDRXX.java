@@ -36,6 +36,7 @@ import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
+import toolkit.verification.CustomSoftAssertions;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
@@ -181,22 +182,25 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 		UpdateBillingAccountActionTab.buttonCancel.click();
 
 		SearchPage.openPolicy(policyNumber);
-		assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(EVALUE_STATUS)).hasValue("");
+		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(EVALUE_STATUS)).hasValue("");
 
-		//PAS-244 start
-		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "eValue Removed - NSF");
-		//PAS-244 end
+			//PAS-244 start
+			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "eValue Removed - NSF", softly);
+			//PAS-244 end
 
-		if (TimeSetterUtil.getInstance().getCurrentTime().isBefore(policyEffectiveDate.plusDays(30))) {
-			TestEValueMembershipProcess.jobsNBplus15plus30runNoChecks(policyEffectiveDate.plusDays(30));
-		}
+			if (TimeSetterUtil.getInstance().getCurrentTime().isBefore(policyEffectiveDate.plusDays(30))) {
+				TestEValueMembershipProcess.jobsNBplus15plus30runNoChecks(policyEffectiveDate.plusDays(30));
+			}
 
-		testEValueMembershipProcess.checkDocumentContentAHDRXX(policyNumber, true, false, true, false, false);
+			testEValueMembershipProcess.checkDocumentContentAHDRXX(policyNumber, true, false, true, false, false, softly);
 
-		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDRXX", "ENDORSEMENT_ISSUE");
-		assertThat(DocGenHelper.getDocumentDataElemByName("PayPlnYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()).isEqualTo("Y");
-		assertThat(DocGenHelper.getDocumentDataElemByName("PlcyPayFullAmtYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField())
-				.isEqualTo("Y");
+			String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDRXX", "ENDORSEMENT_ISSUE");
+			softly.assertThat(DocGenHelper.getDocumentDataElemByName("PayPlnYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField())
+					.isEqualTo("Y");
+			softly.assertThat(DocGenHelper.getDocumentDataElemByName("PlcyPayFullAmtYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField())
+					.isEqualTo("Y");
+		});
 	}
 
 	private void generateFileForRecurringPaymentResponseJob(String policyNumber, String billingAccount, String paymentAmountPlain, String err) {
