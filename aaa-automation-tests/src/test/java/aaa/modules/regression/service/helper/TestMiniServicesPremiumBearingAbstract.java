@@ -753,7 +753,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	protected void pas15846_CheckTransactionDateForEndorsementsBody(){
 		mainApp().open();
 		createCustomerIndividual();
-		String policyNumber = createPolicy();
+		String policyNumber = getCopiedPolicy();
 		assertSoftly(softly -> {
 			//Today date endorsement
 			String todayDateEndorsement = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
