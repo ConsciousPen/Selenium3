@@ -424,7 +424,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(coveragesV1.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
 			softly.assertThat(new Dollar(coveragesV1.get(6).coverageLimit)).isEqualTo(excessElectronicEquipment1);
 			softly.assertThat(coveragesV1.get(6).customerDisplayed).isEqualTo(false);
-			assertThat(coveragesV1.get(6).canChangeCoverage).isEqualTo(true);
+			assertThat(coveragesV1.get(6).canChangeCoverage).isEqualTo(false);
 
 			softly.assertThat(coveragesV1.get(7).coverageCd).isEqualTo("NEWCAR");
 			softly.assertThat(coveragesV1.get(7).coverageDescription).isEqualTo("New Car Added Protection");
