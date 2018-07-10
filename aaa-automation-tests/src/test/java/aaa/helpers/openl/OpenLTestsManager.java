@@ -92,6 +92,10 @@ public final class OpenLTestsManager {
 				.orElseThrow(() -> new IstfException(String.format("There is no OpenLTestInfo object with \"%s\" filePath", filePath)));
 	}
 
+	public static String getFilePath(XmlTest test) {
+		return FilenameUtils.separatorsToUnix(Paths.get(TestParams.TESTS_DIR.getValue(test), TestParams.TEST_FILENAME.getValue(test)).normalize().toString());
+	}
+
 	private List<OpenLTestInfo<? extends OpenLPolicy>> getOpenLTests(List<XmlSuite> openLSuites) {
 		List<OpenLTestInfo<? extends OpenLPolicy>> openLTests = new ArrayList<>();
 
@@ -211,10 +215,6 @@ public final class OpenLTestsManager {
 		if (openLFile != null && openLFile.exists() && !openLFile.delete()) {
 			log.error("Unable to delete openL temp file: {}", openLFile);
 		}
-	}
-
-	private String getFilePath(XmlTest test) {
-		return FilenameUtils.separatorsToUnix(Paths.get(TestParams.TESTS_DIR.getValue(test), TestParams.TEST_FILENAME.getValue(test)).normalize().toString());
 	}
 
 	/**

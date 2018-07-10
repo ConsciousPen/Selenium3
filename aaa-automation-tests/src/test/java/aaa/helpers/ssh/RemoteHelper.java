@@ -3,7 +3,11 @@ package aaa.helpers.ssh;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.nio.file.Paths;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +15,6 @@ import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
 import toolkit.exceptions.IstfException;
-import toolkit.verification.CustomAssert;
 
 public final class RemoteHelper {
 
@@ -171,6 +174,15 @@ public final class RemoteHelper {
 		return this;
 	}
 
+	public List<String> getListOfFiles(String folderPath) {
+		return getFolderContent(folderPath, true);
+	}
+
+	public List<String> getFolderContent(String folderPath, boolean filesOnly) {
+		log.info(String.format("SSH: Getting %scontent from \"%s\" folder", filesOnly ? "files only " : "", folderPath));
+		return ssh.getFolderContent(folderPath, filesOnly);
+	}
+
 	public String getFileContent(String filePath) {
 		log.info(String.format("SSH: Getting content from \"%s\" file", filePath));
 		return ssh.getFileContent(filePath);
@@ -206,7 +218,7 @@ public final class RemoteHelper {
 
 		log.info("Searching for file(s) {}", searchParams);
 		long searchStart = System.currentTimeMillis();
-		long timeout = searchStart + timeoutInSeconds * 1000;
+		long timeout = searchStart + timeoutInSeconds * 1000L;
 		String commandOutput;
 		do {
 			if (!(commandOutput = executeCommand(cmd)).isEmpty()) {
@@ -227,15 +239,8 @@ public final class RemoteHelper {
 		return foundFiles;
 	}
 
-	@SuppressWarnings("unchecked")
-	public synchronized RemoteHelper verifyFolderIsEmpty(String source) {
-		source = ssh.parseFileName(source);
-		try {
-			Vector<ChannelSftp.LsEntry> list = ssh.getSftpChannel().ls("*");
-			CustomAssert.assertTrue("SSH: Folder should be empty", list.isEmpty());
-		} catch (SftpException | RuntimeException e) {
-			throw new IstfException("SSH: Folder '" + source + "' doesn't exist.", e);
-		}
-		return this;
+	public LocalDateTime getLastModifiedTime(String path) {
+		//TODO-dchubkov: to be implemented
+		return null;
 	}
 }

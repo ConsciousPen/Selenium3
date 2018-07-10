@@ -3,6 +3,7 @@ package aaa.helpers.ssh;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.io.IOUtils;
@@ -79,24 +80,29 @@ public class Ssh {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public synchronized ArrayList<String> getListOfFiles(String folderName) {
-		ArrayList<String> listOfFiles = new ArrayList<>();
+	public synchronized List<String> getListOfFiles(String folderPath) {
+		return getFolderContent(folderPath, true);
+	}
 
-		folderName = parseFileName(folderName);
+	@SuppressWarnings("unchecked")
+	public synchronized List<String> getFolderContent(String folderPath, boolean filesOnly) {
+		List<String> listOfFilesOrFolders = new ArrayList<>();
+		folderPath = parseFileName(folderPath);
 
 		try {
 			openSftpChannel();
 			sftpChannel.cd("/");
-			sftpChannel.cd(folderName);
+			sftpChannel.cd(folderPath);
 			Vector<ChannelSftp.LsEntry> list = sftpChannel.ls("*");
-			for (ChannelSftp.LsEntry file : list) {
-				listOfFiles.add(file.getFilename());
+			for (ChannelSftp.LsEntry fileOrFolder : list) {
+				if (!filesOnly || !fileOrFolder.getAttrs().isDir()) {
+					listOfFilesOrFolders.add(fileOrFolder.getFilename());
+				}
 			}
 		} catch (SftpException | RuntimeException e) {
-			throw new IstfException("SSH: Folder '" + folderName + "' doesn't exist.", e);
+			throw new IstfException("SSH: Unable to get content from \"" + folderPath + "\" directory", e);
 		}
-		return listOfFiles;
+		return listOfFilesOrFolders;
 	}
 
 	public synchronized void downloadFile(String source, String destination) {

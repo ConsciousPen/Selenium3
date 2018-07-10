@@ -29,4 +29,9 @@ public class CustomTestProperties extends TestProperties {
 	public static final String APP_ADMIN_USER = "app.admin.user";
 	public static final String APP_ADMIN_PASSWORD = "app.admin.password"; // not necessary if APP_SSH_AUTH_KEYPATH is set
 	public static final String APP_SSH_AUTH_KEYPATH = "app.ssh.auth.keypath";
+	public static final String OPENL_RATING_LOGS_FOLDER = "openl.rating.logs.folder"; // for openl rating tests only - path to rating engine logs folder
+	public static final String OPENL_RATING_LOGS_FILENAME_TEMPLATE = "openl.rating.logs.filetemplate"; // for openl rating tests only - rating log filename template
+	public static final String OPENL_GRAB_RATING_REQUEST_LOG = "openl.grab.rating.request.log"; // for openl rating tests only, available values: "true|always|all" to grab logs always and "failed" to grab only if test fails
+	public static final String OPENL_GRAB_RATING_RESPONSE_LOG = "openl.grab.rating.response.log"; // for openl rating tests only, available values: "true|always|all" to grab logs always and "failed" to grab only if test fails
+	public static final String OPENL_ARCHIVE_RATING_LOGS = "openl.archive.rating.logs"; // for openl rating tests only - make zip archive of grabbed logs, available values: true, false
 }
