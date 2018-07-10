@@ -62,9 +62,8 @@ public class TestDecTransactionDateTime extends AutoSSBaseTest {
 
 		mainApp().open();
 		createCustomerIndividual();
-		createPolicy(testData);
+		String policyNumber = createPolicy(testData);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		validateBoundDtTag(policyNumber, POLICY_ISSUE);
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(2));
