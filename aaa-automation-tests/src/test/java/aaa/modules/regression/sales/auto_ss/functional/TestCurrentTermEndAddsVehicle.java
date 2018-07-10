@@ -131,10 +131,7 @@ public class TestCurrentTermEndAddsVehicle extends AutoSSBaseTest {
         } else if(scenario.equals("MATCHED")) { //scenario 2
              testDataThreeVehicles = getTestDataWithThreeVehicles(getPolicyTD(), "MATCHED");
         } else if(scenario.equals("STUB")) { //scenario 3
-            //TODO - to be added later, if needed
-            //TODO - update the y/m/m/s/s/ to vehicle 1
-            testDataThreeVehicles = getTestDataWithThreeVehicles(getPolicyTD(), "STUB");
-
+             testDataThreeVehicles = getTestDataWithThreeVehicles(getPolicyTD(), "STUB");
         }
 
         //6. Calculate Premium and bind the endorsement.
@@ -337,15 +334,18 @@ public class TestCurrentTermEndAddsVehicle extends AutoSSBaseTest {
         DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EFFECTIVEDATE_BY_STATECD_VERSION, formattedEffectiveDate, state, "SYMBOL_2018"));
     }
 
-  /*  @AfterClass(alwaysRun = true)
+    @AfterClass(alwaysRun = true)
     protected void resetDefault() {
         DatabaseCleanHelper.cleanVehicleRefDataVinTable(VEHICLE1_VIN,SYMBOL_2018);
         DatabaseCleanHelper.cleanVehicleRefDataVinTable(VEHICLE2_VIN,SYMBOL_2018);
 	    DatabaseCleanHelper.cleanVehicleRefDataVinTable(VEHICLE3_VIN,SYMBOL_2018);
 	    DatabaseCleanHelper.cleanVehicleRefDataVinTable(VEHICLE4_VIN,SYMBOL_2018);
+        DatabaseCleanHelper.cleanVehicleRefDataVinTable("2GTEC19V&3",SYMBOL_2018);
+        DatabaseCleanHelper.cleanVehicleRefDataVinTable("2HNYD2H6%C",SYMBOL_2018);
+        DatabaseCleanHelper.cleanVehicleRefDataVinTable("5YMGY0C5%A",SYMBOL_2018);
         DBService.get().executeUpdate(String.format(VehicleQueries.DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_STATECD_VERSION,"AZ",SYMBOL_2018));
         DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION, "99999999", "AZ", SYMBOL_2000));
-    }*/
+    }
 
 
     /*@Parameters({"state"})
