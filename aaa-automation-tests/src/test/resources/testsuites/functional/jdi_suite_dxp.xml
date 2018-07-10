@@ -248,6 +248,7 @@
                 <methods>
                     <include name="pas9716_policySummaryForActiveRenewal"/>
                     <include name="pas9716_policySummaryForConversion"/>
+                    <include name="pas15846_CheckTransactionDateForEndorsements"/>
                 </methods>
             </class>
         </classes>
