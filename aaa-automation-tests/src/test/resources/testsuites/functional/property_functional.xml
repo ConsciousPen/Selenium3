@@ -439,6 +439,11 @@
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules"/>
             <class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
             <class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreationFull"/>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestCinNewBusinessHomeHO4">
+                <methods>
+                    <include name="testCinHomeSSCluePropertyViolation"/>
+                </methods>
+            </class>
             <class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
             <class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreationFull"/>
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreation"/>
@@ -1027,6 +1032,11 @@
             <class name="aaa.modules.regression.sales.home_ca.ho3.TestSeniorDiscount"/>
             <class name="aaa.modules.regression.sales.home_ca.ho4.TestSeniorDiscount"/>
             <class name="aaa.modules.regression.sales.home_ca.ho6.TestSeniorDiscount"/>
+            <class name="aaa.modules.regression.document_fulfillment.home_ca.ho3.functional.TestCinNewBusinessHomeCAHO3">
+                <methods>
+                    <include name="testCinNewBusinessProperty"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <test name="CA PUP Functional Tests" parallel="methods">
