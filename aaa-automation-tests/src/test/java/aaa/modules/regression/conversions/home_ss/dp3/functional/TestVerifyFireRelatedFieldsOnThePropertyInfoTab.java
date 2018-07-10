@@ -125,8 +125,8 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSDP3Ba
 	}
 
 	private void activeFirstRenewal() {
-		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
-		policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		policyEffectiveDate = PolicySummaryPage.getEffectiveDate().plusYears(1);
+		policyExpirationDate = PolicySummaryPage.getExpirationDate().plusYears(1);
 		renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyEffectiveDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
