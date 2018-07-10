@@ -338,4 +338,14 @@
             </class>
         </classes>
     </test>
+    <test name="pas14498_TestDecTransactionDateTime" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.functional.TestDecTransactionDateTime">
+                <methods>
+                    <include name="pas14498_TestDecTransactionDateTime"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
