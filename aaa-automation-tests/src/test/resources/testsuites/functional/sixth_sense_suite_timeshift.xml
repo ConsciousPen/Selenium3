@@ -52,6 +52,34 @@
         </classes>
     </test>
 
+    <!--Tests for Property-->
+
+    <test name="Test Tier And UW Points Lock NY">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <!--Tests for Defects-->
 
     <test name="Test Off Cycle Bill Generation With No Installment Date For SS" parallel="methods" thread-count="1024">
