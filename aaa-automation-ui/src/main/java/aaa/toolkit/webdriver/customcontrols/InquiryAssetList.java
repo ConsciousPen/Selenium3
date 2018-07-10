@@ -28,25 +28,6 @@ public class InquiryAssetList extends AssetList {
 			super.registerAsset(assetName, StaticElement.class, waiter, metaClass, hasParent, assetLocator);
 		}
 	}
-
-	/**
-	 * To check value of fields in inquiry mode. works with all fields when value to verify <>""
-	 * Calendar controls cant be checked with this method.
-	 * @deprecated Use getAsset() instead
-	 * @param elementName - field label
-	 */
-	@Deprecated
-	public StaticElement getStaticElement(String elementName) {
-		String xpath1 = locator.toString().replace("By.xpath: ", "") +
-				String.format("//*[text()='%s']/parent::td/following-sibling::td[1]", elementName);
-		String postfix = "//span[string-length(text()) > 0 and not(contains(@style,'none')) and not(ancestor::span[contains(@style,'none')])]";
-		try {
-			getWebElement().findElement(By.xpath(xpath1 + postfix)).getText();
-		} catch (Exception e) {
-			return new StaticElement(By.xpath(xpath1 + "//*"));
-		}
-		return new StaticElement(By.xpath(xpath1 + postfix));
-	}
 }
 
 

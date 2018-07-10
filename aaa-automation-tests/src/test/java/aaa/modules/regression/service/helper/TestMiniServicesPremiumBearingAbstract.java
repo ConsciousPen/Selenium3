@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang.BooleanUtils;
-import org.assertj.core.api.SoftAssertions;
 import org.springframework.util.CollectionUtils;
 import org.testng.ITestContext;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -425,41 +424,41 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		policy.policyInquiry().start();
 		//All info about first vehicle
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		String modelYear1 = vehicleTab.getInquiryAssetList().getStaticElement(YEAR.getLabel()).getValue();
-		String manufacturer1 = vehicleTab.getInquiryAssetList().getStaticElement(MAKE.getLabel()).getValue();
-		String series1 = vehicleTab.getInquiryAssetList().getStaticElement(SERIES.getLabel()).getValue();
-		String model1 = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
-		String bodyStyle1 = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
-		String vehIdentificationNo1 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
-		String ownership1 = vehicleTab.getInquiryAssetList().getStaticElement(Ownership.OWNERSHIP_TYPE.getLabel()).getValue().replace("Owned", "OWN");
-		String usage1 = vehicleTab.getInquiryAssetList().getStaticElement(USAGE.getLabel()).getValue();
-		String garagingDifferent1 = vehicleTab.getInquiryAssetList().getStaticElement(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel()).getValue().toLowerCase();
-		String antiTheft1 = vehicleTab.getInquiryAssetList().getStaticElement(ANTI_THEFT.getLabel()).getValue().toUpperCase();
-		String vehType1 = vehicleTab.getInquiryAssetList().getStaticElement(TYPE.getLabel()).getValue().replace("Private Passenger Auto", "PPA");
+		String modelYear1 = vehicleTab.getInquiryAssetList().getAsset(YEAR).getValue();
+		String manufacturer1 = vehicleTab.getInquiryAssetList().getAsset(MAKE).getValue();
+		String series1 = vehicleTab.getInquiryAssetList().getAsset(SERIES).getValue();
+		String model1 = vehicleTab.getInquiryAssetList().getAsset(MODEL).getValue();
+		String bodyStyle1 = vehicleTab.getInquiryAssetList().getAsset(BODY_STYLE).getValue();
+		String vehIdentificationNo1 = vehicleTab.getInquiryAssetList().getAsset(VIN).getValue();
+		String ownership1 = vehicleTab.getInquiryAssetList().getAsset(Ownership.OWNERSHIP_TYPE).getValue().replace("Owned", "OWN");
+		String usage1 = vehicleTab.getInquiryAssetList().getAsset(USAGE).getValue();
+		String garagingDifferent1 = vehicleTab.getInquiryAssetList().getAsset(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL).getValue().toLowerCase();
+		String antiTheft1 = vehicleTab.getInquiryAssetList().getAsset(ANTI_THEFT).getValue().toUpperCase();
+		String vehType1 = vehicleTab.getInquiryAssetList().getAsset(TYPE).getValue().replace("Private Passenger Auto", "PPA");
 		//Garaging address for first vehicle
-		String zipCode1 = vehicleTab.getInquiryAssetList().getStaticElement(ZIP_CODE.getLabel()).getValue();
-		String address1 = vehicleTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1.getLabel()).getValue();
-		String city1 = vehicleTab.getInquiryAssetList().getStaticElement(CITY.getLabel()).getValue();
-		String state1 = vehicleTab.getInquiryAssetList().getStaticElement(STATE.getLabel()).getValue();
+		String zipCode1 = vehicleTab.getInquiryAssetList().getAsset(ZIP_CODE).getValue();
+		String address1 = vehicleTab.getInquiryAssetList().getAsset(ADDRESS_LINE_1).getValue();
+		String city1 = vehicleTab.getInquiryAssetList().getAsset(CITY).getValue();
+		String state1 = vehicleTab.getInquiryAssetList().getAsset(STATE).getValue();
 		VehicleTab.tableVehicleList.selectRow(2);
 
 		//Get all info about second vehicle
-		String modelYear2 = vehicleTab.getInquiryAssetList().getStaticElement(YEAR.getLabel()).getValue();
-		String manufacturer2 = vehicleTab.getInquiryAssetList().getStaticElement(MAKE.getLabel()).getValue();
-		String series2 = vehicleTab.getInquiryAssetList().getStaticElement(SERIES.getLabel()).getValue();
-		String model2 = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
-		String bodyStyle2 = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
-		String vehIdentificationNo2 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
-		String ownership2 = vehicleTab.getInquiryAssetList().getStaticElement(Ownership.OWNERSHIP_TYPE.getLabel()).getValue().replace("Owned", "OWN");
-		String usage2 = vehicleTab.getInquiryAssetList().getStaticElement(USAGE.getLabel()).getValue();
-		String garagingDifferent2 = vehicleTab.getInquiryAssetList().getStaticElement(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel()).getValue().toLowerCase();
-		String antiTheft2 = vehicleTab.getInquiryAssetList().getStaticElement(ANTI_THEFT.getLabel()).getValue().toUpperCase();
-		String vehType2 = vehicleTab.getInquiryAssetList().getStaticElement(TYPE.getLabel()).getValue().replace("Private Passenger Auto", "PPA");
+		String modelYear2 = vehicleTab.getInquiryAssetList().getAsset(YEAR).getValue();
+		String manufacturer2 = vehicleTab.getInquiryAssetList().getAsset(MAKE).getValue();
+		String series2 = vehicleTab.getInquiryAssetList().getAsset(SERIES).getValue();
+		String model2 = vehicleTab.getInquiryAssetList().getAsset(MODEL).getValue();
+		String bodyStyle2 = vehicleTab.getInquiryAssetList().getAsset(BODY_STYLE).getValue();
+		String vehIdentificationNo2 = vehicleTab.getInquiryAssetList().getAsset(VIN).getValue();
+		String ownership2 = vehicleTab.getInquiryAssetList().getAsset(Ownership.OWNERSHIP_TYPE).getValue().replace("Owned", "OWN");
+		String usage2 = vehicleTab.getInquiryAssetList().getAsset(USAGE).getValue();
+		String garagingDifferent2 = vehicleTab.getInquiryAssetList().getAsset(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL).getValue().toLowerCase();
+		String antiTheft2 = vehicleTab.getInquiryAssetList().getAsset(ANTI_THEFT).getValue().toUpperCase();
+		String vehType2 = vehicleTab.getInquiryAssetList().getAsset(TYPE).getValue().replace("Private Passenger Auto", "PPA");
 		//Get garaging address for second vehicle
-		String zipCode2 = vehicleTab.getInquiryAssetList().getStaticElement(ZIP_CODE.getLabel()).getValue();
-		String address2 = vehicleTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1.getLabel()).getValue();
-		String city2 = vehicleTab.getInquiryAssetList().getStaticElement(CITY.getLabel()).getValue();
-		String state2 = vehicleTab.getInquiryAssetList().getStaticElement(STATE.getLabel()).getValue();
+		String zipCode2 = vehicleTab.getInquiryAssetList().getAsset(ZIP_CODE).getValue();
+		String address2 = vehicleTab.getInquiryAssetList().getAsset(ADDRESS_LINE_1).getValue();
+		String city2 = vehicleTab.getInquiryAssetList().getAsset(CITY).getValue();
+		String state2 = vehicleTab.getInquiryAssetList().getAsset(STATE).getValue();
 
 		ViewVehicleResponse response = HelperCommon.viewPolicyVehicles(policyNumber);
 		Vehicle vehicleSt = response.vehicleList.stream().filter(vehicle -> vehIdentificationNo1.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
@@ -560,22 +559,22 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		//Gel all info about third vehicle
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(2);
-		String modelYear3 = vehicleTab.getInquiryAssetList().getStaticElement(YEAR.getLabel()).getValue();
-		String manufacturer3 = vehicleTab.getInquiryAssetList().getStaticElement(MAKE.getLabel()).getValue();
-		String series3 = vehicleTab.getInquiryAssetList().getStaticElement(SERIES.getLabel()).getValue();
-		String model3 = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
-		String bodyStyle3 = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
-		String vehIdentificationNo3 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
-		String ownership3 = vehicleTab.getInquiryAssetList().getStaticElement(Ownership.OWNERSHIP_TYPE.getLabel()).getValue().replace("Owned", "OWN");
-		String usage3 = vehicleTab.getInquiryAssetList().getStaticElement(USAGE.getLabel()).getValue();
-		String garagingDifferent3 = vehicleTab.getInquiryAssetList().getStaticElement(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel()).getValue().toLowerCase();
-		String antiTheft3 = vehicleTab.getInquiryAssetList().getStaticElement(ANTI_THEFT.getLabel()).getValue().toUpperCase();
-		String vehType3 = vehicleTab.getInquiryAssetList().getStaticElement(TYPE.getLabel()).getValue().replace("Private Passenger Auto", "PPA");
+		String modelYear3 = vehicleTab.getInquiryAssetList().getAsset(YEAR).getValue();
+		String manufacturer3 = vehicleTab.getInquiryAssetList().getAsset(MAKE).getValue();
+		String series3 = vehicleTab.getInquiryAssetList().getAsset(SERIES).getValue();
+		String model3 = vehicleTab.getInquiryAssetList().getAsset(MODEL).getValue();
+		String bodyStyle3 = vehicleTab.getInquiryAssetList().getAsset(BODY_STYLE).getValue();
+		String vehIdentificationNo3 = vehicleTab.getInquiryAssetList().getAsset(VIN).getValue();
+		String ownership3 = vehicleTab.getInquiryAssetList().getAsset(Ownership.OWNERSHIP_TYPE).getValue().replace("Owned", "OWN");
+		String usage3 = vehicleTab.getInquiryAssetList().getAsset(USAGE).getValue();
+		String garagingDifferent3 = vehicleTab.getInquiryAssetList().getAsset(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL).getValue().toLowerCase();
+		String antiTheft3 = vehicleTab.getInquiryAssetList().getAsset(ANTI_THEFT).getValue().toUpperCase();
+		String vehType3 = vehicleTab.getInquiryAssetList().getAsset(TYPE).getValue().replace("Private Passenger Auto", "PPA");
 		//Garaging address for third vehicle
-		String zipCode3 = vehicleTab.getInquiryAssetList().getStaticElement(ZIP_CODE.getLabel()).getValue();
-		String address3 = vehicleTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1.getLabel()).getValue();
-		String city3 = vehicleTab.getInquiryAssetList().getStaticElement(CITY.getLabel()).getValue();
-		String state3 = vehicleTab.getInquiryAssetList().getStaticElement(STATE.getLabel()).getValue();
+		String zipCode3 = vehicleTab.getInquiryAssetList().getAsset(ZIP_CODE).getValue();
+		String address3 = vehicleTab.getInquiryAssetList().getAsset(ADDRESS_LINE_1).getValue();
+		String city3 = vehicleTab.getInquiryAssetList().getAsset(CITY).getValue();
+		String state3 = vehicleTab.getInquiryAssetList().getAsset(STATE).getValue();
 
 		ViewVehicleResponse response2 = HelperCommon.viewPolicyVehicles(policyNumber);
 		Vehicle vehicleSt2 = response2.vehicleList.stream().filter(vehicle -> vehIdentificationNo1.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
@@ -765,10 +764,10 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			//Start PAS-10351
 			policy.policyInquiry().start();
-			String zipCode1 = generalTab.getInquiryAssetList().getStaticElement(ZIP_CODE.getLabel()).getValue();
-			String address1 = generalTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1.getLabel()).getValue();
-			String city1 = generalTab.getInquiryAssetList().getStaticElement(CITY.getLabel()).getValue();
-			String state1 = generalTab.getInquiryAssetList().getStaticElement(STATE.getLabel()).getValue();
+			String zipCode1 = generalTab.getInquiryAssetList().getAsset(ZIP_CODE).getValue();
+			String address1 = generalTab.getInquiryAssetList().getAsset(ADDRESS_LINE_1).getValue();
+			String city1 = generalTab.getInquiryAssetList().getAsset(CITY).getValue();
+			String state1 = generalTab.getInquiryAssetList().getAsset(STATE).getValue();
 			GeneralTab.buttonCancel.click();
 
 			String policyNumber = PolicySummaryPage.getPolicyNumber();
@@ -834,10 +833,10 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			//Start PAS-10351
 			policy.policyInquiry().start();
-			String zipCode1 = generalTab.getInquiryAssetList().getStaticElement(ZIP_CODE.getLabel()).getValue();
-			String address1 = generalTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1.getLabel()).getValue();
-			String city1 = generalTab.getInquiryAssetList().getStaticElement(CITY.getLabel()).getValue();
-			String state1 = generalTab.getInquiryAssetList().getStaticElement(STATE.getLabel()).getValue();
+			String zipCode1 = generalTab.getInquiryAssetList().getAsset(ZIP_CODE).getValue();
+			String address1 = generalTab.getInquiryAssetList().getAsset(ADDRESS_LINE_1).getValue();
+			String city1 = generalTab.getInquiryAssetList().getAsset(CITY).getValue();
+			String state1 = generalTab.getInquiryAssetList().getAsset(STATE).getValue();
 			GeneralTab.buttonCancel.click();
 
 			String policyNumber = PolicySummaryPage.getPolicyNumber();
@@ -1001,10 +1000,10 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			//Start PAS-10351
 			policy.policyInquiry().start();
-			String zipCode1 = generalTab.getInquiryAssetList().getStaticElement(ZIP_CODE.getLabel()).getValue();
-			String address1 = generalTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1.getLabel()).getValue();
-			String city1 = generalTab.getInquiryAssetList().getStaticElement(CITY.getLabel()).getValue();
-			String state1 = generalTab.getInquiryAssetList().getStaticElement(STATE.getLabel()).getValue();
+			String zipCode1 = generalTab.getInquiryAssetList().getAsset(ZIP_CODE).getValue();
+			String address1 = generalTab.getInquiryAssetList().getAsset(ADDRESS_LINE_1).getValue();
+			String city1 = generalTab.getInquiryAssetList().getAsset(CITY).getValue();
+			String state1 = generalTab.getInquiryAssetList().getAsset(STATE).getValue();
 			GeneralTab.buttonCancel.click();
 
 			LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
@@ -1486,8 +1485,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	private void checkAuthorizedByChanged(String authorizedBy) {
 		policy.policyInquiry().start();
 		NavigationPage.toViewTab(getDocumentsAndBindTab());
-		if (getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY.getLabel()).isPresent()) {
-			assertThat(getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY.getLabel())).hasValue(authorizedBy);
+		if (getDocumentsAndBindTabElement().getInquiryAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY).isPresent()) {
+			assertThat(getDocumentsAndBindTabElement().getInquiryAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY)).hasValue(authorizedBy);
 		}
 		Tab.buttonCancel.click();
 	}
