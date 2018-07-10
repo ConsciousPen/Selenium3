@@ -18,6 +18,7 @@ public class VehicleQueries {
 	//	VIN STUB QUERIES FOR PAS-12877
 	// SORT BY r.ID DESC ORDER.
 	public static final String SELECT_VIN_ID_BY_VIN_VERSION = "SELECT v.* FROM VEHICLEREFDATAVIN v WHERE VIN LIKE '%s' and v.VERSION='%s'";
+	public static final String SELECT_ID_BY_VIN_VERSION = "SELECT ID FROM VEHICLEREFDATAVIN WHERE VIN LIKE '%s'";
 	public static final String SELECT_LATEST_VIN_STUB_ON_QUOTE = "SELECT r.currentVin FROM Riskitem R, Vehicleratinginfo I, Vehiclebaseinfo B, Policysummary Ps, Policydetail Pd WHERE R.Ratinginfo_Id = I.Id AND B.Id = R.Baseinfo_Id AND ps.policydetail_id = pd.id AND pd.id = r.policydetail_id AND policynumber LIKE '%1$s' ORDER BY r.ID DESC";
 	public static final String SELECT_LATEST_VIN_STUB_WITH_SYMBOLS_ON_QUOTE = "SELECT r.currentVin,I.COMPSYMBOL, I.COLLSYMBOL , R.version FROM Riskitem R, Vehicleratinginfo I, Vehiclebaseinfo B, Policysummary Ps, Policydetail Pd WHERE R.Ratinginfo_Id = I.Id AND B.Id = R.Baseinfo_Id AND ps.policydetail_id = pd.id AND pd.id = r.policydetail_id AND policynumber LIKE '%1$s' ORDER BY r.ID DESC";
 
@@ -77,4 +78,9 @@ public class VehicleQueries {
 	public static final String INSERT_VEHICLEREFDATAVINCONTROL_VERSION =
 			"Insert into VEHICLEREFDATAVINCONTROL (ID,PRODUCTCD,FORMTYPE,STATECD,VERSION,EFFECTIVEDATE,EXPIRATIONDATE,MSRP_VERSION) values"
 					+ "(%1$d,'%2$s',%3$s,'%4$s','%5$s','%6$d','%7$d','%8$s')";
+
+	//Cleanup queries for file upload PAS-12872
+	public static final String UPDATE_VEHICLEREFDATAVIN_VALID_BY_VIN_VERSION_MAKETEXT = "UPDATE VEHICLEREFDATAVIN SET VALID = '%1$s' WHERE VIN LIKE '%2$s' AND VERSION ='%3$s' AND MAKE_TEXT ='%4$s'";
+	public static final String DELETE_VEHICLEREFDATAVIN_BY_VIN_MAKETEXT = "DELETE FROM VEHICLEREFDATAVIN WHERE VIN LIKE '%1$s' AND MAKE_TEXT = '%2$s'";
+
 }

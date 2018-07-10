@@ -126,61 +126,61 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 			ViewVehicleResponse viewVehicleResponse = HelperCommon.viewPolicyVehicles(policyNumber);
 			String oid = viewVehicleResponse.vehicleList.get(0).oid;
 
-			AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsmentVehiclesMetaData(policyNumber, oid);
-			AttributeMetadata metaDataFieldResponseVehTypeCd = getAttributeMetadata(metaDataResponse, "vehTypeCd", true, true, true, null);
+			AttributeMetadata[] metaDataResponse = HelperCommon.viewEndoresmentVehiclesMetaData(policyNumber, oid);
+			AttributeMetadata metaDataFieldResponseVehTypeCd = getAttributeMetadata(metaDataResponse, "vehTypeCd", true, true, true, null, "String");
 			softly.assertThat(metaDataFieldResponseVehTypeCd.valueRange.get("PPA")).isEqualTo("Private Passenger Auto");
 			softly.assertThat(metaDataFieldResponseVehTypeCd.valueRange.get("Conversion")).isEqualTo("Conversion Van");
 			softly.assertThat(metaDataFieldResponseVehTypeCd.valueRange.get("Motor")).isEqualTo("Motor Home");
 			softly.assertThat(metaDataFieldResponseVehTypeCd.valueRange.get("Trailer")).isEqualTo("Trailer");
 			softly.assertThat(metaDataFieldResponseVehTypeCd.valueRange.get("AC")).isEqualTo("Limited Production/Antique");
 
-			AttributeMetadata metaDataFieldResponseUsage = getAttributeMetadata(metaDataResponse, "usage", true, true, true, null);
+			AttributeMetadata metaDataFieldResponseUsage = getAttributeMetadata(metaDataResponse, "usage", true, true, true, null, "String");
 			softly.assertThat(metaDataFieldResponseUsage.valueRange.get("Pleasure")).isEqualTo("Pleasure");
 			softly.assertThat(metaDataFieldResponseUsage.valueRange.get("WorkCommute")).isEqualTo("Commute");
 			softly.assertThat(metaDataFieldResponseUsage.valueRange.get("Business")).isEqualTo("Business");
 			softly.assertThat(metaDataFieldResponseUsage.valueRange.get("Artisan")).isEqualTo("Artisan");
 			softly.assertThat(metaDataFieldResponseUsage.valueRange.get("Farm")).isEqualTo("Farm");
 
-			getAttributeMetadata(metaDataResponse, "vehIdentificationNo", true, true, false, "20");
-			getAttributeMetadata(metaDataResponse, "modelYear", false, true, true, "5");
-			getAttributeMetadata(metaDataResponse, "manufacturer", false, true, true, null);
-			getAttributeMetadata(metaDataResponse, "model", false, true, true, null);
-			getAttributeMetadata(metaDataResponse, "series", false, true, false, null);
+			getAttributeMetadata(metaDataResponse, "vehIdentificationNo", true, true, false, "20", "String");
+			getAttributeMetadata(metaDataResponse, "modelYear", false, true, true, "5", "String");
+			getAttributeMetadata(metaDataResponse, "manufacturer", false, true, true, null, "String");
+			getAttributeMetadata(metaDataResponse, "model", false, true, true, null, "String");
+			getAttributeMetadata(metaDataResponse, "series", false, true, false, null, "String");
 
-			AttributeMetadata metaDataFieldResponseBodyStyle = getAttributeMetadata(metaDataResponse, "bodyStyle", false, true, false, null);
+			AttributeMetadata metaDataFieldResponseBodyStyle = getAttributeMetadata(metaDataResponse, "bodyStyle", false, true, false, null, "String");
 			softly.assertThat(metaDataFieldResponseBodyStyle.valueRange.get("")).isEqualTo("");
 			softly.assertThat(metaDataFieldResponseBodyStyle.valueRange.get("SPORT VAN")).isEqualTo("SPORT VAN");
 			softly.assertThat(metaDataFieldResponseBodyStyle.valueRange.get("OTHER")).isEqualTo("OTHER");
 
-			getAttributeMetadata(metaDataResponse, "salvaged", true, true, false, null);
+			getAttributeMetadata(metaDataResponse, "salvaged", true, true, false, null, "Boolean");
 
-			AttributeMetadata metaDataFieldResponseAntiTheft = getAttributeMetadata(metaDataResponse, "antiTheft", true, true, false, null);
+			AttributeMetadata metaDataFieldResponseAntiTheft = getAttributeMetadata(metaDataResponse, "antiTheft", true, true, false, null, "String");
 			softly.assertThat(metaDataFieldResponseAntiTheft.valueRange.get("")).isEqualTo("");
 			softly.assertThat(metaDataFieldResponseAntiTheft.valueRange.get("NONE")).isEqualTo("None");
 			softly.assertThat(metaDataFieldResponseAntiTheft.valueRange.get("STD")).isEqualTo("Vehicle Recovery Device");
 
-			getAttributeMetadata(metaDataResponse, "vehicleStatus", true, false, false, null);
-			getAttributeMetadata(metaDataResponse, "registeredOwner", true, false, false, null);
-			getAttributeMetadata(metaDataResponse, "garagingDifferent", true, true, false, null);
-			getAttributeMetadata(metaDataResponse, "garagingAddress.postalCode", true, false, true, "10");
-			getAttributeMetadata(metaDataResponse, "garagingAddress.addressLine1", true, false, true, "40");
-			getAttributeMetadata(metaDataResponse, "garagingAddress.addressLine2", true, false, false, "40");
-			getAttributeMetadata(metaDataResponse, "garagingAddress.city", true, false, true, "30");
-			getAttributeMetadata(metaDataResponse, "garagingAddress.stateProvCd", true, false, true, null);
+			getAttributeMetadata(metaDataResponse, "vehicleStatus", true, false, false, null, "String");
+			getAttributeMetadata(metaDataResponse, "registeredOwner", true, false, false, null, "Boolean");
+			getAttributeMetadata(metaDataResponse, "garagingDifferent", true, true, false, null, "Boolean");
+			getAttributeMetadata(metaDataResponse, "garagingAddress.postalCode", true, false, true, "10", "String");
+			getAttributeMetadata(metaDataResponse, "garagingAddress.addressLine1", true, false, true, "40", "String");
+			getAttributeMetadata(metaDataResponse, "garagingAddress.addressLine2", true, false, false, "40", "String");
+			getAttributeMetadata(metaDataResponse, "garagingAddress.city", true, false, true, "30", "String");
+			getAttributeMetadata(metaDataResponse, "garagingAddress.stateProvCd", true, false, true, null, "String");
 
-			AttributeMetadata metaDataFieldResponseOwnership = getAttributeMetadata(metaDataResponse, "vehicleOwnership.ownership", true, true, false, null);
+			AttributeMetadata metaDataFieldResponseOwnership = getAttributeMetadata(metaDataResponse, "vehicleOwnership.ownership", true, true, false, null, "String");
 			softly.assertThat(metaDataFieldResponseOwnership.valueRange.get("")).isEqualTo("");
 			softly.assertThat(metaDataFieldResponseOwnership.valueRange.get("OWN")).isEqualTo("Owned");
 			softly.assertThat(metaDataFieldResponseOwnership.valueRange.get("FNC")).isEqualTo("Financed");
 			softly.assertThat(metaDataFieldResponseOwnership.valueRange.get("LSD")).isEqualTo("Leased");
 
-			getAttributeMetadata(metaDataResponse, "vehicleOwnership.name", false, false, false, "100");
-			getAttributeMetadata(metaDataResponse, "vehicleOwnership.secondName", false, false, false, "100");
-			getAttributeMetadata(metaDataResponse, "vehicleOwnership.postalCode", false, false, false, "10");
-			getAttributeMetadata(metaDataResponse, "vehicleOwnership.addressLine1", false, false, false, "40");
-			getAttributeMetadata(metaDataResponse, "vehicleOwnership.addressLine2", false, false, false, "40");
-			getAttributeMetadata(metaDataResponse, "vehicleOwnership.city", false, false, false, "30");
-			getAttributeMetadata(metaDataResponse, "vehicleOwnership.stateProvCd", false, false, false, null);
+			getAttributeMetadata(metaDataResponse, "vehicleOwnership.name", false, false, false, "100", "String");
+			getAttributeMetadata(metaDataResponse, "vehicleOwnership.secondName", false, false, false, "100", "String");
+			getAttributeMetadata(metaDataResponse, "vehicleOwnership.postalCode", false, false, false, "10", "String");
+			getAttributeMetadata(metaDataResponse, "vehicleOwnership.addressLine1", false, false, false, "40", "String");
+			getAttributeMetadata(metaDataResponse, "vehicleOwnership.addressLine2", false, false, false, "40", "String");
+			getAttributeMetadata(metaDataResponse, "vehicleOwnership.city", false, false, false, "30", "String");
+			getAttributeMetadata(metaDataResponse, "vehicleOwnership.stateProvCd", false, false, false, null, "String");
 
 			//edit pending endorsement
 			vehicleTab.getAssetList().getAsset(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL).setValue("Yes");
@@ -192,30 +192,31 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 			vehicleTab.getOwnershipAssetList().getAsset(Ownership.FIRST_NAME).setValue("GMAC");
 			vehicleTab.saveAndExit();
 
-			AttributeMetadata[] metaDataResponse2 = HelperCommon.viewEndorsmentVehiclesMetaData(policyNumber, oid);
-			getAttributeMetadata(metaDataResponse2, "garagingDifferent", true, true, false, null);
-			getAttributeMetadata(metaDataResponse2, "garagingAddress.postalCode", true, true, true, "10");
-			getAttributeMetadata(metaDataResponse2, "garagingAddress.addressLine1", true, true, true, "40");
-			getAttributeMetadata(metaDataResponse2, "garagingAddress.addressLine2", true, true, false, "40");
-			getAttributeMetadata(metaDataResponse2, "garagingAddress.city", true, true, true, "30");
-			getAttributeMetadata(metaDataResponse2, "garagingAddress.stateProvCd", true, true, true, null);
+			AttributeMetadata[] metaDataResponse2 = HelperCommon.viewEndoresmentVehiclesMetaData(policyNumber, oid);
+			getAttributeMetadata(metaDataResponse2, "garagingDifferent", true, true, false, null, "Boolean");
+			getAttributeMetadata(metaDataResponse2, "garagingAddress.postalCode", true, true, true, "10", "String");
+			getAttributeMetadata(metaDataResponse2, "garagingAddress.addressLine1", true, true, true, "40", "String");
+			getAttributeMetadata(metaDataResponse2, "garagingAddress.addressLine2", true, true, false, "40", "String");
+			getAttributeMetadata(metaDataResponse2, "garagingAddress.city", true, true, true, "30", "String");
+			getAttributeMetadata(metaDataResponse2, "garagingAddress.stateProvCd", true, true, true, null, "String");
 
-			getAttributeMetadata(metaDataResponse2, "vehicleOwnership.name", true, true, false, "100");
-			getAttributeMetadata(metaDataResponse2, "vehicleOwnership.secondName", false, true, false, "100");
-			getAttributeMetadata(metaDataResponse2, "vehicleOwnership.postalCode", true, true, false, "10");
-			getAttributeMetadata(metaDataResponse2, "vehicleOwnership.addressLine1", true, true, false, "40");
-			getAttributeMetadata(metaDataResponse2, "vehicleOwnership.addressLine2", true, true, false, "40");
-			getAttributeMetadata(metaDataResponse2, "vehicleOwnership.city", true, true, false, "30");
-			getAttributeMetadata(metaDataResponse2, "vehicleOwnership.stateProvCd", true, true, false, null);
+			getAttributeMetadata(metaDataResponse2, "vehicleOwnership.name", true, true, false, "100", "String");
+			getAttributeMetadata(metaDataResponse2, "vehicleOwnership.secondName", false, true, false, "100", "String");
+			getAttributeMetadata(metaDataResponse2, "vehicleOwnership.postalCode", true, true, false, "10", "String");
+			getAttributeMetadata(metaDataResponse2, "vehicleOwnership.addressLine1", true, true, false, "40", "String");
+			getAttributeMetadata(metaDataResponse2, "vehicleOwnership.addressLine2", true, true, false, "40", "String");
+			getAttributeMetadata(metaDataResponse2, "vehicleOwnership.city", true, true, false, "30", "String");
+			getAttributeMetadata(metaDataResponse2, "vehicleOwnership.stateProvCd", true, true, false, null, "String");
 		});
 	}
 
-	AttributeMetadata getAttributeMetadata(AttributeMetadata[] metaDataResponse, String fieldName, boolean enabled, boolean visible, boolean required, String maxLength) {
+	AttributeMetadata getAttributeMetadata(AttributeMetadata[] metaDataResponse, String fieldName, boolean enabled, boolean visible, boolean required, String maxLength, String attributeType) {
 		AttributeMetadata metaDataFieldResponse = Arrays.stream(metaDataResponse).filter(attributeMetadata -> fieldName.equals(attributeMetadata.attributeName)).findFirst().orElse(null);
 		assertThat(metaDataFieldResponse.enabled).isEqualTo(enabled);
 		assertThat(metaDataFieldResponse.visible).isEqualTo(visible);
 		assertThat(metaDataFieldResponse.required).isEqualTo(required);
 		assertThat(metaDataFieldResponse.maxLength).isEqualTo(maxLength);
+		assertThat(metaDataFieldResponse.attributeType).isEqualTo(attributeType);
 		return metaDataFieldResponse;
 	}
 
@@ -342,7 +343,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 
 		//get all coverages
 		PolicyCoverageInfo coverageResponse = HelperCommon.viewPolicyCoverages(policyNumber);
-		softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("COMPDED");
+		softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null)).isNotNull();
 
 		//get all discounts
 		DiscountSummary policyDiscountsResponse = HelperCommon.viewDiscounts(policyNumber, "policy", 200);
@@ -463,14 +464,14 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 
 		//View driver assignment if VA
 		if ("VA, NY, CA".contains(state)) {
-			DriverAssignmentDto[] responseDriverAssignment = HelperCommon.viewEndorsementAssignments(policyNumber);
-			softly.assertThat(responseDriverAssignment[0].vehicleOid).isNotEmpty();
-			softly.assertThat(responseDriverAssignment[0].driverOid).isNotEmpty();
-			softly.assertThat(responseDriverAssignment[0].relationshipType).isEqualTo("primary");
+			ViewDriverAssignmentResponse responseDriverAssignment = HelperCommon.viewEndorsementAssignments(policyNumber);
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(0).vehicleOid).isNotEmpty();
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(0).driverOid).isNotEmpty();
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(0).relationshipType).isEqualTo("primary");
 
-			softly.assertThat(responseDriverAssignment[1].vehicleOid).isNotEmpty();
-			softly.assertThat(responseDriverAssignment[1].driverOid).isNotEmpty();
-			softly.assertThat(responseDriverAssignment[1].relationshipType).isEqualTo("occasional");
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(1).vehicleOid).isNotEmpty();
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(1).driverOid).isNotEmpty();
+			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(1).relationshipType).isEqualTo("occasional");
 		} else {
 			ErrorResponseDto responseDriverAssignment = HelperCommon.viewEndorsementAssignmentsError(policyNumber, 422);
 			softly.assertThat(responseDriverAssignment.errorCode).isEqualTo(ErrorDxpEnum.Errors.OPERATION_NOT_APPLICABLE_FOR_THE_STATE.getCode());
@@ -481,7 +482,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		String compDedCovCd = "COMPDED";
 		String compDedAvailableLimits = "100";
 		PolicyCoverageInfo coverageResponseCompDedResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, compDedCovCd, compDedAvailableLimits);
-		Coverage filteredCoverageResponse = coverageResponseCompDedResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(compDedCovCd)).findFirst().orElse(null);
+		Coverage filteredCoverageResponse = coverageResponseCompDedResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
 		assertThat(filteredCoverageResponse.coverageLimit).isEqualTo("100");
 
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
@@ -503,12 +504,12 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		String compDedCovCd2 = "COMPDED";
 		String compDedAvailableLimits2 = "500";
 		PolicyCoverageInfo coverageCompDedResponse2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, compDedCovCd2, compDedAvailableLimits2);
-		Coverage filteredUpdateCoverageResponse2 = coverageCompDedResponse2.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(compDedCovCd2)).findFirst().orElse(null);
+		Coverage filteredUpdateCoverageResponse2 = coverageCompDedResponse2.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
 		assertThat(filteredUpdateCoverageResponse2.coverageLimit).isEqualTo("500");
 
 		//View endorsement Coverage
 		PolicyCoverageInfo viewEndorsementCoveragesByVehicleResponse = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid);
-		Coverage filteredViewEndorsementCoverageResponse = viewEndorsementCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(compDedCovCd2)).findFirst().orElse(null);
+		Coverage filteredViewEndorsementCoverageResponse = viewEndorsementCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
 		assertThat(filteredViewEndorsementCoverageResponse.coverageLimit).isEqualTo("500");
 
 		//BUG not reset status
@@ -527,7 +528,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 
 		//View endorsement Coverage
 		PolicyCoverageInfo viewPolicyCoveragesByVehicleResponse = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, newVehicleOid);
-		Coverage filteredViewPolicyCoverageResponse = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(compDedCovCd2)).findFirst().orElse(null);
+		Coverage filteredViewPolicyCoverageResponse = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
 		assertThat(filteredViewPolicyCoverageResponse.coverageLimit).isEqualTo("500");
 
 		SearchPage.openPolicy(policyNumber);

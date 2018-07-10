@@ -27,13 +27,13 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 	}
 	
 	public ExcelTable(Row headerRow, List<Integer> columnsIndexesOnSheet, ExcelSheet sheet, List<CellType<?>> cellTypes) {
-		this(headerRow, columnsIndexesOnSheet, null, sheet, cellTypes);
+		this(headerRow, columnsIndexesOnSheet, null, false, sheet, cellTypes);
 	}
-	
-	public ExcelTable(Row headerRow, List<Integer> columnsIndexesOnSheet, List<Integer> rowsIndexesOnSheet, ExcelSheet excelSheet, List<CellType<?>> cellTypes) {
+
+	public ExcelTable(Row headerRow, List<Integer> columnsIndexesOnSheet, List<Integer> rowsIndexesOnSheet, boolean hasEmptyRows, ExcelSheet excelSheet, List<CellType<?>> cellTypes) {
 		super(excelSheet.getPoiSheet(),
 				columnsIndexesOnSheet != null ? columnsIndexesOnSheet : getHeaderColumnsIndexes(headerRow),
-				rowsIndexesOnSheet != null ? rowsIndexesOnSheet : getTableRowsIndexes(headerRow, columnsIndexesOnSheet),
+				rowsIndexesOnSheet != null ? rowsIndexesOnSheet : getTableRowsIndexes(headerRow, columnsIndexesOnSheet, hasEmptyRows),
 				excelSheet.getExcelManager(), cellTypes);
 		this.headerRow = headerRow;
 		this.excelSheet = excelSheet;
@@ -88,13 +88,13 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 				.isNotEmpty();
 		return columnsIndexes;
 	}
-	
-	private static List<Integer> getTableRowsIndexes(Row headerRow, List<Integer> columnsIndexesOnSheet) {
+
+	private static List<Integer> getTableRowsIndexes(Row headerRow, List<Integer> columnsIndexesOnSheet, boolean hasEmptyRows) {
 		List<Integer> rIndexes = new ArrayList<>();
 		List<Integer> cIndexes = columnsIndexesOnSheet != null ? columnsIndexesOnSheet : getHeaderColumnsIndexes(headerRow);
 		
 		for (int rowIndex = headerRow.getRowNum() + 1; rowIndex <= headerRow.getSheet().getLastRowNum(); rowIndex++) {
-			if (isRowEmpty(headerRow.getSheet().getRow(rowIndex), cIndexes)) {
+			if (!hasEmptyRows && isRowEmpty(headerRow.getSheet().getRow(rowIndex), cIndexes)) {
 				break;
 			}
 			rIndexes.add(rowIndex + 1);

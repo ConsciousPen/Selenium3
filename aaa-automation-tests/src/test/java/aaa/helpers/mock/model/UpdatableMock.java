@@ -1,10 +1,9 @@
 package aaa.helpers.mock.model;
 
-import aaa.helpers.mock.MockType;
+public interface UpdatableMock extends Cloneable {
+	String getFileName();
 
-public interface UpdatableMock {
-	MockType getType();
+	boolean add(UpdatableMock mock);
 
-	//TODO-dchubkov: maybe better change return type to boolean (false = nothing to merge)?
-	UpdatableMock merge(UpdatableMock mock);
+	UpdatableMock clone();
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
-import aaa.helpers.openl.testdata_builder.HomeCaDP3TestDataGenerator;
+import aaa.helpers.openl.testdata_generator.HomeCaDP3TestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
 

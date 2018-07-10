@@ -88,8 +88,8 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSHO4
     method searches for policynumber on the billing screen gets total due and makes payment for total due
     */
     private void activeFirstRenewal(String policyNumber) {
-        policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
-        policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        policyEffectiveDate = PolicySummaryPage.getEffectiveDate().plusYears(1);
+        policyExpirationDate = PolicySummaryPage.getExpirationDate().plusYears(1);
         renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyEffectiveDate);
         TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
@@ -115,7 +115,13 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSHO4
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         policy.getDefaultView().fillFromTo(td, PremiumsAndCoveragesQuoteTab.class, BindTab.class, true).getTab(BindTab.class).btnPurchase.click();
         Page.dialogConfirmation.confirm();
-        return PolicySummaryPage.linkPolicy.getValue();
+        if (PolicySummaryPage.buttonRenewals.isPresent()) {
+            PolicySummaryPage.buttonRenewals.click();
+        }
+        if(PolicySummaryPage.buttonBackFromRenewals.isEnabled()){
+            PolicySummaryPage.buttonBackFromRenewals.click();
+        }
+        return PolicySummaryPage.labellinkPolicy.getValue();
     }
 
 

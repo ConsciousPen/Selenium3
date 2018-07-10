@@ -85,11 +85,14 @@ public class TestPolicyRenewalMembershipDiscount extends HomeSSHO3BaseTest {
         PremiumsAndCoveragesQuoteTab.buttonNext.click();
         policy.getDefaultView().fillFromTo(td, MortgageesTab.class, BindTab.class, true);
         bindTab.submitTab();
+        if(PolicySummaryPage.buttonBackFromRenewals.isEnabled()){
+            PolicySummaryPage.buttonBackFromRenewals.click();
+        }
     }
 
     private void policyDateSavingAndChanging() {
-        policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
-        policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        policyEffectiveDate = PolicySummaryPage.getEffectiveDate().plusYears(1);
+        policyExpirationDate = PolicySummaryPage.getExpirationDate().plusYears(1);
         renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyEffectiveDate);
         TimeSetterUtil.getInstance().nextPhase(renewImageGenDate); //-35 days
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);

@@ -10,13 +10,15 @@ import org.testng.annotations.*;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
+import aaa.common.pages.MainPage;
+import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.openl.OpenLTestInfo;
 import aaa.helpers.openl.OpenLTestsManager;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
-import aaa.helpers.openl.testdata_builder.TestDataGenerator;
+import aaa.helpers.openl.testdata_generator.TestDataGenerator;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 
@@ -48,7 +50,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		synchronized (TESTS_PREPARATIONS_LOCK) {
 			if (openLTestsManager == null) {
 				openLTestsManager = new OpenLTestsManager(context);
-				//openLTestsManager.updateMocks();
+				openLTestsManager.updateMocks();
 			}
 		}
 	}
@@ -57,7 +59,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 	protected Object[][] getOpenLTestData(ITestContext context) {
 		OpenLTestInfo<P> testInfo = openLTestsManager.getTestInfo(context);
 		if (testInfo.isFailed()) {
-			Assert.fail("OpenL test preparation has been failed", testInfo.getException());
+			Assert.fail(String.format("OpenL test preparation for file \"%s\" has been failed", testInfo.getOpenLFilePath()), testInfo.getException());
 		}
 
 		//Sort policies list by effective date for further valid time shifts
@@ -78,17 +80,19 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		OpenLTestInfo<P> testInfo = openLTestsManager.getTestInfo(filePath);
 		P openLPolicy = testInfo.getOpenLPolicy(policyNumber);
 
-		if (openLPolicy.getEffectiveDate().isAfter(TimeSetterUtil.getInstance().getCurrentTime().toLocalDate())) {
-			TimeSetterUtil.getInstance().nextPhase(openLPolicy.getEffectiveDate().atStartOfDay());
-		}
-
+		TimeSetterUtil.getInstance().confirmDateIsAfter(openLPolicy.getEffectiveDate().atStartOfDay());
 		mainApp().open();
 		createOrOpenExistingCustomer(testInfo);
 
 		log.info("Premium calculation verification initiated for test {} and expected premium {} from \"{}\" OpenL file", policyNumber, openLPolicy.getExpectedPremium(), filePath);
-		Dollar actualPremium = createAndRateQuote(openLPolicy);
-		assertThat(actualPremium).as("Total premium for policy number %s is not equal to expected one", openLPolicy.getNumber()).isEqualTo(openLPolicy.getExpectedPremium());
-		Tab.buttonSaveAndExit.click();
+		try {
+			Dollar actualPremium = createAndRateQuote(openLPolicy);
+			assertThat(actualPremium).as("Total premium for policy number %s is not equal to expected one", openLPolicy.getNumber()).isEqualTo(openLPolicy.getExpectedPremium());
+		} finally {
+			if (Tab.buttonSaveAndExit.isPresent()) {
+				Tab.buttonSaveAndExit.click();
+			}
+		}
 	}
 
 	/**
@@ -101,6 +105,10 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 			String customerNumber = createCustomerIndividual();
 			testInfo.setCustomerNumber(customerNumber);
 		} else {
+			MainPage.QuickSearch.buttonSearchPlus.click();
+			if (Page.dialogConfirmation.isPresent()) { // may occur if previous failed test started quote creation and didn't save it
+				Page.dialogConfirmation.confirm();
+			}
 			SearchPage.openCustomer(testInfo.getCustomerNumber());
 		}
 	}
