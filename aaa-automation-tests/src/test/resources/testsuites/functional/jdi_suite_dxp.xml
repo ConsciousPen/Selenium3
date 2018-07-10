@@ -104,6 +104,8 @@
                 <methods>
                     <include name="pas10352_ManageVehicleCoverageUpdateCoverageOtherThanVa"/>
                     <include name="pas11741_ManageVehicleLevelCoveragesOtherThanVA"/>
+                    <include name="pas14693_viewCoverageAndUpdateCoverageRentalReimbursement"/>
+                    <include name="pas14693_updateCoverageRentalReimbursement"/>
                 </methods>
             </class>
         </classes>
@@ -126,6 +128,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
                 <methods>
                     <include name="pas11932_viewDrivers"/>
+                    <include name="pas9662_maxDrivers"/>
                 </methods>
             </class>
         </classes>
@@ -234,9 +237,7 @@
                     <include name="pas9716_policySummaryForPolicy"/>
                     <include name="pas9716_policySummaryForLapsedRenewal"/>
                     <include name="pas9716_policySummaryForConversionManual"/>
-                    <include name="pas14693_viewCoverageAndUpdateCoverageRentalReimbursement"/>
-                    <include name="pas14693_updateCoverageRentalReimbursement"/>
-                </methods>
+                    </methods>
             </class>
         </classes>
     </test>

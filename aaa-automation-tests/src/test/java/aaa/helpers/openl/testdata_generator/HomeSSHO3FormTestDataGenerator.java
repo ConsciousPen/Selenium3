@@ -9,7 +9,6 @@ import aaa.common.enums.Constants;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLForm;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
 import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.modules.BaseTest;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
@@ -18,7 +17,7 @@ import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssertions;
 
-public class HomeSSHO3FormTestDataGenerator extends BaseTest {
+public class HomeSSHO3FormTestDataGenerator {
 	private static Map<String, List<String>> selectedForms = new HashMap<>();
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0412DataFunction = (openLPolicy, policyLevel) -> {

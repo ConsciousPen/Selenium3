@@ -38,7 +38,6 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 			TestData autoPolicyData = tdGenerator.getAutoPolicyData(getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS), "DataGather", "TestData"), openLPolicy);
 			PolicyType.AUTO_SS.get().createQuote(autoPolicyData);
 			tdGenerator.autoPolicyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-			//			tdGenerator.autoPolicyNumber = "QPASS954131848";
 			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
 		}
 		boolean isLegacyConvPolicy = false;
@@ -96,6 +95,21 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 			new PremiumsAndCoveragesQuoteTab().calculatePremium();
 		}
 
-		return PremiumsAndCoveragesQuoteTab.getPolicyTermPremium();
+		return PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().subtract(getSpecificFees(openLPolicy));
+	}
+
+	private Dollar getSpecificFees(HomeSSOpenLPolicy openLPolicy) {
+		if (Constants.States.OH.equals(openLPolicy.getPolicyAddress().getState()) && !openLPolicy.getForms().stream().anyMatch(c -> "DSMSI2".equals(c.getFormCode()))) {
+			if (PremiumsAndCoveragesQuoteTab.tableEndorsementForms.isPresent() && PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains("Description", "DS MS I2 Ohio Mine Subsidence Insurance").isPresent()) {
+				return new Dollar(PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains("Description", "DS MS I2 Ohio Mine Subsidence Insurance").getCell("Term Premium ($)").getValue());
+			}
+		}
+		if (Constants.States.WV.equals(openLPolicy.getPolicyAddress().getState())) {
+			if (PremiumsAndCoveragesQuoteTab.tableTaxes.isPresent()) {
+				return new Dollar(PremiumsAndCoveragesQuoteTab.tableTaxes.getRowContains("Description", "Total").getCell("Term Premium ($)").getValue());
+			}
+		}
+		//TODO add other specific taxes and fees
+		return new Dollar(0);
 	}
 }
