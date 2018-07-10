@@ -255,6 +255,11 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, request, DriversDto.class, 201);
 	}
 
+	public static ErrorResponseDto executeEndorsementAddDriverError(String policyNumber, AddDriverRequest request) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS, policyNumber));
+		return runJsonRequestPostDxp(requestUrl, request, ErrorResponseDto.class, 422);
+	}
+
 	public static DriverWithRuleSets updateDriver(String policyNumber, String oid, UpdateDriverRequest request) {
 		log.info("Update Driver params: policyNumber: " + policyNumber + ", oid: " + oid);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_UPDATE_DRIVERS, policyNumber, oid));
