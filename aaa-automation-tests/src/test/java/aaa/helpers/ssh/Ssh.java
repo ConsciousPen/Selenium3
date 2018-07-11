@@ -1,6 +1,7 @@
 package aaa.helpers.ssh;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -316,6 +317,22 @@ public class Ssh {
 		}
 	}
 
+	public synchronized String getFileContent(String filePath) {
+		filePath = parseFileName(filePath);
+		try (InputStream is = sftpChannel.get(filePath)) {
+			BufferedReader br = new BufferedReader(new InputStreamReader(is));
+			return IOUtils.toString(br);
+		} catch (IOException | SftpException e) {
+			throw new IstfException("SSH: Unable to get content from file: " + filePath, e);
+		}
+	}
+
+	public synchronized LocalDateTime getLastModifiedTime(String path) {
+		path = parseFileName(path);
+		//TODO-dchubkov: to be implemented...
+		return null;
+	}
+
 	public synchronized void closeSession() {
 		try {
 			if (sftpChannel != null) {
@@ -328,16 +345,6 @@ public class Ssh {
 			log.debug("SSH: Session is closed");
 		} catch (RuntimeException e) {
 			throw new IstfException("SSH: Unable to close a session : ", e);
-		}
-	}
-
-	public synchronized String getFileContent(String filePath) {
-		filePath = parseFileName(filePath);
-		try (InputStream is = sftpChannel.get(filePath)) {
-			BufferedReader br = new BufferedReader(new InputStreamReader(is));
-			return IOUtils.toString(br);
-		} catch (IOException | SftpException e) {
-			throw new IstfException("SSH: Unable to get content from file: " + filePath, e);
 		}
 	}
 

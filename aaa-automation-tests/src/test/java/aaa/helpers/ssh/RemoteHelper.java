@@ -240,7 +240,7 @@ public final class RemoteHelper {
 	}
 
 	public LocalDateTime getLastModifiedTime(String path) {
-		//TODO-dchubkov: to be implemented
-		return null;
+		log.info(String.format("SSH: Getting last modified time for \"%s\"", path));
+		return ssh.getLastModifiedTime(path);
 	}
 }

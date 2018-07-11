@@ -16,7 +16,8 @@ import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.listeners.RatingEngineLogGrabber;
+import aaa.helpers.listeners.RatingEngineLogsGrabber;
+import aaa.helpers.listeners.RatingEngineLogsHolder;
 import aaa.helpers.openl.OpenLTestInfo;
 import aaa.helpers.openl.OpenLTestsManager;
 import aaa.helpers.openl.model.OpenLFile;
@@ -28,15 +29,14 @@ import toolkit.datax.TestData;
 
 public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 	protected static final Logger log = LoggerFactory.getLogger(OpenLRatingBaseTest.class);
-	
+
 	private static final Object TESTS_PREPARATIONS_LOCK = new Object();
 	private static final Object RATING_LOCK = new Object();
 	private static final String DATA_PROVIDER_NAME = "openLTestDataProvider";
-	private static final String GRAB_RATING_REQUEST_LOG = PropertyProvider.getProperty(CustomTestProperties.OPENL_GRAB_RATING_REQUEST_LOG);
-	private static final String GRAB_RATING_RESPONSE_LOG = PropertyProvider.getProperty(CustomTestProperties.OPENL_GRAB_RATING_RESPONSE_LOG);
+	private static final String OPENL_GRAB_RATING_LOGS = PropertyProvider.getProperty(CustomTestProperties.OPENL_GRAB_RATING_LOGS);
 	private static final boolean ARCHIVE_RATING_LOGS = Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.OPENL_ARCHIVE_RATING_LOGS));
 	private static OpenLTestsManager openLTestsManager;
-	private static RatingEngineLogGrabber ratingEngineLogGrabber = new RatingEngineLogGrabber();
+	private static RatingEngineLogsGrabber ratingEngineLogsGrabber = new RatingEngineLogsGrabber();
 
 	/**
 	 * Get base policy creation TestData which will be used as second argument in appropriate {@link TestDataGenerator#TestDataGenerator(String, TestData)} constructor.
@@ -101,7 +101,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 			synchronized (RATING_LOCK) {
 				actualPremium = calculatePremium(openLPolicy);
 				//to be implemented...
-				//grabRatingLogs(testInfo.getTestContext(), openLPolicy.getNumber(), openLPolicy.getExpectedPremium(), actualPremium);
+				//retrieveAndAnalyzeRatingLogs(testInfo.getTestContext(), openLPolicy, actualPremium);
 			}
 			assertThat(actualPremium).as("Total premium for quote/policy number %s is not equal to expected one", quoteNumber).isEqualTo(openLPolicy.getExpectedPremium());
 		} finally {
@@ -111,21 +111,37 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		}
 	}
 
-	protected void grabRatingLogs(ITestContext testContext, int policyNumber, Dollar expectedPremium, Dollar actualPremium) {
-		if (shouldGrab(GRAB_RATING_REQUEST_LOG, expectedPremium, actualPremium)) {
-			File ratingRequestLogPath = ratingEngineLogGrabber.grabRatingRequestLog(testContext.getCurrentXmlTest(), policyNumber, ARCHIVE_RATING_LOGS);
-			testContext.setAttribute(RatingEngineLogGrabber.RATING_REQUEST_TEST_CONTEXT_ATTR_NAME, ratingRequestLogPath.toString());
+	@SuppressWarnings("unchecked")
+	protected void retrieveAndAnalyzeRatingLogs(ITestContext testContext, P openLPolicy, Dollar actualPremium) {
+		RatingEngineLogsHolder ratingLogsHolder = null;
+		boolean isActualEqualToExpectedPremium = true;
+		if (!openLPolicy.getExpectedPremium().equals(actualPremium)) {
+			isActualEqualToExpectedPremium = false;
+			//TODO-dchubkov: to be continued...
+			/*ratingLogsHolder = ratingEngineLogsGrabber.grabRatingLogs();
+			P openLPolicyFromRequest = (P) ratingLogsHolder.getRequestPolicyObject(openLPolicy.getClass());
+			log.info("...........");
+			MapDifference<String, String> policyDifferences = openLPolicy.diff(openLPolicyFromRequest);
+			if (policyDifferences.areEqual()) {
+				log.info("...........");
+			} else {
+				log.warn("...........{}", policyDifferences.entriesDiffering().values());
+			}*/
 		}
 
-		if (shouldGrab(GRAB_RATING_RESPONSE_LOG, expectedPremium, actualPremium)) {
-			File ratingResponseLogPath = ratingEngineLogGrabber.grabRatingResponseLog(testContext.getCurrentXmlTest(), policyNumber, ARCHIVE_RATING_LOGS);
-			testContext.setAttribute(RatingEngineLogGrabber.RATING_REQUEST_TEST_CONTEXT_ATTR_NAME, ratingResponseLogPath.toString());
-		}
-	}
+		if ("true".equalsIgnoreCase(OPENL_GRAB_RATING_LOGS) || "always".equalsIgnoreCase(OPENL_GRAB_RATING_LOGS) || "all".equalsIgnoreCase(OPENL_GRAB_RATING_LOGS) ||
+				"failed".equalsIgnoreCase(OPENL_GRAB_RATING_LOGS) && !isActualEqualToExpectedPremium) {
 
-	protected boolean shouldGrab(String grabRatingLog, Dollar expectedPremium, Dollar actualPremium) {
-		return "true".equalsIgnoreCase(grabRatingLog) || "always".equalsIgnoreCase(grabRatingLog) || "all".equalsIgnoreCase(grabRatingLog) ||
-				"failed".equalsIgnoreCase(grabRatingLog) && !expectedPremium.equals(actualPremium);
+			if (ratingLogsHolder == null) {
+				ratingLogsHolder = ratingEngineLogsGrabber.grabRatingLogs();
+			}
+
+			File ratingRequestLog = ratingLogsHolder.dumpRequestLog(testContext.getCurrentXmlTest(), openLPolicy.getNumber(), ARCHIVE_RATING_LOGS);
+			testContext.setAttribute(RatingEngineLogsGrabber.RATING_REQUEST_TEST_CONTEXT_ATTR_NAME, ratingRequestLog);
+
+			File ratingResponseLog = ratingLogsHolder.dumpResponseLog(testContext.getCurrentXmlTest(), openLPolicy.getNumber(), ARCHIVE_RATING_LOGS);
+			testContext.setAttribute(RatingEngineLogsGrabber.RATING_RESPONSE_TEST_CONTEXT_ATTR_NAME, ratingResponseLog);
+		}
 	}
 
 	/**
@@ -145,7 +161,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 			SearchPage.openCustomer(testInfo.getCustomerNumber());
 		}
 	}
-	
+
 	/**
 	 * This method should generate appropriate test data to create quote or policy (and/or perform endorsement(s), renewal(s) if needed)
 	 *
