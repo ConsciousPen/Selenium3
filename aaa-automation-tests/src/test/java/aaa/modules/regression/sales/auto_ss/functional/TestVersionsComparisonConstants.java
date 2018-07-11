@@ -1,0 +1,135 @@
+package aaa.modules.regression.sales.auto_ss.functional;
+
+import java.util.Map;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Multimap;
+
+public class TestVersionsComparisonConstants {
+
+	//fields that have DB values, but not UI values on Comparison page
+	static final Map<String, String> comparisonPageDifferentValues = ImmutableMap.<String, String>builder()
+			//.put("Own Home", "OWNHME")
+			.build();
+
+	static final Multimap<String, String> predefinedExpectedValues = ImmutableListMultimap.<String, String>builder()
+			//Named Insured Information
+			//TODO should be deleted/updated when Report tab is fixed
+			//start
+			.putAll("AAA Claims Report Order.First Name", "V2FirstName", "V1FirstName")
+			.putAll("AAA Claims Report Order.Last Name", "V2LastName", "V1LastName")
+			.putAll("AAAMvr Report Order.Order Date", "", "07/11/2018")
+			.putAll("AAAMvr Report Order.Receipt Date", "", "07/11/2018")
+			.putAll("AAAMvr Report Order.Status", "", "Clear")
+			.putAll("AAAMvr Report Order.First Name", "V2FirstName", "V1FirstName")
+			.putAll("AAAMvr Report Order.Last Name", "V2LastName", "V1LastName")
+			.putAll("AAAMvr Report Order.ChoicePoint License Status", "", "1 VALID")
+			//end
+			.putAll("Named Insured Information (V1FirstName V1 V1LastName).Residential Address", "V2 residence address 1, V2 residence address 2, Red Rock, AZ, 85245", "V1 residence address 1, V1 residence address 2, Phoenix, AZ, 85085")
+			.putAll("Named Insured Information (V1FirstName V1 V1LastName).Prior Address", "V2 prior address 1, V2 prior address 2, Red Rock, AZ, 85245", "V1 prior address 1, V1 prior address 2, Phoenix, AZ, 85085")
+			.putAll("Named Insured Information (V1FirstName V1 V1LastName).Mailing Address", "V2 mailing address 1, V2 mailing address 2, Red Rock, AZ, 85245", "V1 mailing address 1, V1 mailing address 2, Phoenix, AZ, 85085")
+			.putAll("Vehicle Information (2011, CHEVROLET, EXPRESS VAN, SPORT VAN).Garaging Address", "V2 residence address 1, V2 residence address 2, Red Rock, AZ, 85245", "V1 residence address 1, V1 residence address 2, Phoenix, AZ, 85085")
+			//Current Carrier Information
+			.putAll("Current Carrier Information.Days Lapsed", "1004", "607")
+			.putAll("Current Carrier Information.Months with Carrier", "3", "4")
+			.putAll("Policy Information.Agency of Record", "500001406", "500001001")
+			.putAll("Policy Information.Agent of Record", "500012749", "500013268")
+			.putAll("Policy Information.Agent Number", "500012749", "500013268")
+			.putAll("Activity Information (Speeding, 05/31/2018, Not included in Rating).Claim Points", "", "0")
+			.putAll("Activity Information (Speeding, 05/31/2018, Not included in Rating).Violation points", "0", "")
+			//Vehicle Information
+			.putAll("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR).Usage","Business","WorkCommute")
+			.putAll("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR).Make","BMW","HYUNDAI")
+			.putAll("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR).Model","X5","SONATA")
+			.putAll("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR).Series","X5 M","SONATA GLS")
+			.putAll("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR).Body Style","WAGON 4 DOOR","SEDAN 4 DOOR")
+			.putAll("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR).Existing Damage Description","","test ppa")
+			.putAll("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR).Is the vehicle used in any commercial business operations?","false","")
+			.putAll("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR).Business Use Description","test business","")
+			.putAll("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR).VIN Stub","5YMGY0C5&C","5NPEB4AC&C")
+			.build();
+
+	//mapping of expected Component.Attribute to TD attributes
+	static final Multimap<String, String> attributesToTDMapping = ImmutableListMultimap.<String, String>builder()
+			//Named Insured Information section (all other fields are mapped from MultiMap predefinedExpectedValues)
+			//TODO should be deleted when Report tab is fixed
+			.put("Driver Information (V1FirstName V1 V1LastName).First Name", "First Name")
+			.put("Driver Information (V1FirstName V1 V1LastName).Middle Name", "Middle Name")
+			.put("Driver Information (V1FirstName V1 V1LastName).Last Name", "Last Name")
+			.put("Driver Information (V1FirstName V1 V1LastName).Suffix", "Suffix")
+			.put("Driver Information (V1FirstName V1 V1LastName).Base Date", "Base Date")
+			.put("Named Insured Information (V1FirstName V1 V1LastName).Prefix", "Prefix")
+			.put("Named Insured Information (V1FirstName V1 V1LastName).First Name", "First Name")
+			.put("Named Insured Information (V1FirstName V1 V1LastName).Middle Name", "Middle Name")
+			.put("Named Insured Information (V1FirstName V1 V1LastName).Last Name", "Last Name")
+			.put("Named Insured Information (V1FirstName V1 V1LastName).Suffix", "Suffix")
+			.put("Named Insured Information (V1FirstName V1 V1LastName).Social Security Number", "Social Security Number")
+			.put("Named Insured Information (V1FirstName V1 V1LastName).Base Date", "Base Date")
+			.put("Named Insured Information (V1FirstName V1 V1LastName).Move-In Date", "Move-In Date")
+			.put("Named Insured Information (V1FirstName V1 V1LastName).Residence", "Residence")
+			//Vehicle Information
+			.put("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR).VIN","VIN")
+			.put("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR).Existing Damage","Existing Damage")
+			.put("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR).Anti-theft","Anti-theft")
+			.build();
+
+	//all components/attributes that should be on Comparison page
+	static final Multimap<String, String> dataGatherNamedInsuredInformation = ImmutableListMultimap.<String, String>builder()
+			//TODO should be deleted/updated when Report tab is fixed
+			//start
+			.put("AAA Claims Report Order", "First Name")
+			.put("AAA Claims Report Order", "Last Name")
+			.put("AAAMvr Report Order", "Order Date")
+			.put("AAAMvr Report Order", "Receipt Date")
+			.put("AAAMvr Report Order", "Status")
+			.put("AAAMvr Report Order", "First Name")
+			.put("AAAMvr Report Order", "Last Name")
+			.put("AAAMvr Report Order", "ChoicePoint License Status")
+			//end
+			.put("Driver Information (V1FirstName V1 V1LastName)", "First Name")
+			.put("Driver Information (V1FirstName V1 V1LastName)", "Middle Name")
+			.put("Driver Information (V1FirstName V1 V1LastName)", "Last Name")
+			.put("Driver Information (V1FirstName V1 V1LastName)", "Suffix")
+			.put("Driver Information (V1FirstName V1 V1LastName)", "Base Date")
+			.put("Named Insured Information (V1FirstName V1 V1LastName)", "Prefix")
+			.put("Named Insured Information (V1FirstName V1 V1LastName)", "First Name")
+			.put("Named Insured Information (V1FirstName V1 V1LastName)", "Middle Name")
+			.put("Named Insured Information (V1FirstName V1 V1LastName)", "Last Name")
+			.put("Named Insured Information (V1FirstName V1 V1LastName)", "Suffix")
+			.put("Named Insured Information (V1FirstName V1 V1LastName)", "Social Security Number")
+			.put("Named Insured Information (V1FirstName V1 V1LastName)", "Base Date")
+			.put("Named Insured Information (V1FirstName V1 V1LastName)", "Residential Address")
+			.put("Named Insured Information (V1FirstName V1 V1LastName)", "Move-In Date")
+			.put("Named Insured Information (V1FirstName V1 V1LastName)", "Prior Address")
+			.put("Named Insured Information (V1FirstName V1 V1LastName)", "Mailing Address")
+			.put("Named Insured Information (V1FirstName V1 V1LastName)", "Residence")
+			.put("Vehicle Information (2011, CHEVROLET, EXPRESS VAN, SPORT VAN)", "Garaging Address")
+			.build();
+
+	public static final Multimap<String, String> endorsementRenewalNamedInsuredInformation;
+	static {
+		Multimap<String, String> endorsementModified = ArrayListMultimap.create(dataGatherNamedInsuredInformation);
+		endorsementModified.remove("AAAMvr Report Order", "Order Date");
+		endorsementModified.remove("AAAMvr Report Order", "Receipt Date");
+		endorsementModified.remove("AAAMvr Report Order", "Status");
+		endorsementModified.remove("AAAMvr Report Order", "ChoicePoint License Status");
+		endorsementRenewalNamedInsuredInformation = ImmutableListMultimap.copyOf(endorsementModified);
+	}
+
+	static final Multimap<String, String> vehicleInformation = ImmutableListMultimap.<String, String>builder()
+			.put("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR)", "Usage")
+			.put("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR)", "VIN")
+			.put("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR)", "Make")
+			.put("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR)", "Model")
+			.put("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR)", "Series")
+			.put("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR)", "Body Style")
+			.put("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR)", "Existing Damage")
+			.put("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR)", "Existing Damage Description")
+			.put("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR)", "Is the vehicle used in any commercial business operations?")
+			.put("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR)", "Business Use Description")
+			.put("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR)", "Anti-theft")
+			.put("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR)", "VIN Stub")
+			.build();
+
+}

@@ -1,0 +1,385 @@
+TestData_Plus10Days: {
+  EndorsementActionTab: {
+    Endorsement Date: $<today+10d>,
+    Endorsement Reason: 'Maintain General Information'
+  }
+}
+
+TestData_Plus20Days: {
+  EndorsementActionTab: {
+    Endorsement Date: $<today+20d>,
+    Endorsement Reason: 'Maintain General Information'
+  }
+}
+
+TestData_Plus25Days: {
+  EndorsementActionTab: {
+    Endorsement Date: $<today+25d>,
+    Endorsement Reason: 'Maintain General Information'
+  }
+}
+
+TestData_Minus1Month: {
+  EndorsementActionTab: {
+    Endorsement Date: $<today-1M>,
+    Endorsement Reason: 'Maintain General Information'
+  }
+}
+
+
+
+#test data for creation NB in Endorsement/Renewal scenarios
+TestData_NB_Policy: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@VehicleInformation',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+GeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation'
+}
+
+#test data for creation NB in Data Gather scenarios
+TestData_NB_Quote: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_Quote',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@VehicleInformation_Version1',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+GeneralTab_Quote: {
+ NamedInsuredInformation: ['@NamedInsuredInformation_Version1'],
+ AAAProductOwned: '@AAAProductOwned_Version1',
+ ContactInformation: '@ContactInformation_Version1',
+ CurrentCarrierInformation: '@CurrentCarrierInformation_Version1',
+ PolicyInformation: '@PolicyInformation_Version1'
+}
+
+#General Tab - Named Insured Information section
+
+TestData_NamedInsuredInformation_Version1: {
+  GeneralTab: {
+    NamedInsuredInformation: ['@NamedInsuredInformation_Version1']
+  },
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+TestData_NamedInsuredInformation_Version2: {
+  GeneralTab: {
+    NamedInsuredInformation: ['@NamedInsuredInformation_Version2']
+  },
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+NamedInsuredInformation: {
+  Prefix: MR,
+  First Name: NBFirstName,
+  Middle Name: NB,
+  Last Name: NBLastName,
+  Suffix: Jr,
+  Social Security Number: 123456789,
+  Base Date: $<today>,
+  Zip Code: 85118,
+  Address Line 1: NB residence address 1,
+  Address Line 2: NB residence address 2,
+  City: Gold Canyon,
+  State: AZ,
+  "Has lived here for less than three years?": 'Yes',
+  Move-In Date: $<today-1y>,
+  Prior Zip Code: 85118,
+  Prior Address Line 1: NB prior address 1,
+  Prior Address Line 2: NB prior address 2,
+  Prior City: Gold Canyon,
+  Prior State: AZ,
+ "Is residential address different from mailing address?":'Yes',
+  Mailing Zip Code: 85118,
+  Mailing Address Line 1: NB mailing address 1,
+  Mailing Address Line 2: NB mailing address 2,
+  Mailing City: Gold Canyon,
+  Mailing State: AZ,
+  Residence: Own Home,
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: NB,
+    Street Name: residence address 1,
+    Mailing Street number: NB,
+    Mailing Street Name: mailing address 1
+  }
+}
+
+NamedInsuredInformation_Version1: {
+  Prefix: MRS,
+  First Name: V1FirstName,
+  Middle Name: V1,
+  Last Name: V1LastName,
+  Suffix: Sr,
+  Social Security Number: 123456111,
+  Base Date: $<today-1M>,
+  Zip Code: 85085,
+  Address Line 1: V1 residence address 1,
+  Address Line 2: V1 residence address 2,
+  City: Phoenix,
+  State: AZ,
+  "Has lived here for less than three years?": 'Yes',
+  Move-In Date: $<today-2y>,
+  Prior Zip Code: 85085,
+  Prior Address Line 1: V1 prior address 1,
+  Prior Address Line 2: V1 prior address 2,
+  Prior City: Phoenix,
+  Prior State: AZ,
+  "Is residential address different from mailing address?":'Yes',
+  Mailing Zip Code: 85085,
+  Mailing Address Line 1: V1 mailing address 1,
+  Mailing Address Line 2: V1 mailing address 2,
+  Mailing City: Phoenix,
+  Mailing State: AZ,
+  Residence: Own Condo,
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: V1,
+    Street Name: residence address 1,
+    Mailing Street number: V1,
+    Mailing Street Name: mailing address 1
+  }
+}
+
+NamedInsuredInformation_Version2: {
+  Prefix: MISS,
+  First Name: V2FirstName,
+  Middle Name: V2,
+  Last Name: V2LastName,
+  Suffix: II,
+  Social Security Number: 123456222,
+  Base Date: $<today-2M>,
+  Zip Code: 85245,
+  Address Line 1: V2 residence address 1,
+  Address Line 2: V2 residence address 2,
+  City: Red Rock,
+  State: AZ,
+  "Has lived here for less than three years?": 'Yes',
+  Move-In Date: $<today-2d>,
+  Prior Zip Code: 85245,
+  Prior Address Line 1: V2 prior address 1,
+  Prior Address Line 2: V2 prior address 2,
+  Prior City: Red Rock,
+  Prior State: AZ,
+  "Is residential address different from mailing address?":'Yes',
+  Mailing Zip Code: 85245,
+  Mailing Address Line 1: V2 mailing address 1,
+  Mailing Address Line 2: V2 mailing address 2,
+  Mailing City: Red Rock,
+  Mailing State: AZ,
+  Residence: Own Mobile Home,
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: V2,
+    Street Name: residence address 1,
+    Mailing Street number: V2,
+    Mailing Street Name: mailing address 1
+  }
+}
+
+#Vehicle Tab - Vehicle Information section
+
+TestData_VehicleInformation_Version1: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: '@VehicleInformation_Version1',
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+TestData_VehicleInformation_Version2: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: '@VehicleInformation_Version2',
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+VehicleInformation: {
+  Type: 'Private Passenger Auto',
+  Usage: Pleasure,
+  VIN: 2HNYD28498H554858,
+  Existing Damage: Other,
+  Existing Damage Description:  test ppa,
+  'Salvaged?': 'No',
+  Anti-theft: None,
+}
+
+VehicleInformation_Version1: {
+  Type: 'Private Passenger Auto',
+  Usage: Commute,
+  VIN: 5NPEB4AC7C7443856,
+  Existing Damage: Other,
+  Existing Damage Description:  test ppa,
+  'Salvaged?': 'No',
+  Miles One-way to Work or School: 1000,
+  Anti-theft: None,
+}
+
+VehicleInformation_Version2: {
+  Type: 'Private Passenger Auto',
+  Usage: Business,
+  VIN: 5YMGY0C57C1661237,
+  Existing Damage: Rust,
+  'Salvaged?': 'No',
+  Anti-theft: Vehicle Recovery Device,
+  'Is the vehicle used in any commercial business operations?': 'No',
+  Business Use Description: test business
+}
+
+#Need to be redone
+AAAProductOwned: {
+  Current AAA Member: 'Yes',
+  Membership Number: 4290023667710001,
+  Last name: Smith,
+  "Motorcycle Policy #": 1112223331,
+  "Life Policy #": 1112223332,
+  "Home Motorcycle Policy #": 1112223333,
+  "Renters Policy #": 1112223334,
+  "Condo Policy #": 1112223335,
+  "PUP Motorcycle Policy #": 1112223336,
+}
+
+AAAProductOwned_Version1: {
+  Current AAA Member: 'Yes',
+  Membership Number: 4382127703153016,
+  Last name: Smith2,
+  "Motorcycle Policy #": 4445556661,
+  "Life Policy #": 4445556662,
+  "Home Motorcycle Policy #": 4445556663,
+  "Renters Policy #": 4445556664,
+  "Condo Policy #": 4445556665,
+  "PUP Motorcycle Policy #": 4445556666,
+}
+
+ContactInformation: {
+   Home Phone Number: 1234567891,
+   Work Phone Number: 1234567892,
+   Mobile Phone Number: 1234567893,
+   "Preferred Phone #": Home Phone,
+   Email: 'test@gmail.com'
+}
+
+ContactInformation_Version1: {
+   Home Phone Number: 1234563331,
+   Work Phone Number: 1234563332,
+   Mobile Phone Number: 1234563333,
+   "Preferred Phone #": Work Phone,
+   Email: 'test2@gmail.com'
+}
+
+RatingDetailReportsTab: {
+  Customer Agreement: Customer Agrees,
+  Sales Agent Agreement: I Agree,
+  Order Report: click,
+  AAAMembershipReport: [{}],
+  OrderInsuranceScoreReport: [{}]
+}
+
+RatingDetailReportsTab_CustomerAgreement_Order: {
+  Customer Agreement: Customer Agrees,
+  Order Report: click,
+}
+
+RatingDetailReportsTab_Order: {
+  Order Report: click,
+}
+
+CurrentCarrierInformation: {
+  "Override Prefilled Current Carrier?": 'Yes',
+  Agent Entered Current/Prior Carrier: 'AAA-SoCal (ACSC)',
+  Agent Entered Inception Date: $<today-1y-1d>,
+  Agent Entered Expiration Date: $<today-1d>,
+  Agent Entered Policy Number: 1234567894,
+  Agent Entered BI Limits: '$300,000/$500,000',
+}
+
+CurrentCarrierInformation_Version1: {
+  "Override Prefilled Current Carrier?": 'Yes',
+  More than 6 months Total Insurance Experience: 'Yes',
+  Agent Entered Current/Prior Carrier: 'Other Standard',
+  Agent Entered Other Carrier: Other test,
+  Agent Entered Inception Date: $<today-1y-10d>,
+  Agent Entered Expiration Date: $<today-8M>,
+  Agent Entered Policy Number: 1234567333,
+  Agent Entered BI Limits: '$250,000/$500,000',
+}
+
+PolicyInformation: {
+  Source of Business: 'New Business',
+  Policy Type: Standard,
+  Effective Date: '$<today:MM/dd/yyyy>',
+  Policy Term: Annual,
+  Override ASD Level: 'Yes',
+  Advance Shopping Discount Override: 'Level 1',
+  ASD Overriden By: test,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Arizona - 500001004',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'contains=500005091 - Chandler',
+  Agent: 'Foster Bottenberg',
+  Commission Type: 'New Business',
+  Authorized by: QA,
+  TollFree Number: 1234567895,
+  Lead Source: 'AAA Magazines',
+  Suppress Print: 'Suppress Declaration'
+}
+
+PolicyInformation_Version1: {
+  Source of Business: 'New Business',
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Override ASD Level: 'Yes',
+  Advance Shopping Discount Override: 'Level 2',
+  ASD Overriden By: test1,
+  Channel Type: 'Independent Agent',
+  Agency: 'Arizonas Best Choice Insurance - 500001406',
+  Sales Channel: 'Independent Agents',
+  Agent: 'Zilliah J Wade',
+  Commission Type: 'Renewal',
+  Authorized by: QA1,
+  TollFree Number: 2222222222,
+  Lead Source: 'Events',
+  Suppress Print: 'Print Declaration'
+}

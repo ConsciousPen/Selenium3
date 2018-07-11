@@ -2,15 +2,23 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.pages.summary;
 
+import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import org.apache.commons.lang.StringUtils;
+import org.openqa.selenium.By;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.enums.PolicyConstants;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.apache.commons.lang.StringUtils;
-import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -22,16 +30,6 @@ import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
-
-import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.*;
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class PolicySummaryPage extends SummaryPage {
 
@@ -60,6 +58,7 @@ public class PolicySummaryPage extends SummaryPage {
 	public static Button buttonCreateVersion = new Button(By.id("topCreateQuoteVersionLink"));
 	public static Button buttonCompare = new Button(By.id("quoteVersionHistoryForm:compareSelectedVersions_footer"));
 	public static Button buttonCompareVersions = new Button(By.id("historyForm:compareVersions_footer"));
+	public static Button buttonComparePolicy = new Button(By.id("quoteVersionHistoryForm:compareWithPolicy_footer"));
 	public static Button buttonTasks = new Button(By.xpath("//*[contains(@id,'tasksList') and text()='Tasks']"));
 	public static Button buttonProceed = new Button(By.xpath("//button[.//span[@class='ui-button-text ui-c' and text()='Proceed'] or @value='Proceed']"));
 	public static Button buttonRenewalQuoteVersion = new Button(By.id("productContextInfoForm:stubRenewalQuoteVersions"));
@@ -249,6 +248,26 @@ public class PolicySummaryPage extends SummaryPage {
 		public static Link provideLinkExpandComparisonTree(int i) {
 			return new Link(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + i + "']"
 				+ "/td[1]/span[contains(@class, 'ui-treetable-toggler')]"));
+		}
+
+		public static StaticElement provideLinkTextComparisonTree(int i) {
+			return new StaticElement(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + i + "']"
+					+ "/td[1]/span[2]"));
+		}
+
+		public static StaticElement provideAtributeExpandComparisonTree(int componentNumber, int attrNumber) {
+			return new StaticElement(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + componentNumber + "_" + attrNumber + "']"
+					+ "/td[1]/span[3]"));
+		}
+
+		public static StaticElement provideValueExpandComparisonTree(int componentNumber, int attrNumber, int column) {
+			return new StaticElement(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + componentNumber + "_" + attrNumber + "']"
+					+ "/td[" + column + "]/span[1]"));
+		}
+
+		public static Link provideLinkConflictVersion(int componentNumber, int attrNumber, int conflictVersion) {
+			return new Link(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + componentNumber + "_" + attrNumber + "']"
+					+ "/td[" + 7 + "]/span[1]"));
 		}
 
 		public static LocalDateTime readEffectiveDate(int row) {

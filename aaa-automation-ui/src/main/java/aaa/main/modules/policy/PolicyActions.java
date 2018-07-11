@@ -488,20 +488,10 @@ public final class PolicyActions {
 		   }
 		   */
 		public AbstractAction perform(boolean isAutomatic, boolean setCurrentValues) {
-			start();
+			openConflictPage(isAutomatic);
 
-			Table tableOosEndorsements = new Table(By.id("affectedEndoresmentForm:historyTable"));
-			int rowsCount = tableOosEndorsements.getRowsCount();
-			int columnsCount = tableOosEndorsements.getColumnsCount();
-
-			for (int i = 1; i <= rowsCount; i++) {
-				tableOosEndorsements.getRow(i).getCell(columnsCount).controls.links.get(
-						isAutomatic ? 1 : 2).click();
-				if (Page.dialogConfirmation.isPresent()) {
-					Page.dialogConfirmation.confirm();
-				}
-			}
-
+			int rowsCount;
+			int columnsCount;
 
 			Table tableDifferences = new Table(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']/table"));
 			if (tableDifferences.isPresent()) {
@@ -531,6 +521,21 @@ public final class PolicyActions {
 				submit();
 			}
 			return this; //submit();
+		}
+		public void openConflictPage(boolean isAutomatic) {
+			start();
+
+			Table tableOosEndorsements = new Table(By.id("affectedEndoresmentForm:historyTable"));
+			int rowsCount = tableOosEndorsements.getRowsCount();
+			int columnsCount = tableOosEndorsements.getColumnsCount();
+
+			for (int i = 1; i <= rowsCount; i++) {
+				tableOosEndorsements.getRow(i).getCell(columnsCount).controls.links.get(
+						isAutomatic ? 1 : 2).click();
+				if (Page.dialogConfirmation.isPresent()) {
+					Page.dialogConfirmation.confirm();
+				}
+			}
 		}
 	}
 
