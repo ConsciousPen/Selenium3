@@ -112,12 +112,12 @@ public class TestCappingForSubsequentRenewals extends HomeSSHO3BaseTest {
 		if (PolicySummaryPage.tableRenewals.isPresent()) {
 			Tab.buttonBack.click();
 		}
-		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+		policyEffectiveDate = PolicySummaryPage.getEffectiveDate().plusYears(1);
+		policyExpirationDate = PolicySummaryPage.getExpirationDate().plusYears(1);
+		renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyEffectiveDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
+		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate);
 
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber);

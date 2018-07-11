@@ -63,7 +63,7 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSDP3
     @StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.NJ,Constants.States.MD, Constants.States.PA, Constants.States.CT})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_DP3, testCaseId = "PAS-10512, PAS-12478")
-    public void propertyInfoTabconvPolicyRenewal(@Optional("DE") String state) {
+    public void propertyInfoTabconvPolicyRenewal(@Optional("CT") String state) {
         TestData td = getConversionPolicyDefaultTD();
         String inceptionDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(10).format(DateTimeUtils.MM_DD_YYYY);
 
@@ -92,12 +92,13 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSDP3
     method searches for policynumber on the billing screen gets total due and makes payment for total due
     */
     private void activeFirstRenewal(String policyNumber) {
-        policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
-        policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        policyEffectiveDate = PolicySummaryPage.getEffectiveDate().plusYears(1);
+        policyExpirationDate = PolicySummaryPage.getExpirationDate().plusYears(1);
         renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyEffectiveDate);
         TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
         TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate);
+
 
         mainApp().reopen();
         SearchPage.openBilling(policyNumber);
