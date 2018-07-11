@@ -31,7 +31,7 @@ TestData_Plus10Days: {
 
 TestData_Plus1Month: {
   CancellationActionTab: {
-    Cancel Date: $<today+1m>,
+    Cancel Date: $<today+1M>,
     Cancellation Reason: 'Insured Request - Due To High Premium'
   }
 }
