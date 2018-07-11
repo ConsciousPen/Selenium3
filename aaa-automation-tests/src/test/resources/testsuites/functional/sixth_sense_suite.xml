@@ -91,6 +91,12 @@
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior"/>
+        </classes>
+    </test>
+
+    <test name="Test Nano Enhanced UIM Coverage Behavior">
+        <parameter name="state" value="MD"/>
+        <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDNanoPolicyEUIMBehavior"/>
         </classes>
     </test>
