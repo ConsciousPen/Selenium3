@@ -193,7 +193,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		//Create pended endorsement
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		AAAEndorseResponse responseEndorsement = HelperCommon.createEndorsement(policyNumber, endorsementDate);
+		PolicySummary responseEndorsement = HelperCommon.createEndorsement(policyNumber, endorsementDate);
 		assertThat(responseEndorsement.policyNumber).isEqualTo(policyNumber);
 
 		ViewDriversResponse responseViewDriverEndorsement = HelperCommon.viewEndorsementDrivers(policyNumber);

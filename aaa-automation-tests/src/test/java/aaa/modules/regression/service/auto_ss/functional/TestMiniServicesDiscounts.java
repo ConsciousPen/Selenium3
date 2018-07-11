@@ -67,7 +67,7 @@ public class TestMiniServicesDiscounts extends AutoSSBaseTest {
 
 		discountsCheckPerTransaction(policyNumber, "policy");
 
-		AAAEndorseResponse endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().plusDays(15).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		PolicySummary endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().plusDays(15).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
 		discountsCheckPerTransaction(policyNumber, "endorsement");
