@@ -3,13 +3,7 @@
 
     <test name="EvalueInsertPreconditions">
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.EvalueInsertSetup">
-                <methods>
-                    <include name="paperlessPreferencesStubEndpointUpdate"/>
-                    <include name="lastPaymentMethodStubPointUpdate"/>
-                    <include name="refundConfigurationUpdate"/>
-                </methods>
-            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.EvalueInsertSetup"/>
         </classes>
     </test>
 
