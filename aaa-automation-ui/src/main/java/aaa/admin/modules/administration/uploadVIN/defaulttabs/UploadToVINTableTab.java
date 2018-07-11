@@ -42,7 +42,7 @@ public class UploadToVINTableTab extends DefaultTab {
 	 * @param vinTableFile
 	 */
 	public void uploadFiles(String controlTableFile, String vinTableFile) {
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+//		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
 		uploadVinTable(vinTableFile);
 		uploadControlTable(controlTableFile);
