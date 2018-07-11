@@ -255,6 +255,11 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, request, DriversDto.class, 201);
 	}
 
+	public static ErrorResponseDto executeEndorsementAddDriverError(String policyNumber, AddDriverRequest request) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS, policyNumber));
+		return runJsonRequestPostDxp(requestUrl, request, ErrorResponseDto.class, 422);
+	}
+
 	public static DriverWithRuleSets updateDriver(String policyNumber, String oid, UpdateDriverRequest request) {
 		log.info("Update Driver params: policyNumber: " + policyNumber + ", oid: " + oid);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_UPDATE_DRIVERS, policyNumber, oid));
@@ -333,6 +338,11 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, PolicyPremiumInfo[].class);
 	}
 
+	public static PolicySummary viewPendingEndorsementImageInfo(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, PolicySummary.class);
+	}
+
 	public static PolicyPremiumInfo[] viewEndorsementPremiums(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_PREMIUMS, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, PolicyPremiumInfo[].class);
@@ -358,7 +368,7 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, ComparablePolicy.class);
 	}
 
-	public static AAAEndorseResponse createEndorsement(String policyNumber, String endorsementDate) {
+	public static PolicySummary createEndorsement(String policyNumber, String endorsementDate) {
 		AAAEndorseRequest request = new AAAEndorseRequest();
 		request.endorsementDate = endorsementDate;
 		request.endorsementReason = "OTHPB";
@@ -367,7 +377,7 @@ public class HelperCommon {
 		if (endorsementDate != null) {
 			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
 		}
-		return runJsonRequestPostDxp(requestUrl, request, AAAEndorseResponse.class, Response.Status.CREATED.getStatusCode());
+		return runJsonRequestPostDxp(requestUrl, request, PolicySummary.class, Response.Status.CREATED.getStatusCode());
 	}
 
 	@SuppressWarnings("unchecked")

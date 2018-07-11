@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import org.assertj.core.api.SoftAssertions;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -39,7 +38,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		//Perform Endorsement
-		AAAEndorseResponse endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		PolicySummary endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
 		SearchPage.openPolicy(policyNumber);
@@ -237,7 +236,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		policyType.get().createPolicy(testData);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-		AAAEndorseResponse endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		PolicySummary endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
 		ViewVehicleResponse viewVehicleResponse = HelperCommon.viewPolicyVehicles(policyNumber);
@@ -424,7 +423,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(coveragesV1.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
 			softly.assertThat(new Dollar(coveragesV1.get(6).coverageLimit)).isEqualTo(excessElectronicEquipment1);
 			softly.assertThat(coveragesV1.get(6).customerDisplayed).isEqualTo(false);
-			assertThat(coveragesV1.get(6).canChangeCoverage).isEqualTo(true);
+			assertThat(coveragesV1.get(6).canChangeCoverage).isEqualTo(false);
 
 			softly.assertThat(coveragesV1.get(7).coverageCd).isEqualTo("NEWCAR");
 			softly.assertThat(coveragesV1.get(7).coverageDescription).isEqualTo("New Car Added Protection");
@@ -1892,8 +1891,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	//validate UIMBI for states where it is separate coverage
 	private void validateUIMBI_pas15254(SoftAssertions softly, String state, PolicyCoverageInfo coverageResponse, String newBILimits) {
-		if (state.equals(Constants.States.AZ) || state.equals(Constants.States.ID) || state.equals(Constants.States.KY) || state.equals(Constants.States.PA)
-				|| state.equals(Constants.States.SD) || state.equals(Constants.States.UT) || state.equals(Constants.States.WV)) {
+		if ("AZ, ID, KY, PA, SD, UT, WV, MT".contains(state)) {
 			Coverage filteredCoverageResponseUIMBI = coverageResponse.policyCoverages.stream().filter(cov -> "UIMBI".equals(cov.coverageCd)).findFirst().orElse(null);
 			softly.assertThat(newBILimits.equals(filteredCoverageResponseUIMBI.coverageLimit)).isEqualTo(true);
 		}
