@@ -365,6 +365,32 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	}
 
 	/**
+	 * @author Jovita Pukenaite
+	 * @name Transaction Information For Endorsements outside of PAS - Replace vehicle
+	 * @scenario 1. Create policy with three vehicles.
+	 * 2. Start do endorsement outside of PAS.
+	 * 3. Hit "Transaction History Service". Check if response is empty.
+	 * 4. Replace V1 and V2.
+	 * 5. Remove V3.
+	 * 6. Hit "Transaction History Service". Check info.
+	 * 7. Rate and Bind.
+	 * 8. Create new endorsement outside of PAS.
+	 * 9. Hit "Transaction History Service". Check if response is empty.
+	 * 10. Add new vehicle.
+	 * 11. Replace that new Vehicle.
+	 * 12. Hit "Transaction History Service". Check if only one vehicle exist in response.
+	 * 13. Rate and Bind.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14497"})
+	public void pas14497_TransactionInformationForEndorsementsReplaceVehicle(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas14497_TransactionInformationForEndorsementsReplaceVehicleBody(getPolicyType(), softly)
+		);
+	}
+
+	/**
 	 * @author Oleg Stasyuk
 	 * @name Check Vehicle coverages after replacing the vehicle
 	 * @scenario 1.Create a policy with 1 leased vehicle, 1 New Car coverage and 2 drivers
