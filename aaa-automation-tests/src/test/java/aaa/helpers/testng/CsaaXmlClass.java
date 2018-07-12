@@ -55,7 +55,6 @@ public class CsaaXmlClass {
 			if (xmlInclude != null && !xmlInclude.isEmpty()) {
 
 				for (XmlInclude include : xmlInclude) {
-					checkTestAnnotation(clazz, include.getName());
 					if (isMethodMatch(clazz, include.getName(), state)) {
 						resultInclude.add(include);
 					}
@@ -85,10 +84,14 @@ public class CsaaXmlClass {
 	private StateList getAnnotation(Class clazz, String methodName) {
 		StateList statesAnn = null;
 		Method method = null;
-		try {
-			method = clazz.getDeclaredMethod(methodName, String.class);
-		} catch (NoSuchMethodException e) {
-			throw new IstfException(String.format("Malformed suite. Check suite xml %s:%s ", clazz.getName(), methodName), e.getCause());
+		for (Method classMethod : clazz.getDeclaredMethods()) {
+			if (classMethod.getName().equals(methodName)) {
+				method = classMethod;
+			}
+			break;
+		}
+		if (method.isAnnotationPresent(Test.class)) {
+			Assert.fail(String.format("Malformed Suite!!! Method %s:%s is doesn't have @Test annotation", clazz.getName(), method));
 		}
 		if (method.isAnnotationPresent(StateList.class)) {
 			statesAnn = method.getAnnotation(StateList.class);
@@ -96,16 +99,6 @@ public class CsaaXmlClass {
 			statesAnn = (StateList) clazz.getDeclaringClass().getAnnotation(StateList.class);
 		}
 		return statesAnn;
-	}
-
-	private void checkTestAnnotation(Class clazz, String method) {
-		try {
-			if (!clazz.getDeclaredMethod(method, String.class).isAnnotationPresent(Test.class)) {
-				Assert.fail(String.format("Malformed Suite!!! Method %s:%s is doesn't have @Test annotation", clazz.getName(), method));
-			}
-		} catch (NoSuchMethodException e) {
-			Assert.fail(String.format("Malformed Suite!!! No such method in class -> %s:%s", clazz.getName(), method));
-		}
 	}
 
 	private Boolean isMethodMatch(Class clazz, String methodName, String state) {
