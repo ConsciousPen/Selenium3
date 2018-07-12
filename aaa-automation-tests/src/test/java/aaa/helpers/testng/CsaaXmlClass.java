@@ -90,13 +90,15 @@ public class CsaaXmlClass {
 			}
 			break;
 		}
-		if (!method.isAnnotationPresent(Test.class)) {
-			Assert.fail(String.format("Malformed Suite!!! Method %s doesn't have @Test annotation", method));
-		}
-		if (method.isAnnotationPresent(StateList.class)) {
-			statesAnn = method.getAnnotation(StateList.class);
-		} else if (clazz.isAnnotationPresent(StateList.class)) {
-			statesAnn = (StateList) clazz.getDeclaringClass().getAnnotation(StateList.class);
+		if (method != null) {
+			if (!method.isAnnotationPresent(Test.class)) {
+				Assert.fail(String.format("Malformed Suite!!! Method %s doesn't have @Test annotation", method));
+			}
+			if (method.isAnnotationPresent(StateList.class)) {
+				statesAnn = method.getAnnotation(StateList.class);
+			} else if (clazz.isAnnotationPresent(StateList.class)) {
+				statesAnn = (StateList) clazz.getDeclaringClass().getAnnotation(StateList.class);
+			}
 		}
 		return statesAnn;
 	}
