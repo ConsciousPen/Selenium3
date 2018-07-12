@@ -1620,11 +1620,17 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		//Update Vehicle with proper Usage and Registered Owner
 		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
 
+		ViewDriversResponse response = HelperCommon.viewPolicyDrivers(policyNumber);
+		String dOid = response.driverList.get(0).oid;
+
 		ComparablePolicy policyResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
+		ComparableVehicle veh1 = policyResponse.vehicles.get(newVehicleOid);
 		assertSoftly(softly -> {
+			softly.assertThat(veh1.driverAssignments.get(dOid).changeType).isEqualTo("ADDED");
+			softly.assertThat(veh1.driverAssignments.get(dOid).data.driverOid).isEqualTo(dOid);
+			softly.assertThat(veh1.driverAssignments.get(dOid).data.vehicleDisplayValue).isEqualTo(dOid);
+			softly.assertThat(veh1.driverAssignments.get(dOid).data.relationshipType).isEqualTo("occasional");
 
-
-			//softly.assertThat(policyResponse.changeType).isEqualTo("NO_CHANGES");
 		});
 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
