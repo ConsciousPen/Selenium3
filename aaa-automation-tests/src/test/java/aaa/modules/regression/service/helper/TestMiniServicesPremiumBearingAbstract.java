@@ -1622,6 +1622,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		ComparablePolicy policyResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
 		assertSoftly(softly -> {
+
+
 			//softly.assertThat(policyResponse.changeType).isEqualTo("NO_CHANGES");
 		});
 
