@@ -107,7 +107,7 @@ public class RatingEngineLogsGrabber {
 	}
 
 	private String makeDefaultOpenLLogPath(XmlTest openLTest, int openLPolicyNumber, String logPostfix) {
-		return Paths.get(CustomLogger.getLogDirectory() + File.separator + "openl", OpenLTestsManager.getFilePath(openLTest) + "_" + openLPolicyNumber + logPostfix + ".log")
+		return Paths.get(CustomLogger.getLogDirectory() + File.separator + "openl", OpenLTestsManager.getFilePath(openLTest) + "_" + openLPolicyNumber + "_" + logPostfix + ".log")
 				.normalize().toFile().toString();
 	}
 }
