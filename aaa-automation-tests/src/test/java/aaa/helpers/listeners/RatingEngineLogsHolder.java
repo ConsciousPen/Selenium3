@@ -1,43 +1,39 @@
 package aaa.helpers.listeners;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
-import java.net.URI;
-import java.nio.file.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import javax.xml.bind.JAXBException;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.xml.XmlTest;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 import com.sun.jersey.api.json.JSONConfiguration;
 import com.sun.jersey.api.json.JSONJAXBContext;
 import com.sun.jersey.api.json.JSONUnmarshaller;
-import aaa.helpers.openl.OpenLTestsManager;
 import aaa.helpers.openl.model.OpenLPolicy;
 import toolkit.exceptions.IstfException;
-import toolkit.utils.logging.CustomLogger;
 
 public class RatingEngineLogsHolder {
-	private static final String LOG_FILE_POSTFIX = ".log";
-	private static final String OPENL_LOGS_ROOT_FOLDER_PATH = CustomLogger.getLogDirectory() + File.separator + "openl";
+	private static final String ARCHIVE_EXTENSION = ".zip";
 	private static Logger log = LoggerFactory.getLogger(RatingEngineLogsHolder.class);
 
 	private String ratingRequestLogContent;
 	private String ratingResponseLogContent;
-	private File ratingRequestLog;
-	private File ratingResponseLog;
 
 	public RatingEngineLogsHolder() {
-		this("", "", null, null);
+		this("", "");
 	}
 
-	public RatingEngineLogsHolder(String ratingRequestLogContent, String ratingResponseLogContent, File ratingRequestLog, File ratingResponseLog) {
+	public RatingEngineLogsHolder(String ratingRequestLogContent, String ratingResponseLogContent) {
 		this.ratingRequestLogContent = ratingRequestLogContent;
 		this.ratingResponseLogContent = ratingResponseLogContent;
-		this.ratingRequestLog = ratingRequestLog;
-		this.ratingResponseLog = ratingResponseLog;
 	}
 
 	public String getRatingRequestLogContent() {
@@ -56,91 +52,92 @@ public class RatingEngineLogsHolder {
 		this.ratingResponseLogContent = ratingResponseLogContent;
 	}
 
-	public File getRatingRequestLog() {
-		return ratingRequestLog;
-	}
-
-	public void setRatingRequestLog(File ratingRequestLog) {
-		this.ratingRequestLog = ratingRequestLog;
-	}
-
-	public File getRatingResponseLog() {
-		return ratingResponseLog;
-	}
-
-	public void setRatingResponseLog(File ratingResponseLog) {
-		this.ratingResponseLog = ratingResponseLog;
-	}
-
-	public <P extends OpenLPolicy> P getRequestPolicyObject(Class<P> policyObjectModel) {
-		//TODO-dchubkov: to be tested...
+	public <P extends OpenLPolicy> P getRequestPolicyObject(Class<P> openLPolicyModel) {
+		//TODO-dchubkov: to be continued and tested...
 		P openLPolicyFromRequest;
+		log.info("Getting openl policy object of \"{}\" model from rating json request", openLPolicyModel.getSimpleName());
 		try {
-			JSONJAXBContext jsonContext = new JSONJAXBContext(JSONConfiguration.natural().humanReadableFormatting(true).build(), policyObjectModel);
+			JSONJAXBContext jsonContext = new JSONJAXBContext(JSONConfiguration.natural().humanReadableFormatting(true).build(), openLPolicyModel);
 			JSONUnmarshaller jsonUnmarshaller = jsonContext.createJSONUnmarshaller();
-			openLPolicyFromRequest = jsonUnmarshaller.unmarshalFromJSON(new StringReader(getRatingRequestLogContent()), policyObjectModel);
+			openLPolicyFromRequest = jsonUnmarshaller.unmarshalFromJSON(new StringReader(getRatingRequestLogContent()), openLPolicyModel);
 		} catch (JAXBException e) {
-			throw new IstfException("Unable to unmarshal..............", e);
+			throw new IstfException(String.format("Unable to unmarshal rating json request to openl policy object of \"%s\" model", openLPolicyModel.getSimpleName()), e);
 		}
 		return openLPolicyFromRequest;
 	}
 
-	public File dumpRequestLog(XmlTest openLTest, int openLPolicyNumber, boolean archiveLog) {
-		File logDestination = Paths.get(OPENL_LOGS_ROOT_FOLDER_PATH, OpenLTestsManager.getFilePath(openLTest), "_" + openLPolicyNumber + "_request" + LOG_FILE_POSTFIX)
-				.normalize().toFile();
-		return dumpRequestLog(logDestination, archiveLog);
+	public File dumpRequestLog(String logDestinationPath, boolean archiveLog) {
+		return dumpLog(logDestinationPath, getRatingRequestLogContent(), archiveLog);
 	}
 
-	public File dumpRequestLog(File logDestination, boolean archiveLog) {
-		return dumpLog(logDestination, getRatingRequestLogContent(), archiveLog);
+	public File dumpResponseLog(String logDestinationPath, boolean archiveLog) {
+		return dumpLog(logDestinationPath, getRatingResponseLogContent(), archiveLog);
 	}
 
-	public File dumpResponseLog(XmlTest openLTest, int openLPolicyNumber, boolean archiveLog) {
-		File logDestination = Paths.get(OPENL_LOGS_ROOT_FOLDER_PATH, OpenLTestsManager.getFilePath(openLTest), "_" + openLPolicyNumber + "_response" + LOG_FILE_POSTFIX)
-				.normalize().toFile();
-		return dumpRequestLog(logDestination, archiveLog);
+	public void dumpLogs(String requestLogDestinationPath, String responseLogDestinationPath, boolean archiveLogs) {
+		dumpRequestLog(requestLogDestinationPath, archiveLogs);
+		dumpResponseLog(responseLogDestinationPath, archiveLogs);
 	}
 
-	public File dumpResponseLog(File logDestination, boolean archiveLog) {
-		return dumpLog(logDestination, getRatingResponseLogContent(), archiveLog);
-	}
-
-	public void dumpLogs(XmlTest openLTest, int openLPolicyNumber, boolean archiveLog) {
-		dumpRequestLog(openLTest, openLPolicyNumber, archiveLog);
-		dumpRequestLog(openLTest, openLPolicyNumber, archiveLog);
-	}
-
-	private File dumpLog(File logDestination, String logContent, boolean archiveLog) {
-		if (logDestination.getParentFile().mkdirs()) {
-			log.info("Directory \"{}\" was created", logDestination.getAbsolutePath());
+	private File dumpLog(String logDestinationPath, String logContent, boolean archiveLog) {
+		log.info("Saving log content to the \"{}\" file{}", logDestinationPath, archiveLog ? " with archiving" : "");
+		if (StringUtils.isBlank(logContent)) {
+			log.error("Log content is empty, saving to the \"{}\" file has been aborted", logDestinationPath);
+			return null;
 		}
+
+		File logDestination = new File(logDestinationPath);
+		if (logDestination.getParentFile().mkdirs()) {
+			log.info("Directory \"{}\" was created", logDestination.getParentFile().getAbsolutePath());
+		}
+
+		String formattedLogContent;
 		try {
-			Files.write(Paths.get(logDestination.toString()), logContent.getBytes(), StandardOpenOption.CREATE);
+			JsonElement je = new JsonParser().parse(logContent);
+			formattedLogContent = new GsonBuilder().setPrettyPrinting().create().toJson(je);
+		} catch (JsonParseException e) {
+			log.error("Unable to parse and convert log content to pretty json format", e);
+			return null;
+		}
+
+		try {
+			Files.write(Paths.get(logDestinationPath.toString()), formattedLogContent.getBytes(), StandardOpenOption.CREATE);
 		} catch (IOException e) {
-			throw new IstfException(".........................");
+			log.error(String.format("Unable to save log content to the \"%s\" file", logDestinationPath), e);
+			return null;
 		}
 
 		if (archiveLog) {
-			logDestination = makeZip(logDestination);
+			File zippedLogDestination = makeZip(logDestination);
+			if (!logDestination.delete()) {
+				log.warn("Unable to delete \"{}\" original file after archiving", logDestinationPath);
+			}
+			logDestination = zippedLogDestination;
 		}
+
 		return logDestination;
 	}
 
-	private File makeZip(File log) {
-		Map<String, String> env = new HashMap<>();
-		env.put("create", "true");
-		URI uri = URI.create("jar:file:" + log.toPath() + ".zip");
-		Path zippedLogPath = null;
+	private File makeZip(File logFile) {
+		String archivedLogFilePath = logFile.getAbsolutePath() + ARCHIVE_EXTENSION;
 
-		try (FileSystem zipfs = FileSystems.newFileSystem(uri, env)) {
-			//Path externalTxtFile = Paths.get("/codeSamples/zipfs/SomeTextFile.txt");
-			Path pathInZipfile = zipfs.getPath(log.getName());
-			// copy a file into the zip file
-			zippedLogPath = Files.copy(log.toPath(), pathInZipfile, StandardCopyOption.REPLACE_EXISTING);
+		log.info("Making \"{}\" archive", archivedLogFilePath);
+		try (FileOutputStream fos = new FileOutputStream(logFile.getAbsolutePath() + ARCHIVE_EXTENSION);
+				ZipOutputStream zipOut = new ZipOutputStream(fos);
+				FileInputStream fis = new FileInputStream(logFile)) {
+
+			ZipEntry zipEntry = new ZipEntry(logFile.getName());
+			zipOut.putNextEntry(zipEntry);
+			byte[] bytes = new byte[1024];
+			int length;
+			while ((length = fis.read(bytes)) >= 0) {
+				zipOut.write(bytes, 0, length);
+			}
 		} catch (IOException e) {
-			throw new IstfException(".........................");
+			log.error(String.format("Unable to create \"%s\" archive", archivedLogFilePath), e);
 		}
 
-		return zippedLogPath.toFile();
+		return new File(archivedLogFilePath);
 	}
+
 }

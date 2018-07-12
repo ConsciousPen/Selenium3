@@ -2,11 +2,10 @@ package aaa.helpers.ssh;
 
 import java.io.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Vector;
+import java.time.ZoneId;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,13 +80,9 @@ public class Ssh {
 		}
 	}
 
-	public synchronized List<String> getListOfFiles(String folderPath) {
-		return getFolderContent(folderPath, true);
-	}
-
 	@SuppressWarnings("unchecked")
-	public synchronized List<String> getFolderContent(String folderPath, boolean filesOnly) {
-		List<String> listOfFilesOrFolders = new ArrayList<>();
+	public synchronized List<String> getFolderContent(String folderPath, boolean filesOnly, SortBy sortBy) {
+		List<ChannelSftp.LsEntry> folderEntities = new ArrayList<>();
 		folderPath = parseFileName(folderPath);
 
 		try {
@@ -97,13 +92,44 @@ public class Ssh {
 			Vector<ChannelSftp.LsEntry> list = sftpChannel.ls("*");
 			for (ChannelSftp.LsEntry fileOrFolder : list) {
 				if (!filesOnly || !fileOrFolder.getAttrs().isDir()) {
-					listOfFilesOrFolders.add(fileOrFolder.getFilename());
+					folderEntities.add(fileOrFolder);
 				}
 			}
 		} catch (SftpException | RuntimeException e) {
 			throw new IstfException("SSH: Unable to get content from \"" + folderPath + "\" directory", e);
 		}
-		return listOfFilesOrFolders;
+
+		if (sortBy != null) {
+			switch (sortBy) {
+				case NAME:
+					folderEntities = folderEntities.stream().sorted(Comparator.comparing(ChannelSftp.LsEntry::getFilename)).collect(Collectors.toList());
+					break;
+				case DATE_ACCESS:
+					folderEntities = folderEntities.stream().sorted(Comparator.comparing((ChannelSftp.LsEntry f) -> f.getAttrs().getATime())).collect(Collectors.toList());
+					break;
+				case DATE_MODIFIED:
+					folderEntities = folderEntities.stream().sorted(Comparator.comparing((ChannelSftp.LsEntry f) -> f.getAttrs().getMTime())).collect(Collectors.toList());
+					break;
+				case SIZE:
+					folderEntities = folderEntities.stream().sorted(Comparator.comparing((ChannelSftp.LsEntry f) -> f.getAttrs().getSize())).collect(Collectors.toList());
+					break;
+			}
+		}
+
+		return folderEntities.stream().map(ChannelSftp.LsEntry::getFilename).collect(Collectors.toList());
+	}
+
+	public synchronized LocalDateTime getLastModifiedTime(String path) {
+		path = parseFileName(path);
+
+		try {
+			ChannelSftp channel = getSftpChannel();
+			SftpATTRS attrs = channel.stat(path);
+			Date dateModify = new Date(attrs.getMTime() * 1000L);
+			return dateModify.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+		} catch (SftpException e) {
+			throw new IstfException("SSH: Unable to get last modified time from : " + path, e);
+		}
 	}
 
 	public synchronized void downloadFile(String source, String destination) {
@@ -201,7 +227,6 @@ public class Ssh {
 	}
 
 	public synchronized void renameFile(String oldPath, String newPath) {
-
 		try {
 			openSftpChannel();
 			sftpChannel.rename(oldPath, newPath);
@@ -327,12 +352,6 @@ public class Ssh {
 		}
 	}
 
-	public synchronized LocalDateTime getLastModifiedTime(String path) {
-		path = parseFileName(path);
-		//TODO-dchubkov: to be implemented...
-		return null;
-	}
-
 	public synchronized void closeSession() {
 		try {
 			if (sftpChannel != null) {
@@ -346,6 +365,13 @@ public class Ssh {
 		} catch (RuntimeException e) {
 			throw new IstfException("SSH: Unable to close a session : ", e);
 		}
+	}
+
+	public enum SortBy {
+		NAME,
+		DATE_ACCESS,
+		DATE_MODIFIED,
+		SIZE
 	}
 
 	private synchronized void openSftpChannel() {
