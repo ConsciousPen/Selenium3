@@ -13,7 +13,7 @@ public class CsaaXmlTest {
 	private String key;
 
 	public CsaaXmlTest(XmlTest xmlTest, String state, String policyType) {
-		key = state.concat("_").concat(policyType);
+		key = state.concat(" ").concat(policyType);
 		if (!testMap.containsKey(key)) {
 			this.xmlTest = createTest(xmlTest, state, policyType);
 		} else {
@@ -50,7 +50,7 @@ public class CsaaXmlTest {
 		} else {
 			xmlTest.setName(test.getName());
 		}*/
-		xmlTest.setName(key);
+		xmlTest.setName(key.concat(" Regression Tests"));
 		xmlTest.setVerbose(test.getVerbose());
 		xmlTest.setPreserveOrder(test.getPreserveOrder());
 		xmlTest.setIncludedGroups(test.getIncludedGroups());

@@ -97,7 +97,7 @@ public class CsaaXmlClass {
 			if (method.isAnnotationPresent(StateList.class)) {
 				statesAnn = method.getAnnotation(StateList.class);
 			} else if (clazz.isAnnotationPresent(StateList.class)) {
-				statesAnn = (StateList) clazz.getDeclaringClass().getAnnotation(StateList.class);
+				statesAnn = (StateList) clazz.getAnnotation(StateList.class);
 			}
 		}
 		return statesAnn;
