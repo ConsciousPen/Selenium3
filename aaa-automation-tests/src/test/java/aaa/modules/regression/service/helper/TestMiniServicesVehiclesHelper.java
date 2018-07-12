@@ -1593,6 +1593,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		softly.assertThat(replaceVeh2.data.oid).isEqualTo(replaceVehOid2);
 		softly.assertThat(replaceVeh2.data.purchaseDate).isNotEmpty();
 		softly.assertThat(replaceVeh2.data.vehIdentificationNo).isEqualTo(replacedVehicleVin2);
+		softly.assertThat(replaceVeh2.data.vehicleReplacedBy).isEqualTo(oid2);
 		softly.assertThat(replaceVeh2.data.vehicleStatus).isEqualTo("pending");
 		softly.assertThat(replaceVeh2.garagingAddress.changeType).isEqualTo("ADDED");
 		softly.assertThat(replaceVeh2.vehicleOwnership.changeType).isEqualTo("ADDED");
@@ -1633,6 +1634,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		softly.assertThat(replaceVeh1.data.oid).isEqualTo(replaceVehOid1);
 		softly.assertThat(replaceVeh1.data.purchaseDate).isNotEmpty();
 		softly.assertThat(replaceVeh1.data.vehIdentificationNo).isEqualTo(replacedVehicleVin1);
+		softly.assertThat(replaceVeh1.data.vehicleReplacedBy).isEqualTo(oid1);
 		softly.assertThat(replaceVeh1.data.vehicleStatus).isEqualTo("pending");
 		softly.assertThat(replaceVeh1.garagingAddress.changeType).isEqualTo("ADDED");
 		softly.assertThat(replaceVeh1.vehicleOwnership.changeType).isEqualTo("ADDED");
