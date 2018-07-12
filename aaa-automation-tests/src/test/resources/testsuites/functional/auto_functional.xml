@@ -43,8 +43,6 @@
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.TestPolicyBilling"/>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestContactInformation"/>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestTriggersAH35XX"/>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEndorsementActionRules"/>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestInstallmentFees"/>
         </classes>
     </test>
     <test name="AZ Auto Functional Tests" parallel="methods">
@@ -380,7 +378,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
         </classes>
     </test>
     <test name="SD Auto Functional Tests" parallel="methods">
@@ -416,7 +413,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
         </classes>
     </test>
     <test name="WV Auto Functional Tests" parallel="methods">
@@ -509,7 +505,6 @@
             <class name="aaa.modules.regression.service.auto_ca.choice.TestPolicyRenewDeclineByCustomer"/>
             <class name="aaa.modules.regression.service.auto_ca.choice.TestPolicyRenewDeletePending"/>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestContactInformation"/>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestEndorsementActionRules"/>
         </classes>
     </test>
 </suite>
