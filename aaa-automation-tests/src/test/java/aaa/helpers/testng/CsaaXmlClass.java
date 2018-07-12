@@ -90,8 +90,8 @@ public class CsaaXmlClass {
 			}
 			break;
 		}
-		if (method.isAnnotationPresent(Test.class)) {
-			Assert.fail(String.format("Malformed Suite!!! Method %s:%s is doesn't have @Test annotation", clazz.getName(), method));
+		if (!method.isAnnotationPresent(Test.class)) {
+			Assert.fail(String.format("Malformed Suite!!! Method %s doesn't have @Test annotation", method));
 		}
 		if (method.isAnnotationPresent(StateList.class)) {
 			statesAnn = method.getAnnotation(StateList.class);
