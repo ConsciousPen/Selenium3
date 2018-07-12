@@ -1,9 +1,5 @@
 package aaa.modules.bct.service;
 
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -16,6 +12,10 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 
@@ -83,7 +83,7 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 		PolicySummaryPage.verifyCancelNoticeFlagPresent();
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		Dollar totalDue = BillingSummaryPage.getTotalDue().add(new Dollar(1));
+		Dollar totalDue = BillingSummaryPage.getTotalDue();
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
 		BillingSummaryPage.openPolicy(1);
 

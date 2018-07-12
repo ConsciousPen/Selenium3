@@ -69,20 +69,20 @@ DriverTab_2: {
 }
 
 DriverTab_3: { 
-  Add Driver: Click,
-  DriverSearchDialog: {},
-  Driver Type: Available for Rating, 
-  'Rel. to First Named Insured': Other,
-  First Name: Second,
-  Last Name: Driver,
+  #Add Driver: Click,
+  #DriverSearchDialog: {},
+  #Driver Type: Available for Rating, 
+  #'Rel. to First Named Insured': Other,
+  #First Name: Second,
+  #Last Name: Driver,
   Date of Birth: $<today-16y>, 
-  Gender: Male,
+  #Gender: Male,
   Marital Status: Single, 
   Occupation: Student, 
   Age First Licensed: 16, 
-  Permit Before License: 'No',
-  License Type: 'Licensed (US)',
-  "License #": C1234560, 
+  #Permit Before License: 'No',
+  #License Type: 'Licensed (US)',
+  #"License #": C1234560, 
   Most Recent GPA: B Student
 }
 
@@ -90,7 +90,7 @@ DriverTab_4: {
   Date of Birth: $<today-25y>, 
   Marital Status: Divorced, 
   Occupation: Student,
-Age First Licensed: 18, 
+  Age First Licensed: 18, 
   Most Recent GPA: Pass  
 }
 
@@ -128,15 +128,6 @@ Activity1: {
   Type: Major Violation, 
   Occurrence Date: $<today-2y>, 
   Description: Drag Racing, 
-}
-
-# ------ TestData for Rating Details verification ------
-TestData_GSDisApplied: {
-  'Good Student': 'Yes'
-}
-
-TestData_GSDisNotApplied: {
-  'Good Student': 'None'
 }
 
 # ----- TestData for endorsement ------

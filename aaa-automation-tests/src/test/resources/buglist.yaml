@@ -319,3 +319,9 @@ PAS-15907:
       messages: ['<"[Gt]"> but was:<"[OTHER]">']
     - tests: [aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload.pas527_UpdatedVinRenewal]
       messages: ['<"[TEST]"> but was:<"[CAMRY]">', '<"20[18]"> but was']
+PT-1977:
+  summary: "WV State. Total premium value is reduced during Empty Endorsement"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Test for state WV has failed due to difference between pre-endorsement and post-endorsement premiums"]
