@@ -4,6 +4,8 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
+
+import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.billing.BillingPendingTransactionsVerifier;
 import aaa.helpers.constants.Groups;
@@ -37,7 +39,11 @@ public class TestScenario2 extends AutoCaSelectBaseTest {
 		new BillingPendingTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Pending").verifyPresent();
 		billing.approveRefund().perform(amount);
 		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Approved").verifyPresent();
-		billing.issueRefund().perform(amount);
+		//billing.issueRefund().perform(amount);
+		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob, true);
+		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob, true);
+		
+		SearchPage.openBilling(policyNum);
 		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Issued").verifyPresent();
 
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
