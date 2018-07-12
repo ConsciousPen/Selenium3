@@ -19,7 +19,9 @@ TestData_2: {
 TestData_3: {
   CopyFromPolicyActionTab: '@CopyFromPolicyActionTab', 
   DriverTab: '@DriverTab_3', 
-  MembershipTab: '@<auto_ca_select>@DataGather@MembershipTab',
+  MembershipTab: '@<auto_ca_select>@DataGather@MembershipTab', 
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  ErrorTab: '@ErrorTab', 
   DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
@@ -53,20 +55,20 @@ DriverTab_2: {
 }
 
 DriverTab_3: { 
-  Add Driver: Click,
-  DriverSearchDialog: {},
-  Driver Type: Available for Rating, 
-  'Rel. to First Named Insured': Other,
-  First Name: Second,
-  Last Name: Driver,
-  Date of Birth: $<today-16y>, 
-  Gender: Male,
+  #Add Driver: Click,
+  #DriverSearchDialog: {},
+  #Driver Type: Available for Rating, 
+  #'Rel. to First Named Insured': Other,
+  #First Name: Second,
+  #Last Name: Driver,
+  Date of Birth: $<today-18y>, 
+  #Gender: Male,
   Marital Status: Single, 
   Occupation: Student, 
-  Age First Licensed: 16, 
-  Permit Before License: 'No',
-  License Type: 'Licensed (US)',
-  "License #": C1234560, 
+  Age First Licensed: 18, 
+  #Permit Before License: 'No',
+  #License Type: 'Licensed (US)',
+  #"License #": C1234560, 
   Most Recent GPA: B Student
 }
 
@@ -77,20 +79,26 @@ DriverTab_4: {
   Most Recent GPA: Pass  
 }
 
+PremiumAndCoveragesTab: {
+  Product: CA Select, 
+  Bodily Injury Liability: 'contains=$100,000/$300,000', 
+  Property Damage Liability: 'contains=$100,000'
+}
+
+ErrorTab: {
+   ErrorsOverride: [{
+    Message: "contains=Driver",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: 'Other'
+   }]
+}
+
 DocumentsAndBindTab: {
   RequiredToIssue: {
     Proof of Good Student Discount: 'Yes'
   }
-}
-
-
-# ------ TestData for Rating Details verification ------
-TestData_GSDisApplied: {
-  'Good Student': 'Yes'
-}
-
-TestData_GSDisNotApplied: {
-  'Good Student': 'No'
 }
 
 # ----- TestData for endorsement ------

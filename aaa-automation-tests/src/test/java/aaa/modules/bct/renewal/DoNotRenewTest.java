@@ -1,5 +1,6 @@
 package aaa.modules.bct.renewal;
 
+import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
@@ -21,8 +22,11 @@ public class DoNotRenewTest extends BackwardCompatibilityBaseTest {
 
 		SearchPage.openPolicy(policyNumber);
 		deletePendingTransaction(policy);
-		deletePendingRenewals(policy);
-		policy.doNotRenew().perform(getStateTestData(testDataManager.policy.get(PolicyType.AUTO_CA_SELECT), "DoNotRenew", "TestData"));
+		policy.doNotRenew().start();
+		Page.dialogConfirmation.confirm();
+		policy.doNotRenew().getView().fill(getStateTestData(testDataManager.policy.get(PolicyType.AUTO_CA_SELECT), "DoNotRenew", "TestData"));
+		policy.doNotRenew().submit();
+
 		PolicySummaryPage.verifyDoNotRenewFlagPresent();
 	}
 }
