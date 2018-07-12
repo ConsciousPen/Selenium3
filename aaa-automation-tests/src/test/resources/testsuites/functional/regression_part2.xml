@@ -190,6 +190,13 @@
             </class>
         </classes>
     </test>
+    <test name="UT Auto Functional Tests" parallel="methods">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestInstallmentFees"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEndorsementActionRules"/>
+        </classes>
+    </test>
     <test name="AZ Auto Functional Tests" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
@@ -217,6 +224,18 @@
             </class>
         </classes>
     </test>
+    <test name="PA Auto Functional Tests" parallel="methods">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
+        </classes>
+    </test>
+    <test name="VA Auto Functional Tests" parallel="methods">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
+        </classes>
+    </test>
     <test name="CA Select Auto Functional Tests" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
@@ -236,6 +255,7 @@
     <test name="CA Choice Auto Functional Tests" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestEndorsementActionRules"/>
             <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.functional.TestCinNewBusinessAutoCAChoice">
                 <methods>
                     <include name="testCinNewBusiness"/>
