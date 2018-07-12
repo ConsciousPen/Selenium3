@@ -104,14 +104,7 @@
     <test name="Test Locked BI Limits And UW Points">
         <parameter name="state" value="PA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints">
-                <methods>
-                    <include name="pas9063_verifyLockedUWPoints"/>
-                    <include name="pas9063_verifyLockedUWPointsEndorsement"/>
-                    <include name="pas9063_verifyLockedUWPointsRenewal"/>
-                    <include name="pas9063_verifyLockedUWPointsConversion"/>
-                </methods>
-            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints"/>
         </classes>
     </test>
 
