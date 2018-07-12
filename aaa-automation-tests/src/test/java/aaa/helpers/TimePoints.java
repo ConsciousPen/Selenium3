@@ -211,7 +211,7 @@ public class TimePoints {
 	public LocalDateTime getEarnedPremiumWriteOff(LocalDateTime date, PolicyType policyType, String state) {
 		// updated according to https://csaaig.atlassian.net/browse/PAS-10214
 		//return getTimepoint(getCancellationDate(date, policyType, state), TimepointsList.EARNED_PREMIUM_WRITE_OFF, true); 
-		if (PolicyType.AUTO_SS.equals(policyType)) {
+		if (PolicyType.AUTO_SS.equals(policyType) || PolicyType.AUTO_CA_SELECT.equals(policyType) || (PolicyType.PUP.equals(policyType) && Constants.States.CA.equals(state))) {
 			return getTimepoint(getCancellationTransactionDate(date, policyType, state), TimepointsList.EARNED_PREMIUM_WRITE_OFF, true);
 		} else {
 			return getTimepoint(getCancellationDate(date, policyType, state), TimepointsList.EARNED_PREMIUM_WRITE_OFF, true);
@@ -273,7 +273,7 @@ public class TimePoints {
 	 */
 	public LocalDateTime getEffectiveDateForTimePoint(TimepointsList timePoint) {
 		List<String> timepoint = td.getList(timePoint.get());
-		return TimeSetterUtil.getInstance().getCurrentTime().with(DateTimeUtils.closestPastWorkingDay).minusDays(Integer.parseInt(timepoint.get(0)));
+		return TimeSetterUtil.getInstance().getPhaseStartTime().with(DateTimeUtils.closestPastWorkingDay).minusDays(Integer.parseInt(timepoint.get(0)));
 	}
 
 	/**

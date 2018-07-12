@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -14,22 +15,24 @@ import aaa.modules.policy.AutoCaSelectBaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-/**
- * @author Dominykas Razgunas
- * @name Major Violation Validation
- * @scenario
- * 1. Create Customer with CA state
- * 2. Create Quote with CA State
- * 3. Add 2 Major Violations and one 10year major violation
- * 4. Navigate to Driver Activity Reports Tab
- * 5. Validate Error message
- * @details
- */
+@StateList(states = Constants.States.CA)
 public class TestMajorViolationValidation extends AutoCaSelectBaseTest {
 
+	/**
+	 * @author Dominykas Razgunas
+	 * @name Major Violation Validation
+	 * @scenario
+	 * 1. Create Customer with CA state
+	 * 2. Create Quote with CA State
+	 * 3. Add 2 Major Violations and one 10year major violation
+	 * 4. Navigate to Driver Activity Reports Tab
+	 * 5. Validate Error message
+	 * @details
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-5843")

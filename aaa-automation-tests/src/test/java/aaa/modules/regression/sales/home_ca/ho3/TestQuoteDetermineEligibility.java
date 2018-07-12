@@ -114,25 +114,34 @@ public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 		// 9. Verify an eligibility error if Wood Stove Is Sole Source Of Heat
 		propertyInfoTab.fillTab(getTestSpecificTD("Stove_SoleSourceOfHeat"));
 		propertyInfoTab.getStovesAssetList().getWarning(HomeCaMetaData.PropertyInfoTab.Stoves.IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT).verify.contains(expected_ER0908);
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
+		propertyInfoTab.fillTab(getTestSpecificTD("Stove_SoleSourceOfHeat2"));
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		new PremiumsAndCoveragesQuoteTab().calculatePremium();
 		errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, expected_ER0908).verify.present();
 		errorTab.cancel();
-
+ 
 		// 10. Verify an eligibility error if there is a Wood Stove but no fire alarm
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
 		propertyInfoTab.fillTab(getTestSpecificTD("Stove_NoFireAlarm"));
 		propertyInfoTab.getStovesAssetList().getWarning(HomeCaMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY).verify.contains(expected_ER0522);
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		new PremiumsAndCoveragesQuoteTab().calculatePremium();
 		errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, expected_ER0522).verify.present();
 		errorTab.cancel();
 
 		// 11. Verify an eligibility error if Wood Stove wasn't installed professionally
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
 		propertyInfoTab.fillTab(getTestSpecificTD("Stove_NotInstalledProfessionally"));
-		propertyInfoTab.submitTab();
+		//propertyInfoTab.submitTab();
 		propertyInfoTab.getStovesAssetList().getWarning(HomeCaMetaData.PropertyInfoTab.Stoves.WAS_THE_STOVE_INSTALLED_BY_A_LICENSED_CONTRACTOR).verify.contains(expected_ER0909);
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		new PremiumsAndCoveragesQuoteTab().calculatePremium();
 		errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, expected_ER0909).verify.present();
 		errorTab.cancel();
-		propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.DOES_THE_PROPERTY_HAVE_A_WOOD_BURNING_STOVE.getLabel(), RadioGroup.class).setValue("No");
+		//propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.DOES_THE_PROPERTY_HAVE_A_WOOD_BURNING_STOVE.getLabel(), RadioGroup.class).setValue("No");
 	}
 
 	/**
@@ -225,11 +234,11 @@ public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
 
 		// 3. Verify an eligibility error if CovA is more than 20% ABOVE the home replacement cost from ISO
-		propertyInfoTab.fillTab(getTestSpecificTD("CovA_MoreThan20PercentsOfReplacementCosts"));
+		/*propertyInfoTab.fillTab(getTestSpecificTD("CovA_MoreThan20PercentsOfReplacementCosts"));  // rule disabled according to PPS-371
 		goToBindAndVerifyError(Errors.ERROR_AAA_HO_CACovAReplacementCost);
 		String coverageA = getTestSpecificTD("CovA_MoreThan20PercentsOfReplacementCosts").getTestData(HomeCaMetaData.PropertyInfoTab.class.getSimpleName(),
 			HomeCaMetaData.PropertyInfoTab.PropertyValue.class.getSimpleName()).getValue(HomeCaMetaData.PropertyInfoTab.PropertyValue.ISO_REPLACEMENT_COST.getLabel());
-		propertyInfoTab.getPropertyValueAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT.getLabel(), TextBox.class).setValue(coverageA);
+		propertyInfoTab.getPropertyValueAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT.getLabel(), TextBox.class).setValue(coverageA); */
 
 		// 4. Verify an eligibility error if there are > 2 Additional Insured
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.MORTGAGEE_AND_ADDITIONAL_INTERESTS.get());

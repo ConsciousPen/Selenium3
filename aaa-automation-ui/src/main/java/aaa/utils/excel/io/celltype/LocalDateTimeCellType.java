@@ -1,103 +1,51 @@
 package aaa.utils.excel.io.celltype;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.Arrays;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.DateUtil;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.utils.excel.io.entity.area.ExcelCell;
-import toolkit.utils.datetime.DateTimeUtils;
 
-public class LocalDateTimeCellType extends AbstractCellType<LocalDateTime> {
-	private Set<DateTimeFormatter> dateTimeFormatters;
+public class LocalDateTimeCellType extends DateCellType<LocalDateTime> {
 
-	public LocalDateTimeCellType(Class<LocalDateTime> endType, DateTimeFormatter... formatters) {
-		super(endType);
-		if (ArrayUtils.isNotEmpty(formatters)) {
-			this.dateTimeFormatters = new HashSet<>(Arrays.asList(formatters));
-		} else {
-			this.dateTimeFormatters = new HashSet<>();
-			this.dateTimeFormatters.add(DateTimeUtils.MM_DD_YYYY);
-			this.dateTimeFormatters.add(DateTimeUtils.TIME_STAMP);
+	public LocalDateTimeCellType(Class<LocalDateTime> endType, DateTimeFormatter... dateTimeFormatters) {
+		super(endType, dateTimeFormatters);
+		if (ArrayUtils.isEmpty(dateTimeFormatters)) {
+			List<DateTimeFormatter> defaultFormatters = new ArrayList<>(2);
+			defaultFormatters.add(new DateTimeFormatterBuilder().appendPattern("MM/dd/yyyy")
+					.parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
+					.parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+					.parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
+					.toFormatter());
+			defaultFormatters.add(DateTimeFormatter.ofPattern(getBasePattern()));
+
+			setFormatters(defaultFormatters);
 		}
 	}
-
-	public Set<DateTimeFormatter> getFormatters() {
-		return new HashSet<>(this.dateTimeFormatters);
+	
+	@Override
+	protected final String getBasePattern() {
+		return "MM/dd/yyyy HHmmss";
+	}
+	
+	@Override
+	protected LocalDateTime parseText(String dateInTextFormat, DateTimeFormatter dateTimeFormatter) {
+		return LocalDateTime.parse(dateInTextFormat, dateTimeFormatter);
+		//return TimeSetterUtil.getInstance().parse(dateInTextFormat, dateTimeFormatter);
 	}
 
 	@Override
-	public void setValueTo(ExcelCell cell, LocalDateTime value) {
-		Date date = Date.from(value.atZone(ZoneId.systemDefault()).toInstant());
-		cell.getPoiCell().setCellValue(date);
-	}
-
-	@Override
-	public boolean isTypeOf(ExcelCell cell) {
-		Set<DateTimeFormatter> formatters = getFormatters();
-		return isTypeOf(cell, formatters.toArray(new DateTimeFormatter[formatters.size()]));
-	}
-
-	@Override
-	public boolean hasValueInTextFormat(ExcelCell cell) {
-		Set<DateTimeFormatter> formatters = getFormatters();
-		return hasValueInTextFormat(cell, formatters.toArray(new DateTimeFormatter[formatters.size()]));
-	}
-
-	@Override
-	public LocalDateTime getValueFrom(ExcelCell cell) {
-		Set<DateTimeFormatter> formatters = getFormatters();
-		return getValueFrom(cell, formatters.toArray(new DateTimeFormatter[formatters.size()]));
-	}
-
-	public void registerFormatters(DateTimeFormatter... formatters) {
-		this.dateTimeFormatters.addAll(Arrays.asList(formatters));
-	}
-
-	public LocalDateTime getValueFrom(ExcelCell cell, DateTimeFormatter... formatters) {
-		assertThat(isTypeOf(cell, formatters)).as("Unable to get value with \"%1$s\" type from %2$s", getEndType(), cell).isTrue();
-		if (cell.getPoiCell() == null) {
-			return null;
-		}
-		if (super.hasValueInTextFormat(cell)) {
-			DateTimeFormatter formatter = getValidFormatter(cell, formatters);
-			if (formatter != null) {
-				return TimeSetterUtil.getInstance().parse(getText(cell), formatter);
-			}
-		}
+	protected LocalDateTime getRawValueFrom(ExcelCell cell) {
 		return cell.getPoiCell().getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 	}
 
-	public boolean isTypeOf(ExcelCell cell, DateTimeFormatter... formatters) {
-		Cell c = cell.getPoiCell();
-		return c == null || c.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.NUMERIC && DateUtil.isCellDateFormatted(c) || hasValueInTextFormat(cell, formatters);
-	}
-
-	public boolean hasValueInTextFormat(ExcelCell cell, DateTimeFormatter... formatters) {
-		return super.hasValueInTextFormat(cell) && getValidFormatter(cell, formatters) != null;
-	}
-
-	protected DateTimeFormatter getValidFormatter(ExcelCell cell, DateTimeFormatter... formatters) {
-		String text = getText(cell);
-		if (text == null) {
-			return null;
-		}
-		Set<DateTimeFormatter> availableFormatters = ArrayUtils.isNotEmpty(formatters) ? new HashSet<>(Arrays.asList(formatters)) : getFormatters();
-		for (DateTimeFormatter dateTimeFormatter : availableFormatters) {
-			try {
-				TimeSetterUtil.getInstance().parse(text, dateTimeFormatter);
-				return dateTimeFormatter;
-			} catch (DateTimeParseException ignore) {
-			}
-		}
-		return null;
+	@Override
+	protected Date convertToJavaDate(LocalDateTime value) {
+		return Date.from(value.atZone(ZoneId.systemDefault()).toInstant());
 	}
 }

@@ -1,13 +1,15 @@
 package aaa.helpers.openl.model.home_ca;
 
 import aaa.helpers.openl.model.OpenLFile;
-import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = HomeCaOpenLFile.SCHEDULED_PROPERTY_ITEM_SHEET_NAME, headerRowIndex = HomeCaOpenLFile.SCHEDULED_PROPERTY_ITEM_HEADER_ROW_NUMBER)
 public class HomeCaOpenLScheduledPropertyItem {
-	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	private Integer number;
 
-	private Integer limit;
+	private Double limit;
 	private String propertyType;
 
 	public Integer getNumber() {
@@ -18,11 +20,11 @@ public class HomeCaOpenLScheduledPropertyItem {
 		this.number = number;
 	}
 
-	public Integer getLimit() {
+	public Double getLimit() {
 		return limit;
 	}
 
-	public void setLimit(Integer limit) {
+	public void setLimit(Double limit) {
 		this.limit = limit;
 	}
 

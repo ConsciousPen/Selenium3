@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.testng.IAlterSuiteListener;
 import org.testng.collections.Maps;
 import org.testng.xml.XmlClass;
+import org.testng.xml.XmlPackage;
 import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlTest;
 import aaa.common.enums.Constants;
@@ -82,6 +83,15 @@ public class AlterSuiteListener implements IAlterSuiteListener {
 		return xmlTest;
 	}
 
+	private List<XmlClass> getClasses(XmlTest test) {
+		List<XmlClass> resultClasses = new LinkedList<>();
+		resultClasses = test.getClasses();
+		for (XmlPackage xmlPackage : test.getPackages()) {
+			resultClasses.addAll(xmlPackage.getXmlClasses());
+		}
+		return resultClasses;
+	}
+
 	private XmlSuite alterSuite(XmlSuite suite) {
 		String customSuiteName = PropertyProvider.getProperty("test.suitename");
 		if (!customSuiteName.isEmpty()) {
@@ -98,7 +108,7 @@ public class AlterSuiteListener implements IAlterSuiteListener {
 			for (String state : states) {
 
 				XmlTest xmlTest = createTest(test, state);
-				List<XmlClass> classes = test.getClasses();
+				List<XmlClass> classes = getClasses(test);
 				for (XmlClass xmlClass : classes) {
 					if ((isSSProduct(xmlClass) || isPUPProduct(xmlClass)) && !state.equalsIgnoreCase(Constants.States.CA)) {
 						xmlTest.getClasses().add(xmlClass);

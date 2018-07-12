@@ -1,11 +1,15 @@
 package aaa.helpers.openl.model.home_ca;
 
+import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLForm;
-import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
+import aaa.helpers.openl.model.home_ca.ho6.HomeCaHO6OpenLFile;
+import aaa.utils.excel.bind.annotation.ExcelColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = OpenLFile.FORM_SHEET_NAME, headerRowIndex = HomeCaHO6OpenLFile.FORM_HEADER_ROW_NUMBER)
 public class HomeCaOpenLForm extends OpenLForm {
 	@SuppressWarnings("FieldNameHidesFieldInSuperclass")
-	@ExcelTableColumnElement(name = "formLimit")
+	@ExcelColumnElement(name = "formLimit")
 	protected Double limit;
 
 	protected Boolean applyDiscounts;
@@ -26,4 +30,5 @@ public class HomeCaOpenLForm extends OpenLForm {
 	public void setHasSupportingForm(Boolean hasSupportingForm) {
 		this.hasSupportingForm = hasSupportingForm;
 	}
+
 }

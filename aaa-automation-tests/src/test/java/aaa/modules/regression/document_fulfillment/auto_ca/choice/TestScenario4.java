@@ -7,9 +7,10 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.main.enums.DocGenEnum.Documents;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.auto_ca.actiontabs.PolicyDocGenActionTab;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
+import aaa.toolkit.webdriver.WebDriverHelper;
 
 public class TestScenario4 extends AutoCaChoiceBaseTest {
 	private String policyNum;
@@ -17,21 +18,22 @@ public class TestScenario4 extends AutoCaChoiceBaseTest {
 	
 	@Parameters({"state"})
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void TC01_Cancellation(String state) throws Exception {
+	public void TC01_Cancellation(String state) {
 		mainApp().open();
 		policyNum = getCopiedPolicy();
 		policy.policyDocGen().start();
-		docgenTab.generateDocuments(getTestSpecificTD("TestData"), Documents.CAU08);
-		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.CAU08, Documents.F1455);
+		docgenTab.generateDocuments(getTestSpecificTD("TestData"), DocGenEnum.Documents.CAU08);
+		WebDriverHelper.switchToDefault();
+		DocGenHelper.verifyDocumentsGenerated(policyNum, DocGenEnum.Documents.CAU08, DocGenEnum.Documents.F1455);
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 	}
-	
+
 	@Parameters({"state"})
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void TC02_checkAH63XX(String state) throws Exception {
+	public void TC02_checkAH63XX(String state) {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(33));
 		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents.AH63XX, Documents.AH61XXA);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH63XX, DocGenEnum.Documents.AH61XXA);
 	}
 }

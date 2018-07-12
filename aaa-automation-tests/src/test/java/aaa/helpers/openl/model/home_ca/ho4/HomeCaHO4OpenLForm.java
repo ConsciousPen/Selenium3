@@ -1,14 +1,21 @@
 package aaa.helpers.openl.model.home_ca.ho4;
 
+import java.util.ArrayList;
+import java.util.List;
+import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLForm;
+import aaa.helpers.openl.model.home_ca.HomeCaOpenLScheduledPropertyItem;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = OpenLFile.FORM_SHEET_NAME, headerRowIndex = HomeCaHO4OpenLFile.FORM_HEADER_ROW_NUMBER)
 public class HomeCaHO4OpenLForm extends HomeCaOpenLForm {
+
+	private List<HomeCaOpenLScheduledPropertyItem> scheduledPropertyItems;
 	private Integer age;
-	private Integer deductible;
+	private Double deductible;
 	private String formClass;
 	private Boolean hasCorporalPunishmentSurcharge;
 	private Integer numOfFamilies;
-	private Integer scheduledPropertyItems;
 	private String territoryCode;
 	private String type;
 
@@ -20,11 +27,11 @@ public class HomeCaHO4OpenLForm extends HomeCaOpenLForm {
 		this.age = age;
 	}
 
-	public Integer getDeductible() {
+	public Double getDeductible() {
 		return deductible;
 	}
 
-	public void setDeductible(Integer deductible) {
+	public void setDeductible(Double deductible) {
 		this.deductible = deductible;
 	}
 
@@ -52,12 +59,12 @@ public class HomeCaHO4OpenLForm extends HomeCaOpenLForm {
 		this.numOfFamilies = numOfFamilies;
 	}
 
-	public Integer getScheduledPropertyItems() {
-		return scheduledPropertyItems;
+	public List<HomeCaOpenLScheduledPropertyItem> getScheduledPropertyItems() {
+		return this.scheduledPropertyItems != null ? new ArrayList<>(this.scheduledPropertyItems) : null;
 	}
 
-	public void setScheduledPropertyItems(Integer scheduledPropertyItems) {
-		this.scheduledPropertyItems = scheduledPropertyItems;
+	public void setScheduledPropertyItems(List<HomeCaOpenLScheduledPropertyItem> scheduledPropertyItems) {
+		this.scheduledPropertyItems = new ArrayList<>(scheduledPropertyItems);
 	}
 
 	public String getTerritoryCode() {
@@ -75,17 +82,26 @@ public class HomeCaHO4OpenLForm extends HomeCaOpenLForm {
 	public void setType(String type) {
 		this.type = type;
 	}
+	
+	@Override
+	public Double getLimit() {
+		return limit;
+	}
+
+	@Override
+	public void setLimit(Double limit) {
+		this.limit = limit;
+	}
 
 	@Override
 	public String toString() {
-		return "HomeCaHO3OpenLForm{" +
-				"age=" + age +
+		return "HomeCaHO4OpenLForm{" +
+				"scheduledPropertyItems=" + scheduledPropertyItems +
+				", age=" + age +
 				", deductible=" + deductible +
 				", formClass='" + formClass + '\'' +
-				", formCode='" + formCode + '\'' +
 				", hasCorporalPunishmentSurcharge=" + hasCorporalPunishmentSurcharge +
 				", numOfFamilies=" + numOfFamilies +
-				", scheduledPropertyItems=" + scheduledPropertyItems +
 				", territoryCode='" + territoryCode + '\'' +
 				", type='" + type + '\'' +
 				", limit=" + limit +

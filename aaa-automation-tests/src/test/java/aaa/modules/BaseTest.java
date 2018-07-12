@@ -2,21 +2,6 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
-import com.exigen.ipb.etcsa.base.app.AdminApplication;
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
-import com.exigen.ipb.etcsa.base.app.MainApplication;
-import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.metadata.LoginPageMeta;
@@ -37,12 +22,28 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.utils.EntityLogger;
+import com.exigen.ipb.etcsa.base.app.AdminApplication;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.etcsa.base.app.MainApplication;
+import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.verification.CustomAssert;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Listeners({AaaTestListener.class})
 public class BaseTest {
@@ -65,6 +66,7 @@ public class BaseTest {
 		CustomAssert.initDriver(CustomAssert.AssertDriverType.TESTNG);
 		tdCustomerIndividual = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		tdCustomerNonIndividual = new TestDataManager().customer.get(CustomerType.NON_INDIVIDUAL);
+
 	}
 
 	public BaseTest() {
@@ -196,6 +198,22 @@ public class BaseTest {
 		return td;
 	}
 
+	public static void printToLog(String message) {
+		log.info("----------------------------------------------------------------");
+		log.info(message);
+	}
+
+	public static void printToLog(String message, Object... inputValues) {
+		log.info("----------------------------------------------------------------");
+		String msg = String.format("Message: %1$s", message);
+		log.info(String.format(msg, inputValues));
+	}
+
+	public static void printToDebugLog(String message) {
+		log.debug("----------------------------------------------------------------");
+		log.debug(message);
+	}
+
 	@BeforeMethod(alwaysRun = true)
 	public void beforeMethodStateConfiguration(Object[] parameters) {
 		if (parameters != null && parameters.length != 0 && StringUtils.isNotBlank(parameters[0].toString())) {
@@ -206,6 +224,20 @@ public class BaseTest {
 			setState(usState);
 		} else {
 			setState(Constants.States.UT);
+		}
+	}
+
+	@AfterMethod(alwaysRun = true)
+	public void logout() {
+		if (isCiModeEnabled) {
+			closeAllApps();
+		}
+	}
+
+	@AfterSuite(alwaysRun = true)
+	public void afterSuite() {
+		if (isCiModeEnabled) {
+			closeAllApps();
 		}
 	}
 
@@ -221,20 +253,6 @@ public class BaseTest {
 	 */
 	public AdminApplication adminApp() {
 		return CSAAApplicationFactory.get().adminApp(new LoginPage(initiateLoginTD()));
-	}
-
-	@AfterMethod(alwaysRun = true)
-	public void logout() {
-		if (isCiModeEnabled) {
-			closeAllApps();
-		}
-	}
-
-	@AfterSuite(alwaysRun = true)
-	public void afterSuite() {
-		if (isCiModeEnabled) {
-			closeAllApps();
-		}
 	}
 
 	/**
@@ -364,6 +382,24 @@ public class BaseTest {
 		return policies;
 	}
 
+	/**
+	 * Create Conversion Policy using default TestData
+	 *
+	 * @return policy number
+	 */
+	protected String createConversionPolicy() {
+		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
+		TestData tdPolicy = getConversionPolicyDefaultTD();
+		TestData tdManualConversionInitiation = getManualConversionInitiationTd();
+		customer.initiateRenewalEntry().perform(tdManualConversionInitiation);
+		log.info("Policy Creation Started...");
+		getPolicyType().get().getDefaultView().fill(tdPolicy);
+		if(PolicySummaryPage.buttonBackFromRenewals.isEnabled()){
+			PolicySummaryPage.buttonBackFromRenewals.click();}
+		String policyNumber = PolicySummaryPage.labellinkPolicy.getValue();
+		return policyNumber;
+	}
+
 	protected TestData getCustomerIndividualTD(String fileName, String tdName) {
 		return getStateTestData(tdCustomerIndividual, fileName, tdName);
 	}
@@ -384,7 +420,7 @@ public class BaseTest {
 	}
 
 	protected TestData getStateTestData(TestData td, String tdName) {
-		if (td==null) {
+		if (td == null) {
 			throw new RuntimeException(String.format("Can't get TestData '%s', parrent TestData is null", tdName));
 		}
 		if (td.containsKey(getStateTestDataName(tdName))) {
@@ -403,8 +439,8 @@ public class BaseTest {
 
 	protected TestData initiateLoginTD() {
 		Map<String, Object> td = new LinkedHashMap<>();
-		td.put(LoginPageMeta.USER.getLabel(), PropertyProvider.getProperty(TestProperties.EU_USER));
-		td.put(LoginPageMeta.PASSWORD.getLabel(), PropertyProvider.getProperty(TestProperties.EU_PASSWORD));
+		td.put(LoginPageMeta.USER.getLabel(), PropertyProvider.getProperty(TestProperties.APP_USER));
+		td.put(LoginPageMeta.PASSWORD.getLabel(), PropertyProvider.getProperty(TestProperties.APP_PASSWORD));
 		td.put(LoginPageMeta.STATES.getLabel(), getState());
 		return new SimpleDataProvider(td);
 	}
@@ -453,16 +489,5 @@ public class BaseTest {
 		mainApp().close();
 		adminApp().close();
 		opReportApp().close();
-	}
-
-	public static void printToLog(String message) {
-		log.info("----------------------------------------------------------------");
-		log.info(message);
-	}
-
-	public static void printToLog(String message, Object... inputValues) {
-		log.info("----------------------------------------------------------------");
-		String msg = String.format("Message: %1$s", message);
-		log.info(String.format(msg, inputValues));
 	}
 }

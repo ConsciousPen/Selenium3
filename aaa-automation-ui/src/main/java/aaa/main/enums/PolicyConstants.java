@@ -85,13 +85,17 @@ public final class PolicyConstants {
     }
 
     public static final class PolicyGeneralInformationTable {
-        public static final String BROKERAGE = "Brokerage";
+        public static final String QUOTE_POLICY_NUMBER = "Quote/Policy #";
         public static final String AGENCY_PRODUCER = "Agency / Producer";
         public static final String EFFECTIVE_DATE = "Effective Date";
         public static final String EXPIRATION_DATE = "Expiration Date";
         public static final String CANCELLATION_EFF_DATE = "Cancellation Eff. Date";
-        public static final String CANCELLATION_EFFECTIVE_DATE = "Cancellation Effective Date";
-    }
+        public static final String LAST_MODIFIED = "Last Modified";
+        public static final String POLICY_TYPE = "Policy Type";
+        public static final String EVALUE_STATUS = "eValue Status";
+        public static final String UNDERWRITER = "Underwriter";
+		public static final String CANCELLATION_EFFECTIVE_DATE = "Cancellation Effective Date";
+	}
 
     public static final class PolicyClassInformationTable {
         public static final String CLASS = "Class";
@@ -202,6 +206,7 @@ public final class PolicyConstants {
         public static final String PLAN = "Plan";
         public static final String PREMIUM = "Premium";
         public static final String MINIMUM_DOWNPAYMENT = "Minimum Downpayment";
+        public static final String MINIMUM_DOWN_PAYMENT = "Minimum Down Payment";
         public static final String INSTALLMENT_AMOUNT = "Installment Amount (w/o fees)";
         public static final String NUMBER_OF_REMAINING_INSTALLMENTS = "# of Remaining Installments";
     }

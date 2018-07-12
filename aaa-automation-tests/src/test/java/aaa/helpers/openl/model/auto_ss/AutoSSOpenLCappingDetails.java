@@ -1,7 +1,10 @@
 package aaa.helpers.openl.model.auto_ss;
 
 import aaa.helpers.openl.model.OpenLCappingDetails;
+import aaa.helpers.openl.model.OpenLFile;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = OpenLFile.CAPPINGDETAILS_SHEET_NAME, headerRowIndex = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
 public class AutoSSOpenLCappingDetails extends OpenLCappingDetails {
 	private String state;
 	private Integer term;
@@ -12,6 +15,7 @@ public class AutoSSOpenLCappingDetails extends OpenLCappingDetails {
 	private String programCode;
 	private Double termCappingFactor;
 	private String underwriterCode;
+	private Double previousPolicyPremium;
 
 	public String getState() {
 		return state;
@@ -85,12 +89,18 @@ public class AutoSSOpenLCappingDetails extends OpenLCappingDetails {
 		this.underwriterCode = underwriterCode;
 	}
 
+	public Double getPreviousPolicyPremium() {
+		return previousPolicyPremium;
+	}
+
+	public void setPreviousPolicyPremium(Double previousPolicyPremium) {
+		this.previousPolicyPremium = previousPolicyPremium;
+	}
+
 	@Override
 	public String toString() {
-		return "OpenLCappingDetails{" +
-				"number=" + number +
-				", plcyInceptionDate=" + plcyInceptionDate +
-				", state='" + state + '\'' +
+		return "AutoSSOpenLCappingDetails{" +
+				"state='" + state + '\'' +
 				", term=" + term +
 				", carrierCode='" + carrierCode + '\'' +
 				", lineOfBusiness='" + lineOfBusiness + '\'' +
@@ -99,6 +109,9 @@ public class AutoSSOpenLCappingDetails extends OpenLCappingDetails {
 				", programCode='" + programCode + '\'' +
 				", termCappingFactor=" + termCappingFactor +
 				", underwriterCode='" + underwriterCode + '\'' +
+				", previousPolicyPremium=" + previousPolicyPremium +
+				", number=" + number +
+				", plcyInceptionDate=" + plcyInceptionDate +
 				'}';
 	}
 }

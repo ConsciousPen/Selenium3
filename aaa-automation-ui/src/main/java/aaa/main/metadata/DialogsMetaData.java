@@ -10,11 +10,8 @@ public final class DialogsMetaData {
 	public static final class AddressValidationMetaData extends MetaData {
 		public static final AssetDescriptor<StaticElement> YOU_ENTERED = declare("You entered", StaticElement.class, By
 				.xpath(".//span[contains(@id, ':notSamePrimartAddressLabel') or contains(@id, ':notSamePrimaryAddressLabel')]"));
-		public static final AssetDescriptor<RadioGroup> RADIOGROUP_SELECT = declare(
-				"Select Address",
-				RadioGroup.class,
-				Waiters.AJAX,
-				By.xpath(".//table[@id = 'addressValidationFormAAAPrefillAddressValidation:primaryAddressSelectAAAPrefillAddressValidation' or @id = 'addressValidationFormAAAHODwellAddressValidationComp:primaryAddressSelectAAAHODwellAddressValidationComp']"));
+		public static final AssetDescriptor<RadioGroup> RADIOGROUP_SELECT = declare("Select Address", RadioGroup.class, Waiters.AJAX, By
+				.xpath(".//table[@id = 'addressValidationFormAAAPrefillAddressValidation:primaryAddressSelectAAAPrefillAddressValidation' or @id = 'addressValidationFormAAAHODwellAddressValidationComp:primaryAddressSelectAAAHODwellAddressValidationComp']"));
 		public static final AssetDescriptor<CheckBox> ADDRESS_IS_PO_BOX = declare("Address is PO Box", CheckBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> PO_BOX_NUM = declare("PO Box #", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> STREET_NUMBER = declare("Street number", TextBox.class, Waiters.AJAX, By.xpath(".//input[contains(@id, ':primaryStreetNumberInput')]"));
@@ -54,4 +51,13 @@ public final class DialogsMetaData {
 		public static final AssetDescriptor<TextBox> EMAIL_ADDRESS = declare("E-Mail Address", TextBox.class);
 
 	}
+
+	public static final class MoratoriumOverrideDialog extends MetaData {
+		public static final AssetDescriptor<StaticElement> MESSAGE = declare("Message", StaticElement.class, By.xpath("//table[@id='policyDataGatherForm:popupMessages_datagatherButtonsPanel']//span"));
+		public static final AssetDescriptor<ComboBox> MORATORIUM_OVERRIDE_REASON = declare("Moratorium Override Reason", ComboBox.class);
+		public static final AssetDescriptor<Button> OK = declare("OK", Button.class, By.id("policyDataGatherForm:actionPopupOk_datagatherButtonsPanel"));
+		public static final AssetDescriptor<Button> CANCEL = declare("Cancel", Button.class, By.id("policyDataGatherForm:actionPopupCancel_datagatherButtonsPanel"));
+
+	}
+
 }

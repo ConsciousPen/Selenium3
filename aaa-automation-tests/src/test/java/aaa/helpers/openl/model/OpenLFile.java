@@ -2,8 +2,10 @@ package aaa.helpers.openl.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import java.util.stream.Collectors;
+import org.apache.commons.collections4.CollectionUtils;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
+import toolkit.exceptions.IstfException;
 
 public abstract class OpenLFile<P extends OpenLPolicy> {
 	@ExcelTransient
@@ -22,6 +24,9 @@ public abstract class OpenLFile<P extends OpenLPolicy> {
 	public static final int LOSS_INFORMATION_HEADER_ROW_NUMBER = 3;
 
 	@ExcelTransient
+	public static final int CLAIM_HEADER_ROW_NUMBER = 3;
+
+	@ExcelTransient
 	public static final int COVERAGE_DEDUCTIBLE_HEADER_ROW_NUMBER = 3;
 
 	@ExcelTransient
@@ -29,6 +34,9 @@ public abstract class OpenLFile<P extends OpenLPolicy> {
 
 	@ExcelTransient
 	public static final int RISK_METER_DATA_HEADER_ROW_NUMBER = 3;
+
+	@ExcelTransient
+	public static final int VARIATION_TYPE_HEADER_ROW_NUMBER = 3;
 
 	@ExcelTransient
 	public static final int DWELLING_RATING_INFO_HEADER_ROW_NUMBER = 3;
@@ -70,6 +78,9 @@ public abstract class OpenLFile<P extends OpenLPolicy> {
 	public static final String LOSS_INFORMATION_SHEET_NAME = "Batch- LossInformation";
 
 	@ExcelTransient
+	public static final String CLAIM_SHEET_NAME = "Batch- Claim";
+
+	@ExcelTransient
 	public static final String COVERAGE_DEDUCTIBLE_SHEET_NAME = "Batch- CoverageDeductible";
 
 	@ExcelTransient
@@ -77,6 +88,9 @@ public abstract class OpenLFile<P extends OpenLPolicy> {
 
 	@ExcelTransient
 	public static final String RISK_METER_DATA_SHEET_NAME = "Batch- RiskMeterData";
+
+	@ExcelTransient
+	public static final String VARIATION_TYPE_SHEET_NAME = "Batch- VariationType";
 
 	@ExcelTransient
 	public static final String DWELLING_RATING_INFO_SHEET_NAME = "Batch- DwellingRatingInfo";
@@ -100,20 +114,18 @@ public abstract class OpenLFile<P extends OpenLPolicy> {
 	public static final String DWELLING_SHEET_NAME = "Batch- Dwelling";
 
 	@ExcelTransient
-	public static final String TESTS_SHEET_NAME = "Tests";
+	public static final String TESTS_SHEET_NAME = "Test";
 
 	@ExcelTransient
 	public static final String PRIMARY_KEY_COLUMN_NAME = "_PK_";
 
-	@ExcelTableElement(sheetName = TESTS_SHEET_NAME, headerRowIndex = TESTS_HEADER_ROW_NUMBER)
-	@ExcelTransient
 	protected List<OpenLTest> tests;
 
-	public List<OpenLTest> getTests() {
+	public List<? extends OpenLTest> getTests() {
 		return new ArrayList<>(tests);
 	}
 
-	public void setTests(List<OpenLTest> tests) {
+	public void setTests(List<? extends OpenLTest> tests) {
 		this.tests = new ArrayList<>(tests);
 	}
 
@@ -124,5 +136,16 @@ public abstract class OpenLFile<P extends OpenLPolicy> {
 		return "OpenLFile{" +
 				"tests=" + tests +
 				'}';
+	}
+
+	public List<P> getPolicies(List<Integer> policyNumbers) {
+		if (CollectionUtils.isEmpty(policyNumbers)) {
+			return getPolicies();
+		}
+		return getPolicies().stream().filter(p -> policyNumbers.contains(p.getNumber())).collect(Collectors.toList());
+	}
+
+	public OpenLTest getTest(int policyNumber) {
+		return getTests().stream().filter(t -> t.getPolicy() == policyNumber).findFirst().orElseThrow(() -> new IstfException("There is no test for policy number = " + policyNumber));
 	}
 }

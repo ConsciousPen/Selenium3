@@ -21,8 +21,9 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
      * 4. Check that HSPRNXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+    @Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2305"})
     public void pas2305_preRenewalLetterHSPRNXX(@Optional("VA") String state) throws NoSuchFieldException {
         super.pas2305_preRenewalLetterHSPRNXX(state);
@@ -37,6 +38,7 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
      * 5. Check that HSPRNXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2305"})
@@ -52,6 +54,7 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
      * 4. Check that HSPRNXX document is getting generated with PUP section
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-9170"})
@@ -67,6 +70,7 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
      * 4. Check that HSPRNMXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-7342"})
@@ -83,6 +87,7 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
      * 5. Check that HSPRNMXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-7342"})
@@ -98,8 +103,9 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
      * 4. Check that HSPRNMXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+    @Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-9170"})
     public void pas9170_preRenewalLetterPupHSPRNMXX(@Optional("VA") String state) throws NoSuchFieldException {
         super.pas9170_preRenewalLetterPupHSPRNMXX(state);
@@ -113,8 +119,9 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
      * 4. Check that HSRNHODPXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+    @Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2309"})
     public void pas2309_renewalCoverLetterHSRNHODPXX(@Optional("VA") String state) throws NoSuchFieldException {
         super.pas2309_renewalCoverLetterHSRNHODPXX(state);
@@ -129,6 +136,7 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
      * 5. Check that HSRNHODPXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2309"})
@@ -144,6 +152,7 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
      * 4. Check that HSRNHODPXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2309"})
@@ -159,6 +168,7 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
      * 4. Check that HSRNMXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2570"})
@@ -175,6 +185,7 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
      * 5. Check that HSRNMXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2570"})
@@ -190,6 +201,7 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
      * 4. Check that HSRNMXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2570"})
@@ -205,6 +217,7 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
      * 4. Check that AHRBXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-8789"})
@@ -220,8 +233,9 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
      * 4. Check that AHRBXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+    @Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-10241"})
     public void pas10241_insuranceRenewalBillHomeMortAHRBXX(@Optional("VA") String state) throws NoSuchFieldException {
         super.pas10241_insuranceRenewalBillHomeMortAHRBXX(state);
@@ -235,6 +249,7 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
      * 4. Check that HSRR2XX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-8763"})
@@ -250,11 +265,63 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
      * 4. Check that HSRRXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-8762"})
     public void pas8762_mortgageeBillFirstRenewalReminderHSRRXX(@Optional("VA") String state) throws NoSuchFieldException {
         super.pas8762_mortgageeBillFirstRenewalReminderHSRRXX(state);
+    }
+
+    /**
+     * @name Test Conversion Document generation
+     * @scenario
+     * 1. Create Customer
+     * 2. Initiate Renewal Entry
+     * 3. Fill Conversion Policy data for Home - PA
+     * 4. Check that HS65PA documents are getting generated
+     * @details
+     */
+    @Override
+    @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-6235"})
+    public void pas8405_noticeOfNonRenewalLetterHS65PA(@Optional("PA") String state) throws NoSuchFieldException {
+        super.pas8405_noticeOfNonRenewalLetterHS65PA(state);
+    }
+
+    /**
+     * @name Test Conversion Document generation
+     * @scenario
+     * 1. Create Customer
+     * 2. Initiate Renewal Entry
+     * 3. Fill Conversion Policy data for Home - MD
+     * 4. Check that HS65MD documents are getting generated
+     * @details
+     */
+    @Override
+    @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2662"})
+    public void pas12047_noticeOfNonRenewalLetterHS65MD(@Optional("MD") String state) throws NoSuchFieldException {
+        super.pas12047_noticeOfNonRenewalLetterHS65MD(state);
+    }
+
+    /**
+     * @name Test Conversion Document generation
+     * @scenario
+     * 1. Create Customer
+     * 2. Initiate Renewal Entry
+     * 3. Fill Conversion Policy data for Home - MD
+     * 4. Check that HSFLDMD documents are getting generated
+     * @details
+     */
+    @Override
+    @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-12589"})
+    public void pas11772_importantNoticeRegardingFloodInsuranceHSFLD(@Optional("MD") String state) throws NoSuchFieldException {
+        super.pas11772_importantNoticeRegardingFloodInsuranceHSFLD(state);
     }
 
     @Override

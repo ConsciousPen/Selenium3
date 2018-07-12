@@ -10,11 +10,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyActions;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.modules.policy.auto_ca.views.DefaultView;
 import aaa.main.pages.summary.QuoteSummaryPage;
 import aaa.utils.EntityLogger;
@@ -39,14 +35,13 @@ public class AutoCaPolicy implements IPolicy {
 	@Override
 	public void initiate() {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.QUOTE.get());
-		QuoteSummaryPage.comboBoxProduct.setValue(PolicyType.AUTO_CA_SELECT.getName());
-		QuoteSummaryPage.buttonAddNewQuote.click();
+		new QuoteSummaryPage().initiateQuote(PolicyType.AUTO_CA_SELECT);
 	}
 
 	@Override
 	public void createQuote(TestData td) {
 		initiate();
-		getDefaultView().fillUpTo(td, DocumentsAndBindTab.class, false);
+		getDefaultView().fillUpTo(td, DocumentsAndBindTab.class, true);
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
 		log.info("QUOTE CREATED: {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.QUOTE));
@@ -124,6 +119,11 @@ public class AutoCaPolicy implements IPolicy {
 	@Override
 	public PolicyActions.Renew renew() {
 		return new AutoCaPolicyActions.Renew();
+	}
+
+	@Override
+	public PolicyActions.InitiateHOQuote initiateHOQuote() {
+		return new AutoCaPolicyActions.InitiateHoQuote();
 	}
 
 	@Override

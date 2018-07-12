@@ -1,0 +1,248 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="eValue Test Suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <!-- Listener commented out for local runs-->
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method"/>
+
+
+    <test name="TestRefundProcessJobAdding" parallel="methods" thread-count="1024">
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="precondJobAdding"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="VA Auto SS Refunds Credit Card" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="refundDocumentGenerationConfigCheck"/>
+                    <include name="pas2186_ManualRefundUnissuedVoidedCheck"/>
+                    <include name="pas2719_ManualRefundUnissuedVoidedCreditCard"/>
+                    <include name="pas7231_AutomatedRefundUnissuedVoidedCheck"/>
+                    <include name="pas7231_AutomatedRefundUnissuedVoidedCreditCard"/>
+                    <include name="pas1939_ManualRefundUnissuedIssuedVoidedCheck"/>
+                    <include name="pas1939_ManualRefundUnissuedIssuedVoidedCreditCard"/>
+                    <include name="pas6415_AutomatedRefundUnissuedIssuedVoidedCheck"/>
+                    <include name="pas6415_AutomatedRefundUnissuedIssuedVoidedCreditCard"/>
+                    <include name="pas2727_ManualRefundUnissuedIssuedProcessedCheck"/>
+                    <include name="pas2728_ManualRefundUnissuedIssuedProcessedCreditCard"/>
+                    <include name="pas4251_AutomatedRefundUnissuedIssuedProcessedCheck"/>
+                    <include name="pas6144_AutomatedRefundUnissuedIssuedProcessedCreditCard"/>
+                    <include name="pas455_ManualRefundVoidedWithAllocationCreditCard"/>
+                    <include name="pas456_AutomatedRefundVoidedWithAllocationCreditCard"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Auto SS Refunds Debit Card AZ" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="refundDocumentGenerationConfigCheck"/>
+                    <include name="pas2719_ManualRefundUnissuedVoidedDebitCard"/>
+                    <include name="pas7231_AutomatedRefundUnissuedVoidedDebitCard"/>
+                    <include name="pas1936_ManualRefundUnissuedIssuedVoidedDebitCard"/>
+                    <include name="pas6415_AutomatedRefundUnissuedIssuedVoidedDebitCard"/>
+                    <include name="pas2728_ManualRefundUnissuedIssuedProcessedDebitCard"/>
+                    <include name="pas6144_AutomatedRefundUnissuedIssuedProcessedDebitCard"/>
+                    <include name="pas455_ManualRefundVoidedWithAllocationDebitCard"/>
+                    <include name="pas456_AutomatedRefundVoidedWithAllocationDebitCard"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Auto SS Refunds ACH MD" parallel="methods" thread-count="1024">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="refundDocumentGenerationConfigCheck"/>
+                    <include name="pas2719_ManualRefundUnissuedVoidedACH"/>
+                    <include name="pas7063_AutomatedRefundUnissuedVoidedACH"/>
+                    <include name="pas1936_ManualRefundUnissuedIssuedVoidedACH"/>
+                    <include name="pas6415_AutomatedRefundUnissuedIssuedVoidedACH"/>
+                    <include name="pas2728_ManualRefundUnissuedIssuedProcessedACH"/>
+                    <include name="pas6144_AutomatedRefundUnissuedIssuedProcessedACH"/>
+                    <include name="pas455_ManualRefundVoidedWithAllocationACH"/>
+                    <include name="pas456_AutomatedRefundVoidedWithAllocationACH"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="pas1952_MessageWhenOnlyMethodIsCheck" parallel="methods" thread-count="1024">
+        <parameter name="state" value="DC"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="eRefundLastPaymentMethodConfigCheck"/>
+                    <include name="pas1952_MessageWhenOnlyMethodIsCheck"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas1952_MessageWhenOnlyMethodIsCheckNoElectronicRefund" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CT"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="eRefundLastPaymentMethodConfigCheck"/>
+                    <include name="pas1952_MessageWhenOnlyMethodIsCheckNoElectronicRefund"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+
+    <test name="HO pas7039_newDataElementsDeceasedIndicator" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess">
+                <methods>
+                    <include name="pas7039_newDataElementsDeceasedNo"/>
+                    <include name="pas7039_newDataElementsDeceasedYes"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="HO Pending Refunds ACH MD" parallel="methods" thread-count="1024">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess">
+                <methods>
+                    <include name="pas7298_pendingAutomatedRefundsACH"/>
+                    <include name="pas7298_pendingManualRefundsACH"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="HO Pending Refunds Credit Card VA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess">
+                <methods>
+                    <include name="pas7298_pendingAutomatedRefundsCC"/>
+                    <include name="pas7298_pendingManualRefundsCC"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+
+    <test name="PUP pas7039_newDataElementsDeceasedIndicator VA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess">
+                <methods>
+                    <include name="pas7039_newDataElementsDeceasedNo"/>
+                    <include name="pas7039_newDataElementsDeceasedYes"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="PUP Pending Refunds Credit Card Check VA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess">
+                <methods>
+                    <include name="pas7298_pendingAutomatedRefundsCC"/>
+                    <include name="pas7298_pendingAutomatedRefundsCheck"/>
+                    <include name="pas7298_pendingManualRefundsCC"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="PUP Pending Refunds Check MD" parallel="methods" thread-count="1024">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess">
+                <methods>
+                    <include name="pas7298_pendingManualRefundsCheck"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Auto Pending Refunds ACH MD" parallel="methods" thread-count="1024">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="pas7298_pendingAutomatedRefundsACH"/>
+                    <include name="pas7298_pendingManualRefundsACH"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Auto Pending Refunds ACH VA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="pas7298_pendingAutomatedRefundsCC"/>
+                    <include name="pas7298_pendingAutomatedRefundsCheck"/>
+                    <include name="pas7298_pendingManualRefundsCC"/>
+                    <include name="pas7298_pendingManualRefundsCheck"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="AU Pending Refunds Debit Card AZ" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="pas7298_pendingAutomatedRefundsDC"/>
+                    <include name="pas7298_pendingManualRefundsDC"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="TestEValueDiscountVA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
+                    <include name="eValuePriorBiCurrentBiConfigCheck"/>
+                    <include name="eValuePriorBiConfigCheck"/>
+                    <include name="eValueAcknowledgementConfigCheck"/>
+                    <include name="eValueConfigCheck"/>
+                    <include name="paperlessPreferencesConfigCheck"/>
+                    <include name="precondJobAdding"/>
+                    <include name="pas265_MinimumStateLimitsForBIPreBind"/>
+                    <include name="pas278_eValueeSignedPledgeDocumentAHEVAXX"/>
+                    <include name="pas300_eValueStatusConsViewPaperPrefPendingVa"/>
+                    <include name="pas300_eValueStatusConsViewPaperPrefYes"/>
+                    <include name="pas305_eValueDiscountApplied"/>
+                    <include name="pas325_eValueCommissionRelatedFields"/>
+                    <include name="pas436_eValueDiscountVariations"/>
+                    <include name="pas436_eValuePriorBiCurrentBiConfigurationDependency"/>
+                    <include name="pas3694_eValueBlueBoxAndStaticText"/>
+                    <include name="pas333_eValueDiscountRemovedBySystem"/>
+                    <include name="pas339_eValueDiscountRemovedBySystemFuturePolicy"/>
+                    <include name="pas12294_PriorCarrierWithLapsePriorCarrierRequired"/>
+                    <include name="pas12294_PriorCarrierLessThanSixMonthsPriorCarrierRequired"/>
+                    <include name="pas12294_PriorCarrierNone"/>
+                    <include name="pas297_MidTermOptInNotificationToAgentAboutPaperlessPreferences"/>
+                    <include name="pas295_autopayKeepValueMessage"/>
+                    <include name="pas281_eValueIssuedWithDebitCard"/>
+                    <include name="pas321_eValueAtRenewalOrMidtermNoAutopay"/>
+                    <include name="pas317_membershipAndBiForRenewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>

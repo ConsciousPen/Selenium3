@@ -1,0 +1,16 @@
+TestData_PartialMatch: {
+  VehicleTab: '@VehicleTab_PartialMatch'
+}
+
+VehicleTab_PartialMatch: {
+  Year: '2011',
+  Make: 'HONDA',
+  Model: 'CIVIC',
+  Series: 'CIVIC HYBRID',
+  Body Style: 'SEDAN 4 DOOR',
+  Primary Use: Pleasure (recreational driving only),
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 10,
+  Odometer Reading: 3000
+}

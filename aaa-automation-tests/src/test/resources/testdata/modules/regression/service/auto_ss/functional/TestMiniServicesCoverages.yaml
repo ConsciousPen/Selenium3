@@ -1,0 +1,60 @@
+TestData_NewVehicle: {
+    VehicleTab: ['@VehicleTab_2018'],
+}
+
+VehicleTab_2018: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: 1FM5K8D86JGA29926,
+    Ownership: {
+     Ownership Type: Leased,
+     First Name: BANK OF AMERICA
+    }
+}
+
+TestData_PPAandTrailer: {
+    VehicleTab: ['@VehicleTab_2018', '@VehicleTab_Trailer'],
+}
+
+VehicleTab_Trailer: {
+   Add Vehicle: Click,
+   Type: Trailer,
+   Trailer Type: Travel Trailer,
+   Usage: Traveling Primary Residence,
+   VIN: 1GNWGPFG8B65,
+   Year: 2017,
+   Other Make: BHN,
+   Other Model: 456,
+   Stat Code: Recreational Trailer,
+   Stated Amount: 55000
+    }
+
+TestData_PPAandTrailer_NY: {
+   VehicleTab: ['@VehicleTab_2018_NY', '@VehicleTab_Trailer_NY'],
+    }
+
+VehicleTab_2018_NY: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: 1FM5K8D86JGA29926,
+    "Less Than 3,000 Miles": 'No',
+    Ownership: {
+     Ownership Type: Leased,
+     First Name: BANK OF AMERICA
+    }
+}
+
+VehicleTab_Trailer_NY: {
+   Add Vehicle: Click,
+   Type: Trailer,
+   Trailer Type: Travel Trailer,
+   Usage: Traveling Primary Residence,
+   VIN: 1GNWGPFG8B65,
+   Year: 2018,
+   Other Make: BHN,
+   Other Model: 456,
+   Stat Code: Recreational Trailer,
+   Stated Amount: 55000,
+   "Less Than 3,000 Miles": 'No'
+    }
+

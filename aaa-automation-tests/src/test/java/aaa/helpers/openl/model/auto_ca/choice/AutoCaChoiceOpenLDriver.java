@@ -1,7 +1,10 @@
 package aaa.helpers.openl.model.auto_ca.choice;
 
+import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLDriver;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME, headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
 public class AutoCaChoiceOpenLDriver extends AutoCaOpenLDriver {
 	private Boolean driverTrainingDiscount;
 	private Boolean nonSmoker;
@@ -37,17 +40,14 @@ public class AutoCaChoiceOpenLDriver extends AutoCaOpenLDriver {
 				'}';
 	}
 
-	@Override
 	public Boolean hasDriverTrainingDiscount() {
 		return driverTrainingDiscount;
 	}
 
-	@Override
 	public Boolean isNonSmoker() {
 		return nonSmoker;
 	}
 
-	@Override
 	public Boolean isOccasionalUse() {
 		return occasionalUse;
 	}

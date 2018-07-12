@@ -41,6 +41,7 @@ import toolkit.webdriver.controls.TextBox;
 
 public class TestInstallmentFees extends PolicyBilling {
 
+	private static final String AUTOPAY_SAVING_MESSAGE= "This customer can save %s per installment if enrolled into AutoPay with a checking/savings account.";
 	private TestData tdBilling = testDataManager.billingAccount;
 	private TestData cashPayment = tdBilling.getTestData("AcceptPayment", "TestData_Cash");
 	private TestData checkPayment = tdBilling.getTestData("AcceptPayment", "TestData_Check");
@@ -69,28 +70,101 @@ public class TestInstallmentFees extends PolicyBilling {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-1943")
 	public void pas1943_InstallmentFeeCreditDebitCardSplit(@Optional("UT") String state) {
-
-		TestData dcPayment = getTestSpecificTD("TestData_DebitCard");
-		TestData ccPayment = getTestSpecificTD("TestData_CreditCard");
-		TestData dcVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0);
-		TestData ccMaster = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2);
-
 		String paymentPlan = "contains=Standard"; //"Monthly"
 		String premiumCoverageTabMetaKey = TestData.makeKeyPath(new PremiumAndCoveragesTab().getMetaKey(), AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel());
 		TestData policyTdAdjusted = getPolicyTD().adjust(premiumCoverageTabMetaKey, paymentPlan);
 
 		mainApp().open();
-		//SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "UTSS926232155");
-
 		createCustomerIndividual();
 		getPolicyType().get().createPolicy(policyTdAdjusted);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		CustomAssert.enableSoftMode();
+		pas1943_InstallmentFeeCreditDebitCardSplitBody(policyNumber);
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test Installment Fee split to Credit Card and Debit Card
+	 * @scenario 1. Create new policy
+	 * 2. Do endorsement, check P&C tab Installment Fee Table values
+	 * 3. Start Update Billing Account, check the saving message for switching rom Non-EFT to EFT payment Method
+	 * 4. Add ACH, CC, DC
+	 * 5. Switch between them, generating bills and checking Installment Fee Labels and Amounts
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-1943")
+	public void pas1455_MessageAmountSavedIfSignedForAutoPayACHRenewalEndorsement(@Optional("UT") String state) {
+		String paymentPlan = "contains=Standard"; //"Monthly"
+		String premiumCoverageTabMetaKey = TestData.makeKeyPath(new PremiumAndCoveragesTab().getMetaKey(), AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel());
+		TestData policyTdAdjusted = getPolicyTD().adjust(premiumCoverageTabMetaKey, paymentPlan);
+
+		mainApp().open();
+		createCustomerIndividual();
+		getPolicyType().get().createPolicy(policyTdAdjusted);
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
+
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		Dollar totalDue = BillingSummaryPage.getTotalDue();
+		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
+
+		LocalDateTime renewalOfferDate = getTimePoints().getRenewOfferGenerationDate(expirationDate);
+		TimeSetterUtil.getInstance().nextPhase(renewalOfferDate);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+
+		CustomAssert.enableSoftMode();
+		uiMessageCheck();
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	private void uiMessageCheck() {
+		//check Installment Fees table in P&C
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		PremiumAndCoveragesTab.linkPaymentPlan.click();
+		PremiumAndCoveragesTab.linkViewApplicableFeeSchedule.click();
+		Dollar nonEftInstallmentFee = new Dollar(PremiumAndCoveragesTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE).getValue());
+		Dollar eftInstallmentFeeACH = new Dollar(PremiumAndCoveragesTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Checking / Savings Account (ACH)").getCell(INSTALLMENT_FEE).getValue());
+		Page.dialogConfirmation.buttonCloseWithCross.click();
+
+		//PAS-1455 start
+		CustomAssert.assertTrue(PremiumAndCoveragesTab.autoPaySetupSavingMessage.getRow(1).getCell(2).getValue().equals(String.format(AUTOPAY_SAVING_MESSAGE, nonEftInstallmentFee.subtract(eftInstallmentFeeACH).toString().replace(".00", ""))));
+		//PAS-1455 end
+
+		premiumAndCoveragesTab.saveAndExit();
+
+		//check Info Message about saving by switching to EFT
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		billingAccount.update().start();
+		//PAS-241 Start
+		String installmentSavingInfo = String.format(AUTOPAY_SAVING_MESSAGE, nonEftInstallmentFee.subtract(eftInstallmentFeeACH).toString().replace(".00", ""));
+		//PAS-241 End
+		CustomAssert.assertTrue(BillingAccount.tableInstallmentSavingInfo.getRow(1).getCell(2).getValue().equals(installmentSavingInfo));
+
+		//PAS-3846 start - will change in future
+		AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("contains=Card");
+		//PAS-4127 start
+		updateBillingAccountActionTab.getInquiryAssetList().assetFieldsAbsence("Card Type");
+		//PAS-4127 end
+	}
+
+	private void pas1943_InstallmentFeeCreditDebitCardSplitBody(String policyNumber) {
 		//check Installment Fees table in P&C
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -102,15 +176,19 @@ public class TestInstallmentFees extends PolicyBilling {
 		Dollar eftInstallmentFeeCreditCard = new Dollar(PremiumAndCoveragesTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Credit Card").getCell(INSTALLMENT_FEE).getValue());
 		Dollar eftInstallmentFeeDebitCard = new Dollar(PremiumAndCoveragesTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Debit Card").getCell(INSTALLMENT_FEE).getValue());
 		Page.dialogConfirmation.buttonCloseWithCross.click();
+
+		//PAS-1455 start
+		CustomAssert.assertTrue(PremiumAndCoveragesTab.autoPaySetupSavingMessage.getRow(1).getCell(2).getValue().equals(
+				String.format(AUTOPAY_SAVING_MESSAGE, nonEftInstallmentFee.subtract(eftInstallmentFeeACH).toString().replace(".00", ""))));
+		//PAS-1455 end
+
 		premiumAndCoveragesTab.saveAndExit();
 
 		//check Info Message about saving by switching to EFT
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		billingAccount.update().start();
 		//PAS-241 Start
-		String installmentSavingInfo =
-				String.format("This customer can save %s per installment if enrolled into AutoPay with a checking/savings account.", nonEftInstallmentFee.subtract(eftInstallmentFeeACH).toString()
-						.replace(".00", ""));
+		String installmentSavingInfo = String.format(AUTOPAY_SAVING_MESSAGE, nonEftInstallmentFee.subtract(eftInstallmentFeeACH).toString().replace(".00", ""));
 		//PAS-241 End
 		CustomAssert.assertTrue(BillingAccount.tableInstallmentSavingInfo.getRow(1).getCell(2).getValue().equals(installmentSavingInfo));
 
@@ -119,8 +197,12 @@ public class TestInstallmentFees extends PolicyBilling {
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("contains=Card");
 		//PAS-4127 start
 		updateBillingAccountActionTab.getInquiryAssetList().assetFieldsAbsence("Card Type");
-
 		//PAS-4127 end
+
+		TestData dcPayment = getTestSpecificTD("TestData_DebitCard");
+		TestData ccPayment = getTestSpecificTD("TestData_CreditCard");
+		TestData dcVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0);
+		TestData ccMaster = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2);
 		//PAS-834 start
 		updateBillingAccountCardFormatCheck(dcVisa, "Debit");
 		updateBillingAccountCardFormatCheck(ccMaster, "Credit");
@@ -160,9 +242,6 @@ public class TestInstallmentFees extends PolicyBilling {
 		//PAS-834 start
 		completedPaymentCreditDebitCardCheck(ccMaster, "Credit");
 		//PAS-834 end
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	private void completedPaymentCreditDebitCardCheck(TestData cardData, String cardType) {
@@ -208,7 +287,7 @@ public class TestInstallmentFees extends PolicyBilling {
 		AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
 		LocalDateTime billDueDate3 = BillingSummaryPage.getInstallmentDueDate(installmentNumber).minusDays(20);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate3);
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON).verify.value(transactionSubtype);

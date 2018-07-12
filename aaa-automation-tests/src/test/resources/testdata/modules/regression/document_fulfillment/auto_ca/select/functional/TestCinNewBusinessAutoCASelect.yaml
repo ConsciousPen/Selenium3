@@ -1,0 +1,33 @@
+TestData_MVR: {
+  DriverTab: ['@<auto_ca_select>@DataGather@DriverTab', '@Driver_MvrViolation']
+}
+
+PrefillTabMVR: {
+  First Name: MvrChargeable,
+  Last Name: Activity
+}
+
+PrefillTabCLUE: {
+  First Name: ClueChargeable,
+  Last Name: Activity
+}
+
+AAAProductOwned: {
+  Current AAA Member: 'No'
+}
+
+Driver_MvrViolation: {
+  DriverSearchDialog:{},
+    Driver Type: Available for Rating,
+    'Rel. to First Named Insured': Other,
+    First Name: MvrChargeable,
+    Last Name: Activity,
+    Date of Birth: 03/11/1974,
+    Gender: Male,
+    Marital Status: Married,
+    Occupation: Self Employed,
+    Age First Licensed: 18,
+    Permit Before License: 'No',
+    License State: 'CA',
+    "License #": 'B6526589'
+}

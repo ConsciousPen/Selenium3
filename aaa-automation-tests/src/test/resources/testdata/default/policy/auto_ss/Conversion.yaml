@@ -721,6 +721,7 @@ DocumentsAndBindTab_PA: {
     Uninsured Motorists Coverage Selection/Rejection: Physically Signed,
     Underinsured Motorists Coverage Selection/Rejection: Physically Signed,
     Pennsylvania Important Notice: Physically Signed,
+    Pennsylvania Notice to Named Insured Regarding Tort Options: Physically Signed,
     Invoice-Minimum Coverages: Physically Signed
   },
   RequiredToIssue: {
@@ -773,7 +774,7 @@ TestData_VA: {
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
   FormsTab: '@<auto_ss>@DataGather@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_VA',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
 }
@@ -784,6 +785,12 @@ GeneralTab_VA: {
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_VA'
+}
+
+PremiumAndCoveragesTab_VA: {
+  Payment Plan: 'Annual (Renewal)',
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Other Than Collision: 'contains=$750'
 }
 
 PolicyInformation_VA: {

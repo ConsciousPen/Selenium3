@@ -3,11 +3,12 @@
 package aaa.modules.regression.service.template;
 
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.verification.CustomAssert;
 
 /**
  * @author Lina Li
@@ -28,23 +29,20 @@ public abstract class PolicyCancelNoticeAddDelete extends PolicyBaseTest {
     	
         mainApp().open();
           
-       getCopiedPolicy();       
+        getCopiedPolicy();       
         
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        
-        CustomAssert.enableSoftMode();
+        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
         log.info("TEST: Cancel Notice for Policy #" + policyNumber);
         policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData"));
-        PolicySummaryPage.labelCancelNotice.verify.present();
+        assertThat(PolicySummaryPage.labelCancelNotice.isVisible()).isTrue();
         
         log.info("TEST: Delete Cancel Notice for Policy #" + policyNumber);
 		policy.deleteCancelNotice().perform(new SimpleDataProvider());
-		PolicySummaryPage.labelCancelNotice.verify.present(false);
+		 assertThat(PolicySummaryPage.labelCancelNotice.isPresent()).isFalse();
         
-		CustomAssert.assertAll();
 
     }   
 }

@@ -4,18 +4,34 @@ package aaa.main.pages.summary;
 
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.main.enums.PolicyConstants;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
+import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomAssert;
+import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class PolicySummaryPage extends SummaryPage {
 
@@ -31,7 +47,6 @@ public class PolicySummaryPage extends SummaryPage {
 	public static StaticElement labelManualRenew = new StaticElement(By.id("productContextInfoForm:manualRenewFlag"));
 	public static StaticElement labelPremiumWaived = new StaticElement(By.id("productContextInfoForm:premiumWaivedFlag"));
 	public static StaticElement labelLapseExist = new StaticElement(By.id("productContextInfoForm:lapseExistsFlag"));
-	public static StaticElement policyLockedException = new StaticElement(By.id("errorsForm:j_id_1x_4l:0:j_id_1x_4s"));
 
 	public static Button buttonBackFromErrorPage = new Button(By.id("errorsForm:backToPreviousConsolidatedView"));
 	public static Button buttonTransactionHistory = new Button(By.id("productContextInfoForm:lnkTransactionHistory"));
@@ -48,12 +63,14 @@ public class PolicySummaryPage extends SummaryPage {
 	public static Button buttonTasks = new Button(By.xpath("//*[contains(@id,'tasksList') and text()='Tasks']"));
 	public static Button buttonProceed = new Button(By.xpath("//button[.//span[@class='ui-button-text ui-c' and text()='Proceed'] or @value='Proceed']"));
 	public static Button buttonRenewalQuoteVersion = new Button(By.id("productContextInfoForm:stubRenewalQuoteVersions"));
+	public static Button buttonBackFromRenewals = new Button(By.id("renewalForm:backToSummary_footer"));
 
 	public static Link linkPolicy = new Link(By.id("productContextInfoForm:policyDetail_policyNumLnk"));
+	public static StaticElement labellinkPolicy = new StaticElement(By.id("productContextInfoForm:policyDetail_policyNumTxt"));
 
 	public static ComboBox comboboxPolicyTerm = new ComboBox(By.id("historyForm:transactionsFilter"));
 
-	public static Table tableTransactionHistory = new Table(By.xpath("//table[@id='historyForm:body_historyTable' or @id='quoteVersionHistoryForm:body_historyTable']"));
+	public static Table tableTransactionHistory = new Table(By.xpath("//table[@id='historyForm:body_historyTable' or @id='quoteVersionHistoryForm:body_historyTable']")).applyConfiguration("CustomHint");
 	public static Table tableReinsuranceStatus = new Table(By.id("productConsolidatedViewForm:body_scolumn_CLReinsuranceConsolidatedView"));
 	public static Table tableEndorsements = new Table(By.id("endorsementForm:endorsementList"));
 	public static Table tableRenewals = new Table(By.id("renewalForm:renewals_list_table"));
@@ -123,10 +140,58 @@ public class PolicySummaryPage extends SummaryPage {
 	public static String getPolicyNumber() {
 		if (labelPolicyNumber.isPresent()) {
 			return labelPolicyNumber.getValue();
-		} else {
-			return linkPolicy.getValue();
 		}
+		return linkPolicy.getValue();
 	}
+
+    /**
+     * Returns the text at the given row/column in the Auto Coverages Summary Table
+     * Row 1 is the first vehicle, such as '#1, 2011, CHEVROLET, EXPRESS VAN'
+     * Column 1 is 'Vehicle'
+     */
+	public static String getAutoCoveragesSummaryTextAt(int row, int column) {
+        return getAutoCoveragesSummaryTables().get(row).getRow(1).getCell(column).getValue();
+    }
+
+    /**
+     * Returns entire Auto Coverages Summary section as test data
+     */
+    public static TestData getAutoCoveragesSummaryTestData() {
+        List<Table> coveragesTables = getAutoCoveragesSummaryTables();
+        int numTables = coveragesTables.size();
+        Map<String, Object> coverageDataList = new LinkedHashMap<>();
+
+        Row labels = coveragesTables.get(0).getRow(1);
+        String limit = labels.getCell(3).getValue();
+        String deductible = labels.getCell(4).getValue();
+        String premium = labels.getCell(5).getValue();
+
+        for (int tableRow = 1; tableRow < numTables; tableRow++) {
+            String firstValue = coveragesTables.get(tableRow).getRow(1).getCell(1).getValue();
+            if (firstValue.startsWith("#")) {
+                String thisVehicle = firstValue;
+                Map<String, Object> coverages = new LinkedHashMap<>();
+                tableRow++;
+                do {
+                    Map<String, String> limitsPremiumsData = new LinkedHashMap<>();
+                    limitsPremiumsData.put(limit, coveragesTables.get(tableRow).getRow(1).getCell(3).getValue());
+                    limitsPremiumsData.put(deductible, coveragesTables.get(tableRow).getRow(1).getCell(4).getValue());
+                    limitsPremiumsData.put(premium, coveragesTables.get(tableRow).getRow(1).getCell(5).getValue());
+                    coverages.put(coveragesTables.get(tableRow).getRow(1).getCell(2).getValue(), limitsPremiumsData);
+                    firstValue = coveragesTables.get(++tableRow).getRow(1).getCell(1).getValue();
+                } while (firstValue.isEmpty());
+                coverageDataList.put(thisVehicle, coverages);
+            }
+            coverageDataList.put(firstValue, coveragesTables.get(tableRow).getRow(1).getCell(2).getValue());
+        }
+        return new SimpleDataProvider(coverageDataList);
+    }
+
+    private static List<Table> getAutoCoveragesSummaryTables() {
+        int numTables = BrowserController.get().driver().findElements(By.xpath(".//div[@id='productConsolidatedViewForm:consolidatedInfoPanelCoveragesConsView_body']//table//table")).size();
+        return IntStream.range(1, numTables + 1).mapToObj(i -> new Table(By.xpath(".//div[@id='productConsolidatedViewForm:consolidatedInfoPanelCoveragesConsView_body']//table//table[" + i + "]")))
+                .collect(Collectors.toList());
+    }
 
 	public static void verifyCancelNoticeFlagPresent() {
 		labelCancelNotice.verify.present("'Cancel Notice' flag is present");
@@ -265,5 +330,41 @@ public class PolicySummaryPage extends SummaryPage {
 
 			return content;
 		}
+	}
+
+	public static void lastTransactionHistoryOpen() {
+		if (buttonTransactionHistory.isPresent()) {
+			buttonTransactionHistory.click();
+		}
+		tableTransactionHistory.getRow(1).getCell(2).controls.links.get(1).click();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+	}
+
+	public static void transactionHistoryRecordCountCheck(String policyNumber, int rowCount, String value) {
+		buttonTransactionHistory.click();
+		CustomAssert.assertEquals(tableTransactionHistory.getRowsCount(), rowCount);
+		String valueShort = "";
+		if (!StringUtils.isEmpty(value)) {
+			valueShort = value.substring(0, 20);
+			assertThat(tableTransactionHistory.getRow(1).getCell("Reason").getHintValue()).contains(value);
+		}
+		assertThat(tableTransactionHistory.getRow(1).getCell("Reason").getValue()).contains(valueShort);
+		/*not needed, because  getHint value already works
+		String transactionHistoryQuery = "select * from(\n"
+				+ "select pt.TXREASONTEXT\n"
+				+ "from PolicyTransaction pt\n"
+				+ "where POLICYID in \n"
+				+ "        (select id from POLICYSUMMARY \n"
+				+ "        where POLICYNUMBER = '%s')\n"
+				+ "    order by pt.TXDATE desc)\n"
+				+ "    where rownum=1";
+		assertThat(DBService.get().getValue(String.format(transactionHistoryQuery, policyNumber)).orElse(StringUtils.EMPTY)).isEqualTo(value);*/
+	}
+
+	public static String getVehicleInfo(int rowNum) {
+		String yearVeh = tablePolicyVehicles.getRow(rowNum).getCell(YEAR).getValue();
+		String makeVeh = tablePolicyVehicles.getRow(rowNum).getCell(MAKE).getValue();
+		String modelVeh = tablePolicyVehicles.getRow(rowNum).getCell(MODEL).getValue();
+		return yearVeh + " " + makeVeh + " " + modelVeh;
 	}
 }

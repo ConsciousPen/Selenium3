@@ -21,16 +21,3 @@ DriverTab2: {
   License Number: A12345678987658,
   Distant Student: 'Yes'
 }
-
-
-########   Endorse
-
-TestData_Endorse: {
-EndorsementActionTab: '@EndorsementActionTab',
-}
-
-EndorsementActionTab: {
-    Endorsement Date: $<today+5M>,
-    Endorsement Reason: Maintain General Information
-}
-

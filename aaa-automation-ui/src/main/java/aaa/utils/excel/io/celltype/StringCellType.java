@@ -1,6 +1,5 @@
 package aaa.utils.excel.io.celltype;
 
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import aaa.utils.excel.io.entity.area.ExcelCell;
 
@@ -10,17 +9,12 @@ public class StringCellType extends AbstractCellType<String> {
 	}
 
 	@Override
-	public String getValueFrom(ExcelCell cell) {
-		Cell c = cell.getPoiCell();
-		if (c == null) {
-			return null;
-		}
-
-		return DataFormatterHolder.formatter.formatCellValue(c).replace("\n", "").trim();
+	public String getRawValueFrom(ExcelCell cell) {
+		return DataFormatterHolder.formatter.formatCellValue(cell.getPoiCell()).replace("\n", "").trim();
 	}
 
 	@Override
-	public void setValueTo(ExcelCell cell, String value) {
+	public void setRawValueTo(ExcelCell cell, String value) {
 		cell.getPoiCell().setCellValue(value);
 	}
 

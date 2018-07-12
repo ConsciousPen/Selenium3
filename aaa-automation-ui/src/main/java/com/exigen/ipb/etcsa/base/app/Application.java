@@ -1,6 +1,6 @@
 package com.exigen.ipb.etcsa.base.app;
 
-import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.exigen.ipb.etcsa.base.config.CustomTestProperties;
@@ -9,7 +9,6 @@ import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
 import toolkit.webdriver.BrowserController;
-import toolkit.webdriver.controls.Button;
 
 public abstract class Application {
 
@@ -82,10 +81,6 @@ public abstract class Application {
 		if (isApplicationOpened) {
 			setApplicationOpened(false);
 			try {
-				Button buttonSaveAndExit = new Button(By.id("topSaveAndExitLink"));
-				if (buttonSaveAndExit.isPresent() && buttonSaveAndExit.isVisible()) {
-					buttonSaveAndExit.click();
-				}
 				getLogin().logout();
 			} catch (Exception e) {
 				log.info("Cannot close application: " + e);
@@ -128,7 +123,9 @@ public abstract class Application {
 	}
 
 	private void closeSession() {
-		BrowserController.get().driver().quit();
+		WebDriver driver = BrowserController.get().driver();
+		driver.getWindowHandles().forEach(handle -> driver.switchTo().window(handle).close());
+		driver.quit();
 	}
 
 	private void setApplicationOpened(boolean status) {

@@ -3,24 +3,20 @@ package aaa.helpers.openl.model.home_ca.dp3;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLFile;
-import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public class HomeCaDP3OpenLFile extends HomeCaOpenLFile<HomeCaDP3OpenLPolicy> {
-	@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
+	@ExcelTransient
+	static final int FORM_HEADER_ROW_NUMBER = 4;
+
 	private List<HomeCaDP3OpenLPolicy> policies;
 
+	@ExcelTransient
 	@SuppressWarnings({"FieldNameHidesFieldInSuperclass"})
-	@ExcelTransient
-	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
 	private List<HomeCaDP3OpenLCoverage> coverages;
-
 	@ExcelTransient
-	@ExcelTableElement(sheetName = FORM_SHEET_NAME, headerRowIndex = FORM_HEADER_ROW_NUMBER)
 	private List<HomeCaDP3OpenLForm> forms;
-
 	@ExcelTransient
-	@ExcelTableElement(sheetName = DWELLING_SHEET_NAME, headerRowIndex = DWELLING_HEADER_ROW_NUMBER)
 	private List<HomeCaDP3OpenLDwelling> dwelling;
 
 	public List<HomeCaDP3OpenLForm> getForms() {

@@ -4,6 +4,13 @@
 #  failures:
 #    - tests: [aaa.modules.regression.common.TestSearchPageFillingAndWarnings.testSearchWarnings]
 #      messages: ["Unexpeted warning message(s) is(are) present on search page: [Maximum criteria length for 'Underwriting Company #' is 255]"]
+PAS-0000:
+  summary: "Selected State is not applicable to the test"
+  reason: AUTO
+  failures:
+    - tests: aaa.*
+      messages: 'is not applicable to this test'
+
 QC-E2ECOMMON:
   summary: "Common dummy ticket for all dependent e2e tests to mark them yellow if they are skipped due to failed 1st policy creation test"
   reason: PROD
@@ -30,32 +37,12 @@ EISDEV-XXXXX3:
   failures:
     - tests: [aaa.modules.regression.sales.home_ca.dp3.TestPolicyCreation, aaa.modules.regression.sales.home_ca.dp3.TestPolicyCreationFull]
       messages: ['Unable to locate element: {"method":"id","selector":"policyDataGatherForm:premiumRecalcCov"']
-QC-44225:
-  summary: "Regression: Auto: NPE on rate Pended Endorsement after Spin/Split"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.TestPolicySplit.testPolicySplit, aaa.modules.regression.sales.auto_ss.TestPolicySpin.testPolicySpin]
-      messages: ['Unable to locate element', 'Errors: Time out. No session available.']
 QC-44326:
   summary: "Regression: IN AutoSS: The UW rule is appears wrongly for UMPD coverage of NANO policy"
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.TestPolicyNano.testPolicyNano]
       messages: ['Cannot set value of AssetList', 'Errors: 090-83-4IN; Error']
-QC-44846:
-  summary: "DB Lookup 'cancellationConfirmationDays' is set to 19 days instead of 15 for AAA_HO_SS_NJ in Admin application"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.e2e.pup.TestScenario3.TC03_Generate_Cancelation_Notice, aaa.modules.e2e.home_ss.ho3.TestScenario3.TC03_Generate_Cancelation_Notice]
-      messages: ['Row with values {Type=Cancellation Notice']
-QC-44890:
-  summary: "DB Lookup 'cancellationConfirmationDays' is set to 15 days instead of 18 for AAA_SS_PA in Admin application"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.e2e.auto_ss.TestScenario3.TC03_Generate_Cancelation_Notice]
-      messages: ["Row with values {Type=Cancellation Notice"]
-    - tests: [aaa.modules.e2e.auto_ss.TestScenario5.TC07_1_Generate_CancellNotice]
-      messages: ["Cannot get value of Cell {<unnamed>: <Non-existent row (Can't find row by specified parameters: {Due Date"]
 QC-26288:
   summary: "Regression: Exception on approve underwriting rule"
   reason: PROD
@@ -64,14 +51,6 @@ QC-26288:
               aaa.modules.regression.sales.auto_ss.functional.TestDddViolation.pas3663_DddForDriverWithMinorViolationCheckEndorsement,
               aaa.modules.regression.sales.auto_ss.functional.TestDddViolation.pas3663_DddForDriverWithMinorViolationCheckRenewal]
       messages: ['Defensive Driving Course Discount']
-PAS-6667:
-  summary: "'WUAUCA' form is missing on 'On Demand Documents page'"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.docgen.home_ca.*.TestDocgenScenarios.testQuoteDocuments]
-      messages: ['WUAUCA']
-    - tests: [aaa.modules.docgen.home_ca.*.TestDocgenScenarios.testPolicyDocuments]
-      messages: ['WUAUCA']
 PAS-6539:
   summary: "View eRefunds and the Debit/Credit Card - Auto"
   reason: PROD
@@ -81,20 +60,6 @@ PAS-6539:
     aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc,
     aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard]
       messages: ['paymentMethod']
-PAS-7427:
-  summary: "Regression: The Membership Validation rule is displayed wrongly"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.e2e]
-      messages: ["Errors: AAA_HO_SS_MEM_LASTNAME; Error; Membership Validation Failed. Please review the Membership Report and confirm"]
-PAS-7673:
-  summary: "The 'Payment Method' section is missing on Purchase tab when 'Apply eValue Discount' is set to 'Yes'"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.document_fulfillment.auto_ss.TestScenario2.TC01_CreatePolicy]
-      messages: ["Cannot set value of AssetList {PurchaseTab"]
-    - tests: [aaa.modules.e2e]
-      messages: ["Errors: AAA_HO_SS_MEM_LASTNAME; Error; Membership Validation Failed. Please review the Membership Report and confirm"]
 OSI-1115:
   summary: "OSI: question to Karen about UMBI=No Coverage, which is not applicable for IN"
   reason: PROD
@@ -107,40 +72,6 @@ OSI-1116:
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
       messages: ["rfiName"]
-PAS-7702:
-  summary: "When issuing some policies, documents are not generated"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiAuto]
-      messages: ["No value present"]
-PAS-8994:
-  summary: "Entity of type VASS926232462 and with a number of 1 was not found"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas1441_emailChangeOutOfPas]
-      messages: ["Entity input stream has already been closed"]
-    - tests: [aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing.pas1441_emailChangeOutOfPas]
-      messages: ["Entity input stream has already been closed"]
-    - tests: [aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing.pas1441_emailChangeOutOfPas]
-      messages: ["Entity input stream has already been closed"]
-PAS-8288:
-  summary: "Last Payment Method stub implementation and test refactoring to use it"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsDC,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsACH,
-    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsACH,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsCC,
-    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsCC,
-    aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsCC]
-      messages: ["Check"]
-    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingManualRefundsDC,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingManualRefundsACH,
-    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingManualRefundsACH,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingManualRefundsCC,
-    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingManualRefundsCC,
-    aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess.pas7298_pendingManualRefundsCC]
-      messages: ["by zero"]
 PAS-9157:
   summary: "Regression: Home SS: On R-45 status of 2-nd renewal is not Premium Calculated"
   reason: PROD
@@ -155,47 +86,14 @@ PAS-9361:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
       messages: ["Email"]
-PAS-9337:
-  summary: "Green Button Service - Abracradabra"
+PAS-10661:
+  summary: "AAA_HO_SS1290786 Error A valid insurance score report for at least one named insured is required to propose firing inspite of overriding Insurance Score"
   reason: PROD
   failures:
-    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas6562_endorsementValidateNotAllowedOutOfBound]
-      messages: ["Expected empty*UpdateVehicle"]
-PAS-9722:
-  summary: "Random sequence for Vehicles on DXP - closed, new story will be created"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas8273_OnlyActiveVehiclesAreAllowed]
-      messages: [" "]
-PAS-10350:
-  summary: "Regression: CA Home: Unable to switch to next tab from Property Info,'Roof Type' is not in within range"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules]
-      messages: ['Cannot get value of StaticElement', "Errors: 'Roof Type' is not in within range"]
-PAS-10700:
-  summary: "Regression: MD Property: Insurance report section is absent on reports tab, but rule is fired requesting to order report"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation,
-              aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement,
-              aaa.modules.regression.sales.pup.TestPolicyCreation,
-              aaa.modules.regression.service.pup.TestPolicyEndorsement]
-      messages: ['Cannot get value of StaticElement', "Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered"]
-PAS-10702:
-  summary: "Regression: Property: Insurance report rule is fired for additional insured who is not listed on Reports tab"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.home_ss.*.TestPolicyCreationFull]
-      messages: ['Cannot get value of StaticElement', "Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered"]
-    - tests: [aaa.modules.cft.*]
-      messages: ['Cannot get value of StaticElement', "Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered"]
-PAS-10699:
-  summary: "eValue is not changed from Pending to Active or Inactive on NB+30"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess.*]
-      messages: ["PENDING"]
+    - tests: [aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess.pas7298_pendingManualRefundsCheck,
+    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingManualRefundsACH,
+    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsACH]
+      messages: ['*Cannot get value of StaticElement*', "*AAA_HO_SS67cbad46*"]
 PAS-10970:
   summary: "AARFIXX has empty value instead of NO for tag VehTyp for NV NANO policy"
   reason: PROD
@@ -208,20 +106,202 @@ INC0655981:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
       messages: ["Miscellaneous"]
-PAS-11405:
-  summary: "Regression: Auto & Home: CA: Can't change payment plan of renewal"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.e2e.auto_ca.TestScenario10.TC01_createPolicy,
-              aaa.modules.e2e.home_ca.*.TestScenario10.TC01_createPolicy,
-              aaa.modules.e2e.pup.TestScenario10.TC01_createPolicy]
-      messages: ["Column Policy Status was not found in the table"]
-    - tests: [aaa.modules.e2e.auto_ca.TestScenario12.TC01_createPolicy,
-              aaa.modules.e2e.home_ca.*.TestScenario12.TC01_createPolicy]
-      messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual} in table 'Billing Account Policies' is present"]
 PAS-11538:
   summary: "Regression: Home SS: HO4: UT: Renewal status is Policy Pending on R-35"
   reason: PROD
   failures:
     - tests: [aaa.modules.e2e.home_ss.ho4.TestScenario9.TC01_createPolicy]
       messages: ["Column Status was not found in the table"]
+PAS-11467:
+  summary: "HO When setting Insured to Deceased, clue report needs to be reordered, cant issue an endorsement"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7039_newDataElementsDeceasedYes]
+      messages: ["Order CLUE report before", "unknown error"]
+PAS-11445:
+  summary: "500 Error happens after click on submit manual entry button"
+  reason: PROD
+  failures:
+    - tests: [
+    aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas9816_BillingPacketGeneration,
+    aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacketMortgagee,
+    aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacket]
+      messages: ["Errors: Error 500. Internal server error occurred"]
+PAS-11662:
+  summary: "Cannot rate PUP policy with effective date higher or equal to 2020-02-01n"
+  reason: PROD
+  failures:
+    - tests: [
+    aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas9816_BillingPacketGeneration,
+    aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacketMortgagee,
+    aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacket]
+      messages: ["Internal rating engine error"]
+PAS-12248:
+  summary: "When doing rewrite of eValue policy, Commission Type has no eValue* values"
+  reason: PROD
+  failures:
+    - tests: [
+    aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas325_eValueCommissionRelatedFields]
+      messages: ["expected [eValue Renewal] but found [Renewal]"]
+PAS-12257:
+  summary: "Conversion: XML import failed for PUP FoxPro, HDES and SIS DP3: Unmarshalling error, Invalid content was found starting with element 'category'"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.pas9716_policySummaryForConversion]
+      messages: ["Cannot set value of ComboBox"]
+    - tests: [aaa.modules.regression.conversions.*]
+      messages: ["doesn't have Success status. Reason"]
+PT-1576:
+  summary: "Auto SS Defensive Driver Discount is not displayed correctly"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestDddViolation.*]
+      messages: ["Defensive Driving Course Discount"]
+PAS-11810:
+  summary: "View Premium Service - Pended endorsement and renewal not rated"
+  reason: PROD
+  failures:
+    - tests: [
+    aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesPremiumBearing.pas9716_policySummaryForLapsedRenewal,
+    aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesPremiumBearing.pas9716_policySummaryForActiveRenewal,
+    aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.pas9716_policySummaryForLapsedRenewal,
+    aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.pas9716_policySummaryForActiveRenewal
+    ]
+      messages: ["expected:<null> but was:<"]
+PAS-12464:
+  summary: "Comp symbol error appears when VIN is returned from prefill for CA quote or policy"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ca.select.TestQuotePrefill.testPolicyPrefill2]
+      messages: ["Cannot set value of AssetList {PremiumAndCoveragesTab:", "Errors: Error; Comp Symbol must be set for vehicle"]
+PAS-12949:
+  summary: "eValue discount is not removed though Autopay is removed by aaaPaymentCentralRejectFeedAsyncJob"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueNsfAHDRXX.pas7454_eValueRemovedAutopayNsfDeclineRecurringPaymentResponse]
+      messages: ["Checked value of Cell"]
+PAS-13094:
+  summary: "Regression: PUP: VIN resolver doesn't work for underlying auto policies"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.pup.*,aaa.modules.regression.service.pup.*,aaa.modules.regression.conversions.pup.*,aaa.modules.regression.document_fulfillment.pup.*,aaa.modules.docgen.pup.*]
+      messages: ["Cannot set value of AssetList {UnderlyingRisksAutoTab"]
+    - tests: [aaa.modules.regression.service.pup.*]
+      messages: ["Cannot set value of AssetList {UnderlyingRisksAutoTab", "Errors: 'Make' is required; 'Model' is required"]
+PAS-12478:
+  summary: "Enable Fuel related fields on the Property info tab is not disabled for all stated on second renewal"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.conversions.home_ss.*]
+      messages: ["AssetList {OilFuelOrPropaneStorageTank"]
+    - tests: [aaa.modules.regression.conversions.home_ss.*]
+      messages: ["ComboBox {Oil Fuel or Propane Storage Tank"]
+PAS-13203:
+  summary: "Regression: Auto: Birthday value is not returned from stub"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports.*]
+      messages: ["Cannot set value of AssetList {RatingDetailReportsTab", "Errors: 'Date of Birth' is required"]
+    - tests: [aaa.modules.regression.sales.auto_ca.select.TestQuotePrefill.*]
+      messages: ["Cannot get value of CheckBox"]
+    - tests: [aaa.modules.regression.sales.auto_ca.select.TestQuotePrefill.*]
+      messages: ['expected:<"[07/08/1976]"> but was:<"[]"']
+PT-1421:
+  summary: "PA PUP - View Rating Details Page - Wrong Auto Tier is displayed"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails.pt1421_testManuallyAddedAutoTier]
+      messages: ["expected", "but was"]
+PAS-13338:
+  summary: "Unable to rate Home_SS PA conversion policies"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.conversions.home_ss.*,aaa.modules.regression.document_fulfillment.home_ss.*]
+      messages: ["no such element: Unable to locate element: {", "Errors: Error; Failed to rate policy", "Cannot get value of Cell {", "Column Percentage of Coverage C was not found in the table", "Column Percentage of Coverage A was not found in the table"]
+PAS-13651:
+  summary: "Instantiate state specific coverages"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.pas12866_e2eBct,
+    ]
+      messages: ["no such element: Unable to locate element: {", "Error 500"]
+PAS-14137:
+  summary: "Regression: PUP, Auto CA, Auto SS specific states: Exception occurs switching to Premium tab"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.*.pup.*]
+      messages: ["Cannot set value of AssetList {PremiumAndCoveragesQuoteTab", "Errors: Time out. No session available."]
+    - tests: [aaa.modules.regression.*.auto_ca.*]
+      messages: ["Cannot set value of AssetList {PremiumAndCoveragesTab:", "Errors: Time out. No session available."]
+PAS-14387:
+  summary: "Regression: PUP CA: Underlying Risks Auto: Driver: Occupation field is blank - impossible to issue policy"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.*.pup.*]
+      messages: ["Cannot set value of AssetList {UnderlyingRisksAutoTab", "Errors: 'Occupation' is not in within range"]
+PAS-5529:
+  summary: "Roof shape does not pull into PAS from ISO 360"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["*Unable to locate element*", "Errors: 'Roof shape' is not in within range"]
+PT-1043:
+  summary: "Data relevant to ISO 360 has changed"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["*Unable to locate element*", "Data relevant to ISO 360 has changed. Reorder ISO 360 report"]
+PAS-12869:
+  summary: "KY Taxes: Tax amount and total premium value are reduced during Empty endorsement"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Test for state KY has failed due to difference between pre-endorsement and post-endorsement premiums"]
+PT-1670:
+  summary: "Error message displayed in 'List of other active AAA policies' tab"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Unable to locate element", "Multiple default value rules defined for field: AAAHOOtherOrPriorPolicyComponent.autoPolicyPending"]
+PAS-14398:
+  summary: "Regression: Auto SS: States' specific coverages duplicates on Premium&Coverages tab"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.premiumCalculationTest]
+      messages: ["Medical Expenses=starts=$5,000"]
+PT-1968:
+  summary: "Policy tier is required appears on 'Applicant' tab "
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Unable to locate element", "'Policy tier' is required"]
+PAS-5419:
+  summary: "'Liability Code' is not in within range"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Cannot get value of Cell", "'Liability Code' is not in within range"]
+QC-45011:
+  summary: "Cancellation notice is not generated for AutoSS NJ after endorsement and Off cycle bill generation"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e.auto_ss.TestScenario4.TC01_createPolicy]
+      messages: ["'Cancel Notice' flag is present expected [true] but found [false]"]
+PAS-15970:
+  summary: "Regression: Auto SS: Unable to remove second insured in copied quote"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.document_fulfillment.auto_ss.TestScenario4.TC02_CopyFromPolicy]
+      messages: ["Cannot set value of  {DriverTab", "Errors: Unprepared data; Error; You must order the Membership report"]
+PAS-15912:
+  summary: "Regression: Auto Insurance Quote doc (AAIQAZ) incorrectly displays Payment Plan Options"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.docgen.auto_ss.TestScenario5.TC01_GenerateQuoteDocuments]
+      messages: ["AAIQAZ"]
+PAS-16002:
+  summary: "Regression: Home HO3: Payment Restriction Notice doc (60 5003) is not generated"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.docgen.home_ss.ho3.TestDocgenScenarios.testReturnPaymentDocuments]
+      messages: ["60 5003"]

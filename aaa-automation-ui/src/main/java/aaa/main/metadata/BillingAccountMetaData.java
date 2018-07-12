@@ -35,6 +35,8 @@ public final class BillingAccountMetaData {
 		public static final AssetDescriptor<StaticElement> PAYMENT_SUBMIT_REFUND = declare("Payment Submit Refund", StaticElement.class, By.id("paymentForm:saveButton_footer"));
 		public static final AssetDescriptor<StaticElement> MESSAGE_WHEN_ONLY_PAYMENT_METHOD_CHECK =
 				declare("Payment Methods is only check", StaticElement.class, By.id("paymentForm:refundErrorReasonMessage"));
+		public static final AssetDescriptor<TextBox> AMOUNT_PREVIOS_TERM = declare("Previous term amount", TextBox.class, By.id("paymentForm:amount_0"));
+		public static final AssetDescriptor<TextBox> AMOUNT_RENEWAL_TERM = declare("Renewal term amount", TextBox.class, By.id("paymentForm:amount_1"));
 
 		//Fee specific fields
 		public static final AssetDescriptor<ComboBox> TRANSACTION_TYPE = declare("Transaction Type", ComboBox.class);

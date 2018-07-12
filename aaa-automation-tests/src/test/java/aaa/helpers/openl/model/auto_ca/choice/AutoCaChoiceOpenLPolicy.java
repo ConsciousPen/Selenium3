@@ -1,26 +1,35 @@
 package aaa.helpers.openl.model.auto_ca.choice;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
+import aaa.helpers.openl.testdata_generator.AutoCaChoiceTestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
+import toolkit.datax.TestData;
 
-public class AutoCaChoiceOpenLPolicy extends AutoCaOpenLPolicy {
-	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME, headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
+@ExcelTableElement(sheetName = OpenLFile.POLICY_SHEET_NAME, headerRowIndex = OpenLFile.POLICY_HEADER_ROW_NUMBER)
+public class AutoCaChoiceOpenLPolicy extends AutoCaOpenLPolicy<AutoCaChoiceOpenLDriver, AutoCaChoiceOpenLVehicle> {
+
 	private List<AutoCaChoiceOpenLDriver> drivers;
-
-	@ExcelTableElement(sheetName = OpenLFile.VEHICLE_SHEET_NAME, headerRowIndex = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
 	private List<AutoCaChoiceOpenLVehicle> vehicles;
 
 	@ExcelTransient
-	private LocalDateTime effectiveDate;
+	private LocalDate effectiveDate;
 
 	private Integer term;
 	private Integer monsOfPriorIns; // unknown type, it's always empty in excel
+
+	public Integer getMonsOfPriorIns() {
+		return monsOfPriorIns;
+	}
+
+	public void setMonsOfPriorIns(Integer monsOfPriorIns) {
+		this.monsOfPriorIns = monsOfPriorIns;
+	}
 
 	@Override
 	public List<AutoCaChoiceOpenLDriver> getDrivers() {
@@ -40,14 +49,6 @@ public class AutoCaChoiceOpenLPolicy extends AutoCaOpenLPolicy {
 		this.vehicles = new ArrayList<>(vehicles);
 	}
 
-	public Integer getMonsOfPriorIns() {
-		return monsOfPriorIns;
-	}
-
-	public void setMonsOfPriorIns(Integer monsOfPriorIns) {
-		this.monsOfPriorIns = monsOfPriorIns;
-	}
-
 	@Override
 	public Integer getTerm() {
 		return term;
@@ -57,16 +58,21 @@ public class AutoCaChoiceOpenLPolicy extends AutoCaOpenLPolicy {
 		this.term = term;
 	}
 
-	public void setEffectiveDate(LocalDateTime effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
-
 	@Override
-	public LocalDateTime getEffectiveDate() {
+	public LocalDate getEffectiveDate() {
 		if (effectiveDate == null) {
-			return TimeSetterUtil.getInstance().getCurrentTime();
+			return TimeSetterUtil.getInstance().getCurrentTime().toLocalDate();
 		}
 		return effectiveDate;
+	}
+	
+	@Override
+	public AutoCaChoiceTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
+		return new AutoCaChoiceTestDataGenerator(state, baseTestData);
+	}
+
+	public void setEffectiveDate(LocalDate effectiveDate) {
+		this.effectiveDate = effectiveDate;
 	}
 
 	@Override

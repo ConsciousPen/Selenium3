@@ -1,9 +1,12 @@
 package aaa.helpers.mock.model.membership;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
+@ExcelTableElement(sheetName = "MEMBERSHIP_RESPONSE", hasEmptyRows = true)
 public class MembershipResponse {
 	@ExcelTransient
 	private static final String DATE_PATTERN_1 = "M/d/yyyy";
@@ -11,52 +14,46 @@ public class MembershipResponse {
 	@ExcelTransient
 	private static final String DATE_PATTERN_2 = "MM-dd-yy";
 
-	@ExcelTableColumnElement(name = "ID")
+	@ExcelTransient
+	private static final String DATE_PATTERN_3 = "M.d.yyyy";
+
+	@ExcelColumnElement(name = "ID")
 	private String id;
 
-	@ExcelTableColumnElement(name = "membershipStatus_A_C_L")
+	@ExcelColumnElement(name = "membershipStatus_A_C_L")
 	private String membershipStatusAcl;
 
-	@ExcelTableColumnElement(name = "ersUsageCountPerActive_Member")
-	private Double ersUsageCountPerActiveMember;
+	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
+	private LocalDate membershipEndDate;
 
-	@ExcelTableColumnElement(name = "ersUsage_Abuse")
-	private Boolean ersUsageAbuse;
-
-	private String responseMessageRuleDecision;
-
-	@ExcelTableColumnElement(name = "Service")
-	private String service;
-
-	@ExcelTableColumnElement(name = "faultcode")
-	private String faultCode;
-
-	@ExcelTableColumnElement(name = "faultstring")
-	private String faultString;
-
-	@ExcelTableColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
-	private LocalDateTime membershipEndDate;
-
-	@ExcelTableColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
-	private LocalDateTime membershipEffectiveDate;
-
-	@ExcelTableColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
-	private LocalDateTime memberStartDate;
-
-	@ExcelTableColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
-	private LocalDateTime serviceDate;
-
-	@ExcelTableColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
-	private LocalDateTime birthDate;
-
-	@ExcelTableColumnElement(dateFormatPatterns = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
-	private LocalDateTime errorTimeStamp;
+	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
+	private LocalDate membershipEffectiveDate;
 
 	private Integer membershipEffectiveDateOffset;
 	private Integer membershipEndDateOffset;
 	private String membershipNumber;
+
+	@ExcelColumnElement(name = "ersUsageCountPerActive_Member")
+	private Double ersUsageCountPerActiveMember;
+
+	@ExcelColumnElement(name = "ersUsage_Abuse")
+	private Boolean ersUsageAbuse;
+
+	private String responseMessageRuleDecision;
+
+	@ExcelColumnElement(name = "Service")
+	private String service;
+
+	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2, DATE_PATTERN_3})
+	private LocalDate memberStartDate;
+
+	private Integer memberStartDateMonthsOffset;
 	private String status;
 	private String memberType;
+
+	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
+	private LocalDate serviceDate;
+
 	private String type;
 	private Boolean chargeble;
 	private String memberCoverageType;
@@ -65,19 +62,32 @@ public class MembershipResponse {
 	private String middleName;
 	private String suffixTitle;
 	private String prefixTitle;
+
+	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
+	private LocalDate birthDate;
+
 	private String city;
 	private String region;
 	private String postalCode;
 	private String addressLine1;
 	private String addressLine2;
 	private String comment;
+
+	@ExcelColumnElement(name = "faultcode")
+	private String faultCode;
+
+	@ExcelColumnElement(name = "faultstring")
+	private String faultString;
+
+	@ExcelColumnElement(dateFormatPatterns = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
+	private LocalDateTime errorTimeStamp;
+
 	private String errorCode;
 	private String errorMessageText;
 	private String friendlyErrorMessage;
 	private String serviceName;
 	private String sourceSystem;
 	private String ruleDecision;
-	private Integer memberStartDateMonthsOffset;
 
 	public String getId() {
 		return id;
@@ -143,19 +153,19 @@ public class MembershipResponse {
 		this.faultString = faultString;
 	}
 
-	public LocalDateTime getMembershipEndDate() {
+	public LocalDate getMembershipEndDate() {
 		return membershipEndDate;
 	}
 
-	public void setMembershipEndDate(LocalDateTime membershipEndDate) {
+	public void setMembershipEndDate(LocalDate membershipEndDate) {
 		this.membershipEndDate = membershipEndDate;
 	}
 
-	public LocalDateTime getMembershipEffectiveDate() {
+	public LocalDate getMembershipEffectiveDate() {
 		return membershipEffectiveDate;
 	}
 
-	public void setMembershipEffectiveDate(LocalDateTime membershipEffectiveDate) {
+	public void setMembershipEffectiveDate(LocalDate membershipEffectiveDate) {
 		this.membershipEffectiveDate = membershipEffectiveDate;
 	}
 
@@ -183,11 +193,11 @@ public class MembershipResponse {
 		this.membershipNumber = membershipNumber;
 	}
 
-	public LocalDateTime getMemberStartDate() {
+	public LocalDate getMemberStartDate() {
 		return memberStartDate;
 	}
 
-	public void setMemberStartDate(LocalDateTime memberStartDate) {
+	public void setMemberStartDate(LocalDate memberStartDate) {
 		this.memberStartDate = memberStartDate;
 	}
 
@@ -207,11 +217,11 @@ public class MembershipResponse {
 		this.memberType = memberType;
 	}
 
-	public LocalDateTime getServiceDate() {
+	public LocalDate getServiceDate() {
 		return serviceDate;
 	}
 
-	public void setServiceDate(LocalDateTime serviceDate) {
+	public void setServiceDate(LocalDate serviceDate) {
 		this.serviceDate = serviceDate;
 	}
 
@@ -279,11 +289,11 @@ public class MembershipResponse {
 		this.prefixTitle = prefixTitle;
 	}
 
-	public LocalDateTime getBirthDate() {
+	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(LocalDateTime birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 

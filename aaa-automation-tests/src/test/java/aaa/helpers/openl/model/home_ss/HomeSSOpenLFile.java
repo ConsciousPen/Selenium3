@@ -4,62 +4,40 @@ import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLCappingDetails;
 import aaa.helpers.openl.model.OpenLFile;
-import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public class HomeSSOpenLFile extends OpenLFile<HomeSSOpenLPolicy> {
 	@ExcelTransient
 	public static final int COVERAGE_HEADER_ROW_NUMBER = 4;
 
-	@ExcelTransient
-	public static final String TESTS_SHEET_NAME = "FinalTest";
-
-	@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
 	private List<HomeSSOpenLPolicy> policies;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = NAMED_INSURED_SHEET_NAME, headerRowIndex = NAMED_INSURED_HEADER_ROW_NUMBER)
-	private List<OpenLNamedInsured> policyNamedInsured;
-
-	@ExcelTransient
-	@ExcelTableElement(sheetName = CONSTRUCTION_INFO_SHEET_NAME, headerRowIndex = CONSTRUCTION_INFO_HEADER_ROW_NUMBER)
-	private List<OpenLConstructionInfo> policyConstructionInfo;
-
-	@ExcelTransient
-	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowIndex = 4)
-	private List<HomeSSOpenLCoverage> coverages;
-
-	@ExcelTransient
-	@ExcelTableElement(sheetName = FORM_SHEET_NAME, headerRowIndex = FORM_HEADER_ROW_NUMBER)
 	private List<HomeSSOpenLForm> forms;
-
 	@ExcelTransient
-	@ExcelTableElement(sheetName = LOSS_INFORMATION_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
-	private List<OpenLLossInformation> policyLossInformation;
-
-	@ExcelTransient
-	@ExcelTableElement(sheetName = DWELLING_RATING_INFO_SHEET_NAME, headerRowIndex = DWELLING_RATING_INFO_HEADER_ROW_NUMBER)
-	private List<OpenLDwellingRatingInfo> policyDwellingRatingInfo;
-
-	@ExcelTransient
-	@ExcelTableElement(sheetName = OpenLFile.CAPPINGDETAILS_SHEET_NAME, headerRowIndex = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
-	private List<HomeSSOpneLCappingDetails> cappingDetails;
-
-	@ExcelTransient
-	@ExcelTableElement(sheetName = ADDRESS_SHEET_NAME, headerRowIndex = ADDRESS_HEADER_ROW_NUMBER)
-	private List<HomeSSOpenLAddress> policyAddress;
-
-	@ExcelTransient
-	@ExcelTableElement(sheetName = COVERAGE_DEDUCTIBLE_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
 	private List<OpenLCoverageDeductible> policyCoverageDeductible;
-
 	@ExcelTransient
-	@ExcelTableElement(sheetName = DISCOUNT_INFORMATION_SHEET_NAME, headerRowIndex = DISCOUNT_INFORMATION_HEADER_ROW_NUMBER)
+	private List<OpenLConstructionInfo> policyConstructionInfo;
+	@ExcelTransient
+	private List<HomeSSOpenLAddress> policyAddress;
+	@ExcelTransient
+	private List<OpenLNamedInsured> policyNamedInsured;
+	@ExcelTransient
+	private List<HomeSSOpneLCappingDetails> cappingDetails;
+	@ExcelTransient
 	private List<OpenLDiscountInformation> policyDiscountInformation;
-
 	@ExcelTransient
-	@ExcelTableElement(sheetName = RISK_METER_DATA_SHEET_NAME, headerRowIndex = RISK_METER_DATA_HEADER_ROW_NUMBER)
+	private List<OpenLDwellingRatingInfo> policyDwellingRatingInfo;
+	@ExcelTransient
+	private List<HomeSSOpenLCoverage> coverages;
+	@ExcelTransient
+	private List<OpenLLossInformation> policyLossInformation;
+	@ExcelTransient
+	private List<OpenLClaim> claims;
+	@ExcelTransient
 	private List<OpenLRiskMeterData> riskMeterData; // NJ Specific
+	@ExcelTransient
+	private List<OpenLVariationType> variationType;
 
 	public List<OpenLNamedInsured> getPolicyNamedInsured() {
 		return new ArrayList<>(policyNamedInsured);
@@ -142,11 +120,27 @@ public class HomeSSOpenLFile extends OpenLFile<HomeSSOpenLPolicy> {
 	}
 
 	public List<OpenLRiskMeterData> getRiskMeterData() {
-		return new ArrayList<>(riskMeterData);
+		return riskMeterData != null ? new ArrayList<>(riskMeterData) : null;
 	}
 
 	public void setRiskMeterData(List<OpenLRiskMeterData> riskMeterData) {
 		this.riskMeterData = new ArrayList<>(riskMeterData);
+	}
+
+	public List<OpenLVariationType> getVariationType() {
+		return variationType != null ? new ArrayList<>(variationType) : null;
+	}
+
+	public void setVariationType(List<OpenLVariationType> variationType) {
+		this.variationType = new ArrayList<>(variationType);
+	}
+
+	public List<OpenLClaim> getClaims() {
+		return claims != null ? new ArrayList<>(claims) : null;
+	}
+
+	public void setClaims(List<OpenLClaim> claims) {
+		this.claims = new ArrayList<>(claims);
 	}
 
 	@Override
@@ -162,17 +156,19 @@ public class HomeSSOpenLFile extends OpenLFile<HomeSSOpenLPolicy> {
 	public String toString() {
 		return "HomeSSOpenLFile{" +
 				"policies=" + policies +
-				", policyNamedInsured=" + policyNamedInsured +
-				", policyConstructionInfo=" + policyConstructionInfo +
-				", coverages=" + coverages +
 				", forms=" + forms +
-				", policyLossInformation=" + policyLossInformation +
-				", policyDwellingRatingInfo=" + policyDwellingRatingInfo +
-				", cappingDetails=" + cappingDetails +
-				", policyAddress=" + policyAddress +
 				", policyCoverageDeductible=" + policyCoverageDeductible +
+				", policyConstructionInfo=" + policyConstructionInfo +
+				", policyAddress=" + policyAddress +
+				", policyNamedInsured=" + policyNamedInsured +
+				", cappingDetails=" + cappingDetails +
 				", policyDiscountInformation=" + policyDiscountInformation +
+				", policyDwellingRatingInfo=" + policyDwellingRatingInfo +
+				", coverages=" + coverages +
+				", policyLossInformation=" + policyLossInformation +
+				", claims=" + claims +
 				", riskMeterData=" + riskMeterData +
+				", variationType=" + variationType +
 				", tests=" + tests +
 				'}';
 	}

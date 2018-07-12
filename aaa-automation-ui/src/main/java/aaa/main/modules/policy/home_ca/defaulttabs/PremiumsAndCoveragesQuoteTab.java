@@ -9,8 +9,10 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
+import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -27,10 +29,15 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 
 	public static Table tableEndorsementForms = new Table(By.id("policyDataGatherForm:formSummaryTable"));
 	public static Button btnContinue = new Button(By.id("policyDataGatherForm:next_footer"), Waiters.AJAX);
+	public static Link linkViewPropertyQuote = new Link(By.id("policyDataGatherForm:viewHomeQuoteCA_Link"), Waiters.AJAX);
 
 	public PremiumsAndCoveragesQuoteTab() {
 		super(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.class);
 	}
+
+    public JavaScriptButton btnCalculatePremium() {
+        return getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM_BUTTON.getLabel(), JavaScriptButton.class);
+    }
 
 	@Override
 	public void calculatePremium() {
@@ -38,9 +45,15 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 			NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
 			NavigationPage.toViewSubTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		}
-		hideHeader();
-		btnCalculatePremium().click();
-		showHeader();
+		try {
+			hideHeader();
+			btnCalculatePremium().click();
+			showHeader();
+		} catch (Exception e) {
+				hideHeader();
+				btnCalculatePremium().click();
+				showHeader();
+		}
 	}
 
 	@Override
@@ -54,9 +67,5 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 			}
 		}
 		return td;
-	}
-
-	public Button btnCalculatePremium() {
-		return getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM_BUTTON.getLabel(), Button.class);
 	}
 }

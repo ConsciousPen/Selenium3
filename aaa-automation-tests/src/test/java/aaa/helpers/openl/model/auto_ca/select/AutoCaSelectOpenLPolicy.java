@@ -1,20 +1,21 @@
 package aaa.helpers.openl.model.auto_ca.select;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
+import aaa.helpers.openl.testdata_generator.AutoCaSelectTestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import toolkit.datax.TestData;
 
-public class AutoCaSelectOpenLPolicy extends AutoCaOpenLPolicy {
-	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME, headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
+@ExcelTableElement(sheetName = OpenLFile.POLICY_SHEET_NAME, headerRowIndex = OpenLFile.POLICY_HEADER_ROW_NUMBER)
+public class AutoCaSelectOpenLPolicy extends AutoCaOpenLPolicy<AutoCaSelectOpenLDriver, AutoCaSelectOpenLVehicle> {
+
 	private List<AutoCaSelectOpenLDriver> drivers;
-
-	@ExcelTableElement(sheetName = OpenLFile.VEHICLE_SHEET_NAME, headerRowIndex = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
 	private List<AutoCaSelectOpenLVehicle> vehicles;
 
-	private LocalDateTime effectiveDate;
+	private LocalDate effectiveDate;
 	private Integer baseYear;
 	private Boolean aaaMember;
 	private Boolean goodDriverPolicy;
@@ -28,14 +29,6 @@ public class AutoCaSelectOpenLPolicy extends AutoCaOpenLPolicy {
 
 	public void setBaseYear(Integer baseYear) {
 		this.baseYear = baseYear;
-	}
-
-	public Boolean isAaaMember() {
-		return aaaMember;
-	}
-
-	public void setAaaMember(Boolean aaaMember) {
-		this.aaaMember = aaaMember;
 	}
 
 	public Boolean getGoodDriverPolicy() {
@@ -70,6 +63,10 @@ public class AutoCaSelectOpenLPolicy extends AutoCaOpenLPolicy {
 		this.lifemoto = lifemoto;
 	}
 
+	public void setAaaMember(Boolean aaaMember) {
+		this.aaaMember = aaaMember;
+	}
+
 	@Override
 	public List<AutoCaSelectOpenLDriver> getDrivers() {
 		return new ArrayList<>(drivers);
@@ -89,11 +86,16 @@ public class AutoCaSelectOpenLPolicy extends AutoCaOpenLPolicy {
 	}
 
 	@Override
-	public LocalDateTime getEffectiveDate() {
+	public LocalDate getEffectiveDate() {
 		return effectiveDate;
 	}
+	
+	@Override
+	public AutoCaSelectTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
+		return new AutoCaSelectTestDataGenerator(state, baseTestData);
+	}
 
-	public void setEffectiveDate(LocalDateTime effectiveDate) {
+	public void setEffectiveDate(LocalDate effectiveDate) {
 		this.effectiveDate = effectiveDate;
 	}
 
@@ -120,5 +122,9 @@ public class AutoCaSelectOpenLPolicy extends AutoCaOpenLPolicy {
 				", number=" + number +
 				", policyNumber='" + policyNumber + '\'' +
 				'}';
+	}
+
+	public Boolean isAaaMember() {
+		return aaaMember;
 	}
 }

@@ -1,23 +1,20 @@
 package aaa.helpers.openl.model.home_ca.ho3;
 
-import static aaa.helpers.openl.model.OpenLFile.DWELLING_HEADER_ROW_NUMBER;
-import static aaa.helpers.openl.model.OpenLFile.DWELLING_SHEET_NAME;
-import static aaa.helpers.openl.model.OpenLFile.FORM_SHEET_NAME;
+import static aaa.helpers.openl.model.OpenLFile.POLICY_HEADER_ROW_NUMBER;
+import static aaa.helpers.openl.model.OpenLFile.POLICY_SHEET_NAME;
 import java.util.ArrayList;
 import java.util.List;
-import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLCoverage;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
+import aaa.helpers.openl.testdata_generator.HomeCaHO3TestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import toolkit.datax.TestData;
 
-public class HomeCaHO3OpenLPolicy extends HomeCaOpenLPolicy {
-	@ExcelTableElement(sheetName = DWELLING_SHEET_NAME, headerRowIndex = DWELLING_HEADER_ROW_NUMBER)
-	private List<HomeCaHO3OpenLDwelling> dwelling;
+@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
+public class HomeCaHO3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO3OpenLForm> {
 
-	@ExcelTableElement(sheetName = FORM_SHEET_NAME, headerRowIndex = HomeCaHO3OpenLFile.FORM_HEADER_ROW_NUMBER)
+	private HomeCaHO3OpenLDwelling dwelling;
 	private List<HomeCaHO3OpenLForm> forms;
-
-	@ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME, headerRowIndex = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
 	private List<HomeCaOpenLCoverage> coverages;
 
 	private Double covALimit;
@@ -27,14 +24,15 @@ public class HomeCaHO3OpenLPolicy extends HomeCaOpenLPolicy {
 	private Boolean hasPolicySupportingForm;
 	private Boolean hasSeniorDiscount;
 
-	public List<HomeCaHO3OpenLDwelling> getDwellings() {
-		return new ArrayList<>(dwelling);
+	public HomeCaHO3OpenLDwelling getDwelling() {
+		return dwelling;
 	}
 
-	public void setDwellings(List<HomeCaHO3OpenLDwelling> dwelling) {
-		this.dwelling = new ArrayList<>(dwelling);
+	public void setDwelling(HomeCaHO3OpenLDwelling dwelling) {
+		this.dwelling = dwelling;
 	}
 
+	@Override
 	public List<HomeCaHO3OpenLForm> getForms() {
 		return new ArrayList<>(forms);
 	}
@@ -97,6 +95,11 @@ public class HomeCaHO3OpenLPolicy extends HomeCaOpenLPolicy {
 
 	public void setHasSeniorDiscount(Boolean hasSeniorDiscount) {
 		this.hasSeniorDiscount = hasSeniorDiscount;
+	}
+	
+	@Override
+	public HomeCaHO3TestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
+		return new HomeCaHO3TestDataGenerator(state, baseTestData);
 	}
 
 	@Override

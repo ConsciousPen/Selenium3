@@ -14,6 +14,8 @@ import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
+import aaa.toolkit.webdriver.customcontrols.RatingDetailsTable;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.verification.CustomAssert;
@@ -21,6 +23,8 @@ import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.composite.table.Cell;
+import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -41,13 +45,17 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Table tableFormsSummary = new Table(By.id("policyDataGatherForm:formSummaryTable"));
 	public static Table tablefeesSummary = new Table(By.id("policyDataGatherForm:feesSummaryTable"));
 	public static Table tableInstallmentFeeDetails = new Table(By.id("policyDataGatherForm:installmentFeeDetailsTable"));
+	public static Table tableStateAndLocalTaxesSummary = new Table(By.id("policyDataGatherForm:taxTable"));
 	public static Table tableAAAPremiumSummary = new Table(By.id("policyDataGatherForm:AAAPremiumSummary"));
 	public static Table tableTermPremiumbyVehicle = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table"));
 	public static Table tablePolicyLevelLiabilityCoveragesPremium = new Table(By.xpath("//table[@id='policyDataGatherForm:policyTableTotalVehiclePremium']"));
 	public static Table tableEValueMessages = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAEMemberDetailMVOComponent']//table"));
 	public static Table autoPaySetupSavingMessage = new Table(By.id("policyDataGatherForm:installmentFeeAmountSavedPanel"));
+	public static Table tableeMemberMessageGrid = new Table(By.id("policyDataGatherForm:eMemberMessageGrid"));
+	public static Table tablePolicyLevelLiabilityCoverages = new Table(By.id("policyDataGatherForm:policy_vehicle_detail_coverage"));
 
-	public static Button buttonCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalc"));
+	public static Button buttonViewCappingDetails = new Button(By.id("policyDataGatherForm:viewCappingDetails_Link_1"), Waiters.AJAX);
+	public static Button buttonReturnToPremiumAndCoverages = new Button(By.id("cappingDetailsPopupPanel:cappingReturnTo"), Waiters.AJAX);
 	public static Button buttonViewRatingDetails = new Button(By.id("policyDataGatherForm:viewRatingDetails_Link_1"), Waiters.AJAX);
 	public static Button buttonContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
 	public static Button buttonRatingDetailsOk = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"), Waiters.AJAX);
@@ -55,15 +63,25 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static StaticElement totalTermPremium = new StaticElement(By.xpath("//span[@class='TOTAL_TERM_PREMIUM']"));
 	public static StaticElement totalActualPremium = new StaticElement(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAPremiumSummary_body']/table/tbody/tr/td[2]/span"));
 	public static StaticElement discountsAndSurcharges = new StaticElement(By.id("policyDataGatherForm:discountSurchargeSummaryTable"));
+	public static StaticElement eValuePaperlessWarning = new StaticElement(By.id("policyDataGatherForm:eMemberDetails_electronicMemberDetailsEntity_electronicMemberOpt_error"));
+	public static StaticElement euimHelpText = new StaticElement(By.xpath("//label[@id='policyDataGatherForm:policy_vehicle_detail_coverage:2:Coveragecd']/following-sibling::div//span"));
+	public static StaticElement uimBIHelpText = new StaticElement(By.xpath("//label[@id='policyDataGatherForm:policy_vehicle_detail_coverage:3:Coveragecd']/following-sibling::div//span"));
+	public static StaticElement uimPDHelpText = new StaticElement(By.xpath("//label[@id='policyDataGatherForm:policy_vehicle_detail_coverage:4:Coveragecd']/following-sibling::div//span"));
 
 	public static Link linkPaymentPlan = new Link(By.id("policyDataGatherForm:paymentPlansTogglePanel:header"), Waiters.AJAX);
 	public static Link linkViewApplicableFeeSchedule = new Link(By.id("policyDataGatherForm:installmentFeeDetails"), Waiters.AJAX);
+	public static Table tablePaymentPlans = new Table(By.id("policyDataGatherForm:paymentPlansTable"));
+	public static Table tableUnrestrictedPaymentPlans = new Table(By.id("policyDataGatherForm:unrestrictedPaymentPlansTable"));
+	public static StaticElement labelPaymentPlanRestriction = new StaticElement(By.xpath("//*[@id='policyDataGatherForm:paymentPlansTogglePanel:content']/table[2]/tbody"));
+	public static StaticElement labelInstallmentFees = new StaticElement(By.xpath("(//*[@id='policyDataGatherForm:paymentPlansTogglePanel:content']/table)[last()]/tbody"));
 
 	public static ByT tableVehicleCoveragePremium = ByT.xpath("//table[@id='policyDataGatherForm:subtotalVehiclePremium_%s']");
+	public static ByT tableVehicleCoverageDetails = ByT.xpath("//table[@id='policyDataGatherForm:vehicle_detail_%s']");
 
 	public PremiumAndCoveragesTab() {
 		super(AutoSSMetaData.PremiumAndCoveragesTab.class);
 		assetList.applyConfiguration(COVERAGES_CONFIGURATION_NAME);
+		assetList.getAsset(AutoSSMetaData.PremiumAndCoveragesTab.POLICY_LEVEL_PERSONAL_INJURY_PROTECTION_COVERAGES).applyConfiguration(COVERAGES_CONFIGURATION_NAME);
 	}
 
 	public static Dollar getPreEndorsementPremium() {
@@ -72,6 +90,14 @@ public class PremiumAndCoveragesTab extends Tab {
 
 	public static Dollar getActualPremium() {
 		return new Dollar(tableAAAPremiumSummary.getRow(1).getCell(tableAAAPremiumSummary.getColumnsCount()).getValue());
+	}
+
+	public static Dollar getTotalTermPremium() {
+		return new Dollar(totalTermPremium.getValue());
+	}
+
+	public static Dollar getStateAndLocalTaxesAndPremiumSurchargesPremium() {
+		return new Dollar(tableStateAndLocalTaxesSummary.getRow(1).getCell(tableStateAndLocalTaxesSummary.getColumnsCount()).getValue());
 	}
 
 	public TestData getRatingDetailsQuoteInfoData() {
@@ -148,7 +174,7 @@ public class PremiumAndCoveragesTab extends Tab {
 			if (tableTermPremiumbyVehicle.getColumn(column).getValue().stream().allMatch(String::isEmpty)) {
 				continue; // empty column means absent vehicle
 			}
-			List<String> values = new ArrayList<String>();
+			List<String> values = new ArrayList<>();
 			if (column == 1) {
 				values.addAll(new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table/tbody/tr/td[1]//table[2]")).getColumn(2).getValue());
 				values.addAll(new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table/tbody/tr/td[1]//table[3]")).getColumn(2).getValue());
@@ -171,27 +197,42 @@ public class PremiumAndCoveragesTab extends Tab {
 		return testDataList;
 	}
 
-	public Dollar getPolicyLevelLiabilityCoveragesPremium() {
-		Dollar policyLevelLiabilityCoveragesPremium = new Dollar(tablePolicyLevelLiabilityCoveragesPremium.getRow(1).getCell(3).getValue());
-		return policyLevelLiabilityCoveragesPremium;
+	public TestData getFormsData() {
+		TestData td;
+		Map<String, String> forms = new LinkedHashMap<>();
+		for (int row = 1; row <= tableFormsSummary.getRowsCount(); row++) {
+			forms.put(tableFormsSummary.getRow(row).getCell(1).getValue(), tableFormsSummary.getRow(row).getCell(2).getValue());
+		}
+		return new SimpleDataProvider(forms);
 	}
 
-	public static void calculatePremium() {
-		if (!buttonCalculatePremium.isPresent()) {
-			NavigationPage.toViewSubTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-		}
-		buttonCalculatePremium.click();
+	public Dollar getPolicyLevelLiabilityCoveragesPremium() {
+		return new Dollar(tablePolicyLevelLiabilityCoveragesPremium.getRow(1).getCell(3).getValue());
 	}
+
+	public static RatingDetailsTable tableCappedPolicyPremium = new RatingDetailsTable
+			("//div[@id='cappingDetailsPopupPanel:vehicleCapPanel_body']//table");
 
 	@Override
 	public Tab fillTab(TestData td) {
 		super.fillTab(td);
 		if (td.getTestData(getMetaKey()) != null && !td.getTestData(getMetaKey()).containsKey(AutoSSMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM.getLabel())) {
 			hideHeader();
-			buttonCalculatePremium.click();
+			btnCalculatePremium().click();
 			showHeader();
 		}
 		return this;
+	}
+
+	public JavaScriptButton btnCalculatePremium() {
+		return getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM.getLabel(), JavaScriptButton.class);
+	}
+
+	public void calculatePremium() {
+		if (!btnCalculatePremium().isPresent()) {
+			NavigationPage.toViewSubTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+		}
+		btnCalculatePremium().click();
 	}
 
 	@Override
@@ -206,15 +247,75 @@ public class PremiumAndCoveragesTab extends Tab {
 	public Dollar getVehicleCoveragePremiumByVehicle(int index) {
 		String xpathForVehicle = "//table[@id='policyDataGatherForm:subtotalVehiclePremium_%s']";
 		String xpathForVehicleFormatted = String.format(xpathForVehicle, index);
-		Table VehcilePremiumTable = new Table(By.xpath(xpathForVehicleFormatted));
-		Dollar policyLevelLiabilityCoveragesPremium = new Dollar(VehcilePremiumTable.getRow(1).getCell(3).getValue());
-		return policyLevelLiabilityCoveragesPremium;
+		Table vehcilePremiumTable = new Table(By.xpath(xpathForVehicleFormatted));
+		return new Dollar(vehcilePremiumTable.getRow(1).getCell(3).getValue());
 	}
 
-	public Dollar getVehicleCoveragePremiumByVehicle1(int index) {
-		Table vehiclePremiumTable = new Table(tableVehicleCoveragePremium.format(index));
-		Dollar policyLevelLiabilityCoveragesPremium = new Dollar(vehiclePremiumTable.getRow(1).getCell(3).getValue());
-		return policyLevelLiabilityCoveragesPremium;
+	public String getVehicleCoverageDetailsValueByVehicle(int index, String coverageName) {
+		Table vehicleCoverageDetailsTable = new Table(tableVehicleCoverageDetails.format(index));
+		Row coverageRow = vehicleCoverageDetailsTable.getRowContains(1, coverageName);
+		Cell cell = coverageRow.getCell(2);
+		String result;
+		if (cell.controls.comboBoxes.getFirst().isPresent()) {
+			result = cell.controls.comboBoxes.getFirst().getValue();
+		} else if (cell.controls.textBoxes.getFirst().isPresent()) {
+			result = cell.controls.textBoxes.getFirst().getValue();
+		} else {
+			result = cell.getValue();
+		}
+		return result;
+	}
+
+	public void setVehicleCoverageDetailsValueByVehicle(int index, String coverageName, String value) {
+		Table vehicleCoverageDetailsTable = new Table(tableVehicleCoverageDetails.format(index));
+		Row coverageRow = vehicleCoverageDetailsTable.getRowContains(1, coverageName);
+		Cell cell = coverageRow.getCell(2);
+		if (cell.controls.comboBoxes.getFirst().isPresent()) {
+			cell.controls.comboBoxes.getFirst().setValueContains(value);
+		} else if (cell.controls.textBoxes.getFirst().isPresent()) {
+			cell.controls.textBoxes.getFirst().setValue(value);
+		} else {
+			cell.controls.radioGroups.getFirst().setValue(value);
+		}
+
+	}
+
+
+
+	public void setPolicyCoverageDetailsValue(String coverageName, String value) {
+		Row coverageRow = tablePolicyLevelLiabilityCoverages.getRowContains(1, coverageName);
+		Cell cell = coverageRow.getCell(2);
+		if (cell.controls.comboBoxes.getFirst().isPresent()) {
+			cell.controls.comboBoxes.getFirst().setValueContains(value);
+		} else if (cell.controls.textBoxes.getFirst().isPresent()) {
+			cell.controls.textBoxes.getFirst().setValue(value);
+		} else {
+			cell.controls.radioGroups.getFirst().setValue(value);
+		}
+	}
+
+	public String getPolicyCoverageDetailsTermPremium(String coverageName) {
+		Row coverageRow = tablePolicyLevelLiabilityCoverages.getRowContains(1, coverageName);
+		Cell cell = coverageRow.getCell(3);
+		return cell.getValue();
+	}
+
+	public Dollar getPolicyCoveragePremium() {
+		return new Dollar(tablePolicyLevelLiabilityCoverages.getRow(1).getCell(3).getValue());
+	}
+
+	public String getPolicyCoverageDetailsValue(String coverageName) {
+		Row coverageRow = tablePolicyLevelLiabilityCoverages.getRowContains(1, coverageName);
+		Cell cell = coverageRow.getCell(2);
+		String result;
+		if (cell.controls.comboBoxes.getFirst().isPresent()) {
+			result = cell.controls.comboBoxes.getFirst().getValue();
+		} else if (cell.controls.textBoxes.getFirst().isPresent()) {
+			result = cell.controls.textBoxes.getFirst().getValue();
+		} else {
+			result = cell.getValue();
+		}
+		return result;
 	}
 
 	private List<TestData> getTestDataFromTable(Table table, ByT pagePattern) {
@@ -237,12 +338,12 @@ public class PremiumAndCoveragesTab extends Tab {
 					continue; // empty column means absent vehicle
 				}
 
-				List<String> _values = new ArrayList<>();
-				_values.addAll(values);
-				_values.removeIf(s -> "No Coverage".equals(s));
-				_values.removeIf(s -> "Unstacked".equals(s));
-				_values.removeIf(s -> "Yes".equals(s));
-				if (_values.stream().allMatch(String::isEmpty)) {
+				List<String> tempValues = new ArrayList<>();
+				tempValues.addAll(values);
+				tempValues.removeIf("No Coverage"::equals);
+				tempValues.removeIf("Unstacked"::equals);
+				tempValues.removeIf("Yes"::equals);
+				if (tempValues.stream().allMatch(String::isEmpty)) {
 					continue; // skip column with only "No Coverage"
 				}
 

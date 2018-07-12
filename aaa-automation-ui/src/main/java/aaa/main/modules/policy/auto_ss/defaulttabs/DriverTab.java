@@ -8,9 +8,9 @@ import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.AdvancedTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
-import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import toolkit.webdriver.controls.Button;
 
 /**
@@ -19,14 +19,14 @@ import toolkit.webdriver.controls.Button;
  * LABEL>ActionTab (to prevent duplication). Modify this class if tab filling
  * procedure has to be customized, extra asset list to be added, custom testdata
  * key to be defined, etc.
- * 
+ *
  * @category Generated
  */
 public class DriverTab extends Tab {
-	
+
 	public static AdvancedTable tableDriverList = new AdvancedTable(By.id("policyDataGatherForm:dataGatherView_ListDriver"));
 	public static AdvancedTable tableActivityInformationList = new AdvancedTable(By.id("policyDataGatherForm:dataGatherView_ListDrivingRecord"));
-	   
+
 	public DriverTab() {
 		super(AutoSSMetaData.DriverTab.class);
 		assetList = new MultiInstanceAfterAssetList(By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER), metaDataClass) {
@@ -42,17 +42,17 @@ public class DriverTab extends Tab {
 		};
 	}
 
-	public MultiInstanceBeforeAssetList getActivityInformationAssetList() {
-		return getAssetList().getAsset(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION);
+	public ActivityInformationMultiAssetList getActivityInformationAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), ActivityInformationMultiAssetList.class);
 	}
-   
+
 	@Override
 	public Tab submitTab() {
 		buttonNext.click();
 		return this;
 	}
 
-	public static void viewDriver(int index){
+	public static void viewDriver(int index) {
 		tableDriverList.selectRow(index);
 	}
 }

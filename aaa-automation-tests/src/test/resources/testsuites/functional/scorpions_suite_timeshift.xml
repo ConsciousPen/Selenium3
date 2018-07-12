@@ -1,13 +1,165 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Scorpions Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
+<suite name="Scorpions Functional Test Suite Timeshift" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
-    <!--The tests are updating configuration on the fly and sequential execution is needed-->
-    <test name="PAS-2716 Update VIN Refresh Auto SS">
+    <test name="Dp3 Conversion forms NJ,DE,VA,MD,PA states">
+        <parameter name="state" value="NJ,DE,VA,MD,PA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
+                <methods>
+                    <include name="pas2674_ConversionPacket"/>
+                    <include name="pas2674_ConversionPacketMortgagee"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+
+    <test name="HO3 Conversion forms NJ,DE,VA,MD,PA states">
+        <parameter name="state"  value="NJ,DE,VA,MD,PA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration" >
+                <methods>
+                    <include name="pas2674_ConversionPacket"/>
+                    <include name="pas2674_ConversionPacketMortgagee"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+
+    <test name="HO4 Conversion forms NJ,DE,VA,MD,PA states">
+        <parameter name="state"  value="NJ,DE,VA,MD,PA"  />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration" >
+                <methods>
+                    <include name="pas2674_ConversionPacket"/>
+                    <include name="pas2674_ConversionPacketMortgagee"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="HO6 Conversion forms NJ,DE,VA,MD,PA states">
+        <parameter name="state"  value="NJ,DE,VA,MD,PA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration" >
+                <methods>
+                    <include name="pas2674_ConversionPacket"/>
+                    <include name="pas2674_ConversionPacketMortgagee"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PUP pas2674_ConversionPacket">
+        <parameter name="state"  value="NJ,DE,VA,MD,PA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigSpecificFormsGeneration" >
+                <methods>
+                    <include name="pas2674_ConversionPacket"/>
+                    <include name="pas2674_ConversionPacketMortgagee"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Dp3 pas9816_BillingPacketGeneration">
+        <parameter name="state" value="NJ,DE,VA,MD,PA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
+                <methods>
+                    <include name="pas9816_BillingPacketGeneration"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="HO3 pas9816_BillingPacketGeneration">
+        <parameter name="state" value="NJ,DE,VA,MD,PA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration" >
+                <methods>
+                    <include name="pas9816_BillingPacketGeneration"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="HO4 pas9816_BillingPacketGeneration">
+        <parameter name="state" value="NJ,DE,VA,MD,PA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration" >
+                <methods>
+                    <include name="pas9816_BillingPacketGeneration"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="HO6 pas9816_BillingPacketGeneration">
+        <parameter name="state" value="NJ,DE,VA,MD,PA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration" >
+                <methods>
+                    <include name="pas9816_BillingPacketGeneration"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PUP pas9816_BillingPacketGeneration">
+        <parameter name="state" value="NJ,DE,VA,MD,PA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigSpecificFormsGeneration" >
+                <methods>
+                    <include name="pas9816_BillingPacketGeneration"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="DP3 pas6731 PreRenewal Letter Generation new timeline -65">
+        <parameter name="state" value="PA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
+                <methods>
+                    <include name="pas6731_PreRenewalLetterGeneration"/>
+                    <include name="pas6731_PreRenewalLetterGenerationNegativeScenario"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="DP3 pas10666 PreRenewal Letter Generation new timeline -65 (mortgagee)">
+        <parameter name="state" value="PA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
+                <methods>
+                    <include name="pas10666_PreRenewalLetterGeneration"/>
+                    <include name="pas10666_PreRenewalLetterGenerationNegativeScenario"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="DP3 pas9114 Pre Renewal Print Sequence">
+        <parameter name="state" value="PA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
+                <methods>
+                    <include name="pas9114_PreRenewalPrintSequenceMortgagee"/>
+                    <include name="pas9114_PreRenewalPrintSequence"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <!-- Auto SS -->
+    <test name="PAS-2716 Update VIN Refresh Auto SS" >
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVINUpload">
@@ -17,6 +169,12 @@
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus45"/>
                     <include name="pas527_NewVinAddedRenewal"/>
                     <include name="pas527_UpdatedVinRenewal"/>
+                    <include name="pas11659_Renewal_VersionR46"/>
+                    <include name="pas11659_Renewal_VersionR45"/>
+                    <include name="pas11659_Renewal_VersionR35"/>
+                    <include name="pas11659_Renewal_VersionR25"/>
+                    <include name="pas12872_VINRefreshNoMatchRenewalTimeline"/>
+                    <include name="pas12872_VINRefreshPartialtoFullMatchRenewaltimeline"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefreshMotorHomeVehicle">
@@ -32,8 +190,10 @@
             </class>
         </classes>
     </test>
-    <!--The tests are updating configuration on the fly and sequential execution is needed-->
-    <test name="PAS-2716 Update VIN Refresh CA Select">
+
+    <!-- Auto Ca Select-->
+
+    <test name="PAS-2716 Update VIN Refresh CA Select" >
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVINUpload">
@@ -43,6 +203,7 @@
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus45"/>
                     <include name="pas527_NewVinAddedRenewal"/>
                     <include name="pas527_UpdatedVinRenewal"/>
+                    <include name="pas12872_VINRefreshNoMatchOnRenewalAutoCA"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefreshNotRegularVehicle">
@@ -58,8 +219,10 @@
             </class>
         </classes>
     </test>
-    <!--The tests are updating configuration on the fly and sequential execution is needed-->
-    <test name="PAS-2716 Update VIN Refresh CA Choice">
+
+    <!-- Auto Choice -->
+
+    <test name="PAS-2716 Update VIN Refresh CA Choice" >
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload">
@@ -69,6 +232,7 @@
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus45"/>
                     <include name="pas527_NewVinAddedRenewal"/>
                     <include name="pas527_UpdatedVinRenewal"/>
+                    <include name="pas12872_VINRefreshNoMatchOnRenewalAutoCA"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMSRPRefreshNotRegularVehicle">
@@ -80,179 +244,6 @@
                 <methods>
                     <include name="pas730_RenewalVehicleTypeRegular"/>
                     <include name="pas730_RenewalVINDoesMatchNBandNoMatchOnRenewal"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-
-    <test name="Dp3 pas2674_SpecificConversionPacketGenerationForNJ" parallel="methods" thread-count="200">
-        <parameter name="state" value="NJ" />
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
-                <methods>
-                    <include name="pas2674_SpecificConversionPacketGenerationForNJ"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-
-    <test name="Dp3 pas2674_SpecificConversionPacketGenerationForOtherStates" parallel="methods" thread-count="200">
-        <parameter name="state" value="DE,VA" />
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
-                <methods>
-                    <include name="pas2674_SpecificConversionPacketGenerationForOtherStates"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="Dp3 pas9816_SpecificBillingPacketGenerationForOtherStates" parallel="methods" thread-count="200">
-        <parameter name="state" value="NJ,DE,VA" />
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
-                <methods>
-                    <include name="pas9816_SpecificBillingPacketGenerationForOtherStates"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="HO3 pas2674_SpecificConversionPacketGenerationForNJ" parallel="methods" thread-count="200">
-        <parameter name="state" value="NJ" />
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration" >
-                <methods>
-                    <include name="pas2674_SpecificConversionPacketGenerationForNJ"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-
-    <test name="HO3 pas2674_SpecificConversionPacketGenerationForOtherStates" parallel="methods" thread-count="200">
-        <parameter name="state" value="DE,VA" />
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration" >
-                <methods>
-                    <include name="pas2674_SpecificConversionPacketGenerationForOtherStates"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="HO3 pas9816_SpecificBillingPacketGenerationForOtherStates" parallel="methods" thread-count="200">
-        <parameter name="state" value="NJ,DE,VA" />
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration" >
-                <methods>
-                    <include name="pas9816_SpecificBillingPacketGenerationForOtherStates"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-
-    <test name="HO4 pas2674_SpecificConversionPacketGenerationForNJ" parallel="methods" thread-count="200">
-        <parameter name="state" value="NJ" />
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration" >
-                <methods>
-                    <include name="pas2674_SpecificConversionPacketGenerationForNJ"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-
-    <test name="HO4 pas2674_SpecificConversionPacketGenerationForOtherStates" parallel="methods" thread-count="200">
-        <parameter name="state" value="DE,VA" />
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration" >
-                <methods>
-                    <include name="pas2674_SpecificConversionPacketGenerationForOtherStates"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="HO4 pas9816_SpecificBillingPacketGenerationForOtherStates" parallel="methods" thread-count="200">
-        <parameter name="state" value="NJ,DE,VA" />
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration" >
-                <methods>
-                    <include name="pas9816_SpecificBillingPacketGenerationForOtherStates"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-
-    <test name="HO6 pas2674_SpecificConversionPacketGenerationForNJ" parallel="methods" thread-count="200">
-        <parameter name="state" value="NJ" />
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration" >
-                <methods>
-                    <include name="pas2674_SpecificConversionPacketGenerationForNJ"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-
-    <test name="HO6 pas2674_SpecificConversionPacketGenerationForOtherStates" parallel="methods" thread-count="200">
-        <parameter name="state" value="DE,VA" />
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration" >
-                <methods>
-                    <include name="pas2674_SpecificConversionPacketGenerationForOtherStates"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="HO6 pas9816_SpecificBillingPacketGenerationForOtherStates" parallel="methods" thread-count="200">
-        <parameter name="state" value="NJ,DE,VA" />
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration" >
-                <methods>
-                    <include name="pas9816_SpecificBillingPacketGenerationForOtherStates"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="PUP pas2674_SpecificConversionPacketGenerationForNJ" parallel="methods" thread-count="200">
-        <parameter name="state" value="NJ" />
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigSpecificFormsGeneration" >
-                <methods>
-                    <include name="pas2674_SpecificConversionPacketGenerationForNJ"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-
-    <test name="PUP pas2674_SpecificConversionPacketGenerationForOtherStates" parallel="methods" thread-count="200">
-        <parameter name="state" value="DE,VA" />
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigSpecificFormsGeneration" >
-                <methods>
-                    <include name="pas2674_SpecificConversionPacketGenerationForOtherStates"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="PUP pas9816_SpecificBillingPacketGenerationForOtherStates" parallel="methods" thread-count="200">
-        <parameter name="state" value="NJ,DE,VA" />
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigSpecificFormsGeneration" >
-                <methods>
-                    <include name="pas9816_SpecificBillingPacketGenerationForOtherStates"/>
                 </methods>
             </class>
         </classes>

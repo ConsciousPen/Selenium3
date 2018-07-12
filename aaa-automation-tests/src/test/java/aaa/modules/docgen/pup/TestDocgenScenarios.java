@@ -165,6 +165,7 @@ public class TestDocgenScenarios extends PersonalUmbrellaBaseTest {
 				HSEIXX,
 				HSES);
 		goddTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"), PS11, AHRCTXXPUP, HSU01XX, HSU09XX);
+		WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(policyNum, PS11, AHPNXX, AHRCTXXPUP, HSU01XX, HSU09XX);
 
 		CustomAssert.disableSoftMode();

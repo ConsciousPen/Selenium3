@@ -2,9 +2,7 @@ package aaa.helpers;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
-
 import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.PolicyType;
 
@@ -51,10 +49,7 @@ public class EntitiesHolder {
 	}
 
 	public static boolean isEntityPresent(String key) {
-		if (singleEntities.containsKey(key) && StringUtils.isNotBlank(singleEntities.get(key)))
-			return true;
-		else
-			return false;
+		return singleEntities.containsKey(key) && StringUtils.isNotBlank(singleEntities.get(key));
 	}
 	
 	public static String getEntity(String key) {

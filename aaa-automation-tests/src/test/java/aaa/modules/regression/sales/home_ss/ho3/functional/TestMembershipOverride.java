@@ -77,7 +77,7 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
      * 1. Create TD to Hold Adjustments. Create Policy TD and adjust it.
      * 2. Grab Default GeneralTab TestData and Adjust it with new data, then add that to the overall test data.
      * 3. Create Customer and Policy using Membership Override Option and NO membership number. Bind Policy.
-     * @runTime 3min
+     * @runTime 5min
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -113,7 +113,7 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
      * 2. Grab Default GeneralTab TestData and Adjust it with new data, then add that to the overall test data.
      * 3. Create Customer and Policy using Membership Override Option and NO "Membership Since" Date.
      * 4. Verify "Member Since Date Required" Error.
-     * @runTime NOT RUN
+     * @runTime 3min
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -141,7 +141,7 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
      * 1. Create TD to Hold Adjustments. Create Policy TD and adjust it.
      * 2. Grab Default GeneralTab TestData and Adjust it with new data, then add that to the overall test data.
      * 3. Create Customer and Policy as a user other than "L41" or "using Membership Override Option and NO membership number. Bind Policy.
-     * @runTime NOT RUN
+     * @runTime 2min
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -176,6 +176,7 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
      * 2. Initiate Endorsement. Provide Active Membership Number.
      * 3. Order Membership Report.
      * 4. Complete Endorsement.
+     * @runTime 7min
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -291,7 +292,7 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
      * 5. Execute Jobs.
      * 6. Open App. Search for prior created Policy.
      * 7. Validate Membership Discount Retained.
-     * @RunTime Unknown
+     * @RunTime 5min
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -429,7 +430,9 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
      * @RunTime 10min
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    //TODO: Test case disabled due to the error below. The test case passes when ran individually so more research is needed
+    // Caused by: toolkit.exceptions.IstfException: HTTP Job ERROR: <--- Job 'Renewal_Offer_Generation_Part1' has timed out after 1200000 milliseconds
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, enabled = false)
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-10154")
     public void AC2_testMembershipOverride_Renewal(@Optional("AZ") String state) {
         Long membershipStage3TP = 63L;
@@ -496,7 +499,7 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
      * GIVEN I'm an agent in a revised renewal,
      * WHEN I override the membership for the revised renewal,
      * THEN the membership is not included in the batch order job and the membership override is retained.
-     * @RunTime 8min
+     * @RunTime 12min
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})

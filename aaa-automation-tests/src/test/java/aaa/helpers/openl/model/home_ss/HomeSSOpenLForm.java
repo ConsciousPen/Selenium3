@@ -1,12 +1,20 @@
 package aaa.helpers.openl.model.home_ss;
 
+import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLForm;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTransient;
 
+@ExcelTableElement(sheetName = OpenLFile.FORM_SHEET_NAME, headerRowIndex = OpenLFile.FORM_HEADER_ROW_NUMBER)
 public class HomeSSOpenLForm extends OpenLForm {
 	private Integer covPercentage;
+	@ExcelTransient
 	private Integer formOid;
 	private Boolean masonaryOrFarmPremisesInd;
 	private Double optionalValue;
+	private Double optionalValue3;
+	private Double optionalValue4;
+	private Double optionalValue5;
 	private String type;
 	private Integer noOfFamilies; // MD specific ?
 	private Integer noOfPersons; // MD specific ?
@@ -42,6 +50,31 @@ public class HomeSSOpenLForm extends OpenLForm {
 	public void setOptionalValue(Double optionalValue) {
 		this.optionalValue = optionalValue;
 	}
+
+	public Double getOptionalValue3() {
+		return optionalValue3;
+	}
+
+	public void setOptionalValue3(Double optionalValue3) {
+		this.optionalValue3 = optionalValue3;
+	}
+
+	public Double getOptionalValue4() {
+		return optionalValue4;
+	}
+
+	public void setOptionalValue4(Double optionalValue4) {
+		this.optionalValue4 = optionalValue4;
+	}
+
+	public Double getOptionalValue5() {
+		return optionalValue5;
+	}
+
+	public void setOptionalValue5(Double optionalValue5) {
+		this.optionalValue5 = optionalValue5;
+	}
+
 
 	public String getType() {
 		return type;

@@ -8,6 +8,7 @@ import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.billing.BillingPendingTransactionsVerifier;
 import aaa.helpers.constants.Groups;
@@ -337,6 +338,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				DocGenEnum.Documents.HSU01XX,
 				DocGenEnum.Documents.HSU09XX
 		);
+		WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(policyNum,
 				DocGenEnum.Documents.AHRCTXX,
 				DocGenEnum.Documents.HSEIXX,
@@ -669,7 +671,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
-	public void testRefundCheckDocument(@Optional("") String state) throws Exception {
+	public void testRefundCheckDocument(@Optional("") String state) {
 		Dollar amount = new Dollar(1234);
 
 		mainApp().open();
@@ -681,7 +683,11 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		new BillingPendingTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Pending").verifyPresent();
 		billing.approveRefund().perform(amount);
 		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Approved").verifyPresent();
-		billing.issueRefund().perform(amount);
+		//billing.issueRefund().perform(amount);
+		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob, true);
+		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob, true);
+		
+		SearchPage.openBilling(policyNum);
 		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Issued").verifyPresent();
 
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);

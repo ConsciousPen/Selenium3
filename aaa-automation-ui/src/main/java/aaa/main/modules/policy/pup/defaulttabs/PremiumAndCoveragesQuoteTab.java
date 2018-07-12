@@ -2,13 +2,13 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.modules.policy.pup.defaulttabs;
 
-import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.table.Table;
@@ -24,6 +24,7 @@ public class PremiumAndCoveragesQuoteTab extends PropertyQuoteTab {
 	public static Button btnCalculatePremium = new Button(By.id("policyDataGatherForm:calculatePremiumPup"), Waiters.AJAX);
 	public static Button btnContinue = new Button(By.xpath("//input[@id='policyDataGatherForm:nextButton_footer' or @id='policyDataGatherForm:nextInquiryButton_footer']"), Waiters.AJAX);
 	public static Table tableTotalPremium = new Table(By.id("policyDataGatherForm:pupTableTotalPremium"));
+	public static Table tablePUPCoveragePremium = new Table(By.id("policyDataGatherForm:pupCoverageDetail"));
 
 	public PremiumAndCoveragesQuoteTab() {
 		super(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class);
@@ -31,6 +32,10 @@ public class PremiumAndCoveragesQuoteTab extends PropertyQuoteTab {
 
 	public static Dollar getPolicyTermPremium() {
 		return new Dollar(tableTotalPremium.getRow(1).getCell(2).getValue());
+	}
+
+	public static Dollar getPUPCoveragePremium() {
+		return new Dollar(tablePUPCoveragePremium.getRow(1).getCell(3).getValue());
 	}
 
 	@Override

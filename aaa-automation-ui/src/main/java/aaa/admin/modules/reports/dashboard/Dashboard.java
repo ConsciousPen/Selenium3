@@ -1,10 +1,10 @@
 package aaa.admin.modules.reports.dashboard;
 
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.etcsa.base.app.LoginPage;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
-import com.exigen.ipb.etcsa.base.app.LoginPage;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
@@ -28,8 +28,8 @@ public class Dashboard implements IDashboard {
     private void loginToReports() {
         if (!Tab.labelLoggedUser.isPresent()) {
             CSAAApplicationFactory.get().adminApp(new LoginPage(
-                    PropertyProvider.getProperty(TestProperties.EU_USER),
-                    PropertyProvider.getProperty(TestProperties.EU_PASSWORD))).getLogin().login();
+		            PropertyProvider.getProperty(TestProperties.APP_USER),
+		            PropertyProvider.getProperty(TestProperties.APP_PASSWORD))).getLogin().login();
         }
     }
 }

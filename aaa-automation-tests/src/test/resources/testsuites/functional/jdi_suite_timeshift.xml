@@ -26,7 +26,7 @@
         </classes>
     </test>
 
-    <test name="pas2186_ManualRefundUnissuedVoidedCheck" parallel="methods" thread-count="1024">
+    <test name="VA Auto SS Refunds Credit Card" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -50,7 +50,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas2719_ManualRefundUnissuedVoidedDebitCard" parallel="methods" thread-count="1024">
+    <test name="Auto SS Refunds Debit Card AZ" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -68,7 +68,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas2719_ManualRefundUnissuedVoidedACH" parallel="methods" thread-count="1024">
+    <test name="Auto SS Refunds ACH MD" parallel="methods" thread-count="1024">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -110,20 +110,7 @@
         </classes>
     </test>
 
-
-    <test name="TestInstallmentFees" parallel="methods" thread-count="1024">
-        <classes>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestInstallmentFees"/>
-        </classes>
-    </test>
-    <test name="TestEndorsementActionRules" parallel="methods" thread-count="1024">
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEndorsementActionRules"/>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestEndorsementActionRules"/>
-        </classes>
-    </test>
-
-    <test name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership" parallel="methods" thread-count="1024">
+    <test name="membership_eValueVA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
@@ -154,17 +141,32 @@
                     <include name="pas10229_membershipEligConfigurationTrueForInActiveMembershipNotActiveEValueRenewalMinus63"/>
                     <include name="pas10229_membershipEligibilityConfigurationTrueForActiveMembershipActiveEValueRenewal"/>
                     <include name="pas10229_membershipEligibilityConfigurationTrueForActiveMembershipInActiveEValueRenewal"/>
+
+                    <include name="pas331_membershipEligibilityConfigurationTrueForErredMembership"/>
+                    <include name="xAsyncTaskCheck"/>
                 </methods>
             </class>
         </classes>
     </test>
-    <test name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending" parallel="methods" thread-count="1024">
+    <test name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPendingDC" parallel="methods" thread-count="1024">
         <parameter name="state" value="DC"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
                 <methods>
                     <include name="retrieveMembershipSummaryEndpointCheck"/>
                     <include name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas11740_membershipEligConfTrueForPendingMembershipNotEvalueStateOK" parallel="methods" thread-count="1024">
+        <parameter name="state" value="OK"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="preconditionsClearFolders"/>
+                    <include name="pas11740_membershipEligConfTrueForPendingMembershipNotEvalueState"/>
+                    <include name="pas15287_eValueNotEligibleActiveMembershipNoEValueRenewalMinus48"/>
                 </methods>
             </class>
         </classes>
@@ -182,7 +184,7 @@
         </classes>
     </test>
 
-    <test name="HO pas7298_pendingRefundsACH" parallel="methods" thread-count="1024">
+    <test name="HO Pending Refunds ACH MD" parallel="methods" thread-count="1024">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess">
@@ -193,7 +195,7 @@
             </class>
         </classes>
     </test>
-    <test name="HO pas7298_pendingRefundsCC" parallel="methods" thread-count="1024">
+    <test name="HO Pending Refunds Credit Card VA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess">
@@ -206,7 +208,7 @@
     </test>
 
 
-    <test name="PUP pas7039_newDataElementsDeceasedIndicator" parallel="methods" thread-count="1024">
+    <test name="PUP pas7039_newDataElementsDeceasedIndicator VA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess">
@@ -217,7 +219,7 @@
             </class>
         </classes>
     </test>
-    <test name="PUP pas7298_pendingAutomatedRefundsCC" parallel="methods" thread-count="1024">
+    <test name="PUP Pending Refunds Credit Card Check VA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess">
@@ -229,7 +231,7 @@
             </class>
         </classes>
     </test>
-    <test name="PUP pas7298_pendingManualRefundsCheck" parallel="methods" thread-count="1024">
+    <test name="PUP Pending Refunds Check MD" parallel="methods" thread-count="1024">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess">
@@ -240,7 +242,7 @@
         </classes>
     </test>
 
-    <test name="AU pas7298_pendingRefundsACH" parallel="methods" thread-count="1024">
+    <test name="Auto Pending Refunds ACH MD" parallel="methods" thread-count="1024">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -251,7 +253,7 @@
             </class>
         </classes>
     </test>
-    <test name="AU pas7298_pendingRefundsCCandCheck" parallel="methods" thread-count="1024">
+    <test name="Auto Pending Refunds ACH VA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -264,13 +266,74 @@
             </class>
         </classes>
     </test>
-    <test name="AU pas7298_pendingRefundsDC" parallel="methods" thread-count="1024">
+    <test name="AU Pending Refunds Debit Card AZ" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
                     <include name="pas7298_pendingAutomatedRefundsDC"/>
                     <include name="pas7298_pendingManualRefundsDC"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="EValue Discount removed and AHDRXX generated by AutoPay removal" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueNsfAHDRXX">
+                <methods>
+                    <include name="precondJobAdding"/>
+                    <include name="pas7454_eValueRemovedAutopayNsfDeclinePaymentCentralReject"/>
+                    <include name="pas7454_eValueRemovedAutopayNsfDeclineRecurringPaymentResponse"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Membership Discount and AHDRXX CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas550_membershipEligibilityConfigurationTrueForActiveMembership"/>
+                    <include name="pas550_membershipEligibilityConfigurationTrueForCancelledMembership"/>
+                    <include name="pas550_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
+                    <include name="pas550_membershipEligibilityConfigurationTrueForPendingMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Membership Discount and AHDRXX HO SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas356_membershipEligibilityConfigurationTrueForActiveMembership"/>
+                    <include name="pas356_membershipEligibilityConfigurationTrueForCancelledMembership"/>
+                    <include name="pas356_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
+                    <include name="pas356_membershipEligibilityConfigurationTrueForPendingMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas1451_eValueRemovedByServiceNoAHDRXX VA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="pas1451_eValueRemovedByServiceNoAHDRXX"/>
+                    <include name="pas13528_eValueNotRemovedByServiceExpiredPolicy"/>
+                    <include name="pas13528_eValueNotRemovedByServiceLapsedPolicy"/>
+                    <include name="pas13528_eValueNotRemovedByServiceNoAHDRXXforCancelledPolicy"/>
+                    <include name="pas13528_eValueRemovedByServiceCancPendingPolicy"/>
+                    <include name="pas13528_eValueRemovedByServiceForFutureDatedCancelledPolicy"/>
+                    <include name="pas13528_eValueRemovedByServiceForFutureDatedReinstatedPolicy"/>
+                    <include name="pas13528_eValueRemovedByServiceForReinstatedPolicy"/>
+                    <include name="pas13528_eValueRemovedByServiceInForceRenewal"/>
+                    <include name="pas13528_eValueRemovedByServicePendingPolicy"/>
+                    <include name="pas13528_eValueRemovedByServiceProposedRenewal"/>
+                    <include name="pas13528_membershipEligConfTrueForActiveMembershipCancelledPolicy"/>
                 </methods>
             </class>
         </classes>

@@ -1,6 +1,5 @@
 package aaa.utils.excel.io.celltype;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.utils.excel.io.entity.area.ExcelCell;
 
 public class BooleanCellType extends AbstractCellType<Boolean> {
@@ -10,16 +9,12 @@ public class BooleanCellType extends AbstractCellType<Boolean> {
 	}
 
 	@Override
-	public Boolean getValueFrom(ExcelCell cell) {
-		assertThat(isTypeOf(cell)).as("Unable to get value with \"%1$s\" type from %2$s", getEndType(), cell).isTrue();
-		if (cell.getPoiCell() == null) {
-			return null;
-		}
+	public Boolean getRawValueFrom(ExcelCell cell) {
 		return hasValueInTextFormat(cell) ? Boolean.valueOf(getText(cell)) : cell.getPoiCell().getBooleanCellValue();
 	}
 
 	@Override
-	public void setValueTo(ExcelCell cell, Boolean value) {
+	public void setRawValueTo(ExcelCell cell, Boolean value) {
 		cell.getPoiCell().setCellValue(value);
 	}
 
