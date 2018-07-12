@@ -1661,7 +1661,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, oid4);
 
-		String replacedVehicleVin3 = "2T1BURHE4JC034340"; //Toyota Corolla 2018
+		String replacedVehicleVin3 = "3FAFP31341R200709"; //Ford
 		String replaceVehOid3 = replaceVehicleWithUpdates(policyNumber, oid4, replacedVehicleVin3, true, true);
 
 		ComparablePolicy response4 = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
