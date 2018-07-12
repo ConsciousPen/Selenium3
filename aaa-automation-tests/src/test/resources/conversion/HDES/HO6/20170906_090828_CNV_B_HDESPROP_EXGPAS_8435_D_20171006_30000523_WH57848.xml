@@ -294,14 +294,14 @@
 		<HW2482EndorsementForm state="Created"/>
 	</AAAHOPolicy>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Mailing address validated and standardized</title>
 		<updatedOn>2017-10-06T00:00:00</updatedOn>
 		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 966 BORDEN VILLA DR #201  SANTA ROSA CA 95401 to 966 BORDEN VILLA DR APT 201 SANTA ROSA CA 95401</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Date of birth defaulted</title>
 		<updatedOn>2017-10-06T00:00:00</updatedOn>

@@ -299,35 +299,35 @@
 		<HO90EndorsementForm state="Created"/>
 	</AAAHOPolicy>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Named insureds not converted</title>
 		<updatedOn>2017-10-20T00:00:00</updatedOn>
 		<userText>PAS allows up to 4 named insureds.  The following named insureds were not mapped from HDES to PAS because there were more than 4 named insureds in HDES:LEONOR  ANA</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Mailing address validated and standardized</title>
 		<updatedOn>2017-10-20T00:00:00</updatedOn>
 		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 585 W HACIENDA AVE #304  CAMPBELL CA 95008 to 585 W HACIENDA AVE APT 304 CAMPBELL CA 95008</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Date of birth defaulted</title>
 		<updatedOn>2017-10-20T00:00:00</updatedOn>
 		<userText>Date of birth defaults were applied to this policy according to the following logic:-  If no date of birth existing in HDES and senior/mature discount applied, DOB was defaulted to 01/01/1901.  If senior/mature discount did not apply, DOB was defaulted to 01/01/1998.If only one DOB existed in HDES, all other DOBs were defaulted to match.</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Date of birth defaulted</title>
 		<updatedOn>2017-10-20T00:00:00</updatedOn>
 		<userText>Date of birth defaults were applied to this policy according to the following logic:-  If no date of birth existing in HDES and senior/mature discount applied, DOB was defaulted to 01/01/1901.  If senior/mature discount did not apply, DOB was defaulted to 01/01/1998.If only one DOB existed in HDES, all other DOBs were defaulted to match.</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Date of birth defaulted</title>
 		<updatedOn>2017-10-20T00:00:00</updatedOn>

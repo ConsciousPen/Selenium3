@@ -329,21 +329,21 @@
 		</PreconfigPersonInfo>
 	</AAAHOPolicy>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Dwelling address validated and standardized</title>
 		<updatedOn>2017-11-17T00:00:00</updatedOn>
 		<userText>Dwelling Address was validated and standardized during Conversion. Address was standardized from 401 NEVADA STREET  NEVADA CITY CA 95959 to 401 NEVADA ST  NEVADA CITY CA 95959</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Mailing address validated and standardized</title>
 		<updatedOn>2017-11-17T00:00:00</updatedOn>
 		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from PO BOX 933  NEVADA CITY CA 95959 to PO BOX 933  NEVADA CITY CA 95959</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Date of birth defaulted</title>
 		<updatedOn>2017-11-17T00:00:00</updatedOn>

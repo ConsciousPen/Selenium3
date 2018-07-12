@@ -285,14 +285,14 @@
 		</PreconfigPersonInfo>
 	</AAAHOPolicy>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Dwelling address validated and standardized</title>
 		<updatedOn>2017-11-10T00:00:00</updatedOn>
 		<userText>Dwelling Address was validated and standardized during Conversion. Address was standardized from 874 DEL AVION WAY  SAN JOSE CA 95138 to 874 DEL AVION WAY  SAN JOSE CA 95138</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Mailing address validated and standardized</title>
 		<updatedOn>2017-11-10T00:00:00</updatedOn>

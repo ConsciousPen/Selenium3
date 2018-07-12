@@ -271,14 +271,14 @@
 		<HO90EndorsementForm state="Created"/>
 	</AAAHOPolicy>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Mortgagee truncated at conversion</title>
 		<updatedOn>2017-12-08T00:00:00</updatedOn>
 		<userText>Mortgagee name and/or address was truncated at conversion since the one imported from HDES is longer than the space available in PAS</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Mailing address validated and standardized</title>
 		<updatedOn>2017-12-08T00:00:00</updatedOn>

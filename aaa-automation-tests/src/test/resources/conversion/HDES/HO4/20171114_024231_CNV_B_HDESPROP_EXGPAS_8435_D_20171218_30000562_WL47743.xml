@@ -203,7 +203,7 @@
 		<HO90EndorsementForm state="Created"/>
 	</AAAHOPolicy>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Mailing address - Validation Error</title>
 		<updatedOn>2017-12-18T00:00:00</updatedOn>

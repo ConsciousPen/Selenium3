@@ -286,21 +286,21 @@
 		</PreconfigPersonInfo>
 	</AAAHOPolicy>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Dwelling address validated and standardized</title>
 		<updatedOn>2017-12-08T00:00:00</updatedOn>
 		<userText>Dwelling Address was validated and standardized during Conversion. Address was standardized from 75 BRIGHT VIEW LANE  WATSONVILLE CA 95076 to 75 BRIGHT VIEW LN  WATSONVILLE CA 95076</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Mailing address - Validation Error</title>
 		<updatedOn>2017-12-08T00:00:00</updatedOn>
 		<userText>Mailling Address was not standardized or validated during Conversion due to an invalid element. Please confirm full mailling address with customer to ensure accuracy.</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: date of birth caused premium variance</title>
 		<updatedOn>2017-12-08T00:00:00</updatedOn>

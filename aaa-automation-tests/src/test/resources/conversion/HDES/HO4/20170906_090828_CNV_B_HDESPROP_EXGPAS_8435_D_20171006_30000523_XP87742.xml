@@ -222,7 +222,7 @@
 		<HO90EndorsementForm state="Created"/>
 	</AAAHOPolicy>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Mailing address validated and standardized</title>
 		<updatedOn>2017-10-06T00:00:00</updatedOn>

@@ -335,21 +335,21 @@
 		<overpaidAmountOption>nextInstallments</overpaidAmountOption>
 	</personalBillingAccount>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Dwelling address validated and standardized</title>
 		<updatedOn>2017-11-10T00:00:00</updatedOn>
 		<userText>Dwelling Address was validated and standardized during Conversion. Address was standardized from 908 VINTAGE OAK AVE  GALT CA 95632 to 908 VINTAGE OAK AVE  GALT CA 95632</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Mailing address validated and standardized</title>
 		<updatedOn>2017-11-10T00:00:00</updatedOn>
 		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 908 VINTAGE OAK AVE  GALT CA 95632 to 908 VINTAGE OAK AVE  GALT CA 95632</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Date of birth defaulted</title>
 		<updatedOn>2017-11-10T00:00:00</updatedOn>

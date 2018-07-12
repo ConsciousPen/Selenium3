@@ -267,6 +267,16 @@
 				<roofRenovationType>Total_Replace</roofRenovationType>
 				<roofRenovationYear>2000</roofRenovationYear>
 			</AAAHOBuildingImprovementsInfo>
+			<AAAHOAdditionalInterest state="Created">
+				<aaaEffectiveDate>2018-01-28T00:00:00</aaaEffectiveDate> 
+				<addressLine1>20341 BLUFFSIDE CIR</addressLine1> 
+				<addressLine2>#C-304</addressLine2> 
+				<city>HUNTINGTON BEACH</city> 
+				<interestTypeText>Conversion - not on file</interestTypeText> 
+				<name>THE TRACY DARCY LIVING TRUST</name> 
+				<postalCode>92646</postalCode> 
+				<stateProvCd>CA</stateProvCd> 
+			</AAAHOAdditionalInterest>
 			<AAAHOConstructionInfo state="Created">
 				<aaaFoundationType>Other</aaaFoundationType>
 				<constructionTypeCd>Frame</constructionTypeCd>
@@ -341,364 +351,364 @@
 		</PreconfigPersonInfo>
 	</AAAHOPolicy>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Endorse</title>
 		<updatedOn>2007-02-12T00:00:00</updatedOn>
 		<userText>AMEND POLICY - CHANGE MORTGAGEE</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Endorse</title>
 		<updatedOn>2007-01-11T00:00:00</updatedOn>
 		<userText>AMENDED POLICY - ADDED OR CHANGED MORTGAGEE</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>***CALL LOG***</title>
 		<updatedOn>2010-03-26T00:00:00</updatedOn>
 		<userText>VER RENEWAL</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>CC RE POLICY INFO</title>
 		<updatedOn>2011-03-25T00:00:00</updatedOn>
 		<userText>EASTER LESSOR ON CAL RE RENEWAL INFO ADVSD SAME RENEW AMOUNT AND COVERAGES ADVSD DD 4.3.11</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>ADD LP</title>
 		<updatedOn>2016-01-08T00:00:00</updatedOn>
 		<userText>AGENT DIANE CALLED TO ADD A SECOND LP COMPANY EFF 010916</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>VERIFICATION</title>
 		<updatedOn>2015-03-25T00:00:00</updatedOn>
 		<userText>IESHA - WELLS FARGO</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Endorse</title>
 		<updatedOn>2016-06-15T00:00:00</updatedOn>
 		<userText>UPDATE MORTGAGE CLAUSE</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Endorse</title>
 		<updatedOn>2007-03-01T00:00:00</updatedOn>
 		<userText>AMENDED POLICY - CHANGED MORTGAGEE PER LENDERS REQUEST</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>12/16/07 INV NOT SENT...</title>
 		<updatedOn>2007-12-17T00:00:00</updatedOn>
 		<userText>EMAIL TO CPU TO WAIVE $5</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>***WAIVE $5.00 /INST. FEE</title>
 		<updatedOn>2007-12-18T00:00:00</updatedOn>
 		<userText>PER EUNICE SHERMAN</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>RENWAL VERIFICATION</title>
 		<updatedOn>2016-04-12T00:00:00</updatedOn>
 		<userText>PER OI SHANICE W/ WELLS FARGO CALLED TO CONFIRM RENEWAL INFORMATION SENT TO OVERNIGHT PAYMENT ADDRESS</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>BILLING INQUIRY</title>
 		<updatedOn>2016-04-01T00:00:00</updatedOn>
 		<userText>OI ELSIE WANTED TO KNOW IF WE HAVE RECIEVED PAYMENT.  ADVISED WE HAVE NOT. SHE SAID THEY HAVE SENT PAYMENT ON 3/25/16</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>ELSIE ANGLADA</title>
 		<updatedOn>2016-04-12T00:00:00</updatedOn>
 		<userText>TO CHECK ABOUT PAYMENT   INFORM PAYMENT NOT RECEIVED WE GO BY ENVELOPE POST OFFICE MARK... OI WILL CHYECK ON MTG COMPANY ABOUT THE PAYMENT</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Endorse</title>
 		<updatedOn>2016-01-08T00:00:00</updatedOn>
 		<userText>AMENDED POLICY - ADDED OR CHANGED LOSS PAYEE</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>OI INQ BILLING</title>
 		<updatedOn>2016-04-18T00:00:00</updatedOn>
 		<userText>OI INQ IF PAYMENT HAS BEEN RCVD</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>**UPDATE MORTGAGE CLAUSE**</title>
 		<updatedOn>2016-06-15T00:00:00</updatedOn>
 		<userText>UPDATE MORTGAGE CLAUSE - PER US MAIL</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Endorse</title>
 		<updatedOn>2015-03-24T00:00:00</updatedOn>
 		<userText>AMENDED POLICY - CORRECTED BILL TO</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>CORRECTED BILL TO</title>
 		<updatedOn>2015-03-24T00:00:00</updatedOn>
 		<userText>CORRECTED BILL TO Y EFF RENEWAL</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>RENEWAL INFO</title>
 		<updatedOn>2013-03-26T00:00:00</updatedOn>
 		<userText>MORT CALLED TO VERIFY RENEWAL INFO</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Scheduled Invoice</title>
 		<updatedOn>2006-04-16T00:00:00</updatedOn>
 		<userText>Scheduled Invoice</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>MEMBERSHIP VALIDATED</title>
 		<updatedOn>2006-11-21T00:00:00</updatedOn>
 		<userText>MEMBERSHIP VALIDATED</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Renewal Invoice</title>
 		<updatedOn>2007-02-07T00:00:00</updatedOn>
 		<userText>Renewal Invoice</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>CHG MORT PER MORT</title>
 		<updatedOn>2007-02-12T00:00:00</updatedOn>
 		<userText>CHG MORT PER MORT</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Renewal Invoice</title>
 		<updatedOn>2007-02-13T00:00:00</updatedOn>
 		<userText>Renewal Invoice</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Scheduled Invoice</title>
 		<updatedOn>2007-12-16T00:00:00</updatedOn>
 		<userText>Scheduled Invoice</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Renewal Invoice</title>
 		<updatedOn>2008-02-10T00:00:00</updatedOn>
 		<userText>Renewal Invoice</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Renewal Invoice</title>
 		<updatedOn>2009-02-08T00:00:00</updatedOn>
 		<userText>Renewal Invoice</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Policy Expiration Notice</title>
 		<updatedOn>2009-04-08T00:00:00</updatedOn>
 		<userText>Policy Expiration Notice</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Renewal Invoice</title>
 		<updatedOn>2010-02-07T00:00:00</updatedOn>
 		<userText>Renewal Invoice</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Renewal Invoice</title>
 		<updatedOn>2011-02-07T00:00:00</updatedOn>
 		<userText>Renewal Invoice</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Renewal Invoice</title>
 		<updatedOn>2012-02-08T00:00:00</updatedOn>
 		<userText>Renewal Invoice</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Policy Declaration Page</title>
 		<updatedOn>2012-02-08T00:00:00</updatedOn>
 		<userText>Policy Declaration Page</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Policy Declaration Page</title>
 		<updatedOn>2013-02-07T00:00:00</updatedOn>
 		<userText>Policy Declaration Page</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Renewal Invoice</title>
 		<updatedOn>2013-02-07T00:00:00</updatedOn>
 		<userText>Renewal Invoice</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Policy Declaration Page</title>
 		<updatedOn>2014-02-09T00:00:00</updatedOn>
 		<userText>Policy Declaration Page</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Renewal Invoice</title>
 		<updatedOn>2014-02-09T00:00:00</updatedOn>
 		<userText>Renewal Invoice</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Renewal Invoice</title>
 		<updatedOn>2015-02-08T00:00:00</updatedOn>
 		<userText>Renewal Invoice</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Policy Declaration Page</title>
 		<updatedOn>2015-02-08T00:00:00</updatedOn>
 		<userText>Policy Declaration Page</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Renewal Invoice</title>
 		<updatedOn>2015-03-25T00:00:00</updatedOn>
 		<userText>Renewal Invoice</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Renewal Invoice</title>
 		<updatedOn>2015-03-25T00:00:00</updatedOn>
 		<userText>Renewal Invoice</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Policy Declaration Page</title>
 		<updatedOn>2015-03-25T00:00:00</updatedOn>
 		<userText>Policy Declaration Page</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Policy Declaration Page</title>
 		<updatedOn>2016-01-10T00:00:00</updatedOn>
 		<userText>Policy Declaration Page</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Renewal Invoice</title>
 		<updatedOn>2016-02-08T00:00:00</updatedOn>
 		<userText>Renewal Invoice</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Renewal Invoice</title>
 		<updatedOn>2016-02-08T00:00:00</updatedOn>
 		<userText>Renewal Invoice</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Policy Declaration Page</title>
 		<updatedOn>2016-02-08T00:00:00</updatedOn>
 		<userText>Policy Declaration Page</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Renewal Reminder</title>
 		<updatedOn>2016-03-24T00:00:00</updatedOn>
 		<userText>Renewal Reminder</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>ELSIEANGLADA@GMAIL.COM</title>
 		<updatedOn>2016-04-01T00:00:00</updatedOn>
 		<userText>ELSIEANGLADA@GMAIL.COM</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Policy Expiration Notice</title>
 		<updatedOn>2016-04-10T00:00:00</updatedOn>
 		<userText>Policy Expiration Notice</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Policy Declaration Page</title>
 		<updatedOn>2016-06-15T00:00:00</updatedOn>
 		<userText>Policy Declaration Page</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Renewal Invoice</title>
 		<updatedOn>2017-02-07T00:00:00</updatedOn>
 		<userText>Renewal Invoice</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Renewal Invoice</title>
 		<updatedOn>2017-02-07T00:00:00</updatedOn>
 		<userText>Renewal Invoice</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Policy Declaration Page</title>
 		<updatedOn>2017-02-07T00:00:00</updatedOn>

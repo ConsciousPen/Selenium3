@@ -325,11 +325,17 @@
 					<description>Total items = 5</description>
 				</ScheduledPropertyJewelryItemHO3HO4>
 			</ScheduledPropertyCoverageJewelry>
+			<ScheduledPropertyCoverageGolf state="Created">
+				<ScheduledPropertyGolfItem state="Created">
+					<amount>1750</amount>
+					<description>Total items = 1</description>
+				</ScheduledPropertyGolfItem>
+			</ScheduledPropertyCoverageGolf>
 		</HO61EndorsementForm>
 		<HO90EndorsementForm state="Created"/>
 	</AAAHOPolicy>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Mailing address validated and standardized</title>
 		<updatedOn>2017-12-08T00:00:00</updatedOn>

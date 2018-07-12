@@ -267,21 +267,21 @@
 		<HO90EndorsementForm state="Created"/>
 	</AAAHOPolicy>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Mailing address validated and standardized</title>
 		<updatedOn>2017-12-01T00:00:00</updatedOn>
 		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 255 S BERNARDO AVE #5  SUNNYVALE CA 94086 to 255 S BERNARDO AVE APT 5 SUNNYVALE CA 94086</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Date of birth defaulted</title>
 		<updatedOn>2017-12-01T00:00:00</updatedOn>
 		<userText>Date of birth defaults were applied to this policy according to the following logic:-  If no date of birth existing in HDES and senior/mature discount applied, DOB was defaulted to 01/01/1901.  If senior/mature discount did not apply, DOB was defaulted to 01/01/1998.If only one DOB existed in HDES, all other DOBs were defaulted to match.</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Date of birth defaulted</title>
 		<updatedOn>2017-12-01T00:00:00</updatedOn>

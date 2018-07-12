@@ -351,14 +351,14 @@
 		</PreconfigPersonInfo>
 	</AAAHOPolicy>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Dwelling address validated and standardized</title>
 		<updatedOn>2017-10-27T00:00:00</updatedOn>
 		<userText>Dwelling Address was validated and standardized during Conversion. Address was standardized from 313 BEACH DR  APTOS CA 95003 to 313 BEACH DR  APTOS CA 95003</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Mailing address validated and standardized</title>
 		<updatedOn>2017-10-27T00:00:00</updatedOn>

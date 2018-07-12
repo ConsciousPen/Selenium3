@@ -303,21 +303,21 @@
 		<overpaidAmountOption>nextInstallments</overpaidAmountOption>
 	</personalBillingAccount>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Dwelling address validated and standardized</title>
 		<updatedOn>2017-11-10T00:00:00</updatedOn>
 		<userText>Dwelling Address was validated and standardized during Conversion. Address was standardized from 101 CIVIC CENTER DRIVE APT 213 SCOTTS VALLEY CA 95066 to 101 CIVIC CENTER DR APT 213 SCOTTS VALLEY CA 95066</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Mailing address validated and standardized</title>
 		<updatedOn>2017-11-10T00:00:00</updatedOn>
 		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from PO BOX 508  SOQUEL CA 95073 to PO BOX 508  SOQUEL CA 95073</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Date of birth defaulted</title>
 		<updatedOn>2017-11-10T00:00:00</updatedOn>

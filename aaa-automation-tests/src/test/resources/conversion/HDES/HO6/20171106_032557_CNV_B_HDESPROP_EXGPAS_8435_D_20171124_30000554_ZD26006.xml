@@ -296,14 +296,14 @@
 		</PreconfigPersonInfo>
 	</AAAHOPolicy>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Mailing address validated and standardized</title>
 		<updatedOn>2017-11-24T00:00:00</updatedOn>
 		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 2425 S NORFOLK ST #209  SAN MATEO CA 94403 to 2425 S NORFOLK ST APT 209 SAN MATEO CA 94403</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Dwelling address - Validation Error</title>
 		<updatedOn>2017-11-24T00:00:00</updatedOn>

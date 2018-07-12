@@ -243,21 +243,21 @@
     </PreconfigPersonInfo>
   </AAAHOPolicy>
   <userNote>
-    <category>Other</category>
+    <category>OTHER</category>
     <confidential>false</confidential>
     <title>Conversion: Dwelling address validated and standardized</title>
     <updatedOn>2017-11-17T00:00:00</updatedOn>
     <userText>Dwelling Address was validated and standardized during Conversion. Address was standardized from 2034 AUGUSTAN AVE  SANTA ROSA CA 95404 to 2034 AUGUSTAN AVE  SANTA ROSA CA 95404</userText>
   </userNote>
   <userNote>
-    <category>Other</category>
+    <category>OTHER</category>
     <confidential>false</confidential>
     <title>Conversion: Mailing address validated and standardized</title>
     <updatedOn>2017-11-17T00:00:00</updatedOn>
     <userText>Mailing Address was validated and standardized during Conversion. Address was standardized from PO BOX 82  KENWOOD CA 95452 to PO BOX 82  KENWOOD CA 95452</userText>
   </userNote>
   <userNote>
-    <category>Other</category>
+    <category>OTHER</category>
     <confidential>false</confidential>
     <title>Conversion: Date of birth defaulted</title>
     <updatedOn>2017-11-17T00:00:00</updatedOn>

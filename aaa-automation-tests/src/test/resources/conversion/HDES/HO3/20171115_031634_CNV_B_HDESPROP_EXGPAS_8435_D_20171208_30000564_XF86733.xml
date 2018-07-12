@@ -313,14 +313,14 @@
     </PreconfigPersonInfo>
   </AAAHOPolicy>
   <userNote>
-    <category>Other</category>
+    <category>OTHER</category>
     <confidential>false</confidential>
     <title>Conversion: Dwelling address validated and standardized</title>
     <updatedOn>2017-12-08T00:00:00</updatedOn>
     <userText>Dwelling Address was validated and standardized during Conversion. Address was standardized from 1022 BAY VISTA CT  GALT CA 95632 to 1022 BAY VISTA CT  GALT CA 95632</userText>
   </userNote>
   <userNote>
-    <category>Other</category>
+    <category>OTHER</category>
     <confidential>false</confidential>
     <title>Conversion: Mailing address validated and standardized</title>
     <updatedOn>2017-12-08T00:00:00</updatedOn>

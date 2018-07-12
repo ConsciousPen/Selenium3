@@ -308,18 +308,24 @@
 					<description>Total items = 1</description>
 				</ScheduledPropertyJewelryItemHO6>
 			</ScheduledPropertyCoverageJewelryHO6>
+			<ScheduledPropertyCoverageGolfHO6 state="Created">
+				<ScheduledPropertyGolfItemHO6 state="Created">
+					<amount>1750</amount>
+					<description>Total items = 1</description>
+				</ScheduledPropertyGolfItemHO6>
+			</ScheduledPropertyCoverageGolfHO6>
 		</HW0461EndorsementForm>
 		<HW2482EndorsementForm state="Created"/>
 	</AAAHOPolicy>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Mailing address validated and standardized</title>
 		<updatedOn>2017-12-08T00:00:00</updatedOn>
 		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 99 E MIDDLEFIELD RD #40  MOUNTAIN VIEW CA 94043 to 99 E MIDDLEFIELD RD APT 40 MOUNTAIN VIEW CA 94043</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Date of birth defaulted</title>
 		<updatedOn>2017-12-08T00:00:00</updatedOn>

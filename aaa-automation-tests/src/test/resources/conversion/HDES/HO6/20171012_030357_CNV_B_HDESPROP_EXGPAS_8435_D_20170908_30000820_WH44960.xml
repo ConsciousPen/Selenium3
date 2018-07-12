@@ -336,14 +336,14 @@
 		<overpaidAmountOption>nextInstallments</overpaidAmountOption>
 	</personalBillingAccount>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Dwelling address validated and standardized</title>
 		<updatedOn>2017-09-08T00:00:00</updatedOn>
 		<userText>Dwelling Address was validated and standardized during Conversion. Address was standardized from 5319 RIDGE VIEW CREEK #10  EL SOBRANTE CA 94803 to 5319 RIDGEVIEW CIR UNIT 10 EL SOBRANTE CA 94803</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Mailing address validated and standardized</title>
 		<updatedOn>2017-09-08T00:00:00</updatedOn>

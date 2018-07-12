@@ -299,21 +299,21 @@
 		</PreconfigPersonInfo>
 	</AAAHOPolicy>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Mortgagee truncated at conversion</title>
 		<updatedOn>2017-12-18T00:00:00</updatedOn>
 		<userText>Mortgagee name and/or address was truncated at conversion since the one imported from HDES is longer than the space available in PAS</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Dwelling address validated and standardized</title>
 		<updatedOn>2017-12-18T00:00:00</updatedOn>
 		<userText>Dwelling Address was validated and standardized during Conversion. Address was standardized from 1621 FOOTHILL BLVD  CALISTOGA CA 94515 to 1621 FOOTHILL BLVD  CALISTOGA CA 94515</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Mailing address validated and standardized</title>
 		<updatedOn>2017-12-18T00:00:00</updatedOn>

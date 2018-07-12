@@ -200,14 +200,14 @@
 		<HO90EndorsementForm state="Created"/>
 	</AAAHOPolicy>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Construction type was Other in HDES</title>
 		<updatedOn>2017-11-17T00:00:00</updatedOn>
 		<userText>Construction type was "Other" in HDES.  Mapped to "Frame" at conversion since "Other" is not an option in PAS.No impact to premium.</userText>
 	</userNote>
 	<userNote>
-		<category>Other</category>
+		<category>OTHER</category>
 		<confidential>false</confidential>
 		<title>Conversion: Mailing address validated and standardized</title>
 		<updatedOn>2017-11-17T00:00:00</updatedOn>
