@@ -3,8 +3,9 @@ EndorsementTab_Add: {
 }
 
 Endorsement_FPCECA_Add: {
-  Action: 'Add',
-  Confirm Object Addition: 'Confirm'
+  Confirm Endorsement:{
+    Action: 'Confirm',
+  }
 }
 
 TestData_Endorsement: {

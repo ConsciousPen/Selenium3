@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 /**
  * @Author - Tyrone C Jemison
- * @Description - Currently WIP (6/01/18)
+ * @Description -
  */
 public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
 
@@ -146,7 +146,10 @@ public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
         defaultPolicyData = getPolicyTD();
         defaultPolicyData.adjust(ApplicantTab.class.getSimpleName(), getTestSpecificTD("ApplicantTab_DP3"));
         defaultPolicyData.adjust(ReportsTab.class.getSimpleName(), getTestSpecificTD("ReportsTab_DP3"));
-        policy.initiate();
+        // Open App, Create Customer and Initiate Quote
+        mainApp().open();
+        createCustomerIndividual();
+        createPolicy();
         policy.getDefaultView().fillUpTo(defaultPolicyData, EndorsementTab.class, false);
     }
 
@@ -214,7 +217,8 @@ public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
             allExtraEndorsementsByLabel.add(label);
         }
         addMultipleEndorsements(allExtraEndorsementsByLabel);
-        myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
+        //TODO: Pick up here - i think its a bug
+        myHelper.addFAIRPlanEndorsement("homeca_dp3");
         myHelper.verifyEndorsementsNotVisible(INCLUDED_ENDORSEMENTS_TABLE, FORM_ID, allExtraEndorsementsByLabel);
         myHelper.removeFAIRPlanEndorsement(getPolicyType().getShortName());
     }

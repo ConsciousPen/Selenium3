@@ -102,10 +102,8 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
         //Add the ENDO and verify presence
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
         endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECADP.getLabel()).click();
+        endorsementTab.btnSaveEndo.click();
         //AC3 - This confirms an Informational note will display notifying the user that this endorsement has been added
-        Page.dialogConfirmation.confirm();
-
-        endorsementTab.btnSaveForm.click();
         endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECADP).verify.present(true);
 
         //Verify premium is reduced after
@@ -129,9 +127,8 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
         //Add the ENDO and verify presence
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
         endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECADP.getLabel()).click();
-        Page.dialogConfirmation.confirm();
 
-        endorsementTab.btnSaveForm.click();
+        endorsementTab.btnSaveEndo.click();
         endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECADP).verify.present(true);
 
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());

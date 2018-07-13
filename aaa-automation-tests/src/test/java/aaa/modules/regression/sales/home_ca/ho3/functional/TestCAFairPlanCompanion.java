@@ -73,6 +73,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
         // Verify Document Tab populates Endorsement
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
         assertThat(new DocumentsTab().getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FPCECA.getLabel()).isPresent()).isTrue();
+        mainApp().close();
     }
 
     /**
@@ -103,6 +104,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
 
         // Click FPCECA Endorsement
         myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
+        mainApp().close();
     }
 
     /**
@@ -116,17 +118,23 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement HO3")
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement HO3")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-13210")
     public void AC3_Renewal_VisibleFPCECA(@Optional("") String state) {
+        defaultPolicyData = getPolicyTD();
 
+        // Open App, Create customer and Policy.
+        mainApp().open();
+        createCustomerIndividual();
+        createPolicy(defaultPolicyData);
         myHelper.handleRenewalTesting(defaultPolicyData);
         policy.getDefaultView().fillUpTo(getTestSpecificTD("Renewal_AC3"), EndorsementTab.class, false);
 
         myHelper.verifyFPCECAEndorsementAvailable("ho3");
 
         // Click FPCECA Endorsement
-        myHelper.addFAIRPlanEndorsement("ho3");
+        myHelper.addFAIRPlanEndorsement("homeca_ho3");
+        mainApp().close();
     }
 
     /**
@@ -165,6 +173,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
         // Pick Up File Generated
         myHelper.validatePdfFromDb(policyNumber, DocGenEnum.Documents._62_6500,
                 AaaDocGenEntityQueries.EventNames.ADHOC_DOC_ON_DEMAND_GENERATE, EXPECTED_NAME, "Y");
+        mainApp().close();
     }
 
 }

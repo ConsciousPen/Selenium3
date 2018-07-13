@@ -61,9 +61,8 @@ public class TestCAFairPlanSignature extends HomeCaDP3BaseTest {
         //Add the ENDO and verify presence
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
         endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECADP.getLabel()).click();
-        Page.dialogConfirmation.confirm();
 
-        endorsementTab.btnSaveForm.click();
+        endorsementTab.btnSaveEndo.click();
         Assertions.assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECADP).isPresent());
 
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());

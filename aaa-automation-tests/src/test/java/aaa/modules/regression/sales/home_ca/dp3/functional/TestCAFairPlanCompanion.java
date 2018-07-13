@@ -48,7 +48,9 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
 
         defaultPolicyData = buildTD(defaultPolicyData);
 
-        setupHO3Policy(ho3TestData);
+        //setupHO3Policy(ho3TestData);
+        mainApp().open();
+        createCustomerIndividual();
 
         // After Creating HO3 Policy, Begin DP3 Quote.
         policy.initiate();
@@ -64,6 +66,7 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
         // Verify Document Tab populates Endorsement
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
         assertThat(new DocumentsTab().getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FPCECADP.getLabel()).isPresent()).isTrue();
+        mainApp().close();
     }
 
     /**
@@ -85,8 +88,9 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
 
         defaultPolicyData = buildTD(defaultPolicyData);
 
-        setupHO3Policy(ho3TestData);
-
+        //setupHO3Policy(ho3TestData);
+        mainApp().open();
+        createCustomerIndividual();
         createPolicy(defaultPolicyData);
 
         policy.endorse().perform(endorsementTestData.adjust(getPolicyTD("Endorsement", "TestData")));
@@ -96,6 +100,7 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
 
         // Click FPCECADP Endorsement
         myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
+        mainApp().close();
     }
 
     /**
@@ -110,20 +115,20 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
      * @Runtime - 16min
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement DP3")
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement DP3")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-13210")
     public void AC3_Renewal_VisibleFPCECA(@Optional("") String state) {
 
         defaultPolicyData = buildTD(defaultPolicyData);
-
-        setupHO3Policy(ho3TestData);
-
+        mainApp().open();
+        createCustomerIndividual();
         createPolicy(defaultPolicyData);
 
         myHelper.handleRenewalTesting(defaultPolicyData);
         policy.getDefaultView().fillUpTo(getTestSpecificTD("Renewal_AC3"), EndorsementTab.class, false);
 
         myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
+        mainApp().close();
     }
 
     /**
@@ -143,9 +148,10 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
         final String EXPECTED_NAME = "FairPlanYN";
         defaultPolicyData = buildTD(defaultPolicyData);
 
-        setupHO3Policy(ho3TestData);
+        mainApp().open();
+        createCustomerIndividual();
 
-        // Open App and Initiate DP3 Quote
+        // After Creating HO3 Policy, Begin DP3 Quote.
         policy.initiate();
         policy.getDefaultView().fillUpTo(defaultPolicyData, EndorsementTab.class, false);
 
@@ -162,6 +168,7 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
 
         myHelper.validatePdfFromDb(policyNumber, DocGenEnum.Documents._62_6500,
                 AaaDocGenEntityQueries.EventNames.ADHOC_DOC_ON_DEMAND_GENERATE, EXPECTED_NAME, "Y");
+        mainApp().close();
     }
 
     private TestData buildTD(TestData in_defaultPolicyData) {
@@ -172,14 +179,5 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
         in_defaultPolicyData.adjust(ReportsTab.class.getSimpleName(), adjustedDP3ReportsData);
 
         return in_defaultPolicyData;
-    }
-
-    public void setupHO3Policy(TestData inputHO3TestData) {
-
-        // Open App, Create Customer and Initiate Quote
-        mainApp().open();
-        createCustomerIndividual();
-        inputHO3TestData = getTestSpecificTD("HO3PolicyData");
-        createPolicy(inputHO3TestData);
     }
 }
