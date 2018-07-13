@@ -365,10 +365,15 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		String errorCode;
 		String errorMessage;
 
-		if ("KS, MT".contains(getState())) {
+		if ("KS".contains(getState())) {
 			minimumAge = 15;
 			errorCode = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_KS.getCode();
 			errorMessage = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_KS.getMessage();
+
+		} else if ("MT".contains(getState())) {
+			minimumAge = 15;
+			errorCode = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_MT.getCode();
+			errorMessage = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_MT.getMessage();
 
 		} else if ("SD".contains(getState())) {
 			minimumAge = 14;
