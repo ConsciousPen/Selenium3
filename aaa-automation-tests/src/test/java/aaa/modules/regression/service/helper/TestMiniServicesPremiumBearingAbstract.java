@@ -45,6 +45,7 @@ import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import javax.ws.rs.core.Response;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
 import static aaa.main.enums.ProductConstants.PolicyStatus.PREMIUM_CALCULATED;
@@ -1671,6 +1672,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		ComparablePolicy policyResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
 		ComparableVehicle veh1 = policyResponse.vehicles.get(newVehicleOid);
 		assertSoftly(softly -> {
+
 			softly.assertThat(veh1.driverAssignments.get(dOid).changeType).isEqualTo("ADDED");
 			softly.assertThat(veh1.driverAssignments.get(dOid).data.get("driverOid")).isEqualTo(dOid);
 			softly.assertThat(veh1.driverAssignments.get(dOid).data.get("vehicleDisplayValue")).isEqualTo(dOid);
@@ -1720,7 +1722,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		updateVehicleLeasedFinanced.vehicleOwnership.secondName = secondNameOwnership;
 		VehicleUpdateResponseDto ownershipUpdateResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
 		assertThat(ownershipUpdateResponse.vehicleOwnership.ownership).isEqualTo("LSD");
-
 
 		ViewDriversResponse response = HelperCommon.viewPolicyDrivers(policyNumber);
 		String dOid = response.driverList.get(0).oid;

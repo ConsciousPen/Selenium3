@@ -28,8 +28,6 @@ public class MiniServicesSetupPreconditions {
 			+ " and DISPLAYVALUE = %s\n"
 			+ " and RISKSTATECD %s";
 
-
-
 	public static final String MY_POLICY_USER_ENABLE_UPDATE = "update s_principal set enabled = 1 where name = 'MyPolicy'";
 
 	public static final String MY_POLICY_USER_ADD_ALL_PRIVILEGES_UPDATE = "INSERT INTO s_permissions (principal_ID, ALLOWED, AUTH_ID) \n"
