@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
   <AAAHOPolicy state="Created">
-    <agencyCd>500001005</agencyCd>
-    <agencyLocation>500005301</agencyLocation>
-    <agentCd>70683577</agentCd>
+    <agencyCd>0094</agencyCd>
+    <agentCd>500014690</agentCd>
     <agentGeneralNumber>003</agentGeneralNumber>
     <CaliforniaVeterans>false</CaliforniaVeterans>
     <doNotRenewInd>false</doNotRenewInd>
