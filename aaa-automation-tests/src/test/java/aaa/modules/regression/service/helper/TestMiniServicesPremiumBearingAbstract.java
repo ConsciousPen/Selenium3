@@ -1,23 +1,5 @@
 package aaa.modules.regression.service.helper;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static aaa.main.enums.ProductConstants.PolicyStatus.PREMIUM_CALCULATED;
-import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
-import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.DELETE_INSERT_EFFECTIVE_DATE;
-import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.INSERT_EFFECTIVE_DATE;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
-import javax.ws.rs.core.Response;
-import org.apache.commons.lang.BooleanUtils;
-import org.assertj.core.api.SoftAssertions;
-import org.springframework.util.CollectionUtils;
-import org.testng.ITestContext;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -44,7 +26,15 @@ import aaa.modules.regression.conversions.auto_ss.MaigConversionTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
+import aaa.modules.regression.service.helper.dtoDxp.comparison.ComparablePolicy;
+import aaa.modules.regression.service.helper.dtoDxp.comparison.ComparableVehicle;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.apache.commons.lang.BooleanUtils;
+import org.assertj.core.api.SoftAssertions;
+import org.springframework.util.CollectionUtils;
+import org.testng.ITestContext;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -53,6 +43,18 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+
+import javax.ws.rs.core.Response;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
+import static aaa.main.enums.ProductConstants.PolicyStatus.PREMIUM_CALCULATED;
+import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
+import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.DELETE_INSERT_EFFECTIVE_DATE;
+import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.INSERT_EFFECTIVE_DATE;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseTest {
 
@@ -1627,10 +1629,9 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		ComparableVehicle veh1 = policyResponse.vehicles.get(newVehicleOid);
 		assertSoftly(softly -> {
 			softly.assertThat(veh1.driverAssignments.get(dOid).changeType).isEqualTo("ADDED");
-			softly.assertThat(veh1.driverAssignments.get(dOid).data.driverOid).isEqualTo(dOid);
-			softly.assertThat(veh1.driverAssignments.get(dOid).data.vehicleDisplayValue).isEqualTo(dOid);
-			softly.assertThat(veh1.driverAssignments.get(dOid).data.relationshipType).isEqualTo("occasional");
-
+			softly.assertThat(veh1.driverAssignments.get(dOid).data.driverOid.value).isEqualTo(dOid);
+			softly.assertThat(veh1.driverAssignments.get(dOid).data.vehicleDisplayValue.value).isEqualTo(dOid);
+			softly.assertThat(veh1.driverAssignments.get(dOid).data.relationshipType.value).isEqualTo("occasional");
 		});
 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
