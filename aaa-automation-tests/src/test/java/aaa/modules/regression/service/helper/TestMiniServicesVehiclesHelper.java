@@ -40,7 +40,6 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private VehicleTab vehicleTab = new VehicleTab();
 	private GeneralTab generalTab = new GeneralTab();
-	private AssignmentTab assignmentTab = new AssignmentTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
 	private TestMiniServicesGeneralHelper testMiniServicesGeneralHelper = new TestMiniServicesGeneralHelper();
 	private TestMiniServicesCoveragesHelper testMiniServicesCoveragesHelper = new TestMiniServicesCoveragesHelper();
