@@ -454,7 +454,6 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 	/*
 	Comp/Coll symbols refreshed from VIN table VIN partial match
-
 	*/
 	protected void MSRPRefreshCompColl(String vinTableFile, String vinNumber) {
 
