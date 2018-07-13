@@ -551,7 +551,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 2. Initiate an endorsement
 	 * 3. Update vehicle to have a different garaging address outside of PAS
 	 * 4. Hit Meta Data Service and verify that the garaging address is different
-	 * 5. Bind the endorsement and verify that the garaging address is updated in PAS
+	 * 5. Bind the endorsement and verify that the policy is active
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
