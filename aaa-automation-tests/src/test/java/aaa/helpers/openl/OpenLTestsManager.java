@@ -183,6 +183,10 @@ public final class OpenLTestsManager {
 
 			File openLFile = new File("src/test/resources/openl/TEMP_" + System.currentTimeMillis() + "_" + FilenameUtils.getName(filePath));
 			log.info("Downloading \"{}\" openL file and saving it to \"{}\" temp file", filePath, openLFile);
+			if (!openLFile.getParentFile().exists() && !openLFile.getParentFile().mkdirs()) {
+				log.warn("Unable to create \"{}\" folder", openLFile.getParentFile());
+			}
+
 			try (InputStream is = response.readEntity(InputStream.class)) {
 				Files.copy(is, openLFile.toPath());
 				return openLFile;
@@ -190,12 +194,12 @@ public final class OpenLTestsManager {
 				if ("Premature EOF".equals(e.getMessage()) || "Connection reset".equals(e.getMessage())) {
 					inputStreamReadAttempt++;
 					if (inputStreamReadAttempt <= maxInputStreamAttemptsNumber) {
-						int sleep = 2 * inputStreamReadAttempt;
+						int sleepSeconds = 2 * inputStreamReadAttempt;
 						log.warn("There was a \"{}\" error while reading from an input stream, retry attempt #{} of {} max attempts will be performed after {} seconds",
-								e.getMessage(), inputStreamReadAttempt, maxInputStreamAttemptsNumber, sleep);
+								e.getMessage(), inputStreamReadAttempt, maxInputStreamAttemptsNumber, sleepSeconds);
 						deleteTempFile(openLFile);
 						try {
-							TimeUnit.SECONDS.sleep(sleep);
+							TimeUnit.SECONDS.sleep(sleepSeconds);
 						} catch (InterruptedException e1) {
 							e1.printStackTrace();
 						}
