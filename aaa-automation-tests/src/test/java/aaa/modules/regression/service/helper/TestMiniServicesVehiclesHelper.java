@@ -2198,6 +2198,12 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		policy.createPolicy(testData);
+
+/*SearchPage.openQuote("QVASS952918791");
+policy.dataGather().start();
+NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+premiumAndCoveragesTab.fillTab(testData);*/
+
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		String vehicleVinPpa1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN");
