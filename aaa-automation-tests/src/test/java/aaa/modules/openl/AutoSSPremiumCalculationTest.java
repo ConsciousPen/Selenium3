@@ -1,6 +1,7 @@
 package aaa.modules.openl;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
+import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLPolicy;
@@ -24,7 +25,7 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 	}
 	
 	@Override
-	protected Dollar createAndRateQuote(AutoSSOpenLPolicy openLPolicy) {
+	protected String createQuote(AutoSSOpenLPolicy openLPolicy) {
 		boolean isLegacyConvPolicy = false;
 		AutoSSTestDataGenerator tdGenerator = openLPolicy.getTestDataGenerator(getState(), getRatingDataPattern());
 		
@@ -42,7 +43,13 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 		
 		TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy, isLegacyConvPolicy);
 		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
-		new PremiumAndCoveragesTab().fillTab(quoteRatingData);
+		new PremiumAndCoveragesTab().getAssetList().fill(quoteRatingData);
+		return Tab.labelPolicyNumber.getValue();
+	}
+
+	@Override
+	protected Dollar calculatePremium(AutoSSOpenLPolicy openLPolicy) {
+		new PremiumAndCoveragesTab().calculatePremium();
 		Dollar totalPremium = PremiumAndCoveragesTab.getTotalTermPremium();
 		if (PremiumAndCoveragesTab.tableStateAndLocalTaxesSummary.isPresent()) { // WV and KY states have AP/RP taxes
 			totalPremium = totalPremium.subtract(PremiumAndCoveragesTab.getStateAndLocalTaxesAndPremiumSurchargesPremium());
