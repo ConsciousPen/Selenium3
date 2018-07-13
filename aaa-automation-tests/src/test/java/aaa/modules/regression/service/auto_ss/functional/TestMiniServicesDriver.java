@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
+import java.text.ParseException;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -98,6 +99,38 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	public void pas478_AddDrivers(@Optional("AZ") String state) {
 
 		pas478_AddDriversBody(getPolicyType());
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Add Drivers service, check info.
+	 * @scenario 1
+	 * 1. Create policy on PAS
+	 * 2. Create endorsement through service
+	 * 3. To add driver send request first name, middle name, last name, suffix and Date of Birth
+	 *      Date of Birth should be so that age is 1 year LESS than the minimum age for the particular state:
+	 *      |=================================|
+	 *      | State	        | Minimum Age     |
+	 *      |=================================|
+	 *      | Kansas	    |     15          |
+	 *      |---------------------------------|
+	 *      | Montana	    |     15          |
+	 *      |---------------------------------|
+	 *      | South Dakota  |	  14          |
+	 *      |---------------------------------|
+	 *      | All Others	|     16          |
+	 *      |=================================|
+	 * 4. Run add driver service and verify that I get an error AND this is not a hard stop
+	 * 5. Go to Pas UI and verify that driver is NOT added
+	 * 6. Hit view driver service and verify that driver is NOT added
+	 * ---------------
+	 * 7. Repeat steps 3-6 with driver age THE SAME as the minimum age for the particular state (see the table above) and validate that driver IS added and no there is no error and hard stop
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14591"})
+	public void pas14591_AddDrivers(@Optional("") String state) throws ParseException {
+		pas14591_AddDriversUnhappyAgeBody(getPolicyType());
 	}
 
 	/**
