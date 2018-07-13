@@ -10,7 +10,6 @@ import org.testng.ITestContext;
 import org.testng.annotations.*;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.common.Tab;
 import aaa.common.pages.MainPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
@@ -111,9 +110,6 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 			}
 		}
 		assertThat(actualPremium).as("Total premium for quote/policy number %s is not equal to expected one", quoteNumber).isEqualTo(openLPolicy.getExpectedPremium());
-		if (Tab.buttonSaveAndExit.isPresent()) {
-			Tab.buttonSaveAndExit.click();
-		}
 	}
 
 	@SuppressWarnings("unchecked")
