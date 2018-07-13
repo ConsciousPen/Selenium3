@@ -661,6 +661,17 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		pas15897_TransactionHistoryAndMessage();
 	}
 
+	//driver assignment
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14540"})
+	public void pas14540_transactionInfoAddVehicleCoverages(@Optional("VA") String state) {
+
+		pas14539_transactionInfoAddVehicleCoveragesBody();
+	}
+
+	//vehicle coverages
+
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15897"})
