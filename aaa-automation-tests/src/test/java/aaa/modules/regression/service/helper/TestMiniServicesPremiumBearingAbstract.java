@@ -1733,7 +1733,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(veh1.driverAssignments.get(dOid).data.get("driverOid")).isEqualTo(dOid);
 			softly.assertThat(veh1.driverAssignments.get(dOid).data.get("vehicleDisplayValue")).isEqualTo(dOid);
 			softly.assertThat(veh1.driverAssignments.get(dOid).data.get("relationshipType")).isEqualTo("occasional");
-
 		});
 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);

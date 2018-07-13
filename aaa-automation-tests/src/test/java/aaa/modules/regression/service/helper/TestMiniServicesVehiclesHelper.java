@@ -1378,7 +1378,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//Garaging Address
 		assertThat(response2.vehicles.get(oid1).garagingAddress.changeType).isEqualTo("ADDED");
 		assertThat(response2.vehicles.get(oid1).garagingAddress.data.get("addressLine1").toString()).isNotEmpty();
-		assertThat(response2.vehicles.get(oid1).garagingAddress.data.get("addressLine2").toString()).isNotBlank();
+		assertThat(response2.vehicles.get(oid1).garagingAddress.data.get("addressLine2")).isEqualTo(null);
 		assertThat(response2.vehicles.get(oid1).garagingAddress.data.get("city").toString()).isNotEmpty();
 		assertThat(response2.vehicles.get(oid1).garagingAddress.data.get("stateProvCd").toString()).isNotEmpty();
 		assertThat(response2.vehicles.get(oid1).garagingAddress.data.get("postalCode").toString()).isNotEmpty();
@@ -1425,7 +1425,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//Garaging Address
 		assertThat(response3.vehicles.get(oid2).garagingAddress.changeType).isEqualTo("ADDED");
 		assertThat(response3.vehicles.get(oid2).garagingAddress.data.get("addressLine1").toString()).isNotEmpty();
-		assertThat(response3.vehicles.get(oid2).garagingAddress.data.get("addressLine2").toString()).isNotBlank();
+		assertThat(response3.vehicles.get(oid2).garagingAddress.data.get("addressLine2")).isEqualTo(null);
 		assertThat(response3.vehicles.get(oid2).garagingAddress.data.get("city").toString()).isNotEmpty();
 		assertThat(response3.vehicles.get(oid2).garagingAddress.data.get("stateProvCd").toString()).isNotEmpty();
 		assertThat(response3.vehicles.get(oid2).garagingAddress.data.get("postalCode").toString()).isNotEmpty();
@@ -1488,7 +1488,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//Garaging Address
 		softly.assertThat(veh0.garagingAddress.changeType).isEqualTo("REMOVED");
 		softly.assertThat(veh0.garagingAddress.data.get("addressLine1").toString()).isNotEmpty();
-		softly.assertThat(veh0.garagingAddress.data.get("addressLine2").toString()).isEqualTo(null);
+		softly.assertThat(veh0.garagingAddress.data.get("addressLine2")).isEqualTo(null);
 		softly.assertThat(veh0.garagingAddress.data.get("city").toString()).isNotEmpty();
 		softly.assertThat(veh0.garagingAddress.data.get("stateProvCd").toString()).isNotEmpty();
 		softly.assertThat(veh0.garagingAddress.data.get("postalCode").toString()).isNotEmpty();
@@ -1524,7 +1524,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//Garaging Address
 		softly.assertThat(veh1nd.garagingAddress.changeType).isEqualTo("REMOVED");
 		softly.assertThat(veh1nd.garagingAddress.data.get("addressLine1").toString()).isNotEmpty();
-		softly.assertThat(veh1nd.garagingAddress.data.get("addressLine2").toString()).isNotBlank();
+		softly.assertThat(veh1nd.garagingAddress.data.get("addressLine2")).isEqualTo(null);
 		softly.assertThat(veh1nd.garagingAddress.data.get("city").toString()).isNotEmpty();
 		softly.assertThat(veh1nd.garagingAddress.data.get("stateProvCd").toString()).isNotEmpty();
 		softly.assertThat(veh1nd.garagingAddress.data.get("postalCode").toString()).isNotEmpty();
@@ -1628,7 +1628,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		softly.assertThat(veh3.data.get("vehicleStatus")).isEqualTo("active");
 		softly.assertThat(veh3.garagingAddress.changeType).isEqualTo("REMOVED");
 		softly.assertThat(veh3.vehicleOwnership.changeType).isEqualTo("REMOVED");
-		softly.assertThat(veh3.vehicleOwnership.data.get("vehicleStatus")).isEqualTo("OWN");
+		softly.assertThat(veh3.vehicleOwnership.data.get("ownership")).isEqualTo("OWN");
 
 		ComparableVehicle replaceVeh1 = response2.vehicles.get(replaceVehOid1);
 		softly.assertThat(replaceVeh1.changeType).isEqualTo("ADDED");
