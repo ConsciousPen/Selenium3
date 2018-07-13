@@ -28,6 +28,10 @@ public class PolicySummary {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	public String expirationDate;
 
+	@ApiModelProperty(value = "Endorsement transaction effective date in IS8601 format (yyyy-MM-dd).", example = "2018-01-30", required = true)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	public String transactionEffectiveDate;
+
 	@ApiModelProperty(value = "Source policy number. Indicates original policy number from which this policy was created, empty if new business.", example = "CONV123456")
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public String sourcePolicyNumber;

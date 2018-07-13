@@ -412,6 +412,27 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	}
 
 	/**
+	 * @author Jovita Pukenaite
+	 * @name Check create endorsement service Transaction Date
+	 * @scenario 1. Create Policy
+	 * 2. Create endorsement: effective date=today
+	 * 3. Validate response (transaction date)
+	 * 4. Hit "pending endorsement info" service. Check transactionDate.
+	 * 5. Create future date endorsement
+	 * 6. Validate response (transaction date)
+	 * 7. Hit "pending endorsement info" service. Check transactionDate.
+	 * 8. Move time to the future endorsement date +2days.
+	 * 9. Hit "pending endorsement info" service. Check transactionDate.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9337"})
+	public void pas15846_CheckTransactionDateForEndorsements(@Optional("VA") String state) {
+
+		pas15846_CheckTransactionDateForEndorsementsBody();
+	}
+
+	/**
 	 * @author Oleg Stasyuk
 	 * @name Check Policy Details service for Pending and Active policies
 	 * @scenario 1. Create pending policy
@@ -639,6 +660,17 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 
 		pas15897_TransactionHistoryAndMessage();
 	}
+
+	//driver assignment
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14540"})
+	public void pas14540_transactionInfoAddVehicleCoverages(@Optional("VA") String state) {
+
+		pas14539_transactionInfoAddVehicleCoveragesBody();
+	}
+
+	//vehicle coverages
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})

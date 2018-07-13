@@ -59,6 +59,7 @@ public class UploadToVINTableTab extends DefaultTab {
 
 	public void openUploadToVinTableTab() {
 		if(!isOpened()){
+			NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 			NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.UPLOAD_TO_VIN_TABLE.get());
 		}
 	}
@@ -101,6 +102,6 @@ public class UploadToVINTableTab extends DefaultTab {
 	}
 
 	public boolean isOpened(){
-		return new StaticElement(By.xpath(String.format(NavigationPage.LABEL_NAVIGATION_VIEW_LEFT_MENU, NavigationEnum.AdminAppLeftMenu.UPLOAD_TO_VIN_TABLE.get()) + "/ancestor::li[1]")).getAttribute("class").contains("selected");
+		return labelUploadSuccessful.isPresent();
 	}
 }

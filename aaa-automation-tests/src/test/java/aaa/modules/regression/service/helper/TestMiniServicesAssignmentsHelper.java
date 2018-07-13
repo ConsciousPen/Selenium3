@@ -44,7 +44,7 @@ protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		//Create a pended Endorsement
-		AAAEndorseResponse endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		PolicySummary endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
 		SearchPage.openPolicy(policyNumber);
@@ -730,7 +730,7 @@ protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 			String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 			//Create a pended Endorsement
-			AAAEndorseResponse endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			PolicySummary endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 			assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
 			String vin1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN");
