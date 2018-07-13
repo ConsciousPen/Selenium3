@@ -33,6 +33,6 @@ public class CustomTestProperties extends TestProperties {
 	public static final String APP_SSH_AUTH_KEYPATH = "app.ssh.auth.keypath";
 	public static final String OPENL_RATING_LOGS_FOLDER = "openl.rating.logs.folder"; // for openl tests only - path to rating engine logs folder
 	public static final String OPENL_RATING_LOGS_FILENAME_REGEXP = "openl.rating.logs.filename.regexp"; // for openl tests only - regexp which matches all rating log filenames including initial one (e.g. "aaa-rating-engine-app.log, aaa-rating-engine-app.log.1, etc...")
-	public static final String OPENL_GRAB_RATING_LOGS = "openl.grab.rating.logs"; // for openl tests only, available values: "true|always|all" to grab logs always and "failed" to grab only if test fails
+	public static final String OPENL_ATTACH_RATING_LOGS = "openl.attach.rating.logs"; // for openl tests only, available values: "true|always|all" to attach logs always and "failed" to attach only if test fails
 	public static final String OPENL_ARCHIVE_RATING_LOGS = "openl.archive.rating.logs"; // for openl tests only - make zip archive of grabbed logs, available values: true, false
 }

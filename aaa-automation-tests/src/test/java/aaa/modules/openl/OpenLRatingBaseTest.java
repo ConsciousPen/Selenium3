@@ -33,7 +33,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 	private static final Object TESTS_PREPARATIONS_LOCK = new Object();
 	private static final Object RATING_LOCK = new Object();
 	private static final String DATA_PROVIDER_NAME = "openLTestDataProvider";
-	private static final String OPENL_GRAB_RATING_LOGS = PropertyProvider.getProperty(CustomTestProperties.OPENL_GRAB_RATING_LOGS);
+	private static final String OPENL_GRAB_RATING_LOGS = PropertyProvider.getProperty(CustomTestProperties.OPENL_ATTACH_RATING_LOGS);
 	private static final boolean ARCHIVE_RATING_LOGS = Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.OPENL_ARCHIVE_RATING_LOGS));
 	private static OpenLTestsManager openLTestsManager;
 	private static RatingEngineLogsGrabber ratingEngineLogsGrabber = new RatingEngineLogsGrabber();
@@ -96,27 +96,23 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		createOrOpenExistingCustomer(testInfo);
 
 		log.info("Premium calculation verification initiated for test {} and expected premium {} from \"{}\" OpenL file", policyNumber, openLPolicy.getExpectedPremium(), filePath);
-		try {
-			String quoteNumber = createQuote(openLPolicy);
-			log.info("Quote/policy created {}", quoteNumber);
+		String quoteNumber = createQuote(openLPolicy);
+		log.info("Quote/policy created: {}", quoteNumber);
 
-			synchronized (RATING_LOCK) {
-				actualPremium = calculatePremium(openLPolicy);
-				if (!openLPolicy.getExpectedPremium().equals(actualPremium)) {
-					RatingEngineLogsHolder ratingLogs = ratingEngineLogsGrabber.grabRatingLogs();
-					//not implemented yet
-					//checkRequestFieldsValues(ratingLogs, openLPolicy, quoteNumber);
-					saveLogs(ratingLogs, testInfo.getTestContext(), openLPolicy.getNumber(), false);
-				} else {
-					grabAndSaveLogs(testInfo.getTestContext(), openLPolicy.getNumber(), true);
-				}
+		synchronized (RATING_LOCK) {
+			actualPremium = calculatePremium(openLPolicy);
+			if (!openLPolicy.getExpectedPremium().equals(actualPremium)) {
+				RatingEngineLogsHolder ratingLogs = ratingEngineLogsGrabber.grabRatingLogs();
+				//not implemented yet
+				//checkRequestFieldsValues(ratingLogs, openLPolicy, quoteNumber);
+				saveLogs(ratingLogs, testInfo.getTestContext(), openLPolicy.getNumber(), false);
+			} else {
+				grabAndSaveLogs(testInfo.getTestContext(), openLPolicy.getNumber(), true);
 			}
-
-			assertThat(actualPremium).as("Total premium for quote/policy number %s is not equal to expected one", quoteNumber).isEqualTo(openLPolicy.getExpectedPremium());
-		} finally {
-			if (Tab.buttonSaveAndExit.isPresent()) {
-				Tab.buttonSaveAndExit.click();
-			}
+		}
+		assertThat(actualPremium).as("Total premium for quote/policy number %s is not equal to expected one", quoteNumber).isEqualTo(openLPolicy.getExpectedPremium());
+		if (Tab.buttonSaveAndExit.isPresent()) {
+			Tab.buttonSaveAndExit.click();
 		}
 	}
 

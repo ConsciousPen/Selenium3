@@ -87,8 +87,9 @@ public class RatingEngineLogsHolder {
 		}
 
 		File logDestination = new File(logDestinationPath);
-		if (logDestination.getParentFile().mkdirs()) {
-			log.info("Directory \"{}\" was created", logDestination.getParentFile().getAbsolutePath());
+		if (!logDestination.getParentFile().exists() && !logDestination.getParentFile().mkdirs()) {
+			log.error("Unable to create \"{}\" directory, log file saving has been aborted", logDestination.getParentFile());
+			return null;
 		}
 
 		String formattedLogContent;
