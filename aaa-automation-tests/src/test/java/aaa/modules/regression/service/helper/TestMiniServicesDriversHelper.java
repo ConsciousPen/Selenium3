@@ -375,9 +375,9 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			errorCode = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_SD.getCode();
 			errorMessage = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_SD.getMessage();
 
-		} else if ("VA".contains(getState())) {
+		} else if ("NV, VA".contains(getState())) {
 			minimumAge = 16;
-			errorCode = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_XX.getCode()+getState();
+			errorCode = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_XX.getCode() + getState();
 			errorMessage = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_XX.getMessage();
 
 		} else {
