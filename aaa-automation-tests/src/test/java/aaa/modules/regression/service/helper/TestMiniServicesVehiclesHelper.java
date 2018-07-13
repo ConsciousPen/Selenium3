@@ -1,22 +1,5 @@
 package aaa.modules.regression.service.helper;
 
-import static aaa.main.metadata.policy.AutoSSMetaData.UpdateRulesOverrideActionTab.RuleRow.RULE_NAME;
-import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
-import javax.ws.rs.core.Response;
-
-import aaa.modules.regression.service.helper.dtoDxp.comparison.ComparablePolicy;
-
-import aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments;
-import aaa.modules.regression.service.helper.dtoDxp.comparison.ComparableVehicle;
-import org.assertj.core.api.SoftAssertions;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableList;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -32,12 +15,29 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
+import aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments;
 import aaa.modules.regression.service.helper.dtoDxp.*;
+import aaa.modules.regression.service.helper.dtoDxp.ComparablePolicy;
+import aaa.modules.regression.service.helper.dtoDxp.ComparableVehicle;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.common.collect.ImmutableList;
+import org.assertj.core.api.SoftAssertions;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.ComboBox;
+
+import javax.ws.rs.core.Response;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
+
+import static aaa.main.metadata.policy.AutoSSMetaData.UpdateRulesOverrideActionTab.RuleRow.RULE_NAME;
+import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
@@ -45,7 +45,6 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private VehicleTab vehicleTab = new VehicleTab();
 	private GeneralTab generalTab = new GeneralTab();
-	private AssignmentTab assignmentTab = new AssignmentTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
 	private TestMiniServicesGeneralHelper testMiniServicesGeneralHelper = new TestMiniServicesGeneralHelper();
 	private TestMiniServicesCoveragesHelper testMiniServicesCoveragesHelper = new TestMiniServicesCoveragesHelper();
@@ -1361,38 +1360,38 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//Check first vehicle
 		ComparablePolicy response2 = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
 		assertThat(response2.vehicles.get(oid1).changeType).isEqualTo("ADDED");
-		assertThat(response2.vehicles.get(oid1).data.modelYear.value).isEqualTo("2006");
-		assertThat(response2.vehicles.get(oid1).data.manufacturer.value).isEqualTo("HONDA");
-		assertThat(response2.vehicles.get(oid1).data.series.value).isEqualTo("CIVIC LX");
-		assertThat(response2.vehicles.get(oid1).data.model.value).isEqualTo("CIVIC");
-		assertThat(response2.vehicles.get(oid1).data.bodyStyle.value).isEqualTo("SEDAN 4 DOOR");
-		assertThat(response2.vehicles.get(oid1).data.oid.value).isEqualTo(oid1);
-		assertThat(response2.vehicles.get(oid1).data.purchaseDate.value).startsWith(purchaseDate);
-		assertThat(response2.vehicles.get(oid1).data.vehIdentificationNo.value).isEqualTo(vin1);
-		assertThat(response2.vehicles.get(oid1).data.vehicleStatus.value).isEqualTo("pending");
-		assertThat(response2.vehicles.get(oid1).data.usage.value).isEqualTo("Pleasure");
-		assertThat(response2.vehicles.get(oid1).data.salvaged.value).isEqualTo(false);
-		assertThat(response2.vehicles.get(oid1).data.garagingDifferent.value).isEqualTo(false);
-		assertThat(response2.vehicles.get(oid1).data.antiTheft.value).isEqualTo("NONE");
-		assertThat(response2.vehicles.get(oid1).data.registeredOwner.value).isEqualTo(true);
-		assertThat(response2.vehicles.get(oid1).data.vehTypeCd.value).isEqualTo("PPA");
+		assertThat(response2.vehicles.get(oid1).data.get("modelYear")).isEqualTo("2006");
+		assertThat(response2.vehicles.get(oid1).data.get("manufacturer")).isEqualTo("HONDA");
+		assertThat(response2.vehicles.get(oid1).data.get("series")).isEqualTo("CIVIC LX");
+		assertThat(response2.vehicles.get(oid1).data.get("model")).isEqualTo("CIVIC");
+		assertThat(response2.vehicles.get(oid1).data.get("bodyStyle")).isEqualTo("SEDAN 4 DOOR");
+		assertThat(response2.vehicles.get(oid1).data.get("oid")).isEqualTo(oid1);
+		assertThat(response2.vehicles.get(oid1).data.get("purchaseDate").toString()).startsWith(purchaseDate);
+		assertThat(response2.vehicles.get(oid1).data.get("vehIdentificationNo")).isEqualTo(vin1);
+		assertThat(response2.vehicles.get(oid1).data.get("vehicleStatus")).isEqualTo("pending");
+		assertThat(response2.vehicles.get(oid1).data.get("usage")).isEqualTo("Pleasure");
+		assertThat(response2.vehicles.get(oid1).data.get("salvaged")).isEqualTo(false);
+		assertThat(response2.vehicles.get(oid1).data.get("garagingDifferent")).isEqualTo(false);
+		assertThat(response2.vehicles.get(oid1).data.get("antiTheft")).isEqualTo("NONE");
+		assertThat(response2.vehicles.get(oid1).data.get("registeredOwner")).isEqualTo(true);
+		assertThat(response2.vehicles.get(oid1).data.get("vehTypeCd")).isEqualTo("PPA");
 		//Garaging Address
 		assertThat(response2.vehicles.get(oid1).garagingAddress.changeType).isEqualTo("ADDED");
-		assertThat(response2.vehicles.get(oid1).garagingAddress.data.addressLine1.value).isNotEmpty();
-		assertThat(response2.vehicles.get(oid1).garagingAddress.data.addressLine2.value).isNotBlank();
-		assertThat(response2.vehicles.get(oid1).garagingAddress.data.city.value).isNotEmpty();
-		assertThat(response2.vehicles.get(oid1).garagingAddress.data.stateProvCd.value).isNotEmpty();
-		assertThat(response2.vehicles.get(oid1).garagingAddress.data.postalCode.value).isNotEmpty();
+		assertThat(response2.vehicles.get(oid1).garagingAddress.data.get("addressLine1").toString()).isNotEmpty();
+		assertThat(response2.vehicles.get(oid1).garagingAddress.data.get("addressLine2").toString()).isNotBlank();
+		assertThat(response2.vehicles.get(oid1).garagingAddress.data.get("city").toString()).isNotEmpty();
+		assertThat(response2.vehicles.get(oid1).garagingAddress.data.get("stateProvCd").toString()).isNotEmpty();
+		assertThat(response2.vehicles.get(oid1).garagingAddress.data.get("postalCode").toString()).isNotEmpty();
 		//Vehicle Ownership
 		assertThat(response2.vehicles.get(oid1).vehicleOwnership.changeType).isEqualTo("ADDED");
-		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.ownership.value).isEqualTo("OWN");
-		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.name.value).isEqualTo(null);
-		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.secondName.value).isEqualTo(null);
-		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.addressLine1.value).isEqualTo(null);
-		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.addressLine2.value).isEqualTo(null);
-		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.city.value).isEqualTo(null);
-		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.stateProvCd.value).isEqualTo(null);
-		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.postalCode.value).isEqualTo(null);
+		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.get("ownership")).isEqualTo("OWN");
+		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.get("name")).isEqualTo(null);
+		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.get("secondName")).isEqualTo(null);
+		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.get("addressLine1")).isEqualTo(null);
+		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.get("addressLine2")).isEqualTo(null);
+		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.get("city")).isEqualTo(null);
+		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.get("stateProvCd")).isEqualTo(null);
+		assertThat(response2.vehicles.get(oid1).vehicleOwnership.data.get("postalCode")).isEqualTo(null);
 
 		//Add second vehicle
 		String purchaseDate2 = "2005-02-22";
@@ -1407,39 +1406,39 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//Check second vehicle
 		ComparablePolicy response3 = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
 		assertThat(response3.vehicles.get(oid2).changeType).isEqualTo("ADDED");
-		assertThat(response3.vehicles.get(oid2).data.modelYear.value).isEqualTo("2001");
-		assertThat(response3.vehicles.get(oid2).data.manufacturer.value).isEqualTo("FORD");
-		assertThat(response3.vehicles.get(oid2).data.series.value).isEqualTo("FOCUS ZX3");
-		assertThat(response3.vehicles.get(oid2).data.model.value).isEqualTo("FOCUS");
-		assertThat(response3.vehicles.get(oid2).data.bodyStyle.value).isEqualTo("3 DOOR COUPE");
-		assertThat(response3.vehicles.get(oid2).data.oid.value).isEqualTo(oid2);
+		assertThat(response3.vehicles.get(oid2).data.get("modelYear")).isEqualTo("2001");
+		assertThat(response3.vehicles.get(oid2).data.get("manufacturer")).isEqualTo("FORD");
+		assertThat(response3.vehicles.get(oid2).data.get("series")).isEqualTo("FOCUS ZX3");
+		assertThat(response3.vehicles.get(oid2).data.get("model")).isEqualTo("FOCUS");
+		assertThat(response3.vehicles.get(oid2).data.get("bodyStyle")).isEqualTo("3 DOOR COUPE");
+		assertThat(response3.vehicles.get(oid2).data.get("oid")).isEqualTo(oid2);
 		//Bug PAS-15528: "purchaseDate" disappearing after rate action outside of PAS
 		//assertThat(response3.vehicles.get(oid2).data.purchaseDate).startsWith(purchaseDate2);
-		assertThat(response3.vehicles.get(oid2).data.vehIdentificationNo.value).isEqualTo(vin2);
-		assertThat(response3.vehicles.get(oid2).data.vehicleStatus.value).isEqualTo("pending");
-		assertThat(response3.vehicles.get(oid2).data.usage.value).isEqualTo("Pleasure");
-		assertThat(response3.vehicles.get(oid2).data.salvaged.value).isEqualTo(false);
-		assertThat(response3.vehicles.get(oid2).data.garagingDifferent.value).isEqualTo(false);
-		assertThat(response3.vehicles.get(oid2).data.antiTheft.value).isEqualTo("NONE");
-		assertThat(response3.vehicles.get(oid2).data.registeredOwner.value).isEqualTo(true);
-		assertThat(response3.vehicles.get(oid2).data.vehTypeCd.value).isEqualTo("PPA");
+		assertThat(response3.vehicles.get(oid2).data.get("vehIdentificationNo")).isEqualTo(vin2);
+		assertThat(response3.vehicles.get(oid2).data.get("vehicleStatus")).isEqualTo("pending");
+		assertThat(response3.vehicles.get(oid2).data.get("usage")).isEqualTo("Pleasure");
+		assertThat(response3.vehicles.get(oid2).data.get("salvaged")).isEqualTo(false);
+		assertThat(response3.vehicles.get(oid2).data.get("garagingDifferent")).isEqualTo(false);
+		assertThat(response3.vehicles.get(oid2).data.get("antiTheft")).isEqualTo("NONE");
+		assertThat(response3.vehicles.get(oid2).data.get("registeredOwner")).isEqualTo(true);
+		assertThat(response3.vehicles.get(oid2).data.get("vehTypeCd")).isEqualTo("PPA");
 		//Garaging Address
 		assertThat(response3.vehicles.get(oid2).garagingAddress.changeType).isEqualTo("ADDED");
-		assertThat(response3.vehicles.get(oid2).garagingAddress.data.addressLine1.value).isNotEmpty();
-		assertThat(response3.vehicles.get(oid2).garagingAddress.data.addressLine2.value).isNotBlank();
-		assertThat(response3.vehicles.get(oid2).garagingAddress.data.city.value).isNotEmpty();
-		assertThat(response3.vehicles.get(oid2).garagingAddress.data.stateProvCd.value).isNotEmpty();
-		assertThat(response3.vehicles.get(oid2).garagingAddress.data.postalCode.value).isNotEmpty();
+		assertThat(response3.vehicles.get(oid2).garagingAddress.data.get("addressLine1").toString()).isNotEmpty();
+		assertThat(response3.vehicles.get(oid2).garagingAddress.data.get("addressLine2").toString()).isNotBlank();
+		assertThat(response3.vehicles.get(oid2).garagingAddress.data.get("city").toString()).isNotEmpty();
+		assertThat(response3.vehicles.get(oid2).garagingAddress.data.get("stateProvCd").toString()).isNotEmpty();
+		assertThat(response3.vehicles.get(oid2).garagingAddress.data.get("postalCode").toString()).isNotEmpty();
 		//Vehicle Ownership
 		assertThat(response3.vehicles.get(oid2).vehicleOwnership.changeType).isEqualTo("ADDED");
-		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.ownership.value).isEqualTo("OWN");
-		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.name.value).isEqualTo(null);
-		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.secondName.value).isEqualTo(null);
-		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.addressLine1.value).isEqualTo(null);
-		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.addressLine2.value).isEqualTo(null);
-		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.city.value).isEqualTo(null);
-		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.stateProvCd.value).isEqualTo(null);
-		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.postalCode.value).isEqualTo(null);
+		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.get("ownership")).isEqualTo("OWN");
+		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.get("name")).isEqualTo(null);
+		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.get("secondName")).isEqualTo(null);
+		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.get("addressLine1")).isEqualTo(null);
+		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.get("addressLine2")).isEqualTo(null);
+		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.get("city")).isEqualTo(null);
+		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.get("stateProvCd")).isEqualTo(null);
+		assertThat(response3.vehicles.get(oid2).vehicleOwnership.data.get("postalCode")).isEqualTo(null);
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
@@ -1471,74 +1470,74 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		ComparablePolicy response5 = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
 		ComparableVehicle veh0 = response5.vehicles.get(oid0);
 		softly.assertThat(veh0.changeType).isEqualTo("REMOVED");
-		softly.assertThat(veh0.data.modelYear.value).isEqualTo("2011");
-		softly.assertThat(veh0.data.manufacturer.value).isEqualTo("CHEVROLET");
-		softly.assertThat(veh0.data.series.value).isEqualTo("EXPRESS G2500 LS");
-		softly.assertThat(veh0.data.model.value).isEqualTo("EXPRESS VAN");
-		softly.assertThat(veh0.data.bodyStyle.value).isEqualTo("SPORT VAN");
-		softly.assertThat(veh0.data.oid.value).isEqualTo(oid0);
-		softly.assertThat(veh0.data.purchaseDate.value).isEqualTo(null);
-		softly.assertThat(veh0.data.vehIdentificationNo.value).isEqualTo(vin0);
-		softly.assertThat(veh0.data.vehicleStatus.value).isEqualTo("active");
-		softly.assertThat(veh0.data.usage.value).isEqualTo("Pleasure");
-		softly.assertThat(veh0.data.salvaged.value).isEqualTo(false);
-		softly.assertThat(veh0.data.garagingDifferent.value).isEqualTo(false);
-		softly.assertThat(veh0.data.antiTheft.value).isEqualTo("NONE");
-		softly.assertThat(veh0.data.registeredOwner.value).isEqualTo(null);
-		softly.assertThat(veh0.data.vehTypeCd.value).isEqualTo("PPA");
+		softly.assertThat(veh0.data.get("modelYear")).isEqualTo("2011");
+		softly.assertThat(veh0.data.get("manufacturer")).isEqualTo("CHEVROLET");
+		softly.assertThat(veh0.data.get("series")).isEqualTo("EXPRESS G2500 LS");
+		softly.assertThat(veh0.data.get("model")).isEqualTo("EXPRESS VAN");
+		softly.assertThat(veh0.data.get("bodyStyle")).isEqualTo("SPORT VAN");
+		softly.assertThat(veh0.data.get("oid")).isEqualTo(oid0);
+		softly.assertThat(veh0.data.get("purchaseDate")).isEqualTo(null);
+		softly.assertThat(veh0.data.get("vehIdentificationNo")).isEqualTo(vin0);
+		softly.assertThat(veh0.data.get("vehicleStatus")).isEqualTo("active");
+		softly.assertThat(veh0.data.get("usage")).isEqualTo("Pleasure");
+		softly.assertThat(veh0.data.get("salvaged")).isEqualTo(false);
+		softly.assertThat(veh0.data.get("garagingDifferent")).isEqualTo(false);
+		softly.assertThat(veh0.data.get("antiTheft")).isEqualTo("NONE");
+		softly.assertThat(veh0.data.get("registeredOwner")).isEqualTo(null);
+		softly.assertThat(veh0.data.get("vehTypeCd")).isEqualTo("PPA");
 		//Garaging Address
 		softly.assertThat(veh0.garagingAddress.changeType).isEqualTo("REMOVED");
-		softly.assertThat(veh0.garagingAddress.data.addressLine1.value).isNotEmpty();
-		softly.assertThat(veh0.garagingAddress.data.addressLine2.value).isEqualTo(null);
-		softly.assertThat(veh0.garagingAddress.data.city.value).isNotEmpty();
-		softly.assertThat(veh0.garagingAddress.data.stateProvCd.value).isNotEmpty();
-		softly.assertThat(veh0.garagingAddress.data.postalCode.value).isNotEmpty();
+		softly.assertThat(veh0.garagingAddress.data.get("addressLine1").toString()).isNotEmpty();
+		softly.assertThat(veh0.garagingAddress.data.get("addressLine2").toString()).isEqualTo(null);
+		softly.assertThat(veh0.garagingAddress.data.get("city").toString()).isNotEmpty();
+		softly.assertThat(veh0.garagingAddress.data.get("stateProvCd").toString()).isNotEmpty();
+		softly.assertThat(veh0.garagingAddress.data.get("postalCode").toString()).isNotEmpty();
 		//Vehicle Ownership
 		softly.assertThat(veh0.vehicleOwnership.changeType).isEqualTo("REMOVED");
-		softly.assertThat(veh0.vehicleOwnership.data.ownership.value).isEqualTo("OWN");
-		softly.assertThat(veh0.vehicleOwnership.data.name.value).isEqualTo(null);
-		softly.assertThat(veh0.vehicleOwnership.data.secondName.value).isEqualTo(null);
-		softly.assertThat(veh0.vehicleOwnership.data.addressLine1.value).isEqualTo(null);
-		softly.assertThat(veh0.vehicleOwnership.data.addressLine2.value).isEqualTo(null);
-		softly.assertThat(veh0.vehicleOwnership.data.city.value).isEqualTo(null);
-		softly.assertThat(veh0.vehicleOwnership.data.stateProvCd.value).isEqualTo(null);
-		softly.assertThat(veh0.vehicleOwnership.data.postalCode.value).isEqualTo(null);
+		softly.assertThat(veh0.vehicleOwnership.data.get("ownership")).isEqualTo("OWN");
+		softly.assertThat(veh0.vehicleOwnership.data.get("name")).isEqualTo(null);
+		softly.assertThat(veh0.vehicleOwnership.data.get("secondName")).isEqualTo(null);
+		softly.assertThat(veh0.vehicleOwnership.data.get("addressLine1")).isEqualTo(null);
+		softly.assertThat(veh0.vehicleOwnership.data.get("addressLine2")).isEqualTo(null);
+		softly.assertThat(veh0.vehicleOwnership.data.get("city")).isEqualTo(null);
+		softly.assertThat(veh0.vehicleOwnership.data.get("stateProvCd")).isEqualTo(null);
+		softly.assertThat(veh0.vehicleOwnership.data.get("postalCode")).isEqualTo(null);
 
 		//Check second vehicle
 		ComparableVehicle veh1nd = response5.vehicles.get(oid1);
 		softly.assertThat(veh1nd.changeType).isEqualTo("REMOVED");
-		softly.assertThat(veh1nd.data.modelYear.value).isEqualTo("2006");
-		softly.assertThat(veh1nd.data.manufacturer.value).isEqualTo("HONDA");
-		softly.assertThat(veh1nd.data.series.value).isEqualTo("CIVIC LX");
-		softly.assertThat(veh1nd.data.model.value).isEqualTo("CIVIC");
-		softly.assertThat(veh1nd.data.bodyStyle.value).isEqualTo("SEDAN 4 DOOR");
-		softly.assertThat(veh1nd.data.oid.value).isEqualTo(oid1);
-		softly.assertThat(veh1nd.data.purchaseDate.value).startsWith(purchaseDate);
-		softly.assertThat(veh1nd.data.vehIdentificationNo.value).isEqualTo(vin1);
-		softly.assertThat(veh1nd.data.vehicleStatus.value).isEqualTo("active");
-		softly.assertThat(veh1nd.data.usage.value).isEqualTo("Pleasure");
-		softly.assertThat(veh1nd.data.salvaged.value).isEqualTo(false);
-		softly.assertThat(veh1nd.data.garagingDifferent.value).isEqualTo(false);
-		softly.assertThat(veh1nd.data.antiTheft.value).isEqualTo("NONE");
-		softly.assertThat(veh1nd.data.registeredOwner.value).isEqualTo(true);
-		softly.assertThat(veh1nd.data.vehTypeCd.value).isEqualTo("PPA");
+		softly.assertThat(veh1nd.data.get("modelYear")).isEqualTo("2006");
+		softly.assertThat(veh1nd.data.get("manufacturer")).isEqualTo("HONDA");
+		softly.assertThat(veh1nd.data.get("series")).isEqualTo("CIVIC LX");
+		softly.assertThat(veh1nd.data.get("model")).isEqualTo("CIVIC");
+		softly.assertThat(veh1nd.data.get("bodyStyle")).isEqualTo("SEDAN 4 DOOR");
+		softly.assertThat(veh1nd.data.get("oid")).isEqualTo(oid1);
+		softly.assertThat(veh1nd.data.get("purchaseDate").toString()).startsWith(purchaseDate);
+		softly.assertThat(veh1nd.data.get("vehIdentificationNo")).isEqualTo(vin1);
+		softly.assertThat(veh1nd.data.get("vehicleStatus")).isEqualTo("active");
+		softly.assertThat(veh1nd.data.get("usage")).isEqualTo("Pleasure");
+		softly.assertThat(veh1nd.data.get("salvaged")).isEqualTo(false);
+		softly.assertThat(veh1nd.data.get("garagingDifferent")).isEqualTo(false);
+		softly.assertThat(veh1nd.data.get("antiTheft")).isEqualTo("NONE");
+		softly.assertThat(veh1nd.data.get("registeredOwner")).isEqualTo(true);
+		softly.assertThat(veh1nd.data.get("vehTypeCd")).isEqualTo("PPA");
 		//Garaging Address
 		softly.assertThat(veh1nd.garagingAddress.changeType).isEqualTo("REMOVED");
-		softly.assertThat(veh1nd.garagingAddress.data.addressLine1.value).isNotEmpty();
-		softly.assertThat(veh1nd.garagingAddress.data.addressLine2.value).isNotBlank();
-		softly.assertThat(veh1nd.garagingAddress.data.city.value).isNotEmpty();
-		softly.assertThat(veh1nd.garagingAddress.data.stateProvCd.value).isNotEmpty();
-		softly.assertThat(veh1nd.garagingAddress.data.postalCode.value).isNotEmpty();
+		softly.assertThat(veh1nd.garagingAddress.data.get("addressLine1").toString()).isNotEmpty();
+		softly.assertThat(veh1nd.garagingAddress.data.get("addressLine2").toString()).isNotBlank();
+		softly.assertThat(veh1nd.garagingAddress.data.get("city").toString()).isNotEmpty();
+		softly.assertThat(veh1nd.garagingAddress.data.get("stateProvCd").toString()).isNotEmpty();
+		softly.assertThat(veh1nd.garagingAddress.data.get("postalCode").toString()).isNotEmpty();
 		//Vehicle Ownership
 		softly.assertThat(veh1nd.vehicleOwnership.changeType).isEqualTo("REMOVED");
-		softly.assertThat(veh1nd.vehicleOwnership.data.ownership.value).isEqualTo("OWN");
-		softly.assertThat(veh1nd.vehicleOwnership.data.name.value).isEqualTo(null);
-		softly.assertThat(veh1nd.vehicleOwnership.data.secondName.value).isEqualTo(null);
-		softly.assertThat(veh1nd.vehicleOwnership.data.addressLine1.value).isEqualTo(null);
-		softly.assertThat(veh1nd.vehicleOwnership.data.addressLine2.value).isEqualTo(null);
-		softly.assertThat(veh1nd.vehicleOwnership.data.city.value).isEqualTo(null);
-		softly.assertThat(veh1nd.vehicleOwnership.data.stateProvCd.value).isEqualTo(null);
-		softly.assertThat(veh1nd.vehicleOwnership.data.postalCode.value).isEqualTo(null);
+		softly.assertThat(veh1nd.vehicleOwnership.data.get("ownership")).isEqualTo("OWN");
+		softly.assertThat(veh1nd.vehicleOwnership.data.get("name")).isEqualTo(null);
+		softly.assertThat(veh1nd.vehicleOwnership.data.get("secondName")).isEqualTo(null);
+		softly.assertThat(veh1nd.vehicleOwnership.data.get("addressLine1")).isEqualTo(null);
+		softly.assertThat(veh1nd.vehicleOwnership.data.get("addressLine2")).isEqualTo(null);
+		softly.assertThat(veh1nd.vehicleOwnership.data.get("city")).isEqualTo(null);
+		softly.assertThat(veh1nd.vehicleOwnership.data.get("stateProvCd")).isEqualTo(null);
+		softly.assertThat(veh1nd.vehicleOwnership.data.get("postalCode")).isEqualTo(null);
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
@@ -1592,55 +1591,55 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		ComparablePolicy response2 = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
 		ComparableVehicle replaceVeh2 = response2.vehicles.get(replaceVehOid2);
 		softly.assertThat(replaceVeh2.changeType).isEqualTo("ADDED");
-		softly.assertThat(replaceVeh2.data.oid.value).isEqualTo(replaceVehOid2);
-		softly.assertThat(replaceVeh2.data.purchaseDate.value).isNotEmpty();
-		softly.assertThat(replaceVeh2.data.vehIdentificationNo.value).isEqualTo(replacedVehicleVin2);
-		softly.assertThat(replaceVeh2.data.vehicleReplacedBy.value).isEqualTo(oid2);
-		softly.assertThat(replaceVeh2.data.vehicleStatus.value).isEqualTo("pending");
+		softly.assertThat(replaceVeh2.data.get("oid")).isEqualTo(replaceVehOid2);
+		softly.assertThat(replaceVeh2.data.get("purchaseDate").toString()).isNotEmpty();
+		softly.assertThat(replaceVeh2.data.get("vehIdentificationNo")).isEqualTo(replacedVehicleVin2);
+		softly.assertThat(replaceVeh2.data.get("vehicleReplacedBy")).isEqualTo(oid2);
+		softly.assertThat(replaceVeh2.data.get("vehicleStatus")).isEqualTo("pending");
 		softly.assertThat(replaceVeh2.garagingAddress.changeType).isEqualTo("ADDED");
 		softly.assertThat(replaceVeh2.vehicleOwnership.changeType).isEqualTo("ADDED");
-		softly.assertThat(replaceVeh2.vehicleOwnership.data.ownership.value).isEqualTo("OWN");
+		softly.assertThat(replaceVeh2.vehicleOwnership.data.get("ownership")).isEqualTo("OWN");
 
 		ComparableVehicle veh1 = response2.vehicles.get(oid1);
 		softly.assertThat(veh1.changeType).isEqualTo("REMOVED");
-		softly.assertThat(veh1.data.oid.value).isEqualTo(oid1);
-		softly.assertThat(veh1.data.purchaseDate.value).isEqualTo(null);
-		softly.assertThat(veh1.data.vehIdentificationNo.value).isEqualTo(vin1);
-		softly.assertThat(veh1.data.vehicleStatus.value).isEqualTo("active");
+		softly.assertThat(veh1.data.get("oid")).isEqualTo(oid1);
+		softly.assertThat(veh1.data.get("purchaseDate")).isEqualTo(null);
+		softly.assertThat(veh1.data.get("vehIdentificationNo")).isEqualTo(vin1);
+		softly.assertThat(veh1.data.get("vehicleStatus")).isEqualTo("active");
 		softly.assertThat(veh1.garagingAddress.changeType).isEqualTo("REMOVED");
 		softly.assertThat(veh1.vehicleOwnership.changeType).isEqualTo("REMOVED");
-		softly.assertThat(veh1.vehicleOwnership.data.ownership.value).isEqualTo("OWN");
+		softly.assertThat(veh1.vehicleOwnership.data.get("ownership")).isEqualTo("OWN");
 
 		ComparableVehicle veh2 = response2.vehicles.get(oid2);
 		softly.assertThat(veh2.changeType).isEqualTo("REMOVED");
-		softly.assertThat(veh2.data.oid.value).isEqualTo(oid2);
-		softly.assertThat(veh2.data.purchaseDate.value).isEqualTo(null);
-		softly.assertThat(veh2.data.vehIdentificationNo.value).isEqualTo(vin2);
-		softly.assertThat(veh2.data.vehicleStatus.value).isEqualTo("active");
+		softly.assertThat(veh2.data.get("oid")).isEqualTo(oid2);
+		softly.assertThat(veh2.data.get("purchaseDate")).isEqualTo(null);
+		softly.assertThat(veh2.data.get("vehIdentificationNo")).isEqualTo(vin2);
+		softly.assertThat(veh2.data.get("vehicleStatus")).isEqualTo("active");
 		softly.assertThat(veh2.garagingAddress.changeType).isEqualTo("REMOVED");
 		softly.assertThat(veh2.vehicleOwnership.changeType).isEqualTo("REMOVED");
-		softly.assertThat(veh2.vehicleOwnership.data.ownership.value).isEqualTo("OWN");
+		softly.assertThat(veh2.vehicleOwnership.data.get("ownership")).isEqualTo("OWN");
 
 		ComparableVehicle veh3 = response2.vehicles.get(oid3);
 		softly.assertThat(veh3.changeType).isEqualTo("REMOVED");
-		softly.assertThat(veh3.data.oid.value).isEqualTo(oid3);
-		softly.assertThat(veh3.data.purchaseDate.value).isEqualTo(null);
-		softly.assertThat(veh3.data.vehIdentificationNo.value).isEqualTo(vin3);
-		softly.assertThat(veh3.data.vehicleStatus.value).isEqualTo("active");
+		softly.assertThat(veh3.data.get("oid")).isEqualTo(oid3);
+		softly.assertThat(veh3.data.get("purchaseDate")).isEqualTo(null);
+		softly.assertThat(veh3.data.get("vehIdentificationNo")).isEqualTo(vin3);
+		softly.assertThat(veh3.data.get("vehicleStatus")).isEqualTo("active");
 		softly.assertThat(veh3.garagingAddress.changeType).isEqualTo("REMOVED");
 		softly.assertThat(veh3.vehicleOwnership.changeType).isEqualTo("REMOVED");
-		softly.assertThat(veh3.vehicleOwnership.data.ownership.value).isEqualTo("OWN");
+		softly.assertThat(veh3.vehicleOwnership.data.get("vehicleStatus")).isEqualTo("OWN");
 
 		ComparableVehicle replaceVeh1 = response2.vehicles.get(replaceVehOid1);
 		softly.assertThat(replaceVeh1.changeType).isEqualTo("ADDED");
-		softly.assertThat(replaceVeh1.data.oid.value).isEqualTo(replaceVehOid1);
-		softly.assertThat(replaceVeh1.data.purchaseDate.value).isNotEmpty();
-		softly.assertThat(replaceVeh1.data.vehIdentificationNo.value).isEqualTo(replacedVehicleVin1);
-		softly.assertThat(replaceVeh1.data.vehicleReplacedBy.value).isEqualTo(oid1);
-		softly.assertThat(replaceVeh1.data.vehicleStatus.value).isEqualTo("pending");
+		softly.assertThat(replaceVeh1.data.get("oid")).isEqualTo(replaceVehOid1);
+		softly.assertThat(replaceVeh1.data.get("purchaseDate").toString()).isNotEmpty();
+		softly.assertThat(replaceVeh1.data.get("vehIdentificationNo")).isEqualTo(replacedVehicleVin1);
+		softly.assertThat(replaceVeh1.data.get("vehicleReplacedBy")).isEqualTo(oid1);
+		softly.assertThat(replaceVeh1.data.get("vehicleStatus")).isEqualTo("pending");
 		softly.assertThat(replaceVeh1.garagingAddress.changeType).isEqualTo("ADDED");
 		softly.assertThat(replaceVeh1.vehicleOwnership.changeType).isEqualTo("ADDED");
-		softly.assertThat(replaceVeh1.vehicleOwnership.data.ownership.value).isEqualTo("OWN");
+		softly.assertThat(replaceVeh1.vehicleOwnership.data.get("ownership")).isEqualTo("OWN");
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
@@ -1669,13 +1668,13 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		ComparablePolicy response4 = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
 		ComparableVehicle replaceVeh3 = response4.vehicles.get(replaceVehOid3);
 		softly.assertThat(replaceVeh3.changeType).isEqualTo("ADDED");
-		softly.assertThat(replaceVeh3.data.oid.value).isEqualTo(replaceVehOid3);
-		softly.assertThat(replaceVeh3.data.purchaseDate.value).isNotEmpty();
-		softly.assertThat(replaceVeh3.data.vehIdentificationNo.value).isEqualTo(replacedVehicleVin3);
-		softly.assertThat(replaceVeh3.data.vehicleStatus.value).isEqualTo("pending");
+		softly.assertThat(replaceVeh3.data.get("oid")).isEqualTo(replaceVehOid3);
+		softly.assertThat(replaceVeh3.data.get("purchaseDate").toString()).isNotEmpty();
+		softly.assertThat(replaceVeh3.data.get("vehIdentificationNo")).isEqualTo(replacedVehicleVin3);
+		softly.assertThat(replaceVeh3.data.get("vehicleStatus")).isEqualTo("pending");
 		softly.assertThat(replaceVeh3.garagingAddress.changeType).isEqualTo("ADDED");
 		softly.assertThat(replaceVeh3.vehicleOwnership.changeType).isEqualTo("ADDED");
-		softly.assertThat(replaceVeh3.vehicleOwnership.data.ownership.value).isEqualTo("OWN");
+		softly.assertThat(replaceVeh3.vehicleOwnership.data.get("ownership")).isEqualTo("OWN");
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}

@@ -1,4 +1,4 @@
-package aaa.modules.regression.service.helper.dtoDxp.comparison;
+package aaa.modules.regression.service.helper.dtoDxp;
 
 import java.util.Map;
 

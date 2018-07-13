@@ -26,8 +26,6 @@ import aaa.modules.regression.conversions.auto_ss.MaigConversionTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
-import aaa.modules.regression.service.helper.dtoDxp.comparison.ComparablePolicy;
-import aaa.modules.regression.service.helper.dtoDxp.comparison.ComparableVehicle;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -1674,9 +1672,9 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		ComparableVehicle veh1 = policyResponse.vehicles.get(newVehicleOid);
 		assertSoftly(softly -> {
 			softly.assertThat(veh1.driverAssignments.get(dOid).changeType).isEqualTo("ADDED");
-			softly.assertThat(veh1.driverAssignments.get(dOid).data.driverOid.value).isEqualTo(dOid);
-			softly.assertThat(veh1.driverAssignments.get(dOid).data.vehicleDisplayValue.value).isEqualTo(dOid);
-			softly.assertThat(veh1.driverAssignments.get(dOid).data.relationshipType.value).isEqualTo("occasional");
+			softly.assertThat(veh1.driverAssignments.get(dOid).data.get("driverOid")).isEqualTo(dOid);
+			softly.assertThat(veh1.driverAssignments.get(dOid).data.get("vehicleDisplayValue")).isEqualTo(dOid);
+			softly.assertThat(veh1.driverAssignments.get(dOid).data.get("relationshipType")).isEqualTo("occasional");
 		});
 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
@@ -1731,9 +1729,9 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		ComparableVehicle veh1 = policyResponse.vehicles.get(newVehicleOid);
 		assertSoftly(softly -> {
 			softly.assertThat(veh1.driverAssignments.get(dOid).changeType).isEqualTo("ADDED");
-			softly.assertThat(veh1.driverAssignments.get(dOid).data.driverOid).isEqualTo(dOid);
-			softly.assertThat(veh1.driverAssignments.get(dOid).data.vehicleDisplayValue).isEqualTo(dOid);
-			softly.assertThat(veh1.driverAssignments.get(dOid).data.relationshipType).isEqualTo("occasional");
+			softly.assertThat(veh1.driverAssignments.get(dOid).data.get("driverOid")).isEqualTo(dOid);
+			softly.assertThat(veh1.driverAssignments.get(dOid).data.get("vehicleDisplayValue")).isEqualTo(dOid);
+			softly.assertThat(veh1.driverAssignments.get(dOid).data.get("relationshipType")).isEqualTo("occasional");
 
 		});
 
