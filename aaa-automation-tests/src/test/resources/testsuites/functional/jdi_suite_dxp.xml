@@ -417,7 +417,7 @@
             </class>
         </classes>
     </test>
-    <!--    <test name="Replace vehiclesVA" parallel="methods" thread-count="1024">
+    <test name="Replace vehiclesVA" parallel="methods" thread-count="1024">
          <parameter name="state" value="VA"/>
          <classes>
              <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
@@ -447,7 +447,7 @@
                  </methods>
              </class>
          </classes>
-     </test> -->
+     </test>
      <test name="pas14680_TrailersCoveragesThatDoNotApply" parallel="methods" thread-count="1024">
          <parameter name="state" value="VA, UT, KY, AZ, CO, CT, DC, DE, ID, IN, KS, MD, MT, NV, NY, OH, OK, OR, SD, WV, WY, PA, NJ"/>
          <classes>
