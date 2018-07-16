@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="EValue Precondition configuration changes" verbose="1" parallel="false" thread-count="1024">
+
+    <test name="EvalueInsertPreconditions">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.EvalueInsertSetup"/>
+        </classes>
+    </test>
+
+</suite>

@@ -50,8 +50,15 @@ public class AaaTestListener extends TestngTestListener2 implements IExecutionLi
 
 	@Override
 	protected void createAuxAttachments(ITestResult result) {
-		if (result.getTestContext().getAttribute("attachment") != null) {
-			createAttachment(result, result.getTestContext().getAttribute("attachment").toString(), Attachment.Type.OTHER);
+		ITestContext context = result.getTestContext();
+		if (context.getAttribute("attachment") != null) {
+			createAttachment(result, context.getAttribute("attachment").toString(), Attachment.Type.OTHER);
+		}
+		if (context.getAttribute(RatingEngineLogsGrabber.RATING_REQUEST_TEST_CONTEXT_ATTR_NAME) != null) {
+			createAttachment(result, context.getAttribute(RatingEngineLogsGrabber.RATING_REQUEST_TEST_CONTEXT_ATTR_NAME).toString(), Attachment.Type.OTHER);
+		}
+		if (context.getAttribute(RatingEngineLogsGrabber.RATING_RESPONSE_TEST_CONTEXT_ATTR_NAME) != null) {
+			createAttachment(result, context.getAttribute(RatingEngineLogsGrabber.RATING_RESPONSE_TEST_CONTEXT_ATTR_NAME).toString(), Attachment.Type.OTHER);
 		}
 		String appLogPath = new AppLogGrabber().grabAppLog(result);
 		if (appLogPath != null) {

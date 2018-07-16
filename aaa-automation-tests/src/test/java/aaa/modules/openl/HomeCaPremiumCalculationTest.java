@@ -1,6 +1,7 @@
 package aaa.modules.openl;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
+import aaa.common.Tab;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.TestDataGenerator;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
@@ -14,13 +15,19 @@ public class HomeCaPremiumCalculationTest<P extends HomeCaOpenLPolicy<?>> extend
 	}
 
 	@Override
-	protected Dollar createAndRateQuote(P openLPolicy) {
+	protected String createQuote(P openLPolicy) {
 		@SuppressWarnings("unchecked")
 		TestDataGenerator<P> tdGenerator = (TestDataGenerator<P>) openLPolicy.getTestDataGenerator(getState(), getRatingDataPattern());
 		TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy);
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumsAndCoveragesQuoteTab.class, false);
-		new PremiumsAndCoveragesQuoteTab().fillTab(quoteRatingData);
+		new PremiumsAndCoveragesQuoteTab().getAssetList().fill(quoteRatingData);
+		return Tab.labelPolicyNumber.getValue();
+	}
+
+	@Override
+	protected Dollar calculatePremium(P openLPolicy) {
+		new PremiumsAndCoveragesQuoteTab().calculatePremium();
 		return PremiumsAndCoveragesQuoteTab.getPolicyTermPremium();
 	}
 }

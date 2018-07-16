@@ -136,7 +136,7 @@ PremiumAndCoveragesTab_WaiveLiability: {
       Towing and Labor Coverage: 'index=1',
     },
     {
-      Waive Liability: 'Yes'
+      #Waive Liability: 'Yes' #not being set from testData when filling P&C tab
     }
   ]
 }

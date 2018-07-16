@@ -1,5 +1,5 @@
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="JDI Time Shift Test Suite" verbose="1" parallel="tests" thread-count="1024">
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="eValue Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <!-- Listener commented out for local runs-->
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
@@ -7,15 +7,7 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
 
-    <test name="TestEValueMembershipProcessJobAdding"  parallel="methods" thread-count="1024">
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="precondJobAdding"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
+
     <test name="TestRefundProcessJobAdding" parallel="methods" thread-count="1024">
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -110,67 +102,6 @@
         </classes>
     </test>
 
-    <test name="membership_eValueVA" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForCancelledMembershipRenewal"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForNotActiveMembership"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForPendingMembership"/>
-                    <include name="pas3697_membershipEligibilityConfigurationTrueForActiveMembership"/>
-                    <include name="pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal"/>
-                    <include name="pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
-                    <include name="pas3697_membershipEligibilityConfigurationTrueForPendingMembership"/>
-
-                    <include name="pas3697_membershipEligConfFalseForActiveMembershipPendingPaperless"/>
-                    <include name="pas3697_membershipEligConfFalseForNotActiveMembershipPendingPaperless"/>
-                    <include name="pas3697_membershipEligConfFalseForPendingMembershipPendingPaperless"/>
-
-                    <include name="pas3697_membershipEligConfTrueForActiveMembershipNoPaperlessChangedToYesBeforeNB15"/>
-                    <include name="pas3697_membershipEligConfTrueForActiveMembershipNoPaperlessChangedToYesBeforeNB30"/>
-                    <include name="pas3697_membershipEligConfTrueForActiveMembershipPendingPaperless"/>
-                    <include name="pas3697_membershipEligConfTrueForNotActiveMembershipPendingPaperless"/>
-                    <include name="pas3697_membershipEligConfTrueForPendingMembershipPendingPaperless"/>
-
-                    <include name="pas10229_membershipEligConfigurationTrueForInActiveMembershipActiveEValueRenewalMinus48"/>
-                    <include name="pas10229_membershipEligConfigurationTrueForInActiveMembershipActiveEValueRenewalMinus63"/>
-                    <include name="pas10229_membershipEligConfigurationTrueForInActiveMembershipNotActiveEValueRenewalMinus48"/>
-                    <include name="pas10229_membershipEligConfigurationTrueForInActiveMembershipNotActiveEValueRenewalMinus63"/>
-                    <include name="pas10229_membershipEligibilityConfigurationTrueForActiveMembershipActiveEValueRenewal"/>
-                    <include name="pas10229_membershipEligibilityConfigurationTrueForActiveMembershipInActiveEValueRenewal"/>
-
-                    <include name="pas331_membershipEligibilityConfigurationTrueForErredMembership"/>
-                    <include name="xAsyncTaskCheck"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPendingDC" parallel="methods" thread-count="1024">
-        <parameter name="state" value="DC"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas11740_membershipEligConfTrueForPendingMembershipNotEvalueStateOK" parallel="methods" thread-count="1024">
-        <parameter name="state" value="OK"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="preconditionsClearFolders"/>
-                    <include name="pas11740_membershipEligConfTrueForPendingMembershipNotEvalueState"/>
-                    <include name="pas15287_eValueNotEligibleActiveMembershipNoEValueRenewalMinus48"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
 
     <test name="HO pas7039_newDataElementsDeceasedIndicator" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
@@ -266,6 +197,7 @@
             </class>
         </classes>
     </test>
+
     <test name="AU Pending Refunds Debit Card AZ" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
@@ -277,75 +209,40 @@
             </class>
         </classes>
     </test>
-    <test name="EValue Discount removed and AHDRXX generated by AutoPay removal" parallel="methods" thread-count="1024">
+
+    <test name="TestEValueDiscountVA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueNsfAHDRXX">
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
                 <methods>
+                    <include name="eValuePriorBiCurrentBiConfigCheck"/>
+                    <include name="eValuePriorBiConfigCheck"/>
+                    <include name="eValueAcknowledgementConfigCheck"/>
+                    <include name="eValueConfigCheck"/>
+                    <include name="paperlessPreferencesConfigCheck"/>
                     <include name="precondJobAdding"/>
-                    <include name="pas7454_eValueRemovedAutopayNsfDeclinePaymentCentralReject"/>
-                    <include name="pas7454_eValueRemovedAutopayNsfDeclineRecurringPaymentResponse"/>
+                    <include name="pas265_MinimumStateLimitsForBIPreBind"/>
+                    <include name="pas278_eValueeSignedPledgeDocumentAHEVAXX"/>
+                    <include name="pas300_eValueStatusConsViewPaperPrefPendingVa"/>
+                    <include name="pas300_eValueStatusConsViewPaperPrefYes"/>
+                    <include name="pas305_eValueDiscountApplied"/>
+                    <include name="pas325_eValueCommissionRelatedFields"/>
+                    <include name="pas436_eValueDiscountVariations"/>
+                    <include name="pas436_eValuePriorBiCurrentBiConfigurationDependency"/>
+                    <include name="pas3694_eValueBlueBoxAndStaticText"/>
+                    <include name="pas333_eValueDiscountRemovedBySystem"/>
+                    <include name="pas339_eValueDiscountRemovedBySystemFuturePolicy"/>
+                    <include name="pas12294_PriorCarrierWithLapsePriorCarrierRequired"/>
+                    <include name="pas12294_PriorCarrierLessThanSixMonthsPriorCarrierRequired"/>
+                    <include name="pas12294_PriorCarrierNone"/>
+                    <include name="pas297_MidTermOptInNotificationToAgentAboutPaperlessPreferences"/>
+                    <include name="pas295_autopayKeepValueMessage"/>
+                    <include name="pas281_eValueIssuedWithDebitCard"/>
+                    <include name="pas321_eValueAtRenewalOrMidtermNoAutopay"/>
+                    <include name="pas317_membershipAndBiForRenewal"/>
                 </methods>
             </class>
         </classes>
     </test>
-    <test name="Membership Discount and AHDRXX CA" parallel="methods" thread-count="1024">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas550_membershipEligibilityConfigurationTrueForActiveMembership"/>
-                    <include name="pas550_membershipEligibilityConfigurationTrueForCancelledMembership"/>
-                    <include name="pas550_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
-                    <include name="pas550_membershipEligibilityConfigurationTrueForPendingMembership"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="Membership Discount and AHDRXX HO SS" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas356_membershipEligibilityConfigurationTrueForActiveMembership"/>
-                    <include name="pas356_membershipEligibilityConfigurationTrueForCancelledMembership"/>
-                    <include name="pas356_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
-                    <include name="pas356_membershipEligibilityConfigurationTrueForPendingMembership"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas1451_eValueRemovedByServiceNoAHDRXX VA" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="pas1451_eValueRemovedByServiceNoAHDRXX"/>
-                    <include name="pas13528_eValueNotRemovedByServiceExpiredPolicy"/>
-                    <include name="pas13528_eValueNotRemovedByServiceLapsedPolicy"/>
-                    <include name="pas13528_eValueNotRemovedByServiceNoAHDRXXforCancelledPolicy"/>
-                    <include name="pas13528_eValueRemovedByServiceCancPendingPolicy"/>
-                    <include name="pas13528_eValueRemovedByServiceForFutureDatedCancelledPolicy"/>
-                    <include name="pas13528_eValueRemovedByServiceForFutureDatedReinstatedPolicy"/>
-                    <include name="pas13528_eValueRemovedByServiceForReinstatedPolicy"/>
-                    <include name="pas13528_eValueRemovedByServiceInForceRenewal"/>
-                    <include name="pas13528_eValueRemovedByServicePendingPolicy"/>
-                    <include name="pas13528_eValueRemovedByServiceProposedRenewal"/>
-                    <include name="pas13528_membershipEligConfTrueForActiveMembershipCancelledPolicy"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas14498_TestDecTransactionDateTime" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ss.functional.TestDecTransactionDateTime">
-                <methods>
-                    <include name="pas14498_TestDecTransactionDateTime"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
+
 </suite>
