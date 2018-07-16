@@ -615,7 +615,6 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		pas10227_ViewPremiumServiceForPendedEndorsement();
 	}
 
-
 	/**
 	 * @author Oleg Stasyuk
 	 * @name Manual Endorsement Deletion

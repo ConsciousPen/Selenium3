@@ -750,7 +750,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		});
 	}
 
-	protected void pas15846_CheckTransactionDateForEndorsementsBody(){
+	protected void pas15846_CheckTransactionDateForEndorsementsBody() {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = getCopiedPolicy();

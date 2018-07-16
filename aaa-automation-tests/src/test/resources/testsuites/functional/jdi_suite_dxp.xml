@@ -239,7 +239,7 @@
                     <include name="pas9716_policySummaryForPolicy"/>
                     <include name="pas9716_policySummaryForLapsedRenewal"/>
                     <include name="pas9716_policySummaryForConversionManual"/>
-                    </methods>
+                </methods>
             </class>
         </classes>
     </test>
@@ -255,31 +255,26 @@
             </class>
         </classes>
     </test>
-
     <test name="PolicySummaryService MD" parallel="methods" thread-count="1024">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
-
                     <include name="pas13287_ViewStartEndorsementInfoServiceForMD"/>
                 </methods>
             </class>
         </classes>
     </test>
-
     <test name="PolicySummaryService DC" parallel="methods" thread-count="1024">
         <parameter name="state" value="DC"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
-
                     <include name="pas13287_ViewStartEndorsementInfoServiceForDC"/>
                 </methods>
             </class>
         </classes>
     </test>
-
     <test name="PolicySummaryService CA" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
@@ -451,10 +446,8 @@
                 <methods>
                     <include name="pas12175_RemoveReplaceAllVehicles"/>
                     <include name="pas12175_RemoveReplaceWaiveLiability"/>
-
                     <include name="pas13920_ReplaceVehicleDontKeepAssignmentsOneDriver"/>
                     <include name="pas13920_ReplaceVehicleDontKeepCoveragesOneDriverOneVehicle"/>
-
                     <include name="pas13920_ReplaceVehicleKeepAssignmentsKeepCoverages"/>
                     <include name="pas13920_ReplaceVehicleKeepAssignmentsNoCoverages"/>
                     <include name="pas13920_ReplaceVehicleKeepAssignmentsOneDriver"/>
