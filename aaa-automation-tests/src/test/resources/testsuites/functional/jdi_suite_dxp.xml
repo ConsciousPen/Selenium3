@@ -459,7 +459,10 @@
         </classes>
     </test>
     <test name="pas14591_AddDriversUnhappyAge" parallel="methods" thread-count="1024">
+        <!--Can be run for all states time by time-->
         <parameter name="state" value="VA, UT, KY, AZ, CO, CT, DC, DE, ID, IN, KS, MD, MT, NV, NY, OH, OK, OR, SD, WV, WY, PA, NJ"/>
+        <!---->
+        <!--<parameter name="state" value="KS, MT, SD, NV, VA, AZ"/>-->
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
                 <methods>
