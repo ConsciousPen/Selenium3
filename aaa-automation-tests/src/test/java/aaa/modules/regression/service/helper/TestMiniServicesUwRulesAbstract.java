@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.helper;
 
+import static aaa.main.metadata.policy.AutoSSMetaData.UpdateRulesOverrideActionTab.RuleRow.RULE_NAME;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.USAGE;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.VIN;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
@@ -8,6 +9,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.ErrorDxpEnum;
+import aaa.main.modules.policy.auto_ss.actiontabs.UpdateRulesOverrideActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -15,6 +17,7 @@ import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
+import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
@@ -143,6 +146,9 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 
 			rateEndorsementInPas(policyNumber);
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getCode(), ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getMessage(), "attributeForRules");
+
+			SearchPage.openPolicy(policyNumber);
+			testEValueDiscount.simplifiedPendedEndorsementIssue();
 		});
 	}
 
@@ -179,6 +185,13 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 
 			rateEndorsementInPas(policyNumber);
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.UNIQUE_VIN.getCode(), ErrorDxpEnum.Errors.UNIQUE_VIN.getMessage(), "attributeForRules");
+
+			SearchPage.openPolicy(policyNumber);
+			testEValueDiscount.simplifiedPendedEndorsementIssue();
+
+			policy.updateRulesOverride().start();
+			CustomAssertions.assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRowContains(RULE_NAME.getLabel(), "200031").getCell(1)).isPresent();
+			UpdateRulesOverrideActionTab.btnCancel.click();
 		});
 	}
 
@@ -208,6 +221,13 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 
 			rateEndorsementInPas(policyNumber);
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getCode(), ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getMessage(), "vehTypeCd");
+
+			SearchPage.openPolicy(policyNumber);
+			testEValueDiscount.simplifiedPendedEndorsementIssue();
+
+			policy.updateRulesOverride().start();
+			CustomAssertions.assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRowContains(RULE_NAME.getLabel(), "200022").getCell(1)).isPresent();
+			UpdateRulesOverrideActionTab.btnCancel.click();
 		});
 	}
 
@@ -259,6 +279,13 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 
 			rateEndorsementInPas(policyNumber);
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_ONLY_VEHICLE.getCode(), ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_ONLY_VEHICLE.getMessage(), "attributeForRules");
+
+			SearchPage.openPolicy(policyNumber);
+			testEValueDiscount.simplifiedPendedEndorsementIssue();
+
+			policy.updateRulesOverride().start();
+			CustomAssertions.assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRowContains(RULE_NAME.getLabel(), "200018").getCell(1)).isPresent();
+			UpdateRulesOverrideActionTab.btnCancel.click();
 		});
 	}
 
@@ -306,6 +333,13 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 
 			rateEndorsementInPas(policyNumber);
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.MUST_HAVE_PPA.getCode(), ErrorDxpEnum.Errors.MUST_HAVE_PPA.getMessage(), "attributeForRules");
+
+			SearchPage.openPolicy(policyNumber);
+			testEValueDiscount.simplifiedPendedEndorsementIssue();
+
+			policy.updateRulesOverride().start();
+			CustomAssertions.assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRowContains(RULE_NAME.getLabel(), "200016").getCell(1)).isPresent();
+			UpdateRulesOverrideActionTab.btnCancel.click();
 		});
 	}
 
