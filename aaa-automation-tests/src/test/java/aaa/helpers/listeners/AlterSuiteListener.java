@@ -1,17 +1,18 @@
 package aaa.helpers.listeners;
 
-import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
-import org.testng.Assert;
 import org.testng.IAlterSuiteListener;
-import org.testng.annotations.Test;
 import org.testng.collections.Maps;
-import org.testng.xml.*;
+import org.testng.xml.XmlClass;
+import org.testng.xml.XmlPackage;
+import org.testng.xml.XmlSuite;
+import org.testng.xml.XmlTest;
 import aaa.common.enums.Constants;
-import aaa.utils.StateList;
 import toolkit.config.PropertyProvider;
-import toolkit.exceptions.IstfException;
 import toolkit.utils.logging.CustomLogger;
 
 public class AlterSuiteListener implements IAlterSuiteListener {
@@ -62,106 +63,6 @@ public class AlterSuiteListener implements IAlterSuiteListener {
 		return xmlClass != null && xmlClass.getName().contains(".pup.");
 	}
 
-	private XmlSuite alterSuite(XmlSuite suite) {
-		String customSuiteName = PropertyProvider.getProperty("test.suitename");
-		if (!customSuiteName.isEmpty()) {
-			suite.setName(customSuiteName);
-		}
-		XmlTest newCATest = new XmlTest();
-		CustomLogger.getInstance().info(suite.toXml());
-		List<XmlTest> newTests = new LinkedList<>();
-		List<XmlTest> tests = suite.getTests();
-		for (XmlTest test : tests) {
-			List<XmlClass> classes = getClasses(test);
-			newCATest = createTest(test, Constants.States.CA);
-			List<String> states = getStates(test);
-			for (String state : states) {
-				XmlTest xmlTest = createTest(test, state);
-				for (XmlClass xmlClass : classes) {
-					XmlClass xmlClassNew = parseClass(xmlClass, state);
-					if (xmlClassNew == null || xmlClassNew.getIncludedMethods() == null || xmlClassNew.getIncludedMethods().isEmpty()) {
-						break;
-					}
-					if ((isSSProduct(xmlClassNew) || isPUPProduct(xmlClassNew)) && !state.equalsIgnoreCase(Constants.States.CA)) {
-						xmlTest.getClasses().add(xmlClassNew);
-						xmlClassNew.setXmlTest(xmlTest);
-					} else if ((isCAProduct(xmlClassNew) || isPUPProduct(xmlClassNew)) && state.equalsIgnoreCase(Constants.States.CA)) {
-						xmlTest.getClasses().add(xmlClassNew);
-						xmlClassNew.setXmlTest(xmlTest);
-					} else if (isCAProduct(xmlClassNew) && !states.contains(Constants.States.CA)) {
-						newCATest.getClasses().add(xmlClassNew);
-						xmlClassNew.setXmlTest(newCATest);
-					} else {
-						xmlTest.getClasses().add(xmlClassNew);
-						xmlClassNew.setXmlTest(xmlTest);
-					}
-				}
-				if (!xmlTest.getClasses().isEmpty()) {
-					newTests.add(xmlTest);
-				}
-			}
-			if (!newCATest.getClasses().isEmpty()) {
-				newTests.add(newCATest);
-			}
-		}
-		suite.setTests(newTests);
-		for (XmlTest newTest : newTests) {
-			newTest.setSuite(suite);
-		}
-		CustomLogger.getInstance().info(suite.toXml());
-		return suite;
-	}
-
-	private XmlClass parseClass(XmlClass xmlClass, String state) {
-		XmlClass resultXmlClass = createClass(xmlClass);
-		try {
-			Class clazz = Class.forName(resultXmlClass.getName());
-			List<XmlInclude> xmlInclude = xmlClass.getIncludedMethods();
-			List<String> xmlExclude = xmlClass.getExcludedMethods();
-
-			if (xmlInclude != null && !xmlInclude.isEmpty()) {
-				List<XmlInclude> resultInclude = new LinkedList<>();
-				for (XmlInclude include : xmlInclude) {
-					checkTestAnnotation(clazz, include.getName());
-					if (isMethodMatch(clazz, include.getName(), state)) {
-						resultInclude.add(include);
-					}
-				}
-				resultXmlClass.setIncludedMethods(resultInclude);
-			} else {
-				List<XmlInclude> resultInclude = new LinkedList<>();
-				for (Method method : clazz.getDeclaredMethods()) {
-					if (method.isAnnotationPresent(Test.class) && !xmlExclude.contains(method.getName())) {
-						if (isMethodMatch(clazz, method.getName(), state)) {
-							resultInclude.add(new XmlInclude(method.getName()));
-						}
-					}
-					resultXmlClass.setIncludedMethods(resultInclude);
-				}
-			}
-
-		} catch (ClassNotFoundException e) {
-			throw new IstfException("Malformed suite: ", e.getCause());
-		}
-		return resultXmlClass;
-	}
-
-	private StateList getAnnotation(Class clazz, String methodName) {
-		StateList statesAnn = null;
-		Method method = null;
-		try {
-			method = clazz.getDeclaredMethod(methodName, String.class);
-		} catch (NoSuchMethodException e) {
-			throw new IstfException(String.format("Malformed suite. Check suite xml %s:%s ", clazz.getName(), methodName), e.getCause());
-		}
-		if (method.isAnnotationPresent(StateList.class)) {
-			statesAnn = method.getAnnotation(StateList.class);
-		} else if (clazz.isAnnotationPresent(StateList.class)) {
-			statesAnn = (StateList) clazz.getDeclaringClass().getAnnotation(StateList.class);
-		}
-		return statesAnn;
-	}
-
 	private XmlTest createTest(XmlTest test, String state) {
 		XmlTest xmlTest = new XmlTest();
 		String testName = test.getName();
@@ -191,32 +92,47 @@ public class AlterSuiteListener implements IAlterSuiteListener {
 		return resultClasses;
 	}
 
-	private XmlClass createClass(XmlClass sourceClass) {
-		XmlClass resultClass = new XmlClass();
-		resultClass.setName(sourceClass.getName());
-		resultClass.setClass(sourceClass.getClass());
-		resultClass.setIndex(sourceClass.getIndex());
-		//	resultClass.setIncludedMethods(sourceClass.getIncludedMethods());
-		//	resultClass.setExcludedMethods(sourceClass.getExcludedMethods());
-		return resultClass;
-	}
+	private XmlSuite alterSuite(XmlSuite suite) {
+		String customSuiteName = PropertyProvider.getProperty("test.suitename");
+		if (!customSuiteName.isEmpty()) {
+			suite.setName(customSuiteName);
+		}
+		XmlTest newCATest = new XmlTest();
+		CustomLogger.getInstance().info(suite.toXml());
+		List<XmlTest> newTests = new LinkedList<>();
+		List<XmlTest> tests = suite.getTests();
+		for (XmlTest test : tests) {
+			newCATest = createTest(test, Constants.States.CA);
+			List<String> states = getStates(test);
 
-	private void checkTestAnnotation(Class clazz, String method) {
-		try {
-			if (!clazz.getDeclaredMethod(method, String.class).isAnnotationPresent(Test.class)) {
-				Assert.fail(String.format("Malformed Suite!!! Method %s:%s is doesn't have @Test annotation", clazz.getName(), method));
+			for (String state : states) {
+
+				XmlTest xmlTest = createTest(test, state);
+				List<XmlClass> classes = getClasses(test);
+				for (XmlClass xmlClass : classes) {
+					if ((isSSProduct(xmlClass) || isPUPProduct(xmlClass)) && !state.equalsIgnoreCase(Constants.States.CA)) {
+						xmlTest.getClasses().add(xmlClass);
+					} else if ((isCAProduct(xmlClass) || isPUPProduct(xmlClass)) && state.equalsIgnoreCase(Constants.States.CA)) {
+						xmlTest.getClasses().add(xmlClass);
+					} else if (isCAProduct(xmlClass) && !states.contains(Constants.States.CA)) {
+						newCATest.getClasses().add(xmlClass);
+					} else {
+						xmlTest.getClasses().add(xmlClass);
+					}
+				}
+				if (!xmlTest.getClasses().isEmpty()) {
+					newTests.add(xmlTest);
+				}
 			}
-		} catch (NoSuchMethodException e) {
-			Assert.fail(String.format("Malformed Suite!!! No such method in class -> %s:%s", clazz.getName(), method));
+			if (!newCATest.getClasses().isEmpty()) {
+				newTests.add(newCATest);
+			}
 		}
-	}
-
-	private Boolean isMethodMatch(Class clazz, String methodName, String state) {
-		List<XmlInclude> list = new LinkedList<>();
-		StateList statesAnn = getAnnotation(clazz, methodName);
-		if (statesAnn != null) {
-			return Arrays.asList(statesAnn.states()).contains(state) && !Arrays.asList(statesAnn.statesExcept()).contains(state);
+		suite.setTests(newTests);
+		for (XmlTest newTest : newTests) {
+			newTest.setSuite(suite);
 		}
-		return false;
+		CustomLogger.getInstance().info(suite.toXml());
+		return suite;
 	}
 }
