@@ -380,10 +380,15 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			errorCode = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_SD.getCode();
 			errorMessage = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_SD.getMessage();
 
-		} else if ("NV, VA".contains(getState())) {
+		} else if ("VA".contains(getState())) {
 			minimumAge = 16;
-			errorCode = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_XX.getCode() + getState();
-			errorMessage = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_XX.getMessage();
+			errorCode = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_VA.getCode();
+			errorMessage = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_VA.getMessage();
+
+		} else if ("NV".contains(getState())) {
+			minimumAge = 16;
+			errorCode = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_NV.getCode();
+			errorMessage = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_NV.getMessage();
 
 		} else {
 			minimumAge = 16;
@@ -419,7 +424,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(errorResponseDto.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 			softly.assertThat(errorResponseDto.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 			softly.assertThat(errorResponseDto.errors.get(0).errorCode).isEqualTo(errorCode);
-			softly.assertThat(errorResponseDto.errors.get(0).message).isEqualTo(errorMessage+" [for DriverView.Driver.age]");
+			softly.assertThat(errorResponseDto.errors.get(0).message).contains(errorMessage);
 			softly.assertThat(errorResponseDto.errors.get(0).field).isEqualTo("age");
 
 			//validate viewEndorsementDrivers response
