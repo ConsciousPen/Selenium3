@@ -40,7 +40,6 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private VehicleTab vehicleTab = new VehicleTab();
 	private GeneralTab generalTab = new GeneralTab();
-	private AssignmentTab assignmentTab = new AssignmentTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
 	private TestMiniServicesGeneralHelper testMiniServicesGeneralHelper = new TestMiniServicesGeneralHelper();
 	private TestMiniServicesCoveragesHelper testMiniServicesCoveragesHelper = new TestMiniServicesCoveragesHelper();
@@ -2197,9 +2196,18 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 				.resolveLinks();
 
 		mainApp().open();
+
 		createCustomerIndividual();
-		policy.createPolicy(testData);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		//Can't fill Waive Liability from TestData
+		/*policy.createPolicy(testData);*/
+		policy.createQuote(testData);
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(2,"Waive Liability", "Yes");
+		premiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
+		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
+
 
 		String vehicleVinPpa1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN");
 		String vehicleVinWl = td.getTestDataList("VehicleTab").get(1).getValue("VIN");
