@@ -1,5 +1,6 @@
 package aaa.helpers.testng;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -8,6 +9,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.xml.XmlClass;
 import org.testng.xml.XmlInclude;
+import org.testng.xml.XmlTest;
 import aaa.utils.StateList;
 import toolkit.exceptions.IstfException;
 
@@ -15,8 +17,8 @@ public class CsaaXmlClass {
 
 	private XmlClass xmlClass;
 
-	public CsaaXmlClass(XmlClass sourceClass, String state) {
-		xmlClass = parseClass(sourceClass, state);
+	public CsaaXmlClass(XmlTest test, XmlClass sourceClass, String state) {
+		xmlClass = parseClass(test, sourceClass, state);
 		//xmlClass = sourceClass;
 	}
 
@@ -44,7 +46,7 @@ public class CsaaXmlClass {
 		return resultClass;
 	}
 
-	private XmlClass parseClass(XmlClass xmlClass, String state) {
+	private XmlClass parseClass(XmlTest test, XmlClass xmlClass, String state) {
 		XmlClass resultXmlClass = createClass(xmlClass);
 		try {
 			Class clazz = Class.forName(xmlClass.getName());
@@ -55,7 +57,7 @@ public class CsaaXmlClass {
 			if (xmlInclude != null && !xmlInclude.isEmpty()) {
 
 				for (XmlInclude include : xmlInclude) {
-					if (isMethodMatch(clazz, include.getName(), state)) {
+					if (isMethodMatch(test, clazz, include.getName(), state)) {
 						resultInclude.add(include);
 					}
 				}
@@ -63,7 +65,7 @@ public class CsaaXmlClass {
 			} else {
 				for (Method method : clazz.getDeclaredMethods()) {
 					if (method.isAnnotationPresent(Test.class) && !xmlExclude.contains(method.getName())) {
-						if (isMethodMatch(clazz, method.getName(), state)) {
+						if (isMethodMatch(test, clazz, method.getName(), state)) {
 							resultInclude.add(new XmlInclude(method.getName()));
 						}
 					}
@@ -81,36 +83,49 @@ public class CsaaXmlClass {
 		return resultXmlClass;
 	}
 
-	private StateList getAnnotation(Class clazz, String methodName) {
-		StateList statesAnn = null;
+	private <T extends Annotation> T getAnnotation(Class clazz, String methodName, Class<T> annotationClass) {
+		T annotation = null;
 		Method method = null;
 		for (Method classMethod : clazz.getDeclaredMethods()) {
 			if (classMethod.getName().equals(methodName)) {
 				method = classMethod;
+				break;
 			}
-			break;
 		}
 		if (method != null) {
 			if (!method.isAnnotationPresent(Test.class)) {
 				Assert.fail(String.format("Malformed Suite!!! Method %s doesn't have @Test annotation", method));
 			}
-			if (method.isAnnotationPresent(StateList.class)) {
-				statesAnn = method.getAnnotation(StateList.class);
-			} else if (clazz.isAnnotationPresent(StateList.class)) {
-				statesAnn = (StateList) clazz.getAnnotation(StateList.class);
+			if (method.isAnnotationPresent(annotationClass)) {
+				annotation = method.getAnnotation(annotationClass);
+			} else if (clazz.isAnnotationPresent(annotationClass)) {
+				annotation = (T) clazz.getAnnotation(annotationClass);
 			}
 		}
-		return statesAnn;
+		return annotation;
 	}
 
-	private Boolean isMethodMatch(Class clazz, String methodName, String state) {
-		List<XmlInclude> list = new LinkedList<>();
-		StateList statesAnn = getAnnotation(clazz, methodName);
-		if (statesAnn != null) {
-			return Arrays.asList(statesAnn.states()).contains(state) && !Arrays.asList(statesAnn.statesExcept()).contains(state);
-		} else {
-			return true;
+	private Boolean isMethodMatch(XmlTest test, Class clazz, String methodName, String state) {
+		Boolean returnValue = true;
+
+		Test testAnn = getAnnotation(clazz, methodName, Test.class);
+		if (testAnn == null) {
+			return false;
 		}
+		List<String> groups = Arrays.asList(testAnn.groups());
+		returnValue = groups.stream().anyMatch(s -> test.getIncludedGroups().contains(s)) && groups.stream().noneMatch(s -> test.getExcludedGroups().contains(s));
+
+		if (returnValue) {
+			StateList statesAnn = getAnnotation(clazz, methodName, StateList.class);
+			if (statesAnn != null) {
+				returnValue = Arrays.asList(statesAnn.states()).contains(state) && !Arrays.asList(statesAnn.statesExcept()).contains(state);
+			} else {
+				returnValue = true;
+			}
+		}
+
+		return returnValue;
+
 	}
 
 }

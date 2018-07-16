@@ -65,7 +65,7 @@ public class AlterSuiteListener2 implements IAlterSuiteListener {
 			for (String state : states) {
 				List<XmlClass> newClasses = new LinkedList<>();
 				for (XmlClass xmlClass : classes) {
-					CsaaXmlClass xmlClassNew = new CsaaXmlClass(xmlClass, state);
+					CsaaXmlClass xmlClassNew = new CsaaXmlClass(test, xmlClass, state);
 					if (xmlClassNew.get() == null || xmlClassNew.get().getIncludedMethods() == null || xmlClassNew.get().getIncludedMethods().isEmpty()) {
 						break;
 					}
