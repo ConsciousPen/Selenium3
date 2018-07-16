@@ -53,8 +53,8 @@ public class CsaaXmlTest {
 		xmlTest.setName(key.concat(" Regression Tests"));
 		xmlTest.setVerbose(test.getVerbose());
 		xmlTest.setPreserveOrder(test.getPreserveOrder());
-		xmlTest.setIncludedGroups(test.getIncludedGroups());
-		xmlTest.setExcludedGroups(test.getExcludedGroups());
+		/*xmlTest.setIncludedGroups(test.getIncludedGroups());
+		xmlTest.setExcludedGroups(test.getExcludedGroups());*/
 		xmlTest.setParallel(test.getParallel());
 		xmlTest.setThreadCount(test.getThreadCount());
 		Map<String, String> parameters = Maps.newHashMap();

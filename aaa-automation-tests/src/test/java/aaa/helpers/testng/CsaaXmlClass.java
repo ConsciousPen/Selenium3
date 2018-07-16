@@ -113,6 +113,7 @@ public class CsaaXmlClass {
 			return false;
 		}
 		List<String> groups = Arrays.asList(testAnn.groups());
+
 		returnValue = groups.stream().anyMatch(s -> test.getIncludedGroups().contains(s)) && groups.stream().noneMatch(s -> test.getExcludedGroups().contains(s));
 
 		if (returnValue) {

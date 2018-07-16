@@ -66,13 +66,12 @@ public class AlterSuiteListener2 implements IAlterSuiteListener {
 				List<XmlClass> newClasses = new LinkedList<>();
 				for (XmlClass xmlClass : classes) {
 					CsaaXmlClass xmlClassNew = new CsaaXmlClass(test, xmlClass, state);
-					if (xmlClassNew.get() == null || xmlClassNew.get().getIncludedMethods() == null || xmlClassNew.get().getIncludedMethods().isEmpty()) {
-						break;
-					}
-					CsaaXmlTest xmlTestNew = new CsaaXmlTest(test, state, xmlClassNew.getPolicyType());
-					xmlTestNew.get().getXmlClasses().add(xmlClassNew.get());
-					xmlClassNew.get().setXmlTest(xmlTestNew.get());
+					if (xmlClassNew.get() != null && xmlClassNew.get().getIncludedMethods() != null && !xmlClassNew.get().getIncludedMethods().isEmpty()) {
 
+						CsaaXmlTest xmlTestNew = new CsaaXmlTest(test, state, xmlClassNew.getPolicyType());
+						xmlTestNew.get().getXmlClasses().add(xmlClassNew.get());
+						xmlClassNew.get().setXmlTest(xmlTestNew.get());
+					}
 				}
 			}
 		}
