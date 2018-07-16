@@ -147,6 +147,7 @@
                     <include name="pas7147_VehicleUpdateRegisteredOwner"/>
                     <include name="pas14952_EndorsementStatusResetForVehRatingFactors"/>
                     <include name="pas14952_StatusResetsForNewlyAddedVehicle"/>
+                    <include name="pas12942_GaragingAddressConsistencyDXP"/>
                 </methods>
             </class>
         </classes>
