@@ -419,7 +419,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(errorResponseDto.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 			softly.assertThat(errorResponseDto.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 			softly.assertThat(errorResponseDto.errors.get(0).errorCode).isEqualTo(errorCode);
-			softly.assertThat(errorResponseDto.errors.get(0).message).isEqualTo(errorMessage);
+			softly.assertThat(errorResponseDto.errors.get(0).message).contains(errorMessage);
 			softly.assertThat(errorResponseDto.errors.get(0).field).isEqualTo("age");
 
 			//validate viewEndorsementDrivers response
