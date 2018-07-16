@@ -305,3 +305,9 @@ PAS-16002:
   failures:
     - tests: [aaa.modules.docgen.home_ss.ho3.TestDocgenScenarios.testReturnPaymentDocuments]
       messages: ["60 5003"]
+PT-1977:
+  summary: "WV State. Total premium value is reduced during Empty Endorsement"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Test for state WV has failed due to difference between pre-endorsement and post-endorsement premiums"]

@@ -64,7 +64,7 @@ public abstract class TestCinAbstract extends BaseTest {
      */
     public void renewPolicy(String policyNumber, TestData renewalTD) {
         LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-        LocalDateTime renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+        LocalDateTime renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate).minusHours(1);
         TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
         mainApp().reopen();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
