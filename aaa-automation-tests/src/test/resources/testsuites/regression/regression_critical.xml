@@ -9,7 +9,6 @@
         <parameter name="state" value="UT, AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, VA, WV, WY"/>
         <groups>
             <run>
-                <include name="Precondition"/>
                 <include name="Regression"/>
                 <include name="Blocker"/>
                 <include name="Critical"/>
@@ -19,6 +18,7 @@
                 <exclude name="Low"/>
                 <exclude name="Timepoint"/>
                 <exclude name="Functional"/>
+                <exclude name="DocGen"/>
             </run>
         </groups>
         <packages>
@@ -33,7 +33,6 @@
         <parameter name="state" value="UT, AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, VA, WV, WY"/>
         <groups>
             <run>
-                <include name="Precondition"/>
                 <include name="Regression"/>
                 <include name="Blocker"/>
                 <include name="Critical"/>
@@ -43,6 +42,7 @@
                 <exclude name="Low"/>
                 <exclude name="Timepoint"/>
                 <exclude name="Functional"/>
+                <exclude name="DocGen"/>
             </run>
         </groups>
         <packages>
@@ -57,7 +57,6 @@
         <parameter name="state" value="CA"/>
         <groups>
             <run>
-                <include name="Precondition"/>
                 <include name="Regression"/>
                 <include name="Blocker"/>
                 <include name="Critical"/>
@@ -67,6 +66,7 @@
                 <exclude name="Low"/>
                 <exclude name="Timepoint"/>
                 <exclude name="Functional"/>
+                <exclude name="DocGen"/>
             </run>
         </groups>
         <packages>
@@ -81,7 +81,6 @@
         <parameter name="state" value="CA"/>
         <groups>
             <run>
-                <include name="Precondition"/>
                 <include name="Regression"/>
                 <include name="Blocker"/>
                 <include name="Critical"/>
@@ -91,6 +90,7 @@
                 <exclude name="Low"/>
                 <exclude name="Timepoint"/>
                 <exclude name="Functional"/>
+                <exclude name="DocGen"/>
             </run>
         </groups>
         <packages>
@@ -105,7 +105,6 @@
         <parameter name="state" value="UT, CA, AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, VA, WV, WY"/>
         <groups>
             <run>
-                <include name="Precondition"/>
                 <include name="Regression"/>
                 <include name="Blocker"/>
                 <include name="Critical"/>
@@ -115,6 +114,7 @@
                 <exclude name="Low"/>
                 <exclude name="Timepoint"/>
                 <exclude name="Functional"/>
+                <exclude name="DocGen"/>
             </run>
         </groups>
         <packages>
