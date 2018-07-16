@@ -57,7 +57,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	private static final String SUBSEQUENT_RENEWAL_35 = "XXXKN3DD4E0344466";
 	private static final String NEW_VIN7 = "GGGKN3DD5E0344466";
 	private static final String NEW_VIN8 = "HHHKN3DD4E0344466";
-	private static final String REFRESHABLE_VIN = "1HGEM215X50028445";
+	private static final String REFRESHABLE_VIN = "19XFB5F54C1234567";
 	private static final String NEW_VIN9 = "ZZXKN3DD2E0344466";
 	private static final String NEW_VIN10 = "SSGKN3DD7E0344466";
 	private static final String NEW_VIN11 = "DDAKN3DD1E0344466";
@@ -206,7 +206,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE)).doesNotHaveValue(oldModelValue);
 			//PAS-6576 Update "individual VIN retrieval" logic to use ENTRY DATE and VALID
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL).getValue()).isEqualTo("TEST").as("Row with VALID=Y and oldest Entry Date should be used");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.BODY_STYLE).getValue()).isEqualTo("TEST");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.BODY_STYLE).getValue()).isEqualTo("COUPE");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.OTHER_MODEL)).isPresent(false);
 			// PAS-1487  No Match to Match but Year Doesn't Match
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.YEAR).getValue()).isEqualTo("2018");
@@ -907,10 +907,16 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 	@AfterClass(alwaysRun = true)
 	protected void resetDefault() {
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
+
 		List<String> listOfVinNumbers = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5, NEW_VIN6, NEW_VIN7, NEW_VIN8, SUBSEQUENT_RENEWAL_35, SUBSEQUENT_RENEWAL_45, SUBSEQUENT_RENEWAL_46, REFRESHABLE_VIN, NEW_VIN10);
 		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinNumbers, DefaultVinVersions.DefaultVersions.SignatureSeries);
 
-		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_SS);
+		// New file with original VIN data is needed for UpdatedVin test (with REFRESHABLE_VIN)
+		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		uploadToVINTableTab.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.REFRESHABLE_VIN_RESET_ORIGINAL.get()));
+
 		DBService.get().executeUpdate(String.format(VehicleQueries.REPAIR_COLLCOMP, "7MSRP15H%V"));
 		DBService.get().executeUpdate(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE);
 		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1", "1G1ZJ5SU%G", "SYMBOL_2000", "CHEVROLET");

@@ -12,7 +12,6 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
@@ -23,7 +22,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.helper.VinUploadCleanUpMethods;
 import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
 public class TestVINUpload extends TestVINUploadTemplate {
@@ -35,7 +33,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	private static final String NEW_VIN6 = "FFFVB2CC9W9455583";
 	private static final String NEW_VIN7 = "MMXKN3DD3E0344488";
 	private static final String NEW_VIN8 = "HHDDN3DD0E0344488";
-	private static final String REFRESHABLE_VIN = "4T1BE30K46U656311";
+	private static final String REFRESHABLE_VIN = "5TFUY5F19D9455583";
 	private static final String GGGVB2CC8W9455583 = "GGGVB2CC8W9455583";
 
 	private VehicleTab vehicleTab = new VehicleTab();
@@ -269,11 +267,17 @@ public class TestVINUpload extends TestVINUploadTemplate {
 
     @AfterClass(alwaysRun = true)
 	protected void vinTablesCleaner() {
-		List<String> listOfVinNumbers = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5, NEW_VIN6, GGGVB2CC8W9455583);
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
+
+		List<String> listOfVinNumbers = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5, NEW_VIN6, GGGVB2CC8W9455583, REFRESHABLE_VIN);
 		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinNumbers,DefaultVinVersions.DefaultVersions.CaliforniaChoice);
 
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(GGGVB2CC8W9455583,DefaultVinVersions.DefaultVersions.CaliforniaChoice.get());
-		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_CAC);
+		// New file with original VIN data is needed for UpdatedVin tests (with REFRESHABLE_VIN)
+		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		uploadToVINTableTab.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.REFRESHABLE_VIN_RESET_ORIGINAL.get()));
+
 		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1","KMHCN35C%9","SYMBOL_2000_CHOICE","HYUNDAI");
 		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("KMHCN35C%9", "HYUNDAI MOTOR");
 		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1","1N4BL3AP%H","SYMBOL_2000_CHOICE","NISSAN");
