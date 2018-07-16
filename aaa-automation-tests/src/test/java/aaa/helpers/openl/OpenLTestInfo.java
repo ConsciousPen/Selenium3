@@ -3,6 +3,7 @@ package aaa.helpers.openl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.testng.ITestContext;
 import aaa.helpers.openl.model.OpenLPolicy;
 import toolkit.exceptions.IstfException;
 
@@ -12,6 +13,7 @@ public class OpenLTestInfo<P extends OpenLPolicy> {
 	private List<P> openLPolicies;
 	private Throwable exception;
 	private String customerNumber;
+	private ITestContext testContext;
 
 	OpenLTestInfo() {}
 
@@ -67,5 +69,13 @@ public class OpenLTestInfo<P extends OpenLPolicy> {
 
 	public void setCustomerNumber(String customerNumber) {
 		this.customerNumber = customerNumber;
+	}
+
+	public ITestContext getTestContext() {
+		return testContext;
+	}
+
+	public void setTestContext(ITestContext testContext) {
+		this.testContext = testContext;
 	}
 }

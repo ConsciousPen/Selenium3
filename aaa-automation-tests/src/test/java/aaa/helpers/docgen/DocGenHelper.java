@@ -1,18 +1,6 @@
 package aaa.helpers.docgen;
 
-import aaa.helpers.db.DbXmlHelper;
-import aaa.helpers.docgen.searchNodes.SearchBy;
-import aaa.helpers.ssh.RemoteHelper;
-import aaa.helpers.xml.XmlHelper;
-import aaa.helpers.xml.model.*;
-import aaa.main.enums.DocGenEnum;
-import org.apache.commons.collections4.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.Assert;
-import toolkit.exceptions.IstfException;
-import toolkit.verification.CustomAssert;
-
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -25,8 +13,18 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
+import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
+import aaa.helpers.db.DbXmlHelper;
+import aaa.helpers.docgen.searchNodes.SearchBy;
+import aaa.helpers.ssh.RemoteHelper;
+import aaa.helpers.xml.XmlHelper;
+import aaa.helpers.xml.model.*;
+import aaa.main.enums.DocGenEnum;
+import toolkit.exceptions.IstfException;
+import toolkit.verification.CustomAssert;
 
 public class DocGenHelper {
 	public static final String DOCGEN_SOURCE_FOLDER = "/home/DocGen/";
@@ -82,7 +80,7 @@ public class DocGenHelper {
 				policyNumber, generatedByJob ? " by job" : "",
 				documents.length > 0 ? String.format(" and %1$s documents: %2$s", documentsExistence ? "contains all" : "does not contain", Arrays.asList(documents)) : ""));
 
-		final int searchRetryDelay = 5;
+		int searchRetryDelay = 5;
 		int searchAttempt = 1;
 		DocumentWrapper documentWrapper = getDocumentRequest(generatedByJob, policyNumber, documentsExistence ? documents : new DocGenEnum.Documents[0]);
 		while (documentsExistence && searchAttempt < 3 && !isRequestValid(documentWrapper, policyNumber, documents)) {
@@ -132,7 +130,7 @@ public class DocGenHelper {
 		}
 
 		String content = RemoteHelper.get().getFileContent(documentsFilePaths.get(0));
-		log.info(String.format("Getting object model from found xml document: \"%s\".", documentsFilePaths.get(0)));
+		log.info("Getting object model from found xml document: \"{}\".", documentsFilePaths.get(0));
 
 		StandardDocumentRequest standardDocumentRequest;
 		if (generatedByJob) {
@@ -231,7 +229,7 @@ public class DocGenHelper {
 	 * Extracts list of documents from {@link DocumentPackage} model
 	 *
 	 * @param policyNumber
-	 * @param eventName    {@link aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames} event that triggered document generation
+	 * @param eventName    {@link AaaDocGenEntityQueries.EventNames} event that triggered document generation
 	 */
 	public static List<Document> getDocumentsList(String policyNumber, AaaDocGenEntityQueries.EventNames eventName) {
 		DocumentPackage docPackage = getDocumentPackage(policyNumber, eventName);
@@ -312,7 +310,7 @@ public class DocGenHelper {
 		if (assertExists) {
 		CustomAssert.assertTrue(MessageFormat.format("Xml document \"{0}\" found. Search time:  \"{1}\"", docId.getId(), searchTime), document != null);
 		}
-		log.info(MessageFormat.format(((document == null)?"Document not found " : "Found document ") + "\"{0}\" after {1} milliseconds", docId.getId(), searchTime));
+		log.info(MessageFormat.format((document == null ? "Document not found " : "Found document ") + "\"{0}\" after {1} milliseconds", docId.getId(), searchTime));
 		return document;
 	}
 
@@ -353,7 +351,7 @@ public class DocGenHelper {
 		if (assertExists) {
 			CustomAssert.assertTrue(MessageFormat.format("Xml document(s) \"{0}\" found. Search time:  \"{1}\"", docId.getId(), searchTime), CollectionUtils.isNotEmpty(documents));
 		}
-		log.info(MessageFormat.format(((CollectionUtils.isEmpty(documents))?"Document(s) not found " : "Found document(s) ") + "\"{0}\" after {1} milliseconds", docId.getId(), searchTime));
+		log.info(MessageFormat.format((CollectionUtils.isEmpty(documents) ? "Document(s) not found " : "Found document(s) ") + "\"{0}\" after {1} milliseconds", docId.getId(), searchTime));
 		return documents;
 	}
 
