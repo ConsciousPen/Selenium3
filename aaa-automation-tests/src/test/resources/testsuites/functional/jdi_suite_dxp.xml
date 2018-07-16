@@ -310,7 +310,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas9495_miniServicesDiscounts">
+    <test name="pas9495_miniServicesDiscounts" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDiscounts">
@@ -320,7 +320,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas14501_garagingDifferent">
+    <test name="pas14501_garagingDifferent" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA, AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
@@ -342,7 +342,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas14648_MedpmDelimiter">
+    <test name="pas14648_MedpmDelimiter" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -367,7 +367,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas14646_UimDelimiter">
+    <test name="pas14646_UimDelimiter" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA, CT, DE, IN, KS, MD, NV, OH, OR, NJ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -377,8 +377,8 @@
             </class>
         </classes>
     </test>
-    <test name="pas15228_UmUimDelimiter">
-        <parameter name="state" value="AZ, DC, ID, KY, PA, SD"/>
+    <test name="pas15228_UmUimDelimiter" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, DC, ID, KY, PA, SD, MT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
@@ -387,7 +387,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas15824_UmpdDelimiter">
+    <test name="pas15824_UmpdDelimiter" parallel="methods" thread-count="1024">
         <parameter name="state" value="DE, MD, VA, NJ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -397,7 +397,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas15325_UmpdNotExist">
+    <test name="pas15325_UmpdNotExist" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ, CT, KS, KY, MT, NY, OK, PA, SD, WY, ID"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -407,8 +407,8 @@
             </class>
         </classes>
     </test>
-    <test name="pas15254_14733_UpdateCoveragesBI_UM_UIM">
-        <parameter name="state" value="AZ, ID, KY, PA, SD, UT, WV, VA, DE, IN, KS, MD, NV, NJ, OH, OR"/>
+    <test name="pas15254_14733_UpdateCoveragesBI_UM_UIM" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, ID, KY, PA, SD, UT, WV, VA, DE, IN, KS, MD, NV, NJ, OH, OR, MT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
@@ -417,45 +417,45 @@
             </class>
         </classes>
     </test>
-    <test name="Replace vehiclesVA">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
-                <methods>
-                    <include name="pas12175_RemoveReplaceAllVehicles"/>
-                    <include name="pas12175_RemoveReplaceWaiveLiability"/>
+    <test name="Replace vehiclesVA" parallel="methods" thread-count="1024">
+         <parameter name="state" value="VA"/>
+         <classes>
+             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                 <methods>
+                     <include name="pas12175_RemoveReplaceAllVehicles"/>
+                     <include name="pas12175_RemoveReplaceWaiveLiability"/>
 
-                    <include name="pas13920_ReplaceVehicleDontKeepAssignmentsOneDriver"/>
-                    <include name="pas13920_ReplaceVehicleDontKeepCoveragesOneDriverOneVehicle"/>
+                     <include name="pas13920_ReplaceVehicleDontKeepAssignmentsOneDriver"/>
+                     <include name="pas13920_ReplaceVehicleDontKeepCoveragesOneDriverOneVehicle"/>
 
-                    <include name="pas13920_ReplaceVehicleKeepAssignmentsKeepCoverages"/>
-                    <include name="pas13920_ReplaceVehicleKeepAssignmentsNoCoverages"/>
-                    <include name="pas13920_ReplaceVehicleKeepAssignmentsOneDriver"/>
-                    <include name="pas13920_ReplaceVehicleKeepCoveragesOneDriverOneVehicle"/>
-                    <include name="pas13920_ReplaceVehicleNoAssignmentsKeepCoverages"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="Replace vehiclesAZ">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
-                <methods>
-                    <include name="pas13920_ReplaceVehicleDontKeepAssignmentsOneDriverAz"/>
-                    <include name="pas13920_ReplaceVehicleKeepAssignmentsOneDriverAz"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas14680_TrailersCoveragesThatDoNotApply" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA, UT, KY, AZ, CO, CT, DC, DE, ID, IN, KS, MD, MT, NV, NY, OH, OK, OR, SD, WV, WY, PA, NJ"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
-                <methods>
-                    <include name="pas14680_TrailersCoveragesThatDoNotApply"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-</suite>
+                     <include name="pas13920_ReplaceVehicleKeepAssignmentsKeepCoverages"/>
+                     <include name="pas13920_ReplaceVehicleKeepAssignmentsNoCoverages"/>
+                     <include name="pas13920_ReplaceVehicleKeepAssignmentsOneDriver"/>
+                     <include name="pas13920_ReplaceVehicleKeepCoveragesOneDriverOneVehicle"/>
+                     <include name="pas13920_ReplaceVehicleNoAssignmentsKeepCoverages"/>
+                 </methods>
+             </class>
+         </classes>
+     </test>
+     <test name="Replace vehiclesAZ" parallel="methods" thread-count="1024">
+         <parameter name="state" value="AZ"/>
+         <classes>
+             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                 <methods>
+                     <include name="pas13920_ReplaceVehicleDontKeepAssignmentsOneDriverAz"/>
+                     <include name="pas13920_ReplaceVehicleKeepAssignmentsOneDriverAz"/>
+                 </methods>
+             </class>
+         </classes>
+     </test>
+     <test name="pas14680_TrailersCoveragesThatDoNotApply" parallel="methods" thread-count="1024">
+         <parameter name="state" value="VA, UT, KY, AZ, CO, CT, DC, DE, ID, IN, KS, MD, MT, NV, NY, OH, OK, OR, SD, WV, WY, PA, NJ"/>
+         <classes>
+             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                 <methods>
+                     <include name="pas14680_TrailersCoveragesThatDoNotApply"/>
+                 </methods>
+             </class>
+         </classes>
+     </test>
+ </suite>
