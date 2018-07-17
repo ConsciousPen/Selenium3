@@ -2292,6 +2292,8 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
         //Update vehicle on DXP with different garaging address
         String address1 = "2011 CORAL AVE";
+        String city = "Chesapeake";
+        String zip = "23324";
         VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
         updateVehicleRequest.vehicleOwnership = new VehicleOwnership();
         updateVehicleRequest.vehicleOwnership.ownership = "OWN";
@@ -2300,8 +2302,8 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
         updateVehicleRequest.garagingDifferent = true;
         updateVehicleRequest.garagingAddress = new Address();
         updateVehicleRequest.garagingAddress.addressLine1 = address1;
-        updateVehicleRequest.garagingAddress.city = "Chesapeake";
-        updateVehicleRequest.garagingAddress.postalCode = "23324";
+        updateVehicleRequest.garagingAddress.city = city;
+        updateVehicleRequest.garagingAddress.postalCode = zip;
         updateVehicleRequest.garagingAddress.stateProvCd = "VA";
         updateVehicleRequest.antiTheft = "STD";
         updateVehicleRequest.registeredOwner = true;
@@ -2324,9 +2326,12 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
         PolicySummaryPage.buttonPendedEndorsement.click();
         policy.dataGather().start();
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-        assertThat(vehicleTab.getAssetList().getAsset(ADDRESS_LINE_1.getLabel()).getValue().toString().equals(address1));
+        assertThat(vehicleTab.getAssetList().getAsset(ADDRESS_LINE_1.getLabel()).getValue().toString().equals(address1)).isTrue();
+        assertThat(vehicleTab.getAssetList().getAsset(CITY.getLabel()).getValue().toString().equals(city)).isTrue();
+        assertThat(vehicleTab.getAssetList().getAsset(STATE.getLabel()).getValue().toString().equals("VA")).isTrue();
+        assertThat(vehicleTab.getAssetList().getAsset(ZIP_CODE.getLabel()).getValue().toString().equals(zip)).isTrue();
         helperMiniServices.endorsementRateAndBind(policyNumber);
-        //assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 }
 
