@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import aaa.main.enums.ErrorDxpEnum;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
 import aaa.common.enums.NavigationEnum;
@@ -25,6 +26,7 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.datax.TestData;
+import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 
 public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
@@ -529,6 +531,86 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 				helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
+	}
+
+	protected void pas14474_UpdateSpouseDriverBody(PolicyType policyType) {
+		mainApp().open();
+		createCustomerIndividual();
+
+		// create policy via pas
+		policyType.get().createPolicy(getPolicyTD());
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		System.out.println("createEndorsement via dxp");
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		// addDriver via dxp
+		addDriverRequest.firstName = "Spouse";
+		addDriverRequest.middleName = "Driver";
+		addDriverRequest.lastName = "Smith";
+		addDriverRequest.birthDate = "1979-02-13";
+		DriversDto addDriverRequestService = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+		String driverOid = addDriverRequestService.oid;
+
+		assertThat(addDriverRequestService.firstName).isEqualTo(addDriverRequest.firstName);
+
+		// updateDriver via dxp
+		UpdateDriverRequest updateDriverRequest = new UpdateDriverRequest();
+		updateDriverRequest.stateLicensed = "AZ";
+		updateDriverRequest.licenseNumber = "D32329585";
+		updateDriverRequest.gender = "female";
+		updateDriverRequest.relationToApplicantCd = "SP";
+		updateDriverRequest.ageFirstLicensed = 16;
+
+		DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, driverOid, updateDriverRequest);
+		assertSoftly(softly -> {
+			softly.assertThat(updateDriverResponse.driver.ageFirstLicensed).isEqualTo(updateDriverRequest.ageFirstLicensed);
+			softly.assertThat(updateDriverResponse.driver.gender).isEqualTo(updateDriverRequest.gender);
+			softly.assertThat(updateDriverResponse.driver.relationToApplicantCd).isEqualTo(updateDriverRequest.relationToApplicantCd);
+			softly.assertThat(updateDriverResponse.driver.drivingLicense.licenseNumber).isEqualTo(updateDriverRequest.licenseNumber);
+			softly.assertThat(updateDriverResponse.driver.drivingLicense.stateLicensed).isEqualTo(updateDriverRequest.stateLicensed);
+			softly.assertThat(updateDriverResponse.driver.maritalStatusCd).isEqualTo("MSS");
+			softly.assertThat(updateDriverResponse.driver.ageFirstLicensed).isEqualTo(updateDriverRequest.ageFirstLicensed);
+		});
+
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+		// go to pended endorsement
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+
+		GeneralTab generalTab = new GeneralTab();
+		MultiAssetList namedInsuredInfo = generalTab.getNamedInsuredInfoAssetList();
+
+		// get FNI's address
+		String address1 = namedInsuredInfo.getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ADDRESS_LINE_1).getValue();
+
+		// verify the 2nd named insureds
+		generalTab.viewInsured(2);
+		namedInsuredInfo = generalTab.getNamedInsuredInfoAssetList();
+		assertThat(namedInsuredInfo.getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME).getValue()).isEqualTo("Spouse");
+
+		// assert 'less than 3 yrs' & 'residence'
+		assertThat(namedInsuredInfo.getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ADDRESS_LINE_1).getValue()).isEqualTo(address1);
+		assertThat(namedInsuredInfo.getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.HAS_LIVED_LESS_THAN_3_YEARS).getValue()).isEqualTo("No");
+		assertThat(namedInsuredInfo.getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.IS_RESIDENTAL_DIFFERENF_FROM_MAILING).getValue()).isEqualTo("No");
+		assertThat(namedInsuredInfo.getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE).getValue()).isEqualTo("Own Home");
+
+		// nav to driver tab
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
+
+		// assert fname
+		assertThat(DriverTab.tableDriverList.getRow(2).getCell(2).getValue()).isEqualTo("Spouse");
+
+		// view edit 2nd driver
+		DriverTab.tableDriverList.selectRow(2);
+
+		// assert relation to FNI
+		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED).getValue()).isEqualTo("Spouse");
+
 	}
 }
 
