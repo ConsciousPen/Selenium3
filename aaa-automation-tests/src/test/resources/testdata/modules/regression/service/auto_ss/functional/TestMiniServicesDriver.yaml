@@ -238,6 +238,12 @@ AssignmentTab_VA: {
   DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver2', '@AssignedDriver3', '@AssignedDriver4']
 }
 
+
+AssignmentTab_Two_Driver: {
+  DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver5']
+}
+
+
 AssignedDriver1: {
     Driver: 'contains=Ben',
     Select Vehicle: 'index=1'
@@ -261,6 +267,11 @@ AssignedDriver4: {
 PremiumAndCoveragesTab: {
   Payment Plan: Quarterly,
 
+}
+
+AssignedDriver5: {
+    Driver: 'contains=John',
+    Select Vehicle: 'index=2'
 }
 
 DocumentsAndBindTab: {

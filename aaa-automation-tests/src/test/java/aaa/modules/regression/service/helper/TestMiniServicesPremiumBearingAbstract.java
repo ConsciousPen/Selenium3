@@ -1648,43 +1648,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 	}
 
-	protected void pas14539_transactionInfoDriverAssignmentBody() {
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy(getPolicyTD());
-
-		//Perform Endorsement
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
-
-		//add vehicle
-		String purchaseDate = "2012-02-21";
-		String vin = "4S2CK58W8X4307498";
-		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin);
-		String newVehicleOid = addVehicle.oid;
-		assertThat(addVehicle.oid).isNotEmpty();
-
-		//Update Vehicle with proper Usage and Registered Owner
-		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
-
-		ViewDriversResponse response = HelperCommon.viewPolicyDrivers(policyNumber);
-		String dOid = response.driverList.get(0).oid;
-
-		ComparablePolicy policyResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
-		ComparableVehicle veh1 = policyResponse.vehicles.get(newVehicleOid);
-		assertSoftly(softly -> {
-
-			softly.assertThat(veh1.driverAssignments.get(dOid).changeType).isEqualTo("ADDED");
-			softly.assertThat(veh1.driverAssignments.get(dOid).data.get("driverOid")).isEqualTo(dOid);
-			softly.assertThat(veh1.driverAssignments.get(dOid).data.get("driverDisplayValue")).isEqualTo("Ben47710 Smith");
-			softly.assertThat(veh1.driverAssignments.get(dOid).data.get("relationshipType")).isEqualTo("occasional");
-		});
-
-		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
-		SearchPage.openPolicy(policyNumber);
-		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
-	}
-
 	protected void pas14539_transactionInfoAddVehicleCoveragesBody() {
 		mainApp().open();
 		createCustomerIndividual();

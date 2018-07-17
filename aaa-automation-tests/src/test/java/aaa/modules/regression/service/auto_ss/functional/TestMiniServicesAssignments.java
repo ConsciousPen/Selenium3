@@ -154,6 +154,22 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 				pas11684_DriverAssignmentExistsForStateBody(state, softly)
 		);
 	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15897"})
+	public void pas14539_transactionInfoDriverAssignment(@Optional("VA") String state) {
+
+		pas14539_transactionInfoDriverAssignmentBody();
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15897"})
+	public void pas14539_transactionInfoUpdateDriverAssignment(@Optional("VA") String state) {
+
+		pas14539_transactionInfoUpdateDriverAssignmentBody(getPolicyType());
+	}
 }
 
 

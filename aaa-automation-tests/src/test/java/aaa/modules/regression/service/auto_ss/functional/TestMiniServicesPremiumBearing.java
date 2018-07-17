@@ -699,13 +699,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		pas14539_transactionInfoAddVehicleCoveragesUpdateBody();
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15897"})
-	public void pas14539_transactionInfoDriverAssignment(@Optional("VA") String state) {
 
-		pas14539_transactionInfoDriverAssignmentBody();
-	}
 
 	@Override
 	protected String getGeneralTab() {
