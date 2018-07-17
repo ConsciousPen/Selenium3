@@ -1,5 +1,10 @@
 package aaa.modules.regression.document_fulfillment.home_ss.ho4.functional;
 
+import java.util.Arrays;
+import org.assertj.core.api.SoftAssertions;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
@@ -8,14 +13,8 @@ import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestCinAbstractHomeSS;
-import org.assertj.core.api.SoftAssertions;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
-import java.util.Arrays;
 
 public class TestCinNewBusinessHomeHO4 extends TestCinAbstractHomeSS {
 
@@ -31,7 +30,7 @@ public class TestCinNewBusinessHomeHO4 extends TestCinAbstractHomeSS {
      * @details
      */
     @Parameters({STATE_PARAM})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.DOCGEN, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-7278")
     public void testCinHomeSSCluePropertyViolation(@Optional("AZ") String state) {
         TestData policyTD = adjustNameInsured(getPolicyDefaultTD(), "NamedInsured_CluePropertyViolation")

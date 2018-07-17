@@ -21,6 +21,7 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeAbstract {
      * 4. Check that HSPRNXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-2305"})
@@ -37,6 +38,7 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeAbstract {
      * 5. Check that HSPRNXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-2305"})
@@ -52,6 +54,7 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeAbstract {
      * 4. Check that HSPRNXX document is getting generated with PUP section
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-9170"})
@@ -67,8 +70,9 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeAbstract {
      * 4. Check that HSPRNMXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+    @Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-7342"})
     public void pas7342_preRenewalLetterHSPRNMXX(@Optional("VA") String state) throws NoSuchFieldException {
         super.pas7342_preRenewalLetterHSPRNMXX(state);
@@ -83,6 +87,7 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeAbstract {
      * 5. Check that HSPRNMXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-7342"})
@@ -98,6 +103,7 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeAbstract {
      * 4. Check that HSPRNMXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-9170"})
@@ -113,6 +119,7 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeAbstract {
      * 4. Check that HSRNHODPXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-2309"})
@@ -130,6 +137,7 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeAbstract {
      * 5. Check that HSRNHODPXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-2309"})
@@ -145,6 +153,7 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeAbstract {
      * 4. Check that HSRNHODPXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-2309"})
@@ -160,8 +169,9 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeAbstract {
      * 4. Check that HSRNMXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+    @Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-2570"})
     public void pas2570_renewalCoverLetterHSRNMXX(@Optional("VA") String state) throws NoSuchFieldException {
         super.pas2570_renewalCoverLetterHSRNMXX(state);
@@ -176,6 +186,7 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeAbstract {
      * 5. Check that HSRNMXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-2570"})
@@ -191,6 +202,7 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeAbstract {
      * 4. Check that HSRNMXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-2570"})
@@ -206,6 +218,7 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeAbstract {
      * 4. Check that AHRBXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-8789"})
@@ -221,6 +234,7 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeAbstract {
      * 4. Check that AHRBXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-10241"})
@@ -236,8 +250,9 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeAbstract {
      * 4. Check that HSRR2XX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+    @Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-8763"})
     public void pas8763_mortgageeBillFinalExpirationHSRR2XX(@Optional("VA") String state) throws NoSuchFieldException {
         super.pas8763_mortgageeBillFinalExpirationHSRR2XX(state);
@@ -251,6 +266,7 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeAbstract {
      * 4. Check that HSRRXX document is getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-8762"})
@@ -267,6 +283,7 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeAbstract {
      * 4. Check that HS65PA documents are getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-6235"})
@@ -283,6 +300,7 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeAbstract {
      * 4. Check that HS65MD documents are getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-2662"})
@@ -299,6 +317,7 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeAbstract {
      * 4. Check that HSFLDMD documents are getting generated
      * @details
      */
+    @Override
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-12589"})

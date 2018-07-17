@@ -92,6 +92,10 @@ public final class OpenLTestsManager {
 				.orElseThrow(() -> new IstfException(String.format("There is no OpenLTestInfo object with \"%s\" filePath", filePath)));
 	}
 
+	public static String getFilePath(XmlTest test) {
+		return FilenameUtils.separatorsToUnix(Paths.get(TestParams.TESTS_DIR.getValue(test), TestParams.TEST_FILENAME.getValue(test)).normalize().toString());
+	}
+
 	private List<OpenLTestInfo<? extends OpenLPolicy>> getOpenLTests(List<XmlSuite> openLSuites) {
 		List<OpenLTestInfo<? extends OpenLPolicy>> openLTests = new ArrayList<>();
 
@@ -179,6 +183,10 @@ public final class OpenLTestsManager {
 
 			File openLFile = new File("src/test/resources/openl/TEMP_" + System.currentTimeMillis() + "_" + FilenameUtils.getName(filePath));
 			log.info("Downloading \"{}\" openL file and saving it to \"{}\" temp file", filePath, openLFile);
+			if (!openLFile.getParentFile().exists() && !openLFile.getParentFile().mkdirs()) {
+				log.warn("Unable to create \"{}\" folder", openLFile.getParentFile());
+			}
+
 			try (InputStream is = response.readEntity(InputStream.class)) {
 				Files.copy(is, openLFile.toPath());
 				return openLFile;
@@ -186,12 +194,12 @@ public final class OpenLTestsManager {
 				if ("Premature EOF".equals(e.getMessage()) || "Connection reset".equals(e.getMessage())) {
 					inputStreamReadAttempt++;
 					if (inputStreamReadAttempt <= maxInputStreamAttemptsNumber) {
-						int sleep = 2 * inputStreamReadAttempt;
+						int sleepSeconds = 2 * inputStreamReadAttempt;
 						log.warn("There was a \"{}\" error while reading from an input stream, retry attempt #{} of {} max attempts will be performed after {} seconds",
-								e.getMessage(), inputStreamReadAttempt, maxInputStreamAttemptsNumber, sleep);
+								e.getMessage(), inputStreamReadAttempt, maxInputStreamAttemptsNumber, sleepSeconds);
 						deleteTempFile(openLFile);
 						try {
-							TimeUnit.SECONDS.sleep(sleep);
+							TimeUnit.SECONDS.sleep(sleepSeconds);
 						} catch (InterruptedException e1) {
 							e1.printStackTrace();
 						}
@@ -211,10 +219,6 @@ public final class OpenLTestsManager {
 		if (openLFile != null && openLFile.exists() && !openLFile.delete()) {
 			log.error("Unable to delete openL temp file: {}", openLFile);
 		}
-	}
-
-	private String getFilePath(XmlTest test) {
-		return FilenameUtils.separatorsToUnix(Paths.get(TestParams.TESTS_DIR.getValue(test), TestParams.TEST_FILENAME.getValue(test)).normalize().toString());
 	}
 
 	/**

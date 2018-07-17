@@ -124,7 +124,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "10870")
 	public void pas10870_restrictionPaymentPlansMembershipPending(@Optional("AZ") String state) {
 		mainApp().open();
@@ -148,7 +148,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "10870")
 	public void pas10870_restrictionPaymentPlansMembershipNo(@Optional("AZ") String state) {
 		mainApp().open();
@@ -172,7 +172,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "11366")
 	public void pas11366_restrictionPaymentPlansMembershipOverride(@Optional("AZ") String state) {
 		mainApp().open();

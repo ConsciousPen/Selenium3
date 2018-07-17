@@ -3,7 +3,11 @@ package aaa.helpers.ssh;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.nio.file.Paths;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +15,6 @@ import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
 import toolkit.exceptions.IstfException;
-import toolkit.verification.CustomAssert;
 
 public final class RemoteHelper {
 
@@ -66,7 +69,7 @@ public final class RemoteHelper {
 	}
 
 	public synchronized RemoteHelper downloadFileWithWait(String source, String destination, long timeout) {
-		log.info(String.format("SSH: File '%s' downloading to '%s' destination folder has been started.", source, destination));
+		log.info("SSH: File '{}' downloading to '{}' destination folder has been started.", source, destination);
 		long endTime = System.currentTimeMillis() + timeout;
 		while (!isPathExist(source)) {
 			if (endTime < System.currentTimeMillis()) {
@@ -83,20 +86,20 @@ public final class RemoteHelper {
 	}
 
 	public RemoteHelper downloadFile(String source, String destination) {
-		log.info(String.format("SSH: File '%s' downloading to '%s' destination folder has been started.", source, destination));
+		log.info("SSH: File '{}' downloading to '{}' destination folder has been started.", source, destination);
 		ssh.downloadFile(source, destination);
 		return this;
 	}
 
 	public RemoteHelper downloadBatchFiles(String source, File destination) {
-		log.info(String.format("SSH: Files downloading from '%s' has been started,", source));
+		log.info("SSH: Files downloading from '{}' has been started,", source);
 		ssh.downloadBatchFile(source, destination);
 		return this;
 	}
 
 	public synchronized RemoteHelper uploadFile(String source, String destination) {
 		assertThat(source).as("Source file is NULL").isNotNull();
-		log.info(String.format("SSH: File '%s' uploading to '%s' destination folder has been started.", source, destination));
+		log.info("SSH: File '{}' uploading to '{}' destination folder has been started.", source, destination);
 		//		Folders creation moved to Ssh class and made with sftp commands
 		//		File destinationFile = File destinationFile = new File(destination);;
 		//		if (!isPathExist(destinationFile.getParent())) {
@@ -110,7 +113,7 @@ public final class RemoteHelper {
 	}
 
 	public RemoteHelper removeFile(String file) {
-		log.info(String.format("SSH: File '%s' deleting has been started.", file));
+		log.info("SSH: File '{}' deleting has been started.", file);
 		ssh.removeFile(file);
 		return this;
 	}
@@ -118,13 +121,13 @@ public final class RemoteHelper {
 	public RemoteHelper uploadFiles(String sourceFolder, String destinationFolder) {
 		File directory = new File(sourceFolder);
 		File[] files = directory.listFiles(File::isFile);
-		log.info(String.format("SSH: Files uploading from '%s' folder to '%s' destination folder has been started.", sourceFolder, destinationFolder));
+		log.info("SSH: Files uploading from '{}' folder to '{}' destination folder has been started.", sourceFolder, destinationFolder);
 		if (files != null && files.length != 0) {
 			for (File file : files) {
 				uploadFile(file.getAbsolutePath(), Paths.get(destinationFolder, file.getName()).normalize().toString());
 			}
 		}
-		log.info(String.format("SSH: All files from '%s' folder were uploaded to '%s' destination folder.", sourceFolder, destinationFolder));
+		log.info("SSH: All files from '{}' folder were uploaded to '{}' destination folder.", sourceFolder, destinationFolder);
 		return this;
 	}
 
@@ -133,9 +136,9 @@ public final class RemoteHelper {
 	}
 
 	public String executeCommand(String command, ExecutionParams execParams) {
-		log.info(String.format("SSH: Executing on host \"%1$s\" shell command: \"%2$s\" as user \"%3$s\" with %4$s", connectionParams.getHost(), command, connectionParams.getUser(), execParams));
+		log.info("SSH: Executing on host \"{}\" shell command: \"{}\" as user \"{}\" with {}", connectionParams.getHost(), command, connectionParams.getUser(), execParams);
 		String result = ssh.executeCommand(command, execParams);
-		log.info(String.format("SSH: command output is: \"%s\"", result));
+		log.info("SSH: command output is: \"{}\"", result);
 		return result;
 	}
 
@@ -155,14 +158,14 @@ public final class RemoteHelper {
 	public RemoteHelper createFolder(String source) {
 		source = ssh.parseFileName(source);
 
-		log.info(String.format("SSH: Creating folder '%s'", source));
+		log.info("SSH: Creating folder '{}'", source);
 		try {
 			executeCommand("mkdir -p " + source);
 			executeCommand("chmod 777 " + source);
 		} catch (RuntimeException e) {
 			throw new IstfException("SSH: Folder '" + source + "' couldn't be created. " + e.getMessage());
 		}
-		log.info(String.format("SSH: Folder '%s' was created", source));
+		log.info("SSH: Folder '{}' was created", source);
 		return this;
 	}
 
@@ -171,8 +174,17 @@ public final class RemoteHelper {
 		return this;
 	}
 
+	public List<String> getListOfFiles(String folderPath) {
+		return getFolderContent(folderPath, true, null);
+	}
+
+	public List<String> getFolderContent(String folderPath, boolean filesOnly, Ssh.SortBy sortBy) {
+		log.info("SSH: Getting {}content from \"{}\" folder sorted by {}", filesOnly ? "files only " : "", folderPath, sortBy.name());
+		return ssh.getFolderContent(folderPath, filesOnly, sortBy);
+	}
+
 	public String getFileContent(String filePath) {
-		log.info(String.format("SSH: Getting content from \"%s\" file", filePath));
+		log.info("SSH: Getting content from \"{}\" file", filePath);
 		return ssh.getFileContent(filePath);
 	}
 
@@ -206,7 +218,7 @@ public final class RemoteHelper {
 
 		log.info("Searching for file(s) {}", searchParams);
 		long searchStart = System.currentTimeMillis();
-		long timeout = searchStart + timeoutInSeconds * 1000;
+		long timeout = searchStart + timeoutInSeconds * 1000L;
 		String commandOutput;
 		do {
 			if (!(commandOutput = executeCommand(cmd)).isEmpty()) {
@@ -223,19 +235,12 @@ public final class RemoteHelper {
 
 		assertThat(commandOutput).as("No files have been found%s", searchParams).isNotEmpty();
 		List<String> foundFiles = Arrays.asList(commandOutput.split("\n"));
-		log.info(String.format("Found file(s): %1$s after %2$s milliseconds", foundFiles, searchTime));
+		log.info("Found file(s): {} after {} milliseconds", foundFiles, searchTime);
 		return foundFiles;
 	}
 
-	@SuppressWarnings("unchecked")
-	public synchronized RemoteHelper verifyFolderIsEmpty(String source) {
-		source = ssh.parseFileName(source);
-		try {
-			Vector<ChannelSftp.LsEntry> list = ssh.getSftpChannel().ls("*");
-			CustomAssert.assertTrue("SSH: Folder should be empty", list.isEmpty());
-		} catch (SftpException | RuntimeException e) {
-			throw new IstfException("SSH: Folder '" + source + "' doesn't exist.", e);
-		}
-		return this;
+	public LocalDateTime getLastModifiedTime(String path) {
+		log.info("SSH: Getting last modified time for \"{}\"", path);
+		return ssh.getLastModifiedTime(path);
 	}
 }

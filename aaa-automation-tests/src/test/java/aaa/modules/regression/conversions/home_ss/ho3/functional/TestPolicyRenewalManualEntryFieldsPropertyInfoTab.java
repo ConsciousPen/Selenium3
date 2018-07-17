@@ -1,5 +1,12 @@
 package aaa.modules.regression.conversions.home_ss.ho3.functional;
 
+import java.time.LocalDateTime;
+import org.assertj.core.api.SoftAssertions;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -22,17 +29,9 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.modules.regression.conversions.home_ss.helper;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.assertj.core.api.SoftAssertions;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-
-import java.time.LocalDateTime;
 
 /**
  * @author S. Sivaram
@@ -87,12 +86,13 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSHO3
     method searches for policynumber on the billing screen gets total due and makes payment for total due
     */
     private void activeFirstRenewal(String policyNumber) {
-        policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
-        policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        policyEffectiveDate = PolicySummaryPage.getEffectiveDate().plusYears(1);
+        policyExpirationDate = PolicySummaryPage.getExpirationDate().plusYears(1);
         renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyEffectiveDate);
         TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
         TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate);
+
 
         mainApp().reopen();
         SearchPage.openBilling(policyNumber);
