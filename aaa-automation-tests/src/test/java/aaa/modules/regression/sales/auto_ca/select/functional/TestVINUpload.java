@@ -99,6 +99,14 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	public void pas527_UpdatedVinRenewal(@Optional("") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
 		updatedVinRenewal(vinMethods.getSpecificUploadFile(VinUploadFileType.REFRESHABLE_VIN.get()), REFRESHABLE_VIN);
+
+
+		// New file with original VIN data is needed for current test to reset original data (REFRESHABLE_VIN). Cleanup used in current method to avoid file Upload for not required tests
+		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(Arrays.asList(REFRESHABLE_VIN),DefaultVinVersions.DefaultVersions.CaliforniaSelect);
+
+		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		uploadToVINTableTab.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.REFRESHABLE_VIN_RESET_ORIGINAL.get()));
 	}
 
 	/**
@@ -357,13 +365,8 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	protected void vinTablesCleaner() {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
-		List<String> listOfVinIds = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN_ADDED, NEW_VIN4, NEW_VIN5, NEW_VIN6, NEW_VIN7, HHHNK2CC7F9455583, REFRESHABLE_VIN);
+		List<String> listOfVinIds = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN_ADDED, NEW_VIN4, NEW_VIN5, NEW_VIN6, NEW_VIN7, HHHNK2CC7F9455583);
 		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinIds,DefaultVinVersions.DefaultVersions.CaliforniaSelect);
-
-		// New file with original VIN data is needed for UpdatedVin test (with REFRESHABLE_VIN)
-		adminApp().open();
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-		uploadToVINTableTab.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.REFRESHABLE_VIN_RESET_ORIGINAL.get()));
 
 		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1","3VWHX7AJ%A","SYMBOL_2000","VOLKSWAGEN");
 		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("3VWHX7AJ%A", "VOLKSWAGEN AG");

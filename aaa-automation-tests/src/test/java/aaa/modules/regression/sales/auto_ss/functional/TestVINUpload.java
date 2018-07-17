@@ -220,6 +220,15 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
 		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getColumn("Description").getValue()).contains("VIN data has been updated for the following vehicle(s): " + REFRESHABLE_VIN);
 
+		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(Arrays.asList(REFRESHABLE_VIN),DefaultVinVersions.DefaultVersions.CaliforniaSelect);
+
+		// New file with original VIN data is needed for current test to reset original data (REFRESHABLE_VIN). Cleanup used in current method to avoid file Upload for not required tests
+		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(Arrays.asList(REFRESHABLE_VIN),DefaultVinVersions.DefaultVersions.SignatureSeries);
+
+		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		uploadToVINTableTab.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.REFRESHABLE_VIN_RESET_ORIGINAL.get()));
+
 	}
 
 	/**
@@ -911,11 +920,6 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		List<String> listOfVinNumbers = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5, NEW_VIN6, NEW_VIN7, NEW_VIN8, SUBSEQUENT_RENEWAL_35, SUBSEQUENT_RENEWAL_45, SUBSEQUENT_RENEWAL_46, REFRESHABLE_VIN, NEW_VIN10);
 		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinNumbers, DefaultVinVersions.DefaultVersions.SignatureSeries);
-
-		// New file with original VIN data is needed for UpdatedVin test (with REFRESHABLE_VIN)
-		adminApp().open();
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-		uploadToVINTableTab.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.REFRESHABLE_VIN_RESET_ORIGINAL.get()));
 
 		DBService.get().executeUpdate(String.format(VehicleQueries.REPAIR_COLLCOMP, "7MSRP15H%V"));
 		DBService.get().executeUpdate(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE);

@@ -78,6 +78,13 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
 
 		updatedVinRenewal(vinMethods.getSpecificUploadFile(VinUploadFileType.REFRESHABLE_VIN.get()), REFRESHABLE_VIN);
+
+		// New file with original VIN data is needed for current test to reset original data (REFRESHABLE_VIN). Cleanup used in current method to avoid file Upload for not required tests
+		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(Arrays.asList(REFRESHABLE_VIN),DefaultVinVersions.DefaultVersions.CaliforniaChoice);
+
+		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		uploadToVINTableTab.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.REFRESHABLE_VIN_RESET_ORIGINAL.get()));
 	}
 
 	/**
@@ -269,14 +276,10 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	protected void vinTablesCleaner() {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
-		List<String> listOfVinNumbers = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5, NEW_VIN6, GGGVB2CC8W9455583, REFRESHABLE_VIN);
+		List<String> listOfVinNumbers = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5, NEW_VIN6, GGGVB2CC8W9455583);
 		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinNumbers,DefaultVinVersions.DefaultVersions.CaliforniaChoice);
 
 		DatabaseCleanHelper.cleanVehicleRefDataVinTable(GGGVB2CC8W9455583,DefaultVinVersions.DefaultVersions.CaliforniaChoice.get());
-		// New file with original VIN data is needed for UpdatedVin tests (with REFRESHABLE_VIN)
-		adminApp().open();
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-		uploadToVINTableTab.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.REFRESHABLE_VIN_RESET_ORIGINAL.get()));
 
 		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1","KMHCN35C%9","SYMBOL_2000_CHOICE","HYUNDAI");
 		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("KMHCN35C%9", "HYUNDAI MOTOR");
