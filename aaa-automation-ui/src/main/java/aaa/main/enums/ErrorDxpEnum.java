@@ -52,6 +52,9 @@ public final class ErrorDxpEnum {
 		DRIVER_UNDER_AGE_KS("AAA_CSA6220000_KS", "Drivers under age 15 must be not available for rating (AAA_CSA6220000)"), //the same as in PAS
 		DRIVER_UNDER_AGE_MT("AAA_CSA6220000_MT", "Drivers under age 15 must be not available for rating (AAA_CSA6220000)"), //the same as in PAS
 		DRIVER_UNDER_AGE_SD("AAA_CSA6220000_SD", "Drivers under age 14 must be excluded or not available for rating (AAA_CSA6220000)"), //the same as in PAS
+
+		AGE_FIRST_LICENSED_ERROR("Age First Licensed must be 14 or greater (BAU00209)"),
+		VALIDATE_DRIVER_LICENSE_BY_STATE("License number is inconsistent with state format (AAA_CSA3040364)"),
 		;
 
 
@@ -59,14 +62,13 @@ public final class ErrorDxpEnum {
 		private String code;
 		private String message;
 
+		Errors(String message) {
+			setMessage(message); // if we have message only
+		}
+
 		Errors() {
 			setCode(this.name());
 			setMessage(""); // to prevent NPE on getErrorMessage() call for rules with not defined error messages
-		}
-
-		Errors(String code) {
-			setCode(code);
-			setMessage("");
 		}
 
 		Errors(String code, String message) {
