@@ -750,7 +750,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		});
 	}
 
-	protected void pas15846_CheckTransactionDateForEndorsementsBody(){
+	protected void pas15846_CheckTransactionDateForEndorsementsBody() {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = getCopiedPolicy();
@@ -1602,8 +1602,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		});
 	}
 
-
-
 	protected void pas12767_ServiceEndorsementCancelBody() {
 		assertSoftly(softly -> {
 			mainApp().open();
@@ -1625,6 +1623,59 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
 			SearchPage.openPolicy(policyNumber);
 			assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+		});
+	}
+
+	protected void pas13287_ViewStartEndorsementInfoServiceBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		ValidateEndorsementResponse response = HelperCommon.startEndorsement(policyNumber, endorsementDate);
+		assertSoftly(softly -> {
+			softly.assertThat(response.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
+			softly.assertThat(response.allowedEndorsements.get(1)).isEqualTo("UpdateDriver");
+			softly.assertThat(response.allowedEndorsements.get(2)).isEqualTo("UpdateCoverages");
+		});
+	}
+
+	protected void pas13287_ViewStartEndorsementInfoServiceDCBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		ValidateEndorsementResponse response = HelperCommon.startEndorsement(policyNumber, endorsementDate);
+		assertSoftly(softly -> {
+			softly.assertThat(response.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
+			softly.assertThat(response.allowedEndorsements.get(1)).isEqualTo("UpdateDriver");
+		});
+	}
+
+	protected void pas13287_ViewStartEndorsementInfoServiceAZBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		ValidateEndorsementResponse response = HelperCommon.startEndorsement(policyNumber, endorsementDate);
+		assertSoftly(softly -> {
+			softly.assertThat(response.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
+			softly.assertThat(response.allowedEndorsements.get(1)).isEqualTo("UpdateCoverages");
+		});
+	}
+
+	protected void pas13287_ViewStartEndorsementInfoServiceMDBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		ValidateEndorsementResponse response = HelperCommon.startEndorsement(policyNumber, endorsementDate);
+		assertSoftly(softly -> {
+			softly.assertThat(response.allowedEndorsements.get(0)).isEqualTo("UpdateDriver");
+			softly.assertThat(response.allowedEndorsements.get(1)).isEqualTo("UpdateCoverages");
 		});
 	}
 
