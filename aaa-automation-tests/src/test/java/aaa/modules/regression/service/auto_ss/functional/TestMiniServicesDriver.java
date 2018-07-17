@@ -181,6 +181,16 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 		pas9662_maxDriversBody(getPolicyType());
 	}
 
+    /**
+     * @author Dakota Berg
+     * @name Test Meta Data Service for Drivers
+     * @scenario 1. Create a customer and policy
+     * 2. Initiate an endorsement
+     * 3. Add a driver outside of PAS
+     * 4. Run Meta Data Service for Drivers
+     * 5. Verify that the correct field options display
+     */
+
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15076"})
