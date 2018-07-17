@@ -681,8 +681,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		//Create pended endorsement
-		PolicySummary createEndorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().plusDays(4).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		assertThat(createEndorsementResponse.policyNumber).isEqualTo(policyNumber);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		addDriverRequest.firstName = "ClueNonChargeable";
 		addDriverRequest.middleName = "Doc";
