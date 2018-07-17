@@ -1,18 +1,5 @@
 package aaa.modules.regression.service.helper;
 
-import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.MIDDLE_NAME;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
-
-import aaa.main.enums.ErrorDxpEnum;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableList;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -24,15 +11,26 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.common.collect.ImmutableList;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 
-import javax.ws.rs.core.Response;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
+
+import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.MIDDLE_NAME;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
@@ -571,6 +569,9 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		assertThat(DriverTab.tableDriverList.getRow(2).getCell(2).getValue()).isEqualTo("Young");
 		DriverTab.tableDriverList.selectRow(2);
+
+		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData
+				.DriverTab.REL_TO_FIRST_NAMED_INSURED).getValue()).isEqualTo("Child");
 		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData
 				.DriverTab.SMART_DRIVER_COURSE_COMPLETED).getValue()).isEqualTo("No");
 		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData
@@ -679,13 +680,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 	}
 
-	private String formatBirthDateForDriverTab(String birthDate) throws ParseException {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		Date birthDateFormatted = formatter.parse(birthDate);
-		SimpleDateFormat driverPageFormatter = new SimpleDateFormat("MM/dd/yyyy");
-		return driverPageFormatter.format(birthDateFormatted);
-	}
-
 	protected void pas14474_UpdateSpouseDriverBody(PolicyType policyType) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -786,8 +780,14 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED).getValue()).isEqualTo("Spouse");
 
 		driverTab.saveAndExit();
-
 	}
+
+    private String formatBirthDateForDriverTab(String birthDate) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date birthDateFormatted = formatter.parse(birthDate);
+        SimpleDateFormat driverPageFormatter = new SimpleDateFormat("MM/dd/yyyy");
+        return driverPageFormatter.format(birthDateFormatted);
+    }
 }
 
 
