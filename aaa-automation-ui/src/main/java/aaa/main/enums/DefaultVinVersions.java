@@ -6,7 +6,7 @@ public final class DefaultVinVersions {
 
 	public enum DefaultVersions {
 		SignatureSeries("SYMBOL_2000"),
-		CaliforniaSelect("SYMBOL_2000"),
+		CaliforniaSelect("SYMBOL_200"),
 		CaliforniaChoice("SYMBOL_2000_CHOICE");
 
 		private String id;

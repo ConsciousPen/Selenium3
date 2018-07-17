@@ -349,14 +349,14 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	public void pas12872_VINRefreshNoMatchOnRenewalAutoCA(@Optional("CA") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NO_MATCH_ON_RENEWAL.get());
-		String vehYear = "2011";
-		String vehMake = "TOYOTA";
-		String vehModel = "HIGHLANDER";
-		String vehSeries = "HIGHLANDER LIMITED";
-		String vehBodyStyle = "WAGON 4 DOOR";
-		String expectedYear = "2011";
-		String expectedMake = "TOYOTA MOTOR";
-		String expectedModel = "TOYOTA HIGHLANDER";
+		String vehYear = "2017";
+		String vehMake = "NISSAN";
+		String vehModel = "ALTIMA";
+		String vehSeries = "ALTIMA 3.5SL";
+		String vehBodyStyle = "SEDAN";
+		String expectedYear = "2017";
+		String expectedMake = "NISSAN MOTOR";
+		String expectedModel = "NISS ALTIMA";
 
 		pas12872_VINRefreshNoMatchOnRenewalAutoCA(NEW_VIN9, vinTableFile, vehYear, vehMake, vehModel, vehSeries, vehBodyStyle, expectedYear, expectedMake, expectedModel);
 	}
