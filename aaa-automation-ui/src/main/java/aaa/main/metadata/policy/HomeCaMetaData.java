@@ -1192,7 +1192,7 @@ public final class HomeCaMetaData {
 
 		public static final class EndorsementFPCECA extends MetaData {
 			public static final AssetDescriptor<AssetListConfirmationDialog> CONFIRM_OBJECT_ADDITION = declare("Confirm Object Addition", AssetListConfirmationDialog.class, Waiters.AJAX, false, By
-					.xpath("//div[@id='policyDataGatherForm:dataObjectAddPopup_AAAHoPolicyEndorsementFormManager_container']"));
+					.xpath("//div[@id='aaaEndorsementPopUpForm:fpcecaNotificationPopup_container']"));
 		}
 
 		public static final class EndorsementFPCECADP extends MetaData {

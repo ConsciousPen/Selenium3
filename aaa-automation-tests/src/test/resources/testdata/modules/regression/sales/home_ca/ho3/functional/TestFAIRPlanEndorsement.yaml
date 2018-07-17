@@ -2,10 +2,11 @@ EndorsementTab_Add: {
   'FPCECA': '@Endorsement_FPCECA_Add'
 }
 
-Endorsement_FPCECA_Add: {
-  Confirm Endorsement:{
-    Action: 'Confirm',
-  }
+EndorsementTab_Add: {
+ FPCECA: {
+   Action: 'Add',
+   Confirm Object Addition: 'Yes'
+ }
 }
 
 TestData_Endorsement: {
