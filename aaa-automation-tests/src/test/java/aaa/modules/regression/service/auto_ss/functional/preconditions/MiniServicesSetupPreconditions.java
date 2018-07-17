@@ -28,8 +28,6 @@ public class MiniServicesSetupPreconditions {
 			+ " and DISPLAYVALUE = %s\n"
 			+ " and RISKSTATECD %s";
 
-
-
 	public static final String MY_POLICY_USER_ENABLE_UPDATE = "update s_principal set enabled = 1 where name = 'MyPolicy'";
 
 	public static final String MY_POLICY_USER_ADD_ALL_PRIVILEGES_UPDATE = "INSERT INTO s_permissions (principal_ID, ALLOWED, AUTH_ID) \n"
@@ -44,5 +42,20 @@ public class MiniServicesSetupPreconditions {
 			+ "SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME LIKE '%Rollout%') \n"
 			+ "AND CODE='EndorsementOutsideOfPAS'\n"
 			+ "and DISPLAYVALUE = 'FALSE'";
+
+	public static final String AAA_LOOKUP_CONFIG_INSERT_UPDATE_DRIVER = "INSERT INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, lookuplist_id)\n"
+			+ "   values\n"
+			+ "    ('AAARolloutEligibilityLookupValue', 'RESTUpdateDriver', 'FALSE', 'AAA_SS', 'DC',\n"
+			+ "    (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
+
+	public static final String AAA_LOOKUP_CONFIG_INSERT_UPDATE_VEHICLE = "INSERT INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, lookuplist_id)\n"
+			+ "   values\n"
+			+ "    ('AAARolloutEligibilityLookupValue', 'RESTUpdateVehicle', 'FALSE', 'AAA_SS', 'MD',\n"
+			+ "    (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
+
+	public static final String AAA_LOOKUP_CONFIG_INSERT_UPDATE_COVERAGES = "INSERT INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, lookuplist_id)\n"
+			+ "   values\n"
+			+ "    ('AAARolloutEligibilityLookupValue', 'RESTUpdateCoverages', 'FALSE', 'AAA_SS', 'AZ',\n"
+			+ "    (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
 }
