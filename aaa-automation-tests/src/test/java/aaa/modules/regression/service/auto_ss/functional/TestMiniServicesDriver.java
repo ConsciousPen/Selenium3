@@ -185,7 +185,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
      * @author Dakota Berg
      * @name Test Meta Data Service for Drivers
      * @scenario 1. Create a customer and policy
-     * 2. Initiate an endorsement
+     * 2. Initiate an endorsement outside of PAS
      * 3. Add a driver outside of PAS
      * 4. Run Meta Data Service for Drivers
      * 5. Verify that the correct field options display
