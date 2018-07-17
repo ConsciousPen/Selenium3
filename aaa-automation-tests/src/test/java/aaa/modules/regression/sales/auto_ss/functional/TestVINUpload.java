@@ -220,8 +220,6 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
 		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getColumn("Description").getValue()).contains("VIN data has been updated for the following vehicle(s): " + REFRESHABLE_VIN);
 
-		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(Arrays.asList(REFRESHABLE_VIN),DefaultVinVersions.DefaultVersions.CaliforniaSelect);
-
 		// New file with original VIN data is needed for current test to reset original data (REFRESHABLE_VIN). Cleanup used in current method to avoid file Upload for not required tests
 		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(Arrays.asList(REFRESHABLE_VIN),DefaultVinVersions.DefaultVersions.SignatureSeries);
 
