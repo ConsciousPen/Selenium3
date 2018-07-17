@@ -49,10 +49,4 @@
             <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestPolicyRmeEffDateTimeLine"/>
         </classes>
     </test>
-    <test name="PAS-14035 Capping capability - UT" parallel="methods" thread-count="1024">
-        <parameter name="state" value="UT"/>
-        <classes>
-            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestConversionViewAndOverrideCappingDetails"/>
-        </classes>
-    </test>
-</suite>
+   </suite>

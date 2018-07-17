@@ -3,7 +3,10 @@ package aaa.modules.regression.service.helper;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.MIDDLE_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 import aaa.main.enums.ErrorDxpEnum;
@@ -14,6 +17,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.TestDataManager;
+import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -361,6 +365,146 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
+	protected void pas14591_AddDriversUnhappyAgeBody(PolicyType policyType) throws ParseException {
+		DriverTab driverTab = new DriverTab();
+		int minimumAge; //States minimum age for Drivers License
+		String errorCode;
+		String errorMessage;
+
+		if ("KS".contains(getState())) {
+			minimumAge = 15;
+			errorCode = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_KS.getCode();
+			errorMessage = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_KS.getMessage();
+
+		} else if ("MT".contains(getState())) {
+			minimumAge = 15;
+			errorCode = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_MT.getCode();
+			errorMessage = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_MT.getMessage();
+
+		} else if ("SD".contains(getState())) {
+			minimumAge = 14;
+			errorCode = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_SD.getCode();
+			errorMessage = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_SD.getMessage();
+
+		} else if ("VA".contains(getState())) {
+			minimumAge = 16;
+			errorCode = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_VA.getCode();
+			errorMessage = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_VA.getMessage();
+
+		} else if ("NV".contains(getState())) {
+			minimumAge = 16;
+			errorCode = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_NV.getCode();
+			errorMessage = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_NV.getMessage();
+
+		} else {
+			minimumAge = 16;
+			errorCode = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_COMMON.getCode();
+			errorMessage = ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_COMMON.getMessage();
+		}
+
+		String birthDateError = TimeSetterUtil.getInstance().getCurrentTime().toLocalDate().minusYears(minimumAge - 1).toString(); // date for Error response scenario
+		String birthDateNoError = TimeSetterUtil.getInstance().getCurrentTime().toLocalDate().minusYears(minimumAge).toString(); // date for no Error scenario
+		//format birthDateNoError date for validation in drivers tab
+		String birthDateNoErrorFormatted = formatBirthDateForDriverTab(birthDateNoError);
+
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(getPolicyDefaultTD());
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		addDriverRequest.firstName = "Young";
+		addDriverRequest.middleName = "Driver";
+		addDriverRequest.lastName = "Jill";
+		addDriverRequest.birthDate = birthDateError;
+		addDriverRequest.suffix = "III";
+
+		ErrorResponseDto errorResponseDto = HelperCommon.executeEndorsementAddDriverError(policyNumber, addDriverRequest);
+		ViewDriversResponse responseViewDrivers1 = HelperCommon.viewEndorsementDrivers(policyNumber);
+
+		assertSoftly(softly -> {
+			//validate addDriver error response
+			softly.assertThat(errorResponseDto.errors.size()).isEqualTo(1);
+			softly.assertThat(errorResponseDto.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+			softly.assertThat(errorResponseDto.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+			softly.assertThat(errorResponseDto.errors.get(0).errorCode).isEqualTo(errorCode);
+			softly.assertThat(errorResponseDto.errors.get(0).message).contains(errorMessage);
+			softly.assertThat(errorResponseDto.errors.get(0).field).isEqualTo("age");
+
+			//validate viewEndorsementDrivers response
+			softly.assertThat(responseViewDrivers1.driverList.size()).isEqualTo(1); //new driver is not added
+
+		});
+
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+
+		//validate that there is only 1 driver in PAS UI (new driver is not added)
+		assertSoftly(softly -> {
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.LIST_OF_DRIVER).getTable().
+					getColumn(AutoSSMetaData.DriverTab.ListOfDriver.LAST_NAME.getLabel()).getCellsCount()).isEqualTo(1);
+
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.LIST_OF_DRIVER).getTable().
+					getColumn(AutoSSMetaData.DriverTab.ListOfDriver.LAST_NAME.getLabel()).getCell(1).getValue()).isNotEqualTo(addDriverRequest.lastName);
+		});
+
+		driverTab.saveAndExit();
+
+		addDriverRequest.birthDate = birthDateNoError;//modify existing request by changing DOB
+		DriversDto driverResponseDto = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+		ViewDriversResponse responseViewDrivers2 = HelperCommon.viewEndorsementDrivers(policyNumber);
+		//filter newly added driver
+		DriversDto responseNewDriverFiltered = responseViewDrivers2.driverList.stream().filter(driver -> driver.firstName.equals(addDriverRequest.firstName) && driver.lastName.equals(addDriverRequest.lastName)).findFirst().orElse(null);
+
+		assertSoftly(softly -> {
+			//validate addDriver response
+			softly.assertThat(driverResponseDto.firstName).isEqualTo(addDriverRequest.firstName);
+			softly.assertThat(driverResponseDto.middleName).isEqualTo(addDriverRequest.middleName);
+			softly.assertThat(driverResponseDto.lastName).isEqualTo(addDriverRequest.lastName);
+			softly.assertThat(driverResponseDto.birthDate).isEqualTo(birthDateNoError).isEqualTo(addDriverRequest.birthDate);
+			softly.assertThat(driverResponseDto.suffix).isEqualTo(addDriverRequest.suffix);
+
+			//Validate view drivers response
+			softly.assertThat(responseViewDrivers2.driverList.size()).isEqualTo(2);
+			softly.assertThat(responseNewDriverFiltered.firstName).isEqualTo(addDriverRequest.firstName);
+			softly.assertThat(responseNewDriverFiltered.middleName).isEqualTo(addDriverRequest.middleName);
+			softly.assertThat(responseNewDriverFiltered.lastName).isEqualTo(addDriverRequest.lastName);
+			softly.assertThat(responseNewDriverFiltered.birthDate).isEqualTo(birthDateNoError).isEqualTo(addDriverRequest.birthDate);
+			softly.assertThat(responseNewDriverFiltered.suffix).isEqualTo(addDriverRequest.suffix);
+		});
+
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+		DriverTab.viewDriver(2);
+
+		//validate that driver is added in PAS UI
+		assertSoftly(softly -> {
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.LIST_OF_DRIVER).getTable().
+					getColumn(AutoSSMetaData.DriverTab.ListOfDriver.LAST_NAME.getLabel()).getCellsCount()).isEqualTo(2);
+
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.LIST_OF_DRIVER).getTable().
+					getColumn(AutoSSMetaData.DriverTab.ListOfDriver.FIRST_NAME.getLabel()).getCell(2).getValue()).isEqualTo(addDriverRequest.firstName);
+
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.LIST_OF_DRIVER).getTable().
+					getColumn(AutoSSMetaData.DriverTab.ListOfDriver.LAST_NAME.getLabel()).getCell(2).getValue()).isEqualTo(addDriverRequest.lastName);
+
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.LIST_OF_DRIVER).getTable().
+					getColumn(AutoSSMetaData.DriverTab.ListOfDriver.BIRTH_DATE.getLabel()).getCell(2).getValue()).contains(birthDateNoErrorFormatted);
+
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.FIRST_NAME).getValue()).isEqualTo(addDriverRequest.firstName);
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.LAST_NAME).getValue()).isEqualTo(addDriverRequest.lastName);
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MIDDLE_NAME).getValue()).isEqualTo(addDriverRequest.middleName);
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DATE_OF_BIRTH).getValue()).isEqualTo(birthDateNoErrorFormatted);
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.SUFFIX).getValue()).isEqualTo(addDriverRequest.suffix);
+		});
+	}
+
 	protected void pas477_UpdateDriversBody(PolicyType policyType) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -427,10 +571,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		assertThat(DriverTab.tableDriverList.getRow(2).getCell(2).getValue()).isEqualTo("Young");
 		DriverTab.tableDriverList.selectRow(2);
-
-		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData
-				.DriverTab.REL_TO_FIRST_NAMED_INSURED).getValue()).isEqualTo("Child");
-
 		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData
 				.DriverTab.SMART_DRIVER_COURSE_COMPLETED).getValue()).isEqualTo("No");
 		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData
@@ -537,6 +677,13 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 				helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
+	}
+
+	private String formatBirthDateForDriverTab(String birthDate) throws ParseException {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date birthDateFormatted = formatter.parse(birthDate);
+		SimpleDateFormat driverPageFormatter = new SimpleDateFormat("MM/dd/yyyy");
+		return driverPageFormatter.format(birthDateFormatted);
 	}
 
 	protected void pas14474_UpdateSpouseDriverBody(PolicyType policyType) {

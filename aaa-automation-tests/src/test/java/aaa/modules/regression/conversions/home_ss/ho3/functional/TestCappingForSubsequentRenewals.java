@@ -1,5 +1,6 @@
 package aaa.modules.regression.conversions.home_ss.ho3.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -29,7 +30,6 @@ import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.Button;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestCappingForSubsequentRenewals extends HomeSSHO3BaseTest {
 	private static String policyNumber;
