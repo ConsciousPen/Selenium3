@@ -28,6 +28,8 @@ import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 
+import javax.ws.rs.core.Response;
+
 public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	private DriverTab driverTab = new DriverTab();
@@ -425,6 +427,10 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		assertThat(DriverTab.tableDriverList.getRow(2).getCell(2).getValue()).isEqualTo("Young");
 		DriverTab.tableDriverList.selectRow(2);
+
+		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData
+				.DriverTab.REL_TO_FIRST_NAMED_INSURED).getValue()).isEqualTo("Child");
+
 		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData
 				.DriverTab.SMART_DRIVER_COURSE_COMPLETED).getValue()).isEqualTo("No");
 		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData
@@ -575,6 +581,27 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(updateDriverResponse.driver.ageFirstLicensed).isEqualTo(updateDriverRequest.ageFirstLicensed);
 		});
 
+
+		ViewDriversResponse response = HelperCommon.viewEndorsementDrivers(policyNumber);
+		assertSoftly(softly -> {
+			softly.assertThat(response.driverList.get(0).oid).isNotNull();
+			softly.assertThat(response.driverList.get(0).firstName).isEqualTo("Spouse");
+			softly.assertThat(response.driverList.get(0).lastName).isEqualTo("Smith");
+			softly.assertThat(response.driverList.get(0).driverType).isEqualTo("afr");
+			softly.assertThat(response.driverList.get(0).namedInsuredType).isEqualTo("NI");
+			softly.assertThat(response.driverList.get(0).relationToApplicantCd).isEqualTo("SP");
+			softly.assertThat(response.driverList.get(0).maritalStatusCd).isEqualTo("MSS");
+
+			softly.assertThat(response.driverList.get(1).oid).isNotNull();
+			softly.assertThat(response.driverList.get(1).firstName).startsWith("Fernando");
+			softly.assertThat(response.driverList.get(1).lastName).isEqualTo("Smith");
+			softly.assertThat(response.driverList.get(1).driverType).isEqualTo("afr");
+			softly.assertThat(response.driverList.get(1).namedInsuredType).isEqualTo("FNI");
+			softly.assertThat(response.driverList.get(1).relationToApplicantCd).isEqualTo("IN");
+			softly.assertThat(response.driverList.get(1).maritalStatusCd).isEqualTo("MSS");
+		});
+
+
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
@@ -610,6 +637,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		// assert relation to FNI
 		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED).getValue()).isEqualTo("Spouse");
+
+		driverTab.saveAndExit();
 
 	}
 }

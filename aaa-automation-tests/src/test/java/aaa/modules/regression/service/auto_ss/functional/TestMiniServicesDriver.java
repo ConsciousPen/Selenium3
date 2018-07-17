@@ -157,8 +157,9 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 2. Add 2nd driver outside of PAS
 	 * 3. Update 2nd driver as spouse outside of PAS
 	 * 4. Verify married status in update response
-	 * 5. Verify PAS pended endorsement general tab data
-	 * 6. Verify PAS pended endorsement driver tab data
+     * 5. Verify married status in view driver response
+	 * 6. Verify PAS pended endorsement general tab data
+	 * 7. Verify PAS pended endorsement driver tab data
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
