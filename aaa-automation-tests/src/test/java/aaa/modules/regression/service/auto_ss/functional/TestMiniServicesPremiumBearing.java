@@ -648,7 +648,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 * @author Megha Gubbala
 	 * Create a policy
 	 * create a pended endorsment
-	 * hit 
+	 * hit EndorsementChangeLog service validare response NO_CHANGES
 	 * rate policy
 	 * hit view premium service
 	 * Validate premium with pas
@@ -661,7 +661,17 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		pas15897_TransactionHistoryAndMessage();
 	}
 
-	//driver assignment
+	/**
+	 * @author Megha Gubbala
+	 * Create a policy
+	 * create a pended endorsment
+	 * add new vehicle
+	 * hit EndorsementChangeLog service validare response verify all coverages are there for added vehicle
+	 * verify is chage type is added
+	 * rate policy
+	 * hit view premium service
+	 * Validate premium with pas
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14540"})
@@ -670,7 +680,24 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		pas14539_transactionInfoAddVehicleCoveragesBody();
 	}
 
-	//vehicle coverages
+	/**
+	 * @author Megha Gubbala
+	 * Create a policy
+	 * update coverages on existing vehicle
+	 * hit EndorsementChangeLog service validare response verify all coverages are there as updated
+	 * verify is chage type is Modified
+	 * rate policy
+	 * hit view premium service
+	 * Validate premium with pas
+	 */
+	//coverages update on existing policy Scenario 2
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14540"})
+	public void pas14540_transactionInfoAddVehicleCoveragesUpdate(@Optional("VA") String state) {
+
+		pas14539_transactionInfoAddVehicleCoveragesUpdateBody();
+	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
