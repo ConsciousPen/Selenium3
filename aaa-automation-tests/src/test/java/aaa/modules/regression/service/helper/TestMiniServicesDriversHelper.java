@@ -36,6 +36,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private UpdateDriverRequest updateDriverRequest = new UpdateDriverRequest();
+	private TestMiniServicesGeneralHelper testMiniServicesGeneralHelper = new TestMiniServicesGeneralHelper();
 
 	protected void pas11932_viewDriversInfo(PolicyType policyType) {
 		assertSoftly(softly -> {
@@ -679,6 +680,53 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		SimpleDateFormat driverPageFormatter = new SimpleDateFormat("MM/dd/yyyy");
 		return driverPageFormatter.format(birthDateFormatted);
 	}
+
+    protected void pas15076_MetadataServiceDriverBody() {
+        assertSoftly(softly -> {
+        mainApp().open();
+        String policyNumber = getCopiedPolicy();
+
+        //Initiate endorsement
+        helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+        //Add a driver outside of PAS
+        addDriverRequest.firstName = "Test";
+        addDriverRequest.lastName = "test";
+        addDriverRequest.birthDate = "1953-04-26";
+        DriversDto addDriverRequestService = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+        String driverOid = addDriverRequestService.oid;
+
+        //Verify that the correct responses display
+        AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementDriversMetaData(policyNumber, driverOid);
+        AttributeMetadata metaDataFieldResponse = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "relationToApplicantCd", true, true, true, null, "String");
+        softly.assertThat(metaDataFieldResponse.visible).isTrue();
+        metaDataFieldResponse = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "suffix", true, true, false, null, "String");
+        softly.assertThat(metaDataFieldResponse.visible).isTrue();
+        metaDataFieldResponse = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "gender", true, true, true, null, "String");
+        softly.assertThat(metaDataFieldResponse.visible).isTrue();
+        metaDataFieldResponse = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "maritalStatusCd", true, true, true, null, "String");
+        softly.assertThat(metaDataFieldResponse.visible).isTrue();
+        metaDataFieldResponse = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "drivingLicense.stateLicensed", true, true, true, null, "String");
+        softly.assertThat(metaDataFieldResponse.visible).isTrue();
+        metaDataFieldResponse = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "driverType", true, true, true, null, "String");
+        softly.assertThat(metaDataFieldResponse.visible).isTrue();
+        metaDataFieldResponse = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "firstName", true, true, true, "50", "String");
+        softly.assertThat(metaDataFieldResponse.visible).isTrue();
+        metaDataFieldResponse = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "middleName", true, true, false, "50", "String");
+        softly.assertThat(metaDataFieldResponse.visible).isTrue();
+        metaDataFieldResponse = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "lastName", true, true, true, "50", "String");
+        softly.assertThat(metaDataFieldResponse.visible).isTrue();
+        metaDataFieldResponse = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "birthDate", true, true, true, null, "Date");
+        softly.assertThat(metaDataFieldResponse.visible).isTrue();
+        metaDataFieldResponse = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "drivingLicense.licenseNumber", true, true, false, "255", "String");
+        softly.assertThat(metaDataFieldResponse.visible).isTrue();
+        metaDataFieldResponse = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "ageFirstLicensed", true, true, true, "3", "Integer");
+        softly.assertThat(metaDataFieldResponse.visible).isTrue();
+        metaDataFieldResponse = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "driverStatus", true, false, false, null, "String");
+        softly.assertThat(metaDataFieldResponse.visible).isFalse();
+        softly.assertThat(metaDataFieldResponse.enabled).isTrue();
+       });
+    }
 }
 
 

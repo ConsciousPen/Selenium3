@@ -180,6 +180,14 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 
 		pas9662_maxDriversBody(getPolicyType());
 	}
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15076"})
+    public void pas15076_MetadataServiceDriver(@Optional("VA") String state) {
+
+        pas15076_MetadataServiceDriverBody();
+    }
 }
 
 
