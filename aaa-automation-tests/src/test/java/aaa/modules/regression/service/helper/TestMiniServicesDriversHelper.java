@@ -679,36 +679,32 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyDefaultTD());
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		//		String policyNumber = "VASS952918548"; //TODO-mstrazds:remove
-		//		SearchPage.openPolicy(policyNumber);//TODO-mstrazds:remove
 
 		//Create pended endorsement
 		PolicySummary createEndorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().plusDays(4).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertThat(createEndorsementResponse.policyNumber).isEqualTo(policyNumber);
 
-		AddDriverRequest addDriverRequest1 = new AddDriverRequest();
-		addDriverRequest1.firstName = "ClueNonChargeable";
-		addDriverRequest1.middleName = "Doc";
-		addDriverRequest1.lastName = "Activity";
-		addDriverRequest1.birthDate = "1999-01-31";
-		addDriverRequest1.suffix = "III";
+		addDriverRequest.firstName = "ClueNonChargeable";
+		addDriverRequest.middleName = "Doc";
+		addDriverRequest.lastName = "Activity";
+		addDriverRequest.birthDate = "1999-01-31";
+		addDriverRequest.suffix = "III";
 
-		DriversDto addedDriver = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest1);
-		String addedDriver1Oid = addedDriver.oid; //get OID for added driver
+		DriversDto addedDriver = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+		String addedDriverOid = addedDriver.oid; //get OID for added driver
 
 		//And update missing info for the driver
-		UpdateDriverRequest updateDriverRequest1 = new UpdateDriverRequest();
-		updateDriverRequest1.gender = "male";
-		updateDriverRequest1.licenseNumber = "995860596";
-		updateDriverRequest1.ageFirstLicensed = 18;
-		updateDriverRequest1.stateLicensed = "VA"; //TODO-mstrazds: getstate?
-		HelperCommon.updateDriver(policyNumber, addedDriver1Oid, updateDriverRequest1);
+		updateDriverRequest.gender = "male";
+		updateDriverRequest.licenseNumber = "995860596";
+		updateDriverRequest.ageFirstLicensed = 18;
+		updateDriverRequest.stateLicensed = "VA";
+		HelperCommon.updateDriver(policyNumber, addedDriverOid, updateDriverRequest);
 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
 		//Order reports through service
-		HelperCommon.orderReports(policyNumber, addedDriver1Oid);
+		HelperCommon.orderReports(policyNumber, addedDriverOid);
 
 		//Open Driver Activity reports tab in PAS
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -719,7 +715,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		checkThatClueIsOrdered(2, "processing complete, with results information");
 
 		//validate that MVR report is ordered in PAS
-		checkThatMvrIsOrdered(addDriverRequest1, 2, "Clear");
+		checkThatMvrIsOrdered(addDriverRequest, 2, "Clear");
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
@@ -728,29 +724,27 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		PolicySummary createEndorsementResponse2 = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().plusDays(4).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertThat(createEndorsementResponse2.policyNumber).isEqualTo(policyNumber);
 
-		AddDriverRequest addDriverRequest2 = new AddDriverRequest();
-		addDriverRequest2.firstName = "MvrNonChargeable";
-		addDriverRequest2.middleName = "Doc";
-		addDriverRequest2.lastName = "Activity";
-		addDriverRequest2.birthDate = "2000-01-31";
-		addDriverRequest2.suffix = "III";
+		addDriverRequest.firstName = "MvrNonChargeable";
+		addDriverRequest.middleName = "Doc";
+		addDriverRequest.lastName = "Activity";
+		addDriverRequest.birthDate = "1999-01-31";
+		addDriverRequest.suffix = "III";
 
-		DriversDto addedDriver2 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest1);
-		String addedDriver2Oid = addedDriver2.oid; //get OID for added driver
+		addedDriver = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+		addedDriverOid = addedDriver.oid; //get OID for added driver
 
 		//And update missing info for the driver
-		UpdateDriverRequest updateDriverRequest2 = new UpdateDriverRequest();
-		updateDriverRequest1.gender = "male";
-		updateDriverRequest1.licenseNumber = "995860597";
-		updateDriverRequest1.ageFirstLicensed = 18;
-		updateDriverRequest1.stateLicensed = "VA"; //TODO-mstrazds: getstate?
-		HelperCommon.updateDriver(policyNumber, addedDriver2Oid, updateDriverRequest2);
+		updateDriverRequest.gender = "male";
+		updateDriverRequest.licenseNumber = "995860597";
+		updateDriverRequest.ageFirstLicensed = 18;
+		updateDriverRequest.stateLicensed = "VA";
+		HelperCommon.updateDriver(policyNumber, addedDriverOid, updateDriverRequest);
 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
 		//Order reports through service
-		HelperCommon.orderReports(policyNumber, addedDriver2Oid);
+		HelperCommon.orderReports(policyNumber, addedDriverOid);
 
 		//Open Driver Activity reports tab in PAS
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -761,7 +755,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		checkThatClueIsOrdered(3, "processing complete, results clear");
 
 		//validate that MVR report is ordered in PAS
-		checkThatMvrIsOrdered(addDriverRequest1, 3, "Hit - Activity Found");
+		checkThatMvrIsOrdered(addDriverRequest, 3, "Hit - Activity Found");
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
@@ -777,10 +771,10 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.DATE_OF_BIRTH.getLabel()).getValue()).isEqualToIgnoringCase("01/31/1999"); //the same as addDriverRequest.birthDate
 
 			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
-					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.STATE.getLabel()).getValue()).isNotBlank();
+					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.STATE.getLabel()).getValue()).isEqualToIgnoringCase(updateDriverRequest.stateLicensed);
 
 			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
-					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.LICENSE_NO.getLabel()).getValue()).isNotBlank();
+					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.LICENSE_NO.getLabel()).getValue()).isEqualToIgnoringCase(updateDriverRequest.licenseNumber);
 
 			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.LICENSE_STATUS.getLabel()).getValue()).containsIgnoringCase("VALID");
@@ -794,7 +788,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.RECEIPT_DATE.getLabel()).getValue())
-					.isEqualToIgnoringCase(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+					.isNotBlank(); //it can be also past date if report has been ordered previously, hence checking only that it is not blank
 
 			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.RESPONSE.getLabel()).getValue())
@@ -831,6 +825,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 	}
 
+	//String birthDate must be in format yyyy-MM-dd
 	private String formatBirthDateForDriverTab(String birthDate) throws ParseException {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date birthDateFormatted = formatter.parse(birthDate);
