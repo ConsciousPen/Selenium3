@@ -3,6 +3,8 @@ package aaa.helpers.listeners;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.xml.bind.JAXBException;
@@ -63,6 +65,48 @@ public class RatingEngineLogsHolder {
 		return openLPolicyFromRequest;
 	}
 
+	public Map<String, String> getRequestPolicyValuesMap() {
+		JsonElement je = getJsonElement(getRatingRequestLogContent());
+		if (je == null) {
+			//...............
+		}
+
+		JsonElement policyElements = je.getAsJsonObject().getAsJsonObject("policy");
+		return getRequestPolicyValuesMap(policyElements.getAsJsonObject(), "policy");
+	}
+
+	private Map<String, String> getRequestPolicyValuesMap(JsonObject jsonObject, String parentPath) {
+		Map<String, String> valuesMap = new LinkedHashMap<>();
+		for (Map.Entry<String, JsonElement> je : jsonObject.entrySet()) {
+			String keyPath = parentPath != null ? parentPath + "." + je.getKey() : je.getKey();
+			valuesMap.putAll(getValuesMap(je.getValue(), keyPath));
+		}
+		return valuesMap;
+	}
+
+	private Map<String, String> getRequestPolicyValuesMap(JsonArray jsonArray, String parentPath) {
+		Map<String, String> valuesMap = new LinkedHashMap<>();
+		for (int i = 0; i < jsonArray.size(); i++) {
+			String keyPath = parentPath != null ? parentPath + "[" + i + "]" : "[" + i + "]";
+			valuesMap.putAll(getValuesMap(jsonArray.get(i), keyPath));
+		}
+		return valuesMap;
+	}
+
+	private Map<String, String> getValuesMap(JsonElement je, String keyPath) {
+		Map<String, String> valuesMap = new LinkedHashMap<>();
+		if (je.isJsonNull()) {
+			valuesMap.put(keyPath, null);
+		} else if (je.isJsonPrimitive()) {
+			valuesMap.put(keyPath, String.valueOf(je));
+		} else if (je.isJsonObject()) {
+			valuesMap.putAll(getRequestPolicyValuesMap(je.getAsJsonObject(), keyPath));
+		} else if (je.isJsonArray()) {
+			valuesMap.putAll(getRequestPolicyValuesMap(je.getAsJsonArray(), keyPath));
+		}
+		return valuesMap;
+	}
+
 	public File dumpRequestLog(String logDestinationPath, boolean archiveLog) {
 		return dumpLog(logDestinationPath, getRatingRequestLogContent(), archiveLog);
 	}
@@ -114,12 +158,28 @@ public class RatingEngineLogsHolder {
 	}
 
 	private String convertToPrettyJsonFormat(String logContent) {
-		String formattedLogContent;
+		String formattedLogContent = null;
+		//String parseErrorMessage = "Error occurs while parsing log content";
+		//JsonReader reader = new JsonReader(new StringReader(logContent));
+		log.info("Converting log content to the pretty json format");
+		JsonElement je = getJsonElement(logContent);
+		if (je != null) {
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			try {
+				formattedLogContent = gson.toJson(je);
+			} catch (JsonIOException e) {
+				printJsonErrorAndLogContent("Error occurs while converting log content to pretty json format", e, logContent);
+				return null;
+			}
+		}
+
+		return formattedLogContent;
+	}
+
+	private JsonElement getJsonElement(String logContent) {
 		String parseErrorMessage = "Error occurs while parsing log content";
 		JsonReader reader = new JsonReader(new StringReader(logContent));
 		JsonElement je;
-
-		log.info("Converting log content to the pretty json format");
 		try {
 			je = new JsonParser().parse(reader);
 		} catch (JsonSyntaxException syntaxEx) {
@@ -154,15 +214,7 @@ public class RatingEngineLogsHolder {
 			}
 		}
 
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		try {
-			formattedLogContent = gson.toJson(je);
-		} catch (JsonIOException e) {
-			printJsonErrorAndLogContent("Error occurs while converting log content to pretty json format", e, logContent);
-			return null;
-		}
-
-		return formattedLogContent;
+		return je;
 	}
 
 	private void printJsonErrorAndLogContent(String errorMessage, Throwable t, String logContent) {

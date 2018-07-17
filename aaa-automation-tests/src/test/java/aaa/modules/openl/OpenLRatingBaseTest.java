@@ -112,21 +112,20 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		assertThat(actualPremium).as("Total premium for quote/policy number %s is not equal to expected one", quoteNumber).isEqualTo(openLPolicy.getExpectedPremium());
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void checkRequestFieldsValues(RatingEngineLogsHolder ratingLogsHolder, P openLPolicy, String quoteNumber) {
-		//TODO-dchubkov: to be implemented...
-		/*if (!ratingLogsHolder.getRatingResponseLogContent().contains(quoteNumber)) {
-			log.warn(".......................");
+		if (!ratingLogsHolder.getRatingRequestLogContent().contains(quoteNumber)) {
+			log.warn("There is no policy number {} in retrieved rating request log, further analysis has no sense", quoteNumber);
 		} else {
-			P openLPolicyFromRequest = (P) ratingLogsHolder.getRequestPolicyObject(openLPolicy.getClass());
-			log.info("...........");
-			MapDifference<String, String> policyDifferences = openLPolicy.diff(openLPolicyFromRequest);
+			/*Map<String, String> requestPolicyValuesMap = ratingLogsHolder.getRequestPolicyValuesMap();
+			Map<String, String> policyValuesMap = openLPolicy.getValuesMap();
+			MapDifference<String, String> policyDifferences = Maps.difference(requestPolicyValuesMap, policyValuesMap);
 			if (policyDifferences.areEqual()) {
-				log.info("...........");
+				log.info("All OpenL fields values of rating json request are equal to the appropriate fields values of {} object from excel file", openLPolicy.getClass().getSimpleName());
 			} else {
-				log.warn("...........{}", policyDifferences.entriesDiffering().values());
-			}
-		}*/
+				log.warn("There are differences between OpenL fields values of rating json request and appropriate fields values of {} object from excel file:\n{}", openLPolicy.getClass().getSimpleName(),
+						policyDifferences.entriesDiffering().entrySet());
+			}*/
+		}
 	}
 
 	protected void grabAndSaveLogs(ITestContext testContext, int openLPolicyNumber, boolean isActualEqualToExpectedPremium) {
