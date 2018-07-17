@@ -440,6 +440,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * the rest coverages are set to default values as if it were new car
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
 	public void pas13920_ReplaceVehicleKeepAssignmentsNoCoverages(@Optional("VA") String state) {
@@ -457,6 +458,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * one of vehicles is Primary, the other one is Occasional
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
 	public void pas13920_ReplaceVehicleKeepAssignmentsOneDriver(@Optional("VA") String state) {
@@ -474,6 +476,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * one of vehicles is Primary, the other one is Occasional
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
 	public void pas13920_ReplaceVehicleDontKeepAssignmentsOneDriver(@Optional("VA") String state) {
@@ -490,6 +493,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * ??????????? - result is not clear. Maybe this test can be removed.
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
 	public void pas13920_ReplaceVehicleKeepAssignmentsOneDriverAz(@Optional("AZ") String state) {
@@ -506,6 +510,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 4. check replacement is successful
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
 	public void pas13920_ReplaceVehicleDontKeepAssignmentsOneDriverAz(@Optional("AZ") String state) {
@@ -525,6 +530,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * the rest coverages are defaulted
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
 	public void pas13920_ReplaceVehicleDontKeepCoveragesOneDriverOneVehicle(@Optional("VA") String state) {
@@ -544,6 +550,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * the rest coverages have the same values as the original vehicle
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
 	public void pas13920_ReplaceVehicleKeepCoveragesOneDriverOneVehicle(@Optional("VA") String state) {
@@ -559,6 +566,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 3. PendingAdd vehicle has no available actions
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12175"})
 	public void pas12175_RemoveReplaceAllVehicles(@Optional("VA") String state) {
@@ -572,6 +580,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * @scenario 1. Waive Liability vehicle can only be removed
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12175"})
 	public void pas12175_RemoveReplaceWaiveLiability(@Optional("VA") String state) {

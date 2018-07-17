@@ -615,7 +615,6 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		pas10227_ViewPremiumServiceForPendedEndorsement();
 	}
 
-
 	/**
 	 * @author Oleg Stasyuk
 	 * @name Manual Endorsement Deletion
@@ -699,7 +698,69 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		pas14539_transactionInfoAddVehicleCoveragesUpdateBody();
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * from pre-conditions VA shouls allow all 4 actions
+	 * Create a policy
+	 * hit startEndorsement service
+	 * Validate Respose should show UpdateVehicle  UpdateDriver UpdateCoverage
+	 *
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13287"})
+	public void pas13287_ViewStartEndorsementInfoService(@Optional("VA") String state) {
+		pas13287_ViewStartEndorsementInfoServiceBody();
 
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * from pre-conditions DC shouls allow UpdateVehicle and UpdateCoverages actions
+	 * Create a policy
+	 * hit startEndorsement service
+	 * Validate Respose should show UpdateVehicle  UpdateCoverage
+	 *
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13287"})
+	public void pas13287_ViewStartEndorsementInfoServiceForDC(@Optional("DC") String state) {
+		pas13287_ViewStartEndorsementInfoServiceDCBody();
+
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * from pre-conditions AZ shouls allow UpdateVehicle and UpdateDriver actions
+	 * Create a policy
+	 * hit startEndorsement service
+	 * Validate Respose should show UpdateVehicle  UpdateDriver
+	 *
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13287"})
+	public void pas13287_ViewStartEndorsementInfoServiceForAZ(@Optional("AZ") String state) {
+		pas13287_ViewStartEndorsementInfoServiceAZBody();
+
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * from pre-conditions MD shouls allow UpdateDriver and UpdateCoverages actions
+	 * Create a policy
+	 * hit startEndorsement service
+	 * Validate Respose should show  UpdateDriver and UpdateCoverages
+	 *
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13287"})
+	public void pas13287_ViewStartEndorsementInfoServiceForMD(@Optional("MD") String state) {
+		pas13287_ViewStartEndorsementInfoServiceMDBody();
+
+	}
 
 	@Override
 	protected String getGeneralTab() {

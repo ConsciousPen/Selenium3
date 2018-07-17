@@ -1,5 +1,11 @@
 package aaa.modules.regression.document_fulfillment.auto_ss.functional;
 
+import static java.util.Arrays.asList;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
@@ -8,15 +14,8 @@ import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestCinAbstractAutoSS;
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.SoftAssertions;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
-import static java.util.Arrays.asList;
 
 public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
     /**
@@ -63,7 +62,7 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
      * @details
      */
     @Parameters({STATE_PARAM})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.DOCGEN, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7515")
     public void testCinCLUE(@Optional("AZ") String state) {
         Assertions.assertThat(asList("MD", "CO").contains(state)).as("Test does not support this state: " + state).isFalse();
@@ -102,7 +101,7 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
      * 6. Verify that CIN document is generated
      */
     @Parameters({STATE_PARAM})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     public void testNewDriverBetterScore(@Optional("AZ") String state) {
         Assertions.assertThat(asList("MD", "CO").contains(state)).as("Test does not support this state: " + state).isFalse();

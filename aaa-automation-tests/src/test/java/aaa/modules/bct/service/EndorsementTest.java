@@ -87,7 +87,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		assertThat(policyPremium).isEqualTo(PremiumAndCoveragesTab.getActualPremium());
 		new PremiumAndCoveragesTab().calculatePremium();
-		assertThat(policyPremium).isEqualTo(PremiumAndCoveragesTab.getActualPremium());
+		assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState()).isEqualTo(PremiumAndCoveragesTab.getActualPremium());
 	}
 
 	@Parameters({"state"})
@@ -114,7 +114,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		policy.dataGather().getView()
 				.fillFromTo(td, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, false);
 		PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
-		assertThat(policyPremium).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
+		assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState()).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
 	}
 
 	@Parameters({"state"})
@@ -141,7 +141,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		policy.dataGather().getView()
 				.fillFromTo(td, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, false);
 		PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
-		assertThat(policyPremium).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
+		assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState()).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
 	}
 
 	@Parameters({"state"})
@@ -220,7 +220,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		policy.dataGather().getView().fillFromTo(td, PrefillTab.class, PremiumAndCoveragesQuoteTab.class, false);
 		assertThat(policyPremium).isEqualTo(PremiumAndCoveragesQuoteTab.getPolicyTermPremium());
 		PremiumAndCoveragesQuoteTab.btnCalculatePremium.click();
-		assertThat(policyPremium).isEqualTo(PremiumAndCoveragesQuoteTab.getPolicyActualPremium());
+		assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState()).isEqualTo(PremiumAndCoveragesQuoteTab.getPolicyActualPremium());
 	}
 
 	@Parameters({"state"})

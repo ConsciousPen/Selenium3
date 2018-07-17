@@ -44,4 +44,10 @@ public class MiniServicesSetup extends MiniServicesSetupPreconditions {
 		DBService.get().executeUpdate(DELETE_INELIGIBLE_FOR_MY_POLICY_STATES_CONFIG);
 	}
 
+	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	public static void miniServicesEndorsementInsertConfigDetermineEndorsementTypeAvailable() {
+		DBService.get().executeUpdate(MiniServicesSetupPreconditions.AAA_LOOKUP_CONFIG_INSERT_UPDATE_DRIVER);
+		DBService.get().executeUpdate(MiniServicesSetupPreconditions.AAA_LOOKUP_CONFIG_INSERT_UPDATE_VEHICLE);
+		DBService.get().executeUpdate(MiniServicesSetupPreconditions.AAA_LOOKUP_CONFIG_INSERT_UPDATE_COVERAGES);
+	}
 }

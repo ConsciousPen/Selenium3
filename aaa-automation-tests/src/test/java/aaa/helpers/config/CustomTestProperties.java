@@ -10,7 +10,9 @@ public class CustomTestProperties extends TestProperties {
 	public static final String ADMIN_PORT = "admin.port";
 	public static final String APP_STUB_URL_TEMPLATE = "app.stub.urltemplate";
 	public static final String APP_STUB_FOLDER_TEMPLATE = "app.stub.foldertemplate";
-	public static final String APP_STUB_RESTART_SCRIPT = "app.stub.restart.script";
+	public static final String APP_STUB_SCRIPT_WORKDIR = "app.stub.script.workdir";
+	public static final String APP_STUB_SCRIPT_START = "app.stub.script.start";
+	public static final String APP_STUB_SCRIPT_STOP = "app.stub.script.stop";
 	public static final String DOMAIN_NAME = "domain.name";
 	public static final String JOB_FOLDER = "job.folder";
 	public static final String WIRE_MOCK_STUB_URL_TEMPLATE = "wire.mock.stub.urltemplate";
@@ -29,4 +31,8 @@ public class CustomTestProperties extends TestProperties {
 	public static final String APP_ADMIN_USER = "app.admin.user";
 	public static final String APP_ADMIN_PASSWORD = "app.admin.password"; // not necessary if APP_SSH_AUTH_KEYPATH is set
 	public static final String APP_SSH_AUTH_KEYPATH = "app.ssh.auth.keypath";
+	public static final String OPENL_RATING_LOGS_FOLDER = "openl.rating.logs.folder"; // for openl tests only - path to rating engine logs folder
+	public static final String OPENL_RATING_LOGS_FILENAME_REGEXP = "openl.rating.logs.filename.regexp"; // for openl tests only - regexp which matches all rating log filenames including initial one (e.g. "aaa-rating-engine-app.log, aaa-rating-engine-app.log.1, etc...")
+	public static final String OPENL_ATTACH_RATING_LOGS = "openl.attach.rating.logs"; // for openl tests only, available values: "true|always|all" to attach logs always and "failed" to attach only if test fails
+	public static final String OPENL_ARCHIVE_RATING_LOGS = "openl.archive.rating.logs"; // for openl tests only - make zip archive of grabbed logs, available values: true, false
 }

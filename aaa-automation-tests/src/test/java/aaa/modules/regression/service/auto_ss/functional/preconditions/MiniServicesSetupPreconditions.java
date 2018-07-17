@@ -43,4 +43,19 @@ public class MiniServicesSetupPreconditions {
 			+ "AND CODE='EndorsementOutsideOfPAS'\n"
 			+ "and DISPLAYVALUE = 'FALSE'";
 
+	public static final String AAA_LOOKUP_CONFIG_INSERT_UPDATE_DRIVER = "INSERT INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, lookuplist_id)\n"
+			+ "   values\n"
+			+ "    ('AAARolloutEligibilityLookupValue', 'RESTUpdateDriver', 'FALSE', 'AAA_SS', 'DC',\n"
+			+ "    (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
+
+	public static final String AAA_LOOKUP_CONFIG_INSERT_UPDATE_VEHICLE = "INSERT INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, lookuplist_id)\n"
+			+ "   values\n"
+			+ "    ('AAARolloutEligibilityLookupValue', 'RESTUpdateVehicle', 'FALSE', 'AAA_SS', 'MD',\n"
+			+ "    (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
+
+	public static final String AAA_LOOKUP_CONFIG_INSERT_UPDATE_COVERAGES = "INSERT INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, lookuplist_id)\n"
+			+ "   values\n"
+			+ "    ('AAARolloutEligibilityLookupValue', 'RESTUpdateCoverages', 'FALSE', 'AAA_SS', 'AZ',\n"
+			+ "    (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
+
 }

@@ -2,17 +2,16 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.home_ss.ho4.functional;
 
+import java.util.List;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.google.common.collect.ImmutableList;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestRestrictedPaymentPlanAbstract;
-import com.google.common.collect.ImmutableList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
-
-import java.util.List;
 
 public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract {
 
@@ -64,6 +63,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 	 * - table for unrestricted payment plans and help text aren't present
 	 * @details
 	 */
+	@Override
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-10894"})
@@ -81,6 +81,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 	 * - table for unrestricted payment plans and help text are present
 	 * @details
 	 */
+	@Override
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-10894"})
@@ -98,6 +99,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 	 * - table for unrestricted payment plans and help text aren't present
 	 * @details
 	 */
+	@Override
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-10894"})
@@ -115,6 +117,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 	 * - table for unrestricted payment plans and help text aren't present
 	 * @details
 	 */
+	@Override
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-11367"})
@@ -133,8 +136,9 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 	 * 6. Check that premiums are the same for payment plans when Membership = Yes and membership = 'Pending'.
 	 * @details
 	 */
+	@Override
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-10998"})
 	public void pas10998_restrictionPaymentPlansMembershipPendingCalculation(@Optional("AZ") String state) {
 		super.pas10998_restrictionPaymentPlansMembershipPendingCalculation(state);
