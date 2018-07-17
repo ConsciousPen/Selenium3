@@ -1,11 +1,13 @@
 package aaa.modules.regression.conversions.home_ss.dp3.functional;
 
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.modules.policy.HomeSSDP3BaseTest;
+import aaa.utils.StateList;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -14,6 +16,7 @@ import toolkit.utils.TestInfo;
 
 import java.util.List;
 
+@StateList(statesExcept = {Constants.States.CA})
 public class TestImmediatePriorCarrierDropdown extends HomeSSDP3BaseTest {
 
 	/**

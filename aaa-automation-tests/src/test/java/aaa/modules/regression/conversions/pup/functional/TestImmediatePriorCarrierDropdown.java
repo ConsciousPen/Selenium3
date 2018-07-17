@@ -1,11 +1,13 @@
 package aaa.modules.regression.conversions.pup.functional;
 
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksPropertyTab;
 import aaa.modules.regression.conversions.ConvPUPBaseTest;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
+import aaa.utils.StateList;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -15,6 +17,7 @@ import toolkit.utils.TestInfo;
 
 import java.util.List;
 
+@StateList(statesExcept = {Constants.States.CA})
 public class TestImmediatePriorCarrierDropdown extends ConvPUPBaseTest {
 
 	/**
