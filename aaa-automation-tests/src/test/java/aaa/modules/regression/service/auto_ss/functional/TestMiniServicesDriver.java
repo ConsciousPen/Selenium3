@@ -181,24 +181,79 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 		pas9662_maxDriversBody(getPolicyType());
 	}
 
+    /**
+     * @author Dakota Berg
+     * @name Test Meta Data Service for Drivers
+     * @scenario 1. Create a customer and policy
+     * 2. Initiate an endorsement outside of PAS
+     * 3. Add a driver outside of PAS
+     * 4. Run Meta Data Service for Drivers
+     * 5. Verify that the correct field options display
+     */
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15076"})
+    public void pas15076_MetadataServiceDriver(@Optional("VA") String state) {
+
+        pas15076_MetadataServiceDriverBody();
+    }
+
 	/**
-	 * @author Bob Van
-	 * @name Update Drivers service, set marital status.
-	 * @scenario
-	 * 1. Create policy on Pas.
-	 * 2. Create endorsement outside of PAS
-	 * 2. Add 2nd driver outside of PAS
-	 * 3. Update 2nd driver as spouse outside of PAS
-	 * 4. Verify married status in update response
-     * 5. Verify married status in view driver response
-	 * 6. Verify PAS pended endorsement general tab data
-	 * 7. Verify PAS pended endorsement driver tab data
+	 * @author Jovita Pukenaite
+	 * @name Validate Driver License By State and Age First Licensed < 14
+	 * @scenario 1. Create Policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Try Update existing Driver add new State and a DL.
+	 * Update  Age First Licensed, add < 14.
+	 * 4. Check error. DL should be updated.
+	 * 5. Update existing Driver add new State and a DL which is not correct by State.
+	 * Update Age First Licensed, add > 14.
+	 * 6. Check error, the years should be successfully updated.
+	 * 7. Update existing Driver add new State and a DL which is not correct by State.
+	 * Update Age First Licensed, add < 14.
+	 * 8. Check the errors.
+	 * 9. Add new driver.
+	 * 10. Repeat the same scenario for the newly added driver.
+	 * 11. Rate and Bind.
 	 */
+
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14474"})
-	public void pas14474_UpdateSpouseDriver(@Optional("AZ") String state) {
-		pas14474_UpdateSpouseDriverBody(getPolicyType());
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13301", "PAS-14633"})
+	public void pas13301_validateDriverLicenseAndAgeFirstLicensed(@Optional("VA") String state) {
+
+		pas13301_validateDriverLicenseAndAgeFirstLicensedBody();
+	}
+
+
+
+	/**
+	 * @author Maris Strazds
+	 * @name Test Report Ordering for Endorsement
+	 * @scenario
+	 * 1. Create a policy in PAS
+	 * 2. Create an endorsement through service
+	 * 3. Add Driver 1 through service with MVR status =  Hit - Activity Found, CLUE status = processing complete, results clear
+	 * 4. Run the Report Order Service for MVR/CLUE
+	 * 5. Open the Endorsement in PAS, navigate to "Driver Activity Reports" tab and validate that MVR/CLUE reports have been ordered successfully with no errors
+	 * 6. Validate that I receive the report response
+	 *          AND it is viewable in PAS (pdf)
+	 *          AND it is reconciled in PAS
+	 *          AND a positive response is provided
+	 * 7. Rate and bind the policy
+	 * 8. Rate and Bind
+	 * 9. Create an endorsement through service
+	 * 10. Add Driver 2 through service with MVR status =  Clear, CLUE status = processing complete, with results information
+	 * 11. Repeat steps 4 - 8
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15077"})
+	public void pas15077_orderReports_endorsement(@Optional("") String state) {
+
+		pas15077_orderReports_endorsementBody(getPolicyType());
 	}
 
 }
