@@ -23,6 +23,7 @@ import toolkit.datax.TestData;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -1144,33 +1145,33 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		String driverOid2 = driver2.oid;
 
 		//Update: V2-->D1 ,Check V2-->D1, V1-->D2
-		ViewDriverAssignmentResponse updDriverAssignee1 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid2, Arrays.asList(driverOid1));
+		HelperCommon.updateDriverAssignment(policyNumber, vehicleOid2, Collections.singletonList(driverOid1));
 
-		ViewDriverAssignmentResponse updDriverAssignee2 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid1, Arrays.asList(driverOid2));
+		HelperCommon.updateDriverAssignment(policyNumber, vehicleOid1, Collections.singletonList(driverOid2));
 
 		ComparablePolicy policyResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
 		ComparableVehicle veh1 = policyResponse.vehicles.get(vehicleOid1);
 		ComparableVehicle veh2 = policyResponse.vehicles.get(vehicleOid2);
 		assertSoftly(softly -> {
 			softly.assertThat(veh1.driverAssignments.get(driverOid1).changeType).isEqualTo("REMOVED");
-			softly.assertThat(veh1.driverAssignments.get(driverOid1).data.get("driverOid")).isEqualTo(driverOid1);
-			softly.assertThat(veh1.driverAssignments.get(driverOid1).data.get("driverDisplayValue").toString().contains(firstName1)).isTrue();
-			softly.assertThat(veh1.driverAssignments.get(driverOid1).data.get("relationshipType")).isEqualTo("primary");
+			softly.assertThat(veh1.driverAssignments.get(driverOid1).data.driverOid).isEqualTo(driverOid1);
+			softly.assertThat(veh1.driverAssignments.get(driverOid1).data.driverDisplayValue.contains(firstName1)).isTrue();
+			softly.assertThat(veh1.driverAssignments.get(driverOid1).data.relationshipType).isEqualTo("primary");
 
 			softly.assertThat(veh1.driverAssignments.get(driverOid2).changeType).isEqualTo("ADDED");
-			softly.assertThat(veh1.driverAssignments.get(driverOid2).data.get("driverOid")).isEqualTo(driverOid2);
-			softly.assertThat(veh1.driverAssignments.get(driverOid2).data.get("driverDisplayValue")).isEqualTo("John Smith");
-			softly.assertThat(veh1.driverAssignments.get(driverOid2).data.get("relationshipType")).isEqualTo("primary");
+			softly.assertThat(veh1.driverAssignments.get(driverOid2).data.driverOid).isEqualTo(driverOid2);
+			softly.assertThat(veh1.driverAssignments.get(driverOid2).data.driverDisplayValue).isEqualTo("John Smith");
+			softly.assertThat(veh1.driverAssignments.get(driverOid2).data.relationshipType).isEqualTo("primary");
 
 			softly.assertThat(veh2.driverAssignments.get(driverOid1).changeType).isEqualTo("ADDED");
-			softly.assertThat(veh2.driverAssignments.get(driverOid1).data.get("driverOid")).isEqualTo(driverOid1);
-			softly.assertThat(veh2.driverAssignments.get(driverOid1).data.get("driverDisplayValue").toString().contains(firstName1)).isTrue();
-			softly.assertThat(veh2.driverAssignments.get(driverOid1).data.get("relationshipType")).isEqualTo("primary");
+			softly.assertThat(veh2.driverAssignments.get(driverOid1).data.driverOid).isEqualTo(driverOid1);
+			softly.assertThat(veh2.driverAssignments.get(driverOid1).data.driverDisplayValue.contains(firstName1)).isTrue();
+			softly.assertThat(veh2.driverAssignments.get(driverOid1).data.relationshipType).isEqualTo("primary");
 
 			softly.assertThat(veh2.driverAssignments.get(driverOid2).changeType).isEqualTo("REMOVED");
-			softly.assertThat(veh2.driverAssignments.get(driverOid2).data.get("driverOid")).isEqualTo(driverOid2);
-			softly.assertThat(veh2.driverAssignments.get(driverOid2).data.get("driverDisplayValue")).isEqualTo("John Smith");
-			softly.assertThat(veh2.driverAssignments.get(driverOid2).data.get("relationshipType")).isEqualTo("primary");
+			softly.assertThat(veh2.driverAssignments.get(driverOid2).data.driverOid).isEqualTo(driverOid2);
+			softly.assertThat(veh2.driverAssignments.get(driverOid2).data.driverDisplayValue).isEqualTo("John Smith");
+			softly.assertThat(veh2.driverAssignments.get(driverOid2).data.relationshipType).isEqualTo("primary");
 		});
 	}
 
@@ -1198,11 +1199,10 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		ComparablePolicy policyResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
 		ComparableVehicle veh1 = policyResponse.vehicles.get(newVehicleOid);
 		assertSoftly(softly -> {
-
 			softly.assertThat(veh1.driverAssignments.get(dOid).changeType).isEqualTo("ADDED");
-			softly.assertThat(veh1.driverAssignments.get(dOid).data.get("driverOid")).isEqualTo(dOid);
-			softly.assertThat(veh1.driverAssignments.get(dOid).data.get("driverDisplayValue").toString().contains("Ben")).isTrue();
-			softly.assertThat(veh1.driverAssignments.get(dOid).data.get("relationshipType")).isEqualTo("occasional");
+			softly.assertThat(veh1.driverAssignments.get(dOid).data.driverOid).isEqualTo(dOid);
+			softly.assertThat(veh1.driverAssignments.get(dOid).data.driverDisplayValue.contains("Ben")).isTrue();
+			softly.assertThat(veh1.driverAssignments.get(dOid).data.relationshipType).isEqualTo("occasional");
 		});
 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
