@@ -47,6 +47,7 @@
                     <include name="pas10227_ViewPremiumServicePendedEndorsement"/>
                     <include name="pas508_BindManualEndorsement"/>
                     <include name="pas508_BindServiceEndorsement"/>
+                    <include name="pas13287_ViewStartEndorsementInfoServiceForAZ"/>
                 </methods>
             </class>
         </classes>
@@ -58,6 +59,7 @@
                 <methods>
                     <include name="pas12767_ManualEndorsementCancel"/>
                     <include name="pas12767_ServiceEndorsementCancel"/>
+                    <include name="pas13287_ViewStartEndorsementInfoService"/>
                 </methods>
             </class>
         </classes>
@@ -129,6 +131,7 @@
                 <methods>
                     <include name="pas11932_viewDrivers"/>
                     <include name="pas9662_maxDrivers"/>
+                    <include name="pas15076_MetadataServiceDriver"/>
                 </methods>
             </class>
         </classes>
@@ -249,6 +252,26 @@
                     <include name="pas9716_policySummaryForActiveRenewal"/>
                     <include name="pas9716_policySummaryForConversion"/>
                     <include name="pas15846_CheckTransactionDateForEndorsements"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="PolicySummaryService MD" parallel="methods" thread-count="1024">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas13287_ViewStartEndorsementInfoServiceForMD"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="PolicySummaryService DC" parallel="methods" thread-count="1024">
+        <parameter name="state" value="DC"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas13287_ViewStartEndorsementInfoServiceForDC"/>
                 </methods>
             </class>
         </classes>
@@ -458,4 +481,17 @@
              </class>
          </classes>
      </test>
+    <test name="pas14591_AddDriversUnhappyAge" parallel="methods" thread-count="1024">
+        <!--Can be run for all states time by time-->
+        <!--<parameter name="state" value="VA, UT, KY, AZ, CO, CT, DC, DE, ID, IN, KS, MD, MT, NV, NY, OH, OK, OR, SD, WV, WY, PA, NJ"/>-->
+        <!---->
+        <parameter name="state" value="KS, MT, SD, NV, VA, AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas14591_AddDriversUnhappyAge"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
  </suite>

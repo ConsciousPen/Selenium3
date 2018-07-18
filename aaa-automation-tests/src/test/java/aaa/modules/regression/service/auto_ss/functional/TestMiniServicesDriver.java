@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
+import java.text.ParseException;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -101,6 +102,38 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	}
 
 	/**
+	 * @author Maris Strazds
+	 * @name Add Drivers service, check info.
+	 * @scenario 1
+	 * 1. Create policy on PAS
+	 * 2. Create endorsement through service
+	 * 3. To add driver send request first name, middle name, last name, suffix and Date of Birth
+	 *      Date of Birth should be so that age is 1 year LESS than the minimum age for the particular state:
+	 *      |=================================|
+	 *      | State	        | Minimum Age     |
+	 *      |=================================|
+	 *      | Kansas	    |     15          |
+	 *      |---------------------------------|
+	 *      | Montana	    |     15          |
+	 *      |---------------------------------|
+	 *      | South Dakota  |	  14          |
+	 *      |---------------------------------|
+	 *      | All Others	|     16          |
+	 *      |=================================|
+	 * 4. Run add driver service and verify that I get an error AND this is not a hard stop
+	 * 5. Go to Pas UI and verify that driver is NOT added
+	 * 6. Hit view driver service and verify that driver is NOT added
+	 * ---------------
+	 * 7. Repeat steps 3-6 with driver age THE SAME as the minimum age for the particular state (see the table above) and validate that driver IS added and no there is no error and hard stop
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14591"})
+	public void pas14591_AddDriversUnhappyAge(@Optional("") String state) throws ParseException {
+		pas14591_AddDriversUnhappyAgeBody(getPolicyType());
+	}
+
+	/**
 	 * @author Megha Gubbala
 	 * @name Update Drivers service, check info.
 	 * @scenario
@@ -147,6 +180,53 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 
 		pas9662_maxDriversBody(getPolicyType());
 	}
+
+    /**
+     * @author Dakota Berg
+     * @name Test Meta Data Service for Drivers
+     * @scenario 1. Create a customer and policy
+     * 2. Initiate an endorsement outside of PAS
+     * 3. Add a driver outside of PAS
+     * 4. Run Meta Data Service for Drivers
+     * 5. Verify that the correct field options display
+     */
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15076"})
+    public void pas15076_MetadataServiceDriver(@Optional("VA") String state) {
+
+        pas15076_MetadataServiceDriverBody();
+    }
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Validate Driver License By State and Age First Licensed < 14
+	 * @scenario 1. Create Policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Try Update existing Driver add new State and a DL.
+	 * Update  Age First Licensed, add < 14.
+	 * 4. Check error. DL should be updated.
+	 * 5. Update existing Driver add new State and a DL which is not correct by State.
+	 * Update Age First Licensed, add > 14.
+	 * 6. Check error, the years should be successfully updated.
+	 * 7. Update existing Driver add new State and a DL which is not correct by State.
+	 * Update Age First Licensed, add < 14.
+	 * 8. Check the errors.
+	 * 9. Add new driver.
+	 * 10. Repeat the same scenario for the newly added driver.
+	 * 11. Rate and Bind.
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13301", "PAS-14633"})
+	public void pas13301_validateDriverLicenseAndAgeFirstLicensed(@Optional("VA") String state) {
+
+		pas13301_validateDriverLicenseAndAgeFirstLicensedBody();
+	}
+
+
 }
 
 
