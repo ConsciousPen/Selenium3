@@ -13,6 +13,8 @@ public class TestVersionsComparisonConstants {
 			//.put("Own Home", "OWNHME")
 			.build();
 
+	//TODO refactor it by taking values from UI
+	//values that we don't have in Test Date, but that are used in comparison
 	static final Multimap<String, String> predefinedExpectedValues = ImmutableListMultimap.<String, String>builder()
 			//Named Insured Information
 			//TODO should be deleted/updated when Report tab is fixed
@@ -30,14 +32,17 @@ public class TestVersionsComparisonConstants {
 			.putAll("Named Insured Information (V1FirstName V1 V1LastName).Prior Address", "V2 prior address 1, V2 prior address 2, Red Rock, AZ, 85245", "V1 prior address 1, V1 prior address 2, Phoenix, AZ, 85085")
 			.putAll("Named Insured Information (V1FirstName V1 V1LastName).Mailing Address", "V2 mailing address 1, V2 mailing address 2, Red Rock, AZ, 85245", "V1 mailing address 1, V1 mailing address 2, Phoenix, AZ, 85085")
 			.putAll("Vehicle Information (2011, CHEVROLET, EXPRESS VAN, SPORT VAN).Garaging Address", "V2 residence address 1, V2 residence address 2, Red Rock, AZ, 85245", "V1 residence address 1, V1 residence address 2, Phoenix, AZ, 85085")
-			//Current Carrier Information
-			.putAll("Current Carrier Information.Days Lapsed", "1004", "607")
-			.putAll("Current Carrier Information.Months with Carrier", "3", "4")
-			.putAll("Policy Information.Agency of Record", "500001406", "500001001")
-			.putAll("Policy Information.Agent of Record", "500012749", "500013268")
-			.putAll("Policy Information.Agent Number", "500012749", "500013268")
-			.putAll("Activity Information (Speeding, 05/31/2018, Not included in Rating).Claim Points", "", "0")
-			.putAll("Activity Information (Speeding, 05/31/2018, Not included in Rating).Violation points", "0", "")
+			//AAA Product Owned
+			.putAll("AAA Membership Order.Member Since", "2005-01-01", "")
+			.putAll("AAA Membership Order.Order Date", "2018-10-11", "")
+			.putAll("AAA Membership Order.Receipt Date", "2018-10-11", "")
+			.putAll("AAA Membership Order.Status", "Active", "")
+			.putAll("AAA Membership Order.Membership Total Years", "3", "")
+			.putAll("AAA Membership Order.Last Name", "Smith", "")
+			.putAll("AAA Membership Order.Membership Number", "4290023667710001", "")
+			.putAll("AAA Products Owned.Current AAA Member", "Yes", "Override")
+			.putAll("AAA Products Owned.Membership Number", "4290023667710001", "")
+			.putAll("AAA Products Owned.Membership Number", "Smith", "")
 			//Vehicle Information
 			.putAll("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR).Usage","Business","WorkCommute")
 			.putAll("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR).Make","BMW","HYUNDAI")
@@ -68,13 +73,20 @@ public class TestVersionsComparisonConstants {
 			.put("Named Insured Information (V1FirstName V1 V1LastName).Base Date", "Base Date")
 			.put("Named Insured Information (V1FirstName V1 V1LastName).Move-In Date", "Move-In Date")
 			.put("Named Insured Information (V1FirstName V1 V1LastName).Residence", "Residence")
+			//AAA Product Owned
+			.put("AAA Products Owned.Policy #", "Motorcycle Policy #")
+			.put("AAA Products Owned.Policy #", "Life Policy #")
+			.put("AAA Products Owned.Policy #", "Home Motorcycle Policy #")
+			.put("AAA Products Owned.Policy #", "Renters Policy #")
+			.put("AAA Products Owned.Policy #", "Condo Policy #")
+			.put("AAA Products Owned.Policy #", "PUP Motorcycle Policy #")
 			//Vehicle Information
 			.put("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR).VIN","VIN")
 			.put("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR).Existing Damage","Existing Damage")
 			.put("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR).Anti-theft","Anti-theft")
 			.build();
 
-	//all components/attributes that should be on Comparison page
+	//all components/attributes that should be on Comparison page for Named Insured Information section for data gather comparison
 	static final Multimap<String, String> dataGatherNamedInsuredInformation = ImmutableListMultimap.<String, String>builder()
 			//TODO should be deleted/updated when Report tab is fixed
 			//start
@@ -107,6 +119,7 @@ public class TestVersionsComparisonConstants {
 			.put("Vehicle Information (2011, CHEVROLET, EXPRESS VAN, SPORT VAN)", "Garaging Address")
 			.build();
 
+	//all components/attributes that should be on Comparison page for Named Insured Information section for endorsement/renewal comparison
 	public static final Multimap<String, String> endorsementRenewalNamedInsuredInformation;
 	static {
 		Multimap<String, String> endorsementModified = ArrayListMultimap.create(dataGatherNamedInsuredInformation);
@@ -117,6 +130,27 @@ public class TestVersionsComparisonConstants {
 		endorsementRenewalNamedInsuredInformation = ImmutableListMultimap.copyOf(endorsementModified);
 	}
 
+	//all components/attributes that should be on Comparison page for AAA Product Owned section
+	static final Multimap<String, String> aaaProductOwned = ImmutableListMultimap.<String, String>builder()
+			.put("AAA Membership Order", "Last Name")
+			.put("AAA Membership Order", "Membership Number")
+			.put("AAA Membership Order", "Member Since")
+			.put("AAA Membership Order", "Order Date")
+			.put("AAA Membership Order", "Receipt Date")
+			.put("AAA Membership Order", "Status")
+			.put("AAA Membership Order", "Membership Total Years")
+			.put("AAA Products Owned", "Current AAA Member")
+			.put("AAA Products Owned", "Membership Number")
+			.put("AAA Products Owned", "Last name")
+			.put("AAA Products Owned", "Policy #")
+			.put("AAA Products Owned", "Policy #")
+			.put("AAA Products Owned", "Policy #")
+			.put("AAA Products Owned", "Policy #")
+			.put("AAA Products Owned", "Policy #")
+			.put("AAA Products Owned", "Policy #")
+			.build();
+
+	//all components/attributes that should be on Comparison page for Vehicle Information section
 	static final Multimap<String, String> vehicleInformation = ImmutableListMultimap.<String, String>builder()
 			.put("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR)", "Usage")
 			.put("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR)", "VIN")

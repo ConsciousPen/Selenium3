@@ -82,6 +82,37 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 		renewalComparison(state, getTDNamedInsuredInformationVersion1(), getTDNamedInsuredInformationVersion2(), TestVersionsComparisonConstants.endorsementRenewalNamedInsuredInformation, "GeneralTab", "NamedInsuredInformation");
 	}
 
+	//AAA Product Owned section
+
+	protected TestData getTDAAAProductOwnedVersion1() {
+		return getTestSpecificTD("TestData_AAAProductOwned_Version1");
+	}
+
+	protected TestData getTDAAAProductOwnedVersion2() {
+		return getTestSpecificTD("TestData_AAAProductOwned_Version2");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12883"})
+	public void pas12883_dataGatherComparisonAAAProductOwned(@Optional("AZ") String state) {
+		dataGatherComparison(state, getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), TestVersionsComparisonConstants.aaaProductOwned, "GeneralTab", "AAAProductOwned");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12883"})
+	public void pas12883_endorsementsComparisonAAAProductOwned(@Optional("AZ") String state) {
+		endorsementsComparison(state, getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), TestVersionsComparisonConstants.aaaProductOwned, "GeneralTab", "AAAProductOwned");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12883"})
+	public void pas12883_renewalComparisonAAAProductOwned(@Optional("AZ") String state) {
+		renewalComparison(state, getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), TestVersionsComparisonConstants.aaaProductOwned, "GeneralTab", "AAAProductOwned");
+	}
+
 	//Vehicle Information section
 
 	protected TestData getTDVehicleInformationVersion1() {

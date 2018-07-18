@@ -194,6 +194,89 @@ NamedInsuredInformation_Version2: {
   }
 }
 
+#General Tab - AAA Product Owned
+TestData_AAAProductOwned_Version1: {
+  GeneralTab: {
+    AAAProductOwned: '@AAAProductOwned_Version1'
+  },
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+TestData_AAAProductOwned_Version2: {
+  GeneralTab: {
+    AAAProductOwned: '@AAAProductOwned_Version2'
+  },
+  DriverTab: {},
+  RatingDetailReportsTab: {
+    Order Report: click,
+  },
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+AAAProductOwned: {
+  Current AAA Member: 'Membership Pending',
+  Motorcycle: 'Yes',
+  "Motorcycle Policy #": 1111111111,
+  Life: 'Yes',
+  "Life Policy #": 1111111112,
+  Home: 'Yes',
+  "Home Motorcycle Policy #": 1111111113,
+  Renters: 'Yes',
+  "Renters Policy #": 1111111114,
+  Condo: 'Yes',
+  "Condo Policy #": 1111111115,
+  PUP: 'Yes',
+  "PUP Motorcycle Policy #": 1111111116,
+}
+
+AAAProductOwned_Version1: {
+  Current AAA Member: 'Membership Override',
+  Override Type: Term,
+  Member Since Date: $<today>,
+  Motorcycle: 'Yes',
+  "Motorcycle Policy #": 2222222221,
+  Life: 'Yes',
+  "Life Policy #": 2222222222,
+  Home: 'Yes',
+  "Home Motorcycle Policy #": 2222222223,
+  Renters: 'Yes',
+  "Renters Policy #": 2222222224,
+  Condo: 'Yes',
+  "Condo Policy #": 2222222225,
+  PUP: 'Yes',
+  "PUP Motorcycle Policy #": 2222222226,
+}
+
+AAAProductOwned_Version2: {
+  Current AAA Member: 'Yes',
+  Membership Number: 4290023667710001,
+  Last name: Smith,
+  Motorcycle: 'Yes',
+  "Motorcycle Policy #": 3333333331,
+  Life: 'Yes',
+  "Life Policy #": 3333333332,
+  Home: 'Yes',
+  "Home Motorcycle Policy #": 3333333333,
+  Renters: 'Yes',
+  "Renters Policy #": 3333333334,
+  Condo: 'Yes',
+  "Condo Policy #": 3333333335,
+  PUP: 'Yes',
+  "PUP Motorcycle Policy #": 3333333336,
+}
+
 #Vehicle Tab - Vehicle Information section
 
 TestData_VehicleInformation_Version1: {
@@ -237,7 +320,7 @@ VehicleInformation_Version1: {
   Existing Damage: Other,
   Existing Damage Description:  test ppa,
   'Salvaged?': 'No',
-  Miles One-way to Work or School: 1000,
+  Miles One-way to Work or School: 400,
   Anti-theft: None,
 }
 
@@ -247,35 +330,13 @@ VehicleInformation_Version2: {
   VIN: 5YMGY0C57C1661237,
   Existing Damage: Rust,
   'Salvaged?': 'No',
+  Miles One-way to Work or School: 400,
   Anti-theft: Vehicle Recovery Device,
   'Is the vehicle used in any commercial business operations?': 'No',
   Business Use Description: test business
 }
 
 #Need to be redone
-AAAProductOwned: {
-  Current AAA Member: 'Yes',
-  Membership Number: 4290023667710001,
-  Last name: Smith,
-  "Motorcycle Policy #": 1112223331,
-  "Life Policy #": 1112223332,
-  "Home Motorcycle Policy #": 1112223333,
-  "Renters Policy #": 1112223334,
-  "Condo Policy #": 1112223335,
-  "PUP Motorcycle Policy #": 1112223336,
-}
-
-AAAProductOwned_Version1: {
-  Current AAA Member: 'Yes',
-  Membership Number: 4382127703153016,
-  Last name: Smith2,
-  "Motorcycle Policy #": 4445556661,
-  "Life Policy #": 4445556662,
-  "Home Motorcycle Policy #": 4445556663,
-  "Renters Policy #": 4445556664,
-  "Condo Policy #": 4445556665,
-  "PUP Motorcycle Policy #": 4445556666,
-}
 
 ContactInformation: {
    Home Phone Number: 1234567891,

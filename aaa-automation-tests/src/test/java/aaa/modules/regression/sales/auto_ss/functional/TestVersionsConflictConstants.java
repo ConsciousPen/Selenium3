@@ -10,7 +10,7 @@ public class TestVersionsConflictConstants {
 	public static final String CURRENT = "Current";
 
 	/**
-	 *  Maps full attribute path on conflict page to version to select (Available, Current).
+	 *  Maps full attribute path on conflict page to version to select (Current, Available).
 	 */
 	protected static final ArrayListMultimap<String, String> namedInsuredInformation = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
@@ -101,6 +101,7 @@ public class TestVersionsConflictConstants {
 			.put("Vehicle Information (2012, HYUNDAI, SONATA, SEDAN 4 DOOR)", "VIN Stub")
 			.build();
 
+	//Values that are not in Test Data, but are used in comparison
 	static final Multimap<String, String> predefinedExpectedValues = ImmutableListMultimap.<String, String>builder()
 			//Named Insured Information
 			//TODO should be deleted/updated when Report tab is fixed
