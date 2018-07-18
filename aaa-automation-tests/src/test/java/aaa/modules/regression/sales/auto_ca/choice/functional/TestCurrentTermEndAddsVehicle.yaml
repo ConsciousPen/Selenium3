@@ -1,0 +1,34 @@
+DocumentsAndBindTab_TestDataCurrentTermEndAddsVehicle_CA: {
+  RequiredToBind: '@RequiredToBind',
+  #RequiredToIssue: { },
+  VehicleInformation: ['@Vehicle1', '@Vehicle2']
+}
+
+RequiredToBind: {
+  Personal Auto Application: Physically Signed,
+  Deleting Uninsured Motorist Property Damage Coverage: Physically Signed
+}
+
+Vehicle1: {
+  "Are there any additional interest(s)?": 'No'
+}
+
+Vehicle2: {
+  "Are there any additional interest(s)?": 'No'
+}
+
+#For endorsement
+
+DriverActivityReportsTab_TestDataCurrentTermEndAddsVehicleEndorsement_CA: {
+}
+
+DocumentsAndBindTab_TestDataCurrentTermEndAddsVehicleEndorsement_CA: {
+#  RequiredToBind: '@RequiredToBind1',
+  #RequiredToIssue: { },
+  VehicleInformation: ['@Vehicle3']
+}
+
+Vehicle3: {
+  "Are there any additional interest(s)?": 'No'
+}
+
