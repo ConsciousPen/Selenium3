@@ -49,6 +49,7 @@ public class HelperCommon {
 	private static final String DXP_POLICIES_VIN_INFO = "/api/v1/policies/%s/vin-info/%s";
 
 	private static final String DXP_POLICIES_ENDORSEMENT_VEHICLES_METADATA = "/api/v1/policies/%s/endorsement/vehicles/%s/metadata";
+    private static final String DXP_POLICIES_ENDORSEMENT_DRIVERS_METADATA = "/api/v1/policies/%s/endorsement/drivers/%s/metadata";
 	private static final String DXP_POLICIES_ENDORSEMENT_BIND = "/api/v1/policies/%s/endorsement/bind";
 	private static final String DXP_POLICIES_ENDORSEMENT_RATE = "/api/v1/policies/%s/endorsement/rate";
 
@@ -71,6 +72,7 @@ public class HelperCommon {
 	private static final String DXP_POLICIES_DRIVERS = "/api/v1/policies/%s/drivers";
 	private static final String DXP_POLICIES_ENDORSEMENT_DRIVERS = "/api/v1/policies/%s/endorsement/drivers";
 	private static final String DXP_POLICIES_UPDATE_DRIVERS = "/api/v1/policies/%s/endorsement/drivers/%s";
+	private static final String DXP_POLICIES_ENDORSEMENT_DRIVERS_REPORTS = "/api/v1/policies/%s/endorsement/drivers/%s/reports";
 
 	private static final String DXP_POLICIES_POLICY_COVERAGES = "/api/v1/policies/%s/coverages";
 	private static final String DXP_POLICIES_ENDORSEMENT_COVERAGES = "/api/v1/policies/%s/endorsement/coverages";
@@ -191,6 +193,12 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, AttributeMetadata[].class);
 	}
 
+	public static AttributeMetadata[] viewEndorsementDriversMetaData(String policyNumber, String oid) {
+		log.info("Driver MetaData params: policyNumber: " + policyNumber + ", oid: " + oid);
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS_METADATA, policyNumber, oid));
+		return runJsonRequestGetDxp(requestUrl, AttributeMetadata[].class);
+	}
+
 	public static PolicyLockUnlockDto executePolicyLockService(String policyNumber, int status, String sessionId) {
 		RestRequestInfo<PolicyLockUnlockDto> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_LOCK_UNLOCK_SERVICES, policyNumber));
@@ -293,6 +301,14 @@ public class HelperCommon {
 	public static ViewDriversResponse viewEndorsementDrivers(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, ViewDriversResponse.class);
+	}
+
+	public static OrderReportsResponse orderReports(String policyNumber, String driverOid) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS_REPORTS, policyNumber, driverOid));
+		OrderReportsRequest request = new OrderReportsRequest();
+		request.policyNumber = policyNumber;
+		request.driverOid = driverOid;
+		return runJsonRequestPostDxp(requestUrl, request, OrderReportsResponse.class, 200);
 	}
 
 	static PolicyCoverageInfo viewPolicyCoverages(String policyNumber) {
