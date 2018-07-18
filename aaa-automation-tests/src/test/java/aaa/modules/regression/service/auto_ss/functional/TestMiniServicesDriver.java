@@ -256,6 +256,26 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 		pas15077_orderReports_endorsementBody(getPolicyType());
 	}
 
+    /**
+     * @author Bob Van
+     * @name Update Drivers service, set marital status.
+     * @scenario
+     * 1. Create policy on Pas.
+     * 2. Create endorsement outside of PAS
+     * 2. Add 2nd driver outside of PAS
+     * 3. Update 2nd driver as spouse outside of PAS
+     * 4. Verify married status in update response
+     * 5. Verify married status in view driver response
+     * 6. Verify PAS pended endorsement general tab data
+     * 7. Verify PAS pended endorsement driver tab data
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14474"})
+    public void pas14474_UpdateSpouseDriver(@Optional("AZ") String state) {
+        pas14474_UpdateSpouseDriverBody(getPolicyType());
+    }
+
 }
 
 

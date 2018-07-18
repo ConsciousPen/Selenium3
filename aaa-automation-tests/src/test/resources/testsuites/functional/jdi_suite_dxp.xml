@@ -229,6 +229,7 @@
                 <methods>
                     <include name="pas478_AddDrivers"/>
                     <include name="pas477_UpdateDrivers"/>
+                    <include name="pas14474_UpdateSpouseDriver"/>
                 </methods>
             </class>
         </classes>
