@@ -28,14 +28,14 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import javax.ws.rs.core.Response;
 
 public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 
 	private AssignmentTab assignmentTab = new AssignmentTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
 
-
-protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
+	protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td = getPolicyTD("DataGather", "TestData");
@@ -60,7 +60,7 @@ protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 		String driverOid1 = responseViewDriver.driverList.stream().filter(driver -> driverNameFromAssignment1.equals(driver.firstName + " " + driver.lastName)).findFirst().orElse(null).oid;
 		String driverOid2 = responseViewDriver.driverList.stream().filter(driver -> driverNameFromAssignment2.equals(driver.firstName + " " + driver.lastName)).findFirst().orElse(null).oid;
 
-	ViewDriverAssignmentResponse response1 = HelperCommon.viewEndorsementAssignments(policyNumber);
+		ViewDriverAssignmentResponse response1 = HelperCommon.viewEndorsementAssignments(policyNumber);
 		assertSoftly(softly -> {
 			softly.assertThat(driverAssignment1).contains(response1.driverVehicleAssignments.get(0).vehicleDisplayValue);
 			softly.assertThat(response1.driverVehicleAssignments.get(0).vehicleOid).isNotNull();
@@ -319,12 +319,13 @@ protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 			softly.assertThat(updDriverAssignee1.unassignedVehicles.isEmpty()).isTrue();
 			softly.assertThat(updDriverAssignee1.vehiclesWithTooManyDrivers.isEmpty()).isTrue();
 			softly.assertThat(updDriverAssignee1.maxOneDriverPerVehicle).isEqualTo(true);
+			softly.assertThat(updDriverAssignee1.maxOneDriverPerVehicle).isEqualTo(true);
 
 			helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 			//Update: V1-->D1, D2, Check V1-->D1,D2, V2-->Unn
-			ViewDriverAssignmentResponse updDriverAssignee2 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid1, Arrays.asList(driverOid1,driverOid2));
+			ViewDriverAssignmentResponse updDriverAssignee2 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid1, Arrays.asList(driverOid1, driverOid2));
 			v1ByOid = updDriverAssignee2.driverVehicleAssignments.stream().filter(veh -> vehicleOid1.equals(veh.vehicleOid)).collect(Collectors.toList());
 
 			softly.assertThat(v1ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid1))).isEqualTo(true);
@@ -341,8 +342,8 @@ protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 			softly.assertThat(updDriverAssignee2.maxOneDriverPerVehicle).isEqualTo(true);
 
 			helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
-			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber,ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getCode(),ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getMessage(),"attributeForRules");
-			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber,ErrorDxpEnum.Errors.DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE.getCode(),ErrorDxpEnum.Errors.DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE.getMessage(),"attributeForRules");
+			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getMessage(), "attributeForRules");
+			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE.getCode(), ErrorDxpEnum.Errors.DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE.getMessage(), "attributeForRules");
 
 			//Update: V2-->D2, V1-->D1, V2-->D2
 			ViewDriverAssignmentResponse updDriverAssignee3 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid2, Arrays.asList(driverOid2));
@@ -465,8 +466,8 @@ protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 			softly.assertThat(updDriverAssignee1.vehiclesWithTooManyDrivers.contains(vehicleOid2)).isTrue();
 			softly.assertThat(updDriverAssignee1.maxOneDriverPerVehicle).isEqualTo(true);
 
-			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber,ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getCode(),ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getMessage(),"attributeForRules");
-			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber,ErrorDxpEnum.Errors.DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE.getCode(),ErrorDxpEnum.Errors.DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE.getMessage(),"attributeForRules");
+			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getMessage(), "attributeForRules");
+			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE.getCode(), ErrorDxpEnum.Errors.DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE.getMessage(), "attributeForRules");
 
 			//Update: V4-->D2, Check V1-->Unn, V2-->D4,D3 V3-->D1, V4-->D2
 			ViewDriverAssignmentResponse updDriverAssignee2 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid4, Arrays.asList(driverOid2));
@@ -488,8 +489,8 @@ protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 			softly.assertThat(updDriverAssignee2.maxOneDriverPerVehicle).isEqualTo(true);
 
 			helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
-			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber,ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getCode(),ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getMessage(),"attributeForRules");
-			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber,ErrorDxpEnum.Errors.DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE.getCode(),ErrorDxpEnum.Errors.DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE.getMessage(),"attributeForRules");
+			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getMessage(), "attributeForRules");
+			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE.getCode(), ErrorDxpEnum.Errors.DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE.getMessage(), "attributeForRules");
 
 			//Update: V2-->D3, Check V1-->Unn, V2-->D3, V3-->D1, V4-->D2, D4-->Unn
 			ViewDriverAssignmentResponse updDriverAssignee3 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid2, Arrays.asList(driverOid3));
@@ -510,8 +511,8 @@ protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 			softly.assertThat(updDriverAssignee3.maxOneDriverPerVehicle).isEqualTo(true);
 
 			helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
-			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber,ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getCode(),ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getMessage(),"attributeForRules");
-			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber,ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getCode(),ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getMessage(),"attributeForRules");
+			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getMessage(), "attributeForRules");
+			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getMessage(), "attributeForRules");
 
 			//Update: V1-->D3, Check V1-->D3, V2-->Unn, V3-->D1, V4-->D2, D4-->Unn
 			ViewDriverAssignmentResponse updDriverAssignee4 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid1, Arrays.asList(driverOid3));
@@ -531,8 +532,8 @@ protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 			softly.assertThat(updDriverAssignee4.vehiclesWithTooManyDrivers.isEmpty()).isTrue();
 			softly.assertThat(updDriverAssignee4.maxOneDriverPerVehicle).isEqualTo(true);
 
-			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber,ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getCode(),ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getMessage(),"attributeForRules");
-			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber,ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getCode(),ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getMessage(),"attributeForRules");
+			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getMessage(), "attributeForRules");
+			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getMessage(), "attributeForRules");
 
 			//Update: V2-->D4, Check V1-->D3, V2-->D4, V3-->D1, V4-->D2
 			ViewDriverAssignmentResponse updDriverAssignee5 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid2, Arrays.asList(driverOid4));
@@ -590,8 +591,8 @@ protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 			helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
 			helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 
-			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber,ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getCode(),ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getMessage(),"attributeForRules");
-			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber,ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA.getCode(),ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA.getMessage(),"attributeForRules");
+			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getMessage(), "attributeForRules");
+			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA.getMessage(), "attributeForRules");
 
 			//Drivers info from testData
 			String firstNameFull = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("First Name");
@@ -682,7 +683,7 @@ protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 
 			helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 
-			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber,ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getCode(),ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getMessage(),"attributeForRules");
+			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getMessage(), "attributeForRules");
 
 			//Update V2-->D2, Check V1-->D1, V2-->D2, V3-->D1, V4-->D1
 			ViewDriverAssignmentResponse updDriverAssignee3 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid2, Arrays.asList(driverOid2));
@@ -850,7 +851,7 @@ protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 			softly.assertThat(updDriverAssignee3.vehiclesWithTooManyDrivers.isEmpty()).isTrue();
 			softly.assertThat(updDriverAssignee3.maxOneDriverPerVehicle).isEqualTo(true);
 
-			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber,ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getCode(),ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getMessage(),"attributeForRules");
+			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getMessage(), "attributeForRules");
 
 			//Update V1,V2-->D2, V3,V4,V5-->D3, (V1-->D2, V2-->D2,  V3-->D3, V4-->D3, V5-->D3, D1 -->Unn)
 			HelperCommon.updateDriverAssignment(policyNumber, vehicleOid1, Arrays.asList(driverOid2));
@@ -880,7 +881,7 @@ protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 			softly.assertThat(updDriverAssignee4.vehiclesWithTooManyDrivers.isEmpty()).isTrue();
 			softly.assertThat(updDriverAssignee4.maxOneDriverPerVehicle).isEqualTo(true);
 
-			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber,ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getCode(),ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getMessage(),"attributeForRules");
+			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getMessage(), "attributeForRules");
 
 			//Update V5-->D1, (V1-->D2, V2-->D2,  V3-->D3, V4-->D3, V5-->D1)
 			ViewDriverAssignmentResponse updDriverAssignee5 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid5, Arrays.asList(driverOid1));
@@ -1023,7 +1024,7 @@ protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getMessage(), "attributeForRules");
 
 			//Update: V1-->D3,D4,D2 Check V2-->Unn, V3-->D1, V1-->D3,D4,D2
-			ViewDriverAssignmentResponse updDriverAssignee3 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid1, Arrays.asList(driverOid3,driverOid4,driverOid2));
+			ViewDriverAssignmentResponse updDriverAssignee3 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid1, Arrays.asList(driverOid3, driverOid4, driverOid2));
 			v1ByOid = updDriverAssignee3.driverVehicleAssignments.stream().filter(veh -> vehicleOid1.equals(veh.vehicleOid)).collect(Collectors.toList());
 			v3ByOid = updDriverAssignee3.driverVehicleAssignments.stream().filter(veh -> vehicleOid3.equals(veh.vehicleOid)).collect(Collectors.toList());
 
@@ -1087,7 +1088,7 @@ protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
-	protected void checkAssignButtonInUiRateAndBind(String policyNumber){
+	protected void checkAssignButtonInUiRateAndBind(String policyNumber) {
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
@@ -1096,6 +1097,118 @@ protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 		assertThat(assignmentTab.btnAssign.isEnabled()).isEqualTo(false);
 		assignmentTab.saveAndExit();
 		helperMiniServices.bindEndorsementWithCheck(policyNumber);
+	}
+
+	protected void pas14539_transactionInfoUpdateDriverAssignmentBody(PolicyType policyType) {
+		TestData td = getPolicyTD("DataGather", "TestData_VA");
+		td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_TwoDrivers").getTestDataList("DriverTab")).resolveLinks();
+		td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_TwoVehicles").getTestDataList("VehicleTab")).resolveLinks();
+		td.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("AssignmentTab_Two_Driver")).resolveLinks();
+
+		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
+
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(td);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		String vin1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN");
+		String vin2 = td.getTestDataList("VehicleTab").get(1).getValue("VIN");
+
+		String firstNameFull = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("First Name");
+		String firstName1 = firstNameFull.substring(0, firstNameFull.length() - 5);
+
+		String firstName2 = td.getTestDataList("DriverTab").get(1).getValue("First Name");
+
+		//Perform Endorsement
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		//get vehicles oid's
+		ViewVehicleResponse viewEndorsementVehicleResponse2 = HelperCommon.viewEndorsementVehicles(policyNumber);
+
+		Vehicle vehicle1 = viewEndorsementVehicleResponse2.vehicleList.stream().filter(veh -> vin1.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+		Vehicle vehicle2 = viewEndorsementVehicleResponse2.vehicleList.stream().filter(veh -> vin2.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+
+		assertThat(vehicle1.vehIdentificationNo).isEqualTo(vin1);
+		String vehicleOid1 = vehicle1.oid;
+		assertThat(vehicle2.vehIdentificationNo).isEqualTo(vin2);
+		String vehicleOid2 = vehicle2.oid;
+
+		//get drivers oid's
+		ViewDriversResponse dResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+		DriversDto driver1 = dResponse.driverList.stream().filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
+		DriversDto driver2 = dResponse.driverList.stream().filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
+
+		String driverOid1 = driver1.oid;
+
+		String driverOid2 = driver2.oid;
+
+		//Update: V2-->D1 ,Check V2-->D1, V1-->D2
+		ViewDriverAssignmentResponse updDriverAssignee1 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid2, Arrays.asList(driverOid1));
+
+		ViewDriverAssignmentResponse updDriverAssignee2 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid1, Arrays.asList(driverOid2));
+
+		ComparablePolicy policyResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
+		ComparableVehicle veh1 = policyResponse.vehicles.get(vehicleOid1);
+		ComparableVehicle veh2 = policyResponse.vehicles.get(vehicleOid2);
+		assertSoftly(softly -> {
+			softly.assertThat(veh1.driverAssignments.get(driverOid1).changeType).isEqualTo("REMOVED");
+			softly.assertThat(veh1.driverAssignments.get(driverOid1).data.get("driverOid")).isEqualTo(driverOid1);
+			softly.assertThat(veh1.driverAssignments.get(driverOid1).data.get("driverDisplayValue").toString().contains(firstName1)).isTrue();
+			softly.assertThat(veh1.driverAssignments.get(driverOid1).data.get("relationshipType")).isEqualTo("primary");
+
+			softly.assertThat(veh1.driverAssignments.get(driverOid2).changeType).isEqualTo("ADDED");
+			softly.assertThat(veh1.driverAssignments.get(driverOid2).data.get("driverOid")).isEqualTo(driverOid2);
+			softly.assertThat(veh1.driverAssignments.get(driverOid2).data.get("driverDisplayValue")).isEqualTo("John Smith");
+			softly.assertThat(veh1.driverAssignments.get(driverOid2).data.get("relationshipType")).isEqualTo("primary");
+
+			softly.assertThat(veh2.driverAssignments.get(driverOid1).changeType).isEqualTo("ADDED");
+			softly.assertThat(veh2.driverAssignments.get(driverOid1).data.get("driverOid")).isEqualTo(driverOid1);
+			softly.assertThat(veh2.driverAssignments.get(driverOid1).data.get("driverDisplayValue").toString().contains(firstName1)).isTrue();
+			softly.assertThat(veh2.driverAssignments.get(driverOid1).data.get("relationshipType")).isEqualTo("primary");
+
+			softly.assertThat(veh2.driverAssignments.get(driverOid2).changeType).isEqualTo("REMOVED");
+			softly.assertThat(veh2.driverAssignments.get(driverOid2).data.get("driverOid")).isEqualTo(driverOid2);
+			softly.assertThat(veh2.driverAssignments.get(driverOid2).data.get("driverDisplayValue")).isEqualTo("John Smith");
+			softly.assertThat(veh2.driverAssignments.get(driverOid2).data.get("relationshipType")).isEqualTo("primary");
+		});
+	}
+
+	protected void pas14539_transactionInfoDriverAssignmentBody() {
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNumber = createPolicy(getPolicyTD());
+
+		//Perform Endorsement
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		//add vehicle
+		String purchaseDate = "2012-02-21";
+		String vin = "4S2CK58W8X4307498";
+		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin);
+		String newVehicleOid = addVehicle.oid;
+		assertThat(addVehicle.oid).isNotEmpty();
+
+		//Update Vehicle with proper Usage and Registered Owner
+		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
+
+		ViewDriversResponse response = HelperCommon.viewPolicyDrivers(policyNumber);
+		String dOid = response.driverList.get(0).oid;
+
+		ComparablePolicy policyResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
+		ComparableVehicle veh1 = policyResponse.vehicles.get(newVehicleOid);
+		assertSoftly(softly -> {
+
+			softly.assertThat(veh1.driverAssignments.get(dOid).changeType).isEqualTo("ADDED");
+			softly.assertThat(veh1.driverAssignments.get(dOid).data.get("driverOid")).isEqualTo(dOid);
+			softly.assertThat(veh1.driverAssignments.get(dOid).data.get("driverDisplayValue").toString().contains("Ben")).isTrue();
+			softly.assertThat(veh1.driverAssignments.get(dOid).data.get("relationshipType")).isEqualTo("occasional");
+		});
+
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+		SearchPage.openPolicy(policyNumber);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 	}
 }
 
