@@ -181,6 +181,53 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 		pas9662_maxDriversBody(getPolicyType());
 	}
 
+    /**
+     * @author Dakota Berg
+     * @name Test Meta Data Service for Drivers
+     * @scenario 1. Create a customer and policy
+     * 2. Initiate an endorsement outside of PAS
+     * 3. Add a driver outside of PAS
+     * 4. Run Meta Data Service for Drivers
+     * 5. Verify that the correct field options display
+     */
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15076"})
+    public void pas15076_MetadataServiceDriver(@Optional("VA") String state) {
+
+        pas15076_MetadataServiceDriverBody();
+    }
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Validate Driver License By State and Age First Licensed < 14
+	 * @scenario 1. Create Policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Try Update existing Driver add new State and a DL.
+	 * Update  Age First Licensed, add < 14.
+	 * 4. Check error. DL should be updated.
+	 * 5. Update existing Driver add new State and a DL which is not correct by State.
+	 * Update Age First Licensed, add > 14.
+	 * 6. Check error, the years should be successfully updated.
+	 * 7. Update existing Driver add new State and a DL which is not correct by State.
+	 * Update Age First Licensed, add < 14.
+	 * 8. Check the errors.
+	 * 9. Add new driver.
+	 * 10. Repeat the same scenario for the newly added driver.
+	 * 11. Rate and Bind.
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13301", "PAS-14633"})
+	public void pas13301_validateDriverLicenseAndAgeFirstLicensed(@Optional("VA") String state) {
+
+		pas13301_validateDriverLicenseAndAgeFirstLicensedBody();
+	}
+
+
+
 	/**
 	 * @author Maris Strazds
 	 * @name Test Report Ordering for Endorsement

@@ -47,6 +47,7 @@ public class HelperCommon {
 	private static final String DXP_POLICIES_VIN_INFO = "/api/v1/policies/%s/vin-info/%s";
 
 	private static final String DXP_POLICIES_ENDORSEMENT_VEHICLES_METADATA = "/api/v1/policies/%s/endorsement/vehicles/%s/metadata";
+    private static final String DXP_POLICIES_ENDORSEMENT_DRIVERS_METADATA = "/api/v1/policies/%s/endorsement/drivers/%s/metadata";
 	private static final String DXP_POLICIES_ENDORSEMENT_BIND = "/api/v1/policies/%s/endorsement/bind";
 	private static final String DXP_POLICIES_ENDORSEMENT_RATE = "/api/v1/policies/%s/endorsement/rate";
 
@@ -187,6 +188,12 @@ public class HelperCommon {
 	public static AttributeMetadata[] viewEndoresmentVehiclesMetaData(String policyNumber, String oid) {
 		log.info("Vehicle MetaData params: policyNumber: " + policyNumber + ", oid: " + oid);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES_METADATA, policyNumber, oid));
+		return runJsonRequestGetDxp(requestUrl, AttributeMetadata[].class);
+	}
+
+	public static AttributeMetadata[] viewEndorsementDriversMetaData(String policyNumber, String oid) {
+		log.info("Driver MetaData params: policyNumber: " + policyNumber + ", oid: " + oid);
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS_METADATA, policyNumber, oid));
 		return runJsonRequestGetDxp(requestUrl, AttributeMetadata[].class);
 	}
 

@@ -131,6 +131,7 @@
                 <methods>
                     <include name="pas11932_viewDrivers"/>
                     <include name="pas9662_maxDrivers"/>
+                    <include name="pas15076_MetadataServiceDriver"/>
                 </methods>
             </class>
         </classes>
@@ -149,6 +150,7 @@
                     <include name="pas7147_VehicleUpdateRegisteredOwner"/>
                     <include name="pas14952_EndorsementStatusResetForVehRatingFactors"/>
                     <include name="pas14952_StatusResetsForNewlyAddedVehicle"/>
+                    <include name="pas12942_GaragingAddressConsistencyDXP"/>
                 </methods>
             </class>
         </classes>
