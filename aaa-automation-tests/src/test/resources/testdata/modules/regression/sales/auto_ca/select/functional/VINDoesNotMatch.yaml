@@ -11,13 +11,10 @@ VehicleTab_UnmatchedVIN: {
      Body Style: 'OTHER',
      Other Body Style: 'Body Style',
      'Value($)': '10000',
-     Stat Code: 'index=2',
+     Stat Code: 'Passenger Car Large',
      'Miles One-way to Work or School': '500',
      Odometer Reading: 1,
      'Salvaged?': 'No',
      'Existing Damage': 'Rust',
-     'Special Equipment': 'Yes',
-         Special Equipment Value: '300',
-         Special Equipment Description: 'special',
 
  }
