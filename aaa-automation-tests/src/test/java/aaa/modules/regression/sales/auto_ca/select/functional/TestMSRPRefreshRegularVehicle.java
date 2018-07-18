@@ -69,7 +69,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		// required to match MSRP version which will be added later
 		testData.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(),AutoCaMetaData.VehicleTab.YEAR.getLabel()), "2025");
 
-		vehicleTypeRegular(testData);
+		vehicleTypeRegular(testData, true);
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		TestData testData = getPolicyTD().adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks();
 		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();
 
-		renewalVehicleTypeRegular(testData);
+		renewalVehicleTypeRegular(testData, true);
 	}
 
 	/**
@@ -118,7 +118,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		new UploadToVINTableTab().uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.MATCH_ON_NEW_BUSINESS_NO_MATCH_ON_RENEWAL.get()));
 
-		checkMatchOnNBWithNoMatchOnRenewal(testData, vinMatchNBandNoMatchOnRenewal);
+		checkMatchOnNBWithNoMatchOnRenewal(testData, vinMatchNBandNoMatchOnRenewal, true);
 	}
 
 	/**
@@ -164,7 +164,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VALUE).setValue("150000");
 		premiumAndCoveragesTab.calculatePremium();
 
-		CompCollSymbolChecks_pas730(compSymbol, collSymbol);
+		CompCollSymbolChecks_pas730(compSymbol, collSymbol, true);
 
 		premiumAndCoveragesTab.saveAndExit();
 	}
