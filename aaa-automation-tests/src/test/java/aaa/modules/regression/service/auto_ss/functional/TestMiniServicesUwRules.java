@@ -36,7 +36,7 @@ public class TestMiniServicesUwRules extends TestMiniServicesUwRulesAbstract {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12852"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13326", "PAS-12852"})
 	public void pas12852_GaragedInMichigan200020(@Optional("VA") String state) {
 
 		pas12852_GaragedInMichigan200020Body();
@@ -44,35 +44,35 @@ public class TestMiniServicesUwRules extends TestMiniServicesUwRulesAbstract {
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12852"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13326", "PAS-12852"})
 	public void pas12852_GaragedOutOfState200019(@Optional("VA") String state) {
 		pas12852_GaragedOutOfState200019Body();
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12852"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13326", "PAS-12852"})
 	public void pas12852_DuplicateVin200031(@Optional("VA") String state) {
 		pas12852_DuplicateVin200031Body();
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12852"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13326", "PAS-12852"})
 	public void pas12852_ExpensiveVehicle200022(@Optional("VA") String state) {
 		pas12852_ExpensiveVehicle200022Body();
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12852"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13326", "PAS-12852"})
 	public void pas12852_GaragedOutOfStateOnlyOneVeh200018(@Optional("VA") String state) {
 		pas12852_GaragedOutOfStateOnlyOneVeh200018Body();
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12852"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13326", "PAS-12852"})
 	public void pas12852_MustHavePPA200016(@Optional("VA") String state) {
 		TestData motorhomeData = getTestSpecificTD("TestData_Motor_Home");
 		pas12852_MustHavePPA200016Body(motorhomeData);
