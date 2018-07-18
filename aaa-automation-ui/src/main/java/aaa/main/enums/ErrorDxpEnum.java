@@ -41,10 +41,17 @@ public final class ErrorDxpEnum {
 
 		ZIP_CODE_IS_NOT_APPLICABLE("AAA_SS1273145", "Zip code is not applicable; please check again. If this is incorrect, please contact Agency Support. (AAA_SS1273145)"),
 		GARAGED_OUT_OF_STATE("200019", "Unacceptable due to one or more vehicles garaged out of the policy state (200019)"),
+		GARAGED_OUT_OF_STATE_RATE("200019_C", "Unacceptable due to one or more vehicles garaged out of the policy state (200019_C)"),
+		GARAGED_IN_MICHIGAN("200020", "Unacceptable due to one or more vehicles garaged in Michigan (200020)"),
+		GARAGED_IN_MICHIGAN_RATE("200020_C", "Unacceptable due to one or more vehicles garaged in Michigan (200020_C)"),
 		GARAGED_OUT_OF_STATE_ONLY_VEHICLE("200018", "Unacceptable due to all vehicles garaged out of the policy state (200018)"),
+		GARAGED_OUT_OF_STATE_ONLY_VEHICLE_RATE("200018_C", "Unacceptable due to all vehicles garaged out of the policy state (200018_C)"),
 		UNIQUE_VIN("200031", "Each vehicle must have a unique Vehicle Identification Number (200031)"),
+		UNIQUE_VIN_RATE("200031_C", "Each vehicle must have a unique Vehicle Identification Number (200031_C)"),
 		MUST_HAVE_PPA("200016", "Policy must cover at least one Private Passenger Automobile (200016)"),
+		MUST_HAVE_PPA_RATE("200016_C", "Policy must cover at least one Private Passenger Automobile (200016_C)"),
 		EXPENSIVE_VEHICLE("200022", "Vehicle value exceeds acceptable coverage limit (200022)"),
+		EXPENSIVE_VEHICLE_RATE("200022_C", "Vehicle value exceeds acceptable coverage limit (200022_C)"),
 
 		DRIVER_UNDER_AGE_COMMON("AAA_CSA6220000", "Drivers under age 16 must be excluded or not available for rating (AAA_CSA6220000)"), //the same as in PAS
 		DRIVER_UNDER_AGE_VA("AAA_CSA6220000_VA", "Drivers under age 16 must be not available for rating (AAA_CSA6220000)"), //the same as in PAS
@@ -52,6 +59,9 @@ public final class ErrorDxpEnum {
 		DRIVER_UNDER_AGE_KS("AAA_CSA6220000_KS", "Drivers under age 15 must be not available for rating (AAA_CSA6220000)"), //the same as in PAS
 		DRIVER_UNDER_AGE_MT("AAA_CSA6220000_MT", "Drivers under age 15 must be not available for rating (AAA_CSA6220000)"), //the same as in PAS
 		DRIVER_UNDER_AGE_SD("AAA_CSA6220000_SD", "Drivers under age 14 must be excluded or not available for rating (AAA_CSA6220000)"), //the same as in PAS
+
+		AGE_FIRST_LICENSED_ERROR("Age First Licensed must be 14 or greater (BAU00209)"),
+		VALIDATE_DRIVER_LICENSE_BY_STATE("License number is inconsistent with state format (AAA_CSA3040364)"),
 		;
 
 
@@ -59,14 +69,13 @@ public final class ErrorDxpEnum {
 		private String code;
 		private String message;
 
+		Errors(String message) {
+			setMessage(message); // if we have message only
+		}
+
 		Errors() {
 			setCode(this.name());
 			setMessage(""); // to prevent NPE on getErrorMessage() call for rules with not defined error messages
-		}
-
-		Errors(String code) {
-			setCode(code);
-			setMessage("");
 		}
 
 		Errors(String code, String message) {

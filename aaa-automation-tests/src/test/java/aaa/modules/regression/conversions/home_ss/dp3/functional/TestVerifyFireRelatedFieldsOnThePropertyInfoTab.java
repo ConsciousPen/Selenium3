@@ -108,6 +108,9 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSDP3Ba
 
 		activeFirstRenewal();
 		initiateSecondRenewal();
+		if (PolicySummaryPage.buttonRenewals.isPresent()) {
+			PolicySummaryPage.buttonRenewals.click();
+		}
 
 
 		policy.dataGather().start();

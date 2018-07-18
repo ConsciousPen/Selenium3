@@ -134,6 +134,7 @@
                 <methods>
                     <include name="pas11932_viewDrivers"/>
                     <include name="pas9662_maxDrivers"/>
+                    <include name="pas15076_MetadataServiceDriver"/>
                 </methods>
             </class>
         </classes>
@@ -152,6 +153,7 @@
                     <include name="pas7147_VehicleUpdateRegisteredOwner"/>
                     <include name="pas14952_EndorsementStatusResetForVehRatingFactors"/>
                     <include name="pas14952_StatusResetsForNewlyAddedVehicle"/>
+                    <include name="pas12942_GaragingAddressConsistencyDXP"/>
                 </methods>
             </class>
         </classes>
@@ -232,6 +234,7 @@
                 <methods>
                     <include name="pas478_AddDrivers"/>
                     <include name="pas477_UpdateDrivers"/>
+                    <include name="pas14474_UpdateSpouseDriver"/>
                 </methods>
             </class>
         </classes>
@@ -445,44 +448,46 @@
         </classes>
     </test>
     <test name="Replace vehiclesVA" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
-                <methods>
-                    <include name="pas12175_RemoveReplaceAllVehicles"/>
-                    <include name="pas12175_RemoveReplaceWaiveLiability"/>
-                    <include name="pas13920_ReplaceVehicleDontKeepAssignmentsOneDriver"/>
-                    <include name="pas13920_ReplaceVehicleDontKeepCoveragesOneDriverOneVehicle"/>
-                    <include name="pas13920_ReplaceVehicleKeepAssignmentsKeepCoverages"/>
-                    <include name="pas13920_ReplaceVehicleKeepAssignmentsNoCoverages"/>
-                    <include name="pas13920_ReplaceVehicleKeepAssignmentsOneDriver"/>
-                    <include name="pas13920_ReplaceVehicleKeepCoveragesOneDriverOneVehicle"/>
-                    <include name="pas13920_ReplaceVehicleNoAssignmentsKeepCoverages"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="Replace vehiclesAZ" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
-                <methods>
-                    <include name="pas13920_ReplaceVehicleDontKeepAssignmentsOneDriverAz"/>
-                    <include name="pas13920_ReplaceVehicleKeepAssignmentsOneDriverAz"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas14680_TrailersCoveragesThatDoNotApply" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA, UT, KY, AZ, CO, CT, DC, DE, ID, IN, KS, MD, MT, NV, NY, OH, OK, OR, SD, WV, WY, PA, NJ"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
-                <methods>
-                    <include name="pas14680_TrailersCoveragesThatDoNotApply"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
+         <parameter name="state" value="VA"/>
+         <classes>
+             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                 <methods>
+                     <include name="pas12175_RemoveReplaceAllVehicles"/>
+                     <include name="pas12175_RemoveReplaceWaiveLiability"/>
+
+                     <include name="pas13920_ReplaceVehicleDontKeepAssignmentsOneDriver"/>
+                     <include name="pas13920_ReplaceVehicleDontKeepCoveragesOneDriverOneVehicle"/>
+
+                     <include name="pas13920_ReplaceVehicleKeepAssignmentsKeepCoverages"/>
+                     <include name="pas13920_ReplaceVehicleKeepAssignmentsNoCoverages"/>
+                     <include name="pas13920_ReplaceVehicleKeepAssignmentsOneDriver"/>
+                     <include name="pas13920_ReplaceVehicleKeepCoveragesOneDriverOneVehicle"/>
+                     <include name="pas13920_ReplaceVehicleNoAssignmentsKeepCoverages"/>
+                 </methods>
+             </class>
+         </classes>
+     </test>
+     <test name="Replace vehiclesAZ" parallel="methods" thread-count="1024">
+         <parameter name="state" value="AZ"/>
+         <classes>
+             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                 <methods>
+                     <include name="pas13920_ReplaceVehicleDontKeepAssignmentsOneDriverAz"/>
+                     <include name="pas13920_ReplaceVehicleKeepAssignmentsOneDriverAz"/>
+                 </methods>
+             </class>
+         </classes>
+     </test>
+     <test name="pas14680_TrailersCoveragesThatDoNotApply" parallel="methods" thread-count="1024">
+         <parameter name="state" value="VA, UT, KY, AZ, CO, CT, DC, DE, ID, IN, KS, MD, MT, NV, NY, OH, OK, OR, SD, WV, WY, PA, NJ"/>
+         <classes>
+             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                 <methods>
+                     <include name="pas14680_TrailersCoveragesThatDoNotApply"/>
+                 </methods>
+             </class>
+         </classes>
+     </test>
     <test name="pas14591_AddDriversUnhappyAge" parallel="methods" thread-count="1024">
         <!--Can be run for all states time by time-->
         <!--<parameter name="state" value="VA, UT, KY, AZ, CO, CT, DC, DE, ID, IN, KS, MD, MT, NV, NY, OH, OK, OR, SD, WV, WY, PA, NJ"/>-->
@@ -492,6 +497,16 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
                 <methods>
                     <include name="pas14591_AddDriversUnhappyAge"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="PAS-15077 Report Order and Endorsement" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas15077_orderReports_endorsement"/>
                 </methods>
             </class>
         </classes>
