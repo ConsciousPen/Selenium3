@@ -117,10 +117,7 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         assertThat(rangeTier).contains(underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER).getValue());
 
         // Open rating details
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
-        premiumAndCoveragesQuoteTab.calculatePremium();
-        PropertyQuoteTab.RatingDetailsViewPUP.open();
+		openRatingDetails();
 
         // Verify That Auto tier is N/A or between 1-16. PAS-10397
         assertThat(rangeTier).contains(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier"));
@@ -384,6 +381,127 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         mainApp().close();
     }
 
+
+	/**
+	 * @author Dominykas Razgunas
+	 * @name Test NY PUP VRD Market Tier Value Lock
+	 * @scenario
+	 * 1. Create customer
+	 * 2. Create HO3 policy
+	 * 3. Initiate PUP Policy
+	 * 4. Navigate to Underlying Risks Auto Tab
+	 * 5. Select Auto tier
+	 * 6. Navigate Premium Page
+	 * 7. Calculate Premium and check Market tier value
+	 * 8. Flat Endorse the policy
+	 * 9. Navigate to Underlying Risks Auto Tab
+	 * 10. Select different Auto tier
+	 * 11. Navigate Premium Page
+	 * 12. Calculate Premium
+	 * 13. Check Market Tier value changed
+	 * 14. Issue endorsement
+	 * 15. Mid-term Endorse the policy
+	 * 16. Navigate to Underlying Risks Auto Tab
+	 * 17. Select different Auto tier
+	 * 18. Navigate Premium Page
+	 * 19. Calculate Premium
+	 * 20. Check Market Tier value used from the flat endorsement
+	 * 21. Issue endorsement
+	 * 22. Initiate renewal
+	 * 23. Navigate to Underlying Risks Auto Tab
+	 * 24. Select different Auto tier
+	 * 25. Navigate Premium Page
+	 * 26. Calculate Premium
+	 * 27. Check Market Tier value used from the flat endorsement
+	 * @details
+	 */
+	@Parameters({"state"})
+	@StateList(states = Constants.States.NY)
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-14037")
+	public void pas14037_testNYMarketTierLockVRD(@Optional("NY") String state) {
+
+		TestData tdHO3 = getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3), "DataGather", "TestData");
+
+		Map<String, String> policies = new HashMap<>();
+
+		// Create Customer
+		mainApp().open();
+		createCustomerIndividual();
+
+		// Create HO3 Policy with underlying Auto policy
+		PolicyType.HOME_SS_HO3.get().createPolicy(tdHO3);
+		policies.put("ho3Policy", PolicySummaryPage.getPolicyNumber());
+
+		// Initiate PUP and verify  in rating details dialog
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(getPupTDNoAuto(policies), UnderlyingRisksPropertyTab.class);
+
+		// Select Auto tier value to 2.
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
+		underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.ADD_AUTOMOBILE).setValue("Yes");
+		underlyingRisksAutoTab.fillTab(getPolicyTD());
+		underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER).setValue("2");
+
+		openRatingDetails();
+		String marketTier1 = PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Market tier");
+
+		// Issue Policy
+		issuePupFromPremiumTab();
+
+		// Initiate renewal and navigate to P&C Quote tab calculate premium
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+
+		// change auto tier value
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS.get());
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
+		underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER).setValue("15");
+
+		// Open rating details
+		openRatingDetails();
+
+		// Save Market Tier 2. Assert that market tier 1 is not the same as market tier 2
+		String marketTier2 = PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Market tier");
+		assertThat(marketTier1).isNotEqualTo(marketTier2);
+		PropertyQuoteTab.RatingDetailsViewPUP.close();
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
+		bindTab.submitTab();
+
+		// Initiate Mid-term endorsement
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
+
+		// change auto tier value
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS.get());
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
+		underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER).setValue("1");
+
+		// Open rating details
+		openRatingDetails();
+		// Verify That Market tier is the value from flat endorsement.
+		assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Market tier")).contains(marketTier2);
+		PropertyQuoteTab.RatingDetailsViewPUP.close();
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
+		bindTab.submitTab();
+
+		// Initiate renewal and navigate to P&C Quote tab calculate premium
+		policy.renew().start().submit();
+
+		// Set new auto tier value
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS.get());
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
+		underlyingRisksAutoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER).setValue("7");
+
+		// Open rating details
+		openRatingDetails();
+
+		// Verify That Market tier is the value from flat endorsement.
+		assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Market tier")).contains(marketTier2);
+
+		PropertyQuoteTab.RatingDetailsViewPUP.close();
+		mainApp().close();
+	}
+
+
     private TestData getPupTD(Map<String, String> policies) {
         TestData prefillTab = getTestSpecificTD("TestData_PrefillTab")
                 .adjust("ActiveUnderlyingPolicies[0]|ActiveUnderlyingPoliciesSearch|Policy Number", policies.get("ho3Policy"))
@@ -397,14 +515,19 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         return getPolicyTD().adjust(PrefillTab.class.getSimpleName(), prefillTab).mask(UnderlyingRisksAutoTab.class.getSimpleName());
     }
 
-    private void issuePupFromPremiumTab(){
-        PropertyQuoteTab.RatingDetailsViewPUP.close();
-        premiumAndCoveragesQuoteTab.submitTab();
-        policy.getDefaultView().fillFromTo(getPolicyTD(), UnderwritingAndApprovalTab.class, BindTab.class, true);
-        bindTab.submitTab();
-        errorTab.overrideAllErrors();
-        errorTab.override();
-        bindTab.submitTab();
+    private void issuePupFromPremiumTab() {
+		PropertyQuoteTab.RatingDetailsViewPUP.close();
+		premiumAndCoveragesQuoteTab.submitTab();
+		policy.getDefaultView().fillFromTo(getPolicyTD(), UnderwritingAndApprovalTab.class, BindTab.class, true);
+		bindTab.submitTab();
+
+		// Override errors for scenarios with overridable errors
+		if(errorTab.isVisible()){
+		errorTab.overrideAllErrors();
+		errorTab.override();
+		bindTab.submitTab();
+	}
+
         purchaseTab.fillTab(getPolicyTD());
         purchaseTab.submitTab();
     }
