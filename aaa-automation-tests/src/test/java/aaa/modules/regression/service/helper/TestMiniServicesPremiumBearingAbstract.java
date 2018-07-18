@@ -1889,6 +1889,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(response.allowedEndorsements.get(1)).isEqualTo("UpdateCoverages");
 		});
 	}
+
 	@SuppressWarnings("unchecked")
 	private Map<String, Object> getCovModification(String covName, String attribute, ComparableVehicle comparableVehicle) {
 		return (Map<String, Object>) comparableVehicle.coverages.get(covName).data.get(attribute);

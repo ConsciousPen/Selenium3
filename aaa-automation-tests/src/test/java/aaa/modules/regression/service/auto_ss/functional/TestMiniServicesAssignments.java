@@ -155,6 +155,14 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 		);
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * @name Driver assignment and transaction history
+	 * @scenario 1. Create a policy with 1V and 1D
+	 * 2.create endorsement
+	 * 3.Hit viewEndorsementChangeLog.
+	 * 4Verify if transaction history shows change type added and driver assignment.
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15897"})
@@ -163,9 +171,20 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 		pas14539_transactionInfoDriverAssignmentBody();
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * @name Driver assignment and transaction history
+	 * @scenario 1. Create a policy with 2V and 2D
+	 * 2.create endorsement
+	 * 3.Hit viewEndorsementChangeLog.
+	 * 4.Verify if transaction history shows change type added and driver assignment.
+	 * 5.change the driver assignment
+	 * 6. then run change log service again
+	 * 7. verify new driver assignment added and existing is removed
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15897"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15897,16589"})
 	public void pas14539_transactionInfoUpdateDriverAssignment(@Optional("VA") String state) {
 
 		pas14539_transactionInfoUpdateDriverAssignmentBody(getPolicyType());
