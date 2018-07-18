@@ -674,6 +674,104 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 	}
 
+	protected void pas13301_validateDriverLicenseAndAgeFirstLicensedBody(){
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		ViewDriversResponse responseViewDriverEndorsement = HelperCommon.viewEndorsementDrivers(policyNumber);
+		String firstDriverOid = (responseViewDriverEndorsement.driverList.get(0).oid);
+
+		String LicenseNr_VA = "831278809";
+		updateDriverRequest.stateLicensed = "VA";
+		updateDriverRequest.licenseNumber = LicenseNr_VA;
+		updateDriverRequest.ageFirstLicensed = 12;
+		DriverWithRuleSets updateDriverResponse2 = HelperCommon.updateDriver(policyNumber, firstDriverOid, updateDriverRequest);
+		assertSoftly(softly -> {
+			softly.assertThat(updateDriverResponse2.driver.ageFirstLicensed).isEqualTo(updateDriverRequest.ageFirstLicensed);
+			softly.assertThat(updateDriverResponse2.driver.drivingLicense.licenseNumber).isEqualTo(updateDriverRequest.licenseNumber);
+			softly.assertThat(updateDriverResponse2.driver.drivingLicense.stateLicensed).isEqualTo(updateDriverRequest.stateLicensed);
+			softly.assertThat(updateDriverResponse2.ruleSets.get(0).errors.stream().anyMatch(error -> error.contains(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_ERROR.getMessage())));
+		});
+
+		updateDriverRequest.stateLicensed = "VA";
+		updateDriverRequest.licenseNumber = "123";
+		updateDriverRequest.ageFirstLicensed = 12;
+		DriverWithRuleSets updateDriverResponse3 = HelperCommon.updateDriver(policyNumber, firstDriverOid, updateDriverRequest);
+		assertSoftly(softly -> {
+			softly.assertThat(updateDriverResponse3.driver.ageFirstLicensed).isEqualTo(updateDriverRequest.ageFirstLicensed);
+			softly.assertThat(updateDriverResponse3.driver.drivingLicense.licenseNumber).isEqualTo(updateDriverRequest.licenseNumber);
+			softly.assertThat(updateDriverResponse3.driver.drivingLicense.stateLicensed).isEqualTo(updateDriverRequest.stateLicensed);
+			softly.assertThat(updateDriverResponse3.ruleSets.get(0).errors.stream().anyMatch(error -> error.contains(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_ERROR.getMessage())));
+			softly.assertThat(updateDriverResponse3.ruleSets.get(1).errors.stream().anyMatch(error -> error.contains(ErrorDxpEnum.Errors.VALIDATE_DRIVER_LICENSE_BY_STATE.getMessage())));
+		});
+
+		updateDriverRequest.stateLicensed = "VA";
+		updateDriverRequest.licenseNumber = LicenseNr_VA;
+		updateDriverRequest.ageFirstLicensed = 18;
+		DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, firstDriverOid, updateDriverRequest);
+		assertSoftly(softly -> {
+			softly.assertThat(updateDriverResponse.driver.ageFirstLicensed).isEqualTo(updateDriverRequest.ageFirstLicensed);
+			softly.assertThat(updateDriverResponse.driver.drivingLicense.licenseNumber).isEqualTo(updateDriverRequest.licenseNumber);
+			softly.assertThat(updateDriverResponse.driver.drivingLicense.stateLicensed).isEqualTo(updateDriverRequest.stateLicensed);
+			softly.assertThat(updateDriverResponse.ruleSets.isEmpty());
+		});
+
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+
+		//add new driver
+		addDriverRequest.firstName = "Maris";
+		addDriverRequest.lastName = "Smith";
+		addDriverRequest.birthDate = "1990-02-08";
+
+		DriversDto addDriver = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+		String driverOid = addDriver.oid;
+
+		String LicenseNr_MD = "S123456789999";
+
+		updateDriverRequest.gender = "female";
+		updateDriverRequest.relationToApplicantCd = "CH";
+		updateDriverRequest.maritalStatusCd = "MSS";
+		updateDriverRequest.stateLicensed = "MD";
+		updateDriverRequest.licenseNumber = LicenseNr_MD;
+		updateDriverRequest.ageFirstLicensed = 12;
+
+		DriverWithRuleSets updateDriverResponse4 = HelperCommon.updateDriver(policyNumber, driverOid, updateDriverRequest);
+		assertSoftly(softly -> {
+			softly.assertThat(updateDriverResponse4.driver.ageFirstLicensed).isEqualTo(updateDriverRequest.ageFirstLicensed);
+			softly.assertThat(updateDriverResponse4.driver.drivingLicense.licenseNumber).isEqualTo(updateDriverRequest.licenseNumber);
+			softly.assertThat(updateDriverResponse4.driver.drivingLicense.stateLicensed).isEqualTo(updateDriverRequest.stateLicensed);
+			softly.assertThat(updateDriverResponse4.ruleSets.get(0).errors.stream().anyMatch(error -> error.contains(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_ERROR.getMessage())));
+		});
+
+		updateDriverRequest.stateLicensed = "MD";
+		updateDriverRequest.licenseNumber = "123";
+		updateDriverRequest.ageFirstLicensed = 12;
+		DriverWithRuleSets updateDriverResponse5 = HelperCommon.updateDriver(policyNumber, driverOid, updateDriverRequest);
+		assertSoftly(softly -> {
+			softly.assertThat(updateDriverResponse5.driver.ageFirstLicensed).isEqualTo(updateDriverRequest.ageFirstLicensed);
+			softly.assertThat(updateDriverResponse5.driver.drivingLicense.licenseNumber).isEqualTo(updateDriverRequest.licenseNumber);
+			softly.assertThat(updateDriverResponse5.driver.drivingLicense.stateLicensed).isEqualTo(updateDriverRequest.stateLicensed);
+			softly.assertThat(updateDriverResponse5.ruleSets.get(0).errors.stream().anyMatch(error -> error.contains(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_ERROR.getMessage())));
+			softly.assertThat(updateDriverResponse5.ruleSets.get(1).errors.stream().anyMatch(error -> error.contains(ErrorDxpEnum.Errors.VALIDATE_DRIVER_LICENSE_BY_STATE.getMessage())));
+		});
+
+		updateDriverRequest.stateLicensed = "MD";
+		updateDriverRequest.licenseNumber = LicenseNr_MD;
+		updateDriverRequest.ageFirstLicensed = 18;
+		DriverWithRuleSets updateDriverResponse6 = HelperCommon.updateDriver(policyNumber, driverOid, updateDriverRequest);
+		assertSoftly(softly -> {
+			softly.assertThat(updateDriverResponse6.driver.ageFirstLicensed).isEqualTo(updateDriverRequest.ageFirstLicensed);
+			softly.assertThat(updateDriverResponse6.driver.drivingLicense.licenseNumber).isEqualTo(updateDriverRequest.licenseNumber);
+			softly.assertThat(updateDriverResponse6.driver.drivingLicense.stateLicensed).isEqualTo(updateDriverRequest.stateLicensed);
+			softly.assertThat(updateDriverResponse6.ruleSets.isEmpty());
+		});
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
 	private String formatBirthDateForDriverTab(String birthDate) throws ParseException {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date birthDateFormatted = formatter.parse(birthDate);

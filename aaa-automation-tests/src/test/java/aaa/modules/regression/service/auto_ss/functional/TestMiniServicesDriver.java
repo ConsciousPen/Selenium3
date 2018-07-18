@@ -198,6 +198,35 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 
         pas15076_MetadataServiceDriverBody();
     }
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Validate Driver License By State and Age First Licensed < 14
+	 * @scenario 1. Create Policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Try Update existing Driver add new State and a DL.
+	 * Update  Age First Licensed, add < 14.
+	 * 4. Check error. DL should be updated.
+	 * 5. Update existing Driver add new State and a DL which is not correct by State.
+	 * Update Age First Licensed, add > 14.
+	 * 6. Check error, the years should be successfully updated.
+	 * 7. Update existing Driver add new State and a DL which is not correct by State.
+	 * Update Age First Licensed, add < 14.
+	 * 8. Check the errors.
+	 * 9. Add new driver.
+	 * 10. Repeat the same scenario for the newly added driver.
+	 * 11. Rate and Bind.
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13301", "PAS-14633"})
+	public void pas13301_validateDriverLicenseAndAgeFirstLicensed(@Optional("VA") String state) {
+
+		pas13301_validateDriverLicenseAndAgeFirstLicensedBody();
+	}
+
+
 }
 
 
