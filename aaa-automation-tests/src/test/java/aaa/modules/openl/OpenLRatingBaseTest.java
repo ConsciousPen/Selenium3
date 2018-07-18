@@ -3,6 +3,8 @@ package aaa.modules.openl;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.util.Comparator;
+import java.util.Map;
+import org.apache.commons.collections4.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -10,6 +12,8 @@ import org.testng.ITestContext;
 import org.testng.annotations.*;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.common.collect.MapDifference;
+import com.google.common.collect.Maps;
 import aaa.common.pages.MainPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
@@ -102,8 +106,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 			actualPremium = calculatePremium(openLPolicy);
 			if (!openLPolicy.getExpectedPremium().equals(actualPremium)) {
 				RatingEngineLogsHolder ratingLogs = ratingEngineLogsGrabber.grabRatingLogs();
-				//not implemented yet
-				//checkRequestFieldsValues(ratingLogs, openLPolicy, quoteNumber);
+				checkRequestFieldsValues(ratingLogs, openLPolicy, quoteNumber);
 				saveLogs(ratingLogs, testInfo.getTestContext(), openLPolicy.getNumber(), false);
 			} else {
 				grabAndSaveLogs(testInfo.getTestContext(), openLPolicy.getNumber(), true);
@@ -113,18 +116,47 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 	}
 
 	protected void checkRequestFieldsValues(RatingEngineLogsHolder ratingLogsHolder, P openLPolicy, String quoteNumber) {
-		if (!ratingLogsHolder.getRatingRequestLogContent().contains(quoteNumber)) {
-			log.warn("There is no policy number {} in retrieved rating request log, further analysis has no sense", quoteNumber);
+		if (!ratingLogsHolder.getRequestLog().getLogContent().contains(quoteNumber)) {
+			log.warn("There is no policy number {} in retrieved rating request log, further analysis has been skipped", quoteNumber);
+			return;
+		}
+
+		Map<String, String> requestFieldsValuesMap = ratingLogsHolder.getRequestLog().getOpenLFieldsMap();
+		if (MapUtils.isEmpty(requestFieldsValuesMap)) {
+			log.warn("OpenL fields values map from request log is empty, further analysis has been skipped");
+			return;
+		}
+
+		requestFieldsValuesMap.entrySet().removeIf(e -> e.getKey().startsWith("runtimeContext")); // removed unnecessary json element for further fields comparison
+		Map<String, String> testFieldsValuesMap = openLPolicy.getOpenLFieldsMap();
+		MapDifference<String, String> openLFieldsDifferences = Maps.difference(requestFieldsValuesMap, testFieldsValuesMap);
+		if (openLFieldsDifferences.areEqual()) {
+			log.info("All OpenL fields values of rating json request are equal to the appropriate fields values of {} object from test excel file", openLPolicy.getClass().getSimpleName());
 		} else {
-			/*Map<String, String> requestPolicyValuesMap = ratingLogsHolder.getRequestPolicyValuesMap();
-			Map<String, String> policyValuesMap = openLPolicy.getValuesMap();
-			MapDifference<String, String> policyDifferences = Maps.difference(requestPolicyValuesMap, policyValuesMap);
-			if (policyDifferences.areEqual()) {
-				log.info("All OpenL fields values of rating json request are equal to the appropriate fields values of {} object from excel file", openLPolicy.getClass().getSimpleName());
-			} else {
-				log.warn("There are differences between OpenL fields values of rating json request and appropriate fields values of {} object from excel file:\n{}", openLPolicy.getClass().getSimpleName(),
-						policyDifferences.entriesDiffering().entrySet());
-			}*/
+			if (!openLFieldsDifferences.entriesDiffering().isEmpty()) {
+				StringBuilder differencesReportMessage = new StringBuilder("There are differences between OpenL fields values of rating json request "
+						+ "and appropriate fields values of policy object from test excel file. OpenL.Field.Path=[\"value from request\", \"value from test\"]:\n");
+				for (Map.Entry<String, MapDifference.ValueDifference<String>> differences : openLFieldsDifferences.entriesDiffering().entrySet()) {
+					differencesReportMessage.append("    ").append(differences.getKey()).append("=[\"").append(differences.getValue().leftValue()).append("\", \"").append(differences.getValue().rightValue()).append("\"]\n");
+				}
+				log.warn(differencesReportMessage.toString());
+			}
+
+			if (openLFieldsDifferences.entriesOnlyOnLeft().isEmpty()) {
+				StringBuilder missedFieldsReportMessage = new StringBuilder("There are missed OpenL fields in policy object from test excel file which exist in rating json request log:\n");
+				for (Map.Entry<String, String> missedFields : openLFieldsDifferences.entriesOnlyOnLeft().entrySet()) {
+					missedFieldsReportMessage.append("    ").append(missedFields.getKey()).append("=\"").append(missedFields.getValue()).append("\"\n");
+				}
+				log.warn(missedFieldsReportMessage.toString());
+			}
+
+			if (openLFieldsDifferences.entriesOnlyOnRight().isEmpty()) {
+				StringBuilder missedFieldsReportMessage = new StringBuilder("There are missed OpenL fields in rating json request which exist in policy object from test excel file:\n");
+				for (Map.Entry<String, String> missedFields : openLFieldsDifferences.entriesOnlyOnRight().entrySet()) {
+					missedFieldsReportMessage.append("    ").append(missedFields.getKey()).append("=\"").append(missedFields.getValue()).append("\"\n");
+				}
+				log.warn(missedFieldsReportMessage.toString());
+			}
 		}
 	}
 
@@ -141,13 +173,13 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 			}
 
 			String logPath = ratingEngineLogsGrabber.makeDefaultOpenLRequestLogPath(testContext.getCurrentXmlTest(), openLPolicyNumber);
-			File ratingRequestLog = ratingLogsHolder.dumpRequestLog(logPath, ARCHIVE_RATING_LOGS);
+			File ratingRequestLog = ratingLogsHolder.getRequestLog().dump(logPath, ARCHIVE_RATING_LOGS);
 			if (ratingRequestLog != null) {
 				testContext.setAttribute(RatingEngineLogsGrabber.RATING_REQUEST_TEST_CONTEXT_ATTR_NAME, ratingRequestLog);
 			}
 
 			logPath = ratingEngineLogsGrabber.makeDefaultOpenLResponseLogPath(testContext.getCurrentXmlTest(), openLPolicyNumber);
-			File ratingResponseLog = ratingLogsHolder.dumpResponseLog(logPath, ARCHIVE_RATING_LOGS);
+			File ratingResponseLog = ratingLogsHolder.getResponseLog().dump(logPath, ARCHIVE_RATING_LOGS);
 			if (ratingRequestLog != null) {
 				testContext.setAttribute(RatingEngineLogsGrabber.RATING_RESPONSE_TEST_CONTEXT_ATTR_NAME, ratingResponseLog);
 			}

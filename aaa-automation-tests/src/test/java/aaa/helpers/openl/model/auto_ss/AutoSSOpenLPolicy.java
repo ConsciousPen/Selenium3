@@ -1,8 +1,12 @@
 package aaa.helpers.openl.model.auto_ss;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
 import aaa.helpers.openl.mock_generator.MockGenerator;
@@ -388,10 +392,38 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	public LocalDate getEffectiveDate() {
 		return effectiveDate;
 	}
-	
+
 	@Override
 	public AutoSSTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
 		return new AutoSSTestDataGenerator(state, baseTestData);
+	}
+
+	@Override
+	public Map<String, String> getOpenLFieldsMap() {
+		Map<String, String> openLFieldsMap = super.getOpenLFieldsMap();
+
+		Pattern driverIdOrNamePattern = Pattern.compile("^policy\\.drivers\\[\\d+\\]\\.(?:name|id)$");
+		Pattern vehicleIdPattern = Pattern.compile("^policy\\.vehicles\\[\\d+\\]\\.id");
+		Pattern vehicleAnnualMileagePattern = Pattern.compile("^policy\\.vehicles\\[\\d+\\].annualMileage$");
+		Pattern vehicleRatedDriverIdOrNamePattern = Pattern.compile("^policy\\.vehicles\\[\\d+\\]\\.ratedDriver\\.(?:name|id)$");
+		Pattern coverageAdditionalLimitAmountPattern = Pattern.compile("^policy\\.vehicles\\[\\d+\\]\\.coverages\\[\\d+\\]\\.additionalLimitAmount$");
+		openLFieldsMap.put("policy.effectiveDate", String.valueOf(getEffectiveDate().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()));
+		if (getCappingDetails().getPlcyInceptionDate() != null) {
+			openLFieldsMap.put("policy.cappingDetails.plcyInceptionDate", String.valueOf(getCappingDetails().getPlcyInceptionDate().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()));
+		}
+
+		//TODO-dchubkov: add comments for each change
+		openLFieldsMap.entrySet().removeIf(e -> "policy.policyNumber".equals(e.getKey())
+				|| driverIdOrNamePattern.matcher(e.getKey()).matches()
+				|| vehicleIdPattern.matcher(e.getKey()).matches()
+				|| vehicleAnnualMileagePattern.matcher(e.getKey()).matches()
+				|| vehicleRatedDriverIdOrNamePattern.matcher(e.getKey()).matches()
+				|| coverageAdditionalLimitAmountPattern.matcher(e.getKey()).matches());
+
+		List<String> coverageCDsList = openLFieldsMap.entrySet().stream().filter(e -> e.getKey().endsWith("coverageCd")).map(Map.Entry::getKey).collect(Collectors.toList());
+		coverageCDsList.forEach(cd -> openLFieldsMap.put(cd.replace("coverageCd", "coverageCD"), openLFieldsMap.remove(cd)));
+
+		return openLFieldsMap;
 	}
 
 	public void setEffectiveDate(LocalDate effectiveDate) {
