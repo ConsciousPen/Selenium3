@@ -147,7 +147,8 @@
                     <include name="pas10449_ViewVehicleServiceOrderOfVehicle"/>
                     <include name="pas11741_ManageVehicleLevelCoverages"/>
                     <include name="pas502_DuplicateVinAddVehicleService"/>
-                    <include name="pas9493_TransactionInformationForEndorsementsAddVehicle"/>
+                    <include name="pas9493_TransactionInformationForEndorsementsAddRemoveVehicle"/>
+                    <include name="pas14497_TransactionInformationForEndorsementsReplaceVehicle"/>
                     <include name="pas7147_VehicleUpdateBusiness"/>
                     <include name="pas7147_VehicleUpdateRegisteredOwner"/>
                     <include name="pas14952_EndorsementStatusResetForVehRatingFactors"/>
