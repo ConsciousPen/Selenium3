@@ -19,6 +19,7 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -28,6 +29,8 @@ import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.ETCSCoreSoftAssertions;
+import toolkit.webdriver.controls.Link;
+import toolkit.webdriver.controls.composite.table.Table;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -181,14 +184,47 @@ public class TestCurrentTermEndAddsVehicle extends AutoCaChoiceBaseTest {
             testDataThreeVehicles = getTestDataWithThreeVehicles(getPolicyTD(), "STUB");
         }
 
-        //6. Calculate Premium and bind the endorsement.
-        ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
-        policy.getDefaultView().fillFromTo(testDataThreeVehicles, aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab.class, aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab.class, true);
-        documentsAndBindTab.submitTab();
-        //Verify the Vehicle data on the policy summary page shows the SYMBOL_200 data - NOT refreshed data
-        softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRow(3).getCell(3).getValue()).doesNotContain("MOTOR");
-        softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRow(2).getCell(3).getValue()).doesNotContain("MOTOR");
-        softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRow(1).getCell(3).getValue()).doesNotContain("MOTOR");
+		//6. Calculate Premium and bind the endorsement.
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		policy.getDefaultView().fillFromTo(testDataThreeVehicles, aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab.class, aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.class, true);
+
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+		documentsAndBindTab.submitTab();
+
+
+		Table tableDifferences = new Table(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']/table"));
+		int columnsCount = tableDifferences.getColumnsCount();
+
+		Link linkTriangle = new Link(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_"  + 0
+				+ "']/td[1]/span[contains(@class, 'ui-treetable-toggler')]"));
+		if (linkTriangle.isPresent() && linkTriangle.isVisible()) {
+			linkTriangle.click();
+
+			Link linkSetCurrent = tableDifferences.getRow(2).getCell(columnsCount).controls.links.get("Current");
+			Link linkSetAvailable= tableDifferences.getRow(2).getCell(columnsCount).controls.links.get("Available");
+
+			linkSetCurrent.click();
+
+			if(scenario.equals("NOT_MATCHED")) { //scenario 1
+				linkSetCurrent.click();
+				policy.rollOn().submit();
+			} else if(scenario.equals("MATCHED")) { //scenario 2
+				linkSetAvailable.click();
+				policy.rollOn().submit();
+			} else if(scenario.equals("STUB")) { //scenario 3
+				linkSetCurrent.click();
+				policy.rollOn().submit();
+			}
+
+		}
+		else {
+			log.info("NO CONFLICT PAGE FOUND! ENABLE RENEWAL MERGE YOU FOOL!");
+		}
+
+		//Verify the Vehicle data on the policy summary page shows the SYMBOL_200 data - NOT refreshed data
+		softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRow(3).getCell(3).getValue()).doesNotContain("MOTOR");
+		softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRow(2).getCell(3).getValue()).doesNotContain("MOTOR");
+		softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRow(1).getCell(3).getValue()).doesNotContain("MOTOR");
 
         //7. Verify Latest Renewal Version has correct vehicle details
         if (scenario.equals("NOT_MATCHED")) { //Assertion for scenario 1
@@ -338,6 +374,8 @@ public class TestCurrentTermEndAddsVehicle extends AutoCaChoiceBaseTest {
         String formattedEffectiveDate = effectiveDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION, formattedExpirationDate, state, "SYMBOL_2000"));
         DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EFFECTIVEDATE_BY_STATECD_VERSION, formattedEffectiveDate, state, "SYMBOL_2018"));
+        DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION, formattedExpirationDate, state, "SYMBOL_2000_CHOICE"));
+	    DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EFFECTIVEDATE_BY_STATECD_VERSION, formattedEffectiveDate, state, "SYMBOL_2018_CHOICE"));
     }
 
     private void doSoftAssertions(int firstVehicleCellIndex, String firstVehicleMake, String firstVehicleCompSymbol, String firstVehicleCollSymbol,
