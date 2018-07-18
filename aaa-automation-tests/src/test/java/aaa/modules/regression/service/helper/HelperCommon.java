@@ -9,6 +9,8 @@ import javax.ws.rs.client.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import aaa.modules.regression.service.helper.dtoDxp.ComparablePolicy;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
@@ -70,6 +72,7 @@ public class HelperCommon {
 	private static final String DXP_POLICIES_DRIVERS = "/api/v1/policies/%s/drivers";
 	private static final String DXP_POLICIES_ENDORSEMENT_DRIVERS = "/api/v1/policies/%s/endorsement/drivers";
 	private static final String DXP_POLICIES_UPDATE_DRIVERS = "/api/v1/policies/%s/endorsement/drivers/%s";
+	private static final String DXP_POLICIES_ENDORSEMENT_DRIVERS_REPORTS = "/api/v1/policies/%s/endorsement/drivers/%s/reports";
 
 	private static final String DXP_POLICIES_POLICY_COVERAGES = "/api/v1/policies/%s/coverages";
 	private static final String DXP_POLICIES_ENDORSEMENT_COVERAGES = "/api/v1/policies/%s/endorsement/coverages";
@@ -298,6 +301,14 @@ public class HelperCommon {
 	public static ViewDriversResponse viewEndorsementDrivers(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, ViewDriversResponse.class);
+	}
+
+	public static OrderReportsResponse orderReports(String policyNumber, String driverOid) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS_REPORTS, policyNumber, driverOid));
+		OrderReportsRequest request = new OrderReportsRequest();
+		request.policyNumber = policyNumber;
+		request.driverOid = driverOid;
+		return runJsonRequestPostDxp(requestUrl, request, OrderReportsResponse.class, 200);
 	}
 
 	static PolicyCoverageInfo viewPolicyCoverages(String policyNumber) {
