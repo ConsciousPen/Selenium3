@@ -73,7 +73,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
         // Verify Document Tab populates Endorsement
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
         assertThat(new DocumentsTab().getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FPCECA.getLabel()).isPresent()).isTrue();
-        mainApp().close();
+        
     }
 
     /**
@@ -104,7 +104,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
 
         // Click FPCECA Endorsement
         myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
-        mainApp().close();
+        
     }
 
     /**
@@ -134,7 +134,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
 
         // Click FPCECA Endorsement
         myHelper.addFAIRPlanEndorsement("homeca_ho3");
-        mainApp().close();
+        
     }
 
     /**
@@ -173,7 +173,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
         // Pick Up File Generated
         myHelper.validatePdfFromDb(policyNumber, DocGenEnum.Documents._62_6500,
                 AaaDocGenEntityQueries.EventNames.ADHOC_DOC_ON_DEMAND_GENERATE, EXPECTED_NAME, "Y");
-        mainApp().close();
+        
     }
 
 }

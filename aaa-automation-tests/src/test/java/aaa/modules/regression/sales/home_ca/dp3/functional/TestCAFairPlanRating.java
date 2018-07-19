@@ -112,7 +112,7 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
         Dollar postEndoPremium = PremiumsAndCoveragesQuoteTab.getPolicyTermPremium();
 
         CustomAssert.assertTrue(postEndoPremium.lessThan(preEndoPremium));
-        mainApp().close();
+        
     }
 
     public void validateAC2() {
@@ -137,6 +137,6 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
         assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Protection class").contains("1"));
         assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Fireline score").contains("0"));
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
-        mainApp().close();
+        
     }
 }

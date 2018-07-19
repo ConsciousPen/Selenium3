@@ -171,10 +171,6 @@ public class TestCAFairPlanRating extends HomeCaHO3BaseTest {
         endorsement_FPCECA.put("Form ID", "FPCECA");
         endorsement_FPCECA.put("Name", "FAIR Plan Companion Endorsement - California");
 
-        Map<String, String> discount_dataRow = new HashMap<>();
-        discount_dataRow.put("Discount Category", "Affinity");
-        discount_dataRow.put("Discounts Applied", "Smoke and Burgler alarm");
-
         new HomeCaPolicyActions.DataGather().start();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
 
@@ -190,7 +186,7 @@ public class TestCAFairPlanRating extends HomeCaHO3BaseTest {
         // Verify Discount for alarm is retained
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         new PremiumsAndCoveragesQuoteTab().btnCalculatePremium().click();
-        Assertions.assertThat(discount_dataRow).containsValues("Smoke and Burgler alarm");
+        Assertions.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied").getValue().equals("New home, AAA Membership, Smoke and Burglar alarm"));
 
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
         assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Smoke and burglar alarm (Central, Local, None)").equals("Local"));

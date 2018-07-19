@@ -65,7 +65,7 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
         // Verify Document Tab populates Endorsement
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
         assertThat(new DocumentsTab().getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FPCECADP.getLabel()).isPresent()).isTrue();
-        mainApp().close();
+        
     }
 
     /**
@@ -98,7 +98,7 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
 
         // Click FPCECADP Endorsement
         myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
-        mainApp().close();
+        
     }
 
     /**
@@ -126,7 +126,7 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
         policy.getDefaultView().fillUpTo(getTestSpecificTD("Renewal_AC3"), EndorsementTab.class, false);
 
         myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
-        mainApp().close();
+        
     }
 
     /**
@@ -166,7 +166,7 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
 
         myHelper.validatePdfFromDb(policyNumber, DocGenEnum.Documents._62_6500,
                 AaaDocGenEntityQueries.EventNames.ADHOC_DOC_ON_DEMAND_GENERATE, EXPECTED_NAME, "Y");
-        mainApp().close();
+        
     }
 
     private TestData buildTD(TestData in_defaultPolicyData) {

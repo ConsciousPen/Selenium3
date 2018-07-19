@@ -74,7 +74,7 @@ public class TestCAFairPlanSignature extends HomeCaHO3BaseTest {
         new BindTab().btnPurchase.click();
         ErrorTab errorTab = new ErrorTab();
         errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CA20180517);
-        mainApp().close();
+        
     }
 
 }

@@ -120,7 +120,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		MyWorkSummaryPage.openAllQueuesSection();
 
 		validateThatTaskIsNotGenerated("PPC 10"); //Exact name of task is Unknown, hence looking for Task Name containing "PPC 10"
-		mainApp().close();
+		
 	}
 
 	//Note: Not applicable for Midterm Endorsement, because it is not possible to change PPC at Midterm Endorsement.
@@ -146,7 +146,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		//Note: No need to validate that the Rule is fired if FAIR Plan Endorsement is added, because as per current implementation it is not fired for renewals
 
 		switchToFAIRPlanEndorsementAndBind();
-		mainApp().close();
+		
 	}
 
 	///AC#2
@@ -179,7 +179,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		purchaseTab.fillTab(testData);
 		purchaseTab.submitTab();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		mainApp().close();
+		
 	}
 
 	public void pas13211_AC2_MidtermEndorsement_PPC8X_LogHome_AAA_HO_CA10100616() {
@@ -203,7 +203,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		errorTab.cancel();
 
 		switchToFAIRPlanEndorsementAndBind();
-		mainApp().close();
+		
 	}
 
 	public void pas13211_AC2_Renewal_PPC1X_LogHome_AAA_HO_CA10100616() {
@@ -230,7 +230,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		errorTab.cancel();
 
 		switchToFAIRPlanEndorsementAndBind();
-		mainApp().close();
+		
 	}
 
 	///////AC#3
@@ -255,7 +255,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		purchaseTab.fillTab(testData);
 		purchaseTab.submitTab();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		mainApp().close();
+		
 	}
 
 	public void pas13211_AC3_MidtermEndorsement_PPC8X_LogHome_AAA_HO_CA10100616() {
@@ -276,7 +276,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		validateRuleIsFiredWithAndWithoutFAIRPlanEndorsement(); //because rule should still fire if "Is this a log home assembled by a licensed building contractor?" = "No"
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		mainApp().close();
+		
 	}
 
 	public void pas13211_AC3_Renewal_PPC1X_LogHome_AAA_HO_CA10100616() {
@@ -300,7 +300,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		validateRuleIsFiredWithAndWithoutFAIRPlanEndorsement(); //because rule should still fire if "Is this a log home assembled by a licensed building contractor?" = "No"
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		mainApp().close();
+		
 	}
 
 	////////////Start PAS-13242////////////////
@@ -353,7 +353,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		// 8. Validate that form FPCECA/FPCECADP is NOT included in revised renewal package, but is listed in other documents
 		validateDocumentIsNotGeneratedInPackage(policyNumber, RENEWAL_OFFER, true);
-		mainApp().close();
+		
 	}
 
 	public void pas13242_AC2_Endorsement() {
@@ -371,7 +371,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		switchToFAIRPlanEndorsementAndBind();
 
 		validateDocumentIsGeneratedInPackage(policyNumber, ENDORSEMENT_ISSUE);
-		mainApp().close();
+		
 	}
 
 	public void pas13242_pas14193_AC3_Renewal() {
@@ -410,7 +410,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
 
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
-		mainApp().close();
+		
 	}
 
 	public void pas13242_pas14193_AC3_Revised_Renewal_After_Renewal_Term_Change() {
@@ -438,7 +438,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
-		mainApp().close();
+		
 	}
 
 	public void pas13242_pas14193_AC3_Revised_Renewal_After_Current_Term_Change() {
@@ -470,7 +470,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		//7. Validate that form FPCECA is included in Renewal package
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER); //PAS-14193
-		mainApp().close();
+		
 	}
 
 	////////////End PAS-13242////////////////
@@ -487,7 +487,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyType.get().initiate();
 		policyType.get().getDefaultView().fillUpTo(testData, PropertyInfoTab.class, true);
 		stoveQuestionValidationSteps();
-		mainApp().close();
+		
 	}
 
 	public void pas13216_All_ACs_Endorsement() {
@@ -500,7 +500,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(policyType).getTestData("Endorsement"), "TestData_Plus3Days"));
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
 		stoveQuestionValidationSteps();
-		mainApp().close();
+		
 	}
 
 	public void pas13216_All_ACs_Renewal() {
@@ -517,7 +517,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
 		stoveQuestionValidationSteps();
-		mainApp().close();
+		
 	}
 
 	/////////////Start PAS-14004////////////////
@@ -532,7 +532,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyType.get().quoteDocGen().start();
 
 		validateFPCECA_FPCECADP(policyNumber);
-		mainApp().close();
+		
 
 	}
 
@@ -548,7 +548,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyType.get().quoteDocGen().start();
 
 		policyDocGenActionTab.verify.documentsPresent(false, fairPlanEndorsementInODDTab);
-		mainApp().close();
+		
 	}
 
 	public void pas14004_AC1_AC2_Policy(TestData tdWithFAIRPlanEndorsement) {
@@ -560,7 +560,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyType.get().policyDocGen().start();
 
 		validateFPCECA_FPCECADP(policyNumber);
-		mainApp().close();
+		
 	}
 
 	public void pas14004_AC1_AC2_Policy_negative() {
@@ -573,7 +573,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyType.get().quoteDocGen().start();
 
 		policyDocGenActionTab.verify.documentsPresent(false, fairPlanEndorsementInODDTab);
-		mainApp().close();
+		
 
 	}
 	////////////End PAS-14004////////////////
