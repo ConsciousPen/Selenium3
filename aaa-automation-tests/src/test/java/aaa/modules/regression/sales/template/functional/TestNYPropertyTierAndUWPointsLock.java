@@ -63,8 +63,8 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
 
         // Validate Market Tier and UW points are the same saved value from NB policy.
         assertThat(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier *")).isEqualTo(marketTierValue);
+		assertThat(PropertyQuoteTab.RatingDetailsView.propertyInfoMessage.getValue()).contains(propertyInfoMessage);
         assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Total points")).isEqualTo(totalUWPoints);
-        assertThat(PropertyQuoteTab.RatingDetailsView.propertyInfoMessage.getValue()).contains(propertyInfoMessage);
         PropertyQuoteTab.RatingDetailsView.close();
         mainApp().close();
     }
@@ -114,8 +114,8 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
         PropertyQuoteTab.RatingDetailsView.open();
 
         // Market Tier is in range of A-J. Save Market Tier And Total UW Points values.
-        assertThat(rangeMarketTier.contains(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier"))).isTrue();
-        String marketTierValue = PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier");
+        assertThat(rangeMarketTier.contains(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier *"))).isTrue();
+        String marketTierValue = PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier *");
         String totalUWPoints = PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Total points");
         PropertyQuoteTab.RatingDetailsView.close();
 
@@ -124,8 +124,8 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
 
         // Validate Market Tier and UW points are the same saved value from NB policy.
         assertThat(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier *")).isEqualTo(marketTierValue);
-        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Total points")).isEqualTo(totalUWPoints);
 		assertThat(PropertyQuoteTab.RatingDetailsView.propertyInfoMessage.getValue()).contains(propertyInfoMessage);
+        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Total points")).isEqualTo(totalUWPoints);
         PropertyQuoteTab.RatingDetailsView.close();
         mainApp().close();
     }
