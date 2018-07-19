@@ -1860,7 +1860,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		ValidateEndorsementResponse response = HelperCommon.startEndorsement(policyNumber, endorsementDate);
 		assertSoftly(softly -> {
 			softly.assertThat(response.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
-			softly.assertThat(response.allowedEndorsements.get(1)).isEqualTo("UpdateDriver");
+			softly.assertThat(response.allowedEndorsements.get(1)).isEqualTo("UpdateCoverages");
 		});
 	}
 
@@ -1873,7 +1873,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		ValidateEndorsementResponse response = HelperCommon.startEndorsement(policyNumber, endorsementDate);
 		assertSoftly(softly -> {
 			softly.assertThat(response.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
-			softly.assertThat(response.allowedEndorsements.get(1)).isEqualTo("UpdateCoverages");
+			softly.assertThat(response.allowedEndorsements.get(1)).isEqualTo("UpdateDriver");
 		});
 	}
 

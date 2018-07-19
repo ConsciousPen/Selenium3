@@ -93,23 +93,23 @@ public class TestDecTransactionDateTime extends AutoSSBaseTest {
 		//validateBoundDtTag(policyNumber, RENEWAL_OFFER); //uncomment this line (use this method) if requirements change to use Renewal offer generation Date and Time
 		validateBoundDtTagBatch(policyNumber, RENEWAL_OFFER, renewImageGenDateTime); //remove this line and delete method if requirements change to use Renewal offer generation Date and Time
 
-		//8. Retrieve renewal image in data gathering mode and make changes to it
+		//10. Revise renewal image by making endorsement to current term
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(2)); //changing date to make sure that transaction date not Renewal offer generation date is used in XML
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		endorsementSteps();
+		//validateBoundDtTag(policyNumber, RENEWAL_OFFER); //TODO-mstrazds: renewal will be in scope of PAS-16693 (uncomment this line for it)
+		validateBoundDtTag(policyNumber, ENDORSEMENT_ISSUE);
+
+		//8. Retrieve renewal image in data gathering mode and make changes to it
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1)); //changing date to make sure that transaction date not Renewal offer generation date is used in XML
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
 		endorsementSteps();
 		validateBoundDtTag(policyNumber, RENEWAL_OFFER);
-
-		//10. Revise renewal image by making endorsement to current term
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1)); //changing date to make sure that transaction date not Renewal offer generation date is used in XML
-		mainApp().reopen();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-		endorsementSteps();
-		validateBoundDtTag(policyNumber, RENEWAL_OFFER);
-		validateBoundDtTag(policyNumber, ENDORSEMENT_ISSUE);
 
 	}
 
