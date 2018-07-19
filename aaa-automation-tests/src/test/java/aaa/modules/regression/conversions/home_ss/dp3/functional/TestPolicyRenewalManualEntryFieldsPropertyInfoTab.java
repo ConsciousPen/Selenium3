@@ -82,6 +82,9 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSDP3
     method clicks the renewal button and starts datagather and navigates to the property info tab
     */
     private void navigateToPropertyInfoOnSecondRenewal() {
+        if(PolicySummaryPage.buttonBackFromRenewals.isEnabled()){
+            PolicySummaryPage.buttonBackFromRenewals.click();
+        }
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());

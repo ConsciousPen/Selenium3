@@ -645,6 +645,61 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 
 	/**
 	 * @author Megha Gubbala
+	 * Create a policy
+	 * create a pended endorsment
+	 * hit EndorsementChangeLog service validare response NO_CHANGES
+	 * rate policy
+	 * hit view premium service
+	 * Validate premium with pas
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15897"})
+	public void pas15897_transactionHistoryAndMessage(@Optional("VA") String state) {
+
+		pas15897_TransactionHistoryAndMessage();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * Create a policy
+	 * create a pended endorsment
+	 * add new vehicle
+	 * hit EndorsementChangeLog service validare response verify all coverages are there for added vehicle
+	 * verify is chage type is added
+	 * rate policy
+	 * hit view premium service
+	 * Validate premium with pas
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14540"})
+	public void pas14540_transactionInfoAddVehicleCoverages(@Optional("VA") String state) {
+
+		pas14539_transactionInfoAddVehicleCoveragesBody();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * Create a policy
+	 * update coverages on existing vehicle
+	 * hit EndorsementChangeLog service validare response verify all coverages are there as updated
+	 * verify is chage type is Modified
+	 * rate policy
+	 * hit view premium service
+	 * Validate premium with pas
+	 */
+	//coverages update on existing policy Scenario 2
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14540"})
+	public void pas14540_transactionInfoAddVehicleCoveragesUpdate(@Optional("VA") String state) {
+
+		pas14539_transactionInfoAddVehicleCoveragesUpdateBody();
+	}
+
+	/**
+	 * @author Megha Gubbala
 	 * from pre-conditions VA shouls allow all 4 actions
 	 * Create a policy
 	 * hit startEndorsement service

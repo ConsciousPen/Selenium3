@@ -1,6 +1,10 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
-public class ComparableVehicle extends ComparableObject<Vehicle> {
-	public ComparableGaragingAddress garagingAddress;
-	public ComparableOwnership vehicleOwnership;
+import java.util.Map;
+
+public class ComparableVehicle extends ComparableObject {
+	public ComparableObject garagingAddress;
+	public ComparableObject vehicleOwnership;
+	public Map<String, ComparableObject> driverAssignments;
+	public Map<String, ComparableObject> coverages;
 }
