@@ -10,7 +10,6 @@ import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
@@ -22,19 +21,17 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.apache.commons.lang3.Range;
 import toolkit.datax.TestData;
-
 import java.time.LocalDateTime;
-
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
 
-    private ErrorTab errorTab = new ErrorTab();
     private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
     private PurchaseTab purchaseTab = new PurchaseTab();
     private BindTab bindTab = new BindTab();
     private ReportsTab reportsTab = new ReportsTab();
     private Range<String> rangeMarketTier = Range.between("A", "J");
+    private String propertyInfoMessage = "* Market Tier may be a locked value from prior term";
 
 
     public void pas14030_TestNYViewRatingDetailsRenewal(PolicyType policyType) {
@@ -65,8 +62,9 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
         policyChangesForTotalUWPointsAndMarketTier();
 
         // Validate Market Tier and UW points are the same saved value from NB policy.
-        assertThat(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier")).isEqualTo(marketTierValue);
+        assertThat(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier *")).isEqualTo(marketTierValue);
         assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Total points")).isEqualTo(totalUWPoints);
+        assertThat(PropertyQuoteTab.RatingDetailsView.propertyInfoMessage.getValue()).contains(propertyInfoMessage);
         PropertyQuoteTab.RatingDetailsView.close();
         mainApp().close();
     }
@@ -125,8 +123,9 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
         policyChangesForTotalUWPointsAndMarketTier();
 
         // Validate Market Tier and UW points are the same saved value from NB policy.
-        assertThat(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier")).isEqualTo(marketTierValue);
+        assertThat(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier *")).isEqualTo(marketTierValue);
         assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Total points")).isEqualTo(totalUWPoints);
+		assertThat(PropertyQuoteTab.RatingDetailsView.propertyInfoMessage.getValue()).contains(propertyInfoMessage);
         PropertyQuoteTab.RatingDetailsView.close();
         mainApp().close();
     }
