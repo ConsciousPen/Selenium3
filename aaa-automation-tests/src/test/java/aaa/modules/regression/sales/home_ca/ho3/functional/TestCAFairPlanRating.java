@@ -104,7 +104,7 @@ public class TestCAFairPlanRating extends HomeCaHO3BaseTest {
     }
 
     public void validateAC1() {
-        endorsement_FPCECA.put("Form ID", "F    PCECA");
+        endorsement_FPCECA.put("Form ID", "FPCECA");
         endorsement_FPCECA.put("Name", "FAIR Plan Companion Endorsement - California");
 
         new HomeCaPolicyActions.DataGather().start();

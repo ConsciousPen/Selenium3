@@ -159,10 +159,8 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
      */
     private void validateMembership(){
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        //reportsTab.tblInsuranceScoreReport.getRow(1).getCell(11).controls.links.get("Re-order report").click();
         reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
         reportsTab.tblInsuranceScoreReport.getRow(1).getCell(11).click();
-        //reportsTab.reorderReports(); //noticed that for some reason reorderReports() doesn't work for Insurance Score Report on CHROME, worked on FF
         premiumsAndCoveragesQuoteTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.btnPurchase.click();
@@ -205,7 +203,6 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
         reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
         reportsTab.tblInsuranceScoreReport.getRow(1).getCell(11).click();
-        //reportsTab.reorderReports();
         premiumsAndCoveragesQuoteTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.btnPurchase.click();
@@ -238,7 +235,6 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
         reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
         reportsTab.tblInsuranceScoreReport.getRow(1).getCell(11).click();
-        //reportsTab.reorderReports();
         premiumsAndCoveragesQuoteTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.btnPurchase.click();

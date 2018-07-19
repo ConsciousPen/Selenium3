@@ -48,7 +48,6 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
 
         defaultPolicyData = buildTD(defaultPolicyData);
 
-        //setupHO3Policy(ho3TestData);
         mainApp().open();
         createCustomerIndividual();
 
@@ -88,7 +87,6 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
 
         defaultPolicyData = buildTD(defaultPolicyData);
 
-        //setupHO3Policy(ho3TestData);
         mainApp().open();
         createCustomerIndividual();
         createPolicy(defaultPolicyData);
