@@ -778,7 +778,7 @@ public class HelperCommon {
 			log.info("Request: " + asJson(request));
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
 			Invocation.Builder jsonRequest = createJsonRequest(client, request.url, request.sessionId);
-			String methodName = requestMethod.getMethodName();
+			String methodName = requestMethod.name();
 			if (request.bodyRequest != null) {
 				response = jsonRequest.method(methodName, Entity.json(request.bodyRequest));
 			} else {
