@@ -112,9 +112,7 @@ public abstract class OpenLPolicy {
 
 		} else {
 			Object value = classInstance == null ? null : ReflectionHelper.getFieldValue(openLField, classInstance);
-			if (value != null) {
-				openLFieldsMap.put(openLFieldPath, String.valueOf(value));
-			}
+			openLFieldsMap.put(openLFieldPath, String.valueOf(value));
 		}
 		//TODO-dchubkov: add support for multi columns fields
 

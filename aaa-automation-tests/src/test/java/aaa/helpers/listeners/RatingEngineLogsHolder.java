@@ -3,6 +3,7 @@ package aaa.helpers.listeners;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.zip.ZipEntry;
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
+import toolkit.exceptions.IstfException;
 
 public class RatingEngineLogsHolder {
 	private static Logger log = LoggerFactory.getLogger(RatingEngineLogsHolder.class);
@@ -51,8 +53,15 @@ public class RatingEngineLogsHolder {
 	public final class RatingEngineLog {
 		private static final String ARCHIVE_EXTENSION = ".zip";
 		private String logContent;
+		private String formattedLogContent;
+		private JsonElement jsonElement;
+		private Map<String, String> openLFieldsMap;
+
 
 		private RatingEngineLog(String logContent) {
+			if (logContent == null) {
+				throw new IstfException("Unable to create RatingEngineLog object with null log content");
+			}
 			this.logContent = logContent;
 		}
 
@@ -60,26 +69,25 @@ public class RatingEngineLogsHolder {
 			return logContent;
 		}
 
-		public void setLogContent(String logContent) {
-			this.logContent = logContent;
-		}
-
 		public String getFormattedLogContent() {
-			String formattedLogContent = null;
-
-			log.info("Getting log content in pretty json format");
-			JsonElement je = getJsonElement();
-			if (je != null) {
-				Gson gson = new GsonBuilder().setPrettyPrinting().create();
-				try {
-					formattedLogContent = gson.toJson(je);
-				} catch (JsonIOException e) {
-					log.error("Error occurs while converting log content to pretty json format", e);
-					return null;
+			if (this.formattedLogContent == null) {
+				log.info("Getting log content in pretty json format");
+				JsonElement je = getJsonElement();
+				if (!je.isJsonNull()) {
+					Gson gson = new GsonBuilder().setPrettyPrinting().create();
+					try {
+						this.formattedLogContent = gson.toJson(je);
+					} catch (JsonIOException e) {
+						log.error("Error occurs while converting log content to pretty json format, returning raw log instead of formatted version", e);
+						this.formattedLogContent = getLogContent();
+					}
+				} else {
+					log.warn("Unable to get pretty json format from 'null' JsonElement, returning raw log content instead of formatted version");
+					this.formattedLogContent = getLogContent();
 				}
 			}
 
-			return formattedLogContent;
+			return this.formattedLogContent;
 		}
 
 		public File dump(String logDestinationPath, boolean archiveLog) {
@@ -96,11 +104,6 @@ public class RatingEngineLogsHolder {
 			}
 
 			String formattedLogContent = getFormattedLogContent();
-			if (formattedLogContent == null) {
-				log.warn("Converting to the pretty json format has been failed, log content will be saved as it is");
-				formattedLogContent = getLogContent();
-			}
-
 			try {
 				Files.write(logDestination.toPath(), formattedLogContent.getBytes(), StandardOpenOption.CREATE);
 			} catch (IOException e) {
@@ -120,51 +123,56 @@ public class RatingEngineLogsHolder {
 		}
 
 		public Map<String, String> getOpenLFieldsMap() {
-			log.info("Getting OpenL fields paths and values map from log");
-			return getOpenLFieldsMap(getJsonElement(), null);
+			if (this.openLFieldsMap == null) {
+				log.info("Getting OpenL fields paths and values map from log");
+				this.openLFieldsMap = getOpenLFieldsMap(getJsonElement(), null);
+			}
+			return Collections.unmodifiableMap(this.openLFieldsMap);
 		}
 
 		public JsonElement getJsonElement() {
-			String parseErrorMessage = "Error occurs while parsing log content";
-			String jsonReaderCloseErrorMessage = "Error occurs while closing JsonReader";
-			JsonReader reader = new JsonReader(new StringReader(getLogContent()));
-			JsonElement je;
+			if (this.jsonElement == null) {
+				String parseErrorMessage = "Error occurs while parsing log content";
+				String jsonReaderCloseErrorMessage = "Error occurs while closing JsonReader";
 
-			try {
-				je = new JsonParser().parse(reader);
-			} catch (JsonSyntaxException syntaxEx) {
-				if (syntaxEx.getMessage().contains("Use JsonReader.setLenient(true) to accept malformed JSON")) {
-					log.error(parseErrorMessage, syntaxEx);
-					log.info("Trying to parse log with enabled \"setLenient(true)\" in JsonReader", getLogContent());
-					reader.setLenient(true);
-					try {
-						je = new JsonParser().parse(reader);
-					} catch (JsonParseException parseEx) {
-						log.error(String.format("%s with enabled \"setLenient(true)\" in JsonReader", parseErrorMessage), parseEx);
-						return null;
-					} finally {
-						try {
-							reader.close();
-						} catch (IOException e) {
-							log.error(jsonReaderCloseErrorMessage, e);
-						}
-					}
-				} else {
-					log.error(parseErrorMessage, syntaxEx);
-					return null;
-				}
-			} catch (JsonParseException parseEx) {
-				log.error(parseErrorMessage, parseEx);
-				return null;
-			} finally {
+				log.info("Getting root Json Element object from log content");
+				JsonReader reader = new JsonReader(new StringReader(getLogContent()));
 				try {
-					reader.close();
-				} catch (IOException e) {
-					log.error(jsonReaderCloseErrorMessage, e);
+					this.jsonElement = new JsonParser().parse(reader);
+				} catch (JsonSyntaxException syntaxEx) {
+					if (syntaxEx.getMessage().contains("Use JsonReader.setLenient(true) to accept malformed JSON")) {
+						log.error(parseErrorMessage, syntaxEx);
+						log.info("Trying to parse log with enabled \"setLenient(true)\" in JsonReader", getLogContent());
+						reader.setLenient(true);
+						try {
+							this.jsonElement = new JsonParser().parse(reader);
+						} catch (JsonParseException parseEx) {
+							log.error(String.format("%s with enabled \"setLenient(true)\" in JsonReader", parseErrorMessage), parseEx);
+							this.jsonElement = new JsonNull();
+						} finally {
+							try {
+								reader.close();
+							} catch (IOException e) {
+								log.error(jsonReaderCloseErrorMessage, e);
+							}
+						}
+					} else {
+						log.error(parseErrorMessage, syntaxEx);
+						this.jsonElement = new JsonNull();
+					}
+				} catch (JsonParseException parseEx) {
+					log.error(parseErrorMessage, parseEx);
+					this.jsonElement = new JsonNull();
+				} finally {
+					try {
+						reader.close();
+					} catch (IOException e) {
+						log.error(jsonReaderCloseErrorMessage, e);
+					}
 				}
 			}
 
-			return je;
+			return this.jsonElement;
 		}
 
 		private Map<String, String> getOpenLFieldsMap(JsonElement je, String parentOpenLFieldPath) {
