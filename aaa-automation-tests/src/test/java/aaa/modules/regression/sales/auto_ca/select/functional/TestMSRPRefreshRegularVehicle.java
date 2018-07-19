@@ -46,6 +46,8 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	protected String newBusinessCompNoCompMatch = "";
 	protected String newBusinessCollNoCompMatch = "";
 
+	private static final boolean isRegularType = true;
+
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_CA_SELECT;
@@ -58,7 +60,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	 * 2. Calculate premium and validate comp/coll symbols
 	 * 3. Add new Active MSRP versions to DB, Adjust values in MSRP tables
 	 * 4. Retrieve created quote
-	 * 5. Navigate to P&C page and validate comp/coll symbols
+	 * 5. Navigate to P&C page and validate that comp/coll symbols WERE Changed because Vehicle type PPA/Regular
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -69,7 +71,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		// required to match MSRP version which will be added later
 		testData.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(),AutoCaMetaData.VehicleTab.YEAR.getLabel()), "2025");
 
-		vehicleTypeRegular(testData);
+		vehicleTypeRegular(testData, isRegularType);
 	}
 
 	/**
@@ -79,7 +81,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	 * 2. Add new Active MSRP versions to DB, Adjust values in MSRP tables
 	 * 3. Generate and rate renewal image
 	 * 4. Open generated renewal image
-	 * 5. Navigate to P&C page and validate comp/coll symbols
+	 * 5. Navigate to P&C page and validate that comp/coll symbols WERE Changed because Vehicle type PPA/Regular
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -87,13 +89,13 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-730")
 	public void pas730_RenewalVehicleTypeRegular(@Optional("") String state) {
 		// Some kind of random vin number
-		TestData testDataVehicleTab = testDataManager.getDefault(TestVINUpload.class)
-				.getTestData("TestData").getTestData(vehicleTab.getMetaKey())
-				.adjust("VIN", "6FDEU15H7KL055795").adjust("VIN", "6FDEU15H7KL055795").adjust("Year", "2025").resolveLinks();
+		TestData testDataVehicleTab = testDataManager.getDefault(TestVINUpload.class).getTestData("TestData").getTestData(vehicleTab.getMetaKey())
+				.adjust("VIN", "6FDEU15H7KL055795")
+				.adjust("Year", "2025").resolveLinks();
 		TestData testData = getPolicyTD().adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks();
 		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();
 
-		renewalVehicleTypeRegular(testData);
+		renewalVehicleTypeRegular(testData, isRegularType);
 	}
 
 	/**
@@ -102,7 +104,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	 * 1. Auto Policy created: VIN matches to DB on NB, but doesn't match on Renewal
 	 * 2. Generate and rate renewal image
 	 * 3. Open generated renewal image
-	 * 4. Navigate to P&C page and validate comp/coll symbols
+	 * 4. Navigate to P&C page and validate that comp/coll symbols WERE Changed because Vehicle type PPA/Regular
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -118,7 +120,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		new UploadToVINTableTab().uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.MATCH_ON_NEW_BUSINESS_NO_MATCH_ON_RENEWAL.get()));
 
-		checkMatchOnNBWithNoMatchOnRenewal(testData, vinMatchNBandNoMatchOnRenewal);
+		checkMatchOnNBWithNoMatchOnRenewal(testData, vinMatchNBandNoMatchOnRenewal, isRegularType);
 	}
 
 	/**
@@ -128,7 +130,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	 * 2. Calculate premium and validate comp/coll symbols(1)
 	 * 3. Change product from Select to Choice
 	 * 4. Enter Stat Code/Stated Amount in vehicle page
-	 * 5. Navigate to P&C page and validate comp/coll symbols(2)
+	 * 5. Navigate to P&C page and validate that comp/coll symbols WERE Changed because Vehicle type PPA/Regular
 	 *
 	 * @details
 	 */
@@ -164,7 +166,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VALUE).setValue("150000");
 		premiumAndCoveragesTab.calculatePremium();
 
-		CompCollSymbolChecks_pas730(compSymbol, collSymbol);
+		CompCollSymbolChecks_pas730(compSymbol, collSymbol, isRegularType);
 
 		premiumAndCoveragesTab.saveAndExit();
 	}
