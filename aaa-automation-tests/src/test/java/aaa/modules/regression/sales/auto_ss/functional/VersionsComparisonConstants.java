@@ -6,7 +6,7 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Multimap;
 
-public class TestVersionsComparisonConstants {
+public class VersionsComparisonConstants {
 
 	//fields that have DB values, but not UI values on Comparison page
 	static final Map<String, String> comparisonPageDifferentValues = ImmutableMap.<String, String>builder()

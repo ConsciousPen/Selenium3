@@ -4,7 +4,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Multimap;
 
-public class TestVersionsConflictConstants {
+public class VersionsConflictConstants {
 
 	private static final String AVAILABLE = "Available";
 	private static final String CURRENT = "Current";
