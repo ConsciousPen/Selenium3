@@ -21,6 +21,7 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 public class TestMSRPRefreshMotorHomeVehicle extends VinUploadAutoSSHelper {
+	private static final boolean isPPAType = false;
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -34,7 +35,7 @@ public class TestMSRPRefreshMotorHomeVehicle extends VinUploadAutoSSHelper {
 	 * 2. Calculate premium and validate comp/coll symbols
 	 * 3. Add new Active MSRP versions to DB, Adjust values in MSRP tables
 	 * 4. Retrieve created quote
-	 * 5. Navigate to P&C page and validate comp/coll symbols
+	 * 5. Navigate to P&C page and validate that comp/coll symbols WEREN'T Changed because Vehicle type = Motor Home (Not PPA/Regular)
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -72,7 +73,7 @@ public class TestMSRPRefreshMotorHomeVehicle extends VinUploadAutoSSHelper {
 
 		findAndRateQuote(testData, quoteNumber);
 
-		compCollSymbolCheck_pas730(compSymbol, collSymbol, false);
+		compCollSymbolCheck_pas730(compSymbol, collSymbol, isPPAType);
 
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 	}
@@ -84,7 +85,7 @@ public class TestMSRPRefreshMotorHomeVehicle extends VinUploadAutoSSHelper {
 	 * 2. Add new Active MSRP versions to DB, Adjust values in MSRP tables
 	 * 3. Generate and rate renewal image
 	 * 4. Open generated renewal image
-	 * 5. Navigate to P&C page and validate comp/coll symbols
+	 * 5. Navigate to P&C page and validate that comp/coll symbols WEREN'T Changed because Vehicle type = Motor Home (Not PPA/Regular)
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -110,7 +111,7 @@ public class TestMSRPRefreshMotorHomeVehicle extends VinUploadAutoSSHelper {
 		findQuoteAndOpenRenewal(quoteNumber);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		compCollSymbolCheck_pas730(compSymbolBeforeRenewal, collSymbolBeforeRenewal, false);
+		compCollSymbolCheck_pas730(compSymbolBeforeRenewal, collSymbolBeforeRenewal, isPPAType);
 
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 	}

@@ -35,6 +35,7 @@ import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
 public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
+	private static final boolean isPPAType = true;
 
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 
@@ -61,7 +62,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	 * 2. Calculate premium and validate comp/coll symbols
 	 * 3. Add new Active MSRP versions to DB, Adjust values in MSRP tables
 	 * 4. Retrieve created quote
-	 * 5. Navigate to P&C page and validate comp/coll symbols
+	 * 5. Navigate to P&C page and validate that comp/coll symbols WERE Changed because Vehicle type PPA/Regular
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -87,7 +88,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		findAndRateQuote(testData, quoteNumber);
 
-		compCollSymbolCheck_pas730(compSymbol, collSymbol, true);
+		compCollSymbolCheck_pas730(compSymbol, collSymbol, isPPAType);
 
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 	}
@@ -99,7 +100,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	 * 2. Add new Active MSRP versions to DB, Adjust values in MSRP tables
 	 * 3. Generate and rate renewal image
 	 * 4. Open generated renewal image
-	 * 5. Navigate to P&C page and validate comp/coll symbols
+	 * 5. Navigate to P&C page and validate that comp/coll symbols WERE Changed because Vehicle type PPA/Regular
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -130,7 +131,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
-		compCollSymbolCheck_pas730(compSymbolBeforeRenewal, collSymbolBeforeRenewal, true);
+		compCollSymbolCheck_pas730(compSymbolBeforeRenewal, collSymbolBeforeRenewal, isPPAType);
 	}
 
 	/**
@@ -139,7 +140,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	 * 1. Auto Policy created: VIN matches to DB on NB, but doesn't match on Renewal
 	 * 2. Generate and rate renewal image
 	 * 3. Open generated renewal image
-	 * 4. Navigate to P&C page and validate comp/coll symbols
+	 * 4. Navigate to P&C page and validate that comp/coll symbols WERE Changed because Vehicle type PPA/Regular
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -172,7 +173,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		findQuoteAndOpenRenewal(quoteNumber);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		compCollSymbolCheck_pas730(compSymbolBeforeRenewal, collSymbolBeforeRenewal, true);
+		compCollSymbolCheck_pas730(compSymbolBeforeRenewal, collSymbolBeforeRenewal, isPPAType);
 
 	}
 
