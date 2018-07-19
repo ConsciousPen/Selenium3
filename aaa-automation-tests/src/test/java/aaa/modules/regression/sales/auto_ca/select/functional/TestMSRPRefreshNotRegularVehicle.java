@@ -13,6 +13,7 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 public class TestMSRPRefreshNotRegularVehicle extends TestMSRPRefreshTemplate{
+	private static final boolean isRegularType = false;
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -26,7 +27,7 @@ public class TestMSRPRefreshNotRegularVehicle extends TestMSRPRefreshTemplate{
 	 * 2. Calculate premium and validate comp/coll symbols
 	 * 3. Add new Active MSRP versions to DB, Adjust values in MSRP tables
 	 * 4. Retrieve created quote
-	 * 5. Navigate to P&C page and validate comp/coll symbols
+	 * 5. Navigate to P&C page and validate that comp/coll symbols WEREN'T Changed because Vehicle type = Motor Home (Not PPA/Regular)
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -38,7 +39,7 @@ public class TestMSRPRefreshNotRegularVehicle extends TestMSRPRefreshTemplate{
 		TestData testData = getPolicyTD().adjust(vehicleTab.getMetaKey(), testDataVehicleTabMotorHome).resolveLinks();
 		testData.getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0).ksam("Primary Driver").resolveLinks();
 
-		vehicleTypeNotRegular(testData);
+		vehicleTypeNotRegular(testData, isRegularType);
 	}
 
 	/**
@@ -48,7 +49,7 @@ public class TestMSRPRefreshNotRegularVehicle extends TestMSRPRefreshTemplate{
 	 * 2. Add new Active MSRP versions to DB, Adjust values in MSRP tables
 	 * 3. Generate and rate renewal image
 	 * 4. Open generated renewal image
-	 * 5. Navigate to P&C page and validate comp/coll symbols
+	 * 5. Navigate to P&C page and validate that comp/coll symbols WEREN'T Changed because Vehicle type = Motor Home (Not PPA/Regular)
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -58,7 +59,7 @@ public class TestMSRPRefreshNotRegularVehicle extends TestMSRPRefreshTemplate{
 		TestData testData = getMSRPTestDataTwoVehicles(getPolicyTD());
 		testData.adjust("AssignmentTab", getTwoAssignmentsTestData()).resolveLinks();
 
-		renewalVehicleTypeNotRegular(testData);
+		renewalVehicleTypeNotRegular(testData, isRegularType);
 	}
 
 	@AfterClass(alwaysRun = true)
