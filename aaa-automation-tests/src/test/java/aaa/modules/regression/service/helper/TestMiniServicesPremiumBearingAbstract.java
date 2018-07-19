@@ -702,7 +702,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(20).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
 		//Check Policy locked message
-		ValidateEndorsementResponse responseNd = HelperCommon.startEndorsement(policyNumber, endorsementDate); //BUG: PAS-16902 Not getting "Policy is locked" message
+		ValidateEndorsementResponse responseNd = HelperCommon.startEndorsement(policyNumber, endorsementDate);
+		assertThat(responseNd.ruleSets.get(0).errors.toString().contains(ErrorDxpEnum.Errors.POLICY_IS_LOCKED.getMessage())).isTrue(); //BUG: PAS-16902 Not getting "Policy is locked" message
 	}
 
 	protected void pas9337_CheckStartEndorsementInfoServerResponseForCancelPolicy(PolicyType policyType) {
