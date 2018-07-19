@@ -123,7 +123,6 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         assertThat(rangeTier).contains(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier"));
 
         PropertyQuoteTab.RatingDetailsViewPUP.close();
-        mainApp().close();
     }
 
     /**
@@ -181,7 +180,6 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier").isEmpty()).isTrue();
 
         PropertyQuoteTab.RatingDetailsViewPUP.close();
-        mainApp().close();
     }
 
     /**
@@ -273,7 +271,6 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier").contains("1")).isTrue();
 
         PropertyQuoteTab.RatingDetailsViewPUP.close();
-        mainApp().close();
     }
 
     /**
@@ -378,7 +375,6 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         assertThat(autoTierValue1).isEqualTo(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier"));
 
         PropertyQuoteTab.RatingDetailsViewPUP.close();
-        mainApp().close();
     }
 
 
@@ -498,7 +494,6 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
 		assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Market tier")).contains(marketTier2);
 
 		PropertyQuoteTab.RatingDetailsViewPUP.close();
-		mainApp().close();
 	}
 
 
