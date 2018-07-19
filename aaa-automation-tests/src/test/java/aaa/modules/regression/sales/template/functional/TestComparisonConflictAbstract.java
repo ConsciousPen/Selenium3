@@ -1,7 +1,7 @@
 package aaa.modules.regression.sales.template.functional;
 
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import static toolkit.verification.CustomAssertions.assertThat;
+import static aaa.main.enums.ProductConstants.TransactionHistoryType.*;
+import static aaa.main.pages.summary.PolicySummaryPage.tableDifferences;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,31 +10,26 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.By;
 import org.openqa.selenium.InvalidArgumentException;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Multiset;
+import com.google.common.collect.*;
 import aaa.common.Tab;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ErrorEnum;
-import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.composite.table.Table;
 
 public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 
-	public static final String COMPONENT_ATTRIBUTE_SEPARATOR = ".";
-	public static final int COMPONENT_NAME_ROW_INDEX = 1;
+	private static final String SECTION_UIFIELD_SEPARATOR = ".";
+	private static final int SECTION_NAME_ROW_INDEX = 1;
 	private final ErrorTab errorTab = new ErrorTab();
 
 	/**
@@ -68,12 +63,12 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	protected abstract Map<String, String> getComparisonPageDifferentValues();
 
 	/**
-	 * Return attribute property from TD by path from comparison page
+	 * Return ui field property from TD by path from comparison page
 	 */
-	protected abstract ArrayListMultimap<String, String> getAttributesToTDMapping();
+	protected abstract ArrayListMultimap<String, String> getUIFieldsToTDMapping();
 
 	/**
-	 * Return values for attributes if they are not present in Test Data
+	 * Return values for UI fields if they are not present in Test Data
 	 */
 	protected abstract ArrayListMultimap<String, String> getPredefinedExpectedValues();
 
@@ -85,19 +80,17 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 
 	protected abstract TestData getTdPolicy();
 
-
 	//Comparison functionality
 
 	/**
-	 * Verification of Comparison screen (components/attributes/values) of 2 quote versions based on test data that was used during creation
-	 * @param state state code
+	 * Verification of Comparison screen (sections/UI fields from section/values) of 2 quote versions based on test data that was used during creation
 	 * @param tdVersion1 test data that is used for version1 quote creation
 	 * @param tdVersion2 test data that is used for version2 quote creation
-	 * @param checkedComponents list of components/attributes that should be displayed on Comparison page for section
+	 * @param expectedSectionsAndUIFields list of sections/UI fields from section that should be displayed on Comparison page
 	 * @param tabName name of tab where section is located
 	 * @param sectionName section name that is under verification
 	 */
-	public void dataGatherComparison(String state, TestData tdVersion1, TestData tdVersion2, Multimap checkedComponents, String tabName, String sectionName) {
+	protected void dataGatherComparison(TestData tdVersion1, TestData tdVersion2, Multimap<String, String> expectedSectionsAndUIFields, String tabName, String sectionName) {
 		mainApp().open();
 		createCustomerIndividual();
 		createQuote(getTestSpecificTD("TestData_NB_Quote"));
@@ -107,25 +100,35 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		policy.getDefaultView().fillUpTo(tdVersion2, getDocumentsAndBindTab().getClass(), false);
 		getDocumentsAndBindTab().saveAndExit();
 		PolicySummaryPage.buttonQuoteVersionHistory.click();
-		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(2).verify.value(ProductConstants.TransactionHistoryType.QUOTE);
-		PolicySummaryPage.tableTransactionHistory.getRow(2).getCell(2).verify.value(ProductConstants.TransactionHistoryType.QUOTE);
-		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(1).controls.checkBoxes.get(1).setValue(true);
-		PolicySummaryPage.tableTransactionHistory.getRow(2).getCell(1).controls.checkBoxes.get(1).setValue(true);
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		verifyTransactionHistoryType(1, QUOTE, softly);
+		verifyTransactionHistoryType(2, QUOTE, softly);
+		selectTransactionType(1, true);
+		selectTransactionType(2, true);
 		PolicySummaryPage.buttonCompare.click();
 
-		checkComparisonPage(tdVersion1, tdVersion2, checkedComponents, tabName, sectionName);
+		checkComparisonPage(tdVersion1, tdVersion2, expectedSectionsAndUIFields, tabName, sectionName, softly);
+
+		softly.close();
+	}
+
+	private void selectTransactionType(int rowIndex, boolean isSelected) {
+		PolicySummaryPage.tableTransactionHistory.getRow(rowIndex).getCell(1).controls.checkBoxes.get(1).setValue(isSelected);
+	}
+
+	private void verifyTransactionHistoryType(int rowIndex, String type, ETCSCoreSoftAssertions softly) {
+		softly.assertThat(PolicySummaryPage.tableTransactionHistory.getRow(rowIndex).getCell(2).getValue()).as("Transaction type should be {0}", type).isEqualTo(type);
 	}
 
 	/**
-	 * Verification of Comparison screen (components/attributes/values) of 2 endorsement versions based on test data that was used during creation
-	 * @param state state code
+	 * Verification of Comparison screen (sections/UI fields from section/values) of 2 endorsement versions based on test data that was used during creation
 	 * @param tdVersion1 test data that is used for version1 endorsement transaction
 	 * @param tdVersion2 test data that is used for version2 endorsement transaction
-	 * @param checkedComponents list of components/attributes that should be displayed on Comparison page for section
+	 * @param expectedSectionsAndUIFields list of sections/UI fields from section that should be displayed on Comparison page
 	 * @param tabName name of tab where section is located
 	 * @param sectionName section name that is under verification
 	 */
-	public void endorsementsComparison(String state, TestData tdVersion1, TestData tdVersion2, Multimap checkedComponents, String tabName, String sectionName) {
+	protected void endorsementsComparison(TestData tdVersion1, TestData tdVersion2, Multimap<String, String> expectedSectionsAndUIFields, String tabName, String sectionName) {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(getTestSpecificTD("TestData_NB_Policy"));
@@ -133,26 +136,28 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		processPlus25DaysEndorsement(tdVersion2);
 
 		PolicySummaryPage.buttonTransactionHistory.click();
-		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(2).verify.value(ProductConstants.TransactionHistoryType.ENDORSEMENT);
-		PolicySummaryPage.tableTransactionHistory.getRow(2).getCell(2).verify.value(ProductConstants.TransactionHistoryType.ENDORSEMENT);
-		PolicySummaryPage.tableTransactionHistory.getRow(3).getCell(2).verify.value(ProductConstants.TransactionHistoryType.ISSUE);
-		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(1).controls.checkBoxes.get(1).setValue(true);
-		PolicySummaryPage.tableTransactionHistory.getRow(2).getCell(1).controls.checkBoxes.get(1).setValue(true);
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		verifyTransactionHistoryType(1, ENDORSEMENT, softly);
+		verifyTransactionHistoryType(2, ENDORSEMENT, softly);
+		verifyTransactionHistoryType(3, ISSUE, softly);
+		selectTransactionType(1, true);
+		selectTransactionType(2, true);
 		PolicySummaryPage.buttonCompareVersions.click();
 
-		checkComparisonPage(tdVersion1, tdVersion2, checkedComponents, tabName, sectionName);
+		checkComparisonPage(tdVersion1, tdVersion2, expectedSectionsAndUIFields, tabName, sectionName, softly);
+
+		softly.close();
 	}
 
 	/**
-	 * Verification of Comparison screen (components/attributes/values) of 2 renewal versions based on test data that was used during creation
-	 * @param state state code
+	 * Verification of Comparison screen (sections/UI fields from section/values) of 2 renewal versions based on test data that was used during creation
 	 * @param tdVersion1 test data that is used for version1 renewal transaction
 	 * @param tdVersion2 test data that is used for version2 renewal transaction
-	 * @param checkedComponents list of components/attributes that should be displayed on Comparison page for section
+	 * @param expectedSectionsAndUIFields list of sections/UI fields from section that should be displayed on Comparison page
 	 * @param tabName name of tab where section is located
 	 * @param sectionName section name that is under verification
 	 */
-	public void renewalComparison(String state, TestData tdVersion1, TestData tdVersion2, Multimap checkedComponents, String tabName, String sectionName) {
+	protected void renewalComparison(TestData tdVersion1, TestData tdVersion2, Multimap<String, String> expectedSectionsAndUIFields, String tabName, String sectionName) {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(getTestSpecificTD("TestData_NB_Policy"));
@@ -161,38 +166,45 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		processRenewalGenerationJob(expirationDate);
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.buttonRenewals.click();
-		policy.dataGather().start();
-		policy.getDefaultView().fill(tdVersion1);
+		renewalVersionCreation(tdVersion1);
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
 		policy.getDefaultView().fill(tdVersion2);
 		PolicySummaryPage.buttonRenewalQuoteVersion.click();
 
-		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(2).verify.value(ProductConstants.TransactionHistoryType.RENEWAL);
-		PolicySummaryPage.tableTransactionHistory.getRow(2).getCell(2).verify.value(ProductConstants.TransactionHistoryType.RENEWAL);
-		PolicySummaryPage.tableTransactionHistory.getRow(3).getCell(2).verify.value(ProductConstants.TransactionHistoryType.RENEWAL);
-		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(1).controls.checkBoxes.get(1).setValue(true);
-		PolicySummaryPage.tableTransactionHistory.getRow(2).getCell(1).controls.checkBoxes.get(1).setValue(true);
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		verifyTransactionHistoryType(1, RENEWAL, softly);
+		verifyTransactionHistoryType(2, RENEWAL, softly);
+		verifyTransactionHistoryType(3, RENEWAL, softly);
+		selectTransactionType(1, true);
+		selectTransactionType(2, true);
 		PolicySummaryPage.buttonCompare.click();
 
-		checkComparisonPage(tdVersion1, tdVersion2, checkedComponents, tabName, sectionName);
+		checkComparisonPage(tdVersion1, tdVersion2, expectedSectionsAndUIFields, tabName, sectionName, softly);
+
+		softly.close();
+	}
+
+	private void renewalVersionCreation(TestData tdVersion) {
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		policy.getDefaultView().fill(tdVersion);
 	}
 
 	/**
-	 * Mid-term endorsement transaction effectice date + 20 days
+	 * Mid-term endorsement transaction effective date + 20 days
 	 * @param td test data that is used for endorsement transaction
 	 */
-	public void processPlus20DaysEndorsement(TestData td) {
+	private void processPlus20DaysEndorsement(TestData td) {
 		TestData endorsementTD = td.adjust(getTestSpecificTD("TestData_Plus20Days"));
 		policy.endorse().performAndFill(endorsementTD);
 	}
 
 	/**
-	 * Mid-term endorsement transaction effectice date + 25 days
+	 * Mid-term endorsement transaction effective date + 25 days
 	 * @param td test data that is used for endorsement transaction
 	 */
-	public void processPlus25DaysEndorsement(TestData td) {
+	private void processPlus25DaysEndorsement(TestData td) {
 		TestData endorsementTD = td.adjust(getTestSpecificTD("TestData_Plus25Days"));
 		policy.endorse().performAndFill(endorsementTD);
 	}
@@ -215,104 +227,102 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	}
 
 	/**
-	 * Compare actual result for components/attributes/values from comparison screen with expected result taken from Test Data + predefinedExpectedValues (fields that are not in Test Data)
+	 * Compare actual result for sections/UI fields from section/values of fields from comparison screen with expected result taken from Test Data + predefinedExpectedValues (fields that are not in Test Data)
 	 * @param tdVersion1 test data that is used for version1 transaction (data gather, endorsement or renewal)
 	 * @param tdVersion2 test data that is used for version2 transaction (data gather, endorsement or renewal)
-	 * @param expectedComponentsAttributes list of components/attributes that should be displayed on Comparison page for section
+	 * @param expectedSectionsAndUIFields list of sections/UI fields from section that should be displayed on Comparison page
 	 * @param tabName name of tab where section is located
 	 * @param sectionName section name that is under verification
 	 */
-	void checkComparisonPage(TestData tdVersion1, TestData tdVersion2, Multimap expectedComponentsAttributes, String tabName, String sectionName) {
-		ArrayListMultimap<String, String> expectedAttributesValuesV1 = createExpectedResultFromTD(tdVersion1, tabName, sectionName);
-		ArrayListMultimap<String, String> expectedAttributesValuesV2 = createExpectedResultFromTD(tdVersion2, tabName, sectionName);
+	private void checkComparisonPage(TestData tdVersion1, TestData tdVersion2, Multimap<String, String> expectedSectionsAndUIFields, String tabName, String sectionName, ETCSCoreSoftAssertions softly) {
+		ListMultimap<String, String> expectedUIFieldsAndValuesV1 = createExpectedResultFromTD(tdVersion1, tabName, sectionName);
+		ListMultimap<String, String> expectedUIFieldsAndValuesV2 = createExpectedResultFromTD(tdVersion2, tabName, sectionName);
 
-		ArrayListMultimap<String, String> actualComponentsAttributes = ArrayListMultimap.create();
-		ArrayListMultimap<String, String> actualAttributesValuesV1 = ArrayListMultimap.create();
-		ArrayListMultimap<String, String> actualAttributesValuesV2 = ArrayListMultimap.create();
-		fillActualResults(actualComponentsAttributes, actualAttributesValuesV1, actualAttributesValuesV2);
-		verificationComparisonPage(expectedComponentsAttributes, expectedAttributesValuesV1, actualComponentsAttributes, actualAttributesValuesV1, 1); //version1
-		verificationComparisonPage(expectedComponentsAttributes, expectedAttributesValuesV2, actualComponentsAttributes, actualAttributesValuesV2, 0); //version2
+		ArrayListMultimap<String, String> actualSectionsAndUIFields = ArrayListMultimap.create();
+		ArrayListMultimap<String, String> actualUIFieldsAndValuesV1 = ArrayListMultimap.create();
+		ArrayListMultimap<String, String> actualUIFieldsAndValuesV2 = ArrayListMultimap.create();
+		gatherActualResults(actualSectionsAndUIFields, actualUIFieldsAndValuesV1, actualUIFieldsAndValuesV2);
+		verificationComparisonPage(expectedSectionsAndUIFields, expectedUIFieldsAndValuesV1, actualSectionsAndUIFields, actualUIFieldsAndValuesV1, 1, softly); //version1
+		verificationComparisonPage(expectedSectionsAndUIFields, expectedUIFieldsAndValuesV2, actualSectionsAndUIFields, actualUIFieldsAndValuesV2, 0, softly); //version2
 	}
 
 	/**
 	 * Creation of expected result for section based on Test Data, tab name and section name
-	 * @param td test data name based on what we tok our expected results for attributes
+	 * @param td test data name based on what we took our expected results for UI fields
 	 * @param tabName name of tab where section is located
 	 * @param sectionName section name that is under verification
-	 * @return list of expected attributes and according values
+	 * @return list of expected UI fields and according values
 	 */
-	ArrayListMultimap<String, String> createExpectedResultFromTD(TestData td, String tabName, String sectionName) {
-		ArrayListMultimap<String, String> expectedAttributesValues = ArrayListMultimap.create();
+	private ListMultimap<String, String> createExpectedResultFromTD(TestData td, String tabName, String sectionName) {
+		ListMultimap<String, String> expectedUIFieldsAndValues = MultimapBuilder.hashKeys().arrayListValues().build();
 		List<TestData> testData = td.getTestData(tabName).getTestDataList(sectionName);
-		TestData attributes = testData.isEmpty() ? td.getTestData(tabName) : testData.get(0);
-		for (String key : attributes.getKeys()) {
+		TestData uiFields = testData.isEmpty() ? td.getTestData(tabName) : testData.get(0);
+		for (String key : uiFields.getKeys()) {
 			if (!excludedTDKeys.contains(key)) {
-				String value = attributes.getValue(key);
+				String value = uiFields.getValue(key);
 				String valueOnComparisonPage = getComparisonPageDifferentValues().getOrDefault(value, value);
-				expectedAttributesValues.put(key, valueOnComparisonPage);
+				expectedUIFieldsAndValues.put(key, valueOnComparisonPage);
 			}
 		}
-		return expectedAttributesValues;
+		return expectedUIFieldsAndValues;
 	}
 
 	/**
-	 * Verification of expected list of components/attributes and attributes/values
-	 * @param expectedComponentsAttributes expected list of components(sections name)/attributes(fields in section)
-	 * @param expectedAttributesValues expected list of attributes(fields in section)/values
-	 * @param actualComponentsAttributes actual list of components(sections name)/attributes(fields in section)
-	 * @param actualAttributesValues actual list of attributes(fields in section)/values
+	 * Verification of expected list of sections/UI fields and UI fields/values
+	 * @param expectedSectionsAndUIFields expected list of sections/UI fields from section
+	 * @param expectedUIFieldsAndValues expected list of UI fields from section/values
+	 * @param actualSectionsAndUIFields actual list of sections/UI fields from section
+	 * @param actualUIFieldsAndValues actual list of UI fields from section/values
 	 * @param version version that is under verification (current/available)
 	 */
-	private void verificationComparisonPage(Multimap<String, String> expectedComponentsAttributes, ArrayListMultimap<String, String> expectedAttributesValues,
-			Multimap<String, String> actualComponentsAttributes, ArrayListMultimap<String, String> actualAttributesValues, int version) {
-		assertSoftly(softly -> {
-			softly.assertThat(actualComponentsAttributes.keySet().size()).isEqualTo(expectedComponentsAttributes.keySet().size());
-			for (String componentName : expectedComponentsAttributes.keySet()) {
-				softly.assertThat(actualComponentsAttributes.get(componentName)).isNotNull();
-				softly.assertThat(actualComponentsAttributes.get(componentName)).isEqualTo(expectedComponentsAttributes.get(componentName));
-			}
-		});
-		for (String attributePath : actualAttributesValues.keySet()) {
-			List<String> attributes = getAttributesToTDMapping().get(attributePath);
-			if (CollectionUtils.isEmpty(attributes)) {
-				List<String> expectedValues = getPredefinedExpectedValues().get(attributePath);
-				assertThat(expectedValues.isEmpty()).as("Attribute path {0} not found in TestData or predefined values.", attributePath).isFalse();
-				// if no attributes prefilled from testdata then look into predefined
+	private void verificationComparisonPage(Multimap<String, String> expectedSectionsAndUIFields, ListMultimap<String, String> expectedUIFieldsAndValues,
+			Multimap<String, String> actualSectionsAndUIFields, ArrayListMultimap<String, String> actualUIFieldsAndValues, int version, ETCSCoreSoftAssertions softly) {
+		softly.assertThat(actualSectionsAndUIFields.keySet().size()).isEqualTo(expectedSectionsAndUIFields.keySet().size());
+		for (String sectionName : expectedSectionsAndUIFields.keySet()) {
+			softly.assertThat(actualSectionsAndUIFields.get(sectionName)).isNotNull();
+			softly.assertThat(actualSectionsAndUIFields.get(sectionName)).isEqualTo(expectedSectionsAndUIFields.get(sectionName));
+		}
+		for (String uiFieldsPath : actualUIFieldsAndValues.keySet()) {
+			List<String> uiFields = getUIFieldsToTDMapping().get(uiFieldsPath);
+			if (CollectionUtils.isEmpty(uiFields)) {
+				List<String> expectedValues = getPredefinedExpectedValues().get(uiFieldsPath);
+				softly.assertThat(expectedValues.isEmpty()).as("UI field path {0} not found in TestData or predefined values.", uiFieldsPath).isFalse();
+				// if no ui fields prefilled from testdata then look into predefined
 				String expectedValue = expectedValues.get(version);
-				assertThat(expectedValue).isNotNull().as("Expected values for attribute path {0} not found in TestData or predefined values.", attributePath);
-				// only unique attribute key is supported for now
-				assertThat(actualAttributesValues.get(attributePath).get(0)).as("Problem in " + attributePath).isEqualTo(expectedValue);
+				softly.assertThat(expectedValue).isNotNull().as("Expected values for ui field path {0} not found in TestData or predefined values.", uiFieldsPath);
+				// only unique ui field key is supported for now
+				softly.assertThat(actualUIFieldsAndValues.get(uiFieldsPath).get(0)).as("Problem in " + uiFieldsPath).isEqualTo(expectedValue);
 			} else {
-				for (int attrPos = 0; attrPos < attributes.size(); attrPos++) {
-					String expectedValueFromTD = expectedAttributesValues.get(attributes.get(attrPos)).get(0);
+				for (int uiFieldPos = 0; uiFieldPos < uiFields.size(); uiFieldPos++) {
+					String expectedValueFromTD = expectedUIFieldsAndValues.get(uiFields.get(uiFieldPos)).get(0);
 					String expectedValue;
 					if (expectedValueFromTD == null) {
-						expectedValue = getPredefinedExpectedValues().get(attributePath).get(version);
+						expectedValue = getPredefinedExpectedValues().get(uiFieldsPath).get(version);
 					} else {
 						expectedValue = expectedValueFromTD;
 					}
-					assertThat(actualAttributesValues.get(attributePath).get(attrPos)).as("Problem in " + attributePath).isEqualTo(expectedValue);
+					softly.assertThat(actualUIFieldsAndValues.get(uiFieldsPath).get(uiFieldPos)).as("Problem in " + uiFieldsPath).isEqualTo(expectedValue);
 				}
 			}
 		}
 	}
 
 	/**
-	 * Creation of actual result  (components/attributes/values) from Comparison screen
-	 * @param actualComponentsAttributes actual list of components/attributes
-	 * @param actualAttributesValuesV1 actual list of attributes/values for version1
-	 * @param actualAttributesValuesV2 actual list of attributes/values for version2
+	 * Creation of actual result  (sections/UI fields from section/values) from Comparison screen
+	 * @param actualSectionsAndUIFields actual list of sections/UI fields from section
+	 * @param actualUIFieldsAndValuesV1 actual list of UI fields from section/values for version1
+	 * @param actualUIFieldsAndValuesV2 actual list of UI fields from section/values for version2
 	 */
-	private void fillActualResults(Multimap<String, String> actualComponentsAttributes, ArrayListMultimap<String, String> actualAttributesValuesV1,
-			ArrayListMultimap<String, String> actualAttributesValuesV2) {
-		for (int componentNumber = 0; ; componentNumber++) {
-			StaticElement componentText = PolicySummaryPage.TransactionHistory.provideLinkTextComparisonTree(componentNumber);
-			if (componentText.isPresent()) {
-				String componentName = componentText.getValue();
-				List<String> attributes = parseAttributesForComponent(componentNumber);
-				actualComponentsAttributes.putAll(componentName, attributes);
-				actualAttributesValuesV1.putAll(parseAttributesValuesForComponent(componentNumber, componentName, attributes, 3));
-				actualAttributesValuesV2.putAll(parseAttributesValuesForComponent(componentNumber, componentName, attributes, 2));
+	private void gatherActualResults(Multimap<String, String> actualSectionsAndUIFields, ArrayListMultimap<String, String> actualUIFieldsAndValuesV1,
+			ArrayListMultimap<String, String> actualUIFieldsAndValuesV2) {
+		for (int sectionNumber = 0; ; sectionNumber++) {
+			StaticElement sectionText = PolicySummaryPage.TransactionHistory.provideLinkTextComparisonTree(sectionNumber);
+			if (sectionText.isPresent()) {
+				String sectionName = sectionText.getValue();
+				List<String> uiFields = parseUIFieldsForSection(sectionNumber);
+				actualSectionsAndUIFields.putAll(sectionName, uiFields);
+				actualUIFieldsAndValuesV1.putAll(parseUIFieldsAndValuesForSection(sectionNumber, sectionName, uiFields, 3));
+				actualUIFieldsAndValuesV2.putAll(parseUIFieldsAndValuesForSection(sectionNumber, sectionName, uiFields, 2));
 			} else {
 				break;
 			}
@@ -320,121 +330,122 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	}
 
 	/**
-	 * Getting actual list of values for component/attribute
-	 * @param componentNumber number of component
-	 * @param componentName name of component
-	 * @param attributes list of attributes belong to component
+	 * Getting actual list of values for sections/UI fields
+	 * @param sectionNumber number of section
+	 * @param sectionName name of section
+	 * @param uiFields list of UI fields belong to section
 	 * @param column version that is checked (current/available)
-	 * @return values for component/attribute
+	 * @return values for sections/UI fields
 	 */
-	private Multimap<String, String> parseAttributesValuesForComponent(int componentNumber, String componentName, List<String> attributes, int column) {
+	private Multimap<String, String> parseUIFieldsAndValuesForSection(int sectionNumber, String sectionName, List<String> uiFields, int column) {
 		Multimap<String, String> comparisonValues = ArrayListMultimap.create();
-		for (int attributeNumber = 0; attributeNumber < attributes.size(); attributeNumber++) {
-			StaticElement columnValue = PolicySummaryPage.TransactionHistory.provideValueExpandComparisonTree(componentNumber, attributeNumber, column);
+		for (int uiFieldNumber = 0; uiFieldNumber < uiFields.size(); uiFieldNumber++) {
+			StaticElement columnValue = PolicySummaryPage.TransactionHistory.provideValueExpandComparisonTree(sectionNumber, uiFieldNumber, column);
 			if (columnValue.isPresent()) {
-				comparisonValues.put(buildAttributePath(componentName, attributes.get(attributeNumber)), columnValue.getValue());
+				comparisonValues.put(buildUIFieldPath(sectionName, uiFields.get(uiFieldNumber)), columnValue.getValue());
 			} else {
-				comparisonValues.put(buildAttributePath(componentName, attributes.get(attributeNumber)), StringUtils.EMPTY);
+				comparisonValues.put(buildUIFieldPath(sectionName, uiFields.get(uiFieldNumber)), StringUtils.EMPTY);
 			}
 		}
 		return comparisonValues;
 	}
 
 	/**
-	 * Getting actual list of attributes for a component
-	 * @param componentNumber number of component
-	 * @return list of attributes
+	 * Getting actual list of UI fields for a section
+	 * @param sectionNumber number of section
+	 * @return list of UI fields
 	 */
-	private List<String> parseAttributesForComponent(int componentNumber) {
-		List attributes = new ArrayList();
-		PolicySummaryPage.TransactionHistory.provideLinkExpandComparisonTree(componentNumber).click();
-		for (int attributeNumber = 0; ; attributeNumber++) {
-			StaticElement attributeElement = PolicySummaryPage.TransactionHistory.provideAtributeExpandComparisonTree(componentNumber, attributeNumber);
-			if (attributeElement.isPresent()) {
-				attributes.add(attributeElement.getValue());
+	private List<String> parseUIFieldsForSection(int sectionNumber) {
+		List<String> uiFields = new ArrayList<>();
+		PolicySummaryPage.TransactionHistory.provideLinkExpandComparisonTree(sectionNumber).click();
+		for (int uiFieldNumber = 0; ; uiFieldNumber++) {
+			StaticElement uiFieldElement = PolicySummaryPage.TransactionHistory.provideAtributeExpandComparisonTree(sectionNumber, uiFieldNumber);
+			if (uiFieldElement.isPresent()) {
+				uiFields.add(uiFieldElement.getValue());
 			} else {
 				break;
 			}
 		}
-		return attributes;
+		return uiFields;
 	}
 
 	/**
-	 * Creating component.attribute for storing value
-	 * @param componentName component
-	 * @param value attribute name
-	 * @return component.attribute
+	 * Creating Section.UIField for storing value
+	 * @param sectionName section
+	 * @param value UI field name
+	 * @return Section.UIField
 	 */
-	private String buildAttributePath(String componentName, String value) {
-		return componentName + COMPONENT_ATTRIBUTE_SEPARATOR + value;
+	private String buildUIFieldPath(String sectionName, String value) {
+		return sectionName + SECTION_UIFIELD_SEPARATOR + value;
 	}
-
 
 	//Conflict functionality
 
 	/**
 	 * Verification of comparison screen after conflict resolution for oose and rolled on transactions,  endorsement and rolled on transaction. Verification content of Conflict screen.
-	 * @param state state code
 	 * @param tdVersion1 test data that is used for endorsement transaction
 	 * @param tdVersion2 test data that is used for oose transaction
 	 * @param conflictLinks what version(current/available) we chose on conflict page
-	 * @param checkedComponentsOOSE expected list of components/attributes on comparison for oose and rolled on transactions
-	 * @param checkedComponentsEndorsement expected list of components/attributes on comparison for endorsement and rolled on transactions
+	 * @param expectedSectionsAndUIFieldsOOSE expected list of sections/UI fields for section on comparison for oose and rolled on transactions
+	 * @param expectedSectionsAndUIFieldsEndorsement expected list of sections/UI fields for section on comparison for endorsement and rolled on transactions
 	 * @param tabName name of tab where section is located
 	 * @param sectionName section name that is under verification
 	 * @param isAutomatic what kind of conflict we are doing automatic = true, manual = false
 	 */
-	public void ooseConflict(String state, TestData tdVersion1, TestData tdVersion2,  ArrayListMultimap<String, String> conflictLinks, Multimap checkedComponentsOOSE,  Multimap checkedComponentsEndorsement, String tabName, String sectionName, Boolean isAutomatic ) {
+	protected void ooseConflict(TestData tdVersion1, TestData tdVersion2, ArrayListMultimap<String, String> conflictLinks, Multimap<String, String> expectedSectionsAndUIFieldsOOSE,
+			Multimap<String, String> expectedSectionsAndUIFieldsEndorsement, String tabName, String sectionName, Boolean isAutomatic) {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(getTestSpecificTD("TestData_NB_Policy"));
 		processPlus20DaysEndorsement(tdVersion1);
 		processPlus10DaysOOSEndorsement(tdVersion2);
 		policy.rollOn().openConflictPage(isAutomatic);
-		resolveConflict(conflictLinks);
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		resolveConflict(conflictLinks, softly);
 		policy.rollOn().submit();
 
-
 		PolicySummaryPage.buttonTransactionHistory.click();
-		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(2).verify.value(ProductConstants.TransactionHistoryType.ROLLED_ON_ENORSEMENT);
-		PolicySummaryPage.tableTransactionHistory.getRow(2).getCell(2).verify.value(ProductConstants.TransactionHistoryType.OOS_ENDORSEMENT);
-		PolicySummaryPage.tableTransactionHistory.getRow(3).getCell(2).verify.value(ProductConstants.TransactionHistoryType.BACKED_OFF_ENDORSEMENT);
-		PolicySummaryPage.tableTransactionHistory.getRow(4).getCell(2).verify.value(ProductConstants.TransactionHistoryType.ISSUE);
+		verifyTransactionHistoryType(1, ROLLED_ON_ENORSEMENT, softly);
+		verifyTransactionHistoryType(2, OOS_ENDORSEMENT, softly);
+		verifyTransactionHistoryType(3, BACKED_OFF_ENDORSEMENT, softly);
+		verifyTransactionHistoryType(4, ISSUE, softly);
 
-		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(1).controls.checkBoxes.get(1).setValue(true);
-		PolicySummaryPage.tableTransactionHistory.getRow(2).getCell(1).controls.checkBoxes.get(1).setValue(true);
+		selectTransactionType(1, true);
+		selectTransactionType(2, true);
 		PolicySummaryPage.buttonCompareVersions.click();
-		checkComparisonPage(tdVersion2, tdVersion1, checkedComponentsOOSE, tabName, sectionName);
+		checkComparisonPage(tdVersion2, tdVersion1, expectedSectionsAndUIFieldsOOSE, tabName, sectionName, softly);
 		Tab.buttonCancel.click();
 
-		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(1).controls.checkBoxes.get(1).setValue(true);
-		PolicySummaryPage.tableTransactionHistory.getRow(2).getCell(1).controls.checkBoxes.get(1).setValue(false);
-		PolicySummaryPage.tableTransactionHistory.getRow(3).getCell(1).controls.checkBoxes.get(1).setValue(true);
+		selectTransactionType(1, true);
+		selectTransactionType(2, false);
+		selectTransactionType(3, true);
 		PolicySummaryPage.buttonCompareVersions.click();
-		checkComparisonPage(tdVersion1, tdVersion2, checkedComponentsEndorsement, tabName, sectionName);
+		checkComparisonPage(tdVersion1, tdVersion2, expectedSectionsAndUIFieldsEndorsement, tabName, sectionName, softly);
 		Tab.buttonCancel.click();
+
+		softly.close();
 	}
 
 	/**
 	 * OOS endorsement transaction effective date + 10 days
 	 * @param td test data that is used for endorsement transaction
 	 */
-	public void processPlus10DaysOOSEndorsement(TestData td) {
+	private void processPlus10DaysOOSEndorsement(TestData td) {
 		TestData endorsementTD = td.adjust(getTestSpecificTD("TestData_Plus10Days"));
 		policy.endorse().performAndFill(endorsementTD);
 	}
 
 	/**
 	 * Verification of comparison screen after Renewal Merge for renewal and rolled on transactions. Verification content of Conflict screen during Renewal Merge.
-	 * @param state state code
 	 * @param tdVersion1 test data that is used for renewal transaction
 	 * @param tdVersion2 test data that is used for oose transaction
 	 * @param conflictLinks what version(current/available) we chose on conflict page
-	 * @param checkedComponentsRenewal expected list of components/attributes on comparison for renewal and rolled on transactions
+	 * @param expectedSectionsAndUIFieldsRenewal expected list of sections/UI fields on comparison for renewal and rolled on transactions
 	 * @param tabName name of tab where section is located
 	 * @param sectionName section name that is under verification
 	 */
-	public void renewalMerge(String state, TestData tdVersion1, TestData tdVersion2,  ArrayListMultimap<String, String> conflictLinks, Multimap checkedComponentsRenewal, String tabName, String sectionName) {
+	protected void renewalMerge(TestData tdVersion1, TestData tdVersion2, ArrayListMultimap<String, String> conflictLinks, Multimap<String, String> expectedSectionsAndUIFieldsRenewal, String tabName,
+			String sectionName) {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(getTestSpecificTD("TestData_NB_Policy"));
@@ -443,9 +454,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		processRenewalGenerationJob(expirationDate);
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.buttonRenewals.click();
-		policy.dataGather().start();
-		policy.getDefaultView().fill(tdVersion1);
+		renewalVersionCreation(tdVersion1);
 		processMinus1MonthEndorsement(tdVersion2);
 		//Todo solve this issue with error for effective date
 		if (errorTab.isVisible()) {
@@ -453,97 +462,98 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			errorTab.submitTab();
 		}
 
-		resolveConflict(conflictLinks);
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		resolveConflict(conflictLinks, softly);
 		policy.rollOn().submit();
 		PolicySummaryPage.buttonRenewalQuoteVersion.click();
-		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(2).verify.value(ProductConstants.TransactionHistoryType.RENEWAL);
-		PolicySummaryPage.tableTransactionHistory.getRow(2).getCell(2).verify.value(ProductConstants.TransactionHistoryType.RENEWAL);
-		PolicySummaryPage.tableTransactionHistory.getRow(3).getCell(2).verify.value(ProductConstants.TransactionHistoryType.RENEWAL);
+		verifyTransactionHistoryType(1, RENEWAL, softly);
+		verifyTransactionHistoryType(2, RENEWAL, softly);
+		verifyTransactionHistoryType(3, RENEWAL, softly);
 
-		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(1).controls.checkBoxes.get(1).setValue(true);
-		PolicySummaryPage.tableTransactionHistory.getRow(2).getCell(1).controls.checkBoxes.get(1).setValue(true);
+		selectTransactionType(1, true);
+		selectTransactionType(2, true);
 		PolicySummaryPage.buttonCompare.click();
-		checkComparisonPage(tdVersion2, tdVersion1, checkedComponentsRenewal, tabName, sectionName);
+
+		checkComparisonPage(tdVersion2, tdVersion1, expectedSectionsAndUIFieldsRenewal, tabName, sectionName, softly);
 		Tab.buttonCancel.click();
+
+		softly.close();
 	}
 
 	/**
 	 * OOS endorsement transaction current date date - 1 month
 	 * @param td test data that is used for endorsement transaction
 	 */
-	public void processMinus1MonthEndorsement(TestData td) {
+	private void processMinus1MonthEndorsement(TestData td) {
 		TestData endorsementTD = td.adjust(getTestSpecificTD("TestData_Minus1Month"));
 		policy.endorse().performAndFill(endorsementTD);
 	}
 
 	/**
-	 * For each attribute we select current or available version
+	 * For each UI field we select current or available version
 	 * @param conflictLinks what version(current/available) we chose on conflict page
 	 */
-	private void resolveConflict(ArrayListMultimap<String, String> conflictLinks) {
-		Multiset<String> attributesPath = conflictLinks.keys();
-		List<String> presentedComponentOnConflictPage = new ArrayList<>();
-		for (int componentNumber = 0; ; componentNumber++) {
-			StaticElement componentText = PolicySummaryPage.TransactionHistory.provideLinkTextComparisonTree(componentNumber);
-			if (componentText.isPresent()) {
-				String componentName = componentText.getValue();
-				if (attributesPath.stream().anyMatch(attributePath -> attributePath.startsWith(componentName))) {
-					selectAttributesVersioins(componentName, componentNumber, conflictLinks);
+	private void resolveConflict(ArrayListMultimap<String, String> conflictLinks, ETCSCoreSoftAssertions softly) {
+		Multiset<String> uiFieldPath = conflictLinks.keys();
+		List<String> presentedSectionOnConflictPage = new ArrayList<>();
+		for (int sectionNumber = 0; ; sectionNumber++) {
+			StaticElement sectionText = PolicySummaryPage.TransactionHistory.provideLinkTextComparisonTree(sectionNumber);
+			if (sectionText.isPresent()) {
+				String sectionName = sectionText.getValue();
+				if (uiFieldPath.stream().anyMatch(uiFieldsPath -> uiFieldsPath.startsWith(sectionName))) {
+					selectUIFieldsVersions(sectionName, sectionNumber, conflictLinks, softly);
 				}
-				presentedComponentOnConflictPage.add(componentName);
+				presentedSectionOnConflictPage.add(sectionName);
 			} else {
 				break;
 			}
 		}
-		allComponentPresentedOnConflictPage(presentedComponentOnConflictPage, conflictLinks.keySet());
+		allSectionsPresentedOnConflictPage(presentedSectionOnConflictPage, conflictLinks.keySet(), softly);
 	}
 
 	/**
-	 * Verify that all components are present
-	 * @param presentedComponentOnConflictPage actual list of components
-	 * @param attributesPaths expected list of components
+	 * Verify that all sections are present
+	 * @param presentedSectionOnConflictPage actual list of sections
+	 * @param uiFieldsPaths expected list of sections
 	 */
-	private void allComponentPresentedOnConflictPage(List<String> presentedComponentOnConflictPage, Set<String> attributesPaths) {
-		assertSoftly(softly -> {
-			for (String componentName : presentedComponentOnConflictPage) {
-				softly.assertThat(attributesPaths.stream()
-						.anyMatch(attributePath -> attributePath.startsWith(buildAttributePath(componentName, StringUtils.EMPTY))))
-						.as("Component " + componentName + " not present in attributes configuration.")
-						.isTrue();
-			}
-		});
+	private void allSectionsPresentedOnConflictPage(List<String> presentedSectionOnConflictPage, Set<String> uiFieldsPaths, ETCSCoreSoftAssertions softly) {
+		for (String sectionName : presentedSectionOnConflictPage) {
+			softly.assertThat(uiFieldsPaths.stream()
+					.anyMatch(uiFieldPath -> uiFieldPath.startsWith(buildUIFieldPath(sectionName, StringUtils.EMPTY))))
+					.as("Section " + sectionName + " not present in UI fields configuration.")
+					.isTrue();
+		}
 	}
 
 	/**
 	 * Resolve all conflicts based on current or available selection
-	 * @param componentName name of the component
-	 * @param componentNumber number of the components on conflict page
+	 * @param sectionName name of the section
+	 * @param sectionNumber number of the sections on conflict page
 	 * @param conflictLinks what version(current/available) we chose on conflict page
 	 */
-	private void selectAttributesVersioins(String componentName, int componentNumber, ArrayListMultimap<String, String> conflictLinks) {
-		PolicySummaryPage.TransactionHistory.provideLinkExpandComparisonTree(componentNumber).click();
-		List<String> attributesPathList = conflictLinks.keys().stream()
-				.filter(attributePath -> attributePath.startsWith(componentName + COMPONENT_ATTRIBUTE_SEPARATOR))
+	private void selectUIFieldsVersions(String sectionName, int sectionNumber, ArrayListMultimap<String, String> conflictLinks, ETCSCoreSoftAssertions softly) {
+		PolicySummaryPage.TransactionHistory.provideLinkExpandComparisonTree(sectionNumber).click();
+		List<String>uiFieldsPathList = conflictLinks.keys().stream()
+				.filter(uiFieldsPath -> uiFieldsPath.startsWith(sectionName + SECTION_UIFIELD_SEPARATOR))
 				.collect(Collectors.toList());
-		long expectedResolvedAttributeConflicts = conflictLinks.keys().stream()
-				.filter(path -> path.startsWith(componentName))
+		long expectedResolvedUIFieldsConflicts = conflictLinks.keys().stream()
+				.filter(path -> path.startsWith(sectionName))
 				.count();
-		int actualResolvedAttributeConflicts = 0;
-		Table tableDifferences = new Table(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']/table"));
+		int actualResolvedUIFieldsConflicts = 0;
 		if (tableDifferences.isPresent()) {
 			int columnsCount = tableDifferences.getColumnsCount();
 
-			for (int attributeNumber = 0; ; attributeNumber++) {
-				StaticElement attributeElement = PolicySummaryPage.TransactionHistory.provideAtributeExpandComparisonTree(componentNumber, attributeNumber);
-				if (attributeElement.isPresent()) {
-					String attributePath = buildAttributePath(componentName, attributeElement.getValue());
-					if (attributesPathList.contains(attributePath)) {
-						List<String> versionsLinkValues = conflictLinks.get(attributePath);
-						for (int attributeWithSameNameNumber = 0; attributeWithSameNameNumber < versionsLinkValues.size(); attributeWithSameNameNumber++) {
-							String versionLinkValue = versionsLinkValues.get(attributeWithSameNameNumber);
-							int attributePosition = attributeNumber + attributeWithSameNameNumber;
-							if (pressVersionLink(tableDifferences, attributePosition, columnsCount, versionLinkValue, componentName)) {
-								actualResolvedAttributeConflicts++;
+			for (int uiFieldNumber = 0; ; uiFieldNumber++) {
+				StaticElement uiFieldElement = PolicySummaryPage.TransactionHistory.provideAtributeExpandComparisonTree(sectionNumber, uiFieldNumber);
+				if (uiFieldElement.isPresent()) {
+					String uiFieldPath = buildUIFieldPath(sectionName, uiFieldElement.getValue());
+					if (uiFieldsPathList.contains(uiFieldPath)) {
+						List<String> versionsLinkValues = conflictLinks.get(uiFieldPath);
+						for (int uiFieldsWithSameNameNumber = 0; uiFieldsWithSameNameNumber < versionsLinkValues.size(); uiFieldsWithSameNameNumber++) {
+							String versionLinkValue = versionsLinkValues.get(uiFieldsWithSameNameNumber);
+							int uiFieldPosition = uiFieldNumber + uiFieldsWithSameNameNumber;
+							if (pressVersionLink(uiFieldPosition, columnsCount, versionLinkValue, sectionName)) {
+								actualResolvedUIFieldsConflicts++;
 							}
 						}
 					}
@@ -552,20 +562,19 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 				}
 			}
 		}
-		assertThat(actualResolvedAttributeConflicts).as("Invalid resolved attributes number for {0}.", componentName).isEqualTo((int)expectedResolvedAttributeConflicts);
+		softly.assertThat(actualResolvedUIFieldsConflicts).as("Invalid resolved UI field number for {0}.", sectionName).isEqualTo((int) expectedResolvedUIFieldsConflicts);
 
 	}
 
 	/**
 	 * Select needed version (current or available)
-	 * @param tableDifferences table for conflict selection
-	 * @param attributeRow row for the attribute
-	 * @param columnsCount last column for select version
+	 * @param uiFieldRow row for the UI field
+	 * @param columnCount last column for select version
 	 * @param versionValue version value current/available
-	 * @param componentName name of the component (section name)
+	 * @param sectionName name of the section
 	 * @return boolean value based on press or not link
 	 */
-	private boolean pressVersionLink(Table tableDifferences, int attributeRow, int columnsCount, String versionValue, String componentName) {
+	private boolean pressVersionLink(int uiFieldRow, int columnCount, String versionValue, String sectionName) {
 		Link linkSetValue;
 		int versionPosition;
 		switch (versionValue) {
@@ -580,8 +589,8 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			default:
 				throw new InvalidArgumentException("Unknown conflict version");
 		}
-		int componentRowIndex = tableDifferences.getRow(COMPONENT_NAME_ROW_INDEX, componentName).getIndex();
-		linkSetValue = tableDifferences.getRow(componentRowIndex + attributeRow + 1).getCell(columnsCount).controls.links.get(
+		int sectionRowIndex = tableDifferences.getRow(SECTION_NAME_ROW_INDEX, sectionName).getIndex();
+		linkSetValue = tableDifferences.getRow(sectionRowIndex + uiFieldRow + 1).getCell(columnCount).controls.links.get(
 				versionPosition);
 		if (linkSetValue.isPresent() && linkSetValue.isVisible()) {
 			linkSetValue.click();
@@ -589,6 +598,5 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		}
 		return false;
 	}
-
 
 }

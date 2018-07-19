@@ -6,8 +6,8 @@ import com.google.common.collect.Multimap;
 
 public class TestVersionsConflictConstants {
 
-	public static final String AVAILABLE = "Available";
-	public static final String CURRENT = "Current";
+	private static final String AVAILABLE = "Available";
+	private static final String CURRENT = "Current";
 
 	/**
 	 *  Maps full attribute path on conflict page to version to select (Current, Available).
@@ -141,7 +141,7 @@ public class TestVersionsConflictConstants {
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
-	static final Multimap<String, String> attributesToTDMapping = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> uiFieldsToTDMapping = ImmutableListMultimap.<String, String>builder()
 			//Named Insured Information section (all other fields are mapped from MultiMap predefinedExpectedValues)
 			//TODO should be deleted when Report tab is fixed
 			.put("Driver Information (V1FirstName V1 V1LastName).First Name", "First Name")

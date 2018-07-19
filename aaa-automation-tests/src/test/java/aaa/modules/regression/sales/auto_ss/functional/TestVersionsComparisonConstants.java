@@ -56,7 +56,7 @@ public class TestVersionsComparisonConstants {
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
-	static final Multimap<String, String> attributesToTDMapping = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> uiFieldsToTDMapping = ImmutableListMultimap.<String, String>builder()
 			//Named Insured Information section (all other fields are mapped from MultiMap predefinedExpectedValues)
 			//TODO should be deleted when Report tab is fixed
 			.put("Driver Information (V1FirstName V1 V1LastName).First Name", "First Name")

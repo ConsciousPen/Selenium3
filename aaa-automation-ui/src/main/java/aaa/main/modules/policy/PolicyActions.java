@@ -2,6 +2,7 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.modules.policy;
 
+import static aaa.main.pages.summary.PolicySummaryPage.tableDifferences;
 import org.openqa.selenium.By;
 import aaa.common.AbstractAction;
 import aaa.common.Tab;
@@ -493,7 +494,6 @@ public final class PolicyActions {
 			int rowsCount;
 			int columnsCount;
 
-			Table tableDifferences = new Table(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']/table"));
 			if (tableDifferences.isPresent()) {
 				rowsCount = tableDifferences.getRowsCount();
 				columnsCount = tableDifferences.getColumnsCount();

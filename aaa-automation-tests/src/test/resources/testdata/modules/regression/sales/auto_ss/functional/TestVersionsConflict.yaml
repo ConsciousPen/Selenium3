@@ -78,28 +78,12 @@ TestData_NamedInsuredInformation_Version1: {
   GeneralTab: {
     NamedInsuredInformation: ['@NamedInsuredInformation_Version1']
   },
-  DriverTab: {},
-  RatingDetailReportsTab: {},
-  VehicleTab: {},
-  AssignmentTab: {},
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {},
 }
 
 TestData_NamedInsuredInformation_Version2: {
   GeneralTab: {
     NamedInsuredInformation: ['@NamedInsuredInformation_Version2']
   },
-  DriverTab: {},
-  RatingDetailReportsTab: {},
-  VehicleTab: {},
-  AssignmentTab: {},
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {},
 }
 
 NamedInsuredInformation: {
@@ -213,27 +197,11 @@ NamedInsuredInformation_Version2: {
 #Vehicle Tab - Vehicle Information section
 
 TestData_VehicleInformation_Version1: {
-  GeneralTab: {},
-  DriverTab: {},
-  RatingDetailReportsTab: {},
   VehicleTab: '@VehicleInformation_Version1',
-  AssignmentTab: {},
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {},
 }
 
 TestData_VehicleInformation_Version2: {
-  GeneralTab: {},
-  DriverTab: {},
-  RatingDetailReportsTab: {},
   VehicleTab: '@VehicleInformation_Version2',
-  AssignmentTab: {},
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {},
 }
 
 VehicleInformation: {
@@ -313,8 +281,6 @@ RatingDetailReportsTab: {
   Customer Agreement: Customer Agrees,
   Sales Agent Agreement: I Agree,
   Order Report: click,
-  AAAMembershipReport: [{}],
-  OrderInsuranceScoreReport: [{}]
 }
 
 RatingDetailReportsTab_CustomerAgreement_Order: {
