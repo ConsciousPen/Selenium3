@@ -780,7 +780,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	protected void pas15077_orderReports_endorsementBody(PolicyType policyType) {
 		mainApp().open();
 		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyDefaultTD());
 		String policyNumber = getCopiedPolicy();
 
 		//Create pended endorsement - future dated, because otherwise Insurance Score Report must be ordered for newly added NI
@@ -876,7 +875,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	protected void pas16694_orderReports_not_Named_Insured_endorsementBody(PolicyType policyType) {
 		mainApp().open();
 		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyDefaultTD());
 		String policyNumber = getCopiedPolicy();
 
 		//Create pended endorsement
