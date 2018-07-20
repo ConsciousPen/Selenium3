@@ -3,8 +3,6 @@ package aaa.modules.regression.sales.template.functional;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.billing.BillingHelper;
-import aaa.main.enums.BillingConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
@@ -22,7 +20,6 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.apache.commons.lang3.Range;
 import toolkit.datax.TestData;
-import java.time.LocalDateTime;
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
@@ -82,8 +79,7 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
         String policyNum = PolicySummaryPage.getPolicyNumber();
 
         // Change system date
-        LocalDateTime reneweff = PolicySummaryPage.getExpirationDate();
-        TimeSetterUtil.getInstance().nextPhase(reneweff);
+        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate());
         mainApp().open();
         SearchPage.openPolicy(policyNum);
 
@@ -94,13 +90,11 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 
-        // Calculate Premium
+        // Calculate Premium, bind, & purchase policy
         premiumsAndCoveragesQuoteTab.calculatePremium();
-
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.submitTab();
-
-        purchaseRenewal(reneweff, policyNum);
+        purchaseRenewal(policyNum);
 
         // Navigate to Renewal
         PolicySummaryPage.buttonRenewals.click();
@@ -223,7 +217,7 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
         PropertyQuoteTab.RatingDetailsView.open();
     }
 
-    private void purchaseRenewal(LocalDateTime minDueDate, String policyNumber){
+    private void purchaseRenewal(String policyNumber){
         // Open Billing account and Pay min due for the renewal
         SearchPage.openBilling(policyNumber);
         Dollar due = new Dollar(BillingSummaryPage.getTotalDue());
