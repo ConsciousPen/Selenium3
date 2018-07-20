@@ -453,7 +453,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 * @author Megha Gubbala
 	 * @name Check Policy Details service for Semi annual policy term
 	 * @scenario 1. Create  policy with semi annual pay term
-	 * 2. hit policy summery service
+	 * 2. hit policy summary service
 	 * 3. verify response is returning Term 6 month
 	 */
 	@Parameters({"state"})
