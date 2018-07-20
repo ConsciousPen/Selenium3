@@ -1,5 +1,8 @@
 package aaa.modules.openl;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
@@ -103,6 +106,15 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 	protected Dollar calculatePremium(HomeSSOpenLPolicy openLPolicy) {
 		new PremiumsAndCoveragesQuoteTab().calculatePremium();
 		return PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().subtract(getSpecificFees(openLPolicy));
+	}
+
+	@Override
+	protected Map<String, String> getOpenLFieldsMapFromTest(HomeSSOpenLPolicy openLPolicy) {
+		Map<String, String> openLFieldsMap = super.getOpenLFieldsMapFromTest(openLPolicy);
+		openLFieldsMap.remove("policy.id");
+		List<String> policyKeys = openLFieldsMap.entrySet().stream().filter(e -> e.getKey().startsWith("policy.")).map(Map.Entry::getKey).collect(Collectors.toList());
+		policyKeys.forEach(k -> openLFieldsMap.put(k.replace("policy.", "p."), openLFieldsMap.remove(k)));
+		return openLFieldsMap;
 	}
 
 	private Dollar getSpecificFees(HomeSSOpenLPolicy openLPolicy) {
