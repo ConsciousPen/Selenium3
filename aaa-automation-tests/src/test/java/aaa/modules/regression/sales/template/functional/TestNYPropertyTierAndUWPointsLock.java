@@ -14,6 +14,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.home_ss.ho6.functional.TestNYTierAndUWPointsLock;
@@ -225,7 +226,7 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
     private void purchaseRenewal(LocalDateTime minDueDate, String policyNumber){
         // Open Billing account and Pay min due for the renewal
         SearchPage.openBilling(policyNumber);
-        Dollar due = new Dollar(BillingHelper.getBillCellValue(minDueDate, BillingConstants.BillingGeneralInformationTable.TOTAL_DUE));
+        Dollar due = new Dollar(BillingSummaryPage.getTotalDue());
         new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), due);
 
         // Open Policy
