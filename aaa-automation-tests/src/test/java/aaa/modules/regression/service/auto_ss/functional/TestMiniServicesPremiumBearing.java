@@ -450,6 +450,21 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	}
 
 	/**
+	 * @author Megha Gubbala
+	 * @name Check Policy Details service for Semi annual policy term
+	 * @scenario 1. Create  policy with semi annual pay term
+	 * 2. hit policy summery service
+	 * 3. verify response is returning Term 6 month
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16678"})
+	public void pas16678_policySummaryForPolicyForPolicyTerm(@Optional("VA") String state) {
+
+		pas16678_policySummaryForPolicyForPolicyTermBody(getPolicyType(), state);
+	}
+
+	/**
 	 * @author Oleg Stasyuk
 	 * @name Check Policy Details service for Active renewal
 	 * @scenario 1. Create active policy

@@ -858,6 +858,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(responsePolicyPending.residentialAddress.addressLine1).isEqualTo(address1);
 			softly.assertThat(responsePolicyPending.residentialAddress.city).isEqualTo(city1);
 			softly.assertThat(responsePolicyPending.residentialAddress.stateProvCd).isEqualTo(state1);
+			softly.assertThat(responsePolicyPending.policyTerm).isEqualTo("12");
 
 			PolicySummary responsePolicyPendingRenewal = HelperCommon.viewPolicyRenewalSummary(policyNumber, "renewal", Response.Status.NOT_FOUND.getStatusCode());
 			assertThat(responsePolicyPendingRenewal.errorCode).isEqualTo(ErrorDxpEnum.Errors.RENEWAL_DOES_NOT_EXIST.getCode());
@@ -879,10 +880,34 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(responsePolicyActive.residentialAddress.addressLine1).isEqualTo(address1);
 			softly.assertThat(responsePolicyActive.residentialAddress.city).isEqualTo(city1);
 			softly.assertThat(responsePolicyActive.residentialAddress.stateProvCd).isEqualTo(state1);
+			softly.assertThat(responsePolicyActive.policyTerm).isEqualTo("12");
 
 			PolicySummary responsePolicyActiveRenewal = HelperCommon.viewPolicyRenewalSummary(policyNumber, "renewal", Response.Status.NOT_FOUND.getStatusCode());
 			assertThat(responsePolicyActiveRenewal.errorCode).isEqualTo(ErrorDxpEnum.Errors.RENEWAL_DOES_NOT_EXIST.getCode());
 			assertThat(responsePolicyActiveRenewal.message).contains(ErrorDxpEnum.Errors.RENEWAL_DOES_NOT_EXIST.getMessage() + policyNumber);
+		});
+	}
+
+	protected void pas16678_policySummaryForPolicyForPolicyTermBody(PolicyType policyType, String state) {
+		assertSoftly(softly -> {
+
+			mainApp().open();
+			createCustomerIndividual();
+			policyType.get().createQuote(getPolicyTD());
+			policy.dataGather().start();
+
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.POLICY_TERM).setValue("Semi-annual");
+			premiumAndCoveragesTab.calculatePremium();
+			premiumAndCoveragesTab.submitTab();
+			premiumAndCoveragesTab.saveAndExit();
+			TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+			testEValueDiscount.simplifiedQuoteIssue();
+
+			String policyNumber = PolicySummaryPage.getPolicyNumber();
+			PolicySummary responsePolicyPending = HelperCommon.viewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
+			softly.assertThat(responsePolicyPending.policyTerm).isEqualTo("6");
+
 		});
 	}
 
@@ -930,6 +955,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(responsePolicyActive.residentialAddress.addressLine1).isEqualTo(address1);
 			softly.assertThat(responsePolicyActive.residentialAddress.city).isEqualTo(city1);
 			softly.assertThat(responsePolicyActive.residentialAddress.stateProvCd).isEqualTo(state1);
+			softly.assertThat(responsePolicyActive.policyTerm).isEqualTo("12");
 
 			ErrorResponseDto viewPremiumRenewalResponseError = HelperCommon.viewRenewalPremiumsError(policyNumber, Response.Status.NOT_FOUND.getStatusCode());
 			softly.assertThat(viewPremiumRenewalResponseError.errorCode).isEqualTo(ErrorDxpEnum.Errors.POLICY_NOT_RATED.getCode());
@@ -950,6 +976,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(responsePolicyRenewalPreview.residentialAddress.addressLine1).isEqualTo(address1);
 			softly.assertThat(responsePolicyRenewalPreview.residentialAddress.city).isEqualTo(city1);
 			softly.assertThat(responsePolicyRenewalPreview.residentialAddress.stateProvCd).isEqualTo(state1);
+			softly.assertThat(responsePolicyRenewalPreview.policyTerm).isEqualTo("12");
 
 			LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 			TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
@@ -968,6 +995,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(responsePolicyOffer.residentialAddress.addressLine1).isEqualTo(address1);
 			softly.assertThat(responsePolicyOffer.residentialAddress.city).isEqualTo(city1);
 			softly.assertThat(responsePolicyOffer.residentialAddress.stateProvCd).isEqualTo(state1);
+			softly.assertThat(responsePolicyOffer.policyTerm).isEqualTo("12");
 
 			PolicyPremiumInfo[] viewPremiumRenewalResponse1 = HelperCommon.viewRenewalPremiums(policyNumber);
 			String renewalActualPremium1 = viewPremiumRenewalResponse1[0].actualAmt;
@@ -988,6 +1016,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(responsePolicyRenewalOffer.residentialAddress.addressLine1).isEqualTo(address1);
 			softly.assertThat(responsePolicyRenewalOffer.residentialAddress.city).isEqualTo(city1);
 			softly.assertThat(responsePolicyRenewalOffer.residentialAddress.stateProvCd).isEqualTo(state1);
+			softly.assertThat(responsePolicyRenewalOffer.policyTerm).isEqualTo("12");
 
 			TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
 			JobUtils.executeJob(Jobs.policyStatusUpdateJob);
