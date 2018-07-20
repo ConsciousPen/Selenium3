@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho3.functional;
 
+import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.TimeSetterBctClient;
 import aaa.helpers.constants.ComponentConstant;
@@ -17,6 +18,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.main.modules.policy.home_ca.views.RenewView;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
+import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.exigen.istf.timesetter.client.TimeSetter;
 import com.exigen.istf.timesetter.client.TimeSetterClient;
@@ -46,6 +48,7 @@ import static org.apache.cxf.frontend.ClientProxy.getClient;
  * 2.WHEN there is NO match of either Last or First or DOB between RMS and Insured/Drivers...
  * 3.THEN the UW eligibility rule fires with message.
  */
+@StateList(states = Constants.States.CA)
 public class VerifyMembershipErrorMsg extends HomeCaHO3BaseTest {
 
 

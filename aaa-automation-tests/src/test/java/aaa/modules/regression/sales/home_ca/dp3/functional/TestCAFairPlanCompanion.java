@@ -27,7 +27,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
  * @author Tyrone C Jemison
  * @name Test CA Fair Plan Companion
  */
-@StateList(statesExcept = Constants.States.CA)
+@StateList(states = Constants.States.CA)
 public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
     // Class Variables
     TestData defaultPolicyData;

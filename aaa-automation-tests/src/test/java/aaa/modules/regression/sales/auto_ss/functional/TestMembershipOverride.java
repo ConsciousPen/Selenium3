@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 
-@StateList(statesExcept = Constants.States.CA)
+@StateList(states = Constants.States.CA)
 public class TestMembershipOverride extends AutoSSBaseTest {
 
 	private static final String MEMBER_SINCE_DATE_WARNING_MESSAGE = "'Member Since Date' is required (AAA_SS02032018) [for ExistingPolicies.memberSinceDate]";
