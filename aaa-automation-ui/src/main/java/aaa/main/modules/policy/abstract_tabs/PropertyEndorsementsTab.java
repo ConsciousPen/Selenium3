@@ -14,6 +14,7 @@ public abstract class PropertyEndorsementsTab extends Tab {
 	public Table tblIncludedEndorsements;
 	public Table tblOptionalEndorsements;
 	public Button btnSaveForm;
+	public Button btnSaveEndo;
 	public Button btnCancelForm;
 	protected String TBL_SUB_ENDORSEMENTS_BY_FORMID_TEMPLATE;
 	protected String LNK_ADD_SUB_ENDORSEMENT_BY_FORMID_TEMPLATE;

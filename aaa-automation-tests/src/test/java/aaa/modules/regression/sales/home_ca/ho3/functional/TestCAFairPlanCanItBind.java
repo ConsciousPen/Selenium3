@@ -1,11 +1,13 @@
 package aaa.modules.regression.sales.home_ca.ho3.functional;
 
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -15,6 +17,7 @@ import toolkit.utils.TestInfo;
 /**
  * @Author - Tyrone Jemison
  */
+@StateList(statesExcept = Constants.States.CA)
 public class TestCAFairPlanCanItBind extends HomeCaHO3BaseTest {
     static TestData DEFAULTPOLICYDATA;
     static HelperCommon myHelper;
