@@ -41,7 +41,8 @@ public class AutoCaPremiumCalculationTest<P extends AutoCaOpenLPolicy<?, ?>> ext
 		Map<String, String> openLFieldsMap = super.getOpenLFieldsMapFromTest(openLPolicy);
 
 		Pattern driverIdPattern = Pattern.compile("^policy\\.drivers\\[\\d+\\]\\.id$");
-		Pattern vehicleIdPattern = Pattern.compile("^policy\\.vehicles\\[\\d+\\]\\.id");
+		Pattern vehicleIdPattern = Pattern.compile("^policy\\.vehicles\\[\\d+\\]\\.id$");
+		// additionalLimitAmount is applicable for altCoverages only, for regular coverage should be always null
 		Pattern coverageAdditionalLimitAmountPattern = Pattern.compile("^policy\\.vehicles\\[\\d+\\]\\.coverages\\[\\d+\\]\\.additionalLimitAmount$");
 
 		openLFieldsMap.entrySet().removeIf(e -> "policy.policyNumber".equals(e.getKey())

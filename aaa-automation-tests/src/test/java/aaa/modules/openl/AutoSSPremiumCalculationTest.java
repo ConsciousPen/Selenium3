@@ -24,21 +24,21 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_SS;
 	}
-	
+
 	@Override
 	protected TestData getRatingDataPattern() {
 		return super.getRatingDataPattern().mask(new DriverTab().getMetaKey(), new VehicleTab().getMetaKey(), new PremiumAndCoveragesTab().getMetaKey());
 	}
-	
+
 	@Override
 	protected String createQuote(AutoSSOpenLPolicy openLPolicy) {
 		boolean isLegacyConvPolicy = false;
 		AutoSSTestDataGenerator tdGenerator = openLPolicy.getTestDataGenerator(getState(), getRatingDataPattern());
-		
+
 		if (TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(openLPolicy.getCappingDetails().getProgramCode())) {
 			isLegacyConvPolicy = true;
 			TestData renewalEntryData = tdGenerator.getRenewalEntryData(openLPolicy);
-			
+
 			if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())) {
 				NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
 			}
@@ -46,7 +46,7 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 		} else {
 			policy.initiate();
 		}
-		
+
 		TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy, isLegacyConvPolicy);
 		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
 		new PremiumAndCoveragesTab().getAssetList().fill(quoteRatingData);

@@ -99,9 +99,13 @@ public abstract class OpenLPolicy {
 			List<Field> tableColumnsFields = ReflectionHelper.getAllAccessibleFieldsFromThisAndSuperClasses(tableClass);
 			if (List.class.isAssignableFrom(openLField.getType())) {
 				List<?> tableRowsObjects = ReflectionHelper.getValueAsList(openLField, classInstance);
-				for (int i = 0; i < tableRowsObjects.size(); i++) {
-					for (Field tableColumnField : tableColumnsFields) {
-						openLFieldsMap.putAll(getOpenLFieldsMap(tableColumnField, tableRowsObjects.get(i), openLFieldPath + "[" + i + "]"));
+				if (tableRowsObjects == null) {
+					openLFieldsMap.put(openLFieldPath, null);
+				} else {
+					for (int i = 0; i < tableRowsObjects.size(); i++) {
+						for (Field tableColumnField : tableColumnsFields) {
+							openLFieldsMap.putAll(getOpenLFieldsMap(tableColumnField, tableRowsObjects.get(i), openLFieldPath + "[" + i + "]"));
+						}
 					}
 				}
 			} else {

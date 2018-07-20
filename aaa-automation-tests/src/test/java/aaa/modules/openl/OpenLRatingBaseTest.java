@@ -4,6 +4,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.time.ZoneId;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.collections4.MapUtils;
 import org.slf4j.Logger;
@@ -107,7 +108,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 			actualPremium = calculatePremium(openLPolicy);
 			if (!openLPolicy.getExpectedPremium().equals(actualPremium)) {
 				RatingEngineLogsHolder ratingLogs = ratingEngineLogsGrabber.grabRatingLogs();
-				checkRequestOpenLFields(ratingLogs, openLPolicy, quoteNumber);
+				compareOpenLFieldsValues(ratingLogs, openLPolicy, quoteNumber);
 				saveLogs(ratingLogs, testInfo.getTestContext(), openLPolicy.getNumber(), false);
 			} else {
 				grabAndSaveLogs(testInfo.getTestContext(), openLPolicy.getNumber(), true);
@@ -150,7 +151,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 	 */
 	protected abstract Dollar calculatePremium(P openLPolicy);
 
-	protected void checkRequestOpenLFields(RatingEngineLogsHolder ratingLogsHolder, P openLPolicy, String quoteNumber) {
+	protected void compareOpenLFieldsValues(RatingEngineLogsHolder ratingLogsHolder, P openLPolicy, String quoteNumber) {
 		if (!ratingLogsHolder.getRequestLog().getLogContent().contains(quoteNumber)) {
 			log.warn("There is no policy number {} in retrieved rating request log, further analysis has been skipped", quoteNumber);
 			return;
@@ -193,7 +194,9 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 	}
 
 	protected Map<String, String> getOpenLFieldsMapFromRequest(RatingEngineLogsHolder ratingLogsHolder) {
-		return ratingLogsHolder.getRequestLog().getOpenLFieldsMap();
+		Map<String, String> openLFieldsMap = new HashMap<>(ratingLogsHolder.getRequestLog().getOpenLFieldsMap());
+		openLFieldsMap.entrySet().removeIf(e -> e.getKey().startsWith("runtimeContext.") || e.getKey().startsWith("variationPack."));
+		return openLFieldsMap;
 	}
 
 	protected Map<String, String> getOpenLFieldsMapFromTest(P openLPolicy) {
