@@ -13,6 +13,9 @@
         <parameter name="state" value="AZ"/>
         <parameter name="fileName" value="AZTests-20170920.xls"/>
         <parameter name="policyNumbers" value="30,139"/>
+        <!-- uncomment and replace with these tests when AZTests-20170920.xls appears in master branch
+        <parameter name="fileName" value="AZTests-20180920.xls"/>
+        <parameter name="policyNumbers" value="426, 650"/>-->
         <classes>
             <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
         </classes>

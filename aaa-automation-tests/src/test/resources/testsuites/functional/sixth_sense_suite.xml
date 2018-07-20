@@ -236,12 +236,28 @@
 
         <!--Tests for PUP-->
 
-    <test name=" Test Pup Info Section View Rating Details">
+    <test name="Test Pup Info Section View Rating Details">
         <parameter name="state" value="PA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails"/>
+            <class name="aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails">
+                <methods>
+                    <exclude name="pas14037_testNYMarketTierLockVRD"/>
+                </methods>
+            </class>
         </classes>
     </test>
+    <!-- pas14037 needs to be merged
+        <test name="Test NY Pup Locked Tier">
+            <parameter name="state" value="NY"/>
+            <classes>
+                <class name="aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails">
+                    <methods>
+                        <include name="pas14037_testNYMarketTierLockVRD"/>
+                    </methods>
+                </class>
+            </classes>
+        </test>
+    -->
 
     <test name="Test Override Liability Losses">
         <parameter name="state" value="NJ"/>

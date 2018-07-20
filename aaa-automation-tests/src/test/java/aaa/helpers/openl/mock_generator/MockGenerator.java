@@ -18,7 +18,7 @@ import aaa.helpers.mock.model.property_classification.*;
 import aaa.helpers.mock.model.property_risk_reports.RetrievePropertyRiskReportsMock;
 import aaa.helpers.mock.model.property_risk_reports.RiskReportsRequest;
 import aaa.helpers.mock.model.property_risk_reports.RiskReportsResponse;
-import aaa.utils.excel.bind.BindHelper;
+import aaa.utils.excel.bind.ReflectionHelper;
 
 public class MockGenerator {
 	private static final Integer RISKREPORTS_ELEVATION = 2700;
@@ -34,9 +34,9 @@ public class MockGenerator {
 
 	@SuppressWarnings("unchecked")
 	public static <M extends UpdatableMock> M getEmptyMock(Class<M> mockDataClass) {
-		M mockInstance = (M) BindHelper.getInstance(mockDataClass);
-		for (Field tableField : BindHelper.getAllAccessibleFields(mockDataClass, true)) {
-			BindHelper.setFieldValue(tableField, mockInstance, new ArrayList<>());
+		M mockInstance = (M) ReflectionHelper.getInstance(mockDataClass);
+		for (Field tableField : ReflectionHelper.getAllAccessibleTableFieldsFromThisAndSuperClasses(mockDataClass)) {
+			ReflectionHelper.setFieldValue(tableField, mockInstance, new ArrayList<>());
 		}
 		return mockInstance;
 	}
