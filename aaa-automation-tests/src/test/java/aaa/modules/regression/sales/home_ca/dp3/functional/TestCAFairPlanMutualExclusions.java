@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.home_ca.dp3.functional;
 
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -10,6 +11,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaDP3BaseTest;
 import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
  * @Author - Tyrone C Jemison
  * @Description -
  */
+@StateList(statesExcept = Constants.States.CA)
 public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
 
     static TestData dp3PolicyData;

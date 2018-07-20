@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho3.functional;
 
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
@@ -16,6 +17,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
+import aaa.utils.StateList;
 import org.apache.commons.io.filefilter.AgeFileFilter;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -38,6 +40,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
  * @author Tyrone C Jemison
  * @name Test CA Fair Plan Companion
  */
+@StateList(statesExcept = Constants.States.CA)
 public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
     // Class Variables
     TestData defaultPolicyData;

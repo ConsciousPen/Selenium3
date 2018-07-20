@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.dp3.functional;
 
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -13,6 +14,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaDP3BaseTest;
 import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -25,6 +27,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
  * @author Tyrone C Jemison
  * @name Test CA Fair Plan Companion
  */
+@StateList(statesExcept = Constants.States.CA)
 public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
     // Class Variables
     TestData defaultPolicyData;

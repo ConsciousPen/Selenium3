@@ -161,6 +161,11 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
         reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
         reportsTab.tblInsuranceScoreReport.getRow(1).getCell(11).click();
+        if (reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().getValue().equals("Order report")|| reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().getValue().equals("Re-order report")) {
+            reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().click();
+        }
+        //reportsTab.tblClueReport.getRow(1).getCell(6).click();
+        //reportsTab.reorderReports();
         premiumsAndCoveragesQuoteTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.btnPurchase.click();
@@ -203,6 +208,9 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
         reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
         reportsTab.tblInsuranceScoreReport.getRow(1).getCell(11).click();
+        if (reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().getValue().equals("Order report")|| reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().getValue().equals("Re-order report")) {
+            reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().click();
+        }
         premiumsAndCoveragesQuoteTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.btnPurchase.click();
@@ -235,6 +243,12 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
         reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
         reportsTab.tblInsuranceScoreReport.getRow(1).getCell(11).click();
+        if (reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().getValue().equals("Order report")|| reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().getValue().equals("Re-order report")) {
+            reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().click();
+        }
+        if (!reportsTab.tblAAAMembershipReport.getRow(1).getCell("Report").controls.links.getFirst().getValue().equals("View report")) {
+            reportsTab.tblAAAMembershipReport.getRow(1).getCell("Report").controls.links.getFirst().click();
+        }
         premiumsAndCoveragesQuoteTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.btnPurchase.click();

@@ -16,6 +16,7 @@ public final class ErrorEnum {
 		ERROR_AAA_SS10240324("AAA_SS10240324", "At least one phone number must be provided."),
 
 		// Property errors
+		ERROR_AAA_HO_SS3054048("AAA_HO_SS3054048", "Order CLUE report before binding. (AAA_HO_SS3054048) [for AAAHOOrderClueRepor..."),
 		ERROR_AAA_HO_CA20180518("AAA_HO_CA20180518", "Signed FAIR Plan Companion Endorsement - California is required. (AAA_HO_CA20..."),
 		ERROR_AAA_HO_CA20180517("AAA_HO_CA20180517", "Signed FAIR Plan Companion Endorsement - California is required. (AAA_HO_CA20..."),
 		ERROR_AAA_HO_CA02122017("AAA_HO_CA02122017", "Dwellings located in PPC 10 are ineligible. (AAA_HO_CA02122017) [for AAAHOCAD..."),
