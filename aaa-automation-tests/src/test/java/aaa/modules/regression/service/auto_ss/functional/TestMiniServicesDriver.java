@@ -230,11 +230,11 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Report Ordering for Endorsement
+	 * @name Test Report Ordering for Endorsement (Named Insured)
 	 * @scenario
 	 * 1. Create a policy in PAS
 	 * 2. Create an endorsement through service
-	 * 3. Add Driver 1 through service with MVR status =  Hit - Activity Found, CLUE status = processing complete, results clear
+	 * 3. Add Driver 1 (Named Insured) through service with MVR status =  Hit - Activity Found, CLUE status = processing complete, results clear
 	 * 4. Run the Report Order Service for MVR/CLUE
 	 * 5. Open the Endorsement in PAS, navigate to "Driver Activity Reports" tab and validate that MVR/CLUE reports have been ordered successfully with no errors
 	 * 6. Validate that I receive the report response
@@ -244,7 +244,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 7. Rate and bind the policy
 	 * 8. Rate and Bind
 	 * 9. Create an endorsement through service
-	 * 10. Add Driver 2 through service with MVR status =  Clear, CLUE status = processing complete, with results information
+	 * 10. Add Driver 2 (Named Insured) through service with MVR status =  Clear, CLUE status = processing complete, with results information
 	 * 11. Repeat steps 4 - 8
 	 */
 
@@ -255,6 +255,26 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 
 		pas15077_orderReports_endorsementBody(getPolicyType());
 	}
+
+    /**
+     * @author Bob Van
+     * @name Update Drivers service, set marital status.
+     * @scenario
+     * 1. Create policy on Pas.
+     * 2. Create endorsement outside of PAS
+     * 2. Add 2nd driver outside of PAS
+     * 3. Update 2nd driver as spouse outside of PAS
+     * 4. Verify married status in update response
+     * 5. Verify married status in view driver response
+     * 6. Verify PAS pended endorsement general tab data
+     * 7. Verify PAS pended endorsement driver tab data
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14474"})
+    public void pas14474_UpdateSpouseDriver(@Optional("AZ") String state) {
+        pas14474_UpdateSpouseDriverBody(getPolicyType());
+    }
 
 }
 
