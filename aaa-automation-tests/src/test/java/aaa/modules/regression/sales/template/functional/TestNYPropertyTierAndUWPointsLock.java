@@ -3,18 +3,16 @@ package aaa.modules.regression.sales.template.functional;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.billing.BillingHelper;
-import aaa.main.enums.BillingConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.home_ss.ho6.functional.TestNYTierAndUWPointsLock;
@@ -22,19 +20,16 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.apache.commons.lang3.Range;
 import toolkit.datax.TestData;
-
-import java.time.LocalDateTime;
-
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
 
-    private ErrorTab errorTab = new ErrorTab();
     private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
     private PurchaseTab purchaseTab = new PurchaseTab();
     private BindTab bindTab = new BindTab();
     private ReportsTab reportsTab = new ReportsTab();
     private Range<String> rangeMarketTier = Range.between("A", "J");
+    private String propertyInfoMessage = "* Market Tier may be a locked value from prior term";
 
 
     public void pas14030_TestNYViewRatingDetailsRenewal(PolicyType policyType) {
@@ -65,7 +60,8 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
         policyChangesForTotalUWPointsAndMarketTier();
 
         // Validate Market Tier and UW points are the same saved value from NB policy.
-        assertThat(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier")).isEqualTo(marketTierValue);
+        assertThat(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier *")).isEqualTo(marketTierValue);
+		assertThat(PropertyQuoteTab.RatingDetailsView.propertyInfoMessage.getValue()).contains(propertyInfoMessage);
         assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Total points")).isEqualTo(totalUWPoints);
         PropertyQuoteTab.RatingDetailsView.close();
         mainApp().close();
@@ -83,8 +79,7 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
         String policyNum = PolicySummaryPage.getPolicyNumber();
 
         // Change system date
-        LocalDateTime reneweff = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
-        TimeSetterUtil.getInstance().nextPhase(reneweff);
+        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate());
         mainApp().open();
         SearchPage.openPolicy(policyNum);
 
@@ -95,13 +90,11 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 
-        // Calculate Premium
+        // Calculate Premium, bind, & purchase policy
         premiumsAndCoveragesQuoteTab.calculatePremium();
-
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.submitTab();
-
-        purchaseRenewal(reneweff, policyNum);
+        purchaseRenewal(policyNum);
 
         // Navigate to Renewal
         PolicySummaryPage.buttonRenewals.click();
@@ -116,8 +109,8 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
         PropertyQuoteTab.RatingDetailsView.open();
 
         // Market Tier is in range of A-J. Save Market Tier And Total UW Points values.
-        assertThat(rangeMarketTier.contains(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier"))).isTrue();
-        String marketTierValue = PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier");
+        assertThat(rangeMarketTier.contains(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier *"))).isTrue();
+        String marketTierValue = PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier *");
         String totalUWPoints = PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Total points");
         PropertyQuoteTab.RatingDetailsView.close();
 
@@ -125,7 +118,8 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
         policyChangesForTotalUWPointsAndMarketTier();
 
         // Validate Market Tier and UW points are the same saved value from NB policy.
-        assertThat(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier")).isEqualTo(marketTierValue);
+        assertThat(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier *")).isEqualTo(marketTierValue);
+		assertThat(PropertyQuoteTab.RatingDetailsView.propertyInfoMessage.getValue()).contains(propertyInfoMessage);
         assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Total points")).isEqualTo(totalUWPoints);
         PropertyQuoteTab.RatingDetailsView.close();
         mainApp().close();
@@ -223,11 +217,11 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
         PropertyQuoteTab.RatingDetailsView.open();
     }
 
-    private void purchaseRenewal(LocalDateTime minDueDate, String policyNumber){
+    private void purchaseRenewal(String policyNumber){
         // Open Billing account and Pay min due for the renewal
         SearchPage.openBilling(policyNumber);
-        Dollar minDue = new Dollar(BillingHelper.getBillCellValue(minDueDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
-        new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+        Dollar due = new Dollar(BillingSummaryPage.getTotalDue());
+        new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), due);
 
         // Open Policy
         SearchPage.openPolicy(policyNumber);

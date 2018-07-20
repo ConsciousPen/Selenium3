@@ -122,7 +122,7 @@
         </classes>
     </test>
     <!-- pas14030 needs to be merged
-        <test name="Test Tier And UW Points Lock NY"  parallel="methods" thread-count="1024">
+        <test name="Test Tier And UW Points Lock NY">
             <parameter name="state" value="NY"/>
             <classes>
                 <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestNYTierAndUWPointsLock">
