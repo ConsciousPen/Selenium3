@@ -99,7 +99,9 @@ public class TestDecTransactionDateTime extends AutoSSBaseTest {
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		endorsementSteps();
-		//validateBoundDtTag(policyNumber, RENEWAL_OFFER); //TODO-mstrazds: renewal will be in scope of PAS-16693 (uncomment this line for it)
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1); // needed to generate renewal offer xmls
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2); // needed to generate renewal offer xmls
+		validateBoundDtTag(policyNumber, RENEWAL_OFFER);
 		validateBoundDtTag(policyNumber, ENDORSEMENT_ISSUE);
 
 		//8. Retrieve renewal image in data gathering mode and make changes to it

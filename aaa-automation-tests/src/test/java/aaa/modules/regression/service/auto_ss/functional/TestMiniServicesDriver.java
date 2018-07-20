@@ -230,11 +230,11 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Report Ordering for Endorsement
+	 * @name Test Report Ordering for Endorsement (Named Insured)
 	 * @scenario
 	 * 1. Create a policy in PAS
 	 * 2. Create an endorsement through service
-	 * 3. Add Driver 1 through service with MVR status =  Hit - Activity Found, CLUE status = processing complete, results clear
+	 * 3. Add Driver 1 (Named Insured) through service with MVR status =  Hit - Activity Found, CLUE status = processing complete, results clear
 	 * 4. Run the Report Order Service for MVR/CLUE
 	 * 5. Open the Endorsement in PAS, navigate to "Driver Activity Reports" tab and validate that MVR/CLUE reports have been ordered successfully with no errors
 	 * 6. Validate that I receive the report response
@@ -244,7 +244,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 7. Rate and bind the policy
 	 * 8. Rate and Bind
 	 * 9. Create an endorsement through service
-	 * 10. Add Driver 2 through service with MVR status =  Clear, CLUE status = processing complete, with results information
+	 * 10. Add Driver 2 (Named Insured) through service with MVR status =  Clear, CLUE status = processing complete, with results information
 	 * 11. Repeat steps 4 - 8
 	 */
 
