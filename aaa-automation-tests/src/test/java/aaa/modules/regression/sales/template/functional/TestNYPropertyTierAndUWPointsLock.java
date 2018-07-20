@@ -81,7 +81,7 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
         String policyNum = PolicySummaryPage.getPolicyNumber();
 
         // Change system date
-        LocalDateTime reneweff = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
+        LocalDateTime reneweff = PolicySummaryPage.getExpirationDate();
         TimeSetterUtil.getInstance().nextPhase(reneweff);
         mainApp().open();
         SearchPage.openPolicy(policyNum);
