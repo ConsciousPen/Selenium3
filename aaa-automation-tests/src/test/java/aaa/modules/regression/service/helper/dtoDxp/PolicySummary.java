@@ -60,4 +60,7 @@ public class PolicySummary {
 
 	@ApiModelProperty(value = "The Residential Address. Address from the first of the First Named Insureds.", example = "1200")
 	public Address residentialAddress;
+
+	@ApiModelProperty(value = "Policy term", example = "12")
+	public String policyTerm;
 }
