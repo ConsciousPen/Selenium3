@@ -225,8 +225,8 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
     private void purchaseRenewal(LocalDateTime minDueDate, String policyNumber){
         // Open Billing account and Pay min due for the renewal
         SearchPage.openBilling(policyNumber);
-        Dollar minDue = new Dollar(BillingHelper.getBillCellValue(minDueDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
-        new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+        Dollar due = new Dollar(BillingHelper.getBillCellValue(minDueDate, BillingConstants.BillingGeneralInformationTable.TOTAL_DUE));
+        new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), due);
 
         // Open Policy
         SearchPage.openPolicy(policyNumber);
