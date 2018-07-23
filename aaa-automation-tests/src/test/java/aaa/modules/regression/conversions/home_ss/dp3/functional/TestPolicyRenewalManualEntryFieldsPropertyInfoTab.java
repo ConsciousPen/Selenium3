@@ -62,7 +62,7 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSDP3
     @StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.NJ,Constants.States.MD, Constants.States.PA, Constants.States.CT})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_DP3, testCaseId = "PAS-10512, PAS-12478")
-    public void propertyInfoTabconvPolicyRenewal(@Optional("DE") String state) {
+    public void propertyInfoTabconvPolicyRenewal(@Optional("CT") String state) {
         TestData td = getConversionPolicyDefaultTD();
         String inceptionDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(10).format(DateTimeUtils.MM_DD_YYYY);
 
@@ -82,9 +82,9 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSDP3
     method clicks the renewal button and starts datagather and navigates to the property info tab
     */
     private void navigateToPropertyInfoOnSecondRenewal() {
-        if(PolicySummaryPage.buttonBackFromRenewals.isEnabled()){
+       /* if(PolicySummaryPage.buttonBackFromRenewals.isEnabled()){
             PolicySummaryPage.buttonBackFromRenewals.click();
-        }
+        }*/
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
