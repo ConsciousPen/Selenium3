@@ -318,7 +318,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
-	public void pas14475_NameInsuredMaritalStatus(@Optional("AZ") String state) {
+	public void pas14475_NameInsuredMaritalStatus(@Optional("") String state) {
 		pas14475_NameInsuredMaritalStatusBody(getPolicyType());
 	}
 
@@ -338,7 +338,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
-	public void pas14475_NameInsuredMaritalStatusDSS(@Optional("AZ") String state) {
+	public void pas14475_NameInsuredMaritalStatusDSS(@Optional("") String state) {
 		pas14475_NameInsuredMaritalStatusFNIIsDSSBody(getPolicyType());
 	}
 
@@ -358,7 +358,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
-	public void pas14475_NameInsuredMaritalStatusWSS(@Optional("AZ") String state) {
+	public void pas14475_NameInsuredMaritalStatusWSS(@Optional("") String state) {
 		pas14475_NameInsuredMaritalStatusFNIIsWSSBody(getPolicyType());
 	}
 
@@ -378,7 +378,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
-	public void pas14475_NameInsuredMaritalStatusPSS(@Optional("VA") String state) {
+	public void pas14475_NameInsuredMaritalStatusPSS(@Optional("") String state) {
 		pas14475_NameInsuredMaritalStatusFNIIsPSSBody(getPolicyType());
 	}
 }
