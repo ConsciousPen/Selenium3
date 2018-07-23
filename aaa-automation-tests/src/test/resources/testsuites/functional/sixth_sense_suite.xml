@@ -121,33 +121,33 @@
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestOverrideWildfireScore"/>
         </classes>
     </test>
-    <!-- pas14030 needs to be merged
-        <test name="Test Tier And UW Points Lock NY">
-            <parameter name="state" value="NY"/>
-            <classes>
-                <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestNYTierAndUWPointsLock">
-                    <methods>
-                        <exclude name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
-                    </methods>
-                </class>
-                <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestNYTierAndUWPointsLock">
-                    <methods>
-                        <exclude name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
-                    </methods>
-                </class>
-                <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestNYTierAndUWPointsLock">
-                    <methods>
-                        <exclude name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
-                    </methods>
-                </class>
-                <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestNYTierAndUWPointsLock">
-                    <methods>
-                        <exclude name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
-                    </methods>
-                </class>
-            </classes>
-        </test>
-    -->
+
+    <test name="Test Tier And UW Points Lock NY">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <exclude name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <exclude name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <exclude name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <exclude name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <test name="Test Renovation Discount for KS DP3, HO3">
         <parameter name="state" value="KS"/>
         <classes>
@@ -246,18 +246,17 @@
             </class>
         </classes>
     </test>
-    <!-- pas14037 needs to be merged
-        <test name="Test NY Pup Locked Tier">
-            <parameter name="state" value="NY"/>
-            <classes>
-                <class name="aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails">
-                    <methods>
-                        <include name="pas14037_testNYMarketTierLockVRD"/>
-                    </methods>
-                </class>
-            </classes>
-        </test>
-    -->
+
+    <test name="Test NY Pup Locked Tier">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails">
+                <methods>
+                    <include name="pas14037_testNYMarketTierLockVRD"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 
     <test name="Test Override Liability Losses">
         <parameter name="state" value="NJ"/>
