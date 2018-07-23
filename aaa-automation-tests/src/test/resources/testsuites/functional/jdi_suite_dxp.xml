@@ -171,6 +171,7 @@
                     <include name="pas13994_UpdateDriverAssignmentServiceRule3"/>
                     <include name="pas14539_transactionInfoDriverAssignment"/>
                     <include name="pas14539_transactionInfoUpdateDriverAssignment"/>
+                    <include name="pas14477_ViewDriverAssignment_NewDriver"/>
                 </methods>
             </class>
         </classes>

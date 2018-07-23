@@ -185,13 +185,11 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		createCustomerIndividual();
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_TwoDrivers").getTestDataList("DriverTab")).resolveLinks();
-		policyType.get().createPolicy(testData);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber = createPolicy(testData);
 		SearchPage.openPolicy(policyNumber);
 
 		//Create a pended Endorsement
-		PolicySummary endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		//Add new driver for PAS-14477
 		AddDriverRequest addDriverRequest = new AddDriverRequest();
