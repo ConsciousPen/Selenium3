@@ -1154,18 +1154,17 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid2);
 
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
-			//BUG PAS-15483 Delete Vehicle doesnt return response in some cases
 			VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, originalVehicleOid);
 			softly.assertThat(deleteVehicleResponse.oid).isEqualTo(originalVehicleOid);
 			softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
 
 			VehicleUpdateResponseDto deleteVehicleResponse2 = HelperCommon.deleteVehicle(policyNumber, newVehicleOid);
-			softly.assertThat(deleteVehicleResponse2.oid).isNull();
-			softly.assertThat(deleteVehicleResponse2.vehicleStatus).isNull();
+			softly.assertThat(deleteVehicleResponse2.oid).isEqualTo(newVehicleOid);
+			softly.assertThat(deleteVehicleResponse2.vehicleStatus).isEqualTo("pendingRemoval");
 
 			VehicleUpdateResponseDto deleteVehicleResponse3 = HelperCommon.deleteVehicle(policyNumber, newVehicleOid2);
-			softly.assertThat(deleteVehicleResponse3.oid).isNull();
-			softly.assertThat(deleteVehicleResponse3.vehicleStatus).isNull();
+			softly.assertThat(deleteVehicleResponse3.oid).isEqualTo(newVehicleOid2);
+			softly.assertThat(deleteVehicleResponse3.vehicleStatus).isEqualTo("pendingRemoval");
 		});
 	}
 
