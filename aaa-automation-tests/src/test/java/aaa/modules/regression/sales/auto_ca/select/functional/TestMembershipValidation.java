@@ -268,7 +268,7 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization", enabled = false)
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-3786 PAS-8815")
     public void pas6668_pas8815_ScenarioAC2_Dummy_Numbers_Automatic_Renewal(@Optional("CA") String state) {
 

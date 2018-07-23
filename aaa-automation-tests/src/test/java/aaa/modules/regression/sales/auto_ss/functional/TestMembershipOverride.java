@@ -444,7 +444,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6313")
-	public void pas6313_Validate_Membership_Override_NB15NB30_Negative(@Optional("") String state) {
+	public void pas6313_Validate_Membership_Override_NB15NB30_Negative(@Optional("AZ") String state) {
 		TestData tdSpecific = getTestSpecificTD("AAAProductOwned_MS_Pending").resolveLinks();
 		TestData testData = getPolicyTD().adjust(tdSpecific);
 
@@ -617,7 +617,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		//validate that membership discount is applied (displayed) in P&C tab
-		checkMembershipInPCTab(true, false, "Yes", "", "");
+		checkMembershipInPCTab2(true, "Yes", "", "");
 	}
 
 	/**IGNORED TEST:@Test(enabled = false)
@@ -705,7 +705,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		//validate that membership discount is applied (displayed) in P&C tab
-		checkMembershipInPCTab(true, false, "Yes", "", "01/04/2009");
+		checkMembershipInPCTab2(true,  "Yes", "", "01/04/2009");
 	}
 	//////////End of PAS-6314
 
@@ -721,22 +721,43 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
 		if (isEndorsement) {
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount")).exists();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount").getCell(5).getValue().contains(Value1)).isTrue();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount").getCell(6).getValue().contains(Value2)).isTrue();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "Member Since Date")).exists();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "Member Since Date").getCell(6).getValue().contains(memberSinceDate)).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount")).exists();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(2).getValue().contains(Value1)).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(3).getValue().contains(Value2)).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Member Since Date")).exists();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Member Since Date").getCell(3).getValue().contains(memberSinceDate)).isTrue();
 
 		} else {
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "AAA Membership Discount")).exists();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "AAA Membership Discount").getCell(4).getValue().contains(Value1)).isTrue();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(3).getValue().contains("Member Since Date")).isTrue();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(4).getValue().contains(memberSinceDate)).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount")).exists();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(2).getValue().contains(Value1)).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Member Since Date").getCell(1).getValue().contains("Member Since Date")).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Member Since Date").getCell(2).getValue().contains(memberSinceDate)).isTrue();
 		}
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 
 	}
+
+    private void checkMembershipInPCTab2(Boolean shouldHaveDiscount, String Value1, String Value2, String memberSinceDate) {
+        //validate that membership discount is applied (displayed) in P&C tab
+        if (shouldHaveDiscount) {
+            assertThat(PremiumAndCoveragesTab.discountsAndSurcharges).valueContains("Membership Discount");
+        } else {
+            assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount")).isFalse();
+        }
+
+        //click on 'View Rating Details' and validate that overridden membership details are displayed
+        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+
+        assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "AAA Membership Discount")).exists();
+        assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "AAA Membership Discount").getCell(4).getValue().contains(Value1)).isTrue();
+        assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(3).getValue().contains("Member Since Date")).isTrue();
+        assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(4).getValue().contains(memberSinceDate)).isTrue();
+
+
+        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+
+    }
 
 	private void checkMemberSinceWarningMessage() {
 		GeneralTab generalTab = new GeneralTab();
