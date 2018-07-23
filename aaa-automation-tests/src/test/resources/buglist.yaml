@@ -311,3 +311,16 @@ PT-1977:
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["Test for state WV has failed due to difference between pre-endorsement and post-endorsement premiums"]
+PAS-5437:
+  summary: "Occupation is not in within range error for CA PUP"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Cannot get value of Cell {<unnamed>: {<unnamed>: {<unnamed>: By.id: policyDataGatherForm:pupTableTotalPremium}", "Errors: 'Occupation' is not in within range"]
+PAS-16433:
+  summary: "Regression BCT: Time Out Error during cancellation"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*,aaa.modules.bct.service.CancelPolicyTest.*]
+      messages: ['Errors: base00003; Error; Operation has failed due to illegal arguments">', 'Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}',
+       'Errors: Time out. No session available.']
