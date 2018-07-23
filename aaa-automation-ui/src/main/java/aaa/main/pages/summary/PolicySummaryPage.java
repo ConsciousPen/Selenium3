@@ -255,7 +255,7 @@ public class PolicySummaryPage extends SummaryPage {
 					+ "/td[1]/span[2]"));
 		}
 
-		public static StaticElement provideAtributeExpandComparisonTree(int componentNumber, int attrNumber) {
+		public static StaticElement provideAttributeExpandComparisonTree(int componentNumber, int attrNumber) {
 			return new StaticElement(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + componentNumber + "_" + attrNumber + "']"
 					+ "/td[1]/span[3]"));
 		}
