@@ -1,6 +1,9 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
 import java.time.LocalDateTime;
+
+import aaa.common.enums.Constants;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -28,6 +31,7 @@ import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
+@StateList(states = Constants.States.CA)
 public class TestMembershipValidation extends AutoCaSelectBaseTest {
     /**
      * @author Andrejs Mitjukovs

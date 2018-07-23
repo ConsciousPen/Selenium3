@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
+import aaa.common.enums.Constants;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -28,6 +30,7 @@ import toolkit.utils.TestInfo;
  * 7. Validate Not Ordered Error after pressing on other Tab [Endorsement Quote]
  * @details
  **/
+@StateList(states = Constants.States.CA)
 public class TestNotOrderedMembershipError extends AutoCaSelectBaseTest {
 
     private GeneralTab generalTab = new GeneralTab();

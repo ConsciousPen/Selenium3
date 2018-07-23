@@ -23,7 +23,7 @@ import toolkit.verification.CustomAssert;
 import java.util.HashMap;
 import java.util.Map;
 
-@StateList(statesExcept = Constants.States.CA)
+@StateList(states = Constants.States.CA)
 public class TestCAFairPlanSignature extends HomeCaDP3BaseTest {
     /**
      * @author Robert Boles

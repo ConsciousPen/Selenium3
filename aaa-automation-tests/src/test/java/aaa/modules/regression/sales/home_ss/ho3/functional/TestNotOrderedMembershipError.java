@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
+import aaa.common.enums.Constants;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -28,6 +30,7 @@ import toolkit.utils.TestInfo;
  * 8. Validate Not Ordered Error after pressing Calculate Premium Button [Endorsement Quote]
  * @details
  **/
+@StateList(states = Constants.States.AZ)
 public class TestNotOrderedMembershipError extends HomeSSHO3BaseTest {
 
     private ReportsTab reportsTab = new ReportsTab();

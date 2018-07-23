@@ -17,7 +17,7 @@ import toolkit.utils.TestInfo;
 /**
  * @Author - Tyrone Jemison
  */
-@StateList(statesExcept = Constants.States.CA)
+@StateList(states = Constants.States.CA)
 public class TestCAFairPlanCanItBind extends HomeCaHO3BaseTest {
     static TestData DEFAULTPOLICYDATA;
     static HelperCommon myHelper;

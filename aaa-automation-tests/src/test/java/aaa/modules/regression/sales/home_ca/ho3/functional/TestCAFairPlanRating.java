@@ -32,7 +32,7 @@ import java.util.Map;
 import org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@StateList(statesExcept = Constants.States.CA)
+@StateList(states = Constants.States.CA)
 public class TestCAFairPlanRating extends HomeCaHO3BaseTest {
     Map<String, String> endorsement_FPCECA = new HashMap<>();
 
