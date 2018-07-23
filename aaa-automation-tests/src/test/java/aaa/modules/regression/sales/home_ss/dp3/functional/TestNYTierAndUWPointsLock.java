@@ -41,7 +41,7 @@ public class TestNYTierAndUWPointsLock extends HomeSSDP3BaseTest {
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Renewal")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-14030")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-14030, PAS-14045")
 	public void pas14030_testNYViewRatingDetailsRenewal(@Optional("NY") String state) {
 
 		template.pas14030_TestNYViewRatingDetailsRenewal(getPolicyType());
@@ -68,7 +68,7 @@ public class TestNYTierAndUWPointsLock extends HomeSSDP3BaseTest {
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Renewal with Flat Endorsement")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-14030")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-14030, PAS-14045")
 	public void pas14030_testNYViewRatingDetailsRenewalFlatEndorsement(@Optional("NY") String state) {
 
 		template.pas14030_TestNYViewRatingDetailsRenewalFlatEndorsement(getPolicyType());
