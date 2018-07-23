@@ -12,7 +12,6 @@ import aaa.modules.policy.AutoCaSelectBaseTest;
 import aaa.soap.autopolicy.models.wsdl.ErrorInfo;
 import aaa.soap.autopolicy.models.wsdl.GetAutoPolicyDetailResponse;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 
 public class TestGetAutoPolicyDetails extends AutoCaSelectBaseTest {
 	/**
@@ -44,8 +43,6 @@ public class TestGetAutoPolicyDetails extends AutoCaSelectBaseTest {
 			softly.assertThat(vehicleCompSymbolCode).isNotEmpty();
 			log.info("\nColl Symbol Code is: {}\n", vehicleCollSymbolCode);
 			softly.assertThat(vehicleCollSymbolCode).isNotEmpty();
-			;		});
-
-		CustomAssert.assertAll();
+		});
 	}
 }
