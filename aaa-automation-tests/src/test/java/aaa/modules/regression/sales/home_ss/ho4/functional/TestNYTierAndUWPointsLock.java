@@ -36,6 +36,7 @@ public class TestNYTierAndUWPointsLock extends HomeSSHO4BaseTest {
 	 * 14. Open VRD
 	 * 15. Check that Market tier is the saved value in step 5
 	 * 16. Check that Total UW points are the same value saved in step 5
+	 * 17. Validate new Market tier message for renewals
 	 * @details
 	 **/
 
@@ -63,6 +64,7 @@ public class TestNYTierAndUWPointsLock extends HomeSSHO4BaseTest {
 	 * 10. Open VRD
 	 * 11. Check that Market tier is the saved value in step 5
 	 * 12. Check that Total UW points are the same value saved in step 5
+	 * 13. Validate new Market tier message for renewals
 	 * @details
 	 **/
 
