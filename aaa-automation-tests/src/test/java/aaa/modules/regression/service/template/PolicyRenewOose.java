@@ -2,13 +2,10 @@ package aaa.modules.regression.service.template;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.openqa.selenium.By;
 
 import aaa.common.Tab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.composite.table.Table;
 
 /**
  * @author Jelena Dembovska
@@ -49,7 +46,8 @@ public class PolicyRenewOose extends PolicyBaseTest {
 	        policy.createEndorsement(getTestSpecificTD("TestData_endorsement_with_conflict").adjust(getPolicyTD("Endorsement", "TestData")));
 	        
 	        //here will be comparison screen when OOSE feature will be turned on
-	        rollOnChangesOnDifferencesTab();
+	        //rollOnChangesOnDifferencesTab();
+	        policy.rollOn().perform(true);
 	        
 	        //check: one more renewal version is created automatically
 	        PolicySummaryPage.buttonRenewalQuoteVersion.click();
@@ -58,36 +56,4 @@ public class PolicyRenewOose extends PolicyBaseTest {
 	        //product's specific checking will follow in test for concrete product
 	        
 	    }
-    
-    private void rollOnChangesOnDifferencesTab() {
-    	Table tableDifferences = new Table(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']/table"));
-        int columnsCount = tableDifferences.getColumnsCount();
-
-        //expand rows
-        for (int i = 0; i < tableDifferences.getRowsCount(); i++) {
-            Link linkTriangle = new Link(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + i
-                         + "']/td[1]/span[contains(@class, 'ui-treetable-toggler')]"));
-            if (linkTriangle.isPresent() && linkTriangle.isVisible()) {
-            	linkTriangle.click();
-            }
-        }
-
-        //check data quantity
-        //Integer rowsCountExpanded = tableDifferences.getRowsCount();
-        
-        //apply current value
-        /*
-        for (int i = 1; i <= rowsCountExpanded; i++) {
-        	Link linkSetCurrent = tableDifferences.getRow(i).getCell(columnsCount).controls.links.get("Current");
-                 
-            if (linkSetCurrent.isPresent() && linkSetCurrent.isVisible()) {
-            	linkSetCurrent.click();
-            }
-        }
-        */
-	    tableDifferences.getRow(2).getCell(columnsCount).controls.links.get("Current").click();
-	       
-        getPolicyType().get().rollOn().submit();
-    }
-		
 }

@@ -537,6 +537,43 @@ public final class PolicyActions {
 				}
 			}
 		}
+		
+		/**
+		 * Perform RollOn action without fill Conflict page. 
+		 * Fill opened Differences tab 
+		 */
+		public AbstractAction perform(boolean setCurrentValues) {
+			int rowsCount;
+			int columnsCount;
+
+			if (tableDifferences.isPresent()) {
+				rowsCount = tableDifferences.getRowsCount();
+				columnsCount = tableDifferences.getColumnsCount();
+
+				//expand rows
+				for (int i = 0; i < rowsCount; i++) {
+					Link linkTriangle = new Link(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + i
+							+ "']/td[1]/span[contains(@class, 'ui-treetable-toggler')]"));
+					if (linkTriangle.isPresent() && linkTriangle.isVisible()) {
+						linkTriangle.click();
+					}
+				}
+
+				//apply values
+				Link linkSetValue;
+				rowsCount = tableDifferences.getRowsCount();
+				for (int i = 1; i <= rowsCount; i++) {
+					linkSetValue = tableDifferences.getRow(i).getCell(columnsCount).controls.links.get(
+							setCurrentValues ? 1 : 2);
+
+					if (linkSetValue.isPresent() && linkSetValue.isVisible()) {
+						linkSetValue.click();
+					}
+				}
+				submit();
+			}
+			return this;
+		}
 	}
 
 	public abstract static class SuspendQuote extends AbstractAction {
