@@ -23,7 +23,6 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(response.expirationDate).isNotEmpty();
 		assertThat(response.sourceOfBusiness).isNotEmpty();
 		assertThat(response.renewalCycle).isGreaterThanOrEqualTo(0);
-		assertThat(response.eValueStatus).isNotEmpty();
 		assertThat(response.actualAmt).isNotEmpty();
 		assertThat(response.termPremium).isNotEmpty();
 		assertThat(response.residentialAddress.addressLine1).isNotEmpty();
