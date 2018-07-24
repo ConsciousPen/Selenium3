@@ -58,7 +58,7 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
     public void pas3786_validateMembership(@Optional("AZ") String state) {
         //UW rule
         TestData tdPolicy = getTestSpecificTD("TestData_MembershipValidationHO3");
-        TestData tdEndorsementStart = getPolicyTD("Endorsement", "TestData_Plus1Month");
+        TestData tdEndorsementStart = getPolicyTD("Endorsement", "TestData_Plus1Day");
         TestData tdRenewalStart = getPolicyTD("Renew", "TestData");
         TestData tdMembershipOverride = getTestSpecificTD("TestData_MembershipValidationHO3_OverrideErrors");
         TestData tdMembershipDummy = getTestSpecificTD("TestData_MembershipValidationHO3_Dummy");

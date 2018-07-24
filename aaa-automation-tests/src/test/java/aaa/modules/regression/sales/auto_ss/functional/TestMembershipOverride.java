@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 
-@StateList(states = Constants.States.CA)
+@StateList(states = Constants.States.AZ)
 public class TestMembershipOverride extends AutoSSBaseTest {
 
 	private static final String MEMBER_SINCE_DATE_WARNING_MESSAGE = "'Member Since Date' is required (AAA_SS02032018) [for ExistingPolicies.memberSinceDate]";
@@ -64,7 +64,6 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6311")
-
 	public void pas6311_Validate_Membership_Override_NewBusiness(@Optional("") String state) {
 
 		TestData testData = getPolicyTD();
@@ -728,10 +727,10 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Member Since Date").getCell(3).getValue().contains(memberSinceDate)).isTrue();
 
 		} else {
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount")).exists();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(2).getValue().contains(Value1)).isTrue();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Member Since Date").getCell(1).getValue().contains("Member Since Date")).isTrue();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Member Since Date").getCell(2).getValue().contains(memberSinceDate)).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "AAA Membership Discount")).exists();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "AAA Membership Discount").getCell(4).getValue().contains(Value1)).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(1).getValue().contains("Member Since Date")).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(2).getValue().contains(memberSinceDate)).isTrue();
 		}
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
