@@ -181,23 +181,23 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 		pas9662_maxDriversBody(getPolicyType());
 	}
 
-    /**
-     * @author Dakota Berg
-     * @name Test Meta Data Service for Drivers
-     * @scenario 1. Create a customer and policy
-     * 2. Initiate an endorsement outside of PAS
-     * 3. Add a driver outside of PAS
-     * 4. Run Meta Data Service for Drivers
-     * 5. Verify that the correct field options display
-     */
+	/**
+	 * @author Dakota Berg
+	 * @name Test Meta Data Service for Drivers
+	 * @scenario 1. Create a customer and policy
+	 * 2. Initiate an endorsement outside of PAS
+	 * 3. Add a driver outside of PAS
+	 * 4. Run Meta Data Service for Drivers
+	 * 5. Verify that the correct field options display
+	 */
 
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15076"})
-    public void pas15076_MetadataServiceDriver(@Optional("VA") String state) {
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15076"})
+	public void pas15076_MetadataServiceDriver(@Optional("VA") String state) {
 
-        pas15076_MetadataServiceDriverBody();
-    }
+		pas15076_MetadataServiceDriverBody();
+	}
 
 	/**
 	 * @author Jovita Pukenaite
@@ -225,8 +225,6 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 
 		pas13301_validateDriverLicenseAndAgeFirstLicensedBody();
 	}
-
-
 
 	/**
 	 * @author Maris Strazds
@@ -284,26 +282,105 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 		pas16694_orderReports_not_Named_Insured_endorsementBody(getPolicyType());
 	}
 
-    /**
-     * @author Bob Van
-     * @name Update Drivers service, set marital status.
-     * @scenario
-     * 1. Create policy on Pas.
-     * 2. Create endorsement outside of PAS
-     * 2. Add 2nd driver outside of PAS
-     * 3. Update 2nd driver as spouse outside of PAS
-     * 4. Verify married status in update response
-     * 5. Verify married status in view driver response
-     * 6. Verify PAS pended endorsement general tab data
-     * 7. Verify PAS pended endorsement driver tab data
-     */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14474"})
-    public void pas14474_UpdateSpouseDriver(@Optional("AZ") String state) {
-        pas14474_UpdateSpouseDriverBody(getPolicyType());
-    }
+	/**
+	 * @author Bob Van
+	 * @name Update Drivers service, set marital status.
+	 * @scenario
+	 * 1. Create policy on Pas.
+	 * 2. Create endorsement outside of PAS
+	 * 2. Add 2nd driver outside of PAS
+	 * 3. Update 2nd driver as spouse outside of PAS
+	 * 4. Verify married status in update response
+	 * 5. Verify married status in view driver response
+	 * 6. Verify PAS pended endorsement general tab data
+	 * 7. Verify PAS pended endorsement driver tab data
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14474"})
+	public void pas14474_UpdateSpouseDriver(@Optional("AZ") String state) {
+		pas14474_UpdateSpouseDriverBody(getPolicyType());
+	}
 
+	/**
+	 * @author Megha Gubbala
+	 * @name Update Drivers service, set marital status.
+	 * @scenario1
+	 * 1. Create policy on Pas.
+	 * 2. Create endorsement outside of PAS
+	 * 3. update marital status of FNI Single
+	 * 4. Add 1 more drive NI as spouse
+	 * 5. Update Driver
+	 * 6. Verify married status of primary driver is changed to Married
+	 * 7. Verify married status in view driver response
+	 * 8. Verify PAS pended endorsement driver tab data status is married
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
+	public void pas14475_NameInsuredMaritalStatus(@Optional("") String state) {
+		pas14475_NameInsuredMaritalStatusBody();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Update Drivers service, set marital status.
+	 * @scenario2
+	 * 1. Create policy on Pas.
+	 * 2. Create endorsement outside of PAS
+	 * 3. update marital status of FNI Divorced
+	 * 4. Add 1 more drive NI as spouse
+	 * 5. Update Driver
+	 * 6. Verify married status of primary driver is changed to Married
+	 * 7. Verify married status in view driver response
+	 * 8. Verify PAS pended endorsement driver tab data status is married
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
+	public void pas14475_NameInsuredMaritalStatusDSS(@Optional("") String state) {
+		pas14475_NameInsuredMaritalStatusFNIIsDSSBody();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Update Drivers service, set marital status.
+	 * @scenario3
+	 * 1. Create policy on Pas.
+	 * 2. Create endorsement outside of PAS
+	 * 3. update marital status of FNI Widow
+	 * 4. Add 1 more drive NI as spouse
+	 * 5. Update Driver
+	 * 6. Verify married status of primary driver is changed to Married
+	 * 7. Verify married status in view driver response
+	 * 8. Verify PAS pended endorsement driver tab data status is married
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
+	public void pas14475_NameInsuredMaritalStatusWSS(@Optional("") String state) {
+		pas14475_NameInsuredMaritalStatusFNIIsWSSBody();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Update Drivers service, set marital status.
+	 * @scenario4
+	 * 1. Create policy on Pas.
+	 * 2. Create endorsement outside of PAS
+	 * 3. update marital status of FNI PSS
+	 * 4. Add 1 more drive NI as spouse
+	 * 5. Update Driver
+	 * 6. Verify married status of primary driver is changed to Married
+	 * 7. Verify married status in view driver response
+	 * 8. Verify PAS pended endorsement driver tab data status is married
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
+	public void pas14475_NameInsuredMaritalStatusPSS(@Optional("") String state) {
+		pas14475_NameInsuredMaritalStatusFNIIsPSSBody();
+	}
 }
 
 

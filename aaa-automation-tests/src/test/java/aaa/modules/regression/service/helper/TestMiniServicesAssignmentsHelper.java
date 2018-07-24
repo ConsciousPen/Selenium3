@@ -1270,7 +1270,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
-	protected void checkAssignButtonInUiRateAndBind(String policyNumber) {
+	private void checkAssignButtonInUiRateAndBind(String policyNumber) {
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();

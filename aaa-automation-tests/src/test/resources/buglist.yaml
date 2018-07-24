@@ -206,11 +206,11 @@ PAS-13203:
       messages: ["Cannot get value of CheckBox"]
     - tests: [aaa.modules.regression.sales.auto_ca.select.TestQuotePrefill.*]
       messages: ['expected:<"[07/08/1976]"> but was:<"[]"']
-PT-1421:
+PAS-15989:
   summary: "PA PUP - View Rating Details Page - Wrong Auto Tier is displayed"
   reason: PROD
   failures:
-    - tests: [aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails.pt1421_testManuallyAddedAutoTier]
+    - tests: [aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails.pas15989_testManuallyAddedAutoTier]
       messages: ["expected", "but was"]
 PAS-13338:
   summary: "Unable to rate Home_SS PA conversion policies"
