@@ -152,6 +152,9 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	public static void paperlessPreferencesStubEndpointConfigCheck() {
 		CustomAssert.assertTrue("paperless preference stub endpoint. Please run paperlessPreferencesStubEndpointUpdate", DBService.get()
 				.getValue(String.format(PAPERLESS_PREFERENCE_STUB_POINT, PAPERLESS_WIRE_MOCK_STUB_URL)).get().contains(PAPERLESS_WIRE_MOCK_STUB_URL));
+		//TODO jpukenaite delete two last after paperless preferences will be set by default
+		DBService.get().executeUpdate(ADD_PAPERLESS_PREFERENCES_TO_CA_HO);
+		DBService.get().executeUpdate(ADD_PAPERLESS_PREFERENCES_TO_CA_CHOICE);
 	}
 
 	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
