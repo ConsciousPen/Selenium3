@@ -1,0 +1,41 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="CIO Functional FAIR Plan Test Suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+
+    <parameter name="timeshift-scenario-mode" value="method"/>
+    <test name="PAS-13215 - AC1/2 - 18.5: CA FAIR Plan: Rating (CA DP3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanRating">
+            </class>
+        </classes>
+    </test>
+    <test name="PAS-13215 - AC1/2 - 18.5: CA FAIR Plan: Rating (CA HO3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCAFairPlanRating">
+            </class>
+        </classes>
+    </test>
+    <test name="PAS-13211 PAS-13242 PAS-13216 PAS-14193 PAS-14368 PAS-13216 PAS-14004 - FAIR Plan Endorsement (formerly known as Difference in Conditions) (CA HO3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestFAIRPlanEndorsement">
+
+            </class>
+        </classes>
+    </test>
+    <test name="PAS-13211 PAS-13242 PAS-13216 PAS-14193 PAS-14368 PAS-13216 PAS-14004 - FAIR Plan Endorsement (formerly known as Difference in Conditions) (CA DP3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestFAIRPlanEndorsement">
+            </class>
+        </classes>
+    </test>
+</suite>

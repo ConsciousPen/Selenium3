@@ -2,7 +2,11 @@ package aaa.modules.openl;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
+import java.time.ZoneId;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.commons.collections4.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -10,6 +14,8 @@ import org.testng.ITestContext;
 import org.testng.annotations.*;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.common.collect.MapDifference;
+import com.google.common.collect.Maps;
 import aaa.common.pages.MainPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
@@ -102,57 +108,13 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 			actualPremium = calculatePremium(openLPolicy);
 			if (!openLPolicy.getExpectedPremium().equals(actualPremium)) {
 				RatingEngineLogsHolder ratingLogs = ratingEngineLogsGrabber.grabRatingLogs();
-				//not implemented yet
-				//checkRequestFieldsValues(ratingLogs, openLPolicy, quoteNumber);
+				compareOpenLFieldsValues(ratingLogs, openLPolicy, quoteNumber);
 				saveLogs(ratingLogs, testInfo.getTestContext(), openLPolicy.getNumber(), false);
 			} else {
 				grabAndSaveLogs(testInfo.getTestContext(), openLPolicy.getNumber(), true);
 			}
 		}
 		assertThat(actualPremium).as("Total premium for quote/policy number %s is not equal to expected one", quoteNumber).isEqualTo(openLPolicy.getExpectedPremium());
-	}
-
-	@SuppressWarnings("unchecked")
-	protected void checkRequestFieldsValues(RatingEngineLogsHolder ratingLogsHolder, P openLPolicy, String quoteNumber) {
-		//TODO-dchubkov: to be implemented...
-		/*if (!ratingLogsHolder.getRatingResponseLogContent().contains(quoteNumber)) {
-			log.warn(".......................");
-		} else {
-			P openLPolicyFromRequest = (P) ratingLogsHolder.getRequestPolicyObject(openLPolicy.getClass());
-			log.info("...........");
-			MapDifference<String, String> policyDifferences = openLPolicy.diff(openLPolicyFromRequest);
-			if (policyDifferences.areEqual()) {
-				log.info("...........");
-			} else {
-				log.warn("...........{}", policyDifferences.entriesDiffering().values());
-			}
-		}*/
-	}
-
-	protected void grabAndSaveLogs(ITestContext testContext, int openLPolicyNumber, boolean isActualEqualToExpectedPremium) {
-		saveLogs(null, testContext, openLPolicyNumber, isActualEqualToExpectedPremium);
-	}
-
-	protected void saveLogs(RatingEngineLogsHolder ratingLogsHolder, ITestContext testContext, int openLPolicyNumber, boolean isActualEqualToExpectedPremium) {
-		if ("true".equalsIgnoreCase(OPENL_GRAB_RATING_LOGS) || "always".equalsIgnoreCase(OPENL_GRAB_RATING_LOGS) || "all".equalsIgnoreCase(OPENL_GRAB_RATING_LOGS) ||
-				"failed".equalsIgnoreCase(OPENL_GRAB_RATING_LOGS) && !isActualEqualToExpectedPremium) {
-
-			if (ratingLogsHolder == null) {
-				ratingLogsHolder = ratingEngineLogsGrabber.grabRatingLogs();
-			}
-
-			String logPath = ratingEngineLogsGrabber.makeDefaultOpenLRequestLogPath(testContext.getCurrentXmlTest(), openLPolicyNumber);
-			File ratingRequestLog = ratingLogsHolder.dumpRequestLog(logPath, ARCHIVE_RATING_LOGS);
-			if (ratingRequestLog != null) {
-				testContext.setAttribute(RatingEngineLogsGrabber.RATING_REQUEST_TEST_CONTEXT_ATTR_NAME, ratingRequestLog);
-			}
-
-			logPath = ratingEngineLogsGrabber.makeDefaultOpenLResponseLogPath(testContext.getCurrentXmlTest(), openLPolicyNumber);
-			File ratingResponseLog = ratingLogsHolder.dumpResponseLog(logPath, ARCHIVE_RATING_LOGS);
-			if (ratingRequestLog != null) {
-				testContext.setAttribute(RatingEngineLogsGrabber.RATING_RESPONSE_TEST_CONTEXT_ATTR_NAME, ratingResponseLog);
-			}
-		}
 	}
 
 	/**
@@ -188,4 +150,88 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 	 * @return total premium from UI
 	 */
 	protected abstract Dollar calculatePremium(P openLPolicy);
+
+	protected void compareOpenLFieldsValues(RatingEngineLogsHolder ratingLogsHolder, P openLPolicy, String quoteNumber) {
+		if (!ratingLogsHolder.getRequestLog().getLogContent().contains(quoteNumber)) {
+			log.warn("There is no policy number {} in retrieved rating request log, further analysis has been skipped", quoteNumber);
+			return;
+		}
+
+		Map<String, String> requestOpenLFields = getOpenLFieldsMapFromRequest(ratingLogsHolder);
+		if (MapUtils.isEmpty(requestOpenLFields)) {
+			log.warn("OpenL fields values map from request log is empty, further analysis has been skipped");
+			return;
+		}
+		Map<String, String> testOpenLFields = getOpenLFieldsMapFromTest(openLPolicy);
+
+		MapDifference<String, String> differences = Maps.difference(requestOpenLFields, testOpenLFields);
+		if (differences.entriesDiffering().isEmpty()) {
+			log.info("All common OpenL fields from rating json request and {} object from test excel file have same values", openLPolicy.getClass().getSimpleName());
+		} else {
+			StringBuilder diffMessage = new StringBuilder("There are differences between values of same OpenL fields from rating json request and test excel file. "
+					+ "OpenL.Field.Path=[\"value from request\", \"value from test\"]:\n");
+			for (Map.Entry<String, MapDifference.ValueDifference<String>> diff : differences.entriesDiffering().entrySet()) {
+				diffMessage.append("    ").append(diff.getKey()).append("=[\"").append(diff.getValue().leftValue()).append("\", \"").append(diff.getValue().rightValue()).append("\"]\n");
+			}
+			log.warn(diffMessage.toString());
+
+			if (!differences.entriesOnlyOnLeft().isEmpty()) {
+				StringBuilder missedFieldsMessage = new StringBuilder("There are missed OpenL fields in policy object from test excel file:\n");
+				for (Map.Entry<String, String> missedFields : differences.entriesOnlyOnLeft().entrySet()) {
+					missedFieldsMessage.append("    ").append(missedFields.getKey()).append("=\"").append(missedFields.getValue()).append("\"\n");
+				}
+				log.warn(missedFieldsMessage.toString());
+			}
+
+			if (!differences.entriesOnlyOnRight().isEmpty()) {
+				StringBuilder missedFieldsMessage = new StringBuilder("There are missed OpenL fields in rating json request:\n");
+				for (Map.Entry<String, String> missedFields : differences.entriesOnlyOnRight().entrySet()) {
+					missedFieldsMessage.append("    ").append(missedFields.getKey()).append("=\"").append(missedFields.getValue()).append("\"\n");
+				}
+				log.warn(missedFieldsMessage.toString());
+			}
+		}
+	}
+
+	protected Map<String, String> getOpenLFieldsMapFromRequest(RatingEngineLogsHolder ratingLogsHolder) {
+		Map<String, String> openLFieldsMap = new HashMap<>(ratingLogsHolder.getRequestLog().getOpenLFieldsMap());
+		openLFieldsMap.entrySet().removeIf(e -> e.getKey().startsWith("runtimeContext.") || e.getKey().startsWith("variationPack."));
+		return openLFieldsMap;
+	}
+
+	protected Map<String, String> getOpenLFieldsMapFromTest(P openLPolicy) {
+		Map<String, String> openLFieldsMap = openLPolicy.getOpenLFieldsMap();
+		openLFieldsMap.entrySet().removeIf(e -> e.getValue() == null || "null".equalsIgnoreCase(e.getValue())); // usually we don't care about null values of OpenL fields in test file during comparision
+		openLFieldsMap.remove("policy.policyNumber"); // policy number in test always differs from value in rating request log
+		if (openLFieldsMap.containsKey("policy.effectiveDate")) {
+			openLFieldsMap.put("policy.effectiveDate", String.valueOf(openLPolicy.getEffectiveDate().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()));
+		}
+		return openLFieldsMap;
+	}
+
+	protected void grabAndSaveLogs(ITestContext testContext, int openLPolicyNumber, boolean isActualEqualToExpectedPremium) {
+		saveLogs(null, testContext, openLPolicyNumber, isActualEqualToExpectedPremium);
+	}
+
+	protected void saveLogs(RatingEngineLogsHolder ratingLogsHolder, ITestContext testContext, int openLPolicyNumber, boolean isActualEqualToExpectedPremium) {
+		if ("true".equalsIgnoreCase(OPENL_GRAB_RATING_LOGS) || "always".equalsIgnoreCase(OPENL_GRAB_RATING_LOGS) || "all".equalsIgnoreCase(OPENL_GRAB_RATING_LOGS) ||
+				"failed".equalsIgnoreCase(OPENL_GRAB_RATING_LOGS) && !isActualEqualToExpectedPremium) {
+
+			if (ratingLogsHolder == null) {
+				ratingLogsHolder = ratingEngineLogsGrabber.grabRatingLogs();
+			}
+
+			String logPath = ratingEngineLogsGrabber.makeDefaultOpenLRequestLogPath(testContext.getCurrentXmlTest(), openLPolicyNumber);
+			File ratingRequestLog = ratingLogsHolder.getRequestLog().dump(logPath, ARCHIVE_RATING_LOGS);
+			if (ratingRequestLog != null) {
+				testContext.setAttribute(RatingEngineLogsGrabber.RATING_REQUEST_TEST_CONTEXT_ATTR_NAME, ratingRequestLog);
+			}
+
+			logPath = ratingEngineLogsGrabber.makeDefaultOpenLResponseLogPath(testContext.getCurrentXmlTest(), openLPolicyNumber);
+			File ratingResponseLog = ratingLogsHolder.getResponseLog().dump(logPath, ARCHIVE_RATING_LOGS);
+			if (ratingRequestLog != null) {
+				testContext.setAttribute(RatingEngineLogsGrabber.RATING_RESPONSE_TEST_CONTEXT_ATTR_NAME, ratingResponseLog);
+			}
+		}
+	}
 }

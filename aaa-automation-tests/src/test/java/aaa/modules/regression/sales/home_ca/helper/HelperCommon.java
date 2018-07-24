@@ -120,15 +120,13 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         switch (policyType) {
             case "homeca_ho3":
                 endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel()).click();
+                endorsementTab.btnSaveEndo.click();
                 break;
             case "homeca_dp3":
                 endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECADP.getLabel()).click();
+                endorsementTab.btnSaveEndo.click();
                 break;
         }
-
-        // Handle Endorsement Confirmation
-        Page.dialogConfirmation.confirm();
-        endorsementTab.btnSaveForm.click();
     }
 
     public static void addFAIRPlanThenCancelPopUp(String policyType) {

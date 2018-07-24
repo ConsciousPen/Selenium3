@@ -5,7 +5,7 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
     <suite-files>
-        <suite-file path="./cio_fair_plan_suite.xml"/>
+        <suite-file path="./cio_fair_plan_regression.xml"/>
         <suite-file path="./cio_membership_suite.xml"/>
         <suite-file path="./cio_suite.xml"/>
     </suite-files>
