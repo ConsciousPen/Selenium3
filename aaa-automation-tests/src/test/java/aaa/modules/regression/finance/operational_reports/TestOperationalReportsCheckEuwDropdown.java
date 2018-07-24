@@ -25,7 +25,7 @@ public class TestOperationalReportsCheckEuwDropdown extends BaseTest {
 
     @Test(groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS)
-    public void pas16695_testOperationalReportsCheckEuwDropdown() {
+    public void pas14523_testOperationalReportsCheckEuwDropdown() {
         opReportApp().open();
         orTab.fillTab(getTestSpecificTD("TestData"));
         assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.NAME))
