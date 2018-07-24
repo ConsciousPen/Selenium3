@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.openqa.selenium.By;
 
+import aaa.common.Tab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.webdriver.controls.Link;
@@ -32,7 +33,8 @@ public class PolicyRenewOose extends PolicyBaseTest {
 	        createPolicy();
 	        
 	        //change payment plan value
-	        policy.renew().performAndExit(getTestSpecificTD("TestData_Renew"));
+	        policy.renew().performAndFill(getTestSpecificTD("TestData_Renew").resolveLinks());
+			Tab.buttonSaveAndExit.click();
 	         
 	        //change value for some coverage
 	        policy.createEndorsement(getTestSpecificTD("TestData_endorsement_without_conflict").adjust(getPolicyTD("Endorsement", "TestData")));
@@ -71,9 +73,10 @@ public class PolicyRenewOose extends PolicyBaseTest {
         }
 
         //check data quantity
-        Integer rowsCountExpanded = tableDifferences.getRowsCount();
+        //Integer rowsCountExpanded = tableDifferences.getRowsCount();
         
         //apply current value
+        /*
         for (int i = 1; i <= rowsCountExpanded; i++) {
         	Link linkSetCurrent = tableDifferences.getRow(i).getCell(columnsCount).controls.links.get("Current");
                  
@@ -81,7 +84,9 @@ public class PolicyRenewOose extends PolicyBaseTest {
             	linkSetCurrent.click();
             }
         }
-        
+        */
+	    tableDifferences.getRow(2).getCell(columnsCount).controls.links.get("Current").click();
+	       
         getPolicyType().get().rollOn().submit();
     }
 		
