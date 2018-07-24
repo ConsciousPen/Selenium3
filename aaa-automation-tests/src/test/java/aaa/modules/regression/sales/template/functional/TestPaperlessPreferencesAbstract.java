@@ -154,6 +154,7 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 	 * 6. Set policy paperless preferences to opt_in.
 	 * 7. Start endorsement again.
 	 * 8. Check document delivery section. Should not be displaying.
+	 * 9. Repeat all checks for renewal.
 	 * @details
 	 */
 	protected void pas12458_documentDeliverySectionDuringEndorsement() {
@@ -192,6 +193,7 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.deletePendedTransaction().start().submit();
 
+		//renewal
 		policy.renew().start().submit();
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("Yes");
