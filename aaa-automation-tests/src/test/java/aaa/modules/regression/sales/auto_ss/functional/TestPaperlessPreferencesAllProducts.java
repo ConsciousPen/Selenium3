@@ -100,7 +100,8 @@ public class TestPaperlessPreferencesAllProducts extends TestPaperlessPreference
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-12458"})
 	public void pas12458_documentDeliverySectionDataGatherMode(@Optional("VA") String state) {
 		mainApp().open();
-		getCopiedQuote();
+		createCustomerIndividual();
+		createQuote();
 		pas12458_documentDeliverySectionDataGatherMode();
 	}
 
