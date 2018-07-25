@@ -5,11 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
-import javax.ws.rs.core.Response;
 import org.assertj.core.api.SoftAssertions;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
@@ -1367,10 +1365,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		//Update existing driver with SSS
 		updateDriver(softly, policyNumber, dOid, updateDriverRequest, "PSS");
 
-		// add new NI Spouse
-		addDriverAndVerify(policyNumber, updateDriverRequest, softly, true);
-
-		//helperMiniServices.endorsementRateAndBind(policyNumber);
+			// add new NI Spouse
+			addDriverAndVerify(policyNumber, updateDriverRequest,softly, true);
 
 	}
 
