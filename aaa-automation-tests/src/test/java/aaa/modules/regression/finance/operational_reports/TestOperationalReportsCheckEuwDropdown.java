@@ -4,6 +4,7 @@ import aaa.admin.metadata.reports.OperationalReportsMetaData;
 import aaa.admin.modules.reports.operationalreports.defaulttabs.OperationalReportsTab;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.OperationalReportsConstants;
 import aaa.modules.BaseTest;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
@@ -20,16 +21,16 @@ public class TestOperationalReportsCheckEuwDropdown extends BaseTest {
      * TC Steps:
      * 1. Navigate Reports -> Operational Reports;
      * 2. Fill Category, Type
-     * 3. check "View Earn, Unearned, Written Premium (EUW) - Detail" displayed in the drop down section
+     * 3. Check "View Earn, Unearned, Written Premium (EUW) - Detail" displayed in the drop down section
      */
 
     @Test(groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS)
+    @TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-14523")
     public void pas14523_testOperationalReportsCheckEuwDropdown() {
         opReportApp().open();
         orTab.fillTab(getTestSpecificTD("TestData"));
         assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.NAME))
-                .containsOption("View Earn, Unearned, Written Premium (EUW) - Detail");
+                .containsOption(OperationalReportsConstants.EUW_DETAIL);
 
     }
 }
