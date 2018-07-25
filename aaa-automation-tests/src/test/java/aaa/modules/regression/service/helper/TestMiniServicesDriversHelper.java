@@ -1373,6 +1373,14 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		});
 	}
+
+	protected void pas15513_ViewDriverRemoveDriverIndicatorBody(TestData td) {
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNumber = createPolicy(td);
+
+		ViewDriversResponse responseViewDriver = HelperCommon.viewPolicyDrivers(policyNumber);
+	}
 }
 
 

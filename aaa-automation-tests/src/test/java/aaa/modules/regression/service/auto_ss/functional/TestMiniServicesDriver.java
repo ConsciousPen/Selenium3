@@ -381,6 +381,15 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	public void pas14475_NameInsuredMaritalStatusPSS(@Optional("") String state) {
 		pas14475_NameInsuredMaritalStatusFNIIsPSSBody();
 	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-482"})
+	public void pas15513_ViewDriverRemoveDriverIndicator(@Optional("AZ") String state) {
+		TestData td = getTestSpecificTD("TestData1");
+		pas15513_ViewDriverRemoveDriverIndicatorBody(td);
+
+	}
 }
 
 
