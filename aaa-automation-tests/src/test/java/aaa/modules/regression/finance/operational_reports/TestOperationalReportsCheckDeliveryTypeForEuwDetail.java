@@ -37,7 +37,7 @@ public class TestOperationalReportsCheckDeliveryTypeForEuwDetail extends BaseTes
 
         //Check Delivery Type radio buttons 'Download', 'E-Mail' are displayed;
         assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.DELIVERY_TYPE))
-                .hasOptions(OperationalReportsConstants.DeliveryType.EMAIL, OperationalReportsConstants.DeliveryType.DOWNLOAD);
+                .containsAllOptions(OperationalReportsConstants.DeliveryType.EMAIL, OperationalReportsConstants.DeliveryType.DOWNLOAD);
 
         orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.DELIVERY_TYPE).setValue(OperationalReportsConstants.DeliveryType.EMAIL);
 
