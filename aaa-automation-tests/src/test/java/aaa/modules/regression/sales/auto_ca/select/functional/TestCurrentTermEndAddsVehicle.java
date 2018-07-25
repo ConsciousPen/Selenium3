@@ -13,17 +13,16 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.apache.bcel.generic.NEW;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import aaa.modules.regression.sales.template.functional.CommonTemplateMethods;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
@@ -58,7 +57,6 @@ public class TestCurrentTermEndAddsVehicle extends AutoCaSelectBaseTest {
     private TestData testDataThreeVehicles;
     private aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab assignmentTab = new aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab();
 
-
     /**
      * * @author Kiruthika Rajendran
      *
@@ -79,10 +77,11 @@ public class TestCurrentTermEndAddsVehicle extends AutoCaSelectBaseTest {
      * @details
      */
 
-    //Scenario 1 - second VIN not matched
+    //Scenario 1 - first VIN not matched
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-14532")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-16150")
+//PAS-16150 and PAS-14532 carry same scenarios
     public void pas14532_refreshForCurrentAndRenewalTermsVinNotMatched(@Optional("CA") String state) {
         pas14532_refreshForCurrentAndRenewalTerms(state, "NOT_MATCHED");
     }
@@ -107,10 +106,11 @@ public class TestCurrentTermEndAddsVehicle extends AutoCaSelectBaseTest {
      * @details
      */
 
-    //Scenario 2 - second VIN matched
+    //Scenario 2 - first VIN matched
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-14532")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-16150")
+//PAS-16150 and PAS-14532 carry same scenarios
     public void pas14532_refreshForCurrentAndRenewalTermsVinMatched(@Optional("CA") String state) {
         pas14532_refreshForCurrentAndRenewalTerms(state, "MATCHED");
     }
@@ -139,7 +139,8 @@ public class TestCurrentTermEndAddsVehicle extends AutoCaSelectBaseTest {
     //Scenario 3 - VIN stub update
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-14532")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-16150")
+//PAS-16150 and PAS-14532 carry same scenarios
     public void pas14532_refreshForCurrentAndRenewalTermsVinStubUpdate(@Optional("CA") String state) {
         pas14532_refreshForCurrentAndRenewalTerms(state, "STUB");
     }
@@ -150,6 +151,7 @@ public class TestCurrentTermEndAddsVehicle extends AutoCaSelectBaseTest {
         UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
         String vinTableFile = "VinUploadOnCurrentTerm.xlsx";
         String controlTableFile = "controlTable_CA.xlsx";
+        String vinTableFileUpdatedVersion = "VinUploadOnCurrentTermUpdatedVersion.xlsx";
 
         //1. Create CA auto quote with two vins and save the expiration date
         mainApp().open();
@@ -171,6 +173,12 @@ public class TestCurrentTermEndAddsVehicle extends AutoCaSelectBaseTest {
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
+        //Upload the Vin table file by changing valid flag for the same version for Vehicle 2
+        if (scenario.equals("MATCHED")) { //scenario 2
+            adminApp().open();
+            uploadToVINTableTab.uploadVinTable(vinTableFileUpdatedVersion);
+        }
+
         //4. Initiate endorsement
         initiateEndorsement();
 
@@ -182,44 +190,40 @@ public class TestCurrentTermEndAddsVehicle extends AutoCaSelectBaseTest {
         } else if (scenario.equals("MATCHED")) { //scenario 2
             testDataThreeVehicles = getTestDataWithThreeVehicles(getPolicyTD(), "MATCHED");
         } else if (scenario.equals("STUB")) { //scenario 3
-            //TODO - to be added later, if needed
             testDataThreeVehicles = getTestDataWithThreeVehicles(getPolicyTD(), "STUB");
         }
 
         //6. Calculate Premium and bind the endorsement.
         ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
         policy.getDefaultView().fillFromTo(testDataThreeVehicles, aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab.class, aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.class, true);
-
-	    NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.submitTab();
 
-
+        //Conflict page
         Table tableDifferences = new Table(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']/table"));
         int columnsCount = tableDifferences.getColumnsCount();
 
-        Link linkTriangle = new Link(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_"  + 0
+        Link linkTriangle = new Link(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + 0
                 + "']/td[1]/span[contains(@class, 'ui-treetable-toggler')]"));
         if (linkTriangle.isPresent() && linkTriangle.isVisible()) {
             linkTriangle.click();
 
             Link linkSetCurrent = tableDifferences.getRow(2).getCell(columnsCount).controls.links.get("Current");
-            Link linkSetAvailable= tableDifferences.getRow(2).getCell(columnsCount).controls.links.get("Available");
+            Link linkSetAvailable = tableDifferences.getRow(2).getCell(columnsCount).controls.links.get("Available");
 
             linkSetCurrent.click();
 
-            if(scenario.equals("NOT_MATCHED")) { //scenario 1
+            if (scenario.equals("NOT_MATCHED")) { //scenario 1
                 linkSetCurrent.click();
                 policy.rollOn().submit();
-            } else if(scenario.equals("MATCHED")) { //scenario 2
+            } else if (scenario.equals("MATCHED")) { //scenario 2
                 linkSetAvailable.click();
                 policy.rollOn().submit();
-            } else if(scenario.equals("STUB")) { //scenario 3
+            } else if (scenario.equals("STUB")) { //scenario 3
                 linkSetCurrent.click();
                 policy.rollOn().submit();
             }
-
-        }
-        else {
+        } else {
             log.info("NO CONFLICT PAGE FOUND! ENABLE RENEWAL MERGE YOU FOOL!");
         }
 
@@ -234,7 +238,7 @@ public class TestCurrentTermEndAddsVehicle extends AutoCaSelectBaseTest {
                     3, "TOYOTA MOTOR", "20", "30",
                     4, "FORD MOTOR", "25", "37");
         } else if (scenario.equals("MATCHED")) { //Assertion for scenario 2
-            doSoftAssertions(2, "GMC MOTOR", "50", "50",
+            doSoftAssertions(2, "KIA MOTOR", "20", "10",
                     3, "TOYOTA MOTOR", "20", "30",
                     4, "FORD MOTOR", "25", "37");
         } else if (scenario.equals("STUB")) { //Assertion for scenario 3
@@ -416,6 +420,7 @@ public class TestCurrentTermEndAddsVehicle extends AutoCaSelectBaseTest {
         DatabaseCleanHelper.cleanVehicleRefDataVinTable(VEHICLE2_VIN, SYMBOL_2018_CHOICE);
         DatabaseCleanHelper.cleanVehicleRefDataVinTable(VEHICLE3_VIN, SYMBOL_2018_CHOICE);
         DatabaseCleanHelper.cleanVehicleRefDataVinTable(VEHICLE4_VIN, SYMBOL_2018_CHOICE);
+        DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("JT2AE91A%M", "TOYOTA MOTR");
         DatabaseCleanHelper.cleanVehicleRefDataVinTable("2GTEC19V%3", SYMBOL_2018_CHOICE);
         DatabaseCleanHelper.cleanVehicleRefDataVinTable("2HNYD2H6%C", SYMBOL_2018_CHOICE);
         DatabaseCleanHelper.cleanVehicleRefDataVinTable("WBSAK031%M", SYMBOL_2018_CHOICE);
