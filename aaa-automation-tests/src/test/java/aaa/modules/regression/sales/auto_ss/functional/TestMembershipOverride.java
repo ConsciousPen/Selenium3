@@ -16,11 +16,14 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
+import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.StaticElement;
 
 import java.time.LocalDateTime;
@@ -132,6 +135,12 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
 				AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()),
 				getTestSpecificTD("AAAProductOwned_MSNo").resolveLinks());
+
+		testData.adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(),
+				AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()),
+				getTestSpecificTD("DriverTab_OV").resolveLinks());
+
+		//new DriverTab().getAssetList().getAsset(AutoSSMetaData.DriverTab.LICENSE_NUMBER).setValue("A00000000");
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -378,7 +387,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
+	@Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6313")
 	public void pas6313_Validate_Membership_Override_NB15NB30(@Optional("") String state) {
 
@@ -441,7 +450,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
+	@Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6313")
 	public void pas6313_Validate_Membership_Override_NB15NB30_Negative(@Optional("AZ") String state) {
 		TestData tdSpecific = getTestSpecificTD("AAAProductOwned_MS_Pending").resolveLinks();
@@ -460,7 +469,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-		TestEValueMembershipProcess.jobsNBplus15plus30runNoChecks();
+		jobsNBplus15plus30runNoChecks();
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -491,6 +500,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 
 	//////////Start of PAS-6314
 
+
 	/**
 	 * @author Maris Strazds
 	 * @name PAS-6314 Membership batch order job needs to account for membership override (Renewal) (AC#1)
@@ -503,7 +513,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
+	@Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6314")
 	public void pas6314_Validate_Membership_Override_AC1(@Optional("AZ") String state) {
 
@@ -567,7 +577,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
+	@Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6314")
 	public void pas6314_Validate_Membership_Override_AC2(@Optional("AZ") String state) {
 
@@ -632,7 +642,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
+	@Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6314")
 	public void pas6314_Validate_Membership_Override_AC3(@Optional("AZ") String state) {
 
@@ -720,17 +730,17 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
 		if (isEndorsement) {
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount")).exists();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(2).getValue().contains(Value1)).isTrue();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(3).getValue().contains(Value2)).isTrue();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Member Since Date")).exists();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Member Since Date").getCell(3).getValue().contains(memberSinceDate)).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount")).isPresent();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount").getCell(6).getValue().contains(Value1)).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount").getCell(6).getValue().contains(Value2)).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "Member Since Date").getCell(6).isPresent());
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "Member Since Date").getCell(6).getValue().contains(memberSinceDate)).isTrue();
 
 		} else {
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "AAA Membership Discount")).exists();
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "AAA Membership Discount").getCell(4).getValue().contains(Value1)).isTrue();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(1).getValue().contains("Member Since Date")).isTrue();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(2).getValue().contains(memberSinceDate)).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(3).getValue().contains("Member Since Date")).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(4).getValue().contains(memberSinceDate)).isTrue();
 		}
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
@@ -809,6 +819,24 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 
 		// Open Renewal Image in Inquiry mode
 		policy.policyInquiry().start();
+	}
+
+	static void jobsNBplus15plus30runNoChecks() {
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
+		//the job might not exist in AWS
+		if(new SoapJobActions().isJobExist(JobGroup.fromSingleJob(Jobs.membershipValidationJob.getJobName()))){
+			JobUtils.executeJob(Jobs.membershipValidationJob);
+		} else {
+			//JobUtils.executeJob(Jobs.aaaBatchMarkerJob); //OSI: job is not required
+			JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
+			JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
+			JobUtils.executeJob(Jobs.automatedProcessingRunReportsServicesJob);
+			JobUtils.executeJob(Jobs.automatedProcessingIssuingOrProposingJob);
+			JobUtils.executeJob(Jobs.automatedProcessingStrategyStatusUpdateJob);
+			//BUG INC0635200 PAS-ASM: multiple VDMs: We have a failing job on the VDMs. - the next line is closed as not a defect and this one was opened
+			//BUG PAS-6162 automatedProcessingBypassingAndErrorsReportGenerationJob is failing with Error, failed to retrieve 'placeholder' Report Entity
+			JobUtils.executeJob(Jobs.automatedProcessingBypassingAndErrorsReportGenerationJob);
+		}
 	}
 
 }
