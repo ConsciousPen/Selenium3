@@ -208,6 +208,7 @@
             <class name="aaa.modules.regression.document_fulfillment.auto_ss.functional.TestCinRenewalAutoSS">
                 <methods>
                     <include name="testCinCLUE"/>
+                    <include name="testNewDriverBetterScore"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestRestrictedPaymentPlan">

@@ -1,17 +1,16 @@
 
 package aaa.soap.autopolicy;
 
-import aaa.soap.AAAHTTPConfigurer;
-import aaa.soap.autopolicy.models.wsdl.GetAutoPolicyDetail;
+import java.net.MalformedURLException;
+import java.net.URL;
+import javax.xml.namespace.QName;
+import javax.xml.ws.*;
 import org.apache.cxf.Bus;
 import org.apache.cxf.bus.CXFBusFactory;
 import org.apache.cxf.transport.http.HTTPConduitConfigurer;
+import aaa.soap.AAAHTTPConfigurer;
+import aaa.soap.autopolicy.models.wsdl.GetAutoPolicyDetail;
 import toolkit.config.PropertyProvider;
-
-import javax.xml.namespace.QName;
-import javax.xml.ws.*;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 
 /**
@@ -33,7 +32,7 @@ public class GetAutoPolicyDetailService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL(String.format("http://%1$s%2$s/aaa-admin/services/getAutoPolicyDetail?wsdl", PropertyProvider.getProperty("app.host"),PropertyProvider.getProperty("admin.port")));
+            url = new URL(String.format("http://%1$s%2$s/aaa-admin/services/getAutoPolicyDetail?wsdl", PropertyProvider.getProperty("app.host"),PropertyProvider.getProperty("app.ad.urltemplate").substring(0,5)));
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

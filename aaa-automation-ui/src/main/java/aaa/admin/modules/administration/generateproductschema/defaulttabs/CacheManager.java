@@ -28,6 +28,7 @@ public class CacheManager extends DefaultTab {
 		long timeout = System.currentTimeMillis() + timeoutInSeconds * 1000;
 
 		while (timeout > System.currentTimeMillis()) {
+			NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 			NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.CACHE_MANAGER.get());
 			if (tableCacheManager.isPresent()) {
 				break;

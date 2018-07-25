@@ -206,11 +206,11 @@ PAS-13203:
       messages: ["Cannot get value of CheckBox"]
     - tests: [aaa.modules.regression.sales.auto_ca.select.TestQuotePrefill.*]
       messages: ['expected:<"[07/08/1976]"> but was:<"[]"']
-PT-1421:
+PAS-15989:
   summary: "PA PUP - View Rating Details Page - Wrong Auto Tier is displayed"
   reason: PROD
   failures:
-    - tests: [aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails.pt1421_testManuallyAddedAutoTier]
+    - tests: [aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails.pas15989_testManuallyAddedAutoTier]
       messages: ["expected", "but was"]
 PAS-13338:
   summary: "Unable to rate Home_SS PA conversion policies"
@@ -325,3 +325,22 @@ PT-1977:
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["Test for state WV has failed due to difference between pre-endorsement and post-endorsement premiums"]
+PAS-5437:
+  summary: "Occupation is not in within range error for CA PUP"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Cannot get value of Cell {<unnamed>: {<unnamed>: {<unnamed>: By.id: policyDataGatherForm:pupTableTotalPremium}", "Errors: 'Occupation' is not in within range"]
+PAS-16433:
+  summary: "Regression BCT: Time Out Error during cancellation"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*,aaa.modules.bct.service.CancelPolicyTest.*]
+      messages: ['Errors: base00003; Error; Operation has failed due to illegal arguments">', 'Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}',
+       'Errors: Time out. No session available.']
+PAS-2171:
+  summary: "Membership Discount wasn't removed when it should"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess.pas3697_membershipEligConfFalseForPendingMembershipPendingPaperless]
+      messages: ['Expecting: <"eValue Discount Removed - Paperless"> to contain: <"eValue and Membership Discounts Removed - Membership, Paperless">']

@@ -36,12 +36,13 @@ public class TestNYTierAndUWPointsLock extends HomeSSHO6BaseTest {
 	 * 14. Open VRD
 	 * 15. Check that Market tier is the saved value in step 5
 	 * 16. Check that Total UW points are the same value saved in step 5
+	 * 17. Validate new Market tier message for renewals
 	 * @details
 	 **/
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Renewal")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-14030")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-14030, PAS-14045")
 	public void pas14030_testNYViewRatingDetailsRenewal(@Optional("NY") String state) {
 
 		template.pas14030_TestNYViewRatingDetailsRenewal(getPolicyType());
@@ -63,12 +64,13 @@ public class TestNYTierAndUWPointsLock extends HomeSSHO6BaseTest {
 	 * 10. Open VRD
 	 * 11. Check that Market tier is the saved value in step 5
 	 * 12. Check that Total UW points are the same value saved in step 5
+	 * 13. Validate new Market tier message for renewals
 	 * @details
 	 **/
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Renewal with Flat Endorsement")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-14030")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-14030, PAS-14045")
 	public void pas14030_testNYViewRatingDetailsRenewalFlatEndorsement(@Optional("NY") String state) {
 
 		template.pas14030_TestNYViewRatingDetailsRenewalFlatEndorsement(getPolicyType());
