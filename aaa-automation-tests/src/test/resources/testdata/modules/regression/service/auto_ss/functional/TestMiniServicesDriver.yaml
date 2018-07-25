@@ -25,6 +25,7 @@ TestData1: {
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 
 }
+
 GeneralTab1: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2','@NamedInsuredInformation3'],
   AAAProductOwned: '@AAAProductOwned',
