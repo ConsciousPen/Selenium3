@@ -227,6 +227,28 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	}
 
 	/**
+	 * @author Jovita Pukenaite
+	 * @name Unique Driver Licenses - error 200008
+	 * @scenario 1. Create Policy with two drivers.
+	 * 2. Start do endorsement outside of PAS.
+	 * 3. Update first driver with the same DL like the second driver have.
+	 * 4. Update with correct DL.
+	 * 5. Bind endorsement. Create new one.
+	 * 6. Add new driver.
+	 * 7. Add DL which already exist.
+	 * 8. Update with new DL.
+	 * 9. Rate and Bind.
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15373"})
+	public void pas15373_uniqueDriverLicenses(@Optional("VA") String state) {
+
+		pas15373_uniqueDriverLicensesBody(getPolicyType());
+	}
+
+	/**
 	 * @author Maris Strazds
 	 * @name Test Report Ordering for Endorsement (Named Insured)
 	 * @scenario
