@@ -221,6 +221,16 @@ public class Scenario12 extends ScenarioBaseTest {
 					.setReason(BillingConstants.PaymentsAndOtherTransactionReason.OVERPAYMENT).verifyPresent();
 		}
 	}
+	
+	protected boolean isRefundAfterImageGeneration() {
+		LocalDateTime refundDate = getTimePoints().getRefundDate(paymentDate);
+		LocalDateTime renewDateImage = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
+		if (refundDate.isAfter(renewDateImage)) {
+			return  true;
+		}
+		else 
+			return false;
+	}
 
 	protected void renewalImageGeneration() {
 		renewalImageGeneration(policyExpirationDate);

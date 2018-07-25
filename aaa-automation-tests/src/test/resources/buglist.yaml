@@ -37,7 +37,7 @@ EISDEV-XXXXX3:
   failures:
     - tests: [aaa.modules.regression.sales.home_ca.dp3.TestPolicyCreation, aaa.modules.regression.sales.home_ca.dp3.TestPolicyCreationFull]
       messages: ['Unable to locate element: {"method":"id","selector":"policyDataGatherForm:premiumRecalcCov"']
-QC-44326:
+PAS-8264:
   summary: "Regression: IN AutoSS: The UW rule is appears wrongly for UMPD coverage of NANO policy"
   reason: PROD
   failures:
@@ -281,12 +281,6 @@ PAS-5419:
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["Cannot get value of Cell", "'Liability Code' is not in within range"]
-QC-45011:
-  summary: "Cancellation notice is not generated for AutoSS NJ after endorsement and Off cycle bill generation"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.e2e.auto_ss.TestScenario4.TC01_createPolicy]
-      messages: ["'Cancel Notice' flag is present expected [true] but found [false]"]
 PAS-15970:
   summary: "Regression: Auto SS: Unable to remove second insured in copied quote"
   reason: PROD
@@ -305,3 +299,22 @@ PAS-16002:
   failures:
     - tests: [aaa.modules.docgen.home_ss.ho3.TestDocgenScenarios.testReturnPaymentDocuments]
       messages: ["60 5003"]
+PT-1977:
+  summary: "WV State. Total premium value is reduced during Empty Endorsement"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Test for state WV has failed due to difference between pre-endorsement and post-endorsement premiums"]
+PAS-5437:
+  summary: "Occupation is not in within range error for CA PUP"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Cannot get value of Cell {<unnamed>: {<unnamed>: {<unnamed>: By.id: policyDataGatherForm:pupTableTotalPremium}", "Errors: 'Occupation' is not in within range"]
+PAS-16433:
+  summary: "Regression BCT: Time Out Error during cancellation"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*,aaa.modules.bct.service.CancelPolicyTest.*]
+      messages: ['Errors: base00003; Error; Operation has failed due to illegal arguments">', 'Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}',
+       'Errors: Time out. No session available.']

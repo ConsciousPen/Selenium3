@@ -1,10 +1,6 @@
 package aaa.modules.bct.service;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -17,6 +13,10 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 
 public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
@@ -32,7 +32,6 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 		SearchPage.openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		deletePendingTransaction(policy);
-
 		policy.cancel().perform(getTestSpecificTD("Cancellation_005"));
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 	}
@@ -58,7 +57,6 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 		SearchPage.openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		deletePendingTransaction(policy);
-
 		policy.cancel().perform(getTestSpecificTD("Cancellation_009"));
 
 		// Check if Status is updated to Policy Cancelled in the UI
@@ -82,7 +80,7 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 		PolicySummaryPage.verifyCancelNoticeFlagPresent();
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		Dollar totalDue = BillingSummaryPage.getTotalDue().add(new Dollar(1));
+		Dollar totalDue = BillingSummaryPage.getTotalDue();
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
 		BillingSummaryPage.openPolicy(1);
 

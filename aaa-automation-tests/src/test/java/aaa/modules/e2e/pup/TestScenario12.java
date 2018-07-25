@@ -31,10 +31,15 @@ public class TestScenario12 extends Scenario12 {
 			generateCancellation();
 			createRemittanceFile();
 			payCancellationNoticeByRemittance();
-			policyReinstatement();
-			generateRefund();
-						
-			renewalImageGeneration();
+			policyReinstatement();			
+			if (isRefundAfterImageGeneration()) {
+				renewalImageGeneration();
+				generateRefund();
+			}
+			else {
+				generateRefund();	
+				renewalImageGeneration();
+			}
 			renewalPreviewGeneration();
 			renewalOfferGeneration(); 
 			if (!getState().equals(Constants.States.CA)) {

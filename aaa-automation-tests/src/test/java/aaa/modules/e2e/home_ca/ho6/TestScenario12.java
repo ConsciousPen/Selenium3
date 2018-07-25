@@ -30,9 +30,14 @@ public class TestScenario12 extends Scenario12 {
 			createRemittanceFile();
 			payCancellationNoticeByRemittance();
 			policyReinstatement();
-			generateRefund();
-
-			renewalImageGeneration();
+			if (isRefundAfterImageGeneration()) {
+				renewalImageGeneration();
+				generateRefund();
+			}
+			else {
+				generateRefund();	
+				renewalImageGeneration();
+			}
 			renewalPreviewGeneration();
 			renewalOfferGeneration();
 			changePaymentPlanForCA();
