@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
-import javax.ws.rs.core.Response;
 import org.assertj.core.api.SoftAssertions;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
@@ -1185,6 +1184,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
             // create policy via pas
             String policyNumber = getCopiedPolicy();
+	        String fniDriverName = HelperCommon.viewPolicyDrivers(policyNumber).driverList.get(0).firstName;
+	        String fniDriverLastName = HelperCommon.viewPolicyDrivers(policyNumber).driverList.get(0).lastName;
 
             System.out.println("createEndorsement via dxp");
             helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -1230,8 +1231,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	        DriversDto fniDriver = viewDriverResponse.driverList.stream().filter(driver -> !driver.oid.equals(newDriverOid)).findAny().orElse(null);
 	        softly.assertThat(fniDriver.oid).isNotNull();
-	        softly.assertThat(fniDriver.firstName).startsWith("Fernando");
-	        softly.assertThat(fniDriver.lastName).isEqualTo("Smith");
+	        softly.assertThat(fniDriver.firstName).isEqualTo(fniDriverName);
+	        softly.assertThat(fniDriver.lastName).isEqualTo(fniDriverLastName);
 	        softly.assertThat(fniDriver.driverType).isEqualTo("afr");
 	        softly.assertThat(fniDriver.namedInsuredType).isEqualTo("FNI");
 	        softly.assertThat(fniDriver.relationToApplicantCd).isEqualTo("IN");
