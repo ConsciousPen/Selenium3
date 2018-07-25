@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import aaa.utils.excel.bind.BindHelper;
+import aaa.utils.excel.bind.ReflectionHelper;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
@@ -38,7 +38,7 @@ public abstract class TableClassInfo {
 	
 	public Class<?> getAnnotatedTableClass() {
 		if (this.annotatedTableClass == null) {
-			this.annotatedTableClass = BindHelper.getThisAndAllSuperClasses(tableClass).stream().filter(clazz -> clazz.isAnnotationPresent(ExcelTableElement.class)).findFirst().orElseThrow(
+			this.annotatedTableClass = ReflectionHelper.getThisAndAllSuperClasses(tableClass).stream().filter(clazz -> clazz.isAnnotationPresent(ExcelTableElement.class)).findFirst().orElseThrow(
 					() -> new IstfException(String.format("Unable to find excel table for \"%1$s\" class, neither it nor any super class has \"%2$s\" annotation", tableClass.getSimpleName(), ExcelTableElement.class.getSimpleName())));
 		}
 		return this.annotatedTableClass;
@@ -53,7 +53,7 @@ public abstract class TableClassInfo {
 	
 	public List<Field> getTableColumnsFields() {
 		if (this.tableColumnsFields == null) {
-			this.tableColumnsFields = BindHelper.getAllAccessibleFields(getTableClass(), false);
+			this.tableColumnsFields = ReflectionHelper.getAllAccessibleFieldsFromThisAndSuperClasses(getTableClass());
 		}
 		return Collections.unmodifiableList(this.tableColumnsFields);
 	}

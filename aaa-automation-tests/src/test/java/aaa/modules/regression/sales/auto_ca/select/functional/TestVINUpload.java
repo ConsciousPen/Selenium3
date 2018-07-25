@@ -15,7 +15,6 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
@@ -31,7 +30,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.helper.VinUploadCleanUpMethods;
 import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
 public class TestVINUpload extends TestVINUploadTemplate {
@@ -43,12 +41,13 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	private static final String NEW_VIN5 = "EEENK2CCXF9455583"; // New5VIN_CA_SELECT
 	private static final String NEW_VIN6 = "FFFNK2CC9F9455583"; // New Vin Added
 	private static final String NEW_VIN7 = "GGGNK2CC8F9455583"; // New7VIN_CA_SELECT
-	private static final String REFRESHABLE_VIN = "1HGEM215X50028445";
+	private static final String REFRESHABLE_VIN = "4T1BE30K46U656311";
 	private static final String HHHNK2CC7F9455583 = "HHHNK2CC7F9455583"; // New9VIN_CA_SELECT
 	private static final String NEW_VIN8 = "ABXKN3DDXE0344466";
 	private static final String NEW_VIN9 = "LLXKN3DD0E0344466";
 
 	private VehicleTab vehicleTab = new VehicleTab();
+	private UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -100,6 +99,14 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	public void pas527_UpdatedVinRenewal(@Optional("") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
 		updatedVinRenewal(vinMethods.getSpecificUploadFile(VinUploadFileType.REFRESHABLE_VIN.get()), REFRESHABLE_VIN);
+
+
+		// New file with original VIN data is needed for current test to reset original data (REFRESHABLE_VIN). Cleanup used in current method to avoid file Upload for not required tests
+		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(Arrays.asList(REFRESHABLE_VIN),DefaultVinVersions.DefaultVersions.CaliforniaSelect);
+
+		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		uploadToVINTableTab.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.REFRESHABLE_VIN_RESET_ORIGINAL.get()));
 	}
 
 	/**
@@ -342,24 +349,25 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	public void pas12872_VINRefreshNoMatchOnRenewalAutoCA(@Optional("CA") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NO_MATCH_ON_RENEWAL.get());
-		String vehYear = "2011";
-		String vehMake = "TOYOTA";
-		String vehModel = "HIGHLANDER";
-		String vehSeries = "HIGHLANDER LIMITED";
-		String vehBodyStyle = "WAGON 4 DOOR";
-		String expectedYear = "2011";
-		String expectedMake = "TOYOTA MOTOR";
-		String expectedModel = "TOYOTA HIGHLANDER";
+		String vehYear = "2017";
+		String vehMake = "NISSAN";
+		String vehModel = "ALTIMA";
+		String vehSeries = "ALTIMA 3.5SL";
+		String vehBodyStyle = "SEDAN";
+		String expectedYear = "2017";
+		String expectedMake = "NISSAN MOTOR";
+		String expectedModel = "NISS ALTIMA";
 
 		pas12872_VINRefreshNoMatchOnRenewalAutoCA(NEW_VIN9, vinTableFile, vehYear, vehMake, vehModel, vehSeries, vehBodyStyle, expectedYear, expectedMake, expectedModel);
 	}
 
 	@AfterClass(alwaysRun = true)
 	protected void vinTablesCleaner() {
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
+
 		List<String> listOfVinIds = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN_ADDED, NEW_VIN4, NEW_VIN5, NEW_VIN6, NEW_VIN7, HHHNK2CC7F9455583);
 		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinIds,DefaultVinVersions.DefaultVersions.CaliforniaSelect);
 
-		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_CAS);
 		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1","3VWHX7AJ%A","SYMBOL_2000","VOLKSWAGEN");
 		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("3VWHX7AJ%A", "VOLKSWAGEN AG");
 		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1","JTEDC3EH%B","SYMBOL_2000","TOYOTA");

@@ -4,7 +4,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import aaa.utils.excel.bind.BindHelper;
+import aaa.utils.excel.bind.ReflectionHelper;
 import toolkit.exceptions.IstfException;
 
 public abstract class AbstractMock implements UpdatableMock {
@@ -15,11 +15,11 @@ public abstract class AbstractMock implements UpdatableMock {
 		UpdatableMock clonedMock = otherMock.clone();
 
 		boolean isUpdated = false;
-		for (Field tableField : BindHelper.getAllAccessibleFields(clonedMock.getClass(), true)) {
-			List<Object> thisTableObjects = (List<Object>) BindHelper.getValueAsList(tableField, this);
-			List<Object> otherTableObjects = new ArrayList<>(BindHelper.getValueAsList(tableField, clonedMock));
+		for (Field tableField : ReflectionHelper.getAllAccessibleTableFieldsFromThisAndSuperClasses(clonedMock.getClass())) {
+			List<Object> thisTableObjects = (List<Object>) ReflectionHelper.getValueAsList(tableField, this);
+			List<Object> otherTableObjects = new ArrayList<>(ReflectionHelper.getValueAsList(tableField, clonedMock));
 			if (thisTableObjects == null && otherTableObjects != null) {
-				BindHelper.setFieldValue(tableField, this, otherTableObjects);
+				ReflectionHelper.setFieldValue(tableField, this, otherTableObjects);
 				isUpdated = true;
 			} else {
 				if (thisTableObjects.addAll(otherTableObjects)) {
@@ -35,9 +35,9 @@ public abstract class AbstractMock implements UpdatableMock {
 		AbstractMock clone = null;
 		try {
 			clone = (AbstractMock) super.clone();
-			for (Field tableField : BindHelper.getAllAccessibleFields(this.getClass(), true)) {
-				List<Object> tableObjects = new ArrayList<>(BindHelper.getValueAsList(tableField, this));
-				BindHelper.setFieldValue(tableField, clone, tableObjects);
+			for (Field tableField : ReflectionHelper.getAllAccessibleTableFieldsFromThisAndSuperClasses(this.getClass())) {
+				List<Object> tableObjects = new ArrayList<>(ReflectionHelper.getValueAsList(tableField, this));
+				ReflectionHelper.setFieldValue(tableField, clone, tableObjects);
 			}
 		} catch (CloneNotSupportedException ignore) {
 			// never should happen

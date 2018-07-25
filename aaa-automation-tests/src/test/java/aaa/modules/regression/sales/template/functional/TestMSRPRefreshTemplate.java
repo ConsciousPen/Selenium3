@@ -108,7 +108,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		assertThat(renewalVersionCurrentVin).isEqualTo(newBusinessCurrentVinBeforeNull);
 	}
 
-	protected void vehicleTypeRegular(TestData testData) {
+	protected void vehicleTypeRegular(TestData testData, boolean isRegularType) {
 
 		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
@@ -128,12 +128,12 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 		findAndRateQuote(testData, quoteNumber);
 
-		CompCollSymbolChecks_pas730(compSymbol, collSymbol);
+		CompCollSymbolChecks_pas730(compSymbol, collSymbol, isRegularType);
 
 		premiumAndCoveragesTab.saveAndExit();
 	}
 
-	protected void vehicleTypeNotRegular(TestData testData) {
+	protected void vehicleTypeNotRegular(TestData testData, boolean isRegularType) {
 
 		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
@@ -153,13 +153,13 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 		findAndRateQuote(testData, quoteNumber);
 
-		CompCollSymbolChecks_pas730(compSymbol, collSymbol);
+		CompCollSymbolChecks_pas730(compSymbol, collSymbol, isRegularType);
 
 		premiumAndCoveragesTab.saveAndExit();
 
 	}
 
-	protected void renewalVehicleTypeRegular(TestData testData) {
+	protected void renewalVehicleTypeRegular(TestData testData, boolean isRegularType) {
 		String quoteNumber = createPreconds(testData);
 
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -181,12 +181,12 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
-		CompCollSymbolChecks_pas730(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
+		CompCollSymbolChecks_pas730(compSymbolBeforeRenewal, collSymbolBeforeRenewal, isRegularType);
 
 		premiumAndCoveragesTab.saveAndExit();
 	}
 
-	protected void renewalVehicleTypeNotRegular(TestData testData) {
+	protected void renewalVehicleTypeNotRegular(TestData testData, boolean isRegularType) {
 
 		String quoteNumber = createPreconds(testData);
 
@@ -209,12 +209,12 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
-		CompCollSymbolChecks_pas730(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
+		CompCollSymbolChecks_pas730(compSymbolBeforeRenewal, collSymbolBeforeRenewal, isRegularType);
 
 		premiumAndCoveragesTab.saveAndExit();
 	}
 
-	protected void checkMatchOnNBWithNoMatchOnRenewal(TestData testData, String vinNumber) {
+	protected void checkMatchOnNBWithNoMatchOnRenewal(TestData testData, String vinNumber, boolean isRegularType) {
 		// Should be added after VinUpload Tests
 		String quoteNumber = createPreconds(testData);
 
@@ -237,7 +237,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
-		CompCollSymbolChecks_pas730(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
+		CompCollSymbolChecks_pas730(compSymbolBeforeRenewal, collSymbolBeforeRenewal, isRegularType);
 
 		premiumAndCoveragesTab.saveAndExit();
 
@@ -380,13 +380,18 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		return PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
 	}
 
-	protected void CompCollSymbolChecks_pas730(String compSymbol, String collSymbol) {
+	protected void CompCollSymbolChecks_pas730(String compSymbol, String collSymbol, boolean isRegularType) {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertSoftly(softly -> {
 			softly.assertThat(getCompSymbolFromVRD()).isNotEmpty();
 			softly.assertThat(getCollSymbolFromVRD()).isNotEmpty();
-			softly.assertThat(getCompSymbolFromVRD()).isNotEqualTo(compSymbol);
-			softly.assertThat(getCollSymbolFromVRD()).isNotEqualTo(collSymbol);
+			if (isRegularType){
+				softly.assertThat(getCompSymbolFromVRD()).isNotEqualTo(compSymbol);
+				softly.assertThat(getCollSymbolFromVRD()).isNotEqualTo(collSymbol);
+			} else {
+				softly.assertThat(getCompSymbolFromVRD()).isEqualTo(compSymbol);
+				softly.assertThat(getCollSymbolFromVRD()).isEqualTo(collSymbol);
+			}
 		});
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}

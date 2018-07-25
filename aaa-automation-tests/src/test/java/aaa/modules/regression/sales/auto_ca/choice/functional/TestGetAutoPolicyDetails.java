@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import javax.xml.datatype.DatatypeConfigurationException;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -11,7 +12,6 @@ import aaa.modules.policy.AutoCaChoiceBaseTest;
 import aaa.soap.autopolicy.models.wsdl.ErrorInfo;
 import aaa.soap.autopolicy.models.wsdl.GetAutoPolicyDetailResponse;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 
 public class TestGetAutoPolicyDetails extends AutoCaChoiceBaseTest {
 
@@ -23,18 +23,16 @@ public class TestGetAutoPolicyDetails extends AutoCaChoiceBaseTest {
 		createCustomerIndividual();
 		String policyNumber = createPolicy();
 
-		GetAutoPolicyDetailResponse actualResponse = GetAutoPolicyDetailsHelper.getAutoPolicyResponse(policyNumber);
+		GetAutoPolicyDetailResponse actualResponse = new GetAutoPolicyDetailsHelper().getAutoPolicyResponse(policyNumber);
 
 		String vehicleCollSymbolCode = actualResponse.getAutoPolicySummary().getVehicles().getVehicle().get(0).getRiskFactors().getVehicleCollSymbolCode();
 		String vehicleCompSymbolCode = actualResponse.getAutoPolicySummary().getVehicles().getVehicle().get(0).getRiskFactors().getVehicleCompSymbolCode();
 
-		CustomAssert.enableSoftMode();
-		log.info("\nComp Symbol Code is: " + vehicleCompSymbolCode);
-		CustomAssert.assertFalse("Comp Symbol Code is empty", vehicleCompSymbolCode.isEmpty());
-		log.info("\nColl Symbol Code is: " + vehicleCollSymbolCode + "\n");
-		CustomAssert.assertFalse("Coll Symbol Code is empty", vehicleCollSymbolCode.isEmpty());
-		CustomAssert.disableSoftMode();
-
-		CustomAssert.assertAll();
+		assertSoftly(softly -> {
+			log.info("\nComp Symbol Code is: {}\n", vehicleCompSymbolCode);
+			softly.assertThat(vehicleCompSymbolCode).isNotEmpty();
+			log.info("\nColl Symbol Code is: {}\n", vehicleCollSymbolCode);
+			softly.assertThat(vehicleCollSymbolCode).isNotEmpty();
+;		});
 	}
 }

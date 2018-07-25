@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho3.functional;
 
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -15,6 +16,7 @@ import aaa.main.modules.policy.home_ca.HomeCaPolicyActions;
 import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
+import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Optional;
@@ -30,6 +32,7 @@ import java.util.Map;
 import org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@StateList(statesExcept = Constants.States.CA)
 public class TestCAFairPlanRating extends HomeCaHO3BaseTest {
     Map<String, String> endorsement_FPCECA = new HashMap<>();
 
@@ -121,10 +124,8 @@ public class TestCAFairPlanRating extends HomeCaHO3BaseTest {
         //Add the ENDO and verify presence
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
         endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel()).click();
+        endorsementTab.btnSaveEndo.click();
         //AC3 - This confirms an Informational note will display notifying the user that this endorsement has been added
-        Page.dialogConfirmation.confirm();
-
-        endorsementTab.btnSaveForm.click();
         endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECA).verify.present(true);
 
         //Verify premium is reduced after
@@ -156,9 +157,8 @@ public class TestCAFairPlanRating extends HomeCaHO3BaseTest {
         //Add the ENDO and verify presence
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
         endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel()).click();
-        Page.dialogConfirmation.confirm();
 
-        endorsementTab.btnSaveForm.click();
+        endorsementTab.btnSaveEndo.click();
         endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECA).verify.present(true);
 
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
@@ -189,9 +189,8 @@ public class TestCAFairPlanRating extends HomeCaHO3BaseTest {
         // Verify Discount for alarm is retained
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         new PremiumsAndCoveragesQuoteTab().btnCalculatePremium().click();
-        //TODO: fix assertJ here for tableDiscounts
-        Assertions.assertThat("Smoke and Burgler alarm").isIn(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied"));
-        //PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied").verify.contains("Smoke and Burglar alarm");
+        Assertions.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied").getValue().equals("New home, AAA Membership, Smoke and Burglar alarm"));
+
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
         assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Smoke and burglar alarm (Central, Local, None)").equals("Local"));
         assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Smoke and burglar alarm discount factor").equals("0.95"));
@@ -200,11 +199,8 @@ public class TestCAFairPlanRating extends HomeCaHO3BaseTest {
         //Add the ENDO and verify presence
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
         endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel()).click();
-        Page.dialogConfirmation.confirm();
-        endorsementTab.btnSaveForm.click();
-        //TODO: fix assertJ here for tblIncludedEndorsements
+        endorsementTab.btnSaveEndo.click();
         Assertions.assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECA).isPresent());
-        //endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECA).verify.present(true);
 
         //Verify Discount for alarm is removed with FAIR PLAN
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());

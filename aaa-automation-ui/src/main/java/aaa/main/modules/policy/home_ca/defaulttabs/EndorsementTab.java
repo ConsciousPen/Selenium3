@@ -30,6 +30,7 @@ public class EndorsementTab extends PropertyEndorsementsTab {
 	    LNK_ADD_SUB_ENDORSEMENT_BY_FORMID_TEMPLATE = "//div[@id='policyDataGatherForm:selectedObjects_AAAHoPolicyEndorsementFormManager:content']/descendant::table[1]/tbody/tr[count(../tr[td[position()=1 and normalize-space(.)='%s']]/preceding-sibling::tr)+2]//a[.='Add']";
 
 	    btnSaveForm = new Button(By.id("policyDataGatherForm:editObjectSaveBtnAAAHoPolicyEndorsementFormManager"));
+	    btnSaveEndo = new Button(By.id("aaaEndorsementPopUpForm:fpcecaPopupPanelyes"));
 	    btnCancelForm = new Button(By.xpath("//input[@id='policyDataGatherForm:editObjectCancelEliminateBtn_AAAHoPolicyEndorsementFormManager' or @id='policyDataGatherForm:editObjectCancelBtn_AAAHoPolicyEndorsementFormManager']"));
     }
     

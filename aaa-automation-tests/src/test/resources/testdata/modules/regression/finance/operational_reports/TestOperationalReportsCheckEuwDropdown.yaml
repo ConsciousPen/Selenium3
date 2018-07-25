@@ -1,0 +1,6 @@
+TestData: {
+  OperationalReportsTab: {
+      Category : 'Policy',
+      Type: 'Policy Balancing and Reconciliation'
+  }
+}

@@ -322,11 +322,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ss.functional.TestCinRenewalAutoSS">
-                <methods>
-                    <include name="testNewDriverBetterScore"/>
-                </methods>
-            </class>
         </classes>
     </test>
     <test name="OK Auto Functional Tests" parallel="methods">
