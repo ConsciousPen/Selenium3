@@ -70,19 +70,19 @@ public class RatingEngineLogsGrabber {
 					completeLogContent.insert(0, logPart);
 
 					if (isResponseLogRetrieved) {
-						ratingLogs.setRatingRequestLogContent(completeLogContent.toString());
+						ratingLogs.setRequestLog(completeLogContent.toString());
 						isRequestLogRetrieved = true;
 						break;
 					}
 
-					ratingLogs.setRatingResponseLogContent(completeLogContent.toString());
+					ratingLogs.setResponseLog(completeLogContent.toString());
 					isResponseLogRetrieved = true;
 
 					logContent = StringUtils.substringBeforeLast(logContent, logPart);
 					logContent = StringUtils.substringBeforeLast(logContent, LOG_SECTIONS_SEPARATOR);
 					logPart = StringUtils.substringAfterLast(logContent, LOG_START_MARKER).trim();
 					if (!logPart.isEmpty()) { // request and response log parts exist in same file
-						ratingLogs.setRatingRequestLogContent(logPart);
+						ratingLogs.setRequestLog(logPart);
 						isRequestLogRetrieved = true;
 						break;
 					}

@@ -140,7 +140,7 @@ public class TestPolicyGoodStudentDiscount extends AutoCaSelectBaseTest {
 
 	private void verifyGoodStudentDiscountOnEndorsement(String policyNum, TestData td, boolean isDiscountApplied) {
 		SearchPage.openPolicy(policyNum);
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus30Days"));
 
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
 		new DriverTab().fillTab(td).submitTab();

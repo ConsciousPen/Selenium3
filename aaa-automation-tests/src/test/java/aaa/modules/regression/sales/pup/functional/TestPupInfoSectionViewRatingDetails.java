@@ -298,8 +298,8 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PT-1421")
-    public void pt1421_testManuallyAddedAutoTier(@Optional("PA") String state) {
+    @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-15989")
+    public void pas15989_testManuallyAddedAutoTier(@Optional("PA") String state) {
 
         List<String> rangeTier = IntStream.rangeClosed(1, 16).boxed().map(String::valueOf).collect(Collectors.toList());
         rangeTier.add("N/A");

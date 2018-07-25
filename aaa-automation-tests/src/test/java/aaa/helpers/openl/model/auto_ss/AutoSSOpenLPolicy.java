@@ -388,7 +388,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	public LocalDate getEffectiveDate() {
 		return effectiveDate;
 	}
-	
+
 	@Override
 	public AutoSSTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
 		return new AutoSSTestDataGenerator(state, baseTestData);

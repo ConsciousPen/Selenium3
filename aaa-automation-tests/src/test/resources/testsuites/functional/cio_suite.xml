@@ -45,4 +45,65 @@
             </class>
         </classes>
     </test>
+
+    <!--Functional FAIR Plan Tests-->
+    <test name="PAS-13239 - AC1 - 18.5: CA FAIR Plan: Signature required to bind (CA DP3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanSignature">
+            </class>
+        </classes>
+    </test>
+    <test name="PAS-13239 - AC1 - 18.5: CA FAIR Plan: Signature required to bind (CA HO3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCAFairPlanSignature">
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-13445 - 18.5: CA FAIR Plan: Mutually Exclusive Endorsements (CA DP3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanMutualExclusions">
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-13210 - 18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement (CA DP3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanCompanion">
+            </class>
+        </classes>
+    </test>
+    <test name="PAS-13210 - 18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement (CA HO3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCAFairPlanCompanion">
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-13210 - 18.5: CA FAIR Plan: Update Fireline underwriting eligibility rules to enable Bind with FPCECA/FPCECADP Endorsement (CA DP3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanCanItBind">
+            </class>
+        </classes>
+    </test>
+    <test name="PAS-13210 - 18.5: CA FAIR Plan: Update Fireline underwriting eligibility rules to enable Bind with FPCECA/FPCECADP Endorsement (CA HO3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCAFairPlanCanItBind">
+            </class>
+        </classes>
+    </test>
 </suite>

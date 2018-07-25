@@ -2,9 +2,11 @@ EndorsementTab_Add: {
   'FPCECADP': '@Endorsement_FPCECADP_Add'
 }
 
-Endorsement_FPCECADP_Add: {
-  Action: 'Add',
-  Confirm Object Addition: 'Confirm'
+EndorsementTab_Add: {
+ FPCECADP: {
+   Action: 'Add',
+   Confirm Object Addition: 'Yes'
+ }
 }
 
 TestData_Endorsement: {

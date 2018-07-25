@@ -19,8 +19,8 @@ import aaa.helpers.mock.model.property_risk_reports.RetrievePropertyRiskReportsM
 import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.ssh.ExecutionParams;
 import aaa.helpers.ssh.RemoteHelper;
-import aaa.utils.excel.bind.BindHelper;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
+import aaa.utils.excel.bind.ReflectionHelper;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.exceptions.IstfException;
@@ -189,7 +189,7 @@ public class ApplicationMocksManager {
 			default:
 				M mock;
 				try {
-					mock = (M) BindHelper.getInstance(mockModelClass);
+					mock = (M) ReflectionHelper.getInstance(mockModelClass);
 				} catch (RuntimeException e) {
 					throw new IstfException("Unable to get filename for mock of class: " + mockModelClass.getName());
 				}

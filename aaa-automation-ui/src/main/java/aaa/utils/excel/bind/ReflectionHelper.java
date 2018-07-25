@@ -9,33 +9,34 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 import toolkit.exceptions.IstfException;
 
-public class BindHelper {
-	public static List<Field> getAllAccessibleFields(Class<?> tableClass, boolean onlyTables) {
-		List<Field> fields = new ArrayList<>();
-		for (Field field : getAllAccessibleFieldsFromThisAndSuperClasses(tableClass)) {
-			if (!field.isAnnotationPresent(ExcelTransient.class)) {
-				if (onlyTables && !isTableClassField(field)) {
-					continue;
-				}
-				fields.add(field);
-			}
-		}
-		return fields;
+public class ReflectionHelper {
+	public static List<Field> getAllAccessibleTableFieldsFromThisAndSuperClasses(Class<?> tableClass) {
+		return getAllAccessibleFieldsFromThisAndSuperClasses(tableClass, true);
 	}
 
 	public static List<Field> getAllAccessibleFieldsFromThisAndSuperClasses(Class<?> tableClass) {
+		return getAllAccessibleFieldsFromThisAndSuperClasses(tableClass, false);
+	}
+
+	private static List<Field> getAllAccessibleFieldsFromThisAndSuperClasses(Class<?> tableClass, boolean onlyTables) {
 		List<Field> accessibleFields = new ArrayList<>();
 		for (Class<?> clazz : getThisAndAllSuperClasses(tableClass)) {
 			for (Field field : clazz.getDeclaredFields()) {
-				boolean isLocalField = Objects.equals(field.getDeclaringClass(), clazz);
-				boolean isPublic = Modifier.isPublic(field.getModifiers());
-				boolean isProtected = Modifier.isProtected(field.getModifiers());
-				boolean isPackagePrivateAndAccessible =
-						!Modifier.isPrivate(field.getModifiers()) && !isPublic && !isProtected && field.getDeclaringClass().getPackage().getName().equals(clazz.getPackage().getName());
-				boolean isNotHiddenByChildClassField = accessibleFields.stream().noneMatch(f -> Objects.equals(field.getName(), f.getName()));
+				if (!field.isAnnotationPresent(ExcelTransient.class)) {
+					if (onlyTables && !isTableClassField(field)) {
+						continue;
+					}
 
-				if ((isLocalField || isPublic || isProtected || isPackagePrivateAndAccessible) && isNotHiddenByChildClassField) {
-					accessibleFields.add(field);
+					boolean isLocalField = Objects.equals(field.getDeclaringClass(), clazz);
+					boolean isPublic = Modifier.isPublic(field.getModifiers());
+					boolean isProtected = Modifier.isProtected(field.getModifiers());
+					boolean isPackagePrivateAndAccessible =
+							!Modifier.isPrivate(field.getModifiers()) && !isPublic && !isProtected && field.getDeclaringClass().getPackage().getName().equals(clazz.getPackage().getName());
+					boolean isNotHiddenByChildClassField = accessibleFields.stream().noneMatch(f -> Objects.equals(field.getName(), f.getName()));
+
+					if ((isLocalField || isPublic || isProtected || isPackagePrivateAndAccessible) && isNotHiddenByChildClassField) {
+						accessibleFields.add(field);
+					}
 				}
 			}
 		}
@@ -58,7 +59,7 @@ public class BindHelper {
 
 	@SuppressWarnings("unchecked")
 	public static <T> Class<T> getFieldType(Field field) {
-		if (List.class.equals(field.getType())) {
+		if (List.class.isAssignableFrom(field.getType())) {
 			return getGenericType(field);
 		}
 		return (Class<T>) field.getType();
@@ -85,6 +86,14 @@ public class BindHelper {
 
 	//TODO-dchubkov: add getInt(), getLong(), etc... methods
 	public static Object getFieldValue(Field field, Object classInstance) {
+		if (field == null) {
+			throw new IstfException("Field should not be null");
+		}
+
+		if (classInstance == null) {
+			throw new IstfException(String.format("Unable to get value of the field \"%1$s\" with type \"%2$s\" from null class instance", field.getName(), field.getType()));
+		}
+
 		if (!field.isAccessible()) {
 			//TODO-dchubkov: find appropriate getter method and use it for set value
 			field.setAccessible(true);
@@ -93,14 +102,22 @@ public class BindHelper {
 		try {
 			return field.get(classInstance);
 		} catch (IllegalAccessException | IllegalArgumentException e) {
-			throw new IstfException(String.format("Unable to get value from the field \"%1$s\" with type \"%2$s\" in class \"%3$s\"",
+			throw new IstfException(String.format("Unable to get value of the field \"%1$s\" with type \"%2$s\" in class \"%3$s\"",
 					field.getName(), field.getType(), classInstance.getClass().getName()), e);
 		}
 	}
 
 	public static void setFieldValue(Field field, Object classInstance, Object value) {
+		if (field == null) {
+			throw new IstfException("Field should not be null");
+		}
+
 		if (field.getType().isPrimitive() && value == null) {
 			return; // unable to set null values to fields of primitive types, leave this field with its default type value
+		}
+
+		if (classInstance == null) {
+			throw new IstfException(String.format("Unable to set value to the field \"%1$s\" with type \"%2$s\" in null class instance", field.getName(), field.getType()));
 		}
 
 		if (!field.isAccessible()) {

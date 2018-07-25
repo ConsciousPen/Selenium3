@@ -3,7 +3,7 @@ package aaa.utils.excel.bind.cache;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
-import aaa.utils.excel.bind.BindHelper;
+import aaa.utils.excel.bind.ReflectionHelper;
 import aaa.utils.excel.io.ExcelManager;
 
 public abstract class TableClassesCache<T extends TableClassInfo> {
@@ -20,7 +20,7 @@ public abstract class TableClassesCache<T extends TableClassInfo> {
 	}
 	
 	public T of(Field field) {
-		return of(BindHelper.getFieldType(field));
+		return of(ReflectionHelper.getFieldType(field));
 	}
 	
 	public T of(Class<?> tableClass) {
