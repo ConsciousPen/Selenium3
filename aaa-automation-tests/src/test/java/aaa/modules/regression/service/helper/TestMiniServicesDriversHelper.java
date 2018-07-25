@@ -1018,8 +1018,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.RECEIPT_DATE.getLabel()).getValue())
 					.isNotBlank(); //it can be also past date if report has been ordered previously, hence checking only that it is not blank
 
-			assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex) //TODO-mstrazds: validating exact response wll be handled in next sprints. Update to "isEqualToIgnoringCase(expectedClueResponse)"
-					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.RESPONSE.getLabel()).getValue()).isNotBlank(); //TODO-mstrazds: some US/defect number would be useful
+			assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
+					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.RESPONSE.getLabel()).getValue()).isEqualToIgnoringCase(expectedClueResponse); //will be handled by: PAS-17059 Not getting correct CLUE report response
 
 			assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.ADDRESS_TYPE.getLabel()).getValue()).isEqualToIgnoringCase("Current");
