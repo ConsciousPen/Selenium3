@@ -298,7 +298,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14474"})
-	public void pas14474_UpdateSpouseDriver(@Optional("AZ") String state) {
+	public void pas14474_UpdateSpouseDriver(@Optional("") String state) {
 		pas14474_UpdateSpouseDriverBody(getPolicyType());
 	}
 
