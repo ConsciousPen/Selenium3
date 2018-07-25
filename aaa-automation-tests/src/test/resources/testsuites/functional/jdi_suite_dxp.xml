@@ -138,6 +138,8 @@
                     <include name="pas11932_viewDrivers"/>
                     <include name="pas9662_maxDrivers"/>
                     <include name="pas15076_MetadataServiceDriver"/>
+                    <include name="pas13301_validateDriverLicenseAndAgeFirstLicensed"/>
+                    <include name="pas15373_uniqueDriverLicenses"/>
                 </methods>
             </class>
         </classes>

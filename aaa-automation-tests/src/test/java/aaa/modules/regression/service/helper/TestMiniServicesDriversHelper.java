@@ -778,6 +778,83 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
+	protected void pas15373_uniqueDriverLicensesBody(PolicyType policyType) {
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_TwoDrivers").getTestDataList("DriverTab")).resolveLinks();
+		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
+
+		//Drivers info from testData
+		String firstNameFull = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("First Name");
+		String firstName1 = firstNameFull.substring(0, firstNameFull.length() - 5);
+		String firstName2 = td.getTestDataList("DriverTab").get(1).getValue("First Name");
+		assertSoftly(softly -> {
+			mainApp().open();
+			createCustomerIndividual();
+			policyType.get().createPolicy(testData);
+			String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+			//Create a pended Endorsement
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+			//get drivers oid
+			ViewDriversResponse dResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+			DriversDto driver1 = dResponse.driverList.stream().filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
+			DriversDto driver2 = dResponse.driverList.stream().filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
+
+			String dlDriver1 = driver1.drivingLicense.licenseNumber.toString();
+			String driverOid2 = driver2.oid;
+			String dlDriver2 = driver2.drivingLicense.licenseNumber.toString();
+
+			updateDriverRequest.stateLicensed = "VA";
+			updateDriverRequest.licenseNumber = dlDriver1;
+			DriverWithRuleSets updateDriverResponse1 = HelperCommon.updateDriver(policyNumber, driverOid2, updateDriverRequest);
+			softly.assertThat(updateDriverResponse1.ruleSets.get(0).errors.stream().anyMatch(error -> error.contains(ErrorDxpEnum.Errors.DUPLICATE_DRIVER_LICENSE_ERROR.getMessage()))).isTrue();
+
+			updateDriverRequest.licenseNumber = dlDriver2;
+			DriverWithRuleSets updateDriverResponse2 = HelperCommon.updateDriver(policyNumber, driverOid2, updateDriverRequest);
+			softly.assertThat(updateDriverResponse2.ruleSets.isEmpty()).isTrue();
+
+			//Bind and create new one
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+			//Check drivers DL
+			ViewDriversResponse dResponse2 = HelperCommon.viewEndorsementDrivers(policyNumber);
+			driver1 = dResponse2.driverList.stream().filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
+			driver2 = dResponse2.driverList.stream().filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
+
+			softly.assertThat(driver1.firstName).startsWith(firstName1);
+			softly.assertThat(driver1.drivingLicense.licenseNumber).isEqualTo(dlDriver1);
+			softly.assertThat(driver2.firstName).isEqualTo(firstName2);
+			softly.assertThat(driver2.drivingLicense.licenseNumber).isEqualTo(dlDriver2);
+
+			//Add new driver
+			addDriverRequest.firstName = "Jovita";
+			addDriverRequest.lastName = "Smith";
+			addDriverRequest.birthDate = "1990-02-08";
+
+			DriversDto addDriver = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+			String newDriverOid = addDriver.oid;
+
+			updateDriverRequest.gender = "female";
+			updateDriverRequest.relationToApplicantCd = "CH";
+			updateDriverRequest.maritalStatusCd = "MSS";
+			updateDriverRequest.stateLicensed = "VA";
+			updateDriverRequest.licenseNumber = dlDriver2;
+			updateDriverRequest.ageFirstLicensed = 18;
+
+			DriverWithRuleSets updateDriverResponse4 = HelperCommon.updateDriver(policyNumber, newDriverOid, updateDriverRequest);
+			softly.assertThat(updateDriverResponse4.ruleSets.get(0).errors.stream().anyMatch(error -> error.contains(ErrorDxpEnum.Errors.DUPLICATE_DRIVER_LICENSE_ERROR.getMessage()))).isTrue();
+
+			String dlDriver3 = "831218809";
+			updateDriverRequest.licenseNumber = dlDriver3;
+			DriverWithRuleSets updateDriverResponse5 = HelperCommon.updateDriver(policyNumber, newDriverOid, updateDriverRequest);
+			softly.assertThat(updateDriverResponse5.ruleSets.isEmpty()).isTrue();
+
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+		});
+	}
+
 	protected void pas15077_orderReports_endorsementBody(PolicyType policyType) {
 		mainApp().open();
 		createCustomerIndividual();

@@ -61,6 +61,7 @@ public final class ErrorDxpEnum {
 		DRIVER_UNDER_AGE_SD("AAA_CSA6220000_SD", "Drivers under age 14 must be excluded or not available for rating (AAA_CSA6220000)"), //the same as in PAS
 
 		AGE_FIRST_LICENSED_ERROR("Age First Licensed must be 14 or greater (BAU00209)"),
+		DUPLICATE_DRIVER_LICENSE_ERROR("Duplicate Driver License (AAASS200008)"),
 		VALIDATE_DRIVER_LICENSE_BY_STATE("License number is inconsistent with state format (AAA_CSA3040364)"),
 		;
 
