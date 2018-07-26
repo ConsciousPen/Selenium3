@@ -219,8 +219,7 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("No");
 		getInquiryAssetList().assetSectionPresence("Document Delivery", true);
 		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(true);
-		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).setValue("Email");
-		getDocumentPrintingDetailsAssetList().getAsset(getIncludeWithEmail()).verify.present(true);
+		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).setValue("Mail");
 		deleteSinglePaperlessPreferenceRequest(stub4);
 	}
 
