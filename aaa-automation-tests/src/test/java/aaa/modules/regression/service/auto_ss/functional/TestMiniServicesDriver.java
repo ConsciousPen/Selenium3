@@ -442,6 +442,41 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	public void pas16696_AddANameInsuredSameDayNotPolicyEffectiveDate(@Optional("") String state) {
 		pas16696_AddANameInsuredSameDayNotPolicyEffectiveDateBody();
 	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name View Drivers service, remove driver indicator.
+	 * @scenario4
+	 * 1. Create policy on Pas with 5 drives FNI ,AFR and NI, afr and nni, nni and nafr,nni excuded driver.
+	 * 2. Run view driver service
+	 * 3. verify remove indicator should show only for afr driver and not others
+	 * 4. Create endorsement outside of PAS
+	 * 5. Add 1 more drive NI as spouse
+	 * 5. Update Driver
+	 * 6. Run view driver service
+	 * 7. verify remove indicator should show only for afr driver and not others
+	 *  *      |============================================|
+	 * 	 *      | Driver Type            | Remove Status    |
+	 * 	 *      |===========================================|
+	 * 	 *      | First Named Insured    |     no           |
+	 * 	 *      |-------------------------------------------|
+	 * 	 *      | Named Insured	         |    no            |
+	 * 	 *      |-------------------------------------------|
+	 * 	 *      | A for Rating Driver    |Yes               |
+	 * 	 *      |-------------------------------------------|
+	 * 	 *      | Not A f R Driver	     |    no            |
+	 * 	        |-------------------------------------------|
+	 * 	 *      | Excluded Driver	     |     no           |
+	 * 	 *      |============================================
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-482"})
+	public void pas15513_ViewDriverRemoveDriverIndicator(@Optional("AZ") String state) {
+		TestData td = getTestSpecificTD("TestData2");
+		pas15513_ViewDriverRemoveDriverIndicatorBody(td, getPolicyType());
+
+	}
 }
 
 

@@ -295,8 +295,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				+ "and displayvalue = '%s'\n"
 				+ "and PRODUCTCD = '%s'\n"
 				+ "and RISKSTATECD is null\n"
-				+ "and EFFECTIVE is null\n"
-				+ "and EXPIRATION is null\n"
 				+ "and lookuplist_id = (select id from lookuplist where lookupname = '%s')";
 
 		String lookupCheckWithState = "select dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id\n"
@@ -306,8 +304,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				+ "and displayvalue = '%s'\n"
 				+ "and PRODUCTCD = '%s'\n"
 				+ "and RISKSTATECD ='%s'\n"
-				+ "and EFFECTIVE is null\n"
-				+ "and EXPIRATION is null\n"
 				+ "and lookuplist_id = (select id from lookuplist where lookupname = '%s')";
 
 		String lookupCheckNoStateNoProduct = "select dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id\n"
@@ -317,8 +313,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				+ "and displayvalue = '%s'\n"
 				+ "and PRODUCTCD is null\n"
 				+ "and RISKSTATECD is null\n"
-				+ "and EFFECTIVE is null\n"
-				+ "and EXPIRATION is null\n"
 				+ "and lookuplist_id = (select id from lookuplist where lookupname = '%s')";
 
 		CustomAssert.enableSoftMode();
@@ -1965,6 +1959,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	private void verifyBILimitRenewal(RadioGroup applyEvalueDiscountAsset, ComboBox biAsset) {
+
 		policy.renew().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");

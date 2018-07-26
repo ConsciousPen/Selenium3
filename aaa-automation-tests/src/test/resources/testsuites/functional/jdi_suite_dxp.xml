@@ -78,6 +78,7 @@
                     <include name="pas14475_NameInsuredMaritalStatusWSS"/>
                     <include name="pas14475_NameInsuredMaritalStatusDSS"/>
                     <include name="pas14475_NameInsuredMaritalStatus"/>
+                    <include name="pas15513_ViewDriverRemoveDriverIndicator"/>
                 </methods>
             </class>
         </classes>

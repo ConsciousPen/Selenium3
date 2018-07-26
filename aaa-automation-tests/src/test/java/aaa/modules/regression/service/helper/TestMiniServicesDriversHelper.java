@@ -1389,8 +1389,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			// add new NI Spouse
 			addDriverAndVerify(policyNumber, updateDriverRequest, softly, true);
 
-			//	helperMiniServices.endorsementRateAndBind(policyNumber);
-
 		});
 	}
 
@@ -1460,6 +1458,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 	}
 
+
 	protected void pas16696_AddANameInsuredSameDayNotPolicyEffectiveDateBody() {
 		assertSoftly(softly -> {
 			mainApp().open();
@@ -1476,7 +1475,76 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 	}
 
+	protected void pas15513_ViewDriverRemoveDriverIndicatorBody(TestData td, PolicyType policyType) {
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createQuote(td);
+
+		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
+
+		ViewDriversResponse responseViewDriver = HelperCommon.viewPolicyDrivers(policyNumber);
+		assertSoftly(softly -> {
+			softly.assertThat(responseViewDriver.driverList.get(0).oid).isNotNull();
+			softly.assertThat(responseViewDriver.driverList.get(0).availableActions).isEmpty();
+
+			softly.assertThat(responseViewDriver.driverList.get(1).oid).isNotNull();
+			softly.assertThat(responseViewDriver.driverList.get(1).availableActions).isEmpty();
+
+			softly.assertThat(responseViewDriver.driverList.get(2).oid).isNotNull();
+			softly.assertThat(responseViewDriver.driverList.get(2).availableActions.get(0)).isEqualTo("remove");
+
+			softly.assertThat(responseViewDriver.driverList.get(3).oid).isNotNull();
+			softly.assertThat(responseViewDriver.driverList.get(3).availableActions).isEmpty();
+
+			softly.assertThat(responseViewDriver.driverList.get(4).oid).isNotNull();
+			softly.assertThat(responseViewDriver.driverList.get(4).availableActions).isEmpty();
+
+		});
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		addDriverRequest.firstName = "Spouse";
+		addDriverRequest.middleName = "Driver";
+		addDriverRequest.lastName = "Smith";
+		addDriverRequest.birthDate = "1979-02-13";
+		DriversDto addDriverRequestService = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+		String driverOid = addDriverRequestService.oid;
+		assertThat(addDriverRequestService.firstName).isEqualTo(addDriverRequest.firstName);
+
+		// updateDriver via dxp as sp
+		updateDriverRequest.stateLicensed = "AZ";
+		updateDriverRequest.licenseNumber = "D32329585";
+		updateDriverRequest.gender = "female";
+		updateDriverRequest.relationToApplicantCd = "CH";
+		updateDriverRequest.ageFirstLicensed = 16;
+
+		HelperCommon.updateDriver(policyNumber, driverOid, updateDriverRequest);
+
+		ViewDriversResponse responseViewDriverEndorsement = HelperCommon.viewEndorsementDrivers(policyNumber);
+		assertSoftly(softly -> {
+
+			softly.assertThat(responseViewDriverEndorsement.driverList.get(0).oid).isNotNull();
+			softly.assertThat(responseViewDriverEndorsement.driverList.get(0).availableActions.get(0)).isEqualTo("remove");
+
+			softly.assertThat(responseViewDriverEndorsement.driverList.get(1).oid).isNotNull();
+			softly.assertThat(responseViewDriverEndorsement.driverList.get(1).availableActions).isEmpty();
+
+			softly.assertThat(responseViewDriverEndorsement.driverList.get(2).oid).isNotNull();
+			softly.assertThat(responseViewDriverEndorsement.driverList.get(2).availableActions).isEmpty();
+
+			softly.assertThat(responseViewDriverEndorsement.driverList.get(3).oid).isNotNull();
+			softly.assertThat(responseViewDriverEndorsement.driverList.get(3).availableActions.get(0)).isEqualTo("remove");
+
+			softly.assertThat(responseViewDriverEndorsement.driverList.get(4).oid).isNotNull();
+			softly.assertThat(responseViewDriverEndorsement.driverList.get(4).availableActions).isEmpty();
+
+			softly.assertThat(responseViewDriverEndorsement.driverList.get(5).oid).isNotNull();
+			softly.assertThat(responseViewDriverEndorsement.driverList.get(5).availableActions).isEmpty();
+
+		});
+	}
 }
+
 
 
 
