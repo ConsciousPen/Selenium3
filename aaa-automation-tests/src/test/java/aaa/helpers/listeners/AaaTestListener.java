@@ -11,6 +11,7 @@ import org.testng.*;
 import com.exigen.ipb.etcsa.utils.RetrySuiteGenerator;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
+import aaa.helpers.config.CustomTestProperties;
 import aaa.utils.StateList;
 import toolkit.config.PropertyProvider;
 import toolkit.metrics.ReportingContext;
@@ -117,8 +118,8 @@ public class AaaTestListener extends TestngTestListener2 implements IExecutionLi
 		if (params != null && params.length != 0 && "".equals(Arrays.asList(params[0]).get(0))) {
 			if (isCAProduct(result)) {
 				params = createParams(params, Constants.States.CA);
-			} else if (StringUtils.isNotBlank(PropertyProvider.getProperty("test.usstate"))) {
-				String state = PropertyProvider.getProperty("test.usstate");
+			} else if (StringUtils.isNotBlank(PropertyProvider.getProperty(CustomTestProperties.TEST_USSTATE))) {
+				String state = PropertyProvider.getProperty(CustomTestProperties.TEST_USSTATE);
 				params = createParams(params, state);
 			} else {
 				params = createParams(params, Constants.States.UT);

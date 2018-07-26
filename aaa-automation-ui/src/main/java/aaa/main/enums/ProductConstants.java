@@ -11,7 +11,7 @@ public final class ProductConstants {
         public static final String CANCELLATION_PENDING = "Cancellation Pending";
         public static final String COMPANY_DECLINED = "Company Declined";
         public static final String CUSTOMER_DECLINED = "Customer Declined";
-	    public static final String DATA_GATHERING = "Gathering Info";
+        public static final String DATA_GATHERING = "Gathering Info";
         public static final String ISSUED = "Issued";
         public static final String PENDING_OUT_OF_SEQUENCE_COMPLETION = "Pending out of sequence completion";
         public static final String POLICY_ACTIVE = "Policy Active";
@@ -62,17 +62,20 @@ public final class ProductConstants {
         public static final String MANUAL_RENEWAL_FLAG = "Manual Renewal Flag";
         public static final String NON_PREMIUM_ENDORSEMENT = "NonPremium Endorsement";
         public static final String OOS_ENDORSEMENT = "OOS Endorsement";
+        public static final String QUOTE = "Quote";
         public static final String REINSTATEMENT = "Reinstatement";
         public static final String REINSTATEMENT_WITH_LAPSE = "Reinstatement with Lapse";
         public static final String REINSTATEMENT_WITH_LAPSE_REMOVED = "Reinstatement with Lapse Removed";
         public static final String REMOVE_CANCEL_NOTICE = "Remove Cancel Notice";
         public static final String REMOVE_MANUAL_RENEWAL_FLAG = "Remove Manual Renewal Flag";
         public static final String REVERSE_CANCELLATION_AUDIT = "Reverse Cancellation Audit";
+        public static final String RENEWAL = "Renewal";
         public static final String REVERSE_REVISED_CANCELLATION_AUDIT = "Reverse Revised Cancellation Audit";
         public static final String REVISED_CANCELLATION_AUDIT = "Revised Cancellation Audit";
         public static final String REVISED_FINAL_AUDIT = "Revised Final Audit";
         public static final String ROLL_BACK = "Roll Back";
         public static final String ROLLED_ON_ANNIVERSARY_RENEWAL = "Rolled On Anniversary Renewal";
+        public static final String ROLLED_ON_ENORSEMENT = "Rolled On Endorsement";
     }
 
     public static final class ReinstatementReason {

@@ -50,7 +50,7 @@ public class RatingEngineLogsHolder {
 		getResponseLog().dump(responseLogDestinationPath, archiveLogs);
 	}
 
-	public final class RatingEngineLog {
+	public static final class RatingEngineLog {
 		private static final String ARCHIVE_EXTENSION = ".zip";
 		private String logContent;
 		private String formattedLogContent;
@@ -65,10 +65,20 @@ public class RatingEngineLogsHolder {
 			this.logContent = logContent;
 		}
 
+		/**
+		 * Returns rating engine log content
+		 *
+		 * @return log content as it is
+		 */
 		public String getLogContent() {
 			return logContent;
 		}
 
+		/**
+		 * Returns rating engine log content in pretty json format
+		 *
+		 * @return rating engine log content in pretty json format
+		 */
 		public String getFormattedLogContent() {
 			if (this.formattedLogContent == null) {
 				log.info("Getting log content in pretty json format");
@@ -90,6 +100,14 @@ public class RatingEngineLogsHolder {
 			return this.formattedLogContent;
 		}
 
+		/**
+		 * Saves rating engine log to the filesystem
+		 *
+		 * @param logDestinationPath rating log file absolute path where it should be saved
+		 * @param archiveLog if true - make zip archive of rating log file
+		 *
+		 * @return File object of saved log
+		 */
 		public File dump(String logDestinationPath, boolean archiveLog) {
 			log.info("Saving log content to the \"{}\" file{}", logDestinationPath, archiveLog ? " with archiving" : "");
 			if (StringUtils.isBlank(getLogContent())) {
@@ -122,6 +140,11 @@ public class RatingEngineLogsHolder {
 			return logDestination;
 		}
 
+		/**
+		 * Builds and returns Map of openL fields and values from rating json request/response where key is path to the OpenL field and value - openL field value itself
+		 *
+		 * @return Map of openL fields and values from rating json request/response where key is path to the OpenL field and value - openL field value itself
+		 */
 		public Map<String, String> getOpenLFieldsMap() {
 			if (this.openLFieldsMap == null) {
 				log.info("Getting OpenL fields paths and values map from log");
@@ -130,6 +153,11 @@ public class RatingEngineLogsHolder {
 			return Collections.unmodifiableMap(this.openLFieldsMap);
 		}
 
+		/**
+		 * Returns JsonElement object from rating json request/response
+		 *
+		 * @return JsonElement object from rating json request/response
+		 */
 		public JsonElement getJsonElement() {
 			if (this.jsonElement == null) {
 				String parseErrorMessage = "Error occurs while parsing log content";
