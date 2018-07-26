@@ -4,6 +4,7 @@ import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.EntitiesHolder;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
@@ -18,6 +19,7 @@ import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
 import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
+import org.testng.Assert;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -136,11 +138,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 				AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()),
 				getTestSpecificTD("AAAProductOwned_MSNo").resolveLinks());
 
-		testData.adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(),
-				AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()),
-				getTestSpecificTD("DriverTab_OV").resolveLinks());
-
-		//new DriverTab().getAssetList().getAsset(AutoSSMetaData.DriverTab.LICENSE_NUMBER).setValue("A00000000");
+		//testData.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "A00000000");
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -178,6 +176,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
+		new ErrorTab().overrideAllErrors();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 	}
@@ -838,5 +837,6 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 			JobUtils.executeJob(Jobs.automatedProcessingBypassingAndErrorsReportGenerationJob);
 		}
 	}
+
 
 }
