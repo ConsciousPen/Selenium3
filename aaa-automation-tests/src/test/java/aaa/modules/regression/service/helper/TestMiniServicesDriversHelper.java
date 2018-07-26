@@ -1371,8 +1371,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		softly.assertThat(driver3.drivingLicense.data.licenseNumber).isEqualTo(updateDriverRequest.licenseNumber);
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
+
 	}
-}
 	protected void pas14475_NameInsuredMaritalStatusBody() {
 		assertSoftly(softly -> {
 
