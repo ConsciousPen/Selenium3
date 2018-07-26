@@ -139,6 +139,8 @@
                     <include name="pas11932_viewDrivers"/>
                     <include name="pas9662_maxDrivers"/>
                     <include name="pas15076_MetadataServiceDriver"/>
+                    <include name="pas13301_validateDriverLicenseAndAgeFirstLicensed"/>
+                    <include name="pas15373_uniqueDriverLicenses"/>
                 </methods>
             </class>
         </classes>
@@ -241,6 +243,7 @@
                     <include name="pas478_AddDrivers"/>
                     <include name="pas477_UpdateDrivers"/>
                     <include name="pas14474_UpdateSpouseDriver"/>
+                    <include name="pas16696_AddANameInsuredSameDayPolicyEffectiveDate"/>
                 </methods>
             </class>
         </classes>
@@ -513,6 +516,7 @@
                 <methods>
                     <include name="pas15077_orderReports_endorsement"/>
                     <include name="pas14475_NameInsuredMaritalStatusPSS"/>
+                    <include name="pas16696_AddANameInsuredSameDayNotPolicyEffectiveDate"/>
                     <!--<include name="pas16694_orderReports_not_Named_Insured_endorsement"/>-->
                 </methods>
             </class>

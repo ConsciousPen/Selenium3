@@ -304,6 +304,10 @@ DocumentsAndBindTab1: {
     Agreement: I agree
 }
 
+TestData_TwoDrivers: {
+    DriverTab: ['@Driver_one', '@Driver_two'],
+}
+
 TestData_ThreeDrivers: {
     DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three_nafr'],
 }

@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.text.ParseException;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -227,6 +228,28 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	}
 
 	/**
+	 * @author Jovita Pukenaite
+	 * @name Unique Driver Licenses - error 200008
+	 * @scenario 1. Create Policy with two drivers.
+	 * 2. Start do endorsement outside of PAS.
+	 * 3. Update first driver with the same DL like the second driver have.
+	 * 4. Update with correct DL.
+	 * 5. Bind endorsement. Create new one.
+	 * 6. Add new driver.
+	 * 7. Add DL which already exist.
+	 * 8. Update with new DL.
+	 * 9. Rate and Bind.
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15373"})
+	public void pas15373_uniqueDriverLicenses(@Optional("VA") String state) {
+
+		pas15373_uniqueDriverLicensesBody(getPolicyType());
+	}
+
+	/**
 	 * @author Maris Strazds
 	 * @name Test Report Ordering for Endorsement (Named Insured)
 	 * @scenario
@@ -378,8 +401,46 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
-	public void pas14475_NameInsuredMaritalStatusPSS(@Optional("") String state) {
-		pas14475_NameInsuredMaritalStatusFNIIsPSSBody();
+	public void pas14475_NameInsuredMaritalStatusPSS(@Optional("") String state)
+	{
+		assertSoftly(softly ->
+		pas14475_NameInsuredMaritalStatusFNIIsPSSBody(softly)
+				);
+	}
+
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Update Drivers service,Error insured score.
+	 * @scenario4
+	 * 1. Create policy on Pas.
+	 * 2. Create endorsement outside of PAS on the same day policy effective day
+	 * 3. Add drive NI as spouse
+	 * 4. Update Driver
+	 * 5. Verify Error message "Need Insurance Score Order (AAA_SS9192341)"
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16696"})
+	public void pas16696_AddANameInsuredSameDayPolicyEffectiveDate(@Optional("") String state) {
+		pas16696_AddANameInsuredSameDayPolicyEffectiveDateBody();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Update Drivers service,Error insured score.
+	 * @scenario4
+	 * 1. Create policy on Pas.
+	 * 2. Create future dated endorsement outside of PAS +5 days
+	 * 3. Add drive NI as spouse
+	 * 4. Update Driver
+	 * 5. We should not see message Error message "Need Insurance Score Order (AAA_SS9192341)"
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16696"})
+	public void pas16696_AddANameInsuredSameDayNotPolicyEffectiveDate(@Optional("") String state) {
+		pas16696_AddANameInsuredSameDayNotPolicyEffectiveDateBody();
 	}
 
 	/**

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -205,8 +206,8 @@ public class HelperCommon {
 		restRequestInfo.responseType = PolicyLockUnlockDto.class;
 		restRequestInfo.status = status;
 		restRequestInfo.sessionId = sessionId;
-		return runJsonRequestPostDxp(restRequestInfo);
-	}
+        return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.POST);
+    }
 
 	public static PolicyLockUnlockDto executePolicyUnlockService(String policyNumber, int status, String sessionId) {
 		RestRequestInfo<PolicyLockUnlockDto> restRequestInfo = new RestRequestInfo<>();
@@ -214,7 +215,7 @@ public class HelperCommon {
 		restRequestInfo.responseType = PolicyLockUnlockDto.class;
 		restRequestInfo.status = status;
 		restRequestInfo.sessionId = sessionId;
-		return runJsonRequestDeleteDxp(restRequestInfo);
+		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.DELETE);
 	}
 
 	public static ViewVehicleResponse viewPolicyVehicles(String policyNumber) {
@@ -239,11 +240,6 @@ public class HelperCommon {
 	public static Vehicle executeEndorsementAddVehicle(String policyNumber, Vehicle request) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES, policyNumber));
 		return runJsonRequestPostDxp(requestUrl, request, Vehicle.class, 201);
-	}
-
-	public static HashMap executeEndorsementAddVehicleError(String policyNumber, Vehicle request, int status) {
-		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES, policyNumber));
-		return runJsonRequestPostDxp(requestUrl, request, HashMap.class, status);
 	}
 
 	public static ErrorResponseDto viewEndorsementAssignmentsError(String policyNumber, int status) {
@@ -467,49 +463,17 @@ public class HelperCommon {
 	}
 
 	public static String runJsonRequestPostDxp(String url, RestBodyRequest bodyRequest) {
-		return runJsonRequestPostDxp(url, bodyRequest, String.class);
-	}
+        return runJsonRequestPostDxp(url, bodyRequest, String.class, Response.Status.OK.getStatusCode());
+    }
 
-	public static <T> T runJsonRequestPostDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType) {
-		return runJsonRequestPostDxp(url, bodyRequest, responseType, Response.Status.OK.getStatusCode());
-	}
-
-	public static <T> T runJsonRequestPostDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType, int status) {
+    private static <T> T runJsonRequestPostDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType, int status) {
 		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = url;
 		restRequestInfo.bodyRequest = bodyRequest;
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status = status;
-		return runJsonRequestPostDxp(restRequestInfo);
-	}
-
-	public static <T> T runJsonRequestPostDxp(RestRequestInfo<T> request) {
-		Client client = null;
-		Response response = null;
-		log.info("Request: " + asJson(request));
-		try {
-			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-			response = createJsonRequest(client, request.url, request.sessionId).post(Entity.json(request.bodyRequest));
-			T responseObj = response.readEntity(request.responseType);
-			if (response.getStatus() != request.status) {
-				//handle error
-				throw new IstfException("POST json request failed");
-			}
-			log.info("Response: " + asJson(responseObj));
-			return responseObj;
-		} finally {
-			if (response != null) {
-				response.close();
-			}
-			if (client != null) {
-				client.close();
-			}
-		}
-	}
-
-	public static String runJsonRequestPatchDxp(String url, RestBodyRequest bodyRequest) {
-		return runJsonRequestPatchDxp(url, bodyRequest, String.class);
-	}
+        return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.POST);
+    }
 
 	public static <T> T runJsonRequestPatchDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType) {
 		return runJsonRequestPatchDxp(url, bodyRequest, responseType, Response.Status.OK.getStatusCode());
@@ -585,6 +549,10 @@ public class HelperCommon {
 		return runJsonRequestPutDxp(url, bodyRequest, responseType, Response.Status.OK.getStatusCode());
 	}
 
+	/**
+	 *  Migrate to {@link #runJsonRequestMethodDxp(RestRequestInfo, RequestMethod)}
+	 */
+	@Deprecated
 	public static <T> T runJsonRequestPutDxp(String url, RestBodyRequest request, Class<T> responseType, int status) {
 		Client client = null;
 		Response response = null;
@@ -599,7 +567,7 @@ public class HelperCommon {
 					.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
 					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
 					.method("PUT", Entity.json(request));
-			T responseObj = response.readEntity(responseType);
+			T responseObj = readBufferedEntity(response, responseType);
 			log.info(response.toString());
 			if (response.getStatus() != status) {
 				//handle error
@@ -616,6 +584,10 @@ public class HelperCommon {
 		}
 	}
 
+	/**
+	 *  Migrate to {@link #runJsonRequestMethodDxp(RestRequestInfo, RequestMethod)}
+	 */
+	@Deprecated
 	public static <T> T runJsonRequestPostAdmin(String url, RestBodyRequest request, Class<T> responseType, int status) {
 		Client client = null;
 		Response response = null;
@@ -628,7 +600,7 @@ public class HelperCommon {
 					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("qa:qa".getBytes()))
 					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
 					.method("POST", Entity.json(request));
-			T responseObj = response.readEntity(responseType);
+			T responseObj = readBufferedEntity(response, responseType);
 			log.info(response.toString());
 			if (response.getStatus() != status) {
 				//handle error
@@ -654,34 +626,11 @@ public class HelperCommon {
 		restRequestInfo.url = url;
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status = status;
-		return runJsonRequestDeleteDxp(restRequestInfo);
-	}
-
-	public static <T> T runJsonRequestDeleteDxp(RestRequestInfo<T> request) {
-		Client client = null;
-		Response response = null;
-		try {
-			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-			response = createJsonRequest(client, request.url, request.sessionId).delete();
-			T responseObj = response.readEntity(request.responseType);
-			log.info(response.toString());
-			if (response.getStatus() != request.status) {
-				//handle error
-				throw new IstfException("DELETE json request failed");
-			}
-			return responseObj;
-		} finally {
-			if (response != null) {
-				response.close();
-			}
-			if (client != null) {
-				client.close();
-			}
-		}
+		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.DELETE);
 	}
 
 	public static <T> T runJsonRequestGetDxp(String url, Class<T> responseType) {
-		return runJsonRequestGetDxp(url, responseType, 200);
+		return runJsonRequestGetDxp(url, responseType, Response.Status.OK.getStatusCode());
 	}
 
 	public static <T> T runJsonRequestGetDxp(String url, Class<T> responseType, int status) {
@@ -693,28 +642,7 @@ public class HelperCommon {
 	}
 
 	public static <T> T runJsonRequestGetDxp(RestRequestInfo<T> request) {
-		Client client = null;
-		Response response = null;
-		try {
-			log.info("Request: " + asJson(request));
-			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-			response = createJsonRequest(client, request.url, request.sessionId).get();
-			T result = response.readEntity(request.responseType);
-			log.info(response.toString());
-			if (response.getStatus() != request.status) {
-				//handle error
-				throw new IstfException("GET json request failed");
-			}
-			log.info("Response: " + asJson(result));
-			return result;
-		} finally {
-			if (response != null) {
-				response.close();
-			}
-			if (client != null) {
-				client.close();
-			}
-		}
+		return runJsonRequestMethodDxp(request, RequestMethod.GET);
 	}
 
 	private static <T> T runJsonRequestGetAdmin(String url, Class<T> returnClazz) {
@@ -795,14 +723,6 @@ public class HelperCommon {
 		}
 	}
 
-	/**
-	 * @param year
-	 * @param productCd
-	 * @param stateCd
-	 * @param formType  can be null or empty
-	 * @param effectiveDate
-	 * @return
-	 */
 	public static AAAMakeByYear getMakes(String year, String productCd, String stateCd, String formType, String effectiveDate) {
 		String url = urlBuilderAdmin(String.format(DXP_RETRIEVE_MAKE_BY_YEAR, year, productCd, stateCd, formType, effectiveDate));
 
@@ -823,18 +743,8 @@ public class HelperCommon {
 	}
 
 	/**
-	 *
-	 * @param year
-	 * @param make
-	 * @param model
-	 * @param series
-	 * @param productCd
-	 * @param stateCd
 	 * @param formType can be null or empty
-	 * @param effectiveDate
-	 * @return
 	 */
-
 	public static AAABodyStyleByYearMakeModelSeries getBodyStyle(String year, String make, String model, String series, String productCd, String stateCd, String formType, String effectiveDate) {
 		String url = urlBuilderAdmin(String.format(DXP_RETRIEVE_BODYSTYLE_BY_YEAR_MAKE_MODEL_SERIES, year, make, model, series, productCd, stateCd, formType, effectiveDate));
 
@@ -856,4 +766,63 @@ public class HelperCommon {
 		}
 	}
 
+	/**
+	 * Generic request method implementation for specific request and method type.
+	 * @param request - rest request to send.
+	 * @param requestMethod - request method to use.
+	 * @param <T> - response body class type.
+	 * @return response instance of specific class.
+	 */
+	public static <T> T runJsonRequestMethodDxp(RestRequestInfo<T> request, RequestMethod requestMethod) {
+		Client client = null;
+		Response response = null;
+		try {
+			log.info("Request: " + asJson(request));
+			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
+			Invocation.Builder jsonRequest = createJsonRequest(client, request.url, request.sessionId);
+			String methodName = requestMethod.name();
+			if (request.bodyRequest != null) {
+				response = jsonRequest.method(methodName, Entity.json(request.bodyRequest));
+			} else {
+				response = jsonRequest.method(methodName);
+			}
+			T result = readBufferedEntity(response, request.responseType);
+			log.info(response.toString());
+			if (response.getStatus() != request.status) {
+				//handle error
+				throw new IstfException(methodName + " json request failed");
+			}
+			log.info("Response: " + asJson(result));
+			return result;
+		} finally {
+			if (response != null) {
+				response.close();
+			}
+			if (client != null) {
+				client.close();
+			}
+		}
+	}
+
+	/**
+	 * Buffers method body and try to read response of expected type. If {@link ProcessingException} is thrown method 
+	 * attempts to parse and log body of {@link ErrorResponseDto} class and rethrown the exception.
+	 * Exception will not be caught if not expected nor error response body is parsed.
+	 * @param response service response to read from
+	 * @param responseType expected response class
+	 * @param <T> - expected response type
+	 * @return response instance of specific class
+	 */
+	private static <T> T readBufferedEntity(Response response, Class<T> responseType) {
+		if (response.bufferEntity()) {
+			try {
+				return response.readEntity(responseType);
+			} catch (ProcessingException e) {
+				log.error("Actual response: " + System.lineSeparator() + 
+						asJson(response.readEntity(ErrorResponseDto.class)));
+				throw e;
+			}
+		} 
+		return response.readEntity(responseType);
+	}
 }
