@@ -150,6 +150,7 @@
                     <include name="pas502_DuplicateVinAddVehicleService"/>
                     <include name="pas9493_TransactionInformationForEndorsementsAddRemoveVehicle"/>
                     <include name="pas14497_TransactionInformationForEndorsementsReplaceVehicle"/>
+                    <include name="pas9493_TransactionInformationForEndorsementsAddDriver"/>
                     <include name="pas7147_VehicleUpdateBusiness"/>
                     <include name="pas7147_VehicleUpdateRegisteredOwner"/>
                     <include name="pas14952_EndorsementStatusResetForVehRatingFactors"/>

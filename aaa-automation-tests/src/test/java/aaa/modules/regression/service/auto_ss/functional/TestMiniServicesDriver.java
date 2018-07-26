@@ -13,6 +13,8 @@ import aaa.modules.regression.service.helper.TestMiniServicesDriversHelper;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+
 public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 
 	private final DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
@@ -226,8 +228,6 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 		pas13301_validateDriverLicenseAndAgeFirstLicensedBody();
 	}
 
-
-
 	/**
 	 * @author Maris Strazds
 	 * @name Test Report Ordering for Endorsement
@@ -273,9 +273,33 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14474"})
     public void pas14474_UpdateSpouseDriver(@Optional("AZ") String state) {
-        pas14474_UpdateSpouseDriverBody(getPolicyType());
+
+    	pas14474_UpdateSpouseDriverBody(getPolicyType());
     }
 
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Transaction Information For Endorsements outside of PAS - Add Driver
+	 * @scenario 1. Create policy.
+	 * 2. Start do endorsement outside of PAS.
+	 * 3. Hit "Transaction History Service". Check if response is empty.
+	 * 4. Add Driver.
+	 * 5. Hit "Transaction History Service". Check new driver info.
+	 * 6. Update for bind.
+	 * 7. Rate endorsement and Bind.
+	 * 8. Create endorsement outside of PAS
+	 * 9. Hit "Transaction History Service". Check new driver info. Update for bind.
+	 * 10. Bind endorsement.
+	 * 11. Hit "Transaction History Service". Check if response is empty.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16481"})
+	public void pas9493_TransactionInformationForEndorsementsAddDriver(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas16481_TransactionInformationForEndorsementsAddDriverBody(softly)
+		);
+	}
 }
 
 
