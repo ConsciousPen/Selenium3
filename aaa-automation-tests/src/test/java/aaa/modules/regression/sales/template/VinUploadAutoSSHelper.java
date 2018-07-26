@@ -169,11 +169,16 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
 
-	protected void compCollSymbolCheck_pas730(String compSymbol, String collSymbol) {
+	protected void compCollSymbolCheck_pas730(String compSymbol, String collSymbol, boolean isPPAType) {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertSoftly(softly -> {
-			softly.assertThat(getCompSymbolFromVRD()).isNotEqualTo(compSymbol);
-			softly.assertThat(getCollSymbolFromVRD()).isNotEqualTo(collSymbol);
+			if(isPPAType){
+				softly.assertThat(getCompSymbolFromVRD()).isNotEqualTo(compSymbol);
+				softly.assertThat(getCollSymbolFromVRD()).isNotEqualTo(collSymbol);
+			} else {
+				softly.assertThat(getCompSymbolFromVRD()).isEqualTo(compSymbol);
+				softly.assertThat(getCollSymbolFromVRD()).isEqualTo(collSymbol);
+			}
 		});
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}

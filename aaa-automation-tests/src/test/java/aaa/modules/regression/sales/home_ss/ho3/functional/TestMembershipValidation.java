@@ -16,7 +16,10 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.waiters.Waiters;
+
+import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.SALES_AGENT_AGREEMENT;
 
 /**
  * @author Mantas Garsvinskas
@@ -156,7 +159,13 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
      */
     private void validateMembership(){
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        reportsTab.reorderReports(); //noticed that for some reason reorderReports() doesn't work for Insurance Score Report on CHROME, worked on FF
+        reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
+        reportsTab.tblInsuranceScoreReport.getRow(1).getCell(11).click();
+        if (reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().getValue().equals("Order report")|| reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().getValue().equals("Re-order report")) {
+            reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().click();
+        }
+        //reportsTab.tblClueReport.getRow(1).getCell(6).click();
+        //reportsTab.reorderReports();
         premiumsAndCoveragesQuoteTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.btnPurchase.click();
@@ -197,7 +206,11 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
     */
     private void verifyMembershipErrorAndBind(TestData tdMembershipOverride) {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        reportsTab.reorderReports();
+        reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
+        reportsTab.tblInsuranceScoreReport.getRow(1).getCell(11).click();
+        if (reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().getValue().equals("Order report")|| reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().getValue().equals("Re-order report")) {
+            reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().click();
+        }
         premiumsAndCoveragesQuoteTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.btnPurchase.click();
@@ -228,7 +241,14 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
                 .setValue(tdMembership.getTestData("ApplicantTab", "AAAMembership").getValue("Membership number"));
 
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        reportsTab.reorderReports();
+        reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
+        reportsTab.tblInsuranceScoreReport.getRow(1).getCell(11).click();
+        if (reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().getValue().equals("Order report")|| reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().getValue().equals("Re-order report")) {
+            reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().click();
+        }
+        if (!reportsTab.tblAAAMembershipReport.getRow(1).getCell("Report").controls.links.getFirst().getValue().equals("View report")) {
+            reportsTab.tblAAAMembershipReport.getRow(1).getCell("Report").controls.links.getFirst().click();
+        }
         premiumsAndCoveragesQuoteTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.btnPurchase.click();

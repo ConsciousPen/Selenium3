@@ -53,7 +53,7 @@
     </test>
 
     <!--Tests for Property-->
-    <!-- pas14030 needs to be merged
+
     <test name="Test Tier And UW Points Lock NY"  parallel="methods" thread-count="1024">
         <parameter name="state" value="NY"/>
         <classes>
@@ -79,7 +79,7 @@
             </class>
         </classes>
     </test>
--->
+
     <!--Tests for Defects-->
 
     <test name="Test Off Cycle Bill Generation With No Installment Date For SS" parallel="methods" thread-count="1024">

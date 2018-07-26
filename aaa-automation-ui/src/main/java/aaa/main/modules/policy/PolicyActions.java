@@ -2,6 +2,7 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.modules.policy;
 
+import static aaa.main.pages.summary.PolicySummaryPage.tableDifferences;
 import org.openqa.selenium.By;
 import aaa.common.AbstractAction;
 import aaa.common.Tab;
@@ -488,22 +489,11 @@ public final class PolicyActions {
 		   }
 		   */
 		public AbstractAction perform(boolean isAutomatic, boolean setCurrentValues) {
-			start();
+			openConflictPage(isAutomatic);
 
-			Table tableOosEndorsements = new Table(By.id("affectedEndoresmentForm:historyTable"));
-			int rowsCount = tableOosEndorsements.getRowsCount();
-			int columnsCount = tableOosEndorsements.getColumnsCount();
+			int rowsCount;
+			int columnsCount;
 
-			for (int i = 1; i <= rowsCount; i++) {
-				tableOosEndorsements.getRow(i).getCell(columnsCount).controls.links.get(
-						isAutomatic ? 1 : 2).click();
-				if (Page.dialogConfirmation.isPresent()) {
-					Page.dialogConfirmation.confirm();
-				}
-			}
-
-
-			Table tableDifferences = new Table(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']/table"));
 			if (tableDifferences.isPresent()) {
 				rowsCount = tableDifferences.getRowsCount();
 				columnsCount = tableDifferences.getColumnsCount();
@@ -531,6 +521,58 @@ public final class PolicyActions {
 				submit();
 			}
 			return this; //submit();
+		}
+		public void openConflictPage(boolean isAutomatic) {
+			start();
+
+			Table tableOosEndorsements = new Table(By.id("affectedEndoresmentForm:historyTable"));
+			int rowsCount = tableOosEndorsements.getRowsCount();
+			int columnsCount = tableOosEndorsements.getColumnsCount();
+
+			for (int i = 1; i <= rowsCount; i++) {
+				tableOosEndorsements.getRow(i).getCell(columnsCount).controls.links.get(
+						isAutomatic ? 1 : 2).click();
+				if (Page.dialogConfirmation.isPresent()) {
+					Page.dialogConfirmation.confirm();
+				}
+			}
+		}
+		
+		/**
+		 * Perform RollOn action without fill Conflict page. 
+		 * Fill opened Differences tab 
+		 */
+		public AbstractAction perform(boolean setCurrentValues) {
+			int rowsCount;
+			int columnsCount;
+
+			if (tableDifferences.isPresent()) {
+				rowsCount = tableDifferences.getRowsCount();
+				columnsCount = tableDifferences.getColumnsCount();
+
+				//expand rows
+				for (int i = 0; i < rowsCount; i++) {
+					Link linkTriangle = new Link(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + i
+							+ "']/td[1]/span[contains(@class, 'ui-treetable-toggler')]"));
+					if (linkTriangle.isPresent() && linkTriangle.isVisible()) {
+						linkTriangle.click();
+					}
+				}
+
+				//apply values
+				Link linkSetValue;
+				rowsCount = tableDifferences.getRowsCount();
+				for (int i = 1; i <= rowsCount; i++) {
+					linkSetValue = tableDifferences.getRow(i).getCell(columnsCount).controls.links.get(
+							setCurrentValues ? 1 : 2);
+
+					if (linkSetValue.isPresent() && linkSetValue.isVisible()) {
+						linkSetValue.click();
+					}
+				}
+				submit();
+			}
+			return this;
 		}
 	}
 

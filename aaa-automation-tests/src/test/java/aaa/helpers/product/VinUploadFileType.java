@@ -2,6 +2,7 @@ package aaa.helpers.product;
 
 public enum VinUploadFileType {
 	REFRESHABLE_VIN("Refreshable"),
+	REFRESHABLE_VIN_RESET_ORIGINAL("RefreshableResetOriginal"),
 	NEW_VIN("NewVIN"),
 	NEW_VIN2("New2VIN"),
 	NEW_VIN3("New3VIN"),

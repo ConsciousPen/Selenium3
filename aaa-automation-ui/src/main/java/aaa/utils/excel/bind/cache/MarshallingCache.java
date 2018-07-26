@@ -1,7 +1,7 @@
 package aaa.utils.excel.bind.cache;
 
 import java.util.List;
-import aaa.utils.excel.bind.BindHelper;
+import aaa.utils.excel.bind.ReflectionHelper;
 import aaa.utils.excel.io.ExcelManager;
 import toolkit.exceptions.IstfException;
 
@@ -28,7 +28,7 @@ public class MarshallingCache extends TableClassesCache<MarshallingClassInfo> {
 		
 		MarshallingClassInfo tableClassInfo = of(tableClass);
 		if (!tableClassInfo.hasRowsObjects()) {
-			tableClassInfo.setRowsObjects(BindHelper.getValueAsList(tableObject));
+			tableClassInfo.setRowsObjects(ReflectionHelper.getValueAsList(tableObject));
 		}
 		return tableClassInfo;
 	}

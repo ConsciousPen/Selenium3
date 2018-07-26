@@ -37,6 +37,27 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	}
 
 	/**
+	 * @author Maris Strazds
+	 * @name Driver Assignment and Adding a driver. This test is similar to pas10484_ViewDriverAssignment, but also new driver is added
+	 * 1. Create a policy with 2 driver and 1 vehicle
+	 * 2. Create pended endorsement using DXP
+	 * 3. Add new driver
+	 * 4. For 3 driver and 1 vehicle check primary response
+	 * 5. Add vehicle Using DXP
+	 * 6. Hit driver assignment service to verify unassigned response. Verify that new driver is available for assignment.
+	 * 7. PAS go to assign page and save
+	 * 8. Hit driver assignment service to verify unassigned response. Verify that new driver is available for assignment.
+	 * 9. Verify Occasional Status
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14477, PAS-10484"})
+	public void pas14477_ViewDriverAssignment_NewDriver(@Optional("VA") String state) {
+
+		pas14477_ViewDriverAssignment_NewDriver_Body(getPolicyType());
+	}
+
+	/**
 	 * @author Megha Gubbala
 	 * Create a policy with 1 driver and 1 vehicle
 	 * Create pended endorsement using DXP

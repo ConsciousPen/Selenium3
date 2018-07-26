@@ -70,10 +70,10 @@ public class ExcelUnmarshaller implements Closeable {
 				this.excelManager.initializedFromFile() ? "file \"" + this.excelManager.getFile().getAbsolutePath() + "\"" : "InputStream",
 				isStrictMatchBinding() ? "with" : "without");
 
-		T excelFileObject = (T) BindHelper.getInstance(excelFileModel);
-		for (Field tableField : BindHelper.getAllAccessibleFields(excelFileModel, true)) {
+		T excelFileObject = (T) ReflectionHelper.getInstance(excelFileModel);
+		for (Field tableField : ReflectionHelper.getAllAccessibleTableFieldsFromThisAndSuperClasses(excelFileModel)) {
 			List<?> tablesObjects = unmarshalRows(cache.of(tableField).getTableClass());
-			BindHelper.setFieldValue(tableField, excelFileObject, tablesObjects);
+			ReflectionHelper.setFieldValue(tableField, excelFileObject, tablesObjects);
 		}
 
 		log.info("Excel file unmarshalling completed successfully.");
@@ -113,7 +113,7 @@ public class ExcelUnmarshaller implements Closeable {
 			return (T) cache.of(tableClass).getObject(row.getIndex());
 		}
 
-		T tableObject = (T) BindHelper.getInstance(cache.of(tableClass).getTableClass());
+		T tableObject = (T) ReflectionHelper.getInstance(cache.of(tableClass).getTableClass());
 		for (Field tableColumnField : cache.of(tableClass).getTableColumnsFields()) {
 			Object value = null;
 			switch (cache.of(tableClass).getBindType(tableColumnField)) {
@@ -127,7 +127,7 @@ public class ExcelUnmarshaller implements Closeable {
 					value = getMultiColumnsFieldValue(tableClass, tableColumnField, row);
 					break;
 			}
-			BindHelper.setFieldValue(tableColumnField, tableObject, value);
+			ReflectionHelper.setFieldValue(tableColumnField, tableObject, value);
 		}
 
 		cache.of(tableClass).setObject(row.getIndex(), tableObject);
@@ -145,7 +145,7 @@ public class ExcelUnmarshaller implements Closeable {
 		if (cell.isEmpty()) {
 			return null;
 		}
-		if (!List.class.equals(field.getType())) {
+		if (!List.class.isAssignableFrom(field.getType())) {
 			return getTableRowObject(cache.of(field).getTableClass(), cache.of(field).getRow(cell.getIntValue()));
 		}
 

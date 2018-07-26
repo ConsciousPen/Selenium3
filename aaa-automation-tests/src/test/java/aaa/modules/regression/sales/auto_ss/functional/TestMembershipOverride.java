@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -13,6 +14,7 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -25,6 +27,7 @@ import java.time.LocalDateTime;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 
+@StateList(statesExcept = Constants.States.CA)
 public class TestMembershipOverride extends AutoSSBaseTest {
 
 	private static final String MEMBER_SINCE_DATE_WARNING_MESSAGE = "'Member Since Date' is required (AAA_SS02032018) [for ExistingPolicies.memberSinceDate]";
@@ -630,7 +633,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override", enabled = true)
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6314")
 	public void pas6314_Validate_Membership_Override_AC3(@Optional("AZ") String state) {
 
