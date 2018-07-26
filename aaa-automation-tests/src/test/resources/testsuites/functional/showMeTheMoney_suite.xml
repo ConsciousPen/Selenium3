@@ -5,4 +5,9 @@
             <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsCheckEuwDropdown"/>
         </classes>
     </test>
+    <test name="TestOperationalReportsCheckDeliveryTypeForEuwDetail" preserve-order="true">
+        <classes>
+            <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsCheckDeliveryTypeForEuwDetail"/>
+        </classes>
+    </test>
 </suite>
