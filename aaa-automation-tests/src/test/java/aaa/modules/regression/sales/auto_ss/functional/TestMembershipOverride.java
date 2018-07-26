@@ -268,7 +268,6 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		testDataGeneralTab.adjust("AAAProductOwned", tdSpecific);
 		// Put testDataGeneralTab to common testdata
 		testData.adjust("GeneralTab", testDataGeneralTab);
-
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(testData);
@@ -341,7 +340,6 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		TestData loginTD = initiateLoginTD().adjust("Groups", "L41");
 		loginTD.adjust("User", "qa_roles");
 		mainApp().open(loginTD);
-
 		testMembershipOverridePrivilege(true);
 	}
 
@@ -730,7 +728,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 
 		if (isEndorsement) {
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount")).isPresent();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount").getCell(6).getValue().contains(Value1)).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount").getCell(5).getValue().contains(Value1)).isTrue();
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount").getCell(6).getValue().contains(Value2)).isTrue();
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "Member Since Date").getCell(6).isPresent());
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "Member Since Date").getCell(6).getValue().contains(memberSinceDate)).isTrue();
