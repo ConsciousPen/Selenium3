@@ -1,8 +1,13 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Finance Tests" verbose="1">
+<suite name="Show Me The Money Functional Test Suite" verbose="1">
     <test name="TestOperationalReportsCheckEuwDropdown" preserve-order="true">
         <classes>
             <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsCheckEuwDropdown"/>
+        </classes>
+    </test>
+    <test name="TestOperationalReportsCheckDeliveryTypeForEuwDetail" preserve-order="true">
+        <classes>
+            <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsCheckDeliveryTypeForEuwDetail"/>
         </classes>
     </test>
 </suite>

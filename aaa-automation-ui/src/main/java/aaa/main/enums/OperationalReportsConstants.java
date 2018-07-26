@@ -4,7 +4,17 @@ package aaa.main.enums;
 
 public final class OperationalReportsConstants {
 
-	 public static final String EUW_DETAIL = "View Earn, Unearned, Written Premium (EUW) - Detail";
 
-	    private OperationalReportsConstants() {}
+    public static final String EUW_DETAIL = "View Earn, Unearned, Written Premium (EUW) - Detail";
+
+    private OperationalReportsConstants() {
+    }
+
+    public static final class DeliveryType {
+
+        public static final String EMAIL = "E-Mail";
+        public static final String DOWNLOAD = "Download";
+
+        private DeliveryType(){}
+    }
 }
