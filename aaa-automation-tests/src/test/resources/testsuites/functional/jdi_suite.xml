@@ -307,11 +307,15 @@
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestPaperlessPreferencesAllProducts">
                 <methods>
                     <include name="pas283_paperlessPreferencesForAllStatesProducts"/>
+                    <include name="pas15995_documentDeliverySectionDuringEndorsement"/>
+                    <include name="pas15995_documentDeliverySectionDataGatherMode"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestPaperlessPreferencesAllProducts">
                 <methods>
                     <include name="pas283_paperlessPreferencesForAllStatesProducts"/>
+                    <include name="pas15994_documentDeliverySectionDuringEndorsement"/>
+                    <include name="pas15994_documentDeliverySectionDataGatherMode"/>
                 </methods>
             </class>
         </classes>
