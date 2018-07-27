@@ -477,6 +477,28 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 		pas15513_ViewDriverRemoveDriverIndicatorBody(td, getPolicyType());
 
 	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Add Drivers service, check info.
+	 * @scenario 1
+	 * 1. Create a policy in PAS with multiple drivers
+	 * 2. Create endorsement through service
+	 * 3. Run Remove Driver Service with the reason Rule RD1001 for Driver 1
+	 * 4. Validate that driverStatus in response is "pendingRemove" for the driver 1
+	 * 5. Run Remove Driver Service with the reason Rule RD1002 for Driver 2
+	 * 6. Validate that driverStatus in response is "pendingRemove" for the driver 2
+	 * 7. Run View driver assignments service and validate that removed driver 1 and driver 2 are not available for assignment (response should not contain Driver at all in any section)
+	 * 8. Open Endorsement in PAS an validate that both drivers are removed
+	 * 9. Rate and bind the policy through service
+	 * 10. Run view policy drivers service and validate that the drivers are removed (not present in response)
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14640"})
+	public void pas14640_Not_a_Named_Insured_Available_for_Rating_Happy_Path(@Optional("VA") String state) throws ParseException {
+		pas14640_Not_a_Named_Insured_Available_for_Rating_Happy_Path_Body();
+	}
 }
 
 
