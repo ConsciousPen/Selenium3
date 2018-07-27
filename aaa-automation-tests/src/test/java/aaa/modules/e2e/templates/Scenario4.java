@@ -186,7 +186,7 @@ public class Scenario4 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		if (getState().equals(Constants.States.NJ)) {
+		if (getState().equals(Constants.States.NJ) && getPolicyType().isAutoPolicy()) {
 			//Cancel Notice should not be generated for NJ policy cause cancel notice date is before Paid Through date
 			PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
 			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
@@ -213,7 +213,7 @@ public class Scenario4 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		if (!getState().equals(Constants.States.NJ)) {
+		if (!getState().equals(Constants.States.NJ) && getPolicyType().isAutoPolicy()) {
 			PolicySummaryPage.verifyCancelNoticeFlagPresent();
 		}
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
