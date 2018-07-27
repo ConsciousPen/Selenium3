@@ -33,9 +33,9 @@ public class TestEndorsementWithAutoSelectCompanion extends HomeCaHO6BaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-8786")
-    public void pas8786_TestEndorsementIssueWithPendingAutoSelectCompanion(@Optional("CA") String state) {
+    public void pas8786_TestEndorsementRateWithPendingAutoSelectCompanion(@Optional("CA") String state) {
 
-        template.pas8786_TestEndorsementCalculatePremiumWithPendingAutoSelectCompanion(getPolicyType());
+        template.pas8786_TestEndorsementRateWithPendingAutoSelectCompanion(getPolicyType());
 
     }
 }

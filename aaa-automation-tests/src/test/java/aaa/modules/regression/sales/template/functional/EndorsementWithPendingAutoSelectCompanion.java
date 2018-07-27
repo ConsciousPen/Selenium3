@@ -20,7 +20,7 @@ public class EndorsementWithPendingAutoSelectCompanion extends PolicyBaseTest {
     private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 
 
-    public void pas8786_TestEndorsementCalculatePremiumWithPendingAutoSelectCompanion(PolicyType policyType) {
+    public void pas8786_TestEndorsementRateWithPendingAutoSelectCompanion(PolicyType policyType) {
 
         String autoEffective = TimeSetterUtil.getInstance().getCurrentTime().plusWeeks(2).format(DateTimeUtils.MM_DD_YYYY);
 

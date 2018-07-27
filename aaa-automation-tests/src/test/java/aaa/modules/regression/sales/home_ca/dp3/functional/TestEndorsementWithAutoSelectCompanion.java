@@ -18,7 +18,7 @@ public class TestEndorsementWithAutoSelectCompanion extends HomeCaDP3BaseTest {
 
     /**
      * @author Dominykas Razgunas
-     * @name
+     * @name Test Endorsement Calculate Premium with pending Auto Select Companion
      * @scenario
      * 1. Create customer
      * 2. Create Auto Select policy with an effective date today+2weeks
@@ -33,9 +33,9 @@ public class TestEndorsementWithAutoSelectCompanion extends HomeCaDP3BaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-8786")
-    public void pas8786_TestEndorsementIssueWithPendingAutoSelectCompanion(@Optional("CA") String state) {
+    public void pas8786_TestEndorsementRateWithPendingAutoSelectCompanion(@Optional("CA") String state) {
 
-        template.pas8786_TestEndorsementCalculatePremiumWithPendingAutoSelectCompanion(getPolicyType());
+        template.pas8786_TestEndorsementRateWithPendingAutoSelectCompanion(getPolicyType());
 
     }
 }
