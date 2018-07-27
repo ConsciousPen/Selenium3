@@ -480,8 +480,8 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Add Drivers service, check info.
-	 * @scenario 1
+	 * @name Remove Driver - Not a Named Insured, Available for Rating - Happy Path
+	 * @scenario
 	 * 1. Create a policy in PAS with multiple drivers
 	 * 2. Create endorsement through service
 	 * 3. Run Remove Driver Service with the reason Rule RD1001 for Driver 1
@@ -496,9 +496,10 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14640"})
-	public void pas14640_Not_a_Named_Insured_Available_for_Rating_Happy_Path(@Optional("VA") String state) throws ParseException {
+	public void pas14640_Not_a_Named_Insured_Available_for_Rating_Happy_Path(@Optional("VA") String state){
 		pas14640_Not_a_Named_Insured_Available_for_Rating_Happy_Path_Body();
 	}
+
 }
 
 
