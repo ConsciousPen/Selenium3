@@ -125,8 +125,8 @@ public class TestLexisNexisMVROrdering extends AutoSSBaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
 
-		// Validate MVR response is not empty (was ordered)
-		assertThat(DriverActivityReportsTab.resultMsgMVRReports.getValue()).contains("Reports order is successful");
+		// Validate MVR message area is not present (should not be there in this specific scenario)
+		assertThat(DriverActivityReportsTab.resultMsgMVRReports.isPresent()).isFalse();
 
 	}
 
