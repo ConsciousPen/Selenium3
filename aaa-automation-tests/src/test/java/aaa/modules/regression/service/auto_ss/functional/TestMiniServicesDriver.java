@@ -1,6 +1,5 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.text.ParseException;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -13,6 +12,8 @@ import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.TestMiniServicesDriversHelper;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 
@@ -277,6 +278,26 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 		pas15077_orderReports_endorsementBody(getPolicyType());
 	}
 
+    /**
+     * @author Bob Van
+     * @name Update Drivers service, set marital status.
+     * @scenario
+     * 1. Create policy on Pas.
+     * 2. Create endorsement outside of PAS
+     * 2. Add 2nd driver outside of PAS
+     * 3. Update 2nd driver as spouse outside of PAS
+     * 4. Verify married status in update response
+     * 5. Verify married status in view driver response
+     * 6. Verify PAS pended endorsement general tab data
+     * 7. Verify PAS pended endorsement driver tab data
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14474"})
+    public void pas14474_UpdateSpouseDriver(@Optional("AZ") String state) {
+
+    	pas14474_UpdateSpouseDriverBody(getPolicyType());
+    }
 	/**
 	 * @author Maris Strazds
 	 * @name Test Report Ordering for Endorsement (not a Named Insured)
@@ -306,25 +327,28 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	}
 
 	/**
-	 * @author Bob Van
-	 * @name Update Drivers service, set marital status.
-	 * @scenario
-	 * 1. Create policy on Pas.
-	 * 2. Create endorsement outside of PAS
-	 * 2. Add 2nd driver outside of PAS
-	 * 3. Update 2nd driver as spouse outside of PAS
-	 * 4. Verify married status in update response
-	 * 5. Verify married status in view driver response
-	 * 6. Verify PAS pended endorsement general tab data
-	 * 7. Verify PAS pended endorsement driver tab data
+	 * @author Jovita Pukenaite
+	 * @name Transaction Information For Endorsements outside of PAS - Add Driver
+	 * @scenario 1. Create policy.
+	 * 2. Start do endorsement outside of PAS.
+	 * 3. Hit "Transaction History Service". Check if response is empty.
+	 * 4. Add Driver.
+	 * 5. Hit "Transaction History Service". Check new driver info.
+	 * 6. Update for bind.
+	 * 7. Rate endorsement and Bind.
+	 * 8. Create endorsement outside of PAS
+	 * 9. Hit "Transaction History Service". Check new driver info. Update for bind.
+	 * 10. Bind endorsement.
+	 * 11. Hit "Transaction History Service". Check if response is empty.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14474"})
-	public void pas14474_UpdateSpouseDriver(@Optional("") String state) {
-		pas14474_UpdateSpouseDriverBody(getPolicyType());
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16481"})
+	public void pas9493_TransactionInformationForEndorsementsAddDriver(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas16481_TransactionInformationForEndorsementsAddDriverBody(softly)
+		);
 	}
-
 	/**
 	 * @author Megha Gubbala
 	 * @name Update Drivers service, set marital status.
@@ -405,7 +429,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	{
 		assertSoftly(softly ->
 		pas14475_NameInsuredMaritalStatusFNIIsPSSBody(softly)
-				);
+		);
 	}
 
 
