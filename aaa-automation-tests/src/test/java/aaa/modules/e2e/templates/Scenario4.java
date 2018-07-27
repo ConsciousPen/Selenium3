@@ -186,13 +186,23 @@ public class Scenario4 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.verifyCancelNoticeFlagPresent();
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		new BillingAccountPoliciesVerifier().setPolicyFlag(BillingConstants.PolicyFlag.CANCEL_NOTICE).verifyRowWithEffectiveDate(policyEffectiveDate);
+		if (getState().equals(Constants.States.NJ)) {
+			//Cancel Notice should not be generated for NJ policy cause cancel notice date is before Paid Through date
+			PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+			endorsementDue = BillingSummaryPage.getTotalDue();
+			new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).setMinDue(endorsementDue)
+					.setPastDueZero().verifyRowWithDueDate(endorsementInstallmentDueDate);
+		}
+		else {
+			PolicySummaryPage.verifyCancelNoticeFlagPresent();
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+			new BillingAccountPoliciesVerifier().setPolicyFlag(BillingConstants.PolicyFlag.CANCEL_NOTICE).verifyRowWithEffectiveDate(policyEffectiveDate);
 
-		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.CANCELLATION_NOTICE)
-				.setMinDue(endorsementDue).setPastDue(endorsementDue).setTotalDue(endorsementDue)
-				.verifyRowWithDueDate(getTimePoints().getCancellationTransactionDate(endorsementInstallmentDueDate));
+			new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.CANCELLATION_NOTICE)
+					.setMinDue(endorsementDue).setPastDue(endorsementDue).setTotalDue(endorsementDue)
+					.verifyRowWithDueDate(getTimePoints().getCancellationTransactionDate(endorsementInstallmentDueDate));
+		}
 	}
 
 	protected void paymentInFullCancellNoticeAmount() {
@@ -203,7 +213,9 @@ public class Scenario4 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.verifyCancelNoticeFlagPresent();
+		if (!getState().equals(Constants.States.NJ)) {
+			PolicySummaryPage.verifyCancelNoticeFlagPresent();
+		}
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		Dollar sum = new Dollar(BillingHelper.getBillCellValue(endorsementInstallmentDueDate, BillingConstants.BillingBillsAndStatmentsTable.TOTAL_DUE));
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), sum);
