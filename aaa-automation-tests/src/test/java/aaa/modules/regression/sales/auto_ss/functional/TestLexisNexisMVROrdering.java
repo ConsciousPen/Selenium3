@@ -20,7 +20,7 @@ import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-public class TestOutOfStateLicenseMVR extends AutoSSBaseTest {
+public class TestLexisNexisMVROrdering extends AutoSSBaseTest {
 
 	/**
 	 * @author Josh Carpenter
@@ -28,7 +28,7 @@ public class TestOutOfStateLicenseMVR extends AutoSSBaseTest {
 	 * @scenario
 	 * 1. Create Customer
 	 * 2. Initiate Auto SS quote
-	 * 3. Fill with valid out of state license containing special characters
+	 * 3. Fill with valid out of state license (WA)
 	 * 4. Bind policy
 	 * 5. Age policy to MVR order renewal date (R-63)
 	 * 6. Run Renewal jobs part 1 & 2
@@ -40,13 +40,13 @@ public class TestOutOfStateLicenseMVR extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-10099")
-	public void pas10099_testOutOfStateLicenseWA(@Optional("") String state) {
+	public void pas10099_testLexisNexisMVROrderingWA(@Optional("") String state) {
 
 		TestData td = getPolicyTD()
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_STATE.getLabel()), "WA")
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "LIU**Y*310L1");
 
-		testOutOfStateLicenseMVR(td);
+		testLexisNexisMVROrdering(td);
 
 	}
 
@@ -56,7 +56,7 @@ public class TestOutOfStateLicenseMVR extends AutoSSBaseTest {
 	 * @scenario
 	 * 1. Create Customer
 	 * 2. Initiate Auto SS quote
-	 * 3. Fill with valid out of state license containing special characters
+	 * 3. Fill with valid out of state license (CA)
 	 * 4. Bind policy
 	 * 5. Age policy to MVR order renewal date (R-63)
 	 * 6. Run Renewal jobs part 1 & 2
@@ -68,13 +68,13 @@ public class TestOutOfStateLicenseMVR extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-10099")
-	public void pas10099_testOutOfStateLicenseMT(@Optional("") String state) {
+	public void pas10099_testLexisNexisMVROrderingCA(@Optional("") String state) {
 
 		TestData td = getPolicyTD()
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_STATE.getLabel()), "MT")
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "A3B78- -2");
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_STATE.getLabel()), "CA")
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "C6512304");
 
-		testOutOfStateLicenseMVR(td);
+		testLexisNexisMVROrdering(td);
 
 	}
 
@@ -84,7 +84,7 @@ public class TestOutOfStateLicenseMVR extends AutoSSBaseTest {
 	 * @scenario
 	 * 1. Create Customer
 	 * 2. Initiate Auto SS quote
-	 * 3. Fill with valid out of state license containing special characters
+	 * 3. Fill with valid out of state license (FL)
 	 * 4. Bind policy
 	 * 5. Age policy to MVR order renewal date (R-63)
 	 * 6. Run Renewal jobs part 1 & 2
@@ -96,17 +96,17 @@ public class TestOutOfStateLicenseMVR extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-10099")
-	public void pas10099_testOutOfStateLicenseWY(@Optional("") String state) {
+	public void pas10099_testLexisNexisMVROrderingFL(@Optional("") String state) {
 
 		TestData td = getPolicyTD()
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_STATE.getLabel()), "WY")
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "654879-645");
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_STATE.getLabel()), "FL")
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "C320025874125");
 
-		testOutOfStateLicenseMVR(td);
+		testLexisNexisMVROrdering(td);
 
 	}
 
-	private void testOutOfStateLicenseMVR(TestData td) {
+	private void testLexisNexisMVROrdering(TestData td) {
 
 		// Create customer and policy
 		mainApp().open();
