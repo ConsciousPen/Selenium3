@@ -1,18 +1,4 @@
-# ----------------- Test Data for PA Rating Helper ------------------
-
-TestData_PrefillTab_OH: '@PrefillTab_OH'
-
 TestData_OtherActiveAAAPolicies: '@OtherActiveAAAPolicies'
-
-TestData_ManualPolicy: {
-  ApplicantTab: '@ApplicantTab_PA'
-}
-
-TestData_Endorse: {
-EndorsementActionTab: '@EndorsementActionTab',
-}
-
-TestData_OtherActive: '@OtherActiveAAAPolicies1'
 
 # ------------------ Other Active Policies ------------------
 
@@ -24,55 +10,4 @@ OtherActiveAAAPolicies: {
     Policy number: Primary_Auto
   },
   ActiveUnderlyingPoliciesManual: {}
-}
-
-ApplicantTab_PA: {
-  NamedInsured: {},
-  AAAMembership: {},
-  DwellingAddress: {},
-  PreviousDwellingAddress: {},
-  MailingAddress: {},
-  NamedInsuredInformation: {},
-  OtherActiveAAAPolicies: {
-    ActiveUnderlyingPoliciesSearch: {},
-    ActiveUnderlyingPoliciesManual: {
-      Policy type: HO3,
-      Policy number: '123456789',
-      Coverage E: '150000',
-      Deductible: '500',
-      Dwelling usage: 'index=1',
-      Occupancy type: 'index=1'
-    }
-  },
-  AgentInfo: {}
-}
-
-# ------------------- OH Auto Prefill Tab -------------------
-
-PrefillTab_OH: {
-  Zip Code: '44057',
-  Address Line 1: 498 HYDER DR,
-  Policy State: 'OH',
-  Validate Address: click,
-  Validate Address Dialog: {},
-  Order Prefill: click
-}
-
-#-----------------  TD for manually added auto policy --------------
-OtherActiveAAAPolicies1: {
-    Other active AAA policies: "Yes",
-    Add: 'click',
-    ActiveUnderlyingPoliciesSearch: {},
-    ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual',
-}
-
-OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual:  {
-  Policy type: Auto,
-  "Companion Auto Pending with Discount?": 'No',
-  Auto policy state: PA,
-  Policy number: '345345345',
-  Effective date: '$<today:MM/dd/yyyy>',
-  Policy tier: 'index=1',
-  Auto policy BI limit: 'index=1',
-  Auto Insurance Persistency: '21'
 }

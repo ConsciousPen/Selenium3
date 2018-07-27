@@ -35,14 +35,17 @@ public class EndorsementWithPendingAutoSelectCompanion extends PolicyBaseTest {
         // Get test data with CA select Auto
         TestData tdHome = getTdWithAutoPolicy(tdAuto, policyType);
 
-        // Create  HO policy with companion Auto policy created above
+        // Create Property policy with companion Auto policy created above
         policyType.get().createPolicy(tdHome);
+
+        // Endorse Policy with effective date Prior to Pending Auto Select Policy
         policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(policyType).getTestData("Endorsement"), "TestData_Plus1Week"));
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+
+        // Calculate Premium and check that Error tab is not thrown
         premiumsAndCoveragesQuoteTab.calculatePremium();
         assertThat(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel())).isPresent();
-
     }
 
 
