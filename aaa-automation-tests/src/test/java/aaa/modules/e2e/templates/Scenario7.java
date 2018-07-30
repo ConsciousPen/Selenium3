@@ -225,6 +225,9 @@ public class Scenario7 extends ScenarioBaseTest {
 		BillingSummaryPage.openPolicy(policyEffectiveDate);
 
 		policy.endorse().performAndFill(getTestSpecificTD("TestData_EndorsementRP").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData")));
+		if (PolicySummaryPage.tableDifferences.isPresent()) {
+			policy.rollOn().perform(true);
+		}
 		PolicyHelper.verifyEndorsementIsCreated();
 
 		//CustomAssert.enableSoftMode();
@@ -258,6 +261,9 @@ public class Scenario7 extends ScenarioBaseTest {
 		BillingSummaryPage.openPolicy(policyEffectiveDate);
 
 		policy.endorse().performAndFill(getTestSpecificTD("TestData_EndorsementAP").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData")));
+		if (PolicySummaryPage.tableDifferences.isPresent()) {
+			policy.rollOn().perform(true);
+		}
 		PolicyHelper.verifyEndorsementIsCreated();
 
 		//CustomAssert.enableSoftMode();
@@ -292,7 +298,7 @@ public class Scenario7 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		verifyRenewOfferGenerated(installmentDueDates);
+		//verifyRenewOfferGenerated(installmentDueDates);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferGenDate).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
 
 		if (getState().equals(States.CA)) {
@@ -315,6 +321,9 @@ public class Scenario7 extends ScenarioBaseTest {
 		BillingSummaryPage.openPolicy(policyExpirationDate);
 
 		policy.endorse().performAndFill(getTestSpecificTD("TestData_EndorsementRP").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData")));
+		if (PolicySummaryPage.tableDifferences.isPresent()) {
+			policy.rollOn().perform(true);
+		}
 		PolicyHelper.verifyEndorsementIsCreated();
 
 		//CustomAssert.enableSoftMode();
@@ -341,6 +350,9 @@ public class Scenario7 extends ScenarioBaseTest {
 		BillingSummaryPage.openPolicy(policyExpirationDate);
 
 		policy.endorse().performAndFill(getTestSpecificTD("TestData_EndorsementAP").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData")));
+		if (PolicySummaryPage.tableDifferences.isPresent()) {
+			policy.rollOn().perform(true);
+		}
 		PolicyHelper.verifyEndorsementIsCreated();
 
 		//CustomAssert.enableSoftMode();
