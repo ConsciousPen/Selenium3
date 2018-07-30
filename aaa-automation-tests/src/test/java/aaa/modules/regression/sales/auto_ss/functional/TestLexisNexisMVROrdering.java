@@ -129,7 +129,7 @@ public class TestLexisNexisMVROrdering extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
 
 		// Validate MVR message area is not present (should not be there in this specific scenario)
-		assertThat(DriverActivityReportsTab.resultMsgMVRReports.isPresent()).isFalse();
+		assertThat(DriverActivityReportsTab.resultMsgMVRReports).isPresent(false);
 
 	}
 
