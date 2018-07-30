@@ -36,9 +36,9 @@ public class TestOperationalReportsCheckAsOfAccountingDate extends BaseTest {
         TextBox asOfAccountingDate = orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.AS_OF_ACCOUNTING_DATE);
 
         assertSoftly(softly -> {
-            assertThat(asOfAccountingDate).isPresent();
-            assertThat(asOfAccountingDate).isEnabled();
-            assertThat(asOfAccountingDate).hasValue(getTestSpecificTD("TestData_Check").getValue("AsOfDate"));
+            softly.assertThat(asOfAccountingDate).isPresent();
+            softly.assertThat(asOfAccountingDate).isEnabled();
+            softly.assertThat(asOfAccountingDate).hasValue(getTestSpecificTD("TestData_Check").getValue("AsOfDate"));
         });
     }
 }
