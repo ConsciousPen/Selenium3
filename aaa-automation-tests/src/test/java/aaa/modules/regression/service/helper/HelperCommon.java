@@ -279,6 +279,12 @@ public class HelperCommon {
 		return runJsonRequestDeleteDxp(requestUrl, DriversDto.class, request, 200);
 	}
 
+	public static ErrorResponseDto removeDriverError(String policyNumber, String oid, RemoveDriverRequest request) {
+		log.info("Remove Driver params: policyNumber: " + policyNumber + ", oid: " + oid);
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_REMOVE_DRIVER, policyNumber, oid));
+		return runJsonRequestDeleteDxp(requestUrl, ErrorResponseDto.class, request, 422);
+	}
+
 	public static ViewDriverAssignmentResponse viewEndorsementAssignments(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, ViewDriverAssignmentResponse.class);

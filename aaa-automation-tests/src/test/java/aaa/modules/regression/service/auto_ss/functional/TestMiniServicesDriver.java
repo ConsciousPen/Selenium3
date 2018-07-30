@@ -499,7 +499,27 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	public void pas14640_Not_a_Named_Insured_Available_for_Rating_Happy_Path(@Optional("VA") String state){
 		pas14640_Not_a_Named_Insured_Available_for_Rating_Happy_Path_Body();
 	}
-
+	/**
+	 * @author Maris Strazds
+	 * @name Remove Driver - Hard Stop and Don't Remove
+	 * @scenario
+	 * 1. Create a policy in PAS with multiple drivers
+	 * 2. Create endorsement through service
+	 * 3. Run Remove Driver Service with the reason Rule RD1005 for Driver 1 and validate that I receive error message
+	 * 4. Run viewEndorsementDrivers service and check that response is the same as before removeDriver action (and driverStatus has not changed)
+	 * 5. Run Remove Driver Service with the reason Rule RD1006 for Driver 1 and validate that I receive error message
+	 * 6. Run viewEndorsementDrivers service and check that response is the same as before removeDriver action (and driverStatus has not changed)
+	 * 7. Run View driver assignments service and validate that driver 1 and driver 2 are available for assignment (assignment has not changed)
+	 * 8. Open Endorsement in PAS an validate that both drivers are NOT removed
+	 * 9. Rate and bind the policy through service
+	 * 10. Run view policy drivers service and validate that the drivers are NOT removed (response is the same as before endorsement)
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14642"})
+	public void pas14642_Not_a_Named_Insured_Available_for_Rating_Hard_Stop(@Optional("VA") String state){
+		pas14642_Not_a_Named_Insured_Available_for_Rating_Hard_Stop_Body();
+	}
 }
 
 
