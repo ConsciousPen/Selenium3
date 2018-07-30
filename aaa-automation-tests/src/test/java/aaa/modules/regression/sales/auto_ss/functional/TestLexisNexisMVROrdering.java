@@ -5,6 +5,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -17,9 +18,11 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
+@StateList(statesExcept = Constants.States.CA)
 public class TestLexisNexisMVROrdering extends AutoSSBaseTest {
 
 	/**
