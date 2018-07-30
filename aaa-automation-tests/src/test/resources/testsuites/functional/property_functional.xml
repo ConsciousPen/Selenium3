@@ -123,29 +123,6 @@
             <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestConversionViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestConversionViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestConversionViewAndOverrideCappingDetails"/>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
-                <methods>
-                    <include name="pas2305_preRenewalLetterHSPRNXX"/>
-                    <include name="pas9170_preRenewalLetterPupHSPRNMXX"/>
-                    <include name="pas2309_renewalCoverLetterHSRNHODPXX"/>
-                    <include name="pas10241_insuranceRenewalBillHomeMortAHRBXX"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigConversionHomeDP3">
-                <methods>
-                    <include name="pas7342_preRenewalLetterPupConvHSPRNMXX"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestRestrictedPaymentPlan">
-                <methods>
-                    <include name="pas10894_restrictionPaymentPlansMembershipPending"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestEarnedPremiumWriteOff">
-                <methods>
-                    <include name="pas11697_testEarnedPremiumWriteOffLessDecline"/>
-                </methods>
-            </class>
         </classes>
     </test>
     <test name="AZ PUP Functional Tests" parallel="methods">
@@ -160,21 +137,6 @@
             <class name="aaa.modules.regression.sales.pup.TestQuotePremiumOverride"/>
             <class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules"/>
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
-            <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestEarnedPremiumWriteOff">
-                <methods>
-                    <include name="pas11697_testEarnedPremiumWriteOffEqualDecline"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionPup">
-                <methods>
-                    <include name="pas2571_renewalCoverLetterHSRNPUPXXHO3"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionPup">
-                <methods>
-                    <include name="pas8789_insuranceRenewalBillHomeAHRBXX"/>
-                </methods>
-            </class>
         </classes>
     </test>
     <test name="CO HSS Functional Tests" parallel="methods">
@@ -243,11 +205,6 @@
             <class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreationFull"/>
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreation"/>
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreationFull"/>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestRestrictedPaymentPlan">
-                <methods>
-                    <include name="pas10894_restrictionPaymentPlansMembershipNo"/>
-                </methods>
-            </class>
         </classes>
     </test>
     <test name="CT PUP Functional Tests" parallel="methods">
@@ -330,26 +287,6 @@
             <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestConversionViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestConversionViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestConversionViewAndOverrideCappingDetails"/>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigConversionHomeHO4">
-                <methods>
-                    <include name="pas2305_preRenewalLetterPupConvHSPRNXX"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigConversionHomeHO6">
-                <methods>
-                    <include name="pas2570_renewalCoverLetterHSRNMXX"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigConversionHomeDP3">
-                <methods>
-                    <include name="pas8762_mortgageeBillFirstRenewalReminderHSRRXX"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestRestrictedPaymentPlan">
-                <methods>
-                    <include name="pas10998_restrictionPaymentPlansMembershipPendingCalculation"/>
-                </methods>
-            </class>
         </classes>
     </test>
     <test name="DE PUP Functional Tests" parallel="methods">
@@ -502,11 +439,6 @@
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules"/>
             <class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
             <class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreationFull"/>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestCinNewBusinessHomeHO4">
-                <methods>
-                    <include name="testCinHomeSSCluePropertyViolation"/>
-                </methods>
-            </class>
             <class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
             <class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreationFull"/>
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreation"/>
@@ -635,21 +567,6 @@
             <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestConversionViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestConversionViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestConversionViewAndOverrideCappingDetails"/>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigConversionHomeHO6">
-                <methods>
-                    <include name="pas7342_preRenewalLetterHSPRNMXX"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigConversionHomeHO6">
-                <methods>
-                    <include name="pas8763_mortgageeBillFinalExpirationHSRR2XX"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
-                <methods>
-                    <include name="pas2309_renewalCoverLetterHSRNHODPXX"/>
-                </methods>
-            </class>
         </classes>
     </test>
     <test name="NJ PUP Functional Tests" parallel="methods">
@@ -664,11 +581,6 @@
             <class name="aaa.modules.regression.sales.pup.TestQuotePremiumOverride"/>
             <class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules"/>
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
-            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionPup">
-                <methods>
-                    <include name="pas2571_renewalCoverLetterHSRNPUPXXHO3"/>
-                </methods>
-            </class>
         </classes>
     </test>
     <test name="NV HSS Functional Tests" parallel="methods">
@@ -977,38 +889,6 @@
             <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestConversionViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestConversionViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
-                <methods>
-                    <include name="pas2305_preRenewalLetterHSPRNXX"/>
-                    <include name="pas9170_preRenewalLetterPupHSPRNMXX"/>
-                    <include name="pas2309_renewalCoverLetterHSRNHODPXX"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionPup">
-                <methods>
-                    <include name="pas2571_renewalCoverLetterHSRNPUPXXHO3"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigConversionHomeHO4">
-                <methods>
-                    <include name="pas2309_renewalCoverLetterPupConvHSRNHODPXX"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigConversionHomeDP3">
-                <methods>
-                    <include name="pas2570_renewalCoverLetterPupHSRNMXX"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigConversionHomeHO4">
-                <methods>
-                    <include name="pas8789_insuranceRenewalBillHomeAHRBXX"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestRestrictedPaymentPlan">
-                <methods>
-                    <include name="pas11367_restrictionPaymentPlansMembershipOverride"/>
-                </methods>
-            </class>
         </classes>
     </test>
     <test name="VA PUP Functional Tests" parallel="methods">
@@ -1147,16 +1027,6 @@
             <class name="aaa.modules.regression.sales.home_ca.ho3.TestSeniorDiscount"/>
             <class name="aaa.modules.regression.sales.home_ca.ho4.TestSeniorDiscount"/>
             <class name="aaa.modules.regression.sales.home_ca.ho6.TestSeniorDiscount"/>
-            <class name="aaa.modules.regression.document_fulfillment.home_ca.ho3.functional.TestCinNewBusinessHomeCAHO3">
-                <methods>
-                    <include name="testCinNewBusinessProperty"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.functional.TestEarnedPremiumWriteOff">
-                <methods>
-                    <include name="pas11697_testEarnedPremiumWriteOffMoreDeclineMortgagee"/>
-                </methods>
-            </class>
         </classes>
     </test>
     <test name="CA PUP Functional Tests" parallel="methods">
