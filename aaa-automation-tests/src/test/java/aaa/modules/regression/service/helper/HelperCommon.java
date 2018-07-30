@@ -818,8 +818,12 @@ public class HelperCommon {
 			try {
 				return response.readEntity(responseType);
 			} catch (ProcessingException e) {
-				log.error("Actual response: " + System.lineSeparator() + 
-						asJson(response.readEntity(ErrorResponseDto.class)));
+				try {
+					log.error("Actual response: " + System.lineSeparator() +
+							asJson(response.readEntity(ErrorResponseDto.class)));
+				} catch (ProcessingException e1) {
+					throw e1;
+				}
 				throw e;
 			}
 		} 
