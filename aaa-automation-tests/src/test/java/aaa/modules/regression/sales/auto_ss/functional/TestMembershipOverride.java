@@ -813,7 +813,6 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		PolicySummaryPage.buttonRenewals.click();
-
 		// Open Renewal Image in Inquiry mode
 		policy.policyInquiry().start();
 	}
