@@ -316,7 +316,7 @@ TestData_FiveDrivers: {
     DriverTab: ['@Driver_one', '@Driver_two', '@Driver_four', '@Driver_five', '@Driver_six'],
 }
 
-TestData_Drivers_14640: {
+TestData_2_Drivers_Not_NI_AfR: {
     DriverTab: ['@Driver_one', '@Driver_two', '@Driver_four'],
 }
 

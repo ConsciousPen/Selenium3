@@ -499,6 +499,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	public void pas14640_Not_a_Named_Insured_Available_for_Rating_Happy_Path(@Optional("VA") String state){
 		pas14640_Not_a_Named_Insured_Available_for_Rating_Happy_Path_Body();
 	}
+
 	/**
 	 * @author Maris Strazds
 	 * @name Remove Driver - Hard Stop and Don't Remove
@@ -519,6 +520,28 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14642"})
 	public void pas14642_Not_a_Named_Insured_Available_for_Rating_Hard_Stop(@Optional("VA") String state){
 		pas14642_Not_a_Named_Insured_Available_for_Rating_Hard_Stop_Body();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Remove Driver - But Not Really - Not Available for Rating
+	 * @scenario
+	 * 1. Create a policy in PAS with multiple drivers
+	 * 2. Create endorsement through service
+	 * 3. Run Remove Driver Service with the reason Rule RD1003 for Driver 1
+	 * 4. Validate that driverStatus in response is changed to "updated" for the driver 1, driver is change to "Not Available for Rating", reason is "Other" AND if there is other text - put rule
+	 * 5. Run Remove Driver Service with the reason Rule RD1004 for Driver 2
+	 * 6. Validate that driverStatus in response is changed to "updated" for the driver 1, driver is change to "Not Available for Rating", reason is "Other" AND if there is other text - put rule
+	 * 7. Run View driver assignments service and validate that driver 1 and driver 2 are not available for assignment (response should not contain Driver at all in any section) (because they are Not available for Rating)
+	 * 8. Open Endorsement in PAS an validate that both drivers are Updated
+	 * 9. Rate and bind the policy through service
+	 * 10. Run view policy drivers service and validate that the drivers are Updated
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14641"})
+	public void pas14641_Not_a_Named_Insured_Update_to_Not_Available_for_Rating(@Optional("VA") String state){
+		pas14641_Not_a_Named_Insured_Update_to_Not_Available_for_Rating_Body();
 	}
 }
 

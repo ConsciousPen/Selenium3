@@ -1548,7 +1548,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	protected void pas14640_Not_a_Named_Insured_Available_for_Rating_Happy_Path_Body() {
 		assertSoftly(softly -> {
 			TestData td = getPolicyTD("DataGather", "TestData");
-			TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_Drivers_14640").getTestDataList("DriverTab")).resolveLinks();
+			TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_2_Drivers_Not_NI_AfR").getTestDataList("DriverTab")).resolveLinks();
 
 			mainApp().open();
 			createCustomerIndividual();
@@ -1567,10 +1567,12 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			softly.assertThat(driver1.driverType).isEqualTo("afr");
 			softly.assertThat(driver1.namedInsuredType).isEqualTo("Not a Named Insured");
+			softly.assertThat(driver1.driverStatus).isEqualTo("active");
 			softly.assertThat(driver1.availableActions).contains("remove");
 
 			softly.assertThat(driver2.driverType).isEqualTo("afr");
 			softly.assertThat(driver2.namedInsuredType).isEqualTo("Not a Named Insured");
+			softly.assertThat(driver2.driverStatus).isEqualTo("active");
 			softly.assertThat(driver2.availableActions).containsSequence("remove");
 
 			DriversDto driver1ExpectedAfterRemove = viewDriversResponse.driverList.get(1);
@@ -1632,7 +1634,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	protected void pas14642_Not_a_Named_Insured_Available_for_Rating_Hard_Stop_Body() {
 		assertSoftly(softly -> {
 			TestData td = getPolicyTD("DataGather", "TestData");
-			TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_Drivers_14640").getTestDataList("DriverTab")).resolveLinks();
+			TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_2_Drivers_Not_NI_AfR").getTestDataList("DriverTab")).resolveLinks();
 
 			mainApp().open();
 			createCustomerIndividual();
@@ -1652,15 +1654,16 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			softly.assertThat(driver1.driverType).isEqualTo("afr");
 			softly.assertThat(driver1.namedInsuredType).isEqualTo("Not a Named Insured");
+			softly.assertThat(driver1.driverStatus).isEqualTo("active");
 			softly.assertThat(driver1.availableActions).contains("remove");
 
 			softly.assertThat(driver2.driverType).isEqualTo("afr");
 			softly.assertThat(driver2.namedInsuredType).isEqualTo("Not a Named Insured");
+			softly.assertThat(driver2.driverStatus).isEqualTo("active");
 			softly.assertThat(driver2.availableActions).containsSequence("remove");
 
 			String driver1Oid = driver1.oid;
 			String driver2Oid = driver2.oid;
-			///the same as for happy path
 
 			//Try to remove driver 1
 			removeDriverRequest.removalReasonCode = "RD1005";
@@ -1698,18 +1701,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
 			DriverTab.tableDriverList.verify.rowsCount(3);
-			softly.assertThat(DriverTab.tableDriverList.getRow(1).getCell(2).getValue()).isNotBlank();
-			softly.assertThat(DriverTab.tableDriverList.getRow(1).getCell(3).getValue()).isNotBlank();
-			softly.assertThat(DriverTab.tableDriverList.getRow(1).getCell(4).getValue()).isNotBlank();
-
-			softly.assertThat(DriverTab.tableDriverList.getRow(2).getCell(2).getValue()).isNotBlank();
-			softly.assertThat(DriverTab.tableDriverList.getRow(2).getCell(3).getValue()).isNotBlank();
-			softly.assertThat(DriverTab.tableDriverList.getRow(2).getCell(4).getValue()).isNotBlank();
-
-			softly.assertThat(DriverTab.tableDriverList.getRow(3).getCell(2).getValue()).isNotBlank();
-			softly.assertThat(DriverTab.tableDriverList.getRow(3).getCell(3).getValue()).isNotBlank();
-			softly.assertThat(DriverTab.tableDriverList.getRow(3).getCell(4).getValue()).isNotBlank();
-
+			validateListOfDriverNotBlank(softly, 3);
 			SearchPage.openPolicy(policyNumber);
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
@@ -1721,6 +1713,118 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(viewDriversResponseAfterBind.driverList.get(1)).isEqualToComparingFieldByFieldRecursively(driver1);
 			softly.assertThat(viewDriversResponseAfterBind.driverList.get(2)).isEqualToComparingFieldByFieldRecursively(driver2);
 		});
+	}
+
+	protected void pas14641_Not_a_Named_Insured_Update_to_Not_Available_for_Rating_Body() {
+		assertSoftly(softly -> {
+			TestData td = getPolicyTD("DataGather", "TestData");
+			TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_2_Drivers_Not_NI_AfR").getTestDataList("DriverTab")).resolveLinks();
+
+			mainApp().open();
+			createCustomerIndividual();
+			String policyNumber = createPolicy(testData);
+			PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+
+			DriversDto driverFNI = viewDriversResponse.driverList.get(0);
+			DriversDto driver1 = viewDriversResponse.driverList.get(1);
+			DriversDto driver2 = viewDriversResponse.driverList.get(2);
+
+			softly.assertThat(driverFNI.driverType).isEqualTo("afr");
+			softly.assertThat(driverFNI.namedInsuredType).isEqualTo("FNI");
+
+			softly.assertThat(driver1.driverType).isEqualTo("afr");
+			softly.assertThat(driver1.namedInsuredType).isEqualTo("Not a Named Insured");
+			softly.assertThat(driver1.driverStatus).isEqualTo("active");
+			softly.assertThat(driver1.availableActions).contains("remove");
+
+			softly.assertThat(driver2.driverType).isEqualTo("afr");
+			softly.assertThat(driver2.namedInsuredType).isEqualTo("Not a Named Insured");
+			softly.assertThat(driver2.driverStatus).isEqualTo("active");
+			softly.assertThat(driver2.availableActions).containsSequence("remove");
+
+			DriversDto driver1ExpectedAfterRemove = viewDriversResponse.driverList.get(1);
+			driver1ExpectedAfterRemove.driverType = "nafr";
+			driver1ExpectedAfterRemove.driverStatus = "updated";
+			driver1ExpectedAfterRemove.availableActions.remove("remove");
+
+			DriversDto driver2ExpectedAfterRemove = viewDriversResponse.driverList.get(2);
+			driver2ExpectedAfterRemove.driverType = "nafr";
+			driver2ExpectedAfterRemove.driverStatus = "updated";
+			driver2ExpectedAfterRemove.availableActions.remove("remove");
+
+			String driver1Oid = driver1.oid;
+			String driver2Oid = driver2.oid;
+
+			//Remove driver 1
+			removeDriverRequest.removalReasonCode = "RD1003";
+			DriversDto removeDriver1Response = HelperCommon.removeDriver(policyNumber, driver1Oid, removeDriverRequest);
+			softly.assertThat(removeDriver1Response).isEqualToComparingFieldByFieldRecursively(driver1ExpectedAfterRemove);
+
+			//Remove driver 2
+			removeDriverRequest.removalReasonCode = "RD1004";
+			DriversDto removeDriver2Response = HelperCommon.removeDriver(policyNumber, driver2Oid, removeDriverRequest);
+			softly.assertThat(removeDriver2Response).isEqualToComparingFieldByFieldRecursively(driver2ExpectedAfterRemove);
+
+			//Run viewEndorsementDrivers and validate that it still contains both drivers and they both are updated
+			ViewDriversResponse viewDriversResponseAfterDelete = HelperCommon.viewEndorsementDrivers(policyNumber);
+			softly.assertThat(viewDriversResponseAfterDelete.driverList.size()).isEqualTo(3);
+			softly.assertThat(viewDriversResponseAfterDelete.driverList.stream().filter(driver -> driver.oid.equals(driverFNI.oid)).findFirst().orElse(null)).isEqualToComparingFieldByFieldRecursively(driverFNI);
+			softly.assertThat(viewDriversResponseAfterDelete.driverList.stream().filter(driver -> driver.oid.equals(driver1Oid)).findFirst().orElse(null)).isEqualToComparingFieldByFieldRecursively(driver1ExpectedAfterRemove);
+			softly.assertThat(viewDriversResponseAfterDelete.driverList.stream().filter(driver -> driver.oid.equals(driver2Oid)).findFirst().orElse(null)).isEqualToComparingFieldByFieldRecursively(driver2ExpectedAfterRemove);
+
+			//Run view drivers assignment and validate that both drivers are not present in response (because they are not available for rating)
+			ViewDriverAssignmentResponse viewDriverAssignmentResponse = HelperCommon.viewEndorsementAssignments(policyNumber);
+			softly.assertThat(viewDriverAssignmentResponse.driverVehicleAssignments.size()).isEqualTo(1);
+			softly.assertThat(viewDriverAssignmentResponse.driverVehicleAssignments.get(0).driverOid).doesNotContain(driver1Oid).doesNotContain(driver2Oid);
+			softly.assertThat(viewDriverAssignmentResponse.assignableDrivers).doesNotContain(driver1Oid).doesNotContain(driver2Oid);
+			softly.assertThat(viewDriverAssignmentResponse.unassignedDrivers).doesNotContain(driver1Oid).doesNotContain(driver2Oid);
+
+			//Open the Endorsement in PAS and validate that both drivers are updated
+			SearchPage.openPolicy(policyNumber);
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			policy.dataGather().start();
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
+
+			DriverTab.tableDriverList.verify.rowsCount(3);
+			validateListOfDriverNotBlank(softly, 3);
+
+			//////
+			driverTab.tableDriverList.selectRow(2);
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.NAMED_INSURED).getValue()).contains("not a Named Insured");
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DRIVER_TYPE).getValue()).isEqualTo("Not Available for Rating");
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REASON).getValue()).isEqualTo("Other");
+
+			driverTab.tableDriverList.selectRow(3);
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.NAMED_INSURED).getValue()).contains("not a Named Insured");
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DRIVER_TYPE).getValue()).isEqualTo("Not Available for Rating");
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REASON).getValue()).isEqualTo("Other");
+			////
+			driverTab.saveAndExit();
+			SearchPage.openPolicy(policyNumber);
+
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+
+			//Run viewPolicyDrivers and validate that drivers are updated
+			driver1ExpectedAfterRemove.driverStatus = "active";
+			driver2ExpectedAfterRemove.driverStatus = "active";
+
+			ViewDriversResponse viewDriversResponseAfterBind = HelperCommon.viewPolicyDrivers(policyNumber);
+			softly.assertThat(viewDriversResponseAfterBind.driverList.size()).isEqualTo(3);
+			softly.assertThat(viewDriversResponseAfterBind.driverList.get(0)).isEqualToComparingFieldByFieldRecursively(driverFNI);
+			softly.assertThat(viewDriversResponseAfterBind.driverList.get(1)).isEqualToComparingFieldByFieldRecursively(driver1ExpectedAfterRemove);
+			softly.assertThat(viewDriversResponseAfterBind.driverList.get(2)).isEqualToComparingFieldByFieldRecursively(driver2ExpectedAfterRemove);
+		});
+	}
+
+	private void validateListOfDriverNotBlank(SoftAssertions softly, int driverCount) {
+		for (int i = 1; i <= 3; i++) {
+			softly.assertThat(DriverTab.tableDriverList.getRow(i).getCell(2).getValue()).isNotBlank();
+			softly.assertThat(DriverTab.tableDriverList.getRow(i).getCell(3).getValue()).isNotBlank();
+			softly.assertThat(DriverTab.tableDriverList.getRow(i).getCell(4).getValue()).isNotBlank();
+		}
 	}
 
 }
