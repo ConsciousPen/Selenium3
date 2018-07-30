@@ -1820,7 +1820,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	}
 
 	private void validateListOfDriverNotBlank(SoftAssertions softly, int driverCount) {
-		for (int i = 1; i <= 3; i++) {
+		for (int i = 1; i <= driverCount; i++) {
 			softly.assertThat(DriverTab.tableDriverList.getRow(i).getCell(2).getValue()).isNotBlank();
 			softly.assertThat(DriverTab.tableDriverList.getRow(i).getCell(3).getValue()).isNotBlank();
 			softly.assertThat(DriverTab.tableDriverList.getRow(i).getCell(4).getValue()).isNotBlank();
