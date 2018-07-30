@@ -936,8 +936,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			// create policy via pas
 			String policyNumber = getCopiedPolicy();
 
-
-            helperMiniServices.createEndorsementWithCheck(policyNumber);
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 			// addDriver via dxp
 			addDriverRequest.firstName = "Spouse";
@@ -966,26 +965,26 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(updateDriverResponse.driver.maritalStatusCd).isEqualTo("MSS");
 			softly.assertThat(updateDriverResponse.driver.ageFirstLicensed).isEqualTo(updateDriverRequest.ageFirstLicensed);
 
-            ViewDriversResponse viewDriverResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
-            softly.assertThat(viewDriverResponse.driverList.size()).isEqualTo(2);
+			ViewDriversResponse viewDriverResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+			softly.assertThat(viewDriverResponse.driverList.size()).isEqualTo(2);
 
-            DriversDto addedSpouse =viewDriverResponse.driverList.stream().filter(driver -> driver.oid.equals(newDriverOid)).findAny().orElse(null);
+			DriversDto addedSpouse = viewDriverResponse.driverList.stream().filter(driver -> driver.oid.equals(newDriverOid)).findAny().orElse(null);
 			softly.assertThat(addedSpouse.oid).isNotNull();
-            softly.assertThat(addedSpouse.firstName).isEqualTo("Spouse");
+			softly.assertThat(addedSpouse.firstName).isEqualTo("Spouse");
 			softly.assertThat(addedSpouse.lastName).isEqualTo("Smith");
 			softly.assertThat(addedSpouse.driverType).isEqualTo("afr");
 			softly.assertThat(addedSpouse.namedInsuredType).isEqualTo("NI");
 			softly.assertThat(addedSpouse.relationToApplicantCd).isEqualTo("SP");
 			softly.assertThat(addedSpouse.maritalStatusCd).isEqualTo("MSS");
 
-			DriversDto fniDriver =viewDriverResponse.driverList.stream().filter(driver -> !driver.oid.equals(newDriverOid)).findAny().orElse(null);
+			DriversDto fniDriver = viewDriverResponse.driverList.stream().filter(driver -> !driver.oid.equals(newDriverOid)).findAny().orElse(null);
 			softly.assertThat(fniDriver.oid).isNotNull();
 			softly.assertThat(fniDriver.firstName).startsWith("Fernando");
-            softly.assertThat(fniDriver.lastName).isEqualTo("Smith");
-            softly.assertThat(fniDriver.driverType).isEqualTo("afr");
-            softly.assertThat(fniDriver.namedInsuredType).isEqualTo("FNI");
-            softly.assertThat(fniDriver.relationToApplicantCd).isEqualTo("IN");
-            softly.assertThat(fniDriver.maritalStatusCd).isEqualTo("MSS");
+			softly.assertThat(fniDriver.lastName).isEqualTo("Smith");
+			softly.assertThat(fniDriver.driverType).isEqualTo("afr");
+			softly.assertThat(fniDriver.namedInsuredType).isEqualTo("FNI");
+			softly.assertThat(fniDriver.relationToApplicantCd).isEqualTo("IN");
+			softly.assertThat(fniDriver.maritalStatusCd).isEqualTo("MSS");
 
 			mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -1024,10 +1023,10 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			// assert relation to FNI
 			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED).getValue()).isEqualTo("Spouse");
 
-            driverTab.saveAndExit();
-        });
+			driverTab.saveAndExit();
+		});
 
-    }
+	}
 
 	protected void pas16481_TransactionInformationForEndorsementsAddDriverBody(SoftAssertions softly) {
 		mainApp().open();
@@ -1078,7 +1077,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-		ComparablePolicy response3= HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
+		ComparablePolicy response3 = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
 		softly.assertThat(response3.drivers).isEqualTo(null);
 
 		//add Driver 3
@@ -1121,6 +1120,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 	}
+
 	protected void pas14475_NameInsuredMaritalStatusBody() {
 		assertSoftly(softly -> {
 
