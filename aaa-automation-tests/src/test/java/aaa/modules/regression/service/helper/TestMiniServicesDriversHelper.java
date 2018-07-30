@@ -1562,18 +1562,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			DriversDto driver1 = viewDriversResponse.driverList.get(1);
 			DriversDto driver2 = viewDriversResponse.driverList.get(2);
 
-			softly.assertThat(driverFNI.driverType).isEqualTo("afr");
-			softly.assertThat(driverFNI.namedInsuredType).isEqualTo("FNI");
-
-			softly.assertThat(driver1.driverType).isEqualTo("afr");
-			softly.assertThat(driver1.namedInsuredType).isEqualTo("Not a Named Insured");
-			softly.assertThat(driver1.driverStatus).isEqualTo("active");
-			softly.assertThat(driver1.availableActions).contains("remove");
-
-			softly.assertThat(driver2.driverType).isEqualTo("afr");
-			softly.assertThat(driver2.namedInsuredType).isEqualTo("Not a Named Insured");
-			softly.assertThat(driver2.driverStatus).isEqualTo("active");
-			softly.assertThat(driver2.availableActions).containsSequence("remove");
+			pas14641_pas14640_pas14642_validateDriverPreconditions(softly, driverFNI, driver1);
+			pas14641_pas14640_pas14642_validateDriverPreconditions(softly, driverFNI, driver2);
 
 			DriversDto driver1ExpectedAfterRemove = viewDriversResponse.driverList.get(1);
 			driver1ExpectedAfterRemove.driverStatus = "pendingRemoval";
@@ -1583,32 +1573,29 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			driver2ExpectedAfterRemove.driverStatus = "pendingRemoval";
 			driver2ExpectedAfterRemove.availableActions.remove("remove");
 
-			String driver1Oid = driver1.oid;
-			String driver2Oid = driver2.oid;
-
 			//Remove driver 1
 			removeDriverRequest.removalReasonCode = "RD1001";
-			DriversDto removeDriver1Response = HelperCommon.removeDriver(policyNumber, driver1Oid, removeDriverRequest);
+			DriversDto removeDriver1Response = HelperCommon.removeDriver(policyNumber, driver1.oid, removeDriverRequest);
 			softly.assertThat(removeDriver1Response).isEqualToComparingFieldByFieldRecursively(driver1ExpectedAfterRemove);
 
 			//Remove driver 2
 			removeDriverRequest.removalReasonCode = "RD1002";
-			DriversDto removeDriver2Response = HelperCommon.removeDriver(policyNumber, driver2Oid, removeDriverRequest);
+			DriversDto removeDriver2Response = HelperCommon.removeDriver(policyNumber, driver2.oid, removeDriverRequest);
 			softly.assertThat(removeDriver2Response).isEqualToComparingFieldByFieldRecursively(driver2ExpectedAfterRemove);
 
 			//Run viewEndorsementDrivers and validate that it still contains drivers that will be removed
 			ViewDriversResponse viewDriversResponseAfterDelete = HelperCommon.viewEndorsementDrivers(policyNumber);
 			softly.assertThat(viewDriversResponseAfterDelete.driverList.size()).isEqualTo(3);
 			softly.assertThat(viewDriversResponseAfterDelete.driverList.stream().filter(driver -> driver.oid.equals(driverFNI.oid)).findFirst().orElse(null)).isEqualToComparingFieldByFieldRecursively(driverFNI);
-			softly.assertThat(viewDriversResponseAfterDelete.driverList.stream().filter(driver -> driver.oid.equals(driver1Oid)).findFirst().orElse(null)).isEqualToComparingFieldByFieldRecursively(driver1ExpectedAfterRemove);
-			softly.assertThat(viewDriversResponseAfterDelete.driverList.stream().filter(driver -> driver.oid.equals(driver2Oid)).findFirst().orElse(null)).isEqualToComparingFieldByFieldRecursively(driver2ExpectedAfterRemove);
+			softly.assertThat(viewDriversResponseAfterDelete.driverList.stream().filter(driver -> driver.oid.equals(driver1.oid)).findFirst().orElse(null)).isEqualToComparingFieldByFieldRecursively(driver1ExpectedAfterRemove);
+			softly.assertThat(viewDriversResponseAfterDelete.driverList.stream().filter(driver -> driver.oid.equals(driver2.oid)).findFirst().orElse(null)).isEqualToComparingFieldByFieldRecursively(driver2ExpectedAfterRemove);
 
 			//Run view drivers assignment and validate that drivers that are going to be removed are not present in response
 			ViewDriverAssignmentResponse viewDriverAssignmentResponse = HelperCommon.viewEndorsementAssignments(policyNumber);
 			softly.assertThat(viewDriverAssignmentResponse.driverVehicleAssignments.size()).isEqualTo(1);
-			softly.assertThat(viewDriverAssignmentResponse.driverVehicleAssignments.get(0).driverOid).doesNotContain(driver1Oid).doesNotContain(driver2Oid);
-			softly.assertThat(viewDriverAssignmentResponse.assignableDrivers).doesNotContain(driver1Oid).doesNotContain(driver2Oid);
-			softly.assertThat(viewDriverAssignmentResponse.unassignedDrivers).doesNotContain(driver1Oid).doesNotContain(driver2Oid);
+			softly.assertThat(viewDriverAssignmentResponse.driverVehicleAssignments.get(0).driverOid).doesNotContain(driver1.oid).doesNotContain(driver2.oid);
+			softly.assertThat(viewDriverAssignmentResponse.assignableDrivers).doesNotContain(driver1.oid).doesNotContain(driver2.oid);
+			softly.assertThat(viewDriverAssignmentResponse.unassignedDrivers).doesNotContain(driver1.oid).doesNotContain(driver2.oid);
 
 			//Open the Endorsement in PAS and validate that both drivers are removed
 			SearchPage.openPolicy(policyNumber);
@@ -1649,31 +1636,18 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			DriversDto driver1 = viewDriversResponse.driverList.get(1);
 			DriversDto driver2 = viewDriversResponse.driverList.get(2);
 
-			softly.assertThat(driverFNI.driverType).isEqualTo("afr");
-			softly.assertThat(driverFNI.namedInsuredType).isEqualTo("FNI");
-
-			softly.assertThat(driver1.driverType).isEqualTo("afr");
-			softly.assertThat(driver1.namedInsuredType).isEqualTo("Not a Named Insured");
-			softly.assertThat(driver1.driverStatus).isEqualTo("active");
-			softly.assertThat(driver1.availableActions).contains("remove");
-
-			softly.assertThat(driver2.driverType).isEqualTo("afr");
-			softly.assertThat(driver2.namedInsuredType).isEqualTo("Not a Named Insured");
-			softly.assertThat(driver2.driverStatus).isEqualTo("active");
-			softly.assertThat(driver2.availableActions).containsSequence("remove");
-
-			String driver1Oid = driver1.oid;
-			String driver2Oid = driver2.oid;
+			pas14641_pas14640_pas14642_validateDriverPreconditions(softly, driverFNI, driver1);
+			pas14641_pas14640_pas14642_validateDriverPreconditions(softly, driverFNI, driver2);
 
 			//Try to remove driver 1
 			removeDriverRequest.removalReasonCode = "RD1005";
-			ErrorResponseDto removeDriver1ResponseError = HelperCommon.removeDriverError(policyNumber, driver1Oid, removeDriverRequest);
+			ErrorResponseDto removeDriver1ResponseError = HelperCommon.removeDriverError(policyNumber, driver1.oid, removeDriverRequest);
 			softly.assertThat(removeDriver1ResponseError.errorCode).isEqualTo("ERROR_SERVICE_VALIDATION");
 			softly.assertThat(removeDriver1ResponseError.message).isEqualTo("Driver cannot be removed. Driver is insured elsewhere.");
 
 			//Try to remove driver 2
 			removeDriverRequest.removalReasonCode = "RD1006";
-			ErrorResponseDto removeDriver2ResponseError = HelperCommon.removeDriverError(policyNumber, driver2Oid, removeDriverRequest);
+			ErrorResponseDto removeDriver2ResponseError = HelperCommon.removeDriverError(policyNumber, driver2.oid, removeDriverRequest);
 			softly.assertThat(removeDriver2ResponseError.errorCode).isEqualTo("ERROR_SERVICE_VALIDATION");
 			softly.assertThat(removeDriver2ResponseError.message).isEqualTo("Driver cannot be removed. Driver's license is suspended or revoked.");
 
@@ -1681,8 +1655,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			ViewDriversResponse viewDriversResponseAfterDelete = HelperCommon.viewEndorsementDrivers(policyNumber);
 			softly.assertThat(viewDriversResponseAfterDelete.driverList.size()).isEqualTo(3);
 			softly.assertThat(viewDriversResponseAfterDelete.driverList.stream().filter(driver -> driver.oid.equals(driverFNI.oid)).findFirst().orElse(null)).isEqualToComparingFieldByFieldRecursively(driverFNI);
-			softly.assertThat(viewDriversResponseAfterDelete.driverList.stream().filter(driver -> driver.oid.equals(driver1Oid)).findFirst().orElse(null)).isEqualToComparingFieldByFieldRecursively(driver1);
-			softly.assertThat(viewDriversResponseAfterDelete.driverList.stream().filter(driver -> driver.oid.equals(driver2Oid)).findFirst().orElse(null)).isEqualToComparingFieldByFieldRecursively(driver2);
+			softly.assertThat(viewDriversResponseAfterDelete.driverList.stream().filter(driver -> driver.oid.equals(driver1.oid)).findFirst().orElse(null)).isEqualToComparingFieldByFieldRecursively(driver1);
+			softly.assertThat(viewDriversResponseAfterDelete.driverList.stream().filter(driver -> driver.oid.equals(driver2.oid)).findFirst().orElse(null)).isEqualToComparingFieldByFieldRecursively(driver2);
 
 			//Run view drivers assignment and validate that the drivers are still available for assignment and assignment has not changed
 			ViewDriverAssignmentResponse viewDriverAssignmentResponse = HelperCommon.viewEndorsementAssignments(policyNumber);
@@ -1732,18 +1706,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			DriversDto driver1 = viewDriversResponse.driverList.get(1);
 			DriversDto driver2 = viewDriversResponse.driverList.get(2);
 
-			softly.assertThat(driverFNI.driverType).isEqualTo("afr");
-			softly.assertThat(driverFNI.namedInsuredType).isEqualTo("FNI");
-
-			softly.assertThat(driver1.driverType).isEqualTo("afr");
-			softly.assertThat(driver1.namedInsuredType).isEqualTo("Not a Named Insured");
-			softly.assertThat(driver1.driverStatus).isEqualTo("active");
-			softly.assertThat(driver1.availableActions).contains("remove");
-
-			softly.assertThat(driver2.driverType).isEqualTo("afr");
-			softly.assertThat(driver2.namedInsuredType).isEqualTo("Not a Named Insured");
-			softly.assertThat(driver2.driverStatus).isEqualTo("active");
-			softly.assertThat(driver2.availableActions).containsSequence("remove");
+			pas14641_pas14640_pas14642_validateDriverPreconditions(softly, driverFNI, driver1);
+			pas14641_pas14640_pas14642_validateDriverPreconditions(softly, driverFNI, driver2);
 
 			DriversDto driver1ExpectedAfterRemove = viewDriversResponse.driverList.get(1);
 			driver1ExpectedAfterRemove.driverType = "nafr";
@@ -1755,32 +1719,29 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			driver2ExpectedAfterRemove.driverStatus = "updated";
 			driver2ExpectedAfterRemove.availableActions.remove("remove");
 
-			String driver1Oid = driver1.oid;
-			String driver2Oid = driver2.oid;
-
 			//Remove driver 1
 			removeDriverRequest.removalReasonCode = "RD1003";
-			DriversDto removeDriver1Response = HelperCommon.removeDriver(policyNumber, driver1Oid, removeDriverRequest);
+			DriversDto removeDriver1Response = HelperCommon.removeDriver(policyNumber, driver1.oid, removeDriverRequest);
 			softly.assertThat(removeDriver1Response).isEqualToComparingFieldByFieldRecursively(driver1ExpectedAfterRemove);
 
 			//Remove driver 2
 			removeDriverRequest.removalReasonCode = "RD1004";
-			DriversDto removeDriver2Response = HelperCommon.removeDriver(policyNumber, driver2Oid, removeDriverRequest);
+			DriversDto removeDriver2Response = HelperCommon.removeDriver(policyNumber, driver2.oid, removeDriverRequest);
 			softly.assertThat(removeDriver2Response).isEqualToComparingFieldByFieldRecursively(driver2ExpectedAfterRemove);
 
 			//Run viewEndorsementDrivers and validate that it still contains both drivers and they both are updated
 			ViewDriversResponse viewDriversResponseAfterDelete = HelperCommon.viewEndorsementDrivers(policyNumber);
 			softly.assertThat(viewDriversResponseAfterDelete.driverList.size()).isEqualTo(3);
 			softly.assertThat(viewDriversResponseAfterDelete.driverList.stream().filter(driver -> driver.oid.equals(driverFNI.oid)).findFirst().orElse(null)).isEqualToComparingFieldByFieldRecursively(driverFNI);
-			softly.assertThat(viewDriversResponseAfterDelete.driverList.stream().filter(driver -> driver.oid.equals(driver1Oid)).findFirst().orElse(null)).isEqualToComparingFieldByFieldRecursively(driver1ExpectedAfterRemove);
-			softly.assertThat(viewDriversResponseAfterDelete.driverList.stream().filter(driver -> driver.oid.equals(driver2Oid)).findFirst().orElse(null)).isEqualToComparingFieldByFieldRecursively(driver2ExpectedAfterRemove);
+			softly.assertThat(viewDriversResponseAfterDelete.driverList.stream().filter(driver -> driver.oid.equals(driver1.oid)).findFirst().orElse(null)).isEqualToComparingFieldByFieldRecursively(driver1ExpectedAfterRemove);
+			softly.assertThat(viewDriversResponseAfterDelete.driverList.stream().filter(driver -> driver.oid.equals(driver2.oid)).findFirst().orElse(null)).isEqualToComparingFieldByFieldRecursively(driver2ExpectedAfterRemove);
 
 			//Run view drivers assignment and validate that both drivers are not present in response (because they are not available for rating)
 			ViewDriverAssignmentResponse viewDriverAssignmentResponse = HelperCommon.viewEndorsementAssignments(policyNumber);
 			softly.assertThat(viewDriverAssignmentResponse.driverVehicleAssignments.size()).isEqualTo(1);
-			softly.assertThat(viewDriverAssignmentResponse.driverVehicleAssignments.get(0).driverOid).doesNotContain(driver1Oid).doesNotContain(driver2Oid);
-			softly.assertThat(viewDriverAssignmentResponse.assignableDrivers).doesNotContain(driver1Oid).doesNotContain(driver2Oid);
-			softly.assertThat(viewDriverAssignmentResponse.unassignedDrivers).doesNotContain(driver1Oid).doesNotContain(driver2Oid);
+			softly.assertThat(viewDriverAssignmentResponse.driverVehicleAssignments.get(0).driverOid).doesNotContain(driver1.oid).doesNotContain(driver2.oid);
+			softly.assertThat(viewDriverAssignmentResponse.assignableDrivers).doesNotContain(driver1.oid).doesNotContain(driver2.oid);
+			softly.assertThat(viewDriverAssignmentResponse.unassignedDrivers).doesNotContain(driver1.oid).doesNotContain(driver2.oid);
 
 			//Open the Endorsement in PAS and validate that both drivers are updated
 			SearchPage.openPolicy(policyNumber);
@@ -1790,7 +1751,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			DriverTab.tableDriverList.verify.rowsCount(3);
 			validateListOfDriverNotBlank(softly, 3);
-			
+
 			DriverTab.tableDriverList.selectRow(2);
 			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.NAMED_INSURED).getValue()).contains("not a Named Insured");
 			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DRIVER_TYPE).getValue()).isEqualTo("Not Available for Rating");
@@ -1816,6 +1777,16 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(viewDriversResponseAfterBind.driverList.get(1)).isEqualToComparingFieldByFieldRecursively(driver1ExpectedAfterRemove);
 			softly.assertThat(viewDriversResponseAfterBind.driverList.get(2)).isEqualToComparingFieldByFieldRecursively(driver2ExpectedAfterRemove);
 		});
+	}
+
+	private void pas14641_pas14640_pas14642_validateDriverPreconditions(SoftAssertions softly, DriversDto driverFNI, DriversDto driver) {
+		softly.assertThat(driverFNI.driverType).isEqualTo("afr");
+		softly.assertThat(driverFNI.namedInsuredType).isEqualTo("FNI");
+
+		softly.assertThat(driver.driverType).isEqualTo("afr");
+		softly.assertThat(driver.namedInsuredType).isEqualTo("Not a Named Insured");
+		softly.assertThat(driver.driverStatus).isEqualTo("active");
+		softly.assertThat(driver.availableActions).containsSequence("remove");
 	}
 
 	private void validateListOfDriverNotBlank(SoftAssertions softly, int driverCount) {
