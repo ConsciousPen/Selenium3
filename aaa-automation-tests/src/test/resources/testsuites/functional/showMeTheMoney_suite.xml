@@ -10,4 +10,9 @@
             <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsCheckDeliveryTypeForEuwDetail"/>
         </classes>
     </test>
+    <test name="TestOperationalReportsCheckAsOfAccountingDate" preserve-order="true">
+        <classes>
+            <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsCheckAsOfAccountingDate"/>
+        </classes>
+    </test>
 </suite>

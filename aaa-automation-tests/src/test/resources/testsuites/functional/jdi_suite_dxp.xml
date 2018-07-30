@@ -156,6 +156,7 @@
                     <include name="pas502_DuplicateVinAddVehicleService"/>
                     <include name="pas9493_TransactionInformationForEndorsementsAddRemoveVehicle"/>
                     <include name="pas14497_TransactionInformationForEndorsementsReplaceVehicle"/>
+                    <include name="pas9493_TransactionInformationForEndorsementsAddDriver"/>
                     <include name="pas7147_VehicleUpdateBusiness"/>
                     <include name="pas7147_VehicleUpdateRegisteredOwner"/>
                     <include name="pas14952_EndorsementStatusResetForVehRatingFactors"/>
@@ -512,13 +513,23 @@
     <test name="Report Order and Endorsement" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
                 <methods>
                     <include name="pas15077_orderReports_endorsement"/>
+                    <include name="pas16694_orderReports_not_Named_Insured_endorsement"/>
+                    </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Report Order and Endorsement" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+
                     <include name="pas14475_NameInsuredMaritalStatusPSS"/>
                     <include name="pas16696_AddANameInsuredSameDayNotPolicyEffectiveDate"/>
-                    <!--<include name="pas16694_orderReports_not_Named_Insured_endorsement"/>-->
-                </methods>
+                    </methods>
             </class>
         </classes>
     </test>
