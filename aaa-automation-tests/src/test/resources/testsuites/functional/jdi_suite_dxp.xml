@@ -533,4 +533,16 @@
             </class>
         </classes>
     </test>
+    <test name="Remove Driver" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas14640_Not_a_Named_Insured_Available_for_Rating_Happy_Path"/>
+                    <include name="pas14642_Not_a_Named_Insured_Available_for_Rating_Hard_Stop"/>
+                    <include name="pas14641_Not_a_Named_Insured_Update_to_Not_Available_for_Rating"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
