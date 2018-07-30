@@ -82,7 +82,6 @@ public class TestNotOrderedMembershipError extends AutoSSBaseTest {
     */
     private void validateFirstError(String notOrderedMembershipFirstMessage){
         ratingDetailsReportsTab.buttonNext.click();
-        //errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
         errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.contains(notOrderedMembershipFirstMessage);
         errorTab.cancel();
     }
@@ -93,7 +92,6 @@ public class TestNotOrderedMembershipError extends AutoSSBaseTest {
     private void validateSecondError(String notOrderedMembershipFirstMessage){
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
         errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.contains(notOrderedMembershipFirstMessage);
-        //errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
         errorTab.cancel();
         ratingDetailsReportsTab.saveAndExit();
     }
