@@ -1790,18 +1790,17 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			DriverTab.tableDriverList.verify.rowsCount(3);
 			validateListOfDriverNotBlank(softly, 3);
-
-			//////
-			driverTab.tableDriverList.selectRow(2);
+			
+			DriverTab.tableDriverList.selectRow(2);
 			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.NAMED_INSURED).getValue()).contains("not a Named Insured");
 			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DRIVER_TYPE).getValue()).isEqualTo("Not Available for Rating");
 			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REASON).getValue()).isEqualTo("Other");
 
-			driverTab.tableDriverList.selectRow(3);
+			DriverTab.tableDriverList.selectRow(3);
 			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.NAMED_INSURED).getValue()).contains("not a Named Insured");
 			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DRIVER_TYPE).getValue()).isEqualTo("Not Available for Rating");
 			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REASON).getValue()).isEqualTo("Other");
-			////
+
 			driverTab.saveAndExit();
 			SearchPage.openPolicy(policyNumber);
 
