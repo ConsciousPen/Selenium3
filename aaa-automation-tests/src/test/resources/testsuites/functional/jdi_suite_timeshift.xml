@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="JDI Time Shift Test Suite" verbose="1" parallel="tests" thread-count="1024">
+<suite name="JDI Time Shift Test Suite" verbose="1" parallel="tests" thread-count="10">
     <listeners>
         <!-- Listener commented out for local runs-->
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
@@ -7,7 +7,7 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
 
-    <test name="TestEValueMembershipProcessJobAdding"  parallel="methods" thread-count="1024">
+    <test name="TestEValueMembershipProcessJobAdding" >
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
                 <methods>
@@ -16,7 +16,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestRefundProcessJobAdding" parallel="methods" thread-count="1024">
+    <test name="TestRefundProcessJobAdding">
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
@@ -26,7 +26,7 @@
         </classes>
     </test>
 
-    <test name="VA Auto SS Refunds Credit Card" parallel="methods" thread-count="1024">
+    <test name="VA Auto SS Refunds Credit Card">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -50,7 +50,7 @@
             </class>
         </classes>
     </test>
-    <test name="Auto SS Refunds Debit Card AZ" parallel="methods" thread-count="1024">
+    <test name="Auto SS Refunds Debit Card AZ">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -68,7 +68,7 @@
             </class>
         </classes>
     </test>
-    <test name="Auto SS Refunds ACH MD" parallel="methods" thread-count="1024">
+    <test name="Auto SS Refunds ACH MD">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -87,7 +87,7 @@
         </classes>
     </test>
 
-    <test name="pas1952_MessageWhenOnlyMethodIsCheck" parallel="methods" thread-count="1024">
+    <test name="pas1952_MessageWhenOnlyMethodIsCheck">
         <parameter name="state" value="DC"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -98,7 +98,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas1952_MessageWhenOnlyMethodIsCheckNoElectronicRefund" parallel="methods" thread-count="1024">
+    <test name="pas1952_MessageWhenOnlyMethodIsCheckNoElectronicRefund">
         <parameter name="state" value="CT"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -110,7 +110,7 @@
         </classes>
     </test>
 
-    <test name="membership_eValueVA" parallel="methods" thread-count="1024">
+    <test name="membership_eValueVA">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
@@ -148,7 +148,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPendingDC" parallel="methods" thread-count="1024">
+    <test name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPendingDC">
         <parameter name="state" value="DC"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
@@ -159,7 +159,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas11740_membershipEligConfTrueForPendingMembershipNotEvalueStateOK" parallel="methods" thread-count="1024">
+    <test name="pas11740_membershipEligConfTrueForPendingMembershipNotEvalueStateOK">
         <parameter name="state" value="OK"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
@@ -172,7 +172,7 @@
         </classes>
     </test>
 
-    <test name="HO pas7039_newDataElementsDeceasedIndicator" parallel="methods" thread-count="1024">
+    <test name="HO pas7039_newDataElementsDeceasedIndicator">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess">
@@ -184,7 +184,7 @@
         </classes>
     </test>
 
-    <test name="HO Pending Refunds ACH MD" parallel="methods" thread-count="1024">
+    <test name="HO Pending Refunds ACH MD">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess">
@@ -195,7 +195,7 @@
             </class>
         </classes>
     </test>
-    <test name="HO Pending Refunds Credit Card VA" parallel="methods" thread-count="1024">
+    <test name="HO Pending Refunds Credit Card VA">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess">
@@ -208,7 +208,7 @@
     </test>
 
 
-    <test name="PUP pas7039_newDataElementsDeceasedIndicator VA" parallel="methods" thread-count="1024">
+    <test name="PUP pas7039_newDataElementsDeceasedIndicator VA">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess">
@@ -219,7 +219,7 @@
             </class>
         </classes>
     </test>
-    <test name="PUP Pending Refunds Credit Card Check VA" parallel="methods" thread-count="1024">
+    <test name="PUP Pending Refunds Credit Card Check VA">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess">
@@ -231,7 +231,7 @@
             </class>
         </classes>
     </test>
-    <test name="PUP Pending Refunds Check MD" parallel="methods" thread-count="1024">
+    <test name="PUP Pending Refunds Check MD">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess">
@@ -242,7 +242,7 @@
         </classes>
     </test>
 
-    <test name="Auto Pending Refunds ACH MD" parallel="methods" thread-count="1024">
+    <test name="Auto Pending Refunds ACH MD">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -253,7 +253,7 @@
             </class>
         </classes>
     </test>
-    <test name="Auto Pending Refunds ACH VA" parallel="methods" thread-count="1024">
+    <test name="Auto Pending Refunds ACH VA">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -266,7 +266,7 @@
             </class>
         </classes>
     </test>
-    <test name="AU Pending Refunds Debit Card AZ" parallel="methods" thread-count="1024">
+    <test name="AU Pending Refunds Debit Card AZ">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -277,7 +277,7 @@
             </class>
         </classes>
     </test>
-    <test name="EValue Discount removed and AHDRXX generated by AutoPay removal" parallel="methods" thread-count="1024">
+    <test name="EValue Discount removed and AHDRXX generated by AutoPay removal">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueNsfAHDRXX">
@@ -289,7 +289,7 @@
             </class>
         </classes>
     </test>
-    <test name="Membership Discount and AHDRXX CA" parallel="methods" thread-count="1024">
+    <test name="Membership Discount and AHDRXX CA">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestEValueMembershipProcess">
@@ -303,7 +303,7 @@
             </class>
         </classes>
     </test>
-    <test name="Membership Discount and AHDRXX HO SS" parallel="methods" thread-count="1024">
+    <test name="Membership Discount and AHDRXX HO SS">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestEValueMembershipProcess">
@@ -317,7 +317,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas1451_eValueRemovedByServiceNoAHDRXX VA" parallel="methods" thread-count="1024">
+    <test name="pas1451_eValueRemovedByServiceNoAHDRXX VA">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
@@ -338,7 +338,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas14498_TestDecTransactionDateTime" parallel="methods" thread-count="1024">
+    <test name="pas14498_TestDecTransactionDateTime">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.auto_ss.functional.TestDecTransactionDateTime">
