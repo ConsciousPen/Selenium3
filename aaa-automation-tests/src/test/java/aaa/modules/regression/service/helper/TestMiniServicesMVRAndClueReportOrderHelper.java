@@ -119,59 +119,59 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 	}
 	private void checkThatClueIsOrdered(int tableRowIndex, String expectedClueResponse) {
 		assertSoftly(softly -> {
-			assertThat(DriverActivityReportsTab.tableCLUEReports.getRows().size()).isEqualTo(tableRowIndex);
+			softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRows().size()).isEqualTo(tableRowIndex);
 
-			assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
+			softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.RESIDENTIAL_ADDRESS.getLabel()).getValue()).isNotEmpty();
 
-			assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
+			softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.REPORT.getLabel()).getValue()).isEqualToIgnoringCase("View CLUE");
 
-			assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
+			softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.ORDER_DATE.getLabel()).getValue())
 					.isEqualToIgnoringCase(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
 
-			assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
+			softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.RECEIPT_DATE.getLabel()).getValue())
 					.isNotBlank(); //it can be also past date if report has been ordered previously, hence checking only that it is not blank
 
-			assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
+			softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.RESPONSE.getLabel()).getValue()).isEqualToIgnoringCase(expectedClueResponse); //will be handled by: PAS-17059 Not getting correct CLUE report response
 
-			assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
+			softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.ADDRESS_TYPE.getLabel()).getValue()).isEqualToIgnoringCase("Current");
 
-			assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
+			softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.ORDER_TYPE.getLabel()).getValue()).isEqualToIgnoringCase("Add Driver");
 		});
 	}
 
 	private void checkThatMvrIsOrdered(AddDriverRequest addDriverRequest, int tableRowIndex, String expectedMvrResponse) {
 		assertSoftly(softly -> {
-			assertThat(DriverActivityReportsTab.tableMVRReports.getRows().size()).isEqualTo(tableRowIndex);
-			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRows().size()).isEqualTo(tableRowIndex);
+			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.NAME_ON_LICENSE.getLabel()).getValue()).contains(addDriverRequest.firstName);
 
-			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.DATE_OF_BIRTH.getLabel()).getValue()).isEqualToIgnoringCase("01/31/1999"); //the same as addDriverRequest.birthDate
 
-			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.STATE.getLabel()).getValue()).isEqualToIgnoringCase(updateDriverRequest.stateLicensed);
 
-			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.LICENSE_NO.getLabel()).getValue()).isEqualToIgnoringCase(updateDriverRequest.licenseNumber);
 
-			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.LICENSE_STATUS.getLabel()).getValue()).containsIgnoringCase("VALID");
 
-			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.REPORT.getLabel()).getValue()).isEqualToIgnoringCase("View MVR");
 
-			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.ORDER_DATE.getLabel()).getValue())
 					.isEqualToIgnoringCase(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
 
-			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.RECEIPT_DATE.getLabel()).getValue())
 					.isNotBlank(); //it can be also past date if report has been ordered previously, hence checking only that it is not blank
 
