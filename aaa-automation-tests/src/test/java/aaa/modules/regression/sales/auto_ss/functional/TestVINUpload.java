@@ -525,7 +525,6 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11659")
-	@StateList(states = {Constants.States.UT}, statesExcept = {Constants.States.CA})
 	public void pas11659_Renewal_VersionR45(@Optional("UT") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 

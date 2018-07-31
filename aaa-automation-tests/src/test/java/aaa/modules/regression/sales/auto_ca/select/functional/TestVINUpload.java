@@ -66,7 +66,6 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	 * {@link TestVINUploadTemplate#newVinAdded(String, String)}
 	 */
 	@Parameters({"state"})
-	@StateList(states = Constants.States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-533")
 	public void pas533_newVinAdded(@Optional("") String state) {
