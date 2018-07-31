@@ -18,21 +18,18 @@ public class AdvancedSelectorOR extends AdvancedSelector {
         super(locator, waitBy);
         this.buttonAdd = new Button(this.actionControlsParent, By.xpath(".//*[@id='searchForm_shuttle_uwcode:add_shuttle_uwcode']"));
         this.buttonRemove = new Button(this.actionControlsParent, By.xpath(".//*[@id='searchForm_shuttle_uwcode:remove_shuttle_uwcode']"));
-
     }
 
     public AdvancedSelectorOR(BaseElement<?, ?> parent, By locator) {
         super(parent, locator);
         this.buttonAdd = new Button(this.actionControlsParent, By.xpath(".//*[@id='searchForm_shuttle_uwcode:add_shuttle_uwcode']"));
         this.buttonRemove = new Button(this.actionControlsParent, By.xpath(".//*[@id='searchForm_shuttle_uwcode:remove_shuttle_uwcode']"));
-
     }
 
     public AdvancedSelectorOR(BaseElement<?, ?> parent, By locator, Waiter waitBy) {
         super(parent, locator, waitBy);
         this.buttonAdd = new Button(this.actionControlsParent, By.xpath(".//*[@id='searchForm_shuttle_uwcode:add_shuttle_uwcode']"));
         this.buttonRemove = new Button(this.actionControlsParent, By.xpath(".//*[@id='searchForm_shuttle_uwcode:remove_shuttle_uwcode']"));
-
     }
 
 
