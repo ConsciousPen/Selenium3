@@ -28,7 +28,6 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 
 	protected void pas16694_orderReports_not_Named_Insured_endorsementBody(PolicyType policyType) {
 		mainApp().open();
-		createCustomerIndividual();
 		String policyNumber = getCopiedPolicy();
 
 		//Create pended endorsement
@@ -184,7 +183,6 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 
 	protected void pas15077_orderReports_endorsementBody(PolicyType policyType) {
 		mainApp().open();
-		createCustomerIndividual();
 		String policyNumber = getCopiedPolicy();
 
 		//Create pended endorsement - future dated, because otherwise Insurance Score Report must be ordered for newly added NI
@@ -275,5 +273,36 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
+	}
+
+	protected void pas15374_driverWithMajorViolationsBody(PolicyType policyType) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		//Create pended endorsement
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+        //Add driver
+		DriversDto driversDto = addDriverReturnOid(policyNumber,"One",null,"AutoTheft","1970-01-01",null);
+		String addedDriverOid = driversDto.oid;
+		//Update driver
+		UpdateDriverReturn(policyNumber,addedDriverOid,null,"B15374001",null,"AZ",null);
+
+	}
+
+	  private DriversDto  addDriverReturnOid(String policyNumber,String firstName, String middleName, String lastName, String birthDate, String suffix) {
+		addDriverRequest.firstName = firstName;
+		addDriverRequest.lastName = lastName;
+		addDriverRequest.birthDate = birthDate;
+
+		return HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+	}
+
+	private DriverWithRuleSets  UpdateDriverReturn(String policyNumber, String addedDriverOid, String gender,String licenseNumber, String ageFirstLicensed, String stateLicensed, String relationToApplicantCd) {
+		updateDriverRequest.licenseNumber = gender;
+		updateDriverRequest.licenseNumber = licenseNumber;
+		updateDriverRequest.stateLicensed = stateLicensed;
+
+		return HelperCommon.updateDriver(policyNumber,addedDriverOid,updateDriverRequest);
 	}
 }
