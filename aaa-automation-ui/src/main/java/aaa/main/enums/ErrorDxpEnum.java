@@ -18,7 +18,7 @@ public final class ErrorDxpEnum {
 
 		SYSTEM_CREATED_PENDED_ENDORSEMENT("System Created Pended Endorsement", "System Created Pended Endorsement"),
 		CUSTOMER_CREATED_ENDORSEMENT("Customer Created Endorsement", "Customer Created Endorsement"),
-		RENEWAL_DOES_NOT_EXIST("ERROR_SERVICE_OBJECT_NOT_FOUND", "Renewal quote version or issued pending renewal not found for policy number "),
+		RENEWAL_DOES_NOT_EXIST("POLICY_NOT_FOUND", "Renewal quote version or issued pending renewal not found for policy number "),
 		POLICY_NOT_RATED("ERROR_SERVICE_OBJECT_NOT_FOUND", "Policy Not Rated"),
 		POLICY_NOT_RATED_DXP("DXP-OP-ERR", "Cannot issue policy which was not rated!"),
 		DUPLICATE_VIN("DXP-OP-ERR", "Each vehicle must have a unique VIN - 200031"),
