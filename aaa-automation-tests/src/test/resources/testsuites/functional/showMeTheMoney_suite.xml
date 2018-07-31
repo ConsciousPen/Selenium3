@@ -15,4 +15,9 @@
             <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsCheckAsOfAccountingDate"/>
         </classes>
     </test>
+    <test name="TestOperationalReportsCheckEuwDetailDeliveryFormat" preserve-order="true">
+        <classes>
+            <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsCheckEuwDetailDeliveryFormat"/>
+        </classes>
+    </test>
 </suite>
