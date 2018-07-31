@@ -806,7 +806,7 @@ public class HelperCommon {
 
 	/**
 	 * Buffers method body and try to read response of expected type. If {@link ProcessingException} is thrown method 
-	 * attempts to parse and log body of {@link ErrorResponseDto} class and rethrown the exception.
+	 * attempts to parse and log body as string and rethrown the exception.
 	 * Exception will not be caught if not expected nor error response body is parsed.
 	 * @param response service response to read from
 	 * @param responseType expected response class
@@ -818,13 +818,7 @@ public class HelperCommon {
 			try {
 				return response.readEntity(responseType);
 			} catch (ProcessingException e) {
-				try {
-					log.error("Actual response: " + System.lineSeparator() +
-							asJson(response.readEntity(ErrorResponseDto.class)));
-				} catch (ProcessingException e1) {
-					throw e1;
-				}
-				throw e;
+				log.error("Actual response: " + System.lineSeparator() + asJson(response.readEntity(String.class)));
 			}
 		} 
 		return response.readEntity(responseType);
