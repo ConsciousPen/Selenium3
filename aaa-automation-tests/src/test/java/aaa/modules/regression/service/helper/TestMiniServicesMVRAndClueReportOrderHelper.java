@@ -3,6 +3,7 @@ package aaa.modules.regression.service.helper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
+import org.seleniumhq.jetty9.http.HttpStatus;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -55,7 +56,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		SearchPage.openPolicy(policyNumber);
 
 		//Order reports through service
-		HelperCommon.orderReports(policyNumber, addedDriverOid);
+		HelperCommon.orderReports(policyNumber, addedDriverOid, OrderReportsResponse.class, HttpStatus.OK_200);
 
 		//Open Driver Activity reports tab in PAS
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -99,7 +100,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		SearchPage.openPolicy(policyNumber);
 
 		//Order reports through service
-		HelperCommon.orderReports(policyNumber, addedDriverOid);
+		HelperCommon.orderReports(policyNumber, addedDriverOid, OrderReportsResponse.class, HttpStatus.OK_200);
 
 		//Open Driver Activity reports tab in PAS
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -212,7 +213,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		SearchPage.openPolicy(policyNumber);
 
 		//Order reports through service
-		HelperCommon.orderReports(policyNumber, addedDriverOid);
+		HelperCommon.orderReports(policyNumber, addedDriverOid, OrderReportsResponse.class, HttpStatus.OK_200);
 
 		//Open Driver Activity reports tab in PAS
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -257,7 +258,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		SearchPage.openPolicy(policyNumber);
 
 		//Order reports through service
-		HelperCommon.orderReports(policyNumber, addedDriverOid);
+		HelperCommon.orderReports(policyNumber, addedDriverOid, OrderReportsResponse.class, HttpStatus.OK_200);
 
 		//Open Driver Activity reports tab in PAS
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -284,10 +285,12 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 
 
         //Add driver
-		DriversDto driversDto = addDriverReturnOid(policyNumber,"One",null,"Felony","1970-01-01",null);
+		DriversDto driversDto = addDriverReturnOid(policyNumber,"One",null,"VehicleManslaughter","1970-01-01",null);
 		String addedDriverOid = driversDto.oid;
 		//Update driver
-		updateDriverReturn(policyNumber,addedDriverOid,"Male","B15374001",17,"AZ","MSS","SP");
+		updateDriverReturn(policyNumber,addedDriverOid,"Male","B15374002",17,"VA","MSS","SP");
+
+	    HelperCommon.orderReports(policyNumber, addedDriverOid, ErrorResponseDto.class, HttpStatus.UNPROCESSABLE_ENTITY_422);
 
 	}
 
@@ -295,7 +298,6 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		addDriverRequest.firstName = firstName;
 		addDriverRequest.lastName = lastName;
 		addDriverRequest.birthDate = birthDate;
-
 		return HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
 	}
 
