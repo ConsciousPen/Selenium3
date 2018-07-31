@@ -1387,7 +1387,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas14640_Not_a_Named_Insured_Available_for_Rating_Happy_Path_Body() {
+	protected void pas14640_NotNamedInsuredAvailableForRatingHappyPathBody() {
 		assertSoftly(softly -> {
 			TestData td = getPolicyTD("DataGather", "TestData");
 			TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_2_Drivers_Not_NI_AfR").getTestDataList("DriverTab")).resolveLinks();
@@ -1464,7 +1464,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		softly.assertThat(viewDriverAssignmentResponse.unassignedDrivers).doesNotContain(driver1.oid).doesNotContain(driver2.oid);
 	}
 
-	protected void pas14642_Not_a_Named_Insured_Available_for_Rating_Hard_Stop_Body() {
+	protected void pas14642_NotNamedInsuredAvailableForRatingHardStopBody() {
 		assertSoftly(softly -> {
 			TestData td = getPolicyTD("DataGather", "TestData");
 			TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_2_Drivers_Not_NI_AfR").getTestDataList("DriverTab")).resolveLinks();
@@ -1531,7 +1531,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas14641_Not_a_Named_Insured_Update_to_Not_Available_for_Rating_Body() {
+	protected void pas14641_NotNamedInsuredUpdateToNotAvailableForRatingBody() {
 		assertSoftly(softly -> {
 			TestData td = getPolicyTD("DataGather", "TestData");
 			TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_2_Drivers_Not_NI_AfR").getTestDataList("DriverTab")).resolveLinks();

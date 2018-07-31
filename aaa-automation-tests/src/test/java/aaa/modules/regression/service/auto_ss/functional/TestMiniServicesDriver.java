@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.text.ParseException;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -12,8 +13,6 @@ import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.TestMiniServicesDriversHelper;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 
@@ -465,8 +464,8 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14640"})
-	public void pas14640_Not_a_Named_Insured_Available_for_Rating_Happy_Path(@Optional("VA") String state){
-		pas14640_Not_a_Named_Insured_Available_for_Rating_Happy_Path_Body();
+	public void pas14640_NotNamedInsuredAvailableForRatingHappyPath(@Optional("VA") String state){
+		pas14640_NotNamedInsuredAvailableForRatingHappyPathBody();
 	}
 
 	/**
@@ -487,8 +486,8 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14642"})
-	public void pas14642_Not_a_Named_Insured_Available_for_Rating_Hard_Stop(@Optional("VA") String state){
-		pas14642_Not_a_Named_Insured_Available_for_Rating_Hard_Stop_Body();
+	public void pas14642_NotNamedInsuredAvailableForRatingHardStop(@Optional("VA") String state){
+		pas14642_NotNamedInsuredAvailableForRatingHardStopBody();
 	}
 
 	/**
@@ -509,8 +508,8 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14641"})
-	public void pas14641_Not_a_Named_Insured_Update_to_Not_Available_for_Rating(@Optional("VA") String state){
-		pas14641_Not_a_Named_Insured_Update_to_Not_Available_for_Rating_Body();
+	public void pas14641_NotNamedInsuredUpdateToNotAvailableForRating(@Optional("VA") String state){
+		pas14641_NotNamedInsuredUpdateToNotAvailableForRatingBody();
 	}
 }
 
