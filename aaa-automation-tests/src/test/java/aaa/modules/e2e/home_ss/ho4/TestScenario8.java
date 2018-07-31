@@ -49,7 +49,7 @@ public class TestScenario8 extends Scenario8 {
 			TestData td5 = getTestSpecificTD("TestData_Endorsement").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
 			/** TODO Why 5??? */
 			changePaymentPlanAndCheckInstallments(td5, BillingConstants.PaymentPlan.QUARTERLY, false, true, 5, policyEffectiveDate);
-			renewalOfferGeneration();
+			renewalOfferGeneration(softly);
 			TestData td6 = getTestSpecificTD("TestData_Endorsement5").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
 			changePaymentPlanAndCheckInstallments(td6, BillingConstants.PaymentPlan.QUARTERLY_RENEWAL, true, false, 9, policyExpirationDate);
 			renewalPremiumNotice();

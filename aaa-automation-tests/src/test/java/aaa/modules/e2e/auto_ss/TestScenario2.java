@@ -60,7 +60,7 @@ public class TestScenario2 extends Scenario2 {
 					&& !getState().equals(Constants.States.PA) && !getState().equals(Constants.States.SD)) {
 				renewalPreviewGeneration();
 			}
-			renewalOfferGeneration();
+			renewalOfferGeneration(softly);
 			renewalPremiumNotice();
 			verifyDocGenForms();
 			removeAutoPay();

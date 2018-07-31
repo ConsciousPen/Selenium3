@@ -38,7 +38,7 @@ public class TestScenario4 extends Scenario4 {
 			verifyFormAHCWXX();
 			renewalImageGeneration();
 			renewalPreviewGeneration();
-			renewalOfferGeneration();
+			renewalOfferGeneration(softly);
 			if (!getState().equals(Constants.States.CA)) {
 				renewalPremiumNotice();
 			}

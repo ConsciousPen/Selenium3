@@ -48,7 +48,7 @@ public class TestScenario2 extends Scenario2 {
 			renewalImageGeneration();
 			payTenthBill();
 			renewalPreviewGeneration();
-			renewalOfferGeneration();
+			renewalOfferGeneration(softly);
 			verifyDocGenForms();
 			removeAutoPay();
 			renewalPaymentNotGenerated();

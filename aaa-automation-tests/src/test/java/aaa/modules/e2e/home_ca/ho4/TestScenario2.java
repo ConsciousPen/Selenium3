@@ -48,7 +48,7 @@ public class TestScenario2 extends Scenario2 {
 			generateTenthBill();
 			payTenthBill();
 			renewalPreviewGeneration();
-			renewalOfferGeneration();
+			renewalOfferGeneration(softly);
 			DocGenEnum.Documents[] documents = new DocGenEnum.Documents[] {
 					DocGenEnum.Documents._61_3026, DocGenEnum.Documents.AHRBXX, DocGenEnum.Documents._61_3000, DocGenEnum.Documents._61_5121, DocGenEnum.Documents._61_6530};
 			verifyDocGenForms(documents);

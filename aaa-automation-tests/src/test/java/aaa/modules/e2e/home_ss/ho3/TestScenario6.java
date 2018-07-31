@@ -39,7 +39,7 @@ public class TestScenario6 extends Scenario6 {
 			renewalImageGeneration();
 			renewalPreviewGeneration();
 			renewalOfferGeneration();
-			manualRenewPolicy();
+			manualRenewPolicy(softly);
 			verifyFormAHR1XX_And_HSRNXX();
 			payRenewOffer();
 			updatePolicyStatus();

@@ -36,7 +36,7 @@ public class TestScenario11 extends Scenario11 {
 			paySecondOffCycleBill();
 			renewalImageGeneration();
 			renewalPreviewGeneration();
-			renewalOfferGeneration();
+			renewalOfferGeneration(softly);
 			generateRenewalBill();
 			updatePolicyStatus();
 			payRenewalBillNotInFullAmount(toleranceAmount);

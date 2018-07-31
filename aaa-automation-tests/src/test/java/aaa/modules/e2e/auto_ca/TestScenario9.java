@@ -45,7 +45,7 @@ public class TestScenario9 extends Scenario9 {
 			payLastBill();
 			removeAutoPay();
 			renewalPreviewGeneration();
-			renewalOfferGeneration();
+			renewalOfferGeneration(softly);
 			endorsementOnCurrentTerm();
 			dontPayRenewalBill();
 			updatePolicyStatus();

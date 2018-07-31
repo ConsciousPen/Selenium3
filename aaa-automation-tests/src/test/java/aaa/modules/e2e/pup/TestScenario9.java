@@ -53,7 +53,7 @@ public class TestScenario9 extends Scenario9 {
 				removeAutoPay();
 				renewalPreviewGeneration();
 			}
-			renewalOfferGeneration();
+			renewalOfferGeneration(softly);
 			endorsementOnCurrentTerm(); 
 			if (!getState().equals(Constants.States.CA)) {
 				generateRenewalBill();

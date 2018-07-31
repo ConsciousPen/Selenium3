@@ -31,7 +31,7 @@ public class TestScenario3 extends Scenario3 {
 			payCancellationNoticeByRemittance();
 			renewalImageGeneration();
 			renewalPreviewGeneration();
-			renewalOfferGeneration();
+			renewalOfferGeneration(softly);
 			if (!getState().equals(Constants.States.CA)) {
 				renewalPremiumNotice();
 			}

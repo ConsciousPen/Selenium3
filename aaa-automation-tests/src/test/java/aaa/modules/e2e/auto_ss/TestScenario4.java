@@ -40,7 +40,7 @@ public class TestScenario4 extends Scenario4 {
 			verifyFormAHCWXX();
 			renewalImageGeneration();
 			renewalPreviewGeneration();
-			renewalOfferGeneration();
+			renewalOfferGeneration(softly);
 			renewalPremiumNotice();
 			expirePolicy();
 			customerDeclineRenewal();

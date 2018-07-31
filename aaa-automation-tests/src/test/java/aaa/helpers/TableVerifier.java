@@ -2,22 +2,20 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.helpers;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import com.exigen.ipb.etcsa.utils.Dollar;
-import toolkit.verification.CustomAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.table.Table;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public abstract class TableVerifier {
 
     protected Map<String, String> values = new HashMap<>();
     protected ETCSCoreSoftAssertions softly;
 
-    public TableVerifier() {
-    };
+    public TableVerifier() {};
 
     public TableVerifier(ETCSCoreSoftAssertions softly) {
         this.softly = softly;
@@ -41,7 +39,7 @@ public abstract class TableVerifier {
         if (softly != null) {
             softly.assertThat(getTable().getRow(values).isPresent()).as(message).isEqualTo(expectedValue);
         } else {
-            CustomAssertions.assertThat(getTable().getRow(values).isPresent()).as(message).isEqualTo(expectedValue);
+            assertThat(getTable().getRow(values).isPresent()).as(message).isEqualTo(expectedValue);
         }
         return this;
     }
@@ -50,15 +48,18 @@ public abstract class TableVerifier {
         if (softly != null) {
             softly.assertThat(getTable()).hasMatchingRows(count, values);
         } else {
-            CustomAssertions.assertThat(getTable()).hasMatchingRows(count, values);
+            assertThat(getTable()).hasMatchingRows(count, values);
         }
         return this;
     }
 
     public TableVerifier verify(int rowNumber) {
-        for (Entry<String, String> entry : values.entrySet()) {
-            getTable().getRow(rowNumber).getCell(entry.getKey()).verify
-                    .value(String.format("Table '%s', Row '%s', Column '%s'", getTableName(), rowNumber, entry.getKey()), entry.getValue());
+        if (softly != null) {
+            values.forEach((key, value) -> softly.assertThat(getTable().getRow(rowNumber))
+                    .as("Table '%s', Row '%s', Column '%s'", getTableName(), rowNumber, key).hasCellWithValue(key, value));
+        } else {
+            values.forEach((key, value) -> assertThat(getTable().getRow(rowNumber))
+                    .as("Table '%s', Row '%s', Column '%s'", getTableName(), rowNumber, key).hasCellWithValue(key, value));
         }
         return this;
     }

@@ -27,7 +27,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class ScenarioBaseTest extends BaseTest {
@@ -73,19 +72,16 @@ public class ScenarioBaseTest extends BaseTest {
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_CANCELLED);
 	}
 
-	protected void verifyRenewOfferGenerated(List<LocalDateTime> installmentDates) {
+	protected void verifyRenewOfferGenerated(List<LocalDateTime> installmentDates, ETCSCoreSoftAssertions softly) {
 		BillingSummaryPage.showPriorTerms();
 
-		CustomAssert.enableSoftMode();
 		for (int i = 1; i < installmentDates.size(); i++) { // Do not include Deposit bill
-			new BillingInstallmentsScheduleVerifier().setDescription(BillingConstants.InstallmentDescription.INSTALLMENT)
+			new BillingInstallmentsScheduleVerifier(softly).setDescription(BillingConstants.InstallmentDescription.INSTALLMENT)
 					.setInstallmentDueDate(installmentDates.get(i).plusYears(1)).verifyPresent();
 		}
 		if (!getState().equals(Constants.States.CA)) {
-			new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.OFFER).verifyPresent(false);
+			new BillingBillsAndStatementsVerifier(softly).setType(BillingConstants.BillsAndStatementsType.OFFER).verifyPresent(false);
 		}
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	protected void verifyRenewalOfferPaymentAmount(LocalDateTime expirationDate, LocalDateTime renewOfferDate, LocalDateTime billGenDate, Integer installmentsCount) {
@@ -163,9 +159,9 @@ public class ScenarioBaseTest extends BaseTest {
 	 * Same as
 	 * {@link #verifyRenewalOfferPaymentAmount(java.time.LocalDateTime, java.time.LocalDateTime, java.time.LocalDateTime, java.lang.Integer)}
 	 */
-	protected void verifyCaRenewalOfferPaymentAmount(LocalDateTime expirationDate, LocalDateTime renewOfferDate, Integer installmentsCount) {
+	protected void verifyCaRenewalOfferPaymentAmount(LocalDateTime expirationDate, LocalDateTime renewOfferDate, Integer installmentsCount, ETCSCoreSoftAssertions softly) {
 		BillingSummaryPage.showPriorTerms();
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
+		new BillingPaymentsAndTransactionsVerifier(softly).setTransactionDate(renewOfferDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
 			.verifyPresent();
 
 		String policyNum = BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingAccountPoliciesTable.POLICY_NUM).getValue();
@@ -173,7 +169,7 @@ public class ScenarioBaseTest extends BaseTest {
 		Dollar fee = BillingHelper.getFeesValue(renewOfferDate);
 
 		Dollar expOffer = BillingHelper.calculateFirstInstallmentAmount(fullAmount, installmentsCount).add(fee);
-		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.OFFER).setDueDate(expirationDate).setMinDue(expOffer)
+		new BillingBillsAndStatementsVerifier(softly).setType(BillingConstants.BillsAndStatementsType.OFFER).setDueDate(expirationDate).setMinDue(expOffer)
 			.verifyPresent();
 	}
 

@@ -39,15 +39,15 @@ public class TestScenario13 extends Scenario13 {
 			generateFifthBill(softly);
 			removeAutoPay();
 			payFifthBill();
-			changePaymentPlan(); 
+			changePaymentPlan(softly);
 			generateSixthBill(softly);
 			paySixthBill();
-			smallBalanceGeneration(); 
+			smallBalanceGeneration(softly);
 			cancelNoticeNotGenerated(); 
 			//cancellationNotGenerated(); 
 			renewalImageGeneration(); 
 			renewalPreviewGeneration(); 
-			renewalOfferGeneration();  
+			renewalOfferGeneration(softly);
 			createRenewalVersion();
 			payRenewalBill(); 
 			updatePolicyStatus();			

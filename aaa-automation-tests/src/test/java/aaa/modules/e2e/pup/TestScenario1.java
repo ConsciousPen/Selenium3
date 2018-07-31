@@ -37,7 +37,7 @@ public class TestScenario1 extends Scenario1 {
 			earlyRenewNotGenerated();
 			renewalImageGeneration();
 			renewalPreviewGeneration();
-			renewalOfferGeneration();
+			renewalOfferGeneration(softly);
 			if (!getState().equals(Constants.States.CA)) {
 				renewalPremiumNotice();
 			}

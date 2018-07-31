@@ -39,7 +39,7 @@ public class TestScenario7 extends Scenario7 {
 			renewalPreviewGeneration();
 			endorsementRPBeforeRenewal();
 			endorsementAPBeforeRenewal();
-			renewalOfferGeneration();
+			renewalOfferGeneration(softly);
 			endorsementRPAfterRenewal();
 			endorsementAPAfterRenewal();
 			checkRenewalStatusAndPaymentNotGenerated();

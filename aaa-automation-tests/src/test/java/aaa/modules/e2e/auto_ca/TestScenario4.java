@@ -41,7 +41,7 @@ public class TestScenario4 extends Scenario4 {
 			paymentInFullCancellNoticeAmount();
 			renewalImageGeneration();
 			renewalPreviewGeneration();
-			renewalOfferGeneration();
+			renewalOfferGeneration(softly);
 			expirePolicy();
 			customerDeclineRenewal();
 			payRenewOffer();

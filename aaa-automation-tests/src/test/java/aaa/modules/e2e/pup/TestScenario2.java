@@ -53,7 +53,7 @@ public class TestScenario2 extends Scenario2 {
 			}
 			payTenthBill();
 			renewalPreviewGeneration();
-			renewalOfferGeneration();
+			renewalOfferGeneration(softly);
 			if (!getState().equals(Constants.States.CA)) {
 				renewalPremiumNotice();
 			}

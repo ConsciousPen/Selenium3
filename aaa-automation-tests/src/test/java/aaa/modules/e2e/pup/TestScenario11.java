@@ -40,7 +40,7 @@ public class TestScenario11 extends Scenario11 {
 			paySecondOffCycleBill();
 			renewalImageGeneration();
 			renewalPreviewGeneration();
-			renewalOfferGeneration(); 
+			renewalOfferGeneration(softly);
 			if (!getState().equals(Constants.States.CA)) {
 				generateRenewalBill();
 			}

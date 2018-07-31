@@ -90,7 +90,7 @@ public class Scenario8 extends ScenarioBaseTest {
 		verifyRenewalsStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
 	}
 
-	protected void renewalOfferGeneration() {
+	protected void renewalOfferGeneration(ETCSCoreSoftAssertions softly) {
 		LocalDateTime policyExpirationDateOffer = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDateOffer);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
@@ -103,7 +103,7 @@ public class Scenario8 extends ScenarioBaseTest {
 				.verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).setPaymentPlan(BillingConstants.PaymentPlan.QUARTERLY_RENEWAL)
 				.verifyRowWithEffectiveDate(policyExpirationDate);
-		verifyRenewOfferGenerated(Arrays.asList(installmentDueDates.get(0), installmentDueDates.get(3), installmentDueDates.get(6), installmentDueDates.get(9)));
+		verifyRenewOfferGenerated(Arrays.asList(installmentDueDates.get(0), installmentDueDates.get(3), installmentDueDates.get(6), installmentDueDates.get(9)), softly);
 
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(policyExpirationDateOffer).setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
 

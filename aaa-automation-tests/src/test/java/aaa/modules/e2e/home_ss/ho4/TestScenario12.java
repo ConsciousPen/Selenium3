@@ -33,7 +33,7 @@ public class TestScenario12 extends Scenario12 {
 
 			renewalImageGeneration();
 			renewalPreviewGeneration();
-			renewalOfferGeneration();
+			renewalOfferGeneration(softly);
 			generateRenewalBill();
 			changePaymentPlan();
 			enableAutoPay();
@@ -47,7 +47,7 @@ public class TestScenario12 extends Scenario12 {
 			payThirdBillOfFirstRenewal();
 			renewalImageGeneration_FirstRenewal();
 			renewalPreviewGeneration_FirstRenewal();
-			renewalOfferGeneration_FirstRenewal();
+			renewalOfferGeneration_FirstRenewal(softly);
 			changePaymentPlan_FirstRenewal();
 			generateRenewalBill_FirstRenewal();
 			payRenewalBill_FirstRenewal();

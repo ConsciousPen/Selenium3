@@ -36,7 +36,7 @@ public class TestScenario1 extends Scenario1 {
 			renewalImageGeneration();
 			payThirdBill();
 			renewalPreviewGeneration();
-			renewalOfferGeneration();
+			renewalOfferGeneration(softly);
 			renewalPremiumNotice();
 			payRenewalBill();
 			updatePolicyStatus();

@@ -32,7 +32,7 @@ public class TestScenario10 extends Scenario10 {
 			renewalImageGeneration();
 			payThirdBill();
 			renewalPreviewGeneration();
-			renewalOfferGeneration();
+			renewalOfferGeneration(softly);
 			generateRenewalBill();
 			enableAutoPay();
 			changePaymentPlan();

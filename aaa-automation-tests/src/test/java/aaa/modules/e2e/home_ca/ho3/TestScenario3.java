@@ -30,7 +30,7 @@ public class TestScenario3 extends Scenario3 {
 			payCancellationNoticeByRemittance();
 			renewalImageGeneration();
 			renewalPreviewGeneration();
-			renewalOfferGeneration();
+			renewalOfferGeneration(softly);
 			expirePolicy();
 			customerDeclineRenewal();
 			bindRenew();

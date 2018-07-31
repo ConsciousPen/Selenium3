@@ -33,13 +33,13 @@ public class TestScenario10 extends Scenario10 {
 			payThirdBill();
 			renewalImageGeneration();
 			renewalPreviewGeneration();
-			renewalOfferGeneration();
+			renewalOfferGeneration(softly);
 			if (!getState().equals(Constants.States.CA)) {
 				generateRenewalBill();
 			}
 			enableAutoPay();
 			if (getState().equals(Constants.States.CA)) {
-				changePaymentPlanForCA();
+				changePaymentPlanForCA(softly);
 				payRenewalOffer();
 			}
 			else {

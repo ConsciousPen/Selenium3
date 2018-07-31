@@ -41,7 +41,7 @@ public class TestScenario12 extends Scenario12 {
 				renewalImageGeneration();
 			}
 			renewalPreviewGeneration();
-			renewalOfferGeneration(); 
+			renewalOfferGeneration(softly);
 			if (!getState().equals(Constants.States.CA)) {
 				generateRenewalBill();
 			}
@@ -57,7 +57,7 @@ public class TestScenario12 extends Scenario12 {
 			payThirdBillOfFirstRenewal();
 			renewalImageGeneration_FirstRenewal();
 			renewalPreviewGeneration_FirstRenewal();
-			renewalOfferGeneration_FirstRenewal();
+			renewalOfferGeneration_FirstRenewal(softly);
 			changePaymentPlan_FirstRenewal();
 			if (!getState().equals(Constants.States.CA)) {
 				generateRenewalBill_FirstRenewal();
