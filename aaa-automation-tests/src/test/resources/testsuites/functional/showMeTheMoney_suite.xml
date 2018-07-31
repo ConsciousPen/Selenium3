@@ -15,4 +15,9 @@
             <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsCheckAsOfAccountingDate"/>
         </classes>
     </test>
+    <test name="TestOperationalReportsCheckPolicyNumberParameter" preserve-order="true">
+        <classes>
+            <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsCheckPolicyNumberParameter"/>
+        </classes>
+    </test>
 </suite>
