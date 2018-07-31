@@ -75,7 +75,7 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15374"})
-	public void pas15374_driverWithMajorViolations(@Optional("AZ") String state) {
+	public void pas15374_driverWithMajorViolations(@Optional("VA") String state) {
 
 		pas15374_driverWithMajorViolationsBody(getPolicyType());
 	}

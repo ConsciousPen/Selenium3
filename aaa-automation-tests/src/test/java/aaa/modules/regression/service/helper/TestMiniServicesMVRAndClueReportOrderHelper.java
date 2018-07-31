@@ -277,16 +277,17 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 
 	protected void pas15374_driverWithMajorViolationsBody(PolicyType policyType) {
 		mainApp().open();
-		String policyNumber = getCopiedPolicy();
-
+		//String policyNumber = getCopiedPolicy();
+		String policyNumber = "VASS952918553";
 		//Create pended endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
+
         //Add driver
-		DriversDto driversDto = addDriverReturnOid(policyNumber,"One",null,"AutoTheft","1970-01-01",null);
+		DriversDto driversDto = addDriverReturnOid(policyNumber,"One",null,"Felony","1970-01-01",null);
 		String addedDriverOid = driversDto.oid;
 		//Update driver
-		UpdateDriverReturn(policyNumber,addedDriverOid,null,"B15374001",null,"AZ",null);
+		updateDriverReturn(policyNumber,addedDriverOid,"Male","B15374001",17,"AZ","MSS","SP");
 
 	}
 
@@ -298,11 +299,13 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		return HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
 	}
 
-	private DriverWithRuleSets  UpdateDriverReturn(String policyNumber, String addedDriverOid, String gender,String licenseNumber, String ageFirstLicensed, String stateLicensed, String relationToApplicantCd) {
-		updateDriverRequest.licenseNumber = gender;
+	private DriverWithRuleSets  updateDriverReturn(String policyNumber, String addedDriverOid, String gender,String licenseNumber, Integer ageFirstLicensed, String stateLicensed, String relationToApplicantCd,String maritalStatusCd) {
+		updateDriverRequest.gender = gender;
 		updateDriverRequest.licenseNumber = licenseNumber;
+		updateDriverRequest.ageFirstLicensed = ageFirstLicensed;
 		updateDriverRequest.stateLicensed = stateLicensed;
-
+		updateDriverRequest.relationToApplicantCd = relationToApplicantCd;
+		updateDriverRequest.maritalStatusCd = maritalStatusCd;
 		return HelperCommon.updateDriver(policyNumber,addedDriverOid,updateDriverRequest);
 	}
 }
