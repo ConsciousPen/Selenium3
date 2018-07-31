@@ -10,6 +10,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -29,9 +30,11 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.helper.VinUploadCleanUpMethods;
 import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
+@StateList(states = Constants.States.CA)
 public class TestVINUpload extends TestVINUploadTemplate {
 
 	private static final String NEW_VIN = "AAANK3CC0F0455583"; // Refreshable_CA_SELECT
@@ -63,6 +66,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	 * {@link TestVINUploadTemplate#newVinAdded(String, String)}
 	 */
 	@Parameters({"state"})
+	@StateList(states = Constants.States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-533")
 	public void pas533_newVinAdded(@Optional("") String state) {

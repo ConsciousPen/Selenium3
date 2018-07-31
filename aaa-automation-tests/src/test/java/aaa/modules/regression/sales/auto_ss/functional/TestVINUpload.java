@@ -43,6 +43,7 @@ import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.TextBox;
 
+@StateList(statesExcept = {Constants.States.CA, Constants.States.MD})
 public class TestVINUpload extends VinUploadAutoSSHelper {
 	protected TestData tdBilling = testDataManager.billingAccount;
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
