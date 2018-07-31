@@ -78,6 +78,46 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	}
 
 	/**
+	 * @author Bob Van
+	 * @name View Drivers service, status pending remove/add.
+	 * @scenario
+	 * 1. create a policy with 2 AFR and NVFR driver.
+	 * 2. delete driver through the service
+	 * 3. Add new one and update driver with required filed
+	 * 4. Hit View Driver service verify order.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14653"})
+	public void pas14653_ViewDriverServiceOrderOfPendingDelete1(@Optional("AZ") String state) {
+		TestData td = getTestSpecificTD("TestData1");
+		pas14653_ViewDriverServiceOrderOfPendingDelete1Body(td);
+	}
+
+	/**
+	 * @author Bob Van
+	 * @name View Drivers service, status pending remove/add 2.
+	 * @scenario
+	 * 1. create a policy 3d. 2afr 1 nafr
+	 * 2. create endorsement outside of PAS
+	 * 3. delete one driver afr
+	 * 4. add a driver through the service
+	 * 5. Update driver with required filed
+	 * 6. Hit View Driver service verify order.
+	 * 7. Rate and Bind.
+	 * 8. Create new endorsement.
+	 * 9. Delete the newest driver.
+	 * 10.Hit View Driver service verify order.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14653"})
+	public void pas14653_ViewDriverServiceOrderOfPendingDelete2(@Optional("AZ") String state) {
+		TestData td = getTestSpecificTD("TestData1");
+		pas14653_ViewDriverServiceOrderOfPendingDelete2Body(td);
+	}
+
+	/**
 	 * @author Megha Gubbala
 	 * @name Add Drivers service, check info.
 	 * @scenario
