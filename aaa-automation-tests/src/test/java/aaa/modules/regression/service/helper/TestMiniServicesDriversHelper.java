@@ -254,62 +254,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		);
 	}
 
-	protected void pas14653_ViewDriverServiceOrderOfPendingDelete1Body(TestData td) {
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy(td);
-
-		// create endorsement
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
-
-		// view drivers & get one to remove
-		ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
-
-		DriversDto driverSt = viewDriversResponse.driverList.stream()
-				.filter(driver -> DRIVER_TYPE_AVAILABLE_FOR_RATING.equals(driver.driverType))
-				.filter(driver -> DRIVER_STATUS_ACTIVE.equals(driver.driverStatus))
-				.filter(driver -> !DRIVER_FIRST_NAME_INSURED.equals(driver.namedInsuredType))
-				.filter(driver -> !DRIVER_NAME_INSURED.equals(driver.namedInsuredType)).findFirst().orElse(null);
-
-		String firstName1 = driverSt.firstName;
-		String driverOid = driverSt.oid;
-
-		RemoveDriverRequest removeDriverRequest = new RemoveDriverRequest();
-		removeDriverRequest.removalReasonCode = "RD1001";
-		DriversDto removeDriverResponse = HelperCommon.removeDriver(policyNumber, driverOid, removeDriverRequest);
-
-		// add driver
-		AddDriverRequest addDriverRequest = new AddDriverRequest();
-		addDriverRequest.firstName = "Jackie";
-		addDriverRequest.middleName = "Ann";
-		addDriverRequest.lastName = "Jones";
-		addDriverRequest.birthDate = "1964-02-08";
-		addDriverRequest.suffix = "I";
-		DriversDto addedDriverResponse = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
-
-		String addedDriverId = addedDriverResponse.oid;
-
-		// update driver 1
-		updateDriverRequest.stateLicensed = "AZ";
-		updateDriverRequest.licenseNumber = "D32329585";
-		updateDriverRequest.gender = "female";
-		updateDriverRequest.relationToApplicantCd = "CH";
-		updateDriverRequest.maritalStatusCd = "MSS";
-		updateDriverRequest.ageFirstLicensed = 16;
-		DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, addedDriverId, updateDriverRequest);
-
-		// verify view drivers order
-		ViewDriversResponse responseViewDriver = HelperCommon.viewEndorsementDrivers(policyNumber);
-
-		List<DriversDto> originalOrderingFromResponse = ImmutableList.copyOf(responseViewDriver.driverList);
-		List<DriversDto> sortedDriversFromResponse = responseViewDriver.driverList;
-		sortedDriversFromResponse.sort(DriversDto.DRIVERS_COMPARATOR);
-		assertSoftly(softly ->
-				assertThat(originalOrderingFromResponse).containsAll(sortedDriversFromResponse)
-		);
-	}
-
-	protected void pas14653_ViewDriverServiceOrderOfPendingDelete2Body(TestData td) {
+	protected void pas14653_ViewDriverServiceOrderOfPendingDeleteBody(TestData td) {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy(td);
