@@ -1,6 +1,5 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.text.ParseException;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -13,6 +12,8 @@ import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.TestMiniServicesDriversHelper;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 
@@ -249,82 +250,52 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 		pas15373_uniqueDriverLicensesBody(getPolicyType());
 	}
 
-	/**
-	 * @author Maris Strazds
-	 * @name Test Report Ordering for Endorsement (Named Insured)
-	 * @scenario
-	 * 1. Create a policy in PAS
-	 * 2. Create an endorsement through service
-	 * 3. Add Driver 1 (Named Insured) through service with MVR status =  Hit - Activity Found, CLUE status = processing complete, results clear
-	 * 4. Run the Report Order Service for MVR/CLUE
-	 * 5. Open the Endorsement in PAS, navigate to "Driver Activity Reports" tab and validate that MVR/CLUE reports have been ordered successfully with no errors
-	 * 6. Validate that I receive the report response
-	 *          AND it is viewable in PAS (pdf)
-	 *          AND it is reconciled in PAS
-	 *          AND a positive response is provided
-	 * 7. Rate and bind the policy
-	 * 8. Rate and Bind
-	 * 9. Create an endorsement through service
-	 * 10. Add Driver 2 (Named Insured) through service with MVR status =  Clear, CLUE status = processing complete, with results information
-	 * 11. Repeat steps 4 - 8
-	 */
 
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15077"})
-	public void pas15077_orderReports_endorsement(@Optional("") String state) {
 
-		pas15077_orderReports_endorsementBody(getPolicyType());
-	}
+    /**
+     * @author Bob Van
+     * @name Update Drivers service, set marital status.
+     * @scenario
+     * 1. Create policy on Pas.
+     * 2. Create endorsement outside of PAS
+     * 2. Add 2nd driver outside of PAS
+     * 3. Update 2nd driver as spouse outside of PAS
+     * 4. Verify married status in update response
+     * 5. Verify married status in view driver response
+     * 6. Verify PAS pended endorsement general tab data
+     * 7. Verify PAS pended endorsement driver tab data
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14474"})
+    public void pas14474_UpdateSpouseDriver(@Optional("AZ") String state) {
+
+    	pas14474_UpdateSpouseDriverBody(getPolicyType());
+    }
 
 	/**
-	 * @author Maris Strazds
-	 * @name Test Report Ordering for Endorsement (not a Named Insured)
-	 * @scenario
-	 * 1. Create a policy in PAS
-	 * 2. Create an endorsement through service
-	 * 3. Add Driver 1 (not a Named Insured) through service with MVR status =  Hit - Activity Found, CLUE status = processing complete, results clear
-	 * 4. Run the Report Order Service for MVR/CLUE
-	 * 5. Open the Endorsement in PAS, navigate to "Driver Activity Reports" tab and validate that MVR/CLUE reports have been ordered successfully with no errors
-	 * 6. Validate that I receive the report response
-	 *          AND it is viewable in PAS (pdf)
-	 *          AND it is reconciled in PAS
-	 *          AND a positive response is provided
-	 * 7. Rate and bind the policy
-	 * 8. Rate and Bind
-	 * 9. Create an endorsement through service
-	 * 10. Add Driver 2 (not Named Insured) through service with MVR status =  Clear, CLUE status = processing complete, with results information
-	 * 11. Repeat steps 4 - 8
-	 */
-
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16694"})
-	public void pas16694_orderReports_not_Named_Insured_endorsement(@Optional("") String state) {
-
-		pas16694_orderReports_not_Named_Insured_endorsementBody(getPolicyType());
-	}
-
-	/**
-	 * @author Bob Van
-	 * @name Update Drivers service, set marital status.
-	 * @scenario
-	 * 1. Create policy on Pas.
-	 * 2. Create endorsement outside of PAS
-	 * 2. Add 2nd driver outside of PAS
-	 * 3. Update 2nd driver as spouse outside of PAS
-	 * 4. Verify married status in update response
-	 * 5. Verify married status in view driver response
-	 * 6. Verify PAS pended endorsement general tab data
-	 * 7. Verify PAS pended endorsement driver tab data
+	 * @author Jovita Pukenaite
+	 * @name Transaction Information For Endorsements outside of PAS - Add Driver
+	 * @scenario 1. Create policy.
+	 * 2. Start do endorsement outside of PAS.
+	 * 3. Hit "Transaction History Service". Check if response is empty.
+	 * 4. Add Driver.
+	 * 5. Hit "Transaction History Service". Check new driver info.
+	 * 6. Update for bind.
+	 * 7. Rate endorsement and Bind.
+	 * 8. Create endorsement outside of PAS
+	 * 9. Hit "Transaction History Service". Check new driver info. Update for bind.
+	 * 10. Bind endorsement.
+	 * 11. Hit "Transaction History Service". Check if response is empty.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14474"})
-	public void pas14474_UpdateSpouseDriver(@Optional("") String state) {
-		pas14474_UpdateSpouseDriverBody(getPolicyType());
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16481"})
+	public void pas9493_TransactionInformationForEndorsementsAddDriver(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas16481_TransactionInformationForEndorsementsAddDriverBody(softly)
+		);
 	}
-
 	/**
 	 * @author Megha Gubbala
 	 * @name Update Drivers service, set marital status.
@@ -341,7 +312,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
-	public void pas14475_NameInsuredMaritalStatus(@Optional("") String state) {
+	public void pas14475_NameInsuredMaritalStatus(@Optional("AZ") String state) {
 		pas14475_NameInsuredMaritalStatusBody();
 	}
 
@@ -401,13 +372,11 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
-	public void pas14475_NameInsuredMaritalStatusPSS(@Optional("") String state)
-	{
+	public void pas14475_NameInsuredMaritalStatusPSS(@Optional("") String state) {
 		assertSoftly(softly ->
-		pas14475_NameInsuredMaritalStatusFNIIsPSSBody(softly)
-				);
+				pas14475_NameInsuredMaritalStatusFNIIsPSSBody(softly)
+		);
 	}
-
 
 	/**
 	 * @author Megha Gubbala
