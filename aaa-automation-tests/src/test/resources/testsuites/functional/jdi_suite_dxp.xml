@@ -5,7 +5,7 @@
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method"/>
+    <parameter name="timeshift-scenario-mode" value="tests"/>
     <test name="ContactInfoUpdateServiceCA">
         <classes>
             <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing">
