@@ -521,7 +521,7 @@
             </class>
         </classes>
     </test>
-    <test name="Report Order and Endorsement" parallel="methods" thread-count="1024">
+    <test name="Name Insured And Driver" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
