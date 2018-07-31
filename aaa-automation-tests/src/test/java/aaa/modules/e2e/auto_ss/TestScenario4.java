@@ -5,6 +5,8 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
+
+import aaa.common.enums.Constants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.actiontabs.EndorsementActionTab;
@@ -37,7 +39,9 @@ public class TestScenario4 extends Scenario4 {
 			generateOffCycleBill();
 			generateCancelNotice();
 			paymentInFullCancellNoticeAmount();
-			verifyFormAHCWXX();
+			if (!getState().equals(Constants.States.NJ)) {
+				verifyFormAHCWXX();
+			}
 			renewalImageGeneration();
 			renewalPreviewGeneration();
 			renewalOfferGeneration(softly);
