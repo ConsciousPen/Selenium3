@@ -83,7 +83,7 @@ public class BatchJobExecutorService extends Service {
 	}
 
 	private static URL getURL() throws MalformedURLException {
-		String urlString = String.format("http://%s%s/services/BatchJobTrigger?wsdl", PropertyProvider.getProperty("app.host", "Missing param app.host"), PropertyProvider.getProperty("app.ad.urltemplate", "Missing param app.ad.urltemplate").replace("/admin/login.xhtml", ""));
+		String urlString = String.format("http://%s%s/services/BatchJobTrigger?wsdl", PropertyProvider.getProperty("app.host", "Missing param app.host"), PropertyProvider.getProperty("app.ad.urltemplate", "Missing param app.ad.urltemplate").replace("/admin", "").replace("/login.xhtml", ""));
 		return new URL(PropertyProvider.getProperty("soap.batchjob.endpoint", urlString));
 	}
 
