@@ -261,20 +261,16 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		// create endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-		// view drivers & get one to remove
+		// view drivers & get one to remove: afr, active, not FNI, not NI
 		ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
-
 		DriversDto driverSt = viewDriversResponse.driverList.stream()
 				.filter(driver -> DRIVER_TYPE_AVAILABLE_FOR_RATING.equals(driver.driverType))
 				.filter(driver -> DRIVER_STATUS_ACTIVE.equals(driver.driverStatus))
 				.filter(driver -> !DRIVER_FIRST_NAME_INSURED.equals(driver.namedInsuredType))
 				.filter(driver -> !DRIVER_NAME_INSURED.equals(driver.namedInsuredType)).findFirst().orElse(null);
-
-		String firstName1 = driverSt.firstName;
-		String driverOid = driverSt.oid;
 		RemoveDriverRequest removeDriverRequest = new RemoveDriverRequest();
 		removeDriverRequest.removalReasonCode = "RD1001";
-		DriversDto removeDriverResponse = HelperCommon.removeDriver(policyNumber, driverOid, removeDriverRequest);
+		HelperCommon.removeDriver(policyNumber, driverSt.oid, removeDriverRequest);
 
 		// add driver
 		AddDriverRequest addDriverRequest = new AddDriverRequest();
@@ -285,22 +281,17 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		addDriverRequest.suffix = "I";
 		DriversDto addedDriverResponse = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
 
-		String addedDriverId = addedDriverResponse.oid;
-		System.out.println("added driver id: " + addedDriverId + " status: " + addedDriverResponse.driverStatus);
-
-		// update driver 1
+		// update driver
 		updateDriverRequest.stateLicensed = "AZ";
 		updateDriverRequest.licenseNumber = "D32329585";
 		updateDriverRequest.gender = "female";
 		updateDriverRequest.relationToApplicantCd = "CH";
 		updateDriverRequest.maritalStatusCd = "MSS";
 		updateDriverRequest.ageFirstLicensed = 16;
-		DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, addedDriverId, updateDriverRequest);
-
+		HelperCommon.updateDriver(policyNumber, addedDriverResponse.oid, updateDriverRequest);
 
 		// verify order: pending remove should be first, then pending add
 		ViewDriversResponse responseViewDriver = HelperCommon.viewEndorsementDrivers(policyNumber);
-
 		List<DriversDto> originalOrderingFromResponse = ImmutableList.copyOf(responseViewDriver.driverList);
 		List<DriversDto> sortedDriversFromResponse = responseViewDriver.driverList;
 		sortedDriversFromResponse.sort(DriversDto.DRIVERS_COMPARATOR);
@@ -317,13 +308,13 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		// remove previously added driver
 		RemoveDriverRequest removeDriverRequest3 = new RemoveDriverRequest();
 		removeDriverRequest.removalReasonCode = "RD1001";
-		DriversDto removeDriverResponse3 = HelperCommon.removeDriver(policyNumber, addedDriverId, removeDriverRequest3);
+		HelperCommon.removeDriver(policyNumber, addedDriverResponse.oid, removeDriverRequest3);
 
 		// verify order: pending remove should be first, then pending add
-		ViewDriversResponse responseViewDriver2 = HelperCommon.viewEndorsementDrivers(policyNumber);
+		viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 
-		List<DriversDto> originalOrderingFromResponse2 = ImmutableList.copyOf(responseViewDriver2.driverList);
-		List<DriversDto> sortedDriversFromResponse2 = responseViewDriver2.driverList;
+		List<DriversDto> originalOrderingFromResponse2 = ImmutableList.copyOf(viewDriversResponse.driverList);
+		List<DriversDto> sortedDriversFromResponse2 = viewDriversResponse.driverList;
 		sortedDriversFromResponse2.sort(DriversDto.DRIVERS_COMPARATOR);
 		assertSoftly(softly ->
 				assertThat(originalOrderingFromResponse2).containsAll(sortedDriversFromResponse2)
