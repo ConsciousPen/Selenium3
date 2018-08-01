@@ -100,7 +100,8 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		mainApp().open();
 		createOrOpenExistingCustomer(testInfo);
 
-		log.info("Premium calculation verification initiated for test {} and expected premium {} from \"{}\" OpenL file", policyNumber, openLPolicy.getExpectedPremium(), filePath);
+		log.info("Premium calculation verification initiated for test #{} and expected premium {} from \"{}\" OpenL file (pas-rating branch: {})",
+				policyNumber, openLPolicy.getExpectedPremium(), filePath, testInfo.getOpenLFileBranch());
 		String quoteNumber = createQuote(openLPolicy);
 		log.info("Quote/policy created: {}", quoteNumber);
 

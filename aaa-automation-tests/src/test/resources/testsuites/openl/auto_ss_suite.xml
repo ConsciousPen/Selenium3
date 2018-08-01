@@ -12,7 +12,7 @@
 
     <test name="AutoSS [AZ] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="AZ"/>
-        <parameter name="fileName" value="AZTests-20171101.xls"/>
+        <parameter name="fileName" value="AZTests-20180427.xls"/>
         <parameter name="policyNumbers" value="1,3"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
