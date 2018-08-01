@@ -34,6 +34,12 @@ import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 
 public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
+	private static final String DRIVER_TYPE_AVAILABLE_FOR_RATING = "afr";
+	private static final String DRIVER_TYPE_NOT_AVAILABLE_FOR_RATING = "nafr";
+	private static final String DRIVER_FIRST_NAME_INSURED = "FNI";
+	private static final String DRIVER_NAME_INSURED = "NI";
+	private static final String DRIVER_STATUS_ACTIVE = "active";
+
 	private DriverTab driverTab = new DriverTab();
 	private AddDriverRequest addDriverRequest = new AddDriverRequest();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
@@ -47,8 +53,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		assertSoftly(softly -> {
 			mainApp().open();
 			createCustomerIndividual();
-			String notAvailableForRating = "nafr";
-			String availableForRating = "afr";
+
 			TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 			String firstNameFull = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("First Name");
 			TestData td = getPolicyTD("DataGather", "TestData");
@@ -85,14 +90,14 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(driverNd.middleName).isEqualTo(middleName2);
 			softly.assertThat(driverNd.lastName).isEqualTo(lastName2);
 			softly.assertThat(driverNd.suffix).isEqualTo(suffix2);
-			softly.assertThat(driverNd.driverType).isEqualTo(availableForRating);
+			softly.assertThat(driverNd.driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 			softly.assertThat(driverNd.oid).isNotEmpty();
 
 			softly.assertThat(driverRd).isNotNull();
 			softly.assertThat(driverRd.middleName).isEqualTo(middleName3);
 			softly.assertThat(driverRd.lastName).isEqualTo(lastName3);
 			softly.assertThat(driverRd.suffix).isEqualTo(suffix3);
-			softly.assertThat(driverRd.driverType).isEqualTo(notAvailableForRating);
+			softly.assertThat(driverRd.driverType).isEqualTo(DRIVER_TYPE_NOT_AVAILABLE_FOR_RATING);
 			softly.assertThat(driverRd.oid).isNotEmpty();
 
 			policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -112,7 +117,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			softly.assertThat(driverSt2).isNotNull();
 			softly.assertThat(driverSt2.lastName).isEqualTo(lastName1);
-			softly.assertThat(driverSt2.driverType).isEqualTo(availableForRating);
+			softly.assertThat(driverSt2.driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 			softly.assertThat(driverSt2.oid).isNotEmpty();
 
 			softly.assertThat(driverNd2).isNotNull();
@@ -134,7 +139,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			softly.assertThat(driverSt3).isNotNull();
 			softly.assertThat(driverSt3.lastName).isEqualTo(lastName1);
-			softly.assertThat(driverSt3.driverType).isEqualTo(availableForRating);
+			softly.assertThat(driverSt3.driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 			softly.assertThat(driverSt3.oid).isNotEmpty();
 
 			softly.assertThat(driverNd3).isNotNull();
@@ -153,7 +158,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			softly.assertThat(driverSt4).isNotNull();
 			softly.assertThat(driverSt4.lastName).isEqualTo(lastName1);
-			softly.assertThat(driverSt4.driverType).isEqualTo(availableForRating);
+			softly.assertThat(driverSt4.driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 			softly.assertThat(driverSt4.oid).isNotEmpty();
 
 			softly.assertThat(driverNd4).isNotNull();
@@ -175,7 +180,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(response.driverList.get(0).oid).isNotNull();
 			softly.assertThat(response.driverList.get(0).firstName).startsWith("Fernando");
 			softly.assertThat(response.driverList.get(0).lastName).isEqualTo("Smith");
-			softly.assertThat(response.driverList.get(0).driverType).isEqualTo("afr");
+			softly.assertThat(response.driverList.get(0).driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 			softly.assertThat(response.driverList.get(0).namedInsuredType).isEqualTo("FNI");
 			softly.assertThat(response.driverList.get(0).relationToApplicantCd).isEqualTo("IN");
 			softly.assertThat(response.driverList.get(0).maritalStatusCd).isEqualTo("MSS");
@@ -183,7 +188,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(response.driverList.get(1).oid).isNotNull();
 			softly.assertThat(response.driverList.get(1).firstName).isEqualTo("Jenny");
 			softly.assertThat(response.driverList.get(1).lastName).isEqualTo("Smith");
-			softly.assertThat(response.driverList.get(1).driverType).isEqualTo("afr");
+			softly.assertThat(response.driverList.get(1).driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 			softly.assertThat(response.driverList.get(1).namedInsuredType).isEqualTo("NI");
 			softly.assertThat(response.driverList.get(1).relationToApplicantCd).isEqualTo("PA");
 			softly.assertThat(response.driverList.get(1).maritalStatusCd).isEqualTo("SSS");
@@ -193,7 +198,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(response.driverList.get(2).lastName).isEqualTo("Smith");
 			softly.assertThat(response.driverList.get(2).middleName).isEqualTo("Sara");
 			softly.assertThat(response.driverList.get(2).suffix).isEqualTo("III");
-			softly.assertThat(response.driverList.get(2).driverType).isEqualTo("nafr");
+			softly.assertThat(response.driverList.get(2).driverType).isEqualTo(DRIVER_TYPE_NOT_AVAILABLE_FOR_RATING);
 			softly.assertThat(response.driverList.get(2).relationToApplicantCd).isEqualTo("CH");
 			softly.assertThat(response.driverList.get(2).maritalStatusCd).isEqualTo("DSS");
 
@@ -209,7 +214,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(0).oid).isNotNull();
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(0).firstName).startsWith("Fernando");
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(0).lastName).isEqualTo("Smith");
-			softly.assertThat(responseViewDriverEndorsement.driverList.get(0).driverType).isEqualTo("afr");
+			softly.assertThat(responseViewDriverEndorsement.driverList.get(0).driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(0).namedInsuredType).isEqualTo("FNI");
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(0).relationToApplicantCd).isEqualTo("IN");
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(0).maritalStatusCd).isEqualTo("MSS");
@@ -217,7 +222,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(1).oid).isNotNull();
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(1).firstName).isEqualTo("Jenny");
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(1).lastName).isEqualTo("Smith");
-			softly.assertThat(responseViewDriverEndorsement.driverList.get(1).driverType).isEqualTo("afr");
+			softly.assertThat(responseViewDriverEndorsement.driverList.get(1).driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(1).namedInsuredType).isEqualTo("NI");
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(1).relationToApplicantCd).isEqualTo("PA");
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(1).maritalStatusCd).isEqualTo("SSS");
@@ -227,7 +232,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(2).lastName).isEqualTo("Smith");
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(2).middleName).isEqualTo("Sara");
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(2).suffix).isEqualTo("III");
-			softly.assertThat(responseViewDriverEndorsement.driverList.get(2).driverType).isEqualTo("nafr");
+			softly.assertThat(responseViewDriverEndorsement.driverList.get(2).driverType).isEqualTo(DRIVER_TYPE_NOT_AVAILABLE_FOR_RATING);
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(2).relationToApplicantCd).isEqualTo("CH");
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(2).maritalStatusCd).isEqualTo("DSS");
 
@@ -238,14 +243,65 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy(td);
+		ViewDriversResponse viewDriversResponse = HelperCommon.viewPolicyDrivers(policyNumber);
+		validateDriverListOrdering(viewDriversResponse.driverList);
+	}
 
-		ViewDriversResponse responseViewDriver = HelperCommon.viewPolicyDrivers(policyNumber);
-		List<DriversDto> originalOrderingFromResponse = ImmutableList.copyOf(responseViewDriver.driverList);
-		List<DriversDto> sortedDriversFromResponse = responseViewDriver.driverList;
-		sortedDriversFromResponse.sort(DriversDto.DRIVERS_COMPARATOR);
-		assertSoftly(softly ->
-				assertThat(originalOrderingFromResponse).containsAll(sortedDriversFromResponse)
-		);
+	protected void pas14653_ViewDriverServiceOrderOfPendingDeleteBody(TestData td) {
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNumber = createPolicy(td);
+
+		// create endorsement
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		// view drivers & get one to remove: afr, active, not FNI, not NI
+		ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+		DriversDto driverSt = viewDriversResponse.driverList.stream()
+				.filter(driver -> DRIVER_TYPE_AVAILABLE_FOR_RATING.equals(driver.driverType))
+				.filter(driver -> DRIVER_STATUS_ACTIVE.equals(driver.driverStatus))
+				.filter(driver -> !DRIVER_FIRST_NAME_INSURED.equals(driver.namedInsuredType))
+				.filter(driver -> !DRIVER_NAME_INSURED.equals(driver.namedInsuredType)).findFirst().orElse(null);
+		RemoveDriverRequest removeDriverRequest = new RemoveDriverRequest();
+		removeDriverRequest.removalReasonCode = "RD1001";
+		HelperCommon.removeDriver(policyNumber, driverSt.oid, removeDriverRequest);
+
+		// add driver
+		AddDriverRequest addDriverRequest = new AddDriverRequest();
+		addDriverRequest.firstName = "Jackie";
+		addDriverRequest.middleName = "Ann";
+		addDriverRequest.lastName = "Jones";
+		addDriverRequest.birthDate = "1964-02-08";
+		addDriverRequest.suffix = "I";
+		DriversDto addedDriverResponse = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+
+		// update driver
+		updateDriverRequest.stateLicensed = "VA";
+		updateDriverRequest.licenseNumber = "D32329585";
+		updateDriverRequest.gender = "female";
+		updateDriverRequest.relationToApplicantCd = "CH";
+		updateDriverRequest.maritalStatusCd = "MSS";
+		updateDriverRequest.ageFirstLicensed = 16;
+		HelperCommon.updateDriver(policyNumber, addedDriverResponse.oid, updateDriverRequest);
+
+		// verify order: pending remove should be first, then pending add
+		viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+		validateDriverListOrdering(viewDriversResponse.driverList);
+
+		// rate and bind
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		// create 2nd endorsement
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		// remove previously added driver
+		RemoveDriverRequest removeDriverRequest3 = new RemoveDriverRequest();
+		removeDriverRequest.removalReasonCode = "RD1001";
+		HelperCommon.removeDriver(policyNumber, addedDriverResponse.oid, removeDriverRequest3);
+
+		// verify order: pending remove should be first, then pending add
+		viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+		validateDriverListOrdering(viewDriversResponse.driverList);
 	}
 
 	protected void pas478_AddDriversBody(PolicyType policyType) {
@@ -279,7 +335,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(addDriverRequestService.middleName).isEqualTo(addDriverRequest.middleName);
 			softly.assertThat(addDriverRequestService.lastName).isEqualTo(addDriverRequest.lastName);
 			softly.assertThat(addDriverRequestService.suffix).isEqualTo(addDriverRequest.suffix);
-			softly.assertThat(addDriverRequestService.driverType).isEqualTo("afr");
+			softly.assertThat(addDriverRequestService.driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 			softly.assertThat(addDriverRequestService.namedInsuredType).isEqualTo("Not a Named Insured");
 			softly.assertThat(addDriverRequestService.relationToApplicantCd).isEqualTo("CH");
 			softly.assertThat(addDriverRequestService.maritalStatusCd).isEqualTo("SSS");
@@ -311,7 +367,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(driver1.oid).isNotNull();
 			softly.assertThat(driver1.firstName).startsWith(firstName1);
 			softly.assertThat(driver1.lastName).isEqualTo(lastName1);
-			softly.assertThat(driver1.driverType).isEqualTo("afr");
+			softly.assertThat(driver1.driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 			softly.assertThat(driver1.namedInsuredType).isEqualTo("FNI");
 			softly.assertThat(driver1.relationToApplicantCd).isEqualTo("IN");
 			softly.assertThat(driver1.maritalStatusCd).isEqualTo("MSS");
@@ -322,7 +378,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(driver2.firstName).isEqualTo("Justin");
 			softly.assertThat(driver2.lastName).isEqualTo("Jill");
 			softly.assertThat(driver2.middleName).isEqualTo("Doc");
-			softly.assertThat(driver2.driverType).isEqualTo("afr");
+			softly.assertThat(driver2.driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 			softly.assertThat(driver2.namedInsuredType).isEqualTo("Not a Named Insured");
 			softly.assertThat(driver2.relationToApplicantCd).isEqualTo("CH");
 			softly.assertThat(driver2.maritalStatusCd).isEqualTo("SSS");
@@ -882,8 +938,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementDriversMetaData(policyNumber, driverOid);
 		assertSoftly(softly -> {
 			AttributeMetadata metaDataFieldResponseDriverType = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "driverType", true, true, true, null, "String");
-			softly.assertThat(metaDataFieldResponseDriverType.valueRange.get("nafr")).isEqualTo("Not Available for Rating");
-			softly.assertThat(metaDataFieldResponseDriverType.valueRange.get("afr")).isEqualTo("Available for Rating");
+			softly.assertThat(metaDataFieldResponseDriverType.valueRange.get(DRIVER_TYPE_NOT_AVAILABLE_FOR_RATING)).isEqualTo("Not Available for Rating");
+			softly.assertThat(metaDataFieldResponseDriverType.valueRange.get(DRIVER_TYPE_AVAILABLE_FOR_RATING)).isEqualTo("Available for Rating");
 
 			AttributeMetadata metaDataFieldResponseDriverRelation = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "relationToApplicantCd", true, true, true, null, "String");
 			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("IN")).isEqualTo("First Named Insured");
@@ -972,7 +1028,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(addedSpouse.oid).isNotNull();
 			softly.assertThat(addedSpouse.firstName).isEqualTo("Spouse");
 			softly.assertThat(addedSpouse.lastName).isEqualTo("Smith");
-			softly.assertThat(addedSpouse.driverType).isEqualTo("afr");
+			softly.assertThat(addedSpouse.driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 			softly.assertThat(addedSpouse.namedInsuredType).isEqualTo("NI");
 			softly.assertThat(addedSpouse.relationToApplicantCd).isEqualTo("SP");
 			softly.assertThat(addedSpouse.maritalStatusCd).isEqualTo("MSS");
@@ -981,7 +1037,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(fniDriver.oid).isNotNull();
 			softly.assertThat(fniDriver.firstName).startsWith("Fernando");
 			softly.assertThat(fniDriver.lastName).isEqualTo("Smith");
-			softly.assertThat(fniDriver.driverType).isEqualTo("afr");
+			softly.assertThat(fniDriver.driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 			softly.assertThat(fniDriver.namedInsuredType).isEqualTo("FNI");
 			softly.assertThat(fniDriver.relationToApplicantCd).isEqualTo("IN");
 			softly.assertThat(fniDriver.maritalStatusCd).isEqualTo("MSS");
@@ -1062,7 +1118,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		softly.assertThat(driver2.data.lastName).isEqualTo(addDriverRequest.lastName);
 		softly.assertThat(driver2.data.middleName).isEqualTo(null);
 		softly.assertThat(driver2.data.suffix).isEqualTo(null);
-		softly.assertThat(driver2.data.driverType).isEqualTo("afr");
+		softly.assertThat(driver2.data.driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 		softly.assertThat(driver2.data.namedInsuredType).isEqualTo("Not a Named Insured");
 		softly.assertThat(driver2.data.relationToApplicantCd).isEqualTo(updateDriverRequest.relationToApplicantCd);
 		softly.assertThat(driver2.data.maritalStatusCd).isEqualTo(updateDriverRequest.maritalStatusCd);
@@ -1105,7 +1161,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		softly.assertThat(driver3.data.lastName).isEqualTo(addDriverRequest.lastName);
 		softly.assertThat(driver3.data.middleName).isEqualTo(null);
 		softly.assertThat(driver3.data.suffix).isEqualTo(null);
-		softly.assertThat(driver3.data.driverType).isEqualTo("afr");
+		softly.assertThat(driver3.data.driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 		softly.assertThat(driver3.data.namedInsuredType).isEqualTo("Not a Named Insured");
 		softly.assertThat(driver3.data.relationToApplicantCd).isEqualTo(updateDriverRequest.relationToApplicantCd);
 		softly.assertThat(driver3.data.maritalStatusCd).isEqualTo(updateDriverRequest.maritalStatusCd);
@@ -1553,12 +1609,12 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			validateDriverPreconditions_pas14641_pas14640_pas14642(softly, driverFNI, driver2);
 
 			DriversDto driver1ExpectedAfterRemove = viewDriversResponse.driverList.get(1);
-			driver1ExpectedAfterRemove.driverType = "nafr";
+			driver1ExpectedAfterRemove.driverType = DRIVER_TYPE_NOT_AVAILABLE_FOR_RATING;
 			driver1ExpectedAfterRemove.driverStatus = "updated";
 			driver1ExpectedAfterRemove.availableActions.remove("remove");
 
 			DriversDto driver2ExpectedAfterRemove = viewDriversResponse.driverList.get(2);
-			driver2ExpectedAfterRemove.driverType = "nafr";
+			driver2ExpectedAfterRemove.driverType = DRIVER_TYPE_NOT_AVAILABLE_FOR_RATING;
 			driver2ExpectedAfterRemove.driverStatus = "updated";
 			driver2ExpectedAfterRemove.availableActions.remove("remove");
 
@@ -1629,10 +1685,10 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	}
 
 	private void validateDriverPreconditions_pas14641_pas14640_pas14642(SoftAssertions softly, DriversDto driverFNI, DriversDto driver) {
-		softly.assertThat(driverFNI.driverType).isEqualTo("afr");
+		softly.assertThat(driverFNI.driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 		softly.assertThat(driverFNI.namedInsuredType).isEqualTo("FNI");
 
-		softly.assertThat(driver.driverType).isEqualTo("afr");
+		softly.assertThat(driver.driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 		softly.assertThat(driver.namedInsuredType).isEqualTo("Not a Named Insured");
 		softly.assertThat(driver.driverStatus).isEqualTo("active");
 		softly.assertThat(driver.availableActions).containsSequence("remove");
@@ -1644,6 +1700,15 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(DriverTab.tableDriverList.getRow(i).getCell(3).getValue()).isNotBlank();
 			softly.assertThat(DriverTab.tableDriverList.getRow(i).getCell(4).getValue()).isNotBlank();
 		}
+	}
+
+	private void validateDriverListOrdering(List<DriversDto> driverList) {
+		List<DriversDto> originalOrderingFromResponse = ImmutableList.copyOf(driverList);
+		List<DriversDto> sortedDriversFromResponse = driverList;
+		sortedDriversFromResponse.sort(DriversDto.DRIVERS_COMPARATOR);
+		assertSoftly(softly ->
+				assertThat(originalOrderingFromResponse).containsAll(sortedDriversFromResponse)
+		);
 	}
 
 }
