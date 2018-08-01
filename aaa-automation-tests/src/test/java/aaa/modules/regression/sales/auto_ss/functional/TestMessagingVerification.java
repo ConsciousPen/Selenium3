@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.text.MessageFormat;
 import java.util.Optional;
 import org.testng.annotations.Parameters;
@@ -29,6 +30,7 @@ import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
+import toolkit.webdriver.controls.TextBox;
 
 public class TestMessagingVerification extends AutoSSBaseTest implements TestEValueDiscountPreConditions {
 
@@ -261,12 +263,14 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 		fillGeneralTab(days);
 		fillPremiumAndCoveragesTab(payTerm, payPlan);
 		fillDocumentAndBindTab();
+		TextBox textBoxCashPaymentMethod = purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH);
+		TextBox textBoxCheckPaymentMethod = purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CHECK);
 		if (!payPlanRequired || payPlanRequired && (isAnnual(payTerm, payPlan) || isSemiAnnual(payTerm, payPlan))) {
-			purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH).isPresent();
-			purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CHECK).isPresent();
+			assertThat(textBoxCashPaymentMethod).as(textBoxCashPaymentMethod.getName()).isPresent();
+			assertThat(textBoxCheckPaymentMethod).as(textBoxCheckPaymentMethod.getName()).isPresent();
 		} else {
-			purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH).verify.present(false);
-			purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CHECK).verify.present(false);
+			assertThat(textBoxCashPaymentMethod).as(textBoxCashPaymentMethod.getName()).isPresent(false);
+			assertThat(textBoxCheckPaymentMethod).as(textBoxCheckPaymentMethod.getName()).isPresent(false);
 		}
 		TestData purchaseTabData = getPolicyTD("DataGather", "TestData");
 		purchaseTabData.adjust("PurchaseTab", getTestSpecificTD("PurchaseTab_" + paymentPlan));
