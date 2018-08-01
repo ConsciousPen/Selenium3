@@ -18,6 +18,7 @@ import toolkit.metrics.ReportingContext;
 import toolkit.utils.teststoragex.listeners.TestngTestListener2;
 import toolkit.utils.teststoragex.models.Attachment;
 import toolkit.utils.teststoragex.models.Run;
+import toolkit.utils.teststoragex.utils.RunProperties;
 import toolkit.utils.teststoragex.utils.TestNGUtils;
 
 public class AaaTestListener extends TestngTestListener2 implements IExecutionListener {
@@ -25,6 +26,8 @@ public class AaaTestListener extends TestngTestListener2 implements IExecutionLi
 
 	@Override
 	public void onStart(ISuite suite) {
+		log.info(">>>>>>>>>>>>>>>TEST BRANCH IS: {}", PropertyProvider.getProperty(RunProperties.TEST_BRANCH));
+		log.info(">>>>>>>>>>>>>>>TEST ENV IS: {}", PropertyProvider.getProperty(RunProperties.TEST_ENVIRONMENT));
 		super.onStart(suite);
 		Run run = new Run(ReportingContext.get().getRunId());
 		File file = new File("run_id.properties");
@@ -37,6 +40,8 @@ public class AaaTestListener extends TestngTestListener2 implements IExecutionLi
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
+		log.info(">>>>>>>>>>>>>>>TEST BRANCH AFTER IS: {}", PropertyProvider.getProperty(RunProperties.TEST_BRANCH));
+		log.info(">>>>>>>>>>>>>>>TEST ENV AFTER IS: {}", PropertyProvider.getProperty(RunProperties.TEST_ENVIRONMENT));
 	}
 
 	@Override
