@@ -11,7 +11,7 @@ import toolkit.utils.TestInfo;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 
-public class TestOperationalReportsCheckEuwDropdown extends BaseTest {
+public class TestOperationalReportsCheckEuwDetailDropdown extends BaseTest {
 
     private OperationalReportsTab orTab = new OperationalReportsTab();
 
