@@ -302,13 +302,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		// verify order: pending remove should be first, then pending add
 		viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 		validateDriverListOrdering(viewDriversResponse.driverList);
-
-		List<DriversDto> originalOrderingFromResponse2 = ImmutableList.copyOf(viewDriversResponse.driverList);
-		List<DriversDto> sortedDriversFromResponse2 = viewDriversResponse.driverList;
-		sortedDriversFromResponse2.sort(DriversDto.DRIVERS_COMPARATOR);
-		assertSoftly(softly ->
-				assertThat(originalOrderingFromResponse2).containsAll(sortedDriversFromResponse2)
-		);
 	}
 
 	protected void pas478_AddDriversBody(PolicyType policyType) {
