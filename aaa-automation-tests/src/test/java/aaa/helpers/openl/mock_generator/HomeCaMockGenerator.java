@@ -11,7 +11,6 @@ import aaa.helpers.mock.model.property_classification.FirelineResponse;
 import aaa.helpers.mock.model.property_classification.RetrievePropertyClassificationMock;
 
 public class HomeCaMockGenerator extends MockGenerator {
-	private static final String STREET_ADDRESS_LINE = "6586 PORCUPINE WAY";
 	private static final String STATE = Constants.States.CA;
 
 	@Override

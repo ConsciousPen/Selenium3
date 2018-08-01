@@ -62,6 +62,7 @@ public abstract class Tab {
 
 	public static StaticElement labelLoggedUser = new StaticElement(By.id("logoutForm:userDetails"));
 
+	public static TextBox createVersionDescription = new TextBox(By.xpath("//input[@id='quoteVersionCreationPopupForm:quoteVersionDescription']"));
 	public DialogAssetList moratoriumOverrideDialog = new DialogAssetList(By.id("policyDataGatherForm:actionPopoup_datagatherButtonsPanel_container"), DialogsMetaData.MoratoriumOverrideDialog.class);
 	protected AbstractContainer<?, ?> assetList;
 	protected InquiryAssetList inquiryAssetList;
@@ -261,7 +262,7 @@ public abstract class Tab {
 	public Tab createVersion() {
 		buttonCreateVersion.click();
 		if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {
-			new TextBox(By.xpath("//input[@id='quoteVersionCreationPopupForm:quoteVersionDescription']")).setValue("new version");
+			createVersionDescription.setValue("new version");
 			Page.dialogConfirmation.confirm();
 		}
 		return this;

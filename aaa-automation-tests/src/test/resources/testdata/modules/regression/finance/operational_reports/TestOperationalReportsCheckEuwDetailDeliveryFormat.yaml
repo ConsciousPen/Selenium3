@@ -1,0 +1,11 @@
+TestData: {
+  OperationalReportsTab: {
+      Category : 'Policy',
+      Type: 'Policy Balancing and Reconciliation',
+      Name: 'View Earn, Unearned, Written Premium (EUW) - Detail'
+  }
+}
+
+TestData_Check: {
+  ReportFormats: ['Excel', 'PDF', 'CSV']
+}
