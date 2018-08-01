@@ -330,6 +330,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		addDriverRequest.suffix = "III";
 
 		DriversDto addDriverRequestService = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+		String addedDriverOid = addDriverRequestService.oid;
 		assertSoftly(softly -> {
 			softly.assertThat(addDriverRequestService.firstName).isEqualTo(addDriverRequest.firstName);
 			softly.assertThat(addDriverRequestService.middleName).isEqualTo(addDriverRequest.middleName);
@@ -362,7 +363,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		ViewDriversResponse responseViewDriverEndorsement = HelperCommon.viewEndorsementDrivers(policyNumber);
 		DriversDto driver1 = responseViewDriverEndorsement.driverList.stream().filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
 		DriversDto driver2 = responseViewDriverEndorsement.driverList.stream().filter(driver -> driver.firstName.startsWith(addDriverRequest.firstName)).findFirst().orElse(null);
-		String driverOid = responseViewDriverEndorsement.driverList.get(1).oid;
 		assertSoftly(softly -> {
 			softly.assertThat(driver1.oid).isNotNull();
 			softly.assertThat(driver1.firstName).startsWith(firstName1);
@@ -388,13 +388,13 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 
 		updateDriverRequest.stateLicensed = "AZ";
-		updateDriverRequest.licenseNumber = "D32329585";
-		updateDriverRequest.gender = "female";
+		updateDriverRequest.licenseNumber = "D32329999";
+		updateDriverRequest.gender = "male";
 		updateDriverRequest.relationToApplicantCd = "CH";
 		updateDriverRequest.maritalStatusCd = "MSS";
 		updateDriverRequest.ageFirstLicensed = 16;
 
-		DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, driverOid, updateDriverRequest);
+		DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, addedDriverOid, updateDriverRequest);
 		assertSoftly(softly -> {
 			softly.assertThat(updateDriverResponse.driver.ageFirstLicensed).isEqualTo(updateDriverRequest.ageFirstLicensed);
 			softly.assertThat(updateDriverResponse.driver.gender).isEqualTo(updateDriverRequest.gender);
@@ -991,6 +991,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			// create policy via pas
 			String policyNumber = getCopiedPolicy();
+			String fniDriverName = HelperCommon.viewPolicyDrivers(policyNumber).driverList.get(0).firstName;
+			String fniDriverLastName = HelperCommon.viewPolicyDrivers(policyNumber).driverList.get(0).lastName;
 
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
@@ -1035,8 +1037,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			DriversDto fniDriver = viewDriverResponse.driverList.stream().filter(driver -> !driver.oid.equals(newDriverOid)).findAny().orElse(null);
 			softly.assertThat(fniDriver.oid).isNotNull();
-			softly.assertThat(fniDriver.firstName).startsWith("Fernando");
-			softly.assertThat(fniDriver.lastName).isEqualTo("Smith");
+			softly.assertThat(fniDriver.firstName).isEqualTo(fniDriverName);
+			softly.assertThat(fniDriver.lastName).isEqualTo(fniDriverLastName);
 			softly.assertThat(fniDriver.driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 			softly.assertThat(fniDriver.namedInsuredType).isEqualTo("FNI");
 			softly.assertThat(fniDriver.relationToApplicantCd).isEqualTo("IN");
