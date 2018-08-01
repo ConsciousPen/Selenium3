@@ -37,7 +37,7 @@ public class TestMDHurricaneDeductible extends HomeSSDP3BaseTest {
 
 	@Parameters({"state"})
 	@StateList(states = Constants.States.MD)
-	@Test(groups = {Groups.SMOKE, Groups.BLOCKER})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-6907")
 	public void pas6907_testMDHurricaneDeductible(@Optional("MD") String state) {
 
