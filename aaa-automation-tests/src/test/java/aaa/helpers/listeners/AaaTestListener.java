@@ -42,6 +42,8 @@ public class AaaTestListener extends TestngTestListener2 implements IExecutionLi
 		}
 		log.info(">>>>>>>>>>>>>>>TEST BRANCH AFTER IS: {}", PropertyProvider.getProperty(RunProperties.TEST_BRANCH));
 		log.info(">>>>>>>>>>>>>>>TEST ENV AFTER IS: {}", PropertyProvider.getProperty(RunProperties.TEST_ENVIRONMENT));
+		log.info(">>>>>>>>>>>>>>>RUN BRANCH AFTER IS: {}", run.getTestBranch());
+		log.info(">>>>>>>>>>>>>>>RUN ENV AFTER IS: {}", run.getTestEnvironment());
 	}
 
 	@Override
