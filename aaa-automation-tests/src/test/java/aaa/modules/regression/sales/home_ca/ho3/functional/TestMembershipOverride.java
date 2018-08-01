@@ -307,7 +307,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
      * @RunTime 8min
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-10154")
     public void AC1_testMembershipOverride_Renewal(@Optional("") String state) {
         Long membershipStage3TP = 73L;
@@ -443,7 +443,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
      * @RunTime 8min
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-10154")
     public void AC3_testMembershipOverride_Renewal(@Optional("") String state) {
         Long membershipStage3TP = 73L;

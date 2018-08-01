@@ -360,7 +360,7 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
      * @RunTime 10min
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-10154")
     public void AC1_testMembershipOverride_Renewal(@Optional("AZ") String state) {
         Long membershipStage3TP = 63L;
@@ -505,7 +505,7 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
      * @RunTime 12min
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-10154")
     public void AC3_testMembershipOverride_Renewal(@Optional("") String state) {
         Long membershipStage3TP = 63L;
