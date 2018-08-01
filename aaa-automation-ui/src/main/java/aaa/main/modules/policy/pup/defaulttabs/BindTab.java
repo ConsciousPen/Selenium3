@@ -20,7 +20,7 @@ public class BindTab extends Tab {
 	// public Button btnPurchase = new Button(By.id("policyDataGatherForm:moveToBilling_footer"), Waiters.AJAX);
 	public Button btnPurchase = new Button(By.xpath(".//input[contains(@id, 'policyDataGatherForm:moveToBilling') and contains(@id, 'footer')]"), Waiters.AJAX);
 	public Dialog confirmPurchase = new Dialog("//div[@id='policyDataGatherForm:confirmPurchaseDialog_container']");
-	public Dialog confrimEndorsementPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialogA_container']");
+	public Dialog confirmEndorsementPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialogA_container']");
 	public Dialog confirmRenewal = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialog-1_content']");
 
 	public BindTab() {
@@ -32,8 +32,8 @@ public class BindTab extends Tab {
 		btnPurchase.click();
 		if (confirmPurchase.isPresent() && confirmPurchase.isVisible()) {
 			confirmPurchase.confirm();
-		} else if (confrimEndorsementPurchase.isPresent() && confrimEndorsementPurchase.isVisible()) {
-			confrimEndorsementPurchase.confirm();
+		} else if (confirmEndorsementPurchase.isPresent() && confirmEndorsementPurchase.isVisible()) {
+			confirmEndorsementPurchase.confirm();
 		} else if (confirmRenewal.isPresent() && confirmRenewal.isVisible()) {
 			confirmRenewal.confirm();
 		}
