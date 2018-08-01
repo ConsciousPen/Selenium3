@@ -87,10 +87,12 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 4. add a driver through the service
 	 * 5. Update driver with required filed
 	 * 6. Hit View Driver service verify order.
+     *    driverStatus 'active' should come before any 'pendingAdd' which should come before any 'pendingRemove'
 	 * 7. Rate and Bind.
 	 * 8. Create new endorsement.
 	 * 9. Delete the newest driver.
 	 * 10.Hit View Driver service verify order.
+     *    driverStatus 'active' should come before any 'pendingAdd' which should come before any 'pendingRemove'
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})

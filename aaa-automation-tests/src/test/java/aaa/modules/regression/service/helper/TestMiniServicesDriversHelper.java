@@ -243,14 +243,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy(td);
-
-		ViewDriversResponse responseViewDriver = HelperCommon.viewPolicyDrivers(policyNumber);
-		List<DriversDto> originalOrderingFromResponse = ImmutableList.copyOf(responseViewDriver.driverList);
-		List<DriversDto> sortedDriversFromResponse = responseViewDriver.driverList;
-		sortedDriversFromResponse.sort(DriversDto.DRIVERS_COMPARATOR);
-		assertSoftly(softly ->
-				assertThat(originalOrderingFromResponse).containsAll(sortedDriversFromResponse)
-		);
+		ViewDriversResponse viewDriversResponse = HelperCommon.viewPolicyDrivers(policyNumber);
+		validateDriverListOrdering(viewDriversResponse.driverList);
 	}
 
 	protected void pas14653_ViewDriverServiceOrderOfPendingDeleteBody(TestData td) {
@@ -291,13 +285,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		HelperCommon.updateDriver(policyNumber, addedDriverResponse.oid, updateDriverRequest);
 
 		// verify order: pending remove should be first, then pending add
-		ViewDriversResponse responseViewDriver = HelperCommon.viewEndorsementDrivers(policyNumber);
-		List<DriversDto> originalOrderingFromResponse = ImmutableList.copyOf(responseViewDriver.driverList);
-		List<DriversDto> sortedDriversFromResponse = responseViewDriver.driverList;
-		sortedDriversFromResponse.sort(DriversDto.DRIVERS_COMPARATOR);
-		assertSoftly(softly ->
-				assertThat(originalOrderingFromResponse).containsAll(sortedDriversFromResponse)
-		);
+		viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+		validateDriverListOrdering(viewDriversResponse.driverList);
 
 		// rate and bind
 		helperMiniServices.endorsementRateAndBind(policyNumber);
@@ -312,6 +301,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		// verify order: pending remove should be first, then pending add
 		viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+		validateDriverListOrdering(viewDriversResponse.driverList);
 
 		List<DriversDto> originalOrderingFromResponse2 = ImmutableList.copyOf(viewDriversResponse.driverList);
 		List<DriversDto> sortedDriversFromResponse2 = viewDriversResponse.driverList;
@@ -1717,6 +1707,15 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(DriverTab.tableDriverList.getRow(i).getCell(3).getValue()).isNotBlank();
 			softly.assertThat(DriverTab.tableDriverList.getRow(i).getCell(4).getValue()).isNotBlank();
 		}
+	}
+
+	private void validateDriverListOrdering(List<DriversDto> driverList) {
+		List<DriversDto> originalOrderingFromResponse = ImmutableList.copyOf(driverList);
+		List<DriversDto> sortedDriversFromResponse = driverList;
+		sortedDriversFromResponse.sort(DriversDto.DRIVERS_COMPARATOR);
+		assertSoftly(softly ->
+				assertThat(originalOrderingFromResponse).containsAll(sortedDriversFromResponse)
+		);
 	}
 
 }
