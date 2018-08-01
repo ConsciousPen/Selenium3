@@ -15,6 +15,7 @@ import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
@@ -224,35 +225,31 @@ public abstract class CommonErrorTab extends Tab {
 
 	public class Verify {
 
-		public void errorsPresent(String... errorsMessages) {
-			errorsPresent(true, errorsMessages);
-		}
-
-		public void errorsPresent(boolean expectedValue, String... errorsMessages) {
-			List<Pair<String, String>> tableAndHintErrorMessagePairs = getTableAndHintErrorMessagePairs(!expectedValue);
-			for (String expectedMessage : errorsMessages) {
-				String assertionMessage = String.format("Error message \"%1$s\" is not %2$s as expected.", expectedMessage, expectedValue ? "present" : "absent");
-				assertThat(isMessagePresentInTableAndHintPopup(tableAndHintErrorMessagePairs, expectedMessage)).as(assertionMessage).isEqualTo(expectedValue);
-			}
-		}
-
 		public void errorsPresent(ErrorEnum.Errors... errors) {
 			errorsPresent(true, errors);
 		}
 
+		public void errorsPresent(ETCSCoreSoftAssertions softly, ErrorEnum.Errors... errors) {
+			errorsPresent(softly, true, errors);
+		}
+
 		public void errorsPresent(boolean expectedValue, ErrorEnum.Errors... errors) {
-			Map<String, Pair<String, String>> actualErrorCodesAndMessagePairsMap = getErrorCodesAndMessagePairsMap(!expectedValue);
 			CustomSoftAssertions.assertSoftly(softly -> {
-				for (ErrorEnum.Errors error : errors) {
-					if (expectedValue) {
-						softly.assertThat(actualErrorCodesAndMessagePairsMap.keySet()).contains(error.getCode());
-					} else {
-						softly.assertThat(actualErrorCodesAndMessagePairsMap.keySet()).doesNotContain(error.getCode());
-					}
-					softly.assertThat(isMessagePresentInTableAndHintPopup(actualErrorCodesAndMessagePairsMap.get(error.getCode()), error
-							.getMessage())).as("Error with message <%s> is present in table", error.getMessage()).isEqualTo(expectedValue);
-				}
+				errorsPresent(softly, expectedValue, errors);
 			});
+		}
+
+		public void errorsPresent(ETCSCoreSoftAssertions softly, boolean expectedValue, ErrorEnum.Errors... errors) {
+			Map<String, Pair<String, String>> actualErrorCodesAndMessagePairsMap = getErrorCodesAndMessagePairsMap(!expectedValue);
+			for (ErrorEnum.Errors error : errors) {
+				if (expectedValue) {
+					softly.assertThat(actualErrorCodesAndMessagePairsMap.keySet()).contains(error.getCode());
+				} else {
+					softly.assertThat(actualErrorCodesAndMessagePairsMap.keySet()).doesNotContain(error.getCode());
+				}
+				softly.assertThat(isMessagePresentInTableAndHintPopup(actualErrorCodesAndMessagePairsMap.get(error.getCode()), error
+						.getMessage())).as("Error with message <%s> is present in table", error.getMessage()).isEqualTo(expectedValue);
+			}
 		}
 	}
 

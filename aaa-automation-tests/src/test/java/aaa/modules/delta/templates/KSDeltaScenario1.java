@@ -24,7 +24,6 @@ import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 import toolkit.verification.CustomSoftAssertions;
 
 public class KSDeltaScenario1 extends BaseTest {
@@ -54,11 +53,7 @@ public class KSDeltaScenario1 extends BaseTest {
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
 		
-		CustomAssert.enableSoftMode();
-		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrier(immediatePriorCarrierLOVs);
-		
-		GeneralTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();
+		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrierThenSaveAndExit(immediatePriorCarrierLOVs);
 	}
 	
 	public void TC_verifyEndorsementsTab() {
@@ -78,30 +73,28 @@ public class KSDeltaScenario1 extends BaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.ENDORSEMENT.get());
-		EndorsementTab endorsementTab = new EndorsementTab(); 
+		EndorsementTab endorsementTab = new EndorsementTab();
 
-		CustomAssert.enableSoftMode();
-		
-		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
-			assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312)).exists();
-			assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493)).exists();
-			
-			endorsementTab.fillTab(td_add_Forms);
-			
-			assertThat(endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312)).exists();
-			assertThat(endorsementTab.isLinkEditPresent("HS 03 12")).isTrue();
-			assertThat(endorsementTab.isLinkRemovePresent("HS 03 12")).isTrue();
-		}
-		else if (getPolicyType().equals(PolicyType.HOME_SS_HO4)||getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
-			assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312)).isPresent(false);
-			assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493)).isPresent(false);
-			assertThat(endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312)).isPresent(false);
-		}
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 		
-		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();	
-		CustomAssert.assertAll();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			if (getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
+				softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312)).exists();
+				softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493)).exists();
+
+				endorsementTab.fillTab(td_add_Forms);
+
+				softly.assertThat(endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312)).exists();
+				softly.assertThat(endorsementTab.isLinkEditPresent("HS 03 12")).isTrue();
+				softly.assertThat(endorsementTab.isLinkRemovePresent("HS 03 12")).isTrue();
+			} else if (getPolicyType().equals(PolicyType.HOME_SS_HO4) || getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
+				softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312)).isPresent(false);
+				softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493)).isPresent(false);
+				softly.assertThat(endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312)).isPresent(false);
+			}
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+			new PremiumsAndCoveragesQuoteTab().calculatePremium();
+			PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
+		});
 	}
 	
 	public void TC_verifyELC() {		
@@ -132,7 +125,7 @@ public class KSDeltaScenario1 extends BaseTest {
 			new BindTab().btnPurchase.click();
 
 			ErrorTab errorTab = new ErrorTab();
-			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS7230342);
+			errorTab.verify.errorsPresent(softly, ErrorEnum.Errors.ERROR_AAA_HO_SS7230342);
 			errorTab.cancel();
 
 			HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_None_with_Score740, "740", softly);
@@ -147,18 +140,17 @@ public class KSDeltaScenario1 extends BaseTest {
 		mainApp().open();
 		SearchPage.openQuote(quoteNumber);	
 		
-		policy.dataGather().start();		
-		CustomAssert.enableSoftMode();
-		
-		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)||getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
-			HssQuoteDataGatherHelper.verifyHailResistanceRatingNotApplied();
-			HssQuoteDataGatherHelper.verifyHailResistanceRatingApplied(td_hailResistanceRating);
-		}
-		else if (getPolicyType().equals(PolicyType.HOME_SS_HO4)||getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
-			HssQuoteDataGatherHelper.verifyHailResistanceRatingNotDisplaying();
-		} 		
-		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();	
+		policy.dataGather().start();
+
+		CustomSoftAssertions.assertSoftly(softly -> {
+			if (getPolicyType().equals(PolicyType.HOME_SS_HO3) || getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+				HssQuoteDataGatherHelper.verifyHailResistanceRatingNotApplied(softly);
+				HssQuoteDataGatherHelper.verifyHailResistanceRatingApplied(td_hailResistanceRating, softly);
+			} else if (getPolicyType().equals(PolicyType.HOME_SS_HO4) || getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
+				HssQuoteDataGatherHelper.verifyHailResistanceRatingNotDisplaying(softly);
+			}
+			PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
+		});
 	}
 	
 	public void TC_purchasePolicy(String scenarioPolicyType) {
@@ -186,7 +178,7 @@ public class KSDeltaScenario1 extends BaseTest {
 		//TODO add verification of On-Demand Documents tab and documents generation
 	}
 
-	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<String>();
+	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<>();
 	static {
 		immediatePriorCarrierLOVs.add("AAA-Michigan (ACG)");
 		immediatePriorCarrierLOVs.add("AAA-NoCal (CSAA IG) Rewrite");

@@ -12,6 +12,7 @@ import aaa.main.enums.DocGenEnum;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class DocumentWrapper {
 	public Verify verify = new Verify();
@@ -81,10 +82,20 @@ public class DocumentWrapper {
 			exists(expectedValue, null, searchFilter);
 		}
 
+		public <D> void exists(boolean expectedValue, SearchBy<?, D> searchFilter, ETCSCoreSoftAssertions softly) {
+			exists(expectedValue, null, searchFilter, softly);
+		}
+
 		public <D> void exists(boolean expectedValue, String assertionMessage, SearchBy<?, D> searchFilter) {
 			assertionMessage =
 					Objects.isNull(assertionMessage) ? String.format("Entries are %1$s in xml file by search criteria:\n%2$s", expectedValue ? "absent" : "present", searchFilter) : assertionMessage;
 			CustomAssertions.assertThat(getList(searchFilter).isEmpty()).as(assertionMessage).isEqualTo(!expectedValue);
+		}
+
+		public <D> void exists(boolean expectedValue, String assertionMessage, SearchBy<?, D> searchFilter, ETCSCoreSoftAssertions softly) {
+			assertionMessage =
+					Objects.isNull(assertionMessage) ? String.format("Entries are %1$s in xml file by search criteria:\n%2$s", expectedValue ? "absent" : "present", searchFilter) : assertionMessage;
+			softly.assertThat(getList(searchFilter).isEmpty()).as(assertionMessage).isEqualTo(!expectedValue);
 		}
 
 		public void mapping(TestData td, String policyNumber) {

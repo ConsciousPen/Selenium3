@@ -1,25 +1,12 @@
 package aaa.modules.regression.sales.auto_ss.functional;
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.LocalDateTime;
 
-import aaa.admin.modules.product.productfactory.policy.defaulttabs.RulesTab;
-import aaa.main.enums.BillingConstants;
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.main.enums.ErrorEnum;
-import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
-import org.openqa.selenium.By;
-import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
-import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ProductConstants;
-import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;

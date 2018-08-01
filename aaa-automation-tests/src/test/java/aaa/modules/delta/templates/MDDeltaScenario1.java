@@ -2,7 +2,6 @@ package aaa.modules.delta.templates;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,11 +13,11 @@ import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.actiontabs.CancelNoticeActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
@@ -26,7 +25,8 @@ import aaa.main.modules.policy.home_ss.defaulttabs.UnderwritingAndApprovalTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
 
 public class MDDeltaScenario1 extends BaseTest {
@@ -54,12 +54,8 @@ public class MDDeltaScenario1 extends BaseTest {
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
 		
-		CustomAssert.enableSoftMode();
-		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrier(immediatePriorCarrierLOVs);
-		
-		GeneralTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();
-	}	
+		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrierThenSaveAndExit(immediatePriorCarrierLOVs);
+	}
 
 	public void TC_verifyEndorsementHS0495(String scenarioPolicyType) {
 		Map<String, String> endorsement_HS0495 = new HashMap<>(); 
@@ -71,26 +67,24 @@ public class MDDeltaScenario1 extends BaseTest {
 		
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
-		String policyLimit = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PROPERTY_VALUE).getAsset(
-				HomeSSMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT).getValue();
-		policyLimit = policyLimit.substring(0, policyLimit.length()-3);
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.ENDORSEMENT.get());		
-		
-		CustomAssert.enableSoftMode();
 
-		if (scenarioPolicyType.equals("HO3-Legasy")) {
-			editHS0495AndVerifyCoverageLimitLOVs_Legasy(endorsement_HS0495, policyLimit);
-		}
-		else if (scenarioPolicyType.equals("HO3-Prestige")) {
-			editHS0495AndVerifyCoverageLimitLOVs_Prestige(endorsement_HS0495, policyLimit);
-		}
-		else {
-			addHS0495AndVerifyCoverageLimitLOVs(endorsement_HS0495, policyLimit);
-		}		
-		CustomAssert.assertAll();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
+			String policyLimit = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PROPERTY_VALUE).getAsset(
+					HomeSSMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT).getValue();
+			policyLimit = policyLimit.substring(0, policyLimit.length()-3);
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.ENDORSEMENT.get());
+
+			if (scenarioPolicyType.equals("HO3-Legasy")) {
+				editHS0495AndVerifyCoverageLimitLOVs_Legasy(endorsement_HS0495, policyLimit, softly);
+			} else if (scenarioPolicyType.equals("HO3-Prestige")) {
+				editHS0495AndVerifyCoverageLimitLOVs_Prestige(endorsement_HS0495, policyLimit, softly);
+			} else {
+				addHS0495AndVerifyCoverageLimitLOVs(endorsement_HS0495, policyLimit, softly);
+			}
+		});
 	}
 	
 	public void TC_verifyEndorsementHS2338() {
@@ -106,63 +100,64 @@ public class MDDeltaScenario1 extends BaseTest {
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.ENDORSEMENT.get());
-		EndorsementTab endorsementTab = new EndorsementTab(); 
-		
-		CustomAssert.enableSoftMode();
-		assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS2338)).exists();
-		endorsementTab.getAddEndorsementLink("HS 23 38").click();
-		
-		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
-				HomeSSMetaData.EndorsementTab.EndorsementHS2338.NUMBER_OF_PERSONS_RECEIVING_DAY_CARE_SERVICES).setValue("9");
-		
-		assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS2338.NUMBER_OF_PERSONS_RECEIVING_DAY_CARE_SERVICES))
-				.hasWarningWithText(error_9918);
-		
-		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
-				HomeSSMetaData.EndorsementTab.EndorsementHS2338.NUMBER_OF_PERSONS_RECEIVING_DAY_CARE_SERVICES).setValue("8");
-		
-		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
-				HomeSSMetaData.EndorsementTab.EndorsementHS2338.LOCATION_OF_BUSINESS).setValue("In the dwelling building"); 		
-		assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
-				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_LIMIT_OF_LIABILITY)).isPresent(false);
-		assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
-				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_DESCRIPTION_OF_STRUCTURE)).isPresent(false);
-		
-		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
-				HomeSSMetaData.EndorsementTab.EndorsementHS2338.LOCATION_OF_BUSINESS).setValue("Other structure of residence premises"); 
-		assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
-				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_LIMIT_OF_LIABILITY)).isPresent();
-		assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
-				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_DESCRIPTION_OF_STRUCTURE)).isPresent();
-		
-		endorsementTab.btnSaveForm.click();
-		assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_LIMIT_OF_LIABILITY))
-				.hasWarningWithText("'Section I limit of liability' is required");
+		EndorsementTab endorsementTab = new EndorsementTab();
 
-		assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_DESCRIPTION_OF_STRUCTURE))
-				.hasWarningWithText("'Section I description of structure' is required");
-		
-		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
-				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_LIMIT_OF_LIABILITY).setValue("100");
-		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
-				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_DESCRIPTION_OF_STRUCTURE).setValue("Test");
-		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
-				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_II_COVERAGES_E_AND_F_COMBINED).setValue("$100,000");
+		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS2338)).exists();
+			endorsementTab.getAddEndorsementLink("HS 23 38").click();
 
-		assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_II_COVERAGES_E_AND_F_COMBINED))
-				.hasWarningWithText("Limit of liability for Coverage E and F combined should be $300,000.");
+			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
+					HomeSSMetaData.EndorsementTab.EndorsementHS2338.NUMBER_OF_PERSONS_RECEIVING_DAY_CARE_SERVICES).setValue("9");
 
-		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
-				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_II_COVERAGES_E_AND_F_COMBINED).setValue("$200,000");
-		assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_II_COVERAGES_E_AND_F_COMBINED))
-				.hasWarningWithText("Limit of liability for Coverage E and F combined should be $300,000.");
-		
-		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
-				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_II_COVERAGES_E_AND_F_COMBINED).setValue("$300,000"); 
-		endorsementTab.btnSaveForm.click();
-		
-		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_HS2338)).exists();
-		CustomAssert.assertAll();
+			softly.assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38)
+					.getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS2338.NUMBER_OF_PERSONS_RECEIVING_DAY_CARE_SERVICES))
+					.hasWarningWithText(error_9918);
+
+			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
+					HomeSSMetaData.EndorsementTab.EndorsementHS2338.NUMBER_OF_PERSONS_RECEIVING_DAY_CARE_SERVICES).setValue("8");
+
+			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
+					HomeSSMetaData.EndorsementTab.EndorsementHS2338.LOCATION_OF_BUSINESS).setValue("In the dwelling building");
+			softly.assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
+					HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_LIMIT_OF_LIABILITY)).isPresent(false);
+			softly.assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
+					HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_DESCRIPTION_OF_STRUCTURE)).isPresent(false);
+
+			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
+					HomeSSMetaData.EndorsementTab.EndorsementHS2338.LOCATION_OF_BUSINESS).setValue("Other structure of residence premises");
+			softly.assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
+					HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_LIMIT_OF_LIABILITY)).isPresent();
+			softly.assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
+					HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_DESCRIPTION_OF_STRUCTURE)).isPresent();
+
+			endorsementTab.btnSaveForm.click();
+			softly.assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_LIMIT_OF_LIABILITY))
+					.hasWarningWithText("'Section I limit of liability' is required");
+
+			softly.assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_DESCRIPTION_OF_STRUCTURE))
+					.hasWarningWithText("'Section I description of structure' is required");
+
+			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
+					HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_LIMIT_OF_LIABILITY).setValue("100");
+			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
+					HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_DESCRIPTION_OF_STRUCTURE).setValue("Test");
+			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
+					HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_II_COVERAGES_E_AND_F_COMBINED).setValue("$100,000");
+
+			softly.assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_II_COVERAGES_E_AND_F_COMBINED))
+					.hasWarningWithText("Limit of liability for Coverage E and F combined should be $300,000.");
+
+			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
+					HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_II_COVERAGES_E_AND_F_COMBINED).setValue("$200,000");
+			softly.assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_II_COVERAGES_E_AND_F_COMBINED))
+					.hasWarningWithText("Limit of liability for Coverage E and F combined should be $300,000.");
+
+			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
+					HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_II_COVERAGES_E_AND_F_COMBINED).setValue("$300,000");
+			endorsementTab.btnSaveForm.click();
+
+			softly.assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_HS2338)).exists();
+		});
 	}
 	
 	public void TC_verifyStormShutterDiscount() {
@@ -179,41 +174,41 @@ public class MDDeltaScenario1 extends BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		PremiumsAndCoveragesQuoteTab premiumsTab = new PremiumsAndCoveragesQuoteTab(); 
-		premiumsTab.calculatePremium(); 
-		
-		CustomAssert.enableSoftMode();		
-		assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRowContains(StormShutterDiscount_row)).isPresent(false);
-		
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Storm Shutter")).as("Storm Shutter Discount: wrong value in Rating Details").isEqualTo("0.0");
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
+		premiumsTab.calculatePremium();
 
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		PropertyInfoTab propertyInfoTab = new PropertyInfoTab(); 
-		
-		String distanceToCoast = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RISKMETER).getAsset(
-				HomeSSMetaData.PropertyInfoTab.Riskmeter.DISTANCE_TO_COAST_MILES).getValue();
-		String elevation = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RISKMETER).getAsset(
-				HomeSSMetaData.PropertyInfoTab.Riskmeter.ELEVATION_FEET).getValue();
-		
-		propertyInfoTab.fillTab(td_StormShutterYes);
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		premiumsTab.calculatePremium(); 
-				
-		assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRowContains(StormShutterDiscount_row)).exists();
-		
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Storm Shutter")).as("Storm Shutter Discount: wrong value in Rating Details").isEqualTo("3.0%");
-		if (getPolicyType().equals("HO3")||getPolicyType().equals("DP3")) {
-			assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Distance to shore")).as("Distance to shore: wrong value in Rating Details").isEqualTo(distanceToCoast);
-			assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Elevation")).as("Elevation: wrong value in Rating Details").isEqualTo(elevation);
-		} 
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
-		
-		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();	
-		CustomAssert.assertAll();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRowContains(StormShutterDiscount_row)).isPresent(false);
+
+			PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+			softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Storm Shutter")).as("Storm Shutter Discount: wrong value in Rating Details").isEqualTo("0.0");
+			PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
+			PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
+
+			String distanceToCoast = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RISKMETER).getAsset(
+					HomeSSMetaData.PropertyInfoTab.Riskmeter.DISTANCE_TO_COAST_MILES).getValue();
+			String elevation = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RISKMETER).getAsset(
+					HomeSSMetaData.PropertyInfoTab.Riskmeter.ELEVATION_FEET).getValue();
+
+			propertyInfoTab.fillTab(td_StormShutterYes);
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+			premiumsTab.calculatePremium();
+
+			softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRowContains(StormShutterDiscount_row)).exists();
+
+			PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+			softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Storm Shutter")).as("Storm Shutter Discount: wrong value in Rating Details").isEqualTo("3.0%");
+			if (getPolicyType().equals(PolicyType.HOME_SS_HO3) || getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Distance to shore")).as("Distance to shore: wrong value in Rating Details").isEqualTo(distanceToCoast);
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Elevation")).as("Elevation: wrong value in Rating Details").isEqualTo(elevation);
+			}
+			PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
+
+			PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
+		});
 	}
 	
 	public void TC_verifyUnderwritingApprovalTab() {
@@ -229,23 +224,23 @@ public class MDDeltaScenario1 extends BaseTest {
 		UnderwritingAndApprovalTab underwritingTab = new UnderwritingAndApprovalTab();
         underwritingTab.fillTab(td_uw1);
         underwritingTab.submitTab();
-        
-		CustomAssert.enableSoftMode();
-		underwritingTab.verifyFieldHasMessage(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES.getLabel(), 
-        		"Business or farming activity is ineligible");
 
-		underwritingTab.fillTab(td_uw2);
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-        new BindTab().btnPurchase.click();
-        
-        ErrorTab errorTab = new ErrorTab(); 
-        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS7160042);
-        errorTab.cancel(); 
-		
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.UNDERWRITING_AND_APPROVAL.get());
-		underwritingTab.fillTab(td_uw3);		
-		UnderwritingAndApprovalTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES))
+					.hasWarningWithText("Business or farming activity is ineligible");
+
+			underwritingTab.fillTab(td_uw2);
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+			new BindTab().btnPurchase.click();
+
+			ErrorTab errorTab = new ErrorTab();
+			errorTab.verify.errorsPresent(softly, ErrorEnum.Errors.ERROR_AAA_HO_SS7160042);
+			errorTab.cancel();
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.UNDERWRITING_AND_APPROVAL.get());
+			underwritingTab.fillTab(td_uw3);
+			UnderwritingAndApprovalTab.buttonSaveAndExit.click();
+		});
 	}
 	
 	public void TC_verifyInspectionTypeAndEligibility() {
@@ -303,62 +298,58 @@ public class MDDeltaScenario1 extends BaseTest {
 		mainApp().open(); 		
 		SearchPage.openPolicy(policyNumber);
 		
-		policy.cancelNotice().start(); 
-		CustomAssert.enableSoftMode();	
-		
-		HssQuoteDataGatherHelper.verifyDaysOfNotice("21", 21, error_9206, error_9208);
-		
-		CancelNoticeActionTab cancelNoticeTab = new CancelNoticeActionTab();
-		cancelNoticeTab.fillTab(td_plus21days);
-		CancelNoticeActionTab.buttonOk.click();
-		
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
-		CustomAssert.assertAll();
-		
+		policy.cancelNotice().start();
+
+		CustomSoftAssertions.assertSoftly(softly -> {
+			HssQuoteDataGatherHelper.verifyDaysOfNotice("21", 21, error_9206, error_9208, softly);
+
+			CancelNoticeActionTab cancelNoticeTab = new CancelNoticeActionTab();
+			cancelNoticeTab.fillTab(td_plus21days);
+			CancelNoticeActionTab.buttonOk.click();
+
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			softly.assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
+		});
 	}	
 	
 	
-	private void addHS0495AndVerifyCoverageLimitLOVs(Map<String, String> hs0495, String policyLimit) {
-		EndorsementTab endorsementTab = new EndorsementTab(); 
-		assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(hs0495)).exists();
+	private void addHS0495AndVerifyCoverageLimitLOVs(Map<String, String> hs0495, String policyLimit, ETCSCoreSoftAssertions softly) {
+		EndorsementTab endorsementTab = new EndorsementTab();
+		softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(hs0495)).exists();
 		endorsementTab.getAddEndorsementLink("HS 04 95").click();
-	
-		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_95).getAsset(
-				HomeSSMetaData.EndorsementTab.EndorsementHS0495.COVERAGE_LIMIT.getLabel(), ComboBox.class).verify.options(
-						Arrays.asList("$5000", "$10,000", "$15,000", "$20,000", "$25,000", "$50,000", policyLimit)); 
+
+		softly.assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_95).getAsset(
+				HomeSSMetaData.EndorsementTab.EndorsementHS0495.COVERAGE_LIMIT)).hasOptions("$5000", "$10,000", "$15,000", "$20,000", "$25,000", "$50,000", policyLimit);
 		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_95).getAsset(
 				HomeSSMetaData.EndorsementTab.EndorsementHS0495.COVERAGE_LIMIT.getLabel(), ComboBox.class).setValue("$20,000"); 
 		endorsementTab.btnSaveForm.click();
-		
-		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(hs0495)).exists();
+
+		softly.assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(hs0495)).exists();
 	}
 
-	private void editHS0495AndVerifyCoverageLimitLOVs_Legasy(Map<String, String> hs0495, String policyLimit) {
-		EndorsementTab endorsementTab = new EndorsementTab(); 
-		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(hs0495)).exists();
+	private void editHS0495AndVerifyCoverageLimitLOVs_Legasy(Map<String, String> hs0495, String policyLimit, ETCSCoreSoftAssertions softly) {
+		EndorsementTab endorsementTab = new EndorsementTab();
+		softly.assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(hs0495)).exists();
 		
-		endorsementTab.getEditEndorsementLink("HS 04 95", 1).click(); 
-		
-		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_95).getAsset(
-				HomeSSMetaData.EndorsementTab.EndorsementHS0495.COVERAGE_LIMIT.getLabel(), ComboBox.class).verify.options(
-						Arrays.asList("$5000", "$10,000", "$15,000", "$20,000", "$25,000", "$50,000", policyLimit)); 
+		endorsementTab.getEditEndorsementLink("HS 04 95", 1).click();
+
+		softly.assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_95).getAsset(
+				HomeSSMetaData.EndorsementTab.EndorsementHS0495.COVERAGE_LIMIT)).hasOptions("$5000", "$10,000", "$15,000", "$20,000", "$25,000", "$50,000", policyLimit);
 		endorsementTab.btnSaveForm.click();
 	}
 	
-	private void editHS0495AndVerifyCoverageLimitLOVs_Prestige(Map<String, String> hs0495, String policyLimit) {
-		EndorsementTab endorsementTab = new EndorsementTab(); 
-		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(hs0495)).exists();
+	private void editHS0495AndVerifyCoverageLimitLOVs_Prestige(Map<String, String> hs0495, String policyLimit, ETCSCoreSoftAssertions softly) {
+		EndorsementTab endorsementTab = new EndorsementTab();
+		softly.assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(hs0495)).exists();
 		
-		endorsementTab.getEditEndorsementLink("HS 04 95", 1).click(); 
-		
-		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_95).getAsset(
-				HomeSSMetaData.EndorsementTab.EndorsementHS0495.COVERAGE_LIMIT.getLabel(), ComboBox.class).verify.options(
-						Arrays.asList("$10,000", "$15,000", "$20,000", "$25,000", "$50,000", policyLimit)); 
+		endorsementTab.getEditEndorsementLink("HS 04 95", 1).click();
+
+		softly.assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_95).getAsset(
+				HomeSSMetaData.EndorsementTab.EndorsementHS0495.COVERAGE_LIMIT)).hasOptions("$10,000", "$15,000", "$20,000", "$25,000", "$50,000", policyLimit);
 		endorsementTab.btnSaveForm.click();
 	}	
 	
-	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<String>();
+	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<>();
 	static {
 		immediatePriorCarrierLOVs.add("AAA Other");
 		immediatePriorCarrierLOVs.add("AAA-Michigan (ACG)");

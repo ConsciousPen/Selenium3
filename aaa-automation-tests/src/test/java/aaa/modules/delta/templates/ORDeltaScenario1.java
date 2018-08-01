@@ -14,7 +14,6 @@ import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
@@ -22,7 +21,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.UnderwritingAndApprovalTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 public class ORDeltaScenario1 extends BaseTest { 
 	protected IPolicy policy;
@@ -49,12 +48,8 @@ public class ORDeltaScenario1 extends BaseTest {
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
 		
-		CustomAssert.enableSoftMode();
-		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrier(immediatePriorCarrierLOVs);
-		
-		GeneralTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();
-	}	
+		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrierThenSaveAndExit(immediatePriorCarrierLOVs);
+	}
 	
 	public void TC_verifyUnderwritingApprovalTab() {
 		TestData td_uw1 = getTestSpecificTD("TestData_UW1");
@@ -68,32 +63,30 @@ public class ORDeltaScenario1 extends BaseTest {
 		UnderwritingAndApprovalTab underwritingTab = new UnderwritingAndApprovalTab();
         underwritingTab.fillTab(td_uw1);
         underwritingTab.submitTab();
-        
-        CustomAssert.enableSoftMode();   
-        if (getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
-        	underwritingTab.verifyFieldHasMessage(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS__ADULT_DAY_CARE_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES.getLabel(), 
-            	"Business or farming activity is ineligible. Dwellings or applicants that perform adult day care, or pet day care are unacceptable."); 
-        }
-        else {
-        	underwritingTab.verifyFieldHasMessage(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS__ADULT_DAY_CARE_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES.getLabel(), 
-        		"Risk must be endorsed with the appropriate business or farming endorsement when a business or incidental farming exposure is present and deemed eligible for coverage. Applicants that perform adult day care, or pet day care, are unacceptable"); 
-        }        
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-        new BindTab().btnPurchase.click();
-        
-        ErrorTab errorTab = new ErrorTab(); 
-        if (getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
-        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3151364);
-        }
-        else {
-        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3150198);
-        }
-		errorTab.cancel(); 
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.UNDERWRITING_AND_APPROVAL.get());
-		underwritingTab.fillTab(td_uw2);		
-		UnderwritingAndApprovalTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();
+
+		CustomSoftAssertions.assertSoftly(softly -> {
+			if (getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+				softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS__ADULT_DAY_CARE_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES))
+						.hasWarningWithText("Business or farming activity is ineligible. Dwellings or applicants that perform adult day care, or pet day care are unacceptable.");
+			} else {
+				softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS__ADULT_DAY_CARE_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES))
+						.hasWarningWithText("Risk must be endorsed with the appropriate business or farming endorsement when a business or incidental farming exposure is present and deemed eligible for coverage. Applicants that perform adult day care, or pet day care, are unacceptable");
+			}
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+			new BindTab().btnPurchase.click();
+
+			ErrorTab errorTab = new ErrorTab();
+			if (getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+				errorTab.verify.errorsPresent(softly, ErrorEnum.Errors.ERROR_AAA_HO_SS3151364);
+			} else {
+				errorTab.verify.errorsPresent(softly, ErrorEnum.Errors.ERROR_AAA_HO_SS3150198);
+			}
+			errorTab.cancel();
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.UNDERWRITING_AND_APPROVAL.get());
+			underwritingTab.fillTab(td_uw2);
+			UnderwritingAndApprovalTab.buttonSaveAndExit.click();
+		});
 	}
 	
 	public void TC_verifyClaims() {
@@ -114,24 +107,22 @@ public class ORDeltaScenario1 extends BaseTest {
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
 		new BindTab().btnPurchase.click();
-        
-		CustomAssert.enableSoftMode();   
-		
-        ErrorTab errorTab = new ErrorTab(); 	
-        if (getPolicyType().equals(PolicyType.HOME_SS_HO4)) {
-        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1050670_OR);
-        }
-        else {
-        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1020340_OR);
-        }
-		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12023000);
-		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12200234);
-		errorTab.cancel(); 
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		propertyInfoTab.fillTab(td_Claims2);
-		PropertyInfoTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();
+
+		CustomSoftAssertions.assertSoftly(softly -> {
+			ErrorTab errorTab = new ErrorTab();
+			if (getPolicyType().equals(PolicyType.HOME_SS_HO4)) {
+				errorTab.verify.errorsPresent(softly, ErrorEnum.Errors.ERROR_AAA_HO_SS1050670_OR);
+			} else {
+				errorTab.verify.errorsPresent(softly, ErrorEnum.Errors.ERROR_AAA_HO_SS1020340_OR);
+			}
+			errorTab.verify.errorsPresent(softly, ErrorEnum.Errors.ERROR_AAA_HO_SS12023000);
+			errorTab.verify.errorsPresent(softly, ErrorEnum.Errors.ERROR_AAA_HO_SS12200234);
+			errorTab.cancel();
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
+			propertyInfoTab.fillTab(td_Claims2);
+			PropertyInfoTab.buttonSaveAndExit.click();
+		});
 	}
 	
 	public void TC_purchasePolicy(String scenarioPolicyType) {
@@ -158,7 +149,7 @@ public class ORDeltaScenario1 extends BaseTest {
 		//TODO verify AHAUXX - Consumer Information Notice is on On-Demand Documents tab, verify AHAUXX generation
 	}
 	
-	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<String>();
+	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<>();
 	static {
 		immediatePriorCarrierLOVs.add("AAA-Michigan (ACG)");
 		immediatePriorCarrierLOVs.add("AAA-NoCal (CSAA IG) Rewrite");

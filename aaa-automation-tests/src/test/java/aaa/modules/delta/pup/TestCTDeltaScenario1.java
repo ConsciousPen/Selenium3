@@ -31,9 +31,7 @@ import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.TextBox;
+import toolkit.verification.CustomSoftAssertions;
 import static aaa.main.enums.DocGenEnum.Documents.*;
 import static aaa.main.enums.DocGenConstants.OnDemandDocumentsTable.*;
 
@@ -104,28 +102,28 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 	@TestInfo(component = ComponentConstant.Service.PUP)
 	public void TC02_currentcarrierLOVs(@Optional("") String state) {
 		mainApp().open();
-		CustomAssert.enableSoftMode();
 		SearchPage.openQuote(quoteNumber);
 		policy.dataGather().start();
-		NavigationPage.toViewTab(PersonalUmbrellaTab.UNDERLYING_RISKS.get());
-		UnderlyingRisksPropertyTab.tableAdditionalResidences.getRow(2).getCell(9).controls.links.get("View/Edit").click();
-		underlyingriskproperty.getAdditionalResidenciesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.CURRENT_CARRIER.getLabel(),ComboBox.class).verify.options(residenceCurrentCarrierLOVs);
-		
-		NavigationPage.toViewTab(PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
-		UnderlyingRisksAutoTab.tableAutomobiles.getRow(1).getCell(9).controls.links.get("View/Edit").click();
-		underlyingrisksauto.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.CURRENT_CARRIER.getLabel(),ComboBox.class).verify.options(autoPPACurrentCarrierLOVs);
-		UnderlyingRisksAutoTab.tableAutomobiles.getRow(2).getCell(9).controls.links.get("View/Edit").click();
-		underlyingrisksauto.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.CURRENT_CARRIER.getLabel(),ComboBox.class).verify.options(autoAntiqueCurrentCarrierLOVs);
-		underlyingrisksauto.getMotorcyclesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Motorcycles.CURRENT_CARRIER.getLabel(),ComboBox.class).verify.options(motorcycleCurrentCarrierLOVs);
-		underlyingrisksauto.getMotorHomesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.MotorHomes.CURRENT_CARRIER.getLabel(),ComboBox.class).verify.options(motorHomeCurrentCarrierLOVs);
-		
-		NavigationPage.toViewTab(PersonalUmbrellaTab.UNDERLYING_RISKS_OTHER_VEHICLES.get());
-		underlyingrisksothervehicles.getWatercraftAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.Watercraft.CURRENT_CARRIER.getLabel(),ComboBox.class).verify.options(watercraftCurrentCarrierLOVs);
-		underlyingrisksothervehicles.getRecreationalVehicleAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RecreationalVehicle.CURRENT_CARRIER.getLabel(),ComboBox.class).verify.options(recrVehicleCurrentCarrierLOVs);
-		
-		Tab.buttonSaveAndExit.click();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+
+		CustomSoftAssertions.assertSoftly(softly -> {
+			NavigationPage.toViewTab(PersonalUmbrellaTab.UNDERLYING_RISKS.get());
+			UnderlyingRisksPropertyTab.tableAdditionalResidences.getRow(2).getCell(9).controls.links.get("View/Edit").click();
+			softly.assertThat(underlyingriskproperty.getAdditionalResidenciesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.CURRENT_CARRIER)).hasOptions(residenceCurrentCarrierLOVs);
+
+			NavigationPage.toViewTab(PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
+			UnderlyingRisksAutoTab.tableAutomobiles.getRow(1).getCell(9).controls.links.get("View/Edit").click();
+			softly.assertThat(underlyingrisksauto.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.CURRENT_CARRIER)).hasOptions(autoPPACurrentCarrierLOVs);
+			UnderlyingRisksAutoTab.tableAutomobiles.getRow(2).getCell(9).controls.links.get("View/Edit").click();
+			softly.assertThat(underlyingrisksauto.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.CURRENT_CARRIER)).hasOptions(autoAntiqueCurrentCarrierLOVs);
+			softly.assertThat(underlyingrisksauto.getMotorcyclesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Motorcycles.CURRENT_CARRIER)).hasOptions(motorcycleCurrentCarrierLOVs);
+			softly.assertThat(underlyingrisksauto.getMotorHomesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.MotorHomes.CURRENT_CARRIER)).hasOptions(motorHomeCurrentCarrierLOVs);
+
+			NavigationPage.toViewTab(PersonalUmbrellaTab.UNDERLYING_RISKS_OTHER_VEHICLES.get());
+			softly.assertThat(underlyingrisksothervehicles.getWatercraftAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.Watercraft.CURRENT_CARRIER)).hasOptions(watercraftCurrentCarrierLOVs);
+			softly.assertThat(underlyingrisksothervehicles.getRecreationalVehicleAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RecreationalVehicle.CURRENT_CARRIER)).hasOptions(recrVehicleCurrentCarrierLOVs);
+
+			Tab.buttonSaveAndExit.click();
+		});
 	}	
 	
 	
@@ -228,12 +226,10 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 		CancelNoticeActionTab.buttonOk.click();
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
-		
-		
 	}
 	
 	
-	private static ArrayList<String> residenceCurrentCarrierLOVs = new ArrayList<String>();
+	private static ArrayList<String> residenceCurrentCarrierLOVs = new ArrayList<>();
 	static {
 		residenceCurrentCarrierLOVs.add("ACIC Non-Conversion");
 		residenceCurrentCarrierLOVs.add("AAA-Michigan (ACG)");
@@ -294,7 +290,7 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 		residenceCurrentCarrierLOVs.add("Workmens Auto");
 	}
 
-	private static ArrayList<String> autoPPACurrentCarrierLOVs = new ArrayList<String>();
+	private static ArrayList<String> autoPPACurrentCarrierLOVs = new ArrayList<>();
 	static {
 		autoPPACurrentCarrierLOVs.add("");
 		autoPPACurrentCarrierLOVs.add("ACIC Non-Conversion");
@@ -355,7 +351,7 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 		autoPPACurrentCarrierLOVs.add("Windsor");
 		autoPPACurrentCarrierLOVs.add("Workmens Auto");
 	}
-	private static ArrayList<String> autoAntiqueCurrentCarrierLOVs = new ArrayList<String>();
+	private static ArrayList<String> autoAntiqueCurrentCarrierLOVs = new ArrayList<>();
 	static {
 		autoAntiqueCurrentCarrierLOVs.add("");
 		autoAntiqueCurrentCarrierLOVs.add("ACIC Non-Conversion");
@@ -417,7 +413,7 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 		autoAntiqueCurrentCarrierLOVs.add("Windsor");
 		autoAntiqueCurrentCarrierLOVs.add("Workmens Auto");
 	}
-	private static ArrayList<String> motorcycleCurrentCarrierLOVs = new ArrayList<String>();
+	private static ArrayList<String> motorcycleCurrentCarrierLOVs = new ArrayList<>();
 	static {
 		motorcycleCurrentCarrierLOVs.add("");
 		motorcycleCurrentCarrierLOVs.add("ACIC Non-Conversion");
@@ -479,7 +475,7 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 		motorcycleCurrentCarrierLOVs.add("Workmens Auto");
 	}
 	
-	private static ArrayList<String> motorHomeCurrentCarrierLOVs = new ArrayList<String>();
+	private static ArrayList<String> motorHomeCurrentCarrierLOVs = new ArrayList<>();
 	static {
 		motorHomeCurrentCarrierLOVs.add("");
 		motorHomeCurrentCarrierLOVs.add("ACIC Non-Conversion");
@@ -541,7 +537,7 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 		motorHomeCurrentCarrierLOVs.add("Workmens Auto");
 	}
 
-	private static ArrayList<String> watercraftCurrentCarrierLOVs = new ArrayList<String>();
+	private static ArrayList<String> watercraftCurrentCarrierLOVs = new ArrayList<>();
 	static {
 		watercraftCurrentCarrierLOVs.add("");
 		watercraftCurrentCarrierLOVs.add("ACIC Non-Conversion");
@@ -603,7 +599,7 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 		watercraftCurrentCarrierLOVs.add("Workmens Auto");
 	}
 
-	private static ArrayList<String> recrVehicleCurrentCarrierLOVs = new ArrayList<String>();
+	private static ArrayList<String> recrVehicleCurrentCarrierLOVs = new ArrayList<>();
 	static {
 		recrVehicleCurrentCarrierLOVs.add("ACIC Non-Conversion");
 		recrVehicleCurrentCarrierLOVs.add("AAA-Michigan (ACG)");

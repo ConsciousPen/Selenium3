@@ -13,6 +13,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
@@ -106,14 +107,26 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 			documentsPresent(true, documents);
 		}
 
+		public void documentsPresent(ETCSCoreSoftAssertions softly, DocGenEnum.Documents... documents) {
+			documentsPresent(softly, true, documents);
+		}
+
 		public void documentsPresent(boolean expectedValue, DocGenEnum.Documents... documents) {
+			documentsPresent(null, true, documents);
+		}
+
+		public void documentsPresent(ETCSCoreSoftAssertions softly, boolean expectedValue, DocGenEnum.Documents... documents) {
 			Map<String, String> documentQuery = new HashMap<>();
 
 			for (DocGenEnum.Documents doc : documents) {
 				String message = String.format("On demand document %1$s is not %2$s as expected.", doc, expectedValue ? "present" : "absent");
 				documentQuery.put(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, doc.getId());
 				documentQuery.put(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, doc.getName());
-				assertThat(getDocumentsControl().getTable().getRow(documentQuery)).as(message).isPresent(expectedValue);
+				if (softly == null) {
+					assertThat(getDocumentsControl().getTable().getRow(documentQuery)).as(message).isPresent(expectedValue);
+				} else {
+					softly.assertThat(getDocumentsControl().getTable().getRow(documentQuery)).as(message).isPresent(expectedValue);
+				}
 			}
 		}
 
@@ -121,15 +134,28 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 			documentsEnabled(true, documents);
 		}
 
+		public void documentsEnabled(ETCSCoreSoftAssertions softly, DocGenEnum.Documents... documents) {
+			documentsEnabled(softly, true, documents);
+		}
+
 		public void documentsEnabled(boolean expectedValue, DocGenEnum.Documents... documents) {
+			documentsEnabled(null, true, documents);
+		}
+
+		public void documentsEnabled(ETCSCoreSoftAssertions softly, boolean expectedValue, DocGenEnum.Documents... documents) {
 			Map<String, String> documentQuery = new HashMap<>();
 
 			for (DocGenEnum.Documents doc : documents) {
 				String message = String.format("On demand document %1$s is not %2$s as expected.", doc, expectedValue ? "enabled" : "disabled");
 				documentQuery.put(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, doc.getId());
 				documentQuery.put(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, doc.getName());
-				assertThat(getDocumentsControl().getTable().getRow(documentQuery).getCell(DocGenConstants.OnDemandDocumentsTable.SELECT).controls.checkBoxes.getFirst())
-						.as(message).isEnabled(expectedValue);
+				if (softly == null) {
+					assertThat(getDocumentsControl().getTable().getRow(documentQuery).getCell(DocGenConstants.OnDemandDocumentsTable.SELECT).controls.checkBoxes.getFirst())
+							.as(message).isEnabled(expectedValue);
+				} else {
+					softly.assertThat(getDocumentsControl().getTable().getRow(documentQuery).getCell(DocGenConstants.OnDemandDocumentsTable.SELECT).controls.checkBoxes.getFirst())
+							.as(message).isEnabled(expectedValue);
+				}
 			}
 		}
 	}

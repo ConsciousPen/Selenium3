@@ -17,15 +17,20 @@ import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
 
 public class HssQuoteDataGatherHelper extends BaseTest {
 	
-	public static void verifyLOVsOfImmediatePriorCarrier(ArrayList<String> optionsOfImmediatePriorCarrier) {
-		GeneralTab generalTab = new GeneralTab();
-		ComboBox immediatePriorCarrier = generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER);
-		assertThat(immediatePriorCarrier).containsAllOptions(optionsOfImmediatePriorCarrier);
+	public static void verifyLOVsOfImmediatePriorCarrierThenSaveAndExit(ArrayList<String> optionsOfImmediatePriorCarrier) {
+		CustomSoftAssertions.assertSoftly(softly -> {
+			GeneralTab generalTab = new GeneralTab();
+			ComboBox immediatePriorCarrier = generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER);
+			assertThat(immediatePriorCarrier).containsAllOptions(optionsOfImmediatePriorCarrier);
+
+			GeneralTab.buttonSaveAndExit.click();
+		});
 	}
 
 	public static void verifyBestFRScoreNotApplied(TestData td, String scoreInRatingDetails, ETCSCoreSoftAssertions softly) {
@@ -78,25 +83,25 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		}		
 	}
 
-	public static void verifyHailResistanceRatingNotApplied() {
+	public static void verifyHailResistanceRatingNotApplied(ETCSCoreSoftAssertions softly) {
 		PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
 		PremiumsAndCoveragesQuoteTab premiumsTab = new PremiumsAndCoveragesQuoteTab();
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING)).isPresent();
+		softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING)).isPresent();
 		propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING).setValue("No");
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		premiumsTab.calculatePremium();
 		
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Hail Resistive Rating")).as("Hail Resistive Rating: wrong value in Rating Details").isEqualTo("No");
-		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Hail zone flag")).as("Hail zone flag: wrong value in Rating Details").isEqualTo("No");
+		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+		softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Hail Resistive Rating")).as("Hail Resistive Rating: wrong value in Rating Details").isEqualTo("No");
+		softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Hail zone flag")).as("Hail zone flag: wrong value in Rating Details").isEqualTo("No");
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 	}
 	
-	public static void verifyHailResistanceRatingApplied(TestData td_hailResistanceRating) {
+	public static void verifyHailResistanceRatingApplied(TestData td_hailResistanceRating, ETCSCoreSoftAssertions softly) {
 		PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
 		PremiumsAndCoveragesQuoteTab premiumsTab = new PremiumsAndCoveragesQuoteTab();
 		
@@ -109,32 +114,32 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		premiumsTab.calculatePremium();
 		
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Hail Resistive Rating")).as("Hail Resistive Rating: wrong value in Rating Details").isEqualTo(hailResistanceRating);
-		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Hail zone flag")).as("Hail zone flag: wrong value in Rating Details").isEqualTo("Yes");
+		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+		softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Hail Resistive Rating")).as("Hail Resistive Rating: wrong value in Rating Details").isEqualTo(hailResistanceRating);
+		softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Hail zone flag")).as("Hail zone flag: wrong value in Rating Details").isEqualTo("Yes");
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 	}
 	
-	public static void verifyHailResistanceRatingNotDisplaying() {
+	public static void verifyHailResistanceRatingNotDisplaying(ETCSCoreSoftAssertions softly) {
 		PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
 		PremiumsAndCoveragesQuoteTab premiumsTab = new PremiumsAndCoveragesQuoteTab();
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING)).isPresent(false);
+		softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING)).isPresent(false);
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		premiumsTab.calculatePremium(); 
 		
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getLabel("Hail Resistive Rating"))
+		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+		softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getLabel("Hail Resistive Rating"))
 				.as("Hail Resistive Rating is present in Rating Details").isPresent(false);
-		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getLabel("Hail zone flag"))
+		softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getLabel("Hail zone flag"))
 				.as("Hail zone flag is present in Rating Details").isPresent(false);
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();	
 	}
 	
-	public static void verifyErrorForIneligibleRoofType(TestData td, ErrorEnum.Errors errorCode) {
+	public static void verifyErrorForIneligibleRoofType(TestData td, ErrorEnum.Errors errorCode, ETCSCoreSoftAssertions softly) {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
 		new PropertyInfoTab().fillTab(td);
 		
@@ -146,7 +151,7 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		new BindTab().btnPurchase.click();
 		
 		ErrorTab errorTab = new ErrorTab(); 
-		errorTab.verify.errorsPresent(errorCode);
+		errorTab.verify.errorsPresent(softly, errorCode);
 		errorTab.cancel();
 	}
 	
@@ -173,22 +178,22 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 	}
 
 	
-	public static void verifyDaysOfNotice(String daysOfNotice, int days, String err_message1, String err_message2) {
+	public static void verifyDaysOfNotice(String daysOfNotice, int days, String err_message1, String err_message2, ETCSCoreSoftAssertions softly) {
 		CancelNoticeActionTab cancelNoticeTab = new CancelNoticeActionTab();	
 		
 		String cancelEffDate_default = DateTimeUtils.getCurrentDateTime().plusDays(days).format(DateTimeUtils.MM_DD_YYYY);
-		
-		assertThat(cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.DAYS_OF_NOTICE).getValue()).as("'Days of Notice' has wrong value on Cancel Notice tab").isEqualTo(daysOfNotice);
-		assertThat(cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE).getValue()).as("'Cancellation Effective date' has wrong value on Cancel Notice Tab").isEqualTo(cancelEffDate_default);
+
+		softly.assertThat(cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.DAYS_OF_NOTICE).getValue()).as("'Days of Notice' has wrong value on Cancel Notice tab").isEqualTo(daysOfNotice);
+		softly.assertThat(cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE).getValue()).as("'Cancellation Effective date' has wrong value on Cancel Notice Tab").isEqualTo(cancelEffDate_default);
 		
 		//cancelNoticeTab.fillTab(td); 
 		cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE).setValue(
 				DateTimeUtils.getCurrentDateTime().plusDays(days-1).format(DateTimeUtils.MM_DD_YYYY));
-		cancelNoticeTab.verifyFieldHasMessage(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel(), err_message1); 
+		softly.assertThat(cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE)).hasWarningWithText(err_message1);
 		
 		cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE).setValue(
 				DateTimeUtils.getCurrentDateTime().plusDays(367).format(DateTimeUtils.MM_DD_YYYY));
-		cancelNoticeTab.verifyFieldHasMessage(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel(), err_message2); 
+		softly.assertThat(cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE)).hasWarningWithText(err_message2);
 	}
 	
 }

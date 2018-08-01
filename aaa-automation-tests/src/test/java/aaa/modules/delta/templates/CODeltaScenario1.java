@@ -21,7 +21,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 import toolkit.verification.CustomAssertions;
 import toolkit.verification.CustomSoftAssertions;
 
@@ -54,11 +53,7 @@ public class CODeltaScenario1 extends BaseTest {
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
 		
-		CustomAssert.enableSoftMode();
-		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrier(immediatePriorCarrierLOVs);
-		
-		GeneralTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();
+		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrierThenSaveAndExit(immediatePriorCarrierLOVs);
 	}
 
 	public void verifyEndorsementsTab() {
@@ -141,7 +136,7 @@ public class CODeltaScenario1 extends BaseTest {
 			new BindTab().btnPurchase.click();
 
 			ErrorTab errorTab = new ErrorTab();
-			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS10060735);
+			errorTab.verify.errorsPresent(softly, ErrorEnum.Errors.ERROR_AAA_HO_SS10060735);
 			errorTab.cancel();
 
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get());
@@ -161,28 +156,26 @@ public class CODeltaScenario1 extends BaseTest {
 		
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
-		
-		CustomAssert.enableSoftMode();
-		
-		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)||getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
-			log.info("DELTA CO SC1: Roof Type 'Asphalt/Fiberglass' verification");
-			HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction1, ErrorEnum.Errors.ERROR_AAA_HO_SS624530_CO);
-			
-			log.info("DELTA CO SC1: Roof Type 'Wood shingle/shake' verification");
-			HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction2, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
-			
-			log.info("DELTA CO SC1: Roof Type 'Builtup Tar & Gravel' verification");
-			HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction3, ErrorEnum.Errors.ERROR_AAA_HO_SS624530_CO);
-		}
-		else if (getPolicyType().equals(PolicyType.HOME_SS_HO4)||getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
-			log.info("DELTA CO SC1: Roof Type 'Wood shingle/shake' verification");
-			HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction2, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
-		}
-		
-		HssQuoteDataGatherHelper.fillPropertyInfoTabWithCorrectData(td_eligibleData);
-		
-		PropertyInfoTab.buttonSaveAndExit.click();		
-		CustomAssert.assertAll();	
+
+		CustomSoftAssertions.assertSoftly(softly -> {
+			if (getPolicyType().equals(PolicyType.HOME_SS_HO3) || getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+				log.info("DELTA CO SC1: Roof Type 'Asphalt/Fiberglass' verification");
+				HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction1, ErrorEnum.Errors.ERROR_AAA_HO_SS624530_CO, softly);
+
+				log.info("DELTA CO SC1: Roof Type 'Wood shingle/shake' verification");
+				HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction2, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560, softly);
+
+				log.info("DELTA CO SC1: Roof Type 'Builtup Tar & Gravel' verification");
+				HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction3, ErrorEnum.Errors.ERROR_AAA_HO_SS624530_CO, softly);
+			} else if (getPolicyType().equals(PolicyType.HOME_SS_HO4) || getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
+				log.info("DELTA CO SC1: Roof Type 'Wood shingle/shake' verification");
+				HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction2, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560, softly);
+			}
+
+			HssQuoteDataGatherHelper.fillPropertyInfoTabWithCorrectData(td_eligibleData);
+
+			PropertyInfoTab.buttonSaveAndExit.click();
+		});
 	}
 
 	public void purchasePolicy(TestData td, String scenarioPolicyType) {
@@ -250,7 +243,7 @@ public class CODeltaScenario1 extends BaseTest {
 
 	}
 	
-	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<String>();	
+	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<>();
 	static {
 		immediatePriorCarrierLOVs.add("AAA-Michigan (ACG)");
 		immediatePriorCarrierLOVs.add("AAA-NoCal (CSAA IG) Rewrite");
