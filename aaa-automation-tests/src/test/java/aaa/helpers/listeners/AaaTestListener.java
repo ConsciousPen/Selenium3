@@ -47,6 +47,18 @@ public class AaaTestListener extends TestngTestListener2 implements IExecutionLi
 	}
 
 	@Override
+	protected Run makeRun(ISuite suite) {
+		Run testRun = super.makeRun(suite);
+
+		log.info(">>>>>>>>>>>>>>>MAKERUN runProperties BRANCH IS: {}", runProperties.getTestBranch());
+		log.info(">>>>>>>>>>>>>>>MAKERUN runProperties ENV IS: {}", runProperties.getTestEnvironment());
+		log.info(">>>>>>>>>>>>>>>MAKERUN BRANCH IS: {}", testRun.getTestBranch());
+		log.info(">>>>>>>>>>>>>>>MAKERUN ENV IS: {}", testRun.getTestEnvironment());
+
+		return testRun;
+	}
+
+	@Override
 	public void onTestFailure(ITestResult result) {
 		try {
 			log.info("Test failure date/time: {}", TimeSetterUtil.getInstance().getCurrentTime());
