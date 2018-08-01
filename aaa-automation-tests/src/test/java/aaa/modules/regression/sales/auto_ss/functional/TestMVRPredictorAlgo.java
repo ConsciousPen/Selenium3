@@ -4,6 +4,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -12,6 +13,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
@@ -114,6 +116,8 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(testData);
+
+		TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(45));
 		policy.renew().perform();
 
 		// Fill Drivers Tab Calculate premium and Validate Drivers history
@@ -258,6 +262,8 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(testData);
+
+		TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(45));
 		policy.renew().perform();
 
 		// Fill Drivers Tab Calculate premium and Validate Drivers history
@@ -391,6 +397,8 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(testData);
+
+		TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(45));
 		policy.renew().perform();
 
 		// Fill Drivers Tab Calculate premium and Validate Drivers history
