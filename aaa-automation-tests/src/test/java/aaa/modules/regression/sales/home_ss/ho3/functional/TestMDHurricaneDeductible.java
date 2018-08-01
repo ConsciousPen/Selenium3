@@ -38,7 +38,7 @@ public class TestMDHurricaneDeductible extends HomeSSHO3BaseTest {
 	@Parameters({"state"})
 	@StateList(states = Constants.States.MD)
 	@Test(groups = {Groups.SMOKE, Groups.BLOCKER})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6907")
 	public void pas6907_testMDHurricaneDeductiblePrivilegedUser(@Optional("MD") String state) {
 
 		template.pas6907_testMDHurricaneDeductible(getPolicyType());
