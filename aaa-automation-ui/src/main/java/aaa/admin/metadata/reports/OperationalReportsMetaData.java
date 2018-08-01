@@ -1,5 +1,6 @@
 package aaa.admin.metadata.reports;
 
+import aaa.toolkit.webdriver.customcontrols.AdvancedSelectorOR;
 import org.openqa.selenium.By;
 
 import com.exigen.ipb.etcsa.controls.AdvancedSelector;
@@ -37,6 +38,6 @@ public final class OperationalReportsMetaData {
 		public static final AssetDescriptor<ComboBox> SCHEDULE_TYPE = declare("Schedule Type", ComboBox.class);
 		public static final AssetDescriptor<TextBox> SCHEDULE_INTERVAL = declare("Schedule Interval", TextBox.class, By.id("jobsForm:interval"));
 		public static final AssetDescriptor<ComboBox> SCHEDULE_INTERVAL_TYPE = declare("Schedule Interval Type", ComboBox.class, By.id("jobsForm:repeatingType2"));
+		public static final AssetDescriptor<AdvancedSelectorOR> BUSINESS_UNIT = declare("Business Unit", AdvancedSelectorOR.class);
 	}
-
 }
