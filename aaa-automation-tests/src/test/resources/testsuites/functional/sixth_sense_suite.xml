@@ -109,7 +109,17 @@
     </test>
 
     <!--Tests for Property-->
-
+    <!-- Uncomment when PAS-8786 is merged to master
+        <test name="Test Update Wildfire Score">
+            <parameter name="state" value="CA"/>
+            <classes>
+                <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestEndorsementWithAutoSelectCompanion"/>
+                <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestEndorsementWithAutoSelectCompanion"/>
+                <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestEndorsementWithAutoSelectCompanion"/>
+                <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestEndorsementWithAutoSelectCompanion"/>
+            </classes>
+        </test>
+    -->
     <test name="Test Update Wildfire Score">
         <parameter name="state" value="UT"/>
         <classes>
@@ -234,7 +244,7 @@
         </classes>
     </test>
 
-        <!--Tests for PUP-->
+            <!--Tests for PUP-->
 
     <test name="Test Pup Info Section View Rating Details">
         <parameter name="state" value="PA"/>

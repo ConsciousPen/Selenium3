@@ -107,6 +107,7 @@ public final class OpenLTestsManager {
 				OpenLTestInfo<? extends OpenLPolicy> testInfo = new OpenLTestInfo<>();
 				try {
 					testInfo.setState(TestParams.STATE.getValue(test));
+					testInfo.setOpenLFileBranch(TestParams.TESTS_BRANCH.getValue(test));
 					testInfo.setOpenLFilePath(getFilePath(test));
 					testInfo.setOpenLPolicies(getOpenLPolicies(test));
 				} catch (Exception e) {

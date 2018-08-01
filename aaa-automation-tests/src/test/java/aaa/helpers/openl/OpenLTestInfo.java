@@ -10,6 +10,7 @@ import toolkit.exceptions.IstfException;
 public class OpenLTestInfo<P extends OpenLPolicy> {
 	private String state;
 	private String openLFilePath;
+	private String openLFileBranch;
 	private List<P> openLPolicies;
 	private Throwable exception;
 	private String customerNumber;
@@ -17,9 +18,10 @@ public class OpenLTestInfo<P extends OpenLPolicy> {
 
 	OpenLTestInfo() {}
 
-	OpenLTestInfo(String state, String openLFilePath, List<P> openLPolicies) {
+	OpenLTestInfo(String state, String openLFilePath, String openLFileBranch, List<P> openLPolicies) {
 		this.state = state;
 		this.openLFilePath = openLFilePath;
+		this.openLFileBranch = openLFileBranch;
 		this.openLPolicies = new ArrayList<>(openLPolicies);
 	}
 
@@ -38,7 +40,15 @@ public class OpenLTestInfo<P extends OpenLPolicy> {
 	void setOpenLFilePath(String openLFilePath) {
 		this.openLFilePath = openLFilePath;
 	}
-	
+
+	public String getOpenLFileBranch() {
+		return openLFileBranch;
+	}
+
+	public void setOpenLFileBranch(String openLFileBranch) {
+		this.openLFileBranch = openLFileBranch;
+	}
+
 	public List<P> getOpenLPolicies() {
 		return Collections.unmodifiableList(openLPolicies);
 	}
