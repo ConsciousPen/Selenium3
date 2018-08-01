@@ -175,7 +175,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.RECEIPT_DATE.getLabel()).getValue())
 					.isNotBlank(); //it can be also past date if report has been ordered previously, hence checking only that it is not blank
 
-			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.RESPONSE.getLabel()).getValue())
 					.isEqualToIgnoringCase(expectedMvrResponse);
 		});
