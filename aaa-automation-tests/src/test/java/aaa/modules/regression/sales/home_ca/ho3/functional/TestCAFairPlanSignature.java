@@ -25,7 +25,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@StateList(statesExcept = Constants.States.CA)
+@StateList(states = Constants.States.CA)
 public class TestCAFairPlanSignature extends HomeCaHO3BaseTest {
     /**
      * @author Robert Boles

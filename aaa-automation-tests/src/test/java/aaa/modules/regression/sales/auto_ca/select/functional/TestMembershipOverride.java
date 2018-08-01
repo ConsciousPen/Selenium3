@@ -2,6 +2,9 @@ package aaa.modules.regression.sales.auto_ca.select.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
+
+import aaa.common.enums.Constants;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -23,6 +26,7 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.StaticElement;
 
+@StateList(states = Constants.States.CA)
 public class TestMembershipOverride extends AutoCaSelectBaseTest {
 
 	// "AAA Product Owned" section fields for validation in Inquiry mode

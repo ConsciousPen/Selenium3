@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * @Author - Tyrone C Jemison
  * @Description -
  */
-@StateList(statesExcept = Constants.States.CA)
+@StateList(states = Constants.States.CA)
 public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
 
     static TestData dp3PolicyData;

@@ -18,7 +18,7 @@ import toolkit.utils.TestInfo;
  * @Author - Tyrone Jemison
  * @Scenario - During Quote Fireline returns >= 5. FPCECA Added. Will Bind.
  */
-@StateList(statesExcept = Constants.States.CA)
+@StateList(states = Constants.States.CA)
 public class TestCAFairPlanCanItBind extends HomeCaDP3BaseTest {
     static TestData DEFAULTPOLICYDATA;
     static HelperCommon myHelper;
