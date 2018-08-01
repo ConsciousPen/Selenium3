@@ -1,0 +1,13 @@
+TestData_OtherActiveAAAPolicies: '@OtherActiveAAAPolicies'
+
+# ------------------ Other Active Policies ------------------
+
+OtherActiveAAAPolicies: {
+  Other active AAA policies: 'Yes',
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {
+    Policy type: Auto,
+    Policy number: Primary_Auto
+  },
+  ActiveUnderlyingPoliciesManual: {}
+}

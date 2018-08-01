@@ -8,6 +8,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -21,9 +22,11 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.helper.VinUploadCleanUpMethods;
 import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
+@StateList(states = Constants.States.CA)
 public class TestVINUpload extends TestVINUploadTemplate {
 	private static final String NEW_VIN = "AAAVB3CC0W0455583";
 	private static final String NEW_VIN2 = "BBBVB3CCXW0455583";

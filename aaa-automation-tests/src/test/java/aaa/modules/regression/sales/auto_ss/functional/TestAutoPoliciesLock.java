@@ -10,6 +10,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -19,9 +20,11 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestAutoPolicyLockPreConditions;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
+
 
 public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPolicyLockPreConditions {
 
@@ -52,6 +55,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@StateList(states = Constants.States.CT)
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2247")
 	public void pas2247_pas2248_AipAndNafLock(@Optional("CT") String state) {
 
@@ -117,6 +121,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@StateList(states = Constants.States.CO)
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6587")
 	public void pas4311_pas6587_ASDLock(@Optional("CO") String state) {
 		TestData testData = getPolicyTD();
@@ -180,6 +185,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@StateList(statesExcept = Constants.States.CA)
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4311")
 	public void pas4311_pas6587_ASDLock_newly_locked() {
 		TestData testData = getPolicyTD();
