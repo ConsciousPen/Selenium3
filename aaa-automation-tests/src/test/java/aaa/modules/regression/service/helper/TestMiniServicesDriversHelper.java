@@ -282,7 +282,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		DriversDto addedDriverResponse = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
 
 		// update driver
-		updateDriverRequest.stateLicensed = "AZ";
+		updateDriverRequest.stateLicensed = "VA";
 		updateDriverRequest.licenseNumber = "D32329585";
 		updateDriverRequest.gender = "female";
 		updateDriverRequest.relationToApplicantCd = "CH";
