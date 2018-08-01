@@ -99,6 +99,10 @@ public final class AutoSSPolicyActions {
         @Override
         public AbstractAction performAndFill(TestData td) {
             perform();
+            if (Tab.createVersionDescription.isPresent() && Tab.createVersionDescription.isVisible()) {
+            	Tab.createVersionDescription.setValue("new version");
+            	Page.dialogConfirmation.confirm();
+            }
 	        new DataGather().getView().fill(td);
 	        return this;
         }
