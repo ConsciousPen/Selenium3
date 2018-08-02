@@ -8,9 +8,11 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.PolicyConstants;
+import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -113,12 +115,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		TestData driverTab = getTestSpecificTD("TestData_DriverTab").resolveLinks();
 
 		// Open application Create Customer Create Policy with Driver exceeding MVR predictor threshold. Renew Policy
-		mainApp().open();
-		createCustomerIndividual();
-		createPolicy(testData);
-
-		TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(45));
-		policy.renew().perform();
+		createPolicyAndRenewal(testData);
 
 		// Fill Drivers Tab Calculate premium and Validate Drivers history
 		preconditionsAddDriversRenewalEndorsement(driverTab);
@@ -259,12 +256,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabViolations").resolveLinks();
 
 		// Open application Create Customer Create Policy with Driver exceeding MVR predictor threshold. Renew Policy
-		mainApp().open();
-		createCustomerIndividual();
-		createPolicy(testData);
-
-		TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(45));
-		policy.renew().perform();
+		createPolicyAndRenewal(testData);
 
 		// Fill Drivers Tab Calculate premium and Validate Drivers history
 		preconditionsAddDriversRenewalEndorsement(driverTab);
@@ -394,12 +386,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabAccidents").resolveLinks();
 
 		// Open application Create Customer Create Policy with Driver exceeding MVR predictor threshold. Renew Policy
-		mainApp().open();
-		createCustomerIndividual();
-		createPolicy(testData);
-
-		TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(45));
-		policy.renew().perform();
+		createPolicyAndRenewal(testData);
 
 		// Fill Drivers Tab Calculate premium and Validate Drivers history
 		preconditionsAddDriversRenewalEndorsement(driverTab);
@@ -460,6 +447,17 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		return getPolicyTD()
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933")
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Female");
+	}
+
+	private void createPolicyAndRenewal(TestData td) {
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNum = createPolicy(td);
+
+		TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(45));
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNum);
+		policy.renew().perform();
 	}
 
 	private void initiateManualEntry(TestData testData) {

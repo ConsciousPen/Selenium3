@@ -159,9 +159,12 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		// Create policy with Standard UIM coverage
 		mainApp().open();
 		createCustomerIndividual();
-		createPolicy();
+		String policyNumber = createPolicy();
 
 		// Create renewal and switch to EUIM coverage
+		TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(45));
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		policy.renew().perform();
 		switchToEUIMCoverage();
 		verifyFormsAndAmount();
@@ -302,17 +305,13 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		// Create policy with Standard UIM coverage
 		mainApp().open();
 		createCustomerIndividual();
-		createPolicy();
+		String policyNumber = createPolicy();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		validateDocumentIsNotGeneratedInPackage(policyNumber, POLICY_ISSUE, false);
 
-		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
-		LocalDateTime renewalProposalDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
-
 		//3. Generate renewal image
-		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(45));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
@@ -327,7 +326,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		//4. Switch UIM to EUIM coverage and Bind
 		switchToEUIMCoverageAndBind();
 
-		TimeSetterUtil.getInstance().nextPhase(renewalProposalDate);
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(35));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
