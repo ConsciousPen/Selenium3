@@ -4,94 +4,113 @@ package aaa.main.enums;
 
 public final class EndorsementForms {
 
-	public static final class HssEndorsementForms {
-		public static final String _438B_FUNS = "Lender's Loss Payable Endorsement";
-		public static final String DS_03_12 = "Windstorm Or Hail Deductible - Percentage";
-		public static final String DS_03_30 = "Special Hurricane Percentage Deductible";
-		public static final String DS_03_30_08 = "Special Hurricane Percentage Deductible";
-		public static final String DS_03_30_08_12_VA = "Special Hurricane Percentage Deductible";
-		public static final String DS_04_10 = "Additional Interest - Described Location";
-		public static final String DS_04_20 = "Specified Increased Insurance Limit For Coverage A – Dwelling";
-		public static final String DS_04_41 = "Additional Insured - Described Location";
-		public static final String DS_04_63 = "Supplemental Loss Assessment Coverage";
-		public static final String DS_04_68 = "Loss Assessment Coverage For Earthquake ";
-		public static final String DS_04_69 = "Earthquake";
-		public static final String DS_04_71 = "Building Code Upgrade - Increased Amount Of Coverage";
-		public static final String DS_04_73 = "Limited Theft Coverage";
-		public static final String DS_04_75 = "Actual Cash Value - Windstorm Or Hail Losses To Roof";
-		public static final String DS_04_77 = "Mine Subsidence Coverage Endorsement – Kentucky";
-		public static final String DS_04_80 = "Mine Subsidence Endorsement";
-		public static final String DS_04_95 = "Limited Water Back Up and Sump Discharge or Overflow Coverage";
-		public static final String DS_04_99 = "Sinkhole Collapse";
-		public static final String DS_04_99_08_12 = "Sinkhole Collapse";
-		public static final String DS_05_78 = "Fuel System Liability Coverage";
-		public static final String DS_09_26 = "Wet or Dry Rot, or Bacteria";
-		public static final String DS_09_29 = "Fungi, Wet Or Dry Rot, Or Bacteria";
-		public static final String DS_09_34 = "Rebuild to Green";
-		public static final String DS_24_82 = "Personal Injury";
-		public static final String DS_24_94 = "Workers Compensation Residence Employees - New Jersey";
-		public static final String DS_MS_I2 = "Ohio Mine Subsidence Insurance";
-		public static final String HS_03_12 = "Windstorm Or Hail Deductible - Percentage";
-		public static final String HS_03_30 = "Special Hurricane Percentage Deductible";
-		public static final String HS_03_30_08_12_VA = "Special Hurricane Percentage Deductible";
-		public static final String HS_04_10 = "Additional Interest - Residence Premises";
-		public static final String HS_04_12 = "Increased Limits on Business Property";
-		public static final String HS_04_20 = "Specified Increased Insurance Limit For Coverage A - Dwelling (except WV, CO)";
-		public static final String HS_04_20_CO = "Specified Increased Insurance Limit For Coverage A and Coverage B (CO only)";
-		public static final String HS_04_20_WV = "Specified Additional Amount Of Insurance For Coverage A - Dwelling (WV only)";
-		public static final String HS_04_35 = "Loss Assessment Coverage Endorsement";
-		public static final String HS_04_36 = "Loss Assessment Coverage for Earthquake";
-		public static final String HS_04_40 = "Structures Rented to Others - Residence Premises";
-		public static final String HS_04_41 = "Additional Insured - Residence Premises";
-		public static final String HS_04_42 = "Permitted Incidental Business Occupancies - Residence Premises";
-		public static final String HS_04_43 = "Replacement Cost for Non-Building Structures on Residence Premises";
-		public static final String HS_04_50 = "Personal Property At Other Residences";
-		public static final String HS_04_52 = "Livestock Collision Coverage";
-		public static final String HS_04_53 = "Credit Card Electronic Fund Transfer etc Increased Limit";
-		public static final String HS_04_54 = "Earthquake";
-		public static final String HS_04_55 = "Identity Fraud Expense endorsement";
-		public static final String HS_04_59 = "Assisted Living Care Coverage";
-		public static final String HS_04_61 = "Scheduled Personal Property";
-		public static final String HS_04_65 = "Coverage C Increased Special Limits of Liability endorsement";
-		public static final String HS_04_77 = "Building Code Upgrade endorsement";
-		public static final String HS_04_90 = "Personal Property Replacement Cost Loss Settlement endorsement";
-		public static final String HS_04_92 = "Specific Structures Away from the Residence Premises";
-		public static final String HS_04_93 = "Actual Cash Value - Windstorm Or Hail Losses To Roof";
-		public static final String HS_04_95 = "Water Back Up and Sump Discharge or Overflow endorsement";
-		public static final String HS_04_99 = "Sinkhole Collapse";
-		public static final String HS_04_99_08_12 = "Sinkhole Collapse";
-		public static final String HS_05_24 = "Open Peril Personal Property Coverage";
-		public static final String HS_05_46 = "Landlord's Furnishings";
-		public static final String HS_05_78 = "Fuel System Liability Coverage";
-		public static final String HS_06_14 = "Personal Property Located In a Self-Storage Facility";
-		public static final String HS_09_04 = "Structural Alteration Coverage";
-		public static final String HS_09_06 = "Mortgage Payment Protection endorsement";
-		public static final String HS_09_26 = "Fungi, Wet or Dry Rot or Bacteria (except CT, NY, NJ & VA)";
-		public static final String HS_09_27 = "Fungi Wet or Dry Rot or Bacteria Remediation Expense Limit Endorsement (NY only)";
-		public static final String HS_09_29 = "Fungi, Wet or Dry Rot or Bacteria (NJ only)";
-		public static final String HS_09_30 = "Fungi, Wet or Dry Rot or Bacteria";
-		public static final String HS_09_31 = "Open Peril Personal Property Coverage";
-		public static final String HS_09_32 = "Fungi, Wet or Dry Rot or Bacteria";
-		public static final String HS_09_34 = "Rebuild to Green endorsement";
-		public static final String HS_09_37 = "Excluded Other Structures (Section I)";
-		public static final String HS_09_65 = "Jewelry, watches, furs, precious and semiprecious stones Theft Limit endorsement";
-		public static final String HS_09_88 = "Additional Insured - Special Event";
-		public static final String HS_17_31 = "Open Peril Personal Property Coverage";
-		public static final String HS_17_33 = "Unit Owners Rental to Others";
-		public static final String HS_23_38 = "Home day Care Coverage Endorsement - Maryland";
-		public static final String HS_23_83 = "Mine Subsidence Endorsement";
-		public static final String HS_23_84 = "Mine Subsidence Coverage Endorsement – Kentucky";
-		public static final String HS_24_43 = "Permitted Incidental Business Occupancies - Other Residence";
-		public static final String HS_24_52 = "Maryland Coverage For Lead Liability";
-		public static final String HS_24_64 = "Owned Snowmobile";
-		public static final String HS_24_71 = "Business Pursuits";
-		public static final String HS_24_72 = "Incidental Farming Personal Liability";
-		public static final String HS_24_73 = "Farmers Personal Liability";
-		public static final String HS_24_94 = "Workers Compensation Residence Employees - New Jersey";
-		public static final String HS_MS_I2 = "Ohio Mine Subsidence Insurance";
+	public enum HomeSSEndorsementForms {
+
+		_438B_FUNS("_438B FUNS", "Lender's Loss Payable Endorsement"),
+		DS_03_12("DS 03 12", "Windstorm Or Hail Deductible - Percentage"),
+		DS_03_30("DS 03 30", "Special Hurricane Percentage Deductible"),
+		DS_03_30_08("DS 03 30 08", "Special Hurricane Percentage Deductible"),
+		DS_03_30_08_12_VA("DS 03 30 08 12 VA", "Special Hurricane Percentage Deductible"),
+		DS_04_10("DS 04 10", "Additional Interest - Described Location"),
+		DS_04_20("DS 04 20", "Specified Increased Insurance Limit For Coverage A – Dwelling"),
+		DS_04_41("DS 04 41", "Additional Insured - Described Location"),
+		DS_04_63("DS 04 63", "Supplemental Loss Assessment Coverage"),
+		DS_04_68("DS 04 68", "Loss Assessment Coverage For Earthquake "),
+		DS_04_69("DS 04 69", "Earthquake"),
+		DS_04_71("DS 04 71", "Building Code Upgrade - Increased Amount Of Coverage"),
+		DS_04_73("DS 04 73", "Limited Theft Coverage"),
+		DS_04_75("DS 04 75", "Actual Cash Value - Windstorm Or Hail Losses To Roof"),
+		DS_04_77("DS 04 77", "Mine Subsidence Coverage Endorsement – Kentucky"),
+		DS_04_80("DS 04 80", "Mine Subsidence Endorsement"),
+		DS_04_95("DS 04 95", "Limited Water Back Up and Sump Discharge or Overflow Coverage"),
+		DS_04_99("DS 04 99", "Sinkhole Collapse"),
+		DS_04_99_08_12("DS 04 99 08 12", "Sinkhole Collapse"),
+		DS_05_78("DS 05 78", "Fuel System Liability Coverage"),
+		DS_09_26("DS 09 26", "Wet or Dry Rot, or Bacteria"),
+		DS_09_29("DS 09 29", "Fungi, Wet Or Dry Rot, Or Bacteria"),
+		DS_09_34("DS 09 34", "Rebuild to Green"),
+		DS_24_82("DS 24 82", "Personal Injury"),
+		DS_24_94("DS 24 94", "Workers Compensation Residence Employees - New Jersey"),
+		DS_MS_I2("DS MS I2", "Ohio Mine Subsidence Insurance"),
+		HS_03_12("DS 03 12", "Windstorm Or Hail Deductible - Percentage"),
+		HS_03_30("DS 03 30", "Special Hurricane Percentage Deductible"),
+		HS_03_30_08_12_VA("HS 03 30 08 12 VA", "Special Hurricane Percentage Deductible"),
+		HS_04_10("HS 04 10", "Additional Interest - Residence Premises"),
+		HS_04_12("HS 04 12", "Increased Limits on Business Property"),
+		HS_04_20("HS 04 20", "Specified Increased Insurance Limit For Coverage A - Dwelling (except WV, CO)"),
+		HS_04_20_CO("HS 04 20 CO", "Specified Increased Insurance Limit For Coverage A and Coverage B (CO only)"),
+		HS_04_20_WV("HS 04 20 WV", "Specified Additional Amount Of Insurance For Coverage A - Dwelling (WV only)"),
+		HS_04_35("HS 04 35", "Loss Assessment Coverage Endorsement"),
+		HS_04_36("HS 04 36", "Loss Assessment Coverage for Earthquake"),
+		HS_04_40("HS 04 40", "Structures Rented to Others - Residence Premises"),
+		HS_04_41("HS 04 41", "Additional Insured - Residence Premises"),
+		HS_04_42("HS 04 42", "Permitted Incidental Business Occupancies - Residence Premises"),
+		HS_04_43("HS 04 43", "Replacement Cost for Non-Building Structures on Residence Premises"),
+		HS_04_50("HS 04 50", "Personal Property At Other Residences"),
+		HS_04_52("HS 04 52", "Livestock Collision Coverage"),
+		HS_04_53("HS 04 53", "Credit Card Electronic Fund Transfer etc Increased Limit"),
+		HS_04_54("HS 04 54", "Earthquake"),
+		HS_04_55("HS 04 55", "Identity Fraud Expense endorsement"),
+		HS_04_59("HS 04 59", "Assisted Living Care Coverage"),
+		HS_04_61("HS 04 61", "Scheduled Personal Property"),
+		HS_04_65("HS 04 65", "Coverage C Increased Special Limits of Liability endorsement"),
+		HS_04_77("HS 04 77", "Building Code Upgrade endorsement"),
+		HS_04_90("HS 04 90", "Personal Property Replacement Cost Loss Settlement endorsement"),
+		HS_04_92("HS 04 92", "Specific Structures Away from the Residence Premises"),
+		HS_04_93("HS 04 93", "Actual Cash Value - Windstorm Or Hail Losses To Roof"),
+		HS_04_95("HS 04 95", "Water Back Up and Sump Discharge or Overflow endorsement"),
+		HS_04_99("HS 04 99", "Sinkhole Collapse"),
+		HS_04_99_08_12("HS 04 99 08 12", "Sinkhole Collapse"),
+		HS_05_24("HS 05 24", "Open Peril Personal Property Coverage"),
+		HS_05_46("HS 05 64", "Landlord's Furnishings"),
+		HS_05_78("HS 05 78", "Fuel System Liability Coverage"),
+		HS_06_14("HS 06 14", "Personal Property Located In a Self-Storage Facility"),
+		HS_09_04("HS 09 04", "Structural Alteration Coverage"),
+		HS_09_06("HS 09 06", "Mortgage Payment Protection endorsement"),
+		HS_09_26("HS 09 26", "Fungi, Wet or Dry Rot or Bacteria (except CT, NY, NJ & VA)"),
+		HS_09_27("HS 09 27", "Fungi Wet or Dry Rot or Bacteria Remediation Expense Limit Endorsement (NY only)"),
+		HS_09_29("HS 09 29", "Fungi, Wet or Dry Rot or Bacteria (NJ only)"),
+		HS_09_30("HS 09 30", "Fungi, Wet or Dry Rot or Bacteria"),
+		HS_09_31("HS 09 31", "Open Peril Personal Property Coverage"),
+		HS_09_32("HS 09 32", "Fungi, Wet or Dry Rot or Bacteria"),
+		HS_09_34("HS 09 34", "Rebuild to Green endorsement"),
+		HS_09_37("HS 09 37", "Excluded Other Structures (Section I)"),
+		HS_09_65("HS 09 65", "Jewelry, watches, furs, precious and semiprecious stones Theft Limit endorsement"),
+		HS_09_88("HS 09 88", "Additional Insured - Special Event"),
+		HS_17_31("HS 17 31", "Open Peril Personal Property Coverage"),
+		HS_17_33("HS 17 33", "Unit Owners Rental to Others"),
+		HS_23_38("HS 23 38", "Home day Care Coverage Endorsement - Maryland"),
+		HS_23_83("HS 23 83", "Mine Subsidence Endorsement"),
+		HS_23_84("HS 23 84", "Mine Subsidence Coverage Endorsement – Kentucky"),
+		HS_24_43("HS 24 43", "Permitted Incidental Business Occupancies - Other Residence"),
+		HS_24_52("HS 24 52", "Maryland Coverage For Lead Liability"),
+		HS_24_64("HS 24 64", "Owned Snowmobile"),
+		HS_24_71("HS 24 71", "Business Pursuits"),
+		HS_24_72("HS 24 72", "Incidental Farming Personal Liability"),
+		HS_24_73("HS 24 73", "Farmers Personal Liability"),
+		HS_24_94("HS 24 94", "Workers Compensation Residence Employees - New Jersey"),
+		HS_MS_I2("HS MS I2", "Ohio Mine Subsidence Insurance");
+
+		String formId;
+		String name;
+
+		HomeSSEndorsementForms(String formId, String name) {
+			this.formId = formId;
+			this.name = name;
+		}
+
+		public String getFormId() {
+			return formId;
+		}
+		public String getName() {
+			return name;
+		}
 	}
 
-	public static final class HcaEndorsementForms {
+	//TODO Dominykas Razgunas refactor - HomeCAEndorsementForms and PupEndorsementForms to enums which contains formID.
+	//TODO refactor tests to use these enums. There was ~30 classes which hardcoded values for 'Premium and Coverages' tab -> 'Endorsement' tab.
+
+	public static final class HomeCAEndorsementForms {
 		public static final String _438_BFUNS = "Lenders Loss Payable";
 		public static final String DL_01_04 = "Special Provisions";
 		public static final String DL_24_02 = "Personal Liability - Additional Policy Conditions";
