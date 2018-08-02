@@ -380,7 +380,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(driver2.middleName).isEqualTo("Doc");
 			softly.assertThat(driver2.driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 			softly.assertThat(driver2.namedInsuredType).isEqualTo("Not a Named Insured");
-			softly.assertThat(driver2.relationToApplicantCd).isEqualTo("CH");
+			softly.assertThat(driver2.relationToApplicantCd).isEqualTo(null);
 			softly.assertThat(driver2.maritalStatusCd).isEqualTo("SSS");
 			softly.assertThat(driver2.driverStatus).isEqualTo("pendingAdd");
 			softly.assertThat(driver2.birthDate).isEqualTo("1960-02-08");
