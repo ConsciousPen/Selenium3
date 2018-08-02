@@ -254,8 +254,8 @@ public final class HomeSSMetaData {
 
 		public static final class AaaMembershipReportRow extends MetaData {
 			// AAALastName HomeSSMetaData AaaMembershipReportRow extends MetaData
-			public static final AssetDescriptor<StaticElement> LAST_NAME = declare("Last Name", StaticElement.class);
-			//public static final AssetDescriptor<StaticElement> MEMBERSHIP_NO = declare("Membership No.", StaticElement.class);
+			//public static final AssetDescriptor<StaticElement> LAST_NAME = declare("Last Name", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> MEMBERSHIP_NO = declare("Membership No.", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> MEMBER_SINCE_DATE = declare("Member Since Date", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> ORDER_DATE = declare("Order Date", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> RECEIPT_DATE = declare("Receipt Date", StaticElement.class);
