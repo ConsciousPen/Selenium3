@@ -31,13 +31,13 @@ import toolkit.utils.TestInfo;
  * @details
  */
 
+@StateList(states = Constants.States.MD)
 public class TestMDHurricaneDeductible extends HomeSSDP3BaseTest {
 
 	private TestHurricaneDeductibleTemplate template = new TestHurricaneDeductibleTemplate();
 
 	@Parameters({"state"})
-	@StateList(states = Constants.States.MD)
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MD Hurricane Deductible")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-6907")
 	public void pas6907_testMDHurricaneDeductible(@Optional("MD") String state) {
 
