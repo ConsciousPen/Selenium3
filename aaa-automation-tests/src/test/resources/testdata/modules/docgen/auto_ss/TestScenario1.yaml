@@ -421,8 +421,7 @@ NamedInsuredInformation_OK: {
 }
 
 AAAProductOwned_OK: {
-  Membership Number: 4290023667710001,
-  Last name: Smith
+  Membership Number: 4290023667710001
 }
 
 ContactInformation_OK: {

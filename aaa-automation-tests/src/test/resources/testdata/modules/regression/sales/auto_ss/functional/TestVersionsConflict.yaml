@@ -240,7 +240,6 @@ VehicleInformation_Version2: {
 AAAProductOwned: {
   Current AAA Member: 'Yes',
   Membership Number: 4290023667710001,
-  Last name: Smith,
   "Motorcycle Policy #": 1112223331,
   "Life Policy #": 1112223332,
   "Home Motorcycle Policy #": 1112223333,
@@ -252,7 +251,6 @@ AAAProductOwned: {
 AAAProductOwned_Version1: {
   Current AAA Member: 'Yes',
   Membership Number: 4382127703153016,
-  Last name: Smith2,
   "Motorcycle Policy #": 4445556661,
   "Life Policy #": 4445556662,
   "Home Motorcycle Policy #": 4445556663,

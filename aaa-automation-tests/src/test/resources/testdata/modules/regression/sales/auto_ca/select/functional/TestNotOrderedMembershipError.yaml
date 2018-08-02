@@ -25,8 +25,7 @@ NamedInsuredInformation: {
 
 AAAProductOwned: {
   Current AAA Member: 'Yes',
-  Membership Number: 4290023667710001,
-  Member Last Name: Smith
+  Membership Number: 4290023667710001
 }
 
 
@@ -146,8 +145,7 @@ GeneralTab_Endorsement_Changes: {
 
 AAAProductOwned_Endorsement_Changes: {
   Current AAA Member: 'Yes',
-  Membership Number: 4290023667710001,
-  Member Last Name: Smith
+  Membership Number: 4290023667710001
 }
 
 DriverTab_Endorsement_Changes: {}
