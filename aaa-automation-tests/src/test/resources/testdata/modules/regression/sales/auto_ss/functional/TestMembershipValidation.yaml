@@ -206,14 +206,12 @@ NamedInsuredInformation_LNmatch: {
 
 AAAProductOwned: {
   Current AAA Member: 'Yes',
-  Membership Number: 9436258506738011,
-  Last name: TestXXXXXX
+  Membership Number: 9436258506738011
 }
 
 AAAProductOwned_DummyNumber: {
   Current AAA Member: 'Yes',
-  Membership Number: 9999995555555551,
-  Last name: TestXXXXXX
+  Membership Number: 9999995555555551
 }
 
 AAAProductOwned_MembershipNo: {
@@ -404,8 +402,7 @@ NamedInsuredInformation_LNmatch_PAS6800: {
 
 AAAProductOwned_PAS6800: {
   Current AAA Member: 'Yes',
-  Membership Number: 9436258506738011,
-  Last name: TestXXXXXX
+  Membership Number: 9436258506738011
 }
 
 AAAProductOwned_MembershipNo_PAS6800: {

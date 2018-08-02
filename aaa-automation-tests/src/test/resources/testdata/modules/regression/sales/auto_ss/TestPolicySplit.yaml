@@ -205,8 +205,7 @@ GeneralTab_DE: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: {
     Current AAA Member: 'Yes',
-    Membership Number: 4290020029946000,
-    Last name: Smith
+    Membership Number: 4290020029946000
   },
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@PolicyInformation'
@@ -287,8 +286,7 @@ GeneralTab_NJ: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: {
     Current AAA Member: 'Yes',
-    Membership Number: 4290020029946000,
-    Last name: Smith
+    Membership Number: 4290020029946000
   },
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@PolicyInformation'
