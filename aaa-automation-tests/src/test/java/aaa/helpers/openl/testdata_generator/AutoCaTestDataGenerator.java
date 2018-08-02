@@ -201,18 +201,19 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 		return getActivityInformationData(effectiveDate, incidentType, AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|", totalYearsAaccidentsFree);
 	}
 
-	protected TestData getActivityInformationData(LocalDate effectiveDate, String type, String description, Integer totalYearsAaccidentsFree) {
+	protected TestData getActivityInformationData(LocalDate effectiveDate, String type, String description, Integer totalYearsAccidentsFree) {
 		// Incident should be not older than 33 month from effective date to affect premium;
 		int maxIncidentFreeInMonth = maxIncidentFreeInMonthsToAffectRating;
+		LocalDate latestIncidentDate = effectiveDate;
 
-		if (totalYearsAaccidentsFree != null) {
-			assertThat(totalYearsAaccidentsFree * 12).as("totalYearsAaccidentsFree argument (or \"yaf\" field) in months should not be more than %s to affect rating", maxIncidentFreeInMonth)
+		if (totalYearsAccidentsFree != null) {
+			assertThat(totalYearsAccidentsFree * 12).as("totalYearsAccidentsFree argument (or \"yaf\" field) in months should not be more than %s to affect rating", maxIncidentFreeInMonth)
 					.isLessThanOrEqualTo(maxIncidentFreeInMonth);
-			effectiveDate = effectiveDate.minusYears(totalYearsAaccidentsFree);
-			maxIncidentFreeInMonth = maxIncidentFreeInMonth - totalYearsAaccidentsFree * 12;
+			latestIncidentDate = latestIncidentDate.minusYears(totalYearsAccidentsFree);
+			maxIncidentFreeInMonth = maxIncidentFreeInMonth - totalYearsAccidentsFree * 12;
 		}
 
-		String occurrenceAndConvictionDate = effectiveDate.minusDays(new Random().nextInt(maxIncidentFreeInMonth * 28)).format(DateTimeUtils.MM_DD_YYYY);
+		String occurrenceAndConvictionDate = latestIncidentDate.minusDays(new Random().nextInt(maxIncidentFreeInMonth * 28)).format(DateTimeUtils.MM_DD_YYYY);
 		return DataProviderFactory.dataOf(
 				AutoCaMetaData.DriverTab.ActivityInformation.TYPE.getLabel(), type,
 				AutoCaMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), description,
