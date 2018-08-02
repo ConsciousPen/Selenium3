@@ -961,7 +961,7 @@ TestData_MD: {
   GeneralTab: '@GeneralTab_MD',
   ApplicantTab: '@ApplicantTab_MD',
   ReportsTab: '@ReportsTab_MD',
-  PropertyInfoTab: '@PropertyInfoTab',
+  PropertyInfoTab: '@PropertyInfoTab_MD',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: '@EndorsementTab',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
@@ -993,7 +993,28 @@ ApplicantTab_MD: {
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies', '@OtherCompanionAutoPolicy'],
   AgentInfo: '@AgentInfo_MD'
-}  
+}
+
+PropertyInfoTab_MD: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  Riskmeter: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction',
+  AdditionalQuestions: {},
+  Interior: '@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: {}
+}
   
 DwellingAddress_MD: {
   Zip code: '20854',
