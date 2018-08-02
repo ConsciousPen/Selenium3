@@ -3,6 +3,7 @@ package aaa.modules.regression.document_fulfillment.template.functional;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.HomeSSPolicyActions;
 import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 
 public class TestCinAbstractHomeSS extends TestCinAbstract {
 
@@ -59,5 +60,15 @@ public class TestCinAbstractHomeSS extends TestCinAbstract {
     @Override
     protected void performRenewal(TestData renewalTD) {
         new HomeSSPolicyActions.Renew().performAndFill(renewalTD);
+    }
+    
+    @Override
+    protected void performDoNotRenew(TestData doNotRenewTD) {
+    	new HomeSSPolicyActions.DoNotRenew().perform(doNotRenewTD);
+    }
+    
+    @Override
+    protected void performRemoveDoNotRenew() {
+    	new HomeSSPolicyActions.RemoveDoNotRenew().perform(new SimpleDataProvider());
     }
 }
