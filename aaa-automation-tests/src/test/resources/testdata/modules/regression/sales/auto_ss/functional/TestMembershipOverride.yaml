@@ -39,8 +39,12 @@ AAAProductOwned_Yes: {
 AAAProductOwned_Override_NoDate: {
   Current AAA Member: 'Membership Override',
   Override Type: 'Term',
+<<<<<<< HEAD
   Member Since Date: ,
 #  Membership Number:
+=======
+  Member Since Date:
+>>>>>>> 368eb593bac91a37da7fe5d5d4c8db89be6c45d3
 }
 
 
@@ -48,7 +52,11 @@ AAAProductOwned_MSNo: {
   Current AAA Member: 'No',
   Override Type: ,
   Member Since Date: ,
+<<<<<<< HEAD
   Membership Number: #remove number
+=======
+  Membership Number:
+>>>>>>> 368eb593bac91a37da7fe5d5d4c8db89be6c45d3
 }
 
 AAAProductOwned_MS_Active2: {
