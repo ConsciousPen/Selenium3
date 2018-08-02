@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
+import aaa.common.enums.Constants;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -23,14 +25,13 @@ import toolkit.utils.TestInfo;
  * 2. Initiate new Auto CA quote creation
  * 3. Validate Not Ordered Error after pressing Continue button [NB Quote]
  * 4. Validate Not Ordered Error after pressing on other Tab [NB Quote]
- * 5. Validate Not Ordered Error after pressing Calculate Premium Button [NB Quote]
- * 6. Validate Not Ordered Error after pressing Continue button [Endorsement Quote]
- * 7. Validate Not Ordered Error after pressing on other Tab [Endorsement Quote]
+ * 5. Validate Not Ordered Error after pressing Continue button [Endorsement Quote]
+ * 6. Validate Not Ordered Error after pressing on other Tab [Endorsement Quote]
  * @details
  **/
+@StateList(states = Constants.States.CA)
 public class TestNotOrderedMembershipError extends AutoCaSelectBaseTest {
 
-    private GeneralTab generalTab = new GeneralTab();
     private MembershipTab membershipTab = new MembershipTab();
     private ErrorTab errorTab = new ErrorTab();
     private PremiumAndCoveragesTab premiumsAndCoveragesTab = new PremiumAndCoveragesTab();
@@ -47,7 +48,6 @@ public class TestNotOrderedMembershipError extends AutoCaSelectBaseTest {
         TestData tdMembershipEndorsementChanges = getTestSpecificTD("TestData_NotOrderedMembershipValidationAU_CA_Endorsement_Changes");
 
         String notOrderedMembershipFirstMessage = "You must order the Membership report.";
-        String notOrderedMembershipSecondMessage = "Please order membership report. (AAA_SS171219-yBKH1) [for AAAAzMembershipRepo...";
 
         mainApp().open();
         createCustomerIndividual();
@@ -64,15 +64,12 @@ public class TestNotOrderedMembershipError extends AutoCaSelectBaseTest {
         // Validating second error condition [NB quote]
         validateSecondError(notOrderedMembershipFirstMessage);
 
-        // Validating third error condition [NB quote]
         policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
         vehicleTab.getAssetList().fill(getTestSpecificTD("TestData_NotOrderedMembershipValidationAU_CA")); // order all reports except Membership, and then select No
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        //TODO:Fixed here
         //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
-        errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage).verify.contains(notOrderedMembershipSecondMessage);
-        //errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage).verify.present();
+        errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.contains(notOrderedMembershipFirstMessage);
         errorTab.cancel();
         premiumsAndCoveragesTab.saveAndExit();
         log.info("Not Ordered Membership Errors Validation for NB Quote Successfully Completed..");
@@ -89,7 +86,7 @@ public class TestNotOrderedMembershipError extends AutoCaSelectBaseTest {
         // Validating second error condition [Endorsement Quote]
         validateSecondError(notOrderedMembershipFirstMessage);
 
-        // Validating third error condition [Endorsement Quote]
+        // Validating first error condition [Endorsement Quote]
         PolicySummaryPage.buttonPendedEndorsement.click();
         NavigationPage.comboBoxListAction.setValue("Data Gathering");
         Tab.buttonGo.click();
@@ -97,10 +94,8 @@ public class TestNotOrderedMembershipError extends AutoCaSelectBaseTest {
         membershipTab.getAssetList().fill(getTestSpecificTD("TestData_DontOrderMembership")); // Select 'No' for AAAMembership before ordering
         membershipTab.getAssetList().fill(getTestSpecificTD("TestData_NotOrderedMembershipValidationAU_CA"));
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        //TODO:Fixed here
         //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
         errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.contains(notOrderedMembershipFirstMessage);
-        //errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
         errorTab.cancel();
         membershipTab.saveAndExit();
         log.info("Not Ordered Membership Errors Validation for Endorsement Quote Successfully Completed..");
@@ -115,10 +110,8 @@ public class TestNotOrderedMembershipError extends AutoCaSelectBaseTest {
         membershipTab.getAssetList().fill(getTestSpecificTD("TestData_DontOrderMembership")); // Select 'No' for AAAMembership before ordering
         membershipTab.getAssetList().fill(getTestSpecificTD("TestData_NotOrderedMembershipValidationAU_CA"));
         membershipTab.submitTab();
-        //TODO:Fixed here
         //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
         errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.contains(notOrderedMembershipFirstMessage);
-        //errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
         errorTab.cancel();
     }
 
@@ -127,10 +120,8 @@ public class TestNotOrderedMembershipError extends AutoCaSelectBaseTest {
     */
     private void validateSecondError(String notOrderedMembershipFirstMessage){
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
-        //TODO:Fixed here
         //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
         errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.contains(notOrderedMembershipFirstMessage);
-        //errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
         errorTab.cancel();
         membershipTab.saveAndExit();
     }

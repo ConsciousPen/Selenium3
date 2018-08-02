@@ -1,11 +1,5 @@
 package aaa.modules.regression.sales.template.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Random;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -29,7 +23,15 @@ import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.toolkit.webdriver.customcontrols.PaymentMethodAllocationControl;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Random;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class PaymentPlanChangeOnEndorsementTemplate extends PolicyBaseTest {
 
@@ -204,7 +206,7 @@ public class PaymentPlanChangeOnEndorsementTemplate extends PolicyBaseTest {
 
 			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
 			bindTabPup.btnPurchase.click();
-			bindTabPup.confrimEndorsementPurchase.buttonYes.click();
+			bindTabPup.confirmEndorsementPurchase.buttonYes.click();
 		} else {
 			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlan);//
 			assertThat(premiumsAndCoveragesQuoteTabHo.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
@@ -368,7 +370,7 @@ public class PaymentPlanChangeOnEndorsementTemplate extends PolicyBaseTest {
 
 		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
 		bindTabPup.btnPurchase.click();
-		bindTabPup.confrimEndorsementPurchase.buttonYes.click();
+		bindTabPup.confirmEndorsementPurchase.buttonYes.click();
 
 		aaa.main.modules.policy.pup.defaulttabs.PurchaseTab purchaseTabPup = new aaa.main.modules.policy.pup.defaulttabs.PurchaseTab();
 		//fill Purchase tab if it is present
