@@ -153,7 +153,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
 		errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_200005);
-		errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA__200009_PA);
+		errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_200009);
 		errorTab.override();
 		documentsAndBindTab.submitTab();
 
