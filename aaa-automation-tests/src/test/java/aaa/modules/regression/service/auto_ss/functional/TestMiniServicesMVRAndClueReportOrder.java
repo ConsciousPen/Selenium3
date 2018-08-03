@@ -66,7 +66,7 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16694"})
-	public void pas16694_orderReports_not_Named_Insured_endorsement(@Optional("") String state) {
+	public void pas16694_orderReports_not_Named_Insured_endorsement(@Optional("VA") String state) {
 
 		pas16694_orderReports_not_Named_Insured_endorsementBody(getPolicyType());
 	}

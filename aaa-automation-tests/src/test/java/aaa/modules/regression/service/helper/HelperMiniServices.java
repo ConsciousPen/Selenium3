@@ -13,9 +13,6 @@ import aaa.modules.regression.service.helper.dtoDxp.*;
 
 public class HelperMiniServices extends PolicyBaseTest {
 
-	AddDriverRequest addDriverRequest = new AddDriverRequest();
-	UpdateDriverRequest updateDriverRequest = new UpdateDriverRequest();
-
 	void createEndorsementWithCheck(String policyNumber) {
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		PolicySummary response = HelperCommon.createEndorsement(policyNumber, endorsementDate);
@@ -44,29 +41,30 @@ public class HelperMiniServices extends PolicyBaseTest {
 		return newVehicleOid;
 	}
 
-	String addDriverReturnOid(String policyNumber,String firstName, String middleName, String lastName, String birthDate, String suffix) {
-		addDriverRequest.firstName = firstName;
-		addDriverRequest.lastName = middleName;
-		addDriverRequest.lastName = lastName;
-		addDriverRequest.birthDate = birthDate;
-		addDriverRequest.suffix = suffix;
-		DriversDto addedDriver = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
-		assertThat(addedDriver.oid).isNotEmpty();
-		String newDriverOid = addedDriver.oid;
-		printToLog("newDriverOid: " + addedDriver);
-		return newDriverOid;
-	}
-
-	void updateDriver(String policyNumber, String addedDriverOid, String gender,String licenseNumber, Integer ageFirstLicensed, String stateLicensed, String relationToApplicantCd,String maritalStatusCd) {
-		updateDriverRequest.gender = gender;
-		updateDriverRequest.licenseNumber = licenseNumber;
-		updateDriverRequest.ageFirstLicensed = ageFirstLicensed;
-		updateDriverRequest.stateLicensed = stateLicensed;
-		updateDriverRequest.relationToApplicantCd = relationToApplicantCd;
-		updateDriverRequest.maritalStatusCd = maritalStatusCd;
-		DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, addedDriverOid, updateDriverRequest);
-		assertThat(updateDriverResponse.driver.drivingLicense.licenseNumber).isEqualTo(updateDriverRequest.licenseNumber);
-	}
+//	String addDriverReturnOid(String policyNumber,String firstName, String middleName, String lastName, String birthDate, String suffix) {
+//		AddDriverRequest addDriverRequest = new AddDriverRequest();
+//		addDriverRequest.firstName = firstName;
+//		addDriverRequest.lastName = middleName;
+//		addDriverRequest.lastName = lastName;
+//		addDriverRequest.birthDate = birthDate;
+//		addDriverRequest.suffix = suffix;
+//		DriversDto addedDriver = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+//		assertThat(addedDriver.oid).isNotEmpty();
+//		String newDriverOid = addedDriver.oid;
+//		printToLog("newDriverOid: " + addedDriver);
+//		return newDriverOid;
+//	}
+//
+//	public DriverWithRuleSets updateDriver(String policyNumber, String addedDriverOid, String gender,String licenseNumber, Integer ageFirstLicensed, String stateLicensed, String relationToApplicantCd,String maritalStatusCd) {
+//		UpdateDriverRequest updateDriverRequest = new UpdateDriverRequest();
+//		updateDriverRequest.gender = gender;
+//		updateDriverRequest.licenseNumber = licenseNumber;
+//		updateDriverRequest.ageFirstLicensed = ageFirstLicensed;
+//		updateDriverRequest.stateLicensed = stateLicensed;
+//		updateDriverRequest.relationToApplicantCd = relationToApplicantCd;
+//		updateDriverRequest.maritalStatusCd = maritalStatusCd;
+//		return HelperCommon.updateDriver(policyNumber, addedDriverOid, updateDriverRequest);
+//	}
 
 	void updateVehicleUsageRegisteredOwner(String policyNumber, String newVehicleOid) {
 		printToLog("Update vehicle usage registered owner params: policyNumber: " + policyNumber + ", newVehicleOid: " + newVehicleOid);
