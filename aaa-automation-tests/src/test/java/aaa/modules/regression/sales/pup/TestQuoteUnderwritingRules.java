@@ -105,8 +105,9 @@ public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest {
 
 	private void checkFieldsError(TestData td) {
 		TestData tdFieldsError = td.getTestData(FIELDS_ERROR_KEY);
-		for (String key : tdFieldsError.getKeys())
-			underwritingTab.verifyFieldHasMessage(key, tdFieldsError.getValue(key));
+		for (String key : tdFieldsError.getKeys()) {
+			assertThat(underwritingTab.getAssetList().getWarning(key)).hasValue(tdFieldsError.getValue(key));
+		}
 	}
 	
 	private void checkBottomError(TestData td) {

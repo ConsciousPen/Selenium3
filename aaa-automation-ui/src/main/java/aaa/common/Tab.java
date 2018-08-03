@@ -10,7 +10,6 @@ import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import org.openqa.selenium.By;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.StaticElement;
@@ -136,14 +135,6 @@ public abstract class Tab {
 	 * filling the tab.
 	 */
 	public Tab submitTab() {
-		return this;
-	}
-
-	@Deprecated
-	public Tab verifyFieldHasMessage(String label, String expectedValue) {
-		String actualValue = assetList.getWarning(label).getValue();
-		String errorMessage = String.format("'%s' field's actual warning '%s' is not equal to the expected warning of '%s'", label, actualValue, expectedValue);
-		CustomAssert.assertEquals(errorMessage, expectedValue, actualValue);
 		return this;
 	}
 

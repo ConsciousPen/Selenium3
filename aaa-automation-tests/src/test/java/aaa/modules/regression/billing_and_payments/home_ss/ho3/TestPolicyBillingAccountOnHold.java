@@ -1,5 +1,6 @@
 package aaa.modules.regression.billing_and_payments.home_ss.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -14,6 +15,7 @@ import aaa.main.modules.billing.account.actiontabs.AddHoldActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.verification.CustomSoftAssertions;
 
 /**
  * @author Kazarnovskiy Lev
@@ -56,17 +58,19 @@ public class TestPolicyBillingAccountOnHold extends HomeSSHO3BaseTest {
 		BillingSummaryPage.open();
 		billingAccount.addHold().start();
 
-		ahaTab.fillTab(getTestSpecificTD("TestData_1"));
-		AddHoldActionTab.buttonAddUpdate.click();
-		ahaTab.verifyFieldHasMessage(BillingAccountMetaData.AddHoldActionTab.HOLD_NAME.getLabel(), "Value is required");
-		ahaTab.verifyFieldHasMessage(BillingAccountMetaData.AddHoldActionTab.HOLD_DESCRIPTION.getLabel(), "Value is required");
-		ahaTab.verifyFieldHasMessage(BillingAccountMetaData.AddHoldActionTab.HOLD_TYPE.getLabel(), "Value is required");
-		ahaTab.verifyFieldHasMessage(BillingAccountMetaData.AddHoldActionTab.HOLD_EFFECTIVE_DATE.getLabel(), "Cannot be earlier than today");
-		ahaTab.verifyFieldHasMessage(BillingAccountMetaData.AddHoldActionTab.HOLD_EXPIRATION_DATE.getLabel(), "Date must be after effective date");
+		CustomSoftAssertions.assertSoftly(softly -> {
+					ahaTab.fillTab(getTestSpecificTD("TestData_1"));
+					AddHoldActionTab.buttonAddUpdate.click();
+					assertThat(ahaTab.getAssetList().getAsset(BillingAccountMetaData.AddHoldActionTab.HOLD_NAME)).hasWarningWithText("Value is required");
+					assertThat(ahaTab.getAssetList().getAsset(BillingAccountMetaData.AddHoldActionTab.HOLD_DESCRIPTION)).hasWarningWithText("Value is required");
+					assertThat(ahaTab.getAssetList().getAsset(BillingAccountMetaData.AddHoldActionTab.HOLD_TYPE)).hasWarningWithText("Value is required");
+					assertThat(ahaTab.getAssetList().getAsset(BillingAccountMetaData.AddHoldActionTab.HOLD_EFFECTIVE_DATE)).hasWarningWithText("Cannot be earlier than today");
+					assertThat(ahaTab.getAssetList().getAsset(BillingAccountMetaData.AddHoldActionTab.HOLD_EXPIRATION_DATE)).hasWarningWithText("Date must be after effective date");
 
-		ahaTab.fillTab(getTestSpecificTD("TestData_1").adjust(TestData.makeKeyPath("AddHoldActionTab", "Reason"), "Other"));
-		AddHoldActionTab.buttonAddUpdate.click();
-		ahaTab.verifyFieldHasMessage(BillingAccountMetaData.AddHoldActionTab.ADDITIONAL_INFO.getLabel(), "Value is required");
+					ahaTab.fillTab(getTestSpecificTD("TestData_1").adjust(TestData.makeKeyPath("AddHoldActionTab", "Reason"), "Other"));
+					AddHoldActionTab.buttonAddUpdate.click();
+					assertThat(ahaTab.getAssetList().getAsset(BillingAccountMetaData.AddHoldActionTab.ADDITIONAL_INFO)).hasWarningWithText("Value is required");
+				});
 
 		//Step #10
 		ahaTab.fillTab(getTestSpecificTD("TestData_2"));

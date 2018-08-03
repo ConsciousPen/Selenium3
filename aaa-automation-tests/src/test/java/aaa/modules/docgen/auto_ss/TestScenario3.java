@@ -11,7 +11,8 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 /**
  * @author Ryan Yu
@@ -29,42 +30,41 @@ public class TestScenario3 extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testPolicyCreation(@Optional("") String state) {
-		CustomAssert.enableSoftMode();
-		mainApp().open();
-		createCustomerIndividual();
-		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		log.info(getState() + " Policy AutoSS is created: " + policyNumber);
-		TestData tdVerification = getTestSpecificTD("TestData_Verification");
-		switch (getState()) {
-			case "AZ":
-				tdVerification.adjust(TestData.makeKeyPath("AA41XX", "form", "PlcyNum", "TextField"), policyNumber)
-						.adjust(TestData.makeKeyPath("AARFIXX", "form", "PlcyNum", "TextField"), policyNumber);
-				DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.AA41XX, DocGenEnum.Documents.AARFIXX).verify.mapping(tdVerification, policyNumber);
-				break;
-			case "IN":
-			case "OK":
-				tdVerification.adjust(TestData.makeKeyPath("AA41XX", "form", "PlcyNum", "TextField"), policyNumber);
-				DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.AA41XX).verify.mapping(tdVerification, policyNumber);
-				break;
-			case "PA":
-				tdVerification.adjust(TestData.makeKeyPath("AA41PA", "form", "PlcyNum", "TextField"), policyNumber)
-						.adjust(TestData.makeKeyPath("AA52UPAB", "form", "PlcyNum", "TextField"), policyNumber).adjust(TestData.makeKeyPath("AA52IPAB", "form", "PlcyNum", "TextField"), policyNumber);
-				DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.AA41PA, DocGenEnum.Documents.AA52UPAB, DocGenEnum.Documents.AA52IPAB).verify
-						.mapping(tdVerification, policyNumber);
-				checkEndorseDocGen();
-				break;
-		}
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			mainApp().open();
+			createCustomerIndividual();
+			policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
+			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			log.info(getState() + " Policy AutoSS is created: " + policyNumber);
+			TestData tdVerification = getTestSpecificTD("TestData_Verification");
+			switch (getState()) {
+				case "AZ":
+					tdVerification.adjust(TestData.makeKeyPath("AA41XX", "form", "PlcyNum", "TextField"), policyNumber)
+							.adjust(TestData.makeKeyPath("AARFIXX", "form", "PlcyNum", "TextField"), policyNumber);
+					DocGenHelper.verifyDocumentsGenerated(softly, policyNumber, DocGenEnum.Documents.AA41XX, DocGenEnum.Documents.AARFIXX).verify.mapping(tdVerification, policyNumber, softly);
+					break;
+				case "IN":
+				case "OK":
+					tdVerification.adjust(TestData.makeKeyPath("AA41XX", "form", "PlcyNum", "TextField"), policyNumber);
+					DocGenHelper.verifyDocumentsGenerated(softly, policyNumber, DocGenEnum.Documents.AA41XX).verify.mapping(tdVerification, policyNumber, softly);
+					break;
+				case "PA":
+					tdVerification.adjust(TestData.makeKeyPath("AA41PA", "form", "PlcyNum", "TextField"), policyNumber)
+							.adjust(TestData.makeKeyPath("AA52UPAB", "form", "PlcyNum", "TextField"), policyNumber)
+							.adjust(TestData.makeKeyPath("AA52IPAB", "form", "PlcyNum", "TextField"), policyNumber);
+					DocGenHelper.verifyDocumentsGenerated(softly, policyNumber, DocGenEnum.Documents.AA41PA, DocGenEnum.Documents.AA52UPAB, DocGenEnum.Documents.AA52IPAB).verify
+							.mapping(tdVerification, policyNumber, softly);
+					checkEndorseDocGen(softly);
+					break;
+			}
+		});
 	}
 
-	private void checkEndorseDocGen() {
+	private void checkEndorseDocGen(ETCSCoreSoftAssertions softly) {
 		TestData tdVerification = getTestSpecificTD("TestData_EndorseVerification");
 		tdVerification.adjust(TestData.makeKeyPath("AA52UPAC", "form", "PlcyNum", "TextField"), policyNumber).adjust(TestData.makeKeyPath("AA52IPAC", "form", "PlcyNum", "TextField"), policyNumber);
 		policy.endorse().performAndFill(getTestSpecificTD("Endorsement").adjust(getPolicyTD("Endorsement", "TestData")));
-		DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.AA52UPAC, DocGenEnum.Documents.AA52IPAC).verify.mapping(tdVerification, policyNumber);
+		DocGenHelper.verifyDocumentsGenerated(softly, policyNumber, DocGenEnum.Documents.AA52UPAC, DocGenEnum.Documents.AA52IPAC).verify.mapping(tdVerification, policyNumber, softly);
 	}
 }
 

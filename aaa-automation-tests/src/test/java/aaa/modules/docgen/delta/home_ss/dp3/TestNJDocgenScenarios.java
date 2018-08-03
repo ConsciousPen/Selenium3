@@ -11,7 +11,7 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.modules.policy.HomeSSDP3BaseTest;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 /**
  *
@@ -62,22 +62,21 @@ public class TestNJDocgenScenarios extends HomeSSDP3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testDeltaPolicyDocuments(@Optional("") String state) {
-		CustomAssert.enableSoftMode();
-		mainApp().open();
-		createCustomerIndividual();
-		policyNum = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_DeltaPolicyDocuments")));
-		// TODO No such field "Is there any Third Party Designee ?", so cannot generate HSTPNJ
-		DocGenHelper.verifyDocumentsGenerated(policyNum, DocGenEnum.Documents.HSFLDNJ, DocGenEnum.Documents.HSCSND, DocGenEnum.Documents.HSHU2NJ, DocGenEnum.Documents.HSELNJ);
+		CustomSoftAssertions.assertSoftly(softly -> {
+			mainApp().open();
+			createCustomerIndividual();
+			policyNum = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_DeltaPolicyDocuments")));
+			// TODO No such field "Is there any Third Party Designee ?", so cannot generate HSTPNJ
+			DocGenHelper.verifyDocumentsGenerated(softly, policyNum, DocGenEnum.Documents.HSFLDNJ, DocGenEnum.Documents.HSCSND, DocGenEnum.Documents.HSHU2NJ, DocGenEnum.Documents.HSELNJ);
 
-		policy.policyDocGen().start();
-		documentActionTab.verify.documentsPresent(false,
-				DocGenEnum.Documents.HSFLDNJ,
-				DocGenEnum.Documents.HSCSND,
-				DocGenEnum.Documents.HSHU2NJ,
-				DocGenEnum.Documents.HSELNJ
-		);
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			policy.policyDocGen().start();
+			documentActionTab.verify.documentsPresent(softly, false,
+					DocGenEnum.Documents.HSFLDNJ,
+					DocGenEnum.Documents.HSCSND,
+					DocGenEnum.Documents.HSHU2NJ,
+					DocGenEnum.Documents.HSELNJ
+			);
+		});
 	}
 
 	/**
@@ -98,13 +97,10 @@ public class TestNJDocgenScenarios extends HomeSSDP3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL}, dependsOnMethods = "testDeltaPolicyDocuments")
 	public void testThirdPartyDesigneeCoverPage(@Optional("") String state) {
-		CustomAssert.enableSoftMode();
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData_MaterialMisrepresentation"));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH61XX);
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 }

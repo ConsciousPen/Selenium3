@@ -11,6 +11,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
+import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
@@ -69,8 +70,8 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
         generalTab.fillTab(td);
         generalTab.fillTab(effective_date_today_plus_91_days);
         
-        generalTab.verifyFieldHasMessage("Effective date", "Policy effective date cannot be more than 90 days from today's date.");
-        
+        assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.EFFECTIVE_DATE)).hasWarningWithText("Policy effective date cannot be more than 90 days from today's date.");
+
         generalTab.fillTab(effective_date_today_plus_10_days);
         generalTab.submitTab();
         
