@@ -31,7 +31,7 @@
         </classes>
     </test>
 
-    <test name="Test Enhanced UIM Coverage Forms Part 1" parallel="methods" thread-count="1024">
+    <test name="Test Enhanced UIM Coverage Forms" parallel="methods" thread-count="1024">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms">
@@ -40,16 +40,6 @@
                     <include name="pas11302_testEUIMMDFormConversion"/>
                     <include name="pas11302_testEUIMMDFormEndorsement"/>
                     <include name="pas11302_testEUIMMDFormRenewal"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="Test Enhanced UIM Coverage Forms Part 2" parallel="methods" thread-count="1024">
-        <parameter name="state" value="MD"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms">
-                <methods>
                     <include name="pas12466_AC1_NB"/>
                     <include name="pas12466_AC2_Endorsement"/>
                     <include name="pas12466_AC3_Conversion"/>
