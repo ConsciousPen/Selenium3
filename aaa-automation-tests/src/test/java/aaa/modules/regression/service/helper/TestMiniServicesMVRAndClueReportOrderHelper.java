@@ -27,8 +27,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 
 	protected void pas16694_orderReports_not_Named_Insured_endorsementBody(PolicyType policyType) {
 		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy();
+		String policyNumber = getCopiedPolicy();
 
 		//Create pended endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -100,7 +99,6 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 
 	protected void pas15077_orderReports_endorsementBody(PolicyType policyType) {
 		mainApp().open();
-		createCustomerIndividual();
 		String policyNumber = getCopiedPolicy();
 
 		//Create pended endorsement - future dated, because otherwise Insurance Score Report must be ordered for newly added NI
@@ -175,8 +173,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 
 	protected void pas15384_moreThanTwoMinorViolationsErrorBody() {
 		mainApp().open();
-		//createCustomerIndividual();
-		String policyNumber = "VASS952918619";
+		String policyNumber = getCopiedPolicy();
 
 		//Create pended endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -282,7 +279,6 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 					.isEqualToIgnoringCase(expectedMvrResponse);
 		});
 	}
-
 
 	private void countViolationsInPas (String policyNumber, Integer sumOfViolations){
 		SearchPage.openPolicy(policyNumber);
