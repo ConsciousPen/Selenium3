@@ -278,8 +278,8 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 
 	protected void pas15374_driverWithMajorViolationsBody(PolicyType policyType) {
 		mainApp().open();
-		//String policyNumber = getCopiedPolicy();
-		String policyNumber = "VASS952918553";
+		String policyNumber = getCopiedPolicy();
+	//	String policyNumber = "VASS952918553";
 		//Create pended endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
