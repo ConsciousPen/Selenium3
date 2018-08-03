@@ -26,8 +26,7 @@ public class TestHurricaneDeductibleTemplate extends PolicyBaseTest {
 	private PurchaseTab purchaseTab = new PurchaseTab();
 	private ErrorTab errorTab = new ErrorTab();
 
-	public void
-	pas6907_testMDHurricaneDeductible(PolicyType policyType) {
+	public void pas6907_testMDHurricaneDeductible(PolicyType policyType) {
 
 		// TestData for Home . Required Zip Code and Distance to coast for mandatory 1% Hurricane deductible
 		TestData tdHome = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData")
