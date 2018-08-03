@@ -74,7 +74,6 @@
                 <methods>
                     <include name="pas14463_ViewDriverService"/>
                     <include name="pas482_ViewDriverServiceOrderOfDriver"/>
-                    <include name="pas478_AddDrivers"/>
                     <include name="pas14475_NameInsuredMaritalStatusWSS"/>
                     <include name="pas14475_NameInsuredMaritalStatusDSS"/>
                     <include name="pas14475_NameInsuredMaritalStatus"/>
