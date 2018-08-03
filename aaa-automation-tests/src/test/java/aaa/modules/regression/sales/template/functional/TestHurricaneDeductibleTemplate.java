@@ -5,7 +5,13 @@ import aaa.common.pages.NavigationPage;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ss.defaulttabs.*;
+import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.ComboBox;
@@ -53,6 +59,11 @@ public class TestHurricaneDeductibleTemplate extends PolicyBaseTest {
 		premiumsAndCoveragesQuoteTab.submitTab();
 		policyType.get().getDefaultView().fillFromTo(tdHome, MortgageesTab.class, BindTab.class);
 		bindTab.submitTab();
+		if(errorTab.isVisible()){
+			errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_HO_SS6260765);
+			errorTab.override();
+			bindTab.submitTab();
+		}
 		purchaseTab.fillTab(tdHome);
 		purchaseTab.submitTab();
 
@@ -70,11 +81,6 @@ public class TestHurricaneDeductibleTemplate extends PolicyBaseTest {
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
 		bindTab.submitTab();
-		if(errorTab.isVisible()){
-			errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_HO_SS6260765);
-			errorTab.override();
-			bindTab.submitTab();
-		}
 
 		// Renew Policy
 		policyType.get().renew().perform();
