@@ -64,8 +64,36 @@ public abstract class TestCinAbstract extends BaseTest {
         LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
         LocalDateTime renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate).minusHours(1);
         TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+
         mainApp().reopen();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        performRenewal(renewalTD);
+
+        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+    }
+
+    /**
+     * Perform a manual renewal on a policy specified by Policy Number with custom {@link TestData}
+     * Method with workaround for test goes in common run with renewal jobs.
+     *
+     * @param policyNumber
+     * @param renewalTD    {@link TestData}
+     * @param doNotRenewTD
+     */
+    public void renewPolicy(String policyNumber, TestData renewalTD, TestData doNotRenewTD) {
+        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        //Workaround in case test goes in common run with renewalOfferGenerationPart2 jobs are running
+        performDoNotRenew(doNotRenewTD);
+
+        LocalDateTime renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+        TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+
+        mainApp().reopen();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+        //Workaround in case test goes in common run with renewalOfferGenerationPart2 jobs are running
+        performRemoveDoNotRenew();
+
         performRenewal(renewalTD);
 
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -77,6 +105,10 @@ public abstract class TestCinAbstract extends BaseTest {
      * @param renewalTD {@link TestData}
      */
     abstract protected void performRenewal(TestData renewalTD);
+
+    abstract protected void performDoNotRenew(TestData doNotRenewTD);
+
+    abstract protected void performRemoveDoNotRenew();
 
     /**
      * Create a policy based on custom {@link TestData}
