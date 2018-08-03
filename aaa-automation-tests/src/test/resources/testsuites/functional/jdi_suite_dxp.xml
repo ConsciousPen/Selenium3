@@ -6,20 +6,6 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
-    <test name="ContactInfoUpdateServiceCA">
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing">
-                <methods>
-                    <include name="pas1441_emailChangeOutOfPas"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing">
-                <methods>
-                    <include name="pas1441_emailChangeOutOfPas"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test name="TestMiniServicesPremiumBearingAZ">
         <parameter name="state" value="AZ"/>
         <classes>
@@ -221,16 +207,6 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas9489_GreenButtonServiceStateAndProductConfigurationEffective"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="ContactInfoUpdateServiceSS">
-        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
-                <methods>
-                    <include name="pas1441_emailChangeOutOfPas"/>
                 </methods>
             </class>
         </classes>

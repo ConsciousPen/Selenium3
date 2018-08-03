@@ -1,5 +1,17 @@
 package aaa.modules.regression.service.helper;
 
+import static aaa.main.metadata.policy.AutoSSMetaData.UpdateRulesOverrideActionTab.RuleRow.RULE_NAME;
+import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
+import javax.ws.rs.core.Response;
+import org.assertj.core.api.SoftAssertions;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.common.collect.ImmutableList;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -17,27 +29,11 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments;
 import aaa.modules.regression.service.helper.dtoDxp.*;
-import aaa.modules.regression.service.helper.dtoDxp.ComparablePolicy;
-import aaa.modules.regression.service.helper.dtoDxp.ComparableVehicle;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableList;
-import org.assertj.core.api.SoftAssertions;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.ComboBox;
-
-import javax.ws.rs.core.Response;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
-
-import static aaa.main.metadata.policy.AutoSSMetaData.UpdateRulesOverrideActionTab.RuleRow.RULE_NAME;
-import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
@@ -815,7 +811,11 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		List<Vehicle> originalOrderingFromResponse = ImmutableList.copyOf(viewVehicleResponse.vehicleList);
 		List<Vehicle> sortedVehicles = viewVehicleResponse.vehicleList;
 		sortedVehicles.sort(Vehicle.ACTIVE_POLICY_COMPARATOR);
-		String oid = viewVehicleResponse.vehicleList.get(0).oid;
+		String oidForVin1 = viewVehicleResponse.vehicleList.stream()
+				.filter(vehicle -> vin1.equals(vehicle.vehIdentificationNo))
+				.findFirst()
+				.map(vehicle -> vehicle.oid)
+				.orElse(null);
 
 		assertSoftly(softly -> {
 
@@ -853,9 +853,9 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		assertThat(addVehicle.oid).isNotEmpty();
 
 		//run delete vehicle service
-		VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, oid);
+		VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, oidForVin1);
 		assertSoftly(softly -> {
-			softly.assertThat(deleteVehicleResponse.oid).isEqualTo(oid);
+			softly.assertThat(deleteVehicleResponse.oid).isEqualTo(oidForVin1);
 			softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
 			assertThat(deleteVehicleResponse.ruleSets).isEqualTo(null);
 		});
@@ -871,7 +871,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 			Vehicle vehiclePendingRemoval = viewEndorsementVehicleResponse2.vehicleList.stream().filter(veh -> vin1.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
 			softly.assertThat(vehiclePendingRemoval).isNotNull();
-			softly.assertThat(vehiclePendingRemoval.oid).isEqualTo(oid);
+			softly.assertThat(vehiclePendingRemoval.oid).isEqualTo(oidForVin1);
 			softly.assertThat(vehiclePendingRemoval.vehicleStatus).isEqualTo("pendingRemoval");
 			softly.assertThat(vehiclePendingRemoval.vehTypeCd).isEqualTo("PPA");
 			softly.assertThat(vehiclePendingRemoval.vehIdentificationNo).isEqualTo(vin1);

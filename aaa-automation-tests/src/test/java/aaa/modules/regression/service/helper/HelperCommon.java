@@ -120,14 +120,6 @@ public class HelperCommon {
 		return runJsonRequestGetAdmin(requestUrl, InstallmentFeesResponse[].class);
 	}
 
-	public static void executeContactInfoRequest(String policyNumber, String emailAddressChanged, String authorizedBy) {
-		UpdateContactInfoRequest request = new UpdateContactInfoRequest();
-		request.email = emailAddressChanged;
-		request.authorizedBy = authorizedBy;
-		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_CONTACT_INFO, policyNumber));
-		runJsonRequestPostDxp(requestUrl, request);
-	}
-
 	public static String updatePolicyPreferences(String policyNumber, int status) {
 		String requestUrl = urlBuilderAdmin(ADMIN_UPDATE_POLICY_PREFERENCES_ENDPOINT + policyNumber);
 		return runJsonRequestPostAdmin(requestUrl, null, String.class, status);
