@@ -3,6 +3,8 @@ package aaa.modules.regression.service.helper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
+
+import aaa.main.enums.ErrorDxpEnum;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -16,6 +18,8 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
+
+import javax.ws.rs.core.Response;
 
 public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest {
 	private DriverTab driverTab = new DriverTab();
@@ -117,6 +121,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 	}
+
 	private void checkThatClueIsOrdered(int tableRowIndex, String expectedClueResponse) {
 		assertSoftly(softly -> {
 			softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRows().size()).isEqualTo(tableRowIndex);
@@ -180,7 +185,6 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 					.isEqualToIgnoringCase(expectedMvrResponse);
 		});
 	}
-
 
 	protected void pas15077_orderReports_endorsementBody(PolicyType policyType) {
 		mainApp().open();
@@ -276,4 +280,54 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 	}
+
+	protected void pas15384_moreThanTwoMinorViolationsErrorBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		//Create pended endorsement
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		//Check driver with more that two minor violations
+		String newDriverOid = helperMiniServices.addDriverReturnOid(policyNumber, "Two", null, "Minors", "1970-01-01", null);
+		helperMiniServices.updateDriver(policyNumber,newDriverOid,"female","B15384001",16,"VA","CH","SSS");
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+
+		//Order reports through service
+		ErrorResponseDto orderReportErrorResponse = HelperCommon.orderReportError(policyNumber, newDriverOid,422);
+		assertSoftly(softly -> {
+			softly.assertThat(orderReportErrorResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+			softly.assertThat(orderReportErrorResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+			softly.assertThat(orderReportErrorResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getCode());
+			softly.assertThat(orderReportErrorResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getMessage());
+			softly.assertThat(orderReportErrorResponse.errors.get(0).field).isEqualTo("attributeForRules");
+		});
+
+		countViolationsInPas(policyNumber,3);
+
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getCode(), ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getMessage(), "attributeForRules");
+		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+
+		//Check Driver with one outdated violation
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		String newDriverOid2 = helperMiniServices.addDriverReturnOid(policyNumber, "Outdated", null, "Minor", "1970-01-01", null);
+		helperMiniServices.updateDriver(policyNumber,newDriverOid2,"male","B15384003",16,"VA","CH","SSS");
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		HelperCommon.orderReports(policyNumber, newDriverOid2);
+		countViolationsInPas(policyNumber,3);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	private void countViolationsInPas (String policyNumber, Integer sumOfViolations){
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+		driverTab.tableDriverList.selectRow(2);
+		assertThat(DriverTab.tableActivityInformationList.getAllRowsCount()).isEqualTo(sumOfViolations);
+		driverTab.saveAndExit();
+	}
 }
+
+

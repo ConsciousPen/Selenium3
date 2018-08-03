@@ -70,4 +70,30 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 
 		pas16694_orderReports_not_Named_Insured_endorsementBody(getPolicyType());
 	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name More than two minor violations, rule 200095
+	 * @scenario
+	 * 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Add driver with 3minor violations <=36months
+	 * 4. Rate policy. Order reports for new driver.
+	 * 5. Check response. Rate.
+	 * 6. Try Bind, check response.
+	 * 7. Delete endorsement.
+	 *
+	 * Repeat 1-7 steps with new added drivers:
+	 *    1) 2minor violations <=36months.
+	 *    2) 3minor violations, 1 is outdated >36months.
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15384"})
+	public void pas15384_moreThanTwoMinorViolationsError(@Optional("VA") String state) {
+
+		pas15384_moreThanTwoMinorViolationsErrorBody();
+
+	}
 }
