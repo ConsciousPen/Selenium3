@@ -1,0 +1,16 @@
+TestData_RMS_MembershipValid: {
+  GeneralTab: '@GeneralTab_MembershipValid',
+}
+
+GeneralTab_MembershipValid: {
+  NamedInsuredInformation: '@<auto_ca_choice>@DataGather@NamedInsuredInformation',
+  AAAProductOwned: '@TestData_RMS_Membership_Effective_Date',
+  ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ca_choice>@DataGather@PolicyInformation'
+}
+
+TestData_RMS_Membership_Effective_Date: {
+      Current AAA Member: 'Yes',
+      Membership Number: 9999994444444440,
+      Member Last Name: 'FourYearMembershipTenure'
+}
