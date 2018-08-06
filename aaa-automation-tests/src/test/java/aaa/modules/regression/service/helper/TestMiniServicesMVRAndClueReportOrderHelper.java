@@ -173,47 +173,35 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 
 	protected void pas15384_moreThanTwoMinorViolationsErrorBody() {
 		mainApp().open();
-		String policyNumber = getCopiedPolicy();
+		createCustomerIndividual();
+		String policyNumber = createPolicy();
 
 		//Create pended endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		//Check driver with more that two minor violations
-		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Two", null, "Minors", "1970-01-01", null);
-		DriversDto addedDriver =  HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
-
-		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female","B15384001",16,"VA","CH","SSS");
-		HelperCommon.updateDriver(policyNumber, addedDriver.oid, updateDriverRequest);
-		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		String oidDriver1 = addAndUpdateDriver(policyNumber,"Two","Minors","1970-01-01","B15384001");
 
 		//Order reports through service
-		ErrorResponseDto orderReportErrorResponse = HelperCommon.orderReportError(policyNumber, addedDriver.oid,422);
-		assertSoftly(softly -> {
-			softly.assertThat(orderReportErrorResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-			softly.assertThat(orderReportErrorResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-			softly.assertThat(orderReportErrorResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getCode());
-			softly.assertThat(orderReportErrorResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getMessage());
-			softly.assertThat(orderReportErrorResponse.errors.get(0).field).isEqualTo("attributeForRules");
-		});
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver1,  ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getCode(), ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getMessage(), "attributeForRules");
 
 		countViolationsInPas(policyNumber,3);
 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getCode(), ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getMessage(), "attributeForRules");
+
 		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
 
 		//Check Driver with one outdated violation
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
-		addDriverRequest = DXPRequestFactory.createAddDriverRequest("Outdated", null, "Minor", "1970-01-01", null);
-		DriversDto addedDriver2 =  HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+		String oidDriver2 = addAndUpdateDriver(policyNumber,"Outdated","Minor","1970-01-01","B15384003");
 
-		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male","B15384003",16,"VA","CH","SSS");
-		HelperCommon.updateDriver(policyNumber, addedDriver2.oid, updateDriverRequest);
-
-		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-		HelperCommon.orderReports(policyNumber, addedDriver2.oid);
+		HelperCommon.orderReports(policyNumber, oidDriver2);
 		countViolationsInPas(policyNumber,3);
 		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	protected void pas15371_driversWithNarcoticsDrugOrFelonyConvictionsErrorBody() {
+
 	}
 
 	private void checkThatClueIsOrdered(int tableRowIndex, String expectedClueResponse) {
@@ -288,6 +276,18 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		driverTab.tableDriverList.selectRow(2);
 		assertThat(DriverTab.tableActivityInformationList.getAllRowsCount()).isEqualTo(sumOfViolations);
 		driverTab.saveAndExit();
+	}
+
+	private String addAndUpdateDriver (String policyNumber, String firstName, String lastName, String birthDate, String licenceNumber){
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest(firstName, null, lastName, birthDate, null);
+		DriversDto addedDriver =  HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+
+		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female",licenceNumber,16,"VA","CH","SSS");
+		HelperCommon.updateDriver(policyNumber, addedDriver.oid, updateDriverRequest);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		return addedDriver.oid;
 	}
 }
 
