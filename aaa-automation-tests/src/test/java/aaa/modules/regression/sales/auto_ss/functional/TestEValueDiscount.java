@@ -311,6 +311,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				+ "and dtype = '%s'\n"
 				+ "and code = '%s'\n"
 				+ "and displayvalue = '%s'\n"
+				+ "and PRODUCTCD is null\n"
+				+ "and RISKSTATECD is null\n"
 				+ "and lookuplist_id = (select id from lookuplist where lookupname = '%s')";
 
 		CustomAssert.enableSoftMode();
@@ -353,17 +355,12 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHMVNBXX", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
 
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eValue", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
-//		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "PaperlessPreferences", "FALSE", "AAARolloutEligibilityLookup"))
-//				.isPresent());
 		CustomAssert
 				.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eRefunds", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "pcDisbursementEngine", "TRUE", "AAARolloutEligibilityLookup"))
 				.isPresent());
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eValueNotification", "TRUE", "AAARolloutEligibilityLookup"))
 				.isPresent());
-//		CustomAssert
-//				.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "vinRefresh", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
-
 		//new state specific configs for NJ/NY/MD- PAS-10359
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "BaseProductLookupValue", "membershipEligibility", "FALSE", "AAA_SS", "NJ", "AAAeValueQualifications"))
 				.isPresent());
