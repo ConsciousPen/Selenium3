@@ -34,7 +34,7 @@ public class TestViewRatingDetailsLinkTemplate extends PolicyBaseTest {
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
 
-        policy.renew().perform().submit();
+        policy.renew().perform();
         new PremiumsAndCoveragesQuoteTab().calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
         new BindTab().submitTab();
