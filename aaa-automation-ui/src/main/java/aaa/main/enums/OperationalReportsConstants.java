@@ -17,4 +17,11 @@ public final class OperationalReportsConstants {
 
         private DeliveryType(){}
     }
+
+    public static final class BusinessUnit {
+        public static final String CSAA_FIRE_CASUALTY_INSURANCE_COMPANY = "CSAA Fire & Casualty Insurance Company";
+        public static final String CSAA_AFFINITY_INSURANCE_COMPANY = "CSAA Affinity Insurance Company";
+        public static final String CSAA_GENERAL_INSURANCE_COMPANY = "CSAA General Insurance Company";
+        public static final String CSAA_INTERINSURANCE_BUREAU = "CSAA Interinsurance Bureau";
+    }
 }
