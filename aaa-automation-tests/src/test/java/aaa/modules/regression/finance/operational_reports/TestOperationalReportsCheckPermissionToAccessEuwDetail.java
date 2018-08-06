@@ -36,7 +36,7 @@ public class TestOperationalReportsCheckPermissionToAccessEuwDetail extends Base
                 .adjust("Password", "g60land");
         opReportApp().open(loginTD);
 
-        orTab.fillTab(getTestSpecificTD("TestData"));
+        orTab.fillTab(getOperationalReportsTD("DataGather","TestData"));
         assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.NAME))
                 .containsOption(OperationalReportsConstants.EUW_DETAIL);
     }
@@ -61,7 +61,7 @@ public class TestOperationalReportsCheckPermissionToAccessEuwDetail extends Base
                 .adjust("Password", "gac9syl");
         opReportApp().open(loginTD);
 
-        orTab.fillTab(getTestSpecificTD("TestData"));
+        orTab.fillTab(getOperationalReportsTD("DataGather","TestData"));
         assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.NAME))
                 .containsOption(OperationalReportsConstants.EUW_DETAIL);
     }
@@ -84,9 +84,11 @@ public class TestOperationalReportsCheckPermissionToAccessEuwDetail extends Base
                 .adjust("Groups", "E34")
                 .adjust("User", "gac9syl")
                 .adjust("Password", "gac9syl");
+
         opReportApp().open(loginTD);
 
-        orTab.fillTab(getTestSpecificTD("TestData"));
+        orTab.fillTab(getOperationalReportsTD("DataGather","TestData"));
+
         assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.NAME))
                 .doesNotContainOption(OperationalReportsConstants.EUW_DETAIL);
     }

@@ -31,7 +31,8 @@ public class TestOperationalReportsCheckEuwDetailScheduleReportParameters extend
     @TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-16021")
     public void pas16021_testOperationalReportsCheckEuwDetailScheduleReportParameters() {
         opReportApp().open();
-        orTab.fillTab(getTestSpecificTD("TestData"));
+
+        orTab.fillTab(getOperationalReportsTD("DataGather","TestData_EUW_Detail"));
 
         CheckBox schedule = orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.SCHEDULE);
 
