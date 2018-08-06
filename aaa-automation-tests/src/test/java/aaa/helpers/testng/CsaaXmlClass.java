@@ -100,7 +100,6 @@ public class CsaaXmlClass {
 				include.setXmlClass(this.xmlClassNoParams);
 			}
 
-
 		} catch (ClassNotFoundException e) {
 			throw new IstfException("Malformed suite: ", e.getCause());
 		}
@@ -153,7 +152,7 @@ public class CsaaXmlClass {
 	}
 
 	private Boolean containsParams(Class clazz, String methodName) {
-		return getAnnotation(clazz, methodName, Parameters.class).value().length == 0;
+		return getAnnotation(clazz, methodName, Parameters.class) != null && getAnnotation(clazz, methodName, Parameters.class).value().length != 0;
 	}
 
 }

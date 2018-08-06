@@ -69,15 +69,19 @@ public class AlterSuiteListener2 implements IAlterSuiteListener {
 					if (xmlClassNew.get() != null && xmlClassNew.get().getIncludedMethods() != null && !xmlClassNew.get().getIncludedMethods().isEmpty()) {
 
 						CsaaXmlTest xmlTestNew = new CsaaXmlTest(test, state, xmlClassNew.getPolicyType());
-						xmlTestNew.get().getXmlClasses().add(xmlClassNew.get());
-						xmlClassNew.get().setXmlTest(xmlTestNew.get());
+						if (xmlTestNew.get().getClasses().stream().noneMatch(s -> s.getName().equals(xmlClassNew.get().getName()))) {
+							xmlTestNew.get().getXmlClasses().add(xmlClassNew.get());
+							xmlClassNew.get().setXmlTest(xmlTestNew.get());
+						}
 					}
 
 					if (xmlClassNew.getNoParams() != null && xmlClassNew.getNoParams().getIncludedMethods() != null && !xmlClassNew.getNoParams().getIncludedMethods().isEmpty()) {
 
 						CsaaXmlTest xmlTestNew = new CsaaXmlTest(test, null, xmlClassNew.getPolicyType());
-						xmlTestNew.get().getXmlClasses().add(xmlClassNew.getNoParams());
-						xmlClassNew.getNoParams().setXmlTest(xmlTestNew.get());
+						if (xmlTestNew.get().getClasses().stream().noneMatch(s -> s.getName().equals(xmlClassNew.getNoParams().getName()))) {
+							xmlTestNew.get().getXmlClasses().add(xmlClassNew.getNoParams());
+							xmlClassNew.getNoParams().setXmlTest(xmlTestNew.get());
+						}
 					}
 				}
 			}

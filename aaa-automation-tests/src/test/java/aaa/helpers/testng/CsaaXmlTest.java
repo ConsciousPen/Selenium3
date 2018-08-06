@@ -62,7 +62,10 @@ public class CsaaXmlTest {
 		xmlTest.setParallel(test.getParallel());
 		xmlTest.setThreadCount(test.getThreadCount());
 		Map<String, String> parameters = Maps.newHashMap();
-		parameters.put("state", state);
+		if (state != null) {
+			parameters = test.getAllParameters();
+			parameters.put("state", state);
+		}
 		xmlTest.setParameters(parameters);
 		testMap.put(key, xmlTest);
 		return xmlTest;
