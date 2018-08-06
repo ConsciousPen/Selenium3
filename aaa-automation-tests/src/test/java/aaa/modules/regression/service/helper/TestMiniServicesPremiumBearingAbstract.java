@@ -249,7 +249,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		ValidateEndorsementResponse response = HelperCommon.startEndorsement(policyNumber, endorsementDate);
 		assertSoftly(softly -> {
-			softly.assertThat(response.allowedEndorsements).isEmpty();
+			softly.assertThat(response.allowedEndorsements.get(0)).isEqualTo("UpdateDriver");
 			softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
 			softly.assertThat(response.ruleSets.get(0).errors).isEmpty();
 			softly.assertThat(response.ruleSets.get(0).warnings).isEmpty();

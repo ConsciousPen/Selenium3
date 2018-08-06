@@ -137,7 +137,7 @@ public final class TestDataManager {
 		feeStrategy.put(FeeStrategyType.FEE, dataProvider.get("default/taxesfees/strategy/fee"));
 		feeGroup.put(FeeGroupType.FEE_GROUP, dataProvider.get("default/taxesfees/feegroup"));
 
-		operationalReports.put(OperationalReportType.OPERATIONAL_REPORT, dataProvider.get("default/platform/admin/reports/operationalreports"));
+		operationalReports.put(OperationalReportType.OPERATIONAL_REPORT, dataProvider.get("modules/regression/finance/operational_reports"));
 		templates.put(TemplateType.TEMPLATE, dataProvider.get("default/platform/admin/reports/templates"));
 		bct.put(BctType.BATCH_TEST, dataProvider.get("default/bct").getTestData(BctType.BATCH_TEST.getName()));
 		bct.put(BctType.ONLINE_TEST, dataProvider.get("default/bct").getTestData(BctType.ONLINE_TEST.getName()));
