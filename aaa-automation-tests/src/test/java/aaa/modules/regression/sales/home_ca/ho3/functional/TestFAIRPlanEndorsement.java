@@ -16,7 +16,7 @@ import aaa.modules.regression.sales.template.functional.TestFAIRPlanEndorsementT
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-@StateList(statesExcept = Constants.States.CA)
+@StateList(states = Constants.States.CA)
 public class TestFAIRPlanEndorsement extends HomeCaHO3BaseTest {
 
 	private String formIdInXml = DocGenEnum.Documents.FPCECA.getIdInXml();

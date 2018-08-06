@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -11,6 +12,7 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -40,6 +42,7 @@ import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.SALES_AGENT_AGR
  * 13. Purchase endorsement quote with overridden Membership error
  * @details
  **/
+@StateList(states = Constants.States.AZ)
 public class TestMembershipValidation extends HomeSSHO3BaseTest {
 
     private ApplicantTab applicantTab = new ApplicantTab();
@@ -53,9 +56,9 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
     @Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, description = "30504: Membership Validation Critical Defect Stabilization")
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-3786")
     public void pas3786_validateMembership(@Optional("AZ") String state) {
-
+        //UW rule
         TestData tdPolicy = getTestSpecificTD("TestData_MembershipValidationHO3");
-        TestData tdEndorsementStart = getPolicyTD("Endorsement", "TestData_Plus1Month");
+        TestData tdEndorsementStart = getPolicyTD("Endorsement", "TestData_Plus1Day");
         TestData tdRenewalStart = getPolicyTD("Renew", "TestData");
         TestData tdMembershipOverride = getTestSpecificTD("TestData_MembershipValidationHO3_OverrideErrors");
         TestData tdMembershipDummy = getTestSpecificTD("TestData_MembershipValidationHO3_Dummy");
@@ -164,8 +167,6 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         if (reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().getValue().equals("Order report")|| reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().getValue().equals("Re-order report")) {
             reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().click();
         }
-        //reportsTab.tblClueReport.getRow(1).getCell(6).click();
-        //reportsTab.reorderReports();
         premiumsAndCoveragesQuoteTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.btnPurchase.click();

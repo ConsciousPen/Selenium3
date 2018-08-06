@@ -4,14 +4,18 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.PolicyConstants;
+import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
@@ -52,7 +56,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		policy.getDefaultView().fillFromTo(testData, RatingDetailReportsTab.class, DriverActivityReportsTab.class, true);
 
 		// assert Ordered MVR License Statuses
-		assertAddedDrivers();
+		assertAddedDrivers(false);
 	}
 
 	/**
@@ -86,7 +90,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		preconditionsAddDriversRenewalEndorsement(driverTab);
 
 		// assert Ordered MVR License Statuses
-		assertAddedDrivers();
+		assertAddedDrivers(false);
 	}
 
 	/**
@@ -111,16 +115,13 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		TestData driverTab = getTestSpecificTD("TestData_DriverTab").resolveLinks();
 
 		// Open application Create Customer Create Policy with Driver exceeding MVR predictor threshold. Renew Policy
-		mainApp().open();
-		createCustomerIndividual();
-		createPolicy(testData);
-		policy.renew().perform();
+		createPolicyAndRenewal(testData);
 
 		// Fill Drivers Tab Calculate premium and Validate Drivers history
 		preconditionsAddDriversRenewalEndorsement(driverTab);
 
 		// assert Ordered MVR License Statuses
-		assertAddedDrivers();
+		assertAddedDrivers(true);
 	}
 
 	/**
@@ -161,7 +162,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		preconditionsAddDriversRenewalEndorsement(driverTab);
 
 		// assert Ordered MVR License Statuses
-		assertAddedDrivers();
+		assertAddedDrivers(false);
 	}
 
 	/**
@@ -197,7 +198,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		premiumAndCoveragesTab.submitTab();
 		driverActivityReportsTab.fillTab(testData);
 
-		assertMVRResponseViolations();
+		assertMVRResponseViolations(false);
 	}
 
 	/**
@@ -230,7 +231,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		// Fill Drivers Tab Calculate premium and Validate Drivers history
 		preconditionsAddDriversRenewalEndorsement(driverTab);
 
-		assertMVRResponseViolations();
+		assertMVRResponseViolations(false);
 	}
 
 	/**
@@ -255,15 +256,12 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabViolations").resolveLinks();
 
 		// Open application Create Customer Create Policy with Driver exceeding MVR predictor threshold. Renew Policy
-		mainApp().open();
-		createCustomerIndividual();
-		createPolicy(testData);
-		policy.renew().perform();
+		createPolicyAndRenewal(testData);
 
 		// Fill Drivers Tab Calculate premium and Validate Drivers history
 		preconditionsAddDriversRenewalEndorsement(driverTab);
 
-		assertMVRResponseViolations();
+		assertMVRResponseViolations(true);
 	}
 
 	/**
@@ -296,7 +294,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		// Fill Drivers Tab Calculate premium and Validate Drivers history
 		preconditionsAddDriversRenewalEndorsement(driverTab);
 
-		assertMVRResponseViolations();
+		assertMVRResponseViolations(false);
 	}
 
 	/**
@@ -328,7 +326,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		// Fill remaining policy to drivers activity reports tab
 		policy.getDefaultView().fillFromTo(testData, RatingDetailReportsTab.class, DriverActivityReportsTab.class, true);
 
-		assertMVRResponseAccidents();
+		assertMVRResponseAccidents(false);
 	}
 
 	/**
@@ -362,7 +360,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		// Fill Drivers Tab Calculate premium and Validate Drivers history
 		preconditionsAddDriversRenewalEndorsement(driverTab);
 
-		assertMVRResponseAccidents();
+		assertMVRResponseAccidents(false);
 	}
 
 	/**
@@ -388,15 +386,12 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabAccidents").resolveLinks();
 
 		// Open application Create Customer Create Policy with Driver exceeding MVR predictor threshold. Renew Policy
-		mainApp().open();
-		createCustomerIndividual();
-		createPolicy(testData);
-		policy.renew().perform();
+		createPolicyAndRenewal(testData);
 
 		// Fill Drivers Tab Calculate premium and Validate Drivers history
 		preconditionsAddDriversRenewalEndorsement(driverTab);
 
-		assertMVRResponseAccidents();
+		assertMVRResponseAccidents(true);
 	}
 
 	/**
@@ -431,7 +426,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		// Fill Drivers Tab Calculate premium and Validate Drivers history
 		preconditionsAddDriversRenewalEndorsement(driverTab);
 
-		assertMVRResponseAccidents();
+		assertMVRResponseAccidents(false);
 	}
 
 	private TestData getAdjustedDriverTestData() {
@@ -452,6 +447,17 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		return getPolicyTD()
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933")
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Female");
+	}
+
+	private void createPolicyAndRenewal(TestData td) {
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNum = createPolicy(td);
+
+		TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(45));
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNum);
+		policy.renew().perform();
 	}
 
 	private void initiateManualEntry(TestData testData) {
@@ -486,33 +492,48 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY).click();
 	}
 
-	private void assertAddedDrivers() {
+	/**
+	 * Renewal MVR Report table Row 1 is empty due to offline MVR batch needing to be ran.  Only validating that row if it is NOT a renewal
+	 */
+	private void assertAddedDrivers(boolean isRenewal) {
 		// Assert That two drivers have license status = Predicted Valid
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(3).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
 		// Assert That other driver does not have license status = predicted valid
-		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(1).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(4).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
+		if (!isRenewal) {
+			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(1).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
+		}
 	}
 
-	private void assertMVRResponseViolations(){
-		// Assert That driver with no violations has license status = Predicted Valid
-		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(1).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
+	/**
+	 * Renewal MVR Report table Row 1 is empty due to offline MVR batch needing to be ran.  Only validating that row if it is NOT a renewal
+	 */
+	private void assertMVRResponseViolations(boolean isRenewal){
 		// Assert That drivers with violations do not have license status = Predicted Valid
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(3).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(4).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(5).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(6).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isNotEqualTo("Predicted Valid");
+		if (!isRenewal) {
+			// Assert That driver with no violations has license status = Predicted Valid
+			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(1).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
+		}
 		}
 
-	private void assertMVRResponseAccidents(){
+	/**
+	 * Renewal MVR Report table Row 1 is empty due to offline MVR batch needing to be ran.  Only validating that row if it is NOT a renewal
+	 */
+	private void assertMVRResponseAccidents(boolean isRenewal){
 		// Assert That drivers with manually added accidents (Clue report is successful and clear) has license status = Predicted Valid
-		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(1).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(3).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(4).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(5).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(6).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
+		if (!isRenewal) {
+			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(1).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualTo("Predicted Valid");
+		}
 	}
 }

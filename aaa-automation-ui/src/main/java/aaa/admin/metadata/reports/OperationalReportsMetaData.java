@@ -26,7 +26,7 @@ public final class OperationalReportsMetaData {
 		public static final AssetDescriptor<AdvancedSelector> CHANNEL = declare("Channel", AdvancedSelector.class);
 		public static final AssetDescriptor<AdvancedSelector> LOCATION_TYPE = declare("Location Type", AdvancedSelector.class);
 		public static final AssetDescriptor<AdvancedSelector> LOCATION = declare("Location", AdvancedSelector.class);
-		public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy", TextBox.class);
+		public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy Number", TextBox.class);
 		public static final AssetDescriptor<RadioGroup> DELIVERY_TYPE = declare("Delivery type", RadioGroup.class);
 		public static final AssetDescriptor<CheckBox> MULTIPLE_OUTPUT_FORMATS = declare("Multiple Output Formats", CheckBox.class);
 		public static final AssetDescriptor<RadioGroup> REPORT_FORMAT = declare("Report Format", RadioGroup.class);

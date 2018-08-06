@@ -10,12 +10,12 @@ import javax.ws.rs.client.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import aaa.modules.regression.service.helper.dtoDxp.ComparablePolicy;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
 import org.apache.xerces.impl.dv.util.Base64;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -73,6 +73,7 @@ public class HelperCommon {
 	private static final String DXP_POLICIES_DRIVERS = "/api/v1/policies/%s/drivers";
 	private static final String DXP_POLICIES_ENDORSEMENT_DRIVERS = "/api/v1/policies/%s/endorsement/drivers";
 	private static final String DXP_POLICIES_UPDATE_DRIVERS = "/api/v1/policies/%s/endorsement/drivers/%s";
+	private static final String DXP_POLICIES_ENDORSEMENT_REMOVE_DRIVER = "/api/v1/policies/%s/endorsement/drivers/%s";
 	private static final String DXP_POLICIES_ENDORSEMENT_DRIVERS_REPORTS = "/api/v1/policies/%s/endorsement/drivers/%s/reports";
 
 	private static final String DXP_POLICIES_POLICY_COVERAGES = "/api/v1/policies/%s/coverages";
@@ -117,14 +118,6 @@ public class HelperCommon {
 	public static InstallmentFeesResponse[] executeInstallmentFeesRequest(String productCode, String state, String date) {
 		String requestUrl = urlBuilderAdmin(ADMIN_INSTALLMENT_FEES_ENDPOINT) + "?productCode=" + productCode + "&riskState=" + state + "&effectiveDate=" + date;
 		return runJsonRequestGetAdmin(requestUrl, InstallmentFeesResponse[].class);
-	}
-
-	public static void executeContactInfoRequest(String policyNumber, String emailAddressChanged, String authorizedBy) {
-		UpdateContactInfoRequest request = new UpdateContactInfoRequest();
-		request.email = emailAddressChanged;
-		request.authorizedBy = authorizedBy;
-		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_CONTACT_INFO, policyNumber));
-		runJsonRequestPostDxp(requestUrl, request);
 	}
 
 	public static String updatePolicyPreferences(String policyNumber, int status) {
@@ -270,6 +263,18 @@ public class HelperCommon {
 		log.info("Update Driver params: policyNumber: " + policyNumber + ", oid: " + oid);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_UPDATE_DRIVERS, policyNumber, oid));
 		return runJsonRequestPatchDxp(requestUrl, request, DriverWithRuleSets.class);
+	}
+
+	public static DriversDto removeDriver(String policyNumber, String oid, RemoveDriverRequest request) {
+		log.info("Remove Driver params: policyNumber: " + policyNumber + ", oid: " + oid);
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_REMOVE_DRIVER, policyNumber, oid));
+		return runJsonRequestDeleteDxp(requestUrl, DriversDto.class, request, 200);
+	}
+
+	public static ErrorResponseDto removeDriverError(String policyNumber, String oid, RemoveDriverRequest request) {
+		log.info("Remove Driver params: policyNumber: " + policyNumber + ", oid: " + oid);
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_REMOVE_DRIVER, policyNumber, oid));
+		return runJsonRequestDeleteDxp(requestUrl, ErrorResponseDto.class, request, 422);
 	}
 
 	public static ViewDriverAssignmentResponse viewEndorsementAssignments(String policyNumber) {
@@ -630,6 +635,15 @@ public class HelperCommon {
 		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.DELETE);
 	}
 
+	public static <T> T runJsonRequestDeleteDxp(String url, Class<T> responseType, RestBodyRequest request, int status) {
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = url;
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		restRequestInfo.bodyRequest = request;
+		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.DELETE);
+	}
+
 	public static <T> T runJsonRequestGetDxp(String url, Class<T> responseType) {
 		return runJsonRequestGetDxp(url, responseType, Response.Status.OK.getStatusCode());
 	}
@@ -779,7 +793,13 @@ public class HelperCommon {
 		Response response = null;
 		try {
 			log.info("Request: " + asJson(request));
-			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
+			if (RequestMethod.DELETE == requestMethod) {
+				ClientConfig config = new ClientConfig();
+				config.property(ClientProperties.SUPPRESS_HTTP_COMPLIANCE_VALIDATION, true);
+				client = ClientBuilder.newClient(config).register(JacksonJsonProvider.class);
+			} else {
+				client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
+			}
 			Invocation.Builder jsonRequest = createJsonRequest(client, request.url, request.sessionId);
 			String methodName = requestMethod.name();
 			if (request.bodyRequest != null) {
@@ -807,7 +827,7 @@ public class HelperCommon {
 
 	/**
 	 * Buffers method body and try to read response of expected type. If {@link ProcessingException} is thrown method 
-	 * attempts to parse and log body of {@link ErrorResponseDto} class and rethrown the exception.
+	 * attempts to parse and log body as string and rethrown the exception.
 	 * Exception will not be caught if not expected nor error response body is parsed.
 	 * @param response service response to read from
 	 * @param responseType expected response class
@@ -819,9 +839,7 @@ public class HelperCommon {
 			try {
 				return response.readEntity(responseType);
 			} catch (ProcessingException e) {
-				log.error("Actual response: " + System.lineSeparator() + 
-						asJson(response.readEntity(ErrorResponseDto.class)));
-				throw e;
+				log.error("Actual response: " + System.lineSeparator() + asJson(response.readEntity(String.class)));
 			}
 		} 
 		return response.readEntity(responseType);
