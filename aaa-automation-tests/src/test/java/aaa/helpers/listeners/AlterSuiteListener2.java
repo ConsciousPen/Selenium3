@@ -72,6 +72,13 @@ public class AlterSuiteListener2 implements IAlterSuiteListener {
 						xmlTestNew.get().getXmlClasses().add(xmlClassNew.get());
 						xmlClassNew.get().setXmlTest(xmlTestNew.get());
 					}
+
+					if (xmlClassNew.getNoParams() != null && xmlClassNew.getNoParams().getIncludedMethods() != null && !xmlClassNew.getNoParams().getIncludedMethods().isEmpty()) {
+
+						CsaaXmlTest xmlTestNew = new CsaaXmlTest(test, null, xmlClassNew.getPolicyType());
+						xmlTestNew.get().getXmlClasses().add(xmlClassNew.getNoParams());
+						xmlClassNew.getNoParams().setXmlTest(xmlTestNew.get());
+					}
 				}
 			}
 		}

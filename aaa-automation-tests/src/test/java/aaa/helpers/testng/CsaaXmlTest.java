@@ -13,7 +13,11 @@ public class CsaaXmlTest {
 	private String key;
 
 	public CsaaXmlTest(XmlTest xmlTest, String state, String policyType) {
-		key = state.concat(" ").concat(policyType);
+		if (state != null) {
+			key = state.concat(" ").concat(policyType);
+		} else {
+			key = policyType;
+		}
 		if (!testMap.containsKey(key)) {
 			this.xmlTest = createTest(xmlTest, state, policyType);
 		} else {

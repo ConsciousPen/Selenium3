@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import org.testng.Assert;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.xml.XmlClass;
 import org.testng.xml.XmlInclude;
@@ -16,14 +17,15 @@ import toolkit.exceptions.IstfException;
 public class CsaaXmlClass {
 
 	private XmlClass xmlClass;
+	private XmlClass xmlClassNoParams;
 
 	public CsaaXmlClass(XmlTest test, XmlClass sourceClass, String state) {
-		xmlClass = parseClass(test, sourceClass, state);
+		parseClass(test, sourceClass, state);
 		//xmlClass = sourceClass;
 	}
 
 	public String getPolicyType() {
-		String className = xmlClass.getName();
+		String className = this.xmlClass.getName();
 		if (className.contains(".auto_ca.") || className.contains(".auto_ss.")) {
 			return "Auto";
 		} else if (className.contains(".home_ca.") || className.contains(".home_ss.")) {
@@ -35,8 +37,12 @@ public class CsaaXmlClass {
 		}
 	}
 
+	public XmlClass getNoParams() {
+		return this.xmlClassNoParams;
+	}
+
 	public XmlClass get() {
-		return xmlClass;
+		return this.xmlClass;
 	}
 
 	private XmlClass createClass(XmlClass sourceClass) {
@@ -46,41 +52,58 @@ public class CsaaXmlClass {
 		return resultClass;
 	}
 
-	private XmlClass parseClass(XmlTest test, XmlClass xmlClass, String state) {
-		XmlClass resultXmlClass = createClass(xmlClass);
+	private void parseClass(XmlTest test, XmlClass xmlClass, String state) {
+		this.xmlClass = createClass(xmlClass);
+		this.xmlClassNoParams = createClass(xmlClass);
+
 		try {
 			Class clazz = Class.forName(xmlClass.getName());
 			List<XmlInclude> xmlInclude = xmlClass.getIncludedMethods();
 			List<String> xmlExclude = xmlClass.getExcludedMethods();
 			List<XmlInclude> resultInclude = new LinkedList<>();
+			List<XmlInclude> resultIncludeNoParams = new LinkedList<>();
 
 			if (xmlInclude != null && !xmlInclude.isEmpty()) {
 
 				for (XmlInclude include : xmlInclude) {
 					if (isMethodMatch(test, clazz, include.getName(), state)) {
-						resultInclude.add(include);
+						if (containsParams(clazz, include.getName())) {
+							resultInclude.add(include);
+						} else {
+							resultIncludeNoParams.add(include);
+						}
+
 					}
 				}
-				resultXmlClass.setIncludedMethods(resultInclude);
+				this.xmlClass.setIncludedMethods(resultInclude);
+				this.xmlClassNoParams.setIncludedMethods(resultIncludeNoParams);
 			} else {
 				for (Method method : clazz.getDeclaredMethods()) {
 					if (method.isAnnotationPresent(Test.class) && !xmlExclude.contains(method.getName())) {
 						if (isMethodMatch(test, clazz, method.getName(), state)) {
-							resultInclude.add(new XmlInclude(method.getName()));
+							if (containsParams(clazz, method.getName())) {
+								resultInclude.add(new XmlInclude(method.getName()));
+							} else {
+								resultIncludeNoParams.add(new XmlInclude(method.getName()));
+							}
 						}
 					}
 				}
 			}
-			resultXmlClass.setIncludedMethods(resultInclude);
+			this.xmlClass.setIncludedMethods(resultInclude);
+			this.xmlClassNoParams.setIncludedMethods(resultIncludeNoParams);
+
 			for (XmlInclude include : resultInclude) {
-				include.setXmlClass(resultXmlClass);
+				include.setXmlClass(this.xmlClass);
 			}
-			resultXmlClass.setExcludedMethods(new LinkedList<>());
+			for (XmlInclude include : resultIncludeNoParams) {
+				include.setXmlClass(this.xmlClassNoParams);
+			}
+
 
 		} catch (ClassNotFoundException e) {
 			throw new IstfException("Malformed suite: ", e.getCause());
 		}
-		return resultXmlClass;
 	}
 
 	private <T extends Annotation> T getAnnotation(Class clazz, String methodName, Class<T> annotationClass) {
@@ -127,6 +150,10 @@ public class CsaaXmlClass {
 
 		return returnValue;
 
+	}
+
+	private Boolean containsParams(Class clazz, String methodName) {
+		return getAnnotation(clazz, methodName, Parameters.class).value().length == 0;
 	}
 
 }
