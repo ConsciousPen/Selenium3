@@ -445,7 +445,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		automatedRefundOnDate(refundAmount, refundDate);
 	}
 
-	protected void issueAutomatedRefundOnRefundDate() {
+	protected void automatedRefundOnRefundDate() {
 		LocalDateTime refundDate = getTimePoints().getRefundDate(
 				getTimePoints().getRenewCustomerDeclineDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate()));
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
@@ -459,16 +459,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPROVED)
 				.verifyPresent();
 		log.info("Automated refund approved on {}", refundDate);
-		log.info("Issue refund");
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.REFUND)
-				.getCell(BillingConstants.BillingPendingTransactionsTable.ACTION).controls.links.get(ActionConstants.BillingPaymentsAndOtherTransactionAction.ISSUE).click();
-		Page.dialogConfirmation.confirm();
-		new BillingPaymentsAndTransactionsVerifier()
-				.setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)
-				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.AUTOMATED_REFUND)
-				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.ISSUED)
-				.verifyPresent();
-		log.info("Refund issued successfully");
 	}
 
 	protected void voidRefundOnStartDatePlus25() {
@@ -627,15 +617,13 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		TestData policyTd = getConversionPolicyDefaultTD();
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), effDate);
 		getPolicyType().get().getDefaultView().fill(policyTd);
-		String policyN = PolicySummaryPage.linkPolicy.getValue();
-		SearchPage.openPolicy(policyN);
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		BillingAccountInformationHolder.addBillingAccountDetails(
 				new BillingAccountDetails.Builder()
 						.setBillingAccountNumber(BillingSummaryPage.labelBillingAccountNumber.getValue())
 						.addPolicyDetails(new PolicyDetails.Builder()
-								.setPolicyNumber(policyN)
+								.setPolicyNumber(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(1).getValue())
 								.setPolicyEffectiveDate(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(3).getValue(), DateTimeUtils.MM_DD_YYYY))
 								.setPolicyExpirationDate(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(3).getValue(), DateTimeUtils.MM_DD_YYYY)
 										.plusYears(1))

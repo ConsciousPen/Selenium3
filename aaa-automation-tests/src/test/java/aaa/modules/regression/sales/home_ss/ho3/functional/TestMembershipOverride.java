@@ -1,6 +1,8 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
 import aaa.common.enums.Constants;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -16,6 +18,7 @@ import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.modules.regression.sales.home_ss.helper.HelperCommon;
 import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.assertj.core.api.Assertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -168,7 +171,8 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
         catch(Exception ex){}
 
         // Here, I make sure the failure occurred at the anticipated location.
-        assertThat(new ApplicantTab().getAAAMembershipAssetList().getAsset(HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER).getAllValues().contains("Membership Override")).isFalse();
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
+        Assertions.assertThat(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel().contains("Membership Override"));
     }
 
     /**
