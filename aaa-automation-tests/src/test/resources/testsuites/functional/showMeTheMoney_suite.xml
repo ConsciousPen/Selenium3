@@ -30,15 +30,14 @@
             <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsCheckEuwDetailScheduleReportParameters"/>
         </classes>
     </test>
-<<<<<<< .merge_file_a05572
     <test name="TestOperationalReportsCheckPermissionToAccessEuwDetail" preserve-order="true">
         <classes>
             <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsCheckPermissionToAccessEuwDetail"/>
-=======
+        </classes>
+    </test>
     <test name="TestOperationalReportsBusinessUnitParameter" preserve-order="true">
         <classes>
             <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsBusinessUnitParameter"/>
->>>>>>> .merge_file_a05440
         </classes>
     </test>
 </suite>
