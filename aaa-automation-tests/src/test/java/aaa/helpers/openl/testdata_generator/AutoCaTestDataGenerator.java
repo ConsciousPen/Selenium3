@@ -49,7 +49,7 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 				AutoCaMetaData.DriverTab.LAST_NAME.getLabel(), isFirstDriver ? null : openLDriver.getId() + DRIVER_LN_POSTFIX,
 				AutoCaMetaData.DriverTab.GENDER.getLabel(), getDriverTabGender(openLDriver.getGender()),
 				AutoCaMetaData.DriverTab.MARITAL_STATUS.getLabel(), getDriverTabMartialStatus(openLDriver.getMaritalStatus()),
-				AutoCaMetaData.DriverTab.OCCUPATION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|",
+				AutoCaMetaData.DriverTab.OCCUPATION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_EMPTY,
 				AutoCaMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel(), driverAge - openLDriver.getTyde(),
 				AutoCaMetaData.DriverTab.PERMIT_BEFORE_LICENSE.getLabel(), "No",
 				AutoCaMetaData.DriverTab.LICENSE_STATE.getLabel(), getState(),
@@ -58,7 +58,7 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 				AutoCaMetaData.DriverTab.MATURE_DRIVER_COURSE_COMPLETED_WITHIN_36_MONTHS.getLabel(), driverAge >= 50 ? getYesOrNo(openLDriver.isMatureDriver()) : null,
 				AutoCaMetaData.DriverTab.MATURE_DRIVER_COURSE_COMPLETION_DATE.getLabel(), Boolean.TRUE.equals(openLDriver.isMatureDriver())
 						? policyEffectiveDate.minusDays(new Random().nextInt(maxIncidentFreeInMonthsToAffectRating * 28)).format(DateTimeUtils.MM_DD_YYYY) : null,
-				AutoCaMetaData.DriverTab.MOST_RECENT_GPA.getLabel(), driverAge <= 25 ? AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|" : null);
+				AutoCaMetaData.DriverTab.MOST_RECENT_GPA.getLabel(), driverAge <= 25 ? AdvancedComboBox.RANDOM_EXCEPT_EMPTY : null);
 
 		List<TestData> activityInformationList = new ArrayList<>();
 		if (openLDriver.getDsr() != null && openLDriver.getDsr() > 0) {
@@ -198,7 +198,7 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 
 	protected TestData get4ViolationPointsActivityInformationData(LocalDate effectiveDate, Boolean hasDriverTrainingDiscount, Integer totalYearsAaccidentsFree) {
 		String incidentType = Boolean.TRUE.equals(hasDriverTrainingDiscount) ? "10-yr Major Violation" : "Major Violation";
-		return getActivityInformationData(effectiveDate, incidentType, AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|", totalYearsAaccidentsFree);
+		return getActivityInformationData(effectiveDate, incidentType, AdvancedComboBox.RANDOM_EXCEPT_EMPTY, totalYearsAaccidentsFree);
 	}
 
 	protected TestData getActivityInformationData(LocalDate effectiveDate, String type, String description, Integer totalYearsAccidentsFree) {
