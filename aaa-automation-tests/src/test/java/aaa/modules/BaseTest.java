@@ -5,6 +5,8 @@ package aaa.modules;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import aaa.admin.modules.reports.operationalreports.OperationalReportType;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +54,7 @@ public class BaseTest {
 	protected static Logger log = LoggerFactory.getLogger(BaseTest.class);
 	private static TestData tdCustomerIndividual;
 	private static TestData tdCustomerNonIndividual;
+	private static TestData tdOperationalReports;
 	private static ThreadLocal<String> state = new ThreadLocal<>();
 	private static String usState = PropertyProvider.getProperty(CustomTestProperties.TEST_USSTATE);
 	private static Map<String, Integer> policyCount = new HashMap<>();
@@ -65,7 +68,7 @@ public class BaseTest {
 		CustomAssert.initDriver(CustomAssert.AssertDriverType.TESTNG);
 		tdCustomerIndividual = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		tdCustomerNonIndividual = new TestDataManager().customer.get(CustomerType.NON_INDIVIDUAL);
-
+		tdOperationalReports = new TestDataManager().operationalReports.get(OperationalReportType.OPERATIONAL_REPORT);
 	}
 
 	public BaseTest() {
@@ -405,6 +408,10 @@ public class BaseTest {
 
 	protected TestData getCustomerNonIndividualTD(String fileName, String tdName) {
 		return getStateTestData(tdCustomerNonIndividual, fileName, tdName);
+	}
+
+	protected TestData getOperationalReportsTD(String fileName, String tdName) {
+		return getStateTestData(tdOperationalReports, fileName, tdName);
 	}
 
 	protected TestData getTestSpecificTD(String tdName) {

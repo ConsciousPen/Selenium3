@@ -1,6 +1,13 @@
 TestData: {
   OperationalReportsTab: {
       Category : 'Policy',
+      Type: 'Policy Balancing and Reconciliation'
+  }
+}
+
+TestData_EUW_Detail: {
+  OperationalReportsTab: {
+      Category : 'Policy',
       Type: 'Policy Balancing and Reconciliation',
       Name: 'View Earn, Unearned, Written Premium (EUW) - Detail'
   }

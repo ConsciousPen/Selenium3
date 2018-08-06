@@ -30,10 +30,9 @@ public class TestOperationalReportsCheckPolicyNumberParameter extends BaseTest {
     @Test(groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "16020")
     public void pas16020_testOperationalReportsCheckPolicyNumberParameter() {
-
         opReportApp().open();
 
-        orTab.fillTab(testDataManager.getDefault(TestOperationalReportsCheckDeliveryTypeForEuwDetail.class).getTestData("TestData"));
+        orTab.fillTab(getOperationalReportsTD("DataGather","TestData_EUW_Detail"));
 
         //Check that "Policy Number” field is displayed, enabled and text can be entered;
         TextBox policyNumberField = orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.POLICY_NUMBER);
