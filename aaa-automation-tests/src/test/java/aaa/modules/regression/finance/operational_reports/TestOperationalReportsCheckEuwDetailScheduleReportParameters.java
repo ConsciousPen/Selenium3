@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.CheckBox;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestOperationalReportsCheckEuwDetailScheduleReportParameters extends BaseTest {
@@ -36,26 +37,15 @@ public class TestOperationalReportsCheckEuwDetailScheduleReportParameters extend
 
         CheckBox schedule = orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.SCHEDULE);
 
-        assertSoftly(softly -> {
-                    softly.assertThat(schedule).isPresent();
-                    softly.assertThat(schedule).isEnabled();
-                });
-
+        assertThat(schedule).isPresent().isEnabled();
 
         schedule.setValue(true);
 
         assertSoftly(softly -> {
-            softly.assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.REPORT_NAME)).isPresent();
-            softly.assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.REPORT_NAME)).isEnabled();
-
-            softly.assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.SCHEDULE_TYPE)).isPresent();
-            softly.assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.SCHEDULE_TYPE)).isEnabled();
-
-            softly.assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.SCHEDULE_INTERVAL)).isPresent();
-            softly.assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.SCHEDULE_INTERVAL)).isEnabled();
-
-            softly.assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.SCHEDULE_INTERVAL_TYPE)).isPresent();
-            softly.assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.SCHEDULE_INTERVAL_TYPE)).isEnabled();
+            softly.assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.REPORT_NAME)).isPresent().isEnabled();
+            softly.assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.SCHEDULE_TYPE)).isPresent().isEnabled();
+            softly.assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.SCHEDULE_INTERVAL)).isPresent().isEnabled();
+            softly.assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.SCHEDULE_INTERVAL_TYPE)).isPresent().isEnabled();
         });
     }
 }
