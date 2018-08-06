@@ -3,6 +3,7 @@ package aaa.modules.regression.sales.home_ss.ho3.functional;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.modules.policy.PolicyType;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.modules.regression.sales.template.functional.TestUpdateWildfireScore;
 import aaa.utils.StateList;
@@ -12,9 +13,12 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.UT)
-public class TestOverrideWildfireScore extends HomeSSHO3BaseTest {
+public class TestOverrideWildfireScore extends TestUpdateWildfireScore {
 
-	private TestUpdateWildfireScore template = new TestUpdateWildfireScore();
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_SS_HO3;
+	}
 
 	/**
 	 * @author Dominykas Razgunas
@@ -33,7 +37,7 @@ public class TestOverrideWildfireScore extends HomeSSHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-12922")
 	public void pas12922_UpdateWildfireScoreNoPrivilegeNB(@Optional("UT") String state) {
 
-		template.pas12922_UpdateWildfireScoreNoPrivilegeNB(getPolicyType());
+		pas12922_UpdateWildfireScoreNoPrivilegeNB();
 	}
 
 	/**
@@ -52,9 +56,9 @@ public class TestOverrideWildfireScore extends HomeSSHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Update Wildfire Score HO3 - No Privilege, Endorsement")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-12922")
-	public void pas12922_UpdateWildfireScoreNoPrivilegeEdorsement(@Optional("UT") String state) {
+	public void pas12922_UpdateWildfireScoreNoPrivilegeEndorsement(@Optional("UT") String state) {
 
-		template.pas12922_UpdateWildfireScoreNoPrivilegeEndorsement(getPolicyType());
+		pas12922_UpdateWildfireScoreNoPrivilegeEndorsement();
 	}
 
 	/**
@@ -80,7 +84,7 @@ public class TestOverrideWildfireScore extends HomeSSHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-12922")
 	public void pas12922_UpdateWildfireScoreNB(@Optional("UT") String state) {
 
-		template.pas12922_UpdateWildfireScoreNB(getPolicyType());
+		pas12922_UpdateWildfireScoreNB();
 	}
 
 	/**
@@ -106,7 +110,7 @@ public class TestOverrideWildfireScore extends HomeSSHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-12922")
 	public void pas12922_UpdateWildfireScoreEndorsement(@Optional("UT") String state) {
 
-		template.pas12922_UpdateWildfireScoreEndorsement(getPolicyType());
+		pas12922_UpdateWildfireScoreEndorsement();
 	}
 
 	/**
@@ -132,7 +136,7 @@ public class TestOverrideWildfireScore extends HomeSSHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-12922")
 	public void pas12922_UpdateWildfireScoreRenewal(@Optional("UT") String state) {
 
-		template.pas12922_UpdateWildfireScoreRenewal(getPolicyType());
+		pas12922_UpdateWildfireScoreRenewal();
 	}
 
 	/**
@@ -158,7 +162,7 @@ public class TestOverrideWildfireScore extends HomeSSHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-12922")
 	public void pas12922_UpdateWildfireScoreManualEntry(@Optional("UT") String state) {
 
-		template.pas12922_UpdateWildfireScoreManualEntry(getPolicyType());
+		pas12922_UpdateWildfireScoreManualEntry();
 	}
 
 }
