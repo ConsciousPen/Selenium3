@@ -54,6 +54,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(states = Constants.States.CT)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2247")
 	public void pas2247_pas2248_AipAndNafLock(@Optional("CT") String state) {
@@ -184,7 +185,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4311")
-	public void pas4311_pas6587_ASDLock_newly_locked() {
+	public void pas4311_pas6587_ASDLock_newly_locked(@Optional("CO") String state) {
 		TestData testData = getPolicyTD();
 
 		//Add locked values to the global variable to clean them up then
