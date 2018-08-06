@@ -19,9 +19,31 @@ public class TestOperationalReportsCheckPermissionToAccessEuwDetail extends Base
     /**
      * @author Maksim Piatrouski
      * Objectives : check "View Earn, Unearned, Written Premium (EUW) - Detail" displayed in the drop down section
-     * when L41 or C32 privelege selected
+     * when L41 privelege selected
      * TC Steps:
-     * 1. Login app with L41/C32 privelege (Role C32)
+     * 1. Login app with L41 privelege
+     * 2. Navigate Reports -> Operational Reports;
+     * 3. Fill Category, Type
+     * 4. Check "View Earn, Unearned, Written Premium (EUW) - Detail" displayed in the drop down section
+     */
+
+    @Test(groups = {Groups.FUNCTIONAL})
+    @TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-17040")
+    public void pas17040_testOperationalReportsCheckPermissionToAccessEuwDetail_L41() {
+        TestData loginTD = initiateLoginTD().adjust("Groups", "L41");
+        opReportApp().open(loginTD);
+
+        orTab.fillTab(getTestSpecificTD("TestData"));
+        assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.NAME))
+                .containsOption(OperationalReportsConstants.EUW_DETAIL);
+    }
+
+    /**
+     * @author Maksim Piatrouski
+     * Objectives : check "View Earn, Unearned, Written Premium (EUW) - Detail" displayed in the drop down section
+     * when C32 privelege selected
+     * TC Steps:
+     * 1. Login app with C32 privelege
      * 2. Navigate Reports -> Operational Reports;
      * 3. Fill Category, Type
      * 4. Check "View Earn, Unearned, Written Premium (EUW) - Detail" displayed in the drop down section
