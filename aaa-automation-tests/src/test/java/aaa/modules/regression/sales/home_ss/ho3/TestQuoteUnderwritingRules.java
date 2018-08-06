@@ -86,43 +86,43 @@ public class TestQuoteUnderwritingRules extends HomeSSHO3BaseTest {
 
 		CustomSoftAssertions.assertSoftly(softly -> {
 			softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.HAVE_ANY_OF_THE_APPLICANT_S_CURRENT_PETS_INJURED_ANOTHER_PERSON))
-        		.hasValue("Applicants/insureds with any dogs or other animals, reptiles, or pets with any prior biting history are unacceptable. Underwriting review will occur post bind.");
+        		.hasWarningWithText("Applicants/insureds with any dogs or other animals, reptiles, or pets with any prior biting history are unacceptable. Underwriting review will occur post bind.");
         
 	        if (getState().equals("KY")) {
 		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES_FOR_WHICH_AN_ENDORSEMENT_IS_NOT_ALREADY_ATTACHED_TO_THE_POLICY))
-			        .hasValue("Risk must be endorsed with the appropriate business or farming endorsement when an eligible business or incidental farming exposure is present.");
+			        .hasWarningWithText("Risk must be endorsed with the appropriate business or farming endorsement when an eligible business or incidental farming exposure is present.");
 	        }
 	        else if (getState().equals("MD")) {
 		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES))
-			        .hasValue("Business or farming activity is ineligible");
+			        .hasWarningWithText("Business or farming activity is ineligible");
 	        }
 	        else if (getState().equals("OR")) {
 		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS__ADULT_DAY_CARE_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES))
-			        .hasValue("Risk must be endorsed with the appropriate business or farming endorsement when a business or incidental farming exposure is present and deemed eligible for coverage. Applicants that perform adult day care, or pet day care, are unacceptable");
+			        .hasWarningWithText("Risk must be endorsed with the appropriate business or farming endorsement when a business or incidental farming exposure is present and deemed eligible for coverage. Applicants that perform adult day care, or pet day care, are unacceptable");
 	        }
 	        else {
 		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS_CONDUCTED_ON_THE_PREMISES_FOR_WHICH_AN_ENDORSEMENT_IS_NOT_ATTACHED_TO_THE_POLICY))
-			        .hasValue("Risk must be endorsed with the appropriate business or farming endorsement when an eligible business or incidental farming exposure is present. Applicants that perform a home day care, including child, adult or pet day care, are unacceptable.");
+			        .hasWarningWithText("Risk must be endorsed with the appropriate business or farming endorsement when an eligible business or incidental farming exposure is present. Applicants that perform a home day care, including child, adult or pet day care, are unacceptable.");
 	        }
 
 	        underwritingTab.fillTab(td_uw2);
 	        underwritingTab.submitTab();
 	        if (getState().equals("CT")) {
-		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_RESIDENT_EMPLOYEES)).hasValue("'Remarks' is required");
+		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_RESIDENT_EMPLOYEES)).hasWarningWithText("'Remarks' is required");
 	        }
 	        else if (getState().equals("KY")) {
-		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_FORECLOSURE)).hasValue("'Remarks' is required");
-		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_RESIDENT_EMPLOYEES)).hasValue("'Remarks' is required");
+		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_FORECLOSURE)).hasWarningWithText("'Remarks' is required");
+		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_RESIDENT_EMPLOYEES)).hasWarningWithText("'Remarks' is required");
 	        }
 	        else if (getState().equals("MD")) {
-		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_PRIOR_INSURANCE_MD)).hasValue("'Remarks' is required");
-		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_RESIDENT_EMPLOYEES)).hasValue("'Remarks' is required");
-		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_RESIDENT_EMPLOYEES)).hasValue("'Remarks' is required");
+		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_PRIOR_INSURANCE_MD)).hasWarningWithText("'Remarks' is required");
+		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_RESIDENT_EMPLOYEES)).hasWarningWithText("'Remarks' is required");
+		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_RESIDENT_EMPLOYEES)).hasWarningWithText("'Remarks' is required");
 	        }
 	        else {
-		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_PRIOR_INSURANCE)).hasValue("'Remarks' is required");
-		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_FORECLOSURE)).hasValue("'Remarks' is required");
-		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_RESIDENT_EMPLOYEES)).hasValue("'Remarks' is required");
+		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_PRIOR_INSURANCE)).hasWarningWithText("'Remarks' is required");
+		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_FORECLOSURE)).hasWarningWithText("'Remarks' is required");
+		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_RESIDENT_EMPLOYEES)).hasWarningWithText("'Remarks' is required");
 	        }
 
 	        underwritingTab.fillTab(td_uw3);

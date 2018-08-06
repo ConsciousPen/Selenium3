@@ -1,16 +1,22 @@
 package aaa.toolkit.webdriver.customcontrols;
 
 import org.openqa.selenium.By;
+import aaa.common.pages.Page;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.waiters.Waiter;
 
 public class InquiryAssetList extends AssetList {
 	public InquiryAssetList(By locator) {
 		super(locator);
+	}
+
+	public InquiryAssetList(Class<? extends MetaData> metaDataClass) {
+		super(By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER), metaDataClass);
 	}
 
 	public InquiryAssetList(By locator, Class<? extends MetaData> metaDataClass) {
@@ -27,6 +33,10 @@ public class InquiryAssetList extends AssetList {
 		} else {
 			super.registerAsset(assetName, StaticElement.class, waiter, metaClass, hasParent, assetLocator);
 		}
+	}
+
+	public StaticElement getStaticElement(AssetDescriptor assetDesc) {
+		return StaticElement.class.cast(getAsset(assetDesc.getLabel()));
 	}
 }
 

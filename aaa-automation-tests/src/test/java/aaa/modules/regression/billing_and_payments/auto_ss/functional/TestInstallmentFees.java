@@ -262,14 +262,14 @@ public class TestInstallmentFees extends PolicyBilling {
 		softly.assertThat(AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method")).valueContains(expectedValueCard);
 		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Action").controls.links.get("View").click();
 		//PAS-4127 start
-		softly.assertThat(updateBillingAccountActionTab.getInquiryAssetList().getAsset(BillingAccountMetaData.AddPaymentMethodTab.TYPE))
+		softly.assertThat(updateBillingAccountActionTab.getInquiryAssetList().getStaticElement(BillingAccountMetaData.AddPaymentMethodTab.TYPE))
 				.hasValue(cardData.getValue("Type") + " " + cardType + " Card");
 		//PAS-4127 end
 
 		softly.assertThat(AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method")).valueContains(expectedValueCard);
 		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Action").controls.links.get("Edit").click();
 		//PAS-4127 start
-		softly.assertThat(updateBillingAccountActionTab.getInquiryAssetList().getAsset(BillingAccountMetaData.AddPaymentMethodTab.TYPE))
+		softly.assertThat(updateBillingAccountActionTab.getInquiryAssetList().getStaticElement(BillingAccountMetaData.AddPaymentMethodTab.TYPE))
 				.hasValue(cardData.getValue("Type") + " " + cardType + " Card");
 		//PAS-4127 end
 

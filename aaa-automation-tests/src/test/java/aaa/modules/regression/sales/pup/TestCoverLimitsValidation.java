@@ -170,7 +170,7 @@ public class TestCoverLimitsValidation  extends PersonalUmbrellaBaseTest {
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Sales.PUP)
-	public void testCoverLimitsValidation(@Optional("") String state) {
+	public void testCoverLimitsValidation(@Optional("CA") String state) {
 		mainApp().open();
 
 		// 1 ~ 4
@@ -260,44 +260,63 @@ public class TestCoverLimitsValidation  extends PersonalUmbrellaBaseTest {
 		String pDLimitCorrect = "100,000";
 		String pDLimitIncorrect = "90,000";
 
-		ErrorEnum.Errors biLimitErrorMsgExpectedCA = null;
+		ErrorEnum.Errors biLimitErrorMsgExpected1 = null;
+		ErrorEnum.Errors biLimitErrorMsgExpected2 = null;
+		ErrorEnum.Errors biLimitErrorMsgExpected3 = null;
+		ErrorEnum.Errors biLimitErrorMsgExpectedCA1 = null;
+		ErrorEnum.Errors biLimitErrorMsgExpectedCA2 = null;
 		switch (vehType) {
 		case AUTOMOBILE:
 			NavigationPage.toViewSubTab(PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
 			autoTab.getAutomobilesAssetList().fill(tdSpecific);
-			biLimitErrorMsgExpectedCA = ErrorEnum.Errors.ERROR_AAA_PUP_SS4240324_CA;
+			biLimitErrorMsgExpected1 = ErrorEnum.Errors.ERROR_AAA_PUP_SS4240324;
+			biLimitErrorMsgExpected2 = ErrorEnum.Errors.ERROR_AAA_PUP_SS4240323;
+			biLimitErrorMsgExpected3 = ErrorEnum.Errors.ERROR_AAA_PUP_SS4290091;
+			biLimitErrorMsgExpectedCA1 = ErrorEnum.Errors.ERROR_AAA_PUP_SS4240324_CA;
+			biLimitErrorMsgExpectedCA2 = ErrorEnum.Errors.ERROR_AAA_PUP_SS4240323_CA;
 			break;
 		case MOTORCYCLE:
 			NavigationPage.toViewSubTab(PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
 			autoTab.getMotorcyclesAssetList().fill(tdSpecific);
-			biLimitErrorMsgExpectedCA = ErrorEnum.Errors.ERROR_AAA_PUP_SS4240324_CA;
+			biLimitErrorMsgExpected1 = ErrorEnum.Errors.ERROR_AAA_PUP_SS4240324;
+			biLimitErrorMsgExpected2 = ErrorEnum.Errors.ERROR_AAA_PUP_SS4240323;
+			biLimitErrorMsgExpected3 = ErrorEnum.Errors.ERROR_AAA_PUP_SS4290091;
+			biLimitErrorMsgExpectedCA1 = ErrorEnum.Errors.ERROR_AAA_PUP_SS4240324_CA;
+			biLimitErrorMsgExpectedCA2 = ErrorEnum.Errors.ERROR_AAA_PUP_SS4240323_CA;
 			break;
 		case MOTORHOME:
 			NavigationPage.toViewSubTab(PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
 			autoTab.getMotorHomesAssetList().fill(tdSpecific);
-			//biLimitErrorMsgExpectedCA = _biLimitErrorMsgExpectedCA;
-			biLimitErrorMsgExpectedCA = ErrorEnum.Errors.ERROR_AAA_PUP_SS4240324_CA;
+			biLimitErrorMsgExpected1 = ErrorEnum.Errors.ERROR_AAA_PUP_SS4241939;
+			biLimitErrorMsgExpected2 = ErrorEnum.Errors.ERROR_AAA_PUP_SS4241938;
+			biLimitErrorMsgExpected3 = ErrorEnum.Errors.ERROR_AAA_PUP_SS4244182;
+			biLimitErrorMsgExpectedCA1 = ErrorEnum.Errors.ERROR_AAA_PUP_SS4241939_CA;
+			biLimitErrorMsgExpectedCA2 = ErrorEnum.Errors.ERROR_AAA_PUP_SS4241938_CA;
 			break;
 		case RECREATIONAL:
 			NavigationPage.toViewSubTab(PersonalUmbrellaTab.UNDERLYING_RISKS_OTHER_VEHICLES.get());
 			otherVehiclesTab.getRecreationalVehicleAssetList().fill(tdSpecific);
-			biLimitErrorMsgExpectedCA = ErrorEnum.Errors.ERROR_AAA_PUP_SS3415672;
+			biLimitErrorMsgExpected1 = ErrorEnum.Errors.ERROR_AAA_PUP_SS4243801;
+			biLimitErrorMsgExpected2 = ErrorEnum.Errors.ERROR_AAA_PUP_SS4243800;
+			biLimitErrorMsgExpected3 = ErrorEnum.Errors.ERROR_AAA_PUP_SS4243200;
+			biLimitErrorMsgExpectedCA1 = ErrorEnum.Errors.ERROR_AAA_PUP_SS3415672;
+			biLimitErrorMsgExpectedCA2 = ErrorEnum.Errors.ERROR_AAA_PUP_SS3415671;
 			break;
 		}
 		if (!getState().equals("CA")) {
 			changeSplitLimits(vehType, bILimitFirstCorrect, bILimitSecondIncorrect, pDLimitCorrect);
-			checkErrorMsg(vehType, ErrorEnum.Errors.ERROR_AAA_PUP_SS4240324);
+			checkErrorMsg(vehType, biLimitErrorMsgExpected1);
 			changeSplitLimits(vehType, bILimitFirstIncorrect, bILimitSecondCorrect, pDLimitCorrect);
-			checkErrorMsg(vehType, ErrorEnum.Errors.ERROR_AAA_PUP_SS4240323);
+			checkErrorMsg(vehType, biLimitErrorMsgExpected2);
 			changeSplitLimits(vehType, bILimitFirstCorrect, bILimitSecondCorrect, pDLimitIncorrect);
-			checkErrorMsg(vehType, ErrorEnum.Errors.ERROR_AAA_PUP_SS4290091);
+			checkErrorMsg(vehType, biLimitErrorMsgExpected3);
 		} else {
 			changeSplitLimits(vehType, bILimitFirstCorrectCA, bILimitSecondIncorrect, pDLimitCorrect);
-			checkErrorMsg(vehType, biLimitErrorMsgExpectedCA);
+			checkErrorMsg(vehType, biLimitErrorMsgExpectedCA1);
 			changeSplitLimits(vehType, bILimitFirstIncorrectCA, bILimitSecondCorrect, pDLimitCorrect);
-			checkErrorMsg(vehType, biLimitErrorMsgExpectedCA);
+			checkErrorMsg(vehType, biLimitErrorMsgExpectedCA2);
 			changeSplitLimits(vehType, bILimitFirstCorrectCA, bILimitSecondCorrect, pDLimitIncorrect);
-			checkErrorMsg(vehType, ErrorEnum.Errors.ERROR_AAA_PUP_SS4290091);
+			checkErrorMsg(vehType, biLimitErrorMsgExpected3);
 		}
 	}
 	

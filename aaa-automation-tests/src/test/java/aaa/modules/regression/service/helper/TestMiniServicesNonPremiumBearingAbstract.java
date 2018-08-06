@@ -79,14 +79,14 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	private void emailAddressChangedInEndorsementCheck(String emailAddressChanged, String authorizedBy) {
 		policy.policyInquiry().start();
 
-		assertThat(getGeneralTabElement().getInquiryAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL)).hasValue(emailAddressChanged);
+		assertThat(getGeneralTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL)).hasValue(emailAddressChanged);
 		NavigationPage.toViewTab(getDocumentsAndBindTab());
 
-		if (getDocumentsAndBindTabElement().getInquiryAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL).isPresent()) {
-			assertThat(getDocumentsAndBindTabElement().getInquiryAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL)).hasValue(emailAddressChanged);
+		if (getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL).isPresent()) {
+			assertThat(getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL)).hasValue(emailAddressChanged);
 		}
-		if (getDocumentsAndBindTabElement().getInquiryAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY).isPresent()) {
-			assertThat(getDocumentsAndBindTabElement().getInquiryAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY)).hasValue(authorizedBy);
+		if (getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY).isPresent()) {
+			assertThat(getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY)).hasValue(authorizedBy);
 		}
 		Tab.buttonCancel.click();
 	}

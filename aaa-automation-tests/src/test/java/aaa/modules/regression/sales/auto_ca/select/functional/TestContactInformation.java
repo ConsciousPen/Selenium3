@@ -134,7 +134,7 @@ public class TestContactInformation extends TestContactInformationAbstract {
     @Override
     protected void presenceOfContactInformationSection(int insuredNumber, boolean isPresent) {
         ((GeneralTab)getGeneralTabElement()).viewInsured(insuredNumber);
-        assertThat(getGeneralTabElement().isSectionPresent("Contact Information")).as("'Contact Information' section should be present").isTrue();
+        assertThat(getGeneralTabElement().isSectionPresent("Contact Information")).as("'Contact Information' section should be present").isEqualTo(isPresent);
     }
 
     @Override

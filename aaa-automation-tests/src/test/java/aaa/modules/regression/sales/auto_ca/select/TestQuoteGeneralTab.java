@@ -92,16 +92,16 @@ public class TestQuoteGeneralTab extends AutoCaSelectBaseTest {
 
 		verifyFieldProperties(PolicyInformation.SOURCE_OF_BUSINESS, true, "New Business");
 		assertThat(generalTab.getPolicyInfoAssetList().getAsset(PolicyInformation.SOURCE_OF_BUSINESS)).
-				hasOptions("New Business", "Non-pay Rewrite", "Spin-Off", "Split", "Rewrite", "Continuation");
+				containsAllOptions("New Business", "Non-pay Rewrite", "Spin-Off", "Split", "Rewrite", "Continuation");
 		verifyFieldProperties(PolicyInformation.POLICY_STATE, false, getState());
 		verifyFieldProperties(PolicyInformation.POLICY_TYPE, true, "Standard");
 		assertThat(generalTab.getPolicyInfoAssetList().getAsset(PolicyInformation.POLICY_TYPE)).
-				hasOptions("Standard", "TRUST", "Doing Business As", "Named Non Owner");
+				containsAllOptions("Standard", "TRUST", "Doing Business As", "Named Non Owner");
 		verifyFieldProperties(PolicyInformation.EFFECTIVE_DATE, true);
 		verifyFieldProperties(PolicyInformation.EXPIRATION_DATE, false);
 		verifyFieldProperties(PolicyInformation.CHANNEL_TYPE, true);
 		assertThat(generalTab.getPolicyInfoAssetList().getAsset(PolicyInformation.CHANNEL_TYPE)).
-				hasOptions("Phone (Direct Sales Unit)", "AAA Agent", "Sub Producer");
+				containsAllOptions("Phone (Direct Sales Unit)", "AAA Agent", "Sub Producer");
 		verifyFieldProperties(PolicyInformation.AGENCY, true);
 		verifyFieldProperties(PolicyInformation.AGENCY_OF_RECORD, false);
 		verifyFieldProperties(PolicyInformation.AGENT, true);

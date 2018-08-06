@@ -53,6 +53,6 @@ public class TestPolicyCancelRewrite extends PersonalUmbrellaBaseTest {
 		log.info("Rewritten Policy Number: " + rewrittenPolicyNumber);
 
 		assertThat(rewrittenPolicyNumber).as("Rewritten Policy Number %s is the same as Initial Policy Number %s", initialPolicyNumber, rewrittenPolicyNumber)
-				.isEqualTo(initialPolicyNumber);
+				.isNotEqualTo(initialPolicyNumber);
 	}
 }

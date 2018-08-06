@@ -45,7 +45,7 @@ public abstract class PolicyDoNotRenewAddRemove extends PolicyBaseTest {
 
 	        log.info("TEST: Remove Do Not Rene for Policy #" + policyNumber);
 			policy.removeDoNotRenew().perform(new SimpleDataProvider());
-		    softly.assertThat(PolicySummaryPage.labelDoNotRenew).isPresent();
+		    softly.assertThat(PolicySummaryPage.labelDoNotRenew).isPresent(false);
 	    });
     }
 }

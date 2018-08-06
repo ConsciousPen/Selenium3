@@ -2080,7 +2080,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		lastTransactionHistoryOpen();
 		if (!membershipDiscountPresent) {
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-			softly.assertThat(generalTab.getInquiryAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER)).hasValue("No");
+			softly.assertThat(generalTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER)).hasValue("No");
 		}
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		if (membershipDiscountPresent) {
@@ -2098,7 +2098,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		if (eValueDiscountPresent) {
 			lastTransactionHistoryOpen();
 			softly.assertThat(PremiumAndCoveragesTab.discountsAndSurcharges).valueContains(E_VALUE_DISCOUNT);
-			softly.assertThat(premiumAndCoveragesTab.getInquiryAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("Yes");
+			softly.assertThat(premiumAndCoveragesTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("Yes");
 			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 			if (PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, E_VALUE_DISCOUNT).isPresent()) {
 				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, E_VALUE_DISCOUNT).getCell(5)).hasValue("Yes");
@@ -2109,7 +2109,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		} else {
 			lastTransactionHistoryOpen();
 			softly.assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT)).isFalse();
-			softly.assertThat(premiumAndCoveragesTab.getInquiryAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("No");
+			softly.assertThat(premiumAndCoveragesTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("No");
 			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "eValue Discount").getCell(6)).hasValue("None");
 			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();

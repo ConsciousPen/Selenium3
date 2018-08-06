@@ -111,13 +111,13 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		policy.policyInquiry().start();
-		String zipCodeDefault = generalTab.getInquiryAssetList().getAsset(ZIP_CODE).getValue();
-		String addressDefault = generalTab.getInquiryAssetList().getAsset(ADDRESS_LINE_1).getValue();
-		String cityDefault = generalTab.getInquiryAssetList().getAsset(CITY).getValue();
-		String stateDefault = generalTab.getInquiryAssetList().getAsset(STATE).getValue();
+		String zipCodeDefault = generalTab.getInquiryAssetList().getStaticElement(ZIP_CODE).getValue();
+		String addressDefault = generalTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1).getValue();
+		String cityDefault = generalTab.getInquiryAssetList().getStaticElement(CITY).getValue();
+		String stateDefault = generalTab.getInquiryAssetList().getStaticElement(STATE).getValue();
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		String vin1 = vehicleTab.getInquiryAssetList().getAsset(VIN).getValue();
+		String vin1 = vehicleTab.getInquiryAssetList().getStaticElement(VIN).getValue();
 		mainApp().close();
 
 		//Create pended endorsement
@@ -456,10 +456,10 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 		//Get garage address from UI
 		policy.policyInquiry().start();
-		String zipCodeDefault = generalTab.getInquiryAssetList().getAsset(ZIP_CODE).getValue();
-		String addressDefault = generalTab.getInquiryAssetList().getAsset(ADDRESS_LINE_1).getValue();
-		String cityDefault = generalTab.getInquiryAssetList().getAsset(CITY).getValue();
-		String stateDefault = generalTab.getInquiryAssetList().getAsset(STATE).getValue();
+		String zipCodeDefault = generalTab.getInquiryAssetList().getStaticElement(ZIP_CODE).getValue();
+		String addressDefault = generalTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1).getValue();
+		String cityDefault = generalTab.getInquiryAssetList().getStaticElement(CITY).getValue();
+		String stateDefault = generalTab.getInquiryAssetList().getStaticElement(STATE).getValue();
 		GeneralTab.buttonCancel.click();
 
 		//Create pended endorsement
@@ -1034,7 +1034,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 		policy.policyInquiry().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		String vin1 = vehicleTab.getInquiryAssetList().getAsset(VIN).getValue();
+		String vin1 = vehicleTab.getInquiryAssetList().getStaticElement(VIN).getValue();
 		VehicleTab.buttonCancel.click();
 
 		//Create pended endorsement
