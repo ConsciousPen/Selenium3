@@ -19,6 +19,7 @@ import aaa.helpers.mock.model.property_risk_reports.RetrievePropertyRiskReportsM
 import aaa.helpers.mock.model.property_risk_reports.RiskReportsRequest;
 import aaa.helpers.mock.model.property_risk_reports.RiskReportsResponse;
 import aaa.utils.excel.bind.ReflectionHelper;
+import toolkit.exceptions.IstfException;
 
 public class MockGenerator {
 	private static final Integer RISKREPORTS_ELEVATION = 2700;
@@ -130,6 +131,9 @@ public class MockGenerator {
 		mRequest.setMembershipNumber(membershipNumber);
 
 		int ersCount = avgAnnualERSperMember.equals(RetrieveMembershipSummaryMock.AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE) || avgAnnualERSperMember.equals(0.0) ? 1 : avgAnnualERSperMember.intValue();
+		if (!avgAnnualERSperMember.equals(RetrieveMembershipSummaryMock.AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE) && avgAnnualERSperMember > 0 && memberPersistency > 0) {
+			throw new IstfException(String.format("Unable to generate \"%s\" mock with avgAnnualERSperMember > 0 and memberPersistency > 0", existingMock.getFileName()));
+		}
 		LocalDate serviceDate = avgAnnualERSperMember.equals(0.0) ? policyEffectiveDate.minusYears(4) : policyEffectiveDate.minusYears(1);
 		LocalDate memberStartDate = policyEffectiveDate.minusYears(memberPersistency);
 

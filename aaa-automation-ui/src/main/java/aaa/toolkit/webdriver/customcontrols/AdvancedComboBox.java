@@ -19,6 +19,7 @@ public class AdvancedComboBox extends ComboBox {
 	public static final String SELECTED_MARK = "/selected";
 	public static final String RANDOM_EXCEPT_MARK = RANDOM_MARK + "_except";
 	public static final String RANDOM_EXCEPT_CONTAINS_MARK = RANDOM_EXCEPT_MARK + "_contains";
+	public static final String RANDOM_EXCEPT_EMPTY = RANDOM_EXCEPT_MARK + "=|";
 	private Random random = new Random();
 
 	public AdvancedComboBox(By locator) {

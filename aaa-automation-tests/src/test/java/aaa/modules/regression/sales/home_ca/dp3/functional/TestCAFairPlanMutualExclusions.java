@@ -50,10 +50,7 @@ public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
                 HomeCaMetaData.EndorsementTab.DP_04_75.getLabel(),
                 HomeCaMetaData.EndorsementTab.DW_09_25.getLabel()
         );
-
-        // Create HO3 Base Policy
-        createHO3Policy(ho3PolicyData);
-        // Initiate DP3 Quote from HO3 policy. Fill up to P&C Endorsements.
+        // Initiate DP3 Policy. Fill up to P&C Endorsements.
         startDP3Quote(dp3PolicyData);
 
         // Add DP 09 25, DP 04 18, DP 04 47. Remove it With FairPLAN
@@ -152,7 +149,7 @@ public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
         // Open App, Create Customer and Initiate Quote
         mainApp().open();
         createCustomerIndividual();
-        createPolicy();
+        policy.initiate();
         policy.getDefaultView().fillUpTo(defaultPolicyData, EndorsementTab.class, false);
     }
 
