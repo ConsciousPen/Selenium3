@@ -28,7 +28,9 @@ public class TestOperationalReportsCheckEuwDetailDropdown extends BaseTest {
     @TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-14523")
     public void pas14523_testOperationalReportsCheckEuwDropdown() {
         opReportApp().open();
-        orTab.fillTab(getTestSpecificTD("TestData"));
+
+        orTab.fillTab(getOperationalReportsTD("DataGather","TestData"));
+
         assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.NAME))
                 .containsOption(OperationalReportsConstants.EUW_DETAIL);
 
