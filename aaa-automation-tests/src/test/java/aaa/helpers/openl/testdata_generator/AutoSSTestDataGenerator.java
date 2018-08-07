@@ -143,6 +143,13 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.PolicyInformation.ADVANCED_SHOPPING_DISCOUNTS.getLabel(), generalTabIsAdvanceShopping(openLPolicy.isAdvanceShopping())
 		);
 
+		if (Boolean.TRUE.equals(openLPolicy.isAdvanceShopping())) {
+			policyInformationData
+					.adjust(AutoSSMetaData.GeneralTab.PolicyInformation.OVERRIDE_ASD_LEVEL.getLabel(), "Yes")
+					.adjust(AutoSSMetaData.GeneralTab.PolicyInformation.ADVANCED_SHOPPING_DISCOUNT_OVERRIDE.getLabel(), "Level 1")
+					.adjust(AutoSSMetaData.GeneralTab.PolicyInformation.ASD_OVERRIDEN_BY.getLabel(), "Tester $<rx:\\d{5}>");
+		}
+
 		return DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), Arrays.asList(namedInsuredInformationData),
 				AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), aAAProductOwnedData,
