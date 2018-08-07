@@ -149,5 +149,29 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 
 		pas15370_driverWithMoreThanTwentyPointsErrorBody();
 	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name  Drivers with more than 20 Points - 200004
+	 * @scenario
+	 * 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Add driver with 4 incidents, <36 months
+	 * 4. Rate policy. Order reports for new driver.
+	 * 5. Check response. Rate.
+	 * 6. Try Bind, check response.
+	 * 7. Delete endorsement.
+	 *
+	 * Repeat 1-6 steps with new added driver:
+	 *    1)Driver with 4 incidents, one is outdated.
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15385"})
+	public void pas15385_driverWithFourOrMoreIncidentsError(@Optional("VA") String state) {
+
+		pas15385_driverWithFourOrMoreIncidentsErrorBody();
+	}
 }
 

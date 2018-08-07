@@ -258,7 +258,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
-		//Check driver with more that two minor violations
+		//Check driver with more than 20 points
 		String oidDriver1 = addAndUpdateDriver(policyNumber,"Twenty","Points","1970-01-01","B16848001");
 
 		//Order reports through service
@@ -289,6 +289,33 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 			softly.assertThat(binErrorResponseDto.errors.get(1).message).contains(ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION_VA.getMessage());
 			softly.assertThat(binErrorResponseDto.errors.get(1).field).isEqualTo("attributeForRules");
 		});
+	}
+
+	protected void pas15385_driverWithFourOrMoreIncidentsErrorBody(){
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		//Check driver with 4 incidents
+		String oidDriver1 = addAndUpdateDriver(policyNumber,"Four","Incidents","1970-01-01","B16848123");
+
+		//Order reports through service
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver1,  ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_THREE_INCIDENTS.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_THREE_INCIDENTS.getMessage(), "attributeForRules",true);
+
+		countViolationsInPas(policyNumber,4);
+
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_THREE_INCIDENTS.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_THREE_INCIDENTS.getMessage(), "attributeForRules");
+
+		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+
+		//Check Driver with one outdated incident
+		String oidDriver2 = addAndUpdateDriver(policyNumber,"Outdated","Incident","1970-01-01","B16848385");
+
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver2, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_THREE_INCIDENTS.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_THREE_INCIDENTS.getMessage(), "attributeForRules",false);
+
+		countViolationsInPas(policyNumber,4);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getCode(), ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getMessage(), "attributeForRules" );
 	}
 
 	private void checkThatClueIsOrdered(int tableRowIndex, String expectedClueResponse) {
