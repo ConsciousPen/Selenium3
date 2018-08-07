@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho3.functional;
 
+import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -13,6 +14,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
+import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -65,6 +67,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
  *      AND the VRD displays the overridden membership details AND the policy can be bound.
  * @runtime NOT RUN
  */
+@StateList(states = Constants.States.CA)
 public class TestMembershipOverride extends HomeCaHO3BaseTest
 {
 
@@ -304,7 +307,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
      * @RunTime 8min
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-10154")
     public void AC1_testMembershipOverride_Renewal(@Optional("") String state) {
         Long membershipStage3TP = 73L;
@@ -440,7 +443,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
      * @RunTime 8min
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-10154")
     public void AC3_testMembershipOverride_Renewal(@Optional("") String state) {
         Long membershipStage3TP = 73L;

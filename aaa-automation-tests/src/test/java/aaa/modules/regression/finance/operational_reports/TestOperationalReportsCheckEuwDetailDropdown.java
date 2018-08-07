@@ -11,7 +11,7 @@ import toolkit.utils.TestInfo;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 
-public class TestOperationalReportsCheckEuwDropdown extends BaseTest {
+public class TestOperationalReportsCheckEuwDetailDropdown extends BaseTest {
 
     private OperationalReportsTab orTab = new OperationalReportsTab();
 
@@ -28,7 +28,9 @@ public class TestOperationalReportsCheckEuwDropdown extends BaseTest {
     @TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-14523")
     public void pas14523_testOperationalReportsCheckEuwDropdown() {
         opReportApp().open();
-        orTab.fillTab(getTestSpecificTD("TestData"));
+
+        orTab.fillTab(getOperationalReportsTD("DataGather","TestData"));
+
         assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.NAME))
                 .containsOption(OperationalReportsConstants.EUW_DETAIL);
 

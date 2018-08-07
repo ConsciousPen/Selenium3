@@ -25,6 +25,20 @@ TestData1: {
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 
 }
+TestData2: {
+   PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+    GeneralTab: '@GeneralTab',
+    DriverTab: ['@DriverTab2','@DriverTab3','@DriverTab5','@DriverTab6','@Driver_two1'],
+    RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+    VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+    FormsTab: '@<auto_ss>@DataGather@FormsTab',
+    PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+    DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+    DocumentsAndBindTab: '@DocumentsAndBindTab',
+    PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+
+}
+
 GeneralTab1: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2','@NamedInsuredInformation3'],
   AAAProductOwned: '@AAAProductOwned',
@@ -302,6 +316,10 @@ TestData_FiveDrivers: {
     DriverTab: ['@Driver_one', '@Driver_two', '@Driver_four', '@Driver_five', '@Driver_six'],
 }
 
+TestData_2_Drivers_Not_NI_AfR: {
+    DriverTab: ['@Driver_one', '@Driver_two', '@Driver_four'],
+}
+
 Driver_one: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
@@ -403,5 +421,23 @@ Driver_six: {
     License Type: 'Licensed (US)',
     Age First Licensed: '18',
     License Number: 'T68744498',
+    License Status: 'Licensed (US)'
+}
+Driver_two1: {
+   Add drivers: 'Yes',
+    DriverSearchDialog: {},
+   "Policy #": '123456789',
+    Rel. to First Named Insured: Child,
+    First Name: 'John',
+    Middle Name: 'Sam',
+    Last Name: 'Smith',
+    Date of Birth: '12/12/1980',
+    Gender: 'Male',
+    Suffix: 'II',
+    Marital Status: Married,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: '454353443',
     License Status: 'Licensed (US)'
 }

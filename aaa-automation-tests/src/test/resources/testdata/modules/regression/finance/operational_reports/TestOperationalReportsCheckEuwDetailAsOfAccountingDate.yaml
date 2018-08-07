@@ -1,0 +1,3 @@
+TestData_Check: {
+  AsOfDate: '$<today:MM/dd/yyyy>'
+}

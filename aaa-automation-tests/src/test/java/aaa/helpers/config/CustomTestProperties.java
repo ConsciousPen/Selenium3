@@ -17,6 +17,7 @@ public class CustomTestProperties extends TestProperties {
 	public static final String JOB_FOLDER = "job.folder";
 	public static final String WIRE_MOCK_STUB_URL_TEMPLATE = "wire.mock.stub.urltemplate";
 	public static final String SCRUM_ENVS_SSH = "scrum.envs.ssh";
+	public static final String TEST_USSTATE = "test.usstate";
 	public static final String CUSTOM_DATE1 = "test.date1";
 	public static final String CUSTOM_DATE2 = "test.date2";
 	public static final String OAUTH2_ENABLED = "oauth2.enabled";
@@ -28,6 +29,7 @@ public class CustomTestProperties extends TestProperties {
 	public static final String BATCHJOB_RUN_MODE = "batchjob.run.mode"; // available values: http, soap
 	public static final String RATING_REPO_USER = "rating.repo.user";
 	public static final String RATING_REPO_PASSWORD = "rating.repo.password";
+	public static final String RATING_REPO_BRANCH = "rating.repo.branch"; // for openl tests only - name of the branch from "pas-rating" repository from which test excel files should be taken
 	public static final String APP_ADMIN_USER = "app.admin.user";
 	public static final String APP_ADMIN_PASSWORD = "app.admin.password"; // not necessary if APP_SSH_AUTH_KEYPATH is set
 	public static final String APP_SSH_AUTH_KEYPATH = "app.ssh.auth.keypath";

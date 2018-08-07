@@ -479,7 +479,7 @@ TestData_MD: {
   GeneralTab: '@GeneralTab_MD',
   ApplicantTab: '@home_ss_ho3@DataGather@ApplicantTab_MD',
   ReportsTab: '@home_ss_ho3@DataGather@ReportsTab_MD',
-  PropertyInfoTab: '@PropertyInfoTab',
+  PropertyInfoTab: '@PropertyInfoTab_MD',
   ProductOfferingTab: '@home_ss_ho3@DataGather@ProductOfferingTab',
   EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
@@ -508,6 +508,27 @@ GeneralTab_MD: {
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
   Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
+}
+
+PropertyInfoTab_MD: {
+  DwellingAddress: '@home_ss_ho3@DataGather@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  Riskmeter: {},
+  FireReport: {},
+  PropertyValue: '@home_ss_ho3@DataGather@PropertyValue',
+  Construction: '@home_ss_ho3@DataGather@Construction',
+  AdditionalQuestions: {},
+  Interior: '@home_ss_ho3@DataGather@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@home_ss_ho3@DataGather@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: '@RentalInformation'
 }
 
 # --------- TestData MT ------------

@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.http.HttpStub;
@@ -7,6 +8,7 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -16,6 +18,7 @@ import toolkit.utils.TestInfo;
 
 import java.time.LocalDateTime;
 
+@StateList(states = Constants.States.AZ)
 public class TestMembershipRenewalConsideration extends AutoSSBaseTest
 {
     /**

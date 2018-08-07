@@ -206,4 +206,17 @@
         </classes>
     </test>
 
+    <test name="Test Lexis Nexis MVR Ordering on DAR page" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLexisNexisMVROrdering">
+                <methods>
+                    <include name="pas10099_testLexisNexisMVROrderingWA"/>
+                    <include name="pas10099_testLexisNexisMVROrderingCA"/>
+                    <include name="pas10099_testLexisNexisMVROrderingFL"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
 </suite>

@@ -74,7 +74,7 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 		Pattern coverageAdditionalLimitAmountPattern = Pattern.compile("^policy\\.vehicles\\[\\d+\\]\\.coverages\\[\\d+\\]\\.additionalLimitAmount$");
 		LocalDate plcyInception = openLPolicy.getCappingDetails().getPlcyInceptionDate();
 		if (plcyInception != null) {
-			openLFieldsMap.put("policy.cappingDetails.plcyInception", String.valueOf(plcyInception.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()));
+			openLFieldsMap.put("policy.cappingDetails.plcyInceptionDate", String.valueOf(plcyInception.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()));
 		}
 
 		openLFieldsMap.entrySet().removeIf(e -> "policy.policyNumber".equals(e.getKey())

@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import toolkit.datax.TestData;
+import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
 
 /**
@@ -20,6 +21,8 @@ public class DriverActivityReportsTab extends Tab {
 	private static final Object lock = new Object();
 	public static Table tableCLUEReports = new Table(By.id("policyDataGatherForm:clueReports"));
 	public static Table tableMVRReports = new Table(By.id("policyDataGatherForm:mvrReportsDataTable"));
+	public static StaticElement resultMsgMVRReports = new StaticElement(By.xpath(".//div[@id='policyDataGatherForm:mvrReports']/following-sibling::table//span"));
+	public static StaticElement resultMsgCLUEReports = new StaticElement(By.xpath("//table[@id='policyDataGatherForm:clueReports']/ancestor::div[2]/following-sibling::table//tr[2]"));
 	
 	public DriverActivityReportsTab() {
 		super(AutoSSMetaData.DriverActivityReportsTab.class);

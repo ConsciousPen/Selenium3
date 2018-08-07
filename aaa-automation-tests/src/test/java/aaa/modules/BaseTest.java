@@ -2,6 +2,23 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import aaa.admin.modules.reports.operationalreports.OperationalReportType;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
+import com.exigen.ipb.etcsa.base.app.AdminApplication;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.etcsa.base.app.MainApplication;
+import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.metadata.LoginPageMeta;
@@ -22,28 +39,12 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.utils.EntityLogger;
-import com.exigen.ipb.etcsa.base.app.AdminApplication;
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
-import com.exigen.ipb.etcsa.base.app.MainApplication;
-import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.verification.CustomAssert;
-
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @Listeners({AaaTestListener.class})
 public class BaseTest {
@@ -53,8 +54,9 @@ public class BaseTest {
 	protected static Logger log = LoggerFactory.getLogger(BaseTest.class);
 	private static TestData tdCustomerIndividual;
 	private static TestData tdCustomerNonIndividual;
+	private static TestData tdOperationalReports;
 	private static ThreadLocal<String> state = new ThreadLocal<>();
-	private static String usState = PropertyProvider.getProperty("test.usstate");
+	private static String usState = PropertyProvider.getProperty(CustomTestProperties.TEST_USSTATE);
 	private static Map<String, Integer> policyCount = new HashMap<>();
 	public String customerNumber;
 	protected Customer customer = new Customer();
@@ -66,7 +68,7 @@ public class BaseTest {
 		CustomAssert.initDriver(CustomAssert.AssertDriverType.TESTNG);
 		tdCustomerIndividual = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		tdCustomerNonIndividual = new TestDataManager().customer.get(CustomerType.NON_INDIVIDUAL);
-
+		tdOperationalReports = new TestDataManager().operationalReports.get(OperationalReportType.OPERATIONAL_REPORT);
 	}
 
 	public BaseTest() {
@@ -406,6 +408,10 @@ public class BaseTest {
 
 	protected TestData getCustomerNonIndividualTD(String fileName, String tdName) {
 		return getStateTestData(tdCustomerNonIndividual, fileName, tdName);
+	}
+
+	protected TestData getOperationalReportsTD(String fileName, String tdName) {
+		return getStateTestData(tdOperationalReports, fileName, tdName);
 	}
 
 	protected TestData getTestSpecificTD(String tdName) {

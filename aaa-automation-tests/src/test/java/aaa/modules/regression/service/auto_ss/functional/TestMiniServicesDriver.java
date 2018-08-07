@@ -78,6 +78,31 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	}
 
 	/**
+	 * @author Bob Van
+	 * @name View Drivers service, status pending remove/add 2.
+	 * @scenario
+	 * 1. create a policy 3d. 2afr 1 nafr
+	 * 2. create endorsement outside of PAS
+	 * 3. delete one driver afr
+	 * 4. add a driver through the service
+	 * 5. Update driver with required filed
+	 * 6. Hit View Driver service verify order.
+     *    driverStatus 'active' should come before any 'pendingAdd' which should come before any 'pendingRemove'
+	 * 7. Rate and Bind.
+	 * 8. Create new endorsement.
+	 * 9. Delete the newest driver.
+	 * 10.Hit View Driver service verify order.
+     *    driverStatus 'active' should come before any 'pendingAdd' which should come before any 'pendingRemove'
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14653","PAS-14470"})
+	public void pas14653_ViewDriverServiceOrderOfPendingDelete(@Optional("VA") String state) {
+		TestData td = getTestSpecificTD("TestData1");
+		pas14653_ViewDriverServiceOrderOfPendingDeleteBody(td);
+	}
+
+	/**
 	 * @author Megha Gubbala
 	 * @name Add Drivers service, check info.
 	 * @scenario
@@ -249,82 +274,52 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 		pas15373_uniqueDriverLicensesBody(getPolicyType());
 	}
 
-	/**
-	 * @author Maris Strazds
-	 * @name Test Report Ordering for Endorsement (Named Insured)
-	 * @scenario
-	 * 1. Create a policy in PAS
-	 * 2. Create an endorsement through service
-	 * 3. Add Driver 1 (Named Insured) through service with MVR status =  Hit - Activity Found, CLUE status = processing complete, results clear
-	 * 4. Run the Report Order Service for MVR/CLUE
-	 * 5. Open the Endorsement in PAS, navigate to "Driver Activity Reports" tab and validate that MVR/CLUE reports have been ordered successfully with no errors
-	 * 6. Validate that I receive the report response
-	 *          AND it is viewable in PAS (pdf)
-	 *          AND it is reconciled in PAS
-	 *          AND a positive response is provided
-	 * 7. Rate and bind the policy
-	 * 8. Rate and Bind
-	 * 9. Create an endorsement through service
-	 * 10. Add Driver 2 (Named Insured) through service with MVR status =  Clear, CLUE status = processing complete, with results information
-	 * 11. Repeat steps 4 - 8
-	 */
 
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15077"})
-	public void pas15077_orderReports_endorsement(@Optional("") String state) {
 
-		pas15077_orderReports_endorsementBody(getPolicyType());
-	}
+    /**
+     * @author Bob Van
+     * @name Update Drivers service, set marital status.
+     * @scenario
+     * 1. Create policy on Pas.
+     * 2. Create endorsement outside of PAS
+     * 2. Add 2nd driver outside of PAS
+     * 3. Update 2nd driver as spouse outside of PAS
+     * 4. Verify married status in update response
+     * 5. Verify married status in view driver response
+     * 6. Verify PAS pended endorsement general tab data
+     * 7. Verify PAS pended endorsement driver tab data
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14474"})
+    public void pas14474_UpdateSpouseDriver(@Optional("AZ") String state) {
+
+    	pas14474_UpdateSpouseDriverBody(getPolicyType());
+    }
 
 	/**
-	 * @author Maris Strazds
-	 * @name Test Report Ordering for Endorsement (not a Named Insured)
-	 * @scenario
-	 * 1. Create a policy in PAS
-	 * 2. Create an endorsement through service
-	 * 3. Add Driver 1 (not a Named Insured) through service with MVR status =  Hit - Activity Found, CLUE status = processing complete, results clear
-	 * 4. Run the Report Order Service for MVR/CLUE
-	 * 5. Open the Endorsement in PAS, navigate to "Driver Activity Reports" tab and validate that MVR/CLUE reports have been ordered successfully with no errors
-	 * 6. Validate that I receive the report response
-	 *          AND it is viewable in PAS (pdf)
-	 *          AND it is reconciled in PAS
-	 *          AND a positive response is provided
-	 * 7. Rate and bind the policy
-	 * 8. Rate and Bind
-	 * 9. Create an endorsement through service
-	 * 10. Add Driver 2 (not Named Insured) through service with MVR status =  Clear, CLUE status = processing complete, with results information
-	 * 11. Repeat steps 4 - 8
-	 */
-
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16694"})
-	public void pas16694_orderReports_not_Named_Insured_endorsement(@Optional("") String state) {
-
-		pas16694_orderReports_not_Named_Insured_endorsementBody(getPolicyType());
-	}
-
-	/**
-	 * @author Bob Van
-	 * @name Update Drivers service, set marital status.
-	 * @scenario
-	 * 1. Create policy on Pas.
-	 * 2. Create endorsement outside of PAS
-	 * 2. Add 2nd driver outside of PAS
-	 * 3. Update 2nd driver as spouse outside of PAS
-	 * 4. Verify married status in update response
-	 * 5. Verify married status in view driver response
-	 * 6. Verify PAS pended endorsement general tab data
-	 * 7. Verify PAS pended endorsement driver tab data
+	 * @author Jovita Pukenaite
+	 * @name Transaction Information For Endorsements outside of PAS - Add Driver
+	 * @scenario 1. Create policy.
+	 * 2. Start do endorsement outside of PAS.
+	 * 3. Hit "Transaction History Service". Check if response is empty.
+	 * 4. Add Driver.
+	 * 5. Hit "Transaction History Service". Check new driver info.
+	 * 6. Update for bind.
+	 * 7. Rate endorsement and Bind.
+	 * 8. Create endorsement outside of PAS
+	 * 9. Hit "Transaction History Service". Check new driver info. Update for bind.
+	 * 10. Bind endorsement.
+	 * 11. Hit "Transaction History Service". Check if response is empty.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14474"})
-	public void pas14474_UpdateSpouseDriver(@Optional("") String state) {
-		pas14474_UpdateSpouseDriverBody(getPolicyType());
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16481"})
+	public void pas9493_TransactionInformationForEndorsementsAddDriver(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas16481_TransactionInformationForEndorsementsAddDriverBody(softly)
+		);
 	}
-
 	/**
 	 * @author Megha Gubbala
 	 * @name Update Drivers service, set marital status.
@@ -341,7 +336,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
-	public void pas14475_NameInsuredMaritalStatus(@Optional("") String state) {
+	public void pas14475_NameInsuredMaritalStatus(@Optional("AZ") String state) {
 		pas14475_NameInsuredMaritalStatusBody();
 	}
 
@@ -401,13 +396,11 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
-	public void pas14475_NameInsuredMaritalStatusPSS(@Optional("") String state)
-	{
+	public void pas14475_NameInsuredMaritalStatusPSS(@Optional("") String state) {
 		assertSoftly(softly ->
-		pas14475_NameInsuredMaritalStatusFNIIsPSSBody(softly)
-				);
+				pas14475_NameInsuredMaritalStatusFNIIsPSSBody(softly)
+		);
 	}
-
 
 	/**
 	 * @author Megha Gubbala
@@ -422,7 +415,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16696"})
-	public void pas16696_AddANameInsuredSameDayPolicyEffectiveDate(@Optional("") String state) {
+	public void pas16696_AddANameInsuredSameDayPolicyEffectiveDate(@Optional("VA") String state) {
 		pas16696_AddANameInsuredSameDayPolicyEffectiveDateBody();
 	}
 
@@ -439,8 +432,109 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16696"})
-	public void pas16696_AddANameInsuredSameDayNotPolicyEffectiveDate(@Optional("") String state) {
+	public void pas16696_AddANameInsuredSameDayNotPolicyEffectiveDate(@Optional("VA") String state) {
 		pas16696_AddANameInsuredSameDayNotPolicyEffectiveDateBody();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name View Drivers service, remove driver indicator.
+	 * @scenario4
+	 * 1. Create policy on Pas with 5 drives FNI ,AFR and NI, afr and nni, nni and nafr,nni excuded driver.
+	 * 2. Run view driver service
+	 * 3. verify remove indicator should show only for afr driver and not others
+	 * 4. Create endorsement outside of PAS
+	 * 5. Add 1 more drive NI as spouse
+	 * 5. Update Driver
+	 * 6. Run view driver service
+	 * 7. verify remove indicator should show only for afr driver and not others
+	 *  *      |============================================|
+	 * 	 *      | Driver Type            | Remove Status    |
+	 * 	 *      |===========================================|
+	 * 	 *      | First Named Insured    |     no           |
+	 * 	 *      |-------------------------------------------|
+	 * 	 *      | Named Insured	         |    no            |
+	 * 	 *      |-------------------------------------------|
+	 * 	 *      | A for Rating Driver    |Yes               |
+	 * 	 *      |-------------------------------------------|
+	 * 	 *      | Not A f R Driver	     |    no            |
+	 * 	        |-------------------------------------------|
+	 * 	 *      | Excluded Driver	     |     no           |
+	 * 	 *      |============================================
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-482"})
+	public void pas15513_ViewDriverRemoveDriverIndicator(@Optional("AZ") String state) {
+		TestData td = getTestSpecificTD("TestData2");
+		pas15513_ViewDriverRemoveDriverIndicatorBody(td, getPolicyType());
+
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Remove Driver - Not a Named Insured, Available for Rating - Happy Path
+	 * @scenario
+	 * 1. Create a policy in PAS with multiple drivers
+	 * 2. Create endorsement through service
+	 * 3. Run Remove Driver Service with the reason Rule RD1001 for Driver 1
+	 * 4. Validate that driverStatus in response is "pendingRemove" for the driver 1
+	 * 5. Run Remove Driver Service with the reason Rule RD1002 for Driver 2
+	 * 6. Validate that driverStatus in response is "pendingRemove" for the driver 2
+	 * 7. Run View driver assignments service and validate that removed driver 1 and driver 2 are not available for assignment (response should not contain Driver at all in any section)
+	 * 8. Open Endorsement in PAS an validate that both drivers are removed
+	 * 9. Rate and bind the policy through service
+	 * 10. Run view policy drivers service and validate that the drivers are removed (not present in response)
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14640"})
+	public void pas14640_NotNamedInsuredAvailableForRatingHappyPath(@Optional("VA") String state){
+		pas14640_NotNamedInsuredAvailableForRatingHappyPathBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Remove Driver - Hard Stop and Don't Remove
+	 * @scenario
+	 * 1. Create a policy in PAS with multiple drivers
+	 * 2. Create endorsement through service
+	 * 3. Run Remove Driver Service with the reason Rule RD1005 for Driver 1 and validate that I receive error message
+	 * 4. Run viewEndorsementDrivers service and check that response is the same as before removeDriver action (and driverStatus has not changed)
+	 * 5. Run Remove Driver Service with the reason Rule RD1006 for Driver 1 and validate that I receive error message
+	 * 6. Run viewEndorsementDrivers service and check that response is the same as before removeDriver action (and driverStatus has not changed)
+	 * 7. Run View driver assignments service and validate that driver 1 and driver 2 are available for assignment (assignment has not changed)
+	 * 8. Open Endorsement in PAS an validate that both drivers are NOT removed
+	 * 9. Rate and bind the policy through service
+	 * 10. Run view policy drivers service and validate that the drivers are NOT removed (response is the same as before endorsement)
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14642"})
+	public void pas14642_NotNamedInsuredAvailableForRatingHardStop(@Optional("VA") String state){
+		pas14642_NotNamedInsuredAvailableForRatingHardStopBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Remove Driver - But Not Really - Not Available for Rating
+	 * @scenario
+	 * 1. Create a policy in PAS with multiple drivers
+	 * 2. Create endorsement through service
+	 * 3. Run Remove Driver Service with the reason Rule RD1003 for Driver 1
+	 * 4. Validate that driverStatus in response is changed to "updated" for the driver 1, driver is change to "Not Available for Rating", reason is "Other" AND if there is other text - put rule
+	 * 5. Run Remove Driver Service with the reason Rule RD1004 for Driver 2
+	 * 6. Validate that driverStatus in response is changed to "updated" for the driver 1, driver is change to "Not Available for Rating", reason is "Other" AND if there is other text - put rule
+	 * 7. Run View driver assignments service and validate that driver 1 and driver 2 are not available for assignment (response should not contain Driver at all in any section) (because they are Not available for Rating)
+	 * 8. Open Endorsement in PAS an validate that both drivers are Updated
+	 * 9. Rate and bind the policy through service
+	 * 10. Run view policy drivers service and validate that the drivers are Updated
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14641"})
+	public void pas14641_NotNamedInsuredUpdateToNotAvailableForRating(@Optional("VA") String state){
+		pas14641_NotNamedInsuredUpdateToNotAvailableForRatingBody();
 	}
 }
 
