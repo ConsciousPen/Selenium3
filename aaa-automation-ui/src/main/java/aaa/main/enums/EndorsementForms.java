@@ -15,7 +15,7 @@ public final class EndorsementForms {
 		DS_04_20("DS 04 20", "Specified Increased Insurance Limit For Coverage A – Dwelling"),
 		DS_04_41("DS 04 41", "Additional Insured - Described Location"),
 		DS_04_63("DS 04 63", "Supplemental Loss Assessment Coverage"),
-		DS_04_68("DS 04 68", "Loss Assessment Coverage For Earthquake "),
+		DS_04_68("DS 04 68", "Loss Assessment Coverage For Earthquake"),
 		DS_04_69("DS 04 69", "Earthquake"),
 		DS_04_71("DS 04 71", "Building Code Upgrade - Increased Amount Of Coverage"),
 		DS_04_73("DS 04 73", "Limited Theft Coverage"),

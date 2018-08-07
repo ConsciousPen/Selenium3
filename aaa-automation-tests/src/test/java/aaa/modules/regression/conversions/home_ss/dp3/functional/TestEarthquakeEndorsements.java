@@ -3,7 +3,6 @@ package aaa.modules.regression.conversions.home_ss.dp3.functional;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.EndorsementForms;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestEndorsementsTabAbstract;
 import aaa.utils.StateList;
@@ -39,8 +38,14 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17479")
 	public void testEarthquakeEndorsement_Privileged_NewBusiness(@Optional("") String state) {
 		initiateNewBusinessTx(true);
-		testEndorsementForms(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
-				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+//		testEndorsementFormsAddAndEdit(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
+//				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+//		testEndorsementFormsAddAndEdit(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName(),
+//				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
+//		testEndorsementFormsRemove(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName(),
+//				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
+//		testEndorsementFormsRemove(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
+//				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
 	}
 
 	/**
@@ -66,8 +71,14 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	public void testEarthquakeEndorsement_Privileged_Endorsement(@Optional("") String state) {
 		createPolicy(true);
 		initiateEndorsementTx();
-		testEndorsementForms(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
-				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+//		testEndorsementFormsAddAndEdit(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
+//				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+//		testEndorsementFormsAddAndEdit(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName(),
+//				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
+//		testEndorsementFormsRemove(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName(),
+//				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
+//		testEndorsementFormsRemove(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
+//				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
 	}
 
 	/**
@@ -93,7 +104,13 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	public void testEarthquakeEndorsement_Privileged_Renewal(@Optional("") String state) {
 		createPolicy(true);
 		initiateRenewalTx();
-		testEndorsementForms(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
-				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+//		testEndorsementFormsAddAndEdit(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
+//				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+//		testEndorsementFormsAddAndEdit(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName(),
+//				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
+//		testEndorsementFormsRemove(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName(),
+//				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
+//		testEndorsementFormsRemove(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
+//				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
 	}
 }

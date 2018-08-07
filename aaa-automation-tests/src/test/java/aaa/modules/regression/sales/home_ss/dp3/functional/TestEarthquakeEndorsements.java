@@ -27,21 +27,37 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	 * 1. Login app with user who has 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
 	 * 2. Create Customer
 	 * 3. Initiate Quote creation
-	 * 4. FIll everything up until 'Premium & Coverages' tab -> 'Endorsement' subtab
-	 * 5. Check that 'Earthquake' endorsement is available in 'Optional Endorsements'
+	 * 4. Fill everything up until 'Premium & Coverages' tab -> 'Endorsement' subtab
+	 * 5. Check that 'Earthquake' endorsement is available in 'Optional Endorsements' (DS 04 69)
 	 * 6. Add 'Earthquake' endorsement
 	 * 7. Check that Edit link is available
 	 * 8. Change something in endorsement and verify that it is saved
-	 * 9. Check that Remove link is available
-	 * 10. Remove endorsement and check that it is removed
+	 * 9. Check that 'Loss Assessment Coverage For Earthquake' endorsement is available in 'Optional Endorsements' (DS 04 68)
+	 * 10. Add 'Loss Assessment Coverage For Earthquake' endorsement
+	 * 11. Check that Edit link is available
+	 * 12. Change something in endorsement and verify that it is saved
+	 * 13. Check that Remove link is available
+	 * 14. Remove endorsements and check that they are removed
 	 * @details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17479")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17479, PAS-17489")
 	public void testEarthquakeEndorsement_Privileged_NewBusiness(@Optional("OK") String state) {
 		initiateNewBusinessTx(false);
-		testEndorsementForms(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
+
+		addEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
+				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+		editEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+
+		//DS 04 68 should be only available then DS 04 69 is added
+		addEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName(),
+				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
+		editEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
+
+		removeEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName(),
+				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
+		removeEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
 				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
 	}
 
@@ -53,22 +69,38 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	 * 2. Create Customer
 	 * 3. Create Policy
 	 * 4. Initiate Endorsement
-	 * 5. Navigate to 'Premium & Coverages' tab -> 'Endorsement' subtab
-	 * 6. Check that 'Earthquake' endorsement is available in 'Optional Endorsements'
+	 * 5. Fill everything up until 'Premium & Coverages' tab -> 'Endorsement' subtab
+	 * 6. Check that 'Earthquake' endorsement is available in 'Optional Endorsements' (DS 04 69)
 	 * 7. Add 'Earthquake' endorsement
 	 * 8. Check that Edit link is available
 	 * 9. Change something in endorsement and verify that it is saved
-	 * 10. Check that Remove link is available
-	 * 11. Remove endorsement and check that it is removed
+	 * 10. Check that 'Loss Assessment Coverage For Earthquake' endorsement is available in 'Optional Endorsements' (DS 04 68)
+	 * 11. Add 'Loss Assessment Coverage For Earthquake'' endorsement
+	 * 12. Check that Edit link is available
+	 * 13. Change something in endorsement and verify that it is saved
+	 * 14. Check that Remove link is available
+	 * 15. Remove endorsements and check that they are removed
 	 * @details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17479")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17479, PAS-17489")
 	public void testEarthquakeEndorsement_Privileged_Endorsement(@Optional("OK") String state) {
 		createPolicy(false);
 		initiateEndorsementTx();
-		testEndorsementForms(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
+
+		addEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
+				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+		editEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+
+		//DS 04 68 should be only available then DS 04 69 is added
+		addEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName(),
+				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
+		editEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
+
+		removeEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName(),
+				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
+		removeEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
 				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
 	}
 
@@ -80,24 +112,39 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	 * 2. Create Customer
 	 * 3. Create Policy
 	 * 4. Initiate Renewal
-	 * 5. Navigate to 'Premium & Coverages' tab -> 'Endorsement' subtab
-	 * 6. Check that 'Earthquake' endorsement is available in 'Optional Endorsements'
+	 * 5. Fill everything up until 'Premium & Coverages' tab -> 'Endorsement' subtab
+	 * 6. Check that 'Earthquake' endorsement is available in 'Optional Endorsements' (DS 04 69)
 	 * 7. Add 'Earthquake' endorsement
 	 * 8. Check that Edit link is available
 	 * 9. Change something in endorsement and verify that it is saved
-	 * 10. Check that Remove link is available
-	 * 11. Remove endorsement and check that it is removed
+	 * 10. Check that 'Loss Assessment Coverage For Earthquake' endorsement is available in 'Optional Endorsements' (DS 04 68)
+	 * 11. Add 'Earthquake' endorsement
+	 * 12. Check that Edit link is available
+	 * 13. Change something in endorsement and verify that it is saved
+	 * 14. Check that Remove link is available
+	 * 15. Remove endorsements and check that they are removed
 	 * @details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17479")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17479, PAS-17489")
 	public void testEarthquakeEndorsement_Privileged_Renewal(@Optional("OK") String state) {
 		createPolicy(false);
 		initiateRenewalTx();
-		testEndorsementForms(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
-				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
 
+		addEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
+				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+		editEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+
+		//DS 04 68 should be only available then DS 04 69 is added
+		addEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName(),
+				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
+		editEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
+
+		removeEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName(),
+				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
+		removeEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
+				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
 	}
 
 	/**
@@ -108,15 +155,15 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	 * 2. Create Customer
 	 * 3. Initiate Quote creation
 	 * 4. FIll everything up until 'Premium & Coverages' tab -> 'Endorsement' subtab
-	 * 5. Check that 'Earthquake' endorsement is NOT available in 'Optional Endorsements'
-	 * 6. Check that 'Earthquake' endorsement is NOT available in 'Included Endorsements'
+	 * 5. Check that 'Earthquake' endorsement is NOT available in 'Optional Endorsements' (DS 04 69)
+	 * 6. Check that 'Earthquake' endorsement is NOT available in 'Included Endorsements' (DS 04 69)
 	 * @details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for non privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17484")
 	public void testEarthquakeEndorsement_NonPrivileged_NewBusinessTx(@Optional("OK") String state) {
-		initiateNewBusinessTx_NonPrivileged("F35",false);
+		initiateNewBusinessTx_NonPrivileged("F35");
 		checkEndorsementIsNotAvailableInOptionalEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName());
 		checkEndorsementIsNotAvailableInIncludedEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName());
 	}
@@ -129,21 +176,22 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	 * 2. Create Customer
 	 * 3. Initiate Quote creation
 	 * 4. FIll everything up until 'Premium & Coverages' tab -> 'Endorsement' subtab
-	 * 5. Add 'Earthquake' endorsement
+	 * 5. Add 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsements
 	 * 6. Save & Exit
 	 * 7. Login app with user who DOES NOT HAVE 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
 	 * 8. Navigate to 'Premium & Coverages' tab -> 'Endorsement' of created policy
-	 * 9. Check that 'Earthquake' endorsement is available in 'Included Endorsements'
-	 * 10. Check that Edit link is available
-	 * 11. Change something in endorsement and verify that it is saved
-	 * 12. Check that Remove link is available
-	 * 13. Remove endorsement and check that it is removed
-	 * 14. Check that 'Earthquake' endorsement is NOT available in 'Optional Endorsements'
-	 * 15. Bind Endorsement
-	 * 16. Initiate 2nd Endorsement
-	 * 17. Navigate to 'Premium & Coverages' tab -> 'Endorsement' of created policy
-	 * 18. Check that 'Earthquake' endorsement is NOT available in 'Optional Endorsements'
-	 * 19. Check that 'Earthquake' endorsement is NOT available in 'Included Endorsements'
+	 * 9. Check that 'Earthquake' endorsement is available in 'Included Endorsements' (DS 04 69)
+	 * 10. Check that 'Loss Assessment Coverage For Earthquake' endorsement is available in 'Included Endorsements' (DS 04 68)
+	 * 11. Check that Edit link is available for both endorsements
+	 * 12. Change something in endorsements and verify that it is saved
+	 * 13. Check that Remove link is available
+	 * 14. Remove endorsements and check that it is removed
+	 * 15. Check that 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsement is NOT available in 'Optional Endorsements'
+	 * 16. Bind Endorsement
+	 * 17. Initiate 2nd Endorsement
+	 * 18. Navigate to 'Premium & Coverages' tab -> 'Endorsement' of created policy
+	 * 19. Check that 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsement is NOT available in 'Optional Endorsements'
+	 * 20. Check that 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsement is NOT available in 'Included Endorsements'
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -151,12 +199,24 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17484")
 	public void testEarthquakeEndorsement_NonPrivileged_NewBusinessTx_AlreadyHadEndorsement(@Optional("OK") String state) {
 		initiateNewBusinessTx_NonPrivileged_AlreadyHadEndorsement("F35",
+				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId(),
+				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
+
+		//Check Endorsement functionality PAS-17039
+		checkEndorsementIsAvailableInIncludedEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName());
+		checkEndorsementIsAvailableInIncludedEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName());
+		editEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+		editEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+		removeEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName(),
+				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
+		removeEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
 				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
-		testEndorsementForms_NonPrivileged_AlreadyHadEndorsement(false, EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
-				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+		checkEndorsementIsNotAvailableInOptionalEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName());
+		checkEndorsementIsNotAvailableInOptionalEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName());
+
 		finishNewBusinessTx();
 
-		//2nd Endorsement -> check that 'X' endorsement doesn't exist in Endorsement tab
+		//2nd Endorsement -> check that 'Earthquake' endorsement doesn't exist in Endorsement tab
 		initiateEndorsementTx();
 		checkEndorsementIsNotAvailableInIncludedEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName());
 		checkEndorsementIsNotAvailableInOptionalEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName());
@@ -194,39 +254,55 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	 * @scenario
 	 * 1. Login app with user who has 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
 	 * 2. Create Customer
-	 * 3. Create Policy with 'Earthquake' endorsement added
+	 * 3. Create Policy with 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsements added
 	 * 4. Login app with user who DOES NOT HAVE 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
 	 * 5. Initiate Endorsement Transactions
 	 * 6. Navigate to 'Premium & Coverages' tab -> 'Endorsement' of created policy
-	 * 7. Check that 'Earthquake' endorsement is available in 'Included Endorsements'
-	 * 8. Check that Edit link is available
-	 * 9. Change something in endorsement and verify that it is saved
-	 * 10. Check that Remove link is available
-	 * 11. Remove endorsement and check that it is removed
-	 * 12. Check that 'Earthquake' endorsement is NOT available in 'Optional Endorsements'
-	 * 13. Bind Endorsement
-	 * 14. Initiate 2nd Endorsement
-	 * 15. Navigate to 'Premium & Coverages' tab -> 'Endorsement' of created policy
-	 * 16. Check that 'Earthquake' endorsement is NOT available in 'Optional Endorsements'
-	 * 17. Check that 'Earthquake' endorsement is NOT available in 'Included Endorsements'
+	 * 7. Check that 'Earthquake' endorsement is available in 'Included Endorsements' (DS 04 69)
+	 * 8. Check that 'Loss Assessment Coverage For Earthquake' endorsement is available in 'Included Endorsements' (DS 04 68)
+	 * 9. Check that Edit link is available
+	 * 10. Change something in endorsements and verify that it is saved
+	 * 11. Check that Remove links is available
+	 * 12. Remove endorsements and check that they are removed
+	 * 13. Check that 'Earthquake' and Loss Assessment Coverage For Earthquake' endorsement is NOT available in 'Optional Endorsements'
+	 * 14. Bind Endorsement
+	 * 15. Initiate 2nd Endorsement
+	 * 16. Navigate to 'Premium & Coverages' tab -> 'Endorsement' of created policy
+	 * 17. Check that 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsement is NOT available in 'Optional Endorsements'
+	 * 18. Check that 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsement is NOT available in 'Included Endorsements'
 	 * @details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for non privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17484")
 	public void testEarthquakeEndorsement_NonPrivileged_EndorsementTx_AlreadyHadEndorsement(@Optional("OK") String state) {
-		String policyNumber = createPolicyWithEndorsement(false, EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+		String policyNumber = createPolicyWithEndorsement(false,
+				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId(),
+				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
 		openAppNonPrivilegedUser("F35");
 		SearchPage.openPolicy(policyNumber);
 		initiateEndorsementTx();
-		testEndorsementForms_NonPrivileged_AlreadyHadEndorsement(false, EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
+
+		//Check Endorsement functionality PAS-17039
+		checkEndorsementIsAvailableInIncludedEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName());
+		checkEndorsementIsAvailableInIncludedEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName());
+		editEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+		editEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
+		removeEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName(),
+				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
+		removeEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
 				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+		checkEndorsementIsNotAvailableInOptionalEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName());
+		checkEndorsementIsNotAvailableInOptionalEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName());
+
 		finishRenewalOrEndorsementTx();
 
-		//2nd Endorsement -> check that 'X' endorsement doesn't exist in Endorsement tab
+		//2nd Endorsement -> check that 'Earthquake' endorsement doesn't exist in Endorsement tab
 		initiateEndorsementTx();
 		checkEndorsementIsNotAvailableInIncludedEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName());
 		checkEndorsementIsNotAvailableInOptionalEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName());
+		checkEndorsementIsNotAvailableInIncludedEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName());
+		checkEndorsementIsNotAvailableInOptionalEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName());
 	}
 
 	/**
@@ -264,7 +340,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	 * @scenario
 	 * 1. Login app with user who has 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
 	 * 2. Create Customer
-	 * 3. Create Policy with 'Earthquake' endorsement added
+	 * 3. Create Policy with 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsement added
 	 * 4. Login app with user who DOES NOT HAVE 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
 	 * 5. Initiate Renewal Transactions
 	 * 6. Navigate to 'Premium & Coverages' tab -> 'Endorsement' of created policy
@@ -273,32 +349,45 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	 * 9. Change something in endorsement and verify that it is saved
 	 * 10. Check that Remove link is available
 	 * 11. Remove endorsement and check that it is removed
-	 * 12. Check that 'Earthquake' endorsement is NOT available in 'Optional Endorsements'
-	 * 13. Propose Renewal
-	 * 14. Initiate 2nd Renewal
+	 * 12. Check that 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsement is NOT available in 'Optional Endorsements'
+	 * 13. Save & Exit
+	 * 14. Initiate new Renewal version
 	 * 15. Navigate to 'Premium & Coverages' tab -> 'Endorsement' of created policy
-	 * 16. Check that 'Earthquake' endorsement is NOT available in 'Optional Endorsements'
-	 * 17. Check that 'Earthquake' endorsement is NOT available in 'Included Endorsements'
+	 * 16. Check that 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsement is NOT available in 'Optional Endorsements'
+	 * 17. Check that 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsement is NOT available in 'Included Endorsements'
 	 * @details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for non privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17484")
 	public void testEarthquakeEndorsement_NonPrivileged_RenewalTx_AlreadyHadEndorsement(@Optional("OK") String state) {
-		String policyNumber = createPolicyWithEndorsement(false, EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+		String policyNumber = createPolicyWithEndorsement(false,
+				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId(),
+				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
 		initiateRenewalTx();
 		new PremiumsAndCoveragesQuoteTab().saveAndExit();
 
 		openAppNonPrivilegedUser("F35");
 		SearchPage.openPolicy(policyNumber);
 		navigateToRenewalPremiumAndCoveragesTab();
-		testEndorsementForms_NonPrivileged_AlreadyHadEndorsement(true, EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
+
+		//Check Endorsement functionality PAS-17039
+		checkEndorsementIsAvailableInIncludedEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName());
+		checkEndorsementIsAvailableInIncludedEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName());
+		editEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
+		editEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+		removeEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
 				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+		checkEndorsementIsNotAvailableInOptionalEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName());
+		checkEndorsementIsNotAvailableInOptionalEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName());
+
 		finishRenewalOrEndorsementTx();
 
 		//2nd Renewal tx -> check that 'X' endorsement doesn't exist in Endorsement tab
 		navigateToRenewalPremiumAndCoveragesTab();
 		checkEndorsementIsNotAvailableInIncludedEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName());
 		checkEndorsementIsNotAvailableInOptionalEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName());
+		checkEndorsementIsNotAvailableInIncludedEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName());
+		checkEndorsementIsNotAvailableInOptionalEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName());
 	}
 }
