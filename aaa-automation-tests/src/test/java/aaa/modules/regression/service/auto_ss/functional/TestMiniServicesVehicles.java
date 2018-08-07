@@ -1,8 +1,6 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
-
-import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -249,6 +247,27 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	public void pas502_DuplicateVinAddVehicleService(@Optional("VA") String state) {
 
 		pas502_CheckDuplicateVinAddVehicleService(getPolicyType());
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Check Duplicate VINs when adding or replacing Vehicle with status "pendingRemove"
+	 * @scenario
+	 * 1. Create a policy in PAS
+	 * 2. Create an endorsement through service
+	 * 3. Run Remove Vehicle service for one of the Vehicles ---> Vehicle status is changed to "pendingRemove"
+	 * 4. Run Add Vehicle Service with the same VIN as vehicle with ""pendingRemove"" status ---> Error "Each vehicle must have a unique VIN - 200031" is provided
+	 *          AND The vehicle is not added/replaced to the pended endorsement
+	 * 5. Run View Endorsement Drivers service and validate that vehicle is not added
+	 * 6. Run Replace Vehicle Service with the same VIN as vehicle with "pendingRemove" status ---> Error "Each vehicle must have a unique VIN - 200031" is provided
+	 *          AND The vehicle is not added/replaced to the pended endorsement
+	 * 7. Run View Endorsement Drivers service and validate that vehicle is not replaced
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16577"})
+	public void pas16577_DuplicateVinAddVehicleServicePendingRemove(@Optional("VA") String state) {
+		pas16577_DuplicateVinAddVehicleServicePendingRemoveBody();
 	}
 
 	@Parameters({"state"})
