@@ -176,7 +176,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		String policyNumber = getCopiedPolicy();
 
 		//Check driver with more that two minor violations
-		String oidDriver1 = addAndUpdateDriver(policyNumber,"Two","Minors","1970-01-01","B15384001");
+		String oidDriver1 = addAndUpdateDriver(policyNumber,"Three","Minors","1970-01-01","B15384001");
 
 		//Order reports through service
 		helperMiniServices.orderReportErrors(policyNumber, oidDriver1,  ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getCode(), ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getMessage(), "attributeForRules", true);
@@ -198,8 +198,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 
 	protected void pas15371_driversWithNarcoticsDrugOrFelonyConvictionsErrorBody() {
 		mainApp().open();
-	createCustomerIndividual();
-		String policyNumber = createPolicy();
+		String policyNumber = getCopiedPolicy();
 
 		//Check driver with more that two minor violations
 		String oidDriver1 = addAndUpdateDriver(policyNumber,"One","Felony","1970-01-01","B15371001");
@@ -215,8 +214,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 
 	protected void pas15370_driverWithMoreThanTwentyPointsErrorBody(){
 		mainApp().open();
-		//createCustomerIndividual();
-		String policyNumber = "VASS952918539";
+		String policyNumber = getCopiedPolicy();
 
 		//Check driver with more that two minor violations
 		String oidDriver1 = addAndUpdateDriver(policyNumber,"Twenty","Points","1970-01-01","B16848001");
