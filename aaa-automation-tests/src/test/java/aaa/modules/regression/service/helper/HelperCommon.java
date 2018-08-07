@@ -169,6 +169,16 @@ public class HelperCommon {
 		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.PUT);
 	}
 
+	public static ReplaceVehicleRequest getReplaceVehicleRequest(String replacedVehicleVin, String purchaseDate, boolean keepAssignments, boolean keepCoverages) {
+		ReplaceVehicleRequest replaceVehicleRequest = new ReplaceVehicleRequest();
+		replaceVehicleRequest.vehicleToBeAdded = new Vehicle();
+		replaceVehicleRequest.vehicleToBeAdded.purchaseDate = purchaseDate;
+		replaceVehicleRequest.vehicleToBeAdded.vehIdentificationNo = replacedVehicleVin;
+		replaceVehicleRequest.keepAssignments = keepAssignments;
+		replaceVehicleRequest.keepCoverages = keepCoverages;
+		return replaceVehicleRequest;
+	}
+
 	/**
 	 * @deprecated use {@link #replaceVehicle(String, String, ReplaceVehicleRequest, Class, int)}
 	 */
@@ -234,7 +244,7 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, ViewVehicleResponse.class);
 	}
 
-	public static <T> T addEndorsementVehicle(String policyNumber, Vehicle request, Class<T> responseType, int status) {
+	public static <T> T addVehicle(String policyNumber, Vehicle request, Class<T> responseType, int status) {
 		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES, policyNumber));
 		restRequestInfo.bodyRequest = request;
@@ -243,8 +253,15 @@ public class HelperCommon {
 		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.POST);
 	}
 
+	public static Vehicle getAddVehicleRequest(String vin, String purchaseDate) {
+		Vehicle addVehicleRequest= new Vehicle();
+		addVehicleRequest.purchaseDate = purchaseDate;
+		addVehicleRequest.vehIdentificationNo = vin;
+		return addVehicleRequest;
+	}
+
 	/**
-	 * @deprecated use {@link #addEndorsementVehicle(String, Vehicle, Class, int)}
+	 * @deprecated use {@link #addVehicle(String, Vehicle, Class, int)}
 	 */
 	@Deprecated
 	public static Vehicle executeEndorsementAddVehicle(String policyNumber, String purchaseDate, String vin) {
@@ -257,7 +274,7 @@ public class HelperCommon {
 	}
 
 	/**
-	 * @deprecated use {@link #addEndorsementVehicle(String, Vehicle, Class, int)}
+	 * @deprecated use {@link #addVehicle(String, Vehicle, Class, int)}
 	 */
 	@Deprecated
 	public static ErrorResponseDto viewAddVehicleServiceErrors(String policyNumber, String purchaseDate, String vin) {
@@ -270,7 +287,7 @@ public class HelperCommon {
 	}
 
 	/**
-	 * @deprecated use {@link #addEndorsementVehicle(String, Vehicle, Class, int)}
+	 * @deprecated use {@link #addVehicle(String, Vehicle, Class, int)}
 	 */
 	@Deprecated
 	public static Vehicle executeEndorsementAddVehicle(String policyNumber, Vehicle request) {
