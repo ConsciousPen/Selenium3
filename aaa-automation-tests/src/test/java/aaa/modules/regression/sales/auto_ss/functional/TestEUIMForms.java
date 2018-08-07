@@ -310,26 +310,17 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		validateDocumentIsNotGeneratedInPackage(policyNumber, POLICY_ISSUE, false);
 
-		//3. Generate renewal image
+		//3. Create renewal image
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(45));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-
-		//reopen app and retrieve policy by number
-		mainApp().reopen();
+		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		PolicySummaryPage.buttonRenewals.click();
-
-		// Open Renewal Image in Data Gather mode
-		policy.dataGather().start();
+		policy.renew().perform();
 
 		//4. Switch UIM to EUIM coverage and Bind
 		switchToEUIMCoverageAndBind();
 
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(35));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
 	}
@@ -512,9 +503,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
 
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 	}
 
 	private void validateDocumentIsGeneratedInPackage(String policyNumber, AaaDocGenEntityQueries.EventNames eventName) {
