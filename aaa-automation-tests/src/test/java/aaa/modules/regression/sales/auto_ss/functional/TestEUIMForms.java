@@ -310,7 +310,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		validateDocumentIsNotGeneratedInPackage(policyNumber, POLICY_ISSUE, false);
 
-		//3. Generate renewal image
+		//3. Create renewal image
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(45));
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
