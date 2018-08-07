@@ -17,37 +17,30 @@ GeneralTab: {
 
 AAAProductOwned: {
   Current AAA Member: 'Membership Override',
-#  Override Type: 'Term', #this is default, so no point to selecting it COMMENT/REMOVE
+  #  Override Type: 'Term', #this is default, so no point to selecting it COMMENT/REMOVE
   Member Since Date: 01/04/2009,
   Membership Number:
 }
 
 AAAProductOwned2: {
   Current AAA Member: 'Membership Override',
-#  Override Type: 'Term', #this is default, so no point to selecting it
+  #  Override Type: 'Term', #this is default, so no point to selecting it
   Member Since Date: 11/01/2011,
   Membership Number:
 }
 
 AAAProductOwned_Yes: {
   Current AAA Member: 'Yes',
-#  Override Type: 'Term',
-#  Member Since Date: 11/01/2015,
+  #  Override Type: 'Term',
+  #  Member Since Date: 11/01/2015,
   Membership Number:
 }
 
 AAAProductOwned_Override_NoDate: {
   Current AAA Member: 'Membership Override',
   Override Type: 'Term',
-<<<<<<< HEAD
   Member Since Date: ,
-#  Membership Number:
-<<<<<<< HEAD
-=======
-=======
-  Member Since Date:
->>>>>>> 368eb593bac91a37da7fe5d5d4c8db89be6c45d3
->>>>>>> origin/master
+  #  Membership Number:
 }
 
 
@@ -55,42 +48,30 @@ AAAProductOwned_MSNo: {
   Current AAA Member: 'No',
   Override Type: ,
   Member Since Date: ,
-<<<<<<< HEAD
   Membership Number: #remove number
-=======
-<<<<<<< HEAD
-  Membership Number: #remove number
-=======
-  Membership Number:
->>>>>>> 368eb593bac91a37da7fe5d5d4c8db89be6c45d3
->>>>>>> origin/master
 }
 
 AAAProductOwned_MS_Active2: {
   Current AAA Member: 'Yes',
-#  Override Type: ,
-#  Member Since Date: ,
+  #  Override Type: ,
+  #  Member Since Date: ,
   Membership Number: 4290023667710001
 }
 
 AAAProductOwned_MS_Override_Term: {
   Current AAA Member: 'Membership Override',
-#  Override Type: 'Term', #this is default, so no point to select it
+  #  Override Type: 'Term', #this is default, so no point to select it
   Member Since Date: 01/04/2009,
-#  Membership Number: 9436258506738011
+  #  Membership Number: 9436258506738011
 }
 
 AAAProductOwned_MS_Override_Life: {
   Current AAA Member: 'Membership Override',
   Override Type: 'Life', #
   Member Since Date: 01/04/2009,
-#  Membership Number: 9436258506738011
+  #  Membership Number: 9436258506738011
 }
 
 AAAProductOwned_MS_Pending: {
   Current AAA Member: 'Membership Pending'
- }
-
-#DriverTab_OV: {
-#   License Number:  A12345678
-#}
+}
