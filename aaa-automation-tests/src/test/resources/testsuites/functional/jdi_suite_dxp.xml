@@ -379,6 +379,7 @@
                     <include name="pas12852_ExpensiveVehicle200022"/>
                     <include name="pas12852_GaragedOutOfStateOnlyOneVeh200018"/>
                     <include name="pas12852_MustHavePPA200016"/>
+                    <include name="pas16577_DuplicateVinAddVehicleServicePendingRemove"/>
                 </methods>
             </class>
         </classes>
