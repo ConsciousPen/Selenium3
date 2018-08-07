@@ -29,7 +29,7 @@ public class TestOperationalReportsCheckEuwDetailAsOfAccountingDate extends Base
     public void pas15534_testOperationalReportsCheckAsOfAccountingDate() {
         opReportApp().open();
 
-        orTab.fillTab(getTestSpecificTD("TestData"));
+        orTab.fillTab(getOperationalReportsTD("DataGather","TestData_EUW_Detail"));
 
         //Check "As of Accounting Date” is displayed and enabled;
         TextBox asOfAccountingDate = orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.AS_OF_ACCOUNTING_DATE);

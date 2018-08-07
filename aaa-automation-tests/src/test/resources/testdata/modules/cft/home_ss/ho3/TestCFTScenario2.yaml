@@ -8,7 +8,9 @@ TestData: {
   EndorsementTab: {},
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: {},
-  UnderwritingAndApprovalTab: {},
+  UnderwritingAndApprovalTab: {
+    Underwriter-selected inspection type: 'No Inspection Required'
+  },
   DocumentsTab: {},
   BindTab: {},
   CancellationActionTab: '@CancellationActionTab',
