@@ -312,11 +312,6 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, request, responseType, status);
 	}
 
-	public static ErrorResponseDto orderReportError(String policyNumber, String driverOid, int status) {
-		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS_REPORTS, policyNumber, driverOid));
-		return runJsonRequestPostDxp(requestUrl, null, ErrorResponseDto.class, 422);
-	}
-
 	static PolicyCoverageInfo viewPolicyCoverages(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_POLICY_COVERAGES, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, PolicyCoverageInfo.class);

@@ -3,7 +3,6 @@ package aaa.modules.regression.service.helper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
-import org.seleniumhq.jetty9.http.HttpStatus;
 
 import aaa.main.enums.ErrorDxpEnum;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -14,10 +13,8 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 
 import javax.ws.rs.core.Response;
@@ -46,7 +43,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		SearchPage.openPolicy(policyNumber);
 
 		//Order reports through service
-		HelperCommon.orderReports(policyNumber, addedDriver.oid);
+		HelperCommon.orderReports(policyNumber, addedDriver.oid, OrderReportsRequest.class, 200);
 
 		//Open Driver Activity reports tab in PAS
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -81,7 +78,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		SearchPage.openPolicy(policyNumber);
 
 		//Order reports through service
-		HelperCommon.orderReports(policyNumber, addedDriver2.oid);
+		HelperCommon.orderReports(policyNumber, addedDriver2.oid, OrderReportsRequest.class, 200);
 
 		//Open Driver Activity reports tab in PAS
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -119,7 +116,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		SearchPage.openPolicy(policyNumber);
 
 		//Order reports through service
-		HelperCommon.orderReports(policyNumber, addedDriver.oid);
+		HelperCommon.orderReports(policyNumber, addedDriver.oid, OrderReportsRequest.class, 200);
 
 		//Open Driver Activity reports tab in PAS
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -155,7 +152,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		SearchPage.openPolicy(policyNumber);
 
 		//Order reports through service
-		HelperCommon.orderReports(policyNumber, addedDriver.oid);
+		HelperCommon.orderReports(policyNumber, addedDriver.oid, OrderReportsRequest.class, 200);
 
 		//Open Driver Activity reports tab in PAS
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -187,7 +184,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 		//Order reports through service
-		ErrorResponseDto orderReportErrorResponse = HelperCommon.orderReportError(policyNumber, addedDriver.oid,422);
+		ErrorResponseDto orderReportErrorResponse = HelperCommon.orderReports(policyNumber, addedDriver.oid, ErrorResponseDto.class, 200);
 		assertSoftly(softly -> {
 			softly.assertThat(orderReportErrorResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 			softly.assertThat(orderReportErrorResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
@@ -211,7 +208,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		HelperCommon.updateDriver(policyNumber, addedDriver2.oid, updateDriverRequest);
 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-		HelperCommon.orderReports(policyNumber, addedDriver2.oid);
+		HelperCommon.orderReports(policyNumber, addedDriver2.oid, OrderReportsRequest.class, 200);
 		countViolationsInPas(policyNumber,3);
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
@@ -236,7 +233,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		//Check Driver with one outdated violation
 		String oidDriver2 = addAndUpdateDriver(policyNumber,"Outdated","Minor","1970-01-01","B15384003");
 
-		HelperCommon.orderReports(policyNumber, oidDriver2);
+		HelperCommon.orderReports(policyNumber, oidDriver2, OrderReportsRequest.class, 200);
 		countViolationsInPas(policyNumber,3);
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
@@ -370,13 +367,10 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 
 	private String addAndUpdateDriver (String policyNumber, String firstName, String lastName, String birthDate, String licenceNumber){
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
-
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest(firstName, null, lastName, birthDate, null);
 		DriversDto addedDriver =  HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
-
 		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female",licenceNumber,16,"VA","CH","SSS");
 		HelperCommon.updateDriver(policyNumber, addedDriver.oid, updateDriverRequest);
-		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		return addedDriver.oid;
 	}
 }
