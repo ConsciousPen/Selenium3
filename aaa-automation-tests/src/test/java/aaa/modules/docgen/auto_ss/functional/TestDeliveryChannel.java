@@ -27,7 +27,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
  * @name Test Document Generation - default to Preferred Channel
  * @scenario
  * 0. Create an eValue Quote
- * 1. Go to document and bind page and click on Generate document
+ * 1. Go to the document and bind page and click on Generate document
  * 2. verify channel type in DB
  * 3. Go to document and bind page and click on Generate document
  * 4. verify channel type in DB
@@ -55,7 +55,7 @@ public class TestDeliveryChannel extends AutoSSBaseTest {
 
 		WebDriverHelper.switchToDefault();
 
-		String GetDocumentChannelFromDb = "select * from( "
+		String getDocumentChannelFromDb = "select * from( "
 				+ "select * from aaadocgenentity "
 				+ "where ENTITYID in (select id from policysummary where policynumber = '%s') "
 				+ "order by id desc "
@@ -63,7 +63,7 @@ public class TestDeliveryChannel extends AutoSSBaseTest {
 				+ "where rownum=1 "
 				+ "and data like '%%%s%%' order by creationdate desc";
 
-		assertThat(DBService.get().getValue(String.format(GetDocumentChannelFromDb, quoteNumber, "LocalPrintChannel")).get()).isNotBlank();
+		assertThat(DBService.get().getValue(String.format(getDocumentChannelFromDb, quoteNumber, "LocalPrintChannel")).get()).isNotBlank();
 
 		DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 		documentsAndBindTab.getDocumentsForPrintingAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.BTN_GENERATE_ESIGNATURE_DOCUMENTS).click(Waiters.DEFAULT.then(Waiters.SLEEP(2000)));
@@ -72,13 +72,13 @@ public class TestDeliveryChannel extends AutoSSBaseTest {
 		Page.dialogConfirmation.buttonOk.click();
 		Waiters.SLEEP(2000).go();
 
-		assertThat(DBService.get().getValue(String.format(GetDocumentChannelFromDb, quoteNumber, "ESignatureChannel")).get()).isNotBlank();
+		assertThat(DBService.get().getValue(String.format(getDocumentChannelFromDb, quoteNumber, "ESignatureChannel")).get()).isNotBlank();
 		BindTab.buttonSaveAndExit.click();
 
 		testEValueDiscount.simplifiedQuoteIssue();
 
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		assertThat(DBService.get().getValue(String.format(GetDocumentChannelFromDb, policyNumber, "PreferredChannel")).get()).isNotBlank();
+		assertThat(DBService.get().getValue(String.format(getDocumentChannelFromDb, policyNumber, "PreferredChannel")).get()).isNotBlank();
 
 		GenerateOnDemandDocumentActionTab generateOnDemandDocumentActionTab = new GenerateOnDemandDocumentActionTab();
 
@@ -86,16 +86,16 @@ public class TestDeliveryChannel extends AutoSSBaseTest {
 		generateOnDemandDocumentActionTab.generateDocuments(DocGenEnum.DeliveryMethod.LOCAL_PRINT, DocGenEnum.Documents.AA10XX);
 		generateOnDemandDocumentActionTab.buttonOk.click();
 		Waiters.SLEEP(2000).go();
-		assertThat(DBService.get().getValue(String.format(GetDocumentChannelFromDb, policyNumber, "LocalPrintChannel")).get()).isNotBlank();
+		assertThat(DBService.get().getValue(String.format(getDocumentChannelFromDb, policyNumber, "LocalPrintChannel")).get()).isNotBlank();
 		generateOnDemandDocumentActionTab.cancel();
 		policy.policyDocGen().start();
 
 		generateOnDemandDocumentActionTab.generateDocuments(DocGenEnum.DeliveryMethod.CENTRAL_PRINT, DocGenEnum.Documents.AA10XX);
-		assertThat(DBService.get().getValue(String.format(GetDocumentChannelFromDb, policyNumber, "CentralPrintChannel")).get()).isNotBlank();
+		assertThat(DBService.get().getValue(String.format(getDocumentChannelFromDb, policyNumber, "CentralPrintChannel")).get()).isNotBlank();
 
 		policy.policyDocGen().start();
 		generateOnDemandDocumentActionTab.generateDocuments(DocGenEnum.DeliveryMethod.EMAIL, "aaa@aaa.com", null, null, DocGenEnum.Documents.AA10XX);
-		assertThat(DBService.get().getValue(String.format(GetDocumentChannelFromDb, policyNumber, "EmailChannel")).get()).isNotBlank();
+		assertThat(DBService.get().getValue(String.format(getDocumentChannelFromDb, policyNumber, "EmailChannel")).get()).isNotBlank();
 
 	}
 

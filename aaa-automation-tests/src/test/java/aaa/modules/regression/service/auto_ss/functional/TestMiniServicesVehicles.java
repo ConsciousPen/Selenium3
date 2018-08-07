@@ -40,11 +40,11 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 
 	/**
 	 * @author Megha Gubbala
-	 * @name Check dxp server To add vehicle.
+	 * @name Check dxp service To add vehicle.
 	 * Create a Policy
 	 * Create a pended endorsement
-	 * Hit "add-vehicle" dxp server.
-	 * Pass Pearches date and VIN to the service
+	 * Hit "add-vehicle" service.
+	 * send purchase date and VIN to the service as a request
 	 * Go to pas open pended endorsement and go to vehicle tab
 	 * Check the new vehicle is added with the vin number.
 	 * @scenario
@@ -84,15 +84,15 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 
 	/**
 	 * @author Megha Gubbala
-	 * @name Check Vehicle vehicle service
+	 * @name Check View Vehicle service
 	 * @scenario 1.Create a policy with 4 vehicles (1.PPA 2.PPA 3. Conversion Van 4. Trailer )
 	 * 2.hit view vehicle service
-	 * 3.get a response in right sequence
-	 * 4.perform endorsement
+	 * 3.get a response in correct order.
+	 * 4. perform endorsement on the Policy
 	 * 5.add new vehicle (that will be pending)
 	 * 6.hit view vehicle service
-	 * 7.validate response shows pending vehicle first.
-	 * Added Pas 12244
+	 * 7.validate response and response should have pending vehicle first.
+	 * @megha Gubbala Added Pas 12244
 	 * Add 2 PPA vehicle
 	 * hit view vehicle service on pended endorsement
 	 * verify order of vehicle

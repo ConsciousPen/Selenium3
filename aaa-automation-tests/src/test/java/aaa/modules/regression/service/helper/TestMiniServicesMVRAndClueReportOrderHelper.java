@@ -3,6 +3,7 @@ package aaa.modules.regression.service.helper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
+import org.seleniumhq.jetty9.http.HttpStatus;
 
 import aaa.main.enums.ErrorDxpEnum;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;

@@ -150,3 +150,4 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 		pas15370_driverWithMoreThanTwentyPointsErrorBody();
 	}
 }
+
