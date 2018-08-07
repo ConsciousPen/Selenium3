@@ -249,6 +249,13 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 		pas502_CheckDuplicateVinAddVehicleService(getPolicyType());
 	}
 
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15483"})
+	public void pas15483_deleteOriginalVehicle(@Optional("VA") String state) {
+		pas15483_deleteOriginalVehicleBody();
+	}
+
 	/**
 	 * @author Maris Strazds
 	 * @name Check Duplicate VINs when adding or replacing Vehicle with status "pendingRemove"
@@ -270,13 +277,6 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16577"})
 	public void pas16577_DuplicateVinAddVehicleServicePendingRemove(@Optional("VA") String state) {
 		pas16577_DuplicateVinAddVehicleServicePendingRemoveBody();
-	}
-
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15483"})
-	public void pas15483_deleteOriginalVehicle(@Optional("VA") String state) {
-		pas15483_deleteOriginalVehicleBody();
 	}
 
 	/**
