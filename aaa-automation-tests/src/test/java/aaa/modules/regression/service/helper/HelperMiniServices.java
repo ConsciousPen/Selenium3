@@ -106,12 +106,12 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(bindResponseFiltered.field).isEqualTo(field);
 	}
 
-	void orderReportErrors(String policyNumber, String driverOid,String errorCode, String errorMessage, String field) {
+	void orderReportErrors(String policyNumber, String driverOid,String errorCode, String errorMessage, String field, boolean isErrorShouldExist) {
 		ErrorResponseDto orderReportErrorResponse = HelperCommon.orderReportError(policyNumber, driverOid, 422);
 		assertThat(orderReportErrorResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 		assertThat(orderReportErrorResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-		ErrorResponseDto bindResponseFiltered = orderReportErrorResponse.errors.stream().filter(errors -> errorCode.equals(errors.errorCode)).findFirst().orElse(null);
-		assertThat(bindResponseFiltered.message).contains(errorMessage);
-		assertThat(bindResponseFiltered.field).isEqualTo(field);
+		boolean errorExists = orderReportErrorResponse.errors.stream().noneMatch(errors -> errorCode.contains(errors.errorCode) && errorMessage.equals(errors.message) && field.equals(errors.field));
+		assertThat(errorExists).isEqualTo(isErrorShouldExist);
 	}
+
 }
