@@ -48,7 +48,7 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 	@Test(groups = {Groups.PRECONDITION}, description = "Preconditions")
 	public void paymentCentralConfigCheck() {
 		String appHost = PropertyProvider.getProperty(TestProperties.APP_HOST);
-		assertThat( DBService.get().getValue(PAYMENT_CENTRAL_CONFIG_CHECK))
+		assertThat(DBService.get().getValue(PAYMENT_CENTRAL_CONFIG_CHECK).orElse(""))
 				.as("Adding Payment methods will not be possible because PaymentCentralEndpoints are looking at real service. Please run paymentCentralConfigUpdate").contains(appHost);
 	}
 

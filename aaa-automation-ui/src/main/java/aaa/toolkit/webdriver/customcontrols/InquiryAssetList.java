@@ -38,6 +38,13 @@ public class InquiryAssetList extends AssetList {
 	public StaticElement getStaticElement(AssetDescriptor assetDesc) {
 		return StaticElement.class.cast(getAsset(assetDesc.getLabel()));
 	}
+
+	/**
+	 * Use this method only for getting inner asset lists, use getStaticElement for controls
+	 */
+	public <C extends BaseElement<?, ?>> C getAsset(AssetDescriptor<C> assetDesc) {
+		return assetDesc.getControlClass().cast(getAsset(assetDesc.getLabel()));
+	}
 }
 
 

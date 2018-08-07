@@ -68,7 +68,7 @@ public class TestPolicyRenewOose extends PolicyRenewOose {
            //in case if oose feature is turned on, values from renew and endorsement should be merged and payment plan should be taken from renew = Semi-Annual
     	   assertThat(new PremiumAndCoveragesTab()
     			   .getInquiryAssetList()
-    			   .getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN))
+    			   .getStaticElement(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN))
     			   //.getValue()).isEqualTo("Semi-Annual (Renewal)");
     			   .hasValue("Annual (Renewal)");
     	    
@@ -86,7 +86,7 @@ public class TestPolicyRenewOose extends PolicyRenewOose {
            
     	   assertThat(new PremiumAndCoveragesTab()
     			   .getInquiryAssetList()
-			       .getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN))
+			       .getStaticElement(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN))
 			       .hasValue("Quarterly (Renewal)");
 	}
 	
