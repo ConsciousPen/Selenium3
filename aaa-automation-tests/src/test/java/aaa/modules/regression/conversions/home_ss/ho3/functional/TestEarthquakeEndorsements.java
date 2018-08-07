@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ss.ho3.functional;
+package aaa.modules.regression.conversions.home_ss.ho3.functional;
 
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
@@ -24,7 +24,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	 * @scenario
 	 * 1. Login app with user who has 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
 	 * 2. Create Customer
-	 * 3. Initiate Quote creation
+	 * 3. Do 'New Renewal Entry' action (initiate Conversion Policy)
 	 * 4. FIll everything up until 'Premium & Coverages' tab -> 'Endorsement' subtab
 	 * 5. Check that 'Earthquake' endorsement is available in 'Optional Endorsements'
 	 * 6. Add 'Earthquake' endorsement
@@ -38,7 +38,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-17479")
 	public void testEarthquakeEndorsement_Privileged_NewBusiness(@Optional("") String state) {
-		initiateNewBusinessTx(false);
+		initiateNewBusinessTx(true);
 		testEndorsementForms(EndorsementForms.HomeSSEndorsementForms.HS_04_54.getName(),
 				EndorsementForms.HomeSSEndorsementForms.HS_04_54.getFormId());
 	}
@@ -49,7 +49,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	 * @scenario
 	 * 1. Login app with user who has 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
 	 * 2. Create Customer
-	 * 3. Create Policy
+	 * 3. Create Conversion Policy
 	 * 4. Initiate Endorsement
 	 * 5. Navigate to 'Premium & Coverages' tab -> 'Endorsement' subtab
 	 * 6. Check that 'Earthquake' endorsement is available in 'Optional Endorsements'
@@ -64,7 +64,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-17479")
 	public void testEarthquakeEndorsement_Privileged_Endorsement(@Optional("") String state) {
-		createPolicy(false);
+		createPolicy(true);
 		initiateEndorsementTx();
 		testEndorsementForms(EndorsementForms.HomeSSEndorsementForms.HS_04_54.getName(),
 				EndorsementForms.HomeSSEndorsementForms.HS_04_54.getFormId());
@@ -76,9 +76,9 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	 * @scenario
 	 * 1. Login app with user who has 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
 	 * 2. Create Customer
-	 * 3. Create Policy
+	 * 3. Create Conversion Policy
 	 * 4. Initiate Renewal
-	 * 5. to 'Premium & Coverages' tab -> 'Endorsement' subtab
+	 * 5. Navigate to 'Premium & Coverages' tab -> 'Endorsement' subtab
 	 * 6. Check that 'Earthquake' endorsement is available in 'Optional Endorsements'
 	 * 7. Add 'Earthquake' endorsement
 	 * 8. Check that Edit link is available
@@ -91,7 +91,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-17479")
 	public void testEarthquakeEndorsement_Privileged_Renewal(@Optional("") String state) {
-		createPolicy(false);
+		createPolicy(true);
 		initiateRenewalTx();
 		testEndorsementForms(EndorsementForms.HomeSSEndorsementForms.HS_04_54.getName(),
 				EndorsementForms.HomeSSEndorsementForms.HS_04_54.getFormId());

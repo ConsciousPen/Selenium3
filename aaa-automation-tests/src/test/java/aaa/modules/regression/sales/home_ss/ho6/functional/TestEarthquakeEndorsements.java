@@ -4,7 +4,7 @@ import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.EndorsementForms;
-import aaa.modules.policy.HomeSSHO6BaseTest;
+import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestEndorsementsTabAbstract;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
@@ -13,9 +13,10 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.OK)
-public class TestEarthquakeEndorsements extends HomeSSHO6BaseTest {
+public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 
-	TestEndorsementsTabAbstract template = new TestEndorsementsTabAbstract();
+	@Override
+	protected PolicyType getPolicyType() { return PolicyType.HOME_SS_HO6; }
 
 	/**
 	 * @author Rokas Lazdauskas
@@ -36,9 +37,9 @@ public class TestEarthquakeEndorsements extends HomeSSHO6BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-17479")
-	public void testEarthquakeEndorsement_NewBusiness(@Optional("") String state) {
-		template.initiateNewBusinessTx(getPolicyType());
-		template.testEndorsementForms(EndorsementForms.HomeSSEndorsementForms.HS_04_54.getName(),
+	public void testEarthquakeEndorsement_Privileged_NewBusiness(@Optional("") String state) {
+		initiateNewBusinessTx(false);
+		testEndorsementForms(EndorsementForms.HomeSSEndorsementForms.HS_04_54.getName(),
 				EndorsementForms.HomeSSEndorsementForms.HS_04_54.getFormId());
 	}
 
@@ -62,9 +63,10 @@ public class TestEarthquakeEndorsements extends HomeSSHO6BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-17479")
-	public void testEarthquakeEndorsement_Endorsement(@Optional("") String state) {
-		template.initiateEndorsementTx(getPolicyType());
-		template.testEndorsementForms(EndorsementForms.HomeSSEndorsementForms.HS_04_54.getName(),
+	public void testEarthquakeEndorsement_Privileged_Endorsement(@Optional("") String state) {
+		createPolicy(false);
+		initiateEndorsementTx();
+		testEndorsementForms(EndorsementForms.HomeSSEndorsementForms.HS_04_54.getName(),
 				EndorsementForms.HomeSSEndorsementForms.HS_04_54.getFormId());
 	}
 
@@ -88,9 +90,10 @@ public class TestEarthquakeEndorsements extends HomeSSHO6BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-17479")
-	public void testEarthquakeEndorsement_Renewal(@Optional("") String state) {
-		template.initiateRenewalTx(getPolicyType());
-		template.testEndorsementForms(EndorsementForms.HomeSSEndorsementForms.HS_04_54.getName(),
+	public void testEarthquakeEndorsement_Privileged_Renewal(@Optional("") String state) {
+		createPolicy(false);
+		initiateRenewalTx();
+		testEndorsementForms(EndorsementForms.HomeSSEndorsementForms.HS_04_54.getName(),
 				EndorsementForms.HomeSSEndorsementForms.HS_04_54.getFormId());
 	}
 }
