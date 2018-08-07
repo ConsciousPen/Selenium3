@@ -1,0 +1,33 @@
+VehicleTab_SecondUnmatchedVIN_NewBusiness_AZ: {
+     VIN: 'WWEKN3DD0E0344466',
+     Year: '2012',
+     Make: 'ACURA',
+     Model: 'MDX',
+     Series: 'MDX ADVANCE',
+     Body Style: 'WAGON 4 DOOR',
+     Odometer Reading: 1,
+     Odometer Reading Date: '12/01/18'
+}
+
+VehicleTab_NonExistingVIN_AZ: {
+     VIN: 'ZZXKN3DD2E0344466',
+     Year: '2009',
+     Make: 'HYUNDAI',
+     Model: 'SONATA',
+     Series: 'SONATA SE/LIMITED',
+     Body Style: 'SEDAN 4 DOOR',
+     Odometer Reading: 2,
+     Odometer Reading Date: '12/01/18'
+}
+
+VehicleTab_updateVINStub_AZ: {
+     VIN: 'WWEKN3DD0E0344466',
+     Year: '1991',
+     Make: 'BMW',
+     Model: 'M3',
+     Series: 'M3',
+     Body Style: 'SEDAN 2 DOOR',
+     Odometer Reading: 3,
+     Odometer Reading Date: '12/01/18'
+}
+

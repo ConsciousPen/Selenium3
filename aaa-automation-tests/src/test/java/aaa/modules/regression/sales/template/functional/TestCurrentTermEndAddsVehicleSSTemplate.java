@@ -6,14 +6,14 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
-import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.defaulttabs.*;
+import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import toolkit.datax.TestData;
-import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Link;
@@ -24,21 +24,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static aaa.common.Tab.buttonCancel;
-import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.*;
 import static aaa.main.pages.summary.PolicySummaryPage.TransactionHistory.provideLinkExpandComparisonTree;
 
-public class TestCurrentTermEndAddsVehicleTemplate extends CommonTemplateMethods {
+public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMethods {
 
     protected VehicleTab vehicleTab = new VehicleTab();
     protected DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
-    protected AssignmentTab assignmentTab = new AssignmentTab();
-    protected DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
 
     protected String policyNumber;
     protected static final String VEHICLE1_VIN = "KNDJT2A2XA7038383";
     protected static final String VEHICLE2_VIN = "JT2AE91A7M3425407";
-    protected static final String VEHICLE2_NOMATCH_VIN = "WWEKN3DD0E0344466";
     protected static final String VEHICLE3_VIN = "1FTRE1421YHA89455";
     protected static final String VEHICLE4_VIN = "5NPEU46C991234567";
     protected static final String VEHICLE1_UPDATED_VIN = "2GTEC19V531282646";
@@ -46,22 +41,19 @@ public class TestCurrentTermEndAddsVehicleTemplate extends CommonTemplateMethods
     protected static final String SYMBOL_2018 = "SYMBOL_2018";
     protected static final String SYMBOL_2000_CHOICE = "SYMBOL_2000_CHOICE";
     protected static final String SYMBOL_2018_CHOICE = "SYMBOL_2018_CHOICE";
-
     protected TestData testDataThreeVehicles;
 
     protected static final String NOT_MATCHED = "NOT_MATCHED";
     protected static final String MATCHED = "MATCHED";
     protected static final String STUB = "STUB";
 
-    protected void pas14532_refreshForCurrentAndRenewalTerms_initiateEndorsement(@Optional("CA") String state, String scenario) {
+    protected void pas14532_refreshForCurrentAndRenewalTerms_initiateEndorsement(@Optional("AZ") String state, String scenario) {
         UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
         String vinTableFile = "VinUploadOnCurrentTerm.xlsx";
-        String controlTableFile = "controlTable_CA.xlsx";
+        String controlTableFile = "controlTable_AZ_SS.xlsx";
         String vinTableFileUpdatedVersion = "VinUploadOnCurrentTermUpdatedVersion.xlsx";
         TestData testDataTwoVehicles = getTestDataWithTwoVehicles(getPolicyTD(), scenario);
-        log.info("testData two vehicles is " + testDataTwoVehicles);
-
-        //1. Create CA auto policy with two vehicles and save the expiration date
+        //1. Create auto SS policy with two vehicles and save the expiration date
         mainApp().open();
         createCustomerIndividual();
         policyNumber = createPolicy(testDataTwoVehicles);
@@ -84,13 +76,13 @@ public class TestCurrentTermEndAddsVehicleTemplate extends CommonTemplateMethods
             uploadToVINTableTab.uploadVinTable(vinTableFileUpdatedVersion);
         }
 
-        //4. Initiate endorsements
+        //4. Initiate endorsement
         initiateEndorsement();
     }
 
-    protected void pas14532_refreshForCurrentAndRenewalTerms_bindEndorsement(@Optional("CA") String state, String scenario) {
+    public void pas14532_refreshForCurrentAndRenewalTerms_bindEndorsement(@Optional("AZ") String state, String scenario) {
 
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
         if (scenario.equals(NOT_MATCHED)) { //scenario 1
             testDataThreeVehicles = getTestDataWithThreeVehicles(getPolicyTD(), NOT_MATCHED);
         } else if (scenario.equals(MATCHED)) { //scenario 2
@@ -99,16 +91,12 @@ public class TestCurrentTermEndAddsVehicleTemplate extends CommonTemplateMethods
             testDataThreeVehicles = getTestDataWithThreeVehicles(getPolicyTD(), STUB);
         }
 
-        //6. Calculate Premium and bind the endorsement.
-        if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT))
-            policy.getDefaultView().fillFromTo(testDataThreeVehicles, VehicleTab.class, PremiumAndCoveragesTab.class, true); //select
-        else if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE))
-            policy.getDefaultView().fillFromTo(testDataThreeVehicles, VehicleTab.class, DocumentsAndBindTab.class, true); //choice
-
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+        //6. Calculate Premium and bind the endorsement
+        policy.getDefaultView().fillFromTo(testDataThreeVehicles, VehicleTab.class, PremiumAndCoveragesTab.class, true);
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.submitTab();
 
-        //Conflict page
+        //Conflicts page
         Table tableDifferences = PolicySummaryPage.tableDifferences;
         int columnsCount = tableDifferences.getColumnsCount();
 
@@ -143,20 +131,19 @@ public class TestCurrentTermEndAddsVehicleTemplate extends CommonTemplateMethods
     private void initiateEndorsement() {
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
-        TestData endorsementData = getPolicyTD("Endorsement", "TestData");
-        policy.createEndorsement(endorsementData);
+        policy.createEndorsement(getPolicyTD("Endorsement", "TestData"));
     }
 
     //Update first vehicle with VIN matched
     protected TestData modifyVehicleTabWithExistingVin(TestData testData) {
-        testData.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), VEHICLE1_UPDATED_VIN);
+        testData
+                .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), VEHICLE1_UPDATED_VIN);
         return testData;
     }
 
-    //Update first Vehicle to VIN no match
+    //Update first Vehicle to Vin no match
     protected TestData modifyVehicleTabNonExistingVin(TestData testData) {
         return testData.getTestData(vehicleTab.getMetaKey()).adjust(getTestSpecificTD("VehicleTab_NonExistingVIN")).resolveLinks();
-
     }
 
     //Update Y/M/M/S/S for second Vehicle
@@ -164,105 +151,76 @@ public class TestCurrentTermEndAddsVehicleTemplate extends CommonTemplateMethods
         return testData.getTestData(vehicleTab.getMetaKey()).adjust(getTestSpecificTD("VehicleTab_updateVINStub")).resolveLinks();
     }
 
-
-    protected TestData getThreeAssignmentsTestData() {
-        TestData testData = getTwoAssignmentsTestData();
-        List<TestData> assignmentList = testData.getTestDataList("DriverVehicleRelationshipTable");
-        TestData thirdAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0).ksam("Primary Driver");
-        assignmentList.add(thirdAssignment);
-        return new SimpleDataProvider().adjust("DriverVehicleRelationshipTable", assignmentList);
-    }
-
     //adds two vehicles to the test data
     public TestData getTestDataWithTwoVehicles(TestData testData, String scenario) {
-        // Build Assignment Tab
-        TestData testDataAssignmentTab = getTwoAssignmentsTestData();
+        // Add first vehicle (Vin matched) on new business policy for Scenario1, Scenario2 and Scenario3
         TestData firstVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
-                .adjust(AutoCaMetaData.VehicleTab.VIN.getLabel(), VEHICLE1_VIN);
+                .adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), VEHICLE1_VIN);
+        // Add second vehicle (Vin matched) on new business policy for Scenario 1 and Scenario2
         TestData secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
-                .adjust(AutoCaMetaData.VehicleTab.VIN.getLabel(), VEHICLE2_VIN);
-        TestData secondUnmatchedVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey()).adjust(getTestSpecificTD("VehicleTab_SecondUnmatchedVIN_NewBusiness")).resolveLinks();
+                .adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), VEHICLE2_VIN);
+        //Add second vehicle (Vin not matched) on new business policy for Scenario3
+        TestData secondUnmatchedVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
+                .adjust(getTestSpecificTD("VehicleTab_SecondUnmatchedVIN_NewBusiness")).resolveLinks();
 
         // Build Vehicle Tab old version vin + updated vehicle
         List<TestData> testDataVehicleTab = new ArrayList<>();
         testDataVehicleTab.add(firstVehicle);
         if (scenario.equals(MATCHED) || scenario.equals(NOT_MATCHED)) { //scenario 1 or scenario 2
             testDataVehicleTab.add(secondVehicle);
-        } else if (scenario.equals(STUB)) {
+        } else if (scenario.equals(STUB)) { //scenario 3
             testDataVehicleTab.add(secondUnmatchedVehicle);
         }
-        TestData twoVehicleData = null;
-        // add 2 vehicles
-        if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
-            twoVehicleData = testData.adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks()
-                    .adjust(assignmentTab.getMetaKey(), testDataAssignmentTab).resolveLinks()
-                    .adjust(documentsAndBindTab.getMetaKey(), getTestSpecificTD("DocumentsAndBindTab_TestDataCurrentTermEndAddsVehicle")).resolveLinks();
-        } else {
-            twoVehicleData = testData.adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks()
-                    .adjust(assignmentTab.getMetaKey(), testDataAssignmentTab).resolveLinks();
-        }
-        return twoVehicleData;
+        // add two vehicles
+        return testData
+                .adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks();
     }
 
     //adds three vehicles to the test data
     public TestData getTestDataWithThreeVehicles(TestData testData, String scenario) {
         TestData firstVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
-                .adjust(AutoCaMetaData.VehicleTab.VIN.getLabel(), VEHICLE1_VIN);
+                .adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), VEHICLE1_VIN);
         TestData secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
-                .adjust(AutoCaMetaData.VehicleTab.VIN.getLabel(), VEHICLE2_VIN);
+                .adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), VEHICLE2_VIN);
         TestData thirdVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
-                .adjust(AutoCaMetaData.VehicleTab.VIN.getLabel(), VEHICLE3_VIN);
-        // Build Assignment Tab for endorsement
-        TestData testDataAssignmentTab = getThreeAssignmentsTestData();
-        TestData threeVehicleData = null;
+                .adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), VEHICLE3_VIN);
 
-        if (scenario.equals(NOT_MATCHED)) { //scenario 1
+        if (scenario.equals(NOT_MATCHED)) { //Scenario 1 - Update first Vehicle from Vin full match to Vin no match
             firstVehicle = modifyVehicleTabNonExistingVin(getPolicyTD());
-        } else if (scenario.equals(MATCHED)) { //scenario 2
+        } else if (scenario.equals(MATCHED)) { //scenario 2 - Update first Vehicle from Vin full match to Vin full match
             firstVehicle = modifyVehicleTabWithExistingVin(getPolicyTD()).getTestData("VehicleTab");
-        } else if (scenario.equals(STUB)) { //scenario 3
+        } else if (scenario.equals(STUB)) { //scenario 3 - Update y/m/m/s/s for the second vehicle
             secondVehicle = modifyVehicleTabVinStub(getPolicyTD());
         }
-
         // Build Vehicle Tab old version vin + updated vehicle
         List<TestData> testDataVehicleTab = new ArrayList<>();
         testDataVehicleTab.add(firstVehicle);
         testDataVehicleTab.add(secondVehicle);
         testDataVehicleTab.add(thirdVehicle);
 
-        // add 3 vehicles
-        if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
-            threeVehicleData = testData
-                    .adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks()
-                    .adjust(assignmentTab.getMetaKey(), testDataAssignmentTab).resolveLinks()
-                    .adjust(driverActivityReportsTab.getMetaKey(), getTestSpecificTD("DriverActivityReportsTab_TestDataCurrentTermEndAddsVehicleEndorsement")).resolveLinks()
-                    .adjust(documentsAndBindTab.getMetaKey(), getTestSpecificTD("DocumentsAndBindTab_TestDataCurrentTermEndAddsVehicleEndorsement")).resolveLinks();
-        } else {
-            threeVehicleData = testData
-                    .adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks()
-                    .adjust(assignmentTab.getMetaKey(), testDataAssignmentTab).resolveLinks()
-                    .adjust(driverActivityReportsTab.getMetaKey(), getTestSpecificTD("DriverActivityReportsTab_TestDataCurrentTermEndAddsVehicleEndorsement")).resolveLinks();
-        }
-        return threeVehicleData;
+        // add three vehicles
+        return testData
+                .adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks();
     }
 
     protected void viewRatingDetails() {
         PolicySummaryPage.buttonRenewalQuoteVersion.click();
         PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(2).controls.links.get(1).click(); //click to enter second renewal image
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        buttonViewRatingDetails.click();
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
     }
 
     protected void closeRatingDetails() {
-        buttonRatingDetailsOk.click();
-        buttonCancel.click();
+        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.buttonCancel.click();
     }
 
     protected void doSoftAssertions(int vehicleCellIndex, String vehicleMake, String vehicleCompSymbol, String vehicleCollSymbol) {
         ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
-        softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(vehicleCellIndex).getValue()).isEqualToIgnoringCase(vehicleMake);
-        softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(vehicleCellIndex).getValue()).isEqualTo(vehicleCompSymbol);
-        softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(vehicleCellIndex).getValue()).isEqualTo(vehicleCollSymbol);
+        softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(vehicleCellIndex).getValue()).isEqualToIgnoringCase(vehicleMake);
+        softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(vehicleCellIndex).getValue()).isEqualToIgnoringCase(vehicleCompSymbol);
+        softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(vehicleCellIndex).getValue()).isEqualToIgnoringCase(vehicleCollSymbol);
+
         //Catch any assertion errors seen during test
         softly.close();
     }
