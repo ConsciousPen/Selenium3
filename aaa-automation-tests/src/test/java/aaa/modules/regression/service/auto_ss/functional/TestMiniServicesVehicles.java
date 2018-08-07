@@ -256,10 +256,12 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 1. Create a policy in PAS
 	 * 2. Create an endorsement through service
 	 * 3. Run Remove Vehicle service for one of the Vehicles ---> Vehicle status is changed to "pendingRemove"
-	 * 4. Run Add Vehicle Service with the same VIN as vehicle with ""pendingRemove"" status ---> Error "Each vehicle must have a unique VIN - 200031" is provided
+	 * 4. Run Add Vehicle Service with the same VIN as vehicle with ""pendingRemove"" status --->
+	 *          Error ""Each vehicle must have a unique Vehicle Identification Number (200031)"" is provided
 	 *          AND The vehicle is not added/replaced to the pended endorsement
 	 * 5. Run View Endorsement Drivers service and validate that vehicle is not added
-	 * 6. Run Replace Vehicle Service with the same VIN as vehicle with "pendingRemove" status ---> Error "Each vehicle must have a unique VIN - 200031" is provided
+	 * 6. Run Replace Vehicle Service with the same VIN as vehicle with "pendingRemove" status --->
+	 *          Error ""Each vehicle must have a unique Vehicle Identification Number (200031)"" is provided
 	 *          AND The vehicle is not added/replaced to the pended endorsement
 	 * 7. Run View Endorsement Drivers service and validate that vehicle is not replaced
 	 */
