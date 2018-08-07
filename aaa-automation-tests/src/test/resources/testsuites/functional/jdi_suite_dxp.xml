@@ -521,4 +521,14 @@
             </class>
         </classes>
     </test>
+    <test name="Test add/replace vehicle with duplicate VIN when status is pendingRemoval">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesUwRules">
+                <methods>
+                    <include name="pas16577_DuplicateVinAddVehicleServicePendingRemove"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
