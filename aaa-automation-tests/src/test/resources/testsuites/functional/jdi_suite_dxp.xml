@@ -379,7 +379,6 @@
                     <include name="pas12852_ExpensiveVehicle200022"/>
                     <include name="pas12852_GaragedOutOfStateOnlyOneVeh200018"/>
                     <include name="pas12852_MustHavePPA200016"/>
-                    <include name="pas16577_DuplicateVinAddVehicleServicePendingRemove"/>
                 </methods>
             </class>
         </classes>
@@ -518,6 +517,16 @@
                     <include name="pas14642_NotNamedInsuredAvailableForRatingHardStop"/>
                     <include name="pas14641_NotNamedInsuredUpdateToNotAvailableForRating"/>
                     <include name="pas14653_ViewDriverServiceOrderOfPendingDelete"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Test add/replace vehicle with duplicate VIN when status is pendingRemoval">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesUwRules">
+                <methods>
+                    <include name="pas16577_DuplicateVinAddVehicleServicePendingRemove"/>
                 </methods>
             </class>
         </classes>
