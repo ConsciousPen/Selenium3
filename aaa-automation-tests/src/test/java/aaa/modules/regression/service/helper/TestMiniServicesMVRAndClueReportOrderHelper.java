@@ -3,6 +3,7 @@ package aaa.modules.regression.service.helper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
+import org.seleniumhq.jetty9.http.HttpStatus;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -28,7 +29,6 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 
 	protected void pas16694_orderReports_not_Named_Insured_endorsementBody(PolicyType policyType) {
 		mainApp().open();
-		createCustomerIndividual();
 		String policyNumber = getCopiedPolicy();
 
 		//Create pended endorsement
@@ -56,7 +56,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		SearchPage.openPolicy(policyNumber);
 
 		//Order reports through service
-		HelperCommon.orderReports(policyNumber, addedDriverOid);
+		HelperCommon.orderReports(policyNumber, addedDriverOid, OrderReportsResponse.class, HttpStatus.OK_200);
 
 		//Open Driver Activity reports tab in PAS
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -100,7 +100,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		SearchPage.openPolicy(policyNumber);
 
 		//Order reports through service
-		HelperCommon.orderReports(policyNumber, addedDriverOid);
+		HelperCommon.orderReports(policyNumber, addedDriverOid, OrderReportsResponse.class, HttpStatus.OK_200);
 
 		//Open Driver Activity reports tab in PAS
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -184,7 +184,6 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 
 	protected void pas15077_orderReports_endorsementBody(PolicyType policyType) {
 		mainApp().open();
-		createCustomerIndividual();
 		String policyNumber = getCopiedPolicy();
 
 		//Create pended endorsement - future dated, because otherwise Insurance Score Report must be ordered for newly added NI
@@ -214,7 +213,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		SearchPage.openPolicy(policyNumber);
 
 		//Order reports through service
-		HelperCommon.orderReports(policyNumber, addedDriverOid);
+		HelperCommon.orderReports(policyNumber, addedDriverOid, OrderReportsResponse.class, HttpStatus.OK_200);
 
 		//Open Driver Activity reports tab in PAS
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -259,7 +258,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		SearchPage.openPolicy(policyNumber);
 
 		//Order reports through service
-		HelperCommon.orderReports(policyNumber, addedDriverOid);
+		HelperCommon.orderReports(policyNumber, addedDriverOid, OrderReportsResponse.class, HttpStatus.OK_200);
 
 		//Open Driver Activity reports tab in PAS
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -276,4 +275,5 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 	}
+
 }

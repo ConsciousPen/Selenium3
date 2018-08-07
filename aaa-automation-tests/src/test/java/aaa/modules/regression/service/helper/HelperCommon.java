@@ -304,12 +304,12 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, ViewDriversResponse.class);
 	}
 
-	public static OrderReportsResponse orderReports(String policyNumber, String driverOid) {
+	public static <T> T orderReports(String policyNumber, String driverOid, Class<T> responseType, int status) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS_REPORTS, policyNumber, driverOid));
 		OrderReportsRequest request = new OrderReportsRequest();
 		request.policyNumber = policyNumber;
 		request.driverOid = driverOid;
-		return runJsonRequestPostDxp(requestUrl, request, OrderReportsResponse.class, 200);
+		return runJsonRequestPostDxp(requestUrl, request, responseType, status);
 	}
 
 	static PolicyCoverageInfo viewPolicyCoverages(String policyNumber) {

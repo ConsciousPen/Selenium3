@@ -49,7 +49,7 @@ public class TestMiniServicesGeneral extends TestMiniServicesGeneralHelper {
 
 	/**
 	 * @author Megha Gubbala
-	 * @name Validate Meta data for Vehicle
+	 * @name Validate Meta data Service for Vehicle
 	 * Create a va policy
 	 * Create an endorsement using DXP
 	 * Hit view vehicle service to get OID

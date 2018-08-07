@@ -71,3 +71,4 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 		pas16694_orderReports_not_Named_Insured_endorsementBody(getPolicyType());
 	}
 }
+
