@@ -28,6 +28,9 @@ public final class ErrorDxpEnum {
 		USAGE_IS_BUSINESS("AAA_SS1007147", "Usage is Business"),
 		REGISTERED_OWNERS("AAA_SS1007148", "Registered Owners"),
 		MORE_THAN_TWO_MINOR_VIOLATIONS_VA("200095", "Driver with more than (2) Minor violations are unacceptable. (200095)"),
+		DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS("200005", "Driver with a narcotics, drug or felony conviction involving a motor vehicle is unacceptable (200005)"),
+		DRIVER_WITH_MORE_THAN_TWENTY_POINTS_VA("200004_VA", "Driver with more than 20 points is unacceptable (200004)"),
+		DRIVER_WITH_MAJOR_VIOLATION_VA("200009_VA", "Driver with a Major violation, including a DUI is unacceptable (200009)"),
 
 		ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS("OP-01", "Error occurred while executing operations"),
 		ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS_BRACKETS("PFO017", "Error occurred during operation execution: {1}"),
