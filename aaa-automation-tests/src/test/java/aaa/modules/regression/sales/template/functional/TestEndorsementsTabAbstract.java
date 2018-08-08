@@ -4,12 +4,21 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.docgen.AaaDocGenEntityQueries;
+import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
+import aaa.helpers.xml.model.Document;
 import aaa.main.enums.EndorsementForms;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -77,6 +86,15 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 		}
 	}
 
+	public void createProposedRenewal() {
+		//Move time to R-35
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));//-35 days
+
+		//Create Proposed Renewal
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+	}
+
 	public String createPolicyWithEndorsement(Boolean isConversion, String... endorsementFormIds) {
 		initiateNewBusinessTx(isConversion);
 
@@ -127,10 +145,17 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 		new PurchaseTab().submitTab();
 	}
 
-	public void finishRenewalOrEndorsementTx() {
+	public void finishRenewalOrEndorsementTx(Boolean isEndorsementsAdded) {
 		new PremiumsAndCoveragesQuoteTab().calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.UNDERWRITING_AND_APPROVAL.get());
-		policy.getDefaultView().fillFromTo(getPolicyTD(), UnderwritingAndApprovalTab.class, BindTab.class, true);
+
+		TestData td = getPolicyTD();
+		if (isEndorsementsAdded) {
+			td.adjust(TestData.makeKeyPath(HomeSSMetaData.UnderwritingAndApprovalTab.class.getSimpleName(),
+					HomeSSMetaData.UnderwritingAndApprovalTab.UNDERWRITER_SELECTED_INSPECTION_TYPE.getLabel()), "Interior");
+		}
+
+		policy.getDefaultView().fillFromTo(td, UnderwritingAndApprovalTab.class, BindTab.class, true);
 		new BindTab().submitTab();
 	}
 
@@ -139,16 +164,20 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 		assertThat(endorsementTab.getAddEndorsementLink(endorsementFormId).isPresent());
 	}
 
-	public void checkEndorsementIsNotAvailableInOptionalEndorsements (String endorsementName) {
-		assertThat(endorsementTab.tblOptionalEndorsements.getRowContains("Form ID", endorsementName).isPresent()).isFalse();
+	public void checkEndorsementIsNotAvailableInOptionalEndorsements (String... endorsementNames) {
+		for (String endorsementName : endorsementNames) {
+			assertThat(endorsementTab.tblOptionalEndorsements.getRowContains("Form ID", endorsementName).isPresent()).isFalse();
+		}
 	}
 
 	public void checkEndorsementIsAvailableInIncludedEndorsements(String endorsementName) {
 		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains("Form ID", endorsementName).isPresent());
 	}
 
-	public void checkEndorsementIsNotAvailableInIncludedEndorsements(String endorsementName) {
-		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains("Form ID", endorsementName).isPresent()).isFalse();
+	public void checkEndorsementIsNotAvailableInIncludedEndorsements(String... endorsementNames) {
+		for (String endorsementName : endorsementNames){
+			assertThat(endorsementTab.tblIncludedEndorsements.getRowContains("Form ID", endorsementName).isPresent()).isFalse();
+		}
 	}
 
 	public void addOptionalEndorsement(String endorsementFormId) {
@@ -219,5 +248,29 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_ENDORSEMENT.get());
+	}
+
+	public void checkDocGenTriggered(String policyNumber, AaaDocGenEntityQueries.EventNames eventName, String... docGenIds) {
+		List<Document> policyDocuments = DocGenHelper.getDocumentsList(policyNumber, eventName);
+		Object[] documentTemplate = policyDocuments.stream().map(Document::getTemplateId).toArray();
+		for (String docGenId : docGenIds) {
+			assertThat(documentTemplate).contains(docGenId);
+		}
+	}
+
+	/**
+	 * Check Endorsement functionality after policy was already created with Endorsements added.
+	 * Non privileged user.
+	 * PAS-14057, PAS-17039
+	 */
+	public void pas17039_checkEndorsementFunctionality() {
+		checkEndorsementIsAvailableInIncludedEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName());
+		checkEndorsementIsAvailableInIncludedEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName());
+		editEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+		editEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+		removeEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName(),
+				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
+		removeEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
+				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
 	}
 }
