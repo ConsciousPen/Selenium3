@@ -290,8 +290,7 @@ NamedInsured2_Clean: {
 }
 AAAMembership_Clean: {
   Current AAA Member: 'Yes',
-  Membership number: '8800400000000007',
-  Last name: 'Nov1'
+  Membership number: '8800400000000007'
 }
 AAAMembership_CleanEndo: {
   Current AAA Member: 'No'
@@ -336,8 +335,7 @@ NamedInsured2_Dirty: {
 }
 AAAMembership_Dirty: {
   Current AAA Member: 'Yes',
-  Membership number: '8800400000000007',
-  Last name: 'DIRTYL'
+  Membership number: '8800400000000007'
 }
 
 Endorsement_DummyData: {
@@ -369,8 +367,7 @@ Endorsement_DummyData: {
 }
 AAAMembership_DUMMY: {
   Current AAA Member: 'Yes',
-  Membership number: '9999999999999995',
-  Last name: DUMMY
+  Membership number: '9999999999999995'
 }
 # --------------------Test Data For H06 policy---------------------------------
 TestData: {
@@ -558,16 +555,14 @@ NamedInsured: {
 }
 
 AAAMembership: {
-  Membership number: '8800400000000007',
-  Last name: Nov1,
+  Membership number: '8800400000000007'
 }
 AAAMembership_NonMember: {
   Current AAA Member: 'No'
 }
 
 AAAMembership_DUMMYNB: {
-  Membership number: '9999999999999995',
-    Last name: Nov1
+  Membership number: '9999999999999995'
 }
 
 DwellingAddress: {

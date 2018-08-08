@@ -67,11 +67,10 @@ NamedInsured: {
   Relationship to primary named insured:  Primary Insured,
 }
 
-# Membership number, Last name: Added Valid Active Membership number
+# Membership number: Added Valid Active Membership number
 AAAMembership: {
   Current AAA Member: 'Yes',
-  Membership number: '9436258506738011',
-  Last name: 'Ronaldjo',
+  Membership number: '9436258506738011'
 }
 
 DwellingAddress: '@<home_ca_ho3>@DataGather@DwellingAddress'
