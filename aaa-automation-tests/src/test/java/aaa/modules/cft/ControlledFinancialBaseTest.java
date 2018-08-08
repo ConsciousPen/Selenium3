@@ -627,15 +627,13 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		TestData policyTd = getConversionPolicyDefaultTD();
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), effDate);
 		getPolicyType().get().getDefaultView().fill(policyTd);
-		String policyN = PolicySummaryPage.linkPolicy.getValue();
-		SearchPage.openPolicy(policyN);
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		BillingAccountInformationHolder.addBillingAccountDetails(
 				new BillingAccountDetails.Builder()
 						.setBillingAccountNumber(BillingSummaryPage.labelBillingAccountNumber.getValue())
 						.addPolicyDetails(new PolicyDetails.Builder()
-								.setPolicyNumber(policyN)
+								.setPolicyNumber(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(1).getValue())
 								.setPolicyEffectiveDate(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(3).getValue(), DateTimeUtils.MM_DD_YYYY))
 								.setPolicyExpirationDate(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(3).getValue(), DateTimeUtils.MM_DD_YYYY)
 										.plusYears(1))
