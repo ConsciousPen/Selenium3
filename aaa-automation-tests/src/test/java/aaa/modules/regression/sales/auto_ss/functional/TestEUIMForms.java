@@ -272,7 +272,8 @@ public class TestEUIMForms extends AutoSSBaseTest {
 
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
 		policy.getDefaultView().fill(tdEUIM);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
+		String policyNumber = PolicySummaryPage.tablePolicyList.getRow(1).getCell(1).getValue();
 		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob); //not necessary - can be used if QA needs actual generated xml files
 
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);

@@ -10,6 +10,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -18,14 +19,18 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestAutoPolicyLockPreConditions;
+import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
+
 
 public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPolicyLockPreConditions {
 
 	private static final LocalDateTime getDate = TimeSetterUtil.getInstance().getCurrentTime();
 	private static final String currentDate = getDate.format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
+	private static final String activityDate = getDate.format(DateTimeFormatter.ofPattern("MM/dd/YYYY"));
 	private static final String lookUpId = "(SELECT ll.id FROM lookupList ll WHERE ll.lookupName LIKE '%AAAFactorsLockLookup')";
 	private static final String toDate = "to_date('%s', 'YYYY-MM-DD')";
 	private static Set<String> elementNames = new HashSet<>();
@@ -50,6 +55,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@StateList(states = Constants.States.CT)
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2247")
 	public void pas2247_pas2248_AipAndNafLock(@Optional("CT") String state) {
 
@@ -69,13 +75,22 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		String previousNAFValue = getNafAccidentsValue();
 		String previousAIPValue = getAaaInsurancePersistencyValue();
 
-		//Close rating details pop-up, issue the policy, initiate renewal and verify items values in VRD
+		//Close rating details pop-up, issue the policy, initiate renewal
 		closeViewAndBind(testData);
 		policy.renew().start();
-
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-		// add more activities, which usually make impact on points.
-		driverTab.fillTab(testData);
+
+		//Add one more comp claim
+		driverTab.fillTab(getTestSpecificTD("TestData"));
+		ActivityInformationMultiAssetList aiAssetList = driverTab.getActivityInformationAssetList();
+		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ADD_ACTIVITY).click();
+		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.TYPE).setValue("Comprehensive Claim");
+		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION).setValue("Comprehensive Claim");
+		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE).setValue(activityDate);
+		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT).setValue("1500");
+
+
+		//Navigate to eh Premium and Coverage page and verify the locked and unlocked values
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.calculatePremium();
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
@@ -106,6 +121,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@StateList(states = Constants.States.CO)
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6587")
 	public void pas4311_pas6587_ASDLock(@Optional("CO") String state) {
 		TestData testData = getPolicyTD();
@@ -169,6 +185,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@StateList(statesExcept = Constants.States.CA)
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4311")
 	public void pas4311_pas6587_ASDLock_newly_locked() {
 		TestData testData = getPolicyTD();

@@ -155,6 +155,9 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	public static void paperlessPreferencesStubEndpointConfigCheck() {
 		assertThat(DBService.get().getValue(String.format(PAPERLESS_PREFERENCE_STUB_POINT, PAPERLESS_WIRE_MOCK_STUB_URL)).orElse(""))
 				.as("paperless preference stub endpoint. Please run paperlessPreferencesStubEndpointUpdate").contains(PAPERLESS_WIRE_MOCK_STUB_URL);
+		//TODO jpukenaite delete two last after paperless preferences will be set by default
+		DBService.get().executeUpdate(ADD_PAPERLESS_PREFERENCES_TO_CA_HO);
+		DBService.get().executeUpdate(ADD_PAPERLESS_PREFERENCES_TO_CA_CHOICE);
 	}
 
 	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
@@ -279,8 +282,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				+ "and displayvalue = '%s'\n"
 				+ "and PRODUCTCD = '%s'\n"
 				+ "and RISKSTATECD is null\n"
-				+ "and EFFECTIVE is null\n"
-				+ "and EXPIRATION is null\n"
 				+ "and lookuplist_id = (select id from lookuplist where lookupname = '%s')";
 
 		String lookupCheckWithState = "select dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id\n"
@@ -290,8 +291,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				+ "and displayvalue = '%s'\n"
 				+ "and PRODUCTCD = '%s'\n"
 				+ "and RISKSTATECD ='%s'\n"
-				+ "and EFFECTIVE is null\n"
-				+ "and EXPIRATION is null\n"
 				+ "and lookuplist_id = (select id from lookuplist where lookupname = '%s')";
 
 		String lookupCheckNoStateNoProduct = "select dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id\n"
@@ -301,8 +300,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				+ "and displayvalue = '%s'\n"
 				+ "and PRODUCTCD is null\n"
 				+ "and RISKSTATECD is null\n"
-				+ "and EFFECTIVE is null\n"
-				+ "and EXPIRATION is null\n"
 				+ "and lookuplist_id = (select id from lookuplist where lookupname = '%s')";
 
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -833,7 +830,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		DBService.get().executeUpdate(eValueCurrentConfigPaInsert);
 		adminApp().open();
-		CacheManager.goClearCacheManagerTable();
+		new CacheManager().goClearCacheManagerTable();
 
 		eValueQuoteCreation();
 
@@ -2416,6 +2413,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-111")
 	public void pas111_clearCache() {
 		adminApp().open();
-		CacheManager.goClearCacheManagerTable();
+		new CacheManager().goClearCacheManagerTable();
 	}
 }

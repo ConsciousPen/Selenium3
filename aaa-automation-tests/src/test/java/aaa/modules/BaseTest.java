@@ -3,6 +3,20 @@
 package aaa.modules;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
+import com.exigen.ipb.etcsa.base.app.AdminApplication;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.etcsa.base.app.MainApplication;
+import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.metadata.LoginPageMeta;
@@ -23,27 +37,12 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.utils.EntityLogger;
-import com.exigen.ipb.etcsa.base.app.AdminApplication;
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
-import com.exigen.ipb.etcsa.base.app.MainApplication;
-import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.verification.CustomAssert;
-
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @Listeners({AaaTestListener.class})
 public class BaseTest {
@@ -54,7 +53,7 @@ public class BaseTest {
 	private static TestData tdCustomerIndividual;
 	private static TestData tdCustomerNonIndividual;
 	private static ThreadLocal<String> state = new ThreadLocal<>();
-	private static String usState = PropertyProvider.getProperty("test.usstate");
+	private static String usState = PropertyProvider.getProperty(CustomTestProperties.TEST_USSTATE);
 	private static Map<String, Integer> policyCount = new HashMap<>();
 	public String customerNumber;
 	protected Customer customer = new Customer();

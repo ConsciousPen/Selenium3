@@ -78,6 +78,18 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		String licensedContractor = null; // Value for question "Is this a log home assembled by a licensed building contractor?"
 
 		TestData testData = getTestData(ppcValue, constructionTypeValue, licensedContractor);
+		testData.adjust(TestData.makeKeyPath(HomeCaMetaData.PropertyInfoTab.class.getSimpleName(),
+				HomeCaMetaData.PropertyInfoTab.AdditionalQuestions.class.getSimpleName(),
+				HomeCaMetaData.PropertyInfoTab.AdditionalQuestions.IS_THE_LENGTH_OF_DRIVEWAY_LESS_THAN_500_FEET.getLabel()),
+				"No");
+		testData.adjust(TestData.makeKeyPath(HomeCaMetaData.PropertyInfoTab.class.getSimpleName(),
+				HomeCaMetaData.PropertyInfoTab.AdditionalQuestions.class.getSimpleName(),
+				HomeCaMetaData.PropertyInfoTab.AdditionalQuestions.IS_THE_ROAD_TO_THE_HOME_AND_DRIVEWAY_PAVED.getLabel()),
+				"No");
+		testData.adjust(TestData.makeKeyPath(HomeCaMetaData.PropertyInfoTab.class.getSimpleName(),
+				HomeCaMetaData.PropertyInfoTab.AdditionalQuestions.class.getSimpleName(),
+				HomeCaMetaData.PropertyInfoTab.AdditionalQuestions.IS_THERE_A_CREDITABLE_ALTERNATIVE_WATER_SOURCE_WITHIN_1_000_FEET_OF_THE_PROPERTY.getLabel()),
+				"No");
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -341,6 +353,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		// 8. Validate that form FPCECA/FPCECADP is NOT included in revised renewal package, but is listed in other documents
 		validateDocumentIsNotGeneratedInPackage(policyNumber, RENEWAL_OFFER, true);
+
 	}
 
 	public void pas13242_AC2_Endorsement() {
@@ -358,6 +371,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		switchToFAIRPlanEndorsementAndBind();
 
 		validateDocumentIsGeneratedInPackage(policyNumber, ENDORSEMENT_ISSUE);
+
 	}
 
 	public void pas13242_pas14193_AC3_Renewal() {
@@ -396,6 +410,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
 
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
+
 	}
 
 	public void pas13242_pas14193_AC3_Revised_Renewal_After_Renewal_Term_Change() {
@@ -423,6 +438,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
+
 	}
 
 	public void pas13242_pas14193_AC3_Revised_Renewal_After_Current_Term_Change() {
@@ -484,6 +500,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(policyType).getTestData("Endorsement"), "TestData_Plus3Days"));
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
 		stoveQuestionValidationSteps();
+
 	}
 
 	public void pas13216_All_ACs_Renewal() {
@@ -500,6 +517,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
 		stoveQuestionValidationSteps();
+
 	}
 
 	/////////////Start PAS-14004////////////////
@@ -514,6 +532,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyType.get().quoteDocGen().start();
 
 		validateFPCECA_FPCECADP(policyNumber);
+
 
 	}
 
@@ -541,6 +560,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyType.get().policyDocGen().start();
 
 		validateFPCECA_FPCECADP(policyNumber);
+
 	}
 
 	public void pas14004_AC1_AC2_Policy_negative() {
@@ -553,6 +573,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyType.get().quoteDocGen().start();
 
 		policyDocGenActionTab.verify.documentsPresent(false, fairPlanEndorsementInODDTab);
+
 
 	}
 	////////////End PAS-14004////////////////
@@ -632,7 +653,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		testData.adjust(TestData.makeKeyPath(HomeCaMetaData.PropertyInfoTab.class.getSimpleName(),
 				HomeCaMetaData.PropertyInfoTab.Construction.class.getSimpleName(),
 				HomeCaMetaData.PropertyInfoTab.Construction.ROOF_TYPE.getLabel()),
-				"Wood shingle/Wood shake");
+				"Concrete Tile");
 		testData.adjust(TestData.makeKeyPath(HomeCaMetaData.PropertyInfoTab.class.getSimpleName(),
 				HomeCaMetaData.PropertyInfoTab.Construction.class.getSimpleName(),
 				HomeCaMetaData.PropertyInfoTab.Construction.IS_THIS_A_LOG_HOME_ASSEMBLED_BY_A_LICENSED_BUILDING_CONTRACTOR.getLabel()),
@@ -768,8 +789,8 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 	private void switchToFAIRPlanEndorsement() {
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());//navigates to Endorsement Tab
 		endorsementTab.getAddEndorsementLink(fairPlanEndorsementLabelInEndorsementTab).click();
-		Page.dialogConfirmation.confirm();
-		endorsementTab.btnSaveForm.click();
+		//Page.dialogConfirmation.confirm();
+		endorsementTab.btnSaveEndo.click();
 	}
 
 	private void switchToFAIRPlanEndorsementAndCalculatePremium() {

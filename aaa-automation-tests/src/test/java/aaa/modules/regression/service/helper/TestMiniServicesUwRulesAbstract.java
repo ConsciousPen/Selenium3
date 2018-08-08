@@ -52,7 +52,15 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 	/**
 	 * @author Oleg Stasyuk
 	 * @name Check UW rules are fired on Bind
-	 * @scenario 1. Create a policy
+	 * @scenario 1. Create a policy.
+	 * @details
+	 */
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Check UW rules are fired on Rate
+	 * @scenario 1. Rules for check:
+	 * 200019_C, 200031_C, 200022_C, 200018_C, 200016_C, 200020_C
 	 * @details
 	 */
 	protected void pas12852_GaragedInMichigan200020Body() {
@@ -84,9 +92,20 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			updateVehicleGaraging.garagingAddress.stateProvCd = state;
 			HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleGaraging);
 
-			//can't even rate policy with vehicle Garaged in MI, ZIP is not resolved
-			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.ZIP_CODE_IS_NOT_APPLICABLE.getCode(), ErrorDxpEnum.Errors.ZIP_CODE_IS_NOT_APPLICABLE.getMessage(), "postalCode");
-		});
+			ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
+			softly.assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+			softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+			softly.assertThat(rateResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_RATE.getCode());
+			softly.assertThat(rateResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_RATE.getMessage());
+			softly.assertThat(rateResponse.errors.get(0).field).isEqualTo("attributeForRules");
+			softly.assertThat(rateResponse.errors.get(1).errorCode).isEqualTo(ErrorDxpEnum.Errors.GARAGED_IN_MICHIGAN_RATE.getCode());
+			softly.assertThat(rateResponse.errors.get(1).message).contains(ErrorDxpEnum.Errors.GARAGED_IN_MICHIGAN_RATE.getMessage());
+			softly.assertThat(rateResponse.errors.get(1).field).isEqualTo("attributeForRules");
+			softly.assertThat(rateResponse.errors.get(2).errorCode).isEqualTo(ErrorDxpEnum.Errors.ZIP_CODE_IS_NOT_APPLICABLE.getCode());
+			softly.assertThat(rateResponse.errors.get(2).message).contains(ErrorDxpEnum.Errors.ZIP_CODE_IS_NOT_APPLICABLE.getMessage());
+			softly.assertThat(rateResponse.errors.get(2).field).isEqualTo("postalCode");
+			//bind action is not available, can't even rate policy with vehicle Garaged in MI, ZIP is not resolved
+			});
 	}
 
 	protected void pas12852_GaragedOutOfState200019Body() {
@@ -118,8 +137,14 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			updateVehicleGaraging.garagingAddress.stateProvCd = state;
 			HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleGaraging);
 
-			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+			ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
+			softly.assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+			softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+			softly.assertThat(rateResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_RATE.getCode());
+			softly.assertThat(rateResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_RATE.getMessage());
+			softly.assertThat(rateResponse.errors.get(0).field).isEqualTo("attributeForRules");
 
+			rateEndorsementInPas(policyNumber);
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getCode(), ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getMessage(), "attributeForRules");
 
 			SearchPage.openPolicy(policyNumber);
@@ -151,8 +176,14 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			vehicleTab.getAssetList().getAsset(USAGE).setValue("Pleasure");
 			vehicleTab.saveAndExit();
 
-			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+			ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
+			softly.assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+			softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+			softly.assertThat(rateResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.UNIQUE_VIN_RATE.getCode());
+			softly.assertThat(rateResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.UNIQUE_VIN_RATE.getMessage());
+			softly.assertThat(rateResponse.errors.get(0).field).isEqualTo("attributeForRules");
 
+			rateEndorsementInPas(policyNumber);
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.UNIQUE_VIN.getCode(), ErrorDxpEnum.Errors.UNIQUE_VIN.getMessage(), "attributeForRules");
 
 			SearchPage.openPolicy(policyNumber);
@@ -181,8 +212,14 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			vehicleTab.getAssetList().getAsset(USAGE).setValue("Pleasure");
 			vehicleTab.saveAndExit();
 
-			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+			ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
+			softly.assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+			softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+			softly.assertThat(rateResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE_RATE.getCode());
+			softly.assertThat(rateResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE_RATE.getMessage());
+			softly.assertThat(rateResponse.errors.get(0).field).isEqualTo("vehTypeCd");
 
+			rateEndorsementInPas(policyNumber);
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getCode(), ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getMessage(), "vehTypeCd");
 
 			SearchPage.openPolicy(policyNumber);
@@ -226,25 +263,21 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			updateVehicleGaraging.garagingAddress.stateProvCd = state;
 			HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleGaraging);
 
-			helperMiniServices.rateEndorsementWithCheck(policyNumber);
-
 			VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, originalVehicle);
 			softly.assertThat(deleteVehicleResponse.oid).isEqualTo(originalVehicle);
 			softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
 
-			//BUG PAS-15481 Rating through service fails, when New Vehicle is added through Service and Original Vehicle removed
-			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+			ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
+			softly.assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+			softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+			softly.assertThat(rateResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_ONLY_VEHICLE_RATE.getCode());
+			softly.assertThat(rateResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_ONLY_VEHICLE_RATE.getMessage());
+			softly.assertThat(rateResponse.errors.get(0).field).isEqualTo("attributeForRules");
+			softly.assertThat(rateResponse.errors.get(1).errorCode).isEqualTo(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_RATE.getCode());
+			softly.assertThat(rateResponse.errors.get(1).message).contains(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_RATE.getMessage());
+			softly.assertThat(rateResponse.errors.get(1).field).isEqualTo("attributeForRules");
 
-			//TODO workaround for failed to rate Endorsement
-			SearchPage.openPolicy(policyNumber);
-			PolicySummaryPage.buttonPendedEndorsement.click();
-			policy.dataGather().start();
-			//BUG  PAS-15482 Bind through service fails, when New Vehicle is added through Service and Original Vehicle removed
-			//TODO workaround for failed issue Endorsement
-			//NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-			premiumAndCoveragesTab.calculatePremium();
-			premiumAndCoveragesTab.saveAndExit();
-
+			rateEndorsementInPas(policyNumber);
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_ONLY_VEHICLE.getCode(), ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_ONLY_VEHICLE.getMessage(), "attributeForRules");
 
 			SearchPage.openPolicy(policyNumber);
@@ -279,21 +312,26 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 			//TODO uncomment for scenario, when deleteVehicles returns proper response
-/*		String purchaseDate2 = "2013-02-22";
-		String vin2 = "WAUKJAFM8C6314628";
-		Vehicle vehicleAddRequest2 = new Vehicle();
-		vehicleAddRequest2.purchaseDate = purchaseDate2;
-		vehicleAddRequest2.vehIdentificationNo = vin2;
-		String newVehicleOid2 = helperMiniServices.vehicleAddRequestWithCheck(policyNumber, vehicleAddRequest2);
-		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid2);*/
+			/*String purchaseDate2 = "2013-02-22";
+			String vin2 = "WAUKJAFM8C6314628";
+			Vehicle vehicleAddRequest2 = new Vehicle();
+			vehicleAddRequest2.purchaseDate = purchaseDate2;
+			vehicleAddRequest2.vehIdentificationNo = vin2;
+			String newVehicleOid2 = helperMiniServices.vehicleAddRequestWithCheck(policyNumber, vehicleAddRequest2);
+			helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid2);*/
 
 			VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, originalVehicleOid);
-			//BUG PAS-15483 Delete Vehicle doesnt return response in some cases
 			softly.assertThat(deleteVehicleResponse.oid).isEqualTo(originalVehicleOid);
 			softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
 
-			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+			ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
+			softly.assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+			softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+			softly.assertThat(rateResponse.errors.get(0).errorCode).contains(ErrorDxpEnum.Errors.MUST_HAVE_PPA_RATE.getCode());
+			softly.assertThat(rateResponse.errors.get(0).message).startsWith(ErrorDxpEnum.Errors.MUST_HAVE_PPA_RATE.getMessage());
+			softly.assertThat(rateResponse.errors.get(0).field).isEqualTo("attributeForRules");
 
+			rateEndorsementInPas(policyNumber);
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.MUST_HAVE_PPA.getCode(), ErrorDxpEnum.Errors.MUST_HAVE_PPA.getMessage(), "attributeForRules");
 
 			SearchPage.openPolicy(policyNumber);
@@ -304,4 +342,13 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			UpdateRulesOverrideActionTab.btnCancel.click();
 		});
 	}
+
+	private void rateEndorsementInPas (String policyNumber) {
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		premiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
+	}
+
 }

@@ -34,7 +34,7 @@ public class NavigationPage extends Page {
 			"//ul[@id='policyDataGatherForm:tabListList_2' or @id='policyDataGatherForm:tabListList_1' "
 					+ "or @id='crmForm:crmMainTabsList' or @id='generalTab:customerSecondTabs' or @id='caseConsolidatedTabsForm:caseConsolidatedTabsList'"
 					+ "or @id='proposalForm:groupProposalDataGatherTabsList' or @id='policyDataGatherForm:tabListList_2' or @id='generalTab:customerSecondTabsList']//a/span[.='%1s']";
-	private static final String LABEL_NAVIGATION_VIEW_LEFT_MENU = "//span[@id='left_menu_form:left_menu' or @id='left_menu_form:left_menu_commission']//a/span[.='%1s']";
+	public static final String LABEL_NAVIGATION_VIEW_LEFT_MENU = "//span[@id='left_menu_form:left_menu' or @id='left_menu_form:left_menu_commission']//a/span[.='%1s']";
 	public static ComboBox comboBoxListAction = new ComboBox(By.xpath("//select[@id='productContextInfoForm:moveToBox' or @id='producContextInfoForm:moveToBox' "
 			+ "or @id='producContextInfoForm:moveToBox:0:moveToDropdown' or @id='productContextInfoForm:moveToBox:0:moveToDropdown' "
 			+ "or @id='endorsementForm:endorsementList:0:moveToDropdown' or @id='renewalForm:renewals_list_table:0:moveToDropdown' "

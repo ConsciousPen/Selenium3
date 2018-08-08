@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.home_ca.dp3.functional;
 
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -10,6 +11,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaDP3BaseTest;
 import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -22,8 +24,9 @@ import java.util.ArrayList;
 
 /**
  * @Author - Tyrone C Jemison
- * @Description - Currently WIP (6/01/18)
+ * @Description -
  */
+@StateList(states = Constants.States.CA)
 public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
 
     static TestData dp3PolicyData;
@@ -146,7 +149,10 @@ public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
         defaultPolicyData = getPolicyTD();
         defaultPolicyData.adjust(ApplicantTab.class.getSimpleName(), getTestSpecificTD("ApplicantTab_DP3"));
         defaultPolicyData.adjust(ReportsTab.class.getSimpleName(), getTestSpecificTD("ReportsTab_DP3"));
-        policy.initiate();
+        // Open App, Create Customer and Initiate Quote
+        mainApp().open();
+        createCustomerIndividual();
+        createPolicy();
         policy.getDefaultView().fillUpTo(defaultPolicyData, EndorsementTab.class, false);
     }
 
@@ -214,7 +220,8 @@ public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
             allExtraEndorsementsByLabel.add(label);
         }
         addMultipleEndorsements(allExtraEndorsementsByLabel);
-        myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
+        //TODO: Pick up here - i think its a bug
+        myHelper.addFAIRPlanEndorsement("homeca_dp3");
         myHelper.verifyEndorsementsNotVisible(INCLUDED_ENDORSEMENTS_TABLE, FORM_ID, allExtraEndorsementsByLabel);
         myHelper.removeFAIRPlanEndorsement(getPolicyType().getShortName());
     }

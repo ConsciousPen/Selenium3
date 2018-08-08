@@ -2,7 +2,6 @@ package aaa.modules.regression.sales.auto_ca.choice;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;

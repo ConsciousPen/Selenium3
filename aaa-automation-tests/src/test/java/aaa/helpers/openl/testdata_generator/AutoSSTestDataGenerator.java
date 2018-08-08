@@ -169,12 +169,6 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		}
 
 		for (AutoSSOpenLDriver driver : openLPolicy.getDrivers()) {
-			Integer dsr = driver.getDsr() != null ? driver.getDsr() : 0;
-			if (dsr != 0) {
-				//TODO-dchubkov: to be implemented but at the moment don't have openL files with this value greater than 0
-				throw new NotImplementedException("Test data generation for \"dsr\" greater than 0 is not implemented.");
-			}
-
 			if (!Objects.equals(driver.getDriverAge(), driver.getAgeBeforeEndorsement())) {
 				//TODO-dchubkov: to be implemented but at the moment don't have openL files with ageBeforeEndorsement different from driverAge
 				throw new NotImplementedException("Test data generation for \"ageBeforeEndorsement\" is not implemented.");
@@ -289,6 +283,13 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 				activityInformationList.add(activityInformationData);
 				nafAccidents--;
+			}
+
+			Integer dsr = driver.getDsr() != null ? driver.getDsr() : 0;
+			if (dsr > 0) {
+				//TODO-dchubkov: to be implemented...
+				//int yearsIncidentFree = openLPolicy.getYearsIncidentFree() != null ? openLPolicy.getYearsIncidentFree() : 0;
+				//activityInformationList.add(getActivityInformationData(false, openLPolicy.getEffectiveDate(), yearsIncidentFree));
 			}
 
 			if (openLPolicy.getYearsAtFaultAccidentFree() != null && openLPolicy.getYearsAtFaultAccidentFree() > 0 && !isAtFaultAccidentFreeSet && dsr > 0) {
@@ -484,8 +485,12 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					//TODO-dchubkov: tests for "Trailer" and "Motor Home" vehicle types sometimes have "SP EQUIP" coverage which is impossible to set via UI
 					detailedCoveragesData.remove(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.SPECIAL_EQUIPMENT_COVERAGE.getLabel());
 				} else {
-					detailedCoveragesData
-							.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.FULL_SAFETY_GLASS.getLabel(), getPremiumAndCoveragesFullSafetyGlass(coverage.getGlassDeductible()));
+					if (getState().equals(Constants.States.KY)) {
+						assertThat(coverage.getGlassDeductible()).as("Invalid \"glassDeductible\" openl field value since it's not possible to fill \"Full Safety Glass\" UI field for KY state").isIn("N/A", "0");
+					} else {
+						detailedCoveragesData
+								.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.FULL_SAFETY_GLASS.getLabel(), getPremiumAndCoveragesFullSafetyGlass(coverage.getGlassDeductible()));
+					}
 				}
 
 				if (Boolean.TRUE.equals(vehicle.isNewCarAddedProtection())) {

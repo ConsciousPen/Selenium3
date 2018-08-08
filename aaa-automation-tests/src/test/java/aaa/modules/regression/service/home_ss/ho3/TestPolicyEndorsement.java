@@ -46,7 +46,7 @@ public class TestPolicyEndorsement extends HomeSSHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
-	public void testPolicyEndorsement(@Optional("") String state) {
+	public void testPolicyEndorsement(@Optional("UT") String state) {
 		mainApp().open();
 
 		getCopiedPolicy(); // fails by timeout

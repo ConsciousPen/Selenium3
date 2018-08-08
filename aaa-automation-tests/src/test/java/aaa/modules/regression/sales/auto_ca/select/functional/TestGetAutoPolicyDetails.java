@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import javax.xml.datatype.DatatypeConfigurationException;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -11,7 +12,6 @@ import aaa.modules.policy.AutoCaSelectBaseTest;
 import aaa.soap.autopolicy.models.wsdl.ErrorInfo;
 import aaa.soap.autopolicy.models.wsdl.GetAutoPolicyDetailResponse;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomSoftAssertions;
 
 public class TestGetAutoPolicyDetails extends AutoCaSelectBaseTest {
 	/**
@@ -33,14 +33,16 @@ public class TestGetAutoPolicyDetails extends AutoCaSelectBaseTest {
 		createCustomerIndividual();
 		String policyNumber = createPolicy();
 
-		GetAutoPolicyDetailResponse actualResponse = GetAutoPolicyDetailsHelper.getAutoPolicyResponse(policyNumber);
+		GetAutoPolicyDetailResponse actualResponse = new GetAutoPolicyDetailsHelper().getAutoPolicyResponse(policyNumber);
 
 		String vehicleCollSymbolCode = actualResponse.getAutoPolicySummary().getVehicles().getVehicle().get(0).getRiskFactors().getVehicleCollSymbolCode();
 		String vehicleCompSymbolCode = actualResponse.getAutoPolicySummary().getVehicles().getVehicle().get(0).getRiskFactors().getVehicleCompSymbolCode();
 
-		CustomSoftAssertions.assertSoftly(softly -> {
-			softly.assertThat(vehicleCompSymbolCode).as("Comp Symbol Code should not be empty").isNotEmpty();
-			softly.assertThat(vehicleCollSymbolCode).as("Coll Symbol Code should not be empty").isNotEmpty();
+		assertSoftly(softly -> {
+			log.info("\nComp Symbol Code is: {}\n", vehicleCompSymbolCode);
+			softly.assertThat(vehicleCompSymbolCode).isNotEmpty();
+			log.info("\nColl Symbol Code is: {}\n", vehicleCollSymbolCode);
+			softly.assertThat(vehicleCollSymbolCode).isNotEmpty();
 		});
 	}
 }

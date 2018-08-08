@@ -18,12 +18,13 @@ import aaa.helpers.mock.model.property_classification.*;
 import aaa.helpers.mock.model.property_risk_reports.RetrievePropertyRiskReportsMock;
 import aaa.helpers.mock.model.property_risk_reports.RiskReportsRequest;
 import aaa.helpers.mock.model.property_risk_reports.RiskReportsResponse;
-import aaa.utils.excel.bind.BindHelper;
+import aaa.utils.excel.bind.ReflectionHelper;
 
 public class MockGenerator {
 	private static final Integer RISKREPORTS_ELEVATION = 2700;
 	private static final String RISKREPORTS_DISTANCE_TO_SHORE_RANGE = "More Than 52800ft From the Coast";
 	private static final String GENERATED_ID_PREFIX = "OPENL_";
+	protected static final String STREET_ADDRESS_LINE = "6586 PORCUPINE WAY";
 	protected static final Integer ADJ_FUEL_RATING = 0;
 
 	private static MocksCollection generatedMocks = new MocksCollection();
@@ -34,9 +35,9 @@ public class MockGenerator {
 
 	@SuppressWarnings("unchecked")
 	public static <M extends UpdatableMock> M getEmptyMock(Class<M> mockDataClass) {
-		M mockInstance = (M) BindHelper.getInstance(mockDataClass);
-		for (Field tableField : BindHelper.getAllAccessibleFields(mockDataClass, true)) {
-			BindHelper.setFieldValue(tableField, mockInstance, new ArrayList<>());
+		M mockInstance = (M) ReflectionHelper.getInstance(mockDataClass);
+		for (Field tableField : ReflectionHelper.getAllAccessibleTableFieldsFromThisAndSuperClasses(mockDataClass)) {
+			ReflectionHelper.setFieldValue(tableField, mockInstance, new ArrayList<>());
 		}
 		return mockInstance;
 	}
@@ -64,9 +65,7 @@ public class MockGenerator {
 		List<String> validRiskReportsRequestIDs = getMock(RetrievePropertyRiskReportsMock.class).getRiskReportsRequests().stream()
 				.filter(r -> StringUtils.isBlank(r.getState())
 						&& StringUtils.isBlank(r.getCityName())
-						&& StringUtils.isBlank(r.getZipCode())
-						&& StringUtils.isBlank(r.getStreetAddressLine())
-						&& StringUtils.isBlank(r.getStreetAddressLine2()))
+						&& StringUtils.isBlank(r.getZipCode()))
 				.map(RiskReportsRequest::getId).collect(Collectors.toList());
 
 		return getMock(RetrievePropertyRiskReportsMock.class).getRiskReportsResponses().stream()
@@ -96,6 +95,7 @@ public class MockGenerator {
 		RetrievePropertyRiskReportsMock propertyRiskReportsMock = new RetrievePropertyRiskReportsMock();
 		RiskReportsRequest riskReportsRequest = new RiskReportsRequest();
 		riskReportsRequest.setId(id);
+		riskReportsRequest.setStreetAddressLine(STREET_ADDRESS_LINE);
 
 		RiskReportsResponse riskReportsResponse = new RiskReportsResponse();
 		riskReportsResponse.setId(id);

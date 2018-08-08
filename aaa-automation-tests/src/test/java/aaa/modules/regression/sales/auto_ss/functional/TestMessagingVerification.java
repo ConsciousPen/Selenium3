@@ -31,6 +31,7 @@ import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
+import toolkit.webdriver.controls.TextBox;
 
 public class TestMessagingVerification extends AutoSSBaseTest implements TestEValueDiscountPreConditions {
 
@@ -250,12 +251,14 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 		fillGeneralTab(days);
 		fillPremiumAndCoveragesTab(payTerm, payPlan);
 		fillDocumentAndBindTab();
+		TextBox textBoxCashPaymentMethod = purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH);
+		TextBox textBoxCheckPaymentMethod = purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CHECK);
 		if (!payPlanRequired || payPlanRequired && (isAnnual(payTerm, payPlan) || isSemiAnnual(payTerm, payPlan))) {
-			softly.assertThat(purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH)).isPresent();
-			softly.assertThat(purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CHECK)).isPresent();
+			softly.assertThat(textBoxCashPaymentMethod).as(textBoxCashPaymentMethod.getName()).isPresent();
+			softly.assertThat(textBoxCheckPaymentMethod).as(textBoxCheckPaymentMethod.getName()).isPresent();
 		} else {
-			softly.assertThat(purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH)).isPresent(false);
-			softly.assertThat(purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CHECK)).isPresent(false);
+			softly.assertThat(textBoxCashPaymentMethod).as(textBoxCashPaymentMethod.getName()).isPresent(false);
+			softly.assertThat(textBoxCheckPaymentMethod).as(textBoxCheckPaymentMethod.getName()).isPresent(false);
 		}
 		TestData purchaseTabData = getPolicyTD("DataGather", "TestData");
 		purchaseTabData.adjust("PurchaseTab", getTestSpecificTD("PurchaseTab_" + paymentPlan));

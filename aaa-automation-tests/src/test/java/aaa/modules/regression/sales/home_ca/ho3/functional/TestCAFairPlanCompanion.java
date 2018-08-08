@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho3.functional;
 
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
@@ -16,6 +17,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
+import aaa.utils.StateList;
 import org.apache.commons.io.filefilter.AgeFileFilter;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -38,6 +40,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
  * @author Tyrone C Jemison
  * @name Test CA Fair Plan Companion
  */
+@StateList(states = Constants.States.CA)
 public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
     // Class Variables
     TestData defaultPolicyData;
@@ -73,6 +76,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
         // Verify Document Tab populates Endorsement
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
         assertThat(new DocumentsTab().getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FPCECA.getLabel()).isPresent()).isTrue();
+        
     }
 
     /**
@@ -103,6 +107,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
 
         // Click FPCECA Endorsement
         myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
+        
     }
 
     /**
@@ -116,17 +121,23 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement HO3")
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement HO3")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-13210")
     public void AC3_Renewal_VisibleFPCECA(@Optional("") String state) {
+        defaultPolicyData = getPolicyTD();
 
+        // Open App, Create customer and Policy.
+        mainApp().open();
+        createCustomerIndividual();
+        createPolicy(defaultPolicyData);
         myHelper.handleRenewalTesting(defaultPolicyData);
         policy.getDefaultView().fillUpTo(getTestSpecificTD("Renewal_AC3"), EndorsementTab.class, false);
 
         myHelper.verifyFPCECAEndorsementAvailable("ho3");
 
         // Click FPCECA Endorsement
-        myHelper.addFAIRPlanEndorsement("ho3");
+        myHelper.addFAIRPlanEndorsement("homeca_ho3");
+        
     }
 
     /**
@@ -165,6 +176,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
         // Pick Up File Generated
         myHelper.validatePdfFromDb(policyNumber, DocGenEnum.Documents._62_6500,
                 AaaDocGenEntityQueries.EventNames.ADHOC_DOC_ON_DEMAND_GENERATE, EXPECTED_NAME, "Y");
+        
     }
 
 }

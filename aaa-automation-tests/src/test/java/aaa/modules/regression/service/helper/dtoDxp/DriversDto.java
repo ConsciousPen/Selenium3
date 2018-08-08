@@ -2,6 +2,7 @@ package aaa.modules.regression.service.helper.dtoDxp;
 
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ComparisonChain;
@@ -90,6 +91,10 @@ public class DriversDto implements RestBodyRequest {
 
 	@JsonProperty("firstLicenseAge")
 	public Integer firstLicenseAge;
+
+	@ApiModelProperty(value = "Available Actions for driver")
+	public List<String> availableActions;
+
 
 	public static final Comparator<DriversDto> DRIVERS_COMPARATOR = (driver1, driver2) -> ComparisonChain.start()
 			.compareTrueFirst(DRIVER_FIRST_NAME_INSURED.equals(driver1.namedInsuredType), DRIVER_FIRST_NAME_INSURED.equals(driver2.namedInsuredType))

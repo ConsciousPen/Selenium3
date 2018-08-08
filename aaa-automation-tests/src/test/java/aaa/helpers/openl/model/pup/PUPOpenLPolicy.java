@@ -98,7 +98,7 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 	public LocalDate getEffectiveDate() {
 		return effectiveDate;
 	}
-	
+
 	@Override
 	public PUPTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
 		return new PUPTestDataGenerator(state, baseTestData);

@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import org.apache.commons.lang3.ClassUtils;
-import aaa.utils.excel.bind.BindHelper;
+import aaa.utils.excel.bind.ReflectionHelper;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.table.TableCell;
@@ -83,16 +83,16 @@ public final class TableFieldInfo {
 	
 	public Class<?> getFieldType() {
 		if (this.fieldType == null) {
-			this.fieldType = BindHelper.getFieldType(this.tableField);
+			this.fieldType = ReflectionHelper.getFieldType(this.tableField);
 		}
 		return this.fieldType;
 	}
 	
 	public BindType getBindType() {
 		if (this.bindType == null) {
-			if (BindHelper.isTableClassField(getTableField())) {
+			if (ReflectionHelper.isTableClassField(getTableField())) {
 				this.bindType = BindType.TABLE;
-			} else if (List.class.equals(tableField.getType())) {
+			} else if (List.class.isAssignableFrom(getTableField().getType())) {
 				this.bindType = BindType.MULTI_COLUMNS;
 			} else {
 				this.bindType = BindType.REGULAR;

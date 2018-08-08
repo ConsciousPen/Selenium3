@@ -19,9 +19,16 @@ TestData_Plus3Days: {
   }
 }
 
+TestData_Plus1Week: {
+  EndorsementActionTab: {
+    Endorsement Date: $<today+7d>,
+    Endorsement Reason: 'Property/exposures'
+  }
+}
+
 TestData_Plus1Month: {
   EndorsementActionTab: {
-    Endorsement Date: $<today+1m>,
+    Endorsement Date: $<today+1M>,
     Endorsement Reason: 'Property/exposures'
   }
 }

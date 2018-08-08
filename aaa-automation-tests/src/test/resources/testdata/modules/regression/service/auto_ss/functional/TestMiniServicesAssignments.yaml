@@ -100,6 +100,9 @@ Driver_four: {
     License Number: 'T60355777',
     License Status: 'Licensed (US)'
 }
+AssignmentTab_Two_Driver: {
+  DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver5']
+}
 
 AssignmentTabFourDrivers: {
   DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver2', '@AssignedDriver3', '@AssignedDriver4' ]

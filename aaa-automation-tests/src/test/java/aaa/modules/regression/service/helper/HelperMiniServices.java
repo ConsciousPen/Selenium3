@@ -15,8 +15,22 @@ public class HelperMiniServices extends PolicyBaseTest {
 
 	void createEndorsementWithCheck(String policyNumber) {
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		AAAEndorseResponse response = HelperCommon.createEndorsement(policyNumber, endorsementDate);
+		PolicySummary response = HelperCommon.createEndorsement(policyNumber, endorsementDate);
 		assertThat(response.policyNumber).isEqualTo(policyNumber);
+		assertThat(response.policyStatus).isNotEmpty();
+		assertThat(response.timedPolicyStatus).isNotEmpty();
+		assertThat(response.effectiveDate).isNotEmpty();
+		assertThat(response.expirationDate).isNotEmpty();
+		assertThat(response.sourceOfBusiness).isNotEmpty();
+		assertThat(response.renewalCycle).isGreaterThanOrEqualTo(0);
+		assertThat(response.actualAmt).isNotEmpty();
+		assertThat(response.termPremium).isNotEmpty();
+		assertThat(response.residentialAddress.addressLine1).isNotEmpty();
+		assertThat(response.residentialAddress.addressLine2).isNotBlank();
+		assertThat(response.residentialAddress.city).isNotEmpty();
+		assertThat(response.residentialAddress.stateProvCd).isNotEmpty();
+		assertThat(response.residentialAddress.postalCode).isNotEmpty();
+		assertThat(response.transactionEffectiveDate).isEqualTo(endorsementDate);
 	}
 
 	String vehicleAddRequestWithCheck(String policyNumber, Vehicle vehicleAddRequest) {

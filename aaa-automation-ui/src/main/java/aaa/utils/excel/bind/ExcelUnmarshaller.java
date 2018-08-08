@@ -65,15 +65,15 @@ public class ExcelUnmarshaller implements Closeable {
 
 	@SuppressWarnings("unchecked")
 	public <T> T unmarshal(Class<T> excelFileModel) {
-		log.info(String.format("Getting excel file object of \"%1$s\" model from %2$s %3$s strict match binding",
+		log.info("Getting excel file object of \"{}\" model from {} {} strict match binding",
 				excelFileModel.getSimpleName(),
 				this.excelManager.initializedFromFile() ? "file \"" + this.excelManager.getFile().getAbsolutePath() + "\"" : "InputStream",
-				isStrictMatchBinding() ? "with" : "without"));
+				isStrictMatchBinding() ? "with" : "without");
 
-		T excelFileObject = (T) BindHelper.getInstance(excelFileModel);
-		for (Field tableField : BindHelper.getAllAccessibleFields(excelFileModel, true)) {
+		T excelFileObject = (T) ReflectionHelper.getInstance(excelFileModel);
+		for (Field tableField : ReflectionHelper.getAllAccessibleTableFieldsFromThisAndSuperClasses(excelFileModel)) {
 			List<?> tablesObjects = unmarshalRows(cache.of(tableField).getTableClass());
-			BindHelper.setFieldValue(tableField, excelFileObject, tablesObjects);
+			ReflectionHelper.setFieldValue(tableField, excelFileObject, tablesObjects);
 		}
 
 		log.info("Excel file unmarshalling completed successfully.");
@@ -85,11 +85,11 @@ public class ExcelUnmarshaller implements Closeable {
 	}
 
 	public <T> List<T> unmarshalRows(Class<T> excelTableModel, List<Integer> rowsWithPrimaryKeyValues) {
-		log.info(String.format("Getting table rows objects list of \"%1$s\" model from %2$s%3$s %4$s strict match binding",
+		log.info("Getting table rows objects list of \"{}\" model from {}{} {} strict match binding",
 				excelTableModel.getSimpleName(),
 				this.excelManager.initializedFromFile() ? "file \"" + this.excelManager.getFile().getAbsolutePath() + "\"" : "InputStream",
 				CollectionUtils.isNotEmpty(rowsWithPrimaryKeyValues) ? ", containing values in primary key columns: " + rowsWithPrimaryKeyValues : "",
-				isStrictMatchBinding() ? "with" : "without"));
+				isStrictMatchBinding() ? "with" : "without");
 
 		List<TableRow> rows = cache.of(excelTableModel).getRows(rowsWithPrimaryKeyValues);
 		List<T> tablesObjects = new ArrayList<>(rows.size());
@@ -113,7 +113,7 @@ public class ExcelUnmarshaller implements Closeable {
 			return (T) cache.of(tableClass).getObject(row.getIndex());
 		}
 
-		T tableObject = (T) BindHelper.getInstance(cache.of(tableClass).getTableClass());
+		T tableObject = (T) ReflectionHelper.getInstance(cache.of(tableClass).getTableClass());
 		for (Field tableColumnField : cache.of(tableClass).getTableColumnsFields()) {
 			Object value = null;
 			switch (cache.of(tableClass).getBindType(tableColumnField)) {
@@ -127,7 +127,7 @@ public class ExcelUnmarshaller implements Closeable {
 					value = getMultiColumnsFieldValue(tableClass, tableColumnField, row);
 					break;
 			}
-			BindHelper.setFieldValue(tableColumnField, tableObject, value);
+			ReflectionHelper.setFieldValue(tableColumnField, tableObject, value);
 		}
 
 		cache.of(tableClass).setObject(row.getIndex(), tableObject);
@@ -145,7 +145,7 @@ public class ExcelUnmarshaller implements Closeable {
 		if (cell.isEmpty()) {
 			return null;
 		}
-		if (!List.class.equals(field.getType())) {
+		if (!List.class.isAssignableFrom(field.getType())) {
 			return getTableRowObject(cache.of(field).getTableClass(), cache.of(field).getRow(cell.getIntValue()));
 		}
 
