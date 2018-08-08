@@ -67,7 +67,6 @@ public class TestTierCalculation extends AutoSSBaseTest {
 
         TestData tdAutoNB = getPolicyDefaultTD().adjust(generalTab.getMetaKey(), getTestSpecificTD("TestData").getTestData(generalTab.getMetaKey()));
         TestData tdAutoConv = getConversionPolicyDefaultTD()
-                .mask(TestData.makeKeyPath(generalTab.getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()))
                 .mask(TestData.makeKeyPath(generalTab.getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel()))
                 .adjust(TestData.makeKeyPath(generalTab.getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(),
                         AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()), "No")
