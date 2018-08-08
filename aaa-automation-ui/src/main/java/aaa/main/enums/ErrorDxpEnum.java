@@ -28,6 +28,7 @@ public final class ErrorDxpEnum {
 		USAGE_IS_BUSINESS("AAA_SS1007147", "Usage is Business"),
 		REGISTERED_OWNERS("AAA_SS1007148", "Registered Owners"),
 		MORE_THAN_TWO_MINOR_VIOLATIONS_VA("200095", "Driver with more than (2) Minor violations are unacceptable. (200095)"),
+		DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21("200010_VA", "Driver under the age of 21 years with a DUI is unacceptable (200010)"),
 		DRIVER_WITH_MORE_THAN_THREE_INCIDENTS("200096", "Drivers with more than (3) Incidents are unacceptable. (200096)"),
 		DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS("200005", "Driver with a narcotics, drug or felony conviction involving a motor vehicle is unacceptable (200005)"),
 		DRIVER_WITH_MORE_THAN_TWENTY_POINTS_VA("200004_VA", "Driver with more than 20 points is unacceptable (200004)"),
