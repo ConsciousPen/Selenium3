@@ -169,16 +169,6 @@ public class HelperCommon {
 		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.PUT);
 	}
 
-	public static ReplaceVehicleRequest getReplaceVehicleRequest(String replacedVehicleVin, String purchaseDate, boolean keepAssignments, boolean keepCoverages) {
-		ReplaceVehicleRequest replaceVehicleRequest = new ReplaceVehicleRequest();
-		replaceVehicleRequest.vehicleToBeAdded = new Vehicle();
-		replaceVehicleRequest.vehicleToBeAdded.purchaseDate = purchaseDate;
-		replaceVehicleRequest.vehicleToBeAdded.vehIdentificationNo = replacedVehicleVin;
-		replaceVehicleRequest.keepAssignments = keepAssignments;
-		replaceVehicleRequest.keepCoverages = keepCoverages;
-		return replaceVehicleRequest;
-	}
-
 	/**
 	 * @deprecated use {@link #replaceVehicle(String, String, ReplaceVehicleRequest, Class, int)}
 	 */
@@ -253,13 +243,6 @@ public class HelperCommon {
 		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.POST);
 	}
 
-	public static Vehicle getAddVehicleRequest(String vin, String purchaseDate) {
-		Vehicle addVehicleRequest= new Vehicle();
-		addVehicleRequest.purchaseDate = purchaseDate;
-		addVehicleRequest.vehIdentificationNo = vin;
-		return addVehicleRequest;
-	}
-
 	/**
 	 * @deprecated use {@link #addVehicle(String, Vehicle, Class, int)}
 	 */
@@ -300,11 +283,28 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, ErrorResponseDto.class, status);
 	}
 
+	public static <T> T addDriver(String policyNumber, AddDriverRequest request, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS, policyNumber));
+		restRequestInfo.bodyRequest = request;
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.POST);
+	}
+
+	/**
+	 * @deprecated use {@link #addDriver(String, AddDriverRequest, Class, int)}
+	 */
+	@Deprecated
 	public static DriversDto executeEndorsementAddDriver(String policyNumber, AddDriverRequest request) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS, policyNumber));
 		return runJsonRequestPostDxp(requestUrl, request, DriversDto.class, 201);
 	}
 
+	/**
+	 * @deprecated use {@link #addDriver(String, AddDriverRequest, Class, int)}
+	 */
+	@Deprecated
 	public static ErrorResponseDto executeEndorsementAddDriverError(String policyNumber, AddDriverRequest request) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS, policyNumber));
 		return runJsonRequestPostDxp(requestUrl, request, ErrorResponseDto.class, 422);

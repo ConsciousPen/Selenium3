@@ -507,6 +507,7 @@
                     <include name="pas15371_driversWithNarcoticsDrugOrFelonyConvictionsError"/>
                     <include name="pas15370_driverWithMoreThanTwentyPointsError"/>
                     <include name="pas15385_driverWithFourOrMoreIncidentsError"/>
+                    <include name="pas15375_duiIsUnacceptableForDriverUnderTheAgeError"/>
                 </methods>
             </class>
         </classes>
