@@ -1,15 +1,9 @@
 package aaa.modules.regression.document_fulfillment.template.functional;
 
-import aaa.helpers.docgen.AaaDocGenEntityQueries;
-import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.xml.model.Document;
-import aaa.main.enums.DocGenEnum;
 import aaa.main.metadata.policy.HomeCaMetaData;
-import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.main.modules.policy.auto_ss.AutoSSPolicyActions;
 import aaa.main.modules.policy.home_ca.HomeCaPolicyActions;
-import org.junit.Assert;
 import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 
 public class TestCinAbstractHomeCA extends TestCinAbstract{
 
@@ -46,5 +40,15 @@ public class TestCinAbstractHomeCA extends TestCinAbstract{
     @Override
     protected void performRenewal(TestData renewalTD) {
         new HomeCaPolicyActions.Renew().performAndFill(renewalTD);
+    }
+    
+    @Override
+    protected void performDoNotRenew(TestData doNotRenewTD) {
+    	new HomeCaPolicyActions.DoNotRenew().perform(doNotRenewTD);
+    }
+    
+    @Override
+    protected void performRemoveDoNotRenew() {
+    	new HomeCaPolicyActions.RemoveDoNotRenew().perform(new SimpleDataProvider());
     }
 }
