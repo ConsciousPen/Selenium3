@@ -348,7 +348,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 			String purchaseDate = "2012-02-21";
 			String vin = "1HGEM21504L055795";
-			Vehicle addVehicleRequest = HelperCommon.getAddVehicleRequest(vin, purchaseDate);
+			Vehicle addVehicleRequest = DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate);
 			Vehicle response = HelperCommon.addVehicle(policyNumber, addVehicleRequest, Vehicle.class, 201);
 			helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, response.oid);
 			helperMiniServices.endorsementRateAndBind(policyNumber);
@@ -378,7 +378,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			softly.assertThat(viewVehicleResponse.vehicleList.stream().filter(vehicle -> vehicle.oid.equals(activeVehicleOid)).findFirst().orElse(null).availableActions.contains("replace")).isTrue();
 
 			//Try to replace Active vehicle with the same VIN as "pendingRemoval" vehicle
-			ReplaceVehicleRequest replaceVehicleRequest = HelperCommon.getReplaceVehicleRequest(vin, "2013-03-31", true, true);
+			ReplaceVehicleRequest replaceVehicleRequest = DXPRequestFactory.createReplaceVehicleRequest(vin, "2013-03-31", true, true);
 			ErrorResponseDto errorResponseReplace = HelperCommon.replaceVehicle(policyNumber, activeVehicleOid, replaceVehicleRequest, ErrorResponseDto.class, 422);
 			validateUniqueVinError(errorResponseReplace, softly);
 
@@ -2558,7 +2558,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 	private String replaceVehicleWithUpdates(String policyNumber, String vehicleToReplaceOid, String replacedVehicleVin, boolean keepAssignments, boolean keepCoverages) {
 		printToLog("policyNumber: " + policyNumber + ", vehicleToReplaceOid: " + vehicleToReplaceOid + ", replacedVehicleVin: " + replacedVehicleVin);
-		ReplaceVehicleRequest replaceVehicleRequest = HelperCommon.getReplaceVehicleRequest(replacedVehicleVin, "2013-03-31", keepAssignments, keepCoverages);
+		ReplaceVehicleRequest replaceVehicleRequest = DXPRequestFactory.createReplaceVehicleRequest(replacedVehicleVin, "2013-03-31", keepAssignments, keepCoverages);
 		VehicleUpdateResponseDto replaceVehicleResponse = HelperCommon.replaceVehicle(policyNumber, vehicleToReplaceOid, replaceVehicleRequest);
 		String replaceVehicleOid = replaceVehicleResponse.oid;
 		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, replaceVehicleOid);
