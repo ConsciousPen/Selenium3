@@ -493,6 +493,10 @@
                 <methods>
                     <include name="pas15077_orderReports_endorsement"/>
                     <include name="pas16694_orderReports_not_Named_Insured_endorsement"/>
+                    <include name="pas15384_moreThanTwoMinorViolationsError"/>
+                    <include name="pas15371_driversWithNarcoticsDrugOrFelonyConvictionsError"/>
+                    <include name="pas15370_driverWithMoreThanTwentyPointsError"/>
+                    <include name="pas15385_driverWithFourOrMoreIncidentsError"/>
                 </methods>
             </class>
         </classes>
