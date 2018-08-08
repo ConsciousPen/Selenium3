@@ -158,5 +158,29 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 
 		pas15385_driverWithFourOrMoreIncidentsErrorBody();
 	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Driver under the age of 21 years with a DUI is unacceptable
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Add driver with: Alcohol-Related Violation
+	 * Driving under the Influence of Alcohol
+	 * 4. Order reports for new driver.
+	 * 5. Check response. Rate.
+	 * 6. Try Bind, check response.
+	 * 7. Delete endorsement.
+	 *
+	 * Repeat 1-6 steps with new added driver which have:
+	 * Violation: DUI, DUD, TLQ,
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15375"})
+	public void pas15375_duiIsUnacceptableForDriverUnderTheAgeError(@Optional("VA") String state) {
+
+		pas15375_duiIsUnacceptableForDriverUnderTheAgeErrorBody();
+	}
 }
 
