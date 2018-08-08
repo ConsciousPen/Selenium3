@@ -19,7 +19,7 @@ import toolkit.webdriver.controls.TextBox;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 
-public class TestUpdateWildfireScore extends PolicyBaseTest {
+public class TestUpdateWildfireScoreTemplate extends PolicyBaseTest {
 
     private PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
     private aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab propertyInfoTabCA = new aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab();
