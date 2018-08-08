@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Show Me The Money Functional Test Suite" verbose="1">
+    <test name="TestOperationalReportsCheckEuwDetailDropdown" preserve-order="true">
+        <classes>
+            <class name="aaa.modules.regression.finance.operational_reports.UpdateRolePrecondition"/>
+        </classes>
+    </test>
+</suite>
