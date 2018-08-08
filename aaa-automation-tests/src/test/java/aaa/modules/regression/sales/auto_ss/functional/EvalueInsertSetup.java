@@ -96,11 +96,6 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 		DBService.get().executeUpdate(EVALUE_CURRENT_BI_CONFIG_INSERT);
 	}
 
-	private static void insertConfigForRegularStates(String state) {
-		DBService.get().executeUpdate(String.format(EVALUE_CONFIGURATION_PER_STATE_INSERT, state));
-		DBService.get().executeUpdate(String.format(PAPERLESS_PREFRENCES_CONFIGURATION_PER_STATE_INSERT, state));
-	}
-
 	private static void insertConfigForLimitsRegularStates(String state) {
 		DBService.get().executeUpdate(String.format(EVALUE_CURRENT_BI_LIMIT_CONFIGURATION_INSERT, state));
 		DBService.get().executeUpdate(String.format(EVALUE_PRIOR_BI_LIMIT_CONFIGURATION_INSERT, state));
