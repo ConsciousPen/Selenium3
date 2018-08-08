@@ -22,4 +22,21 @@ public class DXPRequestFactory {
 		updateDriverRequest.maritalStatusCd = maritalStatusCd;
 		return updateDriverRequest;
 	}
+
+	public static ReplaceVehicleRequest createReplaceVehicleRequest(String replacedVehicleVin, String purchaseDate, boolean keepAssignments, boolean keepCoverages) {
+		ReplaceVehicleRequest replaceVehicleRequest = new ReplaceVehicleRequest();
+		replaceVehicleRequest.vehicleToBeAdded = new Vehicle();
+		replaceVehicleRequest.vehicleToBeAdded.purchaseDate = purchaseDate;
+		replaceVehicleRequest.vehicleToBeAdded.vehIdentificationNo = replacedVehicleVin;
+		replaceVehicleRequest.keepAssignments = keepAssignments;
+		replaceVehicleRequest.keepCoverages = keepCoverages;
+		return replaceVehicleRequest;
+	}
+
+	public static Vehicle createAddVehicleRequest(String vin, String purchaseDate) {
+		Vehicle addVehicleRequest= new Vehicle();
+		addVehicleRequest.purchaseDate = purchaseDate;
+		addVehicleRequest.vehIdentificationNo = vin;
+		return addVehicleRequest;
+	}
 }
