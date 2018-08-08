@@ -90,8 +90,7 @@ ApplicantTab_MembershipYes: {
 
 AAAMembership_Yes: {
   Current AAA Member: 'Yes', 
-  Membership number: '4111111111111111', 
-  Last name: Harris
+  Membership number: '4111111111111111'
 }
 
 ReportsTab_MembershipYes: {

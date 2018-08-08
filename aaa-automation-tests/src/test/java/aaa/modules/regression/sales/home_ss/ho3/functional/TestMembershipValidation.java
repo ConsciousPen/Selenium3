@@ -122,8 +122,6 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         changeToInitialData(tdMembershipInitial);
         applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.NAMED_INSURED)
                 .getAsset(HomeSSMetaData.ApplicantTab.NamedInsured.LAST_NAME).setValue("ChangedLastName");
-        applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP)
-                .getAsset(HomeSSMetaData.ApplicantTab.AAAMembership.LAST_NAME).setValue("ChangedLastName");
         applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.NAMED_INSURED)
                 .getAsset(HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH).setValue("05/17/1990");
         validateMembership();
@@ -132,8 +130,6 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         changeToInitialData(tdMembershipInitial);
         applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.NAMED_INSURED)
                 .getAsset(HomeSSMetaData.ApplicantTab.NamedInsured.LAST_NAME).setValue("ChangedLastName");
-        applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP)
-                .getAsset(HomeSSMetaData.ApplicantTab.AAAMembership.LAST_NAME).setValue("ChangedLastName");
         applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.NAMED_INSURED)
                 .getAsset(HomeSSMetaData.ApplicantTab.NamedInsured.FIRST_NAME).setValue("ChangedFirstName");
         validateMembership();
@@ -146,8 +142,6 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         changeToInitialData(tdMembershipInitial);
         applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.NAMED_INSURED)
                 .getAsset(HomeSSMetaData.ApplicantTab.NamedInsured.LAST_NAME).setValue("ChangedLastName");
-        applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP)
-                .getAsset(HomeSSMetaData.ApplicantTab.AAAMembership.LAST_NAME).setValue("ChangedLastName");
         applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.NAMED_INSURED)
                 .getAsset(HomeSSMetaData.ApplicantTab.NamedInsured.FIRST_NAME).setValue("ChangedFirstName");
         applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.NAMED_INSURED)
@@ -196,8 +190,6 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
                 .setValue(tdMembership.getTestData("ApplicantTab", "NamedInsured").getValue("First name"));
         applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.NAMED_INSURED).getAsset(HomeSSMetaData.ApplicantTab.NamedInsured.LAST_NAME)
                 .setValue(tdMembership.getTestData("ApplicantTab", "NamedInsured").getValue("Last name"));
-        applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeSSMetaData.ApplicantTab.AAAMembership.LAST_NAME)
-                .setValue(tdMembership.getTestData("ApplicantTab", "AAAMembership").getValue("Last name"));
         applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.NAMED_INSURED).getAsset(HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH)
                 .setValue(tdMembership.getTestData("ApplicantTab", "NamedInsured").getValue("Date of birth"));
     }
@@ -277,8 +269,6 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
                 .setValue("ChangedLastName");
         applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.NAMED_INSURED).getAsset(HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH)
                 .setValue("05/17/1990");
-        applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeSSMetaData.ApplicantTab.AAAMembership.LAST_NAME)
-                .setValue("ChangedLastName");
 
         validateMembership();
     }

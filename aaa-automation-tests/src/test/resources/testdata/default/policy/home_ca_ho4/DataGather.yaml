@@ -102,8 +102,7 @@ TestData_Full: {
       Relationship to primary named insured:  Primary Insured,
     }],
     AAAMembership: {
-      Membership number: '4290023667710001',
-      Last name: Smith
+      Membership number: '4290023667710001'
     },
     DwellingAddress: {
       Zip code: '90255',

@@ -141,7 +141,7 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<ComboBox> CURRENT_AAA_MEMBER = declare("Current AAA Member", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> OVERRIDE_TYPE = declare("Override Type", ComboBox.class);
 			public static final AssetDescriptor<TextBox> MEMBERSHIP_NUMBER = declare("Membership Number", TextBox.class);
-			public static final AssetDescriptor<TextBox> MEMBER_LAST_NAME = declare("Member Last Name", TextBox.class);
+			//public static final AssetDescriptor<TextBox> MEMBER_LAST_NAME = declare("Member Last Name", TextBox.class);
 			public static final AssetDescriptor<RadioGroup> MOTORCYCLE = declare("Motorcycle", RadioGroup.class);
 			public static final AssetDescriptor<TextBox> MOTORCYCLE_POLICY_NUM = declare("Motorcycle Policy #", TextBox.class, By.id("policyDataGatherForm:sedit_ExistingPolicies_motorPolicyNumber"));
 			public static final AssetDescriptor<RadioGroup> LIFE = declare("Life", RadioGroup.class);
@@ -304,7 +304,7 @@ public final class AutoCaMetaData {
 
 		public static final class AaaMembershipReportRow extends MetaData {
 			public static final AssetDescriptor<RadioGroup> SELECT = declare("Select", RadioGroup.class);
-			public static final AssetDescriptor<StaticElement> LAST_NAME = declare("Last Name", StaticElement.class);
+			//public static final AssetDescriptor<StaticElement> LAST_NAME = declare("Last Name", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> MEMBERSHIP_NO = declare("Membership No.", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> MEMBER_SINCE_DATE = declare("Member Since Date", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> ORDER_DATE = declare("Order Date", StaticElement.class);
