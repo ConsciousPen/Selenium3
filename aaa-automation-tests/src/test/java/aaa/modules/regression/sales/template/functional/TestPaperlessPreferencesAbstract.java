@@ -154,6 +154,7 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 	 * 6. Set policy paperless preferences to opt_in.
 	 * 7. Start endorsement again.
 	 * 8. Check document delivery section. Should not be displaying.
+	 * 9. Repeat all checks for renewal.
 	 * @details
 	 */
 	protected void pas12458_documentDeliverySectionDuringEndorsement() {
@@ -170,6 +171,16 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		getDocumentsAndBindTabElement().saveAndExit();
 		deleteSinglePaperlessPreferenceRequest(stub);
 
+		HelperWireMockStub stub1 = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
+		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("Pending");
+		getInquiryAssetList().assetSectionPresence("Document Delivery", false);
+		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
+		getDocumentsAndBindTabElement().saveAndExit();
+		deleteSinglePaperlessPreferenceRequest(stub1);
+
 		HelperWireMockStub stub2 = createPaperlessPreferencesRequestId(policyNumber, OPT_IN);
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
@@ -177,7 +188,39 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("Yes");
 		getInquiryAssetList().assetSectionPresence("Document Delivery", false);
 		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
+		getDocumentsAndBindTabElement().saveAndExit();
+
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.deletePendedTransaction().start().submit();
+
+		//renewal
+		policy.renew().start().submit();
+		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
+		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("Yes");
+		getInquiryAssetList().assetSectionPresence("Document Delivery", false);
+		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
 		deleteSinglePaperlessPreferenceRequest(stub2);
+		getDocumentsAndBindTabElement().saveAndExit();
+
+		HelperWireMockStub stub3 = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
+		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("Pending");
+		getInquiryAssetList().assetSectionPresence("Document Delivery", false);
+		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
+		getDocumentsAndBindTabElement().saveAndExit();
+		deleteSinglePaperlessPreferenceRequest(stub3);
+
+		HelperWireMockStub stub4 = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
+		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("No");
+		getInquiryAssetList().assetSectionPresence("Document Delivery", true);
+		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(true);
+		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).setValue("Mail");
+		deleteSinglePaperlessPreferenceRequest(stub4);
 	}
 
 	/**

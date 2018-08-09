@@ -1,0 +1,28 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Show Me The Money Functional Test Suite" verbose="1">
+    <test name="TestOperationalReportsCheckEuwDetailDropdown" preserve-order="true">
+        <classes>
+            <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsCheckEuwDetailDropdown"/>
+        </classes>
+    </test>
+    <test name="TestOperationalReportsCheckDeliveryTypeForEuwDetail" preserve-order="true">
+        <classes>
+            <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsCheckDeliveryTypeForEuwDetail"/>
+        </classes>
+    </test>
+    <test name="TestOperationalReportsCheckEuwDetailAsOfAccountingDate" preserve-order="true">
+        <classes>
+            <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsCheckEuwDetailAsOfAccountingDate"/>
+        </classes>
+    </test>
+    <test name="TestOperationalReportsCheckEuwDetailDeliveryFormat" preserve-order="true">
+        <classes>
+            <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsCheckEuwDetailDeliveryFormat"/>
+        </classes>
+    </test>
+    <test name="TestOperationalReportsCheckEuwDetailScheduleReportParameters" preserve-order="true">
+        <classes>
+            <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsCheckEuwDetailScheduleReportParameters"/>
+        </classes>
+    </test>
+</suite>

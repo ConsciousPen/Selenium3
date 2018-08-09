@@ -37,7 +37,7 @@ EISDEV-XXXXX3:
   failures:
     - tests: [aaa.modules.regression.sales.home_ca.dp3.TestPolicyCreation, aaa.modules.regression.sales.home_ca.dp3.TestPolicyCreationFull]
       messages: ['Unable to locate element: {"method":"id","selector":"policyDataGatherForm:premiumRecalcCov"']
-QC-44326:
+PAS-8264:
   summary: "Regression: IN AutoSS: The UW rule is appears wrongly for UMPD coverage of NANO policy"
   reason: PROD
   failures:
@@ -198,11 +198,11 @@ PAS-13203:
       messages: ["Cannot get value of CheckBox"]
     - tests: [aaa.modules.regression.sales.auto_ca.select.TestQuotePrefill.*]
       messages: ['expected:<"[07/08/1976]"> but was:<"[]"']
-PT-1421:
+PAS-15989:
   summary: "PA PUP - View Rating Details Page - Wrong Auto Tier is displayed"
   reason: PROD
   failures:
-    - tests: [aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails.pt1421_testManuallyAddedAutoTier]
+    - tests: [aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails.pas15989_testManuallyAddedAutoTier]
       messages: ["expected", "but was"]
 PAS-13338:
   summary: "Unable to rate Home_SS PA conversion policies"
@@ -273,12 +273,6 @@ PAS-5419:
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["Cannot get value of Cell", "'Liability Code' is not in within range"]
-QC-45011:
-  summary: "Cancellation notice is not generated for AutoSS NJ after endorsement and Off cycle bill generation"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.e2e.auto_ss.TestScenario4.TC01_createPolicy]
-      messages: ["'Cancel Notice' flag is present expected [true] but found [false]"]
 PAS-15970:
   summary: "Regression: Auto SS: Unable to remove second insured in copied quote"
   reason: PROD
@@ -297,3 +291,48 @@ PAS-16002:
   failures:
     - tests: [aaa.modules.docgen.home_ss.ho3.TestDocgenScenarios.testReturnPaymentDocuments]
       messages: ["60 5003"]
+PAS-15907:
+  summary: "VIN refresh is not happening during automated renewal"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload.pas2716_AutomatedRenewal_ExpirationDate]
+      messages: ['OTHER]">','<"[TEST]"> but was:<"[OTHER]">','<[fals]e> but was:<[tru]e>','[true] but found [false]']
+    - tests: [aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload.pas2716_AutomatedRenewal_ExpirationDateMinus35]
+      messages: ['[true] but found [false]','expected:<"[Gt]"> but was:<"[Model]">']
+    - tests: [aaa.modules.regression.sales.auto_ca.select.functional.TestVINUpload.pas2716_AutomatedRenewal_ExpirationDateMinus35]
+      messages: ['[true] but found [false]']
+    - tests: [aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload.pas2716_AutomatedRenewal_ExpirationDateMinus45]
+      messages: ['<"[Gt]"> but was:<"[OTHER]">']
+    - tests: [aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload.pas527_UpdatedVinRenewal]
+      messages: ['<"[TEST]"> but was:<"[CAMRY]">', '<"20[18]"> but was']
+PT-1977:
+  summary: "WV State. Total premium value is reduced during Empty Endorsement"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Test for state WV has failed due to difference between pre-endorsement and post-endorsement premiums"]
+PAS-5437:
+  summary: "Occupation is not in within range error for CA PUP"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Cannot get value of Cell {<unnamed>: {<unnamed>: {<unnamed>: By.id: policyDataGatherForm:pupTableTotalPremium}", "Errors: 'Occupation' is not in within range"]
+PAS-16433:
+  summary: "Regression BCT: Time Out Error during cancellation"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*,aaa.modules.bct.service.CancelPolicyTest.*]
+      messages: ['Errors: base00003; Error; Operation has failed due to illegal arguments">', 'Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}',
+       'Errors: Time out. No session available.']
+PAS-2171:
+  summary: "Membership Discount wasn't removed when it should"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess.pas3697_membershipEligConfFalseForPendingMembershipPendingPaperless]
+      messages: ['Expecting: <"eValue Discount Removed - Paperless"> to contain: <"eValue and Membership Discounts Removed - Membership, Paperless">']
+PAS-17041:
+  summary: "Rating fails for MD Auto policy if Trailer is added"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages.pas14680_TrailersCoveragesThatDoNotApply]
+      messages: ['Failed to rate policy">']

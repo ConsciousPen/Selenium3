@@ -289,7 +289,7 @@ public class Scenario10 extends ScenarioBaseTest {
 	}
 	
 	private void payCashAndCheckBill(LocalDateTime installmentDueDate) {
-		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDate);
+		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDate).minusDays(1);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
 
 		mainApp().open();

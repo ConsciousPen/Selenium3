@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import aaa.utils.excel.bind.BindHelper;
+import aaa.utils.excel.bind.ReflectionHelper;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
@@ -110,7 +110,7 @@ public class MarshallingClassInfo extends TableClassInfo {
 				//TODO-dchubkov: check multi columns with containsName() parameter...
 				for (Object tableRowObject : getRowsObjects()) {
 					//noinspection unchecked
-					if (((List<Object>) BindHelper.getFieldValue(field, tableRowObject)).size() > maxMultiColumnsNumber) {
+					if (((List<Object>) ReflectionHelper.getFieldValue(field, tableRowObject)).size() > maxMultiColumnsNumber) {
 						maxMultiColumnsNumber++;
 					}
 				}

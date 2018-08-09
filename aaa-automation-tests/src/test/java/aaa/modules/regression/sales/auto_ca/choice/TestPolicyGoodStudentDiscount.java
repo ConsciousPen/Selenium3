@@ -2,7 +2,6 @@ package aaa.modules.regression.sales.auto_ca.choice;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
@@ -182,7 +181,7 @@ public class TestPolicyGoodStudentDiscount extends AutoCaChoiceBaseTest {
 
 	private void verifyGoodStudentDiscountOnEndorsement(String policyNum, TestData td, boolean isDiscountApplied) {
 		SearchPage.openPolicy(policyNum);
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus30Days"));
 
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
 		new DriverTab().fillTab(td).submitTab();

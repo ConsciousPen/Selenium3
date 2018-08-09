@@ -6,6 +6,9 @@ package aaa.main.modules.policy.home_ca.defaulttabs;
 
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeCaMetaData;
+import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
+import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 
 /**
@@ -24,9 +27,9 @@ public class MortgageesTab extends Tab {
         buttonNext.click();
         return this;
     }
-    
-    public AssetList getMortgageeInfoAssetList() {
-    	return getAssetList().getAsset(HomeCaMetaData.MortgageesTab.MORTGAGEE_INFORMATION.getLabel(), AssetList.class);
+
+	public MultiInstanceAfterAssetList getMortgageeInfoAssetList() {
+		return getAssetList().getAsset(HomeCaMetaData.MortgageesTab.MORTGAGEE_INFORMATION.getLabel(), MultiInstanceAfterAssetList.class);
 	}
     public AssetList getLegalPropetyAddressAssetList() {
     	return getAssetList().getAsset(HomeCaMetaData.MortgageesTab.LEGAL_PROPERTY_ADDRESS.getLabel(), AssetList.class);
@@ -40,4 +43,8 @@ public class MortgageesTab extends Tab {
     public AssetList getThirdPartyDesigneeAssetList() {
     	return getAssetList().getAsset(HomeCaMetaData.MortgageesTab.THIRD_PARTY_DESIGNEE.getLabel(), AssetList.class);
 	}
+	public AddressValidationDialog getValidateAddressDialogAssetList() {
+		return getAssetList().getAsset(HomeCaMetaData.MortgageesTab.MORTGAGEE_INFORMATION).getAsset(HomeSSMetaData.MortgageesTab.MortgageeInformation.VALIDATE_ADDRESS_DIALOG);
+	}
+
 }

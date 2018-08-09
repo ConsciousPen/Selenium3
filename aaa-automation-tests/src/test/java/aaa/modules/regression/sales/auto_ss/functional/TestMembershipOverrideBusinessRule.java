@@ -3,9 +3,11 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 
 import aaa.admin.modules.product.productfactory.policy.defaulttabs.RulesTab;
+import aaa.common.enums.Constants;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
+import aaa.utils.StateList;
 import org.openqa.selenium.By;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -27,6 +29,7 @@ import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
+@StateList(states = Constants.States.AZ)
 public class TestMembershipOverrideBusinessRule  extends AutoSSBaseTest {
     /**
      * @author Robert Boles

@@ -10,12 +10,12 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadFileType;
 import aaa.helpers.product.VinUploadHelper;
@@ -30,25 +30,27 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.helper.VinUploadCleanUpMethods;
 import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
+@StateList(states = Constants.States.CA)
 public class TestVINUpload extends TestVINUploadTemplate {
 
-	private static final String NEW_VIN = "AAANK3CC0F0455583";
-	private static final String NEW_VIN2 = "BBBNK3CCXF0455583";
-	private static final String NEW_VIN3 = "CCCNK3CC4F9455583";
-	private static final String NEW_VIN4 = "DDDNK3CC3F9455583";
-	private static final String NEW_VIN5 = "EEENK2CCXF9455583";
-	private static final String NEW_VIN6 = "FFFNK2CC9F9455583";
-	private static final String NEW_VIN7 = "GGGNK2CC8F9455583";
+	private static final String NEW_VIN = "AAANK3CC0F0455583"; // Refreshable_CA_SELECT
+	private static final String NEW_VIN2 = "BBBNK3CCXF0455583"; // New2VIN_CA_SELECT
+	private static final String NEW_VIN_ADDED = "CCCNK3CC4F9455583"; // New6VIN_CA_SELECT // New3VIN_CA_SELECT
+	private static final String NEW_VIN4 = "DDDNK3CC3F9455583"; // New4VIN_CA_SELECT
+	private static final String NEW_VIN5 = "EEENK2CCXF9455583"; // New5VIN_CA_SELECT
+	private static final String NEW_VIN6 = "FFFNK2CC9F9455583"; // New Vin Added
+	private static final String NEW_VIN7 = "GGGNK2CC8F9455583"; // New7VIN_CA_SELECT
+	private static final String REFRESHABLE_VIN = "4T1BE30K46U656311";
+	private static final String HHHNK2CC7F9455583 = "HHHNK2CC7F9455583"; // New9VIN_CA_SELECT
 	private static final String NEW_VIN8 = "ABXKN3DDXE0344466";
 	private static final String NEW_VIN9 = "LLXKN3DD0E0344466";
-	private static final String REFRESHABLE_VIN = "1HGEM215150028445";
-	private static final String HHHNK2CC7F9455583 = "HHHNK2CC7F9455583";
 
 	private VehicleTab vehicleTab = new VehicleTab();
+	private UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -88,23 +90,6 @@ public class TestVINUpload extends TestVINUploadTemplate {
 
 	/**
 	 * @author Lev Kazarnovskiy
-	 * PAS-527 Renewal Refresh -Add New VIN & Update Existing
-	 * PAS-1406 - Data Refresh
-	 * PAS-938 Throw Rerate Error if User Skips P&C Page after a quote is a day old
-	 *
-	 * See detailed steps in template file
-	 * {@link TestVINUploadTemplate#newVinAddedRenewal(String, String)}
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-527")
-	public void pas527_NewVinAddedRenewal(@Optional("") String state) {
-		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
-		newVinAddedRenewal(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN3.get()), NEW_VIN3);
-	}
-
-	/**
-	 * @author Lev Kazarnovskiy
 	 * PAS-527 -Renewal Refresh -Add New VIN & Update Existing
 	 * PAS-1406 - Data Refresh
 	 *
@@ -117,6 +102,14 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	public void pas527_UpdatedVinRenewal(@Optional("") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
 		updatedVinRenewal(vinMethods.getSpecificUploadFile(VinUploadFileType.REFRESHABLE_VIN.get()), REFRESHABLE_VIN);
+
+
+		// New file with original VIN data is needed for current test to reset original data (REFRESHABLE_VIN). Cleanup used in current method to avoid file Upload for not required tests
+		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(Arrays.asList(REFRESHABLE_VIN),DefaultVinVersions.DefaultVersions.CaliforniaSelect);
+
+		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		uploadToVINTableTab.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.REFRESHABLE_VIN_RESET_ORIGINAL.get()));
 	}
 
 	/**
@@ -159,6 +152,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		String policyNumber = createPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		new UploadToVINTableTab().uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN4.get()));
 		/*
 		 * Automated Renewal R-Expiration Date
@@ -189,6 +183,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		String policyNumber = createPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		new UploadToVINTableTab().uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN5.get()));
 		/*
 		 * Automated Renewal R-45 Expiration Date
@@ -219,6 +214,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		String policyNumber = createPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		new UploadToVINTableTab().uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN6.get()));
 		/*
 		 * Automated Renewal R-35 Expiration Date
@@ -356,24 +352,25 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	public void pas12872_VINRefreshNoMatchOnRenewalAutoCA(@Optional("CA") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NO_MATCH_ON_RENEWAL.get());
-		String vehYear = "2011";
-		String vehMake = "TOYOTA";
-		String vehModel = "HIGHLANDER";
-		String vehSeries = "HIGHLANDER LIMITED";
-		String vehBodyStyle = "WAGON 4 DOOR";
-		String expectedYear = "2011";
-		String expectedMake = "TOYOTA MOTOR";
-		String expectedModel = "TOYOTA HIGHLANDER";
+		String vehYear = "2017";
+		String vehMake = "NISSAN";
+		String vehModel = "ALTIMA";
+		String vehSeries = "ALTIMA 3.5SL";
+		String vehBodyStyle = "SEDAN";
+		String expectedYear = "2017";
+		String expectedMake = "NISSAN MOTOR";
+		String expectedModel = "NISS ALTIMA";
 
 		pas12872_VINRefreshNoMatchOnRenewalAutoCA(NEW_VIN9, vinTableFile, vehYear, vehMake, vehModel, vehSeries, vehBodyStyle, expectedYear, expectedMake, expectedModel);
 	}
 
 	@AfterClass(alwaysRun = true)
 	protected void vinTablesCleaner() {
-		List<String> listOfVinIds = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5, NEW_VIN6, NEW_VIN7, HHHNK2CC7F9455583);
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
+
+		List<String> listOfVinIds = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN_ADDED, NEW_VIN4, NEW_VIN5, NEW_VIN6, NEW_VIN7, HHHNK2CC7F9455583);
 		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinIds,DefaultVinVersions.DefaultVersions.CaliforniaSelect);
 
-		DBService.get().executeUpdate(VehicleQueries.REFRESHABLE_VIN_CLEANER_CAS);
 		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1","3VWHX7AJ%A","SYMBOL_2000","VOLKSWAGEN");
 		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("3VWHX7AJ%A", "VOLKSWAGEN AG");
 		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1","JTEDC3EH%B","SYMBOL_2000","TOYOTA");

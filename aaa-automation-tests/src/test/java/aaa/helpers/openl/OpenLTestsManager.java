@@ -4,6 +4,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -20,6 +21,7 @@ import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.sun.jersey.api.client.ClientResponse;
+import aaa.common.enums.Constants;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.mock.ApplicationMocksManager;
 import aaa.helpers.mock.MocksCollection;
@@ -92,6 +94,10 @@ public final class OpenLTestsManager {
 				.orElseThrow(() -> new IstfException(String.format("There is no OpenLTestInfo object with \"%s\" filePath", filePath)));
 	}
 
+	public static String getFilePath(XmlTest test) {
+		return FilenameUtils.separatorsToUnix(Paths.get(TestParams.TESTS_DIR.getValue(test), TestParams.TEST_FILENAME.getValue(test)).normalize().toString());
+	}
+
 	private List<OpenLTestInfo<? extends OpenLPolicy>> getOpenLTests(List<XmlSuite> openLSuites) {
 		List<OpenLTestInfo<? extends OpenLPolicy>> openLTests = new ArrayList<>();
 
@@ -101,6 +107,7 @@ public final class OpenLTestsManager {
 				OpenLTestInfo<? extends OpenLPolicy> testInfo = new OpenLTestInfo<>();
 				try {
 					testInfo.setState(TestParams.STATE.getValue(test));
+					testInfo.setOpenLFileBranch(TestParams.TESTS_BRANCH.getValue(test));
 					testInfo.setOpenLFilePath(getFilePath(test));
 					testInfo.setOpenLPolicies(getOpenLPolicies(test));
 				} catch (Exception e) {
@@ -154,7 +161,7 @@ public final class OpenLTestsManager {
 	private File downloadOpenLFile(String filePath, String branchName) throws IOException {
 		String authString = PropertyProvider.getProperty(CustomTestProperties.RATING_REPO_USER) + ":" + PropertyProvider.getProperty(CustomTestProperties.RATING_REPO_PASSWORD);
 		String encodedAuthString = Base64.getEncoder().encodeToString(authString.getBytes());
-		String url = "https://csaa-insurance.aaa.com/bb/rest/api/1.0/projects/PAS/repos/pas-rating/raw/" + filePath + "?at=refs%2Fheads%2F" + branchName;
+		String url = "https://csaa-insurance.aaa.com/bb/rest/api/1.0/projects/PAS/repos/pas-rating/raw/" + filePath + "?at=" + URLEncoder.encode("refs/heads/" + branchName, "UTF-8");
 
 		int inputStreamReadAttempt = 1;
 		int maxInputStreamAttemptsNumber = 5;
@@ -179,6 +186,10 @@ public final class OpenLTestsManager {
 
 			File openLFile = new File("src/test/resources/openl/TEMP_" + System.currentTimeMillis() + "_" + FilenameUtils.getName(filePath));
 			log.info("Downloading \"{}\" openL file and saving it to \"{}\" temp file", filePath, openLFile);
+			if (!openLFile.getParentFile().exists() && !openLFile.getParentFile().mkdirs()) {
+				log.warn("Unable to create \"{}\" folder", openLFile.getParentFile());
+			}
+
 			try (InputStream is = response.readEntity(InputStream.class)) {
 				Files.copy(is, openLFile.toPath());
 				return openLFile;
@@ -186,12 +197,12 @@ public final class OpenLTestsManager {
 				if ("Premature EOF".equals(e.getMessage()) || "Connection reset".equals(e.getMessage())) {
 					inputStreamReadAttempt++;
 					if (inputStreamReadAttempt <= maxInputStreamAttemptsNumber) {
-						int sleep = 2 * inputStreamReadAttempt;
+						int sleepSeconds = 2 * inputStreamReadAttempt;
 						log.warn("There was a \"{}\" error while reading from an input stream, retry attempt #{} of {} max attempts will be performed after {} seconds",
-								e.getMessage(), inputStreamReadAttempt, maxInputStreamAttemptsNumber, sleep);
+								e.getMessage(), inputStreamReadAttempt, maxInputStreamAttemptsNumber, sleepSeconds);
 						deleteTempFile(openLFile);
 						try {
-							TimeUnit.SECONDS.sleep(sleep);
+							TimeUnit.SECONDS.sleep(sleepSeconds);
 						} catch (InterruptedException e1) {
 							e1.printStackTrace();
 						}
@@ -211,10 +222,6 @@ public final class OpenLTestsManager {
 		if (openLFile != null && openLFile.exists() && !openLFile.delete()) {
 			log.error("Unable to delete openL temp file: {}", openLFile);
 		}
-	}
-
-	private String getFilePath(XmlTest test) {
-		return FilenameUtils.separatorsToUnix(Paths.get(TestParams.TESTS_DIR.getValue(test), TestParams.TEST_FILENAME.getValue(test)).normalize().toString());
 	}
 
 	/**
@@ -254,26 +261,32 @@ public final class OpenLTestsManager {
 	}
 
 	private enum TestParams {
-		TESTS_DIR("testsDir", true, ""),
-		LOCAL_TESTS("localTests", false, "false"),
-		TESTS_BRANCH("testsBranch", false, "master"),
-		TEST_FILENAME("fileName", true, ""),
-		POLICY_TYPE("policyType", true, ""),
-		STATE("state", true, ""),
-		POLICY_NUMBERS("policyNumbers", false, "");
+		TESTS_DIR("testsDir", null, true, ""),
+		LOCAL_TESTS("localTests", null, false, "false"),
+		TESTS_BRANCH("testsBranch", CustomTestProperties.RATING_REPO_BRANCH, false, "master"),
+		TEST_FILENAME("fileName", null, true, ""),
+		POLICY_TYPE("policyType", null, true, ""),
+		STATE("state", CustomTestProperties.TEST_USSTATE, true, Constants.States.UT),
+		POLICY_NUMBERS("policyNumbers", null, false, "");
 
-		private final String name;
+		private final String nameInXml;
+		private final String nameInConfig;
 		private final boolean isMandatory;
 		private final String defaultValue;
 
-		TestParams(String name, boolean isMandatory, String defaultValue) {
-			this.name = name;
+		TestParams(String nameInXml, String nameInConfig, boolean isMandatory, String defaultValue) {
+			this.nameInXml = nameInXml;
+			this.nameInConfig = nameInConfig;
 			this.isMandatory = isMandatory;
 			this.defaultValue = defaultValue;
 		}
 
-		public String getName() {
-			return name;
+		public String getNameInXml() {
+			return nameInXml;
+		}
+
+		public String getNameInConfig() {
+			return nameInConfig;
 		}
 
 		public boolean isMandatory() {
@@ -285,11 +298,15 @@ public final class OpenLTestsManager {
 		}
 
 		public String getValue(XmlTest test) {
-			String value = test.getParameter(getName());
-			if (isMandatory()) {
-				assertThat(value).as("There is no \"%1$s\" parameter neither in test \"%2$s\" nor in its suite \"%3$s\"", getName(), test.getName(), test.getSuite().getFileName()).isNotNull();
+			String value = test.getParameter(getNameInXml());
+			if (StringUtils.isNotBlank(getNameInConfig())) {
+				value = PropertyProvider.getProperty(getNameInConfig(), value);
 			}
-			if (value == null) {
+
+			if (isMandatory()) {
+				assertThat(value).as("There is no \"%1$s\" parameter neither in test \"%2$s\" nor in its suite \"%3$s\"", getNameInXml(), test.getName(), test.getSuite().getFileName()).isNotNull();
+			}
+			if (StringUtils.isBlank(value)) {
 				return getDefaultValue();
 			}
 			return value;
@@ -301,7 +318,10 @@ public final class OpenLTestsManager {
 		AUTO_CA_CHOICE(PolicyType.AUTO_CA_CHOICE.getShortName(), AutoCaChoiceOpenLPolicy.class),
 		AUTO_SS(PolicyType.AUTO_SS.getShortName(), AutoSSOpenLPolicy.class),
 		HOME_SS("HomeSS", HomeSSOpenLPolicy.class),
-		HOME_SS_HO4("HomeSS_HO4", HomeSSOpenLPolicy.class),
+		HOME_SS_HO3(PolicyType.HOME_SS_HO3.getShortName(), HomeSSOpenLPolicy.class),
+		HOME_SS_HO4(PolicyType.HOME_SS_HO4.getShortName(), HomeSSOpenLPolicy.class),
+		HOME_SS_HO6(PolicyType.HOME_SS_HO6.getShortName(), HomeSSOpenLPolicy.class),
+		HOME_SS_DP3(PolicyType.HOME_SS_DP3.getShortName(), HomeSSOpenLPolicy.class),
 		HOME_CA_HO3(PolicyType.HOME_CA_HO3.getShortName(), HomeCaHO3OpenLPolicy.class),
 		HOME_CA_HO4(PolicyType.HOME_CA_HO4.getShortName(), HomeCaHO4OpenLPolicy.class),
 		HOME_CA_HO6(PolicyType.HOME_CA_HO6.getShortName(), HomeCaHO6OpenLPolicy.class),
@@ -330,7 +350,7 @@ public final class OpenLTestsManager {
 			OpenLPolicyType type = of(typeName);
 
 			assertThat(type).as("\"%1$s\" parameter has unknown value \"%2$s\" in test \"%3$s\" within suite \"%4$s\". Only these policy type values are allowed: %5$s",
-					TestParams.POLICY_TYPE.getName(), typeName, test.getName(), test.getSuite().getFileName(), Arrays.stream(OpenLPolicyType.values()).map(OpenLPolicyType::getName).collect(Collectors.toList()))
+					TestParams.POLICY_TYPE.getNameInXml(), typeName, test.getName(), test.getSuite().getFileName(), Arrays.stream(OpenLPolicyType.values()).map(OpenLPolicyType::getName).collect(Collectors.toList()))
 					.isNotNull();
 			return type;
 		}

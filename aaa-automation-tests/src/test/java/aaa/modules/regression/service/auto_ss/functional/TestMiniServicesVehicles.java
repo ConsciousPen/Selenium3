@@ -1,6 +1,8 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+
+import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -334,7 +336,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 
 	/**
 	 * @author Jovita Pukenaite
-	 * @name Transaction Information For Endorsements outside of PAS - AddVehicle
+	 * @name Transaction Information For Endorsements outside of PAS - AddVehicle/RemoveVehicle
 	 * @scenario 1. Create policy.
 	 * 2. Start do endorsement outside of PAS.
 	 * 3. Hit "Transaction History Service". Check if response is empty.
@@ -345,13 +347,46 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 8. Add one more vehicle.
 	 * 9. Hit "Transaction History Service". Check new vehicle info.
 	 * 10. Bind endorsement.
+	 * For Delete vehicle
+	 * 11. Create new endorsement.
+	 * 12. Delete V1
+	 * 13. Delete V0
+	 * 14. Hit "Transaction History Service".
+	 * 15. Check info for deleted vehicles
+	 * 16. Rate and bind endorsement.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9493"})
-	public void pas9493_TransactionInformationForEndorsementsAddVehicle(@Optional("VA") String state) {
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9493", "PAS-14497"})
+	public void pas9493_TransactionInformationForEndorsementsAddRemoveVehicle(@Optional("VA") String state) {
 		assertSoftly(softly ->
-				pas9493_TransactionInformationForEndorsementsAddVehicleBody(getPolicyType())
+				pas9493_TransactionInformationForEndorsementsAddRemoveVehicleBody(getPolicyType(), softly)
+		);
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Transaction Information For Endorsements outside of PAS - Replace vehicle
+	 * @scenario 1. Create policy with three vehicles.
+	 * 2. Start do endorsement outside of PAS.
+	 * 3. Hit "Transaction History Service". Check if response is empty.
+	 * 4. Replace V1 and V2.
+	 * 5. Remove V3.
+	 * 6. Hit "Transaction History Service". Check info.
+	 * 7. Rate and Bind.
+	 * 8. Create new endorsement outside of PAS.
+	 * 9. Hit "Transaction History Service". Check if response is empty.
+	 * 10. Add new vehicle.
+	 * 11. Replace that new Vehicle.
+	 * 12. Hit "Transaction History Service". Check if only one vehicle exist in response.
+	 * 13. Rate and Bind.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14497"})
+	public void pas14497_TransactionInformationForEndorsementsReplaceVehicle(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas14497_TransactionInformationForEndorsementsReplaceVehicleBody(getPolicyType(), softly)
 		);
 	}
 
@@ -405,6 +440,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * the rest coverages are set to default values as if it were new car
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
 	public void pas13920_ReplaceVehicleKeepAssignmentsNoCoverages(@Optional("VA") String state) {
@@ -422,6 +458,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * one of vehicles is Primary, the other one is Occasional
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
 	public void pas13920_ReplaceVehicleKeepAssignmentsOneDriver(@Optional("VA") String state) {
@@ -439,6 +476,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * one of vehicles is Primary, the other one is Occasional
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
 	public void pas13920_ReplaceVehicleDontKeepAssignmentsOneDriver(@Optional("VA") String state) {
@@ -455,6 +493,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * ??????????? - result is not clear. Maybe this test can be removed.
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
 	public void pas13920_ReplaceVehicleKeepAssignmentsOneDriverAz(@Optional("AZ") String state) {
@@ -471,6 +510,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 4. check replacement is successful
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
 	public void pas13920_ReplaceVehicleDontKeepAssignmentsOneDriverAz(@Optional("AZ") String state) {
@@ -490,6 +530,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * the rest coverages are defaulted
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
 	public void pas13920_ReplaceVehicleDontKeepCoveragesOneDriverOneVehicle(@Optional("VA") String state) {
@@ -509,6 +550,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * the rest coverages have the same values as the original vehicle
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
 	public void pas13920_ReplaceVehicleKeepCoveragesOneDriverOneVehicle(@Optional("VA") String state) {
@@ -524,6 +566,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 3. PendingAdd vehicle has no available actions
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12175"})
 	public void pas12175_RemoveReplaceAllVehicles(@Optional("VA") String state) {
@@ -537,11 +580,29 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * @scenario 1. Waive Liability vehicle can only be removed
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12175"})
 	public void pas12175_RemoveReplaceWaiveLiability(@Optional("VA") String state) {
 
 		pas12175_RemoveReplaceWaiveLiabilityBody();
+	}
+
+	/**
+	 * @author Dakota Berg
+	 * @name Check garaging address on DXP
+	 * @scenario 1. Create a customer and policy
+	 * 2. Initiate an endorsement
+	 * 3. Update vehicle to have a different garaging address outside of PAS
+	 * 4. Hit Meta Data Service and verify that the garaging address is different
+	 * 5. Bind the endorsement and verify that the policy is active
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12942"})
+	public void pas12942_GaragingAddressConsistencyDXP(@Optional("VA") String state) {
+
+		pas12942_GaragingAddressConsistencyDXPBody();
 	}
 }
 

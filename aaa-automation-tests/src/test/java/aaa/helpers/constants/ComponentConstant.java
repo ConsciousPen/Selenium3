@@ -77,6 +77,10 @@ public class ComponentConstant {
 		public static final String PUP = "External Integrations.PUP";
 	}
 
+	public final class Finance {
+		public static final String OPERATIONAL_REPORTS = "Finance.Operational Reports";
+	}
+
 	public final class Renewal {
 		public static final String AUTO_SS = "Renewal.Auto SS";
 		public static final String AUTO_CA_SELECT = "Renewal.Auto CA.Select";

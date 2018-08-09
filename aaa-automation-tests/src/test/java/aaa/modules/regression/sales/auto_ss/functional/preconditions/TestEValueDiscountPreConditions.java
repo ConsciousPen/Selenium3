@@ -93,4 +93,17 @@ public interface TestEValueDiscountPreConditions {
 			+ "and displayvalue = ''''{2}'''' \n"
 			+ "and (SYSDATE-'{'0'}' <= effective and effective < SYSDATE-'{'1'}') \n"
 			+ "and (SYSDATE-'{'2'}' <= expiration and expiration < SYSDATE-'{'3'}'))";
+
+	//TODO jpukenaite delete two last after paperless preferences will be set by default
+	String ADD_PAPERLESS_PREFERENCES_TO_CA_HO = "INSERT INTO LOOKUPVALUE\n"
+			+ "(dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id)\n"
+			+ "values\n"
+			+ "('AAARolloutEligibilityLookupValue', 'PaperlessPreferences', 'TRUE', 'AAA_HO_CA', CA, null, null, null,\n"
+			+ "(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
+
+	String ADD_PAPERLESS_PREFERENCES_TO_CA_CHOICE = "INSERT INTO LOOKUPVALUE\n"
+			+ "(dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id)\n"
+			+ "values\n"
+			+ "('AAARolloutEligibilityLookupValue', 'PaperlessPreferences', 'TRUE', 'AAA_CSA', CA, null, null, null,\n"
+			+ "(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 }

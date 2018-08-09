@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import org.assertj.core.api.SoftAssertions;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -39,7 +38,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		//Perform Endorsement
-		AAAEndorseResponse endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		PolicySummary endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
 		SearchPage.openPolicy(policyNumber);
@@ -237,7 +236,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		policyType.get().createPolicy(testData);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-		AAAEndorseResponse endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		PolicySummary endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
 		ViewVehicleResponse viewVehicleResponse = HelperCommon.viewPolicyVehicles(policyNumber);
@@ -325,7 +324,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(coveragesLoanVehicle.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
 			softly.assertThat(new Dollar(coveragesLoanVehicle.get(6).coverageLimit)).isEqualTo(excessElectronicEquipment);
 			softly.assertThat(coveragesLoanVehicle.get(6).customerDisplayed).isEqualTo(false);
-			assertThat(coveragesLoanVehicle.get(6).canChangeCoverage).isEqualTo(true);
+			assertThat(coveragesLoanVehicle.get(6).canChangeCoverage).isEqualTo(false);
 
 			softly.assertThat(coveragesLoanVehicle.get(7).coverageCd).isEqualTo("NEWCAR");
 			softly.assertThat(coveragesLoanVehicle.get(7).coverageDescription).isEqualTo("New Car Added Protection");
@@ -424,7 +423,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(coveragesV1.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
 			softly.assertThat(new Dollar(coveragesV1.get(6).coverageLimit)).isEqualTo(excessElectronicEquipment1);
 			softly.assertThat(coveragesV1.get(6).customerDisplayed).isEqualTo(false);
-			assertThat(coveragesV1.get(6).canChangeCoverage).isEqualTo(true);
+			assertThat(coveragesV1.get(6).canChangeCoverage).isEqualTo(false);
 
 			softly.assertThat(coveragesV1.get(7).coverageCd).isEqualTo("NEWCAR");
 			softly.assertThat(coveragesV1.get(7).coverageDescription).isEqualTo("New Car Added Protection");
@@ -456,7 +455,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		Dollar collisionDeductible = new Dollar(premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.COLLISION_DEDUCTIBLE.getLabel()).replace("(+$0.00)", "").trim());
 		String fullSafetyGlassVeh1 = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.FULL_SAFETY_GLASS.getLabel());
 		String loanLeaseCov = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.VEHICLE_LOAN_LEASE_PROTECTION.getLabel()).replace("(+$0.00)", "").trim();
-		String transportationExpense = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.RENTAL_REIMBURSEMENT.getLabel().replace("(+$0.00)", "").trim());
+		String transportationExpense = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.RENTAL_REIMBURSEMENT.getLabel()).replace("(+$0.00)", "").trim();
 		String towingAndLabor = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.TOWING_AND_LABOR_COVERAGE.getLabel()).replace("(Included)", "").replace("(+$0.00)", "").replace("$", "").trim();
 		Dollar excessElectronicEquipment = new Dollar(premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.SPECIAL_EQUIPMENT_COVERAGE.getLabel()));
 
@@ -527,8 +526,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(coverageRreim.coverageCd).isEqualTo("RREIM");
 			softly.assertThat(coverageRreim.coverageDescription).isEqualTo("Rental Reimbursement");
 			softly.assertThat(coverageRreim.coverageLimit).isEqualTo("0/0");
-			assertThat(coverageRreim.coverageLimitDisplay).isEqualTo(transportationExpense.toString().replace(".00", "").replace("(+$0)", ""));
-			softly.assertThat(coverageRreim.coverageType).isEqualTo("per day/maximum");
+			softly.assertThat(coverageRreim.coverageLimitDisplay).isEqualTo(transportationExpense.toString().replace(".00", "").replace("(+$0)", ""));
+			softly.assertThat(coverageRreim.coverageType).isEqualTo("Per Day/Maximum");
 			softly.assertThat(coverageRreim.customerDisplayed).isEqualTo(true);
 
 			softly.assertThat(coverageRreim.availableLimits.get(0).coverageLimit).isEqualTo("0/0");
@@ -1114,7 +1113,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			coverageXproperties(softly, 3, coverageResponse, "LOAN", "Vehicle Loan/Lease Protection", "0", loanLeaseCov, "None", true, true);
 
-			coverageXproperties(softly, 4, coverageResponse, "RREIM", "Rental Reimbursement", "0/0", transportationExpense, "per day/maximum", true, true);
+			coverageXproperties(softly, 4, coverageResponse, "RREIM", "Rental Reimbursement", "0/0", transportationExpense, "Per Day/Maximum", true, true);
 
 			coverageXproperties(softly, 5, coverageResponse, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", towingAndLabor, "Per Disablement/Maximum", true, true);
 
@@ -1133,7 +1132,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			coverageXproperties(softly, 3, coverageResponse1, "LOAN", "Vehicle Loan/Lease Protection", "0", loanLeaseCov, "None", true, true);
 
-			coverageXproperties(softly, 4, coverageResponse1, "RREIM", "Rental Reimbursement", "0/0", transportationExpense, "per day/maximum", true, true);
+			coverageXproperties(softly, 4, coverageResponse1, "RREIM", "Rental Reimbursement", "0/0", transportationExpense, "Per Day/Maximum", true, true);
 
 			coverageXproperties(softly, 5, coverageResponse1, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", towingAndLabor, "Per Disablement/Maximum", true, true);
 
@@ -1152,7 +1151,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			coverageXproperties(softly, 3, coverageResponse2, "LOAN", "Vehicle Loan/Lease Protection", "0", loanLeaseCov, "None", true, true);
 
-			coverageXproperties(softly, 4, coverageResponse2, "RREIM", "Rental Reimbursement", "0/0", transportationExpense, "per day/maximum", true, true);
+			coverageXproperties(softly, 4, coverageResponse2, "RREIM", "Rental Reimbursement", "0/0", transportationExpense, "Per Day/Maximum", true, true);
 
 			coverageXproperties(softly, 5, coverageResponse2, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", towingAndLabor, "Per Disablement/Maximum", true, true);
 
@@ -1171,7 +1170,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			coverageXproperties(softly, 3, coverageResponse3, "LOAN", "Vehicle Loan/Lease Protection", "1", "Yes", "None", true, true);
 
-			coverageXproperties(softly, 4, coverageResponse3, "RREIM", "Rental Reimbursement", "0/0", transportationExpense, "per day/maximum", true, true);
+			coverageXproperties(softly, 4, coverageResponse3, "RREIM", "Rental Reimbursement", "0/0", transportationExpense, "Per Day/Maximum", true, true);
 
 			coverageXproperties(softly, 5, coverageResponse3, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", towingAndLabor, "Per Disablement/Maximum", true, true);
 
@@ -1190,7 +1189,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			coverageXproperties(softly, 3, coverageResponse4, "LOAN", "Vehicle Loan/Lease Protection", "1", "Yes", "None", true, true);
 
-			coverageXproperties(softly, 4, coverageResponse4, "RREIM", "Rental Reimbursement", availableLimits4, "$30/$900", "per day/maximum", true, true);
+			coverageXproperties(softly, 4, coverageResponse4, "RREIM", "Rental Reimbursement", availableLimits4, "$30/$900", "Per Day/Maximum", true, true);
 
 			coverageXproperties(softly, 5, coverageResponse4, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", towingAndLabor, "Per Disablement/Maximum", true, true);
 
@@ -1209,7 +1208,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			coverageXproperties(softly, 3, coverageResponse5, "LOAN", "Vehicle Loan/Lease Protection", "1", "Yes", "None", true, true);
 
-			coverageXproperties(softly, 4, coverageResponse5, "RREIM", "Rental Reimbursement", availableLimits4, "$30/$900", "per day/maximum", true, true);
+			coverageXproperties(softly, 4, coverageResponse5, "RREIM", "Rental Reimbursement", availableLimits4, "$30/$900", "Per Day/Maximum", true, true);
 
 			coverageXproperties(softly, 5, coverageResponse5, "TOWINGLABOR", "Towing and Labor Coverage", availableLimits5, "$50/$300", "Per Disablement/Maximum", true, true);
 
@@ -1228,7 +1227,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			coverageXproperties(softly, 3, coverageResponse6, "LOAN", "Vehicle Loan/Lease Protection", "0", "No Coverage", "None", true, false);
 
-			coverageXproperties(softly, 4, coverageResponse6, "RREIM", "Rental Reimbursement", "0/0", "No Coverage", "per day/maximum", true, false);
+			coverageXproperties(softly, 4, coverageResponse6, "RREIM", "Rental Reimbursement", "0/0", "No Coverage", "Per Day/Maximum", true, false);
 
 			coverageXproperties(softly, 5, coverageResponse6, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", "No Coverage", "Per Disablement/Maximum", true, false);
 
@@ -1247,7 +1246,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			coverageXproperties(softly, 3, coverageResponse7, "LOAN", "Vehicle Loan/Lease Protection", "0", "No Coverage", "None", true, false);
 
-			//coverageXproperties(softly, 4, coverageResponse7, "RREIM", "Rental Reimbursement", availableLimits4, availableLimits4, "per day/maximum", true, true);
+			//coverageXproperties(softly, 4, coverageResponse7, "RREIM", "Rental Reimbursement", availableLimits4, availableLimits4, "Per Day/Maximum", true, true);
 
 			coverageXproperties(softly, 5, coverageResponse7, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", "No Coverage", "Per Disablement/Maximum", true, false);
 
@@ -1266,7 +1265,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			coverageXproperties(softly, 3, coverageResponse8, "LOAN", "Vehicle Loan/Lease Protection", "0", "No Coverage", "None", true, true);
 
-			//coverageXproperties(softly, 4, coverageResponse8, "RREIM", "Rental Reimbursement", availableLimits4, availableLimits4, "per day/maximum", true, true);
+			//coverageXproperties(softly, 4, coverageResponse8, "RREIM", "Rental Reimbursement", availableLimits4, availableLimits4, "Per Day/Maximum", true, true);
 
 			coverageXproperties(softly, 5, coverageResponse8, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", "No Coverage", "Per Disablement/Maximum", true, true);
 
@@ -1285,7 +1284,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			coverageXproperties(softly, 3, coverageResponse9, "LOAN", "Vehicle Loan/Lease Protection", "0", "No Coverage", "None", true, true);
 
-			//coverageXproperties(softly, 4, coverageResponse9, "RREIM", "Rental Reimbursement", availableLimits4, availableLimits4, "per day/maximum", true, true);
+			//coverageXproperties(softly, 4, coverageResponse9, "RREIM", "Rental Reimbursement", availableLimits4, availableLimits4, "Per Day/Maximum", true, true);
 
 			coverageXproperties(softly, 5, coverageResponse9, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", "No Coverage", "Per Disablement/Maximum", true, true);
 
@@ -1304,7 +1303,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			coverageXproperties(softly, 3, coverageResponse10, "LOAN", "Vehicle Loan/Lease Protection", "0", "No Coverage", "None", true, true);
 
-			//coverageXproperties(softly, 4, coverageResponse10, "RREIM", "Rental Reimbursement", availableLimits4, availableLimits4, "per day/maximum", true, true);
+			//coverageXproperties(softly, 4, coverageResponse10, "RREIM", "Rental Reimbursement", availableLimits4, availableLimits4, "Per Day/Maximum", true, true);
 
 			coverageXproperties(softly, 5, coverageResponse10, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", "No Coverage", "Per Disablement/Maximum", true, true);
 
@@ -1323,7 +1322,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			coverageXproperties(softly, 3, coverageResponse11, "LOAN", "Vehicle Loan/Lease Protection", "1", "Yes", "None", true, true);
 
-			//coverageXproperties(softly, 4, coverageResponse11, "RREIM", "Rental Reimbursement", availableLimits4, availableLimits4, "per day/maximum", true, true);
+			//coverageXproperties(softly, 4, coverageResponse11, "RREIM", "Rental Reimbursement", availableLimits4, availableLimits4, "Per Day/Maximum", true, true);
 
 			coverageXproperties(softly, 5, coverageResponse11, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", "No Coverage", "Per Disablement/Maximum", true, true);
 		});
@@ -1341,7 +1340,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			coverageXproperties(softly, 3, coverageResponse12, "LOAN", "Vehicle Loan/Lease Protection", "1", "Yes", "None", true, true);
 
-			coverageXproperties(softly, 4, coverageResponse12, "RREIM", "Rental Reimbursement", availableLimitsChangeTransport, "$30/$900", "per day/maximum", true, true);
+			coverageXproperties(softly, 4, coverageResponse12, "RREIM", "Rental Reimbursement", availableLimitsChangeTransport, "$30/$900", "Per Day/Maximum", true, true);
 
 			coverageXproperties(softly, 5, coverageResponse12, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", "No Coverage", "Per Disablement/Maximum", true, true);
 
@@ -1360,7 +1359,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			coverageXproperties(softly, 3, coverageResponse13, "LOAN", "Vehicle Loan/Lease Protection", "1", "Yes", "None", true, true);
 
-			coverageXproperties(softly, 4, coverageResponse13, "RREIM", "Rental Reimbursement", availableLimitsChangeTransport, "$30/$900", "per day/maximum", true, true);
+			coverageXproperties(softly, 4, coverageResponse13, "RREIM", "Rental Reimbursement", availableLimitsChangeTransport, "$30/$900", "Per Day/Maximum", true, true);
 
 			coverageXproperties(softly, 5, coverageResponse13, "TOWINGLABOR", "Towing and Labor Coverage", availableLimitsChangeTowing, "$50/$300", "Per Disablement/Maximum", true, true);
 
@@ -1379,7 +1378,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			coverageXproperties(softly, 3, coverageResponse14, "LOAN", "Vehicle Loan/Lease Protection", "1", "Yes", "None", true, true);
 
-			coverageXproperties(softly, 4, coverageResponse14, "RREIM", "Rental Reimbursement", availableLimitsChangeTransport, "$30/$900", "per day/maximum", true, true);
+			coverageXproperties(softly, 4, coverageResponse14, "RREIM", "Rental Reimbursement", availableLimitsChangeTransport, "$30/$900", "Per Day/Maximum", true, true);
 
 			coverageXproperties(softly, 5, coverageResponse14, "TOWINGLABOR", "Towing and Labor Coverage", availableLimitsChangeTowingNoCov, "No Coverage", "Per Disablement/Maximum", true, true);
 
@@ -1812,17 +1811,19 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber);
+		Coverage filteredPolicyCoverageResponse = policyCoverageResponse.policyCoverages.stream().filter(cov -> "MEDPM".equals(cov.coverageCd)).findFirst().orElse(null);
 		assertSoftly(softly -> {
-			softly.assertThat(policyCoverageResponse.policyCoverages.get(4).coverageCd).isEqualTo("MEDPM");
-			softly.assertThat(policyCoverageResponse.policyCoverages.get(4).coverageType).isEqualTo("Per Person");
-			softly.assertThat(policyCoverageResponse.policyCoverages.get(4).availableLimits.size()).isNotEqualTo(0);
+			softly.assertThat(filteredPolicyCoverageResponse.coverageCd).isEqualTo("MEDPM");
+			softly.assertThat(filteredPolicyCoverageResponse.coverageType).isEqualTo("Per Person");
+			softly.assertThat(filteredPolicyCoverageResponse.availableLimits.size()).isNotEqualTo(0);
 		});
 
 		PolicyCoverageInfo coverageEndorsementResponse = HelperCommon.viewEndorsementCoverages(policyNumber);
+		Coverage filteredPolicyCoverageResponse1 = coverageEndorsementResponse.policyCoverages.stream().filter(cov -> "MEDPM".equals(cov.coverageCd)).findFirst().orElse(null);
 		assertSoftly(softly -> {
-			softly.assertThat(coverageEndorsementResponse.policyCoverages.get(4).coverageCd).isEqualTo("MEDPM");
-			softly.assertThat(coverageEndorsementResponse.policyCoverages.get(4).coverageType).isEqualTo("Per Person");
-			softly.assertThat(coverageEndorsementResponse.policyCoverages.get(4).availableLimits.size()).isNotEqualTo(0);
+			softly.assertThat(filteredPolicyCoverageResponse1.coverageCd).isEqualTo("MEDPM");
+			softly.assertThat(filteredPolicyCoverageResponse1.coverageType).isEqualTo("Per Person");
+			softly.assertThat(filteredPolicyCoverageResponse1.availableLimits.size()).isNotEqualTo(0);
 		});
 	}
 
@@ -1890,8 +1891,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	//validate UIMBI for states where it is separate coverage
 	private void validateUIMBI_pas15254(SoftAssertions softly, String state, PolicyCoverageInfo coverageResponse, String newBILimits) {
-		if (state.equals(Constants.States.AZ) || state.equals(Constants.States.ID) || state.equals(Constants.States.KY) || state.equals(Constants.States.PA)
-				|| state.equals(Constants.States.SD) || state.equals(Constants.States.UT) || state.equals(Constants.States.WV)) {
+		if ("AZ, ID, KY, PA, SD, UT, WV, MT".contains(state)) {
 			Coverage filteredCoverageResponseUIMBI = coverageResponse.policyCoverages.stream().filter(cov -> "UIMBI".equals(cov.coverageCd)).findFirst().orElse(null);
 			softly.assertThat(newBILimits.equals(filteredCoverageResponseUIMBI.coverageLimit)).isEqualTo(true);
 		}

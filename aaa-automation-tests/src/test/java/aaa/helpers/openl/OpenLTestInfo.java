@@ -3,21 +3,25 @@ package aaa.helpers.openl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.testng.ITestContext;
 import aaa.helpers.openl.model.OpenLPolicy;
 import toolkit.exceptions.IstfException;
 
 public class OpenLTestInfo<P extends OpenLPolicy> {
 	private String state;
 	private String openLFilePath;
+	private String openLFileBranch;
 	private List<P> openLPolicies;
 	private Throwable exception;
 	private String customerNumber;
+	private ITestContext testContext;
 
 	OpenLTestInfo() {}
 
-	OpenLTestInfo(String state, String openLFilePath, List<P> openLPolicies) {
+	OpenLTestInfo(String state, String openLFilePath, String openLFileBranch, List<P> openLPolicies) {
 		this.state = state;
 		this.openLFilePath = openLFilePath;
+		this.openLFileBranch = openLFileBranch;
 		this.openLPolicies = new ArrayList<>(openLPolicies);
 	}
 
@@ -36,7 +40,15 @@ public class OpenLTestInfo<P extends OpenLPolicy> {
 	void setOpenLFilePath(String openLFilePath) {
 		this.openLFilePath = openLFilePath;
 	}
-	
+
+	public String getOpenLFileBranch() {
+		return openLFileBranch;
+	}
+
+	public void setOpenLFileBranch(String openLFileBranch) {
+		this.openLFileBranch = openLFileBranch;
+	}
+
 	public List<P> getOpenLPolicies() {
 		return Collections.unmodifiableList(openLPolicies);
 	}
@@ -67,5 +79,13 @@ public class OpenLTestInfo<P extends OpenLPolicy> {
 
 	public void setCustomerNumber(String customerNumber) {
 		this.customerNumber = customerNumber;
+	}
+
+	public ITestContext getTestContext() {
+		return testContext;
+	}
+
+	public void setTestContext(ITestContext testContext) {
+		this.testContext = testContext;
 	}
 }

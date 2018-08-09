@@ -18,6 +18,7 @@ public class VehicleQueries {
 	//	VIN STUB QUERIES FOR PAS-12877
 	// SORT BY r.ID DESC ORDER.
 	public static final String SELECT_VIN_ID_BY_VIN_VERSION = "SELECT v.* FROM VEHICLEREFDATAVIN v WHERE VIN LIKE '%s' and v.VERSION='%s'";
+	public static final String SELECT_ID_BY_VIN_VERSION = "SELECT ID FROM VEHICLEREFDATAVIN WHERE VIN LIKE '%s'";
 	public static final String SELECT_LATEST_VIN_STUB_ON_QUOTE = "SELECT r.currentVin FROM Riskitem R, Vehicleratinginfo I, Vehiclebaseinfo B, Policysummary Ps, Policydetail Pd WHERE R.Ratinginfo_Id = I.Id AND B.Id = R.Baseinfo_Id AND ps.policydetail_id = pd.id AND pd.id = r.policydetail_id AND policynumber LIKE '%1$s' ORDER BY r.ID DESC";
 	public static final String SELECT_LATEST_VIN_STUB_WITH_SYMBOLS_ON_QUOTE = "SELECT r.currentVin,I.COMPSYMBOL, I.COLLSYMBOL , R.version FROM Riskitem R, Vehicleratinginfo I, Vehiclebaseinfo B, Policysummary Ps, Policydetail Pd WHERE R.Ratinginfo_Id = I.Id AND B.Id = R.Baseinfo_Id AND ps.policydetail_id = pd.id AND pd.id = r.policydetail_id AND policynumber LIKE '%1$s' ORDER BY r.ID DESC";
 
@@ -48,10 +49,6 @@ public class VehicleQueries {
 	public static final String DELETE_VEHICLEREFDATAVIN_BY_ID = "DELETE FROM VEHICLEREFDATAVIN WHERE ID = '%s'";
 	public static final String DELETE_FROM_VEHICLEREFDATAVIN_BY_VERSION = "DELETE FROM vehiclerefdatavin V WHERE V.VERSION IN %1$s";
 	public static final String DELETE_FROM_VEHICLEREFDATAVIN_BY_VIN_AND_VERSION = "DELETE FROM VEHICLEREFDATAVIN v WHERE VIN like '%1$s' AND VERSION = '%2$s'";
-	public static final String REFRESHABLE_VIN_CLEANER_SS = "DELETE FROM VEHICLEREFDATAVIN v WHERE VIN like '1HGEM215%4' AND make_text IN ('TEST', 'invalidVIN', 'SecondValid')";
-	public static final String REFRESHABLE_VIN_CLEANER_CAS = "DELETE FROM VEHICLEREFDATAVIN v WHERE VIN like '1HGEM215%5' AND make_text IN ('TEST', 'invalidVIN', 'SecondValid')";
-	public static final String REFRESHABLE_VIN_CLEANER_CAC = "DELETE FROM VEHICLEREFDATAVIN v WHERE VIN like '4T1BE30K%6' AND make_text IN ('TEST', 'invalidVIN', 'SecondValid')";
-
 	public static final String DELETE_FROM_VEHICLEREFDATAMODEL_VIN_AND_MAKE = "DELETE FROM VEHICLEREFDATAVIN v WHERE VIN like 'JA3AY26A%X' AND MAKE = 'TEST'";
 	public static final String DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_VERSION = "DELETE FROM vehiclerefdatavincontrol VC WHERE VC.version IN %1$s";
 	public static final String DELETE_LIABILITY_SYMBOLS_FOR_VIN =

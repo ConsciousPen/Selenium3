@@ -73,7 +73,10 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
         TestData renewalTD = getTestSpecificTD("TestData_CLUE").resolveLinks()
                 .adjust(INSURANCE_SCORE_OVERRIDE, getTestSpecificTD("InsuranceScoreOverride_940"));
 
-        renewPolicy(policyNumber, renewalTD);
+        //Workaround with Do NotRenew action added
+        TestData doNotRenewTD = getStateTestData(testDataManager.policy.get(getPolicyType()), "DoNotRenew", "TestData");
+        
+        renewPolicy(policyNumber, renewalTD, doNotRenewTD);
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, true);
 
@@ -114,8 +117,11 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
                 .adjust(ERROR_TAB, getTestSpecificTD("ErrorTab_ForeignLicense"));
 
         String policyNumber = createPolicy(policyTD);
+        
+        //Workaround with Do Not Renew action added 
+        TestData doNotRenewTD = getStateTestData(testDataManager.policy.get(getPolicyType()), "DoNotRenew", "TestData");
 
-        renewPolicy(policyNumber, renewalTD);
+        renewPolicy(policyNumber, renewalTD, doNotRenewTD);
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, true);
 

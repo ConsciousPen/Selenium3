@@ -10,6 +10,7 @@ import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.common.DefaultTab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
 
 public class CacheManager extends DefaultTab {
@@ -18,39 +19,34 @@ public class CacheManager extends DefaultTab {
 
 	protected static Logger log = LoggerFactory.getLogger(CacheManager.class);
 
-	protected CacheManager() {
+	public CacheManager() {
 		super(AdministrationMetaData.CacheManager.class);
 	}
 
-	public static void getToCacheManagerTab() {
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-		long timeoutInSeconds = 10;
+	public void getToCacheManagerTab() {
+		long timeoutInSeconds = 15;
 		long timeout = System.currentTimeMillis() + timeoutInSeconds * 1000;
 
 		while (timeout > System.currentTimeMillis()) {
-			try {
-				NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.CACHE_MANAGER.get());
-				if (tableCacheManager.isPresent()) {
-					break;
-				}
-				Thread.sleep(1000);
-				log.info("Wait for CACHE_MANAGER tab, in miliseconds left: {}", timeout - System.currentTimeMillis());
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+			NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.CACHE_MANAGER.get());
+			if (tableCacheManager.isPresent()) {
+				break;
 			}
+			log.info("Wait for CACHE_MANAGER tab, in miliseconds left: {}", timeout - System.currentTimeMillis());
 		}
 	}
 
-	public static void goClearCacheManagerTable() {
+	public void goClearCacheManagerTable() {
 		getToCacheManagerTab();
 		removeAllFromCacheManagerTable();
 	}
 
-	public static void clearFromCacheManagerTable() {
+	public void clearFromCacheManagerTable() {
 		removeAllFromCacheManagerTable();
 	}
 
-	public static void clearFromCacheManagerTable(String cacheName) {
+	public void clearFromCacheManagerTable(String cacheName) {
 		if (tableCacheManager.getRow(CACHE_NAME.get(), cacheName).isPresent()) {
 			tableCacheManager.getRow(CACHE_NAME.get(), cacheName).getCell(CacheManagerTableColumns.ACTION.get()).controls.links.getFirst().click();
 		} else {
@@ -58,15 +54,19 @@ public class CacheManager extends DefaultTab {
 		}
 	}
 
-	private static void removeAllFromCacheManagerTable() {
+	private void removeAllFromCacheManagerTable() {
 		for (int i = tableCacheManager.getRowsCount(); i > 0; i--) {
 			tableCacheManager.getRow(i).getCell(CacheManagerTableColumns.ACTION.get()).controls.links.get("Remove").click();
 		}
 	}
 
-	private static void removeAllFromCachedProjectTable() {
+	private void removeAllFromCachedProjectTable() {
 		for (int i = tableСachedProject.getRowsCount(); i > 0; i--) {
 			tableСachedProject.getRow(i).getCell(CachedProjectNameTableColumns.ACTION.get()).controls.links.get("Remove").click();
 		}
+	}
+
+	public boolean isOpened() {
+		return new StaticElement(By.xpath(String.format(NavigationPage.LABEL_NAVIGATION_VIEW_LEFT_MENU, NavigationEnum.AdminAppLeftMenu.CACHE_MANAGER.get()) + "/ancestor::li[1]")).getAttribute("class").contains("selected");
 	}
 }

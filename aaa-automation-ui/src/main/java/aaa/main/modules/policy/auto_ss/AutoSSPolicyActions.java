@@ -99,6 +99,7 @@ public final class AutoSSPolicyActions {
         @Override
         public AbstractAction performAndFill(TestData td) {
             perform();
+            new CreateQuoteVersionTab().submitIfPresent();
 	        new DataGather().getView().fill(td);
 	        return this;
         }

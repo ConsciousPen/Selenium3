@@ -35,8 +35,7 @@ public class TestCFTScenario21 extends ControlledFinancialBaseTest {
 		verifyRenewCustomerDecline();
 		acceptTotalDuePlusOverpaymentOnRenewCustomerDeclineDate(new Dollar(400));
 		approveRefundOnRenewCustomerDeclineDatePlusRefundDate();
-		issueAutomatedRefundOnRefundDate();
-		verifyEscheatmentOnExpDatePlus25Plus13Months();
+		automatedRefundOnRefundDate();
 	}
 
 	@Override
@@ -48,9 +47,9 @@ public class TestCFTScenario21 extends ControlledFinancialBaseTest {
 	protected TestData getPolicyTestData() {
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", DEFAULT_TEST_DATA_KEY);
 		td.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel()), getTestSpecificTD("DriverTab_DataGather").getValue(
-			AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel()));
+				AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel()));
 		td.adjust(TestData.makeKeyPath(PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), getTestSpecificTD(
-			"PremiumAndCoveragesTab_DataGather").getValue(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()));
+				"PremiumAndCoveragesTab_DataGather").getValue(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()));
 		return td.resolveLinks();
 	}
 }
