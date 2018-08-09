@@ -65,9 +65,9 @@ public class TestPolicySpin extends AutoSSBaseTest {
 		
 		assertSoftly(softly -> {
 			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesTable.DESCRIPTION,
-					"has been spun to a new quote").isPresent());
+					"has been spun to a new quote")).isPresent();
 		});
-		
+
 		
 		String quoteNumber = description.substring(description.indexOf("Q" + getState() + "SS"));
 

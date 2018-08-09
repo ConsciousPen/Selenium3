@@ -288,11 +288,11 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 
 		HashMap<String, String> query = new HashMap<>();
 		query.put(BillingConstants.BillingInstallmentScheduleTable.DESCRIPTION, BillingConstants.InstallmentDescription.INSTALLMENT);
-		BillingSummaryPage.tableInstallmentSchedule.verify.rowsCount(numberOfInstallment, query);
+		assertThat(BillingSummaryPage.tableInstallmentSchedule).hasMatchingRows(numberOfInstallment, query);
 
-		BillingSummaryPage.tableInstallmentSchedule.getRow(BillingConstants.BillingInstallmentScheduleTable.DESCRIPTION, BillingConstants.InstallmentDescription.DEPOSIT)
-				.getCell(BillingConstants.BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT).verify
-			.value(origDepositAmount.toString());
+		assertThat(BillingSummaryPage.tableInstallmentSchedule.getRow(BillingConstants.BillingInstallmentScheduleTable.DESCRIPTION, BillingConstants.InstallmentDescription.DEPOSIT)
+				.getCell(BillingConstants.BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT))
+				.hasValue(origDepositAmount.toString());
 
 		Dollar totalAmount = new Dollar(0);
 		List<Row> installments = BillingSummaryPage.tableInstallmentSchedule.getRows();

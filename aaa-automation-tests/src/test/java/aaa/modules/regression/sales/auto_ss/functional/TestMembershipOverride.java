@@ -729,7 +729,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount")).isPresent();
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount").getCell(5).getValue().contains(Value1)).isTrue();
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount").getCell(6).getValue().contains(Value2)).isTrue();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "Member Since Date").getCell(6).isPresent());
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "Member Since Date").getCell(6)).isPresent();
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "Member Since Date").getCell(6).getValue().contains(memberSinceDate)).isTrue();
 
 		} else {
@@ -768,8 +768,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		GeneralTab generalTab = new GeneralTab();
 		assertThat(generalTab.getAAAProductOwnedAssetList().
 				getAsset("Member Since Date").
-				getWarning().get().contentEquals(MEMBER_SINCE_DATE_WARNING_MESSAGE));
-
+				getWarning().orElse("")).contains(MEMBER_SINCE_DATE_WARNING_MESSAGE);
 	}
 
 	private void testMembershipOverridePrivilege(Boolean hasPrivilege) {

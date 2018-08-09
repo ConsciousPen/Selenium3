@@ -82,7 +82,7 @@ public class TestQuotePrefill extends PersonalUmbrellaBaseTest {
 		prefillTab.searchDialog.setRawValue(getTestSpecificTD(WRONG_SEARCH_CRITERIA_KEY));
 		prefillTab.searchDialog.search();
 		//prefillTab.searchDialog.tableSearchResults.verify.present(false);
-		assertThat(!prefillTab.searchDialog.tableSearchResults.isPresent());
+		assertThat(prefillTab.searchDialog.tableSearchResults).isAbsent();
 		prefillTab.searchDialog.cancel();
 		prefillTab.buttonRemovePolicy.click();
 	}

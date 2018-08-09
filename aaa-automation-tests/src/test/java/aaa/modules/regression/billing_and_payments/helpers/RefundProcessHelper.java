@@ -41,7 +41,8 @@ import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
@@ -71,93 +72,21 @@ public class RefundProcessHelper extends PolicyBilling {
 
 	@SuppressWarnings("Unchecked")
 	public void refundDebug(String policyNumber, String refundType, String refundMethod, String productType, String companyId, String deceasedNamedInsuredFlag, String policyState, String refundAmount,
-			String email, String refundEligible)
-			throws IOException {
+			String email, String refundEligible) {
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains("Type", "Refund").getCell(TYPE).controls.links.get("Refund").click();
 		String transactionID = acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_ID.getLabel(), StaticElement.class).getValue();
 		acceptPaymentActionTab.back();
 
-		//TODO doesn't work in VDMs
-/*        RemoteHelper.waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, 10, policyNumber);
-        String neededFilePath = RemoteHelper.waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, "csv", 10, policyNumber).get(0);
-        String fileName = neededFilePath.replace(REFUND_GENERATION_FOLDER_PATH, "");
-
-        RemoteHelper.downloadFile(neededFilePath, LOCAL_FOLDER_PATH + fileName);*/
-		String fileName = "20180310_014138_DSB_E_PASSYS_DSBCTRL_7025_D.csv";
-		List<DisbursementEngineHelper.DisbursementFile> listOfRecordsInFile = DisbursementEngineHelper.readDisbursementFile(LOCAL_FOLDER_PATH + fileName);
-		DisbursementEngineHelper.DisbursementFile neededLine = null;
-		for (DisbursementEngineHelper.DisbursementFile s : listOfRecordsInFile) {
-			if (s.getAgreementNumber().equals(policyNumber)) {
-				neededLine = s;
-			}
-		}
-		assertThat(neededLine.getRecordType()).isEqualTo("D");
-		assertThat(neededLine.getRequestRefereceId()).isEqualTo(transactionID);
-		assertThat(neededLine.getRefundType()).isEqualTo(refundType);
-		// RefundMethod = 'CHCK' - check, 'EFT' - eft, 'CRDC' - credit/debit card
-		if (refundMethod.contains("CHCK")) {
-			assertThat(neededLine.getRefundMethod()).isEqualTo(refundMethod);
-		} else if (refundMethod.contains("ACH")) {
-			assertThat(neededLine.getRefundMethod()).isEqualTo("EFT");
-		} else if (refundMethod.contains("Card")) {
-			assertThat(neededLine.getRefundMethod()).isEqualTo("CRDC");
-		} else {
-			assertThat(neededLine.getRefundMethod()).isEqualTo(refundMethod);
-		}
-		assertThat(neededLine.getIssueDate()).isEqualTo(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MMddyyyy")));
-		assertThat(neededLine.getAgreementNumber()).isEqualTo(policyNumber);
-		assertThat(neededLine.getAgreementSourceSystem()).isEqualTo("PAS");
-		assertThat(neededLine.getProductType()).isEqualTo(productType);
-		assertThat(neededLine.getCompanyId()).isEqualTo(companyId);
-		assertThat(neededLine.getInsuredFirstName()).isNotEmpty();
-		assertThat(neededLine.getInsuredLastName()).isNotEmpty();
-		//TODO update once the deceased indicator is implemented
-		assertThat(neededLine.getDeceasedNamedInsuredFlag()).isEqualTo(deceasedNamedInsuredFlag);
-		if (null == policyState) {
-			assertThat(neededLine.getPolicyState()).isNotEmpty();
-		} else {
-			assertThat(neededLine.getPolicyState()).isEqualTo(policyState);
-		}
-		assertThat(neededLine.getRefundAmount()).isEqualTo(refundAmount + ".00");
-		assertThat(neededLine.getPayeeName()).isEqualTo(neededLine.getInsuredFirstName() + " " + neededLine.getInsuredLastName());
-		assertThat(neededLine.getPayeeStreetAddress1()).isNotEmpty();
-		assertThat(neededLine.getPayeeCity()).isNotEmpty();
-		assertThat(neededLine.getPayeeState()).isNotEmpty();
-		assertThat(neededLine.getPayeeZip()).isNotEmpty();
-		assertThat(neededLine.getInsuredEmailId()).isEqualTo(email);
-		assertThat(neededLine.getCheckNumber()).isEqualTo("");
-		assertThat(neededLine.getPrinterIdentificationCode()).isEqualTo("FFD");
-		assertThat(neededLine.getRefundReason()).isEqualTo("Overpayment");
-		assertThat(neededLine.getRefundReasonDescription()).isEqualTo("");
-		if (refundMethod.contains("CHCK")) {
-			assertThat(neededLine.getReferencePaymentTransactionNumber()).isEqualTo("");
-		} else {
-			assertThat(neededLine.getReferencePaymentTransactionNumber()).isNotEmpty();
-		}
-		assertThat(neededLine.geteRefundEligible()).isEqualTo(refundEligible);
-	}
-
-	@SuppressWarnings("Unchecked")
-	public void refundRecordInFileCheck(String policyNumber, String refundType, String refundMethod, String productType, String companyId, String deceasedNamedInsuredFlag, String policyState,
-			String refundAmount, String email, String refundEligible)
-			throws IOException {
-		//TODO waitForFilesAppearance doesn't work in VDMs
-		if (!StringUtils.isEmpty(PropertyProvider.getProperty("scrum.envs.ssh")) && !"true".equals(PropertyProvider.getProperty("scrum.envs.ssh"))) {
-			mainApp().open();
-			SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-			BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains("Type", "Refund").getCell(TYPE).controls.links.get("Refund").click();
-			String transactionID = acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_ID.getLabel(), StaticElement.class).getValue();
-			acceptPaymentActionTab.back();
-
+		CustomSoftAssertions.assertSoftly(softly -> {
 			//TODO doesn't work in VDMs
-			RemoteHelper.get().waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, 10, policyNumber, transactionID);
-			String neededFilePath = RemoteHelper.get().waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, "csv", 10, policyNumber).get(0);
-			String fileName = neededFilePath.replace(REFUND_GENERATION_FOLDER_PATH, "");
+	/*        RemoteHelper.waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, 10, policyNumber);
+	        String neededFilePath = RemoteHelper.waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, "csv", 10, policyNumber).get(0);
+	        String fileName = neededFilePath.replace(REFUND_GENERATION_FOLDER_PATH, "");
 
-			RemoteHelper.get().downloadFile(neededFilePath, LOCAL_FOLDER_PATH + fileName);
-
+	        RemoteHelper.downloadFile(neededFilePath, LOCAL_FOLDER_PATH + fileName);*/
+			String fileName = "20180310_014138_DSB_E_PASSYS_DSBCTRL_7025_D.csv";
 			List<DisbursementEngineHelper.DisbursementFile> listOfRecordsInFile = DisbursementEngineHelper.readDisbursementFile(LOCAL_FOLDER_PATH + fileName);
 			DisbursementEngineHelper.DisbursementFile neededLine = null;
 			for (DisbursementEngineHelper.DisbursementFile s : listOfRecordsInFile) {
@@ -165,50 +94,124 @@ public class RefundProcessHelper extends PolicyBilling {
 					neededLine = s;
 				}
 			}
-			assertThat(neededLine.getRecordType()).isEqualTo("D");
-			assertThat(neededLine.getRequestRefereceId()).isEqualTo(transactionID);
-			assertThat(neededLine.getRefundType()).isEqualTo(refundType);
+			softly.assertThat(neededLine.getRecordType()).isEqualTo("D");
+			softly.assertThat(neededLine.getRequestRefereceId()).isEqualTo(transactionID);
+			softly.assertThat(neededLine.getRefundType()).isEqualTo(refundType);
 			// RefundMethod = 'CHCK' - check, 'EFT' - eft, 'CRDC' - credit/debit card
-			if (refundMethod.contains("CHCK") || refundMethod.contains("Check")) {
-				assertThat(neededLine.getRefundMethod()).isEqualTo(refundMethod);
-			} else if (refundMethod.contains("ACH") || refundMethod.contains("EFT")) {
-				assertThat(neededLine.getRefundMethod()).isEqualTo("EFT");
+			if (refundMethod.contains("CHCK")) {
+				softly.assertThat(neededLine.getRefundMethod()).isEqualTo(refundMethod);
+			} else if (refundMethod.contains("ACH")) {
+				softly.assertThat(neededLine.getRefundMethod()).isEqualTo("EFT");
 			} else if (refundMethod.contains("Card")) {
-				assertThat(neededLine.getRefundMethod()).isEqualTo("CRDC");
+				softly.assertThat(neededLine.getRefundMethod()).isEqualTo("CRDC");
 			} else {
-				assertThat(neededLine.getRefundMethod()).isEqualTo(refundMethod);
+				softly.assertThat(neededLine.getRefundMethod()).isEqualTo(refundMethod);
 			}
-			assertThat(neededLine.getIssueDate()).isEqualTo(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MMddyyyy")));
-			assertThat(neededLine.getAgreementNumber()).isEqualTo(policyNumber);
-			assertThat(neededLine.getAgreementSourceSystem()).isEqualTo("PAS");
-			assertThat(neededLine.getProductType()).isEqualTo(productType);
-			assertThat(neededLine.getCompanyId()).isEqualTo(companyId);
-			assertThat(neededLine.getInsuredFirstName()).isNotEmpty();
-			assertThat(neededLine.getInsuredLastName()).isNotEmpty();
+			softly.assertThat(neededLine.getIssueDate()).isEqualTo(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MMddyyyy")));
+			softly.assertThat(neededLine.getAgreementNumber()).isEqualTo(policyNumber);
+			softly.assertThat(neededLine.getAgreementSourceSystem()).isEqualTo("PAS");
+			softly.assertThat(neededLine.getProductType()).isEqualTo(productType);
+			softly.assertThat(neededLine.getCompanyId()).isEqualTo(companyId);
+			softly.assertThat(neededLine.getInsuredFirstName()).isNotEmpty();
+			softly.assertThat(neededLine.getInsuredLastName()).isNotEmpty();
 			//TODO update once the deceased indicator is implemented
-			assertThat(neededLine.getDeceasedNamedInsuredFlag()).isEqualTo(deceasedNamedInsuredFlag);
+			softly.assertThat(neededLine.getDeceasedNamedInsuredFlag()).isEqualTo(deceasedNamedInsuredFlag);
 			if (null == policyState) {
-				assertThat(neededLine.getPolicyState()).isNotEmpty();
+				softly.assertThat(neededLine.getPolicyState()).isNotEmpty();
 			} else {
-				assertThat(neededLine.getPolicyState()).isEqualTo(policyState);
+				softly.assertThat(neededLine.getPolicyState()).isEqualTo(policyState);
 			}
-			assertThat(neededLine.getRefundAmount()).isEqualTo(new Dollar(refundAmount).toPlaingString());
-			assertThat(neededLine.getPayeeName()).isEqualTo(neededLine.getInsuredFirstName() + " " + neededLine.getInsuredLastName());
-			assertThat(neededLine.getPayeeStreetAddress1()).isNotEmpty();
-			assertThat(neededLine.getPayeeCity()).isNotEmpty();
-			assertThat(neededLine.getPayeeState()).isNotEmpty();
-			assertThat(neededLine.getPayeeZip()).isNotEmpty();
-			assertThat(neededLine.getInsuredEmailId()).isEqualTo(email);
-			assertThat(neededLine.getCheckNumber()).isEqualTo("");
-			assertThat(neededLine.getPrinterIdentificationCode()).isEqualTo("FFD");
-			assertThat(neededLine.getRefundReason()).isEqualTo("Overpayment");
-			assertThat(neededLine.getRefundReasonDescription()).isEqualTo("");
-			if (refundMethod.contains("CHCK") || refundMethod.contains("Check")) {
-				assertThat(neededLine.getReferencePaymentTransactionNumber()).isEqualTo("");
+			softly.assertThat(neededLine.getRefundAmount()).isEqualTo(refundAmount + ".00");
+			softly.assertThat(neededLine.getPayeeName()).isEqualTo(neededLine.getInsuredFirstName() + " " + neededLine.getInsuredLastName());
+			softly.assertThat(neededLine.getPayeeStreetAddress1()).isNotEmpty();
+			softly.assertThat(neededLine.getPayeeCity()).isNotEmpty();
+			softly.assertThat(neededLine.getPayeeState()).isNotEmpty();
+			softly.assertThat(neededLine.getPayeeZip()).isNotEmpty();
+			softly.assertThat(neededLine.getInsuredEmailId()).isEqualTo(email);
+			softly.assertThat(neededLine.getCheckNumber()).isEqualTo("");
+			softly.assertThat(neededLine.getPrinterIdentificationCode()).isEqualTo("FFD");
+			softly.assertThat(neededLine.getRefundReason()).isEqualTo("Overpayment");
+			softly.assertThat(neededLine.getRefundReasonDescription()).isEqualTo("");
+			if (refundMethod.contains("CHCK")) {
+				softly.assertThat(neededLine.getReferencePaymentTransactionNumber()).isEqualTo("");
 			} else {
-				assertThat(neededLine.getReferencePaymentTransactionNumber()).isNotEmpty();
+				softly.assertThat(neededLine.getReferencePaymentTransactionNumber()).isNotEmpty();
 			}
-			assertThat(neededLine.geteRefundEligible()).isEqualTo(refundEligible);
+			softly.assertThat(neededLine.geteRefundEligible()).isEqualTo(refundEligible);
+		});
+	}
+
+	@SuppressWarnings("Unchecked")
+	public void refundRecordInFileCheck(String policyNumber, String refundType, String refundMethod, String productType, String companyId, String deceasedNamedInsuredFlag, String policyState,
+			String refundAmount, String email, String refundEligible) {
+		//TODO waitForFilesAppearance doesn't work in VDMs
+		if (!StringUtils.isEmpty(PropertyProvider.getProperty("scrum.envs.ssh")) && !"true".equals(PropertyProvider.getProperty("scrum.envs.ssh"))) {
+			mainApp().open();
+			SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+			BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains("Type", "Refund").getCell(TYPE).controls.links.get("Refund").click();
+			CustomSoftAssertions.assertSoftly(softly -> {
+				String transactionID = acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_ID.getLabel(), StaticElement.class).getValue();
+				acceptPaymentActionTab.back();
+
+				//TODO doesn't work in VDMs
+				RemoteHelper.get().waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, 10, policyNumber, transactionID);
+				String neededFilePath = RemoteHelper.get().waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, "csv", 10, policyNumber).get(0);
+				String fileName = neededFilePath.replace(REFUND_GENERATION_FOLDER_PATH, "");
+
+				RemoteHelper.get().downloadFile(neededFilePath, LOCAL_FOLDER_PATH + fileName);
+
+				List<DisbursementEngineHelper.DisbursementFile> listOfRecordsInFile = DisbursementEngineHelper.readDisbursementFile(LOCAL_FOLDER_PATH + fileName);
+				DisbursementEngineHelper.DisbursementFile neededLine = null;
+				for (DisbursementEngineHelper.DisbursementFile s : listOfRecordsInFile) {
+					if (s.getAgreementNumber().equals(policyNumber)) {
+						neededLine = s;
+					}
+				}
+				softly.assertThat(neededLine.getRecordType()).isEqualTo("D");
+				softly.assertThat(neededLine.getRequestRefereceId()).isEqualTo(transactionID);
+				softly.assertThat(neededLine.getRefundType()).isEqualTo(refundType);
+				// RefundMethod = 'CHCK' - check, 'EFT' - eft, 'CRDC' - credit/debit card
+				if (refundMethod.contains("CHCK") || refundMethod.contains("Check")) {
+					softly.assertThat(neededLine.getRefundMethod()).isEqualTo(refundMethod);
+				} else if (refundMethod.contains("ACH") || refundMethod.contains("EFT")) {
+					softly.assertThat(neededLine.getRefundMethod()).isEqualTo("EFT");
+				} else if (refundMethod.contains("Card")) {
+					softly.assertThat(neededLine.getRefundMethod()).isEqualTo("CRDC");
+				} else {
+					softly.assertThat(neededLine.getRefundMethod()).isEqualTo(refundMethod);
+				}
+				softly.assertThat(neededLine.getIssueDate()).isEqualTo(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MMddyyyy")));
+				softly.assertThat(neededLine.getAgreementNumber()).isEqualTo(policyNumber);
+				softly.assertThat(neededLine.getAgreementSourceSystem()).isEqualTo("PAS");
+				softly.assertThat(neededLine.getProductType()).isEqualTo(productType);
+				softly.assertThat(neededLine.getCompanyId()).isEqualTo(companyId);
+				softly.assertThat(neededLine.getInsuredFirstName()).isNotEmpty();
+				softly.assertThat(neededLine.getInsuredLastName()).isNotEmpty();
+				//TODO update once the deceased indicator is implemented
+				softly.assertThat(neededLine.getDeceasedNamedInsuredFlag()).isEqualTo(deceasedNamedInsuredFlag);
+				if (null == policyState) {
+					softly.assertThat(neededLine.getPolicyState()).isNotEmpty();
+				} else {
+					softly.assertThat(neededLine.getPolicyState()).isEqualTo(policyState);
+				}
+				softly.assertThat(neededLine.getRefundAmount()).isEqualTo(new Dollar(refundAmount).toPlaingString());
+				softly.assertThat(neededLine.getPayeeName()).isEqualTo(neededLine.getInsuredFirstName() + " " + neededLine.getInsuredLastName());
+				softly.assertThat(neededLine.getPayeeStreetAddress1()).isNotEmpty();
+				softly.assertThat(neededLine.getPayeeCity()).isNotEmpty();
+				softly.assertThat(neededLine.getPayeeState()).isNotEmpty();
+				softly.assertThat(neededLine.getPayeeZip()).isNotEmpty();
+				softly.assertThat(neededLine.getInsuredEmailId()).isEqualTo(email);
+				softly.assertThat(neededLine.getCheckNumber()).isEqualTo("");
+				softly.assertThat(neededLine.getPrinterIdentificationCode()).isEqualTo("FFD");
+				softly.assertThat(neededLine.getRefundReason()).isEqualTo("Overpayment");
+				softly.assertThat(neededLine.getRefundReasonDescription()).isEqualTo("");
+				if (refundMethod.contains("CHCK") || refundMethod.contains("Check")) {
+					softly.assertThat(neededLine.getReferencePaymentTransactionNumber()).isEqualTo("");
+				} else {
+					softly.assertThat(neededLine.getReferencePaymentTransactionNumber()).isNotEmpty();
+				}
+				softly.assertThat(neededLine.geteRefundEligible()).isEqualTo(refundEligible);
+			});
 		} else {
 			//to make sure Automated refund is generated also on SCRUM team envs
 			mainApp().open();
@@ -273,17 +276,19 @@ public class RefundProcessHelper extends PolicyBilling {
 	 * @details
 	 */
 	public void pas7298_pendingManualRefunds(String pendingRefundAmount, String approvedRefundAmount, String paymentMethod) {
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), new Dollar(pendingRefundAmount));
+		CustomSoftAssertions.assertSoftly(softly -> {
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+			billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), new Dollar(pendingRefundAmount));
 
-		billingAccount.refund().manualRefundPerform(paymentMethod, approvedRefundAmount);
-		assertThat("Refund").isEqualTo(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue());
-		approvedRefundVoid();
+			billingAccount.refund().manualRefundPerform(paymentMethod, approvedRefundAmount);
+			softly.assertThat("Refund").isEqualTo(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue());
+			approvedRefundVoid();
 
-		billingAccount.refund().manualRefundPerform(paymentMethod, pendingRefundAmount);
-		assertThat("Refund").isNotEqualTo(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue());
-		pendingRefundLinksCheck();
-		pendingRefundVoid();
+			billingAccount.refund().manualRefundPerform(paymentMethod, pendingRefundAmount);
+			softly.assertThat("Refund").isNotEqualTo(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue());
+			pendingRefundLinksCheck(softly);
+			pendingRefundVoid(softly);
+		});
 	}
 
 	/**
@@ -303,35 +308,37 @@ public class RefundProcessHelper extends PolicyBilling {
 	 * @details
 	 */
 	public void pas7298_pendingAutomatedRefunds(String policyNumber, String approvedRefundAmount, String pendingRefundAmount, String paymentMethod, TimePoints getTimePoints) {
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		Dollar totalDue1 = BillingSummaryPage.getTotalDue();
-		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue1.add(new Dollar(approvedRefundAmount)));
-		LocalDateTime refundDate = getTimePoints.getRefundDate(DateTimeUtils.getCurrentDateTime());
-		TimeSetterUtil.getInstance().nextPhase(refundDate);
-		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		CustomSoftAssertions.assertSoftly(softly -> {
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+			Dollar totalDue1 = BillingSummaryPage.getTotalDue();
+			billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue1.add(new Dollar(approvedRefundAmount)));
+			LocalDateTime refundDate = getTimePoints.getRefundDate(DateTimeUtils.getCurrentDateTime());
+			TimeSetterUtil.getInstance().nextPhase(refundDate);
+			JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		//BUG PAS-12336 Automated refunds are not generated
-		assertThat("Refund").isEqualTo(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue());
-		approvedRefundVoid();
+			mainApp().open();
+			SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+			//BUG PAS-12336 Automated refunds are not generated
+			softly.assertThat("Refund").isEqualTo(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue());
+			approvedRefundVoid();
 
-		Dollar totalDue2 = BillingSummaryPage.getTotalDue();
-		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue2.add(new Dollar(pendingRefundAmount)));
-		LocalDateTime refundDate2 = getTimePoints.getRefundDate(DateTimeUtils.getCurrentDateTime());
-		TimeSetterUtil.getInstance().nextPhase(refundDate2);
-		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+			Dollar totalDue2 = BillingSummaryPage.getTotalDue();
+			billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue2.add(new Dollar(pendingRefundAmount)));
+			LocalDateTime refundDate2 = getTimePoints.getRefundDate(DateTimeUtils.getCurrentDateTime());
+			TimeSetterUtil.getInstance().nextPhase(refundDate2);
+			JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		assertThat("Refund").isNotEqualTo(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue());
-		pendingRefundLinksCheck();
-		//TODO failing because of LastPaymentMethodStub configuration and tolerance limit. Will work when we will be updating stub data on the fly.
-		pendingRefundPaymentMethodCheck(paymentMethod);
-		pendingRefundVoid();
+			mainApp().open();
+			SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE)).doesNotHaveValue("Refund");
+			pendingRefundLinksCheck(softly);
+			//TODO failing because of LastPaymentMethodStub configuration and tolerance limit. Will work when we will be updating stub data on the fly.
+			pendingRefundPaymentMethodCheck(paymentMethod, softly);
+			pendingRefundVoid(softly);
+		});
 	}
 
-	private void pendingRefundPaymentMethodCheck(String paymentMethod) {
+	private void pendingRefundPaymentMethodCheck(String paymentMethod, ETCSCoreSoftAssertions softly) {
 		BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(TYPE).controls.links.get("Refund").click();
 		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD)).valueContains(paymentMethod);
 		acceptPaymentActionTab.back();
@@ -347,23 +354,23 @@ public class RefundProcessHelper extends PolicyBilling {
 		Page.dialogConfirmation.confirm();
 	}
 
-	private void pendingRefundLinksCheck() {
-		assertThat("Refund").isEqualTo(BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(TYPE).getValue());
-		assertThat(BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(ACTION).controls.links.get(1)).hasValue("Approve");
-		assertThat(BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(ACTION).controls.links.get(2)).hasValue("Reject");
-		assertThat(BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(ACTION).controls.links.get(3)).hasValue("Void");
-		assertThat(BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(ACTION).controls.links.get(4)).hasValue("Change");
+	private void pendingRefundLinksCheck(ETCSCoreSoftAssertions softly) {
+		softly.assertThat(BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(TYPE)).hasValue("Refund");
+		softly.assertThat(BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(ACTION).controls.links.get(1)).hasValue("Approve");
+		softly.assertThat(BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(ACTION).controls.links.get(2)).hasValue("Reject");
+		softly.assertThat(BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(ACTION).controls.links.get(3)).hasValue("Void");
+		softly.assertThat(BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(ACTION).controls.links.get(4)).hasValue("Change");
 	}
 
-	private void pendingRefundVoid() {
+	private void pendingRefundVoid(ETCSCoreSoftAssertions softly) {
 		BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(ACTION).controls.links.get("Void").click();
 		Page.dialogConfirmation.confirm();
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE)).hasValue("Adjustment");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON)).hasValue("Pending Refund Payment Voided");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS)).hasValue("Applied");
+		softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE)).hasValue("Adjustment");
+		softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON)).hasValue("Pending Refund Payment Voided");
+		softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS)).hasValue("Applied");
 
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(TYPE)).hasValue("Refund");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(STATUS)).hasValue("Voided");
+		softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(TYPE)).hasValue("Refund");
+		softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(STATUS)).hasValue("Voided");
 	}
 
 	/**

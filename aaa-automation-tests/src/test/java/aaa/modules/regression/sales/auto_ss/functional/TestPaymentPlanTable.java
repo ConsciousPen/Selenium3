@@ -46,9 +46,9 @@ public class TestPaymentPlanTable extends AutoSSBaseTest {
 
 		//Check Payment Plan table
 		assertThat(getTablePaymentPlans()).isPresent();
-		getTablePaymentPlans().getRow(1).getCell("Premium").getValue().startsWith("$");
-		getTablePaymentPlans().getRow(1).getCell("Minimum Down Payment").getValue().startsWith("$");
-		getTablePaymentPlans().getRow(1).getCell("Installment Amount (w/o fees)").getValue().startsWith("$");
+		assertThat(getTablePaymentPlans().getRow(1).getCell("Premium").getValue()).startsWith("$");
+		assertThat(getTablePaymentPlans().getRow(1).getCell("Minimum Down Payment").getValue()).startsWith("$");
+		assertThat(getTablePaymentPlans().getRow(1).getCell("Installment Amount (w/o fees)").getValue()).startsWith("$");
 	}
 
 	protected Table getTablePaymentPlans() {

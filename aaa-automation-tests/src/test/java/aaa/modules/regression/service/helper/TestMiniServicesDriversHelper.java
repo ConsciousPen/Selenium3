@@ -466,7 +466,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyDefaultTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -740,7 +740,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	protected void pas13301_validateDriverLicenseAndAgeFirstLicensedBody() {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 

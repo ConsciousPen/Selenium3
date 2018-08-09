@@ -2261,8 +2261,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		softly.assertThat(DocGenHelper.getDocumentDataElemByName("DiscNm", DocGenEnum.Documents.AHDEXX, query).get(0).toString()).contains("AAA Membership Discount");
 		softly.assertThat(ahdexxDiscountTagPresentInTheForm(query, "AAA Membership Discount")).isTrue();
 		if ("TRUE".equals(membershipEligibilitySwitch)) {
-			assertThat(PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1)).hasValue(MESSAGE_INFO_1);
-			PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).verify.contains(MESSAGE_BULLET_8);
+			softly.assertThat(PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1)).hasValue(MESSAGE_INFO_1);
+			softly.assertThat(PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1)).valueContains(MESSAGE_BULLET_8);
 			softly.assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("No");
 			softly.assertThat(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField())
 					.as("eValue discount tag problem").isEqualTo("13.5%");

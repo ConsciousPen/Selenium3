@@ -62,7 +62,7 @@ public class TestPolicySplit extends AutoSSBaseTest {
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
 		assertSoftly(softly -> {
 			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesTable.DESCRIPTION,
-					"has been split to a new quote").isPresent());
+					"has been split to a new quote")).isPresent();
 		});
 		String description = NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "has been split to a new quote").getCell("Description").getValue();
 		String quoteNumber = description.substring(description.indexOf("Q" + getState() + "SS"));

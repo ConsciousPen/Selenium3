@@ -1017,9 +1017,11 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String policyNumber = policyCreation();
 		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, PENDING_REFUND_AMOUNT);
 
-		refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
-
-		stubRequestCC.cleanUp();
+		try {
+			refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+		} finally {
+			stubRequestCC.cleanUp();
+		}
 	}
 
 	// *

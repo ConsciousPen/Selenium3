@@ -14,9 +14,6 @@ import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.modules.policy.HomeSSHO3BaseTest;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 //TODO: This is fixed and passing
@@ -37,7 +34,6 @@ public class TestNotOrderedMembershipError extends HomeSSHO3BaseTest {
 
     private ReportsTab reportsTab = new ReportsTab();
     private ErrorTab errorTab = new ErrorTab();
-    private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, description = "Membership Report order validation should be thrown on continue, Tab Out on Reports Tab as well as Premium Calc.")
@@ -91,7 +87,7 @@ public class TestNotOrderedMembershipError extends HomeSSHO3BaseTest {
         policy.endorse().start();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
         //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
-        errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage).verify.contains(notOrderedMembershipSecondMessage);
+        assertThat(errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage)).exists();
         errorTab.cancel();
         log.info("Not Ordered Membership Errors Validation for Endorsement Quote Successfully Completed..");
         mainApp().close();
