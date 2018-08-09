@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 
-@StateList(states = Constants.States.AZ)
+@StateList(states = Constants.States.CA)
 public class TestValidateMembership_NB15_NB30 extends TestMembershipTemplate {
 
     @Override
@@ -37,7 +37,7 @@ public class TestValidateMembership_NB15_NB30 extends TestMembershipTemplate {
     @Parameters({"state"})
     @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-16457")
-    public void pas16457_validateMembershipNB15_Active(@Optional("AZ") String state) {
+    public void pas16457_validateMembershipNB15_Active(@Optional("CA") String state) {
 
         pas16457_validateMembershipNB15();
     }
