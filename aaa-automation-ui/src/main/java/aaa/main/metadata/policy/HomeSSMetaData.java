@@ -105,7 +105,6 @@ public final class HomeSSMetaData {
 		public static final class AAAMembership extends MetaData {
 			public static final AssetDescriptor<ComboBox> CURRENT_AAA_MEMBER = declare("Current AAA Member", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> MEMBERSHIP_NUMBER = declare("Membership number", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last name", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> MEMBER_SINCE_DATE = declare("Member Since Date", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> OVERRIDE_TYPE = declare("Override Type", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> MEM_SINCE_DATE = declare("Member Since Date", TextBox.class, Waiters.AJAX);
@@ -251,7 +250,6 @@ public final class HomeSSMetaData {
 		}
 
 		public static final class AaaMembershipReportRow extends MetaData {
-			public static final AssetDescriptor<StaticElement> LAST_NAME = declare("Last Name", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> MEMBERSHIP_NO = declare("Membership No.", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> MEMBER_SINCE_DATE = declare("Member Since Date", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> ORDER_DATE = declare("Order Date", StaticElement.class);

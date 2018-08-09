@@ -1195,7 +1195,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			// create policy via pas
 			String policyNumber = getCopiedPolicy();
-
 			// Endorsement
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
