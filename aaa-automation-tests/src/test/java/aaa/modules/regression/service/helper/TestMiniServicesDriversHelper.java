@@ -1,5 +1,17 @@
 package aaa.modules.regression.service.helper;
 
+import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.MIDDLE_NAME;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
+import javax.ws.rs.core.Response;
+import org.assertj.core.api.SoftAssertions;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.common.collect.ImmutableList;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -17,22 +29,8 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableList;
-import org.assertj.core.api.SoftAssertions;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
-
-import javax.ws.rs.core.Response;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
-
-import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.MIDDLE_NAME;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
@@ -1344,6 +1342,10 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			driver2ExpectedAfterRemove.driverStatus = "pendingRemoval";
 			driver2ExpectedAfterRemove.availableActions.remove("remove");
 
+			//Sort drivers list as it should be after drivers are removed
+			List<DriversDto> expectedSortedDriverListAfterRemove = viewDriversResponse.driverList;
+			expectedSortedDriverListAfterRemove.sort(DriversDto.DRIVERS_COMPARATOR);
+
 			//Remove driver 1
 			removeDriverRequest.removalReasonCode = "RD1001";
 			DriversDto removeDriver1Response = HelperCommon.removeDriver(policyNumber, driver1.oid, removeDriverRequest);
@@ -1357,9 +1359,9 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			//Run viewEndorsementDrivers and validate that it still contains drivers that will be removed
 			ViewDriversResponse viewDriversResponseAfterDelete = HelperCommon.viewEndorsementDrivers(policyNumber);
 			softly.assertThat(viewDriversResponseAfterDelete.driverList.size()).isEqualTo(3);
-			softly.assertThat(viewDriversResponseAfterDelete.driverList.get(0)).isEqualToComparingFieldByFieldRecursively(driverFNI);
-			softly.assertThat(viewDriversResponseAfterDelete.driverList.get(1)).isEqualToComparingFieldByFieldRecursively(driver1ExpectedAfterRemove);
-			softly.assertThat(viewDriversResponseAfterDelete.driverList.get(2)).isEqualToComparingFieldByFieldRecursively(driver2ExpectedAfterRemove);
+			softly.assertThat(viewDriversResponseAfterDelete.driverList.get(0)).isEqualToComparingFieldByFieldRecursively(expectedSortedDriverListAfterRemove.get(0));
+			softly.assertThat(viewDriversResponseAfterDelete.driverList.get(1)).isEqualToComparingFieldByFieldRecursively(expectedSortedDriverListAfterRemove.get(1));
+			softly.assertThat(viewDriversResponseAfterDelete.driverList.get(2)).isEqualToComparingFieldByFieldRecursively(expectedSortedDriverListAfterRemove.get(2));
 
 			//Run view drivers assignment and validate that drivers that are going to be removed are not present in response
 			validateDriverAssignmentAfterRemove_pas14641_pas14640_pas14642(softly, policyNumber, driver1, driver2);
