@@ -12,5 +12,4 @@ GeneralTab_MembershipValid: {
 TestData_RMS_Membership_Effective_Date: {
       Current AAA Member: 'Yes',
       Membership Number: 9999994444444440,
-      Member Last Name: 'FourYearMembershipTenure'
 }
