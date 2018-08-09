@@ -445,7 +445,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		automatedRefundOnDate(refundAmount, refundDate);
 	}
 
-	protected void issueAutomatedRefundOnRefundDate() {
+	protected void automatedRefundOnRefundDate() {
 		LocalDateTime refundDate = getTimePoints().getRefundDate(
 				getTimePoints().getRenewCustomerDeclineDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate()));
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
@@ -459,16 +459,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPROVED)
 				.verifyPresent();
 		log.info("Automated refund approved on {}", refundDate);
-		log.info("Issue refund");
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.REFUND)
-				.getCell(BillingConstants.BillingPendingTransactionsTable.ACTION).controls.links.get(ActionConstants.BillingPaymentsAndOtherTransactionAction.ISSUE).click();
-		Page.dialogConfirmation.confirm();
-		new BillingPaymentsAndTransactionsVerifier()
-				.setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)
-				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.AUTOMATED_REFUND)
-				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.ISSUED)
-				.verifyPresent();
-		log.info("Refund issued successfully");
 	}
 
 	protected void voidRefundOnStartDatePlus25() {
