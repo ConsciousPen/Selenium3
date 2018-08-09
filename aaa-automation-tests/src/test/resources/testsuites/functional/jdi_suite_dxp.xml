@@ -508,6 +508,7 @@
                     <include name="pas15370_driverWithMoreThanTwentyPointsError"/>
                     <include name="pas15385_driverWithFourOrMoreIncidentsError"/>
                     <include name="pas15375_duiIsUnacceptableForDriverUnderTheAgeError"/>
+                    <include name="pas15383_driverWithOneOrMoreFaultAccidents"/>
                 </methods>
             </class>
         </classes>
