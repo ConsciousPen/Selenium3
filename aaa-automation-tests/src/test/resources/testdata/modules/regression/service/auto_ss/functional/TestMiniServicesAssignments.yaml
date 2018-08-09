@@ -6,6 +6,10 @@ TestData_ThreeVehicles: {
     VehicleTab: ['@VehicleTab_1', '@VehicleTab_2', '@VehicleTab_3'],
 }
 
+TestData_VehicleTrailer: {
+    VehicleTab: ['@VehicleTab_1','@VehicleTab_Trailer'],
+}
+
 VehicleTab_1: {
     Add Vehicle: Click,
     Usage: Pleasure,
@@ -24,18 +28,33 @@ VehicleTab_3: {
     VIN: 1G2NE52T9XM924276
 }
 
-TestData_TwoDrivers: {
-    DriverTab: ['@Driver_one', '@Driver_two'],
-}
-
-TestData_ThreeDrivers: {
-    DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three'],
-}
+VehicleTab_Trailer: {
+   Add Vehicle: Click,
+   Type: Trailer,
+   Trailer Type: Travel Trailer,
+   Primary operator: Index=2,
+  Usage: Traveling Primary Residence,
+   VIN: 1GNWGPFG8B65,
+   Year: 2017,
+   Other Make: BHN,
+   Other Model: 456,
+   Stat Code: Recreational Trailer,
+   Stated Amount: 55000
+    }
 
 TestData_FourDrivers: {
     DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three', '@Driver_four'],
 }
 
+TestData_TwoDrivers: {
+    DriverTab: ['@Driver_one', '@Driver_two'],
+}
+TestData_ThreeDrivers: {
+    DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three'],
+}
+TestData_FourDrivers: {
+    DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three', '@Driver_four'],
+}
 Driver_one: {
   Occupation: Self-Employed,
   Age First Licensed: 18,

@@ -74,18 +74,6 @@ public interface EvalueInsertSetupPreConditions {
 			+ "AND CODE='eValue' \n"
 			+ "and RiskStateCd = 'OR'";
 
-	String EVALUE_CONFIGURATION_PER_STATE_INSERT = "INSERT INTO LOOKUPVALUE\n"
-			+ " (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id)\n"
-			+ " values\n"
-			+ " ('AAARolloutEligibilityLookupValue', 'eValue', 'TRUE', 'AAA_SS', '%s', null, null, null,\n"
-			+ " (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
-
-	String PAPERLESS_PREFRENCES_CONFIGURATION_PER_STATE_INSERT = "INSERT INTO LOOKUPVALUE\n"
-			+ " (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id)\n"
-			+ " values\n"
-			+ " ('AAARolloutEligibilityLookupValue', 'PaperlessPreferences', 'TRUE', 'AAA_SS', '%s', null, null, null,\n"
-			+ " (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
-
 	String EVALUE_CURRENT_BI_LIMIT_CONFIGURATION_INSERT = "INSERT INTO LOOKUPVALUE\n"
 			+ "(DTYPE, CODE, DISPLAYVALUE, PRODUCTCD, RISKSTATECD, EFFECTIVE, EXPIRATION, LOOKUPLIST_ID)\n"
 			+ "values\n"
@@ -109,10 +97,6 @@ public interface EvalueInsertSetupPreConditions {
 
 	String PAPERLESS_PREFERENCE_API_SERVICE_UPDATE = "update propertyconfigurerentity\n"
 			+ "set value = '%s'\n"
-			+ "where propertyname = 'policyPreferenceApiService.policyPreferenceApiUri'";
-
-	String PAPERLESS_PREFERENCE_API_SERVICE_UPDATE_AWS = "update propertyconfigurerentity\n"
-			+ "set value = 'http://%s%sws/policy/preferences'\n"
 			+ "where propertyname = 'policyPreferenceApiService.policyPreferenceApiUri'";
 
 	String AHDRXX_CONFIG_CHECK = "SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n"
@@ -200,10 +184,6 @@ public interface EvalueInsertSetupPreConditions {
 
 	String REFUND_CONFIG_UPDATE = "update LOOKUPVALUE\n"
 			+ "set DISPLAYVALUE='TRUE' where CODE='eRefunds'";
-
-	String LAST_PAYMENT_METHOD_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
-			+ "set value = 'http://%s%sws/billing/lastPayment'\n"
-			+ "where propertyname = 'lastPaymentService.lastPaymentServiceUrl'";
 
 	String LAST_PAYMENT_METHOD_STUB_POINT_UPDATE_WIREMOCK = "update propertyconfigurerentity\n"
 			+ "set value = '%s/%s/payments/lastTransactionInfo/retrieveByPolicyInfo'\n"
