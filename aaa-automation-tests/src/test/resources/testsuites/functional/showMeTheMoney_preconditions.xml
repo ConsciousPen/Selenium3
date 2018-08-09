@@ -1,8 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Show Me The Money Functional Test Suite" verbose="1">
-    <test name="Show Me The Money Precondition Configuration Changes" preserve-order="true">
+<suite name="Show Me The Money Precondition configuration changes" verbose="1">
+    <test name="Update Role Precondition" preserve-order="true">
         <classes>
-            <class name="aaa.modules.regression.finance.operational_reports.PreconditionConfigurationChanges"/>
+            <class name="aaa.modules.regression.finance.operational_reports.UpdateRolePrecondition"/>
         </classes>
     </test>
 </suite>
