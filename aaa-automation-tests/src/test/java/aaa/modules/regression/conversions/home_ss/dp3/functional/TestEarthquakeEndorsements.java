@@ -3,6 +3,7 @@ package aaa.modules.regression.conversions.home_ss.dp3.functional;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.EndorsementForms;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestEndorsementsTabAbstract;
 import aaa.utils.StateList;
@@ -13,6 +14,9 @@ import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.OK)
 public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
+
+	private EndorsementForms.HomeSSEndorsementForms parentEndorsement = EndorsementForms.HomeSSEndorsementForms.DS_04_69;
+	private EndorsementForms.HomeSSEndorsementForms subEndorsement = EndorsementForms.HomeSSEndorsementForms.DS_04_68;
 
 	@Override
 	protected PolicyType getPolicyType() { return PolicyType.HOME_SS_DP3; }
@@ -36,16 +40,14 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17479")
-	public void testEarthquakeEndorsement_Privileged_NewBusiness(@Optional("") String state) {
+	public void testEarthquakeEndorsement_Privileged_NewBusiness(@Optional("OK") String state) {
 		initiateNewBusinessTx(true);
-//		testEndorsementFormsAddAndEdit(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
-//				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
-//		testEndorsementFormsAddAndEdit(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName(),
-//				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
-//		testEndorsementFormsRemove(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName(),
-//				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
-//		testEndorsementFormsRemove(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
-//				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+		addEndorsementForm(parentEndorsement.getName(), parentEndorsement.getFormId());
+		//DS 04 68 should be only available then DS 04 69 is added
+		addEndorsementForm(subEndorsement.getName(), subEndorsement.getFormId());
+
+		pas17039_checkEndorsementFunctionality(parentEndorsement.getName(), subEndorsement.getName(),
+				parentEndorsement.getFormId(), subEndorsement.getFormId());
 	}
 
 	/**
@@ -68,17 +70,15 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17479")
-	public void testEarthquakeEndorsement_Privileged_Endorsement(@Optional("") String state) {
+	public void testEarthquakeEndorsement_Privileged_Endorsement(@Optional("OK") String state) {
 		createPolicy(true);
 		initiateEndorsementTx();
-//		testEndorsementFormsAddAndEdit(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
-//				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
-//		testEndorsementFormsAddAndEdit(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName(),
-//				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
-//		testEndorsementFormsRemove(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName(),
-//				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
-//		testEndorsementFormsRemove(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
-//				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+		addEndorsementForm(parentEndorsement.getName(), parentEndorsement.getFormId());
+		//DS 04 68 should be only available then DS 04 69 is added
+		addEndorsementForm(subEndorsement.getName(), subEndorsement.getFormId());
+
+		pas17039_checkEndorsementFunctionality(parentEndorsement.getName(), subEndorsement.getName(),
+				parentEndorsement.getFormId(), subEndorsement.getFormId());
 	}
 
 	/**
@@ -101,16 +101,14 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17479")
-	public void testEarthquakeEndorsement_Privileged_Renewal(@Optional("") String state) {
+	public void testEarthquakeEndorsement_Privileged_Renewal(@Optional("OK") String state) {
 		createPolicy(true);
 		initiateRenewalTx();
-//		testEndorsementFormsAddAndEdit(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
-//				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
-//		testEndorsementFormsAddAndEdit(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName(),
-//				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
-//		testEndorsementFormsRemove(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName(),
-//				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
-//		testEndorsementFormsRemove(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
-//				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+		addEndorsementForm(parentEndorsement.getName(), parentEndorsement.getFormId());
+		//DS 04 68 should be only available then DS 04 69 is added
+		addEndorsementForm(subEndorsement.getName(), subEndorsement.getFormId());
+
+		pas17039_checkEndorsementFunctionality(parentEndorsement.getName(), subEndorsement.getName(),
+				parentEndorsement.getFormId(), subEndorsement.getFormId());
 	}
 }

@@ -10,10 +10,13 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.xml.model.Document;
 import aaa.main.enums.EndorsementForms;
+import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 
@@ -24,6 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 
+	PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 	EndorsementTab endorsementTab = new EndorsementTab();
 
 	public void initiateNewBusinessTx(Boolean isConversion) {
@@ -102,7 +106,7 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 			addOptionalEndorsement(endorsementFormId);
 		}
 
-		new PremiumsAndCoveragesQuoteTab().calculatePremium();
+		premiumsAndCoveragesQuoteTab.calculatePremium();
 
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.UNDERWRITING_AND_APPROVAL.get());
 		policy.getDefaultView().fillFromTo(getPolicyTD(), UnderwritingAndApprovalTab.class, PurchaseTab.class, true);
@@ -139,18 +143,18 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 	}
 
 	public void finishNewBusinessTx() {
-		new PremiumsAndCoveragesQuoteTab().calculatePremium();
+		premiumsAndCoveragesQuoteTab.calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.UNDERWRITING_AND_APPROVAL.get());
 		policy.getDefaultView().fillFromTo(getPolicyTD(), UnderwritingAndApprovalTab.class, PurchaseTab.class, true);
 		new PurchaseTab().submitTab();
 	}
 
 	public void finishRenewalOrEndorsementTx(Boolean isEndorsementsAdded) {
-		new PremiumsAndCoveragesQuoteTab().calculatePremium();
+		premiumsAndCoveragesQuoteTab.calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.UNDERWRITING_AND_APPROVAL.get());
 
 		TestData td = getPolicyTD();
-		if (isEndorsementsAdded) {
+		if (isEndorsementsAdded && (getPolicyType() == PolicyType.HOME_SS_DP3 || getPolicyType() == PolicyType.HOME_SS_HO3)) {
 			td.adjust(TestData.makeKeyPath(HomeSSMetaData.UnderwritingAndApprovalTab.class.getSimpleName(),
 					HomeSSMetaData.UnderwritingAndApprovalTab.UNDERWRITER_SELECTED_INSPECTION_TYPE.getLabel()), "Interior");
 		}
@@ -160,23 +164,23 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 	}
 
 	public void checkEndorsementIsAvailableInOptionalEndorsements (String endorsementName, String endorsementFormId) {
-		assertThat(endorsementTab.tblOptionalEndorsements.getRowContains("Form ID", endorsementName).isPresent());
+		assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, endorsementName).isPresent());
 		assertThat(endorsementTab.getAddEndorsementLink(endorsementFormId).isPresent());
 	}
 
 	public void checkEndorsementIsNotAvailableInOptionalEndorsements (String... endorsementNames) {
 		for (String endorsementName : endorsementNames) {
-			assertThat(endorsementTab.tblOptionalEndorsements.getRowContains("Form ID", endorsementName).isPresent()).isFalse();
+			assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, endorsementName).isPresent()).isFalse();
 		}
 	}
 
 	public void checkEndorsementIsAvailableInIncludedEndorsements(String endorsementName) {
-		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains("Form ID", endorsementName).isPresent());
+		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, endorsementName).isPresent());
 	}
 
 	public void checkEndorsementIsNotAvailableInIncludedEndorsements(String... endorsementNames) {
 		for (String endorsementName : endorsementNames){
-			assertThat(endorsementTab.tblIncludedEndorsements.getRowContains("Form ID", endorsementName).isPresent()).isFalse();
+			assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, endorsementName).isPresent()).isFalse();
 		}
 	}
 
@@ -188,6 +192,13 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 					.getAsset(HomeSSMetaData.EndorsementTab.EndorsementDS0468.LOCATION_TYPE).setValue("Described Location");
 			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_68)
 					.getAsset(HomeSSMetaData.EndorsementTab.EndorsementDS0468.CONSTRUCTION_TYPE).setValue("Frame");
+		} else if (endorsementFormId == EndorsementForms.HomeSSEndorsementForms.HS_04_36.getFormId()) {
+			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_36)
+					.getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS0436.COVERAGE_LIMIT).setValue("index=1");
+			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_36)
+					.getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS0436.DESCRIPTION_OF_STRUCTURE).setValue("Residence Premises");
+			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_36)
+					.getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS0436.CONSTRUCTION_TYPE).setValue("Frame");
 		}
 
 		endorsementTab.btnSaveForm.click();
@@ -206,6 +217,9 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 		} else if (endorsementFormId == EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId()){
 			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_68)
 					.getAsset(HomeSSMetaData.EndorsementTab.EndorsementDS0468.CONSTRUCTION_TYPE).setValue("Masonry");
+		} else if (endorsementFormId == EndorsementForms.HomeSSEndorsementForms.HS_04_36.getFormId()) {
+			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_36)
+					.getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS0436.CONSTRUCTION_TYPE).setValue("Masonry");
 		}
 
 		endorsementTab.btnSaveForm.click();
@@ -217,6 +231,9 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 		} else if (endorsementFormId == EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId()){
 			assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_68)
 					.getAsset(HomeSSMetaData.EndorsementTab.EndorsementDS0468.CONSTRUCTION_TYPE).getValue()).isEqualTo("Masonry");
+		} else if (endorsementFormId == EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId()) {
+			assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_36)
+					.getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS0436.CONSTRUCTION_TYPE).getValue()).isEqualTo("Masonry");
 		}
 
 		endorsementTab.btnSaveForm.click();
@@ -230,7 +247,7 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 		endorsementTab.getRemoveEndorsementLink(endorsementFormId,1).click();
 		Page.dialogConfirmation.confirm();
 
-		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains("Form ID", endorsementName).isPresent()).isFalse();
+		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, endorsementName).isPresent()).isFalse();
 	}
 
 	public void openAppNonPrivilegedUser(String privilege) {
@@ -263,14 +280,35 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 	 * Non privileged user.
 	 * PAS-14057, PAS-17039
 	 */
-	public void pas17039_checkEndorsementFunctionality() {
-		checkEndorsementIsAvailableInIncludedEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName());
-		checkEndorsementIsAvailableInIncludedEndorsements(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName());
-		editEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
-		editEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
-		removeEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_68.getName(),
-				EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId());
-		removeEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_69.getName(),
-				EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId());
+	public void pas17039_checkEndorsementFunctionality(String endorsementName1, String endorsementName2, String endorsementFormId1, String endorsementFormId2) {
+		checkEndorsementIsAvailableInIncludedEndorsements(endorsementName1);
+		checkEndorsementIsAvailableInIncludedEndorsements(endorsementName2);
+		editEndorsementForm(endorsementFormId1);
+		editEndorsementForm(endorsementFormId2);
+		removeEndorsementForm(endorsementName2, endorsementFormId2);
+		removeEndorsementForm(endorsementName1, endorsementFormId1);
+	}
+
+	public void checkEndorsementsIncreasesPremium(String... endorsementFormIds) {
+		premiumsAndCoveragesQuoteTab.calculatePremium();
+
+		Dollar origPremiumValue = new Dollar(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
+
+		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_ENDORSEMENT.get());
+		for (String endorsementFormId : endorsementFormIds) {
+			addOptionalEndorsement(endorsementFormId);
+		}
+		premiumsAndCoveragesQuoteTab.calculatePremium();
+
+		//Endorsements sum is added.
+		assertThat(new Dollar(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium()).moreThan(origPremiumValue));
+
+		verifyEndorsementsPresent(PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, endorsementFormIds);
+	}
+
+	public void verifyEndorsementsPresent(String columnName, String... endorsements) {
+		for (String endorsement : endorsements) {
+			PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains(columnName, endorsement).verify.present();
+		}
 	}
 }
