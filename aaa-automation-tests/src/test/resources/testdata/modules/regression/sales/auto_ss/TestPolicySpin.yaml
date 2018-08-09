@@ -81,8 +81,7 @@ NamedInsuredInformation: {
 
 AAAProductOwned: {
   Current AAA Member: 'Yes',
-  Membership Number: 4290023667710001,
-  Last name: Smith
+  Membership Number: 4290023667710001
 }
 
 ContactInformation: {

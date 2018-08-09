@@ -6,20 +6,6 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
-    <test name="ContactInfoUpdateServiceCA">
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing">
-                <methods>
-                    <include name="pas1441_emailChangeOutOfPas"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing">
-                <methods>
-                    <include name="pas1441_emailChangeOutOfPas"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test name="TestMiniServicesPremiumBearingAZ">
         <parameter name="state" value="AZ"/>
         <classes>
@@ -225,16 +211,6 @@
             </class>
         </classes>
     </test>
-    <test name="ContactInfoUpdateServiceSS">
-        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
-                <methods>
-                    <include name="pas1441_emailChangeOutOfPas"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test name="UpdateDriverServiceSS">
         <parameter name="state" value="AZ,NY,VA"/>
         <classes>
@@ -388,6 +364,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas14648_MedpmDelimiter"/>
+                    <include name="pas14734_UpdateViewCoverageILAndMedical"/>
                 </methods>
             </class>
         </classes>
@@ -516,7 +493,11 @@
                 <methods>
                     <include name="pas15077_orderReports_endorsement"/>
                     <include name="pas16694_orderReports_not_Named_Insured_endorsement"/>
-                    </methods>
+                    <include name="pas15384_moreThanTwoMinorViolationsError"/>
+                    <include name="pas15371_driversWithNarcoticsDrugOrFelonyConvictionsError"/>
+                    <include name="pas15370_driverWithMoreThanTwentyPointsError"/>
+                    <include name="pas15385_driverWithFourOrMoreIncidentsError"/>
+                </methods>
             </class>
         </classes>
     </test>
@@ -525,10 +506,9 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
                 <methods>
-
                     <include name="pas14475_NameInsuredMaritalStatusPSS"/>
                     <include name="pas16696_AddANameInsuredSameDayNotPolicyEffectiveDate"/>
-                    </methods>
+                </methods>
             </class>
         </classes>
     </test>
@@ -541,6 +521,16 @@
                     <include name="pas14642_NotNamedInsuredAvailableForRatingHardStop"/>
                     <include name="pas14641_NotNamedInsuredUpdateToNotAvailableForRating"/>
                     <include name="pas14653_ViewDriverServiceOrderOfPendingDelete"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Test add/replace vehicle with duplicate VIN when status is pendingRemoval">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesUwRules">
+                <methods>
+                    <include name="pas16577_DuplicateVinAddVehicleServicePendingRemove"/>
                 </methods>
             </class>
         </classes>

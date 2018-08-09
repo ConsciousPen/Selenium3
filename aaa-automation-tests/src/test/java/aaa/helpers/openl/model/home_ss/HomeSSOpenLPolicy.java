@@ -4,6 +4,7 @@ import static aaa.helpers.openl.model.OpenLFile.POLICY_HEADER_ROW_NUMBER;
 import static aaa.helpers.openl.model.OpenLFile.POLICY_SHEET_NAME;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
@@ -71,11 +72,11 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	public List<HomeSSOpenLForm> getForms() {
-		return new ArrayList<>(forms);
+		return forms != null ? new ArrayList<>(forms) : Collections.emptyList();
 	}
 
 	public void setForms(List<HomeSSOpenLForm> forms) {
-		this.forms = new ArrayList<>(forms);
+		this.forms = forms != null ? new ArrayList<>(forms) : Collections.emptyList();
 	}
 
 	public HomeSSOpenLAddress getPolicyAddress() {
