@@ -66,6 +66,7 @@ NamedInsured: {
 AAAMembership: {
   Current AAA Member: 'Yes',
   Membership number: '9436258506738011'
+}
 
 DwellingAddress: {
    Zip code: '85003',

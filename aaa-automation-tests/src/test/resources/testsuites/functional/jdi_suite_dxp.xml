@@ -336,6 +336,16 @@
             </class>
         </classes>
     </test>
+  <!--  <test name="pas15540_RemoveDriverAssignedToTrailer">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments">
+                <methods>
+                    <include name="pas15540_RemoveDriverAssignedToTrailer"/>
+                </methods>
+            </class>
+        </classes>
+    </test> -->
     <test name="pas14501_garagingDifferent">
         <parameter name="state" value="VA, AZ"/>
         <classes>
@@ -497,6 +507,8 @@
                     <include name="pas15371_driversWithNarcoticsDrugOrFelonyConvictionsError"/>
                     <include name="pas15370_driverWithMoreThanTwentyPointsError"/>
                     <include name="pas15385_driverWithFourOrMoreIncidentsError"/>
+                    <include name="pas15375_duiIsUnacceptableForDriverUnderTheAgeError"/>
+                   <!-- <include name="pas15383_driverWithOneOrMoreFaultAccidents"/> -->
                 </methods>
             </class>
         </classes>
