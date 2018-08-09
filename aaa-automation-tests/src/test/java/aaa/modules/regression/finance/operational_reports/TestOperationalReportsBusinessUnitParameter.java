@@ -34,7 +34,7 @@ public class TestOperationalReportsBusinessUnitParameter extends BaseTest {
     public void pas15535_testOperationalReportsBusinessUnitParameter() {
 
         opReportApp().open();
-        orTab.fillTab(testDataManager.getDefault(TestOperationalReportsCheckDeliveryTypeForEuwDetail.class).getTestData("TestData"));
+        orTab.fillTab(getOperationalReportsTD("DataGather","TestData_EUW_Detail"));
 
         //Check "Business Unit” values;
         AdvancedSelectorOR businessUnit = orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.BUSINESS_UNIT);
