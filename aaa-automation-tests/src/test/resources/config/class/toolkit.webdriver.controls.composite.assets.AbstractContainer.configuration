@@ -5,6 +5,7 @@
     "com.exigen.ipb.etcsa.controls.AdvancedSelector": "/.",
     "com.exigen.ipb.etcsa.controls.AdvancedSelector2": "/.",
     "com.exigen.ipb.etcsa.controls.AllocationAmount": "/.",
+    "aaa.toolkit.webdriver.customcontrols.AdvancedSelectorOR": "/.",
     "com.exigen.ipb.etcsa.controls.AutoCompleteBox": "//*[self::input[(@type='text' or @type='password') and not(contains(@style, 'none')) and not(contains(@disabled, 'disabled'))] or self::textarea]",
     "com.exigen.ipb.etcsa.controls.ClickComboBox": "/.",
     "com.exigen.ipb.etcsa.controls.ComboList": "/td[2]",

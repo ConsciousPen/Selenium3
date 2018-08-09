@@ -9,13 +9,6 @@ public interface TestEValueDiscountPreConditions {
 					+ " and CODE = 'eValue'\n"
 					+ " and RISKSTATECD = '%s'";
 
-	String PAPERLESS_PREFERENCES_CONFIGURATION_PER_STATE_CHECK =
-			"select dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id from LOOKUPVALUE\n"
-					+ " where lookuplist_id = \n"
-					+ " (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup')\n"
-					+ " and CODE = 'PaperlessPreferences'\n"
-					+ " and RISKSTATECD = '%s'";
-
 	String EVALUE_STATUS_CHECK = "select evaluestatus from(\n"
 			+ "select ps.id, em.EVALUESTATUS from policysummary ps\n"
 			+ "join AAAEMemberDetailsEntity em on em.id = ps.EMEMBERDETAIL_ID\n"
@@ -93,17 +86,4 @@ public interface TestEValueDiscountPreConditions {
 			+ "and displayvalue = ''''{2}'''' \n"
 			+ "and (SYSDATE-'{'0'}' <= effective and effective < SYSDATE-'{'1'}') \n"
 			+ "and (SYSDATE-'{'2'}' <= expiration and expiration < SYSDATE-'{'3'}'))";
-
-	//TODO jpukenaite delete two last after paperless preferences will be set by default
-	String ADD_PAPERLESS_PREFERENCES_TO_CA_HO = "INSERT INTO LOOKUPVALUE\n"
-			+ "(dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id)\n"
-			+ "values\n"
-			+ "('AAARolloutEligibilityLookupValue', 'PaperlessPreferences', 'TRUE', 'AAA_HO_CA', CA, null, null, null,\n"
-			+ "(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
-
-	String ADD_PAPERLESS_PREFERENCES_TO_CA_CHOICE = "INSERT INTO LOOKUPVALUE\n"
-			+ "(dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id)\n"
-			+ "values\n"
-			+ "('AAARolloutEligibilityLookupValue', 'PaperlessPreferences', 'TRUE', 'AAA_CSA', CA, null, null, null,\n"
-			+ "(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 }

@@ -30,7 +30,7 @@ public class TestOperationalReportsCheckEuwDetailDeliveryFormat extends BaseTest
     public void pas15537_testOperationalReportsCheckEuwDetailDeliveryFormat() {
         opReportApp().open();
 
-        orTab.fillTab(getTestSpecificTD("TestData"));
+        orTab.fillTab(getOperationalReportsTD("DataGather","TestData_EUW_Detail"));
 
         assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.REPORT_FORMAT))
                 .containsAllOptions(getTestSpecificTD("TestData_Check").getList("ReportFormats"));

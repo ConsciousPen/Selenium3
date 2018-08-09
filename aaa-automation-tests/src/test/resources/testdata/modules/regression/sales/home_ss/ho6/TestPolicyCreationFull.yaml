@@ -113,8 +113,7 @@ NamedInsured: {
 }
 
 AAAMembership: {
-  Membership number: '4290023667710001',
-  Last name: Smith
+  Membership number: '4290023667710001'
 }
 
 PreviousDwellingAddress: {

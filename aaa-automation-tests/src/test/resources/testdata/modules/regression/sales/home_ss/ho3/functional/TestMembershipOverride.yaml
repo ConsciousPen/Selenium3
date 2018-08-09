@@ -2,16 +2,14 @@ AAAMembership: {
   Current AAA Member: 'Membership Override',
   Override Type: 'Term',
   Member Since Date: 01/01/2006,
-  Membership Number: ,
-  Last name:
+  Membership Number:
 }
 
 AAAMembership_NoMemSinceDate: {
   Current AAA Member: 'Membership Override',
   Override Type: 'Term',
   Member Since Date: ,
-  Membership Number: ,
-  Last name:
+  Membership Number:
 }
 
 AAAMembership_NonMember: {
@@ -32,8 +30,7 @@ AAAMembership_LIFE: {
 
 AAAMembership_ActiveMember: {
   Current AAA Member: 'Yes',
-  Membership number: '9999999999999995',
-  Last name: Dummy
+  Membership number: '9999999999999995'
 }
 
 ReportsTab: {
@@ -59,8 +56,7 @@ Endorsement_AddActiveMember: {
   ApplicantTab: {
     AAAMembership: {
       Current AAA Member: 'Yes',
-      Membership number: '8800400000000007',
-      Last name: Nov1
+      Membership number: '8800400000000007'
     },
   },
   ReportsTab: {
@@ -84,8 +80,7 @@ Endorsement_AddMemberOverride: {
       Current AAA Member: 'Membership Override',
       Override Type: 'Term',
       Member Since Date: 01/01/2006,
-      Membership Number: ,
-      Last name:
+      Membership Number:
     },
   },
   ReportsTab: {
@@ -135,8 +130,7 @@ Renewal_AddMemberOverride: {
     AAAMembership: {
       Current AAA Member: 'Membership Override',
       Override Type: 'Life',
-      Membership Number: ,
-      Last name:
+      Membership Number:
     },
   },
   ReportsTab: {

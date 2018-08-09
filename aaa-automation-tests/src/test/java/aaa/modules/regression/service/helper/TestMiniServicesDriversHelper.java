@@ -338,7 +338,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(addDriverRequestService.suffix).isEqualTo(addDriverRequest.suffix);
 			softly.assertThat(addDriverRequestService.driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 			softly.assertThat(addDriverRequestService.namedInsuredType).isEqualTo("Not a Named Insured");
-			softly.assertThat(addDriverRequestService.relationToApplicantCd).isEqualTo("CH");
+			softly.assertThat(addDriverRequestService.relationToApplicantCd).isEqualTo(null);
 			softly.assertThat(addDriverRequestService.maritalStatusCd).isEqualTo("SSS");
 			softly.assertThat(addDriverRequestService.driverStatus).isEqualTo("pendingAdd");
 
@@ -380,7 +380,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(driver2.middleName).isEqualTo("Doc");
 			softly.assertThat(driver2.driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 			softly.assertThat(driver2.namedInsuredType).isEqualTo("Not a Named Insured");
-			softly.assertThat(driver2.relationToApplicantCd).isEqualTo("CH");
+			softly.assertThat(driver2.relationToApplicantCd).isEqualTo(null);
 			softly.assertThat(driver2.maritalStatusCd).isEqualTo("SSS");
 			softly.assertThat(driver2.driverStatus).isEqualTo("pendingAdd");
 			softly.assertThat(driver2.birthDate).isEqualTo("1960-02-08");
@@ -767,8 +767,16 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(updateDriverResponse3.driver.ageFirstLicensed).isEqualTo(updateDriverRequest.ageFirstLicensed);
 			softly.assertThat(updateDriverResponse3.driver.drivingLicense.licenseNumber).isEqualTo(updateDriverRequest.licenseNumber);
 			softly.assertThat(updateDriverResponse3.driver.drivingLicense.stateLicensed).isEqualTo(updateDriverRequest.stateLicensed);
-			softly.assertThat(updateDriverResponse3.ruleSets.get(0).errors.stream().anyMatch(error -> error.contains(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_ERROR.getMessage()))).isTrue();
-			softly.assertThat(updateDriverResponse3.ruleSets.get(1).errors.stream().anyMatch(error -> error.contains(ErrorDxpEnum.Errors.VALIDATE_DRIVER_LICENSE_BY_STATE.getMessage()))).isTrue();
+
+			assertThat(updateDriverResponse3.ruleSets.stream()
+					.anyMatch(ruleSet -> ruleSet.errors
+							.stream().anyMatch(error -> error.contains(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_ERROR.getMessage()))))
+					.isTrue();
+
+			assertThat(updateDriverResponse3.ruleSets.stream()
+					.anyMatch(ruleSet -> ruleSet.errors
+							.stream().anyMatch(error -> error.contains(ErrorDxpEnum.Errors.VALIDATE_DRIVER_LICENSE_BY_STATE.getMessage()))))
+					.isTrue();
 		});
 
 		updateDriverRequest.stateLicensed = "VA";
@@ -1187,7 +1195,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			// create policy via pas
 			String policyNumber = getCopiedPolicy();
-
 			// Endorsement
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
@@ -1233,9 +1240,11 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		softly.assertThat(updateDriverResponse1.driver.drivingLicense.stateLicensed).isEqualTo(updateDriverRequest.stateLicensed);
 		softly.assertThat(updateDriverResponse1.driver.maritalStatusCd).isEqualTo("MSS");
 		softly.assertThat(updateDriverResponse1.driver.ageFirstLicensed).isEqualTo(updateDriverRequest.ageFirstLicensed);
-		//Bug PAS-17114
+		//Bug PAS-17579
 		if (flag) {
 			softly.assertThat(updateDriverResponse1.ruleSets.get(0).errors.stream().anyMatch(error -> error.contains(ErrorDxpEnum.Errors.INSURANCE_SCORE_ORDER_MESSAGE.getMessage()))).isTrue();
+		} else {
+			softly.assertThat(updateDriverResponse1.ruleSets).isEmpty();
 		}
 
 		ViewDriversResponse responseViewDrivers2 = HelperCommon.viewEndorsementDrivers(policyNumber);

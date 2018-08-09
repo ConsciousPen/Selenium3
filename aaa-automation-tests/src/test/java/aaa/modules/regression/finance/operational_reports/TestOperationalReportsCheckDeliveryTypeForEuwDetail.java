@@ -33,7 +33,8 @@ public class TestOperationalReportsCheckDeliveryTypeForEuwDetail extends BaseTes
     @TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-15536")
     public void pas15536_testOperationalReportsCheckDeliveryTypeForEuwDetail() {
         opReportApp().open();
-        orTab.fillTab(getTestSpecificTD("TestData"));
+
+        orTab.fillTab(getOperationalReportsTD("DataGather","TestData_EUW_Detail"));
 
         //Check Delivery Type radio buttons 'Download', 'E-Mail' are displayed;
         assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.DELIVERY_TYPE))
