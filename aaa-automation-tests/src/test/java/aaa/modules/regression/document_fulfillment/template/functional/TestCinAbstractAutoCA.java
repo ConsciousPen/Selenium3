@@ -55,7 +55,7 @@ public class TestCinAbstractAutoCA extends TestCinAbstract {
     
     @Override
     protected void performDoNotRenew(TestData doNotRenewTD) {
-    	new AutoCaPolicyActions.Renew().perform(doNotRenewTD);
+    	new AutoCaPolicyActions.DoNotRenew().perform(doNotRenewTD);
     }
     
     @Override
