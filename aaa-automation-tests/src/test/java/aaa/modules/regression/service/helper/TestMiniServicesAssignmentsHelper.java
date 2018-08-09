@@ -1,14 +1,13 @@
 package aaa.modules.regression.service.helper;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
-import org.assertj.core.api.SoftAssertions;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -29,14 +28,6 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.datax.TestData;
 import toolkit.verification.ETCSCoreSoftAssertions;
-
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 

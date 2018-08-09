@@ -2,13 +2,10 @@ package aaa.modules.regression.service.helper;
 
 import static aaa.main.metadata.policy.AutoSSMetaData.UpdateRulesOverrideActionTab.RuleRow.RULE_NAME;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import javax.ws.rs.core.Response;
-import org.assertj.core.api.SoftAssertions;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
@@ -31,10 +28,6 @@ import aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignm
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import aaa.modules.regression.service.helper.dtoDxp.ComparablePolicy;
 import aaa.modules.regression.service.helper.dtoDxp.ComparableVehicle;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableList;
-import org.assertj.core.api.SoftAssertions;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -42,13 +35,6 @@ import toolkit.verification.CustomAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
 
-import javax.ws.rs.core.Response;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
-
-import static aaa.main.metadata.policy.AutoSSMetaData.UpdateRulesOverrideActionTab.RuleRow.RULE_NAME;
-import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
@@ -1345,7 +1331,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas9493_TransactionInformationForEndorsementsAddRemoveVehicleBody(PolicyType policyType, SoftAssertions softly) {
+	protected void pas9493_TransactionInformationForEndorsementsAddRemoveVehicleBody(PolicyType policyType, ETCSCoreSoftAssertions softly) {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy();
@@ -1555,7 +1541,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
-	protected void pas14497_TransactionInformationForEndorsementsReplaceVehicleBody(PolicyType policyType, SoftAssertions softly) {
+	protected void pas14497_TransactionInformationForEndorsementsReplaceVehicleBody(PolicyType policyType, ETCSCoreSoftAssertions softly) {
 		TestData td = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData_VA")
 				.adjust(VehicleTab.class.getSimpleName(), testDataManager.getDefault(TestMiniServicesAssignments.class).getTestData("TestData_ThreeVehicles").getTestDataList("VehicleTab")).resolveLinks();
 

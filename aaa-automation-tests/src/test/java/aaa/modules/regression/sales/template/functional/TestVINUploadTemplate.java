@@ -298,7 +298,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE).getValue()).isNotEqualTo(oldModelValue);
 			//PAS-6576 Update "individual VIN retrieval" logic to use ENTRY DATE and VALID
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL)).as("Row with VALID=Y and oldest Entry Date should be used").hasValue("TEST");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.BODY_STYLE).hasValue("COUPE");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.BODY_STYLE)).hasValue("COUPE");
 			// PAS-1487  No Match to Match but Year Doesn't Match
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.YEAR)).hasValue("2018");
 		});

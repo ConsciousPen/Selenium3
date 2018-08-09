@@ -17,7 +17,6 @@ import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.assertj.core.api.Assertions;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -27,8 +26,6 @@ import toolkit.webdriver.controls.composite.table.Table;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.*;
 import static toolkit.verification.CustomAssertions.assertThat;
@@ -183,18 +180,18 @@ public class HelperCommon extends HomeCaHO3BaseTest{
     }
 
     public static void verifySelectedEndorsementsPresent(Table tableForms, String columnName, String endorsementToFind) {
-        assertThat(tableForms.getRowContains(columnName, endorsementToFind)).isNotNull();
+        assertThat(tableForms.getRowContains(columnName, endorsementToFind)).exists();
     }
 
     public static void verifyEndorsementsNotVisible(Table tableForms, String columnName, ArrayList<String> endorsementsByLabel) {
-        ArrayList<String> foundColumnNames = new ArrayList<String>();
+        ArrayList<String> foundColumnNames = new ArrayList<>();
         for (int i = 1; i < tableForms.getRowsCount(); i++) {
             foundColumnNames.add(tableForms.getRow(i).getCell(columnName).getValue());
         }
 
         for (String name : foundColumnNames) {
             for (String label : endorsementsByLabel)
-            Assertions.assertThat(name).isNotEqualToIgnoringCase(label);
+            assertThat(name).isNotEqualToIgnoringCase(label);
         }
     }
 
@@ -269,6 +266,6 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         Document docToValidate = DocGenHelper.getDocument(docGenDoc, query);
         actualValueFound = DocGenHelper.getDocumentDataElemByName(expectedElementName, docToValidate).getDataElementChoice().getTextField();
 
-        assertThat(actualValueFound.contentEquals(expectedTagValue));
+        assertThat(actualValueFound.contentEquals(expectedTagValue)).isTrue();
     }
 }

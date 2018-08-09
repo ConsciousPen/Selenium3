@@ -70,7 +70,7 @@ public class TestNotOrderedMembershipError extends AutoCaSelectBaseTest {
         vehicleTab.getAssetList().fill(getTestSpecificTD("TestData_NotOrderedMembershipValidationAU_CA")); // order all reports except Membership, and then select No
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
         //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
-	    assertThat(errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage)).exists();
+	    assertThat(errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage)).exists();
         errorTab.cancel();
         premiumsAndCoveragesTab.saveAndExit();
         log.info("Not Ordered Membership Errors Validation for NB Quote Successfully Completed..");

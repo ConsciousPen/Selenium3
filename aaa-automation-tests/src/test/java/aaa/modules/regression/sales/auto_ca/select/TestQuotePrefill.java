@@ -66,7 +66,7 @@ public class TestQuotePrefill extends AutoCaSelectBaseTest {
 		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Last Name")).hasValue(expectedLN);
 		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Date of Birth")).hasValue(expectedBirthDay);
 
-		assertThat(PrefillTab.tableVehicles.getRowsCount()).isEqualTo(0);
+		assertThat(PrefillTab.tableVehicles).hasRows(0);
 
 		prefillTab.submitTab();
 
@@ -148,7 +148,7 @@ public class TestQuotePrefill extends AutoCaSelectBaseTest {
 		//check GeneralTab
 		aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab generalTab = new aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab();
 		assertThat(generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED)).hasValue(expectedNI_1);
-		assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab.tableInsuredList.getRowsCount()).isEqualTo(2);
+		assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab.tableInsuredList).hasRows(2);
 		generalTab.fillTab(getTestSpecificTD("TestDataFill_1_CA"));
 		
 		generalTab.viewInsured(2);

@@ -584,11 +584,11 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY).setValue("No");
 
 		if (ruleShouldFire) {
-			assertThat(propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY).getWarning().get()
-					.contains(ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR));
+			assertThat(propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY).getWarning().orElse(""))
+					.contains(ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR);
 		} else {
-			assertThat(propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY).getWarning().get()
-					.contains(ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR)).isFalse();
+			assertThat(propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY).getWarning().orElse(""))
+					.doesNotContain(ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR);
 		}
 
 		propertyInfoTab.submitTab();
@@ -596,8 +596,8 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 
 		if (ruleShouldFire) {
-			assertThat(errorTab.tableErrors.getRow(1).getCell("Message").getValue()).contains(ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR);
-			assertThat(errorTab.tableErrors.getRowsCount()).isEqualTo(1); //assert that there are no other messages
+			assertThat(errorTab.tableErrors.getRow(1).getCell("Message")).valueContains(ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR);
+			assertThat(errorTab.tableErrors).hasRows(1); //assert that there are no other messages
 			errorTab.cancel();
 		}
 
@@ -610,11 +610,11 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT).setValue("Yes");
 		if (ruleShouldFire) {
-			assertThat(propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT).getWarning().get()
-					.contains(ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT));
+			assertThat(propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT).getWarning().orElse(""))
+					.contains(ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT);
 		} else {
-			assertThat(propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT).getWarning().get()
-					.contains(ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT)).isFalse();
+			assertThat(propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT).getWarning().orElse(""))
+					.doesNotContain(ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT);
 		}
 
 		propertyInfoTab.submitTab();
@@ -622,11 +622,11 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 		if (ruleShouldFire) {
 			assertThat(errorTab.tableErrors.getRow(1).getCell("Message").getValue()).contains(ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT);
-			assertThat(errorTab.tableErrors.getRowsCount()).isEqualTo(1); //assert that there are no other messages
+			assertThat(errorTab.tableErrors).hasRows(1); //assert that there are no other messages
 			errorTab.cancel();
 		}
 
-		CustomAssertions.assertThat(premiumsAndCoveragesQuoteTab.btnCalculatePremium()).isPresent(); //to validate that Error tab is not displayed and P&C tab is displayed
+		assertThat(premiumsAndCoveragesQuoteTab.btnCalculatePremium()).isPresent(); //to validate that Error tab is not displayed and P&C tab is displayed
 
 	}
 
@@ -931,7 +931,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 			fairPlanYNActualValue = DocGenHelper.getDocumentDataElemByName("FairPlanYN", thankYouLetter615121).getDataElementChoice().getTextField();
 
 			SoftAssertions.assertSoftly(softly -> {
-				softly.assertThat(fairPlanYNActualValue.contentEquals(fairPlanYNExpectedValue));
+				softly.assertThat(fairPlanYNActualValue).isEqualTo(fairPlanYNExpectedValue);
 			});
 
 		}

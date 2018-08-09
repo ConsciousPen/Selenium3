@@ -163,7 +163,7 @@ public class Scenario7 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 
-		CustomAssertions.assertThat(BillingSummaryPage.tableBillsStatements.getRowsCount()).isEqualTo(2);
+		CustomAssertions.assertThat(BillingSummaryPage.tableBillsStatements).hasRows(2);
 		new BillingPaymentsAndTransactionsVerifier().setType(PaymentsAndOtherTransactionType.PAYMENT).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT).verify(1);
 	}
 

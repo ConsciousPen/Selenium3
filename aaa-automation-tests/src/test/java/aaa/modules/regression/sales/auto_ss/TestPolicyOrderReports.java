@@ -71,7 +71,7 @@ public class TestPolicyOrderReports extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
 		if (!getState().equals(Constants.States.OK)) {
-			assertThat(DriverTab.tableActivityInformationList.getRowsCount()).isEqualTo(5);
+			assertThat(DriverTab.tableActivityInformationList).hasRows(5);
 		}
 
 		if (!getState().equals(Constants.States.OK)) {

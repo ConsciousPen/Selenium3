@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.cft;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.io.File;
 import java.time.LocalDateTime;
@@ -45,7 +46,6 @@ import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
 
 public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
@@ -178,13 +178,9 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		policy.endorse().performAndFill(getTestSpecificTD("TestData_OOSEndorsement").adjust(keyPath, endorseDate));
 		assertSoftly(softly -> {
 			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
-		});
-		policy.rollOn().perform(true, false);
-		assertSoftly(softly -> {
+			policy.rollOn().perform(true, false);
 			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION,
-					String.format("Bind Endorsement effective %1$s for Policy %2$s", endorseDate, policyNumber)).isPresent());
-		});
-		assertSoftly(softly -> {
+					String.format("Bind Endorsement effective %1$s for Policy %2$s", endorseDate, policyNumber))).exists();
 			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		});
 		log.info("OOS Endorsement action completed successfully");
@@ -214,13 +210,9 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		String endorsementDate = getTestSpecificTD("TestData_OOS").getValue(endorsementEffDateDataKeys);
 		assertSoftly(softly -> {
 			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION,
-					String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementDate, policyNumber)).isPresent());
-		});
-		assertSoftly(softly -> {
+					String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementDate, policyNumber))).exists();
 			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
-		});
-		policy.rollOn().perform(false, true);
-		assertSoftly(softly -> {
+			policy.rollOn().perform(false, true);
 			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		});
 		log.info("OOS Endorsment action completed successfully");
@@ -390,10 +382,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		assertSoftly(softly -> {
-			softly.assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS).getValue())
+		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS).getValue())
 					.isEqualTo(BillingConstants.BillingAccountPoliciesPolicyStatus.POLICY_CANCELLED);
-		});
 		Dollar refundAmount = BillingSummaryPage.getTotalPaid();
 		Map<String, String> query = new HashMap<>();
 		query.put(BillingConstants.BillingPendingTransactionsTable.TYPE, BillingConstants.BillingPendingTransactionsType.REFUND);
@@ -553,10 +543,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		policy.endorse().performAndFill(getTestSpecificTD("Endorsement"));
 		// split policy
 		policy.policySplit().perform(getTestSpecificTD("SplitTestData"));
-		assertSoftly(softly -> {
-			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION,
-					String.format("Policy %1$s has been split to a new quote", policyNumber)).isPresent());
-		});
+		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION,
+				String.format("Policy %1$s has been split to a new quote", policyNumber))).exists();
 		log.info("Split policy action completed successfully");
 	}
 
@@ -577,7 +565,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(conversionDate);
 		LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
 		List<String> maigStates = new ArrayList<>(Arrays.asList(Constants.States.VA, Constants.States.DE, Constants.States.PA, Constants.States.MD, Constants.States.NJ));
-		CustomAssert.assertTrue(String.format("Conversion file for %s state is available - ", state), maigStates.indexOf(state) >= 0);
+		assertThat(maigStates).as("Conversion file for %s state is available", state).contains(state);
 		ConversionPolicyData data = new MaigConversionData(String.format("%d", maigStates.indexOf(state) + 1) + ".xml", effDate);
 		String policyN = ConversionUtils.importPolicy(data);
 		mainApp().open();
@@ -649,12 +637,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		policy.cancel().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		Page.dialogConfirmation.confirm();
-
-		assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-		});
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		log.info("Manual cancellation action completed successfully");
-
 	}
 
 	protected void rewritePolicyOnCancellationDate() {
@@ -664,16 +648,12 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameDate"));
-		assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.DATA_GATHERING);
-		});
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.DATA_GATHERING);
 		String rewritePolicyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("TEST: Rewriting Policy #" + rewritePolicyNumber);
 		policy.dataGather().start();
 		policy.getDefaultView().fill(getPolicyTD("Rewrite", "TestDataForBindRewrittenPolicy"));
-		assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		});
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	protected void updatePolicyStatusForPendedCancellation() {
@@ -683,9 +663,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-		});
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		log.info("Policy status update job completed successfully");
 	}
 
@@ -699,10 +677,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		String policyNumber = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber();
 		SearchPage.openPolicy(policyNumber);
 		policy.reinstate().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
-		assertSoftly(softly -> {
-			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION,
-					String.format("Bind Reinstatement for Policy %1$s", policyNumber)).isPresent());
-		});
+		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION,
+					String.format("Bind Reinstatement for Policy %1$s", policyNumber))).exists();
 		log.info("Manual reinstatement action completed successfully");
 	}
 
@@ -931,10 +907,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().open();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		assertSoftly(softly -> {
-			softly.assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS).getValue())
-					.isEqualTo(BillingConstants.BillingAccountPoliciesPolicyStatus.CUSTOMER_DECLINED);
-		});
+		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS))
+				.hasValue(BillingConstants.BillingAccountPoliciesPolicyStatus.CUSTOMER_DECLINED);
 		log.info("Renew is declined");
 	}
 
@@ -1075,9 +1049,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-		});
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		log.info("Cancellation action completed successfully");
 	}
 
@@ -1144,9 +1116,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		policy.cancel().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
-		assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-		});
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		log.info("Manual cancellation action completed successfully");
 	}
 
@@ -1157,9 +1127,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		policy.cancel().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
-		assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
-		});
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
 		log.info("Manual cancellation action completed successfully");
 	}
 
@@ -1171,10 +1139,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		String policyNumber = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber();
 		SearchPage.openPolicy(policyNumber);
 		policy.reinstate().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
-		assertSoftly(softly -> {
-			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION,
-					String.format("Bind Reinstatement for Policy %1$s", policyNumber)).isPresent());
-		});
+		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION,
+					String.format("Bind Reinstatement for Policy %1$s", policyNumber))).exists();
 		log.info("Manual reinstatement action completed successfully");
 	}
 
@@ -1225,11 +1191,9 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		String policyNumber = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber();
 		SearchPage.openPolicy(policyNumber);
 		policy.endorse().performAndFill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
-		assertSoftly(softly -> {
-			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(
+		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(
 					ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION,
-					String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementEffDate, policyNumber)).isPresent());
-		});
+					String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementEffDate, policyNumber))).exists();
 		log.info("Endorsment action completed successfully");
 	}
 
@@ -1257,9 +1221,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().open();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(policyStatus);
-		});
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(policyStatus);
 		log.info("Policy status is {}", policyStatus);
 	}
 

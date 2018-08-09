@@ -4,12 +4,12 @@ package aaa.modules.regression.service.template;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 
-import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.By;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
+import toolkit.verification.CustomSoftAssertions;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.composite.table.Table;
 
@@ -59,25 +59,22 @@ public abstract class PolicyOose extends PolicyBaseTest {
         
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
-		SoftAssertions.assertSoftly(softly -> {
+		CustomSoftAssertions.assertSoftly(softly -> {
         //check if there is 2nd NI, Driver & Vehicle
 			softly.assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Name").getValue()).isEqualTo("Violeta Minolta");
 			softly.assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Name").getValue()).isEqualTo("Violeta Minolta");
-			softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRow(2).getCell("Make")).isNotNull();
+			softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRow(2).getCell("Make").getValue()).isNotNull();
 
 		});
 
-		SoftAssertions.assertSoftly(softly -> {
+		CustomSoftAssertions.assertSoftly(softly -> {
 
 			softly.assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-			softly.assertThat(PolicySummaryPage.tablePolicyDrivers.getRowsCount()).isEqualTo(2);
-			softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRowsCount()).isEqualTo(2);
-			softly.assertThat(PolicySummaryPage.tableInsuredInformation.getRowsCount()).isEqualTo(2);
-
-
-
+			softly.assertThat(PolicySummaryPage.tablePolicyDrivers).hasRows(2);
+			softly.assertThat(PolicySummaryPage.tablePolicyVehicles).hasRows(2);
+			softly.assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(2);
 		});
     }
 	
@@ -132,7 +129,4 @@ public abstract class PolicyOose extends PolicyBaseTest {
         getPolicyType().get().dataGather().getView().fill(getTestSpecificTD("DataGather_EP"));
         
      }
-		
-
-    
 }

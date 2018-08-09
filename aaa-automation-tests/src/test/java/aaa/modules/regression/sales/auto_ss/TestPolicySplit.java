@@ -76,9 +76,9 @@ public class TestPolicySplit extends AutoSSBaseTest {
 
 		//4. Check policy is bind and now has 1NI/1Driver/1Vehicle
 		CustomSoftAssertions.assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.tablePolicyDrivers.getRowsCount()).isEqualTo(1);
-			softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRowsCount()).isEqualTo(1);
-			softly.assertThat(PolicySummaryPage.tableInsuredInformation.getRowsCount()).isEqualTo(1);
+			softly.assertThat(PolicySummaryPage.tablePolicyDrivers).hasRows(1);
+			softly.assertThat(PolicySummaryPage.tablePolicyVehicles).hasRows(1);
+			softly.assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(1);
 			
 		});	
 
@@ -103,9 +103,9 @@ public class TestPolicySplit extends AutoSSBaseTest {
 
 		//7. Check policy is bind and now has 1NI/1Driver/1Vehicle
 		CustomSoftAssertions.assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.tablePolicyDrivers.getRowsCount()).isEqualTo(1);
-			softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRowsCount()).isEqualTo(1);
-			softly.assertThat(PolicySummaryPage.tableInsuredInformation.getRowsCount()).isEqualTo(1);
+			softly.assertThat(PolicySummaryPage.tablePolicyDrivers).hasRows(1);
+			softly.assertThat(PolicySummaryPage.tablePolicyVehicles).hasRows(1);
+			softly.assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(1);
 			
 		});	
 	}

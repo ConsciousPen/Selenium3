@@ -9,7 +9,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.Response;
-import org.assertj.core.api.SoftAssertions;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
 import aaa.common.enums.NavigationEnum;
@@ -30,6 +29,7 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.datax.TestData;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 
 public class TestMiniServicesDriversHelper extends PolicyBaseTest {
@@ -1086,7 +1086,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	}
 
-	protected void pas16481_TransactionInformationForEndorsementsAddDriverBody(SoftAssertions softly) {
+	protected void pas16481_TransactionInformationForEndorsementsAddDriverBody(ETCSCoreSoftAssertions softly) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
@@ -1208,7 +1208,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 	}
 
-	private void addDriverAndVerify(String policyNumber, UpdateDriverRequest updateDriverRequest, SoftAssertions softly, boolean flag) {
+	private void addDriverAndVerify(String policyNumber, UpdateDriverRequest updateDriverRequest, ETCSCoreSoftAssertions softly, boolean flag) {
 		// addDriver via dxp
 		addDriverRequest.firstName = "Spouse";
 		addDriverRequest.middleName = "Driver";
@@ -1261,7 +1261,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		driverTab.saveAndExit();
 	}
 
-	private void updateDriver(SoftAssertions softly, String policyNumber, String dOid, UpdateDriverRequest updateDriverRequest, String mStatus) {
+	private void updateDriver(ETCSCoreSoftAssertions softly, String policyNumber, String dOid, UpdateDriverRequest updateDriverRequest, String mStatus) {
 		updateDriverRequest.maritalStatusCd = mStatus;
 		DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, dOid, updateDriverRequest);
 		softly.assertThat(updateDriverResponse.driver.maritalStatusCd).isEqualTo(updateDriverRequest.maritalStatusCd);
@@ -1323,7 +1323,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas14475_NameInsuredMaritalStatusFNIIsPSSBody(SoftAssertions softly) {
+	protected void pas14475_NameInsuredMaritalStatusFNIIsPSSBody(ETCSCoreSoftAssertions softly) {
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -1499,7 +1499,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			policy.policyInquiry().start();
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
-			DriverTab.tableDriverList.verify.rowsCount(1);
+			softly.assertThat(DriverTab.tableDriverList).hasRows(1);
 			softly.assertThat(DriverTab.tableDriverList.getRow(1).getCell(2).getValue()).isEqualTo(driverFNI.firstName);
 			softly.assertThat(DriverTab.tableDriverList.getRow(1).getCell(3).getValue()).isEqualTo(driverFNI.lastName);
 			SearchPage.openPolicy(policyNumber);
@@ -1514,7 +1514,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	}
 
-	private void validateDriverAssignmentAfterRemove_pas14641_pas14640_pas14642(SoftAssertions softly, String policyNumber, DriversDto driver1, DriversDto driver2) {
+	private void validateDriverAssignmentAfterRemove_pas14641_pas14640_pas14642(ETCSCoreSoftAssertions softly, String policyNumber, DriversDto driver1, DriversDto driver2) {
 		ViewDriverAssignmentResponse viewDriverAssignmentResponse = HelperCommon.viewEndorsementAssignments(policyNumber);
 		softly.assertThat(viewDriverAssignmentResponse.driverVehicleAssignments.size()).isEqualTo(1);
 		softly.assertThat(viewDriverAssignmentResponse.driverVehicleAssignments.get(0).driverOid).doesNotContain(driver1.oid).doesNotContain(driver2.oid);
@@ -1578,7 +1578,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			policy.policyInquiry().start();
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
-			DriverTab.tableDriverList.verify.rowsCount(3);
+			softly.assertThat(DriverTab.tableDriverList).hasRows(3);
 			validateListOfDriverNotBlank(softly, 3);
 			SearchPage.openPolicy(policyNumber);
 
@@ -1642,7 +1642,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			policy.dataGather().start();
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
-			DriverTab.tableDriverList.verify.rowsCount(3);
+			softly.assertThat(DriverTab.tableDriverList).hasRows(3);
 			validateListOfDriverNotBlank(softly, 3);
 
 			DriverTab.tableDriverList.selectRow(2);
@@ -1664,13 +1664,13 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 	}
 
-	private void validateThatDriverIsUpdated_pas14641(SoftAssertions softly) {
+	private void validateThatDriverIsUpdated_pas14641(ETCSCoreSoftAssertions softly) {
 		softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.NAMED_INSURED).getValue()).contains("not a Named Insured");
 		softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DRIVER_TYPE).getValue()).isEqualTo("Not Available for Rating");
 		softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REASON).getValue()).isEqualTo("Other");
 	}
 
-	private void validateViewDriverResponseAfterBind_pas14641_pas14640_pas14642(SoftAssertions softly, String policyNumber, DriversDto driverFNI, DriversDto driver1ExpectedAfterRemove, DriversDto driver2ExpectedAfterRemove) {
+	private void validateViewDriverResponseAfterBind_pas14641_pas14640_pas14642(ETCSCoreSoftAssertions softly, String policyNumber, DriversDto driverFNI, DriversDto driver1ExpectedAfterRemove, DriversDto driver2ExpectedAfterRemove) {
 		ViewDriversResponse viewDriversResponseAfterBind = HelperCommon.viewPolicyDrivers(policyNumber);
 		softly.assertThat(viewDriversResponseAfterBind.driverList.size()).isEqualTo(3);
 		softly.assertThat(viewDriversResponseAfterBind.driverList.get(0)).isEqualToComparingFieldByFieldRecursively(driverFNI);
@@ -1678,7 +1678,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		softly.assertThat(viewDriversResponseAfterBind.driverList.get(2)).isEqualToComparingFieldByFieldRecursively(driver2ExpectedAfterRemove);
 	}
 
-	private void validateViewEndorsementDrivers_pas14641_pas14640_pas14642(SoftAssertions softly, String policyNumber, DriversDto driverFNI, DriversDto driver1ExpectedAfterRemove, DriversDto driver2ExpectedAfterRemove) {
+	private void validateViewEndorsementDrivers_pas14641_pas14640_pas14642(ETCSCoreSoftAssertions softly, String policyNumber, DriversDto driverFNI, DriversDto driver1ExpectedAfterRemove, DriversDto driver2ExpectedAfterRemove) {
 		ViewDriversResponse viewDriversResponseAfterDelete = HelperCommon.viewEndorsementDrivers(policyNumber);
 		softly.assertThat(viewDriversResponseAfterDelete.driverList.size()).isEqualTo(3);
 		softly.assertThat(viewDriversResponseAfterDelete.driverList.get(0)).isEqualToComparingFieldByFieldRecursively(driverFNI);
@@ -1686,7 +1686,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		softly.assertThat(viewDriversResponseAfterDelete.driverList.get(2)).isEqualToComparingFieldByFieldRecursively(driver2ExpectedAfterRemove);
 	}
 
-	private void validateDriverPreconditions_pas14641_pas14640_pas14642(SoftAssertions softly, DriversDto driverFNI, DriversDto driver) {
+	private void validateDriverPreconditions_pas14641_pas14640_pas14642(ETCSCoreSoftAssertions softly, DriversDto driverFNI, DriversDto driver) {
 		softly.assertThat(driverFNI.driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 		softly.assertThat(driverFNI.namedInsuredType).isEqualTo("FNI");
 
@@ -1696,7 +1696,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		softly.assertThat(driver.availableActions).containsSequence("remove");
 	}
 
-	private void validateListOfDriverNotBlank(SoftAssertions softly, int driverCount) {
+	private void validateListOfDriverNotBlank(ETCSCoreSoftAssertions softly, int driverCount) {
 		for (int i = 1; i <= driverCount; i++) {
 			softly.assertThat(DriverTab.tableDriverList.getRow(i).getCell(2).getValue()).isNotBlank();
 			softly.assertThat(DriverTab.tableDriverList.getRow(i).getCell(3).getValue()).isNotBlank();
