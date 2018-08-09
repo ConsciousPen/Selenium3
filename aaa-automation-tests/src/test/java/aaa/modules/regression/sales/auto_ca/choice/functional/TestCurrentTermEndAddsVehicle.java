@@ -11,6 +11,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 @StateList(states = Constants.States.CA)
 public class TestCurrentTermEndAddsVehicle extends TestCurrentTermEndAddsVehicleTemplate {
@@ -97,28 +98,29 @@ public class TestCurrentTermEndAddsVehicle extends TestCurrentTermEndAddsVehicle
         pas14532_refreshForCurrentAndRenewalTerms(state, STUB);
     }
 
-    @Parameters({"state"})
     public void pas14532_refreshForCurrentAndRenewalTerms(@Optional("CA") String state, String scenario) {
         pas14532_refreshForCurrentAndRenewalTerms_initiateEndorsement(state, scenario);
         pas14532_refreshForCurrentAndRenewalTerms_bindEndorsement(state, scenario);
         //7. Verify Latest Renewal Version has correct vehicle details
         viewRatingDetails();
+        ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
         if (scenario.equals(NOT_MATCHED)) { //Assertion for scenario 1
             // The First Vehicle - Displays Updated/refreshed data according to version;
-            doSoftAssertions(2, "HYUNDAI MOTOR", "20", "20");
-            doSoftAssertions(3, "TOYOTA MOTOR", "6", "6");
-            doSoftAssertions(4, "FORD MOTOR", "13", "13");
+            doSoftAssertions(softly,2, "HYUNDAI MOTOR", "20", "20");
+            doSoftAssertions(softly,3, "TOYOTA MOTOR", "6", "6");
+            doSoftAssertions(softly,4, "FORD MOTOR", "13", "13");
         } else if (scenario.equals(MATCHED)) { //Assertion for scenario 2
             // The second Vehicle - NOT updated will not change/not refresh;
-            doSoftAssertions(2, "KIA MOTOR", "8", "8");
-            doSoftAssertions(3, "TOYOTA MOTOR", "6", "6");
-            doSoftAssertions(4, "FORD MOTOR", "13", "13");
+            doSoftAssertions(softly,2, "KIA MOTOR", "8", "8");
+            doSoftAssertions(softly,3, "TOYOTA MOTOR", "6", "6");
+            doSoftAssertions(softly,4, "FORD MOTOR", "13", "13");
         } else if (scenario.equals(STUB)) { //Assertion for scenario 3
             // The third Vehicle - displayed updated/refreshed data according to version;
-            doSoftAssertions(2, "KIA MOTOR", "8", "8");
-            doSoftAssertions(3, "BMW MOTOR", "7", "7");
-            doSoftAssertions(4, "FORD MOTOR", "13", "13");
+            doSoftAssertions(softly,2, "KIA MOTOR", "8", "8");
+            doSoftAssertions(softly,3, "BMW MOTOR", "7", "7");
+            doSoftAssertions(softly,4, "FORD MOTOR", "13", "13");
         }
+        softly.close();
         closeRatingDetails();
     }
 

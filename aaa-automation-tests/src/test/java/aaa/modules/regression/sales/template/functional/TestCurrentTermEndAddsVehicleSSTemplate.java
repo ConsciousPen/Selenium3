@@ -71,7 +71,7 @@ public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMetho
         moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
 
         //Upload the Vin table file by changing valid flag for the same version for Vehicle 2
-        if (scenario.equals("MATCHED")) { //scenario 2
+        if(scenario.equals(MATCHED)) { //scenario 2
             adminApp().open();
             uploadToVINTableTab.uploadVinTable(vinTableFileUpdatedVersion);
         }
@@ -107,10 +107,10 @@ public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMetho
             Link linkSetCurrent = tableDifferences.getRow(2).getCell(columnsCount).controls.links.get("Current");
             Link linkSetAvailable = tableDifferences.getRow(2).getCell(columnsCount).controls.links.get("Available");
 
-            if (scenario.equals("NOT_MATCHED") || scenario.equals("STUB")) { //scenario 1 or scenario 3
+            if (scenario.equals(NOT_MATCHED) || scenario.equals(STUB)) { //scenario 1 or scenario 3
                 linkSetCurrent.click();
                 policy.rollOn().submit();
-            } else if (scenario.equals("MATCHED")) { //scenario 2
+            } else if (scenario.equals(MATCHED)) { //scenario 2
                 linkSetAvailable.click();
                 policy.rollOn().submit();
             }
@@ -215,14 +215,10 @@ public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMetho
         PremiumAndCoveragesTab.buttonCancel.click();
     }
 
-    protected void doSoftAssertions(int vehicleCellIndex, String vehicleMake, String vehicleCompSymbol, String vehicleCollSymbol) {
-        ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+    protected void doSoftAssertions(ETCSCoreSoftAssertions softly, int vehicleCellIndex, String vehicleMake, String vehicleCompSymbol, String vehicleCollSymbol) {
         softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(vehicleCellIndex).getValue()).isEqualToIgnoringCase(vehicleMake);
         softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(vehicleCellIndex).getValue()).isEqualToIgnoringCase(vehicleCompSymbol);
         softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(vehicleCellIndex).getValue()).isEqualToIgnoringCase(vehicleCollSymbol);
-
-        //Catch any assertion errors seen during test
-        softly.close();
     }
 
     protected void cleanup() {

@@ -38,7 +38,6 @@ public class TestCurrentTermEndAddsVehicleTemplate extends CommonTemplateMethods
     protected String policyNumber;
     protected static final String VEHICLE1_VIN = "KNDJT2A2XA7038383";
     protected static final String VEHICLE2_VIN = "JT2AE91A7M3425407";
-    protected static final String VEHICLE2_NOMATCH_VIN = "WWEKN3DD0E0344466";
     protected static final String VEHICLE3_VIN = "1FTRE1421YHA89455";
     protected static final String VEHICLE4_VIN = "5NPEU46C991234567";
     protected static final String VEHICLE1_UPDATED_VIN = "2GTEC19V531282646";
@@ -79,7 +78,7 @@ public class TestCurrentTermEndAddsVehicleTemplate extends CommonTemplateMethods
         moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
 
         //Upload the Vin table file by changing valid flag for the same version for Vehicle 2
-        if (scenario.equals("MATCHED")) { //scenario 2
+        if (scenario.equals(MATCHED)) { //scenario 2
             adminApp().open();
             uploadToVINTableTab.uploadVinTable(vinTableFileUpdatedVersion);
         }
@@ -119,10 +118,10 @@ public class TestCurrentTermEndAddsVehicleTemplate extends CommonTemplateMethods
             Link linkSetCurrent = tableDifferences.getRow(2).getCell(columnsCount).controls.links.get("Current");
             Link linkSetAvailable = tableDifferences.getRow(2).getCell(columnsCount).controls.links.get("Available");
 
-            if (scenario.equals("NOT_MATCHED") || scenario.equals("STUB")) { //scenario 1 or scenario 3
+            if (scenario.equals(NOT_MATCHED) || scenario.equals(STUB)) { //scenario 1 or scenario 3
                 linkSetCurrent.click();
                 policy.rollOn().submit();
-            } else if (scenario.equals("MATCHED")) { //scenario 2
+            } else if (scenario.equals(MATCHED)) { //scenario 2
                 linkSetAvailable.click();
                 policy.rollOn().submit();
             }
@@ -258,13 +257,10 @@ public class TestCurrentTermEndAddsVehicleTemplate extends CommonTemplateMethods
         buttonCancel.click();
     }
 
-    protected void doSoftAssertions(int vehicleCellIndex, String vehicleMake, String vehicleCompSymbol, String vehicleCollSymbol) {
-        ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+    protected void doSoftAssertions(ETCSCoreSoftAssertions softly, int vehicleCellIndex, String vehicleMake, String vehicleCompSymbol, String vehicleCollSymbol) {
         softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(vehicleCellIndex).getValue()).isEqualToIgnoringCase(vehicleMake);
         softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(vehicleCellIndex).getValue()).isEqualTo(vehicleCompSymbol);
         softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(vehicleCellIndex).getValue()).isEqualTo(vehicleCollSymbol);
-        //Catch any assertion errors seen during test
-        softly.close();
     }
 
     protected void cleanup() {

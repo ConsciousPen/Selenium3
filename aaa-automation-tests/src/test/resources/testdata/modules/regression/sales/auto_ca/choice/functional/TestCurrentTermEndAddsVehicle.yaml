@@ -1,6 +1,5 @@
 DocumentsAndBindTab_TestDataCurrentTermEndAddsVehicle_CA: {
   RequiredToBind: '@RequiredToBind',
-  #RequiredToIssue: { },
   VehicleInformation: ['@Vehicle1', '@Vehicle2']
 }
 
@@ -22,8 +21,6 @@ DriverActivityReportsTab_TestDataCurrentTermEndAddsVehicleEndorsement_CA: {
 }
 
 DocumentsAndBindTab_TestDataCurrentTermEndAddsVehicleEndorsement_CA: {
-#  RequiredToBind: '@RequiredToBind1',
-  #RequiredToIssue: { },
   VehicleInformation: ['@Vehicle3']
 }
 
