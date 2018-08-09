@@ -1316,7 +1316,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	protected void pas14640_NotNamedInsuredAvailableForRatingHappyPathBody() {
 		assertSoftly(softly -> {
-			TestData td = getPolicyTD("DataGather", "TestData");
+			TestData td = getPolicyDefaultTD();
 			TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_2_Drivers_Not_NI_AfR").getTestDataList("DriverTab")).resolveLinks();
 
 			mainApp().open();
@@ -1397,7 +1397,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	protected void pas14642_NotNamedInsuredAvailableForRatingHardStopBody() {
 		assertSoftly(softly -> {
-			TestData td = getPolicyTD("DataGather", "TestData");
+			TestData td = getPolicyDefaultTD();
 			TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_2_Drivers_Not_NI_AfR").getTestDataList("DriverTab")).resolveLinks();
 
 			mainApp().open();
@@ -1464,7 +1464,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	protected void pas14641_NotNamedInsuredUpdateToNotAvailableForRatingBody() {
 		assertSoftly(softly -> {
-			TestData td = getPolicyTD("DataGather", "TestData");
+			TestData td = getPolicyDefaultTD();
 			TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_2_Drivers_Not_NI_AfR").getTestDataList("DriverTab")).resolveLinks();
 
 			mainApp().open();
