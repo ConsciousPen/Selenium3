@@ -25,7 +25,6 @@ public class DriversDto implements RestBodyRequest {
 	private static final String DRIVER_STATUS_PENDING_ADD = "pendingAdd";
 	private static final String	DRIVER_STATUS_ACTIVE = "active";
 
-
 	@JsonProperty("firstName")
 	public String firstName;
 
