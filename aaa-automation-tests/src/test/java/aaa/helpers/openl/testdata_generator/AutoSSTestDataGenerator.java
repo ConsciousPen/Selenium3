@@ -143,6 +143,13 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.PolicyInformation.ADVANCED_SHOPPING_DISCOUNTS.getLabel(), generalTabIsAdvanceShopping(openLPolicy.isAdvanceShopping())
 		);
 
+		if (Boolean.TRUE.equals(openLPolicy.isAdvanceShopping())) {
+			policyInformationData
+					.adjust(AutoSSMetaData.GeneralTab.PolicyInformation.OVERRIDE_ASD_LEVEL.getLabel(), "Yes")
+					.adjust(AutoSSMetaData.GeneralTab.PolicyInformation.ADVANCED_SHOPPING_DISCOUNT_OVERRIDE.getLabel(), "Level 1")
+					.adjust(AutoSSMetaData.GeneralTab.PolicyInformation.ASD_OVERRIDEN_BY.getLabel(), "Tester $<rx:\\d{5}>");
+		}
+
 		return DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), Arrays.asList(namedInsuredInformationData),
 				AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), aAAProductOwnedData,
@@ -598,7 +605,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.AIR_BAGS.getLabel(), getVehicleTabAirBags(vehicle.getAirbagCode()));
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.ANTI_THEFT.getLabel(), getVehicleTabAntiTheft(vehicle.getAntiTheftString()));
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "contains=" + getVehicleTabStatCode(statCode));
-				if (!isConversionVanType(statCode)) {
+				if (!isConversionVanType(statCode) || Constants.States.CO.equals(getState())) {
 					vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel(), AdvancedComboBox.RANDOM_MARK);
 				}
 			}
@@ -857,7 +864,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			}
 			activityInformationData.put(AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), getDescription());
 			activityInformationData.put(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), occurrenceDate.format(DateTimeUtils.MM_DD_YYYY));
-			activityInformationData.put(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER.getLabel(), "Yes");
+			//activityInformationData.put(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER.getLabel(), "Yes");
 			return new SimpleDataProvider(activityInformationData);
 		}
 
