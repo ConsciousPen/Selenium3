@@ -12,7 +12,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.verification.ETCSCoreSoftAssertions;
@@ -47,7 +46,7 @@ public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMetho
     protected static final String MATCHED = "MATCHED";
     protected static final String STUB = "STUB";
 
-    protected void pas14532_refreshForCurrentAndRenewalTerms_initiateEndorsement(@Optional("AZ") String state, String scenario) {
+    protected void pas14532_refreshForCurrentAndRenewalTerms_initiateEndorsement(String scenario) {
         UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
         String vinTableFile = "VinUploadOnCurrentTerm.xlsx";
         String controlTableFile = "controlTable_AZ_SS.xlsx";
@@ -65,13 +64,13 @@ public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMetho
         uploadToVINTableTab.uploadFiles(controlTableFile, vinTableFile);
         LocalDateTime expirationDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(360);
         LocalDateTime effectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(361);
-        updateControlTable(state, expirationDate, effectiveDate);
+        updateControlTable(expirationDate, effectiveDate);
 
         //3. Change system date to R-35 and renew it
         moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
 
         //Upload the Vin table file by changing valid flag for the same version for Vehicle 2
-        if(scenario.equals(MATCHED)) { //scenario 2
+        if (scenario.equals(MATCHED)) { //scenario 2
             adminApp().open();
             uploadToVINTableTab.uploadVinTable(vinTableFileUpdatedVersion);
         }
@@ -80,8 +79,7 @@ public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMetho
         initiateEndorsement();
     }
 
-    public void pas14532_refreshForCurrentAndRenewalTerms_bindEndorsement(@Optional("AZ") String state, String scenario) {
-
+    public void pas14532_refreshForCurrentAndRenewalTerms_bindEndorsement(String scenario) {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
         if (scenario.equals(NOT_MATCHED)) { //scenario 1
             testDataThreeVehicles = getTestDataWithThreeVehicles(getPolicyTD(), NOT_MATCHED);
@@ -119,13 +117,13 @@ public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMetho
         }
     }
 
-    private void updateControlTable(String state, LocalDateTime expirationDate, LocalDateTime effectiveDate) {
+    private void updateControlTable(LocalDateTime expirationDate, LocalDateTime effectiveDate) {
         String formattedExpirationDate = expirationDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         String formattedEffectiveDate = effectiveDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION, formattedExpirationDate, state, "SYMBOL_2000"));
-        DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EFFECTIVEDATE_BY_STATECD_VERSION, formattedEffectiveDate, state, "SYMBOL_2018"));
-        DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION, formattedExpirationDate, state, "SYMBOL_2000_CHOICE"));
-        DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EFFECTIVEDATE_BY_STATECD_VERSION, formattedEffectiveDate, state, "SYMBOL_2018_CHOICE"));
+        DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION, formattedExpirationDate, getState(), "SYMBOL_2000"));
+        DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EFFECTIVEDATE_BY_STATECD_VERSION, formattedEffectiveDate, getState(), "SYMBOL_2018"));
+        DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION, formattedExpirationDate, getState(), "SYMBOL_2000_CHOICE"));
+        DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EFFECTIVEDATE_BY_STATECD_VERSION, formattedEffectiveDate, getState(), "SYMBOL_2018_CHOICE"));
     }
 
     private void initiateEndorsement() {

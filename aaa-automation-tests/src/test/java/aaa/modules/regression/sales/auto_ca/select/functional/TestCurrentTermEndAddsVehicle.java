@@ -41,7 +41,7 @@ public class TestCurrentTermEndAddsVehicle extends TestCurrentTermEndAddsVehicle
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-16150")
     //PAS-16150 and PAS-14532 carry same scenarios
     public void pas14532_refreshForCurrentAndRenewalTermsVinNotMatched(@Optional("CA") String state) {
-        pas14532_refreshForCurrentAndRenewalTerms(state, NOT_MATCHED);
+        pas14532_refreshForCurrentAndRenewalTerms(NOT_MATCHED);
     }
 
     /**
@@ -68,7 +68,7 @@ public class TestCurrentTermEndAddsVehicle extends TestCurrentTermEndAddsVehicle
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-16150")
     //PAS-16150 and PAS-14532 carry same scenarios
     public void pas14532_refreshForCurrentAndRenewalTermsVinMatched(@Optional("CA") String state) {
-        pas14532_refreshForCurrentAndRenewalTerms(state, MATCHED);
+        pas14532_refreshForCurrentAndRenewalTerms(MATCHED);
     }
 
     /**
@@ -96,30 +96,31 @@ public class TestCurrentTermEndAddsVehicle extends TestCurrentTermEndAddsVehicle
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-16150")
     //PAS-16150 and PAS-14532 carry same scenarios
     public void pas14532_refreshForCurrentAndRenewalTermsVinStubUpdate(@Optional("CA") String state) {
-        pas14532_refreshForCurrentAndRenewalTerms(state, STUB);
+        pas14532_refreshForCurrentAndRenewalTerms(STUB);
     }
 
-    public void pas14532_refreshForCurrentAndRenewalTerms(@Optional("CA") String state, String scenario) {
-        pas14532_refreshForCurrentAndRenewalTerms_initiateEndorsement(state, scenario);
-        pas14532_refreshForCurrentAndRenewalTerms_bindEndorsement(state, scenario);
+    public void pas14532_refreshForCurrentAndRenewalTerms(String scenario) {
+        pas14532_refreshForCurrentAndRenewalTerms_initiateEndorsement(scenario);
+        pas14532_refreshForCurrentAndRenewalTerms_bindEndorsement(scenario);
+
         //7. Verify Latest Renewal Version has correct vehicle details
         viewRatingDetails();
         ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
         if (scenario.equals(NOT_MATCHED)) { //Assertion for scenario 1
             // The First Vehicle - Displays Updated/refreshed data according to version;
             doSoftAssertions(softly, 2, "HYUNDAI MOTOR", "12", "17");
-            doSoftAssertions(softly,3, "TOYOTA MOTOR", "20", "30");
-            doSoftAssertions(softly,4, "FORD MOTOR", "25", "37");
+            doSoftAssertions(softly, 3, "TOYOTA MOTOR", "20", "30");
+            doSoftAssertions(softly, 4, "FORD MOTOR", "25", "37");
         } else if (scenario.equals(MATCHED)) { //Assertion for scenario 2
             // The second Vehicle - NOT updated will not change/not refresh;
-            doSoftAssertions(softly,2, "KIA MOTOR", "20", "10");
-            doSoftAssertions(softly,3, "TOYOTA MOTOR", "20", "30");
-            doSoftAssertions(softly,4, "FORD MOTOR", "25", "37");
+            doSoftAssertions(softly, 2, "KIA MOTOR", "20", "10");
+            doSoftAssertions(softly, 3, "TOYOTA MOTOR", "20", "30");
+            doSoftAssertions(softly, 4, "FORD MOTOR", "25", "37");
         } else if (scenario.equals(STUB)) { //Assertion for scenario 3
             // The third Vehicle - displayed updated/refreshed data according to version;
-            doSoftAssertions(softly,2, "KIA MOTOR", "20", "10");
-            doSoftAssertions(softly,3, "BMW MOTOR", "12", "12");
-            doSoftAssertions(softly,4, "FORD MOTOR", "25", "37");
+            doSoftAssertions(softly, 2, "KIA MOTOR", "20", "10");
+            doSoftAssertions(softly, 3, "BMW MOTOR", "12", "12");
+            doSoftAssertions(softly, 4, "FORD MOTOR", "25", "37");
         }
         softly.close();
         closeRatingDetails();
