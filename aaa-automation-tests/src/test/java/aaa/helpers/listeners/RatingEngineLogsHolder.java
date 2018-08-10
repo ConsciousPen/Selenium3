@@ -21,12 +21,12 @@ public class RatingEngineLogsHolder {
 	private RatingEngineLog responseLog;
 
 	public RatingEngineLogsHolder() {
-		this("", "");
+		this("", "", "");
 	}
 
-	public RatingEngineLogsHolder(String ratingRequestLogContent, String ratingResponseLogContent) {
-		this.requestLog = new RatingEngineLog(ratingRequestLogContent);
-		this.responseLog = new RatingEngineLog(ratingResponseLogContent);
+	public RatingEngineLogsHolder(String ratingRequestLogContent, String ratingResponseLogContent, String logId) {
+		this.requestLog = new RatingEngineLog(ratingRequestLogContent, logId);
+		this.responseLog = new RatingEngineLog(ratingResponseLogContent, logId);
 	}
 
 	public RatingEngineLog getRequestLog() {
@@ -34,7 +34,11 @@ public class RatingEngineLogsHolder {
 	}
 
 	public void setRequestLog(String requestLogContent) {
-		this.requestLog = new RatingEngineLog(requestLogContent);
+		this.requestLog = new RatingEngineLog(requestLogContent, "");
+	}
+
+	public void setRequestLog(String requestLogContent, String logSectionId) {
+		this.requestLog = new RatingEngineLog(requestLogContent, logSectionId);
 	}
 
 	public RatingEngineLog getResponseLog() {
@@ -42,7 +46,11 @@ public class RatingEngineLogsHolder {
 	}
 
 	public void setResponseLog(String responseLogContent) {
-		this.responseLog = new RatingEngineLog(responseLogContent);
+		this.responseLog = new RatingEngineLog(responseLogContent, "");
+	}
+
+	public void setResponseLog(String responseLogContent, String logSectionId) {
+		this.responseLog = new RatingEngineLog(responseLogContent, logSectionId);
 	}
 
 	public void dumpLogs(String requestLogDestinationPath, String responseLogDestinationPath, boolean archiveLogs) {
@@ -52,17 +60,27 @@ public class RatingEngineLogsHolder {
 
 	public static final class RatingEngineLog {
 		private static final String ARCHIVE_EXTENSION = ".zip";
+		private String logSectionId;
 		private String logContent;
 		private String formattedLogContent;
 		private JsonElement jsonElement;
 		private Map<String, String> openLFieldsMap;
 
-
-		private RatingEngineLog(String logContent) {
+		private RatingEngineLog(String logContent, String logSectionId) {
 			if (logContent == null) {
 				throw new IstfException("Unable to create RatingEngineLog object with null log content");
 			}
 			this.logContent = logContent;
+			this.logSectionId = logSectionId;
+		}
+
+		/**
+		 * Returns rating engine log section id separated by "--------------------------------------"
+		 *
+		 * @return rating engine log section id
+		 */
+		public String getLogSectionId() {
+			return logSectionId;
 		}
 
 		/**
