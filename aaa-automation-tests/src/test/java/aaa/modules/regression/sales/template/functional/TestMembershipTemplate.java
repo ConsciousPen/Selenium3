@@ -7,10 +7,8 @@ import aaa.common.pages.Page;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.metadata.policy.*;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -25,16 +23,12 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TestMembershipTemplate extends PolicyBaseTest {
+public abstract class TestMembershipTemplate extends PolicyBaseTest {
 
-    RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
-    private GeneralTab generalTab = new GeneralTab();
-    private ApplicantTab applicantTab = new ApplicantTab();
+    private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
     private ErrorTab errorTab = new ErrorTab();
     private PurchaseTab purchaseTab = new PurchaseTab();
-    private aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab purchaseTabCA = new aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab();
     private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
-
 
     protected void pas16457_validateMembershipNB15() {
 
@@ -43,26 +37,38 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         createCustomerIndividual();
         policy.initiate();
 
-        if (getPolicyType() == PolicyType.AUTO_SS) {
-            TestData tdAuto = getAdjustedTestData_Auto();
-            AutoSSPolicy(tdAuto);
-        } else if (getPolicyType() == PolicyType.HOME_SS_HO3) {
-            TestData tdHome = getAdjustedTestData_Home();
-            homeSSPolicy(tdHome);
-        } else if (getPolicyType() == PolicyType.HOME_CA_HO3) {
-            TestData tdHome = getAdjustedTestData_Home();
-            homeCAPolicy(tdHome);
-        } else {
-            TestData tdAuto = getAdjustedTestData_Auto();
-            AutoCASpecificPolicy(tdAuto);
+        switch (getPolicyType().getShortName())
+        {
+            case "AutoSS": {
+                TestData tdAuto = getAdjustedTestData_Auto();
+                AutoSSPolicy(tdAuto);
+                break;
+            }
+
+            case "HomeSS_HO3": {
+                TestData tdHome = getAdjustedTestData_Home();
+                homeSSPolicy(tdHome);
+                break;
+            }
+
+            case "HomeCA_HO3": {
+                TestData tdHome = getAdjustedTestData_Home();
+                homeCAPolicy(tdHome);
+                break;
+            }
+
+            default: {
+                TestData tdAuto = getAdjustedTestData_Auto();
+                AutoCASpecificPolicy(tdAuto);
+            }
         }
 
         String policyNumber = PolicySummaryPage.getPolicyNumber();
         LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 
         //Update membership number in DB
-        String db = DBService.get().getValue(String.format(GET_STATUS + policyNumber + GET_STATUS_2)).get();
-        assertThat(db.contains("Error")).isTrue();
+        assertThat(DBService.get().getValue(String.format(GET_STATUS + policyNumber + GET_STATUS_2)).get()).isEqualTo("Error");
+
         DBService.get().executeUpdate(UPDATE_MEMBERSHIP_NUMBER + policyNumber + "')");
         DBService.get().executeUpdate(UPDATE_PRIOR_MEMBERSHIP_NUMBER + policyNumber + "')");
 
@@ -77,8 +83,7 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(30));
         JobUtils.executeJob(Jobs.membershipValidationJob);
 
-        db = DBService.get().getValue(String.format(GET_STATUS + policyNumber + GET_STATUS_2)).get();
-        assertThat(db.contains("Active")).isTrue();
+        assertThat(DBService.get().getValue(String.format(GET_STATUS + policyNumber + GET_STATUS_2)).get()).isEqualTo("Active");
     }
 
     protected void AutoCASpecificPolicy(TestData td) {
@@ -90,12 +95,7 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
         policy.getDefaultView().fillFromTo(td, DriverActivityReportsTab.class, DocumentsAndBindTab.class, false);
         new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.AGREEMENT).setValue("I agree");
-        documentsAndBindTab.submitTab();
-        errorTab.overrideAllErrors();
-        errorTab.override();
-        documentsAndBindTab.submitTab();
-        purchaseTab.fillTab(td);
-        purchaseTab.submitTab();
+
 
     }
 
@@ -118,11 +118,7 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         policy.getDefaultView().fillFromTo(td, DriverActivityReportsTab.class, DocumentsAndBindTab.class, false);
 
         new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.AGREEMENT).setValue("I agree");
-        documentsAndBindTab.submitTab();
-        errorTab.overrideAllErrors();
-        errorTab.override();
-        documentsAndBindTab.submitTab();
-        purchaseTab.fillTab(td).submitTab();
+        validateErrors(td);
     }
 
     protected void homeSSPolicy(TestData td) {
@@ -134,29 +130,20 @@ public class TestMembershipTemplate extends PolicyBaseTest {
             policy.getDefaultView().fillFromTo(td, PropertyInfoTab.class, BindTab.class);
         }
 
-        documentsAndBindTab.submitTab();
-        errorTab.overrideAllErrors();
-        errorTab.override();
-        documentsAndBindTab.submitTab();
-        purchaseTab.fillTab(td).submitTab();
+        validateErrors(td);
 
     }
 
     protected void homeCAPolicy(TestData td) {
 
         policy.getDefaultView().fillUpTo(td, aaa.main.modules.policy.home_ca.defaulttabs.BindTab.class, true);
-
-        documentsAndBindTab.submitTab();
-        errorTab.overrideAllErrors();
-        errorTab.override();
-        documentsAndBindTab.submitTab();
-        purchaseTabCA.fillTab(td).submitTab();
+        validateErrors(td);
     }
 
     private TestData getAdjustedTestData_Home() {
         TestData testData = getPolicyTD();
 
-        TestData testDataApplicantTab = testData.getTestData(applicantTab.getMetaKey());
+        TestData testDataApplicantTab = testData.getTestData(HomeSSMetaData.GeneralTab.class.getSimpleName());
 
         TestData testDataAAAProductsOwned = testDataApplicantTab.getTestData(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel())
                 .adjust(HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), "2111111111111110");
@@ -164,14 +151,14 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         TestData applicantTabAdjusted = testDataApplicantTab
                 .adjust(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), testDataAAAProductsOwned);
 
-        testData.adjust(applicantTab.getMetaKey(), applicantTabAdjusted).resolveLinks();
+        testData.adjust(HomeSSMetaData.GeneralTab.class.getSimpleName(), applicantTabAdjusted).resolveLinks();
         return testData;
     }
 
     private TestData getAdjustedTestData_Auto() {
         TestData testData = getPolicyTD();
 
-        TestData testDataGeneralTab = testData.getTestData(generalTab.getMetaKey());
+        TestData testDataGeneralTab = testData.getTestData(AutoSSMetaData.GeneralTab.class.getSimpleName());
 
         TestData testDataAAAProductsOwned = testDataGeneralTab.getTestData(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel())
                 .adjust(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), "2111111111111110");
@@ -179,8 +166,17 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         TestData generalTabAdjusted = testDataGeneralTab
                 .adjust(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), testDataAAAProductsOwned);
 
-        testData.adjust(generalTab.getMetaKey(), generalTabAdjusted).resolveLinks();
+        testData.adjust(AutoSSMetaData.GeneralTab.class.getSimpleName(), generalTabAdjusted).resolveLinks();
         return testData;
+    }
+
+    private void validateErrors(TestData td){
+        documentsAndBindTab.submitTab();
+        errorTab.overrideAllErrors();
+        errorTab.override();
+        documentsAndBindTab.submitTab();
+        purchaseTab.fillTab(td);
+        purchaseTab.submitTab();
     }
 
     public static final String UPDATE_MEMBERSHIP_NUMBER = "UPDATE membershipsummaryentity mse SET  mse.ordermembershipnumber = '4290023796712001' WHERE mse.id IN (" +
