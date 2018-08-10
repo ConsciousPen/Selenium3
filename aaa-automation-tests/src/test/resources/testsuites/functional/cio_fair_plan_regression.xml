@@ -26,7 +26,16 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestFAIRPlanEndorsement">
-
+                <methods>
+                    <exclude name="pas13242_pas14193_AC3_Renewal"/>
+                    <exclude name="pas13211_AC2_Renewal_PPC1X_LogHome_AAA_HO_CA10100616"/>
+                    <exclude name="pas13211_AC3_Renewal_PPC1X_LogHome_AAA_HO_CA10100616"/>
+                    <exclude name="pas13216_All_ACs_Renewal"/>
+                    <exclude name="pas13211_AC1_AC4_NB_PPC10_OtherThanLogHome_AAA_HO_CA02122017"/>
+                    <exclude name="pas13242_pas14193_AC1_NB"/>
+                    <exclude name="pas13242_pas14193_AC3_Revised_Renewal_After_Renewal_Term_Change"/>
+                    <exclude name="pas13242_pas14193_AC3_Revised_Renewal_After_Current_Term_Change"/>
+                </methods>
             </class>
         </classes>
     </test>
@@ -35,6 +44,16 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestFAIRPlanEndorsement">
+                <methods>
+                    <exclude name="pas13242_pas14193_AC3_Renewal"/>
+                    <exclude name="pas13211_AC2_Renewal_PPC1X_LogHome_AAA_HO_CA10100616"/>
+                    <exclude name="pas13211_AC3_Renewal_PPC1X_LogHome_AAA_HO_CA10100616"/>
+                    <exclude name="pas13216_All_ACs_Renewal"/>
+                    <exclude name="pas13211_AC1_AC4_NB_PPC10_OtherThanLogHome_AAA_HO_CA02122017"/>
+                    <exclude name="pas13242_pas14193_AC1_NB"/>
+                    <exclude name="pas13242_pas14193_AC3_Revised_Renewal_After_Renewal_Term_Change"/>
+                    <exclude name="pas13242_pas14193_AC3_Revised_Renewal_After_Current_Term_Change"/>
+                </methods>
             </class>
         </classes>
     </test>

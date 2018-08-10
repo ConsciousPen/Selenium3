@@ -78,6 +78,7 @@
                     <include name="pas3786_ScenarioAC1_Validate_Override_Endorsement"/>
                     <include name="pas3786_ScenarioAC1_Validate_Override_Renewal"/>
                     <include name="pas6668_ScenarioAC2_Dummy_Numbers_Manual_Renewal"/>
+                    <exclude name="pas6668_pas8815_ScenarioAC2_Dummy_Numbers_Automatic_Renewal"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMembershipValidation">
@@ -87,6 +88,7 @@
                     <include name="pas3786_ScenarioAC1_Validate_Override_Endorsement"/>
                     <include name="pas3786_ScenarioAC1_Validate_Override_Renewal"/>
                     <include name="pas6668_ScenarioAC2_Dummy_Numbers_Manual_Renewal"/>
+                    <exclude name="pas6668_pas8815_ScenarioAC2_Dummy_Numbers_Automatic_Renewal"/>
                 </methods>
             </class>
         </classes>
@@ -96,6 +98,11 @@
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipOverride">
+                <methods>
+                    <exclude name="pas6314_Validate_Membership_Override_AC1"/>
+                    <exclude name="pas6314_Validate_Membership_Override_AC2"/>
+                    <exclude name="pas6314_Validate_Membership_Override_AC3"/>
+                </methods>
             </class>
         </classes>
     </test>
@@ -104,6 +111,12 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMembershipOverride">
+                <methods>
+                    <exclude name="pas6314_Validate_Membership_Override_AC1"/>
+                    <exclude name="pas6314_Validate_Membership_Override_AC2"/>
+                    <exclude name="pas6314_Validate_Membership_Override_AC3"/>
+                    <exclude name="pas6313_Validate_Membership_Override_NB15NB30"/>
+                </methods>
             </class>
         </classes>
     </test>
@@ -112,6 +125,12 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestMembershipOverride">
+                <methods>
+                    <exclude name="AC1_testMembershipOverride_NB15NB30Jobs"/>
+                    <exclude name="AC1_testMembershipOverride_Renewal"/>
+                    <exclude name="AC2_testMembershipOverride_Renewal"/>
+                    <exclude name="AC3_testMembershipOverride_Renewal"/>
+                </methods>
             </class>
         </classes>
     </test>
@@ -120,6 +139,12 @@
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestMembershipOverride">
+                <methods>
+                    <exclude name="AC1_testMembershipOverride_NB15NB30Jobs"/>
+                    <exclude name="AC1_testMembershipOverride_Renewal"/>
+                    <exclude name="AC2_testMembershipOverride_Renewal"/>
+                    <exclude name="AC3_testMembershipOverride_Renewal"/>
+                </methods>
             </class>
         </classes>
     </test>

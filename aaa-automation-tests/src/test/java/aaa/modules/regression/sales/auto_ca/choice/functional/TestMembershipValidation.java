@@ -31,6 +31,7 @@ import aaa.modules.policy.AutoCaChoiceBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
+//TODO: Timepoint test case - move out
 @StateList(states = Constants.States.CA)
 public class TestMembershipValidation extends AutoCaChoiceBaseTest {
     /**
