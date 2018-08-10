@@ -21,7 +21,6 @@ public class CsaaXmlClass {
 
 	public CsaaXmlClass(XmlTest test, XmlClass sourceClass, String state) {
 		parseClass(test, sourceClass, state);
-		//xmlClass = sourceClass;
 	}
 
 	public String getPolicyType() {
@@ -146,9 +145,7 @@ public class CsaaXmlClass {
 				returnValue = true;
 			}
 		}
-
 		return returnValue;
-
 	}
 
 	private Boolean containsParams(Class clazz, String methodName) {
