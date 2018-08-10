@@ -141,4 +141,20 @@
             </class>
         </classes>
     </test>
+    <test name="PAS-13215 - AC1/2 - 18.5: CA FAIR Plan: Rating (CA DP3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanRating">
+            </class>
+        </classes>
+    </test>
+    <test name="PAS-13215 - AC1/2 - 18.5: CA FAIR Plan: Rating (CA HO3)"
+          parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCAFairPlanRating">
+            </class>
+        </classes>
+    </test>
 </suite>
