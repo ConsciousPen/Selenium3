@@ -332,7 +332,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			softly.assertThat(errorResponse3.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 			softly.assertThat(errorResponse3.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 			softly.assertThat(errorResponse3.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getCode());
-			softly.assertThat(errorResponse3.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getMessage());
+			softly.assertThat(errorResponse3.errors.get(0).message).contains(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getMessage());
 			softly.assertThat(errorResponse3.errors.get(0).field).isEqualTo("vehTypeCd");
 		});
 	}
@@ -716,6 +716,9 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			request.purchaseDate = purchaseDate9;
 			request.vehIdentificationNo = vin9;
 
+			String purchaseDate10 = "2009-06-26";
+			String vin10 = "5Y2SL62893Z446850"; //2003 Point Vibe
+
 			ErrorResponseDto responseAddVehicleError = HelperCommon.viewAddVehicleServiceErrors(policyNumber, purchaseDate9, vin9);
 			softly.assertThat(responseAddVehicleError.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 			softly.assertThat(responseAddVehicleError.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
@@ -750,12 +753,11 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			vehicleTab.saveAndExit();
 			mainApp().close();
 
-			addVehicleWithChecks(policyNumber, purchaseDate6, vin6, false);
+			addVehicleWithChecks(policyNumber, purchaseDate10, vin10, false);
 			PolicyPremiumInfo[] endorsementRateResponse2 = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
 			softly.assertThat(endorsementRateResponse2[0].actualAmt).isNotBlank();
 
 			helperMiniServices.bindEndorsementWithCheck(policyNumber);
-
 			testEValueDiscount.secondEndorsementIssueCheck();
 		});
 	}
@@ -2473,7 +2475,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			String newVehicleOid = addVehicleWithChecks(policyNumber, "2013-02-22", "1FADP3J2XJL222680", true);
 			ViewVehicleResponse viewEndorsementVehicleResponse3 = HelperCommon.viewEndorsementVehicles(policyNumber);
 			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, vehiclePpa2Oid)).isEqualTo("[replace, remove]");
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, newVehicleOid)).isEqualTo("[replace, remove]");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, newVehicleOid)).isEqualTo("[remove]");
 		});
 	}
 
@@ -2520,7 +2522,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			ViewVehicleResponse viewEndorsementVehicleResponse3 = HelperCommon.viewEndorsementVehicles(policyNumber);
 			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, vehiclePpa1Oid)).isEqualTo("[replace, remove]");
 			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, vehicleWlOid)).isEqualTo("[remove]");
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, newVehicleOid)).isEqualTo("[replace, remove]");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, newVehicleOid)).isEqualTo("[remove]");
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 
