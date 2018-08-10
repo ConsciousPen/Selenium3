@@ -52,6 +52,34 @@
         </classes>
     </test>
 
+    <!--Tests for Property-->
+
+    <test name="Test Tier And UW Points Lock NY"  parallel="methods" thread-count="1024">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <!--Tests for Defects-->
 
     <test name="Test Off Cycle Bill Generation With No Installment Date For SS" parallel="methods" thread-count="1024">
@@ -173,6 +201,19 @@
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestViewRatingDetailsLink">
                 <methods>
                     <include name="pas8871_testViewRatingDetailsLink_HO6"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test Lexis Nexis MVR Ordering on DAR page" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLexisNexisMVROrdering">
+                <methods>
+                    <include name="pas10099_testLexisNexisMVROrderingWA"/>
+                    <include name="pas10099_testLexisNexisMVROrderingCA"/>
+                    <include name="pas10099_testLexisNexisMVROrderingFL"/>
                 </methods>
             </class>
         </classes>

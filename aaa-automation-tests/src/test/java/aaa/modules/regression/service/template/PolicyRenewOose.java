@@ -2,6 +2,8 @@ package aaa.modules.regression.service.template;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+
+import aaa.common.Tab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 
@@ -28,7 +30,8 @@ public class PolicyRenewOose extends PolicyBaseTest {
 	        createPolicy();
 	        
 	        //change payment plan value
-	        policy.renew().performAndExit(getTestSpecificTD("TestData_Renew"));
+	        policy.renew().performAndFill(getTestSpecificTD("TestData_Renew").resolveLinks());
+			Tab.buttonSaveAndExit.click();
 	         
 	        //change value for some coverage
 	        policy.createEndorsement(getTestSpecificTD("TestData_endorsement_without_conflict").adjust(getPolicyTD("Endorsement", "TestData")));
@@ -43,6 +46,8 @@ public class PolicyRenewOose extends PolicyBaseTest {
 	        policy.createEndorsement(getTestSpecificTD("TestData_endorsement_with_conflict").adjust(getPolicyTD("Endorsement", "TestData")));
 	        
 	        //here will be comparison screen when OOSE feature will be turned on
+	        //rollOnChangesOnDifferencesTab();
+	        policy.rollOn().perform(true);
 	        
 	        //check: one more renewal version is created automatically
 	        PolicySummaryPage.buttonRenewalQuoteVersion.click();
@@ -51,5 +56,4 @@ public class PolicyRenewOose extends PolicyBaseTest {
 	        //product's specific checking will follow in test for concrete product
 	        
 	    }
-		
 }

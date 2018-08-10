@@ -1,6 +1,9 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
 import java.time.LocalDateTime;
+
+import aaa.common.enums.Constants;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -28,6 +31,7 @@ import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
+@StateList(states = Constants.States.CA)
 public class TestMembershipValidation extends AutoCaSelectBaseTest {
     /**
      * @author Andrejs Mitjukovs
@@ -268,7 +272,7 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization", enabled = false)
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-3786 PAS-8815")
     public void pas6668_pas8815_ScenarioAC2_Dummy_Numbers_Automatic_Renewal(@Optional("CA") String state) {
 

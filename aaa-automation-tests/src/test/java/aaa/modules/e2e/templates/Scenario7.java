@@ -225,6 +225,9 @@ public class Scenario7 extends ScenarioBaseTest {
 		BillingSummaryPage.openPolicy(policyEffectiveDate);
 
 		policy.endorse().performAndFill(getTestSpecificTD("TestData_EndorsementRP").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData")));
+		if (PolicySummaryPage.tableDifferences.isPresent()) {
+			policy.rollOn().perform(true);
+		}
 		PolicyHelper.verifyEndorsementIsCreated();
 
 		//CustomAssert.enableSoftMode();
@@ -258,6 +261,9 @@ public class Scenario7 extends ScenarioBaseTest {
 		BillingSummaryPage.openPolicy(policyEffectiveDate);
 
 		policy.endorse().performAndFill(getTestSpecificTD("TestData_EndorsementAP").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData")));
+		if (PolicySummaryPage.tableDifferences.isPresent()) {
+			policy.rollOn().perform(true);
+		}
 		PolicyHelper.verifyEndorsementIsCreated();
 
 		//CustomAssert.enableSoftMode();
@@ -315,6 +321,9 @@ public class Scenario7 extends ScenarioBaseTest {
 		BillingSummaryPage.openPolicy(policyExpirationDate);
 
 		policy.endorse().performAndFill(getTestSpecificTD("TestData_EndorsementRP").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData")));
+		if (PolicySummaryPage.tableDifferences.isPresent()) {
+			policy.rollOn().perform(true);
+		}
 		PolicyHelper.verifyEndorsementIsCreated();
 
 		//CustomAssert.enableSoftMode();
@@ -341,6 +350,9 @@ public class Scenario7 extends ScenarioBaseTest {
 		BillingSummaryPage.openPolicy(policyExpirationDate);
 
 		policy.endorse().performAndFill(getTestSpecificTD("TestData_EndorsementAP").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData")));
+		if (PolicySummaryPage.tableDifferences.isPresent()) {
+			policy.rollOn().perform(true);
+		}
 		PolicyHelper.verifyEndorsementIsCreated();
 
 		//CustomAssert.enableSoftMode();

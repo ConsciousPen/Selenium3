@@ -51,11 +51,11 @@ public class ExcelMarshaller {
 		try (ExcelManager excelManager = new ExcelManager(outputExcelFile, getAllowableCellTypes())) {
 			cache = new MarshallingCache(excelManager);
 			if (isExcelFileObject) {
-				for (Field tableField : BindHelper.getAllAccessibleFields(objectToMarshall.getClass(), true)) {
-					marshalRows(BindHelper.getValueAsList(tableField, objectToMarshall), outputExcelFile, cache);
+				for (Field tableField : ReflectionHelper.getAllAccessibleTableFieldsFromThisAndSuperClasses(objectToMarshall.getClass())) {
+					marshalRows(ReflectionHelper.getValueAsList(tableField, objectToMarshall), outputExcelFile, cache);
 				}
 			} else {
-				marshalRows(BindHelper.getValueAsList(objectToMarshall), outputExcelFile, cache);
+				marshalRows(ReflectionHelper.getValueAsList(objectToMarshall), outputExcelFile, cache);
 			}
 			
 			excelManager.save();
@@ -77,18 +77,18 @@ public class ExcelMarshaller {
 			for (Field tableColumnField : tableClassInfo.getTableColumnsFields()) {
 				switch (tableClassInfo.getBindType(tableColumnField)) {
 					case REGULAR:
-						row.setValue(tableClassInfo.getHeaderColumnIndex(tableColumnField), BindHelper.getFieldValue(tableColumnField, rowObject));
+						row.setValue(tableClassInfo.getHeaderColumnIndex(tableColumnField), ReflectionHelper.getFieldValue(tableColumnField, rowObject));
 						break;
 					case TABLE:
-						List<?> linkedTableRowObjects = BindHelper.getValueAsList(tableColumnField, rowObject);
+						List<?> linkedTableRowObjects = ReflectionHelper.getValueAsList(tableColumnField, rowObject);
 						Field primaryKeyField = cache.of(tableColumnField).getPrimaryKeyColumnField();
 						if (linkedTableRowObjects.size() == 1) {
-							Integer primaryKeyValue = (Integer) BindHelper.getFieldValue(primaryKeyField, linkedTableRowObjects.get(0));
+							Integer primaryKeyValue = (Integer) ReflectionHelper.getFieldValue(primaryKeyField, linkedTableRowObjects.get(0));
 							row.setValue(tableClassInfo.getHeaderColumnIndex(tableColumnField), primaryKeyValue, ExcelCell.INTEGER_TYPE);
 						} else {
 							StringBuilder linkedTableRowIDs = new StringBuilder();
 							for (int i = 0; i < linkedTableRowObjects.size(); i++) {
-								linkedTableRowIDs.append(BindHelper.getFieldValue(primaryKeyField, linkedTableRowObjects.get(i)));
+								linkedTableRowIDs.append(ReflectionHelper.getFieldValue(primaryKeyField, linkedTableRowObjects.get(i)));
 								if (i != linkedTableRowObjects.size() - 1) {
 									linkedTableRowIDs.append(cache.of(tableColumnField).getPrimaryKeysSeparator());
 								}
@@ -97,7 +97,7 @@ public class ExcelMarshaller {
 						}
 						break;
 					case MULTI_COLUMNS:
-						List<?> columnsObjects = BindHelper.getValueAsList(tableColumnField, rowObject);
+						List<?> columnsObjects = ReflectionHelper.getValueAsList(tableColumnField, rowObject);
 						List<Integer> headerColumnsIndexes = tableClassInfo.getHeaderColumnsIndexes(tableColumnField);
 						for (int i = 0; i < headerColumnsIndexes.size(); i++) {
 							row.getCell(headerColumnsIndexes.get(i)).setValue(columnsObjects.get(i));

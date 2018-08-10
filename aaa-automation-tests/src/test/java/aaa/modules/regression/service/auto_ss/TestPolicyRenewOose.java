@@ -70,8 +70,8 @@ public class TestPolicyRenewOose extends PolicyRenewOose {
     	   assertThat(new PremiumAndCoveragesTab()
     			   .getInquiryAssetList()
     			   .getStaticElement(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel())
-    			   //.getValue()).isEqualTo("Semi-Annual (Renewal)");
-    			   .getValue()).isEqualTo("Annual (Renewal)");
+    			   .getValue()).isEqualTo("Semi-Annual (Renewal)");
+    			   //.getValue()).isEqualTo("Annual (Renewal)");
     	    
 	   	   PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 	   	   PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();

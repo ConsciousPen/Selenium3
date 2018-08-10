@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.home_ca.ho3.functional;
 
+import aaa.common.enums.Constants;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -21,12 +23,11 @@ import toolkit.utils.TestInfo;
  * 2. Initiate new Homeowners CA HO3 quote creation
  * 3. Validate Not Ordered Error after pressing Continue button [NB Quote]
  * 4. Validate Not Ordered Error after pressing on other Tab [NB Quote]
- * 5. Validate Not Ordered Error after pressing Calculate Premium Button [NB Quote]
- * 6. Validate Not Ordered Error after pressing Continue button [Endorsement Quote]
- * 7. Validate Not Ordered Error after pressing on other Tab [Endorsement Quote]
- * 8. Validate Not Ordered Error after pressing Calculate Premium Button [Endorsement Quote]
+ * 5. Validate Not Ordered Error after pressing Continue button [Endorsement Quote]
+ * 6. Validate Not Ordered Error after pressing on other Tab [Endorsement Quote]
  * @details
  **/
+@StateList(states = Constants.States.CA)
 public class TestNotOrderedMembershipError extends HomeCaHO3BaseTest {
 
     private ReportsTab reportsTab = new ReportsTab();
@@ -42,8 +43,7 @@ public class TestNotOrderedMembershipError extends HomeCaHO3BaseTest {
         TestData tdEndorsementStart = getPolicyTD("Endorsement", "TestData_Plus1Month");
         TestData tdMembershipEndorsement = getTestSpecificTD("TestData_NotOrderedMembershipValidationHO3_Endorsement");
 
-        String notOrderedMembershipFirstMessage = "You must order the Membership report.";
-        String notOrderedMembershipSecondMessage = "Please order membership report. (AAA_HO_CA171221-1PsQ6) [for AAAHOMembershipR...";
+        String notOrderedMembershipMessage = "You must order the Membership report.";
 
         mainApp().open();
         createCustomerIndividual();
@@ -55,16 +55,11 @@ public class TestNotOrderedMembershipError extends HomeCaHO3BaseTest {
         // Validating first error condition [NB Quote]
         policy.getDefaultView().fillUpTo(tdMembershipQuote, ReportsTab.class);
         reportsTab.getAssetList().fill(getTestSpecificTD("TestData_NotOrderedMembershipValidationHO3"));
-        validateFirstError(notOrderedMembershipFirstMessage);
+        validateFirstError(notOrderedMembershipMessage);
 
         // Validating second error condition [NB Quote]
-        validateSecondError(notOrderedMembershipFirstMessage);
+        validateSecondError(notOrderedMembershipMessage);
 
-        // Validating third error condition [NB Quote]
-        policy.dataGather().start();
-        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
-        policy.getDefaultView().fillFromTo(tdMembershipQuote, PropertyInfoTab.class, PremiumsAndCoveragesQuoteTab.class, true);//TODO: FIX HERE - likely can remove as its redundant checks
-        validateThirdError(notOrderedMembershipSecondMessage);
         log.info("Not Ordered Membership Errors Validation for NB Quote Successfully Completed..");
 
         // Errors validation during Endorsement Quote
@@ -75,15 +70,11 @@ public class TestNotOrderedMembershipError extends HomeCaHO3BaseTest {
         // Validating first error condition [Endorsement Quote]
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.APPLICANT.get());
         policy.getDefaultView().fillFromTo(tdMembershipQuote, ApplicantTab.class, ReportsTab.class);
-        validateFirstError(notOrderedMembershipFirstMessage);
+        validateFirstError(notOrderedMembershipMessage);
 
         // Validating second error condition [Endorsement Quote]
-        validateSecondError(notOrderedMembershipFirstMessage);
+        validateSecondError(notOrderedMembershipMessage);
 
-        // Validating third error condition [Endorsement Quote]
-        policy.endorse().start();
-        premiumsAndCoveragesQuoteTab.calculatePremium();
-        validateThirdError(notOrderedMembershipSecondMessage);
         log.info("Not Ordered Membership Errors Validation for Endorsement Quote Successfully Completed..");
 
         mainApp().close();
@@ -94,10 +85,8 @@ public class TestNotOrderedMembershipError extends HomeCaHO3BaseTest {
     */
     private void validateFirstError(String notOrderedMembershipFirstMessage){
         reportsTab.submitTab();
-        //TODO: Fixed here
-        //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
+        //Changed verify to contains to confirm to AWS PROD mode for regression runs.
         errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.contains(notOrderedMembershipFirstMessage);
-        //errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
         errorTab.cancel();
     }
 
@@ -106,24 +95,10 @@ public class TestNotOrderedMembershipError extends HomeCaHO3BaseTest {
     */
     private void validateSecondError(String notOrderedMembershipFirstMessage){
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
-        //TODO: Fixed here
-        //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
+        //Changed verify to contains to confirm to AWS PROD mode for regression runs.
         errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.contains(notOrderedMembershipFirstMessage);
-        //errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
         errorTab.cancel();
         reportsTab.saveAndExit();
-    }
-
-    /*
-    Method validates that second type error is being thrown after pressing on Premium and Coverages Tab and after pressing Calculate Premium button
-    */
-    private void validateThirdError(String notOrderedMembershipSecondMessage){
-        //TODO: Fixed here
-        //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
-        errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage).verify.contains(notOrderedMembershipSecondMessage);
-        //errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage).verify.present();
-        errorTab.cancel();
-        premiumsAndCoveragesQuoteTab.saveAndExit();
     }
 }
 

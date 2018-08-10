@@ -114,7 +114,9 @@ public abstract class PropertyEndorsementsMultiAssetList extends AbstractContain
 		for (Map.Entry<String, BaseElement<?, ?>> entry : getAssetCollection().entrySet()) {
 			entry.getValue().fill(value);
 		}
-		endorsementsTab.btnSaveForm.click();
+		if(endorsementsTab.btnSaveForm.isPresent()){
+			endorsementsTab.btnSaveForm.click();
+		}
 	}
 
 	protected void addSection() {

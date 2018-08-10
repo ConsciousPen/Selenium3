@@ -178,7 +178,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@StateList(states = {Constants.States.AZ, Constants.States.ID, Constants.States.KY, Constants.States.PA, Constants.States.SD, Constants.States.UT, Constants.States.WV, //applicable states for PAS-15254
+	@StateList(states = {Constants.States.AZ, Constants.States.ID, Constants.States.KY, Constants.States.PA, Constants.States.SD, Constants.States.UT, Constants.States.WV, Constants.States.MT, //applicable states for PAS-15254
 			Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS, Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR}) //applicable states for PAS-14733
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15254", "PAS-14733"})
 	public void pas15254_14733_UpdateCoveragesBI_UM_UIM(@Optional("") String state) {
@@ -342,10 +342,11 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * @name Check UM/UIM delimiter
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.AZ, Constants.States.DC, Constants.States.ID, Constants.States.KY, Constants.States.PA, Constants.States.SD})
+	@StateList(states = {Constants.States.AZ, Constants.States.DC, Constants.States.ID, Constants.States.KY, Constants.States.PA,
+			Constants.States.SD, Constants.States.MT})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15228"})
-	public void pas15228_UmUimDelimiter(@Optional("DC") String state) {
+	public void pas15228_UmUimDelimiter(@Optional("") String state) {
 		pas15228_UmUimDelimiterBody();
 	}
 

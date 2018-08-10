@@ -8,6 +8,7 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.AutoCaPolicyActions;
 import org.assertj.core.api.SoftAssertions;
 import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 
 public class TestCinAbstractAutoCA extends TestCinAbstract {
 
@@ -50,6 +51,16 @@ public class TestCinAbstractAutoCA extends TestCinAbstract {
     @Override
     protected void performRenewal(TestData renewalTD) {
         new AutoCaPolicyActions.Renew().performAndFill(renewalTD);
+    }
+    
+    @Override
+    protected void performDoNotRenew(TestData doNotRenewTD) {
+    	new AutoCaPolicyActions.DoNotRenew().perform(doNotRenewTD);
+    }
+    
+    @Override
+    protected void performRemoveDoNotRenew() {
+    	new AutoCaPolicyActions.RemoveDoNotRenew().perform(new SimpleDataProvider());
     }
 
 }

@@ -1,18 +1,18 @@
 package aaa.helpers;
 
-import aaa.common.enums.Constants;
-import org.apache.commons.lang3.StringUtils;
-import org.testng.ITestContext;
-import org.testng.annotations.DataProvider;
-import toolkit.config.PropertyProvider;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
+import org.testng.ITestContext;
+import org.testng.annotations.DataProvider;
+import aaa.common.enums.Constants;
+import aaa.helpers.config.CustomTestProperties;
+import toolkit.config.PropertyProvider;
 
 public class DataProviderClass {
-	private static String usState = PropertyProvider.getProperty("test.usstate");
+	private static String usState = PropertyProvider.getProperty(CustomTestProperties.TEST_USSTATE);
 
 	@DataProvider(name = "state", parallel = true)
 	public Object[][] getState(ITestContext tc, Method method) {

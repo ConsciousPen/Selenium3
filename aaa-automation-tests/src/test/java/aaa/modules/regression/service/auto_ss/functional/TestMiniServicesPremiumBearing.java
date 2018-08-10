@@ -412,6 +412,27 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	}
 
 	/**
+	 * @author Jovita Pukenaite
+	 * @name Check create endorsement service Transaction Date
+	 * @scenario 1. Create Policy
+	 * 2. Create endorsement: effective date=today
+	 * 3. Validate response (transaction date)
+	 * 4. Hit "pending endorsement info" service. Check transactionDate.
+	 * 5. Create future date endorsement
+	 * 6. Validate response (transaction date)
+	 * 7. Hit "pending endorsement info" service. Check transactionDate.
+	 * 8. Move time to the future endorsement date +2days.
+	 * 9. Hit "pending endorsement info" service. Check transactionDate.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9337"})
+	public void pas15846_CheckTransactionDateForEndorsements(@Optional("VA") String state) {
+
+		pas15846_CheckTransactionDateForEndorsementsBody();
+	}
+
+	/**
 	 * @author Oleg Stasyuk
 	 * @name Check Policy Details service for Pending and Active policies
 	 * @scenario 1. Create pending policy
@@ -426,6 +447,21 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	public void pas9716_policySummaryForPolicy(@Optional("AZ") String state) {
 
 		pas9716_policySummaryForPolicy(getPolicyType(), state);
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Check Policy Details service for Semi annual policy term
+	 * @scenario 1. Create  policy with semi annual pay term
+	 * 2. hit policy summary service
+	 * 3. verify response is returning Term 6 month
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16678"})
+	public void pas16678_policySummaryForPolicyForPolicyTerm(@Optional("VA") String state) {
+
+		pas16678_policySummaryForPolicyForPolicyTermBody(getPolicyType(), state);
 	}
 
 	/**
@@ -594,7 +630,6 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		pas10227_ViewPremiumServiceForPendedEndorsement();
 	}
 
-
 	/**
 	 * @author Oleg Stasyuk
 	 * @name Manual Endorsement Deletion
@@ -621,6 +656,125 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		assertSoftly(softly ->
 				pas12767_ServiceEndorsementCancelBody()
 		);
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * Create a policy
+	 * create a pended endorsment
+	 * hit EndorsementChangeLog service validare response NO_CHANGES
+	 * rate policy
+	 * hit view premium service
+	 * Validate premium with pas
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15897"})
+	public void pas15897_transactionHistoryAndMessage(@Optional("VA") String state) {
+
+		pas15897_TransactionHistoryAndMessage();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * Create a policy
+	 * create a pended endorsment
+	 * add new vehicle
+	 * hit EndorsementChangeLog service validare response verify all coverages are there for added vehicle
+	 * verify is chage type is added
+	 * rate policy
+	 * hit view premium service
+	 * Validate premium with pas
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14540"})
+	public void pas14540_transactionInfoAddVehicleCoverages(@Optional("VA") String state) {
+
+		pas14539_transactionInfoAddVehicleCoveragesBody();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * Create a policy
+	 * update coverages on existing vehicle
+	 * hit EndorsementChangeLog service validare response verify all coverages are there as updated
+	 * verify is chage type is Modified
+	 * rate policy
+	 * hit view premium service
+	 * Validate premium with pas
+	 */
+	//coverages update on existing policy Scenario 2
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14540"})
+	public void pas14540_transactionInfoAddVehicleCoveragesUpdate(@Optional("VA") String state) {
+
+		pas14539_transactionInfoAddVehicleCoveragesUpdateBody();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * from pre-conditions VA shouls allow all 4 actions
+	 * Create a policy
+	 * hit startEndorsement service
+	 * Validate Respose should show UpdateVehicle  UpdateDriver UpdateCoverage
+	 *
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13287"})
+	public void pas13287_ViewStartEndorsementInfoService(@Optional("VA") String state) {
+		pas13287_ViewStartEndorsementInfoServiceBody();
+
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * from pre-conditions DC shouls allow UpdateVehicle and UpdateCoverages actions
+	 * Create a policy
+	 * hit startEndorsement service
+	 * Validate Respose should show UpdateVehicle  UpdateCoverage
+	 *
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13287"})
+	public void pas13287_ViewStartEndorsementInfoServiceForDC(@Optional("DC") String state) {
+		pas13287_ViewStartEndorsementInfoServiceDCBody();
+
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * from pre-conditions AZ shouls allow UpdateVehicle and UpdateDriver actions
+	 * Create a policy
+	 * hit startEndorsement service
+	 * Validate Respose should show UpdateVehicle  UpdateDriver
+	 *
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13287"})
+	public void pas13287_ViewStartEndorsementInfoServiceForAZ(@Optional("AZ") String state) {
+		pas13287_ViewStartEndorsementInfoServiceAZBody();
+
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * from pre-conditions MD shouls allow UpdateDriver and UpdateCoverages actions
+	 * Create a policy
+	 * hit startEndorsement service
+	 * Validate Respose should show  UpdateDriver and UpdateCoverages
+	 *
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13287"})
+	public void pas13287_ViewStartEndorsementInfoServiceForMD(@Optional("MD") String state) {
+		pas13287_ViewStartEndorsementInfoServiceMDBody();
+
 	}
 
 	@Override

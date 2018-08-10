@@ -3,7 +3,6 @@ package aaa.helpers.product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 
 public class VinUploadHelper {
 
@@ -14,13 +13,6 @@ public class VinUploadHelper {
 	public VinUploadHelper(PolicyType policyType, String state) {
 		this.policyType = policyType.getShortName();
 		this.state = state;
-	}
-
-	public void verifyActivitiesAndUserNotes(String vinNumber) {
-		//method added for verification of PAS-544 - Activities and User Notes
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "VIN data has been updated for the following vehicle(s): " + vinNumber)
-				.verify.present("PAS-544 - Activities and User Notes may be broken: VIN refresh record is missed in Activities and User Notes:");
 	}
 
 	public String getSpecificUploadFile(String fileType) {

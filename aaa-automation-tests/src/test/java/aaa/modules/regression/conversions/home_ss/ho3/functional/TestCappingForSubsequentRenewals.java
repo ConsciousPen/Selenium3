@@ -1,5 +1,6 @@
 package aaa.modules.regression.conversions.home_ss.ho3.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -29,7 +30,6 @@ import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.Button;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestCappingForSubsequentRenewals extends HomeSSHO3BaseTest {
 	private static String policyNumber;
@@ -56,7 +56,7 @@ public class TestCappingForSubsequentRenewals extends HomeSSHO3BaseTest {
 	 *
 	 **/
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.UT, Constants.States.AZ})
+	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-11383")
 	public void testCappingForSubsequentRenewals(@Optional("AZ") String state) {
@@ -113,11 +113,12 @@ public class TestCappingForSubsequentRenewals extends HomeSSHO3BaseTest {
 			Tab.buttonBack.click();
 		}
 		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+		policyEffectiveDate = PolicySummaryPage.getEffectiveDate().plusYears(1);
+		policyExpirationDate = PolicySummaryPage.getExpirationDate().plusYears(1);
+		renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyEffectiveDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
+		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate);
 
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber);

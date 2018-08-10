@@ -1,5 +1,11 @@
 package aaa.modules.regression.conversions.home_ss.dp3.functional;
 
+import java.time.LocalDateTime;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -23,16 +29,9 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSDP3BaseTest;
 import aaa.modules.regression.conversions.home_ss.helper;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-
-import java.time.LocalDateTime;
 
 /**
  * @author S. Sivaram
@@ -63,7 +62,7 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSDP3
     @StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.NJ,Constants.States.MD, Constants.States.PA, Constants.States.CT})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_DP3, testCaseId = "PAS-10512, PAS-12478")
-    public void propertyInfoTabconvPolicyRenewal(@Optional("DE") String state) {
+    public void propertyInfoTabconvPolicyRenewal(@Optional("CT") String state) {
         TestData td = getConversionPolicyDefaultTD();
         String inceptionDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(10).format(DateTimeUtils.MM_DD_YYYY);
 
@@ -83,6 +82,9 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSDP3
     method clicks the renewal button and starts datagather and navigates to the property info tab
     */
     private void navigateToPropertyInfoOnSecondRenewal() {
+       /* if(PolicySummaryPage.buttonBackFromRenewals.isEnabled()){
+            PolicySummaryPage.buttonBackFromRenewals.click();
+        }*/
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
@@ -92,12 +94,13 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSDP3
     method searches for policynumber on the billing screen gets total due and makes payment for total due
     */
     private void activeFirstRenewal(String policyNumber) {
-        policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
-        policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        policyEffectiveDate = PolicySummaryPage.getEffectiveDate().plusYears(1);
+        policyExpirationDate = PolicySummaryPage.getExpirationDate().plusYears(1);
         renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyEffectiveDate);
         TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
         TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate);
+
 
         mainApp().reopen();
         SearchPage.openBilling(policyNumber);
@@ -121,6 +124,9 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSDP3
         Page.dialogConfirmation.confirm();
         if (PolicySummaryPage.buttonRenewals.isPresent()) {
             PolicySummaryPage.buttonRenewals.click();
+        }
+        if(PolicySummaryPage.buttonBackFromRenewals.isEnabled()){
+            PolicySummaryPage.buttonBackFromRenewals.click();
         }
         return PolicySummaryPage.labellinkPolicy.getValue();
     }

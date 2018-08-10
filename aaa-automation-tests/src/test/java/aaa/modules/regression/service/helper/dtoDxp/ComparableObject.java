@@ -1,8 +1,9 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
-import aaa.modules.regression.service.helper.RestBodyRequest;
+import java.util.Map;
 
-public class ComparableObject <T extends RestBodyRequest> {
-	public String changeType;
-	public T data;
+public class ComparableObject<T> {
+    public String changeType;
+    public T data;
+    public Map<String, ModifiedValue> modifiedAttributes;
 }

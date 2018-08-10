@@ -1,6 +1,10 @@
 package aaa.modules.openl;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -27,7 +31,7 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 	}
 
 	@Override
-	protected Dollar createAndRateQuote(HomeSSOpenLPolicy openLPolicy) {
+	protected String createQuote(HomeSSOpenLPolicy openLPolicy) {
 		//		ApplicationMocksManager.restartStubServer();
 		if (!getPolicyType().getShortName().contains(openLPolicy.getPolicyType())) {
 			throw new IstfException(String.format("Test can't use selected policy with policy type '%s'", openLPolicy.getPolicyType()));
@@ -73,9 +77,10 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 		}
 
 		PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
-		premiumsAndCoveragesQuoteTab.fillTab(quoteRatingData);
+		premiumsAndCoveragesQuoteTab.getAssetList().fill(quoteRatingData);
 
 		if (openLPolicy.getForms().stream().anyMatch(c -> "HS0904".equals(c.getFormCode())) && !TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(openLPolicy.getCappingDetails().getProgramCode())) {
+			premiumsAndCoveragesQuoteTab.calculatePremium();
 			premiumsAndCoveragesQuoteTab.submitTab();
 			TestData policyIssueData = tdGenerator.getPolicyIssueData(openLPolicy);
 
@@ -92,10 +97,24 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 				NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
 			}
 			policy.endorse().performAndFill(endorsementData);
-			new PremiumsAndCoveragesQuoteTab().calculatePremium();
 		}
 
+		return Tab.labelPolicyNumber.getValue();
+	}
+
+	@Override
+	protected Dollar calculatePremium(HomeSSOpenLPolicy openLPolicy) {
+		new PremiumsAndCoveragesQuoteTab().calculatePremium();
 		return PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().subtract(getSpecificFees(openLPolicy));
+	}
+
+	@Override
+	protected Map<String, String> getOpenLFieldsMapFromTest(HomeSSOpenLPolicy openLPolicy) {
+		Map<String, String> openLFieldsMap = super.getOpenLFieldsMapFromTest(openLPolicy);
+		openLFieldsMap.remove("policy.id");
+		List<String> policyKeys = openLFieldsMap.entrySet().stream().filter(e -> e.getKey().startsWith("policy.")).map(Map.Entry::getKey).collect(Collectors.toList());
+		policyKeys.forEach(k -> openLFieldsMap.put(k.replace("policy.", "p."), openLFieldsMap.remove(k)));
+		return openLFieldsMap;
 	}
 
 	private Dollar getSpecificFees(HomeSSOpenLPolicy openLPolicy) {

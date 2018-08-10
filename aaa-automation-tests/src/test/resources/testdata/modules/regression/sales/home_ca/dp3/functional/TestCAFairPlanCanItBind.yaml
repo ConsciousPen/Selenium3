@@ -66,9 +66,9 @@ DwellingAddress_FL7: {
   Validate Address Dialog: {}
 }
 DwellingAddress_ZipMatch: {
-  Zip code: '94044',
-  Street address 1: 446448 LEWIS LN,
-  City: PACIFICA,
+  Zip code: '93304',
+  Street address 1: 2200 White E Ln,
+  City: Bakersfield,
   County: Los Angeles,
   Validate Address: true,
   Validate Address Dialog: {}

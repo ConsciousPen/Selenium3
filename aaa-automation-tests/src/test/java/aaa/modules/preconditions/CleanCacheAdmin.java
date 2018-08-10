@@ -10,6 +10,6 @@ public class CleanCacheAdmin extends BaseTest {
 	@Test(groups = Groups.PRECONDITION)
 	public void testCleanCacheAdmin() {
 		adminApp().open();
-		CacheManager.goClearCacheManagerTable();
+		new CacheManager().goClearCacheManagerTable();
 	}
 }

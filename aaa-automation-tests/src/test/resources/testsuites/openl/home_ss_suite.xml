@@ -25,14 +25,14 @@
     <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
     <!--</classes>-->
     <!--</test>-->
-    <!--<test name="HomeSS [CT] Premium Calculation Test" preserve-order="true">-->
-    <!--<parameter name="state" value="CT"/>-->
-    <!--<parameter name="fileName" value="CTTests-20171101.xls"/>-->
-    <!--<parameter name="policyNumbers" value="1"/>-->
-    <!--<classes>-->
-    <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
-    <!--</classes>-->
-    <!--</test>-->
+    <test name="HomeSS [CT] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="CT"/>
+        <parameter name="fileName" value="CTTests-20171101.xls"/>
+        <parameter name="policyNumbers" value="69,76"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSDP3PremiumCalculationTest"/>
+        </classes>
+    </test>
     <test name="HomeSS HO3 [DC] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="DC"/>
         <parameter name="fileName" value="DCTests-20170126.xls"/>

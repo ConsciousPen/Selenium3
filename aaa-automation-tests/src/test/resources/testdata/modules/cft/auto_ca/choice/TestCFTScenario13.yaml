@@ -75,8 +75,7 @@ ClearSuspenseActionTab: {
 }
 
 SearchSuspenseActionTab: {
-  Payment Designation: 'Personal & Commercial Lines Accounts',
-  'Missing [status]': Outstanding
+  Payment Designation: 'Personal & Commercial Lines Accounts'
 }
 
 AcceptPayment: {

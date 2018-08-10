@@ -68,6 +68,41 @@ public class TestPaperlessPreferencesAllProducts extends TestPaperlessPreference
 		pas283_paperlessPreferencesForAllStatesProducts();
 	}
 
+	/**
+	 * * @author Jovita Pukenaite
+	 *
+	 * PAS-15995
+	 *
+	 * See detailed steps in template file
+	 * {@link TestPaperlessPreferencesAbstract}
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = {"PAS-15995"})
+	public void pas15995_documentDeliverySectionDuringEndorsement(@Optional("CA") String state) {
+		mainApp().open();
+		getCopiedPolicy();
+		pas12458_documentDeliverySectionDuringEndorsement();
+	}
+
+	/**
+	 * * @author Jovita Pukenaite
+	 *
+	 * PAS-15995
+	 *
+	 * See detailed steps in template file
+	 * {@link TestPaperlessPreferencesAbstract}
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = {"PAS-15995"})
+	public void pas15995_documentDeliverySectionDataGatherMode(@Optional("CA") String state) {
+		mainApp().open();
+		createCustomerIndividual();
+		createQuote();
+		pas12458_documentDeliverySectionDataGatherMode();
+	}
+
 	@Override
 	protected String getDocumentsAndBindTab() {
 		return NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get();

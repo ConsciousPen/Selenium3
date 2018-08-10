@@ -3,6 +3,7 @@ package aaa.modules.regression.document_fulfillment.template.functional;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.AutoSSPolicyActions;
 import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 
 public class TestCinAbstractAutoSS extends TestCinAbstract {
 
@@ -83,4 +84,13 @@ public class TestCinAbstractAutoSS extends TestCinAbstract {
         new AutoSSPolicyActions.Renew().performAndFill(renewalTD);
     }
 
+    @Override
+    protected void performDoNotRenew(TestData doNotRenewTD) {
+    	new AutoSSPolicyActions.DoNotRenew().perform(doNotRenewTD);
+    }
+    
+    @Override
+    protected void performRemoveDoNotRenew() {
+    	new AutoSSPolicyActions.RemoveDoNotRenew().perform(new SimpleDataProvider());
+    }
 }

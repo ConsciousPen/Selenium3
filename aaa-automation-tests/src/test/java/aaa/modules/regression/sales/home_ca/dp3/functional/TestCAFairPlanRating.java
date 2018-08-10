@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.dp3.functional;
 
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -15,6 +16,7 @@ import aaa.main.modules.policy.home_ca.HomeCaPolicyActions;
 import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaDP3BaseTest;
+import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Optional;
@@ -31,6 +33,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@StateList(states = Constants.States.CA)
 public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
     Map<String, String> endorsement_FPCECADP = new HashMap<>();
 
@@ -102,10 +105,8 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
         //Add the ENDO and verify presence
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
         endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECADP.getLabel()).click();
+        endorsementTab.btnSaveEndo.click();
         //AC3 - This confirms an Informational note will display notifying the user that this endorsement has been added
-        Page.dialogConfirmation.confirm();
-
-        endorsementTab.btnSaveForm.click();
         endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECADP).verify.present(true);
 
         //Verify premium is reduced after
@@ -114,7 +115,7 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
         Dollar postEndoPremium = PremiumsAndCoveragesQuoteTab.getPolicyTermPremium();
 
         CustomAssert.assertTrue(postEndoPremium.lessThan(preEndoPremium));
-        mainApp().close();
+        
     }
 
     public void validateAC2() {
@@ -129,9 +130,8 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
         //Add the ENDO and verify presence
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
         endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECADP.getLabel()).click();
-        Page.dialogConfirmation.confirm();
 
-        endorsementTab.btnSaveForm.click();
+        endorsementTab.btnSaveEndo.click();
         endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECADP).verify.present(true);
 
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
@@ -140,6 +140,6 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
         assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Protection class").contains("1"));
         assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Fireline score").contains("0"));
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
-        mainApp().close();
+        
     }
 }
