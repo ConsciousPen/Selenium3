@@ -1,0 +1,216 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="CIO Functional Time Shift Test Suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method"/>
+
+    <test name="TestMembershipValidation"  thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMembershipValidation">
+                <methods>
+                    <include name="pas6668_pas8815_ScenarioAC2_Dummy_Numbers_Automatic_Renewal"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMembershipValidation">
+                <methods>
+                    <include name="pas6668_pas8815_ScenarioAC2_Dummy_Numbers_Automatic_Renewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-6311 PAS-9626 PAS-6313 PAS-6314 PAS-6316 - Test Membership Override(Auto SS)"  thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipOverride">
+                <methods>
+                    <include name="pas6314_Validate_Membership_Override_AC1"/>
+                    <include name="pas6314_Validate_Membership_Override_AC2"/>
+                    <include name="pas6314_Validate_Membership_Override_AC3"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-6311 PAS-9626 PAS-6313 PAS-6314 PAS-6316 - Test Membership Override(Auto CA Select)"  thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMembershipOverride">
+                <methods>
+                    <include name="pas6314_Validate_Membership_Override_AC1"/>
+                    <include name="pas6314_Validate_Membership_Override_AC2"/>
+                    <include name="pas6314_Validate_Membership_Override_AC3"/>
+                    <include name="pas6313_Validate_Membership_Override_NB15NB30"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-9371 PAS-9635 PAS-9634 PAS-6370 PAS-10154 - Test Membership Override(Home CA HO3)"  thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestMembershipOverride">
+                <methods>
+                    <include name="AC1_testMembershipOverride_NB15NB30Jobs"/>
+                    <include name="AC1_testMembershipOverride_Renewal"/>
+                    <include name="AC2_testMembershipOverride_Renewal"/>
+                    <include name="AC3_testMembershipOverride_Renewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="PAS-9686 PAS-9370 PAS-9634 PAS-6370 PAS-10154 - Test Membership Override(Home SS HO3)"  thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestMembershipOverride">
+                <methods>
+                    <include name="AC1_testMembershipOverride_NB15NB30Jobs"/>
+                    <include name="AC1_testMembershipOverride_Renewal"/>
+                    <include name="AC2_testMembershipOverride_Renewal"/>
+                    <include name="AC3_testMembershipOverride_Renewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-13211 PAS-13242 PAS-13216 PAS-14193 PAS-14368 PAS-13216 PAS-14004 - FAIR Plan Endorsement (formerly known as Difference in Conditions) (CA HO3)"
+          thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestFAIRPlanEndorsement">
+                <methods>
+                    <include name="pas13242_pas14193_AC3_Renewal"/>
+                    <include name="pas13211_AC2_Renewal_PPC1X_LogHome_AAA_HO_CA10100616"/>
+                    <include name="pas13211_AC3_Renewal_PPC1X_LogHome_AAA_HO_CA10100616"/>
+                    <include name="pas13216_All_ACs_Renewal"/>
+                    <include name="pas13211_AC1_AC4_NB_PPC10_OtherThanLogHome_AAA_HO_CA02122017"/>
+                    <include name="pas13242_pas14193_AC1_NB"/>
+                    <include name="pas13242_pas14193_AC3_Revised_Renewal_After_Renewal_Term_Change"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-13211 PAS-13242 PAS-13216 PAS-14193 PAS-14368 PAS-13216 PAS-14004 - FAIR Plan Endorsement (formerly known as Difference in Conditions) (CA DP3)"
+          thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestFAIRPlanEndorsement">
+                <methods>
+                    <include name="pas13242_pas14193_AC3_Renewal"/>
+                    <include name="pas13211_AC2_Renewal_PPC1X_LogHome_AAA_HO_CA10100616"/>
+                    <include name="pas13211_AC3_Renewal_PPC1X_LogHome_AAA_HO_CA10100616"/>
+                    <include name="pas13216_All_ACs_Renewal"/>
+                    <include name="pas13211_AC1_AC4_NB_PPC10_OtherThanLogHome_AAA_HO_CA02122017"/>
+                    <include name="pas13242_pas14193_AC1_NB"/>
+                    <include name="pas13242_pas14193_AC3_Revised_Renewal_After_Renewal_Term_Change"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO3)"  thread-count="1024">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPaymentPlanChangeOnEndorsement">
+                <methods>
+                    <include name="pas11338_pas11785_AC3_AC6_Renewal"/>
+                    <include name="pas11338_pas11785_AC4"/>
+                    <include name="pas11338_pas11785_AC5"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO4)"  thread-count="1024">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPaymentPlanChangeOnEndorsement">
+                <methods>
+                    <include name="pas11338_pas11785_AC3_AC6_Renewal"/>
+                    <include name="pas11338_pas11785_AC4"/>
+                    <include name="pas11338_pas11785_AC5"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO6)"  thread-count="1024">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPaymentPlanChangeOnEndorsement">
+                <methods>
+                    <include name="pas11338_pas11785_AC3_AC6_Renewal"/>
+                    <include name="pas11338_pas11785_AC4"/>
+                    <include name="pas11338_pas11785_AC5"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (DP3)"  thread-count="1024">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPaymentPlanChangeOnEndorsement">
+                <methods>
+                    <include name="pas11338_pas11785_AC3_AC6_Renewal"/>
+                    <include name="pas11338_pas11785_AC4"/>
+                    <include name="pas11338_pas11785_AC5"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-11785 - Do not force payment plan change on mid-term changes (PUP)"  thread-count="1024">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.pup.functional.TestPaymentPlanChangeOnEndorsement">
+                <methods>
+                    <include name="pas11338_pas11785_AC3_AC6_Renewal"/>
+                    <include name="pas11338_pas11785_AC4"/>
+                    <include name="pas11338_pas11785_AC5"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-13445 - 18.5: CA FAIR Plan: Mutually Exclusive Endorsements (CA DP3)"
+          thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanMutualExclusions">
+                <methods>
+                    <include name="TS2_AC6_RenewalBatch_AddingFPCECADP"/>
+                    <include name="TS2_AC7_RenewalBatch_NoDW0475"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-13210 - 18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement (CA DP3)"
+          thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanCompanion">
+                <methods>
+                    <include name="AC3_Renewal_VisibleFPCECA "/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-13210 - 18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement (CA HO3)"
+          thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCAFairPlanCompanion">
+                <methods>
+                    <include name="AC3_Renewal_VisibleFPCECA "/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

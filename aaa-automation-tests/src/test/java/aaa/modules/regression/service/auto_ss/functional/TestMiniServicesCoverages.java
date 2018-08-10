@@ -417,6 +417,26 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 	}
 
+	/**`
+	 * @author Megha Gubbala :verify view and update IL and Medical Expences coverage
+	 * 1. Create a active policy in the pas
+	 * 2.Create an endorsement.
+	 * 3.View Existing IL and Medical Expences coverage
+	 * 4.Verify Available limits for both coverages
+	 * Scenario 1
+	 * run update coverage service
+	 * set MEDPM Coverage 10000 and verify response.
+	 * Scenario 2
+	 * run update coverage service to set IL to no coverage and verify response
+	 * again run View coverage service and verify if coverage in updated on PAS
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14734"})
+	public void pas14734_UpdateViewCoverageILAndMedical(@Optional("VA") String state) {
+		pas14734_UpdateViewCoverageILAndMedicalBody(getPolicyType());
+
+	}
 }
 
 

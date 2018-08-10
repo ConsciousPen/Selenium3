@@ -44,7 +44,7 @@ public class TestCinAbstractHomeCA extends TestCinAbstract{
     
     @Override
     protected void performDoNotRenew(TestData doNotRenewTD) {
-    	new HomeCaPolicyActions.Renew().perform(doNotRenewTD);
+    	new HomeCaPolicyActions.DoNotRenew().perform(doNotRenewTD);
     }
     
     @Override

@@ -78,14 +78,6 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition for enabling eValue Configuration for States with Paperless Preferences stubbed", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void eValueConfigInsert() {
-		List<String> configForStates = Arrays.asList("OR"  //for Paperless Preferences = Yes
-				, "MD"  //for Paperless Preferences = Pending
-				, "DC"); //for Paperless Preferences = No
-		//PA should not have eValue or Paperless Preferences Configuration
-		for (String configForState : configForStates) {
-			insertConfigForRegularStates(configForState);
-		}
-
 		List<String> configForStatesLimits = Arrays.asList(
 				"MD"
 				, "DC");
@@ -102,11 +94,6 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 	@Test(description = "Precondition for Current BI Limits configurations", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void eValueCurrentBiConfigUpdateInsert() {
 		DBService.get().executeUpdate(EVALUE_CURRENT_BI_CONFIG_INSERT);
-	}
-
-	private static void insertConfigForRegularStates(String state) {
-		DBService.get().executeUpdate(String.format(EVALUE_CONFIGURATION_PER_STATE_INSERT, state));
-		DBService.get().executeUpdate(String.format(PAPERLESS_PREFRENCES_CONFIGURATION_PER_STATE_INSERT, state));
 	}
 
 	private static void insertConfigForLimitsRegularStates(String state) {

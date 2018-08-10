@@ -71,11 +71,10 @@ NamedInsured: {
   Employer: '1234567890',
 }
 
-# Membership number, Last name: Added Valid Active Membership number
+# Membership number: Added Valid Active Membership number
 AAAMembership: {
   Current AAA Member: 'Yes',
-  Membership number: '9436258506738011',
-  Last name: 'Ronaldjo',
+  Membership number: '9436258506738011'
 }
 
 DwellingAddress: {

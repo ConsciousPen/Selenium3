@@ -232,6 +232,18 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		return DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(), new SimpleDataProvider(tdMap));
 	}
 
+	public TestData getRemoveHS0490Data(HomeSSOpenLPolicy openLPolicy) {
+		TestData removeFormData = DataProviderFactory.dataOf(new EndorsementTab().getMetaKey(), DataProviderFactory.dataOf(
+				HomeSSMetaData.EndorsementTab.HS_04_90.getLabel(), DataProviderFactory.dataOf(
+						"Action", "Remove")));
+		if (openLPolicy.getForms().stream().anyMatch(c -> "HS0461".equals(c.getFormCode()))) {
+			removeFormData = removeFormData.adjust(DataProviderFactory.emptyData());
+		}
+		removeFormData = removeFormData.adjust(DataProviderFactory.dataOf(new PremiumsAndCoveragesQuoteTab().getMetaKey(), DataProviderFactory.dataOf(
+				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovC".equals(c.getCoverageCd())).findFirst().get().getLimit())));
+		return removeFormData;
+	}
+
 	private TestData getGeneralTabData(HomeSSOpenLPolicy openLPolicy) {
 		return DataProviderFactory.dataOf(
 				HomeSSMetaData.GeneralTab.STATE.getLabel(), getState(),
@@ -267,8 +279,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 
 			aaaMembershipData = DataProviderFactory.dataOf(
 					HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes",
-					HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), membershipNumber,
-					HomeSSMetaData.ApplicantTab.AAAMembership.LAST_NAME.getLabel(), "Smith"
+					HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), membershipNumber//,
 			);
 		} else {
 			aaaMembershipData = DataProviderFactory.dataOf(
@@ -614,7 +625,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 					}
 				}
 				break;
-			case "HO4": 
+			case "HO4":
 				if (isFormPresent(openLPolicy, "HS0436")) {
 					endorsementData.adjust(DataProviderFactory.dataOf(
 							HomeSSMetaData.EndorsementTab.HS_04_54.getLabel(), DataProviderFactory.dataOf("Action", "Add")));
@@ -630,7 +641,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 					}
 				}
 				break;
-			case "HO6": 
+			case "HO6":
 				for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
 					String formCode = openLForm.getFormCode();
 					if (!endorsementData.containsKey(HomeSSHO6FormTestDataGenerator.getFormMetaKey(formCode))) {
@@ -654,16 +665,10 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 					}
 				}
 		}
-		//		if (openLPolicy.getForms().stream().noneMatch(c -> "HS0490".equals(c.getFormCode()))) {
-		//			endorsementData.adjust(DataProviderFactory.dataOf(
-		//					HomeSSMetaData.EndorsementTab.HS_04_90.getLabel(), DataProviderFactory.dataOf(
-		//							"Action", "Remove"
-		//					)));
-		//		}
 		return endorsementData;
 	}
-	
-	private boolean isFormPresent (HomeSSOpenLPolicy openLPolicy, String formCode) {
+
+	private boolean isFormPresent(HomeSSOpenLPolicy openLPolicy, String formCode) {
 		boolean isFormPresent = false;
 		for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
 			if (formCode.equals(openLForm.getFormCode())) {
