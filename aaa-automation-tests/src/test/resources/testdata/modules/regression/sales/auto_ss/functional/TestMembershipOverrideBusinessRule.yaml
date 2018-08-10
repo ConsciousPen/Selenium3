@@ -2,14 +2,12 @@ AAAProductOwned_Override: {
   Current AAA Member: 'Membership Override',
 #  Override Type: 'Term', #this is default, so no point to selecting it COMMENT/REMOVE
   Member Since Date: 01/04/2009,
-  Membership Number: ,
-  Last name:
+  Membership Number:
 }
 
 AAAProductOwned_Yes: {
   Current AAA Member: 'Yes',
-  Membership Number: 4290023667710001,
-  Last name: 'Test'
+  Membership Number: 4290023667710001
 }
 
 AAAProductOwned_Pend: {
