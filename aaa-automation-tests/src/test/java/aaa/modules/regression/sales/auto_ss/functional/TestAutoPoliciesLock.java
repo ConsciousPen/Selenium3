@@ -25,7 +25,7 @@ import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
-@StateList(statesExcept = Constants.States.CA)
+@StateList(statesExcept = {Constants.States.CA, Constants.States.MD})
 public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPolicyLockPreConditions {
 
 	private static final LocalDateTime getDate = TimeSetterUtil.getInstance().getCurrentTime();
