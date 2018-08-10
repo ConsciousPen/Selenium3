@@ -1,62 +1,49 @@
 package aaa.modules.regression.service.helper;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import java.time.format.DateTimeFormatter;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
-public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest {
+import javax.ws.rs.core.Response;
+import java.time.format.DateTimeFormatter;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+
+public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest {
 	private DriverTab driverTab = new DriverTab();
-	private AddDriverRequest addDriverRequest = new AddDriverRequest();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
-	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
-	private UpdateDriverRequest updateDriverRequest = new UpdateDriverRequest();
-	private TestMiniServicesGeneralHelper testMiniServicesGeneralHelper = new TestMiniServicesGeneralHelper();
 
 	protected void pas16694_orderReports_not_Named_Insured_endorsementBody(PolicyType policyType) {
 		mainApp().open();
-		createCustomerIndividual();
 		String policyNumber = getCopiedPolicy();
 
 		//Create pended endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-		addDriverRequest.firstName = "ClueNonChargeable";
-		addDriverRequest.middleName = "Doc";
-		addDriverRequest.lastName = "Activity";
-		addDriverRequest.birthDate = "1999-01-31";
-		addDriverRequest.suffix = "III";
-
+		//Add driver
+		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("ClueNonChargeable", "Doc", "Activity", "1999-01-31", "III");
 		DriversDto addedDriver = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
-		String addedDriverOid = addedDriver.oid; //get OID for added driver
 
-		//And update missing info for the driver
-		updateDriverRequest.gender = "male";
-		updateDriverRequest.licenseNumber = "995860596";
-		updateDriverRequest.ageFirstLicensed = 18;
-		updateDriverRequest.stateLicensed = "VA";
-		updateDriverRequest.relationToApplicantCd = "CH";
-		DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, addedDriverOid, updateDriverRequest);
+		//Update driver
+		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "995860596", 18, "VA", "CH", null);
+		DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, addedDriver.oid, updateDriverRequest);
 		assertSoftly(softly -> softly.assertThat(updateDriverResponse.driver.namedInsuredType).isEqualTo("Not a Named Insured")); //Make sure that added driver is NOT a Named Insured
 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
 		//Order reports through service
-		HelperCommon.orderReports(policyNumber, addedDriverOid);
+		HelperCommon.orderReports(policyNumber, addedDriver.oid, OrderReportsResponse.class, 200);
 
 		//Open Driver Activity reports tab in PAS
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -67,7 +54,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		checkThatClueIsOrdered(2, "processing complete, with results information");
 
 		//validate that MVR report is ordered in PAS
-		checkThatMvrIsOrdered(addDriverRequest, 2, "Clear");
+		checkThatMvrIsOrdered(2, "Clear", addDriverRequest, updateDriverRequest);
 		DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
 		driverActivityReportsTab.saveAndExit();
 
@@ -78,29 +65,20 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		//Create pended endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-		addDriverRequest.firstName = "MvrNonChargeable";
-		addDriverRequest.middleName = "Doc";
-		addDriverRequest.lastName = "Activity";
-		addDriverRequest.birthDate = "1999-01-31";
-		addDriverRequest.suffix = "III";
+		//Add driver
+		addDriverRequest = DXPRequestFactory.createAddDriverRequest("MvrNonChargeable", "Doc", "Activity", "1999-01-31", "III");
+		DriversDto addedDriver2 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
 
-		addedDriver = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
-		addedDriverOid = addedDriver.oid; //get OID for added driver
-
-		//And update missing info for the driver
-		updateDriverRequest.gender = "male";
-		updateDriverRequest.licenseNumber = "995860597";
-		updateDriverRequest.ageFirstLicensed = 18;
-		updateDriverRequest.stateLicensed = "VA";
-		updateDriverRequest.relationToApplicantCd = "CH";
-		DriverWithRuleSets updateDriverResponse2 = HelperCommon.updateDriver(policyNumber, addedDriverOid, updateDriverRequest);
+		//Update driver
+		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "995860597", 18, "VA", "CH", null);
+		DriverWithRuleSets updateDriverResponse2 = HelperCommon.updateDriver(policyNumber, addedDriver2.oid, updateDriverRequest);
 		assertSoftly(softly -> softly.assertThat(updateDriverResponse2.driver.namedInsuredType).isEqualTo("Not a Named Insured")); //Make sure that added driver is NOT a Named Insured
 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
 		//Order reports through service
-		HelperCommon.orderReports(policyNumber, addedDriverOid);
+		HelperCommon.orderReports(policyNumber, addedDriver2.oid, OrderReportsResponse.class, 200);
 
 		//Open Driver Activity reports tab in PAS
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -111,12 +89,230 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		checkThatClueIsOrdered(3, "processing complete, results clear");
 
 		//validate that MVR report is ordered in PAS
-		checkThatMvrIsOrdered(addDriverRequest, 3, "Hit - Activity Found");
+		checkThatMvrIsOrdered(3, "Hit - Activity Found", addDriverRequest, updateDriverRequest);
+		driverActivityReportsTab.saveAndExit();
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	protected void pas15077_orderReports_endorsementBody(PolicyType policyType) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		//Create pended endorsement - future dated, because otherwise Insurance Score Report must be ordered for newly added NI
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		PolicySummary response = HelperCommon.createEndorsement(policyNumber, endorsementDate);
+		assertSoftly(softly -> softly.assertThat(response.transactionEffectiveDate).isEqualTo(endorsementDate));
+
+		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("ClueNonChargeable", "Doc", "Activity", "1999-01-31", "III");
+		DriversDto addedDriver = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+
+		//And update missing info for the driver
+		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "995860596", 18, "VA", "SP", null);
+		DriverWithRuleSets updateDriver = HelperCommon.updateDriver(policyNumber, addedDriver.oid, updateDriverRequest);
+		assertSoftly(softly -> softly.assertThat(updateDriver.driver.namedInsuredType).isEqualTo("NI")); //Make sure that added driver is Named Insured
+
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		//Order reports through service
+		HelperCommon.orderReports(policyNumber, addedDriver.oid, OrderReportsResponse.class, 200);
+
+		//Open Driver Activity reports tab in PAS
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policyType.get().dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
+
+		//validate that CLUE report is ordered in PAS
+		checkThatClueIsOrdered(2, "processing complete, with results information");
+
+		//validate that MVR report is ordered in PAS
+		checkThatMvrIsOrdered(2, "Clear", addDriverRequest, updateDriverRequest);
+		DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
 		driverActivityReportsTab.saveAndExit();
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
+		///////////Repeat with driver 2///////////
+
+		//Create pended endorsement - future dated, because otherwise Insurance Score Report must be ordered for newly added NI
+		PolicySummary response2 = HelperCommon.createEndorsement(policyNumber, endorsementDate);
+		assertSoftly(softly -> softly.assertThat(response2.transactionEffectiveDate).isEqualTo(endorsementDate));
+
+		addDriverRequest = DXPRequestFactory.createAddDriverRequest("MvrNonChargeable", "Doc", "Activity", "1999-01-31", "III");
+		addedDriver = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+
+		//And update missing info for the driver
+
+		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "995860597", 18, "VA", "SP", null);
+		DriverWithRuleSets updateDriver2 = HelperCommon.updateDriver(policyNumber, addedDriver.oid, updateDriverRequest);
+		assertSoftly(softly -> softly.assertThat(updateDriver2.driver.namedInsuredType).isEqualTo("NI")); //Make sure that added driver is Named Insured
+
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		//Order reports through service
+		HelperCommon.orderReports(policyNumber, addedDriver.oid, OrderReportsResponse.class, 200);
+
+		//Open Driver Activity reports tab in PAS
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policyType.get().dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
+
+		//validate that CLUE report is ordered in PAS
+		checkThatClueIsOrdered(3, "processing complete, results clear");
+
+		//validate that MVR report is ordered in PAS
+		checkThatMvrIsOrdered(3, "Hit - Activity Found", addDriverRequest, updateDriverRequest);
+		driverActivityReportsTab.saveAndExit();
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
+
+	protected void pas15384_moreThanTwoMinorViolationsErrorBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		//Check driver with more that two minor violations
+		String oidDriver1 = addAndUpdateDriver(policyNumber, "Three", "Minors", "1970-01-01", "B15384001","CH");
+
+		//Order reports through service
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getCode(), ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getMessage(), "attributeForRules", true);
+
+		countViolationsInPas(policyNumber, 3);
+
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getCode(), ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getMessage(), "attributeForRules");
+
+		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+
+		//Check Driver with one outdated violation
+		String oidDriver2 = addAndUpdateDriver(policyNumber, "Outdated", "Minor", "1970-01-01", "B15384003","CH");
+
+		HelperCommon.orderReports(policyNumber, oidDriver2, OrderReportsResponse.class, 200);
+		countViolationsInPas(policyNumber, 3);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	protected void pas15371_driversWithNarcoticsDrugOrFelonyConvictionsErrorBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		//Check driver with more that two minor violations
+		String oidDriver1 = addAndUpdateDriver(policyNumber, "One", "Felony", "1970-01-01", "B15371001","CH");
+
+		//Order reports through service
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS.getMessage(), "attributeForRules", true);
+
+		countViolationsInPas(policyNumber, 1);
+
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS.getMessage(), "attributeForRules");
+	}
+
+	protected void pas15370_driverWithMoreThanTwentyPointsErrorBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		//Check driver with more than 20 points
+		String oidDriver1 = addAndUpdateDriver(policyNumber, "Twenty", "Points", "1970-01-01", "B16848001","CH");
+
+		//Order reports through service
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_TWENTY_POINTS_VA.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_TWENTY_POINTS_VA.getMessage(), "attributeForRules", true);
+
+		countViolationsInPas(policyNumber, 5);
+
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_TWENTY_POINTS_VA.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_TWENTY_POINTS_VA.getMessage(), "attributeForRules");
+
+		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+
+		//Check Driver with one outdated violation
+		String oidDriver2 = addAndUpdateDriver(policyNumber, "Outdated", "Twenty", "1970-01-01", "B16848004","CH");
+
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver2, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_TWENTY_POINTS_VA.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_TWENTY_POINTS_VA.getMessage(), "attributeForRules", false);
+
+		countViolationsInPas(policyNumber, 5);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		ErrorResponseDto binErrorResponseDto = HelperCommon.endorsementBindError(policyNumber, oidDriver2, 422);
+		assertSoftly(softly -> {
+			softly.assertThat(binErrorResponseDto.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+			softly.assertThat(binErrorResponseDto.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+			softly.assertThat(binErrorResponseDto.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS.getCode());
+			softly.assertThat(binErrorResponseDto.errors.get(0).message).contains(ErrorDxpEnum.Errors.DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS.getMessage());
+			softly.assertThat(binErrorResponseDto.errors.get(0).field).isEqualTo("attributeForRules");
+			softly.assertThat(binErrorResponseDto.errors.get(1).errorCode).isEqualTo(ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION_VA.getCode());
+			softly.assertThat(binErrorResponseDto.errors.get(1).message).contains(ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION_VA.getMessage());
+			softly.assertThat(binErrorResponseDto.errors.get(1).field).isEqualTo("attributeForRules");
+		});
+	}
+
+	protected void pas15385_driverWithFourOrMoreIncidentsErrorBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		//Check driver with 4 incidents
+		String oidDriver1 = addAndUpdateDriver(policyNumber, "Four", "Incidents", "1970-01-01", "B16848123","CH");
+
+		//Order reports through service
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_THREE_INCIDENTS.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_THREE_INCIDENTS.getMessage(), "attributeForRules", true);
+
+		countViolationsInPas(policyNumber, 4);
+
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_THREE_INCIDENTS.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_THREE_INCIDENTS.getMessage(), "attributeForRules");
+
+		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+
+		//Check Driver with one outdated incident
+		String oidDriver2 = addAndUpdateDriver(policyNumber, "Outdated", "Incident", "1970-01-01", "B16848385","CH");
+
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver2, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_THREE_INCIDENTS.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_THREE_INCIDENTS.getMessage(), "attributeForRules", false);
+
+		countViolationsInPas(policyNumber, 4);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getCode(), ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getMessage(), "attributeForRules");
+	}
+
+	protected void pas15375_duiIsUnacceptableForDriverUnderTheAgeErrorBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		//D1-DUI violation
+		String oidDriver1 = addAndUpdateDriver(policyNumber, "One", "DUI", "2000-09-01", "B16848001","CH");
+
+		//Order reports through service
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21.getCode(), ErrorDxpEnum.Errors.DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21.getMessage(), "attributeForRules", true);
+
+		countViolationsInPas(policyNumber, 1);
+
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21.getCode(), ErrorDxpEnum.Errors.DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21.getMessage(), "attributeForRules");
+
+		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+
+		//D2-DUD violation
+		String oidDriver2 = addAndUpdateDriver(policyNumber, "One", "DUD", "2000-09-01", "B16848002","CH");
+
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver2, ErrorDxpEnum.Errors.DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21.getCode(), ErrorDxpEnum.Errors.DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21.getMessage(), "attributeForRules", true);
+
+		countViolationsInPas(policyNumber, 1);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21.getCode(), ErrorDxpEnum.Errors.DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21.getMessage(), "attributeForRules");
+
+		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+
+		//D2-TLQ violation
+		String oidDriver3 = addAndUpdateDriver(policyNumber, "One", "TLQ", "2000-09-01", "B16848006","CH");
+
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver3, ErrorDxpEnum.Errors.DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21.getCode(), ErrorDxpEnum.Errors.DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21.getMessage(), "attributeForRules", true);
+
+		countViolationsInPas(policyNumber, 1);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21.getCode(), ErrorDxpEnum.Errors.DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21.getMessage(), "attributeForRules");
+
+	}
+
 	private void checkThatClueIsOrdered(int tableRowIndex, String expectedClueResponse) {
 		assertSoftly(softly -> {
 			softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRows().size()).isEqualTo(tableRowIndex);
@@ -146,20 +342,20 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		});
 	}
 
-	private void checkThatMvrIsOrdered(AddDriverRequest addDriverRequest, int tableRowIndex, String expectedMvrResponse) {
+	private void checkThatMvrIsOrdered(int tableRowIndex, String expectedMvrResponse, AddDriverRequest addRequest, UpdateDriverRequest updateRequest) {
 		assertSoftly(softly -> {
 			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRows().size()).isEqualTo(tableRowIndex);
 			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
-					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.NAME_ON_LICENSE.getLabel()).getValue()).contains(addDriverRequest.firstName);
+					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.NAME_ON_LICENSE.getLabel()).getValue()).contains(addRequest.firstName);
 
 			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.DATE_OF_BIRTH.getLabel()).getValue()).isEqualToIgnoringCase("01/31/1999"); //the same as addDriverRequest.birthDate
 
 			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
-					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.STATE.getLabel()).getValue()).isEqualToIgnoringCase(updateDriverRequest.stateLicensed);
+					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.STATE.getLabel()).getValue()).isEqualToIgnoringCase(updateRequest.stateLicensed);
 
 			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
-					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.LICENSE_NO.getLabel()).getValue()).isEqualToIgnoringCase(updateDriverRequest.licenseNumber);
+					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.LICENSE_NO.getLabel()).getValue()).isEqualToIgnoringCase(updateRequest.licenseNumber);
 
 			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
 					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.LICENSE_STATUS.getLabel()).getValue()).containsIgnoringCase("VALID");
@@ -181,99 +377,44 @@ public class TestMiniServicesMVRAndClueReportOrderHelper  extends PolicyBaseTest
 		});
 	}
 
-
-	protected void pas15077_orderReports_endorsementBody(PolicyType policyType) {
+	protected void pas15383_driverWithOneOrMoreFaultAccidentsErrorBody() {
 		mainApp().open();
-		createCustomerIndividual();
 		String policyNumber = getCopiedPolicy();
 
-		//Create pended endorsement - future dated, because otherwise Insurance Score Report must be ordered for newly added NI
-		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		PolicySummary response = HelperCommon.createEndorsement(policyNumber, endorsementDate);
-		assertSoftly(softly -> softly.assertThat(response.transactionEffectiveDate).isEqualTo(endorsementDate));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
 
-		addDriverRequest.firstName = "ClueNonChargeable";
-		addDriverRequest.middleName = "Doc";
-		addDriverRequest.lastName = "Activity";
-		addDriverRequest.birthDate = "1999-01-31";
-		addDriverRequest.suffix = "III";
+		mainApp().open();
+		String oidDriver1 = addAndUpdateDriver(policyNumber, "Two", "AtFault", "2000-09-01", "B15383001","SP");
 
+		//Order reports through service
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.DRIVER_WITH_ONE_OR_MORE_FAULT_ACCIDENTS.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_ONE_OR_MORE_FAULT_ACCIDENTS.getMessage(), "attributeForRules", true);
+
+		countViolationsInPas(policyNumber, 2);
+
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVER_WITH_ONE_OR_MORE_FAULT_ACCIDENTS.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_ONE_OR_MORE_FAULT_ACCIDENTS.getMessage(), "attributeForRules");
+
+		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+	}
+
+	private void countViolationsInPas(String policyNumber, Integer sumOfViolations) {
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+		DriverTab.tableDriverList.selectRow(2);
+		assertThat(DriverTab.tableActivityInformationList.getAllRowsCount()).isEqualTo(sumOfViolations);
+		driverTab.saveAndExit();
+	}
+
+	private String addAndUpdateDriver(String policyNumber, String firstName, String lastName, String birthDate, String licenceNumber, String relationship ) {
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest(firstName, null, lastName, birthDate, null);
 		DriversDto addedDriver = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
-		String addedDriverOid = addedDriver.oid; //get OID for added driver
-
-		//And update missing info for the driver
-		updateDriverRequest.gender = "male";
-		updateDriverRequest.licenseNumber = "995860596";
-		updateDriverRequest.ageFirstLicensed = 18;
-		updateDriverRequest.stateLicensed = "VA";
-		updateDriverRequest.relationToApplicantCd = "SP";
-		DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, addedDriverOid, updateDriverRequest);
-		assertSoftly(softly -> softly.assertThat(updateDriverResponse.driver.namedInsuredType).isEqualTo("NI")); //Make sure that added driver is Named Insured
-
-		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-		SearchPage.openPolicy(policyNumber);
-
-		//Order reports through service
-		HelperCommon.orderReports(policyNumber, addedDriverOid);
-
-		//Open Driver Activity reports tab in PAS
-		PolicySummaryPage.buttonPendedEndorsement.click();
-		policyType.get().dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
-
-		//validate that CLUE report is ordered in PAS
-		checkThatClueIsOrdered(2, "processing complete, with results information");
-
-		//validate that MVR report is ordered in PAS
-		checkThatMvrIsOrdered(addDriverRequest, 2, "Clear");
-		DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
-		driverActivityReportsTab.saveAndExit();
-
-		helperMiniServices.endorsementRateAndBind(policyNumber);
-
-		///////////Repeat with driver 2///////////
-
-		//Create pended endorsement - future dated, because otherwise Insurance Score Report must be ordered for newly added NI
-		PolicySummary response2 = HelperCommon.createEndorsement(policyNumber, endorsementDate);
-		assertSoftly(softly -> softly.assertThat(response2.transactionEffectiveDate).isEqualTo(endorsementDate));
-
-		addDriverRequest.firstName = "MvrNonChargeable";
-		addDriverRequest.middleName = "Doc";
-		addDriverRequest.lastName = "Activity";
-		addDriverRequest.birthDate = "1999-01-31";
-		addDriverRequest.suffix = "III";
-
-		addedDriver = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
-		addedDriverOid = addedDriver.oid; //get OID for added driver
-
-		//And update missing info for the driver
-		updateDriverRequest.gender = "male";
-		updateDriverRequest.licenseNumber = "995860597";
-		updateDriverRequest.ageFirstLicensed = 18;
-		updateDriverRequest.stateLicensed = "VA";
-		updateDriverRequest.relationToApplicantCd = "SP";
-		DriverWithRuleSets updateDriverResponse2 = HelperCommon.updateDriver(policyNumber, addedDriverOid, updateDriverRequest);
-		assertSoftly(softly -> softly.assertThat(updateDriverResponse2.driver.namedInsuredType).isEqualTo("NI")); //Make sure that added driver is Named Insured
-
-		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-		SearchPage.openPolicy(policyNumber);
-
-		//Order reports through service
-		HelperCommon.orderReports(policyNumber, addedDriverOid);
-
-		//Open Driver Activity reports tab in PAS
-		PolicySummaryPage.buttonPendedEndorsement.click();
-		policyType.get().dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
-
-		//validate that CLUE report is ordered in PAS
-		checkThatClueIsOrdered(3, "processing complete, results clear");
-
-		//validate that MVR report is ordered in PAS
-		checkThatMvrIsOrdered(addDriverRequest, 3, "Hit - Activity Found");
-		driverActivityReportsTab.saveAndExit();
-
-		helperMiniServices.endorsementRateAndBind(policyNumber);
-
+		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", licenceNumber, 16, "VA", relationship, "SSS");
+		HelperCommon.updateDriver(policyNumber, addedDriver.oid, updateDriverRequest);
+		return addedDriver.oid;
 	}
 }
+
+

@@ -415,7 +415,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16696"})
-	public void pas16696_AddANameInsuredSameDayPolicyEffectiveDate(@Optional("") String state) {
+	public void pas16696_AddANameInsuredSameDayPolicyEffectiveDate(@Optional("VA") String state) {
 		pas16696_AddANameInsuredSameDayPolicyEffectiveDateBody();
 	}
 
@@ -432,7 +432,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16696"})
-	public void pas16696_AddANameInsuredSameDayNotPolicyEffectiveDate(@Optional("") String state) {
+	public void pas16696_AddANameInsuredSameDayNotPolicyEffectiveDate(@Optional("VA") String state) {
 		pas16696_AddANameInsuredSameDayNotPolicyEffectiveDateBody();
 	}
 
@@ -535,6 +535,24 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14641"})
 	public void pas14641_NotNamedInsuredUpdateToNotAvailableForRating(@Optional("VA") String state){
 		pas14641_NotNamedInsuredUpdateToNotAvailableForRatingBody();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Remove Driver Transaction History
+	 * @scenario
+	 * 1. Create a policy in PAS with multiple drivers
+	 * 2. Create endorsement through service
+	 * 3. Run Remove Driver Service with the reason Rule RD1001 for Driver 2
+	 * 4. remove driver
+	 * 5. Run transaction history service
+	 * 6. Validate that transaction history service response shows diver remove status
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14963"})
+	public void pas14963_remove_driver_transaction_history(@Optional("VA") String state){
+		pas14963_remove_driver_transaction_historyBody(getPolicyType());
 	}
 }
 

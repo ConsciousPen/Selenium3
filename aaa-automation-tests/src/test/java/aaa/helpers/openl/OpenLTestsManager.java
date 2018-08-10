@@ -61,12 +61,16 @@ public final class OpenLTestsManager {
 		MocksCollection commonRequiredMocks = new MocksCollection();
 		for (OpenLTestInfo<? extends OpenLPolicy> testInfo : this.openLTests) {
 			if (!testInfo.isFailed()) {
-				for (OpenLPolicy policy : testInfo.getOpenLPolicies()) {
-					MocksCollection requiredMocks = policy.getRequiredMocks();
-					if (requiredMocks != null && !requiredMocks.isEmpty()) {
-						log.info("Mocks has been generated for test with policy number {} from \"{}\" file:\n{}", policy.getNumber(), testInfo.getOpenLFilePath(), requiredMocks);
-						commonRequiredMocks.addAll(requiredMocks);
+				try {
+					for (OpenLPolicy policy : testInfo.getOpenLPolicies()) {
+						MocksCollection requiredMocks = policy.getRequiredMocks();
+						if (requiredMocks != null && !requiredMocks.isEmpty()) {
+							log.info("Mocks has been generated for test with policy number {} from \"{}\" file:\n{}", policy.getNumber(), testInfo.getOpenLFilePath(), requiredMocks);
+							commonRequiredMocks.addAll(requiredMocks);
+						}
 					}
+				} catch (Exception e) {
+					testInfo.setException(e);
 				}
 			}
 		}

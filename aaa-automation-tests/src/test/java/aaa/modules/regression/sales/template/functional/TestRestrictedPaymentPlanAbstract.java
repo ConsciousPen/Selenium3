@@ -138,7 +138,7 @@ public abstract class TestRestrictedPaymentPlanAbstract extends PolicyBaseTest {
         policy.initiate();
         policy.getDefaultView().fillUpTo(getPolicyDefaultTD(), ReportsTab.class, true);
         reportTab.getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
-                .getCell(8).controls.links.get(1).click();
+                .getCell(7).controls.links.get(1).click();
         reportTab.getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).getAsset(HomeSSMetaData.ReportsTab.AaaMembershipReportRow.ADD_MEMBER_SINCE_DIALOG).getAsset(HomeSSMetaData.ReportsTab.AddMemberSinceDialog.MEMBER_SINCE).setValue("01/02/2018");
         Page.dialogConfirmation.confirm();
         reportTab.submitTab();

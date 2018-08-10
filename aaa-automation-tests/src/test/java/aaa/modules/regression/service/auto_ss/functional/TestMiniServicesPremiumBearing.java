@@ -680,7 +680,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 * Create a policy
 	 * create a pended endorsment
 	 * add new vehicle
-	 * hit EndorsementChangeLog service validare response verify all coverages are there for added vehicle
+	 * hit Endorsement ChangeLog service validare response verify all coverages are there for added vehicle
 	 * verify is chage type is added
 	 * rate policy
 	 * hit view premium service

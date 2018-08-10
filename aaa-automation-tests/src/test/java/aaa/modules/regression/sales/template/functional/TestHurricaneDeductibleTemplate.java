@@ -2,10 +2,12 @@ package aaa.modules.regression.sales.template.functional;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
@@ -22,6 +24,7 @@ public class TestHurricaneDeductibleTemplate extends PolicyBaseTest {
 	private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 	private BindTab bindTab = new BindTab();
 	private PurchaseTab purchaseTab = new PurchaseTab();
+	private ErrorTab errorTab = new ErrorTab();
 
 	public void pas6907_testMDHurricaneDeductible(PolicyType policyType) {
 
@@ -32,7 +35,10 @@ public class TestHurricaneDeductibleTemplate extends PolicyBaseTest {
 				HomeSSMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel()), "21056")
 				.adjust(TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(),
 						HomeSSMetaData.PropertyInfoTab.RISKMETER.getLabel(),
-						HomeSSMetaData.PropertyInfoTab.Riskmeter.DISTANCE_TO_COAST_MILES.getLabel()), "1");
+						HomeSSMetaData.PropertyInfoTab.Riskmeter.DISTANCE_TO_COAST_MILES.getLabel()), "1")
+				.adjust(TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(),
+						HomeSSMetaData.PropertyInfoTab.RISKMETER.getLabel(),
+						HomeSSMetaData.PropertyInfoTab.Riskmeter.ELEVATION_FEET.getLabel()), "50");
 
 		// Open App initiate policy
 		mainApp().open();
@@ -52,6 +58,11 @@ public class TestHurricaneDeductibleTemplate extends PolicyBaseTest {
 		premiumsAndCoveragesQuoteTab.submitTab();
 		policyType.get().getDefaultView().fillFromTo(tdHome, MortgageesTab.class, BindTab.class);
 		bindTab.submitTab();
+		if(errorTab.isVisible()){
+			errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_HO_SS6260765);
+			errorTab.override();
+			bindTab.submitTab();
+		}
 		purchaseTab.fillTab(tdHome);
 		purchaseTab.submitTab();
 
