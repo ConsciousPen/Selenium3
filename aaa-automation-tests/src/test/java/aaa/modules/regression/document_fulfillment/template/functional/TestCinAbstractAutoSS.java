@@ -83,13 +83,13 @@ public class TestCinAbstractAutoSS extends TestCinAbstract {
     protected void performRenewal(TestData renewalTD) {
         new AutoSSPolicyActions.Renew().performAndFill(renewalTD);
     }
-    
+
     @Override
     protected void performDoNotRenew(TestData doNotRenewTD) {
     	new AutoSSPolicyActions.DoNotRenew().perform(doNotRenewTD);
     }
-
-    @Override 
+    
+    @Override
     protected void performRemoveDoNotRenew() {
     	new AutoSSPolicyActions.RemoveDoNotRenew().perform(new SimpleDataProvider());
     }

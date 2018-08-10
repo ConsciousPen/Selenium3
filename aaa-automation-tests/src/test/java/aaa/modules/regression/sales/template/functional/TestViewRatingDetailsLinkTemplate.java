@@ -31,14 +31,10 @@ public class TestViewRatingDetailsLinkTemplate extends PolicyBaseTest {
 
         //Change time to R-35 and run Renewal Jobs
         TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(35));
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
 
-        PolicySummaryPage.buttonRenewals.click();
-        policy.dataGather().start();
+        policy.renew().perform();
         new PremiumsAndCoveragesQuoteTab().calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
         new BindTab().submitTab();

@@ -297,55 +297,106 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas502_CheckDuplicateVinAddVehicleService(PolicyType policyType) {
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy();
-
-		TestData vehicleData = new TestDataManager().policy.get(policyType);
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
-
-		//add vehicle
-		String purchaseDate1 = "2012-02-21";
-		String vin1 = getStateTestData(vehicleData, "DataGather", "TestData").getTestDataList("VehicleTab").get(0).getValue("VIN");
-
-		ErrorResponseDto errorResponse = HelperCommon.viewAddVehicleServiceErrors(policyNumber, purchaseDate1, vin1);
 		assertSoftly(softly -> {
-			softly.assertThat(errorResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-			softly.assertThat(errorResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-			softly.assertThat(errorResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.DUPLICATE_VIN.getCode());
-			softly.assertThat(errorResponse.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.DUPLICATE_VIN.getMessage());
-			softly.assertThat(errorResponse.errors.get(0).field).isEqualTo("vehIdentificationNo");
-		});
-		String purchaseDate2 = "2015-02-11";
-		String vin2 = "9BWFL61J244023215";
 
-		//add vehicle
-		Vehicle responseAddVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate2, vin2);
-		assertThat(responseAddVehicle.oid).isNotEmpty();
+			mainApp().open();
+			createCustomerIndividual();
+			String policyNumber = createPolicy();
 
-		//try add the same vehicle one more time
-		ErrorResponseDto errorResponse2 = HelperCommon.viewAddVehicleServiceErrors(policyNumber, purchaseDate2, vin2);
-		assertSoftly(softly -> {
-			softly.assertThat(errorResponse2.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-			softly.assertThat(errorResponse2.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-			softly.assertThat(errorResponse2.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.DUPLICATE_VIN.getCode());
-			softly.assertThat(errorResponse2.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.DUPLICATE_VIN.getMessage());
-			softly.assertThat(errorResponse2.errors.get(0).field).isEqualTo("vehIdentificationNo");
-		});
+			TestData vehicleData = new TestDataManager().policy.get(policyType);
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-		//Start PAS-11005
-		String purchaseDate3 = "2015-02-11";
-		String vin3 = "ZFFCW56A830133118";
+			//add vehicle
+			String purchaseDate1 = "2012-02-21";
+			String vin1 = getStateTestData(vehicleData, "DataGather", "TestData").getTestDataList("VehicleTab").get(0).getValue("VIN");
 
-		//try add to expensive vehicle
-		ErrorResponseDto errorResponse3 = HelperCommon.viewAddVehicleServiceErrors(policyNumber, purchaseDate3, vin3);
-		assertSoftly(softly -> {
+			ErrorResponseDto errorResponse = HelperCommon.viewAddVehicleServiceErrors(policyNumber, purchaseDate1, vin1);
+			validateUniqueVinError(errorResponse, softly);
+			String purchaseDate2 = "2015-02-11";
+			String vin2 = "9BWFL61J244023215";
+
+			//add vehicle
+			Vehicle responseAddVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate2, vin2);
+			assertThat(responseAddVehicle.oid).isNotEmpty();
+
+			//try add the same vehicle one more time
+			ErrorResponseDto errorResponse2 = HelperCommon.viewAddVehicleServiceErrors(policyNumber, purchaseDate2, vin2);
+			validateUniqueVinError(errorResponse2, softly);
+
+			//Start PAS-11005
+			String purchaseDate3 = "2015-02-11";
+			String vin3 = "ZFFCW56A830133118";
+
+			//try add to expensive vehicle
+			ErrorResponseDto errorResponse3 = HelperCommon.viewAddVehicleServiceErrors(policyNumber, purchaseDate3, vin3);
 			softly.assertThat(errorResponse3.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 			softly.assertThat(errorResponse3.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-			softly.assertThat(errorResponse3.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.TOO_EXPENSIVE_VEHICLE.getCode());
-			softly.assertThat(errorResponse3.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.TOO_EXPENSIVE_VEHICLE.getMessage());
-			softly.assertThat(errorResponse3.errors.get(0).field).isEqualTo("vehIdentificationNo");
+			softly.assertThat(errorResponse3.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getCode());
+			softly.assertThat(errorResponse3.errors.get(0).message).contains(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getMessage());
+			softly.assertThat(errorResponse3.errors.get(0).field).isEqualTo("vehTypeCd");
 		});
+	}
+
+	protected void pas16577_DuplicateVinAddVehicleServicePendingRemoveBody() {
+		assertSoftly(softly -> {
+
+			mainApp().open();
+			String policyNumber = getCopiedPolicy();
+
+			//Create Endorsement and add second vehicle
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+			String purchaseDate = "2012-02-21";
+			String vin = "1HGEM21504L055795";
+			Vehicle addVehicleRequest = DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate);
+			Vehicle response = HelperCommon.addVehicle(policyNumber, addVehicleRequest, Vehicle.class, 201);
+			helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, response.oid);
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+
+			//Create new Endorsement
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			ViewVehicleResponse viewVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
+			softly.assertThat("active".equals(viewVehicleResponse.vehicleList.stream().filter(vehicle -> vehicle.vehIdentificationNo.equals(vin)).findFirst().orElse(null).vehicleStatus)).isTrue();
+			softly.assertThat(viewVehicleResponse.vehicleList.stream().filter(vehicle -> vehicle.vehIdentificationNo.equals(vin)).findFirst().orElse(null).availableActions.contains("remove")).isTrue();
+
+			//Remove vehicle
+			VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, response.oid);
+			softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
+			viewVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
+
+			//Try to add vehicle with the same VIN as "pendingRemoval" vehicle and get error
+			addVehicleRequest.purchaseDate = purchaseDate;
+			addVehicleRequest.vehIdentificationNo = vin;
+			ErrorResponseDto errorResponseAdd = HelperCommon.addVehicle(policyNumber, addVehicleRequest, ErrorResponseDto.class, 422);
+			validateUniqueVinError(errorResponseAdd, softly);
+
+			ViewVehicleResponse viewVehicleResponseAfterAdd = HelperCommon.viewEndorsementVehicles(policyNumber);
+			softly.assertThat(viewVehicleResponseAfterAdd).isEqualToComparingFieldByFieldRecursively(viewVehicleResponse);
+
+			//Get OID of active vehicle and make sure it has "replace" option
+			String activeVehicleOid = viewVehicleResponse.vehicleList.stream().filter(vehicle -> !vehicle.vehIdentificationNo.equals(vin)).findFirst().orElse(null).oid;
+			softly.assertThat(viewVehicleResponse.vehicleList.stream().filter(vehicle -> vehicle.oid.equals(activeVehicleOid)).findFirst().orElse(null).availableActions.contains("replace")).isTrue();
+
+			//Try to replace Active vehicle with the same VIN as "pendingRemoval" vehicle
+			ReplaceVehicleRequest replaceVehicleRequest = DXPRequestFactory.createReplaceVehicleRequest(vin, "2013-03-31", true, true);
+			ErrorResponseDto errorResponseReplace = HelperCommon.replaceVehicle(policyNumber, activeVehicleOid, replaceVehicleRequest, ErrorResponseDto.class, 422);
+			validateUniqueVinError(errorResponseReplace, softly);
+
+			ViewVehicleResponse viewVehicleResponseAfterReplace = HelperCommon.viewEndorsementVehicles(policyNumber);
+			softly.assertThat(viewVehicleResponseAfterReplace).isEqualToComparingFieldByFieldRecursively(viewVehicleResponse);
+
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+			softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRowsCount()).isEqualTo(1);
+
+		});
+	}
+
+	private void validateUniqueVinError(ErrorResponseDto errorResponse, SoftAssertions softly) {
+			softly.assertThat(errorResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+			softly.assertThat(errorResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+			softly.assertThat(errorResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.UNIQUE_VIN.getCode());
+			softly.assertThat(errorResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.UNIQUE_VIN.getMessage());
+			softly.assertThat(errorResponse.errors.get(0).field).isEqualTo("attributeForRules");
 	}
 
 	protected void pas10449_ViewVehicleServiceCheckOrderOfVehicle(PolicyType policyType, String state) {
@@ -665,6 +716,9 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			request.purchaseDate = purchaseDate9;
 			request.vehIdentificationNo = vin9;
 
+			String purchaseDate10 = "2009-06-26";
+			String vin10 = "5Y2SL62893Z446850"; //2003 Point Vibe
+
 			ErrorResponseDto responseAddVehicleError = HelperCommon.viewAddVehicleServiceErrors(policyNumber, purchaseDate9, vin9);
 			softly.assertThat(responseAddVehicleError.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 			softly.assertThat(responseAddVehicleError.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
@@ -699,12 +753,11 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			vehicleTab.saveAndExit();
 			mainApp().close();
 
-			addVehicleWithChecks(policyNumber, purchaseDate6, vin6, false);
+			addVehicleWithChecks(policyNumber, purchaseDate10, vin10, false);
 			PolicyPremiumInfo[] endorsementRateResponse2 = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
 			softly.assertThat(endorsementRateResponse2[0].actualAmt).isNotBlank();
 
 			helperMiniServices.bindEndorsementWithCheck(policyNumber);
-
 			testEValueDiscount.secondEndorsementIssueCheck();
 		});
 	}
@@ -2422,7 +2475,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			String newVehicleOid = addVehicleWithChecks(policyNumber, "2013-02-22", "1FADP3J2XJL222680", true);
 			ViewVehicleResponse viewEndorsementVehicleResponse3 = HelperCommon.viewEndorsementVehicles(policyNumber);
 			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, vehiclePpa2Oid)).isEqualTo("[replace, remove]");
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, newVehicleOid)).isEqualTo("[replace, remove]");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, newVehicleOid)).isEqualTo("[remove]");
 		});
 	}
 
@@ -2469,7 +2522,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			ViewVehicleResponse viewEndorsementVehicleResponse3 = HelperCommon.viewEndorsementVehicles(policyNumber);
 			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, vehiclePpa1Oid)).isEqualTo("[replace, remove]");
 			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, vehicleWlOid)).isEqualTo("[remove]");
-			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, newVehicleOid)).isEqualTo("[replace, remove]");
+			softly.assertThat(checkAvailableActionsByVehicleOid(viewEndorsementVehicleResponse3, newVehicleOid)).isEqualTo("[remove]");
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 
@@ -2507,12 +2560,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 	private String replaceVehicleWithUpdates(String policyNumber, String vehicleToReplaceOid, String replacedVehicleVin, boolean keepAssignments, boolean keepCoverages) {
 		printToLog("policyNumber: " + policyNumber + ", vehicleToReplaceOid: " + vehicleToReplaceOid + ", replacedVehicleVin: " + replacedVehicleVin);
-		ReplaceVehicleRequest replaceVehicleRequest = new ReplaceVehicleRequest();
-		replaceVehicleRequest.vehicleToBeAdded = new Vehicle();
-		replaceVehicleRequest.vehicleToBeAdded.purchaseDate = "2013-03-31";
-		replaceVehicleRequest.vehicleToBeAdded.vehIdentificationNo = replacedVehicleVin;
-		replaceVehicleRequest.keepAssignments = keepAssignments;
-		replaceVehicleRequest.keepCoverages = keepCoverages;
+		ReplaceVehicleRequest replaceVehicleRequest = DXPRequestFactory.createReplaceVehicleRequest(replacedVehicleVin, "2013-03-31", keepAssignments, keepCoverages);
 		VehicleUpdateResponseDto replaceVehicleResponse = HelperCommon.replaceVehicle(policyNumber, vehicleToReplaceOid, replaceVehicleRequest);
 		String replaceVehicleOid = replaceVehicleResponse.oid;
 		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, replaceVehicleOid);

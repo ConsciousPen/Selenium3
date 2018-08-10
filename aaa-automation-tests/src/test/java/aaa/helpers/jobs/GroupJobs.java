@@ -1,12 +1,12 @@
 package aaa.helpers.jobs;
 
-import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class GroupJobs {
 
 	private static ConcurrentHashMap<String, JobState> jobsState = new ConcurrentHashMap<>();
 
+	public static Job groupaaaRefundDisbursementAsyncJob = new Job("groupaaaRefundDisbursementAsyncJob");
 	public static Job grouppolicyTransactionLedgerJob = new Job("grouppolicyTransactionLedgerJob");
 	public static Job groupautomatedProcessingStrategyStatusUpdateJob = new Job("groupautomatedProcessingStrategyStatusUpdateJob");
 	public static Job grouppolicyAutomatedRenewalAsyncTaskGenerationJob = new Job("grouppolicyAutomatedRenewalAsyncTaskGenerationJob");
