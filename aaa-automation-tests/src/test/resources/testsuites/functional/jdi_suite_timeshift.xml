@@ -348,4 +348,26 @@
             </class>
         </classes>
     </test>
+    <test name="PolicySummaryService_CA">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas9716_policySummaryForActiveRenewal"/>
+                    <include name="pas9716_policySummaryForLapsedRenewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="PolicySummaryService_AZ">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas9716_policySummaryForLapsedRenewal"/>
+                    <include name="pas9716_policySummaryForActiveRenewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

@@ -14,10 +14,7 @@ import aaa.helpers.openl.testdata_generator.TestDataGenerator;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ss.defaulttabs.DocumentsTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -79,11 +76,17 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 		PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 		premiumsAndCoveragesQuoteTab.getAssetList().fill(quoteRatingData);
 
+		if (openLPolicy.getForms().stream().noneMatch(c -> "HS0490".equals(c.getFormCode())) && PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains("Description", "HS 04 90").isPresent()) {
+			premiumsAndCoveragesQuoteTab.calculatePremium();
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.ENDORSEMENT.get());
+			policy.getDefaultView().fill(tdGenerator.getRemoveHS0490Data(openLPolicy));
+		}
+
 		if (openLPolicy.getForms().stream().anyMatch(c -> "HS0904".equals(c.getFormCode())) && !TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(openLPolicy.getCappingDetails().getProgramCode())) {
 			premiumsAndCoveragesQuoteTab.calculatePremium();
 			premiumsAndCoveragesQuoteTab.submitTab();
-			TestData policyIssueData = tdGenerator.getPolicyIssueData(openLPolicy);
 
+			TestData policyIssueData = tdGenerator.getPolicyIssueData(openLPolicy);
 			policy.getDefaultView().fillUpTo(policyIssueData, PurchaseTab.class, false);
 			ErrorTab errorTab = new ErrorTab();
 			if (errorTab.isVisible()) {

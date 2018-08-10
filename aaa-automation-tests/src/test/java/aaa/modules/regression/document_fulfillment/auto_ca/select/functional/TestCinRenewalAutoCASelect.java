@@ -68,6 +68,8 @@ public class TestCinRenewalAutoCASelect extends TestCinAbstractAutoCA {
 
         TestData renewalTD = getTestSpecificTD("TestData_Renewal_Mvr").resolveLinks()
                 .adjust(DRIVER_ACTIVITY_REPORTS_PATH, getTestSpecificTD("DriverActivityReportsTab"));
+        
+        //Workaround with Do NotRenew action added
         TestData doNotRenewTD = getStateTestData(testDataManager.policy.get(getPolicyType()), "DoNotRenew", "TestData");    
         renewPolicy(policyNumber, renewalTD, doNotRenewTD);
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
