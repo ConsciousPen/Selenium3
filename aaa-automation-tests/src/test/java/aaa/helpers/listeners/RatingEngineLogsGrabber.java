@@ -4,6 +4,8 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -21,11 +23,13 @@ public class RatingEngineLogsGrabber {
 	public static final String RATING_REQUEST_TEST_CONTEXT_ATTR_NAME = "ratingRequestLog";
 	public static final String RATING_RESPONSE_TEST_CONTEXT_ATTR_NAME = "ratingResponseLog";
 	public static final String OPENL_RATING_LOGS_FOLDER = PropertyProvider.getProperty(CustomTestProperties.OPENL_RATING_LOGS_FOLDER);
-	public static final String OPENL_RATING_LOGS_FILENAME_REGEXP = PropertyProvider.getProperty(CustomTestProperties.OPENL_RATING_LOGS_FILENAME_REGEXP);
+	public static final Pattern OPENL_RATING_LOGS_FILENAME_PATTERN = Pattern.compile(PropertyProvider.getProperty(CustomTestProperties.OPENL_RATING_LOGS_FILENAME_REGEXP));
+	public static final Pattern RATING_LOG_SECTION_ID_PATTERN = Pattern.compile("^ID:\\s(\\d+)\\R", Pattern.MULTILINE);
+	public static final Pattern RATING_LOG_SECTION_POLICY_PREMIUM_ADDRESS_PATTERN = Pattern.compile(".*Address:\\s(.*/[dD]eterminePolicyPremium(?:\\d+)?)\\R.*", Pattern.DOTALL);
 
 	private static final String LOG_SECTIONS_SEPARATOR = "--------------------------------------";
 	private static final String LOG_END_ENVIRONMENT_SEPARATOR = "************* End Display Current Environment *************"; // may exist in WebSphere server logs
-	private static final String LOG_START_MARKER = "Payload:";
+	private static final String JSON_START_MARKER = "Payload:";
 	private static Logger log = LoggerFactory.getLogger(RatingEngineLogsGrabber.class);
 
 	public String makeDefaultOpenLRequestLogPath(XmlTest openLTest, int openLPolicyNumber) {
@@ -37,73 +41,92 @@ public class RatingEngineLogsGrabber {
 	}
 
 	public RatingEngineLogsHolder grabRatingLogs() {
-		RatingEngineLogsHolder ratingLogs = new RatingEngineLogsHolder();
-		boolean isRequestLogRetrieved = false;
-		boolean isResponseLogRetrieved = false;
-		StringBuilder completeLogContent = new StringBuilder();
+		RatingEngineLogsHolder ratingLogsHolder = new RatingEngineLogsHolder();
+		StringBuilder previousLogSectionParts = new StringBuilder();
 
 		try {
-			Pattern ratingLogFilenamePattern = Pattern.compile(OPENL_RATING_LOGS_FILENAME_REGEXP);
 			List<String> ratingLogFileNames = RemoteHelper.get().getFolderContent(OPENL_RATING_LOGS_FOLDER, true, Ssh.SortBy.DATE_MODIFIED);
-			ratingLogFileNames.removeIf(f -> !ratingLogFilenamePattern.matcher(f).matches());
+			ratingLogFileNames.removeIf(f -> !OPENL_RATING_LOGS_FILENAME_PATTERN.matcher(f).matches());
 			if (ratingLogFileNames.isEmpty()) {
 				log.warn("No rating engine log files were found in \"{}\" folder", OPENL_RATING_LOGS_FOLDER);
-				return ratingLogs;
+				return ratingLogsHolder;
 			}
 
 			Collections.reverse(ratingLogFileNames); // make reverse order to start searching for response log from oldest file
-
-			//TODO-dchubkov: maybe need to refactor this algorithm to make it more clear
 			for (int i = 0; i < ratingLogFileNames.size(); i++) {
 				String logContent = RemoteHelper.get().getFileContent(Paths.get(OPENL_RATING_LOGS_FOLDER, ratingLogFileNames.get(i)).normalize().toString());
 				if (logContent.contains(LOG_END_ENVIRONMENT_SEPARATOR)) {
-					logContent = StringUtils.substringAfter(logContent, LOG_END_ENVIRONMENT_SEPARATOR);
+					logContent = StringUtils.substringAfter(logContent, LOG_END_ENVIRONMENT_SEPARATOR).trim();
 				}
 
 				if (i == 0) {
 					//first log from list (which is oldest one) always has log separator at the end
-					logContent = StringUtils.substringBeforeLast(logContent, LOG_SECTIONS_SEPARATOR);
+					logContent = StringUtils.substringBeforeLast(logContent, LOG_SECTIONS_SEPARATOR).trim();
 				}
 
-				String logPart = StringUtils.substringAfterLast(logContent, LOG_START_MARKER).trim();
-				if (!logPart.isEmpty()) {
-					completeLogContent.insert(0, logPart);
-
-					if (isResponseLogRetrieved) {
-						ratingLogs.setRequestLog(completeLogContent.toString());
-						isRequestLogRetrieved = true;
-						break;
-					}
-
-					ratingLogs.setResponseLog(completeLogContent.toString());
-					isResponseLogRetrieved = true;
-
-					logContent = StringUtils.substringBeforeLast(logContent, logPart);
-					logContent = StringUtils.substringBeforeLast(logContent, LOG_SECTIONS_SEPARATOR);
-					logPart = StringUtils.substringAfterLast(logContent, LOG_START_MARKER).trim();
-					if (!logPart.isEmpty()) { // request and response log parts exist in same file
-						ratingLogs.setRequestLog(logPart);
-						isRequestLogRetrieved = true;
-						break;
-					}
-					completeLogContent = new StringBuilder(logContent.trim());
-				} else {
-					completeLogContent.insert(0, logContent.trim());
+				previousLogSectionParts = gatherLogs(logContent, previousLogSectionParts, ratingLogsHolder);
+				if (!ratingLogsHolder.getRequestLog().getLogContent().isEmpty() && !ratingLogsHolder.getResponseLog().getLogContent().isEmpty()) {
+					break;
 				}
 			}
 		} catch (Throwable e) {
 			log.error("Unable to retrieve rating engine logs", e);
 		}
 
-		if (!isRequestLogRetrieved) {
+		if (ratingLogsHolder.getRequestLog().getLogContent().isEmpty()) {
 			log.warn("Rating engine requst log is empty or was not found");
 		}
 
-		if (!isResponseLogRetrieved) {
+		if (ratingLogsHolder.getResponseLog().getLogContent().isEmpty()) {
 			log.warn("Rating engine response log is empty or was not found");
 		}
 
-		return ratingLogs;
+		return ratingLogsHolder;
+	}
+
+	private StringBuilder gatherLogs(String logContent, StringBuilder previousLogSectionParts, RatingEngineLogsHolder ratingLogsHolder) {
+		while (true) {
+			String logSectionId = null;
+			String logSectionPart = StringUtils.substringAfterLast(logContent, LOG_SECTIONS_SEPARATOR).trim();
+
+			if (!logSectionPart.isEmpty()) {
+				previousLogSectionParts.insert(0, logSectionPart.trim());
+				String fullSectionLog = previousLogSectionParts.toString().trim();
+				String json = StringUtils.substringAfter(fullSectionLog, JSON_START_MARKER).trim();
+
+				Matcher ratingLogSectionIdMatcher = RATING_LOG_SECTION_ID_PATTERN.matcher(fullSectionLog);
+				while (ratingLogSectionIdMatcher.find()) {
+					logSectionId = ratingLogSectionIdMatcher.group(1);
+				}
+				if (logSectionId == null) {
+					log.warn("Unable to retrieve section log ID");
+					logSectionId = "UNKNOWN_SECTION_ID";
+				}
+
+				if (fullSectionLog.contains("Outbound Message")) {
+					ratingLogsHolder.setResponseLog(json, logSectionId);
+				} else if (fullSectionLog.contains("Inbound Message")) {
+					Matcher ratingLogSectionAddressMatcher = RATING_LOG_SECTION_POLICY_PREMIUM_ADDRESS_PATTERN.matcher(fullSectionLog);
+					if (ratingLogSectionAddressMatcher.matches()) {
+						if (Objects.equals(ratingLogsHolder.getResponseLog().getLogSectionId(), logSectionId)) {
+							ratingLogsHolder.setRequestLog(json, logSectionId);
+							return previousLogSectionParts;
+						}
+						log.warn("Request and Response log sections has different IDs, request section ID is \"{}\", response section ID is \"{}\"", logSectionId, ratingLogsHolder.getResponseLog().getLogSectionId());
+					}
+
+					ratingLogsHolder.setResponseLog("", "");
+				} else {
+					log.warn("Unknown rating log secton detected. Continue searching request/response parts");
+				}
+
+				logContent = StringUtils.substringBeforeLast(logContent, LOG_SECTIONS_SEPARATOR).trim();
+				previousLogSectionParts = new StringBuilder();
+				continue;
+			}
+
+			return previousLogSectionParts.insert(0, logContent.trim());
+		}
 	}
 
 	private String makeDefaultOpenLLogPath(XmlTest openLTest, int openLPolicyNumber, String logPostfix) {
@@ -111,4 +134,3 @@ public class RatingEngineLogsGrabber {
 				.normalize().toFile().toString();
 	}
 }
-
