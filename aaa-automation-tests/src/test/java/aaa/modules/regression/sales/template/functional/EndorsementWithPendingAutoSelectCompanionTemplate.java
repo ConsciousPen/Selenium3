@@ -9,18 +9,17 @@ import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import aaa.modules.regression.sales.home_ca.ho3.functional.TestEndorsementWithAutoSelectCompanion;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import static toolkit.verification.CustomAssertions.assertThat;
 
-public class EndorsementWithPendingAutoSelectCompanion extends PolicyBaseTest {
+public class EndorsementWithPendingAutoSelectCompanionTemplate extends PolicyBaseTest {
 
     private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 
 
-    public void pas8786_TestEndorsementRateWithPendingAutoSelectCompanion(PolicyType policyType) {
+    protected void pas8786_TestEndorsementRateWithPendingAutoSelectCompanion() {
 
         String autoEffective = TimeSetterUtil.getInstance().getCurrentTime().plusWeeks(2).format(DateTimeUtils.MM_DD_YYYY);
 
@@ -33,13 +32,19 @@ public class EndorsementWithPendingAutoSelectCompanion extends PolicyBaseTest {
         createCustomerIndividual();
 
         // Get test data with CA select Auto
-        TestData tdHome = getTdWithAutoPolicy(tdAuto, policyType);
+        TestData tdHome = getTdWithAutoPolicy(tdAuto);
 
         // Create Property policy with companion Auto policy created above
-        policyType.get().createPolicy(tdHome);
+        createPolicy(tdHome);
 
         // Endorse Policy with effective date Prior to Pending Auto Select Policy
-        policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(policyType).getTestData("Endorsement"), "TestData_Plus1Week"));
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Week"));
+
+        // Navigate from Applicant Tab to reports tab the error should not be thrown
+        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.APPLICANT.get());
+        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.REPORTS.get());
+
+        // Navigate to P&C
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 
@@ -49,11 +54,11 @@ public class EndorsementWithPendingAutoSelectCompanion extends PolicyBaseTest {
     }
 
 
-    private TestData getTdWithAutoPolicy(TestData tdAuto, PolicyType policyType) {
+    private TestData getTdWithAutoPolicy(TestData tdAuto) {
         PolicyType.AUTO_CA_SELECT.get().createPolicy(tdAuto);
-        TestData tdOtherActive = testDataManager.getDefault(TestEndorsementWithAutoSelectCompanion.class).getTestData("TestData_OtherActiveAAAPolicies")
+        TestData tdOtherActive = testDataManager.getDefault(EndorsementWithPendingAutoSelectCompanionTemplate.class).getTestData("TestData_OtherActiveAAAPolicies")
                 .adjust(TestData.makeKeyPath("ActiveUnderlyingPoliciesSearch", "Policy number"), PolicySummaryPage.getPolicyNumber());
-        return getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData")
+        return getPolicyTD("DataGather", "TestData")
                 .adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeCaMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()), tdOtherActive);
     }
 }
