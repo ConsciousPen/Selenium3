@@ -27,7 +27,6 @@ import toolkit.utils.TestInfo;
 
 import java.time.LocalDateTime;
 import static toolkit.verification.CustomAssertions.assertThat;
-//TODO: Timepoint test case - move out
 /**
  * @author Tyrone Jemison
  * @name Test Membership Override

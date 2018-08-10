@@ -31,7 +31,6 @@ import toolkit.webdriver.controls.StaticElement;
 import java.time.LocalDateTime;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-//TODO: Timepoint test case - move out
 
 @StateList(states = Constants.States.AZ)
 public class TestMembershipOverride extends AutoSSBaseTest {

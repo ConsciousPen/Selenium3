@@ -462,7 +462,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	private void validate_NewBusiness(TestData tdSpecific, Boolean ruleShouldFire) {
 		TestData testData = getPolicyTD().adjust(tdSpecific);
-		testData.adjust(tdSpecific).adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "A96258745");
+		testData.adjust(tdSpecific).adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "A$<rx:\\d{8}>");
 		mainApp().open();
 		createCustomerIndividual();
 		log.info("Policy Creation Started...");

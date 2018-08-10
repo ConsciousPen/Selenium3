@@ -25,7 +25,6 @@ import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.StaticElement;
-//TODO: Timepoint test case - move out
 
 @StateList(states = Constants.States.CA)
 public class TestMembershipOverride extends AutoCaSelectBaseTest {
