@@ -520,6 +520,7 @@
                 <methods>
                     <include name="pas14475_NameInsuredMaritalStatusPSS"/>
                     <include name="pas16696_AddANameInsuredSameDayNotPolicyEffectiveDate"/>
+                    <include name="pas14963_remove_driver_transaction_history"/>
                 </methods>
             </class>
         </classes>

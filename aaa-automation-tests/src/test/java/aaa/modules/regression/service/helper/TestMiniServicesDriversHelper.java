@@ -1673,6 +1673,36 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 	}
 
+	protected void pas14963_remove_driver_transaction_historyBody(PolicyType policyType) {
+
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_TwoDrivers").getTestDataList("DriverTab")).resolveLinks();
+
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNumber = createPolicy(testData);
+
+		//Perform Endorsement
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		ViewDriversResponse viewDriver = HelperCommon.viewPolicyDrivers(policyNumber);
+		String driverOid2 = viewDriver.driverList.get(1).oid;
+		String stateLicensed = viewDriver.driverList.get(1).drivingLicense.stateLicensed;
+		String licenseNumber = viewDriver.driverList.get(1).drivingLicense.licenseNumber;
+
+		removeDriverRequest.removalReasonCode = "RD1001";
+		DriversDto removeDriver2Response = HelperCommon.removeDriver(policyNumber, driverOid2, removeDriverRequest);
+
+		ComparablePolicy policyResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
+		ComparableDriver driver1 = policyResponse.drivers.get(driverOid2);
+		assertSoftly(softly -> {
+			softly.assertThat(driver1.changeType).isEqualTo("REMOVED");
+			softly.assertThat(driver1.drivingLicense.changeType).isEqualTo("REMOVED");
+			softly.assertThat(driver1.drivingLicense.data.stateLicensed).isEqualTo(stateLicensed);
+			softly.assertThat(driver1.drivingLicense.data.licenseNumber).isEqualTo(licenseNumber);
+		});
+	}
+
 	private void validateThatDriverIsUpdated_pas14641(SoftAssertions softly) {
 		softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.NAMED_INSURED).getValue()).contains("not a Named Insured");
 		softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DRIVER_TYPE).getValue()).isEqualTo("Not Available for Rating");
