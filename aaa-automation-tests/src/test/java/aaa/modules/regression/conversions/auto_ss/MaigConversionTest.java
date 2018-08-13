@@ -1,5 +1,6 @@
 package aaa.modules.regression.conversions.auto_ss;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import org.testng.ITestContext;
 import org.testng.annotations.Optional;
@@ -143,7 +144,7 @@ public class MaigConversionTest extends AutoSSBaseTest {
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	public void maigConversion_customerDeclined(String file, ITestContext context) {
@@ -189,7 +190,7 @@ public class MaigConversionTest extends AutoSSBaseTest {
 		new DocumentsAndBindTab().submitTab();
 
 		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(effDate);

@@ -5,7 +5,7 @@ package aaa.modules.regression.sales.auto_ss;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.assertj.core.api.SoftAssertions;
+import toolkit.verification.CustomSoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -21,7 +21,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 /**
  * @author Jelena Dembovska
@@ -65,9 +65,9 @@ public class TestPolicySpin extends AutoSSBaseTest {
 		
 		assertSoftly(softly -> {
 			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesTable.DESCRIPTION,
-					"has been spun to a new quote").isPresent());
+					"has been spun to a new quote")).isPresent();
 		});
-		
+
 		
 		String quoteNumber = description.substring(description.indexOf("Q" + getState() + "SS"));
 
@@ -79,10 +79,10 @@ public class TestPolicySpin extends AutoSSBaseTest {
 		policy.dataGather().getView().fill(getTestSpecificTD("TestData_endorsement"));
 
 		//4. Check policy is bind and now has 1NI/1Driver/1Vehicle
-		SoftAssertions.assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.tablePolicyDrivers.getRowsCount()).isEqualTo(1);
-			softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRowsCount()).isEqualTo(1);
-			softly.assertThat(PolicySummaryPage.tableInsuredInformation.getRowsCount()).isEqualTo(1);
+		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(PolicySummaryPage.tablePolicyDrivers).hasRows(1);
+			softly.assertThat(PolicySummaryPage.tablePolicyVehicles).hasRows(1);
+			softly.assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(1);
 			
 		});	
 
@@ -106,10 +106,10 @@ public class TestPolicySpin extends AutoSSBaseTest {
 				quoteTestData.adjust(TestData.makeKeyPath("GeneralTab", AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel()), namedInsuredList));
 
 		//7. Check policy is bind and now has 1NI/1Driver/1Vehicle
-		SoftAssertions.assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.tablePolicyDrivers.getRowsCount()).isEqualTo(1);
-			softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRowsCount()).isEqualTo(1);
-			softly.assertThat(PolicySummaryPage.tableInsuredInformation.getRowsCount()).isEqualTo(1);
+		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(PolicySummaryPage.tablePolicyDrivers).hasRows(1);
+			softly.assertThat(PolicySummaryPage.tablePolicyVehicles).hasRows(1);
+			softly.assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(1);
 			
 		});	
 

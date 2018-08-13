@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.pup;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -8,7 +9,6 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -65,8 +65,8 @@ public class TestQuotePremiumOverride extends PersonalUmbrellaBaseTest {
        // premiumQuoteTab.calculatePremium();
         PremiumAndCoveragesQuoteTab.btnOverridePremium.click();
         premiumQuoteTab.fillTab(getTestSpecificTD("TestData_Percentage").resolveLinks(),false);
-        PremiumAndCoveragesQuoteTab.lblErrorMessage.verify.present();
-        PremiumAndCoveragesQuoteTab.lblErrorMessage.verify.value("The premium cannot be decreased by more than 100%.");
+        assertThat(PremiumAndCoveragesQuoteTab.lblErrorMessage).isPresent();
+        assertThat(PremiumAndCoveragesQuoteTab.lblErrorMessage).hasValue("The premium cannot be decreased by more than 100%.");
         
 //		Override premium by Percentage (20%), check calculated values.
         premiumQuoteTab.fillTab(getTestSpecificTD("TestData_Percentage").adjust(TestData.makeKeyPath("PremiumAndCoveragesQuoteTab","OverridePremium","Percentage"),"20"),false);
@@ -77,14 +77,14 @@ public class TestQuotePremiumOverride extends PersonalUmbrellaBaseTest {
 //		CustomAssert.assertTrue(PremiumAndCoveragesQuoteTab.getPolicyTermPremium().notEquals(PremiumAndCoveragesQuoteTab.getFinalTermPremium()));
 //      override premium by 100$
 		premiumQuoteTab.fillTab(getTestSpecificTD("TestData_Amount"), false);
-		CustomAssert.assertTrue(PremiumAndCoveragesQuoteTab.getPolicyTermPremium().notEquals(PremiumAndCoveragesQuoteTab.getFinalTermPremium()));
+		assertThat(PremiumAndCoveragesQuoteTab.getPolicyTermPremium()).isNotEqualTo(PremiumAndCoveragesQuoteTab.getFinalTermPremium());
 
 //		10. Override premium by Percentage (-20%), check calculated values. Confirm Override.
 		premiumQuoteTab.fillTab(getTestSpecificTD("TestData_Percentage").adjust(TestData.makeKeyPath("PremiumAndCoveragesQuoteTab","OverridePremium","Percentage"),"-20"),false);
 		PremiumAndCoveragesQuoteTab.getPolicyTermPremium().verify.notEquals(PremiumAndCoveragesQuoteTab.getFinalTermPremium());
 
 		PremiumAndCoveragesQuoteTab.dialogOverridePremium.confirm();
-		PremiumAndCoveragesQuoteTab.lblOverridenPremium.verify.value("Original term premium has been overridden.");
+		assertThat(PremiumAndCoveragesQuoteTab.lblOverridenPremium).hasValue("Original term premium has been overridden.");
 		log.info("Override message is displayed on Premium&Coverages tab");
         PremiumAndCoveragesQuoteTab.btnContinue.click();
         policy.getDefaultView().fillFromTo(getPolicyTD(), UnderwritingAndApprovalTab.class, PurchaseTab.class, true);

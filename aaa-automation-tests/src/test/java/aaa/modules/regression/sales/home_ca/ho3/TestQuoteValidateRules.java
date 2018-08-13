@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -55,7 +56,7 @@ public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
         generalTab.fillTab(getPolicyTD());
         generalTab.getAssetList().getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.class.getSimpleName(), AssetList.class).getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE)
                 .setValue(DateTimeUtils.getCurrentDateTime().plusDays(91).format(DateTimeUtils.MM_DD_YYYY));
-        generalTab.getAssetList().getAsset(HomeCaMetaData.GeneralTab.POLICY_INFO).getWarning(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE.getLabel()).verify.contains(expectedWarning);
+        assertThat(generalTab.getAssetList().getAsset(HomeCaMetaData.GeneralTab.POLICY_INFO).getWarning(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE.getLabel())).valueContains(expectedWarning);
         generalTab.getAssetList().getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.class.getSimpleName(), AssetList.class).getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE)
                 .setValue(DateTimeUtils.getCurrentDateTime().plusDays(10).format(DateTimeUtils.MM_DD_YYYY));
         generalTab.submitTab();
@@ -63,7 +64,7 @@ public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
         policy.getDefaultView().fillFromTo(getPolicyTD(), ApplicantTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_PENDING);
     }
 
     /**
@@ -121,6 +122,6 @@ public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
         policy.getDefaultView().fillFromTo(getPolicyTD(), BindTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 }

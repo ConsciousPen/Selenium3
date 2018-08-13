@@ -1,5 +1,6 @@
 package aaa.modules.regression.billing_and_payments.home_ss.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 import java.util.Map;
 import org.testng.annotations.Optional;
@@ -52,7 +53,7 @@ public class TestPolicyPayments extends HomeSSHO3BaseTest {
 
 		new PurchaseTab().fillTab(getTestSpecificTD("TestData")).submitTab();
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		log.info("TEST: Payments for HSS Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
 
@@ -74,6 +75,6 @@ public class TestPolicyPayments extends HomeSSHO3BaseTest {
 		query.put("Subtype/Reason", "Deposit Payment");
 		query.put("Amount", "(" + amount + ")");
 
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query)).exists();
 	}
 }

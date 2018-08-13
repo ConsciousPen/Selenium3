@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.Tab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -15,7 +16,6 @@ import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.StaticElement;
 
 public class TestQuoteUpdateVehicleUI extends AutoCaSelectBaseTest {
     /**
@@ -53,7 +53,7 @@ public class TestQuoteUpdateVehicleUI extends AutoCaSelectBaseTest {
         policy.getDefaultView().fillUpTo(td.adjust(vehicleData), VehicleTab.class, true);
 
         // verify if symbol field is not displayed for both vehicle
-        vehicleTab.verifyFieldIsNotDisplayed("Comp/Coll Symbol");
+        assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.COMP_COLL_SYMBOL)).isPresent(false);
 
         vehicleTab.submitTab();
         policy.getDefaultView().fillFromTo(td.adjust(vehicleData), AssignmentTab.class, PurchaseTab.class, true);
@@ -61,8 +61,7 @@ public class TestQuoteUpdateVehicleUI extends AutoCaSelectBaseTest {
         policy.policyInquiry().start();
         NavigationPage.toViewTab("Vehicle");
         //verify comp/coll symbols
-        inquiryAssetList.getAsset(AutoCaMetaData.VehicleTab.COBP_COLL_SYMBOL.getLabel(), StaticElement.class).
-                verify.present(false);
+        assertThat(inquiryAssetList.getAsset(AutoCaMetaData.VehicleTab.COMP_COLL_SYMBOL)).isPresent(false);
         Tab.buttonCancel.click();
 
         policy.renew().start();
@@ -71,8 +70,7 @@ public class TestQuoteUpdateVehicleUI extends AutoCaSelectBaseTest {
         policy.policyInquiry().start();
         NavigationPage.toViewTab("Vehicle");
         // verify coll/comp symbols
-        inquiryAssetList.getAsset(AutoCaMetaData.VehicleTab.COBP_COLL_SYMBOL.getLabel(), StaticElement.class).
-                verify.present(false);
+        assertThat(inquiryAssetList.getAsset(AutoCaMetaData.VehicleTab.COMP_COLL_SYMBOL)).isPresent(false);
         Tab.buttonCancel.click();
 
         PolicySummaryPage.buttonRenewals.click();
@@ -81,7 +79,7 @@ public class TestQuoteUpdateVehicleUI extends AutoCaSelectBaseTest {
         VehicleTab.buttonAddVehicle.click();
         vehicleTab.fillTab(renewalVehicleInfo);
         //verify coll/comp symbols
-        vehicleTab.verifyFieldIsNotDisplayed("Comp/Coll Symbol");
+        assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.COMP_COLL_SYMBOL)).isPresent(false);
 
         vehicleTab.submitTab();
         policy.getDefaultView().fillFromTo(td.adjust(renewalVehicleInfo), AssignmentTab.class, PremiumAndCoveragesTab.class, true);

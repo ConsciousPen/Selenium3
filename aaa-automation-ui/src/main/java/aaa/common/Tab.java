@@ -2,24 +2,20 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common;
 
-import java.util.Arrays;
-import java.util.List;
-import org.openqa.selenium.By;
 import aaa.common.components.Dialog;
 import aaa.common.pages.Page;
 import aaa.main.metadata.DialogsMetaData;
+import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+import org.openqa.selenium.By;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
-import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
-import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 
 /**
@@ -132,15 +128,6 @@ public abstract class Tab {
 		return this;
 	}
 
-	public Tab verifyTab(TestData td) {
-		if (td.containsKey(assetList.getName())) {
-			((AssetList) assetList).verify.someValues(td.getTestData(assetList.getName()));
-		} else {
-			((AssetList) assetList).verify.someValues(td);
-		}
-		return this;
-	}
-
 	/**
 	 * Finish filling the tab. By default is a NOOP. For multi-tab workspaces it
 	 * should click "Next" button, but sometimes a different button is used or
@@ -148,83 +135,6 @@ public abstract class Tab {
 	 * filling the tab.
 	 */
 	public Tab submitTab() {
-		return this;
-	}
-
-	public boolean isEmpty(TestData td) {
-		return td.getTestData(metaDataClass.getSimpleName()).getKeys().isEmpty();
-	}
-
-	public Tab verifyFieldIsDisplayed(String label) {
-		BaseElement<?, ?> control = assetList.getAsset(label);
-		CustomAssert.assertTrue("Field '" + label + "' must be displayed but it is not", control.isPresent() && control.isVisible());
-		return this;
-	}
-
-	public Tab verifyFieldIsNotDisplayed(String label) {
-		BaseElement<?, ?> control = assetList.getAsset(label);
-		if (control.isPresent()) {
-			CustomAssert.assertFalse("Field '" + label + "' must not be displayed but it is", control.isVisible());
-		}
-		return this;
-	}
-
-	public Tab verifyFieldsAreNotDisplayed(String[] labels) {
-		List<String> listOfLabels = Arrays.asList(labels);
-		for (String label : listOfLabels) {
-			verifyFieldIsNotDisplayed(label);
-		}
-		return this;
-	}
-
-	public Tab verifyFieldIsEnabled(String label) {
-		CustomAssert.assertTrue("Field '" + label + "' must be enabled but it is not", assetList.getAsset(label).isEnabled());
-		return this;
-	}
-
-	public Tab verifyFieldIsDisabled(String label) {
-		CustomAssert.assertFalse("Field '" + label + "' must be disabled but it is not", assetList.getAsset(label).isEnabled());
-		return this;
-	}
-
-	public Tab verifyFieldHasValue(String label, String expectedValue) {
-		return verifyFieldHasValue(assetList, label, expectedValue);
-	}
-
-	public Tab verifyFieldHasValue(AbstractContainer<?, ?> assetList, String label, String expectedValue) {
-		String actualValue = assetList.getAsset(label).getValue().toString();
-		String errorMessage = String.format("'%s' field's actual value '%s' is not equal to the expected value of '%s'", label, actualValue, expectedValue);
-		CustomAssert.assertEquals(errorMessage, expectedValue, actualValue);
-		return this;
-	}
-
-	public Tab verifyFieldHasValue(AssetDescriptor<BaseElement<?, ?>> attributeDescriptor, String expectedValue) {
-		return verifyFieldHasValue(assetList, attributeDescriptor, expectedValue);
-	}
-
-	public Tab verifyFieldHasValue(AbstractContainer<?, ?> assetList, AssetDescriptor<BaseElement<?, ?>> attributeDescriptor, String expectedValue) {
-		String actualValue = assetList.getAsset(attributeDescriptor.getLabel()).getValue().toString();
-		String errorMessage = String.format("'%s' field's actual value '%s' is not equal to the expected value of '%s'", attributeDescriptor.getLabel(), actualValue, expectedValue);
-		CustomAssert.assertEquals(errorMessage, expectedValue, actualValue);
-		return this;
-	}
-
-	public Tab verifyFieldHasNotValue(String label, String expectedValue) {
-		String actualValue = assetList.getAsset(label).getValue().toString();
-		String errorMessage = String.format("'%s' field's actual value '%s' is not equal to the expected value of '%s'", label, actualValue, expectedValue);
-		CustomAssert.assertFalse(errorMessage, expectedValue.equals(actualValue));
-		return this;
-	}
-
-	public Tab verifyFieldHasMessage(String label, String expectedValue) {
-		String actualValue = assetList.getWarning(label).getValue();
-		String errorMessage = String.format("'%s' field's actual warning '%s' is not equal to the expected warning of '%s'", label, actualValue, expectedValue);
-		CustomAssert.assertEquals(errorMessage, expectedValue, actualValue);
-		return this;
-	}
-
-	public Tab verifyTabHasBottomMessage(String errorMessage) {
-		getBottomWarning().verify.contains(errorMessage);
 		return this;
 	}
 
@@ -276,5 +186,36 @@ public abstract class Tab {
 	protected Tab showHeader() {
 		BrowserController.get().executeScript("$(\'#headerForm\').show();");
 		return this;
+	}
+
+	/**
+	 * Verifies is section label presence in AssetList (form).
+	 * Note: Search by text will be performed in Asset's forms only.
+	 *
+	 * @param sectionName - section to check (can be @id->sectionName)
+	 */
+	public boolean isSectionPresent(String sectionName) {
+		String xPath = String.format("//span[@class='componentViewPanelHeader']//label[text()='%s']", sectionName);
+		String xPath2 = String.format("//span[text()='%s']", sectionName);
+		String xPath3 = String.format("//span[text()=\"%s\"]", sectionName); //for ' in the text
+		boolean present = isElementPresent(xPath) || isElementPresent(xPath2) || isElementPresent(xPath3);
+		if (sectionName.contains("->")) {
+			String[] query = sectionName.split("\\->");
+			xPath = String.format("//*[@id='%1$s']", query[0]) + String.format("//label[text()='%s']", query[1]);
+			present = isElementPresent(xPath) || isElementPresent(xPath2) || isElementPresent(xPath3);
+		}
+		return present;
+	}
+
+	private static boolean isElementPresent(String xPath) {
+		try {
+			return BrowserController.get().driver().findElement(By.xpath(xPath)).isDisplayed();
+		} catch (RuntimeException ignored) {
+			return false;
+		}
+	}
+
+	public boolean isFieldThatIsNotInAssetListIsPresent(String label) {
+		return WebDriverHelper.getControlsWithText(label).size() > 0;
 	}
 }

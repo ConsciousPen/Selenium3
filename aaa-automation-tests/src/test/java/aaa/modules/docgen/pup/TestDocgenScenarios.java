@@ -14,7 +14,7 @@ import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 public class TestDocgenScenarios extends PersonalUmbrellaBaseTest {
 	/**
@@ -105,71 +105,69 @@ public class TestDocgenScenarios extends PersonalUmbrellaBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testPUPDocgenScenarios(@Optional("") String state) {
-		CustomAssert.enableSoftMode();
-		mainApp().open();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			mainApp().open();
 
-		GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
-		createCustomerIndividual();
-		String quoteNum = createQuote();
-		log.info("Create PUP Quote" + quoteNum);
+			GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
+			createCustomerIndividual();
+			String quoteNum = createQuote();
+			log.info("Create PUP Quote" + quoteNum);
 
-		//		Verify the documents on quote GODD page
-		policy.quoteDocGen().start();
-		goddTab.verify.documentsPresent(AHFMXX, PS11, PSIQXX, HSRFIXXPUP, HSU01XX, HSU02XX, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU07XX, HSU08XX, HSU09XX);
-		goddTab.verify.documentsPresent(false, _438BFUNS, AHRCTXX, AHPNXX, AHNBXX, HSEIXX, HSES, PS02);
-		goddTab.verify.documentsEnabled(HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU08XX, AHFMXX, PSIQXX, PS11);
-		goddTab.verify.documentsEnabled(false, HSU01XX, HSU02XX, HSU07XX, HSU09XX, HSRFIXXPUP);
-		goddTab.generateDocuments(PSIQXX);
-		WebDriverHelper.switchToDefault();
-		DocGenHelper.verifyDocumentsGenerated(quoteNum, PSIQXX, AHPNXX);
+			//		Verify the documents on quote GODD page
+			policy.quoteDocGen().start();
+			goddTab.verify.documentsPresent(softly, AHFMXX, PS11, PSIQXX, HSRFIXXPUP, HSU01XX, HSU02XX, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU07XX, HSU08XX, HSU09XX);
+			goddTab.verify.documentsPresent(softly, false, _438BFUNS, AHRCTXX, AHPNXX, AHNBXX, HSEIXX, HSES, PS02);
+			goddTab.verify.documentsEnabled(softly, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU08XX, AHFMXX, PSIQXX, PS11);
+			goddTab.verify.documentsEnabled(softly, false, HSU01XX, HSU02XX, HSU07XX, HSU09XX, HSRFIXXPUP);
+			goddTab.generateDocuments(PSIQXX);
+			WebDriverHelper.switchToDefault();
+			DocGenHelper.verifyDocumentsGenerated(softly, quoteNum, PSIQXX, AHPNXX);
 
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
-		policy.quoteDocGen().start();
-		goddTab.generateDocuments(PS11, AHFMXX);
-		WebDriverHelper.switchToDefault();
-		DocGenHelper.verifyDocumentsGenerated(quoteNum, PS11, AHPNXX, AHFMXX);
+			PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
+			policy.quoteDocGen().start();
+			goddTab.generateDocuments(PS11, AHFMXX);
+			WebDriverHelper.switchToDefault();
+			DocGenHelper.verifyDocumentsGenerated(softly, quoteNum, PS11, AHPNXX, AHFMXX);
 
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
-		policy.quoteDocGen().start();
-		goddTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"), HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU08XX);
-		WebDriverHelper.switchToDefault();
-		DocGenHelper.verifyDocumentsGenerated(quoteNum, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU08XX);
+			PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
+			policy.quoteDocGen().start();
+			goddTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"), HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU08XX);
+			WebDriverHelper.switchToDefault();
+			DocGenHelper.verifyDocumentsGenerated(softly, quoteNum, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU08XX);
 
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
-		policy.getDefaultView().getTab(PremiumAndCoveragesQuoteTab.class).fillTab(getTestSpecificTD("ChnagePersonalUmbrellaLimit2000"), false);
-		Tab.buttonSaveAndExit.click();
+			PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
+			policy.dataGather().start();
+			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
+			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
+			policy.getDefaultView().getTab(PremiumAndCoveragesQuoteTab.class).fillTab(getTestSpecificTD("ChnagePersonalUmbrellaLimit2000"), false);
+			Tab.buttonSaveAndExit.click();
 
-		policy.quoteDocGen().start();
-		goddTab.verify.documentsEnabled(false, AHFMXX);
-		goddTab.buttonCancel.click();
+			policy.quoteDocGen().start();
+			goddTab.verify.documentsEnabled(softly, false, AHFMXX);
+			goddTab.buttonCancel.click();
 
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
-		policy.getDefaultView().fill(getTestSpecificTD("ChnagePersonalUmbrellaLimit1000"));
-		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
+			policy.dataGather().start();
+			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
+			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
+			policy.getDefaultView().fill(getTestSpecificTD("ChnagePersonalUmbrellaLimit1000"));
+			String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
 
-		//		Verify the documents for policy
+			//		Verify the documents for policy
 
-		DocGenHelper.verifyDocumentsGenerated(policyNum, PS02, AHNBXX);
-		policy.policyDocGen().start();
-		goddTab.verify.documentsPresent(AHRCTXXPUP, PS11, HSRFIXXPUP, HSU01XX, HSU02XX, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU07XX, HSU08XX, HSU09XX);
-		goddTab.verify.documentsPresent(false,
-				//				AHAUXX,//TODO Actually AHAUXX is present, need to confirm the request
-				PSIQXX,
-				AHPNXX,
-				_438BFUNS,
-				HSEIXX,
-				HSES);
-		goddTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"), PS11, AHRCTXXPUP, HSU01XX, HSU09XX);
-		WebDriverHelper.switchToDefault();
-		DocGenHelper.verifyDocumentsGenerated(policyNum, PS11, AHPNXX, AHRCTXXPUP, HSU01XX, HSU09XX);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			DocGenHelper.verifyDocumentsGenerated(softly, policyNum, PS02, AHNBXX);
+			policy.policyDocGen().start();
+			goddTab.verify.documentsPresent(softly, AHRCTXXPUP, PS11, HSRFIXXPUP, HSU01XX, HSU02XX, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU07XX, HSU08XX, HSU09XX);
+			goddTab.verify.documentsPresent(softly, false,
+					//				AHAUXX,//TODO Actually AHAUXX is present, need to confirm the request
+					PSIQXX,
+					AHPNXX,
+					_438BFUNS,
+					HSEIXX,
+					HSES);
+			goddTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"), PS11, AHRCTXXPUP, HSU01XX, HSU09XX);
+			WebDriverHelper.switchToDefault();
+			DocGenHelper.verifyDocumentsGenerated(softly, policyNum, PS11, AHPNXX, AHRCTXXPUP, HSU01XX, HSU09XX);
+		});
 	}
 
 }

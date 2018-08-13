@@ -11,7 +11,6 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.actiontabs.EndorsementActionTab;
 import aaa.modules.regression.sales.template.functional.TestEndorsementActionRulesAbstract;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
@@ -27,11 +26,7 @@ public class TestEndorsementActionRules extends TestEndorsementActionRulesAbstra
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-5860")
 	public void pas5860_EndorsementActionTabRules(@Optional("CA") String state) {
-
-		CustomAssert.enableSoftMode();
 		pas5860_EndorsementActionTabRulesHelper();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	@Override

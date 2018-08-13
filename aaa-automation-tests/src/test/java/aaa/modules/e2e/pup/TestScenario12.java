@@ -1,6 +1,6 @@
 package aaa.modules.e2e.pup;
 
-import org.assertj.core.api.SoftAssertions;
+import toolkit.verification.CustomSoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -24,8 +24,8 @@ public class TestScenario12 extends Scenario12 {
 		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
 
 		createTestPolicy(policyCreationTD);
-		SoftAssertions.assertSoftly(softly -> {
-			generateFirstBill();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			generateFirstBill(softly);
 			//payFirstBill();
 			generateCancelNotice();
 			generateCancellation();
@@ -41,7 +41,7 @@ public class TestScenario12 extends Scenario12 {
 				renewalImageGeneration();
 			}
 			renewalPreviewGeneration();
-			renewalOfferGeneration(); 
+			renewalOfferGeneration(softly);
 			if (!getState().equals(Constants.States.CA)) {
 				generateRenewalBill();
 			}
@@ -49,22 +49,22 @@ public class TestScenario12 extends Scenario12 {
 			enableAutoPay();
 			payRenewalBill();
 			updatePolicyStatus();
-			generateFirstBillOfFirstRenewal();
+			generateFirstBillOfFirstRenewal(softly);
 			payFirstBillOfFirstRenewal();
-			generateSecondBillOfFirstRenewal();
+			generateSecondBillOfFirstRenewal(softly);
 			paySecondBillOfFirstRenewal();
-			generateThirdBillOfFirstRenewal();
+			generateThirdBillOfFirstRenewal(softly);
 			payThirdBillOfFirstRenewal();
 			renewalImageGeneration_FirstRenewal();
 			renewalPreviewGeneration_FirstRenewal();
-			renewalOfferGeneration_FirstRenewal();
+			renewalOfferGeneration_FirstRenewal(softly);
 			changePaymentPlan_FirstRenewal();
 			if (!getState().equals(Constants.States.CA)) {
 				generateRenewalBill_FirstRenewal();
 			}
 			payRenewalBill_FirstRenewal();
 			updatePolicyStatus_FirstRenewal();
-			generateFirstBillOfSecondRenewal();
+			generateFirstBillOfSecondRenewal(softly);
 			payFirstBillOfSecondRenewal();
 		});
 	}

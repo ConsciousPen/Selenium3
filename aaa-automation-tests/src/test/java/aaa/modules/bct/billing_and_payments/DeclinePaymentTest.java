@@ -12,7 +12,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 
@@ -57,22 +57,22 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 		billingAccount.acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Check"), amount);
 		billingAccount.declinePayment().perform(testDataManager.billingAccount.getTestData("DeclinePayment", "TestData_FeeNoRestriction"), "(" + amount + ")");
 
-		CustomAssert.enableSoftMode();
-		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
-				.setAmount(amount.negate()).setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.DECLINED)
-				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
-				.setReason(BillingConstants.PaymentsAndOtherTransactionReason.FEE_NO_RESTRICTION).verifyPresent();
-		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
-				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PAYMENT_DECLINED)
-				.setAmount(amount).setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
-				.setReason(BillingConstants.PaymentsAndOtherTransactionReason.FEE_NO_RESTRICTION).verifyPresent();
-		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
-				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NSF_FEE__WITHOUT_RESTRICTION)
-				.setAmount(feeAmount).setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED).verifyPresent();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			new BillingPaymentsAndTransactionsVerifier(softly).setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
+					.setAmount(amount.negate()).setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.DECLINED)
+					.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
+					.setReason(BillingConstants.PaymentsAndOtherTransactionReason.FEE_NO_RESTRICTION).verifyPresent();
+			new BillingPaymentsAndTransactionsVerifier(softly).setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
+					.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PAYMENT_DECLINED)
+					.setAmount(amount).setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
+					.setReason(BillingConstants.PaymentsAndOtherTransactionReason.FEE_NO_RESTRICTION).verifyPresent();
+			new BillingPaymentsAndTransactionsVerifier(softly).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
+					.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NSF_FEE__WITHOUT_RESTRICTION)
+					.setAmount(feeAmount).setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED).verifyPresent();
 
-		BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue.add(new Dollar(feeAmount)));
-		BillingSummaryPage.getTotalPaid().verify.equals(initialTotalPaid);
-		CustomAssert.disableSoftMode();
+			BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue.add(new Dollar(feeAmount)));
+			BillingSummaryPage.getTotalPaid().verify.equals(initialTotalPaid);
+		});
 	}
 
 	@Parameters({"state"})
@@ -92,24 +92,24 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 		billingAccount.acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Check"), amount);
 		billingAccount.declinePayment().perform(testDataManager.billingAccount.getTestData("DeclinePayment", "TestData_FeeRestriction"), "(" + amount + ")");
 
-		CustomAssert.enableSoftMode();
-		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
-				.setAmount(amount.negate()).setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.DECLINED)
-				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
-				.setReason(BillingConstants.PaymentsAndOtherTransactionReason.FEE_PLUS_RESTRICTION).verifyPresent();
-		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
-				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PAYMENT_DECLINED)
-				.setAmount(amount).setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
-				.setReason(BillingConstants.PaymentsAndOtherTransactionReason.FEE_PLUS_RESTRICTION).verifyPresent();
-		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
-				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NSF_FEE__WITH_RESTRICTION)
-				.setAmount(feeAmount).setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED).verifyPresent();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			new BillingPaymentsAndTransactionsVerifier(softly).setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
+					.setAmount(amount.negate()).setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.DECLINED)
+					.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
+					.setReason(BillingConstants.PaymentsAndOtherTransactionReason.FEE_PLUS_RESTRICTION).verifyPresent();
+			new BillingPaymentsAndTransactionsVerifier(softly).setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
+					.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PAYMENT_DECLINED)
+					.setAmount(amount).setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
+					.setReason(BillingConstants.PaymentsAndOtherTransactionReason.FEE_PLUS_RESTRICTION).verifyPresent();
+			new BillingPaymentsAndTransactionsVerifier(softly).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
+					.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NSF_FEE__WITH_RESTRICTION)
+					.setAmount(feeAmount).setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED).verifyPresent();
 
-		BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue.add(feeAmount));
-		BillingSummaryPage.getTotalPaid().verify.equals(initialTotalPaid);
+			BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue.add(feeAmount));
+			BillingSummaryPage.getTotalPaid().verify.equals(initialTotalPaid);
 
-		//Efolder.isDocumentExist("Invoice Bills Statements", "RETURNED PAYMNT");
-		CustomAssert.disableSoftMode();
+			//Efolder.isDocumentExist("Invoice Bills Statements", "RETURNED PAYMNT");
+		});
 	}
 
 	@Parameters({"state"})
@@ -124,25 +124,24 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 		Dollar initialTotalDue = BillingSummaryPage.getTotalDue();
 		Dollar initialTotalPaid = BillingSummaryPage.getTotalPaid();
 		Dollar amount = new Dollar(100);
-		Dollar feeAmount = new Dollar(20);
 
 		billingAccount.acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Check"), amount);
 		billingAccount.declinePayment().perform(testDataManager.billingAccount.getTestData("DeclinePayment", "TestData_NoFeeNoRestriction"), "(" + amount + ")");
 
-		CustomAssert.enableSoftMode();
-		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
-				.setAmount(amount.negate()).setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.DECLINED)
-				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
-				.setReason(BillingConstants.PaymentsAndOtherTransactionReason.NO_FEE_NO_RESTRICTION).verifyPresent();
-		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
-				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PAYMENT_DECLINED)
-				.setAmount(amount).setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
-				.setReason(BillingConstants.PaymentsAndOtherTransactionReason.NO_FEE_NO_RESTRICTION).verifyPresent();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			new BillingPaymentsAndTransactionsVerifier(softly).setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
+					.setAmount(amount.negate()).setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.DECLINED)
+					.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
+					.setReason(BillingConstants.PaymentsAndOtherTransactionReason.NO_FEE_NO_RESTRICTION).verifyPresent();
+			new BillingPaymentsAndTransactionsVerifier(softly).setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
+					.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PAYMENT_DECLINED)
+					.setAmount(amount).setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
+					.setReason(BillingConstants.PaymentsAndOtherTransactionReason.NO_FEE_NO_RESTRICTION).verifyPresent();
 
-		BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue);
-		BillingSummaryPage.getTotalPaid().verify.equals(initialTotalPaid);
+			BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue);
+			BillingSummaryPage.getTotalPaid().verify.equals(initialTotalPaid);
 
-		//Efolder.isDocumentExist("Invoice Bills Statements", "RETURNED PAYMNT");
-		CustomAssert.disableSoftMode();
+			//Efolder.isDocumentExist("Invoice Bills Statements", "RETURNED PAYMNT");
+		});
 	}
 }

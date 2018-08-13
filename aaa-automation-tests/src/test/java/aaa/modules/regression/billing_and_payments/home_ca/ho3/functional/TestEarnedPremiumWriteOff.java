@@ -50,11 +50,11 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	public String processEarnedPremiumJobWithAPEndorsementMortgagee(LocalDateTime expirationDate, String policyNumber, String endorsementAmount) {
 		processEarnedPremiumJob(expirationDate, policyNumber);
 		assertThat(BillingSummaryPage.labelEarnedPremiumWriteOff).isPresent();
-		assertThat(BillingSummaryPage.labelAmountEarnedPremiumWriteOff.getValue()).isEqualTo(endorsementAmount);
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()).isEqualTo("Adjustment");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Earned Premium Write-off");
+		assertThat(BillingSummaryPage.labelAmountEarnedPremiumWriteOff).hasValue(endorsementAmount);
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE)).hasValue("Adjustment");
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON)).hasValue("Earned Premium Write-off");
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo("("+endorsementAmount+")");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Applied");
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS)).hasValue("Applied");
 		return endorsementAmount;
 	}
 

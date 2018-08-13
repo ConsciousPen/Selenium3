@@ -1,8 +1,7 @@
 package aaa.modules.docgen.auto_ss;
 
 import static aaa.main.enums.DocGenEnum.Documents.*;
-import static org.assertj.core.api.Assertions.assertThat;
-
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -109,7 +108,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
-        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		policyExpirationDate_CurrentTerm = PolicySummaryPage.getExpirationDate();
 		log.info("Original Policy #" + policyNumber);
 
@@ -395,8 +394,8 @@ public class TestScenario2 extends AutoSSBaseTest {
 		SearchPage.openPolicy(policyNumber);
 		TestData endorsementTd = getTestSpecificTD("TestData_Endorsement");
 		policy.createEndorsement(endorsementTd.adjust(getPolicyTD("Endorsement", "TestData")));
-		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
-        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement).isEnabled(false);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		storeCoveragesData();
 		storeBillingData();
@@ -677,7 +676,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	@Parameters({"state"})
@@ -691,8 +690,8 @@ public class TestScenario2 extends AutoSSBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		assertThat(PolicySummaryPage.buttonRenewals.isEnabled()).isTrue();
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
 		policy.getDefaultView().fill(getTestSpecificTD("TestData_AddRenewal"));
@@ -712,8 +711,8 @@ public class TestScenario2 extends AutoSSBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		assertThat(PolicySummaryPage.buttonRenewals.isEnabled()).isTrue();
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 		storeCoveragesData();
@@ -927,7 +926,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		assertThat(PolicySummaryPage.buttonRenewals.isEnabled()).isTrue();
+		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		policy.policyInquiry().start();
 		policyEffectiveDate = TimeSetterUtil.getInstance()
@@ -997,7 +996,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 		String _plcyExprDt = policyExpirationDate.toString();
 		String _termExprDt = policyExpirationDate.toString();
 		//PASBB-414 MDd and PA both require that a single set of ID cards for each vehicle are issued every six months regardless if the policy is on an annual term.
-		String _termExprDtPA = policyExpirationDate.minusMonths(6).toString(); 
+		String _termExprDtPA = policyExpirationDate.minusMonths(6).toString();
 		termEffDt = "contains=" + _termEffDt.substring(0, _termEffDt.indexOf("T"));
 		rnwlTrmEffDt = "contains=" + _termEffDt.substring(0, _termEffDt.indexOf("T"));
 		rnwlTrmDt = "contains=" + _termEffDt.substring(0, _termEffDt.indexOf("T"));

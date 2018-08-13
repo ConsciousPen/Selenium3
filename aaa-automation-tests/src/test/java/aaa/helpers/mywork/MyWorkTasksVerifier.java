@@ -4,9 +4,16 @@ package aaa.helpers.mywork;
 
 import aaa.helpers.TableVerifier;
 import aaa.main.pages.summary.MyWorkSummaryPage;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.table.Table;
 
 public class MyWorkTasksVerifier extends TableVerifier {
+
+    public MyWorkTasksVerifier() {};
+
+    public MyWorkTasksVerifier(ETCSCoreSoftAssertions softly) {
+        this.softly = softly;
+    };
 
     public MyWorkTasksVerifier setTaskID(String taskID) {
         setValue("Task ID", taskID);

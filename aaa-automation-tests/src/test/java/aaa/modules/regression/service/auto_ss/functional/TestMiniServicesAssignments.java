@@ -1,6 +1,6 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;

@@ -1,6 +1,7 @@
 package aaa.helpers.docgen;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -16,7 +17,6 @@ import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.Assert;
 import aaa.helpers.db.DbXmlHelper;
 import aaa.helpers.docgen.searchNodes.SearchBy;
 import aaa.helpers.ssh.RemoteHelper;
@@ -24,7 +24,8 @@ import aaa.helpers.xml.XmlHelper;
 import aaa.helpers.xml.model.*;
 import aaa.main.enums.DocGenEnum;
 import toolkit.exceptions.IstfException;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class DocGenHelper {
 	public static final String DOCGEN_SOURCE_FOLDER = "/home/DocGen/";
@@ -45,16 +46,28 @@ public class DocGenHelper {
 					.clearFolder(DOCGEN_SOURCE_FOLDER)
 					.clearFolder(DOCGEN_BATCH_SOURCE_FOLDER);
 		} catch (RuntimeException e) {
-			Assert.fail("Clearing doc gen folder failed: \n", e);
+			CustomAssertions.fail("Clearing doc gen folder failed: \n", e);
 		}
 	}
 
 	public static DocumentWrapper verifyDocumentsGenerated(String policyNumber, DocGenEnum.Documents... documents) {
-		return verifyDocumentsGenerated(true, false, policyNumber, documents);
+		return verifyDocumentsGenerated(null, true, false, policyNumber, documents);
+	}
+
+	public static DocumentWrapper verifyDocumentsGenerated(ETCSCoreSoftAssertions softly, String policyNumber, DocGenEnum.Documents... documents) {
+		return verifyDocumentsGenerated(softly, true, false, policyNumber, documents);
 	}
 
 	public static DocumentWrapper verifyDocumentsGenerated(boolean documentsExistence, String policyNumber, DocGenEnum.Documents... documents) {
-		return verifyDocumentsGenerated(documentsExistence, false, policyNumber, documents);
+		return verifyDocumentsGenerated(null, documentsExistence, false, policyNumber, documents);
+	}
+
+	public static DocumentWrapper verifyDocumentsGenerated(ETCSCoreSoftAssertions softly, boolean documentsExistence, String policyNumber, DocGenEnum.Documents... documents) {
+		return verifyDocumentsGenerated(softly, documentsExistence, false, policyNumber, documents);
+	}
+
+	public static DocumentWrapper verifyDocumentsGenerated(boolean documentsExistence, boolean generatedByJob, String policyNumber, DocGenEnum.Documents... documents) {
+		return verifyDocumentsGenerated(null, documentsExistence, generatedByJob, policyNumber, documents);
 	}
 
 	/**
@@ -73,8 +86,8 @@ public class DocGenHelper {
 	 * @throws IstfException  if unmarshalling of found xml file to object model fails.
 	 *                        By default strict match check is used, this means exception will be thrown if xml content differs from existing model (e.g. has extra tags)
 	 */
-	public static DocumentWrapper verifyDocumentsGenerated(boolean documentsExistence, boolean generatedByJob, String policyNumber, DocGenEnum.Documents... documents) {
-		CustomAssert.assertFalse("Unable to call method with empty \"documents\" array and false \"documentsExistence\" argument values!", documents.length == 0 && !documentsExistence);
+	public static DocumentWrapper verifyDocumentsGenerated(ETCSCoreSoftAssertions softly, boolean documentsExistence, boolean generatedByJob, String policyNumber, DocGenEnum.Documents... documents) {
+		assertThat(documents.length == 0 && !documentsExistence).as("Unable to call method with empty \"documents\" array and false \"documentsExistence\" argument values!").isFalse();
 
 		log.info(String.format("Verifying that document with \"%1$s\" quote/policy number is generated%2$s%3$s.",
 				policyNumber, generatedByJob ? " by job" : "",
@@ -96,7 +109,11 @@ public class DocGenHelper {
 		}
 
 		for (DocGenEnum.Documents document : documents) {
-			documentWrapper.verify.exists(documentsExistence, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber).document.templateId(document.getIdInXml()));
+			if (softly == null) {
+				documentWrapper.verify.exists(documentsExistence, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber).document.templateId(document.getIdInXml()));
+			} else {
+				documentWrapper.verify.exists(documentsExistence, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber).document.templateId(document.getIdInXml()), softly);
+			}
 		}
 
 		log.info("Documents generation verification has been successfully passed.");
@@ -246,7 +263,7 @@ public class DocGenHelper {
 		List<DocumentDataSection> sections = document.getDocumentDataSections().stream()
 				.filter(section -> section.getDocumentDataElements().stream()
 						.anyMatch(elem -> elem.getName().equals(dataElemName))).collect(Collectors.toList());
-		CustomAssert.assertTrue(MessageFormat.format("More than one element \"{0}\" found.", dataElemName), sections.size() <= 1);
+		assertThat(sections.size()).as(MessageFormat.format("More than one element \"{0}\" found.", dataElemName)).isLessThanOrEqualTo(1);
 
 		return sections.stream().findFirst().get().getDocumentDataElements().stream().filter(elem -> elem.getName().equals(dataElemName)).findFirst().get();
 	}
@@ -308,7 +325,7 @@ public class DocGenHelper {
 		long searchTime = System.currentTimeMillis() - searchStart;
 
 		if (assertExists) {
-		CustomAssert.assertTrue(MessageFormat.format("Xml document \"{0}\" found. Search time:  \"{1}\"", docId.getId(), searchTime), document != null);
+			assertThat(document).as(MessageFormat.format("Xml document \"{0}\" found. Search time:  \"{1}\"", docId.getId(), searchTime)).isNotNull();
 		}
 		log.info(MessageFormat.format((document == null ? "Document not found " : "Found document ") + "\"{0}\" after {1} milliseconds", docId.getId(), searchTime));
 		return document;
@@ -349,7 +366,7 @@ public class DocGenHelper {
 		long searchTime = System.currentTimeMillis() - searchStart;
 
 		if (assertExists) {
-			CustomAssert.assertTrue(MessageFormat.format("Xml document(s) \"{0}\" found. Search time:  \"{1}\"", docId.getId(), searchTime), CollectionUtils.isNotEmpty(documents));
+			assertThat(documents).as(MessageFormat.format("Xml document(s) \"{0}\" found. Search time:  \"{1}\"", docId.getId(), searchTime)).isNotEmpty();
 		}
 		log.info(MessageFormat.format((CollectionUtils.isEmpty(documents) ? "Document(s) not found " : "Found document(s) ") + "\"{0}\" after {1} milliseconds", docId.getId(), searchTime));
 		return documents;

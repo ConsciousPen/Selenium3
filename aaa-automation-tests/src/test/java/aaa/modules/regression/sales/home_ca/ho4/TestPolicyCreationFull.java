@@ -1,7 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho4;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -36,6 +35,6 @@ public class TestPolicyCreationFull extends HomeCaHO4BaseTest {
         mainApp().open();
         createCustomerIndividual();
         createPolicy(getPolicyTD("DataGather", "TestData_Full").adjust(getPolicyTD("DataGather", "TestData_AddForm_HO210")).resolveLinks());
-        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+	    assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 }

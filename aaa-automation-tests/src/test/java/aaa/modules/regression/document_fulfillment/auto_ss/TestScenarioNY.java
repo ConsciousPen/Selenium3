@@ -1,12 +1,12 @@
 package aaa.modules.regression.document_fulfillment.auto_ss;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 import aaa.common.enums.NavigationEnum.AutoSSTab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
@@ -21,6 +21,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import toolkit.verification.CustomSoftAssertions;
 
 public class TestScenarioNY extends AutoSSBaseTest {
 	private DocumentsAndBindTab documentsAndBindTab = policy.getDefaultView().getTab(DocumentsAndBindTab.class);
@@ -31,43 +32,41 @@ public class TestScenarioNY extends AutoSSBaseTest {
 	@Parameters({ "state" })
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC01_CreatePolicy(@Optional("") String state) {
-		CustomAssert.enableSoftMode();
-		mainApp().open();
-		String currentHandle = WebDriverHelper.getWindowHandle();
-		
-		createCustomerIndividual();
-		String quoteNumber = createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
-		
-		policy.dataGather().start();
-		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
-		documentsAndBindTab.getDocumentsForPrintingAssetList().getAsset(DocumentsForPrinting.BTN_GENERATE_DOCUMENTS).click();
-		WebDriverHelper.switchToWindow(currentHandle);
-		DocGenHelper.verifyDocumentsGenerated(quoteNumber, Documents.AAOANY);
-		documentsAndBindTab.cancel();
-		
-		/* Purchase */
-		policy.calculatePremiumAndPurchase(getPolicyTD().adjust(getTestSpecificTD("TestData_Purchase")));
-		policyNumber = PolicySummaryPage.getPolicyNumber();
-		policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
-		DocGenHelper.verifyDocumentsGenerated(policyNumber, 
-				Documents.AAMTNY, 
-				Documents.FS20, 
-				Documents.AADNNY2,
-				Documents.AAACNY);
-		policy.policyDocGen().start();
-		docgenActionTab.verify.documentsPresent(Documents.AAIFNY2, Documents.AAIFNYC);
-		docgenActionTab.cancel();
-		
-		/* Endorse */
-		TestData td = getPolicyTD("Endorsement", "TestData").adjust(getTestSpecificTD("TestData_Endorsement").resolveLinks());
-		policy.createEndorsement(td);
-		policy.policyDocGen().start();
-		docgenActionTab.verify.documentsPresent(Documents.AAIFNYF);		
-		docgenActionTab.buttonCancel.click();
-		
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			mainApp().open();
+			String currentHandle = WebDriverHelper.getWindowHandle();
+
+			createCustomerIndividual();
+			String quoteNumber = createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
+
+			policy.dataGather().start();
+			NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
+			documentsAndBindTab.getDocumentsForPrintingAssetList().getAsset(DocumentsForPrinting.BTN_GENERATE_DOCUMENTS).click();
+			WebDriverHelper.switchToWindow(currentHandle);
+			DocGenHelper.verifyDocumentsGenerated(quoteNumber, Documents.AAOANY);
+			documentsAndBindTab.cancel();
+
+			/* Purchase */
+			policy.calculatePremiumAndPurchase(getPolicyTD().adjust(getTestSpecificTD("TestData_Purchase")));
+			policyNumber = PolicySummaryPage.getPolicyNumber();
+			policyExpirationDate = PolicySummaryPage.getExpirationDate();
+			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
+			DocGenHelper.verifyDocumentsGenerated(policyNumber,
+					Documents.AAMTNY,
+					Documents.FS20,
+					Documents.AADNNY2,
+					Documents.AAACNY);
+			policy.policyDocGen().start();
+			docgenActionTab.verify.documentsPresent(Documents.AAIFNY2, Documents.AAIFNYC);
+			docgenActionTab.cancel();
+
+			/* Endorse */
+			TestData td = getPolicyTD("Endorsement", "TestData").adjust(getTestSpecificTD("TestData_Endorsement").resolveLinks());
+			policy.createEndorsement(td);
+			policy.policyDocGen().start();
+			docgenActionTab.verify.documentsPresent(Documents.AAIFNYF);
+			docgenActionTab.buttonCancel.click();
+		});
 	}
 	
 	@Parameters({ "state" })

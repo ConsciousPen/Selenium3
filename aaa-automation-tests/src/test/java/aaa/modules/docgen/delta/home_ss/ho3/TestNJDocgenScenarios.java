@@ -14,7 +14,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 /**
  *
@@ -68,50 +68,49 @@ public class TestNJDocgenScenarios extends HomeSSHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testDeltaPolicyDocuments(@Optional("") String state) {
-		CustomAssert.enableSoftMode();
-		mainApp().open();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			mainApp().open();
 
-		createCustomerIndividual();
-		String quoteNum = createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData_DeltaPolicyDocuments")));
+			createCustomerIndividual();
+			String quoteNum = createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData_DeltaPolicyDocuments")));
 
-		policy.quoteDocGen().start();
-		documentActionTab.verify.documentsPresent(false, DocGenEnum.Documents.HSEQNJ);
-		documentActionTab.generateDocuments(DocGenEnum.Documents.HS11.setState(getState()));
-		WebDriverHelper.switchToDefault();
-		DocGenHelper.verifyDocumentsGenerated(quoteNum, DocGenEnum.Documents.HSEQNJ, DocGenEnum.Documents.HS11);
+			policy.quoteDocGen().start();
+			documentActionTab.verify.documentsPresent(softly, false, DocGenEnum.Documents.HSEQNJ);
+			documentActionTab.generateDocuments(DocGenEnum.Documents.HS11.setState(getState()));
+			WebDriverHelper.switchToDefault();
+			DocGenHelper.verifyDocumentsGenerated(softly, quoteNum, DocGenEnum.Documents.HSEQNJ, DocGenEnum.Documents.HS11);
 
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-		policy.getDefaultView().fillFromTo(getPolicyTD().adjust(getTestSpecificTD("TestData_DeltaPolicyDocuments")), BindTab.class, PurchaseTab.class, true);
-		policy.getDefaultView().getTab(PurchaseTab.class).submitTab();
-		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
-		DocGenHelper.verifyDocumentsGenerated(policyNum, DocGenEnum.Documents.HSCSNA);
+			PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
+			policy.dataGather().start();
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+			policy.getDefaultView().fillFromTo(getPolicyTD().adjust(getTestSpecificTD("TestData_DeltaPolicyDocuments")), BindTab.class, PurchaseTab.class, true);
+			policy.getDefaultView().getTab(PurchaseTab.class).submitTab();
+			String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
+			DocGenHelper.verifyDocumentsGenerated(softly, policyNum, DocGenEnum.Documents.HSCSNA);
 
-		policy.policyDocGen().start();
-		documentActionTab.verify.documentsEnabled(
-				DocGenEnum.Documents.HS11.setState(getState()),
-				DocGenEnum.Documents.AHELCXXA,
-				DocGenEnum.Documents.AHELCXXD,
-				DocGenEnum.Documents.AHELCXXL,
-				DocGenEnum.Documents.AHELCXXP
-		);
-		documentActionTab.generateDocuments(
-				DocGenEnum.Documents.HS11.setState(getState()),
-				DocGenEnum.Documents.AHELCXXA,
-				DocGenEnum.Documents.AHELCXXD,
-				DocGenEnum.Documents.AHELCXXL,
-				DocGenEnum.Documents.AHELCXXP
-		);
-		DocGenHelper.verifyDocumentsGenerated(policyNum,
-				DocGenEnum.Documents.HS11,
-				DocGenEnum.Documents.HSEQNJ,
-				DocGenEnum.Documents.AHELCXXA,
-				DocGenEnum.Documents.AHELCXXD,
-				DocGenEnum.Documents.AHELCXXL,
-				DocGenEnum.Documents.AHELCXXP
-		);
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			policy.policyDocGen().start();
+			documentActionTab.verify.documentsEnabled(softly,
+					DocGenEnum.Documents.HS11.setState(getState()),
+					DocGenEnum.Documents.AHELCXXA,
+					DocGenEnum.Documents.AHELCXXD,
+					DocGenEnum.Documents.AHELCXXL,
+					DocGenEnum.Documents.AHELCXXP
+			);
+			documentActionTab.generateDocuments(
+					DocGenEnum.Documents.HS11.setState(getState()),
+					DocGenEnum.Documents.AHELCXXA,
+					DocGenEnum.Documents.AHELCXXD,
+					DocGenEnum.Documents.AHELCXXL,
+					DocGenEnum.Documents.AHELCXXP
+			);
+			DocGenHelper.verifyDocumentsGenerated(softly, policyNum,
+					DocGenEnum.Documents.HS11,
+					DocGenEnum.Documents.HSEQNJ,
+					DocGenEnum.Documents.AHELCXXA,
+					DocGenEnum.Documents.AHELCXXD,
+					DocGenEnum.Documents.AHELCXXL,
+					DocGenEnum.Documents.AHELCXXP
+			);
+		});
 	}
 }

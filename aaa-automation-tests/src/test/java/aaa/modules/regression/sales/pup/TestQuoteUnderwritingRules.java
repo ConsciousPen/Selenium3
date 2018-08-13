@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.pup;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -90,7 +91,7 @@ public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest {
 		policy.getDefaultView().fillFromTo(tdPolicy, BindTab.class, PurchaseTab.class, true);
 		policy.getDefaultView().getTab(PurchaseTab.class).submitTab();
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		log.info("TEST Underwriting rules: PUP Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
 
 	}
@@ -104,13 +105,14 @@ public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest {
 
 	private void checkFieldsError(TestData td) {
 		TestData tdFieldsError = td.getTestData(FIELDS_ERROR_KEY);
-		for (String key : tdFieldsError.getKeys())
-			underwritingTab.verifyFieldHasMessage(key, tdFieldsError.getValue(key));
+		for (String key : tdFieldsError.getKeys()) {
+			assertThat(underwritingTab.getAssetList().getWarning(key)).hasValue(tdFieldsError.getValue(key));
+		}
 	}
 	
 	private void checkBottomError(TestData td) {
 		for (String error : td.getList(BOTTOM_ERROR_KEY)) {
-			underwritingTab.verifyTabHasBottomMessage(error);
+			assertThat(underwritingTab.getBottomWarning()).valueContains(error);
 		}
 	}
 	

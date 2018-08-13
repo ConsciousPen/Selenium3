@@ -6,11 +6,11 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import toolkit.verification.CustomAssertions;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.verification.CustomAssert;
 
 public class BillGenerationTest extends BackwardCompatibilityBaseTest {
 
@@ -28,6 +28,6 @@ public class BillGenerationTest extends BackwardCompatibilityBaseTest {
 		new BillingAccount().generateFutureStatement().perform();
 
 		BillingSummaryPage.getMinimumDue().verify.moreThan(initialMinDue);
-		CustomAssert.assertEquals("New bill is shown in table", initialBillsCount+1, BillingSummaryPage.tableBillsStatements.getRowsCount());
+		CustomAssertions.assertThat(BillingSummaryPage.tableBillsStatements).as("New bill is shown in table").hasRows(initialBillsCount+1);
 	}
 }

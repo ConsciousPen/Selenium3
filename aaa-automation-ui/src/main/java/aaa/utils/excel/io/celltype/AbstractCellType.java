@@ -1,6 +1,6 @@
 package aaa.utils.excel.io.celltype;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.Objects;
 import aaa.utils.excel.io.entity.area.ExcelCell;
 import toolkit.exceptions.IstfException;

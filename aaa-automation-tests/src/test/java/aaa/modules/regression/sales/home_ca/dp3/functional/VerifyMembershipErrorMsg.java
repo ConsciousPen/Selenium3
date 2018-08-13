@@ -4,26 +4,18 @@ import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.http.HttpStub;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
-import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaDP3BaseTest;
-import aaa.modules.policy.HomeCaHO6BaseTest;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.screenshots.ScreenshotManager;
-
-import java.time.LocalDateTime;
 
 /**
  * @author Tyrone Jemison

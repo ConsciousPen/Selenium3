@@ -1,6 +1,6 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
-import org.assertj.core.api.SoftAssertions;
+import toolkit.verification.CustomSoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -54,21 +54,21 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 		propertyInfoTab.fillTab(td_sc1_1);
 		propertyInfoTab.submitTab();
 
-		SoftAssertions.assertSoftly(softly -> {
+		CustomSoftAssertions.assertSoftly(softly -> {
 			
-			softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.HOME_RENOVATION).getWarning(
-					HomeSSMetaData.PropertyInfoTab.HomeRenovation.ROOF_RENOVATION.getLabel()).getValue().toString()).isEqualTo(ER0906);
+			softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.HOME_RENOVATION).getAsset(
+					HomeSSMetaData.PropertyInfoTab.HomeRenovation.ROOF_RENOVATION)).hasWarningWithText(ER0906);
 			
-			softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.STOVES).getWarning(
-					HomeSSMetaData.PropertyInfoTab.Stoves.IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT.getLabel()).getValue().toString()).isEqualTo(ER0908);
-			softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.STOVES).getWarning(
-					HomeSSMetaData.PropertyInfoTab.Stoves.WAS_THE_STOVE_INSTALLED_BY_A_LICENSED_CONTRACTOR.getLabel()).getValue().toString()).isEqualTo(ER0909);
-			softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.STOVES).getWarning(
-					HomeSSMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY.getLabel()).getValue().toString()).isEqualTo(ER0522);
+			softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.STOVES).getAsset(
+					HomeSSMetaData.PropertyInfoTab.Stoves.IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT)).hasWarningWithText(ER0908);
+			softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.STOVES).getAsset(
+					HomeSSMetaData.PropertyInfoTab.Stoves.WAS_THE_STOVE_INSTALLED_BY_A_LICENSED_CONTRACTOR)).hasWarningWithText(ER0909);
+			softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.STOVES).getAsset(
+					HomeSSMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY)).hasWarningWithText(ER0522);
 			
 			if (!getState().equals("MD")) {
-				softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PETS_OR_ANIMALS).getWarning(
-								HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_TYPE.getLabel()).getValue().toString()).isEqualTo(ER0903);
+				softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PETS_OR_ANIMALS).getAsset(
+								HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_TYPE)).hasWarningWithText(ER0903);
 			}
 			
 		});	

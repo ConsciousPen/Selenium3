@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -41,7 +42,7 @@ public class TestPolicyManualRenew extends HomeCaHO3BaseTest {
 
         new HomeCaPolicyActions.ManualRenew().perform(new SimpleDataProvider().adjust(HomeCaMetaData.AddManualRenewFlagActionTab.class.getSimpleName(),
                 new SimpleDataProvider().adjust(HomeCaMetaData.AddManualRenewFlagActionTab.REASON.getLabel(), "Other")));
-        PolicySummaryPage.labelManualRenew.verify.present(true);
+        assertThat(PolicySummaryPage.labelManualRenew).isPresent();
     }
 
 }

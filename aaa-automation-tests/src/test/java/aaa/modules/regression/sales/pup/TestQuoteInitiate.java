@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.pup;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -34,13 +35,13 @@ public class TestQuoteInitiate extends PersonalUmbrellaBaseTest {
 
 		CustomerSummaryPage.buttonAddQuote.click();
 		QuoteSummaryPage qsp = new QuoteSummaryPage();
-		qsp.buttonAddNewQuote.verify.enabled();
+		assertThat(qsp.buttonAddNewQuote).isEnabled();
 		qsp.initiateQuote(getPolicyType());
 		PrefillTab.buttonSaveAndExit.click();
-		PolicySummaryPage.labelPolicyNumber.verify.present();
+		assertThat(PolicySummaryPage.labelPolicyNumber).isPresent();
 
 		log.info("Initiated Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.DATA_GATHERING);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.DATA_GATHERING);
 	}
 }
