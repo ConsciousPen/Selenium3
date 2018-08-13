@@ -3,7 +3,7 @@ package aaa.modules.regression.sales.home_ss.dp3.functional;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.modules.policy.HomeSSDP3BaseTest;
+import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestHurricaneDeductibleTemplate;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
@@ -32,15 +32,18 @@ import toolkit.utils.TestInfo;
  */
 
 @StateList(states = Constants.States.MD)
-public class TestMDHurricaneDeductible extends HomeSSDP3BaseTest {
+public class TestMDHurricaneDeductible extends TestHurricaneDeductibleTemplate {
 
-	private TestHurricaneDeductibleTemplate template = new TestHurricaneDeductibleTemplate();
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_SS_DP3;
+	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MD Hurricane Deductible")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-6907")
 	public void pas6907_testMDHurricaneDeductible(@Optional("MD") String state) {
 
-		template.pas6907_testMDHurricaneDeductible(getPolicyType());
+		pas6907_testMDHurricaneDeductible();
 	}
 }
