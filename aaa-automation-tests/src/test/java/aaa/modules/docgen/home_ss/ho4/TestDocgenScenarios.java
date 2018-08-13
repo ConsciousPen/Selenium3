@@ -1,6 +1,5 @@
 package aaa.modules.docgen.home_ss.ho4;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.main.enums.DocGenEnum.Documents.*;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;

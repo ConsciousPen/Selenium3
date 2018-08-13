@@ -14,7 +14,6 @@ import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 
 public class BillingInstallmentsScheduleVerifier extends TableVerifier {
 

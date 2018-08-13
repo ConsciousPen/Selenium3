@@ -7,7 +7,6 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeCaMetaData;
-import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.main.modules.policy.home_ca.HomeCaPolicyActions;
 import aaa.modules.policy.HomeCaHO3BaseTest;

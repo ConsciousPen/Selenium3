@@ -1,6 +1,5 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,6 +1,5 @@
 package aaa.modules.preconditions;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.AAA_RETRIEVE_AGREEMENT_WEB_CLIENT;
 import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.AAA_RETRIEVE_DOCUMENT_WEB_CLIENT;
 import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.DOC_GEN_WEB_CLIENT;

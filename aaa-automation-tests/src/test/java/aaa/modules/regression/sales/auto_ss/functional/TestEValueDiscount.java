@@ -67,9 +67,6 @@ import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDiscountPreConditions {
 
 	private static final String PAPERLESS_WIRE_MOCK_STUB_URL =

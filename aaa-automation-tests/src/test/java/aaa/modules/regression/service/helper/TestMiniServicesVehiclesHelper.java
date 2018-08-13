@@ -26,8 +26,6 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments;
 import aaa.modules.regression.service.helper.dtoDxp.*;
-import aaa.modules.regression.service.helper.dtoDxp.ComparablePolicy;
-import aaa.modules.regression.service.helper.dtoDxp.ComparableVehicle;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;

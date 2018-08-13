@@ -13,7 +13,6 @@ import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 import toolkit.verification.CustomSoftAssertions;
 
 public class IDDeltaScenario1 extends BaseTest {

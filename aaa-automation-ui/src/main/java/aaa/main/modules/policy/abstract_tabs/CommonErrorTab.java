@@ -1,6 +1,5 @@
 package aaa.main.modules.policy.abstract_tabs;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;

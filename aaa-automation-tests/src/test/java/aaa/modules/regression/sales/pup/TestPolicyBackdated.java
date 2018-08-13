@@ -13,7 +13,6 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
-import aaa.modules.regression.sales.pup.TestPolicyBackdated;
 
 /**
  * @author YongGang Sun

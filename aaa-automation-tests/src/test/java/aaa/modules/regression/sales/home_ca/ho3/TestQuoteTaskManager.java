@@ -19,7 +19,6 @@ import aaa.main.pages.summary.MyWorkSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.main.pages.summary.TaskDetailsSummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
 
 public class TestQuoteTaskManager extends HomeCaHO3BaseTest {
 

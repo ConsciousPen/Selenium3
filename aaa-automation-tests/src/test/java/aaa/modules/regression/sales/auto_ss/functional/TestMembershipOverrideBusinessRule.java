@@ -1,16 +1,10 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.LocalDateTime;
 
-import aaa.admin.modules.product.productfactory.policy.defaulttabs.RulesTab;
 import aaa.common.enums.Constants;
-import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ErrorEnum;
-import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
 import aaa.utils.StateList;
-import org.openqa.selenium.By;
-import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;

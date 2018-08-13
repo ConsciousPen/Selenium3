@@ -8,7 +8,6 @@ import aaa.common.ActionTab;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import org.openqa.selenium.By;
 import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.table.Table;
 
 /**
