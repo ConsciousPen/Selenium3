@@ -126,6 +126,7 @@
                     <include name="pas15076_MetadataServiceDriver"/>
                     <include name="pas13301_validateDriverLicenseAndAgeFirstLicensed"/>
                     <include name="pas15373_uniqueDriverLicenses"/>
+                    <include name="pas16551_relation_to_fni_hard_stop"/>
                 </methods>
             </class>
         </classes>
@@ -332,7 +333,7 @@
             </class>
         </classes>
     </test>
-  <test name="pas15540_RemoveDriverAssignedToTrailer">
+    <test name="pas15540_RemoveDriverAssignedToTrailer">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments">
