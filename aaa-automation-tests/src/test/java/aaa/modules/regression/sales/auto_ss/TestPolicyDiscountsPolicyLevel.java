@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.auto_ss;
 
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -8,6 +9,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.utils.StateList;
 
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
@@ -69,6 +71,7 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 	 */
 	
 	@Parameters({"state"})
+	@StateList(states = { States.AZ, States.UT })
 	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testPolicyLevelDiscounts(@Optional("") String state) {
@@ -243,6 +246,7 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 	 */
 	
 	@Parameters({"state"})
+	@StateList(states = { States.AZ, States.UT })
 	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testAdvShoppingDiscount(@Optional("") String state) {

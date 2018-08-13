@@ -6,11 +6,14 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
+
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
@@ -24,6 +27,7 @@ import toolkit.verification.CustomAssert;
 public class TestPolicyEndorsementAdd extends AutoCaChoiceBaseTest {
 
 	@Parameters({"state"})
+	@StateList(states =  States.CA)
 	@Test(groups = {Groups.SMOKE, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE)
 	public void testPolicyEndorsementAdd(@Optional("CA") String state) {
