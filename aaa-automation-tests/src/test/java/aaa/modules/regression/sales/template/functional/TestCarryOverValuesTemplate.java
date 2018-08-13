@@ -32,24 +32,24 @@ public class TestCarryOverValuesTemplate extends PolicyBaseTest {
     private aaa.main.modules.policy.home_ca.defaulttabs.BindTab bindTabCa = new aaa.main.modules.policy.home_ca.defaulttabs.BindTab();
 
 
-    public void pas15831_TestReplacementCostReasonEndorsementOnRenewal(PolicyType policyType) {
+    protected void pas15831_TestReplacementCostReasonEndorsementOnRenewal() {
 
         // Create the customer
         mainApp().open();
         createCustomerIndividual();
 
         // Get TD Home.
-        TestData tdHome = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData");
+        TestData tdHome = getPolicyTD("DataGather", "TestData");
 
         // Create Property Policy
-        policyType.get().createPolicy(tdHome);
+        createPolicy(tdHome);
         String policyNumber = PolicySummaryPage.getPolicyNumber();
 
         // Change system date Initiate Renewal
         TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate());
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
-        policyType.get().renew().perform();
+        policy.renew().perform();
 
         // Navigate To property Info Tab and Select Replacement cost reason to Renewal
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
@@ -66,7 +66,7 @@ public class TestCarryOverValuesTemplate extends PolicyBaseTest {
 
         // Navigate to Renewal And Endorse it
         PolicySummaryPage.buttonRenewals.click();
-        policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(policyType).getTestData("Endorsement"), "TestData_Plus1Month"));
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
 
         // Navigate to Property Info tab and Make sure Replacement Cost Reason is set to Renewal
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
@@ -75,24 +75,24 @@ public class TestCarryOverValuesTemplate extends PolicyBaseTest {
                 .hasValue("Renewal");
     }
 
-    public void pas15831_TestReplacementCostReasonEndorsementOnRenewalCA(PolicyType policyType) {
+    protected void pas15831_TestReplacementCostReasonEndorsementOnRenewalCA() {
 
         // Create the customer
         mainApp().open();
         createCustomerIndividual();
 
         // Get TD Home.
-        TestData tdHome = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData");
+        TestData tdHome = getPolicyTD("DataGather", "TestData");
 
         // Create Property Policy
-        policyType.get().createPolicy(tdHome);
+        createPolicy(tdHome);
         String policyNumber = PolicySummaryPage.getPolicyNumber();
 
         // Change system date Initiate Renewal
         TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate());
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
-        policyType.get().renew().perform();
+        policy.renew().perform();
 
         // Navigate To property Info Tab and Select Replacement cost reason to Renewal
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
@@ -109,7 +109,7 @@ public class TestCarryOverValuesTemplate extends PolicyBaseTest {
 
         // Navigate to Renewal And Endorse it
         PolicySummaryPage.buttonRenewals.click();
-        policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(policyType).getTestData("Endorsement"), "TestData_Plus1Month"));
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
 
         // Navigate to Property Info tab and Make sure Replacement Cost Reason is set to Renewal
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());

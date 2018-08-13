@@ -344,3 +344,9 @@ PAS-17041:
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages.pas14680_TrailersCoveragesThatDoNotApply]
       messages: ['Failed to rate policy">']
+PAS-17689:
+  summary: "Fire related fields on the Property info tab should not be enable for subsequent renewals - CW"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.conversions.home_ss.*]
+      messages: ["ComboBox {Fire department type:"]

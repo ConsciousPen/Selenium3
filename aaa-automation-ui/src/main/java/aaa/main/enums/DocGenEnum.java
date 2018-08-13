@@ -214,6 +214,7 @@ public final class DocGenEnum {
 		HS0312("HS 03 12", "Windstorm or Hail Deductible"),
 		HS0420("HS 04 20", "HS 04 20 Endorsement"),
 		HS0435("HS 04 35", "Loss Assessment Coverage Endorsement"),
+		HS0436("HS 04 36", "Loss Assessment Coverage for Earthquake"),
 		HS0454("HS 04 54", "Earthquake"),
 		HS0455("HS 04 55", "Identity Fraud Expense endorsement"),
 		HS0465("HS 04 65", "Coverage C Increased Special Limits of Liability endorsement"),
