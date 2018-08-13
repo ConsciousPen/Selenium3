@@ -8,11 +8,13 @@ import org.testng.annotations.Test;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
 
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
@@ -32,6 +34,7 @@ import toolkit.verification.CustomAssert;
 public class TestPolicyEndorsementOos extends HomeSSHO3BaseTest {
 
 	@Parameters({"state"})
+	@StateList(statesExcept = { States.CA })
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
 	public void testPolicyEndorsementOos(@Optional("") String state) {

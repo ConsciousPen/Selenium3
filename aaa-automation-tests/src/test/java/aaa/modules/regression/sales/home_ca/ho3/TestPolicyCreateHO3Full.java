@@ -6,11 +6,13 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
+import aaa.utils.StateList;
 
 public class TestPolicyCreateHO3Full extends HomeCaHO3BaseTest {
 
@@ -27,6 +29,7 @@ public class TestPolicyCreateHO3Full extends HomeCaHO3BaseTest {
      * 7. Check Policy status is Active.
      */
     @Parameters({"state"})
+    @StateList(states =  States.CA)
 	@Test(groups= {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
     public void testPolicyCreation(@Optional("CA") String state) {

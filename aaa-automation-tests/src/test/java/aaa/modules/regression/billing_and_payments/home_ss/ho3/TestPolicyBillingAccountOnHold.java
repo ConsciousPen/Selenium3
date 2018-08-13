@@ -1,10 +1,13 @@
 package aaa.modules.regression.billing_and_payments.home_ss.ho3;
 
+import aaa.common.enums.Constants.States;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.BillingConstants;
 import aaa.modules.policy.HomeSSHO3BaseTest;
+import aaa.utils.StateList;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -45,6 +48,7 @@ public class TestPolicyBillingAccountOnHold extends HomeSSHO3BaseTest {
 	private TestData tdBilling = testDataManager.billingAccount;
 
 	@Parameters({"state"})
+	@StateList(statesExcept = { States.CA })
 	@Test(groups= {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3)
 	public void hssPolicyBillingAccountOnHold(@Optional("") String state) {

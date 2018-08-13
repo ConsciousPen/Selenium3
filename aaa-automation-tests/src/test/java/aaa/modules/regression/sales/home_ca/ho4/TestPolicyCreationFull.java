@@ -6,11 +6,13 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO4BaseTest;
+import aaa.utils.StateList;
 
 /**
  * @author Alexander Tinkovan
@@ -27,6 +29,7 @@ import aaa.modules.policy.HomeCaHO4BaseTest;
 public class TestPolicyCreationFull extends HomeCaHO4BaseTest {
 
 	@Parameters({"state"})
+	@StateList(states =  States.CA)
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4) 
     public void testPolicyCreationFull(@Optional("CA") String state) {

@@ -11,6 +11,7 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
+import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -30,6 +31,8 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
+import aaa.utils.StateList;
+
 import com.exigen.ipb.etcsa.utils.Dollar;
 
 public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
@@ -58,6 +61,7 @@ public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
       */
 
     @Parameters({"state"})
+    @StateList(states =  States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
     public void testPolicyCancelReinstateUWReason(@Optional("CA") String state) {

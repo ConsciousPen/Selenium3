@@ -10,6 +10,7 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.helpers.constants.ComponentConstant;
@@ -24,6 +25,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.modules.policy.HomeCaHO3BaseTest;
+import aaa.utils.StateList;
 
 public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 
@@ -53,6 +55,7 @@ public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 	  * 11. Verify an eligibility error if Wood Stove wasn't installed professionally    
 	  */
 	@Parameters({"state"})
+	@StateList(states =  States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
 	public void testQuoteDetermineEligibilitySC1(@Optional("CA") String state) {
@@ -161,6 +164,7 @@ public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 	  */
 
 	@Parameters({"state"})
+	@StateList(states =  States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
 	public void testQuoteDetermineEligibilitySC2(@Optional("CA") String state) {
@@ -219,6 +223,7 @@ public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 	 * 8.  Verify an eligibility error if plumbing renovation is not eligible
 	 */
 	@Parameters({"state"})
+	@StateList(states =  States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
 	public void testQuoteDetermineEligibilitySC3(@Optional("CA") String state) {
