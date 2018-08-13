@@ -544,4 +544,16 @@
             </class>
         </classes>
     </test>
+    <test name="-Death and Specific Disability Coverage- and -Total Disability Coverage- (VA only)">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCoveAndTotalDisabilityCovTC01"/>
+                    <include name="pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCoveAndTotalDisabilityCovTC02"/>
+                    <include name="pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCoveAndTotalDisabilityCovTC03"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

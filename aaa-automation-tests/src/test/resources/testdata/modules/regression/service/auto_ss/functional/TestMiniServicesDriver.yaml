@@ -319,6 +319,93 @@ TestData_2_Drivers_Not_NI_AfR: {
     DriverTab: ['@Driver_one', '@Driver_two', '@Driver_four'],
 }
 
+TestData_DeathAndSpecificDisabilityCoverage: {
+    DriverTab: ['@Driver_one', '@Driver_with_coverage_AFR', '@Driver_NAFR'],
+}
+
+TestData_DeathAndSpecificDisabilityCoverage2: {
+    DriverTab: ['@Driver_one2', '@Driver_with_coverage_AFR2', '@Driver_NAFR'],
+}
+
+TestData_DeathAndSpecificDisabilityCoverage3: {
+    DriverTab: ['@Driver_one2', '@Driver_with_coverage_AFR2', '@Driver_NAFR'],
+}
+
+Driver_one2: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  Date of Birth: '$<today-21y:MM/dd/yyyy>',
+  License Type: 'Licensed (US)',
+  License Number: 400064773,
+  Death Indemnity and Specific Disability: "Yes",
+  Total Disability: "No"
+  }
+
+Driver_with_coverage_AFR2: {
+      Add drivers: 'Yes',
+      DriverSearchDialog: {},
+      "Policy #": '123456789',
+      Driver Type: Available for Rating,
+      Rel. to First Named Insured: Child,
+      First Name: 'JohnAfr',
+     # Middle Name: 'Sam',
+      Last Name: 'Smith',
+      Date of Birth: '12/12/1980',
+      Gender: 'Male',
+      Suffix: 'II',
+      Marital Status: Married,
+      Occupation: 'index=1',
+      License Type: 'Licensed (US)',
+      Age First Licensed: '18',
+      License Number: 'T60355299',
+      License Status: 'Licensed (US)',
+      Death Indemnity and Specific Disability: "Yes",
+      Total Disability: "Yes"
+  }
+
+Driver_with_coverage_AFR: {
+    Add drivers: 'Yes',
+    DriverSearchDialog: {},
+    "Policy #": '123456789',
+    Driver Type: Available for Rating,
+    Rel. to First Named Insured: Child,
+    First Name: 'JohnAfr',
+  #  Middle Name: 'Sam',
+    Last Name: 'Smith',
+    Date of Birth: '12/12/1980',
+    Gender: 'Male',
+    Suffix: 'II',
+    Marital Status: Married,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: 'T60355299',
+    License Status: 'Licensed (US)',
+    Death Indemnity and Specific Disability: "Yes",
+    Total Disability: "No"
+}
+
+Driver_NAFR: {
+    Add drivers: 'Yes',
+    DriverSearchDialog: {},
+    "Policy #": '123456789',
+    Driver Type: Not Available for Rating,
+    Reason: Other,
+    Rel. to First Named Insured: Child,
+    First Name: 'JohnNafr',
+ #   Middle Name: 'Sam',
+    Last Name: 'Smith',
+    Date of Birth: '12/12/1980',
+    Gender: 'Male',
+    Suffix: 'II',
+    Marital Status: Married,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: 'T60355297',
+    License Status: 'Licensed (US)'
+}
+
 Driver_one: {
   Occupation: Self-Employed,
   Age First Licensed: 18,

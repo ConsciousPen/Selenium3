@@ -23,6 +23,19 @@ public class DXPRequestFactory {
 		return updateDriverRequest;
 	}
 
+	public static UpdateDriverRequest createUpdateDriverRequest(Boolean specificDisabilityInd, Boolean totalDisabilityInd) {
+		UpdateDriverRequest updateDriverRequest = new UpdateDriverRequest();
+		updateDriverRequest.specificDisabilityInd = specificDisabilityInd;
+		updateDriverRequest.totalDisabilityInd = totalDisabilityInd;
+		return updateDriverRequest;
+	}
+
+	public static RemoveDriverRequest createRemoveDriverRequest(String removalReasonCode) {
+		RemoveDriverRequest removeDriverRequest = new RemoveDriverRequest(); //"RD1001" and "RD1002" for happy path
+		removeDriverRequest.removalReasonCode = removalReasonCode;
+		return removeDriverRequest;
+	}
+
 	public static ReplaceVehicleRequest createReplaceVehicleRequest(String replacedVehicleVin, String purchaseDate, boolean keepAssignments, boolean keepCoverages) {
 		ReplaceVehicleRequest replaceVehicleRequest = new ReplaceVehicleRequest();
 		replaceVehicleRequest.vehicleToBeAdded = new Vehicle();
