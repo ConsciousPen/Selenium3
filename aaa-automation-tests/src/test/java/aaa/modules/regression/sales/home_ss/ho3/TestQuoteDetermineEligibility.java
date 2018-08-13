@@ -6,6 +6,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -19,6 +20,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -31,6 +33,7 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 	private String ER0903 = "Applicants/Insureds with vicious dogs or exotic animals are ineligible.";
 
 	@Parameters({"state"})
+	@StateList(states = { States.AZ, States.UT })
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testDetermineEligibility_SC1(@Optional("") String state) {
@@ -132,6 +135,7 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 	}
 
 	@Parameters({"state"})
+	@StateList(states = { States.AZ, States.UT })
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testDetermineEligibility_SC2(@Optional("") String state) {
@@ -271,6 +275,7 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 	}
 
 	@Parameters({"state"})
+	@StateList(states = { States.AZ, States.UT })
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testDetermineEligibility_SC3(@Optional("") String state) {
