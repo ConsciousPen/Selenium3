@@ -4,7 +4,6 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
@@ -26,10 +25,10 @@ public class TestHurricaneDeductibleTemplate extends PolicyBaseTest {
 	private PurchaseTab purchaseTab = new PurchaseTab();
 	private ErrorTab errorTab = new ErrorTab();
 
-	public void pas6907_testMDHurricaneDeductible(PolicyType policyType) {
+	protected void pas6907_testMDHurricaneDeductible() {
 
 		// TestData for Home . Required Zip Code and Distance to coast for mandatory 1% Hurricane deductible
-		TestData tdHome = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData")
+		TestData tdHome = getPolicyTD()
 				.adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(),
 				HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(),
 				HomeSSMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel()), "21056")
@@ -43,8 +42,8 @@ public class TestHurricaneDeductibleTemplate extends PolicyBaseTest {
 		// Open App initiate policy
 		mainApp().open();
 		createCustomerIndividual();
-		policyType.get().initiate();
-		policyType.get().getDefaultView().fillUpTo(tdHome, PremiumsAndCoveragesQuoteTab.class, true);
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(tdHome, PremiumsAndCoveragesQuoteTab.class, true);
 
 		// Assert That Hurricane Deductible is 1% for this zip code and Distance to Coast  AC1 PAS-6907
 		assertThat(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(hurricaneDeductible).getValue().toString()).contains("1%");
@@ -56,7 +55,7 @@ public class TestHurricaneDeductibleTemplate extends PolicyBaseTest {
 		// Purchase policy
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 		premiumsAndCoveragesQuoteTab.submitTab();
-		policyType.get().getDefaultView().fillFromTo(tdHome, MortgageesTab.class, BindTab.class);
+		policy.getDefaultView().fillFromTo(tdHome, MortgageesTab.class, BindTab.class);
 		bindTab.submitTab();
 		if(errorTab.isVisible()){
 			errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_HO_SS6260765);
@@ -67,7 +66,7 @@ public class TestHurricaneDeductibleTemplate extends PolicyBaseTest {
 		purchaseTab.submitTab();
 
 		// Endorse Policy
-		policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(policyType).getTestData("Endorsement"), "TestData"));
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 
@@ -82,7 +81,7 @@ public class TestHurricaneDeductibleTemplate extends PolicyBaseTest {
 		bindTab.submitTab();
 
 		// Renew Policy
-		policyType.get().renew().perform();
+		policy.renew().perform();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 

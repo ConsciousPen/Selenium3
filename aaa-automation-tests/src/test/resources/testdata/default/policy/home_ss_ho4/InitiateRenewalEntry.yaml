@@ -212,7 +212,7 @@ InitiateRenewalEntryActionTab_OK: {
   Previous Policy Number: '$<rx:\d{10}>',
   Previous Source System: SIS,
   Risk State: OK,
-  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Effective Date: '$<today+35d:MM/dd/yyyy>',
   Renewal Policy Premium: 0,
   Policy Term: Annual,
   Enrolled in Autopay: 'No',

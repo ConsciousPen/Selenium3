@@ -5,6 +5,7 @@ package aaa.modules.regression.sales.auto_ss.functional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.helpers.constants.ComponentConstant;
@@ -16,6 +17,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
@@ -52,6 +54,7 @@ public class TestContactInformation extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(states =  States.UT)
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-270", "PAS-267"})
 	public void pas270_contactInformation() {

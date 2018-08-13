@@ -168,26 +168,12 @@ PAS-11810:
     aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.pas9716_policySummaryForActiveRenewal
     ]
       messages: ["expected:<null> but was:<"]
-PAS-12464:
-  summary: "Comp symbol error appears when VIN is returned from prefill for CA quote or policy"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ca.select.TestQuotePrefill.testPolicyPrefill2]
-      messages: ["Cannot set value of AssetList {PremiumAndCoveragesTab:", "Errors: Error; Comp Symbol must be set for vehicle"]
 PAS-12949:
   summary: "eValue discount is not removed though Autopay is removed by aaaPaymentCentralRejectFeedAsyncJob"
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueNsfAHDRXX.pas7454_eValueRemovedAutopayNsfDeclineRecurringPaymentResponse]
       messages: ["Checked value of Cell"]
-PAS-13094:
-  summary: "Regression: PUP: VIN resolver doesn't work for underlying auto policies"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.pup.*,aaa.modules.regression.service.pup.*,aaa.modules.regression.conversions.pup.*,aaa.modules.regression.document_fulfillment.pup.*,aaa.modules.docgen.pup.*]
-      messages: ["Cannot set value of AssetList {UnderlyingRisksAutoTab"]
-    - tests: [aaa.modules.regression.service.pup.*]
-      messages: ["Cannot set value of AssetList {UnderlyingRisksAutoTab", "Errors: 'Make' is required; 'Model' is required"]
 PAS-12478:
   summary: "Enable Fuel related fields on the Property info tab is not disabled for all stated on second renewal"
   reason: PROD
@@ -299,20 +285,6 @@ PAS-16002:
   failures:
     - tests: [aaa.modules.docgen.home_ss.ho3.TestDocgenScenarios.testReturnPaymentDocuments]
       messages: ["60 5003"]
-PAS-15907:
-  summary: "VIN refresh is not happening during automated renewal"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload.pas2716_AutomatedRenewal_ExpirationDate]
-      messages: ['OTHER]">','<"[TEST]"> but was:<"[OTHER]">','<[fals]e> but was:<[tru]e>','[true] but found [false]']
-    - tests: [aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload.pas2716_AutomatedRenewal_ExpirationDateMinus35]
-      messages: ['[true] but found [false]','expected:<"[Gt]"> but was:<"[Model]">']
-    - tests: [aaa.modules.regression.sales.auto_ca.select.functional.TestVINUpload.pas2716_AutomatedRenewal_ExpirationDateMinus35]
-      messages: ['[true] but found [false]']
-    - tests: [aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload.pas2716_AutomatedRenewal_ExpirationDateMinus45]
-      messages: ['<"[Gt]"> but was:<"[OTHER]">']
-    - tests: [aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload.pas527_UpdatedVinRenewal]
-      messages: ['<"[TEST]"> but was:<"[CAMRY]">', '<"20[18]"> but was']
 PT-1977:
   summary: "WV State. Total premium value is reduced during Empty Endorsement"
   reason: PROD
@@ -344,3 +316,9 @@ PAS-17041:
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages.pas14680_TrailersCoveragesThatDoNotApply]
       messages: ['Failed to rate policy">']
+PAS-17689:
+  summary: "Fire related fields on the Property info tab should not be enable for subsequent renewals - CW"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.conversions.home_ss.*]
+      messages: ["ComboBox {Fire department type:"]

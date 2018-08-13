@@ -7,10 +7,12 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import toolkit.utils.TestInfo;
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.template.PolicyEndorsementDeclineByCustomer;
+import aaa.utils.StateList;
 
 /**
  * @author Yonggang Sun
@@ -32,6 +34,7 @@ public class TestPolicyEndorsementDeclineByCustomer extends PolicyEndorsementDec
     }
 	
 	@Parameters({"state"})
+	@StateList(statesExcept = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
     public void testPolicyEndorsementDeclineByCustomer(@Optional("") String state) {
