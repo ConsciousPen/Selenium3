@@ -8,6 +8,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -19,6 +20,7 @@ import aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.NamedInsuredInformatio
 import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomSoftAssertions;
@@ -34,6 +36,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 public class TestQuotePrefill extends AutoSSBaseTest {
 
 	@Parameters({"state"})
+	@StateList(states = { States.AZ, States.UT })
 	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testPolicyPrefill1(@Optional("") String state) {
@@ -98,6 +101,7 @@ public class TestQuotePrefill extends AutoSSBaseTest {
 	}
 
 	@Parameters({"state"})
+	@StateList(states = { States.AZ, States.UT })
 	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testPolicyPrefill2(@Optional("") String state) {

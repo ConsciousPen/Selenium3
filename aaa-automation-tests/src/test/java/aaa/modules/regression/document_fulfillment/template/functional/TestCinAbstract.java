@@ -64,7 +64,6 @@ public abstract class TestCinAbstract extends BaseTest {
         LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
         LocalDateTime renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate).minusHours(1);
         TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-
         mainApp().reopen();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         performRenewal(renewalTD);
@@ -85,7 +84,7 @@ public abstract class TestCinAbstract extends BaseTest {
         //Workaround in case test goes in common run with renewalOfferGenerationPart2 jobs are running
         performDoNotRenew(doNotRenewTD);
 
-        LocalDateTime renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+        LocalDateTime renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate).minusHours(1);
         TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 
         mainApp().reopen();

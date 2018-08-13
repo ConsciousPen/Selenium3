@@ -1,11 +1,13 @@
 package aaa.modules.regression.sales.home_ss.dp3;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSDP3BaseTest;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -26,6 +28,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyCreationFull extends HomeSSDP3BaseTest {
 
 	@Parameters({"state"})
+	@StateList(statesExcept = { States.CA })
 	@Test(groups= {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3)
 	public void testPolicyCreationFull(@Optional("") String state) {

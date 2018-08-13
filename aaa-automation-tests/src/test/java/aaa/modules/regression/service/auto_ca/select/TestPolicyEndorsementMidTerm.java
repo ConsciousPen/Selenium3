@@ -2,9 +2,11 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ca.select;
 
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.modules.regression.service.template.PolicyEndorsementMidTerm;
+import aaa.utils.StateList;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -40,6 +42,7 @@ public class TestPolicyEndorsementMidTerm extends PolicyEndorsementMidTerm {
 	}
 	
 	@Parameters({"state"})
+	@StateList(states =  States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT)
 	public void testPolicyEndorsementMidTerm(@Optional("CA") String state) {

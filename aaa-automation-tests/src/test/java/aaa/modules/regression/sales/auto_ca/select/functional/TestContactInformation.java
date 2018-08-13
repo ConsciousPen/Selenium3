@@ -8,6 +8,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
@@ -17,6 +18,7 @@ import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.modules.regression.sales.template.functional.TestContactInformationAbstract;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Button;
@@ -41,6 +43,7 @@ public class TestContactInformation extends TestContactInformationAbstract {
      * {@link aaa.modules.regression.sales.template.functional.TestContactInformationAbstract}
      */
     @Parameters({"state"})
+    @StateList(states =  States.CA)
     @Test(groups = { Groups.REGRESSION, Groups.MEDIUM })
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = {"PAS-270", "PAS-267"})
     public void pas270_contactInformation(@Optional("CA") String state)  {

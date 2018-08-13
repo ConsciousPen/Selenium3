@@ -3,14 +3,17 @@
 package aaa.modules.regression.sales.auto_ss;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 /**
@@ -25,6 +28,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyCreation extends AutoSSBaseTest {
 
     @Parameters({"state"})
+    @StateList(statesExcept = { States.CA })
 	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER })
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
     public void testPolicyCreation(@Optional("") String state) {

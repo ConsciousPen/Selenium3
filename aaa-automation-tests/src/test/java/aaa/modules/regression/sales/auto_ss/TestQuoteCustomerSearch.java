@@ -2,6 +2,7 @@ package aaa.modules.regression.sales.auto_ss;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -12,6 +13,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
+import aaa.utils.StateList;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -26,6 +28,7 @@ import static aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.*;
 public class TestQuoteCustomerSearch extends AutoSSBaseTest {
 
 	@Parameters({"state"})
+	@StateList(states = { States.AZ, States.UT })
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testQuoteCustomerSearch(@Optional("") String state) {

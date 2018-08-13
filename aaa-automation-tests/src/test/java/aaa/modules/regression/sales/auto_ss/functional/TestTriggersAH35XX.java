@@ -13,6 +13,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.helpers.constants.ComponentConstant;
@@ -30,6 +31,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.utils.StateList;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
@@ -63,6 +65,7 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(statesExcept =  States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, dependsOnMethods = "paymentCentralConfigCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-2241", "PAS-250"})
 	public void pas2241_TriggersUiAH35XX(@Optional("") String state) {

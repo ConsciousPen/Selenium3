@@ -7,6 +7,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.Tab;
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
@@ -14,6 +15,7 @@ import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.main.pages.summary.QuoteSummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 /**
@@ -28,6 +30,7 @@ import toolkit.utils.TestInfo;
 public class TestQuoteInitiate extends AutoCaSelectBaseTest {
 
 	@Parameters({"state"})
+	@StateList(states = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
 	public void testQuoteInitiate(@Optional("CA") String state) {

@@ -5,6 +5,7 @@ import java.util.Map;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -14,6 +15,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
@@ -62,6 +64,7 @@ public class TestPolicyGoodStudentDiscount extends AutoCaChoiceBaseTest {
 	 */
 
 	@Parameters({"state"})
+	@StateList(states = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE)
 	public void TestValidationGoodStudentDiscount() {
