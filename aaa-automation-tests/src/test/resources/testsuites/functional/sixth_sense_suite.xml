@@ -378,14 +378,14 @@
         </classes>
     </test>
 
-    <!--- Commented until PAS-11404 is fixed.
+
         <test name="Remove Vehicle on Current Term Endorsement">
             <parameter name="state" value="VA"/>
             <classes>
                 <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveVehicleOnEndorsement"/>
             </classes>
         </test>
-    -->
+
 
     <test name="Test CLUE reports on new copied policies for SS Auto">
         <parameter name="state" value="AZ, PA, OH"/>
