@@ -3,7 +3,7 @@ package aaa.modules.regression.sales.home_ca.ho3.functional;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.modules.policy.HomeCaHO3BaseTest;
+import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestCarryOverValuesTemplate;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
@@ -12,9 +12,12 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 @StateList(states = {Constants.States.CA})
-public class TestReplacementCostReasonEndorsement extends HomeCaHO3BaseTest {
+public class TestReplacementCostReasonEndorsement extends TestCarryOverValuesTemplate {
 
-	private TestCarryOverValuesTemplate template = new TestCarryOverValuesTemplate();
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_CA_HO3;
+	}
 
 	/**
 	 * @author Dominykas Razgunas
@@ -38,6 +41,6 @@ public class TestReplacementCostReasonEndorsement extends HomeCaHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-15831")
 	public void pas15831_TestReplacementCostReasonEndorsementOnRenewal(@Optional("") String state) {
 
-		template.pas15831_TestReplacementCostReasonEndorsementOnRenewalCA(getPolicyType());
+		pas15831_TestReplacementCostReasonEndorsementOnRenewalCA();
 	}
 }

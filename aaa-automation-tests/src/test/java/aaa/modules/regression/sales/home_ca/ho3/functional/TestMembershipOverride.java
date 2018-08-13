@@ -25,7 +25,6 @@ import toolkit.utils.TestInfo;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 /**
  * @author Tyrone Jemison
  * @name Test Membership Override

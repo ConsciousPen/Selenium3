@@ -379,8 +379,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 
 	protected void pas15383_driverWithOneOrMoreFaultAccidentsErrorBody() {
 		mainApp().open();
-		//String policyNumber = getCopiedPolicy();
-		String policyNumber ="VASS952918543";
+		String policyNumber = getCopiedPolicy();
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
 

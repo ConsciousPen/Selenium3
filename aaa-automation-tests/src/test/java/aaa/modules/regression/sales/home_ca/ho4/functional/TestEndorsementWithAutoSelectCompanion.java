@@ -3,8 +3,8 @@ package aaa.modules.regression.sales.home_ca.ho4.functional;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.modules.policy.HomeCaHO4BaseTest;
-import aaa.modules.regression.sales.template.functional.EndorsementWithPendingAutoSelectCompanion;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.regression.sales.template.functional.EndorsementWithPendingAutoSelectCompanionTemplate;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -12,9 +12,12 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.CA)
-public class TestEndorsementWithAutoSelectCompanion extends HomeCaHO4BaseTest {
+public class TestEndorsementWithAutoSelectCompanion extends EndorsementWithPendingAutoSelectCompanionTemplate {
 
-    private EndorsementWithPendingAutoSelectCompanion template = new EndorsementWithPendingAutoSelectCompanion();
+    @Override
+    protected PolicyType getPolicyType() {
+        return PolicyType.HOME_CA_HO4;
+    }
 
     /**
      * @author Dominykas Razgunas
@@ -26,8 +29,12 @@ public class TestEndorsementWithAutoSelectCompanion extends HomeCaHO4BaseTest {
      * 4. Add the above create Auto companion policy on the Applicant Tab
      * 5. Issue Policy
      * 6. Endorse Policy with effective date today+1week
-     * 7. Calculate Premium
-     * 8. Assert P&C Page. (The Error was not thrown)
+     * 7. Navigate to Applicant Tab
+     * 8. Navigate to Reports Tab
+     * 9. Error is not thrown and you are able to proceed
+     * 10. Navigate to P&C
+     * 11. Calculate Premium
+     * 12. Assert P&C Page. (The Error was not thrown)
      * @details
      */
     @Parameters({"state"})
@@ -35,7 +42,7 @@ public class TestEndorsementWithAutoSelectCompanion extends HomeCaHO4BaseTest {
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-8786")
     public void pas8786_TestEndorsementRateWithPendingAutoSelectCompanion(@Optional("CA") String state) {
 
-        template.pas8786_TestEndorsementRateWithPendingAutoSelectCompanion(getPolicyType());
+        pas8786_TestEndorsementRateWithPendingAutoSelectCompanion();
 
     }
 }

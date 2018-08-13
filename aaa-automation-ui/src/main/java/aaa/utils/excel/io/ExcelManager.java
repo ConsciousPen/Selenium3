@@ -309,11 +309,22 @@ public class ExcelManager implements Closeable {
 					throw new IstfException(String.format("Unable to create Workbook for \"%1$s\" file: invalid file extension \"%2$s\"", file.getAbsolutePath(), fileExtension));
 			}
 		}
-		
+
+		String errorMessage = String.format("Workbook creation from file \"%s\" has been failed.", file.getAbsolutePath());
 		try {
 			return WorkbookFactory.create(file);
+		} catch (FileNotFoundException fnfe) {
+			if (fnfe.getMessage().endsWith("(The process cannot access the file because it is being used by another process)")) {
+				log.warn("Unable to create Workbook because \"{}\" file is already opened or used by another process, trying to create Workbook from input stream", file.getAbsolutePath());
+				try (InputStream inputStream = new FileInputStream(file)) {
+					return getWorkbook(inputStream);
+				} catch (IstfException | IOException ioe) {
+					throw new IstfException(errorMessage, ioe);
+				}
+			}
+			throw new IstfException(errorMessage, fnfe);
 		} catch (EmptyFileException | InvalidFormatException | IOException e) {
-			throw new IstfException(String.format("Workbook creation from file \"%s\" has been failed.", file.getAbsolutePath()), e);
+			throw new IstfException(errorMessage, e);
 		}
 	}
 	
