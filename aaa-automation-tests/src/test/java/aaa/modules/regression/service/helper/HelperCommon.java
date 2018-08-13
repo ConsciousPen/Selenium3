@@ -93,6 +93,8 @@ public class HelperCommon {
 	private static final String DXP_POLICIES_ENDORSEMENT_DISCOUNTS = "/api/v1/policies/%s/endorsement/discounts";
 
 	private static final String DXP_BILLING_CURRENT_BILL = "/api/v1/billing/%s/current-bill";
+	private static final String DXP_BILLING_ACCOUNT_INFO = "/api/v1/accounts/%s";
+	private static final String DXP_BILLING_INSTALLMENTS_INFO = "/api/v1/%s/installments";
 
 	static {
 		PRETTY_PRINT_OBJECT_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
@@ -516,6 +518,16 @@ public class HelperCommon {
 	public static Bill currentBillService(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_BILLING_CURRENT_BILL, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, Bill.class);
+	}
+
+	public static AccountDetails billingAccountInfoService(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_BILLING_ACCOUNT_INFO, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, AccountDetails.class);
+	}
+
+	public static Installment billingInstallmentsInfo(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_BILLING_INSTALLMENTS_INFO, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, Installment.class);
 	}
 
 	public static String runJsonRequestPostDxp(String url, RestBodyRequest bodyRequest) {

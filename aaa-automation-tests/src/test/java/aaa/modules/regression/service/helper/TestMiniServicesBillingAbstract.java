@@ -1,8 +1,13 @@
 package aaa.modules.regression.service.helper;
 
 import static aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable.DUE_DATE;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import aaa.main.enums.BillingConstants;
+import aaa.modules.regression.service.helper.dtoDxp.AccountDetails;
+import aaa.modules.regression.service.helper.dtoDxp.Installment;
 import org.assertj.core.api.SoftAssertions;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -103,11 +108,61 @@ public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 			softly.assertThat(currentBillResponse2.amountPastDue).isEqualTo(amountPastDueUi);
 		} else {
 			Bill currentBillResponse2 = HelperCommon.currentBillService(policyNumber);
-			if(!currentBillResponse2.dueDate.equals(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("YYYY-MM-dd")))) {
+			if (!currentBillResponse2.dueDate.equals(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("YYYY-MM-dd")))) {
 				softly.assertThat(currentBillResponse2.dueDate).isEqualTo(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeFormatter.ofPattern("YYYY-MM-dd")));
 			}
 			softly.assertThat(currentBillResponse2.amountDue).isEqualTo("0.00");
 			softly.assertThat(currentBillResponse2.amountPastDue).isEqualTo("0.00");
+		}
+	}
+
+	protected void currentAccountInfoServiceCheck(SoftAssertions softly, String policyNumber) {
+		mainApp().open();
+		SearchPage.openBilling(policyNumber);
+
+		//LocalDateTime dueDateUi = TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
+		String accountNumberUi = BillingSummaryPage.labelBillingAccountNumber.getValue();
+		String amountMinDueUi = new Dollar(BillingSummaryPage.getMinimumDue()).toPlaingString();
+		String amountPastDueUi = new Dollar(BillingSummaryPage.getPastDue()).toPlaingString();
+		String amountTotalPaidUi = new Dollar(BillingSummaryPage.getTotalPaid()).toPlaingString();
+		String billableAmountUi = new Dollar(BillingSummaryPage.getBillableAmount()).toPlaingString();
+		//String latestInvoiceDueDateUi = null;// pataisyt paskui.
+
+		AccountDetails billingAccountInfoResponse = HelperCommon.billingAccountInfoService(policyNumber);
+		softly.assertThat(billingAccountInfoResponse.accountNumber).isEqualTo(accountNumberUi);
+		softly.assertThat(billingAccountInfoResponse.minimumDue).isEqualTo(amountMinDueUi);
+		softly.assertThat(billingAccountInfoResponse.pastDue).isEqualTo(amountPastDueUi);
+		softly.assertThat(billingAccountInfoResponse.totalPaid).isEqualTo(amountTotalPaidUi);
+		softly.assertThat(billingAccountInfoResponse.billableAmount).isEqualTo(billableAmountUi);
+		//softly.assertThat(billingAccountInfoResponse.latestInvoiceDueDate).isNull();
+	}
+
+	protected void installmentsServiceCheck(SoftAssertions softly, String policyNumber) {
+		mainApp().open();
+		SearchPage.openBilling(policyNumber);
+		int countInstallments = BillingSummaryPage.tableBillsStatements.getRowsCount();
+
+		for ( int i = 1 ; i<=countInstallments; i++ ) {
+			String typeUi = BillingSummaryPage.tableBillsStatements.getRow(i).getCell(BillingConstants.BillingInstallmentScheduleTable.DESCRIPTION).getValue();
+			String amountUi = new Dollar(BillingSummaryPage.tableBillsStatements.getRow(i).getCell(BillingConstants.BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT).getValue()).toPlaingString();
+			LocalDateTime dueDateUi = TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(i)
+					.getCell(BillingConstants.BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
+			String statusCdUi = BillingSummaryPage.tableBillsStatements.getRow(i).getCell(BillingConstants.BillingInstallmentScheduleTable.BILLED_STATUS).getValue();
+			LocalDateTime billGenerationDateUi = TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(i)
+					.getCell(BillingConstants.BillingInstallmentScheduleTable.BILL_GENERATION_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
+			LocalDateTime billDueDateUi = TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(i)
+					.getCell(BillingConstants.BillingInstallmentScheduleTable.BILL_GENERATION_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
+			String billedAmountUi = new Dollar(BillingSummaryPage.tableBillsStatements.getRow(i)
+					.getCell(BillingConstants.BillingInstallmentScheduleTable.BILLED_AMOUNT).getValue()).toPlaingString();
+
+			Installment billingInstallmentsResponse = HelperCommon.billingInstallmentsInfo(policyNumber);
+			softly.assertThat(billingInstallmentsResponse.type).isEqualTo(typeUi);
+			softly.assertThat(billingInstallmentsResponse.amount).isEqualTo(amountUi);
+			softly.assertThat(billingInstallmentsResponse.dueDate).isEqualTo(dueDateUi.format(DateTimeFormatter.ofPattern("YYYY-MM-dd")));
+			softly.assertThat(billingInstallmentsResponse.statusCd).isEqualTo(statusCdUi);
+			softly.assertThat(billingInstallmentsResponse.billGenerationDate).isEqualTo(billGenerationDateUi.format(DateTimeFormatter.ofPattern("YYYY-MM-dd")));
+			softly.assertThat(billingInstallmentsResponse.billDueDate).isEqualTo(billDueDateUi.format(DateTimeFormatter.ofPattern("YYYY-MM-dd")));
+			softly.assertThat(billingInstallmentsResponse.billedAmount).isEqualTo(billedAmountUi);
 		}
 	}
 }

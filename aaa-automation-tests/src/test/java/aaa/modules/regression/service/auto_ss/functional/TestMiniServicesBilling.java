@@ -3,6 +3,7 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -99,6 +100,37 @@ public class TestMiniServicesBilling extends TestMiniServicesBillingAbstract {
 		assertSoftly(softly ->
 				currentBillServiceCheck(softly, policyNumber)
 		);
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name View Installment Schedule Service
+	 * @scenario 1. Create policy.
+	 * 2. Hit Customer service, check info in the service and in UI.
+	 * 3. Hit Installments service, check info.
+	 * 4. Create endorsement outside of PAS.
+	 * 5. Add new vehicle and new driver. Update them.
+	 * 6. Bind endorsement.
+	 * 7. Hit Customer service, check info in the service and in UI.
+	 * 8. Hit Installments service, check info.
+	 * @details
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16982"})
+	public void pas16982_ViewInstallmentScheduleService(@Optional("VA") String state) {
+		TestData policyTd = getPolicyTD().adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
+				AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), "Quarterly");
+
+		mainApp().open();
+		//createCustomerIndividual();
+		String policyNumber = "VASS952918550";
+				//createPolicy(policyTd);
+
+		//Hit account service, check all info
+		assertSoftly(softly -> installmentsServiceCheck(softly, policyNumber));
+		assertSoftly(softly -> currentAccountInfoServiceCheck(softly, policyNumber));
 	}
 
 	@Override
