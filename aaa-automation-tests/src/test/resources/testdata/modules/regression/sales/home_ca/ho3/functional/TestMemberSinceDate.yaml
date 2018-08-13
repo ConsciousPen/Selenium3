@@ -1,0 +1,18 @@
+TestData_RMS_MembershipValid: {
+  GeneralTab: '@<home_ca_ho3>@DataGather@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@<home_ca_ho3>@DataGather@ReportsTab'
+}
+
+ApplicantTab: {
+  NamedInsured: '@<home_ca_ho3>@DataGather@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@<home_ca_ho3>@DataGather@DwellingAddress',
+  NamedInsuredInformation: '@<home_ca_ho3>@DataGather@NamedInsuredInformation',
+  AgentInfo: '@<home_ca_ho3>@DataGather@AgentInfo'
+}
+
+AAAMembership: {
+  Current AAA Member: 'Yes',
+  Membership number: '9999994444444440'
+}

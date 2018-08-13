@@ -65,7 +65,7 @@ public class TestMemberSinceDate extends AutoCaChoiceBaseTest {
         Tab.buttonTopSave.click();
 
         Boolean dbMemberSinceDateIsNull = !LookupQueries.GetAAAMemberSinceDateFromSQL(quoteNumber).isPresent();
-        Assertions.assertThat(dbMemberSinceDateIsNull);
+        Assertions.assertThat(dbMemberSinceDateIsNull).isTrue();
 
 
         /*--Step 4--*/
@@ -85,13 +85,13 @@ public class TestMemberSinceDate extends AutoCaChoiceBaseTest {
 
         String sqlExpected = DateTime.format(formatSQL);
 
-        Assertions.assertThat(sqlExpected == "2010-07-27 00:00:00");
+        Assertions.assertThat(sqlExpected.equals("2010-07-27 00:00:00")).isTrue();
 
         String uiMemberSinceDate = policy.getDefaultView().getTab(MembershipTab.class).getAssetList().
                 getAsset(AutoCaMetaData.MembershipTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1).
                 getCell(AutoCaMetaData.MembershipTab.AaaMembershipReportRow.MEMBER_SINCE_DATE.getLabel()).getValue();
 
         String uiExpected = DateTime.format(formatUI);
-        Assertions.assertThat(uiExpected == uiMemberSinceDate);
+        Assertions.assertThat(uiExpected.equals(uiMemberSinceDate)).isTrue();
     }
 }
