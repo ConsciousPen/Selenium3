@@ -135,6 +135,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 								.setPolicyExpirationDate(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(3).getValue(), DateTimeUtils.MM_DD_YYYY).plusYears(1))
 								.build())
 						.build());
+		log.info("Policy {} for billing account {} is created", BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber(), BillingAccountInformationHolder.getCurrentBillingAccountDetails().getBillingAccountNumber());
 	}
 
 	protected void declineSuspensePaymentOnCancellationDate() {
