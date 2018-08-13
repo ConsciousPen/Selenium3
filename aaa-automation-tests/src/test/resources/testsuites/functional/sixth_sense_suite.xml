@@ -109,7 +109,7 @@
     </test>
 
     <!--Tests for Property-->
-    <!-- Uncomment when PAS-8786 is merged to master
+
         <test name="Test Endorsement With Pending Auto Select Companion">
             <parameter name="state" value="CA"/>
             <classes>
@@ -119,7 +119,7 @@
                 <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestEndorsementWithAutoSelectCompanion"/>
             </classes>
         </test>
-    -->
+
 
     <test name="Test MD Hurricane Deductible">
         <parameter name="state" value="MD"/>
