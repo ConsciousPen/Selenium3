@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -8,6 +9,8 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
+import aaa.utils.StateList;
+
 import com.exigen.ipb.etcsa.utils.Dollar;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -119,6 +122,7 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 
 
 	@Parameters({"state"})
+	@StateList(states = { States.AZ, States.UT })
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testQuoteComparison(@Optional("") String state) {
