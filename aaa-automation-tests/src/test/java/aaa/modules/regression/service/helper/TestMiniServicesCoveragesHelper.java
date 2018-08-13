@@ -3117,53 +3117,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas14730_UpdateCoverageUMPDAndPDBody(PolicyType policyType) {
-		mainApp().open();
-	//	String policyNumber = getCopiedPolicy();
-
-		String policyNumber = "MDSS952918801";
-		//Create pended endorsement
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
-
-		PolicyCoverageInfo viewCoverageResponse = HelperCommon.viewEndorsementCoverages(policyNumber);
-
-		assertSoftly(softly -> {
-					Coverage filteredCoverageResponseUMPD = viewCoverageResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.coverageCd)).findFirst().orElse(null);
-					Coverage filteredCoverageResponsePD = viewCoverageResponse.policyCoverages.stream().filter(cov -> "PD".equals(cov.coverageCd)).findFirst().orElse(null);
-
-					softly.assertThat(filteredCoverageResponseUMPD.coverageLimit).isEqualTo("50000");
-
-					softly.assertThat(filteredCoverageResponsePD.coverageLimit).isEqualTo("100");
-				});
-
-		String coverageCd = "MEDPM";
-		String newLimit = "10000";
-
-		PolicyCoverageInfo coverageResponse = HelperCommon.updatePolicyLevelCoverageEndorsement(policyNumber, coverageCd, newLimit);
-		assertSoftly(softly -> {
-			Coverage filteredCoverageResponseMEPD = coverageResponse.policyCoverages.stream().filter(cov -> "MEDPM".equals(cov.coverageCd)).findFirst().orElse(null);
-			softly.assertThat(filteredCoverageResponseMEPD.coverageLimit).isEqualTo(newLimit);
-
-		});
-
-		String coverageCd1 = "IL";
-		String newLimit1 = "0";
-
-		PolicyCoverageInfo coverageResponse1 = HelperCommon.updatePolicyLevelCoverageEndorsement(policyNumber, coverageCd1, newLimit1);
-		assertSoftly(softly -> {
-			Coverage filteredCoverageResponseIL = coverageResponse1.policyCoverages.stream().filter(cov -> "IL".equals(cov.coverageCd)).findFirst().orElse(null);
-			softly.assertThat(filteredCoverageResponseIL.coverageLimit).isEqualTo(newLimit1);
-		});
-
-		PolicyCoverageInfo viewCoverageResponse1 = HelperCommon.viewEndorsementCoverages(policyNumber);
-		assertSoftly(softly -> {
-			Coverage filteredCoverageResponseMEDPM = viewCoverageResponse1.policyCoverages.stream().filter(cov -> "MEDPM".equals(cov.coverageCd)).findFirst().orElse(null);
-			Coverage filteredCoverageResponseIL = viewCoverageResponse1.policyCoverages.stream().filter(cov -> "IL".equals(cov.coverageCd)).findFirst().orElse(null);
-			softly.assertThat(filteredCoverageResponseMEDPM.coverageLimit).isEqualTo(newLimit);
-			softly.assertThat(filteredCoverageResponseIL.coverageLimit).isEqualTo(newLimit1);
-		});
-	}
-
 	private void validateTrailerCoverages(PolicyCoverageInfo viewPolicyCoveragesByVehicleResponse) {
 		assertSoftly(softly -> {
 			//make sure that no Vehicle Level coverages are missed
