@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public abstract class TestMembershipTemplate extends PolicyBaseTest {
+public class TestMembershipTemplate extends PolicyBaseTest {
 
     private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
     private ErrorTab errorTab = new ErrorTab();
