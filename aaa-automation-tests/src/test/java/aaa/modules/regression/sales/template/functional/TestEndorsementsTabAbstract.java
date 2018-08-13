@@ -127,8 +127,8 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_ENDORSEMENT.get());
 	}
 
-	public void addEndorsementForm(String endorsementName, String endorsementFormId) {
-		checkEndorsementIsAvailableInOptionalEndorsements(endorsementName, endorsementFormId);
+	public void addEndorsementForm(String endorsementFormId) {
+		checkEndorsementIsAvailableInOptionalEndorsements(endorsementFormId);
 		addOptionalEndorsement(endorsementFormId);
 	}
 
@@ -137,9 +137,9 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 		editEndorsementAndVerify(endorsementFormId);
 	}
 
-	public void removeEndorsementForm(String endorsementName, String endorsementFormId) {
+	public void removeEndorsementForm(String endorsementFormId) {
 		checkRemoveLinkIsAvailable(endorsementFormId);
-		removeEndorsementAndVerify(endorsementName, endorsementFormId);
+		removeEndorsementAndVerify(endorsementFormId);
 	}
 
 	public void finishNewBusinessTx() {
@@ -163,24 +163,24 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 		new BindTab().submitTab();
 	}
 
-	public void checkEndorsementIsAvailableInOptionalEndorsements (String endorsementName, String endorsementFormId) {
-		assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, endorsementName).isPresent());
-		assertThat(endorsementTab.getAddEndorsementLink(endorsementFormId).isPresent());
+	public void checkEndorsementIsAvailableInOptionalEndorsements (String formId) {
+		assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId).isPresent());
+		assertThat(endorsementTab.getAddEndorsementLink(formId).isPresent());
 	}
 
-	public void checkEndorsementIsNotAvailableInOptionalEndorsements (String... endorsementNames) {
-		for (String endorsementName : endorsementNames) {
-			assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, endorsementName).isPresent()).isFalse();
+	public void checkEndorsementIsNotAvailableInOptionalEndorsements (String... formIds) {
+		for (String formId : formIds) {
+			assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId).isPresent()).isFalse();
 		}
 	}
 
-	public void checkEndorsementIsAvailableInIncludedEndorsements(String endorsementName) {
-		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, endorsementName).isPresent());
+	public void checkEndorsementIsAvailableInIncludedEndorsements(String formId) {
+		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId).isPresent());
 	}
 
-	public void checkEndorsementIsNotAvailableInIncludedEndorsements(String... endorsementNames) {
-		for (String endorsementName : endorsementNames){
-			assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, endorsementName).isPresent()).isFalse();
+	public void checkEndorsementIsNotAvailableInIncludedEndorsements(String... formIds) {
+		for (String formId : formIds){
+			assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId).isPresent()).isFalse();
 		}
 	}
 
@@ -243,11 +243,11 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 		assertThat(endorsementTab.verifyLinkRemoveIsPresent(endorsementFormId)).isEqualTo(true);
 	}
 
-	public void removeEndorsementAndVerify(String endorsementName, String endorsementFormId) {
+	public void removeEndorsementAndVerify(String endorsementFormId) {
 		endorsementTab.getRemoveEndorsementLink(endorsementFormId,1).click();
 		Page.dialogConfirmation.confirm();
 
-		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, endorsementName).isPresent()).isFalse();
+		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, endorsementFormId).isPresent()).isFalse();
 	}
 
 	public void openAppNonPrivilegedUser(String privilege) {
@@ -280,13 +280,12 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 	 * Non privileged user.
 	 * PAS-14057, PAS-17039
 	 */
-	public void pas17039_checkEndorsementFunctionality(String endorsementName1, String endorsementName2, String endorsementFormId1, String endorsementFormId2) {
-		checkEndorsementIsAvailableInIncludedEndorsements(endorsementName1);
-		checkEndorsementIsAvailableInIncludedEndorsements(endorsementName2);
-		editEndorsementForm(endorsementFormId1);
-		editEndorsementForm(endorsementFormId2);
-		removeEndorsementForm(endorsementName2, endorsementFormId2);
-		removeEndorsementForm(endorsementName1, endorsementFormId1);
+	public void checkEndorsementFunctionality(String... endorsementFormIds) {
+		for (String endorsementFormId : endorsementFormIds) {
+			checkEndorsementIsAvailableInIncludedEndorsements(endorsementFormId);
+			editEndorsementForm(endorsementFormId);
+			removeEndorsementForm(endorsementFormId);
+		}
 	}
 
 	public void checkEndorsementsIncreasesPremium(String... endorsementFormIds) {

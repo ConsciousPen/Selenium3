@@ -15,8 +15,8 @@ import toolkit.utils.TestInfo;
 @StateList(states = Constants.States.OK)
 public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 
-	private EndorsementForms.HomeSSEndorsementForms parentEndorsement = EndorsementForms.HomeSSEndorsementForms.HS_04_54;
-	private EndorsementForms.HomeSSEndorsementForms subEndorsement = EndorsementForms.HomeSSEndorsementForms.HS_04_36;
+	private String parentEndorsementFormId = EndorsementForms.HomeSSEndorsementForms.HS_04_54.getFormId();
+	private String subEndorsementFormId = EndorsementForms.HomeSSEndorsementForms.HS_04_36.getFormId();
 
 	@Override
 	protected PolicyType getPolicyType() { return PolicyType.HOME_SS_HO6; }
@@ -42,12 +42,11 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-17479")
 	public void testEarthquakeEndorsement_Privileged_NewBusiness(@Optional("OK") String state) {
 		initiateNewBusinessTx(true);
-		addEndorsementForm(parentEndorsement.getName(), parentEndorsement.getFormId());
+		addEndorsementForm(parentEndorsementFormId);
 		//HS 04 36 should be only available then HS 04 54 is added
-		addEndorsementForm(subEndorsement.getName(), subEndorsement.getFormId());
+		addEndorsementForm(subEndorsementFormId);
 
-		pas17039_checkEndorsementFunctionality(parentEndorsement.getName(), subEndorsement.getName(),
-				parentEndorsement.getFormId(), subEndorsement.getFormId());
+		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
 	}
 
 	/**
@@ -73,12 +72,11 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	public void testEarthquakeEndorsement_Privileged_Endorsement(@Optional("OK") String state) {
 		createPolicy(true);
 		initiateEndorsementTx();
-		addEndorsementForm(parentEndorsement.getName(), parentEndorsement.getFormId());
+		addEndorsementForm(parentEndorsementFormId);
 		//HS 04 36 should be only available then HS 04 54 is added
-		addEndorsementForm(subEndorsement.getName(), subEndorsement.getFormId());
+		addEndorsementForm(subEndorsementFormId);
 
-		pas17039_checkEndorsementFunctionality(parentEndorsement.getName(), subEndorsement.getName(),
-				parentEndorsement.getFormId(), subEndorsement.getFormId());
+		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
 	}
 
 	/**
@@ -104,11 +102,10 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	public void testEarthquakeEndorsement_Privileged_Renewal(@Optional("OK") String state) {
 		createPolicy(true);
 		initiateRenewalTx();
-		addEndorsementForm(parentEndorsement.getName(), parentEndorsement.getFormId());
+		addEndorsementForm(parentEndorsementFormId);
 		//HS 04 36 should be only available then HS 04 54 is added
-		addEndorsementForm(subEndorsement.getName(), subEndorsement.getFormId());
+		addEndorsementForm(subEndorsementFormId);
 
-		pas17039_checkEndorsementFunctionality(parentEndorsement.getName(), subEndorsement.getName(),
-				parentEndorsement.getFormId(), subEndorsement.getFormId());
+		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
 	}
 }
