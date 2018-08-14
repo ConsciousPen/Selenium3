@@ -2952,9 +2952,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void pas14730_UpdateCoverageUMPDAndPDBody(PolicyType policyType) {
 		mainApp().open();
-		//String policyNumber = getCopiedPolicy();
 
-		String policyNumber = "MDSS952918540";
+		String policyNumber = getCopiedPolicy();
+
 		//Create pended endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
@@ -2969,34 +2969,21 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(filteredCoverageResponsePD.coverageLimit).isEqualTo("50000");
 		});
 
-		String coverageCd = "MEDPM";
-		String newLimit = "10000";
+		String coverageCd = "PD";
+		String newLimit = "15000";
 
 		PolicyCoverageInfo coverageResponse = HelperCommon.updatePolicyLevelCoverageEndorsement(policyNumber, coverageCd, newLimit);
 		assertSoftly(softly -> {
-			Coverage filteredCoverageResponseMEPD = coverageResponse.policyCoverages.stream().filter(cov -> "MEDPM".equals(cov.coverageCd)).findFirst().orElse(null);
-			softly.assertThat(filteredCoverageResponseMEPD.coverageLimit).isEqualTo(newLimit);
+			Coverage filteredCoverageResponsePD = coverageResponse.policyCoverages.stream().filter(cov -> "PD".equals(cov.coverageCd)).findFirst().orElse(null);
+			Coverage filteredCoverageResponseUMPD = coverageResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.coverageCd)).findFirst().orElse(null);
 
+			softly.assertThat(filteredCoverageResponseUMPD.coverageLimit).isEqualTo(newLimit);
+			assertAvailableCoverageLimitForPD(coverageResponse);
+
+			softly.assertThat(filteredCoverageResponsePD.coverageLimit).isEqualTo(newLimit);
 		});
 
-		String coverageCd1 = "IL";
-		String newLimit1 = "0";
-
-		PolicyCoverageInfo coverageResponse1 = HelperCommon.updatePolicyLevelCoverageEndorsement(policyNumber, coverageCd1, newLimit1);
-		assertSoftly(softly -> {
-			Coverage filteredCoverageResponseIL = coverageResponse1.policyCoverages.stream().filter(cov -> "IL".equals(cov.coverageCd)).findFirst().orElse(null);
-			softly.assertThat(filteredCoverageResponseIL.coverageLimit).isEqualTo(newLimit1);
-		});
-
-		PolicyCoverageInfo viewCoverageResponse1 = HelperCommon.viewEndorsementCoverages(policyNumber);
-		assertSoftly(softly -> {
-			Coverage filteredCoverageResponseMEDPM = viewCoverageResponse1.policyCoverages.stream().filter(cov -> "MEDPM".equals(cov.coverageCd)).findFirst().orElse(null);
-			Coverage filteredCoverageResponseIL = viewCoverageResponse1.policyCoverages.stream().filter(cov -> "IL".equals(cov.coverageCd)).findFirst().orElse(null);
-			softly.assertThat(filteredCoverageResponseMEDPM.coverageLimit).isEqualTo(newLimit);
-			softly.assertThat(filteredCoverageResponseIL.coverageLimit).isEqualTo(newLimit1);
-		});
 	}
-
 
 	protected void pas14680_TrailersCoveragesThatDoNotApplyBody(PolicyType policyType) {
 		TestData td = getPolicyTD("DataGather", "TestData");
@@ -3381,6 +3368,24 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		return policyCoverageResponseReplacedLeasedVeh.policyCoverages.stream().filter(attribute -> coverageCode.equals(attribute.coverageCd)).findFirst().orElse(null);
 	}
 
+	private void assertAvailableCoverageLimitForPD(PolicyCoverageInfo coverageResponse) {
+		assertSoftly(softly -> {
+			List<CoverageLimit> availableLimitsPD = coverageResponse.policyCoverages.get(2).availableLimits;
+
+			softly.assertThat(availableLimitsPD.get(0).coverageLimit).isEqualTo("15000");
+			softly.assertThat(availableLimitsPD.get(0).coverageLimitDisplay).isEqualTo("$15,000");
+
+			softly.assertThat(availableLimitsPD.get(1).coverageLimit).isEqualTo("25000");
+			softly.assertThat(availableLimitsPD.get(1).coverageLimitDisplay).isEqualTo("$25,000");
+
+			softly.assertThat(availableLimitsPD.get(2).coverageLimit).isEqualTo("50000");
+			softly.assertThat(availableLimitsPD.get(2).coverageLimitDisplay).isEqualTo("$50,000");
+
+			softly.assertThat(availableLimitsPD.get(3).coverageLimit).isEqualTo("100000");
+			softly.assertThat(availableLimitsPD.get(3).coverageLimitDisplay).isEqualTo("$100,000");
+
+		});
+	}
 }
 
 

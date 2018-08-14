@@ -1567,8 +1567,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		// update driver
 		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "D32329585", 16, "VA", "EMP", "MSS");
 		DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, addedDriverResponse.oid, updateDriverRequest);
-		assertThat(updateDriverResponse.ruleSets.get(0).errors.stream().anyMatch(error -> error.contains(ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage()))).isTrue();
-		assertThat(updateDriverResponse.ruleSets.get(0).errors.stream().anyMatch(error -> error.contains(ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode()))).isTrue();
+		errorValidationRelationToFni(updateDriverResponse);
 
 		//Rate Policy and check Error
 		helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode(), ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage(), "driverRelToApplicantCd");
@@ -1582,8 +1581,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		// update driver
 		UpdateDriverRequest updateDriverRequestORR = DXPRequestFactory.createUpdateDriverRequest("female", "D32329585", 16, "VA", "ORR", "MSS");
 		DriverWithRuleSets updateDriverResponseORR = HelperCommon.updateDriver(policyNumber, addedDriverResponse.oid, updateDriverRequestORR);
-		assertThat(updateDriverResponseORR.ruleSets.get(0).errors.stream().anyMatch(error -> error.contains(ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage()))).isTrue();
-		assertThat(updateDriverResponseORR.ruleSets.get(0).errors.stream().anyMatch(error -> error.contains(ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode()))).isTrue();
+		errorValidationRelationToFni(updateDriverResponseORR);
 
 		//Rate Policy and check Error
 		helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode(), ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage(), "driverRelToApplicantCd");
@@ -1597,8 +1595,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		// update driver
 		UpdateDriverRequest updateDriverRequestOT = DXPRequestFactory.createUpdateDriverRequest("female", "D32329585", 16, "VA", "OT", "MSS");
 		DriverWithRuleSets updateDriverResponseOT = HelperCommon.updateDriver(policyNumber, addedDriverResponse.oid, updateDriverRequestOT);
-		assertThat(updateDriverResponseOT.ruleSets.get(0).errors.stream().anyMatch(error -> error.contains(ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage()))).isTrue();
-		assertThat(updateDriverResponseOT.ruleSets.get(0).errors.stream().anyMatch(error -> error.contains(ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode()))).isTrue();
+		errorValidationRelationToFni(updateDriverResponseOT);
 
 		//Rate Policy and check Error
 		helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode(), ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage(), "driverRelToApplicantCd");
@@ -1609,6 +1606,11 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		// bind policy and check error
 		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode(), ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage(), "driverRelToApplicantCd");
 
+	}
+
+	private void errorValidationRelationToFni(DriverWithRuleSets updateDriverResponse) {
+		assertThat(updateDriverResponse.ruleSets.get(0).errors.stream().anyMatch(error -> error.contains(ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage()))).isTrue();
+		assertThat(updateDriverResponse.ruleSets.get(0).errors.stream().anyMatch(error -> error.contains(ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode()))).isTrue();
 	}
 
 	private void rateFromPas(String policyNumber) {

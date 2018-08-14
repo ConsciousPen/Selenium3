@@ -438,6 +438,15 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 	}
 
+	/**`
+	 * @author Megha Gubbala : Update Coverages - UMPD - PD and UMPD rule
+	 * 1.Create a active policy in the pas
+	 * 2.Create an endorsement.
+	 * 3. run view coverage service get PD and UMPD
+	 * 4. Update PD coverage
+	 * 5. Verify available limits
+	 * 6. Verify UMPD it should match PD
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14730"})
