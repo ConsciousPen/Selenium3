@@ -619,8 +619,8 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050"})
-	public void pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCoveAndTotalDisabilityCovTC01(@Optional("VA") String state) {
-		pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCoveAndTotalDisabilityCovTC01Body();
+	public void pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC01(@Optional("VA") String state) {
+		pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC01Body();
 	}
 
 	/**
@@ -652,12 +652,14 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 *
 	 * Note: test also validates that "Death and Specific Disability Coverage" is available for Available for Rating drivers and
 	 *      "Total Disability Coverage" is available only if "Death and Specific Disability Coverage" is selected
+	 *
+	 * Note: test also validates metadata for fields "Death and Specific Disability Coverage" and "Total Disability Coverage" (PAS-16913)
 	 * */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050"})
-	public void pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCoveAndTotalDisabilityCovTC02(@Optional("VA") String state) {
-		pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCoveAndTotalDisabilityCovTC02Body();
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050", "PAS-16913"})
+	public void pas14650_pas17046_pas14652_pas17050_pas16913_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC02(@Optional("VA") String state) {
+		pas14650_pas17046_pas14652_pas17050_pas16913_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC02Body();
 	}
 
 	/**
@@ -693,8 +695,8 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050"})
-	public void pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCoveAndTotalDisabilityCovTC03(@Optional("VA") String state) {
-		pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCoveAndTotalDisabilityCovTC03Body();
+	public void pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03(@Optional("VA") String state) {
+		pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03Body();
 	}
 }
 

@@ -1627,7 +1627,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		premiumAndCoveragesTab.saveAndExit();
 	}
 
-	protected void pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCoveAndTotalDisabilityCovTC01Body() {
+	protected void pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC01Body() {
 		assertSoftly(softly -> {
 			mainApp().open();
 			String policyNumber = getCopiedPolicy();
@@ -1773,7 +1773,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCoveAndTotalDisabilityCovTC02Body() {
+	protected void pas14650_pas17046_pas14652_pas17050_pas16913_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC02Body() {
 		assertSoftly(softly -> {
 			TestData td = getPolicyTD("DataGather", "TestData");
 			TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_DeathAndSpecificDisabilityCoverage").getTestDataList("DriverTab")).resolveLinks();
@@ -1797,6 +1797,10 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), false, null, softly);
 			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), true, false, softly);
 			validateSelectedAndAvailableCoverages(false, viewEndorsementDriversResponse.driverList.get(2), null, null, softly);
+
+			validateMetadata_pas16913(softly, policyNumber, viewEndorsementDriversResponse.driverList.get(0), true, false); //Driver without specificDisability coverage
+			validateMetadata_pas16913(softly, policyNumber, viewEndorsementDriversResponse.driverList.get(1), true, true); //Driver with specificDisability coverage
+			validateMetadata_pas16913(softly, policyNumber, viewEndorsementDriversResponse.driverList.get(2), false, false); //Driver = NAFR
 
 			//update driver 1
 			UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(true, null);
@@ -1871,7 +1875,19 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	}
 
-	protected void pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCoveAndTotalDisabilityCovTC03Body() {
+	//Validate specificDisabilityInd and totalDisabilityInd metadata. Only "visible" can change.
+	private void validateMetadata_pas16913(SoftAssertions softly, String policyNumber, DriversDto driver, boolean specificDisabilityIndVisible, boolean totalDisabilityIndVisible) {
+		//1 Driver without specificDisabilityInd
+		AttributeMetadata[] metaDataResponseDriver = HelperCommon.viewEndorsementDriversMetaData(policyNumber, driver.oid);
+
+		AttributeMetadata metaDataFieldResponseSpecificDisabilityInd = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponseDriver, "specificDisabilityInd", true, specificDisabilityIndVisible, false, null, "Boolean");
+		softly.assertThat(metaDataFieldResponseSpecificDisabilityInd.valueRange).size().isEqualTo(0);
+
+		AttributeMetadata metaDataFieldResponseTotalDisabilityInd = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponseDriver, "totalDisabilityInd", true, totalDisabilityIndVisible, false, null, "Boolean");
+		softly.assertThat(metaDataFieldResponseTotalDisabilityInd.valueRange).size().isEqualTo(0);
+	}
+
+	protected void pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03Body() {
 		assertSoftly(softly -> {
 			TestData td = getPolicyTD("DataGather", "TestData");
 			TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_DeathAndSpecificDisabilityCoverage2").getTestDataList("DriverTab")).resolveLinks();
