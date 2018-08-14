@@ -6,30 +6,6 @@
 	</listeners>
 	<parameter name="timeshift-scenario-mode" value="method"/>
 
-    <test name="VA MAIG Conversion Test" parallel="methods" thread-count="200">
-        <parameter name="state" value="VA" />
-        <classes>
-            <class name="aaa.modules.regression.conversions.auto_ss.MaigConversionTest">
-                <methods>
-                    <include name="maigConversionTest1"/>
-                    <include name="maigConversionTest_customerDeclined1"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="DE MAIG Conversion Test" parallel="methods" thread-count="200">
-        <parameter name="state" value="DE" />
-        <classes>
-            <class name="aaa.modules.regression.conversions.auto_ss.MaigConversionTest">
-                <methods>
-                    <include name="maigConversionTest2"/>
-                    <include name="maigConversionTest_customerDeclined2"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
     <test name="PA MAIG Conversion Test" parallel="methods" thread-count="200">
         <parameter name="state" value="PA" />
         <classes>
@@ -49,18 +25,6 @@
                 <methods>
                     <include name="maigConversionTest4"/>
                     <include name="maigConversionTest_customerDeclined4"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="NJ MAIG Conversion Test" parallel="methods" thread-count="200">
-        <parameter name="state" value="NJ" />
-        <classes>
-            <class name="aaa.modules.regression.conversions.auto_ss.MaigConversionTest">
-                <methods>
-                    <include name="maigConversionTest5"/>
-                    <include name="maigConversionTest_customerDeclined5"/>
                 </methods>
             </class>
         </classes>
