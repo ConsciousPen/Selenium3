@@ -35,6 +35,7 @@ public class TestPolicyCancelNoticeWithCancellation extends PolicyCancelNoticeWi
 	}
 	
 	@Parameters({"state"})
+	@StateList(statesExcept = { States.CA })
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, enabled = false)
 	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
 	public void TC01_CreatePolicyAndCancelNotice(@Optional("") String state) {
@@ -42,6 +43,7 @@ public class TestPolicyCancelNoticeWithCancellation extends PolicyCancelNoticeWi
 	}
 	
 	@Parameters({"state"})
+	@StateList(statesExcept = { States.CA })
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicyAndCancelNotice", enabled = false)
 	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
 	public void TC02_CancellationPolicy(@Optional("") String state) {

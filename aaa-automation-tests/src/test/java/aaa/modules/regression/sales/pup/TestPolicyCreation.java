@@ -25,6 +25,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyCreation extends PersonalUmbrellaBaseTest {
 
 	@Parameters({"state"})
+	//@StateList("All")
 	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.Sales.PUP )
     public void testPolicyCreation(@Optional("") String state) {

@@ -33,6 +33,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyEndorsementOos extends PersonalUmbrellaBaseTest {
 	
 	@Parameters({"state"})
+	//@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.PUP )
     public void testPolicyEndorsementOos(@Optional("") String state) {

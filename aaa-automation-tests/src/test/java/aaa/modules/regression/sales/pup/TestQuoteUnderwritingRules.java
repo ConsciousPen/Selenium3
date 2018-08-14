@@ -48,6 +48,7 @@ public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest {
 	private ErrorTab errorTab = policy.getDefaultView().getTab(ErrorTab.class);
 	
 	@Parameters({"state"})
+	//@StateList("All")
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Sales.PUP)
 	public void testQuoteUnderwritingRules(@Optional("") String state) {

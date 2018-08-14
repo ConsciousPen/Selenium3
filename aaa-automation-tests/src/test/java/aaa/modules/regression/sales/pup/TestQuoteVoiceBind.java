@@ -66,6 +66,7 @@ public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
     */
 
 	@Parameters({"state"})
+	//@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.PUP)
 	public void TC02_testQuoteVoiceBind(@Optional("") String state) {
@@ -86,6 +87,7 @@ public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
 	}
 
 	@Parameters({"state"})
+	//@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.PUP)
 	public void TC03_testQuoteVoiceBind(@Optional("") String state) {
