@@ -48,7 +48,7 @@ public class CsaaXmlTest {
 
 	private XmlTest createTest(XmlTest test, String state, String policyType) {
 		XmlTest xmlTest = new XmlTest();
-		xmlTest.setName(key.concat(" Regression Tests"));
+		xmlTest.setName(key);
 		xmlTest.setVerbose(test.getVerbose());
 		xmlTest.setPreserveOrder(test.getPreserveOrder());
 		/*xmlTest.setIncludedGroups(test.getIncludedGroups());

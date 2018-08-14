@@ -1,11 +1,12 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="CSAA Regression Test Timepoint" verbose="1" parallel="tests"
+<suite name="Regression Tests Timepoint" verbose="1" parallel="tests"
        thread-count="1024">
     <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
-    <test name="AZ HSS Functional Tests" parallel="methods">
+    <test name="AZ Home Regression Tests" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
@@ -33,7 +34,7 @@
             </class>
         </classes>
     </test>
-    <test name="AZ PUP Functional Tests" parallel="methods">
+    <test name="AZ PUP Regression Tests" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestEarnedPremiumWriteOff">
@@ -53,7 +54,7 @@
             </class>
         </classes>
     </test>
-    <test name="CT HSS Functional Tests" parallel="methods">
+    <test name="CT Home Regression Tests" parallel="methods">
         <parameter name="state" value="CT"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestRestrictedPaymentPlan">
@@ -63,7 +64,7 @@
             </class>
         </classes>
     </test>
-    <test name="DE HSS Functional Tests" parallel="methods">
+    <test name="DE Home Regression Tests" parallel="methods">
         <parameter name="state" value="DE"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigConversionHomeHO4">
@@ -88,7 +89,7 @@
             </class>
         </classes>
     </test>
-    <test name="KY HSS Functional Tests" parallel="methods">
+    <test name="KY Home Regression Tests" parallel="methods">
         <parameter name="state" value="KY"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestCinNewBusinessHomeHO4">
@@ -98,7 +99,7 @@
             </class>
         </classes>
     </test>
-    <test name="NJ HSS Functional Tests" parallel="methods">
+    <test name="NJ Home Regression Tests" parallel="methods">
         <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigConversionHomeHO6">
@@ -118,7 +119,7 @@
             </class>
         </classes>
     </test>
-    <test name="NJ PUP Functional Tests" parallel="methods">
+    <test name="NJ PUP Regression Tests" parallel="methods">
         <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionPup">
@@ -128,7 +129,7 @@
             </class>
         </classes>
     </test>
-    <test name="PA HSS Functional Tests" parallel="methods">
+    <test name="PA Home Regression Tests" parallel="methods">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestConversionViewAndOverrideCappingDetails"/>
@@ -138,7 +139,7 @@
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
         </classes>
     </test>
-    <test name="VA HSS Functional Tests" parallel="methods">
+    <test name="VA Home Regression Tests" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
@@ -175,7 +176,7 @@
             </class>
         </classes>
     </test>
-    <test name="CA HSS Functional Tests" parallel="methods">
+    <test name="CA Home Regression Tests" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ca.ho3.functional.TestCinNewBusinessHomeCAHO3">
@@ -190,14 +191,14 @@
             </class>
         </classes>
     </test>
-    <test name="UT Auto Functional Tests" parallel="methods">
+    <test name="UT Auto Regression Tests" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestInstallmentFees"/>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEndorsementActionRules"/>
         </classes>
     </test>
-    <test name="AZ Auto Functional Tests" parallel="methods">
+    <test name="AZ Auto Regression Tests" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.auto_ss.functional.TestCinNewBusinessAutoSS">
@@ -225,19 +226,19 @@
             </class>
         </classes>
     </test>
-    <test name="PA Auto Functional Tests" parallel="methods">
+    <test name="PA Auto Regression Tests" parallel="methods">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
         </classes>
     </test>
-    <test name="VA Auto Functional Tests" parallel="methods">
+    <test name="VA Auto Regression Tests" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
         </classes>
     </test>
-    <test name="CA Select Auto Functional Tests" parallel="methods">
+    <test name="CA Select Auto Regression Tests" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestContactInformation"/>
@@ -253,7 +254,7 @@
             </class>
         </classes>
     </test>
-    <test name="CA Choice Auto Functional Tests" parallel="methods">
+    <test name="CA Choice Auto Regression Tests" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestEndorsementActionRules"/>

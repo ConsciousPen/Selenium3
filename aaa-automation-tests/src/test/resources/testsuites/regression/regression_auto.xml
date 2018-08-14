@@ -1,10 +1,11 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="CSAA Regression Test Auto" verbose="1" parallel="tests" thread-count="1024">
+<suite name="Regression Tests Auto" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
-    <test name="UT Auto Functional Tests" parallel="methods">
+    <test name="UT Auto Regression Tests" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
@@ -45,7 +46,7 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestTriggersAH35XX"/>
         </classes>
     </test>
-    <test name="AZ Auto Functional Tests" parallel="methods">
+    <test name="AZ Auto Regression Tests" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
@@ -85,7 +86,7 @@
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.TestPolicyBilling"/>
         </classes>
     </test>
-    <test name="CO Auto Functional Tests" parallel="methods">
+    <test name="CO Auto Regression Tests" parallel="methods">
         <parameter name="state" value="CO"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
@@ -102,7 +103,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
-    <test name="CT Auto Functional Tests" parallel="methods">
+    <test name="CT Auto Regression Tests" parallel="methods">
         <parameter name="state" value="CT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
@@ -119,7 +120,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
-    <test name="DC Auto Functional Tests" parallel="methods">
+    <test name="DC Auto Regression Tests" parallel="methods">
         <parameter name="state" value="DC"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
@@ -136,7 +137,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
-    <test name="DE Auto Functional Tests" parallel="methods">
+    <test name="DE Auto Regression Tests" parallel="methods">
         <parameter name="state" value="DE"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
@@ -153,7 +154,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
-    <test name="ID Auto Functional Tests" parallel="methods">
+    <test name="ID Auto Regression Tests" parallel="methods">
         <parameter name="state" value="ID"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
@@ -170,7 +171,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
-    <test name="IN Auto Functional Tests" parallel="methods">
+    <test name="IN Auto Regression Tests" parallel="methods">
         <parameter name="state" value="IN"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
@@ -187,7 +188,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
-    <test name="KS Auto Functional Tests" parallel="methods">
+    <test name="KS Auto Regression Tests" parallel="methods">
         <parameter name="state" value="KS"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
@@ -204,7 +205,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
-    <test name="KY Auto Functional Tests" parallel="methods">
+    <test name="KY Auto Regression Tests" parallel="methods">
         <parameter name="state" value="KY"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
@@ -221,7 +222,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
-    <test name="MD Auto Functional Tests" parallel="methods">
+    <test name="MD Auto Regression Tests" parallel="methods">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
@@ -238,7 +239,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
-    <test name="MT Auto Functional Tests" parallel="methods">
+    <test name="MT Auto Regression Tests" parallel="methods">
         <parameter name="state" value="MT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
@@ -255,7 +256,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
-    <test name="NJ Auto Functional Tests" parallel="methods">
+    <test name="NJ Auto Regression Tests" parallel="methods">
         <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
@@ -272,7 +273,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
-    <test name="NV Auto Functional Tests" parallel="methods">
+    <test name="NV Auto Regression Tests" parallel="methods">
         <parameter name="state" value="NV"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
@@ -289,7 +290,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
-    <test name="NY Auto Functional Tests" parallel="methods">
+    <test name="NY Auto Regression Tests" parallel="methods">
         <parameter name="state" value="NY"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
@@ -307,7 +308,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
-    <test name="OH Auto Functional Tests" parallel="methods">
+    <test name="OH Auto Regression Tests" parallel="methods">
         <parameter name="state" value="OH"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
@@ -324,7 +325,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
-    <test name="OK Auto Functional Tests" parallel="methods">
+    <test name="OK Auto Regression Tests" parallel="methods">
         <parameter name="state" value="OK"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
@@ -341,7 +342,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
-    <test name="OR Auto Functional Tests" parallel="methods">
+    <test name="OR Auto Regression Tests" parallel="methods">
         <parameter name="state" value="OR"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
@@ -358,7 +359,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
-    <test name="PA Auto Functional Tests" parallel="methods">
+    <test name="PA Auto Regression Tests" parallel="methods">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
@@ -375,7 +376,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
-    <test name="SD Auto Functional Tests" parallel="methods">
+    <test name="SD Auto Regression Tests" parallel="methods">
         <parameter name="state" value="SD"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
@@ -392,7 +393,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
-    <test name="VA Auto Functional Tests" parallel="methods">
+    <test name="VA Auto Regression Tests" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
@@ -410,7 +411,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
-    <test name="WV Auto Functional Tests" parallel="methods">
+    <test name="WV Auto Regression Tests" parallel="methods">
         <parameter name="state" value="WV"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
@@ -427,7 +428,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
-    <test name="WY Auto Functional Tests" parallel="methods">
+    <test name="WY Auto Regression Tests" parallel="methods">
         <parameter name="state" value="WY"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
@@ -444,7 +445,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
-    <test name="CA Select Auto Functional Tests" parallel="methods">
+    <test name="CA Select Auto Regression Tests" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyBackdated"/>
@@ -479,7 +480,7 @@
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestContactInformation"/>
         </classes>
     </test>
-    <test name="CA Choice Auto Functional Tests" parallel="methods">
+    <test name="CA Choice Auto Regression Tests" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.TestPolicyBackdated"/>

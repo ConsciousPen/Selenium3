@@ -1,11 +1,12 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="CSAA Regression Test Property" verbose="1" parallel="tests"
+<suite name="Regression Tests Property" verbose="1" parallel="tests"
        thread-count="1024">
     <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
-    <test name="Common Functional Tests" parallel="methods">
+    <test name="Common Regression Tests" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.common.TestSearchPageFillingAndWarnings"/>
@@ -13,7 +14,7 @@
             <class name="aaa.modules.regression.common.TestAccountUpdate"/>
         </classes>
     </test>
-    <test name="UT HSS Functional Tests" parallel="methods">
+    <test name="UT Home Regression Tests" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
@@ -64,7 +65,7 @@
             <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments"/>
         </classes>
     </test>
-    <test name="UT PUP Functional Tests" parallel="methods">
+    <test name="UT PUP Regression Tests" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
@@ -94,7 +95,7 @@
             <class name="aaa.modules.regression.service.pup.TestPolicyRenewFlatCancellation"/>
         </classes>
     </test>
-    <test name="AZ HSS Functional Tests" parallel="methods">
+    <test name="AZ Home Regression Tests" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
@@ -125,7 +126,7 @@
             <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestConversionViewAndOverrideCappingDetails"/>
         </classes>
     </test>
-    <test name="AZ PUP Functional Tests" parallel="methods">
+    <test name="AZ PUP Regression Tests" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
@@ -139,7 +140,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
         </classes>
     </test>
-    <test name="CO HSS Functional Tests" parallel="methods">
+    <test name="CO Home Regression Tests" parallel="methods">
         <parameter name="state" value="CO"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
@@ -168,7 +169,7 @@
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreationFull"/>
         </classes>
     </test>
-    <test name="CO PUP Functional Tests" parallel="methods">
+    <test name="CO PUP Regression Tests" parallel="methods">
         <parameter name="state" value="CO"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
@@ -182,7 +183,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
         </classes>
     </test>
-    <test name="CT HSS Functional Tests" parallel="methods">
+    <test name="CT Home Regression Tests" parallel="methods">
         <parameter name="state" value="CT"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
@@ -207,7 +208,7 @@
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreationFull"/>
         </classes>
     </test>
-    <test name="CT PUP Functional Tests" parallel="methods">
+    <test name="CT PUP Regression Tests" parallel="methods">
         <parameter name="state" value="CT"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
@@ -221,7 +222,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
         </classes>
     </test>
-    <test name="DC HSS Functional Tests" parallel="methods">
+    <test name="DC Home Regression Tests" parallel="methods">
         <parameter name="state" value="DC"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
@@ -246,7 +247,7 @@
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreationFull"/>
         </classes>
     </test>
-    <test name="DC PUP Functional Tests" parallel="methods">
+    <test name="DC PUP Regression Tests" parallel="methods">
         <parameter name="state" value="DC"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
@@ -260,7 +261,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
         </classes>
     </test>
-    <test name="DE HSS Functional Tests" parallel="methods">
+    <test name="DE Home Regression Tests" parallel="methods">
         <parameter name="state" value="DE"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
@@ -289,7 +290,7 @@
             <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestConversionViewAndOverrideCappingDetails"/>
         </classes>
     </test>
-    <test name="DE PUP Functional Tests" parallel="methods">
+    <test name="DE PUP Regression Tests" parallel="methods">
         <parameter name="state" value="DE"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
@@ -303,7 +304,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
         </classes>
     </test>
-    <test name="ID HSS Functional Tests" parallel="methods">
+    <test name="ID Home Regression Tests" parallel="methods">
         <parameter name="state" value="ID"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
@@ -328,7 +329,7 @@
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreationFull"/>
         </classes>
     </test>
-    <test name="ID PUP Functional Tests" parallel="methods">
+    <test name="ID PUP Regression Tests" parallel="methods">
         <parameter name="state" value="ID"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
@@ -342,7 +343,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
         </classes>
     </test>
-    <test name="IN HSS Functional Tests" parallel="methods">
+    <test name="IN Home Regression Tests" parallel="methods">
         <parameter name="state" value="IN"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
@@ -367,7 +368,7 @@
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreationFull"/>
         </classes>
     </test>
-    <test name="IN PUP Functional Tests" parallel="methods">
+    <test name="IN PUP Regression Tests" parallel="methods">
         <parameter name="state" value="IN"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
@@ -381,7 +382,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
         </classes>
     </test>
-    <test name="KS HSS Functional Tests" parallel="methods">
+    <test name="KS Home Regression Tests" parallel="methods">
         <parameter name="state" value="KS"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
@@ -406,7 +407,7 @@
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreationFull"/>
         </classes>
     </test>
-    <test name="KS PUP Functional Tests" parallel="methods">
+    <test name="KS PUP Regression Tests" parallel="methods">
         <parameter name="state" value="KS"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
@@ -420,7 +421,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
         </classes>
     </test>
-    <test name="KY HSS Functional Tests" parallel="methods">
+    <test name="KY Home Regression Tests" parallel="methods">
         <parameter name="state" value="KY"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
@@ -445,7 +446,7 @@
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreationFull"/>
         </classes>
     </test>
-    <test name="KY PUP Functional Tests" parallel="methods">
+    <test name="KY PUP Regression Tests" parallel="methods">
         <parameter name="state" value="KY"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
@@ -459,7 +460,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
         </classes>
     </test>
-    <test name="MD HSS Functional Tests" parallel="methods">
+    <test name="MD Home Regression Tests" parallel="methods">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
@@ -488,7 +489,7 @@
             <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestConversionViewAndOverrideCappingDetails"/>
         </classes>
     </test>
-    <test name="MD PUP Functional Tests" parallel="methods">
+    <test name="MD PUP Regression Tests" parallel="methods">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
@@ -502,7 +503,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
         </classes>
     </test>
-    <test name="MT HSS Functional Tests" parallel="methods">
+    <test name="MT Home Regression Tests" parallel="methods">
         <parameter name="state" value="MT"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
@@ -527,7 +528,7 @@
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreationFull"/>
         </classes>
     </test>
-    <test name="MT PUP Functional Tests" parallel="methods">
+    <test name="MT PUP Regression Tests" parallel="methods">
         <parameter name="state" value="MT"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
@@ -541,7 +542,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
         </classes>
     </test>
-    <test name="NJ HSS Functional Tests" parallel="methods">
+    <test name="NJ Home Regression Tests" parallel="methods">
         <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
@@ -569,7 +570,7 @@
             <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestConversionViewAndOverrideCappingDetails"/>
         </classes>
     </test>
-    <test name="NJ PUP Functional Tests" parallel="methods">
+    <test name="NJ PUP Regression Tests" parallel="methods">
         <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
@@ -583,7 +584,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
         </classes>
     </test>
-    <test name="NV HSS Functional Tests" parallel="methods">
+    <test name="NV Home Regression Tests" parallel="methods">
         <parameter name="state" value="NV"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
@@ -608,7 +609,7 @@
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreationFull"/>
         </classes>
     </test>
-    <test name="NV PUP Functional Tests" parallel="methods">
+    <test name="NV PUP Regression Tests" parallel="methods">
         <parameter name="state" value="NV"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
@@ -622,7 +623,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
         </classes>
     </test>
-    <test name="NY HSS Functional Tests" parallel="methods">
+    <test name="NY Home Regression Tests" parallel="methods">
         <parameter name="state" value="NY"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
@@ -647,7 +648,7 @@
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreationFull"/>
         </classes>
     </test>
-    <test name="NY PUP Functional Tests" parallel="methods">
+    <test name="NY PUP Regression Tests" parallel="methods">
         <parameter name="state" value="NY"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
@@ -661,7 +662,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
         </classes>
     </test>
-    <test name="OH HSS Functional Tests" parallel="methods">
+    <test name="OH Home Regression Tests" parallel="methods">
         <parameter name="state" value="OH"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
@@ -686,7 +687,7 @@
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreationFull"/>
         </classes>
     </test>
-    <test name="OH PUP Functional Tests" parallel="methods">
+    <test name="OH PUP Regression Tests" parallel="methods">
         <parameter name="state" value="OH"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
@@ -700,7 +701,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
         </classes>
     </test>
-    <test name="OK HSS Functional Tests" parallel="methods">
+    <test name="OK Home Regression Tests" parallel="methods">
         <parameter name="state" value="OK"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
@@ -725,7 +726,7 @@
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreationFull"/>
         </classes>
     </test>
-    <test name="OK PUP Functional Tests" parallel="methods">
+    <test name="OK PUP Regression Tests" parallel="methods">
         <parameter name="state" value="OK"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
@@ -739,7 +740,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
         </classes>
     </test>
-    <test name="OR HSS Functional Tests" parallel="methods">
+    <test name="OR Home Regression Tests" parallel="methods">
         <parameter name="state" value="OR"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
@@ -764,7 +765,7 @@
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreationFull"/>
         </classes>
     </test>
-    <test name="OR PUP Functional Tests" parallel="methods">
+    <test name="OR PUP Regression Tests" parallel="methods">
         <parameter name="state" value="OR"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
@@ -778,7 +779,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
         </classes>
     </test>
-    <test name="PA HSS Functional Tests" parallel="methods">
+    <test name="PA Home Regression Tests" parallel="methods">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
@@ -808,7 +809,7 @@
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
         </classes>
     </test>
-    <test name="PA PUP Functional Tests" parallel="methods">
+    <test name="PA PUP Regression Tests" parallel="methods">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
@@ -822,7 +823,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
         </classes>
     </test>
-    <test name="SD HSS Functional Tests" parallel="methods">
+    <test name="SD Home Regression Tests" parallel="methods">
         <parameter name="state" value="SD"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
@@ -847,7 +848,7 @@
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreationFull"/>
         </classes>
     </test>
-    <test name="SD PUP Functional Tests" parallel="methods">
+    <test name="SD PUP Regression Tests" parallel="methods">
         <parameter name="state" value="SD"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
@@ -861,7 +862,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
         </classes>
     </test>
-    <test name="VA HSS Functional Tests" parallel="methods">
+    <test name="VA Home Regression Tests" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
@@ -891,7 +892,7 @@
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
         </classes>
     </test>
-    <test name="VA PUP Functional Tests" parallel="methods">
+    <test name="VA PUP Regression Tests" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
@@ -905,7 +906,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
         </classes>
     </test>
-    <test name="WV HSS Functional Tests" parallel="methods">
+    <test name="WV Home Regression Tests" parallel="methods">
         <parameter name="state" value="WV"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
@@ -930,7 +931,7 @@
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreationFull"/>
         </classes>
     </test>
-    <test name="WV PUP Functional Tests" parallel="methods">
+    <test name="WV PUP Regression Tests" parallel="methods">
         <parameter name="state" value="WV"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
@@ -944,7 +945,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
         </classes>
     </test>
-    <test name="WY HSS Functional Tests" parallel="methods">
+    <test name="WY Home Regression Tests" parallel="methods">
         <parameter name="state" value="WY"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
@@ -969,7 +970,7 @@
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreationFull"/>
         </classes>
     </test>
-    <test name="WY PUP Functional Tests" parallel="methods">
+    <test name="WY PUP Regression Tests" parallel="methods">
         <parameter name="state" value="WY"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
@@ -983,7 +984,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
         </classes>
     </test>
-    <test name="CA HSS Functional Tests" parallel="methods">
+    <test name="CA Home Regression Tests" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.TestCreateAndCopyQuote"/>
@@ -1029,7 +1030,7 @@
             <class name="aaa.modules.regression.sales.home_ca.ho6.TestSeniorDiscount"/>
         </classes>
     </test>
-    <test name="CA PUP Functional Tests" parallel="methods">
+    <test name="CA PUP Regression Tests" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
