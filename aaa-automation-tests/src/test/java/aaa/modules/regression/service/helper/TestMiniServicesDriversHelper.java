@@ -1960,14 +1960,15 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	}
 
-	private void validateAvailableCoverages(DriversDto driver, SoftAssertions softly) {
+	private void validateAvailableCoverages_pas14650_pas17050(DriversDto driver, SoftAssertions softly) {
+		//PAS-14650
 		if ("afr".equals(driver.driverType)) {
 			softly.assertThat(driver.availableCoverages).contains("deathAndSpecificDisability");
 		} else {
 			softly.assertThat("nafr".equals(driver.driverType)).isTrue();
 			softly.assertThat(driver.availableCoverages).doesNotContain("deathAndSpecificDisability");
 		}
-
+		//PAS-17050
 		if (BooleanUtils.isTrue(driver.specificDisabilityInd)) {
 			softly.assertThat(driver.availableCoverages).contains("totalDisability");
 		} else {
@@ -1994,7 +1995,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(driver.driverType).isEqualTo("nafr");
 		}
 
-		validateAvailableCoverages(driver, softly);
+		validateAvailableCoverages_pas14650_pas17050(driver, softly);
 		validateSelectedCoverages(driver, specificDisabilityIndExpected, totalDisabilityIndExpected, softly);
 
 	}
