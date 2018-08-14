@@ -171,7 +171,7 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
 
         // Here, I make sure the failure occurred at the anticipated location.
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
-        Assertions.assertThat(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel().contains("Membership Override"));
+        Assertions.assertThat(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel().contains("Membership Override")).isTrue();
     }
 
     /**
