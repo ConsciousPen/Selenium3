@@ -27,7 +27,7 @@ public class TestOperationalReportsEuwDetailCheckPolicyNumberParameter extends B
      * 3. Check that "Policy Number” is displayed and enabled, free format policy number can be entered
      */
 
-    @Test(groups = {Groups.FUNCTIONAL})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "16020")
     public void pas16020_testOperationalReportsEuwDetailCheckPolicyNumberParameter() {
         opReportApp().open();

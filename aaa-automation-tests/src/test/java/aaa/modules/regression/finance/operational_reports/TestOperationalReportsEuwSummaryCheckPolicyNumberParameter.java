@@ -23,7 +23,7 @@ public class TestOperationalReportsEuwSummaryCheckPolicyNumberParameter extends 
      * 3. Check that "Policy Number” is NOT displayed
      */
 
-    @Test(groups = {Groups.FUNCTIONAL})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-17631")
     public void pas17631_testOperationalReportsEuwSummaryCheckPolicyNumberParameter() {
         opReportApp().open();
