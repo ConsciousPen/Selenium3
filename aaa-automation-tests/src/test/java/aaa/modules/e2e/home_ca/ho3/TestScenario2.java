@@ -4,9 +4,12 @@ import toolkit.verification.CustomSoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import aaa.common.enums.Constants.States;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.e2e.templates.Scenario2;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 
 public class TestScenario2 extends Scenario2 {
@@ -17,6 +20,7 @@ public class TestScenario2 extends Scenario2 {
 	}
 
 	@Parameters({"state"})
+	@StateList(states = States.CA)
 	@Test
 	public void TC01_createPolicy(@Optional("CA") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
