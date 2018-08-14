@@ -12,6 +12,21 @@ ApplicantTab: {
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo'
 }
 
+TestData_RMS_ValidMemberSinceDate_AZ: {
+  GeneralTab: '@<home_ss_ho3>@DataGather@GeneralTab_AZ',
+  ApplicantTab: '@ApplicantTab_AZ',
+  #Even though ReportsTab_AZ is pointed at default. Test fails so pointed directly at default.
+  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab'
+}
+
+ApplicantTab_AZ: {
+  NamedInsured: '@<home_ss_ho3>@DataGather@NamedInsured_AZ',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_AZ',
+  NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation_AZ',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_AZ'
+}
+
 AAAMembership: {
   Current AAA Member: 'Yes',
   Membership number: '9999994444444440'

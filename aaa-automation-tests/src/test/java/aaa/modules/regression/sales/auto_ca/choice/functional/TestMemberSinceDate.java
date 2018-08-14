@@ -7,7 +7,6 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab;
 import aaa.utils.StateList;
 import org.assertj.core.api.Assertions;
-import org.mortbay.log.Log;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -44,7 +43,7 @@ public class TestMemberSinceDate extends AutoCaChoiceBaseTest {
 
 
         /*--Step 1--*/
-        Log.info("Step 1: Create Customer.");
+        log.info("Step 1: Create Customer.");
 
         TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData_RMS_ValidMemberSinceDate").resolveLinks());
         mainApp().open();
@@ -52,24 +51,23 @@ public class TestMemberSinceDate extends AutoCaChoiceBaseTest {
 
 
         /*--Step 2--*/
-        Log.info("Step 2: Create Auto CA Quote up to Membership tab.");
+        log.info("Step 2: Create Auto CA Quote up to Membership tab.");
         policy.initiate();
         policy.getDefaultView().fillUpTo(testData, MembershipTab.class, false);
 
 
         /*--Step 3--*/
-        Log.info("Step 3: Validate that the Member Since Date in the DB and UI are null.");
+        log.info("Step 3: Validate that the Member Since Date in the DB and UI are null.");
         String quoteNumber = policy.getDefaultView().getTab(MembershipTab.class).getPolicyNumber();
 
         // Click save to store the quote in the db so can be accessed.
         Tab.buttonTopSave.click();
 
-        Boolean dbMemberSinceDateIsNull = !LookupQueries.GetAAAMemberSinceDateFromSQL(quoteNumber).isPresent();
-        Assertions.assertThat(dbMemberSinceDateIsNull).isTrue();
+        Assertions.assertThat(LookupQueries.GetAAAMemberSinceDateFromSQL(quoteNumber)).isNotPresent();
 
 
         /*--Step 4--*/
-        Log.info("Step 4: Order report in the UI.");
+        log.info("Step 4: Order report in the UI.");
         policy.getDefaultView().getTab(MembershipTab.class).fillTab(testData);
 
         // Click save so value in DB gets updated.
@@ -77,7 +75,7 @@ public class TestMemberSinceDate extends AutoCaChoiceBaseTest {
 
 
         /*--Step 5--*/
-        Log.info("Step 5: Validate that the Member Since Date in the DB now matches the Stub response.");
+        log.info("Step 5: Validate that the Member Since Date in the DB now matches the Stub response.");
 
         String dbMemberSinceDate = LookupQueries.GetAAAMemberSinceDateFromSQL(quoteNumber).orElse("Null Value");
 
@@ -85,13 +83,13 @@ public class TestMemberSinceDate extends AutoCaChoiceBaseTest {
 
         String sqlExpected = DateTime.format(formatSQL);
 
-        Assertions.assertThat(sqlExpected.equals("2010-07-27 00:00:00")).isTrue();
+        Assertions.assertThat(sqlExpected).isEqualTo("2010-07-27 00:00:00");
 
         String uiMemberSinceDate = policy.getDefaultView().getTab(MembershipTab.class).getAssetList().
                 getAsset(AutoCaMetaData.MembershipTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1).
                 getCell(AutoCaMetaData.MembershipTab.AaaMembershipReportRow.MEMBER_SINCE_DATE.getLabel()).getValue();
 
         String uiExpected = DateTime.format(formatUI);
-        Assertions.assertThat(uiExpected.equals(uiMemberSinceDate)).isTrue();
+        Assertions.assertThat(uiExpected).isEqualTo(uiMemberSinceDate);
     }
 }
