@@ -16,7 +16,7 @@ import toolkit.utils.TestInfo;
 public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends TestRenewalBillDiscardAndMsgOnPaymentPlanChangeTemplate {
 
 	@Override
-	protected PolicyType getPolicyType() { return PolicyType.HOME_SS_HO6; }
+	protected PolicyType getPolicyType() { return PolicyType.HOME_SS_HO4; }
 
 	///-----------Payment plan: Quarterly -> Semi-Annual, Not on Automatic Payment, Bill generated via scheduler job --------------
 	/**

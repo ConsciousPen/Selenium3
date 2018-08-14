@@ -105,6 +105,7 @@ public class TestRenewalBillDiscardAndMsgOnPaymentPlanChangeTemplate extends Pol
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
 
 		//Create Proposed Renewal
+		//For now 'Proposed Renewal' is not always generated after first run
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 	}
@@ -114,6 +115,7 @@ public class TestRenewalBillDiscardAndMsgOnPaymentPlanChangeTemplate extends Pol
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));//-35 days
 
 		//Generate Renewal bill
+		//For now 'Renewal Bill' is not always generated after first run
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 	}
