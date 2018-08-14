@@ -106,6 +106,10 @@ public abstract class Tab {
 		return new StaticElement(By.xpath("//div[@id='contentWrapper']//span[@class='error_message']"));
 	}
 
+	/**
+	 * Returns either a Quote or Policy Number from the tab header.
+	 * @return
+	 */
 	public String getPolicyNumber() {
 		return labelPolicyNumber.getValue();
 	}
