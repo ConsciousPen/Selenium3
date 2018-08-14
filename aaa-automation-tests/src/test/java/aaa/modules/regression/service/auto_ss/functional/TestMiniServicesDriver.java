@@ -619,8 +619,8 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050"})
-	public void pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC01(@Optional("VA") String state) {
-		pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC01Body();
+	public void pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC01(@Optional("VA") String state) {
+		pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC01Body();
 	}
 
 	/**
@@ -658,8 +658,8 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050", "PAS-16913"})
-	public void pas14650_pas17046_pas14652_pas17050_pas16913_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC02(@Optional("VA") String state) {
-		pas14650_pas17046_pas14652_pas17050_pas16913_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC02Body();
+	public void pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC02(@Optional("VA") String state) {
+		pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC02Body();
 	}
 
 	/**
@@ -695,8 +695,8 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050"})
-	public void pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03(@Optional("VA") String state) {
-		pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03Body();
+	public void pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03(@Optional("VA") String state) {
+		pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03Body();
 	}
 }
 

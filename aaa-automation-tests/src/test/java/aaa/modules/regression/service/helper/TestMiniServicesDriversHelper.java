@@ -1627,7 +1627,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		premiumAndCoveragesTab.saveAndExit();
 	}
 
-	protected void pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC01Body() {
+	protected void pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC01Body() {
 		assertSoftly(softly -> {
 			mainApp().open();
 			String policyNumber = getCopiedPolicy();
@@ -1772,7 +1772,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas14650_pas17046_pas14652_pas17050_pas16913_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC02Body() {
+	protected void pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC02Body() {
 		assertSoftly(softly -> {
 			TestData td = getPolicyTD("DataGather", "TestData");
 			TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_DeathAndSpecificDisabilityCoverage").getTestDataList("DriverTab")).resolveLinks();
@@ -1884,7 +1884,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		softly.assertThat(metaDataFieldResponseTotalDisabilityInd.valueRange).size().isEqualTo(0);
 	}
 
-	protected void pas14650_pas17046_pas14652_pas17050_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03Body() {
+	protected void pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03Body() {
 		assertSoftly(softly -> {
 			TestData td = getPolicyTD("DataGather", "TestData");
 			TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_DeathAndSpecificDisabilityCoverage2").getTestDataList("DriverTab")).resolveLinks();
