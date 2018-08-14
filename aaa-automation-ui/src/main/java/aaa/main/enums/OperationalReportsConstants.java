@@ -24,4 +24,9 @@ public final class OperationalReportsConstants {
         public static final String CSAA_GENERAL_INSURANCE_COMPANY = "CSAA General Insurance Company";
         public static final String CSAA_INTERINSURANCE_BUREAU = "CSAA Interinsurance Bureau";
     }
+
+    public static final class RolesPriviliges {
+        public static final String REPORTS_OPERATIONAL_EUW_SCHEDULE = "Reports:Operational:euwPremiumReport.xml:Schedule";
+        public static final String REPORTS_OPERATIONAL_EUW_VIEW = "Reports:Operational:euwPremiumReport.xml:View";
+    }
 }
