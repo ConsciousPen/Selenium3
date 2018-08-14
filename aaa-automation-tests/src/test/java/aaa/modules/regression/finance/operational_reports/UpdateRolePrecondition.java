@@ -9,7 +9,11 @@ import java.util.Arrays;
 
 
 public class UpdateRolePrecondition extends OperationalReportsBaseTest {
-
+    /**
+     * @author Reda Kazlauskiene
+     * @author Maksim Piatrouski
+     * Objectives: Update Operational Reports euw priviliges
+     */
     @Test
     public void updateRole() {
         OperationalReportsHelper.prepareEuwOpReportsPrivileges();
