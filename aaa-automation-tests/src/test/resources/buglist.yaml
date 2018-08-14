@@ -327,4 +327,4 @@ PAS-5260:
   reason: PROD
   failures:
   - tests: [aaa.modules.regression.sales.auto_ss.functional.TestReducedPremiumEndorsementKY.pas5260_testEndorsementRPBind]
-    messages: ['Cannot transfer payment']
+    messages: ["is not present as expected"]
