@@ -1653,7 +1653,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			premiumAndCoveragesTab.saveAndExit();
 
 			///////////////Change "Total Disability" to yes//////////////////////
-			updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(true, true);
+			updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(null, true);
 			updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
 			validateSelectedAndAvailableCoverages(true, updateDriverResponse.driver, true, true, softly);
 
@@ -1684,7 +1684,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			premiumAndCoveragesTab.saveAndExit();
 
 			//////////////Change "Death Indemnity and Specific Disability" to No, when also "Total Disability" = yes ---> "Total Disability"  should be defaulted to null ///////////////////////
-			updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(false, true);
+			updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(false, null);
 			updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
 			validateSelectedAndAvailableCoverages(true, updateDriverResponse.driver, false, null, softly);
 
@@ -1842,12 +1842,12 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			validateSelectedAndAvailableCoverages(false, viewEndorsementDriversResponse.driverList.get(2), null, null, softly);
 
 			//update driver 1
-			UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(true, true);
+			UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(null, true);
 			DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, viewEndorsementDriversResponse.driverList.get(0).oid, updateDriverRequest);
 			validateSelectedAndAvailableCoverages(true, updateDriverResponse.driver, true, true, softly);
 
 			//Update driver 2
-			updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(true, false);
+			updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(null, false);
 			updateDriverResponse = HelperCommon.updateDriver(policyNumber, viewEndorsementDriversResponse.driverList.get(1).oid, updateDriverRequest);
 			validateSelectedAndAvailableCoverages(true, updateDriverResponse.driver, true, false, softly);
 
