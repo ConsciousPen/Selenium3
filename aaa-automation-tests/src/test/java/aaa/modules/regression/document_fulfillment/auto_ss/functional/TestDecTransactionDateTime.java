@@ -1,5 +1,6 @@
 package aaa.modules.regression.document_fulfillment.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.*;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -63,7 +64,7 @@ public class TestDecTransactionDateTime extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy(testData);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_PENDING);
 		validateBoundDtTag(policyNumber, POLICY_ISSUE);
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(2));
@@ -71,7 +72,7 @@ public class TestDecTransactionDateTime extends AutoSSBaseTest {
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
 		endorsementSteps();
 		validateBoundDtTag(policyNumber, ENDORSEMENT_ISSUE);
@@ -129,7 +130,7 @@ public class TestDecTransactionDateTime extends AutoSSBaseTest {
 		premiumAndCoveragesTab.calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		new BindTab().submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	// BOUND_DT example: <aaan:DateTimeField>2018-07-06T12:28:11.491-07:00</aaan:DateTimeField>

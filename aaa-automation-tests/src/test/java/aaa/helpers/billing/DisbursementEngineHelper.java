@@ -183,13 +183,14 @@ public class DisbursementEngineHelper {
 		}
 	}
 
-	public static List readDisbursementFile(String path) throws IOException {
+	public static List readDisbursementFile(String path){
 		List<DisbursementFile> lines = new ArrayList<>();
-		BufferedReader br = new BufferedReader(new FileReader(path));
-
-		String line = br.readLine(); // Reading header, Ignoring
-		//String line = "";
 		try {
+			BufferedReader br = new BufferedReader(new FileReader(path));
+
+			String line = br.readLine(); // Reading header, Ignoring
+			//String line = "";
+
 			while ((line = br.readLine()) != null && !line.isEmpty()) {
 				String cvsSplitBy = "\\|";
 				String[] fields = line.split(cvsSplitBy);
@@ -229,9 +230,11 @@ public class DisbursementEngineHelper {
 						refundReasonDescription, referencePaymentTransactionNumber, eRefundEligible);
 				lines.add(records);
 			}
-		} catch (ArrayIndexOutOfBoundsException e) {
+			br.close();
+		} catch (ArrayIndexOutOfBoundsException | IOException exception) {
+			throw new IstfException("Error during reading of Disbursement File", exception);
 		}
-		br.close();
+
 		return lines;
 	}
 

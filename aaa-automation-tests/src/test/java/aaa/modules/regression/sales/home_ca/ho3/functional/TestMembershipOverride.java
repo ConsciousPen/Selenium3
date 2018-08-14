@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho3.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -23,8 +24,6 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 import java.time.LocalDateTime;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
  * @author Tyrone Jemison
@@ -131,13 +130,15 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
         // Create Customer and Policy using Membership Override Option and NO membership number. Bind Policy.
         mainApp().open(initiateLoginTD().adjust("Groups", "I38"));
         try {
+            //TODO Replace with fillUpTo method
             // This is expected to fail- which would normally fail the test. When it does, we verify the positive failure AFTER the catch.
             createCustomerIndividual();
             policy.createPolicy(defaultPolicyData);
+            TimeSetterUtil.getInstance().getCurrentTime();
         }
         catch(Exception ex){}
 
-        assertThat(new ApplicantTab().getAAAMembershipAssetList().getAsset(HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER).getAllValues().contains("Membership Override")).isFalse();
+        assertThat(new ApplicantTab().getAAAMembershipAssetList().getAsset(HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER)).doesNotContainOption("Membership Override");
     }
 
     /**
@@ -290,7 +291,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
 
         // Verify Membership is Retained
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA member indicator").equalsIgnoreCase("Yes"));
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA member indicator")).isEqualToIgnoringCase("Yes");
         // If we don't close VRD, the test will fail attempting to close using the default methods.
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
     }
@@ -360,7 +361,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
         // Verify Membership is Retained
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
 
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA member indicator").equalsIgnoreCase("No"));
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA member indicator")).isEqualToIgnoringCase("No");
 
         // If we don't close VRD, the test will fail attempting to close using the default methods.
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
@@ -428,7 +429,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
 
         // Verify Membership is Retained
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA member indicator").equalsIgnoreCase("Yes"));
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA member indicator")).isEqualToIgnoringCase("Yes");
         // If we don't close VRD, the test will fail attempting to close using the default methods.
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
     }
@@ -502,7 +503,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
 
         // Verify Membership is Retained
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA member indicator").equalsIgnoreCase("Yes"));
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA member indicator")).isEqualToIgnoringCase("Yes");
 
         // If we don't close VRD, the test will fail attempting to close using the default methods.
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
@@ -514,7 +515,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
         in_policy.initiate();
         in_policy.getDefaultView().fillUpTo(in_policyData, PremiumsAndCoveragesQuoteTab.class, true);
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA member indicator").equalsIgnoreCase("Yes"));
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA member indicator")).isEqualToIgnoringCase("Yes");
 
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
         PremiumsAndCoveragesQuoteTab.btnContinue.click();

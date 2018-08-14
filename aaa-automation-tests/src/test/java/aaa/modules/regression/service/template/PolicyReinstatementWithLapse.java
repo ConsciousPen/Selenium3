@@ -2,11 +2,10 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.template;
 
-
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import toolkit.verification.CustomAssert;
 
 /**
  * @author Lina Li
@@ -23,30 +22,24 @@ import toolkit.verification.CustomAssert;
  */
 
 public abstract class PolicyReinstatementWithLapse extends PolicyBaseTest {
-	   
-    public void testPolicyReinstatementWithLapse() {
-    	
-        mainApp().open();
-        
-      
-       getCopiedPolicy();
-                
-        String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        
-        CustomAssert.enableSoftMode();
-        
-        log.info("Cancelling Policy #" + policyNumber);
-        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+	public void testPolicyReinstatementWithLapse() {
 
-        log.info("TEST: Reinstate Policy With Lapse #" + policyNumber);
-        policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData_Plus14Days"));
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        PolicySummaryPage.labelLapseExist.verify.present();
-        
-		CustomAssert.assertAll();
+		mainApp().open();
 
-    }   
+		getCopiedPolicy();
+
+		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+		log.info("Cancelling Policy #" + policyNumber);
+		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+
+		log.info("TEST: Reinstate Policy With Lapse #" + policyNumber);
+		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData_Plus14Days"));
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelLapseExist).isPresent();
+	}
 }

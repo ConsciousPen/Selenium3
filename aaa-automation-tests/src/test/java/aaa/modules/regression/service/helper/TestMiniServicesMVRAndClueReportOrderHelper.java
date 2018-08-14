@@ -1,6 +1,5 @@
 package aaa.modules.regression.service.helper;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;

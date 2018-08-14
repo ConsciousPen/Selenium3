@@ -5,6 +5,7 @@ package aaa.main.pages.summary;
 import com.exigen.ipb.etcsa.controls.ActivitiesAndUserNotes;
 import org.openqa.selenium.By;
 import toolkit.datax.TestData;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
@@ -54,6 +55,11 @@ public class NotesAndAlertsSummaryPage extends SummaryPage {
     public static void checkActivitiesAndUserNotes (String note, Boolean present) {
         activitiesAndUserNotes.expand();
         assertThat(activitiesAndUserNotes.getRowContains("Description", note)).isPresent(present);
+    }
+
+    public static void checkActivitiesAndUserNotes (String note, Boolean present, ETCSCoreSoftAssertions softly) {
+        activitiesAndUserNotes.expand();
+        softly.assertThat(activitiesAndUserNotes.getRowContains("Description", note)).isPresent(present);
     }
 
     public static void deleteNoteByRow(int row) {

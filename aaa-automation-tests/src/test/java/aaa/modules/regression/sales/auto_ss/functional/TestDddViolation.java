@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.FIRST_NAME;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.LAST_NAME;
@@ -27,7 +28,7 @@ import aaa.utils.StateList;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 import toolkit.webdriver.controls.Button;
 
 @StateList(states = Constants.States.PA)
@@ -68,10 +69,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 		policy.getDefaultView().fillUpTo(testData, DocumentsAndBindTab.class);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
-		CustomAssert.enableSoftMode();
 		verifyDrivers();
-		CustomAssert.assertAll();
-
 	}
 
 	/**
@@ -104,9 +102,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 		createPolicy(testData);
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
-		CustomAssert.enableSoftMode();
 		renewAndEndorsementSteps();
-		CustomAssert.assertAll();
 	}
 
 	/** @author Igor Garkusha
@@ -138,9 +134,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 		createPolicy(testData);
 		policy.renew().start();
 
-		CustomAssert.enableSoftMode();
 		renewAndEndorsementSteps();
-		CustomAssert.assertAll();
 	}
 
 	/** @author Dominykas Razgunas
@@ -174,9 +168,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 		policy.getDefaultView().fillFromTo(getConversionPolicyDefaultTD(), RatingDetailReportsTab.class, DocumentsAndBindTab.class);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
-		CustomAssert.enableSoftMode();
 		verifyDrivers();
-		CustomAssert.assertAll();
 	}
 
 	private void renewAndEndorsementSteps() {
@@ -200,17 +192,19 @@ public class TestDddViolation extends AutoSSBaseTest {
 	}
 
 	private void verifyDrivers() {
-		PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).verify.contains("Defensive Driving Course Discount");
-		DRIVERS_WITH_DISCOUNT.forEach(driver -> checkDriverDiscount(getTestSpecificTD(driver)));
-		DRIVERS_WITHOUT_DISCOUNT.forEach(v -> CustomAssert.assertFalse(getDriverFullName(getTestSpecificTD(v)) + " should not have discount",
-						PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).getValue().contains(getDriverFullName(getTestSpecificTD(v))))
-		);
+		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1)).valueContains("Defensive Driving Course Discount");
+			DRIVERS_WITH_DISCOUNT.forEach(driver -> checkDriverDiscount(getTestSpecificTD(driver)));
+			DRIVERS_WITHOUT_DISCOUNT.forEach(v -> softly.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).getValue())
+					.as(getDriverFullName(getTestSpecificTD(v)) + " should not have discount").doesNotContain(getDriverFullName(getTestSpecificTD(v)))
+			);
+		});
 	}
 
 	private void checkDriverDiscount(TestData driverTD) {
 		String driverWithDiscountName = getDriverFullName(driverTD);
 		//BUG PAS-12755: Defensive driver discount is not displayed properly in driver discount section.
-		PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).verify.contains(String.format("Defensive Driving Course Discount(%s)", driverWithDiscountName));
+		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1)).valueContains(String.format("Defensive Driving Course Discount(%s)", driverWithDiscountName));
 	}
 
 	private String getDriverFullName(TestData driverTD) {

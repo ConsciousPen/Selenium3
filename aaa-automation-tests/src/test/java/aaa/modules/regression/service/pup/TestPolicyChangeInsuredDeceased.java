@@ -1,6 +1,6 @@
 package aaa.modules.regression.service.pup;
 
-
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.Map;
 
 import org.testng.annotations.Optional;
@@ -34,6 +34,7 @@ import aaa.modules.policy.PersonalUmbrellaBaseTest;
 public class TestPolicyChangeInsuredDeceased extends PersonalUmbrellaBaseTest{
 	
 	@Parameters({"state"})
+	//@StateList("All")
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.PUP )
 	public void testPolicyChangeInsuredDeceased(@Optional("") String state) {
@@ -55,12 +56,13 @@ public class TestPolicyChangeInsuredDeceased extends PersonalUmbrellaBaseTest{
 //       change NI1 as Deceased 
 		policy.endorse().performAndFill(td_Endorsement);
 		policy.getDefaultView().fill(td_Endorsement1);
-		prefillTab.getNamedInsuredAssetList().getWarning(PersonalUmbrellaMetaData.PrefillTab.NamedInsured.RELATIONSHIP_TO_PRIMARY_NAMED_INSURED.getLabel()).equals("One named insured must be selected as the primary insured");
+		assertThat(prefillTab.getNamedInsuredAssetList().getWarning(PersonalUmbrellaMetaData.PrefillTab.NamedInsured.RELATIONSHIP_TO_PRIMARY_NAMED_INSURED))
+				.valueContains("One named insured must be selected as the primary insured");
 		
 //      and NI2 as primary insured
 		prefillTab.getNamedInsuredRow(2).getCell(5).controls.links.get("View/Edit").click(Waiters.AJAX);		
 	    policy.getDefaultView().fill(td_Endorsement2);
-	    PolicySummaryPage.tableInsuredInformation.getRow(2).getCell(3).getValue().equals("Primary Insured");
+	    assertThat(PolicySummaryPage.tableInsuredInformation.getRow(2).getCell(3)).hasValue("Primary Insured");
 	    
 	}
 }

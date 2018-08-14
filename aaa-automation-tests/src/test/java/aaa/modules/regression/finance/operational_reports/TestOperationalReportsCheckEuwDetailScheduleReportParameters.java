@@ -4,7 +4,6 @@ import aaa.admin.metadata.reports.OperationalReportsMetaData;
 import aaa.admin.modules.reports.operationalreports.defaulttabs.OperationalReportsTab;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.OperationalReportsConstants;
 import aaa.modules.BaseTest;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;

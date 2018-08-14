@@ -2,13 +2,13 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
@@ -297,7 +297,7 @@ public class BaseTest {
 	 * Create quote using default TestData
 	 */
 	protected String createQuote() {
-		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
+		assertThat(getPolicyType()).as("PolicyType is not set").isNotNull();
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
 		if (getPolicyType().equals(PolicyType.PUP)) {
 			td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
@@ -314,7 +314,7 @@ public class BaseTest {
 	 * @return
 	 */
 	protected String createQuote(TestData td) {
-		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
+		assertThat(getPolicyType()).as("PolicyType is not set").isNotNull();
 		log.info("Quote Creation Started...");
 		getPolicyType().get().createQuote(td);
 		return PolicySummaryPage.labelPolicyNumber.getValue();
@@ -326,7 +326,7 @@ public class BaseTest {
 	 * @return policy number
 	 */
 	protected String createPolicy() {
-		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
+		assertThat(getPolicyType()).as("PolicyType is not set").isNotNull();
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
 		if (getPolicyType().equals(PolicyType.PUP)) {
 			td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
@@ -343,7 +343,7 @@ public class BaseTest {
 	 * @return policy number
 	 */
 	protected String createPolicy(TestData td) {
-		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
+		assertThat(getPolicyType()).as("PolicyType is not set").isNotNull();
 		log.info("Policy Creation Started...");
 		getPolicyType().get().createPolicy(td);
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
@@ -387,7 +387,7 @@ public class BaseTest {
 	 * @return policy number
 	 */
 	protected String createConversionPolicy() {
-		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
+		assertThat(getPolicyType()).as("PolicyType is not set").isNotNull();
 		TestData tdPolicy = getConversionPolicyDefaultTD();
 		TestData tdManualConversionInitiation = getManualConversionInitiationTd();
 		customer.initiateRenewalEntry().perform(tdManualConversionInitiation);
@@ -445,7 +445,7 @@ public class BaseTest {
 	}
 
 	private String openDefaultPolicy(PolicyType policyType, String state) {
-		Assert.assertNotNull(policyType, "PolicyType is not set");
+		assertThat(policyType).as("PolicyType is not set").isNotNull();
 		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), state);
 		String policyNumber;
 		synchronized (key) {

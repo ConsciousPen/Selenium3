@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -10,6 +11,7 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.helpers.constants.ComponentConstant;
@@ -24,6 +26,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.modules.policy.HomeCaHO3BaseTest;
+import aaa.utils.StateList;
 
 public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 
@@ -53,6 +56,7 @@ public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 	  * 11. Verify an eligibility error if Wood Stove wasn't installed professionally    
 	  */
 	@Parameters({"state"})
+	@StateList(states =  States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
 	public void testQuoteDetermineEligibilitySC1(@Optional("CA") String state) {
@@ -93,19 +97,19 @@ public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 		// 7. Verify an eligibility error if Roof renovation = "3+ layers"
 		propertyInfoTab.fillTab(getTestSpecificTD("RoofRenovation_3_PlusLayers"));
 		propertyInfoTab.submitTab();
-		propertyInfoTab.getHomeRenovationAssetList().getWarning(HomeCaMetaData.PropertyInfoTab.HomeRenovation.ROOF_RENOVATION.getLabel()).verify.contains(Errors.ERROR_AAA_HO_CA7220432.getMessage());
+		assertThat(propertyInfoTab.getHomeRenovationAssetList().getWarning(HomeCaMetaData.PropertyInfoTab.HomeRenovation.ROOF_RENOVATION)).valueContains(Errors.ERROR_AAA_HO_CA7220432.getMessage());
 		goToBindAndVerifyError(Errors.ERROR_AAA_HO_CA7220432);
-		propertyInfoTab.getHomeRenovationAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.HomeRenovation.ROOF_RENOVATION.getLabel(), ComboBox.class).setValue("");
+		propertyInfoTab.getHomeRenovationAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.HomeRenovation.ROOF_RENOVATION).setValue("");
 
 		// 8. Verify an eligibility error if Roof shape = "Flat"
-		String roofShape = propertyInfoTab.getConstructionAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Construction.ROOF_SHAPE.getLabel(), ComboBox.class).getValue();
+		String roofShape = propertyInfoTab.getConstructionAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Construction.ROOF_SHAPE).getValue();
 		propertyInfoTab.getConstructionAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Construction.ROOF_SHAPE.getLabel(), ComboBox.class).setValue("Flat");
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		new PremiumsAndCoveragesQuoteTab().calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 		bindTab.submitTab();
-		new PurchaseTab().btnApplyPayment.verify.present();
+		assertThat(new PurchaseTab().btnApplyPayment).isPresent();
 		PurchaseTab.buttonCancel.click();
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
@@ -113,33 +117,33 @@ public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 
 		// 9. Verify an eligibility error if Wood Stove Is Sole Source Of Heat
 		propertyInfoTab.fillTab(getTestSpecificTD("Stove_SoleSourceOfHeat"));
-		propertyInfoTab.getStovesAssetList().getWarning(HomeCaMetaData.PropertyInfoTab.Stoves.IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT).verify.contains(expected_ER0908);
+		assertThat(propertyInfoTab.getStovesAssetList().getWarning(HomeCaMetaData.PropertyInfoTab.Stoves.IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT)).valueContains(expected_ER0908);
 		propertyInfoTab.fillTab(getTestSpecificTD("Stove_SoleSourceOfHeat2"));
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		new PremiumsAndCoveragesQuoteTab().calculatePremium();
-		errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, expected_ER0908).verify.present();
+		assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, expected_ER0908)).isPresent();
 		errorTab.cancel();
- 
+
 		// 10. Verify an eligibility error if there is a Wood Stove but no fire alarm
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
 		propertyInfoTab.fillTab(getTestSpecificTD("Stove_NoFireAlarm"));
-		propertyInfoTab.getStovesAssetList().getWarning(HomeCaMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY).verify.contains(expected_ER0522);
+		assertThat(propertyInfoTab.getStovesAssetList().getWarning(HomeCaMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY)).valueContains(expected_ER0522);
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		new PremiumsAndCoveragesQuoteTab().calculatePremium();
-		errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, expected_ER0522).verify.present();
+		assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, expected_ER0522)).isPresent();
 		errorTab.cancel();
 
 		// 11. Verify an eligibility error if Wood Stove wasn't installed professionally
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
 		propertyInfoTab.fillTab(getTestSpecificTD("Stove_NotInstalledProfessionally"));
 		//propertyInfoTab.submitTab();
-		propertyInfoTab.getStovesAssetList().getWarning(HomeCaMetaData.PropertyInfoTab.Stoves.WAS_THE_STOVE_INSTALLED_BY_A_LICENSED_CONTRACTOR).verify.contains(expected_ER0909);
+		assertThat(propertyInfoTab.getStovesAssetList().getWarning(HomeCaMetaData.PropertyInfoTab.Stoves.WAS_THE_STOVE_INSTALLED_BY_A_LICENSED_CONTRACTOR)).valueContains(expected_ER0909);
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		new PremiumsAndCoveragesQuoteTab().calculatePremium();
-		errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, expected_ER0909).verify.present();
+		assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, expected_ER0909)).isPresent();
 		errorTab.cancel();
 		//propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.DOES_THE_PROPERTY_HAVE_A_WOOD_BURNING_STOVE.getLabel(), RadioGroup.class).setValue("No");
 	}
@@ -161,6 +165,7 @@ public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 	  */
 
 	@Parameters({"state"})
+	@StateList(states =  States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
 	public void testQuoteDetermineEligibilitySC2(@Optional("CA") String state) {
@@ -219,6 +224,7 @@ public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 	 * 8.  Verify an eligibility error if plumbing renovation is not eligible
 	 */
 	@Parameters({"state"})
+	@StateList(states =  States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
 	public void testQuoteDetermineEligibilitySC3(@Optional("CA") String state) {

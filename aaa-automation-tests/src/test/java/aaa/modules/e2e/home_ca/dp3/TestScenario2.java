@@ -1,12 +1,15 @@
 package aaa.modules.e2e.home_ca.dp3;
 
-import org.assertj.core.api.SoftAssertions;
+import toolkit.verification.CustomSoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import aaa.common.enums.Constants.States;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.e2e.templates.Scenario2;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 
 public class TestScenario2 extends Scenario2 {
@@ -17,38 +20,39 @@ public class TestScenario2 extends Scenario2 {
 	}
 
 	@Parameters({"state"})
+	@StateList(states = States.CA)
 	@Test
 	public void TC01_createPolicy(@Optional("CA") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
 		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
 
 		createTestPolicy(policyCreationTD);
-		SoftAssertions.assertSoftly(softly -> {
-			generateFirstBill();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			generateFirstBill(softly);
 			payFirstBill();
 			billingOnHold();
 			billNotGenerated();
 			generateSecondBill();
-			paySecondBill();
-			generateThirdBill();
+			paySecondBill(softly);
+			generateThirdBill(softly);
 			payThirdBill();
-			generateFourthBill();
+			generateFourthBill(softly);
 			payFourthBill();
-			generateFifthBill();
+			generateFifthBill(softly);
 			payFifthBill();
-			generateSixthBill();
+			generateSixthBill(softly);
 			paySixthBill();
-			generateSeventhBill();
+			generateSeventhBill(softly);
 			paySeventhBill();
-			generateEighthBill();
+			generateEighthBill(softly);
 			payEighthBill();
-			generateNinthBill();
+			generateNinthBill(softly);
 			payNinthBill();
 			renewalImageGeneration();
 			generateTenthBill();
 			payTenthBill();
 			renewalPreviewGeneration();
-			renewalOfferGeneration();
+			renewalOfferGeneration(softly);
 			DocGenEnum.Documents[] documents = new DocGenEnum.Documents[] {
 					DocGenEnum.Documents._61_3026, DocGenEnum.Documents.AHRBXX, DocGenEnum.Documents._61_3000, DocGenEnum.Documents._61_5121, DocGenEnum.Documents._61_6530};
 			verifyDocGenForms(documents);

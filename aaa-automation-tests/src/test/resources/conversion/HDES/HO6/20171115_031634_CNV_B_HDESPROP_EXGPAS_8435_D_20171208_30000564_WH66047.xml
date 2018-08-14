@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005301</agencyLocation>
+		<agentCd>70683577</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2018-01-29T00:00:00</effective>
+		<expiration>2019-01-29T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>HDES</importedFrom>
+		<isAdditionalPolicy>true</isAdditionalPolicy>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>HO6</policyFormCd>
+		<preConversionPolicyNumber>WH66047</preConversionPolicyNumber>
+		<preConversionPolicyPremium>482</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>WH66047</sourcePolicyNum>
+		<subProducerCd>70683577</subProducerCd>
+		<tollNumberCd>xxx</tollNumberCd>
+		<underwriterCd>CSAAIB</underwriterCd>
+		<HO438BFUNSEndorsementForm state="Created"/>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+			<policyType>BASIC</policyType>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>MOUNTAIN VIEW</dwellAddressCity>
+			<dwellAddressLine1>99 E MIDDLEFIELD RD</dwellAddressLine1>
+			<dwellAddressLine2>APT 40</dwellAddressLine2>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94043</dwellAddressZip>
+			<expirationDate>2018-03-08T00:00:00</expirationDate>
+			<orderDate>2017-12-08T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>6502983509</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>Yes</insurerCd>
+			<insurerName>UDRANSZKY</insurerName>
+			<policyNumber>4290059951276614</policyNumber>
+		</AAAHOMembership>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1971-01-10T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>INGRID</firstName>
+			<lastName>UDRANSZKY</lastName>
+			<middleName>A</middleName>
+			<occupationDesc>Other</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>99 E MIDDLEFIELD RD</addressLine1>
+				<addressLine2>APT 40</addressLine2>
+				<city>MOUNTAIN VIEW</city>
+				<dateOfBirth>1971-01-10T00:00:00</dateOfBirth>
+				<expirationDt>2018-02-06T00:00:00</expirationDt>
+				<firstName>INGRID</firstName>
+				<lastName>UDRANSZKY</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-12-08T00:00:00</orderDate>
+				<postalCode>94043</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>99 E MIDDLEFIELD RD</addressLine1>
+				<addressLine2>APT 40</addressLine2>
+				<city>MOUNTAIN VIEW</city>
+				<countryCd>US</countryCd>
+				<postalCode>94043</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1998-01-01T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>ANDY</firstName>
+			<lastName>SWEET</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>99 E MIDDLEFIELD RD</addressLine1>
+				<addressLine2>APT 40</addressLine2>
+				<city>MOUNTAIN VIEW</city>
+				<dateOfBirth>1998-01-01T00:00:00</dateOfBirth>
+				<expirationDt>2018-02-06T00:00:00</expirationDt>
+				<firstName>ANDY</firstName>
+				<lastName>SWEET</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-12-08T00:00:00</orderDate>
+				<postalCode>94043</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>99 E MIDDLEFIELD RD</addressLine1>
+				<addressLine2>APT 40</addressLine2>
+				<city>MOUNTAIN VIEW</city>
+				<countryCd>US</countryCd>
+				<postalCode>94043</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOOtherOrPriorPolicyComponent state="Created">
+			<autoBILimit>$500,000/$500,000</autoBILimit>
+			<autoPolicyPending>false</autoPolicyPending>
+			<policyEffectiveDate>2016-03-02T00:00:00</policyEffectiveDate>
+			<policyNumber>CAAS100473173</policyNumber>
+			<productCd>Auto</productCd>
+			<stateCd>CA</stateCd>
+		</AAAHOOtherOrPriorPolicyComponent>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Insured</billToAtRenewal>
+			<paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>standardHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2007-01-01T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>11</noOfYearsWithHO>
+			<policyType>HO6</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAIso360ReportComponent state="Created">
+			<constructionTypeCd>Frame</constructionTypeCd>
+			<dwellAddressCity>MOUNTAIN VIEW</dwellAddressCity>
+			<dwellAddressLine1>99 E MIDDLEFIELD RD</dwellAddressLine1>
+			<dwellAddressLine2>APT 40</dwellAddressLine2>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94043</dwellAddressZip>
+			<expirationDate>2018-02-06T00:00:00</expirationDate>
+			<isoReplacementCost>122500</isoReplacementCost>
+			<livingArea>9999</livingArea>
+			<numberOfFamilies>1</numberOfFamilies>
+			<numberOfStories>1</numberOfStories>
+			<orderDate>2017-12-08T00:00:00</orderDate>
+			<roofShape>Complex/Custom</roofShape>
+			<roofType>Builtup Tar &amp; Gravel</roofType>
+			<status>Valid</status>
+			<yearBuilt>1969</yearBuilt>
+		</AAAIso360ReportComponent>
+		<AAAMembershipOrder state="Created">
+			<lastName>UDRANSZKY</lastName>
+			<membershipNumber>4290059951276614</membershipNumber>
+			<orderDate>2017-12-08T00:00:00</orderDate>
+			<receiptDate>2017-12-08T00:00:00</receiptDate>
+			<status>Active</status>
+		</AAAMembershipOrder>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>MOUNTAIN VIEW</dwellAddressCity>
+			<dwellAddressLine1>99 E MIDDLEFIELD RD</dwellAddressLine1>
+			<dwellAddressLine2>APT 40</dwellAddressLine2>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94043</dwellAddressZip>
+			<expirationDate>2018-02-06T00:00:00</expirationDate>
+			<orderDate>2017-12-08T00:00:00</orderDate>
+			<ppcValue>1</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>true</docReceivedInd>
+			<documentCd>12RFIS</documentCd>
+			<documentText>Appraisals/sales receipts for scheduled personal property items</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>616530</documentCd>
+			<documentText>California Residential Property Insurance Disclosure</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<DwellLocatedInd>false</DwellLocatedInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+			<GasWaterInGarageInd>false</GasWaterInGarageInd>
+			<PremisesEndrosInd>false</PremisesEndrosInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Owner occupied</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>1</aaaDwellingUsage>
+			<aaaFirelineScore>0</aaaFirelineScore>
+			<aaaInsuredTenantDiscountInfo>false</aaaInsuredTenantDiscountInfo>
+			<aaanumberofResidents>9999</aaanumberofResidents>
+			<addressLine1>99 E MIDDLEFIELD RD</addressLine1>
+			<addressLine2>APT 40</addressLine2>
+			<city>MOUNTAIN VIEW</city>
+			<firelineMatchType>Address</firelineMatchType>
+			<numberOfFamilies>1</numberOfFamilies>
+			<placementOrMatchType>Address</placementOrMatchType>
+			<postalCode>94043</postalCode>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<woodStoveInd>false</woodStoveInd>
+			<AAACoverageA state="Created">
+				<coverageCd>CovA</coverageCd>
+				<limitAmount>122500</limitAmount>
+			</AAACoverageA>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>34400</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>6900</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>300000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOConstructionInfo state="Created">
+				<condomCoverageADwellingRequested>Interior</condomCoverageADwellingRequested>
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<isoReplacementCost>122500</isoReplacementCost>
+				<livingArea>9999</livingArea>
+				<numberOfStories>1</numberOfStories>
+				<replacementCost>122500</replacementCost>
+				<roofShape>Complex/Custom</roofShape>
+				<roofType>Builtup Tar &amp; Gravel</roofType>
+				<yearBuilt>1969</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAHOMortgageeInfo state="Created">
+				<accountNumber>1153334960</accountNumber>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>DORAVILLE</city>
+				<mortagageeAddressLine1>PO BOX 47020</mortagageeAddressLine1>
+				<name>CHASE HOME FINANCE, ISAOA</name>
+				<postalCode>30362</postalCode>
+				<rank>1</rank>
+				<stateProvCd>GA</stateProvCd>
+				<useLegalMortgagee>false</useLegalMortgagee>
+			</AAAHOMortgageeInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>MOUNTAIN VIEW</fireDistrict>
+				<oldPpcValue>1</oldPpcValue>
+				<ppcValue>1</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>250</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>99 E MIDDLEFIELD RD</addressLine1>
+					<addressLine2>APT 40</addressLine2>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>MOUNTAIN VIEW</city>
+					<county>Santa Clara</county>
+					<postalCode>94043</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<HO0496EndorsementForm state="Created"/>
+		<HW0915EndorsementForm state="Created"/>
+		<HO28EndorsementForm state="Created"/>
+		<HO29EndorsementForm state="Created"/>
+		<HO58CEndorsementForm state="Created"/>
+		<HO90EndorsementForm state="Created"/>
+		<HW0104EndorsementForm state="Created"/>
+		<HW0461EndorsementForm state="Created">
+			<ScheduledPropertyCoverageJewelryHO6 state="Created">
+				<ScheduledPropertyJewelryItemHO6 state="Created">
+					<amount>5900</amount>
+					<description>Total items = 1</description>
+				</ScheduledPropertyJewelryItemHO6>
+			</ScheduledPropertyCoverageJewelryHO6>
+			<ScheduledPropertyCoverageGolfHO6 state="Created">
+				<ScheduledPropertyGolfItemHO6 state="Created">
+					<amount>1750</amount>
+					<description>Total items = 1</description>
+				</ScheduledPropertyGolfItemHO6>
+			</ScheduledPropertyCoverageGolfHO6>
+		</HW0461EndorsementForm>
+		<HW2482EndorsementForm state="Created"/>
+	</AAAHOPolicy>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Conversion: Mailing address validated and standardized</title>
+		<updatedOn>2017-12-08T00:00:00</updatedOn>
+		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 99 E MIDDLEFIELD RD #40  MOUNTAIN VIEW CA 94043 to 99 E MIDDLEFIELD RD APT 40 MOUNTAIN VIEW CA 94043</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Conversion: Date of birth defaulted</title>
+		<updatedOn>2017-12-08T00:00:00</updatedOn>
+		<userText>Date of birth defaults were applied to this policy according to the following logic:-  If no date of birth existing in HDES and senior/mature discount applied, DOB was defaulted to 01/01/1901.  If senior/mature discount did not apply, DOB was defaulted to 01/01/1998.If only one DOB existed in HDES, all other DOBs were defaulted to match.</userText>
+	</userNote>
+</Policy>

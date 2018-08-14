@@ -1,14 +1,16 @@
 package aaa.modules.e2e.home_ca.ho6;
 
-import org.assertj.core.api.SoftAssertions;
+import toolkit.verification.CustomSoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import aaa.common.enums.Constants.States;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.actiontabs.EndorsementActionTab;
 import aaa.modules.e2e.templates.Scenario9;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 
 public class TestScenario9 extends Scenario9 {
@@ -18,6 +20,7 @@ public class TestScenario9 extends Scenario9 {
 	}
 
 	@Parameters({"state"})
+	@StateList(states = States.CA)
 	@Test
 	public void TC01_createPolicy(@Optional("CA") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
@@ -25,20 +28,20 @@ public class TestScenario9 extends Scenario9 {
 		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
 
 		createTestPolicy(policyCreationTD);
-		SoftAssertions.assertSoftly(softly -> {
-			generateFirstBill();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			generateFirstBill(softly);
 			payFirstBill();
-			generateSecondBill();
+			generateSecondBill(softly);
 			paySecondBill();
 			payNextSevenInstallments();
 			verifyThirdBillNotGenerated();
 			verifyPaymentNotGenerated();
 			if (isBillGenDateAfterRenewImageGenDate()) {
 				renewalImageGeneration();
-				generateLastBill();
+				generateLastBill(softly);
 			}
 			else {
-				generateLastBill();
+				generateLastBill(softly);
 				renewalImageGeneration();
 			}
 
@@ -52,7 +55,7 @@ public class TestScenario9 extends Scenario9 {
 				removeAutoPay();
 				renewalPreviewGeneration();
 			}
-			renewalOfferGeneration();
+			renewalOfferGeneration(softly);
 			endorsementOnCurrentTerm();
 			dontPayRenewalBill();
 			updatePolicyStatus();

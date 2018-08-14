@@ -1,10 +1,12 @@
 package aaa.modules.regression.service.home_ss.ho3;
 
 
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.template.PolicyCancelReinstate;
+import aaa.utils.StateList;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -26,6 +28,7 @@ public class TestPolicyCancelReinstate extends PolicyCancelReinstate {
     }
     
     @Parameters({"state"})
+    @StateList(statesExcept = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
     public void testPolicyCancelReinstate(@Optional("") String state) {

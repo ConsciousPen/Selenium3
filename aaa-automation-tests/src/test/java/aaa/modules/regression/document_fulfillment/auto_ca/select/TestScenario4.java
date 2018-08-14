@@ -6,6 +6,8 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -15,6 +17,7 @@ import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 
 /**
@@ -29,6 +32,7 @@ public class TestScenario4 extends AutoCaSelectBaseTest {
 	private TestData cash_payment = testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash");
 	
 	@Parameters({ "state" })
+	@StateList(states = States.CA)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC01_CreatePolicy(@Optional("") String state) {
 		mainApp().open();
@@ -39,6 +43,7 @@ public class TestScenario4 extends AutoCaSelectBaseTest {
 	}
 	
 	@Parameters({ "state" })
+	@StateList(states = States.CA)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC02_BillGeneration(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dd6));
@@ -46,6 +51,7 @@ public class TestScenario4 extends AutoCaSelectBaseTest {
 	}
 	
 	@Parameters({ "state" })
+	@StateList(states = States.CA)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC03_CancellationNotice(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(dd6));

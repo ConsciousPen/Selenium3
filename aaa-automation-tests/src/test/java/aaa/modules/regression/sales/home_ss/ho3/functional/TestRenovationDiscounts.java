@@ -4,7 +4,7 @@ package aaa.modules.regression.sales.home_ss.ho3.functional;
 
 import static aaa.common.enums.NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES;
 import static aaa.common.enums.NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE;
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
