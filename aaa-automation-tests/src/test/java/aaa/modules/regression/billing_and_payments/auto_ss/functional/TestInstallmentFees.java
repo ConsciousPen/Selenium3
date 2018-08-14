@@ -34,6 +34,7 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
+import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomSoftAssertions;
@@ -262,15 +263,15 @@ public class TestInstallmentFees extends PolicyBilling {
 		softly.assertThat(AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method")).valueContains(expectedValueCard);
 		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Action").controls.links.get("View").click();
 		//PAS-4127 start
-		softly.assertThat(updateBillingAccountActionTab.getInquiryAssetList().getStaticElement(BillingAccountMetaData.AddPaymentMethodTab.TYPE))
-				.hasValue(cardData.getValue("Type") + " " + cardType + " Card");
+		softly.assertThat(updateBillingAccountActionTab.getInquiryAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHODS.getLabel(), InquiryAssetList.class)
+				.getStaticElement(BillingAccountMetaData.AddPaymentMethodTab.TYPE)).hasValue(cardData.getValue("Type") + " " + cardType + " Card");
 		//PAS-4127 end
 
 		softly.assertThat(AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method")).valueContains(expectedValueCard);
 		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Action").controls.links.get("Edit").click();
 		//PAS-4127 start
-		softly.assertThat(updateBillingAccountActionTab.getInquiryAssetList().getStaticElement(BillingAccountMetaData.AddPaymentMethodTab.TYPE))
-				.hasValue(cardData.getValue("Type") + " " + cardType + " Card");
+		softly.assertThat(updateBillingAccountActionTab.getInquiryAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHODS.getLabel(), InquiryAssetList.class)
+				.getStaticElement(BillingAccountMetaData.AddPaymentMethodTab.TYPE)).hasValue(cardData.getValue("Type") + " " + cardType + " Card");
 		//PAS-4127 end
 
 		softly.assertThat(AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method")).valueContains(expectedValueCard);

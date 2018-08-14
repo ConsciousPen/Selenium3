@@ -13,6 +13,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.RadioGroup;
@@ -139,7 +140,7 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 		}
 
 		public void documentsEnabled(boolean expectedValue, DocGenEnum.Documents... documents) {
-			documentsEnabled(null, true, documents);
+			CustomSoftAssertions.assertSoftly(softly -> documentsEnabled(softly, expectedValue, documents));
 		}
 
 		public void documentsEnabled(ETCSCoreSoftAssertions softly, boolean expectedValue, DocGenEnum.Documents... documents) {
