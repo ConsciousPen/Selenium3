@@ -1,6 +1,8 @@
 package aaa.modules.regression.sales.home_ca.ho6;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
@@ -10,6 +12,7 @@ import org.testng.annotations.Test;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO6BaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -30,6 +33,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyCreationFull extends HomeCaHO6BaseTest {
 
 	@Parameters({"state"})
+	@StateList(states =  States.CA)
 	@Test(groups= {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6)
 	public void testPolicyCreationFull(@Optional("CA") String state) {

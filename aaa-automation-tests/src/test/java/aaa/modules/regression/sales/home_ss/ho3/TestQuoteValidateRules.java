@@ -85,6 +85,7 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
 	}
 
 	@Parameters({"state"})
+	@StateList(statesExcept = { States.CA })
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3) 
 	public void testBackdatedPolicy(@Optional("") String state) {

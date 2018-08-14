@@ -62,6 +62,7 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
      */
 
     @Parameters({"state"})
+    @StateList(statesExcept = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3)
     public void testManualRefund(@Optional("") String state) {
@@ -95,6 +96,7 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
      */
 
     @Parameters({"state"})
+    @StateList(statesExcept = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3)
     public void testManualWriteOff(@Optional("") String state) {
@@ -138,6 +140,7 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
      */
 
     @Parameters({"state"})
+    @StateList(statesExcept = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3)
     public void testManualReturnedPayments(@Optional("") String state) {
