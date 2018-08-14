@@ -431,22 +431,16 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 
 	private TestData getAdjustedDriverTestData() {
 		// For exceeding OK threshold (above threshold) you need a driver age x < 27y , driving exp  5< y <15 , male, single, Change score for SS Tier
-		String state = getState();
 		TestData td = getPolicyTD()
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1990")
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Male")
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel()), "Single")
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel()), "18");
-		switch (state) {
-			case Constants.States.OK:
-				return td.adjust(TestData.makeKeyPath(RatingDetailReportsTab.class.getSimpleName(), AutoSSMetaData.RatingDetailReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel()),
-						new RatingDetailReportsTab().getInsuranceScoreOverrideData("150"));
-			case Constants.States.NJ:
-				return td.mask(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(),
-						AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.ACNOWLEDGEMENT_OF_REQUIREMENT_FOR_INSURANCE_INSPECTION.getLabel()));
-			default:
-				return td;
+		if (getState().equals(Constants.States.OK)) {
+			return td.adjust(TestData.makeKeyPath(RatingDetailReportsTab.class.getSimpleName(), AutoSSMetaData.RatingDetailReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel()),
+					new RatingDetailReportsTab().getInsuranceScoreOverrideData("150"));
 		}
+		return td;
 	}
 
 	private TestData getFirstDriverTestData() {
