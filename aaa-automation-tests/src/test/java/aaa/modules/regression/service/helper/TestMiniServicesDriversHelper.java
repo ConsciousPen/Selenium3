@@ -1631,7 +1631,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		assertSoftly(softly -> {
 			mainApp().open();
 			String policyNumber = getCopiedPolicy();
-			SearchPage.openPolicy(policyNumber);
 
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 			ViewDriversResponse viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
@@ -1781,7 +1780,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			mainApp().open();
 			createCustomerIndividual();
 			String policyNumber = createPolicy(testData);
-			SearchPage.openPolicy(policyNumber);
 
 			policy.policyInquiry().start();
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -1877,7 +1875,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	//Validate specificDisabilityInd and totalDisabilityInd metadata. Only "visible" can change.
 	private void validateMetadata_pas16913(SoftAssertions softly, String policyNumber, DriversDto driver, boolean specificDisabilityIndVisible, boolean totalDisabilityIndVisible) {
-		//1 Driver without specificDisabilityInd
 		AttributeMetadata[] metaDataResponseDriver = HelperCommon.viewEndorsementDriversMetaData(policyNumber, driver.oid);
 
 		AttributeMetadata metaDataFieldResponseSpecificDisabilityInd = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponseDriver, "specificDisabilityInd", true, specificDisabilityIndVisible, false, null, "Boolean");
@@ -1895,7 +1892,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			mainApp().open();
 			createCustomerIndividual();
 			String policyNumber = createPolicy(testData);
-			SearchPage.openPolicy(policyNumber);
 
 			policy.policyInquiry().start();
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
