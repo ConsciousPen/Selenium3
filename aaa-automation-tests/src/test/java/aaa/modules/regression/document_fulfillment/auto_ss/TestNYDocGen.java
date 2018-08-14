@@ -1,5 +1,6 @@
 package aaa.modules.regression.document_fulfillment.auto_ss;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.main.enums.DocGenEnum.Documents.valueOf;
 import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.*;
 import static aaa.main.metadata.policy.AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.SUPPLEMENTARY_UNINSURED_MOTORISTS_COVERAGE_REJECTION;
@@ -13,8 +14,7 @@ import static aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.POLICY_INFORMAT
 import static aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.PolicyInformation.*;
 import static aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TERM;
 import static aaa.main.metadata.policy.AutoSSMetaData.PremiumAndCoveragesTab.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;

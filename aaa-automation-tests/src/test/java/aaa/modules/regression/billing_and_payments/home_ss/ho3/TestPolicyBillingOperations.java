@@ -4,10 +4,12 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.billing_and_payments.template.PolicyBillingOperations;
+import aaa.utils.StateList;
 
 public class TestPolicyBillingOperations extends PolicyBillingOperations {
 
@@ -34,6 +36,7 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
      */
 
     @Parameters({"state"})
+    @StateList(statesExcept = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3)
     public void testManualFeeAdjustment(@Optional("") String state) {
@@ -59,6 +62,7 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
      */
 
     @Parameters({"state"})
+    @StateList(statesExcept = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3)
     public void testManualRefund(@Optional("") String state) {
@@ -92,6 +96,7 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
      */
 
     @Parameters({"state"})
+    @StateList(statesExcept = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3)
     public void testManualWriteOff(@Optional("") String state) {
@@ -135,6 +140,7 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
      */
 
     @Parameters({"state"})
+    @StateList(statesExcept = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3)
     public void testManualReturnedPayments(@Optional("") String state) {

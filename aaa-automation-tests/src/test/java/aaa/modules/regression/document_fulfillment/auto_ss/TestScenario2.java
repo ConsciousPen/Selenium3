@@ -17,6 +17,7 @@ import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.utils.StateList;
 
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
@@ -29,6 +30,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 	private LocalDateTime policyExpirationDate;
 	
 	@Parameters({ "state" })
+	@StateList(states = {States.AZ, States.IN, States.OH, States.VA})
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC01_CreatePolicy(@Optional("") String state) {
 		mainApp().open();
@@ -47,6 +49,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 	}
 	
 	@Parameters({ "state" })
+	@StateList(states = {States.AZ, States.IN, States.OH, States.VA})
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC02_RenewOfferGeneration(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));

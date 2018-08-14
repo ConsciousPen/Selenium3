@@ -6,10 +6,12 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.template.PolicyEndorsementRollBack;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 /**
@@ -34,6 +36,7 @@ public class TestPolicyEndorsementRollBack extends PolicyEndorsementRollBack {
 	}
 
 	@Parameters({"state"})
+	@StateList(states =  States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE )
 	public void testPolicyEndormentRollBack(@Optional("CA") String state) {

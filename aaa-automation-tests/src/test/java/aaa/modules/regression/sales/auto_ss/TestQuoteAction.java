@@ -6,10 +6,12 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.QuoteActionAbstract;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 public class TestQuoteAction extends QuoteActionAbstract {
@@ -30,6 +32,7 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	 */
 
 	@Parameters({"state"})
+	@StateList(statesExcept = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testQuoteCreation(@Optional("") String state) {
@@ -47,6 +50,7 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(statesExcept = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testQuoteIssue(@Optional("") String state) {
@@ -66,6 +70,7 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(statesExcept = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testQuotePropose(@Optional("") String state) {
@@ -84,6 +89,7 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	 */
 	
 	@Parameters({"state"})
+	@StateList(statesExcept = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testQuoteDeclineByCustomer(@Optional("") String state) {
@@ -102,6 +108,7 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	 */
 	  
 	@Parameters({"state"})
+	@StateList(statesExcept = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testQuoteDeclineByCompany(@Optional("") String state) {
@@ -119,6 +126,7 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	 * @details
 	 */	
 	@Parameters({"state"})
+	@StateList(statesExcept = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testQuoteCopy(@Optional("") String state) {

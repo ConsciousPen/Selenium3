@@ -49,7 +49,7 @@
     Policy Term: Annual,
     Program Code: LegacyConv,
     Enrolled in Autopay: 'No',
-    Legacy policy had MPD discount: 'No'}
+    Legacy policy had Multi-Policy discount: 'No'}
   }
 
 # ====================== TestData VA =======================
@@ -91,7 +91,7 @@
     Policy Term: Annual,
     Program Code: LegacyConv,
     Enrolled in Autopay: 'No',
-    Legacy policy had MPD discount: 'No'}
+    Legacy policy had Multi-Policy discount: 'No'}
   }
 
 # ====================== TestData DE =======================
@@ -132,7 +132,7 @@
     Policy Term: Annual,
     Program Code: LegacyConv,
     Enrolled in Autopay: 'No',
-    Legacy policy had MPD discount: 'No'}
+    Legacy policy had Multi-Policy discount: 'No'}
     }
 
 

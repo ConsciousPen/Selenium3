@@ -25,9 +25,9 @@ import org.w3c.dom.NodeList;
 
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.utils.logging.CustomLogger;
-import toolkit.verification.CustomAssert;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.ssh.RemoteHelper;
+import toolkit.verification.CustomAssertions;
 
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.mifmif.common.regex.Generex;
@@ -142,8 +142,7 @@ public class ConversionUtils {
 			} catch (Exception e) {
 				log.info("Can't find reason of import failure. " + e.getMessage());
 			}
-			CustomAssert.assertFalse(String.format("Response file %1$s doesn't have Success status. Reason: %2$s.",
-				fileName, message.toString()), successNodes.getLength() < 1);
+			CustomAssertions.assertThat(successNodes.getLength()).as("Response file %1$s doesn't have Success status. Reason: %2$s.", fileName, message.toString()).isLessThan(1);
 		}
 
 		try {

@@ -1,7 +1,7 @@
 package aaa.modules.regression.sales.template.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.*;
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -111,7 +111,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		bindTab.submitTab();
 		purchaseTab.fillTab(testData);
 		purchaseTab.submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		generateRenewalImageAndRetrievePolicyRMinus67(getTimePoints());
 
@@ -120,7 +120,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		MyWorkSummaryPage.openAllQueuesSection();
 
 		validateThatTaskIsNotGenerated("PPC 10"); //Exact name of task is Unknown, hence looking for Task Name containing "PPC 10"
-		
+
 	}
 
 	//Note: Not applicable for Midterm Endorsement, because it is not possible to change PPC at Midterm Endorsement.
@@ -146,7 +146,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		//Note: No need to validate that the Rule is fired if FAIR Plan Endorsement is added, because as per current implementation it is not fired for renewals
 
 		switchToFAIRPlanEndorsementAndBind();
-		
+
 	}
 
 	///AC#2
@@ -178,8 +178,8 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		bindTab.submitTab();
 		purchaseTab.fillTab(testData);
 		purchaseTab.submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
 	}
 
 	public void pas13211_AC2_MidtermEndorsement_PPC8X_LogHome_AAA_HO_CA10100616() {
@@ -203,7 +203,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		errorTab.cancel();
 
 		switchToFAIRPlanEndorsementAndBind();
-		
+
 	}
 
 	public void pas13211_AC2_Renewal_PPC1X_LogHome_AAA_HO_CA10100616() {
@@ -230,7 +230,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		errorTab.cancel();
 
 		switchToFAIRPlanEndorsementAndBind();
-		
+
 	}
 
 	///////AC#3
@@ -254,8 +254,8 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		purchaseTab.fillTab(testData);
 		purchaseTab.submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
 	}
 
 	public void pas13211_AC3_MidtermEndorsement_PPC8X_LogHome_AAA_HO_CA10100616() {
@@ -275,8 +275,8 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		validateRuleIsFiredWithAndWithoutFAIRPlanEndorsement(); //because rule should still fire if "Is this a log home assembled by a licensed building contractor?" = "No"
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
 	}
 
 	public void pas13211_AC3_Renewal_PPC1X_LogHome_AAA_HO_CA10100616() {
@@ -299,8 +299,8 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		validateRuleIsFiredWithAndWithoutFAIRPlanEndorsement(); //because rule should still fire if "Is this a log home assembled by a licensed building contractor?" = "No"
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
 	}
 
 	////////////Start PAS-13242////////////////
@@ -311,7 +311,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		createCustomerIndividual();
 
 		createPolicy(tdWithFAIRPlanEndorsement);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		validateDocumentIsGeneratedInPackage(policyNumber, POLICY_ISSUE);
@@ -327,7 +327,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 		new BindTab().submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		validateDocumentIsNotGeneratedInPackage(policyNumber, ENDORSEMENT_ISSUE, true);
 
@@ -349,11 +349,11 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 		new BindTab().submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		// 8. Validate that form FPCECA/FPCECADP is NOT included in revised renewal package, but is listed in other documents
 		validateDocumentIsNotGeneratedInPackage(policyNumber, RENEWAL_OFFER, true);
-		
+
 	}
 
 	public void pas13242_AC2_Endorsement() {
@@ -362,7 +362,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		validateDocumentIsNotGeneratedInPackage(policyNumber, POLICY_ISSUE, false);
 
@@ -371,7 +371,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		switchToFAIRPlanEndorsementAndBind();
 
 		validateDocumentIsGeneratedInPackage(policyNumber, ENDORSEMENT_ISSUE);
-		
+
 	}
 
 	public void pas13242_pas14193_AC3_Renewal() {
@@ -380,7 +380,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		validateDocumentIsNotGeneratedInPackage(policyNumber, POLICY_ISSUE, false);
@@ -410,7 +410,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
 
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
-		
+
 	}
 
 	public void pas13242_pas14193_AC3_Revised_Renewal_After_Renewal_Term_Change() {
@@ -419,7 +419,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		generateRenewalOfferAtOfferGenDate();
@@ -438,7 +438,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
-		
+
 	}
 
 	public void pas13242_pas14193_AC3_Revised_Renewal_After_Current_Term_Change() {
@@ -447,7 +447,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		generateRenewalOfferAtOfferGenDate();
 		validateDocumentIsNotGeneratedInPackage(policyNumber, RENEWAL_OFFER, false);
@@ -470,7 +470,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		//7. Validate that form FPCECA is included in Renewal package
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER); //PAS-14193
-		
+
 	}
 
 	////////////End PAS-13242////////////////
@@ -487,7 +487,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyType.get().initiate();
 		policyType.get().getDefaultView().fillUpTo(testData, PropertyInfoTab.class, true);
 		stoveQuestionValidationSteps();
-		
+
 	}
 
 	public void pas13216_All_ACs_Endorsement() {
@@ -500,7 +500,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(policyType).getTestData("Endorsement"), "TestData_Plus3Days"));
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
 		stoveQuestionValidationSteps();
-		
+
 	}
 
 	public void pas13216_All_ACs_Renewal() {
@@ -517,7 +517,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
 		stoveQuestionValidationSteps();
-		
+
 	}
 
 	/////////////Start PAS-14004////////////////
@@ -532,7 +532,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyType.get().quoteDocGen().start();
 
 		validateFPCECA_FPCECADP(policyNumber);
-		
+
 
 	}
 
@@ -548,7 +548,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyType.get().quoteDocGen().start();
 
 		policyDocGenActionTab.verify.documentsPresent(false, fairPlanEndorsementInODDTab);
-		
+
 	}
 
 	public void pas14004_AC1_AC2_Policy(TestData tdWithFAIRPlanEndorsement) {
@@ -560,7 +560,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyType.get().policyDocGen().start();
 
 		validateFPCECA_FPCECADP(policyNumber);
-		
+
 	}
 
 	public void pas14004_AC1_AC2_Policy_negative() {
@@ -573,7 +573,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		policyType.get().quoteDocGen().start();
 
 		policyDocGenActionTab.verify.documentsPresent(false, fairPlanEndorsementInODDTab);
-		
+
 
 	}
 	////////////End PAS-14004////////////////
@@ -584,11 +584,11 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY).setValue("No");
 
 		if (ruleShouldFire) {
-			assertThat(propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY).getWarning().get()
-					.contains(ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR));
+			assertThat(propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY).getWarning().orElse(""))
+					.contains(ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR);
 		} else {
-			assertThat(propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY).getWarning().get()
-					.contains(ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR)).isFalse();
+			assertThat(propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY).getWarning().orElse(""))
+					.doesNotContain(ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR);
 		}
 
 		propertyInfoTab.submitTab();
@@ -596,8 +596,8 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 
 		if (ruleShouldFire) {
-			assertThat(errorTab.tableErrors.getRow(1).getCell("Message").getValue()).contains(ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR);
-			assertThat(errorTab.tableErrors.getRowsCount()).isEqualTo(1); //assert that there are no other messages
+			assertThat(errorTab.tableErrors.getRow(1).getCell("Message")).valueContains(ERROR_DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR);
+			assertThat(errorTab.tableErrors).hasRows(1); //assert that there are no other messages
 			errorTab.cancel();
 		}
 
@@ -610,11 +610,11 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT).setValue("Yes");
 		if (ruleShouldFire) {
-			assertThat(propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT).getWarning().get()
-					.contains(ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT));
+			assertThat(propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT).getWarning().orElse(""))
+					.contains(ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT);
 		} else {
-			assertThat(propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT).getWarning().get()
-					.contains(ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT)).isFalse();
+			assertThat(propertyInfoTab.getStovesAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Stoves.IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT).getWarning().orElse(""))
+					.doesNotContain(ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT);
 		}
 
 		propertyInfoTab.submitTab();
@@ -622,11 +622,11 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 		if (ruleShouldFire) {
 			assertThat(errorTab.tableErrors.getRow(1).getCell("Message").getValue()).contains(ERROR_IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT);
-			assertThat(errorTab.tableErrors.getRowsCount()).isEqualTo(1); //assert that there are no other messages
+			assertThat(errorTab.tableErrors).hasRows(1); //assert that there are no other messages
 			errorTab.cancel();
 		}
 
-		CustomAssertions.assertThat(premiumsAndCoveragesQuoteTab.btnCalculatePremium()).isPresent(); //to validate that Error tab is not displayed and P&C tab is displayed
+		assertThat(premiumsAndCoveragesQuoteTab.btnCalculatePremium()).isPresent(); //to validate that Error tab is not displayed and P&C tab is displayed
 
 	}
 
@@ -805,7 +805,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		documentsTab.getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FAIR_PLAN_COMPANION_ENDORSEMENT_CALIFORNIA).setValue("Physically Signed");
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 		new BindTab().submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	private void switchToFAIRPlanEndorsementAndNavigateToBindTab() {
@@ -931,7 +931,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 			fairPlanYNActualValue = DocGenHelper.getDocumentDataElemByName("FairPlanYN", thankYouLetter615121).getDataElementChoice().getTextField();
 
 			SoftAssertions.assertSoftly(softly -> {
-				softly.assertThat(fairPlanYNActualValue.contentEquals(fairPlanYNExpectedValue));
+				softly.assertThat(fairPlanYNActualValue).isEqualTo(fairPlanYNExpectedValue);
 			});
 
 		}

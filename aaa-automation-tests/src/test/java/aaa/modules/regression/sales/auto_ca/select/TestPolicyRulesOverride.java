@@ -2,7 +2,9 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ca.select;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -13,6 +15,8 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
+import aaa.utils.StateList;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -39,6 +43,7 @@ import java.util.Map;
 public class TestPolicyRulesOverride extends AutoCaSelectBaseTest {
 
 	@Parameters({"state"})
+	@StateList(states = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
 	public void testPolicyRulesOverride(@Optional("CA") String state) {
@@ -56,7 +61,7 @@ public class TestPolicyRulesOverride extends AutoCaSelectBaseTest {
 		new ErrorTab().submitTab();
 
 		PurchaseTab.buttonCancel.click();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
 
 		//override rule for quote
 		policy.updateRulesOverride().start();
@@ -75,7 +80,7 @@ public class TestPolicyRulesOverride extends AutoCaSelectBaseTest {
 		new PurchaseTab().fillTab(class_td);
 		new PurchaseTab().submitTab();
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		//override rule for policy
 		policy.updateRulesOverride().perform(getTestSpecificTD("UpdateRulesTestData_2"));
@@ -100,10 +105,10 @@ public class TestPolicyRulesOverride extends AutoCaSelectBaseTest {
 		query.put("Status", "overridden");
 		query.put("Rule name", "200040");
 
-		UpdateRulesOverrideActionTab.tblRulesList.getRow(query).verify.present();
+		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query)).exists();
 
-		UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Duration").controls.radioGroups.getFirst().verify.value(duration);
-		UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Reason for override").controls.comboBoxes.getFirst().verify.value(reason);
+		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Duration").controls.radioGroups.getFirst()).hasValue(duration);
+		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Reason for override").controls.comboBoxes.getFirst()).hasValue(reason);
 
 		UpdateRulesOverrideActionTab.btnCancel.click();
 

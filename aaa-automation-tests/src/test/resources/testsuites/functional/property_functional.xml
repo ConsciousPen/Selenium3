@@ -57,7 +57,6 @@
             <class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyRenewDeclineByCustomer"/>
             <class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyRenewDeletePending"/>
             <class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyRenewFlatCancellation"/>
-            <class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsementRollBack"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingOperations"/>
