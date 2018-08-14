@@ -126,6 +126,7 @@
                     <include name="pas15076_MetadataServiceDriver"/>
                     <include name="pas13301_validateDriverLicenseAndAgeFirstLicensed"/>
                     <include name="pas15373_uniqueDriverLicenses"/>
+                    <include name="pas16551_relation_to_fni_hard_stop"/>
                 </methods>
             </class>
         </classes>
@@ -184,7 +185,7 @@
                     <include name="pas14536_TransportationExpensePart1Body"/>
                     <include name="pas14536_TransportationExpensePart2Body"/>
                     <include name="pas14536_TransportationExpensePart3Body"/>
-                </methods>
+                   </methods>
             </class>
         </classes>
     </test>
@@ -332,7 +333,7 @@
             </class>
         </classes>
     </test>
-  <test name="pas15540_RemoveDriverAssignedToTrailer">
+    <test name="pas15540_RemoveDriverAssignedToTrailer">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments">
@@ -416,6 +417,16 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas15824_UmpdDelimiter"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas14730_UpdateCoverageUMPDAndPD">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas14730_UpdateCoverageUMPDAndPD"/>
                 </methods>
             </class>
         </classes>
