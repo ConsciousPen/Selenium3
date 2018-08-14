@@ -433,10 +433,19 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14734"})
-	public void pas14734_UpdateViewCoverageILAndMedical(@Optional("VA") String state) {
+	public void pas14734_UpdateViewCoverageILAndMedical(@Optional("AZ") String state) {
 		pas14734_UpdateViewCoverageILAndMedicalBody(getPolicyType());
 
 	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14730"})
+	public void pas14730_UpdateCoverageUMPDAndPD(@Optional("MD") String state) {
+		pas14730_UpdateCoverageUMPDAndPDBody(getPolicyType());
+
+	}
+
 
 }
 
