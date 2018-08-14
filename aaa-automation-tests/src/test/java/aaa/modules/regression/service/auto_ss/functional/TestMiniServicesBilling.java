@@ -125,12 +125,12 @@ public class TestMiniServicesBilling extends TestMiniServicesBillingAbstract {
 
 		mainApp().open();
 		//createCustomerIndividual();
-		String policyNumber = "VASS952918550";
+		String policyNumber = "VASS952918900";
 				//createPolicy(policyTd);
 
 		//Hit account service, check all info
 		assertSoftly(softly -> installmentsServiceCheck(softly, policyNumber));
-		assertSoftly(softly -> currentAccountInfoServiceCheck(softly, policyNumber));
+		//assertSoftly(softly -> currentAccountInfoServiceCheck(softly, policyNumber));
 	}
 
 	@Override
