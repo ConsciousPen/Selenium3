@@ -308,6 +308,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy();
+		setDoNotRenewFlag(policyNumber);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		validateDocumentIsNotGeneratedInPackage(policyNumber, POLICY_ISSUE, false);
@@ -316,6 +317,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(45));
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 		policy.renew().perform();
 
 		//4. Switch UIM to EUIM coverage and Bind
@@ -505,7 +507,9 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
 
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
 	}
 
 	private void validateDocumentIsGeneratedInPackage(String policyNumber, AaaDocGenEntityQueries.EventNames eventName) {
