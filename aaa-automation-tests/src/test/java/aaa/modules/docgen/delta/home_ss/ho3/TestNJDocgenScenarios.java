@@ -4,6 +4,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -14,6 +15,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import aaa.utils.StateList;
 import toolkit.verification.CustomSoftAssertions;
 
 /**
@@ -66,6 +68,7 @@ public class TestNJDocgenScenarios extends HomeSSHO3BaseTest {
 	 * 17313:US NJ GD-10 Generate New Jersey Earthquake Insurance Availability Notice (HSEQNJ 11 12)
 	 */
 	@Parameters({"state"})
+	@StateList(states = States.NJ)
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testDeltaPolicyDocuments(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {

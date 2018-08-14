@@ -3,6 +3,8 @@ package aaa.modules.docgen.home_ca.ho6;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum;
@@ -10,6 +12,7 @@ import aaa.main.modules.policy.home_ca.actiontabs.PolicyDocGenActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO6BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import aaa.utils.StateList;
 import toolkit.verification.CustomSoftAssertions;
 
 /**
@@ -47,6 +50,7 @@ public class TestDocgenScenarios extends HomeCaHO6BaseTest {
 	 * Verify that all enabled documents can be generated
 	 */
 	@Parameters({"state"})
+	@StateList(states = States.CA)
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testQuoteDocuments(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -150,6 +154,7 @@ public class TestDocgenScenarios extends HomeCaHO6BaseTest {
 	 * Verify that AHPNCA must be generated with 61_4002 (Application documents)
 	 */
 	@Parameters({"state"})
+	@StateList(states = States.CA)
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testPolicyDocuments(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {

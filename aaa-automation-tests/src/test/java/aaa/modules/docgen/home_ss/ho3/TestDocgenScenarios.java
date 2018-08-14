@@ -7,6 +7,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
@@ -26,6 +27,7 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomSoftAssertions;
 
@@ -116,6 +118,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 */
 
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testQuoteDocuments(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -288,6 +291,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * Generate Returning Payment Form
 	 */
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testPolicyDocuments(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -362,6 +366,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * </pre>
 	 */
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testPolicyRescissionNoticeDocument(@Optional("") String state) {
 		mainApp().open();
@@ -445,6 +450,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * Generate HS 04 77 Endorsement For Bundles new stories :
 	 */
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testMortgagePolicyDocuments(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -579,6 +585,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * </pre>
 	 */
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testReturnPaymentDocuments(@Optional("") String state) {
 		mainApp().open();
@@ -629,6 +636,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * </pre>
 	 */
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testCancellationNoticeDocument(@Optional("") String state) {
 		mainApp().open();
@@ -667,6 +675,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * </pre>
 	 */
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testRefundCheckDocument(@Optional("") String state) {
 		Dollar amount = new Dollar(1234);

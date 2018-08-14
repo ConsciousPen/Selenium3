@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -16,6 +17,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSDP3BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import aaa.utils.StateList;
 import toolkit.verification.CustomSoftAssertions;
 
 /**
@@ -143,6 +145,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest {
 	 * */
 
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testPolicyDocuments(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -372,6 +375,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest {
 	 */
 
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testMortgagePolicyDocuments(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -516,6 +520,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest {
 	 */
 
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testEndorsementsForms(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {

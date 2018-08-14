@@ -6,11 +6,14 @@ import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomSoftAssertions;
 
@@ -28,6 +31,7 @@ public class TestScenario4_OK extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(states = States.OK)
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void TC01_EndorsementOne(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {

@@ -21,6 +21,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import aaa.utils.StateList;
 import toolkit.verification.CustomSoftAssertions;
 
 public class TestScenario4 extends AutoSSBaseTest {
@@ -30,6 +31,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 	private String policyNumber;
 	
 	@Parameters({ "state" })
+	@StateList(states = {States.AZ, States.IN, States.OH, States.VA})
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC01_CreatePolicy(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -151,6 +153,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 	}
 	
 	@Parameters({ "state" })
+	@StateList(states = {States.AZ, States.IN, States.OH, States.VA})
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC02_CopyFromPolicy(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -197,6 +200,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 	}
 
 	@Parameters({ "state" })
+	@StateList(states = {States.AZ, States.IN, States.OH, States.VA})
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC03_CopyFromPolicy(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {

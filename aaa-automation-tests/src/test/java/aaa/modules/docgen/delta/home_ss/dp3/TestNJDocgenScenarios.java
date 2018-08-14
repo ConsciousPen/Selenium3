@@ -3,6 +3,8 @@ package aaa.modules.docgen.delta.home_ss.dp3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -11,6 +13,7 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.modules.policy.HomeSSDP3BaseTest;
+import aaa.utils.StateList;
 import toolkit.verification.CustomSoftAssertions;
 
 /**
@@ -60,6 +63,7 @@ public class TestNJDocgenScenarios extends HomeSSDP3BaseTest {
 	 * 17404:US NJ GD- 14 Generate New Jersey Policyholder Hurricane Percentage Deductible Consumer Guide (HSHU2NJ 11 12) (HO3,DP3)
 	 */
 	@Parameters({"state"})
+	@StateList(states = States.NJ)
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testDeltaPolicyDocuments(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -95,6 +99,7 @@ public class TestNJDocgenScenarios extends HomeSSDP3BaseTest {
 	 */
 
 	@Parameters({"state"})
+	@StateList(states = States.NJ)
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL}, dependsOnMethods = "testDeltaPolicyDocuments")
 	public void testThirdPartyDesigneeCoverPage(@Optional("") String state) {
 		mainApp().open();
