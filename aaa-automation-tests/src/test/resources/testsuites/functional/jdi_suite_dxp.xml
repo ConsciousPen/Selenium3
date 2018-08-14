@@ -440,6 +440,16 @@
             </class>
         </classes>
     </test>
+    <test name="pas14721_UpdateCoveragesServiceBIPD">
+        <parameter name="state" value="AZ, VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas14721_UpdateCoveragesServiceBIPD"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="Replace vehiclesVA">
         <parameter name="state" value="VA"/>
         <classes>
