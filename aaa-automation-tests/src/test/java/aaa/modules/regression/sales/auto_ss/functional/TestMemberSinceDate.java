@@ -27,7 +27,7 @@ public class TestMemberSinceDate extends AutoSSBaseTest {
      * @name MemberSinceDate in database matches stub response - PAS-17193
      * @scenario Precondition: Have an active valid membership response from the Stub
      * 1. Create Customer.
-     * 2. Create Auto SS Quote up to Membership tab.
+     * 2. Create Auto SS Quote up to Rating Detail Reports tab.
      * 3. Validate that the Member Since Date in the DB is null.
      * 4. Order report in the UI.
      * 5. Validate that the Member Since Date in the DB and UI now matches the Stub response.
@@ -46,13 +46,13 @@ public class TestMemberSinceDate extends AutoSSBaseTest {
         /*--Step 1--*/
         Log.info("Step 1: Create Customer.");
 
-        TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData_RMS_MembershipValid").resolveLinks());
+        TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData_RMS_ValidMemberSinceDate").resolveLinks());
         mainApp().open();
         createCustomerIndividual();
 
 
         /*--Step 2--*/
-        Log.info("Step 2: Create Auto SS Quote up to Membership tab.");
+        Log.info("Step 2: Create Auto SS Quote up to Rating Detail Reports tab.");
         policy.initiate();
         policy.getDefaultView().fillUpTo(testData, RatingDetailReportsTab.class, false);
 

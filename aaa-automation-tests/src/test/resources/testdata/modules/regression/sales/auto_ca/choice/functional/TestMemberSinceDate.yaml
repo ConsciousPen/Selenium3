@@ -1,4 +1,4 @@
-TestData_RMS_MembershipValid: {
+TestData_RMS_ValidMemberSinceDate: {
   GeneralTab: '@GeneralTab_MembershipValid',
 }
 

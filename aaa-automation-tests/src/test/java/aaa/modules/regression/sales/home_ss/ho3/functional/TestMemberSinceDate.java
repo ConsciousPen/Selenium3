@@ -1,13 +1,13 @@
-package aaa.modules.regression.sales.home_ca.ho3.functional;
+package aaa.modules.regression.sales.home_ss.ho3.functional;
 
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.queries.LookupQueries;
-import aaa.main.metadata.policy.HomeCaMetaData;
-import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
-import aaa.modules.policy.HomeCaHO3BaseTest;
+import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.utils.StateList;
 import org.assertj.core.api.Assertions;
 import org.mortbay.log.Log;
@@ -20,15 +20,15 @@ import toolkit.utils.TestInfo;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-@StateList(states = Constants.States.CA)
-public class TestMemberSinceDate extends HomeCaHO3BaseTest {
+@StateList(states = Constants.States.AZ)
+public class TestMemberSinceDate extends HomeSSHO3BaseTest {
 
     /**
      * @author Brian Bond
      * @name MemberSinceDate in database matches stub response - PAS-17193
      * @scenario Precondition: Have an active valid membership response from the Stub
      * 1. Create Customer.
-     * 2. Create HO3 CA Quote up to Reports tab.
+     * 2. Create HO3 SS Quote up to Reports tab.
      * 3. Validate that the Member Since Date in the DB is null.
      * 4. Order report in the UI.
      * 5. Validate that the Member Since Date in the DB and UI now matches the Stub response.
@@ -36,8 +36,8 @@ public class TestMemberSinceDate extends HomeCaHO3BaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "17193: MemberSinceDate in database matches stub response")
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-17193")
-    public void pas17193_MemberSinceDate_DB_Matches_Stub_Response(@Optional("CA") String state) {
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-17193")
+    public void pas17193_MemberSinceDate_DB_Matches_Stub_Response(@Optional("") String state) {
 
         // Pattern Definition
         DateTimeFormatter formatSQL = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -51,7 +51,7 @@ public class TestMemberSinceDate extends HomeCaHO3BaseTest {
         createCustomerIndividual();
 
         /*--Step 2--*/
-        Log.info("Step 2: Create HO3 CA Quote up to Reports tab.");
+        Log.info("Step 2: Create HO3 SS Quote up to Reports tab.");
         policy.initiate();
         policy.getDefaultView().fillUpTo(testData, ReportsTab.class, false);
 
@@ -87,8 +87,8 @@ public class TestMemberSinceDate extends HomeCaHO3BaseTest {
         Assertions.assertThat(sqlExpected.equals("2010-07-27 00:00:00")).isTrue();
 
         String uiMemberSinceDate = policy.getDefaultView().getTab(ReportsTab.class).getAssetList().
-                getAsset(HomeCaMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1).
-                getCell(HomeCaMetaData.ReportsTab.AaaMembershipReportRow.MEMBER_SINCE_DATE.getLabel()).getValue();
+                getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1).
+                getCell(HomeSSMetaData.ReportsTab.AaaMembershipReportRow.MEMBER_SINCE_DATE.getLabel()).getValue();
 
         String uiExpected = DateTime.format(formatUI);
         Assertions.assertThat(uiMemberSinceDate.equals(uiExpected)).isTrue();

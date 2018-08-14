@@ -46,7 +46,7 @@ public class TestMemberSinceDate extends AutoCaChoiceBaseTest {
         /*--Step 1--*/
         Log.info("Step 1: Create Customer.");
 
-        TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData_RMS_MembershipValid").resolveLinks());
+        TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData_RMS_ValidMemberSinceDate").resolveLinks());
         mainApp().open();
         createCustomerIndividual();
 

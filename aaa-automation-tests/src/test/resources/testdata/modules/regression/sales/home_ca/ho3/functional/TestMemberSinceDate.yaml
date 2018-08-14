@@ -1,4 +1,4 @@
-TestData_RMS_MembershipValid: {
+TestData_RMS_ValidMemberSinceDate: {
   GeneralTab: '@<home_ca_ho3>@DataGather@GeneralTab',
   ApplicantTab: '@ApplicantTab',
   ReportsTab: '@<home_ca_ho3>@DataGather@ReportsTab'
