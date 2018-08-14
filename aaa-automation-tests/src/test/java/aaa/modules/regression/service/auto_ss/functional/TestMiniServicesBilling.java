@@ -124,9 +124,9 @@ public class TestMiniServicesBilling extends TestMiniServicesBillingAbstract {
 				AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), "Quarterly");
 
 		mainApp().open();
-		//createCustomerIndividual();
-		String policyNumber = "VASS952918900";
-				//createPolicy(policyTd);
+		createCustomerIndividual();
+		String policyNumber = createPolicy(policyTd); //"VASS952918900";
+
 
 		//Hit account service, check all info
 		assertSoftly(softly -> installmentsServiceCheck(softly, policyNumber));
