@@ -3,8 +3,11 @@ package aaa.modules.e2e.home_ss.dp3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import aaa.common.enums.Constants.States;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.e2e.templates.Scenario12;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomSoftAssertions;
 
@@ -16,6 +19,7 @@ public class TestScenario12 extends Scenario12 {
 	}
 
 	@Parameters({"state"})
+	@StateList(states = {States.UT})
 	@Test
 	public void TC01_createPolicy(@Optional("") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());

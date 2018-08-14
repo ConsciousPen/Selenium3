@@ -4,10 +4,13 @@ import toolkit.verification.CustomSoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import aaa.common.enums.Constants.States;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.actiontabs.EndorsementActionTab;
 import aaa.modules.e2e.templates.Scenario4;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 
 public class TestScenario4 extends Scenario4 {
@@ -18,6 +21,7 @@ public class TestScenario4 extends Scenario4 {
 	}
 
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.CT, States.NJ, States.OH, States.OK, States.UT})
 	@Test
 	public void TC01_createPolicy(@Optional("") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
