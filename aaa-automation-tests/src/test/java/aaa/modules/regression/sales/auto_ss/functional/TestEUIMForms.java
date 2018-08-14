@@ -160,11 +160,13 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy();
+		setDoNotRenewFlag(policyNumber);
 
 		// Create renewal and switch to EUIM coverage
 		TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(45));
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 		policy.renew().perform();
 		switchToEUIMCoverage();
 		verifyFormsAndAmount();
