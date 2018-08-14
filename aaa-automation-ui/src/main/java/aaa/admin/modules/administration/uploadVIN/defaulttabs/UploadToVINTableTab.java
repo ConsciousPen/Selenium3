@@ -71,7 +71,6 @@ public class UploadToVINTableTab extends DefaultTab {
 	public void uploadVinTable(String vinTableFileName) {
 		log.info("WARN Vin table {} upload started",vinTableFileName);
 		openUploadToVinTableTab();
-
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION).setValue(true);
 		uploadFile(vinTableFileName);
 		CacheManager cacheManager = new CacheManager();
