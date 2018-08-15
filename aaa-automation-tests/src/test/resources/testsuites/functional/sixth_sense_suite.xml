@@ -265,6 +265,16 @@
         </classes>
     </test>
 
+    <test name="Test Zero Claims Discount">
+        <parameter name="state" value="AZ, UT, KY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestZeroClaimsDiscount"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestZeroClaimsDiscount"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestZeroClaimsDiscount"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestZeroClaimsDiscount"/>
+        </classes>
+    </test>
+
             <!--Tests for PUP-->
 
     <test name="Test Pup Info Section View Rating Details">

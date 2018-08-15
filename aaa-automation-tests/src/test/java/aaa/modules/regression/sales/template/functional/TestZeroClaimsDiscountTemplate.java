@@ -9,11 +9,14 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.format.DateTimeFormatter;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 public class TestZeroClaimsDiscountTemplate extends PolicyBaseTest {
 
 	PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
+	PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
 
 	protected void pas9088_testZeroClaimsDiscountQuote() {
 
@@ -23,8 +26,7 @@ public class TestZeroClaimsDiscountTemplate extends PolicyBaseTest {
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(getPolicyTD(), PremiumsAndCoveragesQuoteTab.class, true);
 
-		validateDiscountAndPremiumWithClosedClaim();
-		validateDiscountAndPremiumWithOpenClaim();
+		validateDiscountAndPremiumChange();
 
 	}
 
@@ -37,49 +39,86 @@ public class TestZeroClaimsDiscountTemplate extends PolicyBaseTest {
 		policy.renew().perform();
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 
-		validateDiscountAndPremiumWithClosedClaim();
-		validateDiscountAndPremiumWithOpenClaim();
+		validateDiscountAndPremiumChange();
 
 	}
 
-	private void validateDiscountAndPremiumWithClosedClaim() {
+	private void validateDiscountAndPremiumChange() {
 		// Validate the Zero Claims Discount is present and capture Premium
 		assertThat(premiumsAndCoveragesQuoteTab.isDiscountApplied(DiscountEnum.HomeSSDiscounts.ZERO_PRIOR_CLAIMS.getName())).isTrue();
 		Dollar premium = new Dollar(PremiumsAndCoveragesQuoteTab.tableTotalPremiumSummary.getRow(1).getCell(2).getValue());
 
 		// Add a claim, calculate premium
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		new PropertyInfoTab().fillTab(getClaimTD());
+		propertyInfoTab.fillTab(getClaimTD());
 
 		// Validate discount is removed and premium increases
-		premiumsAndCoveragesQuoteTab.calculatePremium();
-		assertThat(premiumsAndCoveragesQuoteTab.isDiscountApplied(DiscountEnum.HomeSSDiscounts.ZERO_PRIOR_CLAIMS.getName())).isFalse();
-		new Dollar(PremiumsAndCoveragesQuoteTab.tableTotalPremiumSummary.getRow(1).getCell(2).getValue()).verify.moreThan(premium);
+		premium = validateDiscountRemovedAndPremiumIncreases(premium);
+
+		// Change claim to 'Open' and validate discount/premium is added/decreased
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
+		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.CLAIM_STATUS).setValue("Open");
+		premium = validateDiscountAddedAndPremiumDecreases(premium);
+
+		// Change claim to back to 'Closed' and validate discount/premium is removed/increased
+		premium = changeClaimToClosedAndValidate(premium);
+
+		// Change claim to 'Subrogated' and validate discount/premium is added/decreased
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
+		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.CLAIM_STATUS).setValue("Subrogation");
+		premium = validateDiscountAddedAndPremiumDecreases(premium);
+
+		// Change claim to back to 'Closed' and validate discount/premium is removed/increased
+		premium = changeClaimToClosedAndValidate(premium);
+
+		// Change claim Date to more than 3 years ago and validate discount/premium is added/decreased
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
+		String claimDateOneYr = propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS).getValue();
+		String claimDateThreeYrs = TimeSetterUtil.getInstance().getCurrentTime().minusYears(3).minusDays(1).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS).setValue(claimDateThreeYrs);
+		premium = validateDiscountAddedAndPremiumDecreases(premium);
+
+		// Change date back to 1 year ago and validate discount/premium is removed/increased
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
+		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS).setValue(claimDateOneYr);
+		premium = validateDiscountRemovedAndPremiumIncreases(premium);
+
+		// Change claim amount to less than $1000 and validate discount/premium is added/decreased
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
+		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS).setValue("1000");
+		validateDiscountAddedAndPremiumDecreases(premium);
 
 	}
 
-	private void validateDiscountAndPremiumWithOpenClaim() {
-		// Capture current premium
-		Dollar premium = new Dollar(PremiumsAndCoveragesQuoteTab.tableTotalPremiumSummary.getRow(1).getCell(2).getValue());
+	private Dollar validateDiscountRemovedAndPremiumIncreases(Dollar premium) {
+		premiumsAndCoveragesQuoteTab.calculatePremium();
+		assertThat(premiumsAndCoveragesQuoteTab.isDiscountApplied(DiscountEnum.HomeSSDiscounts.ZERO_PRIOR_CLAIMS.getName())).isFalse();
+		Dollar newPremium = new Dollar(PremiumsAndCoveragesQuoteTab.tableTotalPremiumSummary.getRow(1).getCell(2).getValue());
+		newPremium.verify.moreThan(premium);
+		return newPremium;
+	}
 
-		// Navigate back to Property Info tab and change claim to 'Open'
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		new PropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.CLAIM_STATUS).setValue("Open");
-
-		// Validate discount is added and premium decreases
+	private Dollar validateDiscountAddedAndPremiumDecreases(Dollar premium) {
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 		assertThat(premiumsAndCoveragesQuoteTab.isDiscountApplied(DiscountEnum.HomeSSDiscounts.ZERO_PRIOR_CLAIMS.getName())).isTrue();
-		new Dollar(PremiumsAndCoveragesQuoteTab.tableTotalPremiumSummary.getRow(1).getCell(2).getValue()).verify.lessThan(premium);
+		Dollar newPremium = new Dollar(PremiumsAndCoveragesQuoteTab.tableTotalPremiumSummary.getRow(1).getCell(2).getValue());
+		newPremium.verify.lessThan(premium);
+		return newPremium;
+	}
 
+	private Dollar changeClaimToClosedAndValidate(Dollar premium) {
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
+		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.CLAIM_STATUS).setValue("Closed");
+		return validateDiscountRemovedAndPremiumIncreases(premium);
 	}
 
 	private TestData getClaimTD() {
 		String claimHistoryKeyPath = TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel());
 		return getPolicyTD()
 				.adjust(TestData.makeKeyPath(claimHistoryKeyPath, HomeSSMetaData.PropertyInfoTab.ClaimHistory.ADD_A_CLAIM.getLabel()), "Yes")
-				.adjust(TestData.makeKeyPath(claimHistoryKeyPath, HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS.getLabel()), "$<today-1y:MM/dd/yyyy>")
+				.adjust(TestData.makeKeyPath(claimHistoryKeyPath, HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS.getLabel()), "$<today-3y:MM/dd/yyyy>")
 				.adjust(TestData.makeKeyPath(claimHistoryKeyPath, HomeSSMetaData.PropertyInfoTab.ClaimHistory.CAUSE_OF_LOSS.getLabel()), "index=1")
-				.adjust(TestData.makeKeyPath(claimHistoryKeyPath, HomeSSMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS.getLabel()), "2000")
+				.adjust(TestData.makeKeyPath(claimHistoryKeyPath, HomeSSMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS.getLabel()), "1001")
 				.adjust(TestData.makeKeyPath(claimHistoryKeyPath, HomeSSMetaData.PropertyInfoTab.ClaimHistory.CLAIM_STATUS.getLabel()), "Closed")
 				.adjust(TestData.makeKeyPath(claimHistoryKeyPath, HomeSSMetaData.PropertyInfoTab.ClaimHistory.AAA_CLAIM.getLabel()), "Yes")
 				.adjust(TestData.makeKeyPath(claimHistoryKeyPath, HomeSSMetaData.PropertyInfoTab.ClaimHistory.CATASTROPHE_LOSS.getLabel()), "No")

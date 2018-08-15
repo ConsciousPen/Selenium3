@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ss.dp3.functional;
+package aaa.modules.regression.sales.home_ss.ho4.functional;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -13,7 +13,7 @@ public class TestZeroClaimsDiscount extends TestZeroClaimsDiscountTemplate {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_DP3;
+		return PolicyType.HOME_SS_HO4;
 	}
 
 	/**
@@ -21,7 +21,7 @@ public class TestZeroClaimsDiscount extends TestZeroClaimsDiscountTemplate {
 	 * @name Test that the system is not applying the Zero Claims Discount when a renewal image has a claim that is included in rating
 	 * @scenario
 	 * 1. Create customer
-	 * 2. Initiate SS DP3 quote
+	 * 2. Initiate SS HO4 quote
 	 * 3. Fill up to P & C tab with default data (No claims present on Property Info Tab)
 	 * 4. Validate the zero claims discount is present and capture the premium amount
 	 * 5. Navigate to Property Info tab and add a claim:
@@ -43,9 +43,10 @@ public class TestZeroClaimsDiscount extends TestZeroClaimsDiscountTemplate {
 	 * @details
 	 **/
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Zero Claims Discount for SS DP3")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-9088")
-	public void pas9088_testZeroClaimsDiscountDP3Quote(@Optional("") String state) {
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Zero Claims Discount for SS HO4")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-9088")
+	public void pas9088_testZeroClaimsDiscountHO4Quote(@Optional("") String state) {
 		pas9088_testZeroClaimsDiscountQuote();
 	}
 }
+
