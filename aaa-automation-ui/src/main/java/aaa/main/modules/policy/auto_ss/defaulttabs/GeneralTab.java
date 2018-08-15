@@ -54,7 +54,7 @@ public class GeneralTab extends Tab {
 	}
 
 	public AssetList getPolicyInfoInquiryAssetList() {
-		return getInquiryAssetList().getAsset(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), InquiryAssetList.class);
+		return getInquiryAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), InquiryAssetList.class);
 	}
 
 	@Override

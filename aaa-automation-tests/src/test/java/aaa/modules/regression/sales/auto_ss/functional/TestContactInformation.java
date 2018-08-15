@@ -55,7 +55,7 @@ public class TestContactInformation extends AutoSSBaseTest {
 	@StateList(states =  States.UT)
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-270", "PAS-267"})
-	public void pas270_contactInformation() {
+	public void pas270_contactInformation(String state) {
 		initiateQuote();
 
 		CustomAssert.enableSoftMode();
