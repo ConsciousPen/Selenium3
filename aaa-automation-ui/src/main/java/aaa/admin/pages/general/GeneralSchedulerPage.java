@@ -7,7 +7,6 @@ import com.exigen.ipb.etcsa.base.app.Application;
 import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import com.exigen.ipb.etcsa.base.app.LoginPage;
 import aaa.admin.pages.AdminPage;
-import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -22,11 +21,17 @@ import toolkit.webdriver.controls.composite.table.Table;
 
 public class GeneralSchedulerPage extends AdminPage {
 
-	public static Table tableScheduledJobs = new Table(By.id("jobs:jobsTable"));
+	public static Table tableScheduledJobs = new Table(By.xpath("//div[@id='jobs:jobsTable']//table"));
 	private static final int MAX_JOB_RUN_RETRIES = 500;
 	private static final int MAX_JOB_RUN_TIMEOUT = 1200000;
 	private static final int JOB_RUN_RETRIES_SLEEP = 5;
 	private static final String JOB_RESULT_XPATH_TEMPLATE = "//table[@id='jobs:jobsTable']/tbody/tr[td[position()=1 and normalize-space(.)='%s']]/td[2]/table";
+
+	public static Button buttonSaveJob = new Button(By.id("jobsForm:saveButton_footer"));
+	public static Button buttonAddNewGroup = new Button(By.id("jobs:new"));
+	public static Button buttonAddJobButton = new Button(By.id("jobsForm:addJobButton"));
+	public static TextBox textBoxGroupName = new TextBox(By.id("jobsForm:groupName"));
+	public static ComboBox comboBoxJobBatch = new ComboBox(By.id("jobsForm:job_0_class"));
 
 	public enum Job {
 		AAA_BATCH_MARKER_JOB("aaaBatchMarkerJob"),
@@ -121,11 +126,11 @@ public class GeneralSchedulerPage extends AdminPage {
 
 	public static boolean createJob(Job jobName) {
 		if (!tableScheduledJobs.getRow(1, jobName.get()).isPresent()) {
-			new Button(By.id("jobs:createNewJob")).click();
-			new Button(By.id("jobsForm:addJobButton")).click();
-			new TextBox(By.id("jobsForm:groupName")).setValue(jobName.get());
-			new ComboBox(By.id("jobsForm:job_0_class")).setValue(jobName.get());
-			Tab.buttonSave.click();
+			buttonAddNewGroup.click();
+			buttonAddJobButton.click();
+			textBoxGroupName.setValue(jobName.get());
+			comboBoxJobBatch.setValue(jobName.get());
+			buttonSaveJob.click();
 			log.info("[JOBS] Job {} was created", jobName.get());
 			return true;
 		} else if (tableScheduledJobs.getRow(1, jobName.get()).isPresent()) {
