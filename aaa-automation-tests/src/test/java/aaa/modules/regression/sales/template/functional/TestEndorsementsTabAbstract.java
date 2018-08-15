@@ -1,30 +1,19 @@
 package aaa.modules.regression.sales.template.functional;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import java.time.LocalDateTime;
-import java.util.List;
+import static toolkit.verification.CustomAssertions.assertThat;
 import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.docgen.AaaDocGenEntityQueries;
-import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.xml.model.Document;
 import aaa.main.enums.EndorsementForms;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestEndorsementsTabAbstract extends CommonTemplateMethods {
 
