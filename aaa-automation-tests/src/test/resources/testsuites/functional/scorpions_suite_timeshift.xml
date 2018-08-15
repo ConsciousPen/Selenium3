@@ -190,6 +190,20 @@
         </classes>
     </test>
 
+    <!-- Auto SS -->
+    <test name="Update VIN Refresh and Renewal Merge Auto SS" >
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestCurrentTermEndAddsVehicle">
+                <methods>
+                    <include name="pas14532_refreshForCurrentAndRenewalTermsVinNotMatched"/>
+                    <include name="pas14532_refreshForCurrentAndRenewalTermsVinMatched"/>
+                    <include name="pas14532_refreshForCurrentAndRenewalTermsVinStubUpdate"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <!-- Auto Ca Select-->
 
     <test name="Update VIN Refresh CA Select" >
@@ -213,6 +227,13 @@
                 <methods>
                     <include name="pas730_RenewalVehicleTypeRegular"/>
                     <include name="pas730_RenewalVINDoesMatchNBandNoMatchOnRenewal"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestCurrentTermEndAddsVehicle">
+                <methods>
+                    <include name="pas14532_refreshForCurrentAndRenewalTermsVinNotMatched"/>
+                    <include name="pas14532_refreshForCurrentAndRenewalTermsVinMatched"/>
+                    <include name="pas14532_refreshForCurrentAndRenewalTermsVinStubUpdate"/>
                 </methods>
             </class>
         </classes>
@@ -242,6 +263,13 @@
                 <methods>
                     <include name="pas730_RenewalVehicleTypeRegular"/>
                     <include name="pas730_RenewalVINDoesMatchNBandNoMatchOnRenewal"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestCurrentTermEndAddsVehicle">
+                <methods>
+                    <include name="pas14532_refreshForCurrentAndRenewalTermsVinNotMatched"/>
+                    <include name="pas14532_refreshForCurrentAndRenewalTermsVinMatched"/>
+                    <include name="pas14532_refreshForCurrentAndRenewalTermsVinStubUpdate"/>
                 </methods>
             </class>
         </classes>
