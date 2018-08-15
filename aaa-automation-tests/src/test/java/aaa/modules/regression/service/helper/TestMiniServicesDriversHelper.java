@@ -1636,7 +1636,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			ViewDriversResponse viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), false, null, softly);
 
-			DriversDto addDriverResponse = addDriverWithChecks_pas14650_pas17046_pas14652_pas17050(policyNumber, softly);
+			DriversDto addDriverResponse = addDriverWithChecks(policyNumber, softly);
 
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), false, null, softly);//added driver
@@ -1834,7 +1834,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(premiumAfterChangesDXP).isEqualByComparingTo(premiumAfterChangesUI).isEqualByComparingTo(premiumBeforeChangesDXP).isEqualByComparingTo(premiumBeforeChangesUI);
 
 			///////////////Nafr driver should not have option to select "Death Indemnity and Specific Disability" ////////////////
-			DriversDto addDriverResponse = addDriverWithChecks_pas14650_pas17046_pas14652_pas17050(policyNumber, softly);
+			DriversDto addDriverResponse = addDriverWithChecks(policyNumber, softly);
 
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), false, null, softly);// added driver
@@ -1937,7 +1937,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			assertThat(premiumAfterChangesDXP).isEqualByComparingTo(premiumAfterChangesUI).isEqualByComparingTo(premiumBeforeChangesDXP).isEqualByComparingTo(premiumBeforeChangesUI);
 
 			///////////////Nafr driver should not have option to select "Death Indemnity and Specific Disability" and "Total Disability" ////////////////
-			DriversDto addDriverResponse = addDriverWithChecks_pas14650_pas17046_pas14652_pas17050(policyNumber, softly);
+			DriversDto addDriverResponse = addDriverWithChecks(policyNumber, softly);
 
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), false, null, softly);// added driver
@@ -1963,7 +1963,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 	}
 
-	private DriversDto addDriverWithChecks_pas14650_pas17046_pas14652_pas17050(String policyNumber, SoftAssertions softly) {
+	private DriversDto addDriverWithChecks(String policyNumber, SoftAssertions softly) {
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Jarred", "", "Benjami", "1960-02-08", "I");
 		DriversDto addDriverResponse = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class, 201);
 		validateSelectedAndAvailableCoverages(true, addDriverResponse, false, null, softly);
