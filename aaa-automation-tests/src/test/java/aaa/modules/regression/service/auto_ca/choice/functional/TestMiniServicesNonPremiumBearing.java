@@ -18,7 +18,6 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.modules.regression.service.helper.TestMiniServicesNonPremiumBearingAbstract;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiumBearingAbstract {
@@ -46,10 +45,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = {"PAS-1441", "PAS-5986", "PAS-343"})
 	public void pas1441_emailChangeOutOfPas(@Optional("CA") String state) {
 
-		CustomAssert.enableSoftMode();
 		pas1441_emailChangeOutOfPasTestBody();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	@Override
