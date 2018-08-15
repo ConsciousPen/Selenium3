@@ -44,6 +44,7 @@ public class TestQuotePrefill extends PersonalUmbrellaBaseTest {
 	private String zipCode;
 
 	@Parameters({"state"})
+	//@StateList("All")
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
 	@TestInfo(component = ComponentConstant.Sales.PUP)
 	public void testQuotePrefill(@Optional("") String state) {

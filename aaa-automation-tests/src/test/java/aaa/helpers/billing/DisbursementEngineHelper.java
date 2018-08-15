@@ -194,6 +194,9 @@ public class DisbursementEngineHelper {
 			while ((line = br.readLine()) != null && !line.isEmpty()) {
 				String cvsSplitBy = "\\|";
 				String[] fields = line.split(cvsSplitBy);
+				if (fields.length < 28) {
+					continue;
+				}
 				String recordType = fields[0];
 				String requestReferenceId = fields[1];
 				String refundType = fields[2];

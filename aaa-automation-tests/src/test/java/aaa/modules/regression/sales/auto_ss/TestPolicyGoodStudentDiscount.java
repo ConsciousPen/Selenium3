@@ -6,7 +6,6 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
-import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -62,10 +61,10 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
 	 */
 	
 	@Parameters({"state"})
-	@StateList(statesExcept = { States.CA })
+	@StateList(statesExcept = {Constants.States.CA})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void TestValidationGoodStudentDiscount() {
+	public void testValidationGoodStudentDiscount(String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
 		
 		TestData td_quote1 = getTestSpecificTD("TestData_1");

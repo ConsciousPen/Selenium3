@@ -515,7 +515,6 @@
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules"/>
             <class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>

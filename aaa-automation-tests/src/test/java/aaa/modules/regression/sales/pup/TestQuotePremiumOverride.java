@@ -41,6 +41,7 @@ import aaa.modules.policy.PersonalUmbrellaBaseTest;
 
 public class TestQuotePremiumOverride extends PersonalUmbrellaBaseTest {   
 	@Parameters({"state"})
+	//@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.PUP )
     public void testQuotePremiumOverride(@Optional("") String state) {

@@ -7,6 +7,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
+import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AutoSSTab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
@@ -21,6 +22,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import aaa.utils.StateList;
 import toolkit.verification.CustomSoftAssertions;
 
 public class TestScenarioNY extends AutoSSBaseTest {
@@ -30,6 +32,7 @@ public class TestScenarioNY extends AutoSSBaseTest {
 	private String policyNumber;
 	
 	@Parameters({ "state" })
+	@StateList(states = States.NY)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC01_CreatePolicy(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -70,6 +73,7 @@ public class TestScenarioNY extends AutoSSBaseTest {
 	}
 	
 	@Parameters({ "state" })
+	@StateList(states = States.NY)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC02_RenewaOfferBillGeneration(@Optional("") String state) {
 		LocalDateTime renewOfferBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
@@ -81,6 +85,7 @@ public class TestScenarioNY extends AutoSSBaseTest {
 	}
 	
 	@Parameters({ "state" })
+	@StateList(states = States.NY)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC03_UpdatePolicyStatus(@Optional("") String state) {
 		LocalDateTime updatePolicyStatusDate = getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate);
@@ -89,6 +94,7 @@ public class TestScenarioNY extends AutoSSBaseTest {
 	}
 	
 	@Parameters({ "state" })
+	@StateList(states = States.NY)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC04_InsuranceRenewalReminder(@Optional("") String state) {
 		LocalDateTime insuranceRenewalReminderDate = getTimePoints().getInsuranceRenewalReminderDate(policyExpirationDate);

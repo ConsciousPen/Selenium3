@@ -6,6 +6,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
@@ -17,6 +18,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO4BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomSoftAssertions;
 
@@ -71,6 +73,7 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void TC01_Quote_Documents(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -183,6 +186,7 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL}, dependsOnMethods = "TC01_Quote_Documents")
 	public void TC02_Policy_Documents(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {

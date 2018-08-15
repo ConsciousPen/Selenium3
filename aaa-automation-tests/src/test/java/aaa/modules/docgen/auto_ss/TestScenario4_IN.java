@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.constants.Groups;
@@ -27,6 +28,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
@@ -61,6 +63,7 @@ public class TestScenario4_IN extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(states = States.IN)
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL})
 	public void TC01_EndorsementOne(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -98,6 +101,7 @@ public class TestScenario4_IN extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(states = States.IN)
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_EndorsementOne")
 	public void TC02_EndorsementTwo(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -129,6 +133,7 @@ public class TestScenario4_IN extends AutoSSBaseTest {
 	 * 3. Pay policy in Full
 	 */
 	@Parameters({"state"})
+	@StateList(states = States.IN)
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_EndorsementOne")
 	public void TC03_PayPolicyInFull(@Optional("") String state) {
 		LocalDateTime billGenerationDate = getTimePoints().getBillGenerationDate(scheduleDueDate2);
@@ -155,6 +160,7 @@ public class TestScenario4_IN extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(states = States.IN)
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_EndorsementOne")
 	public void TC04_RenewalImageGeneration(@Optional("") String state) {
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
@@ -170,6 +176,7 @@ public class TestScenario4_IN extends AutoSSBaseTest {
 	}
 
 	@Parameters({"state"})
+	@StateList(states = States.IN)
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_EndorsementOne")
 	public void TC05_RenewaPreviewGeneration(@Optional("") String state) {
 		LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
@@ -186,6 +193,7 @@ public class TestScenario4_IN extends AutoSSBaseTest {
 	}
 
 	@Parameters({"state"})
+	@StateList(states = States.IN)
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_EndorsementOne")
 	public void TC06_RenewaOfferGeneration(@Optional("") String state) {
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
@@ -205,6 +213,7 @@ public class TestScenario4_IN extends AutoSSBaseTest {
 	}
 
 	@Parameters({"state"})
+	@StateList(states = States.IN)
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_EndorsementOne")
 	public void TC07_RenewaOfferBillGeneration(@Optional("") String state) {
 		LocalDateTime renewOfferBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);

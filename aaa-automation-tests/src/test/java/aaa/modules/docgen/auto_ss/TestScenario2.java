@@ -13,6 +13,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
@@ -30,6 +31,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -102,6 +104,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 	private List<TestData> installmentDueDate = new ArrayList<TestData>();
 
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL})
 	public void TC01_CreatePolicy(@Optional("") String state) {
 
@@ -387,6 +390,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 	}
 
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC02_EndorsePolicy(@Optional("") String state) {
 
@@ -664,6 +668,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 	}
 
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC03_RenewalImageGeneration(@Optional("") String state) {
 		clearList();
@@ -680,6 +685,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 	}
 
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC04_RenewaPreviewGeneration(@Optional("") String state) {
 
@@ -701,6 +707,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 	}
 
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC05_RenewaOfferGeneration(@Optional("") String state) {
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate_CurrentTerm);
@@ -916,6 +923,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 	}
 
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC06_RenewaOfferBillGeneration(@Optional("") String state) {
 		LocalDateTime renewOfferBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate_CurrentTerm);

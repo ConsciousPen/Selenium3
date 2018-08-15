@@ -757,7 +757,7 @@ public class RefundProcessHelper extends PolicyBilling {
 		transactionIdPresent.ifPresent(p -> {
 					if (transactionIdPresent.get()) {
 						assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_ID))
-								.as("TranzactionID in DB is different from TranzactionID on UI").isEqualTo(getRefundTransactionIDFromDB(billingAccountNumber, transactionNumber));
+								.as("TranzactionID in DB is different from TranzactionID on UI").hasValue(getRefundTransactionIDFromDB(billingAccountNumber, transactionNumber));
 					}
 				}
 		);

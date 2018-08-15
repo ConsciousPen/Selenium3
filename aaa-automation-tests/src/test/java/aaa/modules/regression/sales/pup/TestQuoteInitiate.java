@@ -26,6 +26,7 @@ import toolkit.utils.TestInfo;
 public class TestQuoteInitiate extends PersonalUmbrellaBaseTest {
 
 	@Parameters({"state"})
+	//@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.PUP)
 	public void testQuoteInitiate(@Optional("") String state) {

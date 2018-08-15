@@ -6,6 +6,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -14,6 +15,7 @@ import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import aaa.utils.StateList;
 import toolkit.verification.CustomSoftAssertions;
 
 public class TestDocgenScenarios extends PersonalUmbrellaBaseTest {
@@ -103,6 +105,7 @@ public class TestDocgenScenarios extends PersonalUmbrellaBaseTest {
 	 */
 
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testPUPDocgenScenarios(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {

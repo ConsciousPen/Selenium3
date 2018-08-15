@@ -60,20 +60,20 @@ public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMetho
 
         //2. control table file upload for changing the effective date and expiration date
         // vin upload to update second VIN To another VIN where VIN will be matched
-        /*adminApp().open();
+        adminApp().open();
         uploadToVINTableTab.uploadFiles(controlTableFile, vinTableFile);
         LocalDateTime expirationDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(360);
         LocalDateTime effectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(361);
-        updateControlTable(expirationDate, effectiveDate);*/
+        updateControlTable(expirationDate, effectiveDate);
 
         //3. Change system date to R-35 and renew it
         moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
 
         //Upload the Vin table file by changing valid flag for the same version for Vehicle 2
-       /* if (scenario.equals(MATCHED)) { //scenario 2
+        if (scenario.equals(MATCHED)) { //scenario 2
             adminApp().open();
             uploadToVINTableTab.uploadVinTable(vinTableFileUpdatedVersion);
-        }*/
+        }
 
         //4. Initiate endorsement
         initiateEndorsement();
@@ -220,7 +220,7 @@ public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMetho
     }
 
     protected void cleanup() {
-       /* DatabaseCleanHelper.cleanVehicleRefDataVinTable(VEHICLE1_VIN, SYMBOL_2018);
+        DatabaseCleanHelper.cleanVehicleRefDataVinTable(VEHICLE1_VIN, SYMBOL_2018);
         DatabaseCleanHelper.cleanVehicleRefDataVinTable(VEHICLE2_VIN, SYMBOL_2018);
         DatabaseCleanHelper.cleanVehicleRefDataVinTable(VEHICLE3_VIN, SYMBOL_2018);
         DatabaseCleanHelper.cleanVehicleRefDataVinTable(VEHICLE4_VIN, SYMBOL_2018);
@@ -240,6 +240,6 @@ public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMetho
         DBService.get().executeUpdate(String.format(VehicleQueries.DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_STATECD_VERSION, "AZ", SYMBOL_2018));
         DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION, "99999999", "AZ", SYMBOL_2000));
         DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION, "99999999", "CA", SYMBOL_2000));
-        DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION, "99999999", "CA", SYMBOL_2000_CHOICE));*/
+        DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION, "99999999", "CA", SYMBOL_2000_CHOICE));
     }
 }

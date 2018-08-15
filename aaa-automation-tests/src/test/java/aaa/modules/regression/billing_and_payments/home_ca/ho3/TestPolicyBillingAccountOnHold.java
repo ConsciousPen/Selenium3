@@ -6,6 +6,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
+import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -19,6 +20,7 @@ import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AddHoldActionTab;
 import aaa.modules.policy.HomeCaHO3BaseTest;
+import aaa.utils.StateList;
 
 public class TestPolicyBillingAccountOnHold extends HomeCaHO3BaseTest {
 
@@ -40,6 +42,7 @@ public class TestPolicyBillingAccountOnHold extends HomeCaHO3BaseTest {
      */
 
 	@Parameters({"state"})
+	@StateList(states =  States.CA)
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3) 
     public void testPolicyBillingAccountOnHold(@Optional("CA") String state) {

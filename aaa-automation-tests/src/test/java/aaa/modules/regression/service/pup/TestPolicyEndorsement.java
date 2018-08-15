@@ -16,6 +16,7 @@ import toolkit.verification.CustomSoftAssertions;
 public class TestPolicyEndorsement extends PersonalUmbrellaBaseTest {
 
 	@Parameters({"state"})
+	//@StateList("All")
 	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.Service.PUP )
 	public void testPolicyEndorsement(@Optional("") String state) {

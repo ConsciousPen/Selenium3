@@ -10,6 +10,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
@@ -18,6 +19,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import aaa.utils.StateList;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomSoftAssertions;
@@ -65,6 +67,7 @@ public class TestScenario5 extends AutoSSBaseTest {
 	 */
 
 	@Parameters({"state"})
+	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void TC01_GenerateQuoteDocuments(@Optional("") String state) {
 

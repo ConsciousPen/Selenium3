@@ -4,12 +4,15 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
@@ -28,6 +31,7 @@ public class TestScenario3 extends AutoSSBaseTest {
 	private String policyNumber;
 
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testPolicyCreation(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {

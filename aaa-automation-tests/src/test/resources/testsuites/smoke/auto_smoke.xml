@@ -39,8 +39,8 @@
         </classes>
     </test>
 
-    <test name="NJ MAIG Conversion Smoke Test" parallel="methods">
-        <parameter name="state" value="NJ" />
+    <test name="PA MAIG Conversion Smoke Test" parallel="methods">
+        <parameter name="state" value="PA" />
         <classes>
             <class name="aaa.modules.regression.conversions.auto_ss.MaigImportSmokeTest">
                 <methods>

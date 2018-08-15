@@ -5,10 +5,12 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
+import aaa.common.enums.Constants.States;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.modules.e2e.templates.Scenario7;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 
 public class TestScenario7 extends Scenario7 {
@@ -19,6 +21,7 @@ public class TestScenario7 extends Scenario7 {
 	}
 
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.NJ, States.OH, States.OK, States.UT})
 	@Test
 	public void TC01_createPolicy(@Optional("") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());

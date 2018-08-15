@@ -8,6 +8,8 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -19,6 +21,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
@@ -49,6 +52,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 	private LocalDateTime currentDate;
 
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL})
 	public void TC01_CreatePolicy(@Optional("") String state) {
 		currentDate = TimeSetterUtil.getInstance().getCurrentTime();
@@ -80,6 +84,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC02_GenerateBillingInvoice(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -125,6 +130,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC03_GenerateCancelNotice(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -168,6 +174,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC04_GenerateCancellation(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -204,6 +211,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC05_ReinstatementPolicy(@Optional("") String state) {
 

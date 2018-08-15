@@ -42,6 +42,7 @@ public class TestQuoteAdvancedRater extends PersonalUmbrellaBaseTest {
 	//TODO jdemb: feature of the original test was checking if premium deltas are added to calculated premium correctly
 	//as I can see in old project - deltas are removed. So this test has no meaning. Temporary removed from run, probably need to be removed completely.
 	@Parameters({"state"})
+	//@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, enabled = false)
 	@TestInfo(component = ComponentConstant.Sales.PUP )
     public void testQuoteAdvancedRater(@Optional("") String state) {

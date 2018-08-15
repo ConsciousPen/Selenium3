@@ -77,7 +77,7 @@ public class TestCurrentTermEndAddsVehicleTemplate extends CommonTemplateMethods
         moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
 
         //Upload the Vin table file by changing valid flag for the same version for Vehicle 2
-        if (scenario.equals(MATCHED)) { //scenario 2
+       if (scenario.equals(MATCHED)) { //scenario 2
             adminApp().open();
             uploadToVINTableTab.uploadVinTable(vinTableFileUpdatedVersion);
         }

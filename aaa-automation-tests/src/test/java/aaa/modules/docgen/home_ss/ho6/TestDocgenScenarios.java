@@ -5,6 +5,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -16,6 +17,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO6BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import aaa.utils.StateList;
 import toolkit.verification.CustomSoftAssertions;
 
 /**
@@ -101,6 +103,7 @@ public class TestDocgenScenarios extends HomeSSHO6BaseTest {
 	 */
 
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testQuoteDocuments(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -258,6 +261,7 @@ public class TestDocgenScenarios extends HomeSSHO6BaseTest {
 	 */
 
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void ho6PolicyDocuments(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {
