@@ -4,6 +4,8 @@ import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
@@ -12,6 +14,7 @@ import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestCinAbstractAutoCA;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -28,6 +31,7 @@ public class TestCinRenewalAutoCASelect extends TestCinAbstractAutoCA {
      * @details
      */
     @Parameters({STATE_PARAM})
+    @StateList(states = States.CA)
     @Test(groups = {Groups.FUNCTIONAL, Groups.DOCGEN, Groups.HIGH, Groups.TIMEPOINT})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = "PAS-6341")
     public void testCinRenewalCLUE(@Optional("CA") String state) {
@@ -58,6 +62,7 @@ public class TestCinRenewalAutoCASelect extends TestCinAbstractAutoCA {
      * @details
      */
     @Parameters({STATE_PARAM})
+    @StateList(states = States.CA)
     @Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = "PAS-6341")
     public void testCinRenewalMVR(@Optional("CA") String state) {

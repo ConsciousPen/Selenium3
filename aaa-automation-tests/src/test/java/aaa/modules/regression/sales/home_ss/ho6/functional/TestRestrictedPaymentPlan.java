@@ -7,10 +7,13 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.google.common.collect.ImmutableList;
+
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestRestrictedPaymentPlanAbstract;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract {
@@ -67,6 +70,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
+	@StateList(statesExcept = States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-10894"})
 	public void pas10894_restrictionPaymentPlansMembershipYes(@Optional("AZ") String state) {
@@ -85,6 +89,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
+	@StateList(statesExcept = States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-10894"})
 	public void pas10894_restrictionPaymentPlansMembershipPending(@Optional("AZ") String state) {
@@ -103,6 +108,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
+	@StateList(statesExcept = States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-10894"})
 	public void pas10894_restrictionPaymentPlansMembershipNo(@Optional("AZ") String state) {
@@ -121,6 +127,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
+	@StateList(statesExcept = States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-11367"})
 	public void pas11367_restrictionPaymentPlansMembershipOverride(@Optional("AZ") String state) {
@@ -140,6 +147,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
+	@StateList(statesExcept = States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-10998"})
 	public void pas10998_restrictionPaymentPlansMembershipPendingCalculation(@Optional("AZ") String state) {
