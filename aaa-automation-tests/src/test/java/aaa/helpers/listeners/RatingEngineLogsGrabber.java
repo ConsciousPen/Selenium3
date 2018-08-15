@@ -40,7 +40,7 @@ public class RatingEngineLogsGrabber {
 		return makeDefaultOpenLLogPath(openLTest, openLPolicyNumber, "response");
 	}
 
-	public RatingEngineLogsHolder grabRatingLogs(String policyNumber) {
+	public RatingEngineLogsHolder grabRatingLogs() {
 		RatingEngineLogsHolder ratingLogsHolder = new RatingEngineLogsHolder();
 		StringBuilder previousLogSectionParts = new StringBuilder();
 
