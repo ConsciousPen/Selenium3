@@ -326,5 +326,5 @@ PAS-5260:
   summary: "Premium-reducing endorsement getting error message on bind for KY"
   reason: PROD
   failures:
-  - tests: [aaa.modules.regression.sales.auto_ss.functional.TestReducedPremiumEndorsementKY.*]
-    messages: ['Cannot transfer payment']
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestReducedPremiumEndorsementKY.*]
+      messages: ['Cannot transfer payment']
