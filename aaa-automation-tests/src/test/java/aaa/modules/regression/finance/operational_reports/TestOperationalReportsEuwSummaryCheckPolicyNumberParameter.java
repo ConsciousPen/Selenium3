@@ -10,27 +10,25 @@ import toolkit.utils.TestInfo;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 
-public class TestOperationalReportsCheckEuwDetailDeliveryFormat extends BaseTest {
+public class TestOperationalReportsEuwSummaryCheckPolicyNumberParameter extends BaseTest {
 
     private OperationalReportsTab orTab = new OperationalReportsTab();
 
     /**
      * @author Maksim Piatrouski
-     * Objectives: check following Report formats are presented and enabled: 'Excel', 'PDF', 'CSV'
+     * Objectives: check that "Policy Number” in "Earned/Unearned/Written (EUW) Report – Summary" report is NOT displayed
      * TC Steps:
      * 1. Navigate Reports -> Operational Reports;
      * 2. Fill Category, Type, Name;
-     * 3. Check "Delivery Format" options
+     * 3. Check that "Policy Number” is NOT displayed
      */
 
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-    @TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-15537")
-    public void pas15537_testOperationalReportsCheckEuwDetailDeliveryFormat() {
+    @TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-17631")
+    public void pas17631_testOperationalReportsEuwSummaryCheckPolicyNumberParameter() {
         opReportApp().open();
 
-        orTab.fillTab(getOperationalReportsTD("DataGather","TestData_EUW_Detail"));
-
-        assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.REPORT_FORMAT))
-                .containsAllOptions(getTestSpecificTD("TestData_Check").getList("ReportFormats"));
+        orTab.fillTab(getOperationalReportsTD("DataGather", "TestData_EUW_Summary"));
+        assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.POLICY_NUMBER)).isPresent(false);
     }
 }
