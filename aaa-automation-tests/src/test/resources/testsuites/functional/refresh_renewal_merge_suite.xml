@@ -10,9 +10,9 @@
     <test name="Auto CA Refresh Renewal Merge Tests">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestCurrentTermEndAddsVehicle">
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestCurrentTermEndAddsVehicle">
                 <methods>
-                    <include name="pas14532_refreshForCurrentAndRenewalTermsVinMatched"/>
+                    <include name="pas14532_refreshForCurrentAndRenewalTermsVinStubUpdate"/>
                 </methods>
             </class>
         </classes>
