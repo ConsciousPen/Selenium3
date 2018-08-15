@@ -80,7 +80,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();
 
 		//1. Create a Policy with specific test data
-		String policyNumber = createPreconds(testData);
+		String policyNumber = openAppAndCreatePolicy(testData);
 		String newBusinessCurrentVinBeforeNull = DBService.get().getValue(String.format(VehicleQueries.SELECT_LATEST_VIN_STUB_ON_QUOTE, policyNumber)).get();
 		assertThat(newBusinessCurrentVinBeforeNull).isNotNull().isNotEmpty();
 		log.info("Curren Vin # is : {}", newBusinessCurrentVinBeforeNull);
@@ -160,7 +160,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 	}
 
 	protected void renewalVehicleTypeRegular(TestData testData, boolean isRegularType) {
-		String quoteNumber = createPreconds(testData);
+		String quoteNumber = openAppAndCreatePolicy(testData);
 
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
@@ -188,7 +188,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 	protected void renewalVehicleTypeNotRegular(TestData testData, boolean isRegularType) {
 
-		String quoteNumber = createPreconds(testData);
+		String quoteNumber = openAppAndCreatePolicy(testData);
 
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
@@ -216,7 +216,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 	protected void checkMatchOnNBWithNoMatchOnRenewal(TestData testData, String vinNumber, boolean isRegularType) {
 		// Should be added after VinUpload Tests
-		String quoteNumber = createPreconds(testData);
+		String quoteNumber = openAppAndCreatePolicy(testData);
 
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
