@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.pup;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.Assert;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -25,6 +26,7 @@ import aaa.modules.policy.PersonalUmbrellaBaseTest;
 public class TestPolicyCreationFull extends PersonalUmbrellaBaseTest {
 
     @Parameters({"state"})
+    //@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.PUP)
     public void testPolicyCreation(@Optional("") String state) {
@@ -35,6 +37,6 @@ public class TestPolicyCreationFull extends PersonalUmbrellaBaseTest {
 		createPolicy(
 				policy.getDefaultView().getTab(PrefillTab.class).adjustWithRealPolicies(getTestSpecificTD("TestData"), 
 						getPrimaryPoliciesForPup(getTestSpecificTD("TestData_UpdateCovE"), null)));
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 }

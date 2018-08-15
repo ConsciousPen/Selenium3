@@ -1,12 +1,12 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.ADHOC_DOC_ON_DEMAND_GENERATE;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.main.enums.DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM;
 import static aaa.main.enums.DocGenConstants.OnDemandDocumentsTable.SELECT;
 import static aaa.main.enums.DocGenEnum.Documents.AA11CA;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,11 +15,9 @@ import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.xml.model.DataElementChoice;
 import aaa.helpers.xml.model.DocumentDataSection;
 import aaa.main.enums.DocGenEnum;
-import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
@@ -138,7 +136,7 @@ public class TestSymbolsPresenceTemplate extends PolicyBaseTest {
 
 	public void generateDocument(DocGenEnum.Documents document, String policyNumber) {
 		generateOnDemandDocumentActionTab.verify.documentsPresent(document);
-		generateOnDemandDocumentActionTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, document.getId()).getCell(SELECT).controls.checkBoxes.getFirst().verify.enabled(true);
+		assertThat(generateOnDemandDocumentActionTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, document.getId()).getCell(SELECT).controls.checkBoxes.getFirst()).isEnabled();
 		generateOnDemandDocumentActionTab.generateDocuments(document);
 
 		mainApp().reopen();

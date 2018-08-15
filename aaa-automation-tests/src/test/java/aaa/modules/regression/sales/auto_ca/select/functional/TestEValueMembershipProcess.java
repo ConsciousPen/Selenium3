@@ -6,7 +6,6 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NA
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import org.apache.commons.lang.StringUtils;
@@ -36,31 +35,26 @@ import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueMembershipProcessPreConditions;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
-import toolkit.utils.SSHController;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 
 public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements TestEValueMembershipProcessPreConditions {
 
 	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
-	private static List<String> requestIdList = new LinkedList<>();
 	private Random random = new Random();
 	private GeneralTab generalTab = new GeneralTab();
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-	private SSHController sshControllerRemote = new SSHController(
-			PropertyProvider.getProperty(CustomTestProperties.APP_HOST),
-			PropertyProvider.getProperty(CustomTestProperties.SSH_USER),
-			PropertyProvider.getProperty(CustomTestProperties.SSH_PASSWORD));
 
 	@Test(description = "Check membership endpoint", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void retrieveMembershipSummaryEndpointCheck() {
-		CustomAssert.assertTrue("retrieveMembershipSummary doesn't use stub endpoint. Please run retrieveMembershipSummaryStubEndpointUpdate", DBService.get()
-				.getValue(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_CHECK).get().contains(APP_HOST));
+		assertThat(DBService.get().getValue(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_CHECK).orElse(""))
+				.as("retrieveMembershipSummary doesn't use stub endpoint. Please run retrieveMembershipSummaryStubEndpointUpdate").contains(APP_HOST);
 	}
 
 	//@Test
@@ -104,23 +98,21 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 
 		String policyNumber = membershipPolicyCreation("Active");
 
-		CustomAssert.enableSoftMode();
-		jobsNBplus15plus30runNoChecks();
-		//implementEmailCheck from Admin Log?
-		mainApp().reopen();
-		SearchPage.openPolicy(policyNumber);
-		eValueDiscountStatusCheck(policyNumber, "");
-		transactionHistoryRecordCountCheck(policyNumber, 1, "");
+		CustomSoftAssertions.assertSoftly(softly -> {
+			jobsNBplus15plus30runNoChecks();
+			//implementEmailCheck from Admin Log?
+			mainApp().reopen();
+			SearchPage.openPolicy(policyNumber);
+			eValueDiscountStatusCheck(policyNumber, "", softly);
+			transactionHistoryRecordCountCheck(policyNumber, 1, "", softly);
 
-		jobsNBplus15plus30runNoChecks();
-		mainApp().reopen();
-		SearchPage.openPolicy(policyNumber);
-		eValueDiscountStatusCheck(policyNumber, "");
-		transactionHistoryRecordCountCheck(policyNumber, 1, "");
-		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			jobsNBplus15plus30runNoChecks();
+			mainApp().reopen();
+			SearchPage.openPolicy(policyNumber);
+			eValueDiscountStatusCheck(policyNumber, "", softly);
+			transactionHistoryRecordCountCheck(policyNumber, 1, "", softly);
+			checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false, softly);
+		});
 	}
 
 	/**
@@ -141,23 +133,21 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 
 		String policyNumber = membershipPolicyCreation("Pending");
 
-		CustomAssert.enableSoftMode();
-		jobsNBplus15plus30runNoChecks();
-		//implementEmailCheck from Admin Log?
-		mainApp().reopen();
-		SearchPage.openPolicy(policyNumber);
-		eValueDiscountStatusCheck(policyNumber, "");
-		transactionHistoryRecordCountCheck(policyNumber, 1, "");
+		CustomSoftAssertions.assertSoftly(softly -> {
+			jobsNBplus15plus30runNoChecks();
+			//implementEmailCheck from Admin Log?
+			mainApp().reopen();
+			SearchPage.openPolicy(policyNumber);
+			eValueDiscountStatusCheck(policyNumber, "", softly);
+			transactionHistoryRecordCountCheck(policyNumber, 1, "", softly);
 
-		jobsNBplus15plus30runNoChecks();
-		mainApp().reopen();
-		SearchPage.openPolicy(policyNumber);
-		eValueDiscountStatusCheck(policyNumber, "");
-		transactionHistoryRecordCountCheck(policyNumber, 1, "");
-		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			jobsNBplus15plus30runNoChecks();
+			mainApp().reopen();
+			SearchPage.openPolicy(policyNumber);
+			eValueDiscountStatusCheck(policyNumber, "", softly);
+			transactionHistoryRecordCountCheck(policyNumber, 1, "", softly);
+			checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false, softly);
+		});
 	}
 
 	/**
@@ -178,23 +168,21 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 
 		String policyNumber = membershipPolicyCreation("Cancelled");
 
-		CustomAssert.enableSoftMode();
-		jobsNBplus15plus30runNoChecks();
-		//implementEmailCheck from Admin Log?
-		mainApp().reopen();
-		SearchPage.openPolicy(policyNumber);
-		eValueDiscountStatusCheck(policyNumber, "");
-		transactionHistoryRecordCountCheck(policyNumber, 2, "");
+		CustomSoftAssertions.assertSoftly(softly -> {
+			jobsNBplus15plus30runNoChecks();
+			//implementEmailCheck from Admin Log?
+			mainApp().reopen();
+			SearchPage.openPolicy(policyNumber);
+			eValueDiscountStatusCheck(policyNumber, "", softly);
+			transactionHistoryRecordCountCheck(policyNumber, 2, "", softly);
 
-		jobsNBplus15plus30runNoChecks();
-		mainApp().reopen();
-		SearchPage.openPolicy(policyNumber);
-		eValueDiscountStatusCheck(policyNumber, "");
-		transactionHistoryRecordCountCheck(policyNumber, 3, "Membership Discount Removed");
-		checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			jobsNBplus15plus30runNoChecks();
+			mainApp().reopen();
+			SearchPage.openPolicy(policyNumber);
+			eValueDiscountStatusCheck(policyNumber, "", softly);
+			transactionHistoryRecordCountCheck(policyNumber, 3, "Membership Discount Removed", softly);
+			checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false, softly);
+		});
 	}
 
 	/**
@@ -215,24 +203,22 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 
 		String policyNumber = membershipPolicyCreation("NotActive");
 
-		CustomAssert.enableSoftMode();
-		jobsNBplus15plus30runNoChecks();
-		//implementEmailCheck from Admin Log?
-		mainApp().reopen();
-		SearchPage.openPolicy(policyNumber);
-		eValueDiscountStatusCheck(policyNumber, "");
-		transactionHistoryRecordCountCheck(policyNumber, 2, "");
+		CustomSoftAssertions.assertSoftly(softly -> {
+			jobsNBplus15plus30runNoChecks();
+			//implementEmailCheck from Admin Log?
+			mainApp().reopen();
+			SearchPage.openPolicy(policyNumber);
+			eValueDiscountStatusCheck(policyNumber, "", softly);
+			transactionHistoryRecordCountCheck(policyNumber, 2, "", softly);
 
-		jobsNBplus15plus30runNoChecks();
-		mainApp().reopen();
-		SearchPage.openPolicy(policyNumber);
-		eValueDiscountStatusCheck(policyNumber, "");
+			jobsNBplus15plus30runNoChecks();
+			mainApp().reopen();
+			SearchPage.openPolicy(policyNumber);
+			eValueDiscountStatusCheck(policyNumber, "", softly);
 
-		transactionHistoryRecordCountCheck(policyNumber, 3, "Membership Discount Removed");
-		checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			transactionHistoryRecordCountCheck(policyNumber, 3, "Membership Discount Removed", softly);
+			checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false, softly);
+		});
 	}
 
 	private void setMembershipAndRate(String membershipStatus, boolean eValueSet) {
@@ -321,7 +307,7 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 		JobUtils.executeJob(Jobs.automatedProcessingBypassingAndErrorsReportGenerationJob);
 	}
 
-	private void eValueDiscountStatusCheck(String policyNumber, String status) {
+	private void eValueDiscountStatusCheck(String policyNumber, String status, ETCSCoreSoftAssertions softly) {
 		String getEvalueStatusSQL = "select evalueStatus from (\n"
 				+ "  select ps.policynumber, emd.evaluestatus\n"
 				+ "  from PolicySummary ps, AAAEMemberDetailsEntity emd\n"
@@ -329,18 +315,19 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 				+ "  and ps.policynumber = '%s'\n"
 				+ "  order by emd.id desc)\n"
 				+ "where rownum = 1";
-		CustomAssert.assertEquals(status, DBService.get().getValue(String.format(getEvalueStatusSQL, policyNumber)).orElse(""));
+		softly.assertThat(DBService.get().getValue(String.format(getEvalueStatusSQL, policyNumber)).orElse("")).isEqualTo(status);
 	}
 
-	private void transactionHistoryRecordCountCheck(String policyNumber, int rowCount, String value) {
+	private void transactionHistoryRecordCountCheck(String policyNumber, int rowCount, String value, ETCSCoreSoftAssertions softly) {
 		PolicySummaryPage.buttonTransactionHistory.click();
-		CustomAssert.assertEquals(PolicySummaryPage.tableTransactionHistory.getRowsCount(), rowCount);
+		softly.assertThat(PolicySummaryPage.tableTransactionHistory).hasRows(rowCount);
+
 		String valueShort = "";
 		if (!StringUtils.isEmpty(value)) {
 			valueShort = value.substring(0, 20);
 			assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getHintValue()).contains(value);
 		}
-		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getValue()).contains(valueShort);
+		softly.assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getValue()).contains(valueShort);
 
 		String transactionHistoryQuery = "select * from(\n"
 				+ "select pt.TXREASONTEXT\n"
@@ -350,7 +337,7 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 				+ "        where POLICYNUMBER = '%s')\n"
 				+ "    order by pt.TXDATE desc)\n"
 				+ "    where rownum=1";
-		assertThat(DBService.get().getValue(String.format(transactionHistoryQuery, policyNumber)).orElse(StringUtils.EMPTY)).isEqualTo(value);
+		softly.assertThat(DBService.get().getValue(String.format(transactionHistoryQuery, policyNumber)).orElse(StringUtils.EMPTY)).isEqualTo(value);
 	}
 
 	private void lastTransactionHistoryExit() {
@@ -367,61 +354,55 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 	}
 
 	private void checkDocumentContentAHDRXX(String policyNumber, boolean isGenerated, boolean isMembershipDataPresent, boolean isEvalueDataPresent, boolean isPaperlessDiscDataPresent,
-			boolean isPaperlessDlvryDataPresent) {
+			boolean isPaperlessDlvryDataPresent, ETCSCoreSoftAssertions softly) {
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDRXX", "ENDORSEMENT_ISSUE");
 
 		if (isGenerated) {
 			if (isMembershipDataPresent) {
-				CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Advantage Program"));
+				softly.assertThat(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Advantage Program")).isTrue();
 				//PAS-1549, PAS-2872} Start
-				CustomAssert.assertTrue("5%"
-						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-								.getTextField()));
-				CustomAssert.assertTrue("Y"
-						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
+				softly.assertThat(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+						.getTextField()).isEqualTo("5%");
+				softly.assertThat(DocGenHelper.getDocumentDataElemByName("AAAMemYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+						.getTextField()).isEqualTo("Y");
 				//PAS-1549, PAS-2872 End
 			} else {
-				CustomAssert.assertFalse(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Advantage Program"));
-				CustomAssert.assertTrue("N"
-						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
+				softly.assertThat(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Advantage Program")).isFalse();
+				softly.assertThat(DocGenHelper.getDocumentDataElemByName("AAAMemYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0)
+						.getDataElementChoice().getTextField()).isEqualTo("N");
 			}
 
 			if (isEvalueDataPresent) {
-				CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount"));
+				softly.assertThat(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount")).isTrue();
 				//PAS-1549, PAS-310 Start
-				CustomAssert.assertTrue("13.5%"
-						.equals(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-								.getTextField()));
+				softly.assertThat(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+						.getTextField()).isEqualTo("13.5%");
 				//PAS-1549, PAS-310 Start
 			} else {
-				CustomAssert.assertFalse(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount"));
+				softly.assertThat(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount")).isFalse();
 			}
 
 			if (isPaperlessDiscDataPresent) {
-				CustomAssert.assertTrue("Y"
-						.equals(DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-								.getTextField()));
+				softly.assertThat(DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+						.getTextField()).isEqualTo("Y");
 			} else {
-				CustomAssert.assertTrue("N"
-						.equals(DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-								.getTextField()));
+				softly.assertThat(DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+						.getTextField()).isEqualTo("N");
 			}
 
 			if (isPaperlessDlvryDataPresent) {
-				CustomAssert.assertTrue("Y"
-						.equals(DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-								.getTextField()));
+				softly.assertThat(DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+						.getTextField()).isEqualTo("Y");
 			} else {
-				CustomAssert.assertTrue("N"
-						.equals(DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-								.getTextField()));
+				softly.assertThat(DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+						.getTextField()).isEqualTo("N");
 			}
 			lastTransactionHistoryExit();
 			//TODO OSI return the check when EM team confirms why the docs are generated with such a long delay - INC0655981
 			//Efolder.isDocumentExist("Endorsement", "Discount Removed");
 		} else {
 			//BUG PAS-7149 AHDRXX is generated when MembershipEligibility=FALSE and eValue discount is not removed
-			CustomAssert.assertFalse(DBService.get().getValue(query).isPresent());
+			softly.assertThat(DBService.get().getValue(query)).isNotPresent();
 		}
 	}
 }

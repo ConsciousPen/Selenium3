@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005301</agencyLocation>
+		<agentCd>70683577</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2018-01-05T00:00:00</effective>
+		<expiration>2019-01-05T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>HDES</importedFrom>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>HO6</policyFormCd>
+		<preConversionPolicyNumber>WD82244</preConversionPolicyNumber>
+		<preConversionPolicyPremium>543</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>WD82244</sourcePolicyNum>
+		<subProducerCd>70683577</subProducerCd>
+		<tollNumberCd>xxx</tollNumberCd>
+		<underwriterCd>CSAAIB</underwriterCd>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+			<policyType>BASIC</policyType>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>DISCOVERY BAY</dwellAddressCity>
+			<dwellAddressLine1>1641 RIVERLAKE RD</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94505</dwellAddressZip>
+			<expirationDate>2018-02-15T00:00:00</expirationDate>
+			<orderDate>2017-11-17T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>9254219759</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>No</insurerCd>
+		</AAAHOMembership>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1954-12-31T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>DEBRA</firstName>
+			<lastName>HASTAY</lastName>
+			<middleName>K</middleName>
+			<occupationDesc>Other</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>1641 RIVERLAKE RD</addressLine1>
+				<city>DISCOVERY BAY</city>
+				<dateOfBirth>1954-12-31T00:00:00</dateOfBirth>
+				<expirationDt>2018-01-16T00:00:00</expirationDt>
+				<firstName>DEBRA</firstName>
+				<lastName>HASTAY</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-11-17T00:00:00</orderDate>
+				<postalCode>94505</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>1641 RIVERLAKE RD</addressLine1>
+				<city>DISCOVERY BAY</city>
+				<countryCd>US</countryCd>
+				<postalCode>94505</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Insured</billToAtRenewal>
+			<paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>standardHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2008-01-01T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>10</noOfYearsWithHO>
+			<policyType>HO6</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAIso360ReportComponent state="Created">
+			<constructionTypeCd>Frame</constructionTypeCd>
+			<dwellAddressCity>DISCOVERY BAY</dwellAddressCity>
+			<dwellAddressLine1>1641 RIVERLAKE RD</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94505</dwellAddressZip>
+			<expirationDate>2018-01-16T00:00:00</expirationDate>
+			<isoReplacementCost>161500</isoReplacementCost>
+			<livingArea>9999</livingArea>
+			<numberOfFamilies>1</numberOfFamilies>
+			<numberOfStories>1</numberOfStories>
+			<orderDate>2017-11-17T00:00:00</orderDate>
+			<roofShape>Complex/Custom</roofShape>
+			<roofType>Other</roofType>
+			<status>Valid</status>
+			<yearBuilt>1989</yearBuilt>
+		</AAAIso360ReportComponent>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>DISCOVERY BAY</dwellAddressCity>
+			<dwellAddressLine1>1641 RIVERLAKE RD</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94505</dwellAddressZip>
+			<expirationDate>2018-01-16T00:00:00</expirationDate>
+			<orderDate>2017-11-17T00:00:00</orderDate>
+			<ppcValue>4</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>616530</documentCd>
+			<documentText>California Residential Property Insurance Disclosure</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<DwellLocatedInd>false</DwellLocatedInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+			<GasWaterInGarageInd>false</GasWaterInGarageInd>
+			<PremisesEndrosInd>false</PremisesEndrosInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Owner occupied</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>1</aaaDwellingUsage>
+			<aaaFirelineScore>0</aaaFirelineScore>
+			<aaaInsuredTenantDiscountInfo>false</aaaInsuredTenantDiscountInfo>
+			<aaanumberofResidents>9999</aaanumberofResidents>
+			<addressLine1>1641 RIVERLAKE RD</addressLine1>
+			<city>DISCOVERY BAY</city>
+			<firelineMatchType>Address</firelineMatchType>
+			<fullResidentialSprinklersInd>true</fullResidentialSprinklersInd>
+			<gatedCommInd>true</gatedCommInd>
+			<numberOfFamilies>1</numberOfFamilies>
+			<placementOrMatchType>Address</placementOrMatchType>
+			<postalCode>94505</postalCode>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<woodStoveInd>false</woodStoveInd>
+			<AAACoverageA state="Created">
+				<coverageCd>CovA</coverageCd>
+				<limitAmount>161500</limitAmount>
+			</AAACoverageA>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>38100</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>7700</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>500000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOConstructionInfo state="Created">
+				<condomCoverageADwellingRequested>Interior</condomCoverageADwellingRequested>
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<isoReplacementCost>161500</isoReplacementCost>
+				<livingArea>9999</livingArea>
+				<numberOfStories>1</numberOfStories>
+				<replacementCost>161500</replacementCost>
+				<roofShape>Complex/Custom</roofShape>
+				<roofType>Other</roofType>
+				<yearBuilt>1989</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAHOLossInfo state="Created">
+				<aaaClaim>true</aaaClaim>
+				<aaaHoClaimNo>1000715979</aaaHoClaimNo>
+				<catastrophicIndicator>14061 CA, OR, WA (Floodin</catastrophicIndicator>
+				<catLoss>true</catLoss>
+				<claimCategory>3</claimCategory>
+				<incidentSource>Internal Claims</incidentSource>
+				<includeToRatingInd>true</includeToRatingInd>
+				<lossAmount>2221</lossAmount>
+				<lossDate>2014-12-11T00:00:00</lossDate>
+				<lossTypeCd>7</lossTypeCd>
+				<statusOfClaim>2</statusOfClaim>
+			</AAAHOLossInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>EAST CONTRA COSTA FD 1</fireDistrict>
+				<oldPpcValue>4</oldPpcValue>
+				<ppcValue>4</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>500</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>1641 RIVERLAKE RD</addressLine1>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>DISCOVERY BAY</city>
+					<county>Contra Costa</county>
+					<postalCode>94505</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<HO0496EndorsementForm state="Created"/>
+		<HW0915EndorsementForm state="Created"/>
+		<HO28EndorsementForm state="Created"/>
+		<HO29EndorsementForm state="Created"/>
+		<HO59CEndorsementForm state="Created"/>
+		<HO90EndorsementForm state="Created"/>
+		<HW0104EndorsementForm state="Created"/>
+		<HW2482EndorsementForm state="Created"/>
+	</AAAHOPolicy>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Conversion: Mailing address validated and standardized</title>
+		<updatedOn>2017-11-17T00:00:00</updatedOn>
+		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 1641 RIVERLAKE RD  DISCOVERY BAY CA 94505 to 1641 RIVERLAKE RD  DISCOVERY BAY CA 94505</userText>
+	</userNote>
+</Policy>

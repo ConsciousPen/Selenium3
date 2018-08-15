@@ -3,7 +3,6 @@ package aaa.modules.regression.service.helper;
 import static aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable.DUE_DATE;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import org.assertj.core.api.SoftAssertions;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
@@ -17,6 +16,7 @@ import aaa.modules.regression.service.helper.dtoDxp.Bill;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
@@ -58,7 +58,7 @@ public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 	 * 11. check Due Date, Min Due, Past Due (non-0) are returned same as are there in UI
 	 * @details
 	 */
-	protected void pas13663_CurrentBillServiceBody(SoftAssertions softly, String policyNumber) {
+	protected void pas13663_CurrentBillServiceBody(ETCSCoreSoftAssertions softly, String policyNumber) {
 		currentBillServiceCheck(softly, policyNumber);
 
 		SearchPage.openBilling(policyNumber);
@@ -89,7 +89,7 @@ public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 		currentBillServiceCheck(softly, policyNumber);
 	}
 
-	protected void currentBillServiceCheck(SoftAssertions softly, String policyNumber) {
+	protected void currentBillServiceCheck(ETCSCoreSoftAssertions softly, String policyNumber) {
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 

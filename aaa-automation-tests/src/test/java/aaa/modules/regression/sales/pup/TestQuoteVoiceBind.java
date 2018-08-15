@@ -1,6 +1,6 @@
 package aaa.modules.regression.sales.pup;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -61,11 +61,12 @@ public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
         assertThat(Purchase.confirmVoiceSignature.isVisible()).isTrue();
         //CustomAssert.assertTrue(purchaseTab.confirmVoiceSignature.isVisible());
         Purchase.confirmVoiceSignature.confirm();
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
     */
 
 	@Parameters({"state"})
+	//@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.PUP)
 	public void TC02_testQuoteVoiceBind(@Optional("") String state) {
@@ -81,11 +82,12 @@ public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
 		Purchase.confirmVoiceSignature.confirm();
 		//Verify that the policy is in active state.
 
-		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 	}
 
 	@Parameters({"state"})
+	//@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.PUP)
 	public void TC03_testQuoteVoiceBind(@Optional("") String state) {
@@ -102,7 +104,7 @@ public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
 		assertThat(Purchase.confirmVoiceSignature.isVisible()).isTrue();
 		Purchase.confirmVoiceSignature.confirm();
 		// Verify that the policy is in active state.
-		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	private void precondition() {

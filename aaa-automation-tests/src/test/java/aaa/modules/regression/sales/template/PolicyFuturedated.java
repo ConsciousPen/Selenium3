@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.template;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
@@ -39,12 +40,10 @@ public abstract class PolicyFuturedated extends PolicyBaseTest {
 
 		getPolicyType().get().createPolicy(td);
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_PENDING);
 
-		PolicySummaryPage.labelPolicyEffectiveDate.verify
-				.contains(td.getTestData(new GeneralTab().getMetaKey(), 
+		assertThat(PolicySummaryPage.labelPolicyEffectiveDate).valueContains(td.getTestData(new GeneralTab().getMetaKey(),
 										AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel()).getValue(AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()));
 
 	}
-
 }

@@ -23,9 +23,8 @@ import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
 import static aaa.main.metadata.policy.AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION;
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
  * @author Jelena Dembovska
@@ -64,13 +63,13 @@ public class TestQuotePrefill extends AutoCaSelectBaseTest {
 
 		prefillTab.fillTab(td);
 		
-		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Named Insured").controls.checkBoxes.getFirst().getValue()).isEqualTo(true);
-		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Driver").controls.checkBoxes.getFirst().getValue()).isEqualTo(true);
-		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("First Name").getValue()).isEqualTo(expectedFN);
-		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Last Name").getValue()).isEqualTo(expectedLN);
-		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Date of Birth").getValue()).isEqualTo(expectedBirthDay);
+		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Named Insured").controls.checkBoxes.getFirst()).hasValue(true);
+		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Driver").controls.checkBoxes.getFirst()).hasValue(true);
+		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("First Name")).hasValue(expectedFN);
+		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Last Name")).hasValue(expectedLN);
+		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Date of Birth")).hasValue(expectedBirthDay);
 
-		assertThat(PrefillTab.tableVehicles.getRowsCount()).isEqualTo(0);
+		assertThat(PrefillTab.tableVehicles).hasRows(0);
 
 		prefillTab.submitTab();
 
@@ -78,27 +77,27 @@ public class TestQuotePrefill extends AutoCaSelectBaseTest {
 		aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab generalTab = new aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab();
 
 		MultiInstanceAfterAssetList namedInsuredInfo = generalTab.getNamedInsuredInfoAssetList();
-		generalTab.verifyFieldHasValue(namedInsuredInfo, NamedInsuredInformation.FIRST_NAME.getLabel(), expectedFN);
-		generalTab.verifyFieldHasValue(namedInsuredInfo, NamedInsuredInformation.LAST_NAME.getLabel(), expectedLN);
-		generalTab.verifyFieldHasValue(namedInsuredInfo, NamedInsuredInformation.ZIP_CODE.getLabel(), expectedZip);
-		generalTab.verifyFieldHasValue(namedInsuredInfo, NamedInsuredInformation.ADDRESS_LINE_1.getLabel(), expectedAddress);
-		generalTab.verifyFieldHasValue(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), expectedNI);
+		assertThat(generalTab.getNamedInsuredInfoAssetList().getAsset(NamedInsuredInformation.FIRST_NAME)).hasValue(expectedFN);
+		assertThat(generalTab.getNamedInsuredInfoAssetList().getAsset(NamedInsuredInformation.LAST_NAME)).hasValue(expectedLN);
+		assertThat(generalTab.getNamedInsuredInfoAssetList().getAsset(NamedInsuredInformation.ZIP_CODE)).hasValue(expectedZip);
+		assertThat(generalTab.getNamedInsuredInfoAssetList().getAsset(NamedInsuredInformation.ADDRESS_LINE_1)).hasValue(expectedAddress);
+		assertThat(generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED)).hasValue(expectedNI);
 
 		//check Driver tab
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
 		aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab driverTab = new aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab();
 
-		driverTab.verifyFieldHasValue(DriverTab.NAMED_INSURED.getLabel(), expectedNI);
-		driverTab.verifyFieldHasValue(DriverTab.FIRST_NAME.getLabel(), expectedFN);
-		driverTab.verifyFieldHasValue(DriverTab.LAST_NAME.getLabel(), expectedLN);
-		driverTab.verifyFieldHasValue(DriverTab.DATE_OF_BIRTH.getLabel(), expectedBirthDay);
+		assertThat(driverTab.getAssetList().getAsset(DriverTab.NAMED_INSURED)).hasValue(expectedNI);
+		assertThat(driverTab.getAssetList().getAsset(DriverTab.FIRST_NAME)).hasValue(expectedFN);
+		assertThat(driverTab.getAssetList().getAsset(DriverTab.LAST_NAME)).hasValue(expectedLN);
+		assertThat(driverTab.getAssetList().getAsset(DriverTab.DATE_OF_BIRTH)).hasValue(expectedBirthDay);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		
 		policy.getDefaultView().fill(getTestSpecificTD("TestDataFill_1_CA"));
 
-        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 
 	}
@@ -131,41 +130,41 @@ public class TestQuotePrefill extends AutoCaSelectBaseTest {
 
 		prefillTab.fillTab(td);
 
-		assertThat(PrefillTab.tableVehicles.getRow(1).getCell(1).controls.checkBoxes.getFirst().getValue()).isEqualTo(false);
-		assertThat(PrefillTab.tableVehicles.getRow(2).getCell(1).controls.checkBoxes.getFirst().getValue()).isEqualTo(false);
-		assertThat(PrefillTab.tableVehicles.getRow(1).getCell("VIN").getValue()).isEqualTo(VIN_1);
-		assertThat(PrefillTab.tableVehicles.getRow(2).getCell("VIN").getValue()).isEqualTo(VIN_2);
+		assertThat(PrefillTab.tableVehicles.getRow(1).getCell(1).controls.checkBoxes.getFirst()).hasValue(false);
+		assertThat(PrefillTab.tableVehicles.getRow(2).getCell(1).controls.checkBoxes.getFirst()).hasValue(false);
+		assertThat(PrefillTab.tableVehicles.getRow(1).getCell("VIN")).hasValue(VIN_1);
+		assertThat(PrefillTab.tableVehicles.getRow(2).getCell("VIN")).hasValue(VIN_2);
 
-		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Named Insured").controls.checkBoxes.getFirst().getValue()).isEqualTo(true);
-		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Driver").controls.checkBoxes.getFirst().getValue()).isEqualTo(true);
+		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Named Insured").controls.checkBoxes.getFirst()).hasValue(true);
+		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Driver").controls.checkBoxes.getFirst()).hasValue(true);
 		
-		assertThat(PrefillTab.tableDrivers.getRow(2).getCell("Named Insured").controls.checkBoxes.getFirst().getValue()).isEqualTo(false);
-		assertThat(PrefillTab.tableDrivers.getRow(2).getCell("Driver").controls.checkBoxes.getFirst().getValue()).isEqualTo(false);
+		assertThat(PrefillTab.tableDrivers.getRow(2).getCell("Named Insured").controls.checkBoxes.getFirst()).hasValue(false);
+		assertThat(PrefillTab.tableDrivers.getRow(2).getCell("Driver").controls.checkBoxes.getFirst()).hasValue(false);
 
 
 		PrefillTab.tableVehicles.getRow(1).getCell(1).controls.checkBoxes.getFirst().setValue(true);
 		PrefillTab.tableVehicles.getRow(2).getCell(1).controls.checkBoxes.getFirst().setValue(true);
 		PrefillTab.tableDrivers.getRow(2).getCell("Named Insured").controls.checkBoxes.getFirst().setValue(true);
-		assertThat(PrefillTab.tableDrivers.getRow(2).getCell("Driver").controls.checkBoxes.getFirst().getValue()).isEqualTo(true);
+		assertThat(PrefillTab.tableDrivers.getRow(2).getCell("Driver").controls.checkBoxes.getFirst()).hasValue(true);
 
 		prefillTab.submitTab();
 
 		//check GeneralTab
 		aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab generalTab = new aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab();
-		generalTab.verifyFieldHasValue(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), expectedNI_1);
-		assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab.tableInsuredList.getRowsCount()).isEqualTo(2);
+		assertThat(generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED)).hasValue(expectedNI_1);
+		assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab.tableInsuredList).hasRows(2);
 		generalTab.fillTab(getTestSpecificTD("TestDataFill_1_CA"));
 		
 		generalTab.viewInsured(2);
 		generalTab.getAssetList().getAsset(NAMED_INSURED_INFORMATION).getAsset(NamedInsuredInformation.HAS_LIVED_LESS_THAN_3_YEARS).setValue("No");
-		
-		
+
+
 		//check Driver tab
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
 		aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab driverTab = new aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab();
-		driverTab.verifyFieldHasValue(DriverTab.NAMED_INSURED.getLabel(), expectedNI_1);
+		assertThat(driverTab.getAssetList().getAsset(DriverTab.NAMED_INSURED)).hasValue(expectedNI_1);
 		aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.tableDriverList.selectRow(2);
-		driverTab.verifyFieldHasValue(DriverTab.NAMED_INSURED.getLabel(), expectedNI_2);
+		assertThat(driverTab.getAssetList().getAsset(DriverTab.NAMED_INSURED)).hasValue(expectedNI_2);
 
 		aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.viewDriver(1);
 		driverTab.fillTab(getTestSpecificTD("DriverTab1"));
@@ -182,10 +181,10 @@ public class TestQuotePrefill extends AutoCaSelectBaseTest {
 		aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab vehicleTab = new aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab();
 		
 		VehicleTab.tableVehicleList.selectRow(1);
-		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN.getLabel(), VIN_1);
+		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN)).hasValue(VIN_1);
 		
 		VehicleTab.tableVehicleList.selectRow(2);
-		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN.getLabel(), VIN_2);
+		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN)).hasValue(VIN_2);
 		vehicleTab.fillTab(getTestSpecificTD("VehicleTab"));
 		vehicleTab.submitTab();
 		
@@ -193,7 +192,7 @@ public class TestQuotePrefill extends AutoCaSelectBaseTest {
 		policy.getDefaultView().fill(getTestSpecificTD("TestDataFill_2_CA"));
 		
 		
-        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 
 	}

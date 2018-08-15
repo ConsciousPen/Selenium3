@@ -1,5 +1,6 @@
 package aaa.modules.regression.billing_and_payments.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.main.enums.BillingConstants.BillingAccountPoliciesTable.MIN_DUE;
 import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE;
 import static aaa.main.enums.PolicyConstants.PolicyCoverageInstallmentFeeTable.INSTALLMENT_FEE;
@@ -33,11 +34,11 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
+import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.TextBox;
+import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class TestInstallmentFees extends PolicyBilling {
 
@@ -80,13 +81,10 @@ public class TestInstallmentFees extends PolicyBilling {
 		mainApp().open();
 		createCustomerIndividual();
 		getPolicyType().get().createPolicy(policyTdAdjusted);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-		CustomAssert.enableSoftMode();
 		pas1943_InstallmentFeeCreditDebitCardSplitBody(policyNumber);
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	/**
@@ -110,7 +108,7 @@ public class TestInstallmentFees extends PolicyBilling {
 		mainApp().open();
 		createCustomerIndividual();
 		getPolicyType().get().createPolicy(policyTdAdjusted);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 
@@ -126,10 +124,7 @@ public class TestInstallmentFees extends PolicyBilling {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 
-		CustomAssert.enableSoftMode();
 		uiMessageCheck();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	private void uiMessageCheck() {
@@ -142,117 +137,122 @@ public class TestInstallmentFees extends PolicyBilling {
 		Dollar eftInstallmentFeeACH = new Dollar(PremiumAndCoveragesTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Checking / Savings Account (ACH)").getCell(INSTALLMENT_FEE).getValue());
 		Page.dialogConfirmation.buttonCloseWithCross.click();
 
-		//PAS-1455 start
-		CustomAssert.assertTrue(PremiumAndCoveragesTab.autoPaySetupSavingMessage.getRow(1).getCell(2).getValue().equals(String.format(AUTOPAY_SAVING_MESSAGE, nonEftInstallmentFee.subtract(eftInstallmentFeeACH).toString().replace(".00", ""))));
-		//PAS-1455 end
+		CustomSoftAssertions.assertSoftly(softly -> {
+			//PAS-1455 start
+			softly.assertThat(PremiumAndCoveragesTab.autoPaySetupSavingMessage.getRow(1).getCell(2))
+					.hasValue(String.format(AUTOPAY_SAVING_MESSAGE, nonEftInstallmentFee.subtract(eftInstallmentFeeACH).toString().replace(".00", "")));
+			//PAS-1455 end
 
-		premiumAndCoveragesTab.saveAndExit();
+			premiumAndCoveragesTab.saveAndExit();
 
-		//check Info Message about saving by switching to EFT
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		billingAccount.update().start();
-		//PAS-241 Start
-		String installmentSavingInfo = String.format(AUTOPAY_SAVING_MESSAGE, nonEftInstallmentFee.subtract(eftInstallmentFeeACH).toString().replace(".00", ""));
-		//PAS-241 End
-		CustomAssert.assertTrue(BillingAccount.tableInstallmentSavingInfo.getRow(1).getCell(2).getValue().equals(installmentSavingInfo));
+			//check Info Message about saving by switching to EFT
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+			billingAccount.update().start();
+			//PAS-241 Start
+			String installmentSavingInfo = String.format(AUTOPAY_SAVING_MESSAGE, nonEftInstallmentFee.subtract(eftInstallmentFeeACH).toString().replace(".00", ""));
+			//PAS-241 End
+			softly.assertThat(BillingAccount.tableInstallmentSavingInfo.getRow(1).getCell(2)).hasValue(installmentSavingInfo);
 
-		//PAS-3846 start - will change in future
-		AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("contains=Card");
-		//PAS-4127 start
-		updateBillingAccountActionTab.getInquiryAssetList().assetFieldsAbsence("Card Type");
-		//PAS-4127 end
+			//PAS-3846 start - will change in future
+			AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
+			acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("contains=Card");
+			//PAS-4127 start
+			softly.assertThat(updateBillingAccountActionTab.isFieldThatIsNotInAssetListIsPresent("Card Type")).as("Fiels 'Card Type' should be absent").isFalse();
+			//PAS-4127 end
+		});
 	}
 
 	private void pas1943_InstallmentFeeCreditDebitCardSplitBody(String policyNumber) {
-		//check Installment Fees table in P&C
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.linkPaymentPlan.click();
-		PremiumAndCoveragesTab.linkViewApplicableFeeSchedule.click();
-		Dollar nonEftInstallmentFee = new Dollar(PremiumAndCoveragesTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE).getValue());
-		Dollar eftInstallmentFeeACH =
-				new Dollar(PremiumAndCoveragesTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Checking / Savings Account (ACH)").getCell(INSTALLMENT_FEE).getValue());
-		Dollar eftInstallmentFeeCreditCard = new Dollar(PremiumAndCoveragesTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Credit Card").getCell(INSTALLMENT_FEE).getValue());
-		Dollar eftInstallmentFeeDebitCard = new Dollar(PremiumAndCoveragesTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Debit Card").getCell(INSTALLMENT_FEE).getValue());
-		Page.dialogConfirmation.buttonCloseWithCross.click();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			//check Installment Fees table in P&C
+			policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+			PremiumAndCoveragesTab.linkPaymentPlan.click();
+			PremiumAndCoveragesTab.linkViewApplicableFeeSchedule.click();
+			Dollar nonEftInstallmentFee = new Dollar(PremiumAndCoveragesTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE).getValue());
+			Dollar eftInstallmentFeeACH =
+					new Dollar(PremiumAndCoveragesTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Checking / Savings Account (ACH)").getCell(INSTALLMENT_FEE).getValue());
+			Dollar eftInstallmentFeeCreditCard = new Dollar(PremiumAndCoveragesTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Credit Card").getCell(INSTALLMENT_FEE).getValue());
+			Dollar eftInstallmentFeeDebitCard = new Dollar(PremiumAndCoveragesTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Debit Card").getCell(INSTALLMENT_FEE).getValue());
+			Page.dialogConfirmation.buttonCloseWithCross.click();
 
-		//PAS-1455 start
-		CustomAssert.assertTrue(PremiumAndCoveragesTab.autoPaySetupSavingMessage.getRow(1).getCell(2).getValue().equals(
-				String.format(AUTOPAY_SAVING_MESSAGE, nonEftInstallmentFee.subtract(eftInstallmentFeeACH).toString().replace(".00", ""))));
-		//PAS-1455 end
+			//PAS-1455 start
+			softly.assertThat(PremiumAndCoveragesTab.autoPaySetupSavingMessage.getRow(1).getCell(2))
+					.hasValue(String.format(AUTOPAY_SAVING_MESSAGE, nonEftInstallmentFee.subtract(eftInstallmentFeeACH).toString().replace(".00", "")));
+			//PAS-1455 end
 
-		premiumAndCoveragesTab.saveAndExit();
+			premiumAndCoveragesTab.saveAndExit();
 
-		//check Info Message about saving by switching to EFT
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		billingAccount.update().start();
-		//PAS-241 Start
-		String installmentSavingInfo = String.format(AUTOPAY_SAVING_MESSAGE, nonEftInstallmentFee.subtract(eftInstallmentFeeACH).toString().replace(".00", ""));
-		//PAS-241 End
-		CustomAssert.assertTrue(BillingAccount.tableInstallmentSavingInfo.getRow(1).getCell(2).getValue().equals(installmentSavingInfo));
+			//check Info Message about saving by switching to EFT
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+			billingAccount.update().start();
+			//PAS-241 Start
+			String installmentSavingInfo = String.format(AUTOPAY_SAVING_MESSAGE, nonEftInstallmentFee.subtract(eftInstallmentFeeACH).toString().replace(".00", ""));
+			//PAS-241 End
+			softly.assertThat(BillingAccount.tableInstallmentSavingInfo.getRow(1).getCell(2)).hasValue(installmentSavingInfo);
 
-		//PAS-3846 start - will change in future
-		AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("contains=Card");
-		//PAS-4127 start
-		updateBillingAccountActionTab.getInquiryAssetList().assetFieldsAbsence("Card Type");
-		//PAS-4127 end
+			//PAS-3846 start - will change in future
+			AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
+			acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("contains=Card");
+			//PAS-4127 start
+			softly.assertThat(updateBillingAccountActionTab.isFieldThatIsNotInAssetListIsPresent("Card Type")).as("Fiels 'Card Type' should be absent").isFalse();
+			//PAS-4127 end
 
-		TestData dcPayment = getTestSpecificTD("TestData_DebitCard");
-		TestData ccPayment = getTestSpecificTD("TestData_CreditCard");
-		TestData dcVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0);
-		TestData ccMaster = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2);
-		//PAS-834 start
-		updateBillingAccountCardFormatCheck(dcVisa, "Debit");
-		updateBillingAccountCardFormatCheck(ccMaster, "Credit");
-		//PAS-834 end
-		Tab.buttonBack.click();
-		Tab.buttonCancel.click();
-		//PAS-3846 end
+			TestData dcPayment = getTestSpecificTD("TestData_DebitCard");
+			TestData ccPayment = getTestSpecificTD("TestData_CreditCard");
+			TestData dcVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0);
+			TestData ccMaster = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2);
+			//PAS-834 start
+			updateBillingAccountCardFormatCheck(dcVisa, "Debit", softly);
+			updateBillingAccountCardFormatCheck(ccMaster, "Credit", softly);
+			//PAS-834 end
+			Tab.buttonBack.click();
+			Tab.buttonCancel.click();
+			//PAS-3846 end
 
-		//check Non-EFT fee
-		feeSubtypeCheck(policyNumber, 2, "Non EFT Installment Fee", nonEftInstallmentFee);
-		billingAccount.acceptPayment().perform(cashPayment, new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(MIN_DUE).getValue()));
+			//check Non-EFT fee
+			feeSubtypeCheck(policyNumber, 2, "Non EFT Installment Fee", nonEftInstallmentFee, softly);
+			billingAccount.acceptPayment().perform(cashPayment, new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(MIN_DUE).getValue()));
 
-		//check ACH Fee
-		billingAccount.update().perform(getTestSpecificTD("TestData_UpdateBilling"));
-		//TODO numberACH will be used for Refund check in future
-		String numberACH = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(1).getValue("Account #"); //ACH
-		feeSubtypeCheck(policyNumber, 3, "EFT Installment Fee - ACH", eftInstallmentFeeACH);
-		billingAccount.acceptPayment().perform(eftPayment, new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(MIN_DUE).getValue()));
+			//check ACH Fee
+			billingAccount.update().perform(getTestSpecificTD("TestData_UpdateBilling"));
+			//TODO numberACH will be used for Refund check in future
+			String numberACH = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(1).getValue("Account #"); //ACH
+			feeSubtypeCheck(policyNumber, 3, "EFT Installment Fee - ACH", eftInstallmentFeeACH, softly);
+			billingAccount.acceptPayment().perform(eftPayment, new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(MIN_DUE).getValue()));
 
-		//check Non-EFT DC fee
-		autopaySelection("contains=Visa");
-		//TODO visaNumber will be used for Refund check in future
-		String visaNumber = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0).getValue("Number");  //Visa
-		feeSubtypeCheck(policyNumber, 4, "EFT Installment Fee - Debit Card", eftInstallmentFeeDebitCard);
-		billingAccount.acceptPayment().perform(dcPayment, new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(MIN_DUE).getValue()));
-		//PAS-834 start
-		completedPaymentCreditDebitCardCheck(dcVisa, "Debit");
-		//PAS-834 end
+			//check Non-EFT DC fee
+			autopaySelection("contains=Visa");
+			//TODO visaNumber will be used for Refund check in future
+			String visaNumber = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0).getValue("Number");  //Visa
+			feeSubtypeCheck(policyNumber, 4, "EFT Installment Fee - Debit Card", eftInstallmentFeeDebitCard, softly);
+			billingAccount.acceptPayment().perform(dcPayment, new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(MIN_DUE).getValue()));
+			//PAS-834 start
+			completedPaymentCreditDebitCardCheck(dcVisa, "Debit", softly);
+			//PAS-834 end
 
-		//check Non-EFT CC fee
-		autopaySelection("contains=Master");
-		//TODO masterCard will be used for Refund check in future
-		String masterNumber = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2).getValue("Number");  //Master
-		feeSubtypeCheck(policyNumber, 5, "EFT Installment Fee - Credit Card", eftInstallmentFeeCreditCard);
-		billingAccount.acceptPayment().perform(ccPayment, new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(MIN_DUE).getValue()));
+			//check Non-EFT CC fee
+			autopaySelection("contains=Master");
+			//TODO masterCard will be used for Refund check in future
+			String masterNumber = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2).getValue("Number");  //Master
+			feeSubtypeCheck(policyNumber, 5, "EFT Installment Fee - Credit Card", eftInstallmentFeeCreditCard, softly);
+			billingAccount.acceptPayment().perform(ccPayment, new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(MIN_DUE).getValue()));
 
-		//PAS-834 start
-		completedPaymentCreditDebitCardCheck(ccMaster, "Credit");
-		//PAS-834 end
+			//PAS-834 start
+			completedPaymentCreditDebitCardCheck(ccMaster, "Credit", softly);
+			//PAS-834 end
+		});
 	}
 
-	private void completedPaymentCreditDebitCardCheck(TestData cardData, String cardType) {
+	private void completedPaymentCreditDebitCardCheck(TestData cardData, String cardType, ETCSCoreSoftAssertions softly) {
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).controls.links.get("Payment").click();
 
 		String expectedValueCard = formattedPaymentMethodValue(cardData, cardType);
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).verify.valueContains(expectedValueCard);
+		softly.assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD)).valueContains(expectedValueCard);
 		Tab.buttonBack.click();
 	}
 
-	private void updateBillingAccountCardFormatCheck(TestData cardData, String cardType) {
+	private void updateBillingAccountCardFormatCheck(TestData cardData, String cardType, ETCSCoreSoftAssertions softly) {
 		updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.TYPE)
 				.fill(cardData);
 		updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.NUMBER).fill(cardData);
@@ -260,21 +260,21 @@ public class TestInstallmentFees extends PolicyBilling {
 
 		String expectedValueCard = formattedPaymentMethodValue(cardData, cardType);
 		//BUG PAS-4280 Last 4 digits for Card are displayed incorrectly after Updating Billing Account on the Billing Page
-		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method").verify.contains(expectedValueCard);
+		softly.assertThat(AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method")).valueContains(expectedValueCard);
 		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Action").controls.links.get("View").click();
 		//PAS-4127 start
-		updateBillingAccountActionTab.getInquiryAssetList().getStaticElement(BillingAccountMetaData.AddPaymentMethodTab.TYPE.getLabel()).verify
-				.value(cardData.getValue("Type") + " " + cardType + " Card");
+		softly.assertThat(updateBillingAccountActionTab.getInquiryAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHODS.getLabel(), InquiryAssetList.class)
+				.getStaticElement(BillingAccountMetaData.AddPaymentMethodTab.TYPE)).hasValue(cardData.getValue("Type") + " " + cardType + " Card");
 		//PAS-4127 end
 
-		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method").verify.contains(expectedValueCard);
+		softly.assertThat(AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method")).valueContains(expectedValueCard);
 		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Action").controls.links.get("Edit").click();
 		//PAS-4127 start
-		updateBillingAccountActionTab.getInquiryAssetList().getStaticElement(BillingAccountMetaData.AddPaymentMethodTab.TYPE.getLabel()).verify
-				.value(cardData.getValue("Type") + " " + cardType + " Card");
+		softly.assertThat(updateBillingAccountActionTab.getInquiryAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHODS.getLabel(), InquiryAssetList.class)
+				.getStaticElement(BillingAccountMetaData.AddPaymentMethodTab.TYPE)).hasValue(cardData.getValue("Type") + " " + cardType + " Card");
 		//PAS-4127 end
 
-		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method").verify.contains(expectedValueCard);
+		softly.assertThat(AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method")).valueContains(expectedValueCard);
 		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Action").controls.links.get("Delete").click();
 		Page.dialogConfirmation.confirm();
 	}
@@ -283,25 +283,25 @@ public class TestInstallmentFees extends PolicyBilling {
 		return cardType + " Card " + cardData.getValue("Type").replace(" ", "") + "-" + cardData.getValue("Number").substring(12, 16) + " expiring ";
 	}
 
-	private void feeSubtypeCheck(String policyNumber, int installmentNumber, String transactionSubtype, Dollar amount) {
+	private void feeSubtypeCheck(String policyNumber, int installmentNumber, String transactionSubtype, Dollar amount, ETCSCoreSoftAssertions softly) {
 		AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
 		LocalDateTime billDueDate3 = BillingSummaryPage.getInstallmentDueDate(installmentNumber).minusDays(20);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate3);
 		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON).verify.value(transactionSubtype);
+		softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON)).hasValue(transactionSubtype);
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).controls.links.get("Fee").click();
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_TYPE.getLabel(), ComboBox.class).verify.value("Fee");
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_SUBTYPE.getLabel(), ComboBox.class).verify.value(transactionSubtype);
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).verify.value(amount.toString());
+		softly.assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_TYPE)).hasValue("Fee");
+		softly.assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_SUBTYPE)).hasValue(transactionSubtype);
+		softly.assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT)).hasValue(amount.toString());
 		acceptPaymentActionTab.back();
 	}
 
 	private void autopaySelection(String autopaySelectionValue) {
 		UpdateBillingAccountActionTab updateBillingAccountActionTab = new UpdateBillingAccountActionTab();
 		BillingSummaryPage.linkUpdateBillingAccount.click();
-		updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.AUTOPAY_SELECTION.getLabel(), ComboBox.class).setValue(autopaySelectionValue);
+		updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.AUTOPAY_SELECTION).setValue(autopaySelectionValue);
 		UpdateBillingAccountActionTab.buttonSave.click();
 	}
 }

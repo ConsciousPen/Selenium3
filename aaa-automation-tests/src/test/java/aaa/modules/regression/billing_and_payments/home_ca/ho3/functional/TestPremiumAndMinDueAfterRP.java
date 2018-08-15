@@ -72,7 +72,7 @@ public class TestPremiumAndMinDueAfterRP extends HomeCaHO3BaseTest {
 		//Verify that Credit balance is not transferred automatically to the renewal
 		String amount = BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,
 				BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT_PROPERTY_EXPOSURES).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue();
-		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(2).getCell(BillingConstants.BillingAccountPoliciesTable.PREPAID).getValue()).isEqualTo(amount);
+		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(2).getCell(BillingConstants.BillingAccountPoliciesTable.PREPAID)).hasValue(amount);
 		verifyRenewalOffer();
 	}
 
@@ -164,8 +164,8 @@ public class TestPremiumAndMinDueAfterRP extends HomeCaHO3BaseTest {
 
 	private void verifyRenewalOffer() {
 		assertSoftly(softly -> {
-			assertThat(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE).getValue()).isEqualTo(BillingConstants.BillsAndStatementsType.OFFER);
-			assertThat(BillingSummaryPage.tableBillsStatements.getRow(2).getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE).getValue()).isEqualTo(BillingConstants.BillsAndStatementsType.DISCARDED_OFFER);
+			assertThat(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE)).hasValue(BillingConstants.BillsAndStatementsType.OFFER);
+			assertThat(BillingSummaryPage.tableBillsStatements.getRow(2).getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE)).hasValue(BillingConstants.BillsAndStatementsType.DISCARDED_OFFER);
 			assertThat(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.DUE_DATE).getValue()).isEqualTo(policyExpirationDate.format(DateTimeUtils.MM_DD_YYYY));
 			assertThat(BillingSummaryPage.tableBillsStatements.getRow(2).getCell(BillingConstants.BillingBillsAndStatmentsTable.DUE_DATE).getValue()).isEqualTo(policyExpirationDate.format(DateTimeUtils.MM_DD_YYYY));
 			assertThat(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue()).isNotEqualTo(BillingSummaryPage.tableBillsStatements.getRow(2).getCell(BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());

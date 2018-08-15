@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -191,15 +192,15 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 			TestData.makeKeyPath(PurchaseTab.class.getSimpleName(), PurchaseMetaData.PurchaseTab.MINIMUM_REQUIRED_DOWNPAYMENT.getLabel()), origMinimumRequiredDownPayment.add(excessAmount).toString())
 			.adjust(TestData.makeKeyPath(PurchaseTab.class.getSimpleName(), PurchaseMetaData.PurchaseTab.PAYMENT_ALLOCATION.getLabel(), PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH.getLabel()),
 				origMinimumRequiredDownPayment.add(excessAmount).toString()));
-		Purchase.btnApplyPayment.verify.enabled(false);
-		purchaseTab.getBottomWarning().verify.contains(expectedErrorMessage);
+		assertThat(Purchase.btnApplyPayment).isDisabled();
+		assertThat(purchaseTab.getBottomWarning()).valueContains(expectedErrorMessage);
 		purchaseTab.fillTab(getTestSpecificTD("TestData_CorrectValue").adjust(
 			TestData.makeKeyPath(PurchaseTab.class.getSimpleName(), PurchaseMetaData.PurchaseTab.PAYMENT_ALLOCATION.getLabel(), PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH.getLabel()),
 			origMinimumRequiredDownPayment.toString()));
-		Purchase.btnApplyPayment.verify.enabled(true);
+		assertThat(Purchase.btnApplyPayment).isEnabled();
 		Purchase.btnApplyPayment.click();
 		Purchase.confirmPurchase.confirm();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	/**
@@ -254,7 +255,7 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 		Dollar premium = new Dollar(Purchase.tablePaymentPlan.getRow(1).getCell(PolicyConstants.PolicyPaymentPlanTable.PREMIUM).getValue());
 		Dollar downPayment = premium.multiply(percentOfTotalPremium).divide(100.0);
 		new Dollar(Purchase.tablePaymentPlan.getRow(1).getCell(PolicyConstants.PolicyPaymentPlanTable.MINIMUM_DOWNPAYMENT).getValue()).verify.equals(downPayment);
-		Purchase.tablePaymentPlan.getRow(1).getCell(PolicyConstants.PolicyPaymentPlanTable.NUMBER_OF_REMAINING_INSTALLMENTS).verify.value(String.valueOf(numberOfPayments));
+		assertThat(Purchase.tablePaymentPlan.getRow(1).getCell(PolicyConstants.PolicyPaymentPlanTable.NUMBER_OF_REMAINING_INSTALLMENTS)).hasValue(String.valueOf(numberOfPayments));
 
 		if (isMoreThenNull) {
 			new Dollar(Purchase.tablePaymentPlan.getRow(1).getCell(PolicyConstants.PolicyPaymentPlanTable.INSTALLMENT_AMOUNT).getValue()).verify.moreThan(new Dollar(0));
@@ -293,11 +294,11 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 
 		HashMap<String, String> query = new HashMap<>();
 		query.put(BillingConstants.BillingInstallmentScheduleTable.DESCRIPTION, BillingConstants.InstallmentDescription.INSTALLMENT);
-		BillingSummaryPage.tableInstallmentSchedule.verify.rowsCount(numberOfInstallment, query);
+		assertThat(BillingSummaryPage.tableInstallmentSchedule).hasMatchingRows(numberOfInstallment, query);
 
-		BillingSummaryPage.tableInstallmentSchedule.getRow(BillingConstants.BillingInstallmentScheduleTable.DESCRIPTION, BillingConstants.InstallmentDescription.DEPOSIT)
-				.getCell(BillingConstants.BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT).verify
-			.value(origDepositAmount.toString());
+		assertThat(BillingSummaryPage.tableInstallmentSchedule.getRow(BillingConstants.BillingInstallmentScheduleTable.DESCRIPTION, BillingConstants.InstallmentDescription.DEPOSIT)
+				.getCell(BillingConstants.BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT))
+				.hasValue(origDepositAmount.toString());
 
 		Dollar totalAmount = new Dollar(0);
 		List<Row> installments = BillingSummaryPage.tableInstallmentSchedule.getRows();

@@ -1,5 +1,6 @@
 package aaa.modules.delta.templates;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,12 +11,13 @@ import aaa.helpers.delta.HssQuoteDataGatherHelper;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.actiontabs.CancelNoticeActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 public class CTDeltaScenario1 extends BaseTest {
 
@@ -46,12 +48,8 @@ public class CTDeltaScenario1 extends BaseTest {
 		mainApp().open(); 
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
-		
-		CustomAssert.enableSoftMode();
-		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrier(immediatePriorCarrierLOVs);
-		
-		GeneralTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();
+
+		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrierThenSaveAndExit(immediatePriorCarrierLOVs);
 	}
 	
 	//public void TC_verifyEndorsements() {}	
@@ -71,46 +69,44 @@ public class CTDeltaScenario1 extends BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		PremiumsAndCoveragesQuoteTab premiumsTab = new PremiumsAndCoveragesQuoteTab(); 
-		premiumsTab.calculatePremium(); 
-		
-		CustomAssert.enableSoftMode();		
-		PremiumsAndCoveragesQuoteTab.tableDiscounts.getRowContains(windstormMitigationDiscount_row).verify.present(false);
-		
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		CustomAssert.assertTrue("Windstorm Mitigation Discount: wrong value in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Windstorm Mitigation Discount").equals("")); 
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
-		
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		PropertyInfoTab propertyInfoTab = new PropertyInfoTab(); 
-		
-		String distanceToCoast = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RISKMETER).getAsset(HomeSSMetaData.PropertyInfoTab.Riskmeter.DISTANCE_TO_COAST_MILES.getLabel()).getValue().toString();
-		log.info("Distance to coast value is "+distanceToCoast);
-		String elevation = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RISKMETER).getAsset(HomeSSMetaData.PropertyInfoTab.Riskmeter.ELEVATION_FEET.getLabel()).getValue().toString(); 
-		log.info("Elevation value is "+elevation);
-		
-		propertyInfoTab.fillTab(td_WindstormMitigationYes);
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		premiumsTab.calculatePremium(); 
-				
-		PremiumsAndCoveragesQuoteTab.tableDiscounts.getRowContains(windstormMitigationDiscount_row).verify.present(); 
-		
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		CustomAssert.assertFalse("Windstorm Mitigation Discount: wrong value in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Windstorm Mitigation Discount").equals("0.00")); 
-		if (getPolicyType().equals("HO3")||getPolicyType().equals("DP3")) {
-			CustomAssert.assertTrue("Distance to shore: wrong value in Rating Details", 
-					PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Distance to shore").equals(distanceToCoast));
-			CustomAssert.assertTrue("Elevation: wrong value in Rating Details", 
-					PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Elevation").equals(elevation)); 
-		} 
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
-		
-		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();	
-		CustomAssert.assertAll();		
+		premiumsTab.calculatePremium();
+
+		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRowContains(windstormMitigationDiscount_row)).isPresent(false);
+
+			PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+			softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Windstorm Mitigation Discount")).as("Windstorm Mitigation Discount: wrong value in Rating Details")
+					.isEqualTo("");
+			PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
+			PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
+
+			String distanceToCoast =
+					propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RISKMETER).getAsset(HomeSSMetaData.PropertyInfoTab.Riskmeter.DISTANCE_TO_COAST_MILES).getValue();
+			log.info("Distance to coast value is " + distanceToCoast);
+			String elevation = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RISKMETER).getAsset(HomeSSMetaData.PropertyInfoTab.Riskmeter.ELEVATION_FEET).getValue();
+			log.info("Elevation value is " + elevation);
+
+			propertyInfoTab.fillTab(td_WindstormMitigationYes);
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+			premiumsTab.calculatePremium();
+
+			softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRowContains(windstormMitigationDiscount_row)).exists();
+
+			PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+			softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Windstorm Mitigation Discount")).as("Windstorm Mitigation Discount: wrong value in Rating Details")
+					.isNotEqualTo("0.00");
+			if (getPolicyType().equals(PolicyType.HOME_SS_HO3) || getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Distance to shore")).as("Distance to shore: wrong value in Rating Details").isEqualTo(distanceToCoast);
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Elevation")).as("Elevation: wrong value in Rating Details").isEqualTo(elevation);
+			}
+			PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
+
+			PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
+		});
 	}
 
 	public void verifyELC() {		
@@ -124,22 +120,22 @@ public class CTDeltaScenario1 extends BaseTest {
 		mainApp().open(); 
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
-		
-		CustomAssert.enableSoftMode();		
-		GeneralTab generalTab = new GeneralTab();
-		generalTab.verifyFieldHasValue("Extraordinary Life Circumstance", "None");
-		generalTab.submitTab();
-		
-		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_Declined_with_Score999, "999"); 
-		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_IdentityTheft_with_Score750, "750");
-		
-		HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_MilitaryDeployment_with_Score599, "607", messageOnReportsTab);
-		HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_OtherEvents_with_Score999, "607", messageOnReportsTab);
-		
-		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_None_with_Score599, "599");
-		
-		ReportsTab.buttonSaveAndExit.click();		
-		CustomAssert.assertAll();		
+
+		CustomSoftAssertions.assertSoftly(softly -> {
+			GeneralTab generalTab = new GeneralTab();
+			softly.assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.EXTRAORDINARY_LIFE_CIRCUMSTANCE)).hasValue("None");
+			generalTab.submitTab();
+
+			HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_Declined_with_Score999, "999", softly);
+			HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_IdentityTheft_with_Score750, "750", softly);
+
+			HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_MilitaryDeployment_with_Score599, "607", messageOnReportsTab, softly);
+			HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_OtherEvents_with_Score999, "607", messageOnReportsTab, softly);
+
+			HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_None_with_Score599, "599", softly);
+
+			ReportsTab.buttonSaveAndExit.click();
+		});
 	}
 
 	public void purchasePolicy(TestData policyCreationTD, String scenarioPolicyType) {
@@ -158,7 +154,7 @@ public class CTDeltaScenario1 extends BaseTest {
 		policy.getDefaultView().fillFromTo(policyCreationTD, BindTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         
         log.info("DELTA CT SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);
@@ -177,21 +173,21 @@ public class CTDeltaScenario1 extends BaseTest {
 		mainApp().open(); 		
 		SearchPage.openPolicy(policyNumber);
 		
-		policy.cancelNotice().start(); 
-		CustomAssert.enableSoftMode();	
-		
-		HssQuoteDataGatherHelper.verifyDaysOfNotice("34", 34, error_9931, error_9208);
-		
-		CancelNoticeActionTab cancelNoticeTab = new CancelNoticeActionTab();
-		cancelNoticeTab.fillTab(td_plus34days);
-		CancelNoticeActionTab.buttonOk.click();
-		
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.labelCancelNotice.verify.present();
-		CustomAssert.assertAll();
+		policy.cancelNotice().start();
+
+		CustomSoftAssertions.assertSoftly(softly -> {
+			HssQuoteDataGatherHelper.verifyDaysOfNotice("34", 34, error_9931, error_9208, softly);
+
+			CancelNoticeActionTab cancelNoticeTab = new CancelNoticeActionTab();
+			cancelNoticeTab.fillTab(td_plus34days);
+			CancelNoticeActionTab.buttonOk.click();
+
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			softly.assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
+		});
 	}
 	
-	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<String>();
+	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<>();
 	static {
 		immediatePriorCarrierLOVs.add("21st Century");
 		immediatePriorCarrierLOVs.add("AAA-Michigan (ACG)");

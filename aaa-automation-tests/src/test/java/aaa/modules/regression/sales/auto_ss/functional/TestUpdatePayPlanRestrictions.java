@@ -17,7 +17,7 @@ import toolkit.utils.TestInfo;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestUpdatePayPlanRestrictions extends AutoSSBaseTest {
 

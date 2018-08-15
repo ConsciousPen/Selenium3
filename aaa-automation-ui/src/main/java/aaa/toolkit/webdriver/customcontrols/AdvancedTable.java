@@ -15,7 +15,6 @@ import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.table.Cell;
 import toolkit.webdriver.controls.composite.table.Row;
-import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
@@ -201,8 +200,8 @@ public class AdvancedTable extends TableWithPages {
 	}
 
 	private void filterBy(TextBox filterTextBox, String value) {
-		assertThat(filterTextBox).isPresent().as("Can't find filter textbox by \"%s\" locator.", filterTextBox.getLocator());
-		assertThat(filterTextBox).isEnabled().as("Unable to set \"%1$s\" value to disabled filter textbox with \"%2$s\" locator.", value, filterTextBox.getLocator());
+		assertThat(filterTextBox).as("Can't find filter textbox by \"%s\" locator.", filterTextBox.getLocator()).isPresent();
+		assertThat(filterTextBox).as("Unable to set \"%1$s\" value to disabled filter textbox with \"%2$s\" locator.", value, filterTextBox.getLocator()).isEnabled();
 		filterTextBox.setValue(value);
 	}
 
@@ -294,18 +293,14 @@ public class AdvancedTable extends TableWithPages {
 	/**
 	 * Extended tables verifier class for AdvancedTable
 	 */
-	public class Verify extends Table.Verify {
+	public class Verify {
 		public void empty() {
 			empty(true);
 		}
 
 		public void empty(boolean expectedValue) {
 			String assertMessage = String.format("Table with locator [%1$s] is%2$s empty.", getLocator(), expectedValue ? " not" : "");
-			if (expectedValue) {
-				assertThat(isEmpty()).isTrue().as(assertMessage);
-			} else {
-				assertThat(isEmpty()).isFalse().as(assertMessage);
-			}
+			assertThat(isEmpty()).as(assertMessage).isEqualTo(expectedValue);
 		}
 	}
 

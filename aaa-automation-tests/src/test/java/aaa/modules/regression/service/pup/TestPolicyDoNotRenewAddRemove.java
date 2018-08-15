@@ -32,6 +32,7 @@ public class TestPolicyDoNotRenewAddRemove extends PolicyDoNotRenewAddRemove {
 	}
 
 	@Parameters({"state"})
+	//@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.PUP)
 	public void testPolicyDoNotRenewAddRemove(@Optional("") String state) {

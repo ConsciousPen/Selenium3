@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy version="1" name="AAA_HO_CA" rootEntityType="policy">
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005301</agencyLocation>
+		<agentCd>70683577</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2018-02-15T00:00:00</effective>
+		<expiration>2019-02-15T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>HDES</importedFrom>
+		<isAdditionalPolicy>true</isAdditionalPolicy>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>HO6</policyFormCd>
+		<preConversionPolicyNumber>WK18266</preConversionPolicyNumber>
+		<preConversionPolicyPremium>551</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>WK18266</sourcePolicyNum>
+		<subProducerCd>70683577</subProducerCd>
+		<tollNumberCd>xxx</tollNumberCd>
+		<underwriterCd>CSAAIB</underwriterCd>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+			<policyType>BASIC</policyType>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>HERCULES</dwellAddressCity>
+			<dwellAddressLine1>101 WORTHING</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94547</dwellAddressZip>
+			<expirationDate>2018-03-22T00:00:00</expirationDate>
+			<orderDate>2017-12-22T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>9255778304</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>Yes</insurerCd>
+			<insurerName>PORTER</insurerName>
+			<policyNumber>4290059413112514</policyNumber>
+		</AAAHOMembership>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1957-06-30T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>KYSTER</firstName>
+			<lastName>PORTER</lastName>
+			<middleName>J</middleName>
+			<occupationDesc>Fireman_Policeman</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>101 WORTHING</addressLine1>
+				<city>HERCULES</city>
+				<dateOfBirth>1957-06-30T00:00:00</dateOfBirth>
+				<expirationDt>2018-02-20T00:00:00</expirationDt>
+				<firstName>KYSTER</firstName>
+				<lastName>PORTER</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-12-22T00:00:00</orderDate>
+				<postalCode>94547</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>101 WORTHING</addressLine1>
+				<city>HERCULES</city>
+				<countryCd>US</countryCd>
+				<postalCode>94547</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOOtherOrPriorPolicyComponent state="Created">
+			<autoBILimit>$500,000/$500,000</autoBILimit>
+			<autoPolicyPending>false</autoPolicyPending>
+			<policyEffectiveDate>2018-02-15T00:00:00</policyEffectiveDate>
+			<policyNumber>On File- Conversion</policyNumber>
+			<productCd>Auto</productCd>
+			<stateCd>CA</stateCd>
+		</AAAHOOtherOrPriorPolicyComponent>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Insured</billToAtRenewal>
+			<paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>standardHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2014-01-01T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>4</noOfYearsWithHO>
+			<policyType>HO6</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAIso360ReportComponent state="Created">
+			<constructionTypeCd>Frame</constructionTypeCd>
+			<dwellAddressCity>HERCULES</dwellAddressCity>
+			<dwellAddressLine1>101 WORTHING</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94547</dwellAddressZip>
+			<expirationDate>2018-02-20T00:00:00</expirationDate>
+			<isoReplacementCost>119900</isoReplacementCost>
+			<livingArea>9999</livingArea>
+			<numberOfFamilies>1</numberOfFamilies>
+			<numberOfStories>1</numberOfStories>
+			<orderDate>2017-12-22T00:00:00</orderDate>
+			<roofShape>Complex/Custom</roofShape>
+			<roofType>Builtup Tar &amp; Gravel</roofType>
+			<status>Valid</status>
+			<yearBuilt>1986</yearBuilt>
+		</AAAIso360ReportComponent>
+		<AAAMembershipOrder state="Created">
+			<lastName>PORTER</lastName>
+			<membershipNumber>4290059413112514</membershipNumber>
+			<orderDate>2017-12-22T00:00:00</orderDate>
+			<receiptDate>2017-12-22T00:00:00</receiptDate>
+			<status>Active</status>
+		</AAAMembershipOrder>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>HERCULES</dwellAddressCity>
+			<dwellAddressLine1>101 WORTHING</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94547</dwellAddressZip>
+			<expirationDate>2018-02-20T00:00:00</expirationDate>
+			<orderDate>2017-12-22T00:00:00</orderDate>
+			<ppcValue>3</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>616530</documentCd>
+			<documentText>California Residential Property Insurance Disclosure</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>true</docReceivedInd>
+			<documentCd>6POO</documentCd>
+			<documentText>Proof of occupation</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<DwellLocatedInd>false</DwellLocatedInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+			<GasWaterInGarageInd>false</GasWaterInGarageInd>
+			<PremisesEndrosInd>false</PremisesEndrosInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Owner occupied</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>1</aaaDwellingUsage>
+			<aaaFirelineScore>0</aaaFirelineScore>
+			<aaanumberofResidents>9999</aaanumberofResidents>
+			<addressLine1>101 WORTHING</addressLine1>
+			<city>HERCULES</city>
+			<firelineMatchType>Address</firelineMatchType>
+			<localAlarmInd>true</localAlarmInd>
+			<localFireAlarmInd>true</localFireAlarmInd>
+			<numberOfFamilies>1</numberOfFamilies>
+			<placementOrMatchType>Address</placementOrMatchType>
+			<postalCode>94547</postalCode>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<woodStoveInd>false</woodStoveInd>
+			<AAACoverageA state="Created">
+				<coverageCd>CovA</coverageCd>
+				<limitAmount>119900</limitAmount>
+			</AAACoverageA>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>114100</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>22900</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>100000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOAdditionalInterest state="Created">
+				<aaaEffectiveDate>2018-01-28T00:00:00</aaaEffectiveDate> 
+				<addressLine1>20341 BLUFFSIDE CIR</addressLine1> 
+				<addressLine2>#C-304</addressLine2> 
+				<city>HUNTINGTON BEACH</city> 
+				<interestTypeText>Conversion - not on file</interestTypeText> 
+				<name>THE TRACY DARCY LIVING TRUST</name> 
+				<postalCode>92646</postalCode> 
+				<stateProvCd>CA</stateProvCd> 
+			</AAAHOAdditionalInterest>
+			<AAAHOConstructionInfo state="Created">
+				<condomCoverageADwellingRequested>Interior</condomCoverageADwellingRequested>
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<isoReplacementCost>119900</isoReplacementCost>
+				<livingArea>9999</livingArea>
+				<numberOfStories>1</numberOfStories>
+				<replacementCost>119900</replacementCost>
+				<roofShape>Complex/Custom</roofShape>
+				<roofType>Builtup Tar &amp; Gravel</roofType>
+				<yearBuilt>1986</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAHOMortgageeInfo state="Created">
+				<accountNumber>0082041536</accountNumber>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>ST. LOUIS</city>
+				<mortagageeAddressLine1>P  O  BOX 66876</mortagageeAddressLine1>
+				<name>USA ACTING THROUGH RURAL, HOUSING SERVICESI S</name>
+				<postalCode>63166</postalCode>
+				<rank>1</rank>
+				<stateProvCd>MO</stateProvCd>
+				<useLegalMortgagee>false</useLegalMortgagee>
+			</AAAHOMortgageeInfo>
+			<AAAHOMortgageeInfo state="Created">
+				<accountNumber>000000000000</accountNumber>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>SALINAS</city>
+				<mortagageeAddressLine1>ECONOMIC DEVELOPMENT DEPT FIRSTTIME HOME BUYER LOAN 168 W AL</mortagageeAddressLine1>
+				<name>COUNTY OF MONTEREY</name>
+				<postalCode>93901</postalCode>
+				<rank>2</rank>
+				<stateProvCd>CA</stateProvCd>
+				<useLegalMortgagee>false</useLegalMortgagee>
+			</AAAHOMortgageeInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>CONTRA COSTA CO FD</fireDistrict>
+				<oldPpcValue>3</oldPpcValue>
+				<ppcValue>3</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>101 WORTHING</addressLine1>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>HERCULES</city>
+					<county>Contra Costa</county>
+					<postalCode>94547</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<HO0496EndorsementForm state="Created"/>
+		<HW0915EndorsementForm state="Created"/>
+		<HO28EndorsementForm state="Created"/>
+		<HO29EndorsementForm state="Created"/>
+		<HO60CEndorsementForm state="Created"/>
+		<HO90EndorsementForm state="Created"/>
+		<HW0104EndorsementForm state="Created"/>
+		<HW2482EndorsementForm state="Created"/>
+		<PreconfigPersonInfo state="Created">
+			<AAAHOMailingAddressComponent state="Created">
+				<addressLine1>101 WORTHING</addressLine1>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>HERCULES</city>
+				<countryCd>US</countryCd>
+				<county>Contra Costa</county>
+				<postalCode>94547</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAHOMailingAddressComponent>
+		</PreconfigPersonInfo>
+	</AAAHOPolicy>
+</Policy>

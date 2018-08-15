@@ -6,11 +6,13 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.modules.regression.service.template.PolicyCancellation;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -37,6 +39,7 @@ public class TestPolicyCancellation extends PolicyCancellation {
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(statesExcept = { States.CA })
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
 	public void testPolicyCancellationFlat(@Optional("") String state) {
@@ -54,6 +57,7 @@ public class TestPolicyCancellation extends PolicyCancellation {
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(statesExcept = { States.CA })
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
 	public void testPolicyCancellationMidTerm(@Optional("") String state) {

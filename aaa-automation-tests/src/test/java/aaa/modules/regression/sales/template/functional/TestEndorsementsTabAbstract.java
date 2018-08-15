@@ -1,5 +1,10 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import java.time.LocalDateTime;
+import java.util.List;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -16,14 +21,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 
@@ -205,7 +203,7 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 	}
 
 	public void checkEditLinkIsAvailable(String endorsementFormId) {
-		assertThat(endorsementTab.verifyLinkEditIsPresent(endorsementFormId)).isEqualTo(true);
+		assertThat(endorsementTab.isLinkEditPresent(endorsementFormId)).isTrue();
 	}
 
 	public void editEndorsementAndVerify(String endorsementFormId) {
@@ -240,7 +238,7 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 	}
 
 	public void checkRemoveLinkIsAvailable(String endorsementFormId) {
-		assertThat(endorsementTab.verifyLinkRemoveIsPresent(endorsementFormId)).isEqualTo(true);
+		assertThat(endorsementTab.isLinkRemovePresent(endorsementFormId)).isTrue();
 	}
 
 	public void removeEndorsementAndVerify(String endorsementFormId) {

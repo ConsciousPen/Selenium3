@@ -221,7 +221,7 @@ public class HomeSSHO3FormTestDataGenerator {
 						break;
 					//TODO add all Special Limits
 					default:
-						CustomAssertions.assertThat(Boolean.TRUE).as("Unknown Type of Special Limit: %s", form.getType()).isFalse();
+						CustomAssertions.fail("Unknown Type of Special Limit: %s", form.getType());
 				}
 
 			}

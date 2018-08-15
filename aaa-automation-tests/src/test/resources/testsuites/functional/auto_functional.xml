@@ -227,7 +227,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyGoodStudentDiscount"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
