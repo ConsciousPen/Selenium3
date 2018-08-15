@@ -3,10 +3,13 @@ package aaa.modules.regression.document_fulfillment.auto_ca.choice.functional;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestCinAbstractAutoCA;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -20,6 +23,7 @@ public class TestCinNewBusinessAutoCAChoice extends TestCinAbstractAutoCA {
      * @details
      */
     @Parameters({STATE_PARAM})
+    @StateList(states = States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = "PAS-6848")
     public void testCinNewBusiness(@Optional("CA") String state) {
