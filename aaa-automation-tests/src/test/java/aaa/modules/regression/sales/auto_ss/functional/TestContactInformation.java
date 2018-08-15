@@ -2,10 +2,11 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
-import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.helpers.constants.ComponentConstant;
@@ -16,20 +17,16 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 
 public class TestContactInformation extends AutoSSBaseTest {
 
-	private final InquiryAssetList inquiryAssetList = new InquiryAssetList(new GeneralTab().getAssetList().getLocator(), AutoSSMetaData.GeneralTab.class);
 	private final ErrorTab errorTab = new ErrorTab();
 	private final GeneralTab generalTab = new GeneralTab();
 	private final DriverTab driverTab = new DriverTab();
 	private final DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
-	private final DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 	private final PurchaseTab purchaseTab = new PurchaseTab();
 
 	/**
@@ -54,19 +51,16 @@ public class TestContactInformation extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@StateList(states =  States.UT)
+	@StateList(states = Constants.States.UT)
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-270", "PAS-267"})
-	public void pas270_contactInformation() {
+	public void pas270_contactInformation(String state) {
 		initiateQuote();
 
-		CustomAssert.enableSoftMode();
 		verifyContactInformationSection();
 		changeFNIAndVerifyContactInformationSection();
 		bindPolicy();
 		verifyPolicyStatus();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	/**
@@ -118,7 +112,7 @@ public class TestContactInformation extends AutoSSBaseTest {
 	 * Steps: #15
 	 */
 	private void verifyPolicyStatus() {
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNum = PolicySummaryPage.getPolicyNumber();
 		log.info("policyNum: {}", policyNum);
 	}
@@ -131,7 +125,7 @@ public class TestContactInformation extends AutoSSBaseTest {
 
 	private void presenceOfContactInformationSection(int insuredNumber, boolean isPresent) {
 		generalTab.viewInsured(insuredNumber);
-		inquiryAssetList.assetSectionPresence("Contact Information", isPresent);
+		assertThat(generalTab.isSectionPresent("Contact Information")).as("'Contact Information' section is present").isEqualTo(isPresent);
 	}
 
 	private void setRelationshipToNI(int driverNumber, int relationship) {
@@ -142,15 +136,14 @@ public class TestContactInformation extends AutoSSBaseTest {
 	private void verificationOfMandatoryPhoneNumber() {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.buttonNext.click();
-		if (driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).isPresent()
-			&& driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).isEnabled()) {
+		if (driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).isPresent() && driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).isEnabled()) {
 			driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).setValue("I Agree");
 		}
 		driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY).click();
 		DriverActivityReportsTab.buttonNext.click();
 		DocumentsAndBindTab.btnPurchase.click();
-		errorTab.tableErrors.getRowContains("Message", ErrorEnum.Errors.ERROR_AAA_SS10240324.getMessage()).verify.present();
-		CustomAssert.assertEquals("Error with code 'AAA_SS10240324' should be displayed only for first named insured", 1, errorTab.getErrorsControl().getTable().getRowsCount());
+		assertThat(errorTab.tableErrors.getRowContains("Message", ErrorEnum.Errors.ERROR_AAA_SS10240324.getMessage())).isPresent();
+		assertThat(errorTab.getErrorsControl().getTable()).as("Error with code 'AAA_SS10240324' should be displayed only for first named insured").hasRows(1);
 		errorTab.cancel();
 	}
 

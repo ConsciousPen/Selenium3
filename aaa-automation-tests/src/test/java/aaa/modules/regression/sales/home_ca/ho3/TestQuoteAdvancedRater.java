@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeCaMetaData;
@@ -14,6 +15,8 @@ import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
+import aaa.utils.StateList;
+
 import com.exigen.ipb.etcsa.utils.Dollar;
 
 public class TestQuoteAdvancedRater extends HomeCaHO3BaseTest {
@@ -41,6 +44,7 @@ public class TestQuoteAdvancedRater extends HomeCaHO3BaseTest {
      */
 
     @Parameters({"state"})
+    @StateList(states =  States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
     public void testQuoteAdvancedRater(@Optional("CA") String state) {

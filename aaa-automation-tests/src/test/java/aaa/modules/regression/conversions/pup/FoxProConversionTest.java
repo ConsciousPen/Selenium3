@@ -1,5 +1,6 @@
 package aaa.modules.regression.conversions.pup;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.Map;
 import org.testng.ITestContext;
@@ -8,6 +9,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -33,77 +35,79 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
 
+@StateList(states = {Constants.States.CA})
 public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.PUP)
 	public void foxProCAPUPConversionTest1(@Optional("CA") String state, ITestContext context) {
 		foxProConversion("1.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.PUP)
 	public void foxProCAPUPConversionTest2(@Optional("CA") String state, ITestContext context) {
 		foxProConversion("2.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.PUP)
 	public void foxProCAPUPConversionTest3(@Optional("CA") String state, ITestContext context) {
 		foxProConversion("3.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.PUP)
 	public void foxProCAPUPConversionTest4(@Optional("CA") String state, ITestContext context) {
 		foxProConversion("4.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.PUP)
 	public void foxProCAPUPConversionTest5(@Optional("CA") String state, ITestContext context) {
 		foxProConversion("5.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.PUP)
 	public void foxProCAPUPConversionTest_customerDeclined1(@Optional("CA") String state, ITestContext context) {
 		foxProConversion_renewWithLapse("1.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.PUP)
 	public void foxProCAPUPConversionTest_customerDeclined2(@Optional("CA") String state, ITestContext context) {
 		foxProConversion_renewWithLapse("2.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.PUP)
 	public void foxProCAPUPConversionTest_customerDeclined3(@Optional("CA") String state, ITestContext context) {
 		foxProConversion_renewWithLapse("3.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.PUP)
 	public void foxProCAPUPConversionTest_customerDeclined4(@Optional("CA") String state, ITestContext context) {
 		foxProConversion_renewWithLapse("4.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.PUP)
 	public void foxProCAPUPConversionTest_customerDeclined5(@Optional("CA") String state, ITestContext context) {
 		foxProConversion_renewWithLapse("5.xml", context);
@@ -145,7 +149,7 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	public void foxProConversion_renewWithLapse(String file, ITestContext context) {
@@ -190,7 +194,7 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 		policy.manualRenewalWithOrWithoutLapse().perform(getPolicyTD("ManualRenewalWithOrWithoutLapse", "TestData"));
 
 		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.verifyLapseExistFlagPresent();
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());

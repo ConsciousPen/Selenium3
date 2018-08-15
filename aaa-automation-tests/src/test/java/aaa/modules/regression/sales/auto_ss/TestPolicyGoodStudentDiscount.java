@@ -6,7 +6,6 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
-import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -21,7 +20,7 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
 
-public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {	
+public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
 	protected TestData tdPolicy;
 	private String origPolicyNum;
 	private String policyNum1;
@@ -62,33 +61,33 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
 	 */
 	
 	@Parameters({"state"})
-	@StateList(statesExcept = { States.CA })
+	@StateList(statesExcept = {Constants.States.CA})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void TestValidationGoodStudentDiscount() {
+	public void testValidationGoodStudentDiscount(String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
 		
 		TestData td_quote1 = getTestSpecificTD("TestData_1");
 		TestData td_quote2 = getTestSpecificTD("TestData_2");
 		TestData td_quote3 = getTestSpecificTD("TestData_3");
 		TestData td_quote4 = getTestSpecificTD("TestData_4"); 
-		TestData td_endorse = getTestSpecificTD("TestData_Endorsement");  
+		TestData td_endorse = getTestSpecificTD("TestData_Endorsement");
 		
 		mainApp().open();
 		createCustomerIndividual();
 		
 		origPolicyNum = createPolicy();
 		
-		policyNum1 = createPolicyAndVerifyGoodStudentDiscount(td_quote1, true);  
+		policyNum1 = createPolicyAndVerifyGoodStudentDiscount(td_quote1, true);
 		log.info("TEST: Policy 1 is created with #" +policyNum1);		
 		policyNum2 = createPolicyAndVerifyGoodStudentDiscount(td_quote2, true);
-		log.info("TEST: Policy 2 is created with #" +policyNum2);	
-		policyNum3 = createPolicyAndVerifyGoodStudentDiscount(td_quote3, true);	
-		log.info("TEST: Policy 3 is created with #" +policyNum3);	
-		policyNum4 = createPolicyAndVerifyGoodStudentDiscount(td_quote4, true);	
+		log.info("TEST: Policy 2 is created with #" +policyNum2);
+		policyNum3 = createPolicyAndVerifyGoodStudentDiscount(td_quote3, true);
+		log.info("TEST: Policy 3 is created with #" +policyNum3);
+		policyNum4 = createPolicyAndVerifyGoodStudentDiscount(td_quote4, true);
 		log.info("TEST: Policy 4 is created with #" +policyNum4);		
 
-		verifyGoodStudentDiscountOnEndorsement(policyNum2, td_endorse, false); 
+		verifyGoodStudentDiscountOnEndorsement(policyNum2, td_endorse, false);
 
 		verifyGoodStudentDiscountOnRenewal(policyNum1, true);
 		verifyGoodStudentDiscountOnRenewal(policyNum3, true);
@@ -114,14 +113,14 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
         
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		new PremiumAndCoveragesTab().calculatePremium();
-		
+
 		String discountApplied;
-		if (isDiscountApplied) { 
-			CustomAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Good Student Discount"); 		       
+		if (isDiscountApplied) {
+			CustomAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Good Student Discount");
 			discountApplied = "Yes";
 		}
 		else {
-			CustomAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Good Student Discount"); 
+			CustomAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Good Student Discount");
 			discountApplied = "No";
 		}
               
@@ -129,7 +128,7 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
         new PremiumAndCoveragesTab().getRatingDetailsDriversData().forEach(i -> CustomAssertions.assertThat(i.getValue("Good Student Discount")).isEqualTo(discountApplied));
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         new PremiumAndCoveragesTab().submitTab();
-        
+
         if (new ErrorTab().buttonOverride.isPresent()) {
         	new ErrorTab().fillTab(td_quote);
         	new ErrorTab().buttonOverride.click();
@@ -140,7 +139,7 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
 	    new DocumentsAndBindTab().fillTab(td_quote).submitTab();
         new PurchaseTab().fillTab(td_quote).submitTab();
 
-		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         return PolicySummaryPage.labelPolicyNumber.getValue();
 	}
 
@@ -153,30 +152,30 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		new PremiumAndCoveragesTab().calculatePremium();
-		
+
 		String discountApplied;
-		if (isDiscountApplied) { 
-			CustomAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Good Student Discount"); 		       
+		if (isDiscountApplied) {
+			CustomAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Good Student Discount");
 			discountApplied = "Yes";
 		}
 		else {
-			CustomAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Good Student Discount"); 
+			CustomAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Good Student Discount");
 			discountApplied = "No";
 		}
-        
+
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-		
+
 		Map<String, String> goodStudentDiscount = new HashMap<>();
-		goodStudentDiscount.put("", "Good Student Discount"); 
+		goodStudentDiscount.put("", "Good Student Discount");
 		goodStudentDiscount.put("Proposed Changes", discountApplied);
-		
-		CustomAssertions.assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRowContains(goodStudentDiscount)).isPresent();		
+
+		CustomAssertions.assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRowContains(goodStudentDiscount)).isPresent();
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         new DocumentsAndBindTab().submitTab();
 
-		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         log.info("TEST: Endorsement is created for policy with #" + policyNum2);
 	}
 
@@ -187,14 +186,14 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
 		policy.renew().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		new PremiumAndCoveragesTab().calculatePremium();
-		
+
 		String discountApplied;
-		if (isDiscountApplied) { 
-			CustomAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Good Student Discount"); 		       
+		if (isDiscountApplied) {
+			CustomAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Good Student Discount");
 			discountApplied = "Yes";
 		}
 		else {
-			CustomAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Good Student Discount"); 
+			CustomAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Good Student Discount");
 			discountApplied = "No";
 		}
 
@@ -203,21 +202,21 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         new PremiumAndCoveragesTab().saveAndExit();
 
-        CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals.isEnabled()).isTrue();
+		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals.isEnabled()).isTrue();
         PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 		
 		policy.policyInquiry().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		if (isDiscountApplied) { 
-			CustomAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Good Student Discount"); 		       
+		if (isDiscountApplied) {
+			CustomAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Good Student Discount");
 		}
 		else {
-			CustomAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Good Student Discount"); 
+			CustomAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Good Student Discount");
 		}
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();	        
-		new PremiumAndCoveragesTab().getRatingDetailsDriversData().forEach(i -> CustomAssertions.assertThat(i.getValue("Good Student Discount")).isEqualTo(discountApplied));		
+		new PremiumAndCoveragesTab().getRatingDetailsDriversData().forEach(i -> CustomAssertions.assertThat(i.getValue("Good Student Discount")).isEqualTo(discountApplied));
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click(); 
 		new PremiumAndCoveragesTab().cancel();	
 	}

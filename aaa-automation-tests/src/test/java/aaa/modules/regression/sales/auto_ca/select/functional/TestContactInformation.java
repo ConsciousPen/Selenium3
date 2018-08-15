@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -16,7 +17,6 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.modules.regression.sales.template.functional.TestContactInformationAbstract;
-import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
@@ -79,11 +79,6 @@ public class TestContactInformation extends TestContactInformationAbstract {
     }
 
     @Override
-    protected InquiryAssetList getInquiryAssetList() {
-        return new InquiryAssetList(new GeneralTab().getAssetList().getLocator(), AutoCaMetaData.GeneralTab.class);
-    }
-
-    @Override
     protected CommonErrorTab getErrorTabElement() {
         return new ErrorTab();
     }
@@ -141,7 +136,7 @@ public class TestContactInformation extends TestContactInformationAbstract {
     @Override
     protected void presenceOfContactInformationSection(int insuredNumber, boolean isPresent) {
         ((GeneralTab)getGeneralTabElement()).viewInsured(insuredNumber);
-        getInquiryAssetList().assetSectionPresence("Contact Information", isPresent);
+        assertThat(getGeneralTabElement().isSectionPresent("Contact Information")).as("'Contact Information' section should be present").isEqualTo(isPresent);
     }
 
     @Override

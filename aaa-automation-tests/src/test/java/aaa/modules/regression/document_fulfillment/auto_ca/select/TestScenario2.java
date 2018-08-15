@@ -4,6 +4,8 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
+
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.billing.BillingPendingTransactionsVerifier;
@@ -16,6 +18,7 @@ import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.IBillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 
 public class TestScenario2 extends AutoCaSelectBaseTest {
@@ -25,6 +28,7 @@ public class TestScenario2 extends AutoCaSelectBaseTest {
 	private TestData tdRefund = tdBilling.getTestData("Refund", "TestData_Check");
 	
 	@Parameters({"state"})
+	@StateList(states = States.CA)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testRefundCheckDocument(@Optional("CA") String state) {
 		Dollar amount = new Dollar(1234);

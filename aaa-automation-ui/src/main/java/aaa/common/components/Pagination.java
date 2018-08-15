@@ -179,23 +179,23 @@ public class Pagination {
 		public void present(boolean expectedValue) {
 			String assertionMessage = String.format("Pagination with \"%1$s\" locator is\"%2$s\" present.", page.getLocator(), expectedValue ? " not" : "");
 			if (expectedValue) {
-				assertThat(page.isPresent()).isTrue().as(assertionMessage);
+				assertThat(page.isPresent()).as(assertionMessage).isTrue();
 			} else {
-				assertThat(page.isPresent()).isFalse().as(assertionMessage);
+				assertThat(page.isPresent()).as(assertionMessage).isFalse();
 			}
 		}
 
 		public void hasNextPage() {
-			assertThat(page.hasNextPage()).isTrue().as("Pagination with \"%1$s\" locator does not have next page. Selected page is: %2$s.", page.getLocator(), page.getSelectedPage());
+			assertThat(page.hasNextPage()).as("Pagination with \"%1$s\" locator does not have next page. Selected page is: %2$s.", page.getLocator(), page.getSelectedPage()).isTrue();
 		}
 
 		public void hasPreviousPage() {
-			assertThat(page.hasPreviousPage()).isTrue().as("Pagination with \"%1$s\" locator does not have previous page. Selected page is: %2$s.", page.getLocator(), page.getSelectedPage());
+			assertThat(page.hasPreviousPage()).as("Pagination with \"%1$s\" locator does not have previous page. Selected page is: %2$s.", page.getLocator(), page.getSelectedPage()).isTrue();
 		}
 
 		public void hasPageOptionsSelector() {
-			assertThat(page.hasPageOptionsSelector()).isTrue()
-					.as("Pagination with \"%1$s\" locator does not have page options combobox with \"%2$s\" locator.", page.getLocator(), page.pageOptionsSelector.getLocator());
+			assertThat(page.hasPageOptionsSelector())
+					.as("Pagination with \"%1$s\" locator does not have page options combobox with \"%2$s\" locator.", page.getLocator(), page.pageOptionsSelector.getLocator()).isTrue();
 		}
 	}
 }

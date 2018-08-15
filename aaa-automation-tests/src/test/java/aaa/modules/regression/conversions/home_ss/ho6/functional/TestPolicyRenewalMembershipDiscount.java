@@ -25,7 +25,7 @@ import toolkit.utils.TestInfo;
 
 import java.time.LocalDateTime;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
  * @author S. Jaraminas

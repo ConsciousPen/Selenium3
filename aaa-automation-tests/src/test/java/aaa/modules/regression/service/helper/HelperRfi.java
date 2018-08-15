@@ -1,10 +1,10 @@
 package aaa.modules.regression.service.helper;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.Arrays;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
-import toolkit.verification.CustomAssert;
 
 public class HelperRfi {
 	public static final String UPDATE_DOCUMENT_STATUS = "UPDATE SUPPORTINGDOCENTITY " +
@@ -22,16 +22,15 @@ public class HelperRfi {
 
 	public static void policyServiceRfiValuesCheck(RfiDocumentResponse[] result, String rfiName, String documentType, String status) {
 		RfiDocumentResponse allDocuments = Arrays.stream(result).filter(doc -> rfiName.equals(doc.documentName)).findFirst().orElse(null);
-		CustomAssert.assertTrue(rfiName + " rfiName not existent", allDocuments != null);
+		assertThat(allDocuments).as(rfiName + " rfiName not existent").isNotNull();
 		if (allDocuments != null) {
-			CustomAssert.assertTrue(rfiName + " has incorrect documentType", documentType.equals(allDocuments.documentType));
-			CustomAssert.assertTrue(rfiName + " has incorrect status", status.equals(allDocuments.status));
+			assertThat(documentType).as(rfiName + " has incorrect documentType").isEqualTo(allDocuments.documentType);
+			assertThat(status).as(rfiName + " has incorrect status").isEqualTo(allDocuments.status);
 		}
 	}
 
 	public static void rfiTagCheck(String query, String tag, String tagValue) {
-		CustomAssert.assertEquals(
-				tag + " has a problem.", DocGenHelper.getDocumentDataElemByName(tag, DocGenEnum.Documents.AARFIXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-						.getTextField(), tagValue);
+		assertThat(DocGenHelper.getDocumentDataElemByName(tag, DocGenEnum.Documents.AARFIXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+				.getTextField()).as(tag + " has a problem.").isEqualTo(tagValue);
 	}
 }

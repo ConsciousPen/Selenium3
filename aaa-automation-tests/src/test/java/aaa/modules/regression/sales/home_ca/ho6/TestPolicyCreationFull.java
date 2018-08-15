@@ -1,17 +1,18 @@
 package aaa.modules.regression.sales.home_ca.ho6;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO6BaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -32,6 +33,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyCreationFull extends HomeCaHO6BaseTest {
 
 	@Parameters({"state"})
+	@StateList(states =  States.CA)
 	@Test(groups= {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6)
 	public void testPolicyCreationFull(@Optional("CA") String state) {
@@ -48,7 +50,7 @@ public class TestPolicyCreationFull extends HomeCaHO6BaseTest {
 		new ErrorTab().fillTab(td).submitTab();
 		new PurchaseTab().fillTab(td).submitTab();
 
-		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		log.info("TEST: CaHO6 Full Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
 	}
 

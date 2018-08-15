@@ -23,7 +23,7 @@ import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 public class TestSearchForAllCriteria extends AutoSSBaseTest {
 	private Map<String, TestData> fullSearchData = new HashMap<>(2);
@@ -51,36 +51,36 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Common.SEARCH)
 	public void testSearchForAccount(@Optional("") String state) {
-		TestData td = getFullSearchData(SearchEnum.SearchFor.ACCOUNT);
-		//BUG: Search by valid "Agency Name" or "Agency #" fails with error "base00003 -  Operation has failed due to illegal arguments".
-		//TODO-dchubkov: create a defect for this
-		td = DataProviderFactory.dataOf(SearchPage.assetListSearch.getName(), td.getTestData(SearchPage.assetListSearch.getName())
-				.mask(SearchMetaData.Search.AGENCY_NAME.getLabel(), SearchMetaData.Search.AGENCY.getLabel()));
-		String expectedAccountNumber = td.getTestData(SearchPage.assetListSearch.getName()).getValue(SearchMetaData.Search.ACCOUNT.getLabel());
+		CustomSoftAssertions.assertSoftly(softly -> {
+			TestData td = getFullSearchData(SearchEnum.SearchFor.ACCOUNT);
+			//BUG: Search by valid "Agency Name" or "Agency #" fails with error "base00003 -  Operation has failed due to illegal arguments".
+			//TODO-dchubkov: create a defect for this
+			td = DataProviderFactory.dataOf(SearchPage.assetListSearch.getName(), td.getTestData(SearchPage.assetListSearch.getName())
+					.mask(SearchMetaData.Search.AGENCY_NAME.getLabel(), SearchMetaData.Search.AGENCY.getLabel()));
+			String expectedAccountNumber = td.getTestData(SearchPage.assetListSearch.getName()).getValue(SearchMetaData.Search.ACCOUNT.getLabel());
 
-		mainApp().open();
-		CustomAssert.enableSoftMode();
+			mainApp().open();
 
-		//Search for Account by its number
-		SearchPage.search(SearchEnum.SearchFor.ACCOUNT, SearchEnum.SearchBy.ACCOUNT, expectedAccountNumber);
-		//BUG: Search by valid "Account #" shows one result in table instead of straightly open it".
-		//TODO-dchubkov: create a defect for this
-		if (SearchPage.tableSearchResults.isPresent() && SearchPage.tableSearchResults.isVisible()) {
-			SearchPage.tableSearchResults.getRow(SearchMetaData.Search.ACCOUNT.getLabel(), expectedAccountNumber).getCell(SearchMetaData.Search.ACCOUNT.getLabel()).controls.links.getFirst().click();
-		}
-		CustomAssert.assertTrue(NavigationPage.isMainTabSelected(NavigationEnum.CustomerSummaryTab.ACCOUNT.get()));
-		CustomerSummaryPage.labelAccountNumber.verify.value(expectedAccountNumber);
+			//Search for Account by its number
+			SearchPage.search(SearchEnum.SearchFor.ACCOUNT, SearchEnum.SearchBy.ACCOUNT, expectedAccountNumber);
+			//BUG: Search by valid "Account #" shows one result in table instead of straightly open it".
+			//TODO-dchubkov: create a defect for this
+			if (SearchPage.tableSearchResults.isPresent() && SearchPage.tableSearchResults.isVisible()) {
+				SearchPage.tableSearchResults.getRow(SearchMetaData.Search.ACCOUNT.getLabel(), expectedAccountNumber).getCell(SearchMetaData.Search.ACCOUNT.getLabel()).controls.links.getFirst()
+						.click();
+			}
+			softly.assertThat(NavigationPage.isMainTabSelected(NavigationEnum.CustomerSummaryTab.ACCOUNT.get())).isTrue();
+			softly.assertThat(CustomerSummaryPage.labelAccountNumber).hasValue(expectedAccountNumber);
 
-		//Search for Account by all search by criteria simultaneously
-		SearchPage.search(td);
-		if (SearchPage.tableSearchResults.isPresent() && SearchPage.tableSearchResults.isVisible()) {
-			SearchPage.tableSearchResults.getRow(SearchMetaData.Search.ACCOUNT.getLabel(), expectedAccountNumber).getCell(SearchMetaData.Search.ACCOUNT.getLabel()).controls.links.getFirst().click();
-		}
-		CustomAssert.assertTrue(NavigationPage.isMainTabSelected(NavigationEnum.CustomerSummaryTab.ACCOUNT.get()));
-		CustomerSummaryPage.labelAccountNumber.verify.value(expectedAccountNumber);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			//Search for Account by all search by criteria simultaneously
+			SearchPage.search(td);
+			if (SearchPage.tableSearchResults.isPresent() && SearchPage.tableSearchResults.isVisible()) {
+				SearchPage.tableSearchResults.getRow(SearchMetaData.Search.ACCOUNT.getLabel(), expectedAccountNumber).getCell(SearchMetaData.Search.ACCOUNT.getLabel()).controls.links.getFirst()
+						.click();
+			}
+			softly.assertThat(NavigationPage.isMainTabSelected(NavigationEnum.CustomerSummaryTab.ACCOUNT.get())).isTrue();
+			softly.assertThat(CustomerSummaryPage.labelAccountNumber).hasValue(expectedAccountNumber);
+		});
 	}
 
 	/**
@@ -100,27 +100,25 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Common.SEARCH)
 	public void testSearchForCustomer(@Optional("") String state) {
-		TestData td = getFullSearchData(SearchEnum.SearchFor.CUSTOMER);
-		//BUG: Search by valid "Phone #" fails with error "base00003 -  Operation has failed due to illegal arguments".
-		//TODO-dchubkov: create a defect for this
-		td = DataProviderFactory.dataOf(SearchPage.assetListSearch.getName(), td.getTestData(SearchPage.assetListSearch.getName()).mask(SearchMetaData.Search.PHONE.getLabel()));
-		String expectedCustomerNumber = td.getTestData(SearchPage.assetListSearch.getName()).getValue(SearchMetaData.Search.CUSTOMER.getLabel());
+		CustomSoftAssertions.assertSoftly(softly -> {
+			TestData td = getFullSearchData(SearchEnum.SearchFor.CUSTOMER);
+			//BUG: Search by valid "Phone #" fails with error "base00003 -  Operation has failed due to illegal arguments".
+			//TODO-dchubkov: create a defect for this
+			td = DataProviderFactory.dataOf(SearchPage.assetListSearch.getName(), td.getTestData(SearchPage.assetListSearch.getName()).mask(SearchMetaData.Search.PHONE.getLabel()));
+			String expectedCustomerNumber = td.getTestData(SearchPage.assetListSearch.getName()).getValue(SearchMetaData.Search.CUSTOMER.getLabel());
 
-		mainApp().open();
-		CustomAssert.enableSoftMode();
+			mainApp().open();
 
-		//Search for Customer by its number
-		SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, expectedCustomerNumber);
-		CustomAssert.assertTrue(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get()));
-		CustomerSummaryPage.labelCustomerNumber.verify.value(expectedCustomerNumber);
+			//Search for Customer by its number
+			SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, expectedCustomerNumber);
+			softly.assertThat(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())).isTrue();
+			softly.assertThat(CustomerSummaryPage.labelCustomerNumber).hasValue(expectedCustomerNumber);
 
-		//Search for Customer by all search by criteria simultaneously
-		SearchPage.search(td);
-		CustomAssert.assertTrue(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get()));
-		CustomerSummaryPage.labelCustomerNumber.verify.value(expectedCustomerNumber);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			//Search for Customer by all search by criteria simultaneously
+			SearchPage.search(td);
+			softly.assertThat(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())).isTrue();
+			softly.assertThat(CustomerSummaryPage.labelCustomerNumber).hasValue(expectedCustomerNumber);
+		});
 	}
 
 	/**
@@ -140,28 +138,26 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Common.SEARCH)
 	public void testSearchForBillingAccount(@Optional("") String state) {
-		TestData td = getFullSearchData(SearchEnum.SearchFor.BILLING);
-		//BUG: Search result for Billing by valid "Agency Name" or "Agency #" is empty
-		//TODO-dchubkov: create a defect for this
-		td = DataProviderFactory.dataOf(SearchPage.assetListSearch.getName(), td.getTestData(SearchPage.assetListSearch.getName())
-				.mask(SearchMetaData.Search.AGENCY_NAME.getLabel(), SearchMetaData.Search.AGENCY.getLabel()));
-		String expectedBaNumber = td.getTestData(SearchPage.assetListSearch.getName()).getValue(SearchMetaData.Search.BILLING_ACCOUNT.getLabel());
+		CustomSoftAssertions.assertSoftly(softly -> {
+			TestData td = getFullSearchData(SearchEnum.SearchFor.BILLING);
+			//BUG: Search result for Billing by valid "Agency Name" or "Agency #" is empty
+			//TODO-dchubkov: create a defect for this
+			td = DataProviderFactory.dataOf(SearchPage.assetListSearch.getName(), td.getTestData(SearchPage.assetListSearch.getName())
+					.mask(SearchMetaData.Search.AGENCY_NAME.getLabel(), SearchMetaData.Search.AGENCY.getLabel()));
+			String expectedBaNumber = td.getTestData(SearchPage.assetListSearch.getName()).getValue(SearchMetaData.Search.BILLING_ACCOUNT.getLabel());
 
-		mainApp().open();
-		CustomAssert.enableSoftMode();
+			mainApp().open();
 
-		//Search for Billing Account by its number
-		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.BILLING_ACCOUNT, expectedBaNumber);
-		CustomAssert.assertTrue(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.BILLING.get()));
-		BillingSummaryPage.tableBillingGeneralInformation.getRow("ID", expectedBaNumber).getCell("ID").verify.value(expectedBaNumber);
+			//Search for Billing Account by its number
+			SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.BILLING_ACCOUNT, expectedBaNumber);
+			softly.assertThat(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.BILLING.get())).isTrue();
+			softly.assertThat(BillingSummaryPage.tableBillingGeneralInformation.getRow("ID", expectedBaNumber).getCell("ID")).hasValue(expectedBaNumber);
 
-		//Search for Billing Account by all search by criteria simultaneously
-		SearchPage.search(td);
-		CustomAssert.assertTrue(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.BILLING.get()));
-		BillingSummaryPage.tableBillingGeneralInformation.getRow("ID", expectedBaNumber).getCell("ID").verify.value(expectedBaNumber);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			//Search for Billing Account by all search by criteria simultaneously
+			SearchPage.search(td);
+			softly.assertThat(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.BILLING.get())).isTrue();
+			softly.assertThat(BillingSummaryPage.tableBillingGeneralInformation.getRow("ID", expectedBaNumber).getCell("ID")).hasValue(expectedBaNumber);
+		});
 	}
 
 	/**
@@ -181,28 +177,26 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Common.SEARCH)
 	public void testSearchForPolicy(@Optional("") String state) {
-		TestData td = getFullSearchData(SearchEnum.SearchFor.POLICY);
-		//BUG: Search result for Policy by valid "Phone #" or "Agency Name" or "Agency #" is empty
-		//TODO-dchubkov: create a defect for this
-		td = DataProviderFactory.dataOf(SearchPage.assetListSearch.getName(), td.getTestData(SearchPage.assetListSearch.getName())
-				.mask(SearchMetaData.Search.AGENCY_NAME.getLabel(), SearchMetaData.Search.AGENCY.getLabel(), SearchMetaData.Search.PHONE.getLabel()));
-		String expectedPolicyNumber = td.getTestData(SearchPage.assetListSearch.getName()).getValue(SearchMetaData.Search.POLICY_QUOTE.getLabel());
+		CustomSoftAssertions.assertSoftly(softly -> {
+			TestData td = getFullSearchData(SearchEnum.SearchFor.POLICY);
+			//BUG: Search result for Policy by valid "Phone #" or "Agency Name" or "Agency #" is empty
+			//TODO-dchubkov: create a defect for this
+			td = DataProviderFactory.dataOf(SearchPage.assetListSearch.getName(), td.getTestData(SearchPage.assetListSearch.getName())
+					.mask(SearchMetaData.Search.AGENCY_NAME.getLabel(), SearchMetaData.Search.AGENCY.getLabel(), SearchMetaData.Search.PHONE.getLabel()));
+			String expectedPolicyNumber = td.getTestData(SearchPage.assetListSearch.getName()).getValue(SearchMetaData.Search.POLICY_QUOTE.getLabel());
 
-		mainApp().open();
-		CustomAssert.enableSoftMode();
+			mainApp().open();
 
-		//Search for Policy by its number
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, expectedPolicyNumber);
-		CustomAssert.assertTrue(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.POLICY.get()));
-		PolicySummaryPage.labelPolicyNumber.verify.value(expectedPolicyNumber);
+			//Search for Policy by its number
+			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, expectedPolicyNumber);
+			softly.assertThat(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.POLICY.get())).isTrue();
+			softly.assertThat(PolicySummaryPage.labelPolicyNumber).hasValue(expectedPolicyNumber);
 
-		//Search for Policy by all search by criteria simultaneously
-		SearchPage.search(td);
-		CustomAssert.assertTrue(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.POLICY.get()));
-		PolicySummaryPage.labelPolicyNumber.verify.value(expectedPolicyNumber);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			//Search for Policy by all search by criteria simultaneously
+			SearchPage.search(td);
+			softly.assertThat(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.POLICY.get())).isTrue();
+			softly.assertThat(PolicySummaryPage.labelPolicyNumber).hasValue(expectedPolicyNumber);
+		});
 	}
 
 	/**
@@ -222,28 +216,26 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Common.SEARCH)
 	public void testSearchForQuote(@Optional("") String state) {
-		TestData td = getFullSearchData(SearchEnum.SearchFor.QUOTE);
-		//BUG: Search result for Quote by valid "Phone #" or "Agency Name" or "Agency #" is empty
-		//TODO-dchubkov: create a defect for this
-		td = DataProviderFactory.dataOf(SearchPage.assetListSearch.getName(), td.getTestData(SearchPage.assetListSearch.getName())
-				.mask(SearchMetaData.Search.AGENCY_NAME.getLabel(), SearchMetaData.Search.AGENCY.getLabel(), SearchMetaData.Search.PHONE.getLabel()));
-		String expectedQuoteNumber = td.getTestData(SearchPage.assetListSearch.getName()).getValue(SearchMetaData.Search.POLICY_QUOTE.getLabel());
+		CustomSoftAssertions.assertSoftly(softly -> {
+			TestData td = getFullSearchData(SearchEnum.SearchFor.QUOTE);
+			//BUG: Search result for Quote by valid "Phone #" or "Agency Name" or "Agency #" is empty
+			//TODO-dchubkov: create a defect for this
+			td = DataProviderFactory.dataOf(SearchPage.assetListSearch.getName(), td.getTestData(SearchPage.assetListSearch.getName())
+					.mask(SearchMetaData.Search.AGENCY_NAME.getLabel(), SearchMetaData.Search.AGENCY.getLabel(), SearchMetaData.Search.PHONE.getLabel()));
+			String expectedQuoteNumber = td.getTestData(SearchPage.assetListSearch.getName()).getValue(SearchMetaData.Search.POLICY_QUOTE.getLabel());
 
-		mainApp().open();
-		CustomAssert.enableSoftMode();
+			mainApp().open();
 
-		//Search for Quote by its number
-		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, expectedQuoteNumber);
-		CustomAssert.assertTrue(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.QUOTE.get()));
-		PolicySummaryPage.labelPolicyNumber.verify.value(expectedQuoteNumber);
+			//Search for Quote by its number
+			SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, expectedQuoteNumber);
+			softly.assertThat(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.QUOTE.get())).isTrue();
+			softly.assertThat(PolicySummaryPage.labelPolicyNumber).hasValue(expectedQuoteNumber);
 
-		//Search for Quote by all search by criteria simultaneously
-		SearchPage.search(td);
-		CustomAssert.assertTrue(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.QUOTE.get()));
-		PolicySummaryPage.labelPolicyNumber.verify.value(expectedQuoteNumber);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			//Search for Quote by all search by criteria simultaneously
+			SearchPage.search(td);
+			softly.assertThat(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.QUOTE.get())).isTrue();
+			softly.assertThat(PolicySummaryPage.labelPolicyNumber).hasValue(expectedQuoteNumber);
+		});
 	}
 
 	private synchronized TestData getFullSearchData(SearchEnum.SearchFor searchFor) {

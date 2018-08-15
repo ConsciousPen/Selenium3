@@ -1,6 +1,6 @@
 package aaa.modules.bct.billing_and_payments;
 
-import java.util.Arrays;
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -26,11 +26,10 @@ public class DefinePaymentMethodTest extends BackwardCompatibilityBaseTest {
 
 		SearchPage.openBilling(policyNumber);
 		Dollar minDue = BillingSummaryPage.getMinimumDue();
-		Dollar totDue = BillingSummaryPage.getTotalDue();
 		billingAccount.acceptPayment().start();
 
 		ComboBox paymentMethod = new AcceptPaymentActionTab().getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD);
-		paymentMethod.verify.optionsContain(Arrays.asList(BillingConstants.AcceptPaymentMethod.CASH, BillingConstants.AcceptPaymentMethod.CHECK));
+		assertThat(paymentMethod).containsAllOptions(BillingConstants.AcceptPaymentMethod.CASH, BillingConstants.AcceptPaymentMethod.CHECK);
 
 		paymentTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue(BillingConstants.AcceptPaymentMethod.CASH);
 		paymentTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT).setValue(minDue.add(100).toString());
@@ -38,5 +37,4 @@ public class DefinePaymentMethodTest extends BackwardCompatibilityBaseTest {
 
 		BillingSummaryPage.getMinimumDue().verify.equals(new Dollar(0));
 	}
-
 }

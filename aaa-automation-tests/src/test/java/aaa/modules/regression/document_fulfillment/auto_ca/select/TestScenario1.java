@@ -1,12 +1,13 @@
 package aaa.modules.regression.document_fulfillment.auto_ca.select;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
@@ -23,6 +24,7 @@ import aaa.main.modules.policy.auto_ca.actiontabs.PolicyDocGenActionTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 
 
@@ -53,6 +55,7 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 	 * 6. Check xml file
 	*/
 	@Parameters({ "state" })
+	@StateList(states = States.CA)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC01_PolicyDocuments(@Optional("") String state) {
 
@@ -114,7 +117,7 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 
 		// 5
 		policy.calculatePremiumAndPurchase(getPolicyTD().adjust(getTestSpecificTD("TestData_Purchase")));
-		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
 
 		// 6
@@ -148,6 +151,7 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 	 * 6. Check AHRCTXX is generated
 	*/
 	@Parameters({ "state" })
+	@StateList(states = States.CA)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_PolicyDocuments")
 	public void TC02_EndorsementDocuments(@Optional("") String state) {
 
@@ -202,6 +206,7 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 	 *    To get 60 5003 document: decline payment with Reason "Fee + Restriction" (previous 60 5000 letter was generated within past 12 months)
 	*/
 	@Parameters({ "state" })
+	@StateList(states = States.CA)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_PolicyDocuments")
 	public void TC03_BillingDocuments(@Optional("") String state) {
 

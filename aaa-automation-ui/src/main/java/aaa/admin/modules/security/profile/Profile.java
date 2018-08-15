@@ -17,7 +17,6 @@ import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import toolkit.datax.TestData;
-import toolkit.webdriver.controls.ComboBox;
 
 public class Profile implements IProfile {
     private ChannelType channelType;
@@ -58,7 +57,7 @@ public class Profile implements IProfile {
     @Override
     public void initiate() {
         navigateToFlow();
-        ((ComboBox) ProfilePage.assetListSearchForm.getAsset(SearchByField.CHANNEL.getLabel())).setValue(channelType.getName());
+        ProfilePage.assetListSearchForm.getAsset(SearchByField.CHANNEL).setValue(channelType.getName());
         ProfilePage.buttonAddNewProfile.click();
     }
 

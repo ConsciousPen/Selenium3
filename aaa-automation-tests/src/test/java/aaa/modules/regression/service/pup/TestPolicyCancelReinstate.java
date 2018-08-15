@@ -26,6 +26,7 @@ public class TestPolicyCancelReinstate extends PolicyCancelReinstate {
     }
     
     @Parameters({"state"})
+    //@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Service.PUP)
     public void testPolicyCancelReinstate(@Optional("") String state) {

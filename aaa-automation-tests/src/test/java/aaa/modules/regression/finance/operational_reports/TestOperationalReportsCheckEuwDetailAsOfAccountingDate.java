@@ -24,7 +24,7 @@ public class TestOperationalReportsCheckEuwDetailAsOfAccountingDate extends Base
      * 3. Check "As of Accounting Date” is displayed and enabled, has value equal to the sub ledger account date
      */
 
-    @Test(groups = {Groups.FUNCTIONAL})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-15534")
     public void pas15534_testOperationalReportsCheckAsOfAccountingDate() {
         opReportApp().open();
