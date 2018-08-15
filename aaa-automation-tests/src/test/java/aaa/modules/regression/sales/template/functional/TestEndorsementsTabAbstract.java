@@ -1,6 +1,12 @@
 package aaa.modules.regression.sales.template.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+
+import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.UnderwritingAndApprovalTab;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -10,7 +16,6 @@ import aaa.main.enums.EndorsementForms;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.TestData;
 

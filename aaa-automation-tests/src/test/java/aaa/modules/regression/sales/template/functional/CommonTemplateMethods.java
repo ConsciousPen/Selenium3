@@ -3,11 +3,6 @@ package aaa.modules.regression.sales.template.functional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import aaa.helpers.docgen.AaaDocGenEntityQueries;
-import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.xml.model.Document;
-import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -24,8 +19,6 @@ import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.DefaultMarkupParser;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class CommonTemplateMethods extends PolicyBaseTest {
 	private MembershipTab membershipTab = new MembershipTab();
