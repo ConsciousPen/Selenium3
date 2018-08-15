@@ -290,12 +290,17 @@ public class Scenario11 extends ScenarioBaseTest {
 		LocalDateTime updateStatusDate = getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(updateStatusDate);
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
-		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
+		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
+			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.COMPANY_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate);
+		} else {
+			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
+		}
 	}
 
 	//For AutoSS, HomeSS, PUP
