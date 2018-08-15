@@ -3,8 +3,6 @@ package aaa.modules.regression.service.helper;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.MIDDLE_NAME;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.BooleanUtils;
-import org.assertj.core.api.SoftAssertions;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
 import aaa.common.enums.NavigationEnum;
@@ -1862,7 +1859,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	}
 
 	//Validate specificDisabilityInd and totalDisabilityInd metadata. Only "visible" can change.
-	private void validateMetadata_pas16913(SoftAssertions softly, String policyNumber, DriversDto driver, boolean specificDisabilityIndVisible, boolean totalDisabilityIndVisible) {
+	private void validateMetadata_pas16913(ETCSCoreSoftAssertions softly, String policyNumber, DriversDto driver, boolean specificDisabilityIndVisible, boolean totalDisabilityIndVisible) {
 		AttributeMetadata[] metaDataResponseDriver = HelperCommon.viewEndorsementDriversMetaData(policyNumber, driver.oid);
 
 		AttributeMetadata metaDataFieldResponseSpecificDisabilityInd = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponseDriver, "specificDisabilityInd", true, specificDisabilityIndVisible, false, null, "Boolean");
@@ -1963,20 +1960,20 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 	}
 
-	private DriversDto addDriverWithChecks(String policyNumber, SoftAssertions softly) {
+	private DriversDto addDriverWithChecks(String policyNumber, ETCSCoreSoftAssertions softly) {
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Jarred", "", "Benjami", "1960-02-08", "I");
 		DriversDto addDriverResponse = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class, 201);
 		validateSelectedAndAvailableCoverages(true, addDriverResponse, false, null, softly);
 		return addDriverResponse;
 	}
 
-	private void updateDriverMissingInfoWithChecks(String policyNumber, DriversDto addDriverResponse, SoftAssertions softly) {
+	private void updateDriverMissingInfoWithChecks(String policyNumber, DriversDto addDriverResponse, ETCSCoreSoftAssertions softly) {
 		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "P95867586", 18, "VA", "CH", "MSS");
 		DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
 		validateSelectedAndAvailableCoverages(true, updateDriverResponse.driver, false, null, softly);
 	}
 
-	private void validateSelectedCoveragesUI(boolean deathIndemnityAndSpecificDisabilityExpected, boolean totalDisabilityExpected, SoftAssertions softly) {
+	private void validateSelectedCoveragesUI(boolean deathIndemnityAndSpecificDisabilityExpected, boolean totalDisabilityExpected, ETCSCoreSoftAssertions softly) {
 		//Make sure that there are no mistakes in test and we are not expecting totalDisability to be selected without deathIndemnityAndSpecificDisability ( if deathIndemnityAndSpecificDisability ="No",
 		// then totalDisabilityExpected is not displayed )
 		if (totalDisabilityExpected) {
@@ -2002,13 +1999,13 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	}
 
-	private void validateSelectedCoveragesUIforNAFR(SoftAssertions softly) {
+	private void validateSelectedCoveragesUIforNAFR(ETCSCoreSoftAssertions softly) {
 		softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DEATH_INDEMNITY_AND_SPECIFIC_DISABILITY).isPresent()).isFalse();
 		softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.TOTAL_DISABILITY).isPresent()).isFalse();
 
 	}
 
-	private void validateAvailableCoverages_pas14650_pas17050(DriversDto driver, SoftAssertions softly) {
+	private void validateAvailableCoverages_pas14650_pas17050(DriversDto driver, ETCSCoreSoftAssertions softly) {
 		//PAS-14650
 		if ("afr".equals(driver.driverType)) {
 			softly.assertThat(driver.availableCoverages).contains("deathAndSpecificDisability");
@@ -2025,7 +2022,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	}
 
-	private void validateSelectedCoverages(DriversDto driver, Boolean specificDisabilityIndExpected, Boolean totalDisabilityIndExpected, SoftAssertions softly) {
+	private void validateSelectedCoverages(DriversDto driver, Boolean specificDisabilityIndExpected, Boolean totalDisabilityIndExpected, ETCSCoreSoftAssertions softly) {
 		softly.assertThat(driver.specificDisabilityInd).isEqualTo(specificDisabilityIndExpected);
 		softly.assertThat(driver.totalDisabilityInd).isEqualTo(totalDisabilityIndExpected);
 
@@ -2036,7 +2033,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	}
 
-	private void validateSelectedAndAvailableCoverages(boolean afrExpected, DriversDto driver, Boolean specificDisabilityIndExpected, Boolean totalDisabilityIndExpected, SoftAssertions softly) {
+	private void validateSelectedAndAvailableCoverages(boolean afrExpected, DriversDto driver, Boolean specificDisabilityIndExpected, Boolean totalDisabilityIndExpected, ETCSCoreSoftAssertions softly) {
 		if (afrExpected) {
 			softly.assertThat(driver.driverType).isEqualTo("afr");
 		} else {
@@ -2048,7 +2045,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	}
 
-	private void validateFormsTab(List<DriversDto> driversDtoList, SoftAssertions softly) {
+	private void validateFormsTab(List<DriversDto> driversDtoList, ETCSCoreSoftAssertions softly) {
 		AutoSSForms.AutoSSDriverFormsController driverForms = formsTab.getAssetList().getAsset(AutoSSMetaData.FormsTab.DRIVER_FORMS);
 
 		int driverCount = driversDtoList.size();
