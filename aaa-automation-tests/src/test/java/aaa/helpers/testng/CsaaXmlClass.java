@@ -135,14 +135,12 @@ public class CsaaXmlClass {
 		}
 		List<String> groups = Arrays.asList(testAnn.groups());
 
-		returnValue = groups.stream().anyMatch(s -> test.getIncludedGroups().contains(s)) && groups.stream().noneMatch(s -> test.getExcludedGroups().contains(s));
+		returnValue = (test.getIncludedGroups().isEmpty() || groups.stream().anyMatch(s -> test.getIncludedGroups().contains(s))) && (test.getExcludedGroups().isEmpty() || groups.stream().noneMatch(s -> test.getExcludedGroups().contains(s)));
 
 		if (returnValue) {
 			StateList statesAnn = getAnnotation(clazz, methodName, StateList.class);
 			if (statesAnn != null) {
 				returnValue = Arrays.asList(statesAnn.states()).contains(state) && !Arrays.asList(statesAnn.statesExcept()).contains(state);
-			} else {
-				returnValue = true;
 			}
 		}
 		return returnValue;
