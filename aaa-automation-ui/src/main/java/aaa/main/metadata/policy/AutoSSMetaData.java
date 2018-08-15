@@ -279,6 +279,8 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<TextBox> DEFENSIVE_DRIVER_COURSE_COMPLETION_DATE = declare("Defensive Driver Course Completion Date", TextBox.class);
 		public static final AssetDescriptor<TextBox> DEFENSIVE_DRIVER_COURSE_CERTIFICATE_NUMBER = declare("Defensive Driver Course Certificate Number", TextBox.class);
 		public static final AssetDescriptor<RadioGroup> ADB_COVERAGE = declare("ADB Coverage", RadioGroup.class);
+		public static final AssetDescriptor<RadioGroup> DEATH_INDEMNITY_AND_SPECIFIC_DISABILITY = declare("Death Indemnity and Specific Disability", RadioGroup.class);
+		public static final AssetDescriptor<RadioGroup> TOTAL_DISABILITY = declare("Total Disability", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> FINANCIAL_RESPONSIBILITY_FILING_NEEDED = declare("Financial Responsibility Filing Needed", RadioGroup.class);
 		public static final AssetDescriptor<ComboBox> FILING_STATE = declare("Filing State", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> FORM_TYPE = declare("Form Type", ComboBox.class);
