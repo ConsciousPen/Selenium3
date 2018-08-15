@@ -1613,8 +1613,22 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	protected void pas16578_removeDriverCheckIfTaskWasCreatedBody(){
 		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy();
+		String policyNumber = getCopiedPolicy();
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		// add update driver
+		AddDriverRequest addDriverRequest2 = DXPRequestFactory.createAddDriverRequest("Jovita", "Lara", "Puk", "1984-02-08", "I");
+		DriversDto addedDriverResponse2 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest2);
+		UpdateDriverRequest updateDriverRequest2 = DXPRequestFactory.createUpdateDriverRequest("female", "D32329555", 18, "VA", "CH", "MSS");
+		HelperCommon.updateDriver(policyNumber, addedDriverResponse2.oid, updateDriverRequest2);
+		HelperCommon.removeDriver(policyNumber, addedDriverResponse2.oid, removeDriverRequest);
+
+		//check Task
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_TASK_CREATED, false);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
@@ -1635,21 +1649,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_TASK_CREATED, true);
-		helperMiniServices.endorsementRateAndBind(policyNumber);
-
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
-
-		// add update driver
-		AddDriverRequest addDriverRequest2 = DXPRequestFactory.createAddDriverRequest("Jovita", "Lara", "Puk", "1984-02-08", "I");
-		DriversDto addedDriverResponse2 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest2);
-		UpdateDriverRequest updateDriverRequest2 = DXPRequestFactory.createUpdateDriverRequest("female", "D32329555", 18, "VA", "CH", "MSS");
-		HelperCommon.updateDriver(policyNumber, addedDriverResponse2.oid, updateDriverRequest2);
-		HelperCommon.removeDriver(policyNumber, addedDriverResponse2.oid, removeDriverRequest);
-
-		//check Task
-		mainApp().reopen();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_TASK_CREATED, false);
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 		policy.policyInquiry().start();
