@@ -39,7 +39,7 @@ public class TestMTRenewalVersionProposal extends CommonTemplateMethods {
     }
 
     @Parameters({"state"})
-	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER })
+	@Test(groups = { Groups.FUNCTIONAL, Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
     public void pas17788_MTManualRenewalVersionProposal(@Optional("MT") String state) {
 
