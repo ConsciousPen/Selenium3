@@ -324,14 +324,14 @@ TestData_DeathAndSpecificDisabilityCoverage: {
 }
 
 TestData_DeathAndSpecificDisabilityCoverage2: {
-    DriverTab: ['@Driver_one2', '@Driver_with_coverage_AFR2', '@Driver_NAFR'],
+    DriverTab: ['@Driver_one_withDeathIndemnityAndSpecificDisabilityCov', '@Driver_with_coverage_AFR2', '@Driver_NAFR'],
 }
 
 TestData_DeathAndSpecificDisabilityCoverage3: {
-    DriverTab: ['@Driver_one2', '@Driver_with_coverage_AFR2', '@Driver_NAFR'],
+    DriverTab: ['@Driver_one_withDeathIndemnityAndSpecificDisabilityCov', '@Driver_with_coverage_AFR2', '@Driver_NAFR'],
 }
 
-Driver_one2: {
+Driver_one_withDeathIndemnityAndSpecificDisabilityCov: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   Date of Birth: '$<today-21y:MM/dd/yyyy>',
@@ -348,7 +348,6 @@ Driver_with_coverage_AFR2: {
       Driver Type: Available for Rating,
       Rel. to First Named Insured: Child,
       First Name: 'JohnAfr',
-     # Middle Name: 'Sam',
       Last Name: 'Smith',
       Date of Birth: '12/12/1980',
       Gender: 'Male',
@@ -370,7 +369,6 @@ Driver_with_coverage_AFR: {
     Driver Type: Available for Rating,
     Rel. to First Named Insured: Child,
     First Name: 'JohnAfr',
-  #  Middle Name: 'Sam',
     Last Name: 'Smith',
     Date of Birth: '12/12/1980',
     Gender: 'Male',
@@ -393,7 +391,6 @@ Driver_NAFR: {
     Reason: Other,
     Rel. to First Named Insured: Child,
     First Name: 'JohnNafr',
- #   Middle Name: 'Sam',
     Last Name: 'Smith',
     Date of Birth: '12/12/1980',
     Gender: 'Male',
