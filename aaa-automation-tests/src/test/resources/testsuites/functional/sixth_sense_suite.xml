@@ -110,15 +110,15 @@
 
     <!--Tests for Property-->
 
-        <test name="Test Endorsement With Pending Auto Select Companion">
-            <parameter name="state" value="CA"/>
-            <classes>
-                <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestEndorsementWithAutoSelectCompanion"/>
-                <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestEndorsementWithAutoSelectCompanion"/>
-                <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestEndorsementWithAutoSelectCompanion"/>
-                <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestEndorsementWithAutoSelectCompanion"/>
-            </classes>
-        </test>
+    <test name="Test Endorsement With Pending Auto Select Companion">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestEndorsementWithAutoSelectCompanion"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestEndorsementWithAutoSelectCompanion"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestEndorsementWithAutoSelectCompanion"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestEndorsementWithAutoSelectCompanion"/>
+        </classes>
+    </test>
 
 
     <test name="Test MD Hurricane Deductible">
@@ -379,12 +379,12 @@
     </test>
 
 
-        <test name="Remove Vehicle on Current Term Endorsement">
-            <parameter name="state" value="VA"/>
-            <classes>
-                <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveVehicleOnEndorsement"/>
-            </classes>
-        </test>
+    <test name="Remove Vehicle on Current Term Endorsement">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveVehicleOnEndorsement"/>
+        </classes>
+    </test>
 
 
     <test name="Test CLUE reports on new copied policies for SS Auto">
