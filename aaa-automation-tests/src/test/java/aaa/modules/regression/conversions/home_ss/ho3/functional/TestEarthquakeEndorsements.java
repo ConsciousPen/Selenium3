@@ -44,7 +44,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	public void pas17479_Privileged_NewBusiness(@Optional("OK") String state) {
 		createConversionQuoteAndFillUpTo(EndorsementTab.class);
 		addEndorsementForm(parentEndorsementFormId);
-		//DS 04 68 should be only available then DS 04 69 is added
+		//HS 04 36 should be only available then HS 04 54 is added
 		addEndorsementForm(subEndorsementFormId);
 
 		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
@@ -74,7 +74,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 		openAppAndCreateConversionPolicy();
 		initiateEndorsementTx();
 		addEndorsementForm(parentEndorsementFormId);
-		//DS 04 68 should be only available then DS 04 69 is added
+		//HS 04 36 should be only available then HS 04 54 is added
 		addEndorsementForm(subEndorsementFormId);
 
 		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
@@ -104,7 +104,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 		openAppAndCreateConversionPolicy();
 		initiateRenewalTx();
 		addEndorsementForm(parentEndorsementFormId);
-		//DS 04 68 should be only available then DS 04 69 is added
+		//HS 04 36 should be only available then HS 04 54 is added
 		addEndorsementForm(subEndorsementFormId);
 
 		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
