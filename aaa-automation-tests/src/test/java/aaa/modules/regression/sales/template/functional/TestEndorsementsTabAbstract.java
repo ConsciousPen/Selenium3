@@ -43,7 +43,8 @@ public class TestEndorsementsTabAbstract extends CommonTemplateMethods {
 
 		String quoteNumber = PolicySummaryPage.getPolicyNumber();
 
-		closeOpenAppNonPrivilegedUser(privilege);
+		mainApp().close();
+		openAppNonPrivilegedUser(privilege);
 
 		SearchPage.openQuote(quoteNumber);
 		policy.dataGather().start();
@@ -200,11 +201,6 @@ public class TestEndorsementsTabAbstract extends CommonTemplateMethods {
 		Page.dialogConfirmation.confirm();
 
 		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, endorsementFormId).isPresent()).isFalse();
-	}
-
-	protected void closeOpenAppNonPrivilegedUser(String privilege) {
-		mainApp().close();
-		openAppNonPrivilegedUser(privilege);
 	}
 
 	protected void navigateToRenewalPremiumAndCoveragesTab() {

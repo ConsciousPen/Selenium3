@@ -219,7 +219,8 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17484")
 	public void pas17484_NonPrivileged_EndorsementTx(@Optional("OK") String state) {
 		String policyNumber = openAppAndCreatePolicy();
-		closeOpenAppNonPrivilegedUser("F35");
+		mainApp().close();
+		openAppNonPrivilegedUser("F35");
 		SearchPage.openPolicy(policyNumber);
 		initiateEndorsementTx();
 		checkEndorsementIsNotAvailableInOptionalEndorsements(parentEndorsementFormId);
@@ -256,7 +257,8 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	public void pas17484_pas17498_NonPrivileged_EndorsementTx_AlreadyHadEndorsement(@Optional("OK") String state) {
 		String policyNumber = createPolicyWithEndorsement(parentEndorsementFormId, subEndorsementFormId);
 
-		closeOpenAppNonPrivilegedUser("F35");
+		mainApp().close();
+		openAppNonPrivilegedUser("F35");
 		SearchPage.openPolicy(policyNumber);
 		initiateEndorsementTx();
 
@@ -293,7 +295,8 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 		initiateRenewalTx();
 		new PremiumsAndCoveragesQuoteTab().saveAndExit();
 
-		closeOpenAppNonPrivilegedUser("A30");
+		mainApp().close();
+		openAppNonPrivilegedUser("F35");
 		SearchPage.openPolicy(policyNumber);
 		navigateToRenewalPremiumAndCoveragesTab();
 		checkEndorsementIsNotAvailableInOptionalEndorsements(parentEndorsementFormId);
@@ -332,7 +335,8 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 		initiateRenewalTx();
 		new PremiumsAndCoveragesQuoteTab().saveAndExit();
 
-		closeOpenAppNonPrivilegedUser("F35");
+		mainApp().close();
+		openAppNonPrivilegedUser("F35");
 		SearchPage.openPolicy(policyNumber);
 		navigateToRenewalPremiumAndCoveragesTab();
 

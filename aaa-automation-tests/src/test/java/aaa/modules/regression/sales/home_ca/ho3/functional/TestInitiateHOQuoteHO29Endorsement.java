@@ -1,12 +1,7 @@
-/* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
- * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.home_ca.ho3.functional;
 
-import aaa.main.enums.EndorsementForms;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
-import aaa.modules.regression.sales.template.functional.TestEndorsementsTabAbstract;
+import aaa.modules.regression.sales.template.functional.TestInitiateHOQuoteTemplate;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -18,7 +13,7 @@ import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.CA)
 
-public class TestInitiateHOQuoteHO29Endorsement extends TestEndorsementsTabAbstract {
+public class TestInitiateHOQuoteHO29Endorsement extends TestInitiateHOQuoteTemplate {
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -45,19 +40,6 @@ public class TestInitiateHOQuoteHO29Endorsement extends TestEndorsementsTabAbstr
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-13261")
 	public void pas13261_testInitiateHOQuoteHO29added(@Optional("CA") String state) {
 
-		createQuoteAndFillUpTo(EndorsementTab.class);
-
-		// Assert that HO-29 is added by default. Purchase Policy.
-		checkEndorsementIsAvailableInIncludedEndorsements(EndorsementForms.HomeCAEndorsementForms.HO_29.getFormId());
-
-		policy.getDefaultView().fillFromTo(getPolicyTD(), EndorsementTab.class, PurchaseTab.class, true);
-		new PurchaseTab().submitTab();
-
-		// Initiate HO Quote from Policy Summary Page. Fill Policy up to Endorsement Tab.
-		policy.initiateHOQuote().start();
-		policy.getDefaultView().fillUpTo(getPolicyTD(), EndorsementTab.class);
-
-		// Assert that HO-29 is added by default. Purchase Policy.
-		checkEndorsementIsAvailableInIncludedEndorsements(EndorsementForms.HomeCAEndorsementForms.HO_29.getFormId());
+		pas13261_testInitiateHOQuoteHO29added();
 	}
 }
