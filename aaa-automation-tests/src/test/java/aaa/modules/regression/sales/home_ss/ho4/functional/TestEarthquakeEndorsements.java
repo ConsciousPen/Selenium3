@@ -502,7 +502,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement premium change check")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-17494")
-	public void pas17494_checkPremium_RenewaltTx(@Optional("OK") String state) {
+	public void pas17494_checkPremium_RenewalTx(@Optional("OK") String state) {
 		openAppAndCreatePolicy();
 		initiateRenewalTx();
 		checkEndorsementsIncreasesPremium(parentEndorsementFormId, subEndorsementFormId);
