@@ -141,7 +141,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
 		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),NEW_VIN4);
 
-		String policyNumber = createPreconds(testData);
+		String policyNumber = openAppAndCreatePolicy(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		adminApp().open();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
@@ -172,7 +172,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
 		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),NEW_VIN5);
 
-		String policyNumber = createPreconds(testData);
+		String policyNumber = openAppAndCreatePolicy(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		adminApp().open();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
@@ -203,7 +203,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
 		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),NEW_VIN6);
 
-		String policyNumber = createPreconds(testData);
+		String policyNumber = openAppAndCreatePolicy(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		adminApp().open();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());

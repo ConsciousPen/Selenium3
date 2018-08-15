@@ -385,13 +385,13 @@ public class BaseTest {
 	}
 
 	/**
-	 * Create Conversion Policy using default TestData
+	 * Create Conversion Policy
 	 *
+	 * @param tdPolicy - policy testdata
 	 * @return policy number
 	 */
-	protected String createConversionPolicy() {
+	protected String createConversionPolicy(TestData tdPolicy) {
 		assertThat(getPolicyType()).as("PolicyType is not set").isNotNull();
-		TestData tdPolicy = getConversionPolicyDefaultTD();
 		TestData tdManualConversionInitiation = getManualConversionInitiationTd();
 		customer.initiateRenewalEntry().perform(tdManualConversionInitiation);
 		log.info("Policy Creation Started...");
@@ -400,6 +400,15 @@ public class BaseTest {
 			PolicySummaryPage.buttonBackFromRenewals.click();}
 		String policyNumber = PolicySummaryPage.labellinkPolicy.getValue();
 		return policyNumber;
+	}
+
+	/**
+	 * Create Conversion Policy using default TestData
+	 *
+	 * @return policy number
+	 */
+	protected String createConversionPolicy() {
+		return createConversionPolicy(getConversionPolicyDefaultTD());
 	}
 
 	protected TestData getCustomerIndividualTD(String fileName, String tdName) {
