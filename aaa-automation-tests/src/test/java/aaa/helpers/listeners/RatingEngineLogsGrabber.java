@@ -24,7 +24,7 @@ public class RatingEngineLogsGrabber {
 	public static final String RATING_RESPONSE_TEST_CONTEXT_ATTR_NAME = "ratingResponseLog";
 	public static final String OPENL_RATING_LOGS_FOLDER = PropertyProvider.getProperty(CustomTestProperties.OPENL_RATING_LOGS_FOLDER);
 	public static final Pattern OPENL_RATING_LOGS_FILENAME_PATTERN = Pattern.compile(PropertyProvider.getProperty(CustomTestProperties.OPENL_RATING_LOGS_FILENAME_REGEXP));
-	public static final Pattern RATING_LOG_SECTION_ID_PATTERN = Pattern.compile("^ID:\\s(\\d+)\\R", Pattern.MULTILINE);
+	public static final Pattern RATING_LOG_SECTION_ID_PATTERN = Pattern.compile("ID:\\s(\\d+)\\R", Pattern.MULTILINE);
 	public static final Pattern RATING_LOG_SECTION_POLICY_PREMIUM_ADDRESS_PATTERN = Pattern.compile(".*Address:\\s(.*/[dD]eterminePolicyPremium(?:\\d+)?)\\R.*", Pattern.DOTALL);
 
 	private static final String LOG_SECTIONS_SEPARATOR = "--------------------------------------";
@@ -40,7 +40,7 @@ public class RatingEngineLogsGrabber {
 		return makeDefaultOpenLLogPath(openLTest, openLPolicyNumber, "response");
 	}
 
-	public RatingEngineLogsHolder grabRatingLogs() {
+	public RatingEngineLogsHolder grabRatingLogs(String policyNumber) {
 		RatingEngineLogsHolder ratingLogsHolder = new RatingEngineLogsHolder();
 		StringBuilder previousLogSectionParts = new StringBuilder();
 
@@ -53,15 +53,10 @@ public class RatingEngineLogsGrabber {
 			}
 
 			Collections.reverse(ratingLogFileNames); // make reverse order to start searching for response log from oldest file
-			for (int i = 0; i < ratingLogFileNames.size(); i++) {
-				String logContent = RemoteHelper.get().getFileContent(Paths.get(OPENL_RATING_LOGS_FOLDER, ratingLogFileNames.get(i)).normalize().toString());
+			for (String logFileName : ratingLogFileNames) {
+				String logContent = RemoteHelper.get().getFileContent(Paths.get(OPENL_RATING_LOGS_FOLDER, logFileName).normalize().toString()).trim();
 				if (logContent.contains(LOG_END_ENVIRONMENT_SEPARATOR)) {
 					logContent = StringUtils.substringAfter(logContent, LOG_END_ENVIRONMENT_SEPARATOR).trim();
-				}
-
-				if (i == 0) {
-					//first log from list (which is oldest one) always has log separator at the end
-					logContent = StringUtils.substringBeforeLast(logContent, LOG_SECTIONS_SEPARATOR).trim();
 				}
 
 				previousLogSectionParts = gatherLogs(logContent, previousLogSectionParts, ratingLogsHolder);
@@ -89,9 +84,14 @@ public class RatingEngineLogsGrabber {
 			String logSectionId = null;
 			String logSectionPart = StringUtils.substringAfterLast(logContent, LOG_SECTIONS_SEPARATOR).trim();
 
-			if (!logSectionPart.isEmpty()) {
-				previousLogSectionParts.insert(0, logSectionPart.trim());
+			if (!logSectionPart.isEmpty() || logContent.endsWith(LOG_SECTIONS_SEPARATOR)) {
+				previousLogSectionParts.insert(0, logSectionPart);
 				String fullSectionLog = previousLogSectionParts.toString().trim();
+				if (fullSectionLog.isEmpty()) {
+					logContent = StringUtils.removeEnd(logContent, LOG_SECTIONS_SEPARATOR).trim();
+					logContent = StringUtils.substringBeforeLast(logContent, "}").trim() + "}";
+					continue;
+				}
 				String json = StringUtils.substringAfter(fullSectionLog, JSON_START_MARKER).trim();
 
 				Matcher ratingLogSectionIdMatcher = RATING_LOG_SECTION_ID_PATTERN.matcher(fullSectionLog);
@@ -121,6 +121,7 @@ public class RatingEngineLogsGrabber {
 				}
 
 				logContent = StringUtils.substringBeforeLast(logContent, LOG_SECTIONS_SEPARATOR).trim();
+				logContent = StringUtils.substringBeforeLast(logContent, "}").trim() + "}";
 				previousLogSectionParts = new StringBuilder();
 				continue;
 			}
