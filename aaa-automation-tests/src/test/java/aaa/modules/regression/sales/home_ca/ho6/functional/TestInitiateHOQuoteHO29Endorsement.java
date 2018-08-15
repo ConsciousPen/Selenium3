@@ -3,22 +3,26 @@
 package aaa.modules.regression.sales.home_ca.ho6.functional;
 
 
+import aaa.main.enums.EndorsementForms;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.regression.sales.template.functional.TestEndorsementsTabAbstract;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.modules.policy.HomeCaHO6BaseTest;
-import aaa.modules.regression.sales.template.functional.InitiateHOQuoteTemplate;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.CA)
 
-public class TestInitiateHOQuoteHO29Endorsement extends HomeCaHO6BaseTest {
+public class TestInitiateHOQuoteHO29Endorsement extends TestEndorsementsTabAbstract {
 
-	private InitiateHOQuoteTemplate template = new InitiateHOQuoteTemplate();
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_CA_HO6;
+	}
 
 	/**
 	 * @author Dominykas Razgunas
@@ -40,6 +44,8 @@ public class TestInitiateHOQuoteHO29Endorsement extends HomeCaHO6BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-13261")
 	public void pas13261_testInitiateHOQuoteHO29added(@Optional("CA") String state) {
 
-		template.pas13261_testInitiateHOQuoteHO29added(getPolicyType());
+		initiateNewBusinessTx(false);
+		checkEndorsementIsAvailableInIncludedEndorsements(EndorsementForms.HomeCAEndorsementForms.HO_29.getFormId());
+
 	}
 }

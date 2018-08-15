@@ -3,6 +3,9 @@
 package aaa.modules.policy;
 
 import aaa.common.enums.Constants;
+import aaa.helpers.docgen.AaaDocGenEntityQueries;
+import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.xml.model.Document;
 import aaa.main.metadata.policy.*;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
@@ -11,6 +14,10 @@ import aaa.modules.BaseTest;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public abstract class PolicyBaseTest extends BaseTest {
 
@@ -90,6 +97,14 @@ public abstract class PolicyBaseTest extends BaseTest {
 
 			default:
 				return returnValue;
+		}
+	}
+
+	public void checkDocGenTriggered(String policyNumber, AaaDocGenEntityQueries.EventNames eventName, String... docGenIds) {
+		List<Document> policyDocuments = DocGenHelper.getDocumentsList(policyNumber, eventName);
+		Object[] documentTemplate = policyDocuments.stream().map(Document::getTemplateId).toArray();
+		for (String docGenId : docGenIds) {
+			assertThat(documentTemplate).contains(docGenId);
 		}
 	}
 }

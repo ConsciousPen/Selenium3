@@ -6,8 +6,6 @@ import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.xml.model.Document;
 import aaa.main.enums.EndorsementForms;
 import aaa.main.enums.PolicyConstants;
@@ -15,41 +13,20 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.PolicyBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TestEndorsementsTabAbstract extends PolicyBaseTest {
+public class TestEndorsementsTabAbstract extends CommonTemplateMethods {
 
 	PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 	EndorsementTab endorsementTab = new EndorsementTab();
 
-	public void initiateNewBusinessTx(Boolean isConversion) {
-		mainApp().open();
-		createCustomerIndividual();
-
-		if (isConversion) {
-			customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
-			policy.getDefaultView().fillUpTo(getConversionPolicyDefaultTD(), EndorsementTab.class, false);
-		} else {
-			policy.initiate();
-			policy.getDefaultView().fillUpTo(getPolicyTD(), EndorsementTab.class, false);
-		}
-	}
-
-	public void initiateNewBusinessTx_NonPrivileged(String privilege) {
-		mainApp().open(initiateLoginTD()
-				.adjust("User","qa_roles")
-				.adjust("Groups", privilege)
-				.adjust("UW_AuthLevel", "01")
-				.adjust("Billing_AuthLevel", "01")
-		);
+	protected void initiateNewBusinessTx_NonPrivileged(String privilege) {
+		openAppNonPrivilegedUser(privilege);
 
 		createCustomerIndividual();
 
@@ -60,8 +37,8 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 		policy.getDefaultView().fillUpTo(quoteTd, EndorsementTab.class, false);
 	}
 
-	public void initiateNewBusinessTx_NonPrivileged_AlreadyHadEndorsement(String privilege, String... endorsementFormIds) {
-		initiateNewBusinessTx(false);
+	protected void initiateNewBusinessTx_NonPrivileged_AlreadyHadEndorsement(String privilege, String... endorsementFormIds) {
+		createQuoteAndFillUpTo(EndorsementTab.class);
 
 		for (String endorsementFormId : endorsementFormIds) {
 			addOptionalEndorsement(endorsementFormId);
@@ -71,7 +48,7 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 
 		String quoteNumber = PolicySummaryPage.getPolicyNumber();
 
-		openAppNonPrivilegedUser(privilege);
+		closeOpenAppNonPrivilegedUser(privilege);
 
 		SearchPage.openQuote(quoteNumber);
 		policy.dataGather().start();
@@ -79,28 +56,8 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_ENDORSEMENT.get());
 	}
 
-	public String createPolicy(Boolean isConversion) {
-		mainApp().open();
-		createCustomerIndividual();
-
-		if (isConversion) {
-			return createConversionPolicy();
-		} else {
-			return createPolicy();
-		}
-	}
-
-	public void createProposedRenewal() {
-		//Move time to R-35
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));//-35 days
-
-		//Create Proposed Renewal
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-	}
-
-	public String createPolicyWithEndorsement(Boolean isConversion, String... endorsementFormIds) {
-		initiateNewBusinessTx(isConversion);
+	protected String createPolicyWithEndorsement(String... endorsementFormIds) {
+		createQuoteAndFillUpTo(EndorsementTab.class);
 
 		for (String endorsementFormId : endorsementFormIds) {
 			addOptionalEndorsement(endorsementFormId);
@@ -115,41 +72,41 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 		return PolicySummaryPage.getPolicyNumber();
 	}
 
-	public void initiateEndorsementTx() {
+	protected void initiateEndorsementTx() {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_ENDORSEMENT.get());
 	}
 
-	public void initiateRenewalTx() {
+	protected void initiateRenewalTx() {
 		policy.renew().perform();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_ENDORSEMENT.get());
 	}
 
-	public void addEndorsementForm(String endorsementFormId) {
+	protected void addEndorsementForm(String endorsementFormId) {
 		checkEndorsementIsAvailableInOptionalEndorsements(endorsementFormId);
 		addOptionalEndorsement(endorsementFormId);
 	}
 
-	public void editEndorsementForm(String endorsementFormId) {
+	protected void editEndorsementForm(String endorsementFormId) {
 		checkEditLinkIsAvailable(endorsementFormId);
 		editEndorsementAndVerify(endorsementFormId);
 	}
 
-	public void removeEndorsementForm(String endorsementFormId) {
+	protected void removeEndorsementForm(String endorsementFormId) {
 		checkRemoveLinkIsAvailable(endorsementFormId);
 		removeEndorsementAndVerify(endorsementFormId);
 	}
 
-	public void finishNewBusinessTx() {
+	protected void finishNewBusinessTx() {
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.UNDERWRITING_AND_APPROVAL.get());
 		policy.getDefaultView().fillFromTo(getPolicyTD(), UnderwritingAndApprovalTab.class, PurchaseTab.class, true);
 		new PurchaseTab().submitTab();
 	}
 
-	public void finishRenewalOrEndorsementTx(Boolean isEndorsementsAdded) {
+	protected void finishRenewalOrEndorsementTx(Boolean isEndorsementsAdded) {
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.UNDERWRITING_AND_APPROVAL.get());
 
@@ -163,28 +120,28 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 		new BindTab().submitTab();
 	}
 
-	public void checkEndorsementIsAvailableInOptionalEndorsements (String formId) {
+	protected void checkEndorsementIsAvailableInOptionalEndorsements(String formId) {
 		assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId).isPresent());
 		assertThat(endorsementTab.getAddEndorsementLink(formId).isPresent());
 	}
 
-	public void checkEndorsementIsNotAvailableInOptionalEndorsements (String... formIds) {
+	protected void checkEndorsementIsNotAvailableInOptionalEndorsements(String... formIds) {
 		for (String formId : formIds) {
 			assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId).isPresent()).isFalse();
 		}
 	}
 
-	public void checkEndorsementIsAvailableInIncludedEndorsements(String formId) {
+	protected void checkEndorsementIsAvailableInIncludedEndorsements(String formId) {
 		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId).isPresent());
 	}
 
-	public void checkEndorsementIsNotAvailableInIncludedEndorsements(String... formIds) {
+	protected void checkEndorsementIsNotAvailableInIncludedEndorsements(String... formIds) {
 		for (String formId : formIds){
 			assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId).isPresent()).isFalse();
 		}
 	}
 
-	public void addOptionalEndorsement(String endorsementFormId) {
+	private void addOptionalEndorsement(String endorsementFormId) {
 		endorsementTab.getAddEndorsementLink(endorsementFormId).click();
 
 		if (endorsementFormId == EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId()){
@@ -204,11 +161,11 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 		endorsementTab.btnSaveForm.click();
 	}
 
-	public void checkEditLinkIsAvailable(String endorsementFormId) {
+	private void checkEditLinkIsAvailable(String endorsementFormId) {
 		assertThat(endorsementTab.verifyLinkEditIsPresent(endorsementFormId)).isEqualTo(true);
 	}
 
-	public void editEndorsementAndVerify(String endorsementFormId) {
+	private void editEndorsementAndVerify(String endorsementFormId) {
 		endorsementTab.getEditEndorsementLink(endorsementFormId,1).click();
 
 		if (endorsementFormId == EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId()) {
@@ -239,40 +196,27 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 		endorsementTab.btnSaveForm.click();
 	}
 
-	public void checkRemoveLinkIsAvailable(String endorsementFormId) {
+	private void checkRemoveLinkIsAvailable(String endorsementFormId) {
 		assertThat(endorsementTab.verifyLinkRemoveIsPresent(endorsementFormId)).isEqualTo(true);
 	}
 
-	public void removeEndorsementAndVerify(String endorsementFormId) {
+	private void removeEndorsementAndVerify(String endorsementFormId) {
 		endorsementTab.getRemoveEndorsementLink(endorsementFormId,1).click();
 		Page.dialogConfirmation.confirm();
 
 		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, endorsementFormId).isPresent()).isFalse();
 	}
 
-	public void openAppNonPrivilegedUser(String privilege) {
+	protected void closeOpenAppNonPrivilegedUser(String privilege) {
 		mainApp().close();
-		mainApp().open(initiateLoginTD()
-				.adjust("User","qa_roles")
-				.adjust("Groups", privilege)
-				.adjust("UW_AuthLevel", "01")
-				.adjust("Billing_AuthLevel", "01")
-		);
+		openAppNonPrivilegedUser(privilege);
 	}
 
-	public void navigateToRenewalPremiumAndCoveragesTab() {
+	protected void navigateToRenewalPremiumAndCoveragesTab() {
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_ENDORSEMENT.get());
-	}
-
-	public void checkDocGenTriggered(String policyNumber, AaaDocGenEntityQueries.EventNames eventName, String... docGenIds) {
-		List<Document> policyDocuments = DocGenHelper.getDocumentsList(policyNumber, eventName);
-		Object[] documentTemplate = policyDocuments.stream().map(Document::getTemplateId).toArray();
-		for (String docGenId : docGenIds) {
-			assertThat(documentTemplate).contains(docGenId);
-		}
 	}
 
 	/**
@@ -280,7 +224,7 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 	 * Non privileged user.
 	 * PAS-14057, PAS-17039
 	 */
-	public void checkEndorsementFunctionality(String... endorsementFormIds) {
+	protected void checkEndorsementFunctionality(String... endorsementFormIds) {
 		for (String endorsementFormId : endorsementFormIds) {
 			checkEndorsementIsAvailableInIncludedEndorsements(endorsementFormId);
 			editEndorsementForm(endorsementFormId);
@@ -288,7 +232,7 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 		}
 	}
 
-	public void checkEndorsementsIncreasesPremium(String... endorsementFormIds) {
+	protected void checkEndorsementsIncreasesPremium(String... endorsementFormIds) {
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 
 		Dollar origPremiumValue = new Dollar(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
@@ -305,7 +249,7 @@ public class TestEndorsementsTabAbstract extends PolicyBaseTest {
 		verifyEndorsementsPresent(PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, endorsementFormIds);
 	}
 
-	public void verifyEndorsementsPresent(String columnName, String... endorsements) {
+	private void verifyEndorsementsPresent(String columnName, String... endorsements) {
 		for (String endorsement : endorsements) {
 			PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains(columnName, endorsement).verify.present();
 		}

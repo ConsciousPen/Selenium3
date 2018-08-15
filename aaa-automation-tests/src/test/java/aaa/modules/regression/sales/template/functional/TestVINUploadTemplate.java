@@ -333,7 +333,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 	protected void endorsement(TestData testData, String vinNumber) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
-		String policyNumber = createPreconds(testData);
+		String policyNumber = openAppAndCreatePolicy(testData);
 
 		adminApp().open();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
@@ -555,7 +555,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();
 		//1. Create a policy with VIN no matched data and save the expiration data
-		String policyNumber = createPreconds(testData);
+		String policyNumber = openAppAndCreatePolicy(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
 		//2. Upload new vin data with updated Y/M/M/S/S
