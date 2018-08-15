@@ -12,7 +12,7 @@ import toolkit.webdriver.controls.TextBox;
 
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
-public class TestOperationalReportsCheckPolicyNumberParameter extends BaseTest {
+public class TestOperationalReportsEuwDetailCheckPolicyNumberParameter extends BaseTest {
 
     private OperationalReportsTab orTab = new OperationalReportsTab();
     private static String policyNumber = "AZ" + RandomStringUtils.randomNumeric(11);
@@ -27,9 +27,9 @@ public class TestOperationalReportsCheckPolicyNumberParameter extends BaseTest {
      * 3. Check that "Policy Number” is displayed and enabled, free format policy number can be entered
      */
 
-    @Test(groups = {Groups.FUNCTIONAL})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "16020")
-    public void pas16020_testOperationalReportsCheckPolicyNumberParameter() {
+    public void pas16020_testOperationalReportsEuwDetailCheckPolicyNumberParameter() {
         opReportApp().open();
 
         orTab.fillTab(getOperationalReportsTD("DataGather","TestData_EUW_Detail"));

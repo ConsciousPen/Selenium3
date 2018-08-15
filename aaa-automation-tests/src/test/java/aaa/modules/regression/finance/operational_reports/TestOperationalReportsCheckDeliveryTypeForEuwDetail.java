@@ -29,7 +29,7 @@ public class TestOperationalReportsCheckDeliveryTypeForEuwDetail extends BaseTes
      * 7. Verify, that errors 'Field is required' for 'E-mail Address' Selection and 'Additional E-mail Address'
      */
 
-    @Test(groups = {Groups.FUNCTIONAL})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-15536")
     public void pas15536_testOperationalReportsCheckDeliveryTypeForEuwDetail() {
         opReportApp().open();
