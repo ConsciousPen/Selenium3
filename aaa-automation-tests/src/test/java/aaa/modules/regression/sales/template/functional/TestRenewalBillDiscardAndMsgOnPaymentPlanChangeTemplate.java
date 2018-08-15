@@ -15,7 +15,6 @@ import aaa.main.metadata.DialogsMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.metadata.policy.PurchaseMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
@@ -63,8 +62,8 @@ public class TestRenewalBillDiscardAndMsgOnPaymentPlanChangeTemplate extends Pol
 			+ "statement will not be available. If a payment is received from your mortgage company it will be applied to your policy. "
 			+ "Do you agree to these changes?";
 
-	public void testRenewalBillDiscardAndMessageOnPaymentPlanChange(PolicyType policyType, String initialPaymentPlan, Boolean isOnAutopay, Boolean generateBillManually, String renewalPaymentPlan, String message, String initialPaymentPlanInRenewal) {
-		createPolicy(policyType, initialPaymentPlan, isOnAutopay);
+	public void testRenewalBillDiscardAndMessageOnPaymentPlanChange(String initialPaymentPlan, Boolean isOnAutopay, Boolean generateBillManually, String renewalPaymentPlan, String message, String initialPaymentPlanInRenewal) {
+		createPolicy(initialPaymentPlan, isOnAutopay);
 		createProposedRenewal();
 
 		if (generateBillManually) {
@@ -74,15 +73,15 @@ public class TestRenewalBillDiscardAndMsgOnPaymentPlanChangeTemplate extends Pol
 			checkThatPaperBillIsGeneratedInDB();
 		}
 
-		navigateToRenewal(policyType);
+		navigateToRenewal();
 		changePaymentPlanOnRenewal(renewalPaymentPlan);
 		checkMessageInBindTab(message, initialPaymentPlanInRenewal, renewalPaymentPlan);
 		checkNewBillIsGeneratedOnRenewal();
 		checkThatPaperBillIsNotSentOnRenewal();
 	}
 
-	private void createPolicy(PolicyType policyType, String paymentPlan, Boolean isOnAutoPay) {
-		TestData policyTd =  getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData");
+	private void createPolicy(String paymentPlan, Boolean isOnAutoPay) {
+		TestData policyTd =  getPolicyTD();
 		policyTd = policyTd.adjust(TestData.makeKeyPath(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(),
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), paymentPlan);
 
@@ -97,26 +96,26 @@ public class TestRenewalBillDiscardAndMsgOnPaymentPlanChangeTemplate extends Pol
 
 		mainApp().open();
 		createCustomerIndividual();
-		policyType.get().createPolicy(policyTd);
-
-		policyNumber = PolicySummaryPage.getPolicyNumber();
+		policyNumber = createPolicy(policyTd);
 	}
 
 	private void createProposedRenewal() {
 		//Move time to R-35
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(35));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
 
 		//Create Proposed Renewal
+		//For now 'Proposed Renewal' is not always generated after first run
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 	}
 
 	private void generatePaperBillViaJob() {
 		//Move time to R-20
-		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(20));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));//-35 days
 
 		//Generate Renewal bill
+		//For now 'Renewal Bill' is not always generated after first run
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 	}
@@ -146,12 +145,12 @@ public class TestRenewalBillDiscardAndMsgOnPaymentPlanChangeTemplate extends Pol
 		assertThat(renewalBillDocuments.stream().map(Document::getTemplateId).toArray()).contains(DocGenEnum.Documents.AHRBXX.getIdInXml());
 	}
 
-	private void navigateToRenewal(PolicyType policyType) {
+	private void navigateToRenewal() {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
-		policyType.get().dataGather().start();
+		policy.dataGather().start();
 	}
 
 	private void changePaymentPlanOnRenewal(String paymentPlan) {

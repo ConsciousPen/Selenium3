@@ -3,10 +3,13 @@
 package aaa.modules.regression.billing_and_payments.auto_ca.choice;
 
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
+import aaa.utils.StateList;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
@@ -34,6 +37,7 @@ public class TestPolicyBilling extends PolicyBilling {
 	}
 
 	@Parameters({"state"})
+	@StateList(states =  States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_CA_CHOICE)
 	public void testBilling(@Optional("CA") String state) {

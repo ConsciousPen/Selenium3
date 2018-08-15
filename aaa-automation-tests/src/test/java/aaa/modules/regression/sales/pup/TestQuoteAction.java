@@ -28,6 +28,7 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	 * @details
 	 */
 	@Parameters({"state"})
+	//@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.PUP )
     public void testQuoteCreation(@Optional("") String state) {
@@ -45,6 +46,7 @@ public class TestQuoteAction extends QuoteActionAbstract {
      * @details
      */
 	@Parameters({"state"})
+	//@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.PUP )
     public void testQuoteIssue(@Optional("") String state) {
@@ -62,6 +64,7 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	 * @details
 	 */	
 	@Parameters({"state"})
+	//@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.PUP)
 	public void testQuoteCopy(@Optional("") String state) {

@@ -1,9 +1,11 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
+import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -18,8 +20,7 @@ import aaa.main.pages.summary.MyWorkSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.main.pages.summary.TaskDetailsSummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import aaa.utils.StateList;
 
 public class TestQuoteTaskManager extends HomeCaHO3BaseTest {
 
@@ -37,6 +38,7 @@ public class TestQuoteTaskManager extends HomeCaHO3BaseTest {
       */
 
     @Parameters({"state"})
+    @StateList(states =  States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
     public void testQuoteTaskManager(@Optional("CA") String state) {
@@ -50,9 +52,9 @@ public class TestQuoteTaskManager extends HomeCaHO3BaseTest {
         createCustomerIndividual();
 
         policy.initiate();
-     
+
         policy.getDefaultView().fillUpTo(getPolicyTD().adjust(getTestSpecificTD("TestData")), BindTab.class);
-        
+
 
         //  4.  Purchase policy with refer for approval and override
         bindTab.btnPurchase.click();
@@ -79,7 +81,6 @@ public class TestQuoteTaskManager extends HomeCaHO3BaseTest {
         NavigationPage.toMainTab(AppMainTabs.MY_WORK.get());
         myWork.filterTask().performByReferenceId(referenceID);
         MyWorkSummaryPage.linkAllQueues.click();
-        //MyWorkSummaryPage.tableTasks.getRowContains(MyWorkConstants.MyWorkTasksTable.REFERENCE_ID, referenceID).verify.present(false);
-        assertThat(MyWorkSummaryPage.tableTasks.getRowContains(MyWorkConstants.MyWorkTasksTable.REFERENCE_ID, referenceID).isPresent()).isFalse();
+        assertThat(MyWorkSummaryPage.tableTasks.getRowContains(MyWorkConstants.MyWorkTasksTable.REFERENCE_ID, referenceID)).isPresent(false);
     }
 }

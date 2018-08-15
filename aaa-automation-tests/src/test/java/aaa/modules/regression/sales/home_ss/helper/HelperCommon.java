@@ -1,18 +1,10 @@
 package aaa.modules.regression.sales.home_ss.helper;
 
-import aaa.common.Tab;
 import aaa.common.pages.SearchPage;
-import aaa.main.enums.ErrorEnum;
-import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
-import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
-import toolkit.utils.screenshots.ScreenshotManager;
-
-import java.time.LocalDateTime;
 
 public class HelperCommon extends HomeSSHO3BaseTest {
 

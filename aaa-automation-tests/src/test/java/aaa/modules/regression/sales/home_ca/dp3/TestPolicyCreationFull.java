@@ -1,12 +1,14 @@
 package aaa.modules.regression.sales.home_ca.dp3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaDP3BaseTest;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import aaa.utils.StateList;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -28,6 +30,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyCreationFull extends HomeCaDP3BaseTest {
 
     @Parameters({"state"})
+    @StateList(states =  States.CA)
 	@Test(groups= {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
     public void testQuoteCreation(@Optional("CA") String state) {
@@ -36,7 +39,7 @@ public class TestPolicyCreationFull extends HomeCaDP3BaseTest {
         createCustomerIndividual();
         createPolicy(getTestSpecificTD("TestDataFull"));
 
-		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         log.info("TEST: CA DP3 Full is passed; Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
     }
 }

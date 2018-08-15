@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005301</agencyLocation>
+		<agentCd>70683577</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2018-02-10T00:00:00</effective>
+		<expiration>2019-02-10T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>HDES</importedFrom>
+		<isAdditionalPolicy>true</isAdditionalPolicy>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>HO6</policyFormCd>
+		<preConversionPolicyNumber>WK19801</preConversionPolicyNumber>
+		<preConversionPolicyPremium>310</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>WK19801</sourcePolicyNum>
+		<subProducerCd>70683577</subProducerCd>
+		<tollNumberCd>xxx</tollNumberCd>
+		<underwriterCd>CSAAIB</underwriterCd>
+		<HO438BFUNSEndorsementForm state="Created"/>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+			<policyType>BASIC</policyType>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>FREMONT</dwellAddressCity>
+			<dwellAddressLine1>4519 LONGVIEW TER</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94538</dwellAddressZip>
+			<expirationDate>2018-03-18T00:00:00</expirationDate>
+			<orderDate>2017-12-18T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>4086449857</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>Yes</insurerCd>
+			<insurerName>CHERUKURI</insurerName>
+			<policyNumber>4290050904154115</policyNumber>
+		</AAAHOMembership>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1969-08-18T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>MADHAVI</firstName>
+			<lastName>CHERUKURI</lastName>
+			<occupationDesc>Engineer</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>4519 LONGVIEW TER</addressLine1>
+				<city>FREMONT</city>
+				<dateOfBirth>1969-08-18T00:00:00</dateOfBirth>
+				<expirationDt>2018-02-16T00:00:00</expirationDt>
+				<firstName>MADHAVI</firstName>
+				<lastName>CHERUKURI</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-12-18T00:00:00</orderDate>
+				<postalCode>94538</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>4519 LONGVIEW TER</addressLine1>
+				<city>FREMONT</city>
+				<countryCd>US</countryCd>
+				<postalCode>94538</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOOtherOrPriorPolicyComponent state="Created">
+			<autoBILimit>$500,000/$500,000</autoBILimit>
+			<autoPolicyPending>false</autoPolicyPending>
+			<policyEffectiveDate>2018-02-10T00:00:00</policyEffectiveDate>
+			<policyNumber>On File- Conversion</policyNumber>
+			<productCd>Auto</productCd>
+			<stateCd>CA</stateCd>
+		</AAAHOOtherOrPriorPolicyComponent>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Mortgagee</billToAtRenewal>
+			<paymentPlanAtRenewal>mortgageeHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>mortgageeHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2014-01-01T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>4</noOfYearsWithHO>
+			<policyType>HO6</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAIso360ReportComponent state="Created">
+			<constructionTypeCd>Frame</constructionTypeCd>
+			<dwellAddressCity>FREMONT</dwellAddressCity>
+			<dwellAddressLine1>4519 LONGVIEW TER</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94538</dwellAddressZip>
+			<expirationDate>2018-02-16T00:00:00</expirationDate>
+			<isoReplacementCost>109200</isoReplacementCost>
+			<livingArea>9999</livingArea>
+			<numberOfFamilies>1</numberOfFamilies>
+			<numberOfStories>1</numberOfStories>
+			<orderDate>2017-12-18T00:00:00</orderDate>
+			<roofShape>Complex/Custom</roofShape>
+			<roofType>Builtup Tar &amp; Gravel</roofType>
+			<status>Valid</status>
+			<yearBuilt>1971</yearBuilt>
+		</AAAIso360ReportComponent>
+		<AAAMembershipOrder state="Created">
+			<lastName>CHERUKURI</lastName>
+			<membershipNumber>4290050904154115</membershipNumber>
+			<orderDate>2017-12-18T00:00:00</orderDate>
+			<receiptDate>2017-12-18T00:00:00</receiptDate>
+			<status>Active</status>
+		</AAAMembershipOrder>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>FREMONT</dwellAddressCity>
+			<dwellAddressLine1>4519 LONGVIEW TER</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94538</dwellAddressZip>
+			<expirationDate>2018-02-16T00:00:00</expirationDate>
+			<orderDate>2017-12-18T00:00:00</orderDate>
+			<ppcValue>2</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>616530</documentCd>
+			<documentText>California Residential Property Insurance Disclosure</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>true</docReceivedInd>
+			<documentCd>6POO</documentCd>
+			<documentText>Proof of occupation</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<DwellLocatedInd>false</DwellLocatedInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+			<GasWaterInGarageInd>false</GasWaterInGarageInd>
+			<PremisesEndrosInd>false</PremisesEndrosInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Owner occupied</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>1</aaaDwellingUsage>
+			<aaaFirelineScore>0</aaaFirelineScore>
+			<aaaInsuredTenantDiscountInfo>false</aaaInsuredTenantDiscountInfo>
+			<aaanumberofResidents>9999</aaanumberofResidents>
+			<addressLine1>4519 LONGVIEW TER</addressLine1>
+			<city>FREMONT</city>
+			<firelineMatchType>Address</firelineMatchType>
+			<numberOfFamilies>1</numberOfFamilies>
+			<placementOrMatchType>Address</placementOrMatchType>
+			<postalCode>94538</postalCode>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<woodStoveInd>false</woodStoveInd>
+			<AAACoverageA state="Created">
+				<coverageCd>CovA</coverageCd>
+				<limitAmount>109200</limitAmount>
+			</AAACoverageA>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>28700</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>5800</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>100000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOConstructionInfo state="Created">
+				<condomCoverageADwellingRequested>Interior</condomCoverageADwellingRequested>
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<isoReplacementCost>109200</isoReplacementCost>
+				<livingArea>9999</livingArea>
+				<numberOfStories>1</numberOfStories>
+				<replacementCost>109200</replacementCost>
+				<roofShape>Complex/Custom</roofShape>
+				<roofType>Builtup Tar &amp; Gravel</roofType>
+				<yearBuilt>1971</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAHOMortgageeInfo state="Created">
+				<accountNumber>49202211</accountNumber>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>ATLANTA</city>
+				<mortagageeAddressLine1>PO BOX 47047</mortagageeAddressLine1>
+				<name>SUNTRUST MORTGAGE, INC., ISAOA/ATIMA</name>
+				<postalCode>30362</postalCode>
+				<rank>1</rank>
+				<stateProvCd>GA</stateProvCd>
+				<useLegalMortgagee>false</useLegalMortgagee>
+			</AAAHOMortgageeInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>FREMONT</fireDistrict>
+				<oldPpcValue>2</oldPpcValue>
+				<ppcValue>2</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>4519 LONGVIEW TER</addressLine1>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>FREMONT</city>
+					<county>Alameda</county>
+					<postalCode>94538</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<HO0496EndorsementForm state="Created"/>
+		<HW0915EndorsementForm state="Created"/>
+		<HO28EndorsementForm state="Created"/>
+		<HO29EndorsementForm state="Created"/>
+		<HO60CEndorsementForm state="Created"/>
+		<HO90EndorsementForm state="Created"/>
+		<HW0104EndorsementForm state="Created"/>
+		<HW2482EndorsementForm state="Created"/>
+	</AAAHOPolicy>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Conversion: Mailing address validated and standardized</title>
+		<updatedOn>2017-12-18T00:00:00</updatedOn>
+		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 4519 LONGVIEW TER  FREMONT CA 94538 to 4519 LONGVIEW TER  FREMONT CA 94538</userText>
+	</userNote>
+</Policy>

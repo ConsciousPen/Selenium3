@@ -151,7 +151,7 @@ PAS-12257:
       messages: ["Cannot set value of ComboBox"]
     - tests: [aaa.modules.regression.conversions.*]
       messages: ["doesn't have Success status. Reason"]
-PT-1576:
+PAS-17051:
   summary: "Auto SS Defensive Driver Discount is not displayed correctly"
   reason: PROD
   failures:

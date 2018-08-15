@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005301</agencyLocation>
+		<agentCd>70683577</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<CaliforniaVeterans>false</CaliforniaVeterans>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2018-02-05T00:00:00</effective>
+		<expiration>2019-02-05T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>HDES</importedFrom>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>HO4</policyFormCd>
+		<preConversionPolicyNumber>VT70763</preConversionPolicyNumber>
+		<preConversionPolicyPremium>272</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>VT70763</sourcePolicyNum>
+		<subProducerCd>70683577</subProducerCd>
+		<tollNumberCd>xxx</tollNumberCd>
+		<underwriterCd>CSAAIB</underwriterCd>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+			<policyType>BASIC</policyType>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>HIDDEN VALLEY LAKE</dwellAddressCity>
+			<dwellAddressLine1>18994 HIDDEN VALLEY RD</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95467</dwellAddressZip>
+			<expirationDate>2018-03-18T00:00:00</expirationDate>
+			<orderDate>2017-12-18T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>7074904887</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>Yes</insurerCd>
+			<insurerName>QUILICI NANCY</insurerName>
+			<policyNumber>4290053321002214</policyNumber>
+		</AAAHOMembership>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1955-08-08T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>QUILICI</firstName>
+			<lastName>QUILICI NANCY</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>18994 HIDDEN VALLEY RD</addressLine1>
+				<city>HIDDEN VALLEY LAKE</city>
+				<dateOfBirth>1955-08-08T00:00:00</dateOfBirth>
+				<expirationDt>2018-02-16T00:00:00</expirationDt>
+				<firstName>QUILICI</firstName>
+				<lastName>QUILICI NANCY</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-12-18T00:00:00</orderDate>
+				<postalCode>95467</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>18994 HIDDEN VALLEY RD</addressLine1>
+				<city>HIDDEN VALLEY LAKE</city>
+				<countryCd>US</countryCd>
+				<postalCode>95467</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1998-01-01T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>STEPHANIE</firstName>
+			<lastName>QUILICI NANCY</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>18994 HIDDEN VALLEY RD</addressLine1>
+				<city>HIDDEN VALLEY LAKE</city>
+				<dateOfBirth>1998-01-01T00:00:00</dateOfBirth>
+				<expirationDt>2018-02-16T00:00:00</expirationDt>
+				<firstName>STEPHANIE</firstName>
+				<lastName>QUILICI NANCY</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-12-18T00:00:00</orderDate>
+				<postalCode>95467</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>18994 HIDDEN VALLEY RD</addressLine1>
+				<city>HIDDEN VALLEY LAKE</city>
+				<countryCd>US</countryCd>
+				<postalCode>95467</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Insured</billToAtRenewal>
+			<paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>standardHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2010-01-01T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>8</noOfYearsWithHO>
+			<policyType>HO4</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAMembershipOrder state="Created">
+			<lastName>QUILICI NANCY</lastName>
+			<membershipNumber>4290053321002214</membershipNumber>
+			<orderDate>2017-12-18T00:00:00</orderDate>
+			<receiptDate>2017-12-18T00:00:00</receiptDate>
+			<status>Active</status>
+		</AAAMembershipOrder>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>HIDDEN VALLEY LAKE</dwellAddressCity>
+			<dwellAddressLine1>18994 HIDDEN VALLEY RD</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95467</dwellAddressZip>
+			<expirationDate>2018-02-16T00:00:00</expirationDate>
+			<orderDate>2017-12-18T00:00:00</orderDate>
+			<ppcValue>5</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<PremisesEndrosInd>false</PremisesEndrosInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>1</aaaDwellingUsage>
+			<aaaFirelineScore>0</aaaFirelineScore>
+			<aaanumberofResidents>9999</aaanumberofResidents>
+			<addressLine1>18994 HIDDEN VALLEY RD</addressLine1>
+			<city>HIDDEN VALLEY LAKE</city>
+			<numberOfFamilies>1</numberOfFamilies>
+			<postalCode>95467</postalCode>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<woodStoveInd>false</woodStoveInd>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>40300</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>8400</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>300000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOConstructionInfo state="Created">
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<livingArea>9999</livingArea>
+				<numberOfStories>1</numberOfStories>
+				<personalPropertyValue>40300</personalPropertyValue>
+				<roofType>Asphalt / Fiberglass</roofType>
+				<yearBuilt>2005</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAHOLossInfo state="Created">
+				<aaaClaim>true</aaaClaim>
+				<aaaHoClaimNo>01VT70763</aaaHoClaimNo>
+				<catLoss>false</catLoss>
+				<claimCategory>3</claimCategory>
+				<incidentSource>Internal Claims</incidentSource>
+				<includeToRatingInd>true</includeToRatingInd>
+				<lossAmount>1433</lossAmount>
+				<lossDate>2013-12-25T00:00:00</lossDate>
+				<lossTypeCd>12</lossTypeCd>
+				<statusOfClaim>2</statusOfClaim>
+			</AAAHOLossInfo>
+			<AAAHOLossInfo state="Created">
+				<aaaClaim>true</aaaClaim>
+				<aaaHoClaimNo>02VT70763</aaaHoClaimNo>
+				<catastrophicIndicator>HO-HOCS:48 KEY 480 FOR NA</catastrophicIndicator>
+				<catLoss>true</catLoss>
+				<claimCategory>3</claimCategory>
+				<incidentSource>Internal Claims</incidentSource>
+				<includeToRatingInd>true</includeToRatingInd>
+				<lossAmount>0</lossAmount>
+				<lossDate>2014-08-24T00:00:00</lossDate>
+				<lossTypeCd>12</lossTypeCd>
+				<statusOfClaim>2</statusOfClaim>
+			</AAAHOLossInfo>
+			<AAAHOLossInfo state="Created">
+				<aaaClaim>true</aaaClaim>
+				<aaaHoClaimNo>1001119832</aaaHoClaimNo>
+				<catastrophicIndicator>15091 CA (Wildfire - Vall</catastrophicIndicator>
+				<catLoss>true</catLoss>
+				<claimCategory>3</claimCategory>
+				<incidentSource>Internal Claims</incidentSource>
+				<includeToRatingInd>true</includeToRatingInd>
+				<lossAmount>995</lossAmount>
+				<lossDate>2015-09-12T00:00:00</lossDate>
+				<lossTypeCd>1</lossTypeCd>
+				<statusOfClaim>2</statusOfClaim>
+			</AAAHOLossInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>LAKE CO FD</fireDistrict>
+				<oldPpcValue>5</oldPpcValue>
+				<ppcValue>5</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>250</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>18994 HIDDEN VALLEY RD</addressLine1>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>HIDDEN VALLEY LAKE</city>
+					<county>Lake</county>
+					<postalCode>95467</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<HO29EndorsementForm state="Created"/>
+		<HO58EndorsementForm state="Created"/>
+		<HO90EndorsementForm state="Created"/>
+	</AAAHOPolicy>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Conversion: Mailing address validated and standardized</title>
+		<updatedOn>2017-12-18T00:00:00</updatedOn>
+		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 18994 HIDDEN VALLEY RD  HIDDEN VALLEY LAKE CA 95467 to 18994 HIDDEN VALLEY RD  HIDDEN VALLEY LAKE CA 95467</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Conversion: Date of birth defaulted</title>
+		<updatedOn>2017-12-18T00:00:00</updatedOn>
+		<userText>Date of birth defaults were applied to this policy according to the following logic:-  If no date of birth existing in HDES and senior/mature discount applied, DOB was defaulted to 01/01/1901.  If senior/mature discount did not apply, DOB was defaulted to 01/01/1998.If only one DOB existed in HDES, all other DOBs were defaulted to match.</userText>
+	</userNote>
+</Policy>

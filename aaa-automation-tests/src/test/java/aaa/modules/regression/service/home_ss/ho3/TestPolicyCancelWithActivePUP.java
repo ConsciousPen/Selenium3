@@ -1,11 +1,13 @@
 package aaa.modules.regression.service.home_ss.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -20,6 +22,7 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
+import aaa.utils.StateList;
 
 public class TestPolicyCancelWithActivePUP extends HomeSSHO3BaseTest {
 
@@ -36,6 +39,7 @@ public class TestPolicyCancelWithActivePUP extends HomeSSHO3BaseTest {
      */
 
     @Parameters({"state"})
+    @StateList(statesExcept = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
     public void testPolicyCancelWithActivePUP(@Optional("") String state) {
@@ -64,9 +68,9 @@ public class TestPolicyCancelWithActivePUP extends HomeSSHO3BaseTest {
         cancellationActionTab.fillTab(getPolicyTD("Cancellation", "TestData"));
         CancellationActionTab.buttonOk.click();
 
-        NotesAndAlertsSummaryPage.alertConfirmPolicyCancellation.verify.contains(alert);
+        assertThat(NotesAndAlertsSummaryPage.alertConfirmPolicyCancellation).valueContains(alert);
 
         Page.dialogConfirmation.buttonOk.click();
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
     }
 }

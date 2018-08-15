@@ -1,6 +1,6 @@
 package aaa.helpers.openl.testdata_generator;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.*;

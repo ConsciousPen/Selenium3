@@ -1,5 +1,6 @@
 package aaa.modules.regression.conversions.home_ca.dp3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import org.testng.ITestContext;
 import org.testng.annotations.Optional;
@@ -7,6 +8,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -31,78 +33,24 @@ import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaDP3BaseTest;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
+@StateList(states = {Constants.States.CA})
 public class SisConversionTest extends HomeCaDP3BaseTest {
 
-	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Parameters({"state", "file"})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_DP3)
-	public void sisCADP3ConversionTest1(@Optional("CA") String state, ITestContext context) {
-		sisConversion("1.xml", context);
+	public void sisCADP3ConversionTest(@Optional("CA") String state, @Optional("1.xml") String file, ITestContext context) {
+		sisConversion(file, context);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Parameters({"state", "file"})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_DP3)
-	public void sisCADP3ConversionTest2(@Optional("CA") String state, ITestContext context) {
-		sisConversion("2.xml", context);
-	}
-
-	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_DP3)
-	public void sisCADP3ConversionTest3(@Optional("CA") String state, ITestContext context) {
-		sisConversion("3.xml", context);
-	}
-
-	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_DP3)
-	public void sisCADP3ConversionTest4(@Optional("CA") String state, ITestContext context) {
-		sisConversion("4.xml", context);
-	}
-
-	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_DP3)
-	public void sisCADP3ConversionTest5(@Optional("CA") String state, ITestContext context) {
-		sisConversion("5.xml", context);
-	}
-
-	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_DP3)
-	public void sisCADP3ConversionTest_renewWithLapse1(@Optional("CA") String state, ITestContext context) {
-		sisConversion_renewWithLapse("1.xml", context);
-	}
-
-	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_DP3)
-	public void sisCADP3ConversionTest_renewWithLapse2(@Optional("CA") String state, ITestContext context) {
-		sisConversion_renewWithLapse("2.xml", context);
-	}
-
-	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_DP3)
-	public void sisCADP3ConversionTest_renewWithLapse3(@Optional("CA") String state, ITestContext context) {
-		sisConversion_renewWithLapse("3.xml", context);
-	}
-
-	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_DP3)
-	public void sisCADP3ConversionTest_renewWithLapse4(@Optional("CA") String state, ITestContext context) {
-		sisConversion_renewWithLapse("4.xml", context);
-	}
-
-	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_DP3)
-	public void sisCADP3ConversionTest_renewWithLapse5(@Optional("CA") String state, ITestContext context) {
-		sisConversion_renewWithLapse("5.xml", context);
+	public void sisCADP3ConversionTest_renewWithLapse(@Optional("CA") String state, @Optional("1.xml") String file, ITestContext context) {
+		sisConversion_renewWithLapse(file, context);
 	}
 
 	public void sisConversion(String file, ITestContext context) {
@@ -143,7 +91,7 @@ public class SisConversionTest extends HomeCaDP3BaseTest {
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	public void sisConversion_renewWithLapse(String file, ITestContext context) {
@@ -187,7 +135,7 @@ public class SisConversionTest extends HomeCaDP3BaseTest {
 		policy.manualRenewalWithOrWithoutLapse().perform(getPolicyTD("ManualRenewalWithOrWithoutLapse", "TestData"));
 
 		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.verifyLapseExistFlagPresent();
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());

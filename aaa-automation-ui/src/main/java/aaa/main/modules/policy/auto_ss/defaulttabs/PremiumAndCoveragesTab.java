@@ -4,6 +4,7 @@
  */
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -18,7 +19,6 @@ import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.toolkit.webdriver.customcontrols.RatingDetailsTable;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
@@ -108,7 +108,7 @@ public class PremiumAndCoveragesTab extends Tab {
 		Map<String, Object> map = new LinkedHashMap<>();
 		List<String> keys = tableRatingDetailsQuoteInfo.getColumn(1).getValue();
 		List<String> values = tableRatingDetailsQuoteInfo.getColumn(2).getValue();
-		CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
+		assertThat(keys.size()).as("Number of keys in table is not equal to number of values.").isEqualTo(values.size());
 
 		for (int i = 0; i < keys.size(); i++) {
 			map.put(keys.get(i), values.get(i));
@@ -116,7 +116,7 @@ public class PremiumAndCoveragesTab extends Tab {
 
 		keys = tableRatingDetailsQuoteInfo.getColumn(3).getValue();
 		values = tableRatingDetailsQuoteInfo.getColumn(4).getValue();
-		CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
+		assertThat(keys.size()).as("Number of keys in table is not equal to number of values.").isEqualTo(values.size());
 		for (int i = 0; i < keys.size(); i++) {
 			map.put(keys.get(i), values.get(i));
 		}
@@ -129,7 +129,7 @@ public class PremiumAndCoveragesTab extends Tab {
 		Map<String, Object> map = new LinkedHashMap<>();
 		List<String> keys = tableRatingDetailsUnderwriting.getColumn(1).getValue();
 		List<String> values = tableRatingDetailsUnderwriting.getColumn(2).getValue();
-		CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
+		assertThat(keys.size()).as("Number of keys in table is not equal to number of values.").isEqualTo(values.size());
 
 		for (int i = 0; i < keys.size(); i++) {
 			map.put(keys.get(i), values.get(i));
@@ -137,7 +137,7 @@ public class PremiumAndCoveragesTab extends Tab {
 
 		keys = tableRatingDetailsUnderwriting.getColumn(4).getValue();
 		values = tableRatingDetailsUnderwriting.getColumn(5).getValue();
-		CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
+		assertThat(keys.size()).as("Number of keys in table is not equal to number of values.").isEqualTo(values.size());
 		for (int i = 0; i < keys.size(); i++) {
 			map.put(keys.get(i), values.get(i));
 		}
@@ -347,7 +347,7 @@ public class PremiumAndCoveragesTab extends Tab {
 					continue; // skip column with only "No Coverage"
 				}
 
-				CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
+				assertThat(keys.size()).as("Number of keys in table is not equal to number of values.").isEqualTo(values.size());
 
 				for (int i = 0; i < keys.size(); i++) {
 					map.put(keys.get(i), values.get(i));

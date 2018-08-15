@@ -11,7 +11,6 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.DialogsMetaData;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.metadata.policy.PurchaseMetaData;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
@@ -52,16 +51,16 @@ public class TestRenewalMsgOnBindPageOnPaymentPlanChangeTemplate extends PolicyB
 			+ "statement will not be available. If a payment is received from your mortgage company it will be applied to your policy. "
 			+ "Do you agree to these changes?";
 
-	public void testRenewalMessageOnBindPageOnPaymentPlanChange(PolicyType policyType, String initialPaymentPlan, Boolean isOnAutopay, String renewalPaymentPlan, String message, String initialPaymentPlanInRenewal) {
-		createPolicy(policyType, initialPaymentPlan, isOnAutopay);
+	public void testRenewalMessageOnBindPageOnPaymentPlanChange(String initialPaymentPlan, Boolean isOnAutopay, String renewalPaymentPlan, String message, String initialPaymentPlanInRenewal) {
+		createPolicy(initialPaymentPlan, isOnAutopay);
 		createProposedRenewal();
-		navigateToRenewal(policyType);
+		navigateToRenewal();
 		changePaymentPlanOnRenewal(renewalPaymentPlan);
 		checkMessageInBindTab(message, initialPaymentPlanInRenewal, renewalPaymentPlan);
 	}
 
-	private void createPolicy(PolicyType policyType, String paymentPlan, Boolean isOnAutoPay) {
-		TestData policyTd =  getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData");
+	private void createPolicy(String paymentPlan, Boolean isOnAutoPay) {
+		TestData policyTd =  getPolicyTD();
 		policyTd = policyTd.adjust(TestData.makeKeyPath(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(),
 				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), paymentPlan);
 
@@ -76,26 +75,26 @@ public class TestRenewalMsgOnBindPageOnPaymentPlanChangeTemplate extends PolicyB
 
 		mainApp().open();
 		createCustomerIndividual();
-		policyType.get().createPolicy(policyTd);
-		policyNumber = PolicySummaryPage.getPolicyNumber();
+		policyNumber = createPolicy(policyTd);
 	}
 
 	private void createProposedRenewal() {
 		//Move time to R-35
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(35));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
 
 		//Create Proposed Renewal
+		//For now 'Proposed Renewal' is not always generated after first run
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 	}
 
-	private void navigateToRenewal(PolicyType policyType) {
+	private void navigateToRenewal() {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
-		policyType.get().dataGather().start();
+		policy.dataGather().start();
 	}
 
 	private void changePaymentPlanOnRenewal(String paymentPlan) {

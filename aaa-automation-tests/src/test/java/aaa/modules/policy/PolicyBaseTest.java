@@ -13,6 +13,7 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.modules.BaseTest;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 
 import java.util.List;
@@ -106,5 +107,25 @@ public abstract class PolicyBaseTest extends BaseTest {
 		for (String docGenId : docGenIds) {
 			assertThat(documentTemplate).contains(docGenId);
 		}
+	}
+
+	/**
+	 * Sets the DONOTRENEWIND value in DB to "1" and exempt it from being renewed.
+	 * Can be used when renewal jobs running in parallel are creating a renewal for a policy that should not be there for another test.
+	 * NOTE:  You must use this in conjunction with policy.removeDoNotRenew() if/when you wish to create a renewal.
+	 * @param policyNumber String value representing the policy number
+	 */
+	protected void setDoNotRenewFlag(String policyNumber) {
+		setDoNotRenewFlag(policyNumber, "1");
+	}
+
+	/**
+	 * See description above.
+	 * @param policyNumber String value representing the policy number
+	 * @param flagValue value you wish to set the DONOTRENEWIND value in DB to.  Possible values include 1, 0, null
+	 *
+	 */
+	protected void setDoNotRenewFlag(String policyNumber, String flagValue) {
+		DBService.get().executeUpdate("update POLICYSUMMARY set DONOTRENEWIND = " + flagValue + " where policyNumber = '" + policyNumber + "'");
 	}
 }

@@ -1,6 +1,6 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.text.ParseException;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -337,7 +337,9 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
 	public void pas14475_NameInsuredMaritalStatus(@Optional("AZ") String state) {
-		pas14475_NameInsuredMaritalStatusBody();
+		assertSoftly(softly ->
+				pas14475_NameInsuredMaritalStatusBodyT(softly, true, "SSS")
+		);
 	}
 
 	/**
@@ -356,8 +358,10 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
-	public void pas14475_NameInsuredMaritalStatusDSS(@Optional("") String state) {
-		pas14475_NameInsuredMaritalStatusFNIIsDSSBody();
+	public void pas14475_NameInsuredMaritalStatusDSS(@Optional("AZ") String state) {
+		assertSoftly(softly ->
+				pas14475_NameInsuredMaritalStatusBodyT(softly, true, "DSS")
+		);
 	}
 
 	/**
@@ -376,8 +380,10 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
-	public void pas14475_NameInsuredMaritalStatusWSS(@Optional("") String state) {
-		pas14475_NameInsuredMaritalStatusFNIIsWSSBody();
+	public void pas14475_NameInsuredMaritalStatusWSS(@Optional("AZ") String state) {
+		assertSoftly(softly ->
+				pas14475_NameInsuredMaritalStatusBodyT(softly, true, "WSS")
+		);
 	}
 
 	/**
@@ -396,9 +402,9 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
-	public void pas14475_NameInsuredMaritalStatusPSS(@Optional("") String state) {
+	public void pas14475_NameInsuredMaritalStatusPSS(@Optional("AZ") String state) {
 		assertSoftly(softly ->
-				pas14475_NameInsuredMaritalStatusFNIIsPSSBody(softly)
+				pas14475_NameInsuredMaritalStatusBodyT(softly, true, "PSS")
 		);
 	}
 
@@ -489,7 +495,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14640"})
-	public void pas14640_NotNamedInsuredAvailableForRatingHappyPath(@Optional("VA") String state){
+	public void pas14640_NotNamedInsuredAvailableForRatingHappyPath(@Optional("VA") String state) {
 		pas14640_NotNamedInsuredAvailableForRatingHappyPathBody();
 	}
 
@@ -511,7 +517,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14642"})
-	public void pas14642_NotNamedInsuredAvailableForRatingHardStop(@Optional("VA") String state){
+	public void pas14642_NotNamedInsuredAvailableForRatingHardStop(@Optional("VA") String state) {
 		pas14642_NotNamedInsuredAvailableForRatingHardStopBody();
 	}
 
@@ -533,7 +539,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14641"})
-	public void pas14641_NotNamedInsuredUpdateToNotAvailableForRating(@Optional("VA") String state){
+	public void pas14641_NotNamedInsuredUpdateToNotAvailableForRating(@Optional("VA") String state) {
 		pas14641_NotNamedInsuredUpdateToNotAvailableForRatingBody();
 	}
 
@@ -551,8 +557,29 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14963"})
-	public void pas14963_remove_driver_transaction_history(@Optional("VA") String state){
+	public void pas14963_remove_driver_transaction_history(@Optional("VA") String state) {
 		pas14963_remove_driver_transaction_historyBody(getPolicyType());
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Relationship to FNI and the hard stop
+	 * @scenario
+	 * 1. Create a policy in PAS.
+	 * 2. Create endorsement through service
+	 * 3. Add driver through service
+	 * 4. update driver Relationship to FNI Employee and verify error message.
+	 * 5. rate the policy through service and verify error message.
+	 * 6. Go to Pas Rate the policy from Pas
+	 * 7. Run Bind service And verify message.
+	 * 8. Repeat steps 4 to 7 For Relationship to FNI Other Resident Relative
+	 * 9.Repeat steps 4 to 7 For Relationship to FNI Other.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16551"})
+	public void pas16551_relation_to_fni_hard_stop(@Optional("VA") String state) {
+		pas16551_relation_to_fni_hard_stopBody(getPolicyType());
 	}
 }
 

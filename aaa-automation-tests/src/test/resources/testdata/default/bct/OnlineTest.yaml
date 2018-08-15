@@ -348,7 +348,7 @@ BCT_ONL_106_ManualChangesRenewal: {
 }
 
 BCT_ONL_107_ManualChangesRenewal: {
-  SelectPolicy: "select p.policynumber from pasadm.policysummary p,quoteversion q where p.id = q.policyid and p.LOB = 'HOME' and p.riskstatecd = '/STATE/' and p.txtype= 'renewal' and policystatuscd in ('dataGather','rated') and (p.cancelnoticeind = 0 or p.cancelnoticeind is null) and p.policynumber in (select policynumber from pasadm.policysummary where txtype in ('policy', 'renewal', 'reinstatement')and policystatuscd = 'issued' and timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and expiration > to_date('/EXECDATE/') AND POLICYNUMBER LIKE '%H3%') AND ROWNUM = 1"
+  SelectPolicy: "select p.policynumber from pasadm.policysummary p,quoteversion q where p.id = q.policyid and p.LOB = 'HOME' and p.riskstatecd = '/STATE/' and p.txtype= 'renewal' and p.imported = 'NEW' and policystatuscd in ('dataGather','rated') and (p.cancelnoticeind = 0 or p.cancelnoticeind is null) and p.policynumber in (select policynumber from pasadm.policysummary where txtype in ('policy', 'renewal', 'reinstatement')and policystatuscd = 'issued' and timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and expiration > to_date('/EXECDATE/') AND POLICYNUMBER LIKE '%H3%') AND ROWNUM = 1"
 }
 
 BCT_ONL_108_ManualChangesRenewal: {

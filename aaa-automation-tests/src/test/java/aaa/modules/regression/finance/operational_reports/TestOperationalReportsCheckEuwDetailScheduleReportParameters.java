@@ -4,7 +4,6 @@ import aaa.admin.metadata.reports.OperationalReportsMetaData;
 import aaa.admin.modules.reports.operationalreports.defaulttabs.OperationalReportsTab;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.OperationalReportsConstants;
 import aaa.modules.BaseTest;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
@@ -28,7 +27,7 @@ public class TestOperationalReportsCheckEuwDetailScheduleReportParameters extend
      * 5. Check controls in "Scheduling Parameters" section.
      */
 
-    @Test(groups = {Groups.FUNCTIONAL})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-16021")
     public void pas16021_testOperationalReportsCheckEuwDetailScheduleReportParameters() {
         opReportApp().open();

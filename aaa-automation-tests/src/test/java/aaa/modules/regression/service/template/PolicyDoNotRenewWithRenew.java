@@ -2,7 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.template;
 
-
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -41,8 +41,8 @@ public abstract class PolicyDoNotRenewWithRenew extends PolicyBaseTest {
 		log.info("Do Not Renew for Policy #" + policyNumber);
 		
 		policy.doNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.labelDoNotRenew.verify.present();
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelDoNotRenew).isPresent();
 	}
 	
 	protected void TC02_RenewPolicyTemplate(){
@@ -54,6 +54,6 @@ public abstract class PolicyDoNotRenewWithRenew extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.buttonRenewals.verify.enabled(false);
+		assertThat(PolicySummaryPage.buttonRenewals).isDisabled();
 	}
 }

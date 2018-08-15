@@ -240,7 +240,7 @@
     <test name="CA Select Auto Functional Tests" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestContactInformation"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestEndorsementActionRules"/>
             <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.functional.TestCinRenewalAutoCASelect">
                 <methods>
                     <include name="testCinRenewalMVR"/>
@@ -256,7 +256,6 @@
     <test name="CA Choice Auto Functional Tests" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestEndorsementActionRules"/>
             <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.functional.TestCinNewBusinessAutoCAChoice">
                 <methods>
                     <include name="testCinNewBusiness"/>

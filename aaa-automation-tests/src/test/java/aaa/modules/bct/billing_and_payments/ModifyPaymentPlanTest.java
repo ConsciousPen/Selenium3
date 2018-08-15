@@ -1,5 +1,6 @@
 package aaa.modules.bct.billing_and_payments;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -28,8 +29,7 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 		//TODO Policy with anual PP can be returned by query, change query or set PP that differs from initial
 		billingAccount.changePaymentPlan().perform("starts=Annual");
 
-		BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.PAYMENT_PLAN)
-				.verify.valueByRegex("Annual( \\(Renewal\\))?");
+		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.PAYMENT_PLAN)).valueMatches("Annual( \\(Renewal\\))?");
 
 //		CustomAssert.assertTrue("Installments count reduced", BillingSummaryPage.tableInstallmentSchedule.getRowsCount() < initialInstallmentsCount);
 	}
@@ -47,8 +47,8 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 
 		billingAccount.changePaymentPlan().perform(BillingConstants.PaymentPlan.STANDARD_MONTHLY_RENEWAL);
 
-		BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.PAYMENT_PLAN)
-				.verify.value(BillingConstants.PaymentPlan.STANDARD_MONTHLY_RENEWAL);
+		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.PAYMENT_PLAN))
+				.hasValue(BillingConstants.PaymentPlan.STANDARD_MONTHLY_RENEWAL);
 	}
 
 	@Parameters({"state"})
@@ -64,7 +64,7 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 
 		billingAccount.changePaymentPlan().perform(BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL);
 
-		BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.PAYMENT_PLAN)
-				.verify.value(BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL);
+		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.PAYMENT_PLAN))
+				.hasValue(BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL);
 	}
 }
