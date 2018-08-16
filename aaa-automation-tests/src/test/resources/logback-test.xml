@@ -38,6 +38,12 @@
             <pattern>%d{ISO8601} | %-5p | %20.20t | %20.20c{0} | %m%n</pattern>
         </encoder>
     </appender>
+    <appender name="batch-file" class="ch.qos.logback.core.FileAppender">
+        <file>target/test-output/batch_logs/batch-${bySecond}.log</file>
+        <encoder>
+            <pattern>%d{ISO8601} | %-5p | %20.20t | %20.20c{0} | %m%n</pattern>
+        </encoder>
+    </appender>
     <logger name="com.exigen.istf.exec.core.timeshift.TimeSetterLogger"
             additivity="false">
         <level value="info"/>
@@ -53,9 +59,12 @@
         <level value="debug"/>
         <appender-ref ref="pef-file"/>
     </logger>
+    <!-- <logger name="org.apache.cxf.services.BatchJobExecutorService.BatchJobExecutorPort.BatchJobTrigger" additivity="false">
+         <level value="INFO"/>
+         <appender-ref ref="batch-file"/>
+     </logger>-->
     <logger name="org.openqa" level="OFF"/>
     <logger name="org.apache.cxf" level="OFF"/>
-    <logger name="org.apache.cxf.services.BatchJobExecutorService.BatchJobExecutorPort.BatchJobTrigger" level="INFO"/>
     <logger name="class org.apache.cxf.jaxws.ServiceImpl" level="INFO"/>
     <logger name="org.apache.http" level="OFF"/>
     <logger name="com.exigen.istf.exec.core.statistics" level="OFF"/>
