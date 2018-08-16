@@ -3,10 +3,13 @@ package aaa.modules.regression.document_fulfillment.pup.functional;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeAbstract;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 public class TestMaigConversionPup extends TestMaigConversionHomeAbstract {
@@ -21,6 +24,7 @@ public class TestMaigConversionPup extends TestMaigConversionHomeAbstract {
      */
     @Override
     @Parameters({STATE_PARAM})
+    @StateList(statesExcept = {States.MD, States.PA})
     @Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-8789"})
     public void pas8789_insuranceRenewalBillHomeAHRBXX(@Optional("VA") String state) throws NoSuchFieldException {
@@ -37,6 +41,7 @@ public class TestMaigConversionPup extends TestMaigConversionHomeAbstract {
      * @details
      */
     @Parameters({STATE_PARAM})
+    @StateList(statesExcept = {States.MD, States.PA})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-2571"})
     public void pas2571_renewalCoverLetterHSRNPUPXXHO4(@Optional("VA") String state) throws NoSuchFieldException {
@@ -53,6 +58,7 @@ public class TestMaigConversionPup extends TestMaigConversionHomeAbstract {
      * @details
      */
     @Parameters({STATE_PARAM})
+    @StateList(statesExcept = {States.MD, States.PA})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-2571"})
     public void pas2571_renewalCoverLetterHSRNPUPXXHO6(@Optional("VA") String state) throws NoSuchFieldException {
@@ -69,6 +75,7 @@ public class TestMaigConversionPup extends TestMaigConversionHomeAbstract {
      * @details
      */
     @Parameters({STATE_PARAM})
+    @StateList(statesExcept = {States.MD, States.PA})
     @Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-2571"})
     public void pas2571_renewalCoverLetterHSRNPUPXXHO3(@Optional("VA") String state) throws NoSuchFieldException {
