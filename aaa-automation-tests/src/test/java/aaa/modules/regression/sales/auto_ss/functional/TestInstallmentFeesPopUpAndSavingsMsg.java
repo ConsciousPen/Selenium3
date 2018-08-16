@@ -7,6 +7,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -18,6 +19,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.modules.regression.sales.template.functional.TestInstallmentFeesPopUpAndSavingsMsgAbstract;
 import aaa.toolkit.webdriver.customcontrols.FillableTable;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
@@ -30,6 +32,7 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends TestInstallmentFeesPo
 
 
 	@Parameters({"state"})
+	@StateList(statesExcept = States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-246", "PAS-237"})
 	public void pas246_InstallmentFeesPopUpAndSavingsMsg(@Optional("VA") String state) {
