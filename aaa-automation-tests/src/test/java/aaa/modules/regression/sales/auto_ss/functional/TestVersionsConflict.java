@@ -99,21 +99,21 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-13513"})
 	public void pas13513_ooseConflictManualAAAProductOwned(@Optional("AZ") String state) {
-		ooseConflict(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsConflictConstants.namedInsuredInformation,  VersionsConflictConstants.namedInsuredInformationVersion2, VersionsConflictConstants.namedInsuredInformationVersion1,  "GeneralTab", "AAAProductOwned", false);
+		ooseConflict(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsConflictConstants.aaaProductOwned,  VersionsConflictConstants.aaaProductOwnedVersion2, VersionsConflictConstants.aaaProductOwnedVersion1,  "GeneralTab", "AAAProductOwned", false);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-13513"})
 	public void pas13513_ooseConflictAutomaticAAAProductOwned(@Optional("AZ") String state) {
-		ooseConflict(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsConflictConstants.namedInsuredInformation,  VersionsConflictConstants.namedInsuredInformationVersion2, VersionsConflictConstants.namedInsuredInformationVersion1,  "GeneralTab", "AAAProductOwned", true);
+		ooseConflict(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsConflictConstants.aaaProductOwned,  VersionsConflictConstants.aaaProductOwnedVersion2, VersionsConflictConstants.aaaProductOwnedVersion1,  "GeneralTab", "AAAProductOwned", true);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-13513"})
 	public void pas13513_renewalMergeAAAProductOwned(@Optional("AZ") String state) {
-		renewalMerge(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsConflictConstants.namedInsuredInformation,  VersionsConflictConstants.namedInsuredInformationVersion1,  "GeneralTab", "AAAProductOwned");
+		renewalMerge(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsConflictConstants.aaaProductOwned,  VersionsConflictConstants.aaaProductOwnedVersion1,  "GeneralTab", "AAAProductOwned");
 	}
 
 	//Contact Information section
