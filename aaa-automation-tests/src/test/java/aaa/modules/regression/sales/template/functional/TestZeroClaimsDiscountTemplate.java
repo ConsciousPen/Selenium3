@@ -4,26 +4,30 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.enums.DiscountEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 public class TestZeroClaimsDiscountTemplate extends PolicyBaseTest {
 
 	private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 	private PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
+	private LocalDateTime effectiveDate;
+	private String dateOfLoss;
 
 	protected void pas9088_testZeroClaimsDiscountQuote() {
 
 		mainApp().open();
 		createCustomerIndividual();
-
 		policy.initiate();
+
+		effectiveDate = new GeneralTab().getEffectiveDate();
 		policy.getDefaultView().fillUpTo(getPolicyTD(), PremiumsAndCoveragesQuoteTab.class, true);
 
 		validateDiscountAndPremiumChange();
@@ -37,6 +41,7 @@ public class TestZeroClaimsDiscountTemplate extends PolicyBaseTest {
 		createPolicy();
 
 		policy.renew().perform();
+		effectiveDate =new GeneralTab().getEffectiveDate();
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 
 		validateDiscountAndPremiumChange();
@@ -71,16 +76,15 @@ public class TestZeroClaimsDiscountTemplate extends PolicyBaseTest {
 		// Change claim to back to 'Closed' and validate discount/premium is removed/increased
 		premium = changeClaimToClosedAndValidate(premium);
 
-		// Change claim Date to more than 3 years ago and validate discount/premium is added/decreased
+		// Change claim Date to 4 years ago and validate discount/premium is added/decreased
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		String claimDateOneYr = propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS).getValue();
-		String claimDateThreeYrs = TimeSetterUtil.getInstance().getCurrentTime().minusYears(3).minusDays(1).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS).setValue(claimDateThreeYrs);
+		String claimDateFourYrs = effectiveDate.minusYears(4).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS).setValue(claimDateFourYrs);
 		premium = validateDiscountAddedAndPremiumDecreases(premium);
 
-		// Change date back to 1 year ago and validate discount/premium is removed/increased
+		// Change date back to less than 4 years ago and validate discount/premium is removed/increased
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS).setValue(claimDateOneYr);
+		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS).setValue(dateOfLoss);
 		premium = validateDiscountRemovedAndPremiumIncreases(premium);
 
 		// Change claim amount to less than $1000 and validate discount/premium is added/decreased
@@ -114,9 +118,10 @@ public class TestZeroClaimsDiscountTemplate extends PolicyBaseTest {
 
 	private TestData getClaimTD() {
 		String claimHistoryKeyPath = TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel());
+		dateOfLoss = effectiveDate.minusYears(4).plusDays(1).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 		return getPolicyTD()
 				.adjust(TestData.makeKeyPath(claimHistoryKeyPath, HomeSSMetaData.PropertyInfoTab.ClaimHistory.ADD_A_CLAIM.getLabel()), "Yes")
-				.adjust(TestData.makeKeyPath(claimHistoryKeyPath, HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS.getLabel()), "$<today-3y:MM/dd/yyyy>")
+				.adjust(TestData.makeKeyPath(claimHistoryKeyPath, HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS.getLabel()), dateOfLoss)
 				.adjust(TestData.makeKeyPath(claimHistoryKeyPath, HomeSSMetaData.PropertyInfoTab.ClaimHistory.CAUSE_OF_LOSS.getLabel()), "index=1")
 				.adjust(TestData.makeKeyPath(claimHistoryKeyPath, HomeSSMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS.getLabel()), "1001")
 				.adjust(TestData.makeKeyPath(claimHistoryKeyPath, HomeSSMetaData.PropertyInfoTab.ClaimHistory.CLAIM_STATUS.getLabel()), "Closed")
