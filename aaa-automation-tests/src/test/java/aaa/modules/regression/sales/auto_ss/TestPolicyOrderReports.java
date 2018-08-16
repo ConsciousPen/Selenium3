@@ -18,7 +18,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
-import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -74,7 +73,7 @@ public class TestPolicyOrderReports extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
 		if (!getState().equals(Constants.States.OK)) {
-			assertThat(DriverTab.tableActivityInformationList.getRowsCount()).isEqualTo(5);
+			assertThat(DriverTab.tableActivityInformationList).hasRows(5);
 		}
 
 		if (!getState().equals(Constants.States.OK)) {

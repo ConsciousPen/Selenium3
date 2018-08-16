@@ -3,6 +3,8 @@ package aaa.modules.regression.document_fulfillment.auto_ca.choice;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
+
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.billing.BillingPendingTransactionsVerifier;
@@ -15,6 +17,7 @@ import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.IBillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 
 public class TestScenario2 extends AutoCaChoiceBaseTest {
@@ -24,6 +27,7 @@ public class TestScenario2 extends AutoCaChoiceBaseTest {
 	private TestData tdRefund = tdBilling.getTestData("Refund", "TestData_Check");
 	
 	@Parameters({"state"})
+	@StateList(states = States.CA)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testRefundCheckDocument(String state) {
 		Dollar amount = new Dollar(1234);

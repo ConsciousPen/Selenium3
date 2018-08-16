@@ -2,14 +2,13 @@ package aaa.modules.regression.service.helper;
 
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
 import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import javax.ws.rs.core.Response;
-import org.assertj.core.api.SoftAssertions;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
@@ -22,6 +21,7 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.db.DBService;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 
@@ -245,7 +245,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 	 * //Bind endorsement
 	 * //Unlock policy
 	 */
-	protected void pas12866_e2eBctBody(String state, boolean isNewPolicy, SoftAssertions softly) {
+	protected void pas12866_e2eBctBody(String state, boolean isNewPolicy, ETCSCoreSoftAssertions softly) {
 		String policyNumber = "";
 		if (isNewPolicy) {
 			mainApp().open();

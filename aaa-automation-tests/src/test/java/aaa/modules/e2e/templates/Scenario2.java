@@ -1,5 +1,6 @@
 package aaa.modules.e2e.templates;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.List;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -38,6 +39,7 @@ import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class Scenario2 extends ScenarioBaseTest {
 
@@ -65,8 +67,8 @@ public class Scenario2 extends ScenarioBaseTest {
 		policyTerm = getPolicyTerm(policyCreationTD);
 		totalVehiclesNumber = getVehiclesNumber(policyCreationTD);
 
-		policyNum = createPolicy(policyCreationTD); 
-		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
+		policyNum = createPolicy(policyCreationTD);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
@@ -78,8 +80,8 @@ public class Scenario2 extends ScenarioBaseTest {
 		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 	}
 
-	protected void generateFirstBill() {
-		generateAndCheckBill(installmentDueDates.get(1));
+	protected void generateFirstBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(1), softly);
 	}
 
 	protected void payFirstBill() {
@@ -118,60 +120,60 @@ public class Scenario2 extends ScenarioBaseTest {
 				.setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 
-	protected void paySecondBill() {
-		generateAndCheckBill(installmentDueDates.get(2));
+	protected void paySecondBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(2), softly);
 	}
 
-	protected void generateThirdBill() {
-		generateAndCheckBill(installmentDueDates.get(3), policyEffectiveDate);
+	protected void generateThirdBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(3), policyEffectiveDate, softly);
 	}
 
 	protected void payThirdBill() {
 		payAndCheckBill(installmentDueDates.get(3));
 	}
 
-	protected void generateFourthBill() {
-		generateAndCheckBill(installmentDueDates.get(4));
+	protected void generateFourthBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(4), softly);
 	}
 
 	protected void payFourthBill() {
 		payAndCheckBill(installmentDueDates.get(4));
 	}
 
-	protected void generateFifthBill() {
-		generateAndCheckBill(installmentDueDates.get(5));
+	protected void generateFifthBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(5), softly);
 	}
 
 	protected void payFifthBill() {
 		payAndCheckBill(installmentDueDates.get(5));
 	}
 
-	protected void generateSixthBill() {
-		generateAndCheckBill(installmentDueDates.get(6));
+	protected void generateSixthBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(6), softly);
 	}
 
 	protected void paySixthBill() {
 		payAndCheckBill(installmentDueDates.get(6));
 	}
 
-	protected void generateSeventhBill() {
-		generateAndCheckBill(installmentDueDates.get(7));
+	protected void generateSeventhBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(7), softly);
 	}
 
 	protected void paySeventhBill() {
 		payAndCheckBill(installmentDueDates.get(7));
 	}
 
-	protected void generateEighthBill() {
-		generateAndCheckBill(installmentDueDates.get(8));
+	protected void generateEighthBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(8), softly);
 	}
 
 	protected void payEighthBill() {
 		payAndCheckBill(installmentDueDates.get(8));
 	}
 
-	protected void generateNinthBill() {
-		generateAndCheckBill(installmentDueDates.get(9));
+	protected void generateNinthBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(9), softly);
 	}
 
 	protected void payNinthBill() {
@@ -223,7 +225,7 @@ public class Scenario2 extends ScenarioBaseTest {
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PREMIUM_CALCULATED).verify(1);
 	}
 
-	protected void renewalOfferGeneration() {
+	protected void renewalOfferGeneration(ETCSCoreSoftAssertions softly) {
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
@@ -238,12 +240,12 @@ public class Scenario2 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 
-		verifyRenewOfferGenerated(installmentDueDates);
+		verifyRenewOfferGenerated(installmentDueDates, softly);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferGenDate)
 				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
 
 		if (getState().equals(Constants.States.CA)) {
-			verifyCaRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount);
+			verifyCaRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount, softly);
 		}
 
 		if (verifyPligaOrMvleFee(renewOfferGenDate, policyTerm, totalVehiclesNumber)) {
@@ -294,7 +296,7 @@ public class Scenario2 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		billingAccount.update().perform(tdBilling.getTestData("Update", "TestData_RemoveAutopay"));
 		billingAccount.update().start();
-		CustomAssertions.assertThat(new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).getValue()).isEqualTo(false);
+		assertThat(new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY)).hasValue(false);
 		Tab.buttonCancel.click();
 	}
 

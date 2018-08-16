@@ -1,13 +1,12 @@
 package aaa.helpers.product;
 
-import aaa.helpers.docgen.AaaDocGenEntityQueries;
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import javax.annotation.Nonnull;
@@ -51,7 +50,7 @@ public class PolicyHelper {
     public static void verifyAutomatedRenewalGenerated(LocalDateTime date) {
         String message = String.format("Automated Renewal effective %s for Policy %s", date.format(DateTimeUtils.MM_DD_YYYY), PolicySummaryPage.labelPolicyNumber.getValue());
         NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(message);
-        PolicySummaryPage.buttonRenewals.verify.enabled();
+        assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
     }
 
     public static void verifyAutomatedRenewalNotGenerated(LocalDateTime date) {

@@ -347,7 +347,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
 
 		int a = DBService.get().executeUpdate(String.format(INSERT_HOME_BANKING_FOR_POLICY, getSourcePolicyNumber(policyNumber), currentDate));
-		assertThat(a).isGreaterThan(0).as("MaigManualConversionHelper# setUpTriggerHomeBankingConversionRenewal method failed, value was not inserted in DB");
+		assertThat(a).as("MaigManualConversionHelper# setUpTriggerHomeBankingConversionRenewal method failed, value was not inserted in DB").isGreaterThan(0);
 	}
 
 	private void issueSecondRenewal(LocalDateTime renewalOfferEffectiveDate) {

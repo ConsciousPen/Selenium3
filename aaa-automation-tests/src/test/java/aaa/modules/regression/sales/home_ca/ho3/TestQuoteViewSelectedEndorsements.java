@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
 import java.util.List;
 import org.testng.annotations.Optional;
@@ -8,6 +9,7 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.composite.table.Table;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -18,6 +20,7 @@ import aaa.main.modules.policy.home_ca.HomeCaPolicyActions;
 import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.modules.policy.HomeCaHO3BaseTest;
+import aaa.utils.StateList;
 
 public class TestQuoteViewSelectedEndorsements extends HomeCaHO3BaseTest {
 
@@ -40,6 +43,7 @@ public class TestQuoteViewSelectedEndorsements extends HomeCaHO3BaseTest {
      */
 
     @Parameters({"state"})
+    @StateList(states =  States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
     public void testQuoteViewSelectedEndorsements(@Optional("CA") String state) {
@@ -72,7 +76,7 @@ public class TestQuoteViewSelectedEndorsements extends HomeCaHO3BaseTest {
 
     private void verifySelectedEndorsementsPresent(Table tableForms, String columnName, List<String> selectedEndorsements) {
         for (String form : selectedEndorsements) {
-            tableForms.getRowContains(columnName, form).verify.present();
+            assertThat(tableForms.getRowContains(columnName, form)).isPresent();
         }
     }
 }

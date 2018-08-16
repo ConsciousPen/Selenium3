@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy name="AAA_HO_CA" version="1.0" rootEntityType="policy">
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005301</agencyLocation>
+		<agentCd>70683577</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<countryCd>US</countryCd>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2018-02-01T00:00:00</effective>
+		<expiration>2019-02-01T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>SIS</importedFrom>
+		<isAdditionalPolicy>true</isAdditionalPolicy>
+		<isAdditionalProppolicy>true</isAdditionalProppolicy>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>DP3</policyFormCd>
+		<preConversionPolicyNumber>DP3 3220319</preConversionPolicyNumber>
+		<preConversionPolicyPremium>742</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>DP3 3220319</sourcePolicyNum>
+		<subProducerCd>70683577</subProducerCd>
+		<tollNumberCd>1111111111</tollNumberCd>
+		<underwriterCd>ACAIC</underwriterCd>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>OAKLAND</dwellAddressCity>
+			<dwellAddressLine1>1416 17TH ST</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94607</dwellAddressZip>
+			<expirationDate>2018-02-06T00:00:00</expirationDate>
+			<orderDate>2017-11-08T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>9257091474</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>No</insurerCd>
+		</AAAHOMembership>
+		<AAAHOMortgageeExists state="Created">
+			<yesNoAnswer>true</yesNoAnswer>
+		</AAAHOMortgageeExists>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1960-01-17T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>ANTHONY</firstName>
+			<lastName>MAGWILI</lastName>
+			<middleName>C</middleName>
+			<occupationDesc>Unknown</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>1416 17TH ST</addressLine1>
+				<city>OAKLAND</city>
+				<dateOfBirth>1960-01-17T00:00:00</dateOfBirth>
+				<expirationDt>2018-01-07T00:00:00</expirationDt>
+				<firstName>ANTHONY</firstName>
+				<lastName>MAGWILI</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-11-08T00:00:00</orderDate>
+				<postalCode>94607</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>1416 17TH ST</addressLine1>
+				<city>OAKLAND</city>
+				<countryCd>US</countryCd>
+				<postalCode>94607</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1960-02-09T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>MONINA</firstName>
+			<lastName>MAGWILI</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>1416 17TH ST</addressLine1>
+				<city>OAKLAND</city>
+				<dateOfBirth>1960-02-09T00:00:00</dateOfBirth>
+				<expirationDt>2018-01-07T00:00:00</expirationDt>
+				<firstName>MONINA</firstName>
+				<lastName>MAGWILI</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-11-08T00:00:00</orderDate>
+				<postalCode>94607</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>1416 17TH ST</addressLine1>
+				<city>OAKLAND</city>
+				<countryCd>US</countryCd>
+				<postalCode>94607</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOOtherOrPriorDP3PolicyComponent state="Created">
+			<aaaPolicy>true</aaaPolicy>
+			<aaaPolicyActive>true</aaaPolicyActive>
+			<addressLine1>1420 17TH ST</addressLine1>
+			<city>OAKLAND</city>
+			<effective>2017-02-01T00:00:00</effective>
+			<expiration>2018-02-01T00:00:00</expiration>
+			<policyNumber>DP33220318</policyNumber>
+			<postalCode>94607</postalCode>
+			<stateProvCd>CA</stateProvCd>
+			<yearFirstRented>2001</yearFirstRented>
+		</AAAHOOtherOrPriorDP3PolicyComponent>
+		<AAAHOOtherOrPriorDP3PolicyComponent state="Created">
+			<aaaPolicy>true</aaaPolicy>
+			<aaaPolicyActive>true</aaaPolicyActive>
+			<addressLine1>60 ENES AVE</addressLine1>
+			<city>BAY POINT</city>
+			<effective>2017-06-22T00:00:00</effective>
+			<expiration>2018-06-22T00:00:00</expiration>
+			<policyNumber>DP32916265</policyNumber>
+			<postalCode>94565</postalCode>
+			<stateProvCd>CA</stateProvCd>
+			<yearFirstRented>2009</yearFirstRented>
+		</AAAHOOtherOrPriorDP3PolicyComponent>
+		<AAAHOOtherOrPriorDP3PolicyComponent state="Created">
+			<aaaPolicy>true</aaaPolicy>
+			<aaaPolicyActive>true</aaaPolicyActive>
+			<addressLine1>72 ENES AVE</addressLine1>
+			<city>BAY POINT</city>
+			<effective>2017-08-22T00:00:00</effective>
+			<expiration>2018-08-22T00:00:00</expiration>
+			<policyNumber>DP32751788</policyNumber>
+			<postalCode>94565</postalCode>
+			<stateProvCd>CA</stateProvCd>
+			<yearFirstRented>2008</yearFirstRented>
+		</AAAHOOtherOrPriorDP3PolicyComponent>
+		<AAAHOOtherOrPriorPolicyComponent state="Created">
+			<coverageE>500000</coverageE>
+			<deductible>1000</deductible>
+			<dwellingUsage>Primary</dwellingUsage>
+			<occupancyType>Tenant</occupancyType>
+			<policyEffectiveDate>2017-02-01T00:00:00</policyEffectiveDate>
+			<policyNumber>DP33220318</policyNumber>
+			<productCd>DP3</productCd>
+			<status>inForce</status>
+		</AAAHOOtherOrPriorPolicyComponent>
+		<AAAHOOtherOrPriorPolicyComponent state="Created">
+			<coverageE>500000</coverageE>
+			<deductible>1000</deductible>
+			<dwellingUsage>Primary</dwellingUsage>
+			<occupancyType>Tenant</occupancyType>
+			<policyEffectiveDate>2017-06-22T00:00:00</policyEffectiveDate>
+			<policyNumber>DP32916265</policyNumber>
+			<productCd>DP3</productCd>
+			<status>inForce</status>
+		</AAAHOOtherOrPriorPolicyComponent>
+		<AAAHOOtherOrPriorPolicyComponent state="Created">
+			<coverageE>500000</coverageE>
+			<deductible>1000</deductible>
+			<dwellingUsage>Primary</dwellingUsage>
+			<occupancyType>Tenant</occupancyType>
+			<policyEffectiveDate>2017-08-22T00:00:00</policyEffectiveDate>
+			<policyNumber>DP32751788</policyNumber>
+			<productCd>DP3</productCd>
+			<status>inForce</status>
+		</AAAHOOtherOrPriorPolicyComponent>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Insured</billToAtRenewal>
+			<paymentPlanAtRenewal>quarterlyHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>quarterlyHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2006-02-01T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>12</noOfYearsWithHO>
+			<policyType>DP3</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAIso360ReportComponent state="Created">
+			<constructionTypeCd>Frame</constructionTypeCd>
+			<dwellAddressCity>OAKLAND</dwellAddressCity>
+			<dwellAddressLine1>1416 17TH ST</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94607</dwellAddressZip>
+			<expirationDate>2018-02-06T00:00:00</expirationDate>
+			<isoReplacementCost>340346</isoReplacementCost>
+			<livingArea>1765</livingArea>
+			<numberOfFamilies>1</numberOfFamilies>
+			<numberOfStories>2</numberOfStories>
+			<orderDate>2017-11-08T00:00:00</orderDate>
+			<roofShape>Complex/Custom</roofShape>
+			<roofType>Asphalt / Fiberglass</roofType>
+			<status>Valid</status>
+			<yearBuilt>1880</yearBuilt>
+		</AAAIso360ReportComponent>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>OAKLAND</dwellAddressCity>
+			<dwellAddressLine1>1416 17TH ST</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94607</dwellAddressZip>
+			<expirationDate>2018-01-07T00:00:00</expirationDate>
+			<orderDate>2017-11-08T00:00:00</orderDate>
+			<ppcValue>3</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>616530</documentCd>
+			<documentText>California Residential Property Insurance Disclosure</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>true</docReceivedInd>
+			<documentCd>9POPRR</documentCd>
+			<documentText>Proof of plumbing, electrical, heating/cooling system and roof renovations</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<AlternativeWaterSrcAnsInd>true</AlternativeWaterSrcAnsInd>
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<DwellLocatedInd>false</DwellLocatedInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+			<GasWaterInGarageInd>false</GasWaterInGarageInd>
+			<LengthDrivewayAnsInd>true</LengthDrivewayAnsInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+			<RdToHomeNDrivewayPavedAnsInd>true</RdToHomeNDrivewayPavedAnsInd>
+			<WaterHeaterHeightInd>false</WaterHeaterHeightInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<DL0104EndorsementForm state="Created"/>
+		<DL2402EndorsementForm state="Created"/>
+		<DL2411EndorsementForm state="Created"/>
+		<DL2433EndorsementForm state="Created"/>
+		<DL2482EndorsementForm state="Created"/>
+		<DP0422EndorsementForm state="Created">
+			<coverageLimit>10000</coverageLimit>
+		</DP0422EndorsementForm>
+		<DP0475EndorsementForm state="Created"/>
+		<DP0495EndorsementForm state="Created">
+			<coverageLimit>5000</coverageLimit>
+			<deductible>1000</deductible>
+		</DP0495EndorsementForm>
+		<DW0420EndorsementForm state="Created">
+			<coverageLimit>50</coverageLimit>
+		</DW0420EndorsementForm>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>1</aaaDwellingUsage>
+			<aaaFirelineScore>0</aaaFirelineScore>
+			<aaanumberofResidents>2</aaanumberofResidents>
+			<aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
+			<addressLine1>1416 17TH ST</addressLine1>
+			<city>OAKLAND</city>
+			<countryCd>US</countryCd>
+			<county>ALAMEDA</county>
+			<crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
+			<dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
+			<dwellingCrippleWallInd>false</dwellingCrippleWallInd>
+			<dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
+			<dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
+			<firelineMatchType>Address</firelineMatchType>
+			<numberOfFamilies>1</numberOfFamilies>
+			<overrideInspectionInd>true</overrideInspectionInd>
+			<placementOrMatchType>Address</placementOrMatchType>
+			<postalCode>94607</postalCode>
+			<propMgrOccupation>3</propMgrOccupation>
+			<protectionClassCd>3</protectionClassCd>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
+			<woodStoveInd>false</woodStoveInd>
+			<yearFirstRented>2005</yearFirstRented>
+			<AAACoverageA state="Created">
+				<coverageCd>CovA</coverageCd>
+				<limitAmount>340346</limitAmount>
+			</AAACoverageA>
+			<AAACoverageB state="Created">
+				<coverageCd>CovB</coverageCd>
+				<limitAmount>34035</limitAmount>
+			</AAACoverageB>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>17018</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>68070</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>500000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOBuildingImprovementsInfo state="Created">
+				<electricalPercentComplete>100</electricalPercentComplete>
+				<electricalRenovationMonth>0</electricalRenovationMonth>
+				<electricalRenovationType>Total_Circuit_Or_Romex</electricalRenovationType>
+				<electricalRenovationYear>1995</electricalRenovationYear>
+				<heatingOrCoolingPercentComplete>100</heatingOrCoolingPercentComplete>
+				<heatingOrCoolingRenovationMonth>0</heatingOrCoolingRenovationMonth>
+				<heatingOrCoolingRenovationType>Forced_Air</heatingOrCoolingRenovationType>
+				<heatingOrCoolingRenovationYear>2000</heatingOrCoolingRenovationYear>
+				<plumbingPercentComplete>100</plumbingPercentComplete>
+				<plumbingRenovationMonth>0</plumbingRenovationMonth>
+				<plumbingRenovationType>Total_Copper</plumbingRenovationType>
+				<plumbingRenovationYear>1995</plumbingRenovationYear>
+				<roofPercentComplete>100</roofPercentComplete>
+				<roofRenovationMonth>0</roofRenovationMonth>
+				<roofRenovationType>Total_Replace</roofRenovationType>
+				<roofRenovationYear>1998</roofRenovationYear>
+			</AAAHOBuildingImprovementsInfo>
+			<AAAHOConstructionInfo state="Created">
+				<aaaFoundationType>Raised</aaaFoundationType>
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<isoReplacementCost>340346</isoReplacementCost>
+				<livingArea>1765</livingArea>
+				<masonryVeneer>false</masonryVeneer>
+				<numberOfStories>2</numberOfStories>
+				<replacementCost>340346</replacementCost>
+				<roofShape>Complex/Custom</roofShape>
+				<roofType>Asphalt / Fiberglass</roofType>
+				<yearBuilt>1880</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAHOMortgageeInfo state="Created">
+				<accountNumber>248684321</accountNumber>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>FORT WORTH</city>
+				<countryCd>US</countryCd>
+				<mortagageeAddressLine1>PO BOX 961291</mortagageeAddressLine1>
+				<name>BANK OF AMERICA, NA</name>
+				<postalCode>76161-0291</postalCode>
+				<rank>1</rank>
+				<stateProvCd>TX</stateProvCd>
+				<useLegalMortgagee>false</useLegalMortgagee>
+			</AAAHOMortgageeInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>On File Conversion</fireDistrict>
+				<fireStationDistRange>3</fireStationDistRange>
+				<ppcValue>3</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>1416 17TH ST</addressLine1>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>OAKLAND</city>
+					<countryCd>US</countryCd>
+					<county>Alameda</county>
+					<poBoxInd>false</poBoxInd>
+					<postalCode>94607</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<HO438BFUNSEndorsementForm state="Created"/>
+		<PreconfigPersonInfo state="Created">
+			<AAAHOMailingAddressComponent state="Created">
+				<addressLine1>51 BEAULIEU PL</addressLine1>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>BAY POINT</city>
+				<countryCd>US</countryCd>
+				<county>Contra Costa</county>
+				<postalCode>94565</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAHOMailingAddressComponent>
+		</PreconfigPersonInfo>
+	</AAAHOPolicy>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Conversion: Title/Header info is blank in Legacy system</title>
+		<updatedOn>2011-01-27T00:00:00</updatedOn>
+		<userText>*** Backyard Access *** If necessary, contact me at (925) 790-1474 No special instructions</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>EMAILED DEC PAGE</title>
+		<updatedOn>2015-05-12T00:00:00</updatedOn>
+		<userText>TONYELLE BOFA EMAILED PROOF INS TO TONYELLE.MATHIS@BANKOFAMERICA.COM</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2011-03-16T00:00:00</updatedOn>
+		<userText>AMENDED POLICY - ADDED OR CHANGED LOSS PAYEE</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2014-02-14T00:00:00</updatedOn>
+		<userText>AMENDED POLICY - ADDED OR CHANGED LOSS PAYEE</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>UPDTE MTG INFO...</title>
+		<updatedOn>2011-03-16T00:00:00</updatedOn>
+		<userText>PER AGENT</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>DEC PAGE</title>
+		<updatedOn>2015-05-05T00:00:00</updatedOn>
+		<userText>5.00 S/W TONYELLE, AGENT FROM BANK OF AMERICA. REQUESTED DEC PAGE. FAXED: 866-409-1050</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>PH SENT DEC FAX:8666139814</title>
+		<updatedOn>2013-12-04T00:00:00</updatedOn>
+		<userText>PER ROSE B OF A</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>PH IQ BILLING...</title>
+		<updatedOn>2017-02-03T00:00:00</updatedOn>
+		<userText>AGENT HELEN (CONCORD DO) CALLED WITH OI IN THEIR OFFICE TO MAKE SURE THAT HE IS STILL OK TO MAKE PAYMENT. VER'D NO LOSSES. ADVISED OI IS OK TO MAKE PAYMENT. OI IS PAYING THE $186.00 FIRST QUARTERLY PAYMENT IN THE DO WITH HELEN.</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2013-10-30T00:00:00</updatedOn>
+		<userText>AMENDED POLICY - ADDED OR CHANGED LOSS PAYEE</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>PH END UPDATE LOAN</title>
+		<updatedOn>2013-10-30T00:00:00</updatedOn>
+		<userText>PER LENDER - RANDY 248684321  866-409-1050  ATTN: LOAN</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>ISSUED BY BLAZE</title>
+		<updatedOn>2011-01-27T00:00:00</updatedOn>
+		<userText>ISSUED BY BLAZE</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2011-12-08T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2011-12-08T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Expiration Notice</title>
+		<updatedOn>2012-02-06T00:00:00</updatedOn>
+		<userText>Policy Expiration Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2012-04-11T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2012-12-09T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2012-12-09T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2013-04-11T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2013-07-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2013-10-30T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2013-12-08T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2013-12-08T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2014-02-16T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2014-12-08T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2014-12-08T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2015-04-12T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2015-07-12T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2015-12-08T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2015-12-08T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Expiration Notice</title>
+		<updatedOn>2016-02-07T00:00:00</updatedOn>
+		<userText>Policy Expiration Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2016-04-11T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2016-07-12T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Free Form Underwriting Letter</title>
+		<updatedOn>2016-11-14T00:00:00</updatedOn>
+		<userText>Free Form Underwriting Letter</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2016-12-08T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2016-12-08T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2017-04-11T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+</Policy>

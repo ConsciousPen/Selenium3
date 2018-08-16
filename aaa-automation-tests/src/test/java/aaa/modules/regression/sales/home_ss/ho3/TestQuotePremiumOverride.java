@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -18,7 +19,6 @@ import org.testng.annotations.Test;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 
 /**
  * Created by lkazarnovskiy on 8/11/2017.
@@ -71,8 +71,8 @@ public class TestQuotePremiumOverride extends HomeSSHO3BaseTest {
 		pcTab.calculatePremium();
 		PremiumsAndCoveragesQuoteTab.btnOverridePremium.click();
 		pcTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.OVERRRIDE_PREMIUM_DIALOG).fill(tdOverridePremiumP.getTestData(PremiumsAndCoveragesQuoteTab.class.getSimpleName()), false);
-		PremiumsAndCoveragesQuoteTab.lblErrorMessage.verify.present();
-		PremiumsAndCoveragesQuoteTab.lblErrorMessage.verify.value("The premium cannot be decreased by more than 100%.");
+		assertThat(PremiumsAndCoveragesQuoteTab.lblErrorMessage).isPresent();
+		assertThat(PremiumsAndCoveragesQuoteTab.lblErrorMessage).hasValue("The premium cannot be decreased by more than 100%.");
 
 		TestData adjustedOverridePTestData = tdOverridePremiumP.adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab", "Override Premium", "Percentage"), "20").resolveLinks().getTestData(PremiumsAndCoveragesQuoteTab.class.getSimpleName());
 		pcTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.OVERRRIDE_PREMIUM_DIALOG).fill(adjustedOverridePTestData,false);
@@ -81,7 +81,7 @@ public class TestQuotePremiumOverride extends HomeSSHO3BaseTest {
 //		9. Override premium by Flat Amount ($400), check calculated values.
 		pcTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.OVERRRIDE_PREMIUM_DIALOG).fill(tdOverridePremiumF.getTestData(PremiumsAndCoveragesQuoteTab.class.getSimpleName()), false);
 		//CustomAssert.assertTrue(PremiumsAndCoveragesQuoteTab.calculatedOverridePercentageAmount().equals(PremiumsAndCoveragesQuoteTab.getOverridenPremiumPercentageAmount()));
-		CustomAssert.assertEquals(PremiumsAndCoveragesQuoteTab.calculatedOverridePercentageAmount(), PremiumsAndCoveragesQuoteTab.getOverridenPremiumPercentageAmount());
+		assertThat(PremiumsAndCoveragesQuoteTab.getOverridenPremiumPercentageAmount()).isEqualTo(PremiumsAndCoveragesQuoteTab.calculatedOverridePercentageAmount());
 		PremiumsAndCoveragesQuoteTab.dialogOverridePremium.reject();
 
 //		10. Override premium by Percentage (20%), check calculated values. Confirm Override.
@@ -92,14 +92,14 @@ public class TestQuotePremiumOverride extends HomeSSHO3BaseTest {
 
 		PremiumsAndCoveragesQuoteTab.dialogOverridePremium.confirm();
 		PremiumsAndCoveragesQuoteTab.dialogOverrideConfirmation.confirm();
-		PremiumsAndCoveragesQuoteTab.lblOverridenPremium.verify.contains("Original term premium has been overridden.");
+		assertThat(PremiumsAndCoveragesQuoteTab.lblOverridenPremium).valueContains("Original term premium has been overridden.");
 		log.info("Override message is displayed on Premium&Coverages tab");
 		pcTab.submitTab();
 
 		policy.getDefaultView().fillFromTo(td, MortgageesTab.class, PurchaseTab.class, true);
 		new PurchaseTab().submitTab();
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 	}
 }

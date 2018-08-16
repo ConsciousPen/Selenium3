@@ -7,11 +7,18 @@ import aaa.main.enums.BillingConstants.BillingPendingTransactionsTable;
 import aaa.main.pages.summary.BillingSummaryPage;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.table.Table;
 
 import java.time.LocalDateTime;
 
 public class BillingPendingTransactionsVerifier extends TableVerifier {
+
+    public BillingPendingTransactionsVerifier() {};
+
+    public BillingPendingTransactionsVerifier(ETCSCoreSoftAssertions softly) {
+        this.softly = softly;
+    };
 
     @Override
     protected Table getTable() {

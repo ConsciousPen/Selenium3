@@ -1,5 +1,6 @@
 package aaa.toolkit.webdriver;
 
+import java.util.List;
 import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -82,5 +83,17 @@ public class WebDriverHelper {
 			}
 		}
 		driver.switchTo().window(primaryHandle);
+	}
+
+	public static List<WebElement> getControlsWithText(String text) {
+		WebDriver driver = BrowserController.get().driver();
+		return driver.findElements(By.xpath(String.format("//*[text()='%s' and not(self::script) and not(@class='hidden' or @class='invisible') and not(ancestor-or-self::*[contains(@style,'display')"
+				+ " and contains(@style,'none')]) and not(ancestor-or-self::*[contains(@style,'visibility') and contains(@style,'hidden')])]", text)));
+	}
+
+	public static List<WebElement> getControlsContainingText(String text) {
+		WebDriver driver = BrowserController.get().driver();
+		return driver.findElements(By.xpath(String.format("//*[contains(text(), '%s') and not(self::script) and not(@class='hidden' or @class='invisible') and not(ancestor-or-self::*[contains(@style,'display')"
+				+ " and contains(@style,'none')]) and not(ancestor-or-self::*[contains(@style,'visibility') and contains(@style,'hidden')])]", text)));
 	}
 }

@@ -1,16 +1,19 @@
 package aaa.modules.regression.service.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.HomeCaPolicyActions;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
+import aaa.utils.StateList;
 
 public class TestPolicyManualRenew extends HomeCaHO3BaseTest {
 
@@ -28,6 +31,7 @@ public class TestPolicyManualRenew extends HomeCaHO3BaseTest {
      */
 
 	@Parameters({"state"})
+	@StateList(states =  States.CA)
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
     public void testPolicyManualRenew(@Optional("CA") String state) {
@@ -38,7 +42,7 @@ public class TestPolicyManualRenew extends HomeCaHO3BaseTest {
 
         new HomeCaPolicyActions.ManualRenew().perform(new SimpleDataProvider().adjust(HomeCaMetaData.AddManualRenewFlagActionTab.class.getSimpleName(),
                 new SimpleDataProvider().adjust(HomeCaMetaData.AddManualRenewFlagActionTab.REASON.getLabel(), "Other")));
-        PolicySummaryPage.labelManualRenew.verify.present(true);
+        assertThat(PolicySummaryPage.labelManualRenew).isPresent();
     }
 
 }

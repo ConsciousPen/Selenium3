@@ -15,7 +15,7 @@ import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 /**
  * @author Olga Reva
@@ -45,14 +45,13 @@ public class TestPolicyEndorsement extends HomeCaHO3BaseTest {
 		TestData td = getTestSpecificTD("TestData").adjust(getPolicyTD("Endorsement", "TestData"));
 		policy.endorse().performAndFill(td);
 
-		CustomAssert.enableSoftMode();
+		CustomSoftAssertions.assertSoftly(softly -> {
 
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			softly.assertThat(PolicySummaryPage.buttonPendedEndorsement).isEnabled(false);
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		PolicySummaryPage.tableInsuredInformation.verify.rowsCount(2);
-
-		CustomAssert.assertAll();
+			softly.assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(2);
+		});
 
 	}
 }

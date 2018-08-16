@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
@@ -48,18 +49,18 @@ public class TestQuoteCustomerSearch extends AutoSSBaseTest {
 		//Verify that clear button deletes inserted values
 		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.FIRST_NAME).setValue("Test name");
 		insuredSearchDialog.clear();
-		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.FIRST_NAME).verify.value("");
+		assertThat(insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.FIRST_NAME)).hasValue("");
 
 		//Verify that if no search criteria were entered, No search results will be returned, error message will be displayed
 		insuredSearchDialog.search();
-		insuredSearchDialog.labelErrorMessage.verify.value("At least 3 search criteria must be supplied.");
+		assertThat(insuredSearchDialog.labelErrorMessage).hasValue("At least 3 search criteria must be supplied.");
 
 		//Verify that error message is displayed if result exceed the display limit
 		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.FIRST_NAME).setValue("Lisa");
 		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.LAST_NAME).setValue("Adams");
 		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.DATE_OF_BIRTH).setValue("05/06/1970");
 		insuredSearchDialog.search();
-		insuredSearchDialog.labelErrorMessage.verify.value("Returned results exceed the display limit; please refine your search criteria");
+		assertThat(insuredSearchDialog.labelErrorMessage).hasValue("Returned results exceed the display limit; please refine your search criteria");
 
 		//Verify case if multiple customers are returned in search result
 		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.FIRST_NAME).setValue("Roland");
@@ -67,7 +68,7 @@ public class TestQuoteCustomerSearch extends AutoSSBaseTest {
 		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.DATE_OF_BIRTH).clear();
 		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.STATE).setValue("CA");
 		insuredSearchDialog.search();
-		insuredSearchDialog.tableSearchResults.verify.rowsCount(4);
+		assertThat(insuredSearchDialog.tableSearchResults).hasRows(4);
 
 		//Validation of the case if Search returns no results
 		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.FIRST_NAME).setValue("John");
@@ -75,21 +76,21 @@ public class TestQuoteCustomerSearch extends AutoSSBaseTest {
 		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.POSTAL_CODE).setValue("85207"); //input incorrect value for zip code
 		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.STATE).setValue("");
 		insuredSearchDialog.search();
-		insuredSearchDialog.tableSearchResults.verify.rowsCount(0);
-		insuredSearchDialog.labelErrorMessage.verify.value("No Results");
+		assertThat(insuredSearchDialog.tableSearchResults).hasRows(0);
+		assertThat(insuredSearchDialog.labelErrorMessage).hasValue("No Results");
 
 		//Validation that Search returns correct result (One customer)
 		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.POSTAL_CODE).setValue("85206");
 		insuredSearchDialog.search();
-		insuredSearchDialog.tableSearchResults.verify.rowsCount(1);
-		insuredSearchDialog.labelErrorMessage.verify.present(false);
+		assertThat(insuredSearchDialog.tableSearchResults).hasRows(1);
+		assertThat(insuredSearchDialog.labelErrorMessage).isPresent(false);
 
 		insuredSearchDialog.tableSearchResults.getRow(1).getCell("Customer Name").controls.links.getFirst().click();
 
 		//Return to "general" tab, just added customer should be opened for editing, validate address (5210 East Hampton), //PAS13 ER Fix: As per defect 42775
-		generalTab.getAssetList().getAsset(NAMED_INSURED_INFORMATION).getAsset(NamedInsuredInformation.FIRST_NAME).verify.value("John");
-		generalTab.getAssetList().getAsset(NAMED_INSURED_INFORMATION).getAsset(NamedInsuredInformation.LAST_NAME).verify.value("Bamboo");
-		generalTab.getAssetList().getAsset(NAMED_INSURED_INFORMATION).getAsset(NamedInsuredInformation.ADDRESS_LINE_1).verify.value("5210 East Hampton");
+		assertThat(generalTab.getAssetList().getAsset(NAMED_INSURED_INFORMATION).getAsset(NamedInsuredInformation.FIRST_NAME)).hasValue("John");
+		assertThat(generalTab.getAssetList().getAsset(NAMED_INSURED_INFORMATION).getAsset(NamedInsuredInformation.LAST_NAME)).hasValue("Bamboo");
+		assertThat(generalTab.getAssetList().getAsset(NAMED_INSURED_INFORMATION).getAsset(NamedInsuredInformation.ADDRESS_LINE_1)).hasValue("5210 East Hampton");
 
 		//Fill all mandatory fields and go to the Drivers Tab
 		generalTab.fillTab(getTestSpecificTD("GeneralTabData"));
@@ -107,8 +108,8 @@ public class TestQuoteCustomerSearch extends AutoSSBaseTest {
 		driverTab.getAssetList().getAsset(DRIVER_SEARCH_DIALOG).tableSearchResults.getRow(1).getCell("Customer Name").controls.links.getFirst().click();
 
 		//Verify that Driver's info is filled with found driver's details
-		driverTab.getAssetList().getAsset(FIRST_NAME).verify.value("John");
-		driverTab.getAssetList().getAsset(LAST_NAME).verify.value("Bamboo");
+		assertThat(driverTab.getAssetList().getAsset(FIRST_NAME)).hasValue("John");
+		assertThat(driverTab.getAssetList().getAsset(LAST_NAME)).hasValue("Bamboo");
 
 		//Fill all mandatory info and go ahead
 		driverTab.fillTab(getTestSpecificTD("DriverTabData"));
@@ -117,10 +118,10 @@ public class TestQuoteCustomerSearch extends AutoSSBaseTest {
 		RatingDetailReportsTab.buttonSaveAndExit.click();
 
 		//Validation that 2nd NI and Driver is added and displayed on QuoteSummaryScreen
-		PolicySummaryPage.tableInsuredInformation.verify.rowsCount(2);
-		PolicySummaryPage.tableInsuredInformation.getRow(2).getCell("Name").verify.value("John I Bamboo");
-		PolicySummaryPage.tablePolicyDrivers.verify.rowsCount(2);
-		PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Name").verify.value("John I Bamboo");
+		assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(2);
+		assertThat(PolicySummaryPage.tableInsuredInformation.getRow(2).getCell("Name")).hasValue("John I Bamboo");
+		assertThat(PolicySummaryPage.tablePolicyDrivers).hasRows(2);
+		assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Name")).hasValue("John I Bamboo");
 
 		log.info("QuoteCustomerSearch test is passed for auto_ss. Quote #" + PolicySummaryPage.labelPolicyNumber.getValue() + "is created");
 	}

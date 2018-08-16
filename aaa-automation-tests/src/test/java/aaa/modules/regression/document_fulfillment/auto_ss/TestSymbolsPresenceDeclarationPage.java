@@ -1,12 +1,12 @@
 package aaa.modules.regression.document_fulfillment.auto_ss;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.ADHOC_DOC_ON_DEMAND_GENERATE;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.main.enums.DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM;
 import static aaa.main.enums.DocGenConstants.OnDemandDocumentsTable.SELECT;
 import static aaa.main.enums.DocGenEnum.Documents.AA11NY;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -97,7 +97,7 @@ public class TestSymbolsPresenceDeclarationPage extends AutoSSBaseTest {
 
 		policy.policyDocGen().start();
 		generateOnDemandDocumentActionTab.verify.documentsPresent(AA11NY);
-		generateOnDemandDocumentActionTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, AA11NY.getId()).getCell(SELECT).controls.checkBoxes.getFirst().verify.enabled(true);
+		assertThat(generateOnDemandDocumentActionTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, AA11NY.getId()).getCell(SELECT).controls.checkBoxes.getFirst()).isEnabled();
 		generateOnDemandDocumentActionTab.generateDocuments(AA11NY);
 
 		mainApp().open();
@@ -150,7 +150,7 @@ public class TestSymbolsPresenceDeclarationPage extends AutoSSBaseTest {
 		policy.policyDocGen().start();
 
 		generateOnDemandDocumentActionTab.verify.documentsPresent(document);
-		generateOnDemandDocumentActionTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, document.getId()).getCell(SELECT).controls.checkBoxes.getFirst().verify.enabled(true);
+		assertThat(generateOnDemandDocumentActionTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, document.getId()).getCell(SELECT).controls.checkBoxes.getFirst()).isEnabled();
 		generateOnDemandDocumentActionTab.generateDocuments(document);
 
 		mainApp().open();

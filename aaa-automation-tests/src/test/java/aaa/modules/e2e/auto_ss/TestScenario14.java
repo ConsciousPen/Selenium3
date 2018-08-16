@@ -1,12 +1,14 @@
 package aaa.modules.e2e.auto_ss;
 
-import org.assertj.core.api.SoftAssertions;
+import toolkit.verification.CustomSoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import aaa.common.enums.Constants.States;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.e2e.templates.Scenario14;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 
 public class TestScenario14 extends Scenario14 { 
@@ -17,6 +19,8 @@ public class TestScenario14 extends Scenario14 {
 	}
 	
 	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.CO, States.IN, States.KS, States.KY, States.NJ, States.NY, 
+			States.OH, States.OR, States.PA, States.SD, States.UT, States.VA})
 	@Test
 	public void TC01_createPolicy(@Optional("") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
@@ -24,7 +28,7 @@ public class TestScenario14 extends Scenario14 {
 
 		createTestPolicy(policyCreationTD);
 		
-		SoftAssertions.assertSoftly(softly -> {
+		CustomSoftAssertions.assertSoftly(softly -> {
 			renewalImageGeneration(); 
 			renewalPreviewGeneration(); 
 			renewalOfferGeneration(); 

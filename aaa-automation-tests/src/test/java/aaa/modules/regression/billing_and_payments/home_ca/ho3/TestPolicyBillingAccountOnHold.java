@@ -1,10 +1,12 @@
 package aaa.modules.regression.billing_and_payments.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
+import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -18,6 +20,7 @@ import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AddHoldActionTab;
 import aaa.modules.policy.HomeCaHO3BaseTest;
+import aaa.utils.StateList;
 
 public class TestPolicyBillingAccountOnHold extends HomeCaHO3BaseTest {
 
@@ -39,6 +42,7 @@ public class TestPolicyBillingAccountOnHold extends HomeCaHO3BaseTest {
      */
 
 	@Parameters({"state"})
+	@StateList(states =  States.CA)
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3) 
     public void testPolicyBillingAccountOnHold(@Optional("CA") String state) {
@@ -53,13 +57,13 @@ public class TestPolicyBillingAccountOnHold extends HomeCaHO3BaseTest {
         new BillingAccount().addHold().start();
         addHoldActoinTab.fillTab(getTestSpecificTD("AddHold"));
         AddHoldActionTab.buttonAddUpdate.click();
-        addHoldActoinTab.getAssetList().getWarning(BillingAccountMetaData.AddHoldActionTab.HOLD_EFFECTIVE_DATE.getLabel()).verify.value("Cannot be earlier than today");
-        addHoldActoinTab.getAssetList().getWarning(BillingAccountMetaData.AddHoldActionTab.HOLD_EXPIRATION_DATE.getLabel()).verify.value("Date must be after effective date");
+        assertThat(addHoldActoinTab.getAssetList().getWarning(BillingAccountMetaData.AddHoldActionTab.HOLD_EFFECTIVE_DATE)).hasValue("Cannot be earlier than today");
+        assertThat(addHoldActoinTab.getAssetList().getWarning(BillingAccountMetaData.AddHoldActionTab.HOLD_EXPIRATION_DATE)).hasValue("Date must be after effective date");
 
         // 7. Change 'Effective Date' = current date, 'Expiration Date' = current date + 2 days, 'Reason' to 'Other' and verify error
         addHoldActoinTab.fillTab(new SimpleDataProvider().adjust(getTestSpecificTD("AddHold_Adjustment")));
         AddHoldActionTab.buttonAddUpdate.click();
-        addHoldActoinTab.getAssetList().getWarning(BillingAccountMetaData.AddHoldActionTab.ADDITIONAL_INFO.getLabel()).verify.value("Value is required");
+        assertThat(addHoldActoinTab.getAssetList().getWarning(BillingAccountMetaData.AddHoldActionTab.ADDITIONAL_INFO)).hasValue("Value is required");
 
         // 8.  Fill 'Additional information' field
         addHoldActoinTab.fillTab(new SimpleDataProvider().adjust(BillingAccountMetaData.AddHoldActionTab.class.getSimpleName(),
@@ -67,13 +71,13 @@ public class TestPolicyBillingAccountOnHold extends HomeCaHO3BaseTest {
         AddHoldActionTab.buttonAddUpdate.click();
 
         // 9.  Verify billing account status is "On hold"
-        AddHoldActionTab.tablePolicies.getRow(1).getCell(BillingAddOnHoldPoliciesTable.BILLING_STATUS).verify.value(BillingStatus.ON_HOLD);
+        assertThat(AddHoldActionTab.tablePolicies.getRow(1).getCell(BillingAddOnHoldPoliciesTable.BILLING_STATUS)).hasValue(BillingStatus.ON_HOLD);
 
         // 10. Remove Hold
         AddHoldActionTab.tableHoldsAndMoratoriums.getRow(1).getCell(BillingHoldsAndMoratoriumsTable.ACTIONS).controls.links.get(HoldsAndMoratoriumsActions.REMOVE).click();
         Page.dialogConfirmation.confirm();
 
         // 11. Verify billing account status is "Active"
-        AddHoldActionTab.tablePolicies.getRow(1).getCell(BillingAddOnHoldPoliciesTable.BILLING_STATUS).verify.contains(BillingStatus.ACTIVE);
+        assertThat(AddHoldActionTab.tablePolicies.getRow(1).getCell(BillingAddOnHoldPoliciesTable.BILLING_STATUS)).valueContains(BillingStatus.ACTIVE);
     }
 }

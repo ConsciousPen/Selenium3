@@ -30,6 +30,7 @@ public class TestPolicyCancellation extends PolicyCancellation {
 	 * @details
 	 */
 	@Parameters({"state"})
+	//@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.PUP )
 	public void testPolicyCancellationFlat(@Optional("") String state) {
@@ -47,6 +48,7 @@ public class TestPolicyCancellation extends PolicyCancellation {
 	 * @details
 	 */
 	@Parameters({"state"})
+	//@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.PUP )
     public void testPolicyCancellationMidTerm(@Optional("") String state) {

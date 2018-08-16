@@ -1,9 +1,12 @@
 package aaa.modules.regression.document_fulfillment.auto_ca.select.functional;
 
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestCinAbstractAutoCA;
+import aaa.utils.StateList;
+
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
@@ -19,6 +22,7 @@ public class TestCinNewBusinessAutoCASelect extends TestCinAbstractAutoCA {
      * @details
      */
     @Parameters({STATE_PARAM})
+    @StateList(states = States.CA)
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = "PAS-6848")
     public void testCinNewBusinessMVR() {
@@ -36,6 +40,7 @@ public class TestCinNewBusinessAutoCASelect extends TestCinAbstractAutoCA {
      * @details
      */
     @Parameters({STATE_PARAM})
+    @StateList(states = States.CA)
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = "PAS-6848")
     public void testCinNewBusinessCLUE() {

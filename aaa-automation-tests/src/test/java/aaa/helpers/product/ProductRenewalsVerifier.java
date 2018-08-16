@@ -4,12 +4,19 @@ package aaa.helpers.product;
 
 import aaa.helpers.TableVerifier;
 import aaa.main.pages.summary.PolicySummaryPage;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.table.Table;
 
 public class ProductRenewalsVerifier extends TableVerifier {
 
+    public ProductRenewalsVerifier() {};
+
+    public ProductRenewalsVerifier(ETCSCoreSoftAssertions softly) {
+        this.softly = softly;
+    };
+
     public ProductRenewalsVerifier setStatus(String policyStatus) {
-        setValue("Status", policyStatus.toString());
+        setValue("Status", policyStatus);
         return this;
     }
 
