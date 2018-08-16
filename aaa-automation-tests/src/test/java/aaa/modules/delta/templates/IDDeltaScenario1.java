@@ -1,5 +1,6 @@
 package aaa.modules.delta.templates;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -12,7 +13,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 public class IDDeltaScenario1 extends BaseTest {
 	
@@ -40,11 +41,7 @@ public class IDDeltaScenario1 extends BaseTest {
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
 		
-		CustomAssert.enableSoftMode();
-		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrier(immediatePriorCarrierLOVs);
-		
-		GeneralTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();
+		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrierThenSaveAndExit(immediatePriorCarrierLOVs);
 	}
 
 	public void verifyErrorForZipCode83213() {
@@ -74,22 +71,23 @@ public class IDDeltaScenario1 extends BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
 		new BindTab().btnPurchase.click();
 		
-		ErrorTab errorTab = new ErrorTab(); 
-		CustomAssert.enableSoftMode();	
-		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS14061993);
-		errorTab.cancel(); 
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
-		applicantTab.fillTab(td_zip83212); 
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get()); 
-		reportsTab.fillTab(td_zip83212); 
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		premiumsTab.calculatePremium(); 
-		
-		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();		
-		CustomAssert.assertAll();
+		ErrorTab errorTab = new ErrorTab();
+
+		CustomSoftAssertions.assertSoftly(softly -> {
+			errorTab.verify.errorsPresent(softly, ErrorEnum.Errors.ERROR_AAA_HO_SS14061993);
+			errorTab.cancel();
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
+			applicantTab.fillTab(td_zip83212);
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
+			reportsTab.fillTab(td_zip83212);
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+			premiumsTab.calculatePremium();
+
+			PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
+		});
 	}
 
 	public void purchasePolicy(TestData td, String scenarioPolicyType) {
@@ -107,7 +105,7 @@ public class IDDeltaScenario1 extends BaseTest {
 		policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         
         log.info("DELTA ID SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);

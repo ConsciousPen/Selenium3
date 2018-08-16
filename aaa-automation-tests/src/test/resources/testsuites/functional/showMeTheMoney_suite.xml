@@ -17,7 +17,7 @@
     </test>
     <test name="TestOperationalReportsCheckPolicyNumberParameter" preserve-order="true">
         <classes>
-            <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsCheckPolicyNumberParameter"/>
+            <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsEuwDetailCheckPolicyNumberParameter"/>
         </classes>
     </test>
     <test name="TestOperationalReportsCheckEuwDetailDeliveryFormat" preserve-order="true">
@@ -38,6 +38,11 @@
     <test name="TestOperationalReportsBusinessUnitParameter" preserve-order="true">
         <classes>
             <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsBusinessUnitParameter"/>
+        </classes>
+    </test>
+    <test name="TestOperationalReportsEuwSummaryCheckPolicyNumberParameter" preserve-order="true">
+        <classes>
+            <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsEuwSummaryCheckPolicyNumberParameter"/>
         </classes>
     </test>
 </suite>

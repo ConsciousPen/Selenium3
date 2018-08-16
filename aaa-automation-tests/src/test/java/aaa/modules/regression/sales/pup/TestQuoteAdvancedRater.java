@@ -1,6 +1,6 @@
 package aaa.modules.regression.sales.pup;
 
-
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.helpers.constants.Groups;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -42,6 +42,7 @@ public class TestQuoteAdvancedRater extends PersonalUmbrellaBaseTest {
 	//TODO jdemb: feature of the original test was checking if premium deltas are added to calculated premium correctly
 	//as I can see in old project - deltas are removed. So this test has no meaning. Temporary removed from run, probably need to be removed completely.
 	@Parameters({"state"})
+	//@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, enabled = false)
 	@TestInfo(component = ComponentConstant.Sales.PUP )
     public void testQuoteAdvancedRater(@Optional("") String state) {
@@ -53,7 +54,7 @@ public class TestQuoteAdvancedRater extends PersonalUmbrellaBaseTest {
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
         Dollar oldTotalPremiumSummary = PremiumAndCoveragesQuoteTab.getPolicyTermPremium();
-        policy.getDefaultView().getTab(PremiumAndCoveragesQuoteTab.class).getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA).verify.value(expectedPersonalUmbrellaValue);
+        assertThat(policy.getDefaultView().getTab(PremiumAndCoveragesQuoteTab.class).getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA)).hasValue(expectedPersonalUmbrellaValue);
 
         String newPersonalUmbrellaValue = policy.getDefaultView().getTab(PremiumAndCoveragesQuoteTab.class).getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA).getAllValues().get(1);
         policy.getDefaultView().getTab(PremiumAndCoveragesQuoteTab.class).getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA).setValue(newPersonalUmbrellaValue);

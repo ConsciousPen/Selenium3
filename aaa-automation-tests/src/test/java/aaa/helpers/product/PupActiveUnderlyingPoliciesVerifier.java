@@ -4,9 +4,16 @@ package aaa.helpers.product;
 
 import aaa.helpers.TableVerifier;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.table.Table;
 
 public class PupActiveUnderlyingPoliciesVerifier extends TableVerifier {
+
+    public PupActiveUnderlyingPoliciesVerifier() {};
+
+    public PupActiveUnderlyingPoliciesVerifier(ETCSCoreSoftAssertions softly) {
+        this.softly = softly;
+    };
 
     public PupActiveUnderlyingPoliciesVerifier setPolicyNumber(String policyNum) {
         setValue("Policy Number", policyNum);

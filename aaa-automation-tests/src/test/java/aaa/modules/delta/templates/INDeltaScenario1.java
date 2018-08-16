@@ -1,5 +1,6 @@
 package aaa.modules.delta.templates;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,8 +17,6 @@ import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentAction
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
-//import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
@@ -25,7 +24,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 public class INDeltaScenario1 extends BaseTest { 
 	
@@ -53,11 +52,7 @@ public class INDeltaScenario1 extends BaseTest {
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
 		
-		CustomAssert.enableSoftMode();
-		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrier(immediatePriorCarrierLOVs);
-		
-		GeneralTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();
+		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrierThenSaveAndExit(immediatePriorCarrierLOVs);
 	}
 	
 	public void TC_verifyEndorsementsTab() {
@@ -77,29 +72,28 @@ public class INDeltaScenario1 extends BaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.ENDORSEMENT.get());
-		EndorsementTab endorsementTab = new EndorsementTab(); 
+		EndorsementTab endorsementTab = new EndorsementTab();
 
-		CustomAssert.enableSoftMode();		
-		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
-			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312).verify.present();	
-			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present();	
-			
-			endorsementTab.fillTab(td_add_Forms);
-			
-			endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312).verify.present();			
-			CustomAssert.assertTrue(endorsementTab.verifyLinkEditIsPresent("HS 03 12")); 
-			CustomAssert.assertTrue(endorsementTab.verifyLinkRemoveIsPresent("HS 03 12"));
-		}
-		else if (getPolicyType().equals(PolicyType.HOME_SS_HO4)||getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
-			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312).verify.present(false);	
-			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present(false);
-			endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312).verify.present(false);
-		}
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 		
-		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();	
-		CustomAssert.assertAll();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			if (getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
+				softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312)).exists();
+				softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493)).exists();
+
+				endorsementTab.fillTab(td_add_Forms);
+
+				softly.assertThat(endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312)).exists();
+				softly.assertThat(endorsementTab.isLinkEditPresent("HS 03 12")).isTrue();
+				softly.assertThat(endorsementTab.isLinkRemovePresent("HS 03 12")).isTrue();
+			} else if (getPolicyType().equals(PolicyType.HOME_SS_HO4) || getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
+				softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312)).isPresent(false);
+				softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493)).isPresent(false);
+				softly.assertThat(endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312)).isPresent(false);
+			}
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+			new PremiumsAndCoveragesQuoteTab().calculatePremium();
+			PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
+		});
 	}
 	
 	public void TC_verifyEndorsementHS2383() {	
@@ -115,32 +109,32 @@ public class INDeltaScenario1 extends BaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.ENDORSEMENT.get());
-		EndorsementTab endorsementTab = new EndorsementTab(); 
-		
-		CustomAssert.enableSoftMode();
-		endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS2383).verify.present(false);		
-		endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS2383).verify.present(false);
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
-		new ApplicantTab().fillTab(td_hs2383); 
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-		new ReportsTab().fillTab(td_hs2383); 
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.ENDORSEMENT.get());
-		
-		endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS2383).verify.present();	
-		
-		endorsementTab.fillTab(td_hs2383);
-		
-		endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS2383).verify.present();
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
-		
-		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();	
-		CustomAssert.assertAll();		
+		EndorsementTab endorsementTab = new EndorsementTab();
+
+		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS2383)).isPresent(false);
+			softly.assertThat(endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS2383)).isPresent(false);
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
+			new ApplicantTab().fillTab(td_hs2383);
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
+			new ReportsTab().fillTab(td_hs2383);
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.ENDORSEMENT.get());
+
+			softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS2383)).exists();
+
+			endorsementTab.fillTab(td_hs2383);
+
+			softly.assertThat(endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS2383)).exists();
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+			new PremiumsAndCoveragesQuoteTab().calculatePremium();
+
+			PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
+		});
 	}
 
 	public void TC_verifyQuoteODD() {
@@ -148,10 +142,8 @@ public class INDeltaScenario1 extends BaseTest {
 		SearchPage.openQuote(quoteNumber);	
 
 		policy.quoteDocGen().start();		
-		CustomAssert.enableSoftMode();	
 		//TODO add verification On-Demand Documents tab
 		GenerateOnDemandDocumentActionTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();
 	}
 	
 	public void TC_verifyHailResistanceRating() {
@@ -160,19 +152,18 @@ public class INDeltaScenario1 extends BaseTest {
 		mainApp().open();
 		SearchPage.openQuote(quoteNumber);	
 		
-		policy.dataGather().start();		
-		CustomAssert.enableSoftMode();
-		
-		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)||getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
-			HssQuoteDataGatherHelper.verifyHailResistanceRatingNotApplied();
-			HssQuoteDataGatherHelper.verifyHailResistanceRatingApplied(td_hailResistanceRating);
-		}
-		else if (getPolicyType().equals(PolicyType.HOME_SS_HO4)||getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
-			HssQuoteDataGatherHelper.verifyHailResistanceRatingNotDisplaying();
-		} 
-		
-		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();			
+		policy.dataGather().start();
+
+		CustomSoftAssertions.assertSoftly(softly -> {
+			if (getPolicyType().equals(PolicyType.HOME_SS_HO3) || getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+				HssQuoteDataGatherHelper.verifyHailResistanceRatingNotApplied(softly);
+				HssQuoteDataGatherHelper.verifyHailResistanceRatingApplied(td_hailResistanceRating, softly);
+			} else if (getPolicyType().equals(PolicyType.HOME_SS_HO4) || getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
+				HssQuoteDataGatherHelper.verifyHailResistanceRatingNotDisplaying(softly);
+			}
+
+			PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
+		});
 	}
 	
 	public void TC_verifyIneligibleRoofType() {
@@ -182,35 +173,35 @@ public class INDeltaScenario1 extends BaseTest {
 		mainApp().open(); 		
 		SearchPage.openQuote(quoteNumber);	
 		
-		policy.dataGather().start();		
-		CustomAssert.enableSoftMode();	
-		
-		HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_ineligibleRoofType, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
-		
-		HssQuoteDataGatherHelper.fillPropertyInfoTabWithCorrectData(td_eligibleData);
-		/*
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		PropertyInfoTab propertyInfoTab = new PropertyInfoTab(); 
-		propertyInfoTab.fillTab(td_RoofTypeUneligible);
-		propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.ROOF_TYPE).setValue("Wood shingle/Wood shake");
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-		new BindTab().btnPurchase.click();
-		
-		ErrorTab errorTab = new ErrorTab(); 
-		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
-		errorTab.cancel();
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		propertyInfoTab.fillTab(td);
-		*/
-		
-		PropertyInfoTab.buttonSaveAndExit.click();		
-		CustomAssert.assertAll();
+		policy.dataGather().start();
+
+		CustomSoftAssertions.assertSoftly(softly -> {
+			HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_ineligibleRoofType, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560, softly);
+
+			HssQuoteDataGatherHelper.fillPropertyInfoTabWithCorrectData(td_eligibleData);
+			/*
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
+			PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
+			propertyInfoTab.fillTab(td_RoofTypeUneligible);
+			propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.ROOF_TYPE).setValue("Wood shingle/Wood shake");
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+			new PremiumsAndCoveragesQuoteTab().calculatePremium();
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+			new BindTab().btnPurchase.click();
+
+			ErrorTab errorTab = new ErrorTab();
+			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
+			errorTab.cancel();
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
+			propertyInfoTab.fillTab(td);
+			*/
+
+			PropertyInfoTab.buttonSaveAndExit.click();
+		});
 	}
 	
 	public void TC_purchasePolicy(String scenarioPolicyType) {
@@ -228,7 +219,7 @@ public class INDeltaScenario1 extends BaseTest {
 		policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         
         log.info("DELTA IN SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);
@@ -240,7 +231,7 @@ public class INDeltaScenario1 extends BaseTest {
 		//TODO verify On-Demand Documents generation
 	}
 
-	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<String>();
+	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<>();
 	static {
 		immediatePriorCarrierLOVs.add("AAA-Michigan (ACG)");
 		immediatePriorCarrierLOVs.add("AAA-NoCal (CSAA IG) Rewrite");

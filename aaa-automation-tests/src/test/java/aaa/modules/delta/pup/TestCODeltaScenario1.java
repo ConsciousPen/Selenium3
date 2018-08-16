@@ -1,5 +1,6 @@
 package aaa.modules.delta.pup;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -28,8 +29,7 @@ import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksPropertyTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.ComboBox;
+import toolkit.verification.CustomSoftAssertions;
 
 /**
  * 
@@ -89,35 +89,33 @@ public class TestCODeltaScenario1 extends PersonalUmbrellaBaseTest {
 	@Test(groups = { Groups.DELTA, Groups.HIGH })
 	public void pupDeltaSC1_TC02(@Optional("") String state) {
 		mainApp().open();
-		CustomAssert.enableSoftMode();
 		SearchPage.openQuote(quoteNumber);
 		policy.dataGather().start();
 
-		NavigationPage.toViewTab(PersonalUmbrellaTab.UNDERLYING_RISKS.get());
-		UnderlyingRisksPropertyTab.tableAdditionalResidences.getRow(2).getCell(9).controls.links.get("View/Edit").click();
-		UnderlyingRisksPropertyTab propertyTab = policy.getDefaultView().getTab(UnderlyingRisksPropertyTab.class);
-		propertyTab.getAdditionalResidenciesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.CURRENT_CARRIER.getLabel(), ComboBox.class).verify.options(residence_CurrentCarrierLOVs);
-		
-		NavigationPage.toViewTab(PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
-		UnderlyingRisksAutoTab.tableAutomobiles.getRow(1).getCell(9).controls.links.get("View/Edit").click();
-		UnderlyingRisksAutoTab autoTab = policy.getDefaultView().getTab(UnderlyingRisksAutoTab.class);
-		autoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.CURRENT_CARRIER.getLabel(), ComboBox.class).verify.options(auto_CurrentCarrierLOVs);
-		
-		UnderlyingRisksAutoTab.tableAutomobiles.getRow(2).getCell(9).controls.links.get("View/Edit").click();
-		autoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.CURRENT_CARRIER.getLabel(), ComboBox.class).verify.options(antq_CurrentCarrierLOVs);
-		
-		autoTab.getMotorcyclesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Motorcycles.CURRENT_CARRIER.getLabel(), ComboBox.class).verify.options(motorcycle_CurrentCarrierLOVs);
-		autoTab.getMotorHomesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.MotorHomes.CURRENT_CARRIER.getLabel(), ComboBox.class).verify.options(motorhome_CurrentCarrierLOVs);
-		
-		NavigationPage.toViewTab(PersonalUmbrellaTab.UNDERLYING_RISKS_OTHER_VEHICLES.get());
-		UnderlyingRisksOtherVehiclesTab otherVehiclesTab = policy.getDefaultView().getTab(UnderlyingRisksOtherVehiclesTab.class);
-		otherVehiclesTab.getRecreationalVehicleAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RecreationalVehicle.CURRENT_CARRIER.getLabel(), ComboBox.class).verify.options(recrVehicle_CurrentCarrierLOVs);
-		
-		otherVehiclesTab.getWatercraftAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.Watercraft.CURRENT_CARRIER.getLabel(), ComboBox.class).verify.options(watercraft_CurrentCarrierLOVs);
-		Tab.buttonSaveAndExit.click();
-		
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			NavigationPage.toViewTab(PersonalUmbrellaTab.UNDERLYING_RISKS.get());
+			UnderlyingRisksPropertyTab.tableAdditionalResidences.getRow(2).getCell(9).controls.links.get("View/Edit").click();
+			UnderlyingRisksPropertyTab propertyTab = policy.getDefaultView().getTab(UnderlyingRisksPropertyTab.class);
+			softly.assertThat(propertyTab.getAdditionalResidenciesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.CURRENT_CARRIER)).hasOptions(residence_CurrentCarrierLOVs);
+
+			NavigationPage.toViewTab(PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
+			UnderlyingRisksAutoTab.tableAutomobiles.getRow(1).getCell(9).controls.links.get("View/Edit").click();
+			UnderlyingRisksAutoTab autoTab = policy.getDefaultView().getTab(UnderlyingRisksAutoTab.class);
+			softly.assertThat(autoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.CURRENT_CARRIER)).hasOptions(auto_CurrentCarrierLOVs);
+
+			UnderlyingRisksAutoTab.tableAutomobiles.getRow(2).getCell(9).controls.links.get("View/Edit").click();
+			softly.assertThat(autoTab.getAutomobilesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.CURRENT_CARRIER)).hasOptions(antq_CurrentCarrierLOVs);
+
+			softly.assertThat(autoTab.getMotorcyclesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Motorcycles.CURRENT_CARRIER)).hasOptions(motorcycle_CurrentCarrierLOVs);
+			softly.assertThat(autoTab.getMotorHomesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.MotorHomes.CURRENT_CARRIER)).hasOptions(motorhome_CurrentCarrierLOVs);
+
+			NavigationPage.toViewTab(PersonalUmbrellaTab.UNDERLYING_RISKS_OTHER_VEHICLES.get());
+			UnderlyingRisksOtherVehiclesTab otherVehiclesTab = policy.getDefaultView().getTab(UnderlyingRisksOtherVehiclesTab.class);
+			softly.assertThat(otherVehiclesTab.getRecreationalVehicleAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RecreationalVehicle.CURRENT_CARRIER)).hasOptions(recrVehicle_CurrentCarrierLOVs);
+
+			softly.assertThat(otherVehiclesTab.getWatercraftAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.Watercraft.CURRENT_CARRIER)).hasOptions(watercraft_CurrentCarrierLOVs);
+			Tab.buttonSaveAndExit.click();
+		});
 	}
 
 	/**
@@ -142,7 +140,7 @@ public class TestCODeltaScenario1 extends PersonalUmbrellaBaseTest {
 		policy.getDefaultView().getTab(BindTab.class).submitTab();
 		policy.getDefaultView().getTab(PurchaseTab.class).fillTab(getPolicyTD()).submitTab();
 		
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
 		log.info("============================================");

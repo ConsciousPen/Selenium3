@@ -10,10 +10,9 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import org.testng.annotations.Optional;
-import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.ComboBox;
 
 import java.util.List;
@@ -35,7 +34,7 @@ public class AcceptPaymentTest extends BackwardCompatibilityBaseTest {
 		ComboBox paymentMethod = paymentTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD);
 		List<String> values = paymentMethod.getAllValues();
 		values.remove("");
-		CustomAssert.assertTrue("There is Credit Card payment method present", values.size()>2);
+		CustomAssertions.assertThat(values.size()).as("There is Credit Card payment method present").isGreaterThan(2);
 		values.remove(BillingConstants.AcceptPaymentMethod.CASH);
 		values.remove(BillingConstants.AcceptPaymentMethod.CHECK);
 		paymentMethod.setValue(values.get(0));
@@ -46,7 +45,6 @@ public class AcceptPaymentTest extends BackwardCompatibilityBaseTest {
 				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
 				.setAmount(initialMinDue.negate()).verifyPresent();
 		BillingSummaryPage.getMinimumDue().verify.equals(new Dollar(0));
-
 	}
 }
 

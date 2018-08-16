@@ -295,8 +295,8 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		//getting value based on needed version (current or available)
 		String expectedValue = predefinedExpectedValues.get(comparisonVersion);
 		assertSoftly(softly -> {
-			softly.assertThat(predefinedExpectedValues).isNotEmpty().as("UI field path {0} not found in TestData or predefined values.", uiFieldsPath);
-			softly.assertThat(expectedValue).isNotNull().as("Expected values for ui field path {0} not found in TestData or predefined values.", uiFieldsPath);
+			softly.assertThat(predefinedExpectedValues).as("UI field path {0} not found in TestData or predefined values.", uiFieldsPath).isNotEmpty();
+			softly.assertThat(expectedValue).as("Expected values for ui field path {0} not found in TestData or predefined values.", uiFieldsPath).isNotNull();
 			if (!predefinedExpectedValues.isEmpty() && expectedValue != null) {
 				//comparison actual and expected value of UI field
 				softly.assertThat(actualUIFieldsAndValues.get(uiFieldsPath).get(0)).as("Problem in " + uiFieldsPath).isEqualTo(expectedValue);

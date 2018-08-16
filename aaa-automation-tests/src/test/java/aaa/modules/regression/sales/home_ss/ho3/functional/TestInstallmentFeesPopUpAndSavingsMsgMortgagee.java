@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.main.enums.PolicyConstants.PolicyCoverageInstallmentFeeTable.INSTALLMENT_FEE;
 import static aaa.main.enums.PolicyConstants.PolicyCoverageInstallmentFeeTable.PAYMENT_METHOD;
 import org.testng.annotations.Optional;
@@ -22,7 +23,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 public class TestInstallmentFeesPopUpAndSavingsMsgMortgagee extends HomeSSHO3BaseTest {
 
@@ -55,7 +56,6 @@ public class TestInstallmentFeesPopUpAndSavingsMsgMortgagee extends HomeSSHO3Bas
 		createCustomerIndividual();
 		createQuote(policyTD);
 
-		CustomAssert.enableSoftMode();
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
@@ -76,13 +76,15 @@ public class TestInstallmentFeesPopUpAndSavingsMsgMortgagee extends HomeSSHO3Bas
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.BIND.get());
 		bindTab.submitTab();
 
-		CustomAssert.assertFalse("".equals(Purchase.autoPaySetupSavingMessage.getValue()));
+		assertThat(Purchase.autoPaySetupSavingMessage.getValue()).isNotEmpty();
 
 		Purchase.linkViewApplicableFeeSchedule.click();
-		Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE).verify.value(nonEftInstallmentFee.toString());
-		Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Checking / Savings Account (ACH)").getCell(INSTALLMENT_FEE).verify.value(eftInstallmentFeeACH.toString());
-		Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Credit Card").getCell(INSTALLMENT_FEE).verify.value(eftInstallmentFeeCreditCard.toString());
-		Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Debit Card").getCell(INSTALLMENT_FEE).verify.value(eftInstallmentFeeDebitCard.toString());
+		CustomSoftAssertions.assertSoftly(softly -> {
+			assertThat(Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE)).hasValue(nonEftInstallmentFee.toString());
+			assertThat(Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Checking / Savings Account (ACH)").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeACH.toString());
+			assertThat(Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Credit Card").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeCreditCard.toString());
+			assertThat(Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Debit Card").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeDebitCard.toString());
+		});
 		Page.dialogConfirmation.buttonCloseWithCross.click();
 
 		new PurchaseTab().fillTab(getPolicyTD()).submitTab();
@@ -90,9 +92,6 @@ public class TestInstallmentFeesPopUpAndSavingsMsgMortgagee extends HomeSSHO3Bas
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
 		autopaySavingMessageCheckForMortgagee(false, delta);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 
@@ -101,16 +100,19 @@ public class TestInstallmentFeesPopUpAndSavingsMsgMortgagee extends HomeSSHO3Bas
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).setValue("Mortgagee Bill");
 		premiumsAndCoveragesQuoteTab.calculatePremium();
-		PremiumsAndCoveragesQuoteTab.autoPaySetupSavingMessage.getRow(1).getCell(2).verify.present(false);
 
-		if (Page.dialogConfirmation.isPresent()) {
-			Page.dialogConfirmation.confirm();
-		}
-		premiumsAndCoveragesQuoteTab.calculatePremium();
-		PremiumsAndCoveragesQuoteTab.autoPaySetupSavingMessage.getRow(1).getCell(2).verify.present(isPresent);
-		if (isPresent) {
-			CustomAssert.assertTrue(PremiumsAndCoveragesQuoteTab.autoPaySetupSavingMessage.getRow(1).getCell(2).getValue().equals(String.format(AUTOPAY_SAVING_MESSAGE, delta)));
-		}
+		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(PremiumsAndCoveragesQuoteTab.autoPaySetupSavingMessage.getRow(1).getCell(2)).isPresent(false);
+
+			if (Page.dialogConfirmation.isPresent()) {
+				Page.dialogConfirmation.confirm();
+			}
+			premiumsAndCoveragesQuoteTab.calculatePremium();
+			softly.assertThat(PremiumsAndCoveragesQuoteTab.autoPaySetupSavingMessage.getRow(1).getCell(2)).isPresent(isPresent);
+			if (isPresent) {
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.autoPaySetupSavingMessage.getRow(1).getCell(2)).hasValue(String.format(AUTOPAY_SAVING_MESSAGE, delta));
+			}
+		});
 	}
 
 }

@@ -1,7 +1,9 @@
 package aaa.modules.regression.document_fulfillment.auto_ca.choice;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AutoCaTab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -17,12 +19,14 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
+import aaa.utils.StateList;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 /**
  *
@@ -54,140 +58,139 @@ public class TestScenario1 extends AutoCaChoiceBaseTest {
 	 * 7. Check Documents on GODD for Policy: displayed, enable/disable
 	*/
 	@Parameters({ "state" })
+	@StateList(states = States.CA)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testPolicyDocuments(@Optional("") String state) {
-		CustomAssert.enableSoftMode();
-		mainApp().open();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			mainApp().open();
 
-		// 1
-		createCustomerIndividual();
-		createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData_QuoteCreation")));
-		
-		// 2
-		policy.quoteDocGen().start();
-		docgenActionTab.verify.documentsEnabled(
-				Documents.AA11CA,
-				Documents.AHAPXX_CA,
-				Documents.AA53CA,
-				Documents.AHFMXX,
-				Documents.AAIQCA
-				);
-		docgenActionTab.verify.documentsEnabled(false, 
-				Documents.AA41CA,
-				Documents.AA52CA,
-				Documents.CAU01,
-				Documents.CAU04,
-				Documents.CAU08,
-				Documents.CAU09
-				);
-		docgenActionTab.cancel();
-		
-		// 3
-		policy.dataGather().start();
-		NavigationPage.toViewTab(AutoCaTab.DRIVER.get());
-		policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData_QuoteUpdate"), PremiumAndCoveragesTab.class, true);
-		Tab.buttonSaveAndExit.click();
-		
-		// 4
-		policy.quoteDocGen().start();
-		docgenActionTab.verify.documentsEnabled(
-				Documents.AA11CA,
-				Documents.AA43CA,
-				Documents.AHAPXX_CA,
-				Documents.AHFMXX,
-				Documents.AAIQCA
-				);
-		docgenActionTab.verify.documentsEnabled(false, 
-				Documents.AA41CA,
-				Documents.AA52CA,
-				Documents.CAU01,
-				Documents.CAU04,
-				Documents.CAU08,
-				Documents.CAU09
-				);
-		docgenActionTab.verify.documentsPresent(false, 
-				Documents.AA09CA,
-				Documents.AA47CA,
-				Documents.AA49CA,
-				Documents.AA59CA,
-				Documents.AADDCA);
-		docgenActionTab.cancel();
-		
-		// 5
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
-		policy.dataGather().getView().fillFromTo(getPolicyTD().adjust(getTestSpecificTD("TestData_Purchase").resolveLinks()), DriverActivityReportsTab.class, PurchaseTab.class, true);
-		policy.dataGather().getView().getTab(PurchaseTab.class).submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
-		
-		// 6
-		DocGenHelper.verifyDocumentsGenerated(policyNum, 
-				Documents.AA74CAA,
-				Documents.AADDCA,
-				Documents.AA43CA,
-				Documents.AA43CAB,
-				Documents.WUAECA,
-				Documents.AA10XX,
-				Documents.AA09CA,
-				Documents.AA47CA,
-				Documents.AA49CA,
-				Documents.AA02CA,
-				Documents.AA59XX,
-				Documents.AARFIXX
-				);
-		
-		// 7
-		policy.policyDocGen().start();
-		docgenActionTab.verify.documentsEnabled(
-				Documents.AA11CA,
-				Documents.AA43CA,
-				Documents.AHRCTXXPUP,
-			 // Documents.AAVICA, //784859
-				Documents.CAU01,
-				Documents.CAU02,
-				Documents.CAU04,
-				Documents.CAU07,
-				Documents.CAU08,
-				Documents.CAU09,
-				Documents.SR22SR1P,
-				Documents._605005,
-				Documents.AA06XX,
-				Documents.AA10XX
-				);
-		docgenActionTab.verify.documentsEnabled(false, 
-				Documents.AA41CA,
-				Documents.AA52CA,
-				Documents.AA53CA
-				);
-		docgenActionTab.verify.documentsPresent(false, 
-				Documents.AA09CA,
-				Documents.AA47CA,
-				Documents.AA49CA,
-				Documents.AADDCA);
-		docgenActionTab.cancel();
-		
-		// Check AA52CA for Endorsement
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
-		checkAA52CA();
-		Tab.buttonCancel.click();
-		Page.dialogConfirmation.buttonDeleteEndorsement.click();
-		
-		// Check AA52CA for Renew
-		policy.renew().start();
-		checkAA52CA();
-		Tab.buttonSaveAndExit.click();
-		
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// 1
+			createCustomerIndividual();
+			createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData_QuoteCreation")));
+
+			// 2
+			policy.quoteDocGen().start();
+			docgenActionTab.verify.documentsEnabled(softly,
+					Documents.AA11CA,
+					Documents.AHAPXX_CA,
+					Documents.AA53CA,
+					Documents.AHFMXX,
+					Documents.AAIQCA
+			);
+			docgenActionTab.verify.documentsEnabled(softly, false,
+					Documents.AA41CA,
+					Documents.AA52CA,
+					Documents.CAU01,
+					Documents.CAU04,
+					Documents.CAU08,
+					Documents.CAU09
+			);
+			docgenActionTab.cancel();
+
+			// 3
+			policy.dataGather().start();
+			NavigationPage.toViewTab(AutoCaTab.DRIVER.get());
+			policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData_QuoteUpdate"), PremiumAndCoveragesTab.class, true);
+			Tab.buttonSaveAndExit.click();
+
+			// 4
+			policy.quoteDocGen().start();
+			docgenActionTab.verify.documentsEnabled(softly,
+					Documents.AA11CA,
+					Documents.AA43CA,
+					Documents.AHAPXX_CA,
+					Documents.AHFMXX,
+					Documents.AAIQCA
+			);
+			docgenActionTab.verify.documentsEnabled(softly, false,
+					Documents.AA41CA,
+					Documents.AA52CA,
+					Documents.CAU01,
+					Documents.CAU04,
+					Documents.CAU08,
+					Documents.CAU09
+			);
+			docgenActionTab.verify.documentsPresent(softly, false,
+					Documents.AA09CA,
+					Documents.AA47CA,
+					Documents.AA49CA,
+					Documents.AA59CA,
+					Documents.AADDCA);
+			docgenActionTab.cancel();
+
+			// 5
+			policy.dataGather().start();
+			NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+			policy.dataGather().getView().fillFromTo(getPolicyTD().adjust(getTestSpecificTD("TestData_Purchase").resolveLinks()), DriverActivityReportsTab.class, PurchaseTab.class, true);
+			policy.dataGather().getView().getTab(PurchaseTab.class).submitTab();
+			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
+
+			// 6
+			DocGenHelper.verifyDocumentsGenerated(softly, policyNum,
+					Documents.AA74CAA,
+					Documents.AADDCA,
+					Documents.AA43CA,
+					Documents.AA43CAB,
+					Documents.WUAECA,
+					Documents.AA10XX,
+					Documents.AA09CA,
+					Documents.AA47CA,
+					Documents.AA49CA,
+					Documents.AA02CA,
+					Documents.AA59XX,
+					Documents.AARFIXX
+			);
+
+			// 7
+			policy.policyDocGen().start();
+			docgenActionTab.verify.documentsEnabled(softly,
+					Documents.AA11CA,
+					Documents.AA43CA,
+					Documents.AHRCTXXPUP,
+					// Documents.AAVICA, //784859
+					Documents.CAU01,
+					Documents.CAU02,
+					Documents.CAU04,
+					Documents.CAU07,
+					Documents.CAU08,
+					Documents.CAU09,
+					Documents.SR22SR1P,
+					Documents._605005,
+					Documents.AA06XX,
+					Documents.AA10XX
+			);
+			docgenActionTab.verify.documentsEnabled(softly, false,
+					Documents.AA41CA,
+					Documents.AA52CA,
+					Documents.AA53CA
+			);
+			docgenActionTab.verify.documentsPresent(softly, false,
+					Documents.AA09CA,
+					Documents.AA47CA,
+					Documents.AA49CA,
+					Documents.AADDCA);
+			docgenActionTab.cancel();
+
+			// Check AA52CA for Endorsement
+			policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
+			checkAA52CA(softly);
+			Tab.buttonCancel.click();
+			Page.dialogConfirmation.buttonDeleteEndorsement.click();
+
+			// Check AA52CA for Renew
+			policy.renew().start();
+			checkAA52CA(softly);
+			Tab.buttonSaveAndExit.click();
+		});
 	}
 
-	private void checkAA52CA(){
+	private void checkAA52CA(ETCSCoreSoftAssertions softly){
 		NavigationPage.toViewTab(AutoCaTab.FORMS.get());
-		FormsTab.tableSelectedPolicyForms.getRow("Name", "AA52CA").verify.present(false);
+		softly.assertThat(FormsTab.tableSelectedPolicyForms.getRow("Name", "AA52CA")).isPresent(false);
 		NavigationPage.toViewTab(AutoCaTab.PREMIUM_AND_COVERAGES.get());
 		premiumTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY).setValue("contains=No Coverage");
 		NavigationPage.toViewTab(AutoCaTab.FORMS.get());
-		FormsTab.tableSelectedPolicyForms.getRow("Name", "AA52CA").verify.present();
+		softly.assertThat(FormsTab.tableSelectedPolicyForms.getRow("Name", "AA52CA")).isPresent();
 	}
 }

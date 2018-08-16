@@ -4,8 +4,7 @@ package aaa.modules.regression.sales.template.functional;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
-import toolkit.webdriver.BrowserController;
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 
 public class TestViewPropertyQuoteLinkTemplate extends PolicyBaseTest {

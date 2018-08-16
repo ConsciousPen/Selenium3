@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ss;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -21,7 +22,7 @@ import aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 /**
  * @author Jelena Dembovska
@@ -45,8 +46,6 @@ public class TestPolicyEndorsementRemove extends AutoSSBaseTest {
 
 		new TestPolicyCreationBig().testPolicyCreationBig(state);
 
-		CustomAssert.enableSoftMode();
-
 		//1. initiate endorsement
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
@@ -54,7 +53,7 @@ public class TestPolicyEndorsementRemove extends AutoSSBaseTest {
 		new GeneralTab().removeInsured(2);
 
 		//3. driver tab is opened, driver which is related to removed insured is removed automatically
-		DriverTab.tableDriverList.verify.rowsCount(1);
+		assertThat(DriverTab.tableDriverList).hasRows(1);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
 
@@ -68,7 +67,7 @@ public class TestPolicyEndorsementRemove extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
 		VehicleTab.tableVehicleList.removeRow(2);
-		VehicleTab.tableVehicleList.verify.rowsCount(1);
+		assertThat(VehicleTab.tableVehicleList).hasRows(1);
 
 		//5. fill all mandatory fields required to bind
 		policy.getDefaultView().fillFromTo(class_td, VehicleTab.class, DocumentsAndBindTab.class, true);
@@ -76,14 +75,12 @@ public class TestPolicyEndorsementRemove extends AutoSSBaseTest {
 		new DocumentsAndBindTab().submitTab();
 
 		//6. check drivers and vehicles are removed
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		PolicySummaryPage.tablePolicyDrivers.verify.rowsCount(1);
-		PolicySummaryPage.tablePolicyVehicles.verify.rowsCount(1);
-		PolicySummaryPage.tableInsuredInformation.verify.rowsCount(1);
-
-		CustomAssert.assertAll();
+			softly.assertThat(PolicySummaryPage.tablePolicyDrivers).hasRows(1);
+			softly.assertThat(PolicySummaryPage.tablePolicyVehicles).hasRows(1);
+			softly.assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(1);
+		});
 	}
-
-
 }

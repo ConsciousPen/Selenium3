@@ -1,6 +1,6 @@
 package aaa.modules.regression.sales.pup;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.Map;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -44,6 +44,7 @@ public class TestQuotePrefill extends PersonalUmbrellaBaseTest {
 	private String zipCode;
 
 	@Parameters({"state"})
+	//@StateList("All")
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
 	@TestInfo(component = ComponentConstant.Sales.PUP)
 	public void testQuotePrefill(@Optional("") String state) {
@@ -60,7 +61,7 @@ public class TestQuotePrefill extends PersonalUmbrellaBaseTest {
 		checkPolicyTable();
 		prefillTab.submitTab();
 		policy.getDefaultView().fill(td.mask(prefillTab.getMetaKey()));
-		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		pupPolicyNum = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("Created PUP Policy " + pupPolicyNum);
 		checkPolicySearch();
@@ -82,7 +83,7 @@ public class TestQuotePrefill extends PersonalUmbrellaBaseTest {
 		prefillTab.searchDialog.setRawValue(getTestSpecificTD(WRONG_SEARCH_CRITERIA_KEY));
 		prefillTab.searchDialog.search();
 		//prefillTab.searchDialog.tableSearchResults.verify.present(false);
-		assertThat(!prefillTab.searchDialog.tableSearchResults.isPresent());
+		assertThat(prefillTab.searchDialog.tableSearchResults).isAbsent();
 		prefillTab.searchDialog.cancel();
 		prefillTab.buttonRemovePolicy.click();
 	}
@@ -105,6 +106,6 @@ public class TestQuotePrefill extends PersonalUmbrellaBaseTest {
 		}
 
 		//PolicySummaryPage.labelPolicyNumber.verify.value(pupPolicyNum);
-		assertThat(PolicySummaryPage.labelPolicyNumber.getValue()).isEqualTo(pupPolicyNum);
+		assertThat(PolicySummaryPage.labelPolicyNumber).hasValue(pupPolicyNum);
 	}
 }

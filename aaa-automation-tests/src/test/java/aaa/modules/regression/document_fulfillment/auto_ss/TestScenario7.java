@@ -3,12 +3,15 @@ package aaa.modules.regression.document_fulfillment.auto_ss;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.utils.StateList;
 
 /**
  * Check AH60XXA for OH
@@ -18,6 +21,7 @@ import aaa.modules.policy.AutoSSBaseTest;
 public class TestScenario7 extends AutoSSBaseTest {
 	
 	@Parameters({ "state" })
+	@StateList(states = States.OH)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC01_CreatePolicy(@Optional("") String state) {
 		mainApp().open();

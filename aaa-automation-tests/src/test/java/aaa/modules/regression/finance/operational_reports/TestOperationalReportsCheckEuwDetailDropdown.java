@@ -24,7 +24,7 @@ public class TestOperationalReportsCheckEuwDetailDropdown extends BaseTest {
      * 3. Check "View Earn, Unearned, Written Premium (EUW) - Detail" displayed in the drop down section
      */
 
-    @Test(groups = {Groups.FUNCTIONAL})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-14523")
     public void pas14523_testOperationalReportsCheckEuwDropdown() {
         opReportApp().open();

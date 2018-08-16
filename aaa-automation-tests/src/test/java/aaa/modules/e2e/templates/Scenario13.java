@@ -1,8 +1,8 @@
 package aaa.modules.e2e.templates;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.List;
-import org.assertj.core.api.SoftAssertions;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
@@ -42,6 +42,7 @@ import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class Scenario13 extends ScenarioBaseTest {
 	
@@ -76,7 +77,7 @@ public class Scenario13 extends ScenarioBaseTest {
 			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
 		}
 		policyNum = createPolicy(policyCreationTD);
-		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
@@ -92,8 +93,8 @@ public class Scenario13 extends ScenarioBaseTest {
 		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 	}
 
-	protected void generateFirstBill() {
-		generateAndCheckBill(installmentDueDates.get(1));
+	protected void generateFirstBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(1), softly);
 	}
 
 	protected void payFirstBill() {
@@ -118,7 +119,7 @@ public class Scenario13 extends ScenarioBaseTest {
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.deletePendedTransaction().perform(new SimpleDataProvider());
 		//PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-		CustomAssertions.assertThat(PolicySummaryPage.buttonPendedEndorsement).isEnabled(false);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement).isEnabled(false);
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		BillingSummaryPage.getTotalDue().verify.equals(totalDueBeforeEndorsement);
@@ -129,32 +130,32 @@ public class Scenario13 extends ScenarioBaseTest {
 			.setSubtypeReason(reason).verifyPresent(false);
 	}
 
-	protected void generateSecondBill() {
-		generateAndCheckBill(installmentDueDates.get(2));
+	protected void generateSecondBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(2), softly);
 	}
 
 	protected void paySecondBill() {
 		payAndCheckBill(installmentDueDates.get(2));
 	}
 
-	protected void generateThirdBill() {
-		generateAndCheckBill(installmentDueDates.get(3));
+	protected void generateThirdBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(3), softly);
 	}
 
 	protected void payThirdBill() {
 		payAndCheckBill(installmentDueDates.get(3));
 	}
 
-	protected void generateFourthBill() {
-		generateAndCheckBill(installmentDueDates.get(4));
+	protected void generateFourthBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(4), softly);
 	}
 
 	protected void payFourthBill() {
 		payAndCheckBill(installmentDueDates.get(4));
 	}
 
-	protected void generateFifthBill() {
-		generateAndCheckBill(installmentDueDates.get(5));
+	protected void generateFifthBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(5), softly);
 	}
 
 	protected void removeAutoPay() {
@@ -163,7 +164,7 @@ public class Scenario13 extends ScenarioBaseTest {
 		billingAccount.update().perform(tdBilling.getTestData("Update", "TestData_RemoveAutopay"));
 		billingAccount.update().start();
 		//new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).verify.value(false);
-		CustomAssertions.assertThat(new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).getValue()).isEqualTo(false);
+		CustomAssertions.assertThat(new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY)).hasValue(false);
 		Tab.buttonCancel.click();
 	}
 
@@ -186,7 +187,7 @@ public class Scenario13 extends ScenarioBaseTest {
 	}
 
 	//DD6-21
-	protected void changePaymentPlan() {
+	protected void changePaymentPlan(ETCSCoreSoftAssertions softly) {
 		LocalDateTime endorseDueDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(6)).minusDays(1);
 		TimeSetterUtil.getInstance().nextPhase(endorseDueDate);
 
@@ -221,11 +222,9 @@ public class Scenario13 extends ScenarioBaseTest {
 
 		installmentDueDatesAfterEndorsement = BillingHelper.getInstallmentDueDates();
 		List<Dollar> installmentDues = BillingHelper.getInstallmentDues();
-		SoftAssertions.assertSoftly(softly -> {
-			softly.assertThat(installmentDueDatesAfterEndorsement.size()).as("Billing Installments count after payment plan changed to Semi-Annual")
-				.isEqualTo(installmentsCountAfterEndorsement);
-			softly.assertThat(installmentDues.get(6)).as("Last installment amount is incorrect").isEqualTo(totalDueAfterEndorsement);
-		});
+		softly.assertThat(installmentDueDatesAfterEndorsement.size()).as("Billing Installments count after payment plan changed to Semi-Annual")
+			.isEqualTo(installmentsCountAfterEndorsement);
+		softly.assertThat(installmentDues.get(6)).as("Last installment amount is incorrect").isEqualTo(totalDueAfterEndorsement);
 
 		if (!getPolicyType().isCaProduct()) {
 			if (!getPolicyType().equals(PolicyType.PUP)) {
@@ -240,8 +239,8 @@ public class Scenario13 extends ScenarioBaseTest {
 		}
 	}
 
-	protected void generateSixthBill() {
-		generateAndCheckBill(installmentDueDates.get(6));
+	protected void generateSixthBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(6), softly);
 	}
 
 	protected void paySixthBill() {
@@ -256,7 +255,7 @@ public class Scenario13 extends ScenarioBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().verifyManualPaymentAccepted(DateTimeUtils.getCurrentDateTime(), minDue.negate());
 	}
 
-	protected void smallBalanceGeneration() {
+	protected void smallBalanceGeneration(ETCSCoreSoftAssertions softly) {
 		LocalDateTime smallBalanceGenDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1);
 		TimeSetterUtil.getInstance().nextPhase(smallBalanceGenDate);
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
@@ -264,16 +263,14 @@ public class Scenario13 extends ScenarioBaseTest {
 		Dollar amount = new Dollar(4.99);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(smallBalanceGenDate)
+		new BillingPaymentsAndTransactionsVerifier(softly).setTransactionDate(smallBalanceGenDate)
 			.setAmount(amount.negate())
 				.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
 				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.SMALL_BALANCE_WRITE_OFF)
 				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED).verifyPresent();
 
-		SoftAssertions.assertSoftly(softly -> {
-			softly.assertThat(BillingSummaryPage.getTotalDue()).as("Total Due is not $0.00").isEqualTo(new Dollar(0));
-			softly.assertThat(BillingSummaryPage.getMinimumDue()).as("Min Due is not $0.00").isEqualTo(new Dollar(0));
-		});
+		softly.assertThat(BillingSummaryPage.getTotalDue()).as("Total Due is not $0.00").isEqualTo(new Dollar(0));
+		softly.assertThat(BillingSummaryPage.getMinimumDue()).as("Min Due is not $0.00").isEqualTo(new Dollar(0));
 
 	}
 
@@ -285,7 +282,7 @@ public class Scenario13 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
-		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
@@ -300,7 +297,7 @@ public class Scenario13 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
-		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
 	}
 
@@ -321,19 +318,17 @@ public class Scenario13 extends ScenarioBaseTest {
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		//PolicySummaryPage.buttonRenewals.verify.enabled();
 		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 	}
 
-	protected void renewalOfferGeneration() {
+	protected void renewalOfferGeneration(ETCSCoreSoftAssertions softly) {
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		//PolicySummaryPage.buttonRenewals.verify.enabled();
 		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
@@ -347,16 +342,14 @@ public class Scenario13 extends ScenarioBaseTest {
 		BillingSummaryPage.buttonHidePriorTerms.click();
 
 		installmentDueDatesForRenewal = BillingHelper.getInstallmentDueDates();
-		SoftAssertions.assertSoftly(softly -> {
-			softly.assertThat(installmentDueDatesForRenewal.size()).as("Billing Installments count for renewal is incorrect")
-				.isEqualTo(installmentsCountForRenewal);
-		});
+		softly.assertThat(installmentDueDatesForRenewal.size()).as("Billing Installments count for renewal is incorrect")
+			.isEqualTo(installmentsCountForRenewal);
 
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferGenDate)
 				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
 
 		if (getState().equals(Constants.States.CA)) {
-			verifyCaRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCountForRenewal );
+			verifyCaRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCountForRenewal, softly);
 		}
 
 		if (verifyPligaOrMvleFee(renewOfferGenDate, policyTerm, totalVehiclesNumber)) {

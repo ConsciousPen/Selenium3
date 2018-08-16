@@ -5,10 +5,12 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import toolkit.utils.TestInfo;
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.template.PolicyCopy;
+import aaa.utils.StateList;
 
 public class TestPolicyCopy extends PolicyCopy {
 	@Override
@@ -27,6 +29,7 @@ public class TestPolicyCopy extends PolicyCopy {
     * 5. Verify that new policy number is not the same as initial policy number;
     **/
 	@Parameters({"state"})
+	@StateList(states =  States.CA)
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
     public void testPolicyCopy(@Optional("CA") String state) {
