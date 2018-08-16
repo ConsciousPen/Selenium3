@@ -140,7 +140,7 @@ public class CsaaXmlClass {
 		if (returnValue) {
 			StateList statesAnn = getAnnotation(clazz, methodName, StateList.class);
 			if (statesAnn != null) {
-				returnValue = Arrays.asList(statesAnn.states()).contains(state) && !Arrays.asList(statesAnn.statesExcept()).contains(state);
+				returnValue = Arrays.asList(statesAnn.states()).contains(state) || !Arrays.asList(statesAnn.statesExcept()).contains(state);
 			}
 		}
 		return returnValue;
