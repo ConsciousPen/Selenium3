@@ -231,7 +231,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		String policyNumber = createPolicyForTD(testData);
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 		String legacyPolicyNumber = policy.policyInquiry().start().getView().getTab(GeneralTab.class).getInquiryAssetList().
-				getAsset(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER.getLabel()).getValue().toString();
+				getStaticElement(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER).getValue();
 		log.info("Conversion Home policy number: " + policyNumber + " with legacy number: " + legacyPolicyNumber);
 
 		renewalOfferCoverLetterJobExecution(expirationDate, policyNumber);
@@ -261,7 +261,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		String policyNumber = createPolicyForTD(testData);
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 		String legacyPolicyNumber = policy.policyInquiry().start().getView().getTab(GeneralTab.class).getInquiryAssetList().
-				getAsset(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER.getLabel()).getValue().toString();
+				getStaticElement(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER).getValue();
 		log.info("Conversion Home policy number: " + policyNumber + " with legacy number: " + legacyPolicyNumber);
 
 		renewalOfferCoverLetterJobExecution(expirationDate, policyNumber);
@@ -495,7 +495,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		String policyNumber = createPolicyForTD(testData);
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 		String legacyPolicyNumber = policy.policyInquiry().start().getView().getTab(GeneralTab.class).getInquiryAssetList().
-				getAsset(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER.getLabel()).getValue().toString();
+				getStaticElement(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER).getValue();
 		log.info("Conversion Home policy number: " + policyNumber + " with legacy number: " + legacyPolicyNumber);
 
 		billFinalxpNoticeJobExecution(expirationDate);
@@ -528,7 +528,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		String policyNumber = createPolicyForTD(testData);
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 		String legacyPolicyNumber = policy.policyInquiry().start().getView().getTab(GeneralTab.class).getInquiryAssetList().
-				getAsset(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER.getLabel()).getValue().toString();
+				getStaticElement(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER).getValue();
 		log.info("Conversion Home policy number: " + policyNumber + " with legacy number: " + legacyPolicyNumber);
 
 		billFirstReminderNoticeJobExecution(expirationDate);

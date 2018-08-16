@@ -1,5 +1,6 @@
 package aaa.modules.regression.conversions.auto_ss;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import org.testng.ITestContext;
 import org.testng.annotations.Optional;
@@ -37,70 +38,70 @@ import toolkit.utils.TestInfo;
 public class MaigConversionTest extends AutoSSBaseTest {
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
 	public void maigConversionTest1(@Optional("VA") String state, ITestContext context) {
 		maigConversion("1.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
 	public void maigConversionTest2(@Optional("DE") String state, ITestContext context) {
 		maigConversion("2.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
 	public void maigConversionTest3(@Optional("PA") String state, ITestContext context) {
 		maigConversion("3.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
 	public void maigConversionTest4(@Optional("MD") String state, ITestContext context) {
 		maigConversion("4.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
 	public void maigConversionTest5(@Optional("NJ") String state, ITestContext context) {
 		maigConversion("5.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
 	public void maigConversionTest_customerDeclined1(@Optional("VA") String state, ITestContext context) {
 		maigConversion_customerDeclined("1.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
 	public void maigConversionTest_customerDeclined2(@Optional("DE") String state, ITestContext context) {
 		maigConversion_customerDeclined("2.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
 	public void maigConversionTest_customerDeclined3(@Optional("PA") String state, ITestContext context) {
 		maigConversion_customerDeclined("3.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
 	public void maigConversionTest_customerDeclined4(@Optional("MD") String state, ITestContext context) {
 		maigConversion_customerDeclined("4.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
 	public void maigConversionTest_customerDeclined5(@Optional("NJ") String state, ITestContext context) {
 		maigConversion_customerDeclined("5.xml", context);
@@ -143,7 +144,7 @@ public class MaigConversionTest extends AutoSSBaseTest {
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	public void maigConversion_customerDeclined(String file, ITestContext context) {
@@ -189,7 +190,7 @@ public class MaigConversionTest extends AutoSSBaseTest {
 		new DocumentsAndBindTab().submitTab();
 
 		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(effDate);

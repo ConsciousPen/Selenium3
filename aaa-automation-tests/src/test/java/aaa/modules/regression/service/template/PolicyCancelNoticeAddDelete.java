@@ -2,9 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.template;
 
-
-import static org.assertj.core.api.Assertions.assertThat;
-
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -29,20 +27,19 @@ public abstract class PolicyCancelNoticeAddDelete extends PolicyBaseTest {
     	
         mainApp().open();
           
-        getCopiedPolicy();       
+        getCopiedPolicy();
         
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
-        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
         log.info("TEST: Cancel Notice for Policy #" + policyNumber);
         policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData"));
-        assertThat(PolicySummaryPage.labelCancelNotice.isVisible()).isTrue();
+        assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
         
         log.info("TEST: Delete Cancel Notice for Policy #" + policyNumber);
 		policy.deleteCancelNotice().perform(new SimpleDataProvider());
-		 assertThat(PolicySummaryPage.labelCancelNotice.isPresent()).isFalse();
-        
+		assertThat(PolicySummaryPage.labelCancelNotice).isPresent(false);
 
     }   
 }

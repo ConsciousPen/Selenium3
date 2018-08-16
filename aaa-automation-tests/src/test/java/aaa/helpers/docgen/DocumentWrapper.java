@@ -1,5 +1,6 @@
 package aaa.helpers.docgen;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +12,7 @@ import aaa.helpers.xml.model.StandardDocumentRequest;
 import aaa.main.enums.DocGenEnum;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class DocumentWrapper {
 	public Verify verify = new Verify();
@@ -81,14 +82,34 @@ public class DocumentWrapper {
 			exists(expectedValue, null, searchFilter);
 		}
 
+		public <D> void exists(boolean expectedValue, SearchBy<?, D> searchFilter, ETCSCoreSoftAssertions softly) {
+			exists(expectedValue, null, searchFilter, softly);
+		}
+
 		public <D> void exists(boolean expectedValue, String assertionMessage, SearchBy<?, D> searchFilter) {
+			exists(expectedValue, assertionMessage, searchFilter, null);
+		}
+
+		public <D> void exists(boolean expectedValue, String assertionMessage, SearchBy<?, D> searchFilter, ETCSCoreSoftAssertions softly) {
 			assertionMessage =
 					Objects.isNull(assertionMessage) ? String.format("Entries are %1$s in xml file by search criteria:\n%2$s", expectedValue ? "absent" : "present", searchFilter) : assertionMessage;
-			CustomAssert.assertEquals(assertionMessage, getList(searchFilter).isEmpty(), !expectedValue);
+			if (softly == null) {
+				assertThat(getList(searchFilter).isEmpty()).as(assertionMessage).isEqualTo(!expectedValue);
+			} else {
+				softly.assertThat(getList(searchFilter).isEmpty()).as(assertionMessage).isEqualTo(!expectedValue);
+			}
 		}
 
 		public void mapping(TestData td, String policyNumber) {
 			mapping(true, td, policyNumber);
+		}
+
+		public void mapping(TestData td, String policyNumber, ETCSCoreSoftAssertions softly) {
+			mapping(true, td, policyNumber, softly);
+		}
+
+		public void mapping(boolean expectedValue, TestData td, String policyNumber) {
+			mapping(expectedValue, td, policyNumber, null);
 		}
 
 		/**
@@ -98,7 +119,7 @@ public class DocumentWrapper {
 		 * @param td TestData defined for documents mapping check.
 		 * @param policyNumber Policy/Quote Number
 		 */
-		public void mapping(boolean expectedValue, TestData td, String policyNumber) {
+		public void mapping(boolean expectedValue, TestData td, String policyNumber, ETCSCoreSoftAssertions softly) {
 			for (String docKey : td.getKeys()) {
 				DocGenEnum.Documents document = null;
 				if (!"DocumentPackageData".equals(docKey)) {
@@ -122,11 +143,11 @@ public class DocumentWrapper {
 									if ("DocumentPackageData".equals(docKey)) {
 										exists(expectedValue, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber)
 												.documentPackageData.documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice
-												.textField(testFieldValue));
+												.textField(testFieldValue), softly);
 									} else {
 										exists(expectedValue, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber)
 												.document.templateId(document.getIdInXml()).documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice
-												.textField(testFieldValue));
+												.textField(testFieldValue), softly);
 									}
 								}
 
@@ -135,11 +156,11 @@ public class DocumentWrapper {
 									if ("DocumentPackageData".equals(docKey)) {
 										exists(expectedValue, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber)
 												.documentPackageData.documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice
-												.dateTimeField(dateTimeFieldValue));
+												.dateTimeField(dateTimeFieldValue), softly);
 									} else {
 										exists(expectedValue, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber)
 												.document.templateId(document.getIdInXml()).documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice
-												.dateTimeField(dateTimeFieldValue));
+												.dateTimeField(dateTimeFieldValue), softly);
 									}
 								}
 							}

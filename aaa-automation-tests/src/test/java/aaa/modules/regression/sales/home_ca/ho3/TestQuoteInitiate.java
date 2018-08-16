@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -36,15 +37,15 @@ public class TestQuoteInitiate extends HomeCaHO3BaseTest {
 
 		CustomerSummaryPage.buttonAddQuote.click();
 		QuoteSummaryPage qsp = new QuoteSummaryPage();
-		qsp.buttonAddNewQuote.verify.enabled();
+		assertThat(qsp.buttonAddNewQuote).isEnabled();
 		qsp.initiateQuote(getPolicyType());
 
-		policy.getDefaultView().getTab(GeneralTab.class).getAssetList().verify.enabled();
+		assertThat(policy.getDefaultView().getTab(GeneralTab.class).getAssetList()).isEnabled();
 		GeneralTab.buttonSaveAndExit.click();
-		PolicySummaryPage.labelPolicyNumber.verify.present();
+		assertThat(PolicySummaryPage.labelPolicyNumber).isPresent();
 
 		log.info("Initiated Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.DATA_GATHERING);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.DATA_GATHERING);
 	}
 }

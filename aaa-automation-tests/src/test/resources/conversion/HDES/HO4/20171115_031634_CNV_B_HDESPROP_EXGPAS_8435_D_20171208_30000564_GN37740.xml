@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005301</agencyLocation>
+		<agentCd>70683577</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<CaliforniaVeterans>false</CaliforniaVeterans>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2018-01-28T00:00:00</effective>
+		<expiration>2019-01-28T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>HDES</importedFrom>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>HO4</policyFormCd>
+		<preConversionPolicyNumber>GN37740</preConversionPolicyNumber>
+		<preConversionPolicyPremium>140</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>GN37740</sourcePolicyNum>
+		<subProducerCd>70683577</subProducerCd>
+		<tollNumberCd>xxx</tollNumberCd>
+		<underwriterCd>CSAAIB</underwriterCd>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+			<policyType>BASIC</policyType>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>FAIRFIELD</dwellAddressCity>
+			<dwellAddressLine1>2013 HAMPTON PL</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94533</dwellAddressZip>
+			<expirationDate>2018-03-08T00:00:00</expirationDate>
+			<orderDate>2017-12-08T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>7072463084</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>Yes</insurerCd>
+			<insurerName>EARLE</insurerName>
+			<policyNumber>4290052430123911</policyNumber>
+		</AAAHOMembership>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1955-01-24T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>MARIGRACE</firstName>
+			<lastName>EARLE</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>2013 HAMPTON PL</addressLine1>
+				<city>FAIRFIELD</city>
+				<dateOfBirth>1955-01-24T00:00:00</dateOfBirth>
+				<expirationDt>2018-02-06T00:00:00</expirationDt>
+				<firstName>MARIGRACE</firstName>
+				<lastName>EARLE</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-12-08T00:00:00</orderDate>
+				<postalCode>94533</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>2013 HAMPTON PL</addressLine1>
+				<city>FAIRFIELD</city>
+				<countryCd>US</countryCd>
+				<postalCode>94533</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1957-01-04T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>STANLEY</firstName>
+			<lastName>EARLE</lastName>
+			<middleName>K</middleName>
+			<occupationDesc>Unknown</occupationDesc>
+			<relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>2013 HAMPTON PL</addressLine1>
+				<city>FAIRFIELD</city>
+				<dateOfBirth>1957-01-04T00:00:00</dateOfBirth>
+				<expirationDt>2018-02-06T00:00:00</expirationDt>
+				<firstName>STANLEY</firstName>
+				<lastName>EARLE</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-12-08T00:00:00</orderDate>
+				<postalCode>94533</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>2013 HAMPTON PL</addressLine1>
+				<city>FAIRFIELD</city>
+				<countryCd>US</countryCd>
+				<postalCode>94533</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Insured</billToAtRenewal>
+			<paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>standardHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2016-01-01T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>2</noOfYearsWithHO>
+			<policyType>HO4</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAMembershipOrder state="Created">
+			<lastName>EARLE</lastName>
+			<membershipNumber>4290052430123911</membershipNumber>
+			<orderDate>2017-12-08T00:00:00</orderDate>
+			<receiptDate>2017-12-08T00:00:00</receiptDate>
+			<status>Active</status>
+		</AAAMembershipOrder>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>FAIRFIELD</dwellAddressCity>
+			<dwellAddressLine1>2013 HAMPTON PL</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94533</dwellAddressZip>
+			<expirationDate>2018-02-06T00:00:00</expirationDate>
+			<orderDate>2017-12-08T00:00:00</orderDate>
+			<ppcValue>3</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<PremisesEndrosInd>false</PremisesEndrosInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>1</aaaDwellingUsage>
+			<aaaFirelineScore>0</aaaFirelineScore>
+			<aaanumberofResidents>9999</aaanumberofResidents>
+			<addressLine1>2013 HAMPTON PL</addressLine1>
+			<city>FAIRFIELD</city>
+			<numberOfFamilies>1</numberOfFamilies>
+			<postalCode>94533</postalCode>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<woodStoveInd>false</woodStoveInd>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>16100</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>3300</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>100000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOConstructionInfo state="Created">
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<livingArea>9999</livingArea>
+				<numberOfStories>1</numberOfStories>
+				<personalPropertyValue>16100</personalPropertyValue>
+				<roofType>Other</roofType>
+				<yearBuilt>2000</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>FAIRFIELD</fireDistrict>
+				<oldPpcValue>3</oldPpcValue>
+				<ppcValue>3</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>2013 HAMPTON PL</addressLine1>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>FAIRFIELD</city>
+					<county>Solano</county>
+					<postalCode>94533</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<HO29EndorsementForm state="Created"/>
+		<HO60EndorsementForm state="Created"/>
+		<HO90EndorsementForm state="Created"/>
+	</AAAHOPolicy>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Conversion: Mailing address validated and standardized</title>
+		<updatedOn>2017-12-08T00:00:00</updatedOn>
+		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 2013 HAMPTON PL  FAIRFIELD CA 94533 to 2013 HAMPTON PL  FAIRFIELD CA 94533</userText>
+	</userNote>
+</Policy>

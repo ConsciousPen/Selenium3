@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.template;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.NavigationEnum;
 import aaa.main.enums.SearchEnum.SearchBy;
 import aaa.main.enums.SearchEnum.SearchFor;
@@ -53,33 +54,33 @@ public class QuoteManualTask extends BaseTest {
 				MyWorkMetaData.CreateTaskActionTab.TASK_NAME.getLabel());
 		
 		PolicySummaryPage.buttonTasks.click();
-		MyWorkSummaryPage.tableTasks.getRow(MyWorkTasksTable.TASK_NAME, taskName).verify.present();
+		assertThat(MyWorkSummaryPage.tableTasks.getRow(MyWorkTasksTable.TASK_NAME, taskName)).isPresent();
 		String taskId = MyWorkSummaryPage.getTaskIdNyName(taskName);
 		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
 		CustomerSummaryPage.buttonTasks.click();
-		MyWorkSummaryPage.tableTasks.getRow(MyWorkTasksTable.TASK_ID, taskId).verify.present();
+		assertThat(MyWorkSummaryPage.tableTasks.getRow(MyWorkTasksTable.TASK_ID, taskId)).isPresent();
 		MyWorkSummaryPage.buttonCancel.click();
 		
 		NavigationPage.toMainTab(NavigationEnum.CustomerSummaryTab.ACCOUNT.get());
 		CustomerSummaryPage.buttonTasks.click();
-		MyWorkSummaryPage.tableTasks.getRow(MyWorkTasksTable.TASK_ID, taskId).verify.present();
+		assertThat(MyWorkSummaryPage.tableTasks.getRow(MyWorkTasksTable.TASK_ID, taskId)).isPresent();
 		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.MY_WORK.get());
 		myWork.filterTask().performByReferenceId(quoteNum);
-		MyWorkSummaryPage.tableTasks.getRow(MyWorkTasksTable.TASK_NAME, taskName).verify.present();
+		assertThat(MyWorkSummaryPage.tableTasks.getRow(MyWorkTasksTable.TASK_NAME, taskName)).isPresent();
 		
 		MyWorkSummaryPage.openTaskDetailsById(taskId);
-		TaskDetailsSummaryPage.taskID.verify.value(taskId);
-		TaskDetailsSummaryPage.referanceId.verify.value(quoteNum);
+		assertThat(TaskDetailsSummaryPage.taskID).hasValue(taskId);
+		assertThat(TaskDetailsSummaryPage.referanceId).hasValue(quoteNum);
 		TaskDetailsSummaryPage.buttonCancel.click();
 		
 		myWork.completeTask().perform(taskId, tdMyWork.getTestData("CompleteTask", "TestData"));
-		MyWorkSummaryPage.tableTasks.getRow(MyWorkTasksTable.TASK_ID, taskId).verify.present(false);
+		assertThat(MyWorkSummaryPage.tableTasks.getRow(MyWorkTasksTable.TASK_ID, taskId)).isPresent(false);
 		
 		SearchPage.search(SearchFor.QUOTE, SearchBy.POLICY_QUOTE, quoteNum);
 		PolicySummaryPage.buttonTasks.click();
-		MyWorkSummaryPage.tableTasks.getRow(MyWorkTasksTable.TASK_ID, taskId).verify.present(false);
+		assertThat(MyWorkSummaryPage.tableTasks.getRow(MyWorkTasksTable.TASK_ID, taskId)).isPresent(false);
 	}
 	
 }

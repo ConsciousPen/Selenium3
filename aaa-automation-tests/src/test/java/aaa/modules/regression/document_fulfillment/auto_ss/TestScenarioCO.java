@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 import toolkit.datax.TestData;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -17,12 +18,14 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.utils.StateList;
 
 public class TestScenarioCO extends AutoSSBaseTest {
 	private LocalDateTime policyExpirationDate;
 	private String policyNumber;
 
 	@Parameters({ "state" })
+	@StateList(states = States.CO)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC01_CreatePolicy(@Optional("") String state) {
 		mainApp().open();
@@ -39,6 +42,7 @@ public class TestScenarioCO extends AutoSSBaseTest {
 	}
 	
 	@Parameters({ "state" })
+	@StateList(states = States.CO)
 	@Test(groups = { Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC02_RenewalImageGeneration(@Optional("") String state) {
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
@@ -55,6 +59,7 @@ public class TestScenarioCO extends AutoSSBaseTest {
 	}
 
 	@Parameters({ "state" })
+	@StateList(states = States.CO)
 	@Test(groups = { Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC03_RenewaOfferGeneration(@Optional("") String state) {
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
@@ -65,6 +70,7 @@ public class TestScenarioCO extends AutoSSBaseTest {
 	}
 	
 	@Parameters({ "state" })
+	@StateList(states = States.CO)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC04_RenewaOfferBillGeneration(@Optional("") String state) {
 		LocalDateTime renewOfferBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);

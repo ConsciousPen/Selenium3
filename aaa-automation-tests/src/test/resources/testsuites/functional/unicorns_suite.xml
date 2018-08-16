@@ -59,7 +59,7 @@
             <class name="aaa.modules.regression.conversions.pup.functional.TestImmediatePriorCarrierDropdown"/>
         </classes>
     </test>
-    <test name="PAS-17479 earthquake endorsement OK">
+    <test name="PAS-17479 earthquake endorsement OK" parallel="methods" thread-count="1024">
         <parameter name="state" value="OK"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestEarthquakeEndorsements">

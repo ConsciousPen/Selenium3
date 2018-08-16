@@ -3,7 +3,7 @@
 package aaa.main.pages.summary;
 
 import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.*;
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -22,7 +22,7 @@ import aaa.main.enums.PolicyConstants;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
@@ -193,27 +193,27 @@ public class PolicySummaryPage extends SummaryPage {
     }
 
 	public static void verifyCancelNoticeFlagPresent() {
-		labelCancelNotice.verify.present("'Cancel Notice' flag is present");
-		labelCancelNotice.verify.value("Cancel Notice");
+		assertThat(labelCancelNotice).as("'Cancel Notice' flag is present").isPresent();
+		assertThat(labelCancelNotice).hasValue("Cancel Notice");
 	}
 
 	public static void verifyCancelNoticeFlagNotPresent() {
-		labelCancelNotice.verify.present("'Cancel Notice' flag is absent", false);
+		assertThat(labelCancelNotice).as("'Cancel Notice' flag is absent").isPresent(false);
 	}
 
 	public static void verifyLapseExistFlagPresent() {
-		labelLapseExist.verify.present("Lapse period flag is present");
-		labelLapseExist.verify.value("Term includes a lapse period");
+		assertThat(labelLapseExist).as("Lapse period flag is present").isPresent();
+		assertThat(labelLapseExist).hasValue("Term includes a lapse period");
 	}
 
 	public static void verifyDoNotRenewFlagPresent() {
-		labelDoNotRenew.verify.present("'Do Not Renew' flag is present");
-		labelDoNotRenew.verify.value("Do Not Renew");
+		assertThat(labelDoNotRenew).as("'Do Not Renew' flag is present").isPresent();
+		assertThat(labelDoNotRenew).hasValue("Do Not Renew");
 	}
 
 	public static void verifyManualRenewFlagPresent() {
-		labelManualRenew.verify.present("'Manual Renew' flag is present");
-		labelManualRenew.verify.value("Manual Renew");
+		assertThat(labelManualRenew).as("'Manual Renew' flag is present").isPresent();
+		assertThat(labelManualRenew).hasValue("Manual Renew");
 	}
 
 	public static class TransactionHistory {
@@ -359,15 +359,15 @@ public class PolicySummaryPage extends SummaryPage {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 	}
 
-	public static void transactionHistoryRecordCountCheck(String policyNumber, int rowCount, String value) {
+	public static void transactionHistoryRecordCountCheck(String policyNumber, int rowCount, String value, ETCSCoreSoftAssertions softly) {
 		buttonTransactionHistory.click();
-		CustomAssert.assertEquals(tableTransactionHistory.getRowsCount(), rowCount);
+		softly.assertThat(tableTransactionHistory).hasRows(rowCount);
 		String valueShort = "";
 		if (!StringUtils.isEmpty(value)) {
 			valueShort = value.substring(0, 20);
-			assertThat(tableTransactionHistory.getRow(1).getCell("Reason").getHintValue()).contains(value);
+			softly.assertThat(tableTransactionHistory.getRow(1).getCell("Reason").getHintValue()).contains(value);
 		}
-		assertThat(tableTransactionHistory.getRow(1).getCell("Reason").getValue()).contains(valueShort);
+		softly.assertThat(tableTransactionHistory.getRow(1).getCell("Reason").getValue()).contains(valueShort);
 		/*not needed, because  getHint value already works
 		String transactionHistoryQuery = "select * from(\n"
 				+ "select pt.TXREASONTEXT\n"
@@ -377,7 +377,7 @@ public class PolicySummaryPage extends SummaryPage {
 				+ "        where POLICYNUMBER = '%s')\n"
 				+ "    order by pt.TXDATE desc)\n"
 				+ "    where rownum=1";
-		assertThat(DBService.get().getValue(String.format(transactionHistoryQuery, policyNumber)).orElse(StringUtils.EMPTY)).isEqualTo(value);*/
+		assertThat(DBService.get().getValue(String.format(transactionHistoryQuery, policyNumber)).orElse(StringUtils.EMPTY)).hasValue(value);*/
 	}
 
 	public static String getVehicleInfo(int rowNum) {

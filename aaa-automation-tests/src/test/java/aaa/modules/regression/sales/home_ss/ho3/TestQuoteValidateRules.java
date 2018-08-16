@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.main.enums.ErrorEnum;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -11,6 +12,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
+import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
@@ -71,18 +73,19 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
         generalTab.fillTab(td);
         generalTab.fillTab(effective_date_today_plus_91_days);
         
-        generalTab.verifyFieldHasMessage("Effective date", "Policy effective date cannot be more than 90 days from today's date.");
-        
+        assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.EFFECTIVE_DATE)).hasWarningWithText("Policy effective date cannot be more than 90 days from today's date.");
+
         generalTab.fillTab(effective_date_today_plus_10_days);
         generalTab.submitTab();
         
         policy.getDefaultView().fillFromTo(td, ApplicantTab.class, PurchaseTab.class, true);  
         new PurchaseTab().submitTab();
                 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);                
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_PENDING);
 	}
 
 	@Parameters({"state"})
+	@StateList(statesExcept = { States.CA })
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3) 
 	public void testBackdatedPolicy(@Optional("") String state) {
@@ -118,7 +121,7 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
         policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);  
         new PurchaseTab().submitTab();
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);             
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 	
 }

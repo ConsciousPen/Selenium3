@@ -1,5 +1,6 @@
 package aaa.modules.regression.common;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +18,7 @@ import aaa.modules.BaseTest;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 import toolkit.webdriver.controls.AbstractStringElement;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.TextBox;
@@ -66,8 +67,7 @@ public class TestSearchPageFillingAndWarnings extends BaseTest {
 		SearchPage.search(DataProviderFactory.dataOf(SearchPage.assetListSearch.getName(), searchRandomData));
 
 		//Step #3
-		((AssetList) SearchPage.assetListSearch).verify.someValues(searchRandomData);
-
+		assertThat((AssetList) SearchPage.assetListSearch).hasPartialValue(searchRandomData);
 		//Steps #4-5
 		SearchPage.clear();
 		for (String searchByField : SearchPage.assetListSearch.getAssetNames()) {
@@ -75,7 +75,7 @@ public class TestSearchPageFillingAndWarnings extends BaseTest {
 			if (searchByField.equals(SearchPage.LABEL_SEARCH)) {
 				//((RadioGroup) searchByControl).verify.value(defaultSearchForCriteria.get());
 			} else {
-				((AbstractStringElement<?>) searchByControl).verify.value("");
+				assertThat(((AbstractStringElement<?>) searchByControl)).hasValue("");
 			}
 		}
 	}
@@ -124,121 +124,119 @@ public class TestSearchPageFillingAndWarnings extends BaseTest {
 		// Check that result set too large warning message appear
 		SearchPage.search(getRandomSearchForCriteria(), SearchEnum.SearchBy.PRODUCT_ID, "Auto");
 
-		CustomAssert.enableSoftMode();
-		SearchPage.verifyWarningsExist(resultSetTooLargeWarning);
+		CustomSoftAssertions.assertSoftly(softly -> {
+			SearchPage.verifyWarningsExist(softly, resultSetTooLargeWarning);
 
-		TestData wrongSearchData = DataProviderFactory.emptyData()
-				.adjust(SearchPage.LABEL_SEARCH, getRandomSearchForCriteria().get())
-				.adjust(SearchMetaData.Search.POLICY_QUOTE.getLabel(), RandomStringUtils.randomAlphabetic(4) + RandomStringUtils.randomNumeric(10))
+			TestData wrongSearchData = DataProviderFactory.emptyData()
+					.adjust(SearchPage.LABEL_SEARCH, getRandomSearchForCriteria().get())
+					.adjust(SearchMetaData.Search.POLICY_QUOTE.getLabel(), RandomStringUtils.randomAlphabetic(4) + RandomStringUtils.randomNumeric(10))
 
-				// Check less than minimum allowable values length warning messages
-				.adjust(SearchMetaData.Search.ACCOUNT.getLabel(), RandomStringUtils.randomNumeric(MIN_ACC_NUMBER_LENGTH - 1))
-				.adjust(SearchMetaData.Search.PHONE.getLabel(), RandomStringUtils.randomNumeric(PHONE_NUMBER_LENGTH - 1))
-				.adjust(SearchMetaData.Search.SSN.getLabel(), RandomStringUtils.randomNumeric(SSN_LENGTH - 1));
+					// Check less than minimum allowable values length warning messages
+					.adjust(SearchMetaData.Search.ACCOUNT.getLabel(), RandomStringUtils.randomNumeric(MIN_ACC_NUMBER_LENGTH - 1))
+					.adjust(SearchMetaData.Search.PHONE.getLabel(), RandomStringUtils.randomNumeric(PHONE_NUMBER_LENGTH - 1))
+					.adjust(SearchMetaData.Search.SSN.getLabel(), RandomStringUtils.randomNumeric(SSN_LENGTH - 1));
 
-		TestData td = DataProviderFactory.emptyData().adjust(searchAl, wrongSearchData);
-		SearchPage.search(td);
-		SearchPage.verifyWarningsExist(accNumberLengthWarning, phoneFormatWarning, ssnLengthWarning);
-		SearchPage.verifyWarningsExist(false, String.format(notFoundWarningTemplate, wrongSearchData.getValue(SearchPage.LABEL_SEARCH)));
+			TestData td = DataProviderFactory.emptyData().adjust(searchAl, wrongSearchData);
+			SearchPage.search(td);
+			SearchPage.verifyWarningsExist(softly, accNumberLengthWarning, phoneFormatWarning, ssnLengthWarning);
+			SearchPage.verifyWarningsExist(softly, false, String.format(notFoundWarningTemplate, wrongSearchData.getValue(SearchPage.LABEL_SEARCH)));
 
-		// Check with minimum allowable values length
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.ACCOUNT.getLabel()), RandomStringUtils.randomNumeric(MIN_ACC_NUMBER_LENGTH));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.PHONE.getLabel()), RandomStringUtils.randomNumeric(PHONE_NUMBER_LENGTH));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.SSN.getLabel()), RandomStringUtils.randomNumeric(SSN_LENGTH));
-		SearchPage.search(td);
-		SearchPage.verifyWarningsExist(false, accNumberLengthWarning, phoneFormatWarning, ssnLengthWarning);
-		SearchPage.verifyWarningsExist(String.format(notFoundWarningTemplate, wrongSearchData.getValue(SearchPage.LABEL_SEARCH)));
+			// Check with minimum allowable values length
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.ACCOUNT.getLabel()), RandomStringUtils.randomNumeric(MIN_ACC_NUMBER_LENGTH));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.PHONE.getLabel()), RandomStringUtils.randomNumeric(PHONE_NUMBER_LENGTH));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.SSN.getLabel()), RandomStringUtils.randomNumeric(SSN_LENGTH));
+			SearchPage.search(td);
+			SearchPage.verifyWarningsExist(softly, false, accNumberLengthWarning, phoneFormatWarning, ssnLengthWarning);
+			SearchPage.verifyWarningsExist(softly, String.format(notFoundWarningTemplate, wrongSearchData.getValue(SearchPage.LABEL_SEARCH)));
 
-		// Check more than maximum allowable values length warning messages, 1st part (not all warning messages fits on page)
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.POLICY_QUOTE.getLabel()), RandomStringUtils.randomNumeric(COMMON_MAX_LENGTH + 1));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.ACCOUNT.getLabel()), RandomStringUtils.randomNumeric(COMMON_MAX_LENGTH + 1));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.BILLING_ACCOUNT.getLabel()), RandomStringUtils.randomNumeric(COMMON_MAX_LENGTH + 1));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.FIRST_NAME.getLabel()), RandomStringUtils.randomAlphabetic(COMMON_MAX_LENGTH + 1));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.LAST_NAME.getLabel()), RandomStringUtils.randomAlphabetic(COMMON_MAX_LENGTH + 1));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.CITY.getLabel()), RandomStringUtils.randomAlphabetic(CITY_LENGTH + 1));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.STATE.getLabel()), RandomStringUtils.randomAlphabetic(STATE_LENGTH + 1));
-		SearchPage.search(td);
-		SearchPage.verifyWarningsExist(stateLengthAndFormatWarning, cityLengthWarning,
-				String.format(maxLengthWarningTemplate, SearchMetaData.Search.POLICY_QUOTE.getLabel()),
-				String.format(maxLengthWarningTemplate, SearchMetaData.Search.FIRST_NAME.getLabel()),
-				String.format(maxLengthWarningTemplate, SearchMetaData.Search.LAST_NAME.getLabel()),
-				String.format(maxLengthWarningTemplate, SearchMetaData.Search.ACCOUNT.getLabel()),
-				String.format(maxLengthWarningTemplate, SearchMetaData.Search.BILLING_ACCOUNT.getLabel()));
-		// Check with maximum allowable values length, 1st part
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.POLICY_QUOTE.getLabel()), RandomStringUtils.randomNumeric(COMMON_MAX_LENGTH));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.ACCOUNT.getLabel()), RandomStringUtils.randomNumeric(COMMON_MAX_LENGTH));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.BILLING_ACCOUNT.getLabel()), RandomStringUtils.randomNumeric(COMMON_MAX_LENGTH));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.FIRST_NAME.getLabel()), RandomStringUtils.randomAlphabetic(COMMON_MAX_LENGTH));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.LAST_NAME.getLabel()), RandomStringUtils.randomAlphabetic(COMMON_MAX_LENGTH));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.CITY.getLabel()), RandomStringUtils.randomAlphabetic(CITY_LENGTH));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.STATE.getLabel()), RandomStringUtils.randomAlphabetic(STATE_LENGTH));
-		SearchPage.search(td);
-		SearchPage.verifyWarningsExist(false, stateLengthAndFormatWarning, cityLengthWarning,
-				String.format(maxLengthWarningTemplate, SearchMetaData.Search.POLICY_QUOTE.getLabel()),
-				String.format(maxLengthWarningTemplate, SearchMetaData.Search.FIRST_NAME.getLabel()),
-				String.format(maxLengthWarningTemplate, SearchMetaData.Search.LAST_NAME.getLabel()),
-				String.format(maxLengthWarningTemplate, SearchMetaData.Search.ACCOUNT.getLabel()),
-				String.format(maxLengthWarningTemplate, SearchMetaData.Search.BILLING_ACCOUNT.getLabel()));
+			// Check more than maximum allowable values length warning messages, 1st part (not all warning messages fits on page)
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.POLICY_QUOTE.getLabel()), RandomStringUtils.randomNumeric(COMMON_MAX_LENGTH + 1));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.ACCOUNT.getLabel()), RandomStringUtils.randomNumeric(COMMON_MAX_LENGTH + 1));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.BILLING_ACCOUNT.getLabel()), RandomStringUtils.randomNumeric(COMMON_MAX_LENGTH + 1));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.FIRST_NAME.getLabel()), RandomStringUtils.randomAlphabetic(COMMON_MAX_LENGTH + 1));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.LAST_NAME.getLabel()), RandomStringUtils.randomAlphabetic(COMMON_MAX_LENGTH + 1));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.CITY.getLabel()), RandomStringUtils.randomAlphabetic(CITY_LENGTH + 1));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.STATE.getLabel()), RandomStringUtils.randomAlphabetic(STATE_LENGTH + 1));
+			SearchPage.search(td);
+			SearchPage.verifyWarningsExist(softly, stateLengthAndFormatWarning, cityLengthWarning,
+					String.format(maxLengthWarningTemplate, SearchMetaData.Search.POLICY_QUOTE.getLabel()),
+					String.format(maxLengthWarningTemplate, SearchMetaData.Search.FIRST_NAME.getLabel()),
+					String.format(maxLengthWarningTemplate, SearchMetaData.Search.LAST_NAME.getLabel()),
+					String.format(maxLengthWarningTemplate, SearchMetaData.Search.ACCOUNT.getLabel()),
+					String.format(maxLengthWarningTemplate, SearchMetaData.Search.BILLING_ACCOUNT.getLabel()));
+			// Check with maximum allowable values length, 1st part
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.POLICY_QUOTE.getLabel()), RandomStringUtils.randomNumeric(COMMON_MAX_LENGTH));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.ACCOUNT.getLabel()), RandomStringUtils.randomNumeric(COMMON_MAX_LENGTH));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.BILLING_ACCOUNT.getLabel()), RandomStringUtils.randomNumeric(COMMON_MAX_LENGTH));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.FIRST_NAME.getLabel()), RandomStringUtils.randomAlphabetic(COMMON_MAX_LENGTH));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.LAST_NAME.getLabel()), RandomStringUtils.randomAlphabetic(COMMON_MAX_LENGTH));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.CITY.getLabel()), RandomStringUtils.randomAlphabetic(CITY_LENGTH));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.STATE.getLabel()), RandomStringUtils.randomAlphabetic(STATE_LENGTH));
+			SearchPage.search(td);
+			SearchPage.verifyWarningsExist(softly, false, stateLengthAndFormatWarning, cityLengthWarning,
+					String.format(maxLengthWarningTemplate, SearchMetaData.Search.POLICY_QUOTE.getLabel()),
+					String.format(maxLengthWarningTemplate, SearchMetaData.Search.FIRST_NAME.getLabel()),
+					String.format(maxLengthWarningTemplate, SearchMetaData.Search.LAST_NAME.getLabel()),
+					String.format(maxLengthWarningTemplate, SearchMetaData.Search.ACCOUNT.getLabel()),
+					String.format(maxLengthWarningTemplate, SearchMetaData.Search.BILLING_ACCOUNT.getLabel()));
 
-		// Check more than maximum allowable values length warning messages, 2nd part
-		SearchPage.clear();
-		td.adjust(searchAl, td.getTestData(searchAl).purgeAdjustments());
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.ZIP_CODE.getLabel()), RandomStringUtils.randomNumeric(ZIP_CODE_LENGTH + 1));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.PHONE.getLabel()), RandomStringUtils.randomNumeric(PHONE_NUMBER_LENGTH + 1));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.CUSTOMER.getLabel()), RandomStringUtils.randomAlphabetic(COMMON_MAX_LENGTH + 1));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.AGENCY_NAME.getLabel()), RandomStringUtils.randomAlphabetic(COMMON_MAX_LENGTH + 1));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.AGENCY.getLabel()), RandomStringUtils.randomAlphanumeric(COMMON_MAX_LENGTH + 1));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.UNDERWRITING_COMPANY.getLabel()), RandomStringUtils.randomAlphanumeric(COMMON_MAX_LENGTH + 1));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.SSN.getLabel()), RandomStringUtils.randomNumeric(SSN_LENGTH + 1));
-		SearchPage.search(td);
-		SearchPage.verifyWarningsExist(zipFormatWarning, phoneFormatWarning, ssnLengthWarning,
-				String.format(maxLengthWarningTemplate, SearchMetaData.Search.CUSTOMER.getLabel()),
-				String.format(maxLengthWarningTemplate, SearchMetaData.Search.AGENCY_NAME.getLabel()),
-				String.format(maxLengthWarningTemplate, SearchMetaData.Search.AGENCY.getLabel()),
-				String.format(maxLengthWarningTemplate, SearchMetaData.Search.UNDERWRITING_COMPANY.getLabel()));
-		// Check with maximum allowable values length, 2nd part
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.ZIP_CODE.getLabel()), RandomStringUtils.randomNumeric(ZIP_CODE_LENGTH));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.PHONE.getLabel()), RandomStringUtils.randomNumeric(PHONE_NUMBER_LENGTH));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.CUSTOMER.getLabel()), RandomStringUtils.randomAlphabetic(COMMON_MAX_LENGTH));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.AGENCY_NAME.getLabel()), RandomStringUtils.randomAlphabetic(COMMON_MAX_LENGTH));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.AGENCY.getLabel()), RandomStringUtils.randomAlphanumeric(COMMON_MAX_LENGTH));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.UNDERWRITING_COMPANY.getLabel()), RandomStringUtils.randomAlphanumeric(COMMON_MAX_LENGTH));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.SSN.getLabel()), RandomStringUtils.randomNumeric(SSN_LENGTH));
-		SearchPage.search(td);
-		//BUG: Maximum allowable length of 'Underwriting Company' criteria warning is incorrect on Search page"
-		//TODO-dchubkov: create this defect
-		SearchPage.verifyWarningsExist(false, zipFormatWarning, phoneFormatWarning, ssnLengthWarning,
-				String.format(maxLengthWarningTemplate, SearchMetaData.Search.CUSTOMER.getLabel()),
-				String.format(maxLengthWarningTemplate, SearchMetaData.Search.AGENCY_NAME.getLabel()),
-				String.format(maxLengthWarningTemplate, SearchMetaData.Search.AGENCY.getLabel()));
-		//String.format(maxLengthWarningTemplate, SearchMetaData.Search.UNDERWRITING_COMPANY.getLabel()));
+			// Check more than maximum allowable values length warning messages, 2nd part
+			SearchPage.clear();
+			td.adjust(searchAl, td.getTestData(searchAl).purgeAdjustments());
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.ZIP_CODE.getLabel()), RandomStringUtils.randomNumeric(ZIP_CODE_LENGTH + 1));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.PHONE.getLabel()), RandomStringUtils.randomNumeric(PHONE_NUMBER_LENGTH + 1));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.CUSTOMER.getLabel()), RandomStringUtils.randomAlphabetic(COMMON_MAX_LENGTH + 1));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.AGENCY_NAME.getLabel()), RandomStringUtils.randomAlphabetic(COMMON_MAX_LENGTH + 1));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.AGENCY.getLabel()), RandomStringUtils.randomAlphanumeric(COMMON_MAX_LENGTH + 1));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.UNDERWRITING_COMPANY.getLabel()), RandomStringUtils.randomAlphanumeric(COMMON_MAX_LENGTH + 1));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.SSN.getLabel()), RandomStringUtils.randomNumeric(SSN_LENGTH + 1));
+			SearchPage.search(td);
+			SearchPage.verifyWarningsExist(softly, zipFormatWarning, phoneFormatWarning, ssnLengthWarning,
+					String.format(maxLengthWarningTemplate, SearchMetaData.Search.CUSTOMER.getLabel()),
+					String.format(maxLengthWarningTemplate, SearchMetaData.Search.AGENCY_NAME.getLabel()),
+					String.format(maxLengthWarningTemplate, SearchMetaData.Search.AGENCY.getLabel()),
+					String.format(maxLengthWarningTemplate, SearchMetaData.Search.UNDERWRITING_COMPANY.getLabel()));
+			// Check with maximum allowable values length, 2nd part
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.ZIP_CODE.getLabel()), RandomStringUtils.randomNumeric(ZIP_CODE_LENGTH));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.PHONE.getLabel()), RandomStringUtils.randomNumeric(PHONE_NUMBER_LENGTH));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.CUSTOMER.getLabel()), RandomStringUtils.randomAlphabetic(COMMON_MAX_LENGTH));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.AGENCY_NAME.getLabel()), RandomStringUtils.randomAlphabetic(COMMON_MAX_LENGTH));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.AGENCY.getLabel()), RandomStringUtils.randomAlphanumeric(COMMON_MAX_LENGTH));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.UNDERWRITING_COMPANY.getLabel()), RandomStringUtils.randomAlphanumeric(COMMON_MAX_LENGTH));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.SSN.getLabel()), RandomStringUtils.randomNumeric(SSN_LENGTH));
+			SearchPage.search(td);
+			//BUG: Maximum allowable length of 'Underwriting Company' criteria warning is incorrect on Search page"
+			//TODO-dchubkov: create this defect
+			SearchPage.verifyWarningsExist(softly, false, zipFormatWarning, phoneFormatWarning, ssnLengthWarning,
+					String.format(maxLengthWarningTemplate, SearchMetaData.Search.CUSTOMER.getLabel()),
+					String.format(maxLengthWarningTemplate, SearchMetaData.Search.AGENCY_NAME.getLabel()),
+					String.format(maxLengthWarningTemplate, SearchMetaData.Search.AGENCY.getLabel()));
+			//String.format(maxLengthWarningTemplate, SearchMetaData.Search.UNDERWRITING_COMPANY.getLabel()));
 
-		// Check wrong value format warning messages
-		SearchPage.clear();
-		td.adjust(searchAl, td.getTestData(searchAl).purgeAdjustments());
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.ACCOUNT.getLabel()), RandomStringUtils.randomAlphanumeric(MIN_ACC_NUMBER_LENGTH));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.PHONE.getLabel()), RandomStringUtils.randomAlphanumeric(PHONE_NUMBER_LENGTH));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.SSN.getLabel()), RandomStringUtils.randomAlphanumeric(SSN_LENGTH));
-		SearchPage.search(td);
-		SearchPage.verifyWarningsExist(accNumberLengthWarning, phoneFormatWarning, ssnFormatWarning);
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.ACCOUNT.getLabel()), RandomStringUtils.randomNumeric(COMMON_MAX_LENGTH - 1));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.PHONE.getLabel()),
-				String.format("(%1$s) %2$s-%3$s", RandomStringUtils.randomNumeric(3), RandomStringUtils.randomNumeric(3), RandomStringUtils.randomNumeric(4)));
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.SSN.getLabel()), RandomStringUtils.randomNumeric(SSN_LENGTH));
-		SearchPage.search(td);
-		SearchPage.verifyWarningsExist(false, accNumberLengthWarning, phoneFormatWarning, ssnFormatWarning);
-		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.PHONE.getLabel()),
-				String.format("(%1$s) %2$s-%3$s", RandomStringUtils.randomNumeric(3), RandomStringUtils.randomNumeric(4), RandomStringUtils.randomNumeric(4)));
-		SearchPage.search(td);
-		SearchPage.verifyWarningsExist(phoneFormatWarning);
+			// Check wrong value format warning messages
+			SearchPage.clear();
+			td.adjust(searchAl, td.getTestData(searchAl).purgeAdjustments());
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.ACCOUNT.getLabel()), RandomStringUtils.randomAlphanumeric(MIN_ACC_NUMBER_LENGTH));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.PHONE.getLabel()), RandomStringUtils.randomAlphanumeric(PHONE_NUMBER_LENGTH));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.SSN.getLabel()), RandomStringUtils.randomAlphanumeric(SSN_LENGTH));
+			SearchPage.search(td);
+			SearchPage.verifyWarningsExist(softly, accNumberLengthWarning, phoneFormatWarning, ssnFormatWarning);
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.ACCOUNT.getLabel()), RandomStringUtils.randomNumeric(COMMON_MAX_LENGTH - 1));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.PHONE.getLabel()),
+					String.format("(%1$s) %2$s-%3$s", RandomStringUtils.randomNumeric(3), RandomStringUtils.randomNumeric(3), RandomStringUtils.randomNumeric(4)));
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.SSN.getLabel()), RandomStringUtils.randomNumeric(SSN_LENGTH));
+			SearchPage.search(td);
+			SearchPage.verifyWarningsExist(softly, false, accNumberLengthWarning, phoneFormatWarning, ssnFormatWarning);
+			td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.PHONE.getLabel()),
+					String.format("(%1$s) %2$s-%3$s", RandomStringUtils.randomNumeric(3), RandomStringUtils.randomNumeric(4), RandomStringUtils.randomNumeric(4)));
+			SearchPage.search(td);
+			SearchPage.verifyWarningsExist(softly, phoneFormatWarning);
 
-		// Check empty search criteria warning message
-		SearchPage.clear();
-		SearchPage.buttonSearch.click();
-		SearchPage.verifyWarningsExist(emptySearchCriteriaWarning);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// Check empty search criteria warning message
+			SearchPage.clear();
+			SearchPage.buttonSearch.click();
+			SearchPage.verifyWarningsExist(softly, emptySearchCriteriaWarning);
+		});
 	}
 
 	private SearchEnum.SearchFor getRandomSearchForCriteria() {

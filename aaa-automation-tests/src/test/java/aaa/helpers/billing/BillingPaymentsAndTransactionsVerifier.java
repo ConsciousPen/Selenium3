@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 import aaa.main.enums.BillingConstants;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.table.Table;
 import aaa.helpers.TableVerifier;
 import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
@@ -17,6 +18,12 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import com.exigen.ipb.etcsa.utils.Dollar;
 
 public class BillingPaymentsAndTransactionsVerifier extends TableVerifier {
+
+	public BillingPaymentsAndTransactionsVerifier() {};
+
+	public BillingPaymentsAndTransactionsVerifier(ETCSCoreSoftAssertions softly) {
+		this.softly = softly;
+	};
 
 	@Override
 	protected Table getTable() {

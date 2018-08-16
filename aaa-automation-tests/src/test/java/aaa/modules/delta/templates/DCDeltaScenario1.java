@@ -1,5 +1,6 @@
 package aaa.modules.delta.templates;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
 
 import aaa.common.enums.NavigationEnum;
@@ -9,13 +10,11 @@ import aaa.helpers.delta.HssQuoteDataGatherHelper;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 
 public class DCDeltaScenario1 extends BaseTest {
 	protected IPolicy policy;
@@ -42,12 +41,8 @@ public class DCDeltaScenario1 extends BaseTest {
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
 		
-		CustomAssert.enableSoftMode();
-		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrier(immediatePriorCarrierLOVs);
-		
-		GeneralTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();
-	}	
+		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrierThenSaveAndExit(immediatePriorCarrierLOVs);
+	}
 	
 	public void TC_purchasePolicy(String scenarioPolicyType) {
 		TestData td = getTestSpecificTD("TestData");
@@ -64,7 +59,7 @@ public class DCDeltaScenario1 extends BaseTest {
 		policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         
         log.info("DELTA DC SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);	 
@@ -78,7 +73,7 @@ public class DCDeltaScenario1 extends BaseTest {
 		//TODO add verification of On-Demand Documents Tab
 	}
 	
-	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<String>();
+	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<>();
 	static {
 		immediatePriorCarrierLOVs.add("AAA-Michigan (ACG)");
 		immediatePriorCarrierLOVs.add("AAA Other");

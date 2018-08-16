@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.Constants;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
@@ -69,7 +70,7 @@ public class TestNotOrderedMembershipError extends AutoCaSelectBaseTest {
         vehicleTab.getAssetList().fill(getTestSpecificTD("TestData_NotOrderedMembershipValidationAU_CA")); // order all reports except Membership, and then select No
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
         //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
-        errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.contains(notOrderedMembershipFirstMessage);
+	    assertThat(errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage)).exists();
         errorTab.cancel();
         premiumsAndCoveragesTab.saveAndExit();
         log.info("Not Ordered Membership Errors Validation for NB Quote Successfully Completed..");
@@ -95,7 +96,7 @@ public class TestNotOrderedMembershipError extends AutoCaSelectBaseTest {
         membershipTab.getAssetList().fill(getTestSpecificTD("TestData_NotOrderedMembershipValidationAU_CA"));
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
         //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
-        errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.contains(notOrderedMembershipFirstMessage);
+	    assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage)).exists();
         errorTab.cancel();
         membershipTab.saveAndExit();
         log.info("Not Ordered Membership Errors Validation for Endorsement Quote Successfully Completed..");
@@ -111,7 +112,7 @@ public class TestNotOrderedMembershipError extends AutoCaSelectBaseTest {
         membershipTab.getAssetList().fill(getTestSpecificTD("TestData_NotOrderedMembershipValidationAU_CA"));
         membershipTab.submitTab();
         //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
-        errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.contains(notOrderedMembershipFirstMessage);
+	    assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage)).exists();
         errorTab.cancel();
     }
 
@@ -121,7 +122,7 @@ public class TestNotOrderedMembershipError extends AutoCaSelectBaseTest {
     private void validateSecondError(String notOrderedMembershipFirstMessage){
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
         //Modifying verify to contains to confirm to AWS PROD mode for regression runs.
-        errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.contains(notOrderedMembershipFirstMessage);
+	    assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage)).exists();
         errorTab.cancel();
         membershipTab.saveAndExit();
     }

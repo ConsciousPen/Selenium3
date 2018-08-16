@@ -1,5 +1,6 @@
 package aaa.modules.docgen.template.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -42,7 +43,7 @@ public abstract class PolicyCINTemplate extends PolicyBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy(policyTestData);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		return policyNumber;
 	}
 
@@ -91,7 +92,7 @@ public abstract class PolicyCINTemplate extends PolicyBaseTest {
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		TestData renewalTestData = getTestSpecificTD(DEFAULT_TEST_RENEWAL_KEY + activityType);
 		policy.createRenewal(renewalTestData);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	protected TestData preparePolicyTestData(Map<String, String> adjustmentMap, String... adjustmentKeys) {
