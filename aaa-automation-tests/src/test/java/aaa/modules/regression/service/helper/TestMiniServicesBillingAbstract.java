@@ -22,7 +22,6 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
@@ -62,7 +61,7 @@ public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 	 * 11. check Due Date, Min Due, Past Due (non-0) are returned same as are there in UI
 	 * @details
 	 */
-	protected void pas13663_CurrentBillServiceBody(ETCSCoreSoftAssertions softly, String policyNumber) {
+	protected void pas13663_CurrentBillServiceBody(SoftAssertions softly, String policyNumber) {
 		currentBillServiceCheck(softly, policyNumber);
 
 		SearchPage.openBilling(policyNumber);
@@ -96,7 +95,6 @@ public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 
 
 	protected void currentBillServiceCheck(SoftAssertions softly, String policyNumber) {
-	protected void currentBillServiceCheck(ETCSCoreSoftAssertions softly, String policyNumber) {
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 
