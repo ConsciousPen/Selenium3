@@ -6,6 +6,7 @@ import static aaa.modules.regression.service.helper.preconditions.TestMiniServic
 import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.INSERT_EFFECTIVE_DATE;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.ws.rs.core.Response;
@@ -816,15 +817,18 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 					.getStaticElement(AutoSSMetaData.GeneralTab.NamedInsuredInformation.CITY).getValue();
 			String state1 = getGeneralTabElement().getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION)
 					.getStaticElement(AutoSSMetaData.GeneralTab.NamedInsuredInformation.STATE).getValue();
-			GeneralTab.buttonCancel.click();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+			BigDecimal totalPremiumUI = new BigDecimal(PremiumAndCoveragesTab.getTotalTermPremium().toPlaingString());
+			BigDecimal actualPremiumUI = new BigDecimal(PremiumAndCoveragesTab.getActualPremium().toPlaingString());
+			PremiumAndCoveragesTab.buttonCancel.click();
 
 			String policyNumber = PolicySummaryPage.getPolicyNumber();
 			LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 			LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
 			PolicyPremiumInfo[] response = HelperCommon.viewPolicyPremiums(policyNumber);
-			String totalPremium = response[0].termPremium;
-			String actualPremium = response[0].actualAmt;
+			BigDecimal totalPremium = new BigDecimal (response[0].termPremium);
+			BigDecimal actualPremium = new BigDecimal(response[0].actualAmt);
 
 			PolicySummary responsePolicyPending = HelperCommon.viewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyPending.policyNumber).isEqualTo(policyNumber);
@@ -835,8 +839,10 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(responsePolicyPending.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyPending.renewalCycle).isEqualTo(0);
 			eValueStatusCheck(softly, responsePolicyPending, state, "NOTENROLLED");
-			assertThat(responsePolicyPending.actualAmt).isEqualTo(actualPremium);
-			assertThat(responsePolicyPending.termPremium).isEqualTo(totalPremium);
+			assertThat(new BigDecimal(responsePolicyPending.actualAmt)).isEqualByComparingTo(actualPremium).isEqualByComparingTo(actualPremiumUI);
+			assertThat(new BigDecimal(responsePolicyPending.termPremium)).isEqualByComparingTo(totalPremium).isEqualByComparingTo(totalPremiumUI);
+			assertThat(new BigDecimal(responsePolicyPending.actualAmt)).isEqualByComparingTo(actualPremium);
+			assertThat(new BigDecimal(responsePolicyPending.termPremium)).isEqualByComparingTo(totalPremium);
 			//BUG PAS-14396 PolicySummaryService doesnt return ResidentialAddress when renewal exists
 			softly.assertThat(responsePolicyPending.residentialAddress.postalCode).isEqualTo(zipCode1);
 			softly.assertThat(responsePolicyPending.residentialAddress.addressLine1).isEqualTo(address1);
