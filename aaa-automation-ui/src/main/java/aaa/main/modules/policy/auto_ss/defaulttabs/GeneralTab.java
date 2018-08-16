@@ -57,6 +57,10 @@ public class GeneralTab extends Tab {
 		return getInquiryAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), InquiryAssetList.class);
 	}
 
+	public InquiryAssetList getAAAProductOwnedInquiryAssetList() {
+		return getInquiryAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), InquiryAssetList.class);
+	}
+
 	@Override
 	public Tab submitTab() {
 		buttonNext.click();
