@@ -325,7 +325,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(addDriverRequestService.driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 			softly.assertThat(addDriverRequestService.namedInsuredType).isEqualTo("Not a Named Insured");
 			softly.assertThat(addDriverRequestService.relationToApplicantCd).isEqualTo(null);
-			softly.assertThat(addDriverRequestService.maritalStatusCd).isEqualTo("SSS");
+			softly.assertThat(addDriverRequestService.maritalStatusCd).isEqualTo(null);
 			softly.assertThat(addDriverRequestService.driverStatus).isEqualTo("pendingAdd");
 
 		});
@@ -367,7 +367,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(driver2.driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 			softly.assertThat(driver2.namedInsuredType).isEqualTo("Not a Named Insured");
 			softly.assertThat(driver2.relationToApplicantCd).isEqualTo(null);
-			softly.assertThat(driver2.maritalStatusCd).isEqualTo("SSS");
+			softly.assertThat(driver2.maritalStatusCd).isEqualTo(null);
 			softly.assertThat(driver2.driverStatus).isEqualTo("pendingAdd");
 			softly.assertThat(driver2.birthDate).isEqualTo("1960-02-08");
 		});

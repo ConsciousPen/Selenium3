@@ -27,7 +27,6 @@
                     <include name="pas8784_endorsementValidateStateSpecificConfigVersioning"/>
                     <include name="pas9337_StartEndorsementInfoServerResponseForCancelPolicy"/>
                     <include name="pas9337_StartEndorsementInfoServerResponseForFuturePolicy"/>
-                    <include name="pas9337_StartEndorsementInfoServerResponseForExpiredPolicy"/>
                     <include name="pas9456_9455_PolicyLockUnlockServices"/>
                     <include name="pas10227_ViewPremiumServicePolicy"/>
                     <include name="pas10227_ViewPremiumServicePendedEndorsement"/>
