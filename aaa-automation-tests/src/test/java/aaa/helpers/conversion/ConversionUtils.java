@@ -47,9 +47,9 @@ public class ConversionUtils {
 	public static String importPolicy(ConversionPolicyData conversionData, ITestContext context, boolean useTimeshift) {
 		File importFile = prepareXML(conversionData);
 		RemoteHelper.get().uploadFile(importFile.getAbsolutePath(), conversionData.getConversionType().getRemoteImportFolder() + importFile.getName());
-//		if (useTimeshift) {
-//			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
-//		}
+		if (useTimeshift) {
+			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
+		}
 		JobUtils.executeJob(conversionData.getConversionType().getJob());
 		String policyNum = verifyResponseSuccessAndGetNumber(conversionData.getConversionType(), importFile.getName(), context);
 		log.info(String.format("Conversion policy with type %s imported with number %s and effective date %s"

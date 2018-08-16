@@ -53,7 +53,7 @@ public class GeneralTab extends Tab {
 		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.CONTACT_INFORMATION.getLabel(), AssetList.class);
 	}
 
-	public AssetList getPolicyInfoInquiryAssetList() {
+	public InquiryAssetList getPolicyInfoInquiryAssetList() {
 		return getInquiryAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), InquiryAssetList.class);
 	}
 
