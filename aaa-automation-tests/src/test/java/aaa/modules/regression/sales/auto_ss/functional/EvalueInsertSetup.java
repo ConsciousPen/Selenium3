@@ -83,6 +83,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 				, "DC");
 		for (String configForStatesLimit : configForStatesLimits) {
 			insertConfigForLimitsRegularStates(configForStatesLimit);
+			insertConfigForRegularStates(configForStatesLimit);
 		}
 	}
 
@@ -94,6 +95,10 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 	@Test(description = "Precondition for Current BI Limits configurations", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void eValueCurrentBiConfigUpdateInsert() {
 		DBService.get().executeUpdate(EVALUE_CURRENT_BI_CONFIG_INSERT);
+	}
+
+	private static void insertConfigForRegularStates(String state) {
+		DBService.get().executeUpdate(String.format(EVALUE_CONFIGURATION_PER_STATE_INSERT, state));
 	}
 
 	private static void insertConfigForLimitsRegularStates(String state) {
