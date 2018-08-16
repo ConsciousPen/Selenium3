@@ -4,6 +4,9 @@ package aaa.modules.regression.service.auto_ss.functional;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
+import aaa.modules.regression.service.helper.HelperCommon;
+import aaa.modules.regression.service.helper.HelperMiniServices;
+import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -17,7 +20,6 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.regression.service.helper.TestMiniServicesBillingAbstract;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
@@ -25,6 +27,8 @@ import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public class TestMiniServicesBilling extends TestMiniServicesBillingAbstract {
+
+	public HelperMiniServices helperMiniServices = new HelperMiniServices();
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -124,13 +128,20 @@ public class TestMiniServicesBilling extends TestMiniServicesBillingAbstract {
 				AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), "Quarterly");
 
 		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy(policyTd); //"VASS952918900";
+		//createCustomerIndividual();
+		String policyNumber = createPolicy(policyTd);
+				// "VASS952918979";
+
 
 
 		//Hit account service, check all info
-		assertSoftly(softly -> installmentsServiceCheck(softly, policyNumber));
-		//assertSoftly(softly -> currentAccountInfoServiceCheck(softly, policyNumber));
+		assertSoftly(softly -> {
+			String lastDueDate = installmentsServiceCheck(softly, policyNumber);
+			currentAccountInfoServiceCheck(softly, policyNumber, lastDueDate);
+		});
+
+
+
 	}
 
 	@Override
@@ -166,11 +177,6 @@ public class TestMiniServicesBilling extends TestMiniServicesBillingAbstract {
 	@Override
 	protected Tab getDocumentsAndBindTabElement() {
 		return new DocumentsAndBindTab();
-	}
-
-	@Override
-	protected Tab getVehicleTabElement() {
-		return new VehicleTab();
 	}
 
 	@Override

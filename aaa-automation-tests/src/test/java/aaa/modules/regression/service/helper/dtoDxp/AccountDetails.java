@@ -21,5 +21,5 @@ public class AccountDetails {
 	@ApiModelProperty(value = "Overpaid Amount Handling Option", example = "allInstallments, nextInstallment")
 	public String overpaidAmountOption;
 	@ApiModelProperty(value = "Latest Invoice Due Date", example = "2018-01-31")
-	public ZonedDateTime latestInvoiceDueDate;
+	public String latestInvoiceDueDate;
 }
