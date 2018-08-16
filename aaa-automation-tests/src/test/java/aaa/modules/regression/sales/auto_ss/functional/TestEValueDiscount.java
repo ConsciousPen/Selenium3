@@ -719,7 +719,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 			//Inquiry doesn't show the field
 			policy.policyInquiry().start();
-			softly.assertThat(generalTab.getPolicyInfoInquiryAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.HAS_THE_INSURED_EVER_BEEN_ENROLLED_IN_EVALUE)).isAbsent();
+			softly.assertThat(generalTab.getPolicyInfoInquiryAssetList().getStaticElement(AutoSSMetaData.GeneralTab.PolicyInformation.HAS_THE_INSURED_EVER_BEEN_ENROLLED_IN_EVALUE)).isAbsent();
 			generalTab.cancel();
 
 			//Endorsement doesn't show the field
