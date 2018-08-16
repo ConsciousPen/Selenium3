@@ -157,7 +157,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void eValueConfigCheck() {
 		CustomSoftAssertions.assertSoftly(softly -> {
-			List<String> configForStates = Arrays.asList("VA", "MD", "DC");
+			List<String> configForStates = Arrays.asList("VA", "MD", "DC", "OR");
 			for (String configForState : configForStates) {
 				assertThat(DBService.get().getValue(String.format(EVALUE_CONFIGURATION_PER_STATE_CHECK, configForState)))
 						.as("eValue is not configured for " + configForState + ". Insert configuration (run eValueConfigInsert) and restart the env").isPresent();
@@ -1336,7 +1336,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3694", "PAS-2789", "PAS-299", "PAS-2794"})
 	public void pas3694_eValueBlueBoxAndStaticText(@Optional("OR") String state) {
 
