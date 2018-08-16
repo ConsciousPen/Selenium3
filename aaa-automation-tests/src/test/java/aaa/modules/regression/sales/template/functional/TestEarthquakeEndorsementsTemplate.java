@@ -4,17 +4,12 @@ import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.constants.ComponentConstant;
-import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.utils.StateList;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
-import toolkit.utils.TestInfo;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.*;
 
@@ -41,7 +36,7 @@ public class TestEarthquakeEndorsementsTemplate extends TestEndorsementsTabAbstr
 	 * 14. Remove endorsements and check that they are removed
 	 * @details
 	 */
-	protected void pas17479_pas17489_Privileged_NewBusiness(String parentEndorsementFormId, String subEndorsementFormId) {
+	protected void pas17479_pas17489_Privileged_NewBusinessTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
 		createQuoteAndFillUpTo(EndorsementTab.class);
 		addEndorsementForm(parentEndorsementFormId);
 		//HS 04 36 should be only available then HS 04 54 is added
@@ -70,7 +65,7 @@ public class TestEarthquakeEndorsementsTemplate extends TestEndorsementsTabAbstr
 	 * 15. Remove endorsements and check that they are removed
 	 * @details
 	 */
-	protected void pas17479_pas17489_Privileged_Endorsement(String parentEndorsementFormId, String subEndorsementFormId) {
+	protected void pas17479_pas17489_Privileged_EndorsementTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
 		openAppAndCreatePolicy();
 		initiateEndorsementTx();
 		addEndorsementForm(parentEndorsementFormId);
@@ -100,7 +95,7 @@ public class TestEarthquakeEndorsementsTemplate extends TestEndorsementsTabAbstr
 	 * 15. Remove endorsements and check that they are removed
 	 * @details
 	 */
-	protected void pas17479_pas17489_Privileged_Renewal(String parentEndorsementFormId, String subEndorsementFormId) {
+	protected void pas17479_pas17489_Privileged_RenewalTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
 		openAppAndCreatePolicy();
 		initiateRenewalTx();
 		addEndorsementForm(parentEndorsementFormId);
@@ -121,7 +116,7 @@ public class TestEarthquakeEndorsementsTemplate extends TestEndorsementsTabAbstr
 	 * 6. Check that 'Earthquake' endorsement is NOT available in 'Included Endorsements' (HS 04 54)
 	 * @details
 	 */
-	public void pas17484_NonPrivileged_NewBusinessTx(String parentEndorsementFormId) {
+	public void pas17484_NonPrivileged_NewBusinessTxTemplate(String parentEndorsementFormId) {
 		initiateNewBusinessTx_NonPrivileged("F35");
 		checkEndorsementIsNotAvailableInOptionalEndorsements(parentEndorsementFormId);
 		checkEndorsementIsNotAvailableInIncludedEndorsements(parentEndorsementFormId);
@@ -153,7 +148,7 @@ public class TestEarthquakeEndorsementsTemplate extends TestEndorsementsTabAbstr
 	 * 20. Check that 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsement is NOT available in 'Included Endorsements'
 	 * @details
 	 */
-	protected void pas17484_NonPrivileged_NewBusinessTx_AlreadyHadEndorsement(String parentEndorsementFormId, String subEndorsementFormId) {
+	protected void pas17484_NonPrivileged_NewBusinessTx_AlreadyHadEndorsementTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
 		initiateNewBusinessTx_NonPrivileged_AlreadyHadEndorsement("F35", parentEndorsementFormId, subEndorsementFormId);
 
 		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
@@ -181,10 +176,7 @@ public class TestEarthquakeEndorsementsTemplate extends TestEndorsementsTabAbstr
 	 * 8. Check that 'Earthquake' endorsement is NOT available in 'Included Endorsements'
 	 * @details
 	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for non privileged user")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-17484")
-	public void pas17484_NonPrivileged_EndorsementTx(String parentEndorsementFormId) {
+	protected void pas17484_NonPrivileged_EndorsementTxTemplate(String parentEndorsementFormId) {
 		String policyNumber = openAppAndCreatePolicy();
 		mainApp().close();
 		openAppNonPrivilegedUser("F35");
@@ -218,7 +210,7 @@ public class TestEarthquakeEndorsementsTemplate extends TestEndorsementsTabAbstr
 	 * 18. Check that 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsement is NOT available in 'Included Endorsements'
 	 * @details
 	 */
-	protected void pas17484_pas17498_NonPrivileged_EndorsementTx_AlreadyHadEndorsement(String parentEndorsementFormId, String subEndorsementFormId) {
+	protected void pas17484_pas17498_NonPrivileged_EndorsementTx_AlreadyHadEndorsementTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
 		String policyNumber = createPolicyWithEndorsement(parentEndorsementFormId, subEndorsementFormId);
 		mainApp().close();
 		openAppNonPrivilegedUser("F35");
@@ -250,7 +242,7 @@ public class TestEarthquakeEndorsementsTemplate extends TestEndorsementsTabAbstr
 	 * 8. Check that 'Earthquake' endorsement is NOT available in 'Included Endorsements'
 	 * @details
 	 */
-	public void pas17484_NonPrivileged_RenewalTx(String parentEndorsementFormId) {
+	public void pas17484_NonPrivileged_RenewalTxTemplate(String parentEndorsementFormId) {
 		String policyNumber = openAppAndCreatePolicy();
 		initiateRenewalTx();
 		new PremiumsAndCoveragesQuoteTab().saveAndExit();
@@ -286,7 +278,7 @@ public class TestEarthquakeEndorsementsTemplate extends TestEndorsementsTabAbstr
 	 * 17. Check that 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsement is NOT available in 'Included Endorsements'
 	 * @details
 	 */
-	protected void pas17484_NonPrivileged_RenewalTx_AlreadyHadEndorsement(String parentEndorsementFormId, String subEndorsementFormId) {
+	protected void pas17484_NonPrivileged_RenewalTx_AlreadyHadEndorsementTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
 		String policyNumber = createPolicyWithEndorsement(parentEndorsementFormId, subEndorsementFormId);
 
 		initiateRenewalTx();
@@ -318,7 +310,7 @@ public class TestEarthquakeEndorsementsTemplate extends TestEndorsementsTabAbstr
 	 * 4. Check that Document generation triggered after Policy Creation
 	 * @details
 	 */
-	protected void pas17494_checkDocGenTrigger_NewBusiness(String parentEndorsementFormId, String subEndorsementFormId, String parentEndorsementDocGenId, String childEndorsementDocGenId) {
+	protected void pas17494_checkDocGenTrigger_NewBusinessTemplate(String parentEndorsementFormId, String subEndorsementFormId, String parentEndorsementDocGenId, String childEndorsementDocGenId) {
 		String policyNumber = createPolicyWithEndorsement(parentEndorsementFormId, subEndorsementFormId);
 
 		//Check that Document generation triggered after Policy Creation
@@ -338,7 +330,7 @@ public class TestEarthquakeEndorsementsTemplate extends TestEndorsementsTabAbstr
 	 * 7. Check that Document generation triggered after Endorsement
 	 * @details
 	 */
-	protected void pas17498_checkDocGenTrigger_Endorsement(String parentEndorsementFormId, String subEndorsementFormId, String parentEndorsementDocGenId, String childEndorsementDocGenId) {
+	protected void pas17498_checkDocGenTrigger_EndorsementTemplate(String parentEndorsementFormId, String subEndorsementFormId, String parentEndorsementDocGenId, String childEndorsementDocGenId) {
 		String policyNumber = openAppAndCreatePolicy();
 		initiateEndorsementTx();
 		addEndorsementForm(parentEndorsementFormId);
@@ -365,7 +357,7 @@ public class TestEarthquakeEndorsementsTemplate extends TestEndorsementsTabAbstr
 	 * 9. Check that Document generation triggered after Renewal
 	 * @details
 	 */
-	protected void pas17498_checkDocGenTrigger_Renewal(String parentEndorsementFormId, String subEndorsementFormId, String parentEndorsementDocGenId, String childEndorsementDocGenId) {
+	protected void pas17498_checkDocGenTrigger_RenewalTemplate(String parentEndorsementFormId, String subEndorsementFormId, String parentEndorsementDocGenId, String childEndorsementDocGenId) {
 		String policyNumber =  openAppAndCreatePolicy();
 		moveTimeAndRunRenewJobs(getTimePoints().getRenewOfferGenerationDate(PolicySummaryPage.getExpirationDate()));
 
@@ -398,7 +390,7 @@ public class TestEarthquakeEndorsementsTemplate extends TestEndorsementsTabAbstr
 	 * 11. Check that Endorsements are displayed in "Endorsement Forms" section
 	 * @details
 	 */
-	protected void pas17494_checkPremium_NewBusinessTx(String parentEndorsementFormId, String subEndorsementFormId) {
+	protected void pas17494_checkPremium_NewBusinessTxTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
 		createQuoteAndFillUpTo(EndorsementTab.class);
 		checkEndorsementsIncreasesPremium(parentEndorsementFormId, subEndorsementFormId);
 	}
@@ -421,7 +413,7 @@ public class TestEarthquakeEndorsementsTemplate extends TestEndorsementsTabAbstr
 	 * 12. Check that Endorsements are displayed in "Endorsement Forms" section
 	 * @details
 	 */
-	protected void pas17494_checkPremium_EndorsementTx(String parentEndorsementFormId, String subEndorsementFormId) {
+	protected void pas17494_checkPremium_EndorsementTxTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
 		openAppAndCreatePolicy();
 		initiateEndorsementTx();
 		checkEndorsementsIncreasesPremium(parentEndorsementFormId, subEndorsementFormId);
@@ -445,7 +437,7 @@ public class TestEarthquakeEndorsementsTemplate extends TestEndorsementsTabAbstr
 	 * 12. Check that Endorsements are displayed in "Endorsement Forms" section
 	 * @details
 	 */
-	protected void pas17494_checkPremium_RenewalTx(String parentEndorsementFormId, String subEndorsementFormId) {
+	protected void pas17494_checkPremium_RenewalTxTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
 		openAppAndCreatePolicy();
 		initiateRenewalTx();
 		checkEndorsementsIncreasesPremium(parentEndorsementFormId, subEndorsementFormId);
@@ -467,7 +459,7 @@ public class TestEarthquakeEndorsementsTemplate extends TestEndorsementsTabAbstr
 	 * 10. Remove endorsement and check that it is removed
 	 * @details
 	 */
-	public void pas17479_Conversion_Privileged_NewBusiness(String parentEndorsementFormId, String subEndorsementFormId) {
+	public void pas17479_Conversion_Privileged_NewBusinessTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
 		createConversionQuoteAndFillUpTo(EndorsementTab.class);
 		addEndorsementForm(parentEndorsementFormId);
 		//SubEndorsement should be available only after parentEndorsement is added
@@ -493,7 +485,7 @@ public class TestEarthquakeEndorsementsTemplate extends TestEndorsementsTabAbstr
 	 * 11. Remove endorsement and check that it is removed
 	 * @details
 	 */
-	public void pas17479_Conversion_Privileged_Endorsement(String parentEndorsementFormId, String subEndorsementFormId) {
+	public void pas17479_Conversion_Privileged_EndorsementTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
 		openAppAndCreateConversionPolicy();
 		initiateEndorsementTx();
 		addEndorsementForm(parentEndorsementFormId);
@@ -520,7 +512,7 @@ public class TestEarthquakeEndorsementsTemplate extends TestEndorsementsTabAbstr
 	 * 11. Remove endorsement and check that it is removed
 	 * @details
 	 */
-	public void pas17479_Conversion_Privileged_Renewal(String parentEndorsementFormId, String subEndorsementFormId) {
+	public void pas17479_Conversion_Privileged_RenewalTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
 		openAppAndCreateConversionPolicy();
 		initiateRenewalTx();
 		addEndorsementForm(parentEndorsementFormId);
