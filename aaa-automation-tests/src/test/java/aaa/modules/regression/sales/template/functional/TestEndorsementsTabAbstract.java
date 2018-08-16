@@ -1,56 +1,24 @@
 package aaa.modules.regression.sales.template.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
-import aaa.common.pages.SearchPage;
 import aaa.main.enums.EndorsementForms;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.datax.TestData;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 
 public class TestEndorsementsTabAbstract extends CommonTemplateMethods {
 
 	PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 	EndorsementTab endorsementTab = new EndorsementTab();
-
-	protected void initiateNewBusinessTx_NonPrivileged(String privilege) {
-		openAppNonPrivilegedUser(privilege);
-
-		createCustomerIndividual();
-
-		//field is disabled for F35 user
-		TestData quoteTd = getPolicyTD().mask(TestData.makeKeyPath(HomeSSMetaData.GeneralTab.class.getSimpleName(), HomeSSMetaData.GeneralTab.PROPERTY_INSURANCE_BASE_DATE_WITH_CSAA_IG.getLabel()));
-
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(quoteTd, EndorsementTab.class, false);
-	}
-
-	protected void initiateNewBusinessTx_NonPrivileged_AlreadyHadEndorsement(String privilege, String... endorsementFormIds) {
-		createQuoteAndFillUpTo(EndorsementTab.class);
-
-		for (String endorsementFormId : endorsementFormIds) {
-			addOptionalEndorsement(endorsementFormId);
-		}
-
-		endorsementTab.saveAndExit();
-
-		String quoteNumber = PolicySummaryPage.getPolicyNumber();
-
-		mainApp().close();
-		openAppNonPrivilegedUser(privilege);
-
-		SearchPage.openQuote(quoteNumber);
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_ENDORSEMENT.get());
-	}
 
 	protected String createPolicyWithEndorsement(String... endorsementFormIds) {
 		createQuoteAndFillUpTo(EndorsementTab.class);
@@ -137,7 +105,7 @@ public class TestEndorsementsTabAbstract extends CommonTemplateMethods {
 		}
 	}
 
-	private void addOptionalEndorsement(String endorsementFormId) {
+	protected void addOptionalEndorsement(String endorsementFormId) {
 		endorsementTab.getAddEndorsementLink(endorsementFormId).click();
 
 		if (endorsementFormId == EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId()){
@@ -157,11 +125,11 @@ public class TestEndorsementsTabAbstract extends CommonTemplateMethods {
 		endorsementTab.btnSaveForm.click();
 	}
 
-	public void checkEditLinkIsAvailable(String endorsementFormId) {
+	protected void checkEditLinkIsAvailable(String endorsementFormId) {
 		assertThat(endorsementTab.isLinkEditPresent(endorsementFormId)).isEqualTo(true);
 	}
 
-	private void editEndorsementAndVerify(String endorsementFormId) {
+	protected void editEndorsementAndVerify(String endorsementFormId) {
 		endorsementTab.getEditEndorsementLink(endorsementFormId,1).click();
 
 		if (endorsementFormId == EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId()) {
@@ -192,11 +160,11 @@ public class TestEndorsementsTabAbstract extends CommonTemplateMethods {
 		endorsementTab.btnSaveForm.click();
 	}
 
-	private void checkRemoveLinkIsAvailable(String endorsementFormId) {
+	protected void checkRemoveLinkIsAvailable(String endorsementFormId) {
 		assertThat(endorsementTab.isLinkRemovePresent(endorsementFormId)).isEqualTo(true);
 	}
 
-	private void removeEndorsementAndVerify(String endorsementFormId) {
+	protected void removeEndorsementAndVerify(String endorsementFormId) {
 		endorsementTab.getRemoveEndorsementLink(endorsementFormId,1).click();
 		Page.dialogConfirmation.confirm();
 
@@ -240,7 +208,7 @@ public class TestEndorsementsTabAbstract extends CommonTemplateMethods {
 		verifyEndorsementsPresent(PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, endorsementFormIds);
 	}
 
-	private void verifyEndorsementsPresent(String columnName, String... endorsements) {
+	protected void verifyEndorsementsPresent(String columnName, String... endorsements) {
 		for (String endorsement : endorsements) {
 			PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains(columnName, endorsement).verify.present();
 		}
