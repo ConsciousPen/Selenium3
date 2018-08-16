@@ -1822,7 +1822,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			lastTransactionHistoryExit();
 			NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
 			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Task Created").getCell("Date/Time"))
-					.hasValue(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
+					.valueContains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
 
 			deleteSinglePaperlessPreferenceRequest(stub);
 		});
@@ -2007,7 +2007,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 				+ "  and ps.policynumber = '%s'\n"
 				+ "  order by emd.id desc)\n"
 				+ "where rownum = 1";
-		assertThat(DBService.get().getValue(String.format(getEvalueStatusSQL, policyNumber))).hasValue(status);
+		assertThat(DBService.get().getValue(String.format(getEvalueStatusSQL, policyNumber)).orElse("")).isEqualTo(status);
 	}
 
 	private void membershipLogicActivitiesAndNotesCheck(boolean presence, String status, ETCSCoreSoftAssertions softly) {
@@ -2080,7 +2080,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		lastTransactionHistoryOpen();
 		if (!membershipDiscountPresent) {
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-			softly.assertThat(generalTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER)).hasValue("No");
+			softly.assertThat(generalTab.getAAAProductOwnedInquiryAssetList().getStaticElement(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER)).hasValue("No");
 		}
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		if (membershipDiscountPresent) {
