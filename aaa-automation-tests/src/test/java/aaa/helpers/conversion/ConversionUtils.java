@@ -58,9 +58,8 @@ public class ConversionUtils {
 	}
 
 	protected static File prepareXML(ConversionPolicyData conversionData) {
-		String newName = String.format("%s_%s_%s-%s.xml", conversionData.getConversionType().name(),
-			conversionData.getFile().getName().substring(0, conversionData.getFile().getName().lastIndexOf(".")),
-			LocalDateTime.now().format(DateTimeUtils.TIME_STAMP), new Generex("\\d{4}").random());
+		String newName = String.format("%s_%s-%s.xml", conversionData.getConversionType().name(),
+			LocalDateTime.now().format(DateTimeUtils.TIME_STAMP), new Generex("\\d{5}").random());
 		File changedFile = new File(CustomLogger.getLogDirectory() + File.separator + "uploded_files", newName);
 		changedFile.getAbsoluteFile().getParentFile().mkdir();
 
@@ -142,7 +141,7 @@ public class ConversionUtils {
 			} catch (Exception e) {
 				log.info("Can't find reason of import failure. " + e.getMessage());
 			}
-			CustomAssertions.assertThat(successNodes.getLength()).as("Response file %1$s doesn't have Success status. Reason: %2$s.", fileName, message.toString()).isLessThan(1);
+			CustomAssertions.fail("Response file %1$s doesn't have Success status. Reason: %2$s.", fileName, message.toString());
 		}
 
 		try {

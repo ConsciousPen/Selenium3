@@ -6,6 +6,8 @@ import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
@@ -14,6 +16,7 @@ import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestCinAbstractAutoSS;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -30,6 +33,7 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
      * @details
      */
     @Parameters({STATE_PARAM})
+    @StateList(statesExcept = States.CA)
     @Test(groups = {Groups.FUNCTIONAL, Groups.DOCGEN, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7515")
     public void testCinMVR(@Optional("AZ") String state) {
@@ -62,6 +66,7 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
      * @details
      */
     @Parameters({STATE_PARAM})
+    @StateList(statesExcept = {States.CA, States.CO, States.MD})
     @Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7515")
     public void testCinCLUE(@Optional("AZ") String state) {
@@ -104,6 +109,7 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
      * 6. Verify that CIN document is generated
      */
     @Parameters({STATE_PARAM})
+    @StateList(statesExcept = {States.CA, States.CO, States.MD})
     @Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     public void testNewDriverBetterScore(@Optional("AZ") String state) {
@@ -142,9 +148,10 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
      * 5. Do renewal proposal
      * 6. Verify that CIN document is generated
      */
+    @Parameters({STATE_PARAM})
+    @StateList(statesExcept = {States.CA, States.CO, States.MD})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
-    @Parameters({STATE_PARAM})
     public void testReorderBetterScore(@Optional("AZ") String state) {
         Assertions.assertThat(asList("MD", "CO").contains(state)).as("Test does not support this state: " + state).isFalse();
         TestData policyTD = getPolicyDefaultTD();
@@ -182,9 +189,10 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
      * 4. Renew the policy
      * 5. Make sure that CIN document is not generated
      */
+    @Parameters({STATE_PARAM})
+    @StateList(statesExcept = States.CA)
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
-    @Parameters({STATE_PARAM})
     public void testPriorBILimitNoPriorCarrier(@Optional("AZ") String state) {
         TestData policyTD = getPolicyDefaultTD()
                 .adjust(INSURANCE_SCORE_OVERRIDE, getTestSpecificTD("InsuranceScoreOverride_940"))

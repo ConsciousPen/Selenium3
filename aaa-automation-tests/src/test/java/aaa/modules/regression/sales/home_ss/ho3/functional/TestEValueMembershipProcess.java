@@ -335,7 +335,7 @@ public class TestEValueMembershipProcess extends HomeSSHO3BaseTest implements Te
 				+ "  and ps.policynumber = '%s'\n"
 				+ "  order by emd.id desc)\n"
 				+ "where rownum = 1";
-		softly.assertThat(DBService.get().getValue(String.format(getEvalueStatusSQL, policyNumber))).hasValue(status);
+		softly.assertThat(DBService.get().getValue(String.format(getEvalueStatusSQL, policyNumber)).orElse("")).isEqualTo(status);
 	}
 
 	private void transactionHistoryRecordCountCheck(String policyNumber, int rowCount, String value, ETCSCoreSoftAssertions softly) {

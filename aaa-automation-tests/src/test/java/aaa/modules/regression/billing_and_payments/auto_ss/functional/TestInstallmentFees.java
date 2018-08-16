@@ -13,6 +13,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
@@ -35,6 +36,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomSoftAssertions;
@@ -71,6 +73,7 @@ public class TestInstallmentFees extends PolicyBilling {
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(statesExcept = States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-1943")
 	public void pas1943_InstallmentFeeCreditDebitCardSplit(@Optional("UT") String state) {
@@ -98,6 +101,7 @@ public class TestInstallmentFees extends PolicyBilling {
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(statesExcept = States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-1943")
 	public void pas1455_MessageAmountSavedIfSignedForAutoPayACHRenewalEndorsement(@Optional("UT") String state) {
