@@ -1,14 +1,5 @@
 package aaa.modules.regression.sales.template.functional;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import aaa.helpers.docgen.AaaDocGenEntityQueries;
-import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.xml.model.Document;
-import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -21,11 +12,14 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.PolicyBaseTest;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.DefaultMarkupParser;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommonTemplateMethods extends PolicyBaseTest {
 	private MembershipTab membershipTab = new MembershipTab();
@@ -58,10 +52,7 @@ public class CommonTemplateMethods extends PolicyBaseTest {
 	}
 
 	protected void createQuoteAndFillUpTo(Class<? extends Tab> tab) {
-		mainApp().open();
-		createCustomerIndividual();
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(getPolicyTD(), tab, true);
+ 		createQuoteAndFillUpTo(getPolicyTD(), tab);
 	}
 
 	protected void createConversionQuoteAndFillUpTo(TestData testData, Class<? extends Tab> tab) {
@@ -72,11 +63,8 @@ public class CommonTemplateMethods extends PolicyBaseTest {
 	}
 
 	protected void createConversionQuoteAndFillUpTo(Class<? extends Tab> tab) {
-		mainApp().open();
-		createCustomerIndividual();
-		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
-		policy.getDefaultView().fillUpTo(getConversionPolicyDefaultTD(), tab, false);
-	}
+ 		createConversionPolicy(getConversionPolicyDefaultTD());
+ 	}
 
 	protected void findAndRateQuote(TestData testData, String quoteNumber) {
 		mainApp().open();

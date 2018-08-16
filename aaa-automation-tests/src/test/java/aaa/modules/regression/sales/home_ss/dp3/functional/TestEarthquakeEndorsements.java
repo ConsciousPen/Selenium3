@@ -1,34 +1,26 @@
 package aaa.modules.regression.sales.home_ss.dp3.functional;
 
 import aaa.common.enums.Constants;
-import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.EndorsementForms;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.regression.sales.template.functional.TestEndorsementsTabAbstract;
+import aaa.modules.regression.sales.template.functional.TestEarthquakeEndorsementsTemplate;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE;
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.POLICY_ISSUE;
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER;
-
 @StateList(states = Constants.States.OK)
-public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
+public class TestEarthquakeEndorsements extends TestEarthquakeEndorsementsTemplate {
 
 	private String parentEndorsementFormId = EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId();
 	private String subEndorsementFormId = EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId();
 
 	private String parentEndorsementDocGenId = DocGenEnum.Documents.DS0469.getIdInXml();
-	private String childEndorsementDocGenId = DocGenEnum.Documents.DS0468.getIdInXml();
+	private String subEndorsementDocGenId = DocGenEnum.Documents.DS0468.getIdInXml();
 
 	@Override
 	protected PolicyType getPolicyType() { return PolicyType.HOME_SS_DP3; }
@@ -57,13 +49,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17479, PAS-17489")
 	public void pas17479_pas17489_Privileged_NewBusiness(@Optional("OK") String state) {
-		createQuoteAndFillUpTo(EndorsementTab.class);
-
-		addEndorsementForm(parentEndorsementFormId);
-		//DS 04 68 should be only available then DS 04 69 is added
-		addEndorsementForm(subEndorsementFormId);
-
-		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
+		pas17479_pas17489_Privileged_NewBusiness(parentEndorsementFormId, subEndorsementFormId);
 	}
 
 	/**
@@ -91,14 +77,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17479, PAS-17489")
 	public void pas17479_pas17489_Privileged_Endorsement(@Optional("OK") String state) {
-		openAppAndCreatePolicy();
-		initiateEndorsementTx();
-
-		addEndorsementForm(parentEndorsementFormId);
-		//DS 04 68 should be only available then DS 04 69 is added
-		addEndorsementForm(subEndorsementFormId);
-
-		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
+		pas17479_pas17489_Privileged_Endorsement(parentEndorsementFormId, subEndorsementFormId);
 	}
 
 	/**
@@ -126,14 +105,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17479, PAS-17489")
 	public void pas17479_pas17489_Privileged_Renewal(@Optional("OK") String state) {
-		openAppAndCreatePolicy();
-		initiateRenewalTx();
-
-		addEndorsementForm(parentEndorsementFormId);
-		//DS 04 68 should be only available then DS 04 69 is added
-		addEndorsementForm(subEndorsementFormId);
-
-		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
+		pas17479_pas17489_Privileged_Renewal(parentEndorsementFormId, subEndorsementFormId);
 	}
 
 	/**
@@ -152,9 +124,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for non privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17484")
 	public void pas17484_NonPrivileged_NewBusinessTx(@Optional("OK") String state) {
-		initiateNewBusinessTx_NonPrivileged("F35");
-		checkEndorsementIsNotAvailableInOptionalEndorsements(parentEndorsementFormId);
-		checkEndorsementIsNotAvailableInIncludedEndorsements(parentEndorsementFormId);
+		pas17484_NonPrivileged_NewBusinessTx(parentEndorsementFormId);
 	}
 
 	/**
@@ -187,17 +157,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for non privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17484")
 	public void pas17484_NonPrivileged_NewBusinessTx_AlreadyHadEndorsement(@Optional("OK") String state) {
-		initiateNewBusinessTx_NonPrivileged_AlreadyHadEndorsement("F35", parentEndorsementFormId, subEndorsementFormId);
-
-		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
-		checkEndorsementIsNotAvailableInOptionalEndorsements(parentEndorsementFormId, subEndorsementFormId);
-
-		finishNewBusinessTx();
-
-		//2nd Endorsement -> check that 'Earthquake' endorsement doesn't exist in Endorsement tab
-		initiateEndorsementTx();
-		checkEndorsementIsNotAvailableInIncludedEndorsements(parentEndorsementFormId);
-		checkEndorsementIsNotAvailableInOptionalEndorsements(parentEndorsementFormId);
+		pas17484_NonPrivileged_NewBusinessTx_AlreadyHadEndorsement(parentEndorsementFormId, subEndorsementFormId);
 	}
 
 	/**
@@ -218,13 +178,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for non privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17484")
 	public void pas17484_NonPrivileged_EndorsementTx(@Optional("OK") String state) {
-		String policyNumber = openAppAndCreatePolicy();
-		mainApp().close();
-		openAppNonPrivilegedUser("F35");
-		SearchPage.openPolicy(policyNumber);
-		initiateEndorsementTx();
-		checkEndorsementIsNotAvailableInOptionalEndorsements(parentEndorsementFormId);
-		checkEndorsementIsNotAvailableInIncludedEndorsements(parentEndorsementFormId);
+		pas17484_NonPrivileged_EndorsementTx(parentEndorsementFormId);
 	}
 
 	/**
@@ -255,22 +209,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for non privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17484, PAS-17498")
 	public void pas17484_pas17498_NonPrivileged_EndorsementTx_AlreadyHadEndorsement(@Optional("OK") String state) {
-		String policyNumber = createPolicyWithEndorsement(parentEndorsementFormId, subEndorsementFormId);
-
-		mainApp().close();
-		openAppNonPrivilegedUser("F35");
-		SearchPage.openPolicy(policyNumber);
-		initiateEndorsementTx();
-
-		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
-		checkEndorsementIsNotAvailableInOptionalEndorsements(subEndorsementFormId, parentEndorsementFormId);
-
-		finishRenewalOrEndorsementTx(false);
-
-		//2nd Endorsement -> check that 'Earthquake' endorsement doesn't exist in Endorsement tab
-		initiateEndorsementTx();
-		checkEndorsementIsNotAvailableInIncludedEndorsements(parentEndorsementFormId, subEndorsementFormId);
-		checkEndorsementIsNotAvailableInOptionalEndorsements(parentEndorsementFormId, subEndorsementFormId);
+		pas17484_pas17498_NonPrivileged_EndorsementTx_AlreadyHadEndorsement(parentEndorsementFormId, subEndorsementFormId);
 	}
 
 	/**
@@ -291,16 +230,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for non privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17484")
 	public void pas17484_NonPrivileged_RenewalTx(@Optional("OK") String state) {
-		String policyNumber = openAppAndCreatePolicy();
-		initiateRenewalTx();
-		new PremiumsAndCoveragesQuoteTab().saveAndExit();
-
-		mainApp().close();
-		openAppNonPrivilegedUser("F35");
-		SearchPage.openPolicy(policyNumber);
-		navigateToRenewalPremiumAndCoveragesTab();
-		checkEndorsementIsNotAvailableInOptionalEndorsements(parentEndorsementFormId);
-		checkEndorsementIsNotAvailableInIncludedEndorsements(parentEndorsementFormId);
+		pas17484_NonPrivileged_RenewalTx(parentEndorsementFormId);
 	}
 
 	/**
@@ -330,25 +260,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for non privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17484")
 	public void pas17484_NonPrivileged_RenewalTx_AlreadyHadEndorsement(@Optional("OK") String state) {
-		String policyNumber = createPolicyWithEndorsement(parentEndorsementFormId, subEndorsementFormId);
-
-		initiateRenewalTx();
-		new PremiumsAndCoveragesQuoteTab().saveAndExit();
-
-		mainApp().close();
-		openAppNonPrivilegedUser("F35");
-		SearchPage.openPolicy(policyNumber);
-		navigateToRenewalPremiumAndCoveragesTab();
-
-		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
-		checkEndorsementIsNotAvailableInOptionalEndorsements(parentEndorsementFormId, subEndorsementFormId);
-
-		finishRenewalOrEndorsementTx(false);
-
-		//2nd Renewal tx -> check that 'X' endorsement doesn't exist in Endorsement tab
-		navigateToRenewalPremiumAndCoveragesTab();
-		checkEndorsementIsNotAvailableInIncludedEndorsements(parentEndorsementFormId, subEndorsementFormId);
-		checkEndorsementIsNotAvailableInOptionalEndorsements(parentEndorsementFormId, subEndorsementFormId);
+		pas17484_NonPrivileged_RenewalTx_AlreadyHadEndorsement(parentEndorsementFormId, subEndorsementFormId);
 	}
 
 	/**
@@ -365,10 +277,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement document trigger")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17498")
 	public void pas17494_checkDocGenTrigger_NewBusiness(@Optional("OK") String state) {
-		String policyNumber = createPolicyWithEndorsement(parentEndorsementFormId, subEndorsementFormId);
-
-		//Check that Document generation triggered after Policy Creation
-		checkDocGenTriggered(policyNumber, POLICY_ISSUE, parentEndorsementDocGenId, childEndorsementDocGenId);
+		pas17494_checkDocGenTrigger_NewBusiness(parentEndorsementFormId, subEndorsementFormId, parentEndorsementDocGenId, subEndorsementDocGenId);
 	}
 
 	/**
@@ -388,15 +297,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement document trigger")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17498")
 	public void pas17498_checkDocGenTrigger_Endorsement(@Optional("OK") String state) {
-		String policyNumber = openAppAndCreatePolicy();
-		initiateEndorsementTx();
-		addEndorsementForm(parentEndorsementFormId);
-		addEndorsementForm(subEndorsementFormId);
-
-		finishRenewalOrEndorsementTx(true);
-
-		//Check that Document generation triggered after Policy Endorsement
-		checkDocGenTriggered(policyNumber, ENDORSEMENT_ISSUE, parentEndorsementDocGenId, childEndorsementDocGenId);
+		pas17498_checkDocGenTrigger_Endorsement(parentEndorsementFormId, subEndorsementFormId, parentEndorsementDocGenId, subEndorsementDocGenId);
 	}
 
 	/**
@@ -418,19 +319,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement document trigger")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17498")
 	public void pas17498_checkDocGenTrigger_Renewal(@Optional("OK") String state) {
-		String policyNumber =  openAppAndCreatePolicy();
-		moveTimeAndRunRenewJobs(getTimePoints().getRenewOfferGenerationDate(PolicySummaryPage.getExpirationDate()));
-
-		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
-		navigateToRenewalPremiumAndCoveragesTab();
-		addEndorsementForm(parentEndorsementFormId);
-		addEndorsementForm(subEndorsementFormId);
-
-		finishRenewalOrEndorsementTx(true);
-
-		//Check that Document generation triggered after Policy Endorsement
-		checkDocGenTriggered(policyNumber, RENEWAL_OFFER, parentEndorsementDocGenId, childEndorsementDocGenId);
+		pas17498_checkDocGenTrigger_Renewal(parentEndorsementFormId, subEndorsementFormId, parentEndorsementDocGenId, subEndorsementDocGenId);
 	}
 
 	/**
@@ -454,8 +343,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement premium change check")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17494")
 	public void pas17494_checkPremium_NewBusinessTx(@Optional("OK") String state) {
-		createQuoteAndFillUpTo(EndorsementTab.class);
-		checkEndorsementsIncreasesPremium(parentEndorsementFormId, subEndorsementFormId);
+		pas17494_checkPremium_NewBusinessTx(parentEndorsementFormId, subEndorsementFormId);
 	}
 
 	/**
@@ -480,9 +368,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement premium change check")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17494")
 	public void pas17494_checkPremium_EndorsementTx(@Optional("OK") String state) {
-		openAppAndCreatePolicy();
-		initiateEndorsementTx();
-		checkEndorsementsIncreasesPremium(parentEndorsementFormId, subEndorsementFormId);
+		pas17494_checkPremium_EndorsementTx(parentEndorsementFormId, subEndorsementFormId);
 	}
 
 	/**
@@ -507,8 +393,6 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement premium change check")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17494")
 	public void pas17494_checkPremium_RenewalTx(@Optional("OK") String state) {
-		openAppAndCreatePolicy();
-		initiateRenewalTx();
-		checkEndorsementsIncreasesPremium(parentEndorsementFormId, subEndorsementFormId);
+		pas17494_checkPremium_RenewalTx(parentEndorsementFormId, subEndorsementFormId);
 	}
 }
