@@ -297,7 +297,7 @@ public class Scenario11 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
 		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
-			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.COMPANY_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate);
+			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate); //PASBB-624/PAS-624
 		} else {
 			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 		}
@@ -343,7 +343,12 @@ public class Scenario11 extends ScenarioBaseTest {
 	}
 	
 	protected void payRenewalOfferInFullAmount(Dollar toleranceAmount) {
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate).plusDays(5));
+		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
+			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate).plusHours(1)); //PASBB-624/PAS-624
+		} else {
+			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate).plusDays(5));
+		}
+
 		//TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(20));
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 		
