@@ -111,7 +111,7 @@ public class TestMiniServicesBilling extends TestMiniServicesBillingAbstract {
 	 * 2. Hit Customer service, check info in the service and in UI.
 	 * 3. Hit Installments service, check info.
 	 * 4. Create endorsement outside of PAS.
-	 * 5. Add new vehicle and new driver. Update them.
+	 * 5. Add new driver. Update.
 	 * 6. Bind endorsement.
 	 * 7. Hit Customer service, check info in the service and in UI.
 	 * 8. Hit Installments service, check info.
@@ -126,18 +126,10 @@ public class TestMiniServicesBilling extends TestMiniServicesBillingAbstract {
 				AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), "Quarterly");
 
 		mainApp().open();
-		//createCustomerIndividual();
+		createCustomerIndividual();
 		String policyNumber = createPolicy(policyTd);
-				// "VASS952918979";
 
-
-
-		//Hit account service, check all info
-		assertSoftly(softly -> {
-			String lastDueDate = installmentsServiceCheck(softly, policyNumber);
-			currentAccountInfoServiceCheck(softly, policyNumber, lastDueDate);
-		});
-
+		pas16982_ViewInstallmentScheduleServiceBody(policyNumber);
 	}
 
 	@Override

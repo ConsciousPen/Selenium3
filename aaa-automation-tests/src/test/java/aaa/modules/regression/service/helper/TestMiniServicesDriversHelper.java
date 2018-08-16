@@ -1543,7 +1543,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		String licenseNumber = viewDriver.driverList.get(1).drivingLicense.licenseNumber;
 
 		removeDriverRequest.removalReasonCode = "RD1001";
-		DriversDto removeDriver2Response = HelperCommon.removeDriver(policyNumber, driverOid2, removeDriverRequest);
+		HelperCommon.removeDriver(policyNumber, driverOid2, removeDriverRequest);
 
 		ComparablePolicy policyResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
 		ComparableDriver driver1 = policyResponse.drivers.get(driverOid2);

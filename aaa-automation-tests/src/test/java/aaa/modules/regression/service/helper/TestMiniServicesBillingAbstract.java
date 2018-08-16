@@ -1,15 +1,14 @@
 package aaa.modules.regression.service.helper;
 
 import static aaa.main.enums.BillingConstants.BillingInstallmentScheduleTable.*;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.modules.regression.service.helper.dtoDxp.AccountDetails;
-import aaa.modules.regression.service.helper.dtoDxp.Bill;
-import aaa.modules.regression.service.helper.dtoDxp.Installment;
+import aaa.modules.regression.service.helper.dtoDxp.*;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.SoftAssertions;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -28,6 +27,7 @@ public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 
 	private BillingAccount billingAccount = new BillingAccount();
 	private TestData tdBilling = testDataManager.billingAccount;
+	private HelperMiniServices helperMiniServices = new HelperMiniServices();
 
 	protected abstract String getGeneralTab();
 
@@ -115,6 +115,34 @@ public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 			softly.assertThat(currentBillResponse2.amountPastDue).isEqualTo("0.00");
 		}
 	}
+
+	protected void pas16982_ViewInstallmentScheduleServiceBody(String policyNumber) {
+
+		assertSoftly(softly -> {
+			String lastDueDate = installmentsServiceCheck(softly, policyNumber);
+			currentAccountInfoServiceCheck(softly, policyNumber, lastDueDate);
+		});
+
+		//create endorsement outside of PAS
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Spouse", "Driver", "Smith", "1979-02-13", "III");
+		DriversDto addDriverRequestService = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+
+		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "D32329585", 16, "AZ", "CH", "MSS");
+		HelperCommon.updateDriver(policyNumber, addDriverRequestService.oid, updateDriverRequest);
+
+		//Order reports through service
+		HelperCommon.orderReports(policyNumber, addDriverRequestService.oid, OrderReportsResponse.class, 200);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		assertSoftly(softly -> {
+			String lastDueDate2 = installmentsServiceCheck(softly, policyNumber);
+			currentAccountInfoServiceCheck(softly, policyNumber, lastDueDate2);
+		});
+	}
+
 
 	protected String installmentsServiceCheck(SoftAssertions softly, String policyNumber) {
 		mainApp().open();
