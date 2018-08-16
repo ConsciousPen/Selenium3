@@ -23,12 +23,8 @@ public class TestZeroClaimsDiscountTemplate extends PolicyBaseTest {
 
 	protected void pas9088_testZeroClaimsDiscountQuote() {
 
-		mainApp().open();
-		createCustomerIndividual();
-		policy.initiate();
-
-		effectiveDate = new GeneralTab().getEffectiveDate();
-		policy.getDefaultView().fillUpTo(getPolicyTD(), PremiumsAndCoveragesQuoteTab.class, true);
+		createQuoteAndFillUpTo(PremiumsAndCoveragesQuoteTab.class);
+		effectiveDate = new PremiumsAndCoveragesQuoteTab().getEffectiveDate();
 
 		validateDiscountAndPremiumChange();
 
@@ -36,10 +32,7 @@ public class TestZeroClaimsDiscountTemplate extends PolicyBaseTest {
 
 	protected void pas9088_testZeroClaimsDiscountRenewal() {
 
-		mainApp().open();
-		createCustomerIndividual();
-		createPolicy();
-
+		openAppAndCreatePolicy();
 		policy.renew().perform();
 		effectiveDate =new GeneralTab().getEffectiveDate();
 		premiumsAndCoveragesQuoteTab.calculatePremium();
