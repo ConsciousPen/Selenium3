@@ -3,9 +3,8 @@ package aaa.modules.regression.service.helper;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.MIDDLE_NAME;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+
 import java.math.BigDecimal;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,7 +14,6 @@ import java.util.List;
 import javax.ws.rs.core.Response;
 
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
-import org.assertj.core.api.SoftAssertions;
 import org.apache.commons.lang3.BooleanUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
