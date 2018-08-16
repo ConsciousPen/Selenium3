@@ -1,6 +1,6 @@
 package aaa.modules.bct.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -27,6 +27,7 @@ import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
@@ -47,22 +48,21 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		}
 		policy.endorse().perform(getTestSpecificTD("TestData"));
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		String[] labelsAreNotDisplayed = {
-				HomeSSMetaData.PropertyInfoTab.COVERAGE_A_DWELLING_LIMIT.getLabel(),
-				HomeSSMetaData.PropertyInfoTab.PLUMBING_RENOVATION.getLabel(),
-				HomeSSMetaData.PropertyInfoTab.ELECTRICAL_RENOVATION.getLabel(),
-				HomeSSMetaData.PropertyInfoTab.ROOF_RENOVATION.getLabel(),
-				HomeSSMetaData.PropertyInfoTab.HEATING_COOLING_RENOVATION.getLabel()
+		AssetDescriptor[] labelsAreNotDisplayed = {
+				HomeSSMetaData.PropertyInfoTab.COVERAGE_A_DWELLING_LIMIT,
+				HomeSSMetaData.PropertyInfoTab.PLUMBING_RENOVATION,
+				HomeSSMetaData.PropertyInfoTab.ELECTRICAL_RENOVATION,
+				HomeSSMetaData.PropertyInfoTab.ROOF_RENOVATION,
+				HomeSSMetaData.PropertyInfoTab.HEATING_COOLING_RENOVATION
 		};
-		policy.dataGather().getView().getTab(PropertyInfoTab.class).verifyFieldsAreNotDisplayed(labelsAreNotDisplayed);
+		assertThat(policy.dataGather().getView().getTab(PropertyInfoTab.class).getAssetList().getAssets(labelsAreNotDisplayed)).extractingResultOf("isPresent").containsOnly(false);
 
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		new PremiumsAndCoveragesQuoteTab().calculatePremium();
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.BIND.get());
 		new BindTab().submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	@Parameters({"state"})

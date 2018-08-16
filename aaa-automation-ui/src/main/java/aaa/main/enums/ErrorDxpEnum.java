@@ -71,6 +71,7 @@ public final class ErrorDxpEnum {
 		DUPLICATE_DRIVER_LICENSE_ERROR("Duplicate Driver License (AAASS200008)"),
 		VALIDATE_DRIVER_LICENSE_BY_STATE("License number is inconsistent with state format (AAA_CSA3040364)"),
 		INSURANCE_SCORE_ORDER_MESSAGE("Need Insurance Score Order (AAA_SS9192341)"),
+		RELATIONSHIP_TO_FNI_ERROR("AAA_SS180807-NTzjT","Relationship to FNI needs review (AAA_SS180807-NTzjT)"),
 		;
 
 		private String code;

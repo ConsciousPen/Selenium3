@@ -24,8 +24,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
  * @scenario
  * 1. Create Individual Customer / Account
  * 2. Select RME Action with HSS product
- * 3. Verify "Legacy policy had MPD discount" radio button is exist on RME screen
- * 4. Verify "Legacy policy had MPD discount" radio button is mandatory
+ * 3. Verify "Legacy policy had Multi-Policy discount" radio button is exist on RME screen
+ * 4. Verify "Legacy policy had Multi-Policy discount" radio button is mandatory
  * 5. TBD (PAS-2310 should be cover)
  */
 
@@ -35,8 +35,7 @@ public class TestPolicyRmeMpdDiscountButton extends HomeSSHO4BaseTest {
     @StateList(states = {Constants.States.NJ})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO4,testCaseId = "PAS-2293,PAS-7979")
-
-    public void testPolicyRmeMpd (@Optional("") String state) {
+    public void testPolicyRmeMpd (@Optional("NJ") String state) {
 
         InitiateRenewalEntryActionTab initiateRenewalEntryActionTab = new InitiateRenewalEntryActionTab();
         GeneralTab generalTab = new GeneralTab();
@@ -48,16 +47,17 @@ public class TestPolicyRmeMpdDiscountButton extends HomeSSHO4BaseTest {
         customer.initiateRenewalEntry().start();
         initiateRenewalEntryActionTab.fillTab(getTestSpecificTD("TD_Renewal_Actions"));
 
-        //Verify "Legacy policy had MPD discount" radio button is exist on RME screen
+        //Verify "Legacy policy had Multi-Policy discount" radio button is exist on RME screen
         assertThat(initiateRenewalEntryActionTab.getAssetList().getAsset(CustomerMetaData
-                .InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MPD_DISCOUNT)).isPresent();
+                .InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT)).isPresent();
 
-        //Verify that "Legacy policy had MPD discount" radio button is mandatory on RME screen
+        //Verify that "Legacy policy had Multi-Policy discount" radio button is mandatory on RME screen
         initiateRenewalEntryActionTab.submitTab();
-        assertThat(InitiateRenewalEntryActionTab.rmeScreenMpdErrorMessage).hasValue(PolicyConstants.InitiateRenewalEntryScreenErrorMessages.LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT_SHOULD_BE_SELECTED);
+        assertThat(initiateRenewalEntryActionTab.getAssetList().getAsset(CustomerMetaData.InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT))
+                .hasWarningWithText(PolicyConstants.InitiateRenewalEntryScreenErrorMessages.LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT_SHOULD_BE_SELECTED);
 
         initiateRenewalEntryActionTab.getAssetList().getAsset(CustomerMetaData
-                .InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MPD_DISCOUNT).setValue("Yes");
+                .InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT).setValue("Yes");
         initiateRenewalEntryActionTab.submitTab();
 
         new CustomerActions.InitiateRenewalEntry().submit();

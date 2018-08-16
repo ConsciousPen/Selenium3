@@ -4,6 +4,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -16,11 +17,13 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import aaa.utils.StateList;
 
 public class TestScenarioCT extends AutoSSBaseTest {
 	private GenerateOnDemandDocumentActionTab docgenActionTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 
 	@Parameters({ "state" })
+	@StateList(states = States.CT)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC01_CreatePolicy(@Optional("") String state) {
 		mainApp().open();

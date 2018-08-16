@@ -8,11 +8,13 @@ import org.testng.annotations.Test;
 
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.modules.regression.service.template.PolicyRenewFlatCancellation;
+import aaa.utils.StateList;
 
 /**
  * @author Xiaolan Ge
@@ -37,6 +39,7 @@ public class TestPolicyRenewFlatCancellation extends PolicyRenewFlatCancellation
 	}
 	
 	@Parameters({"state"})
+	@StateList(states =  States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3 )
     public void testPolicyRenewFlatCancellation(@Optional("CA") String state) {

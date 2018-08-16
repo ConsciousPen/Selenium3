@@ -4,6 +4,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -13,6 +14,7 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.billing_and_payments.template.functional.TestEarnedPremiumWriteOffAbstract;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -59,6 +61,7 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
+	@StateList(states = States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = {"PAS-11697"})
 	public void pas11697_testEarnedPremiumWriteOffLessDecline(@Optional("CA") String state)  {
@@ -81,6 +84,7 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
+	@StateList(states = States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = {"PAS-11697"})
 	public void pas11697_testEarnedPremiumWriteOffEqualDecline(@Optional("CA") String state)  {
@@ -103,6 +107,7 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
+	@StateList(states = States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = {"PAS-11697"})
 	public void pas11697_testEarnedPremiumWriteOffMoreDecline(@Optional("CA") String state)  {
@@ -126,6 +131,7 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
+	@StateList(states = States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = {"PAS-11697"})
 	public void pas11697_testEarnedPremiumWriteOffLessProposed(@Optional("CA") String state)  {
@@ -149,6 +155,7 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
+	@StateList(states = States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = {"PAS-11697"})
 	public void pas11697_testEarnedPremiumWriteOffEqualProposed(@Optional("CA") String state)  {
@@ -172,6 +179,7 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
+	@StateList(states = States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = {"PAS-11697"})
 	public void pas11697_testEarnedPremiumWriteOffMoreProposed(@Optional("CA") String state)  {
@@ -192,6 +200,7 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
+	@StateList(states = States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = {"PAS-11697"})
 	public void pas11697_testEarnedPremiumWriteOffNoAP(@Optional("CA") String state)  {

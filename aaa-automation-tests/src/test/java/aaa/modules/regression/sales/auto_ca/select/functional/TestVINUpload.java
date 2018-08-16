@@ -68,7 +68,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-533")
-	public void pas533_newVinAdded(@Optional("") String state) {
+	public void pas533_newVinAdded(@Optional("CA") String state) {
 	    VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
 
 		newVinAdded(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN.get()), NEW_VIN);
@@ -99,7 +99,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-527")
-	public void pas527_UpdatedVinRenewal(@Optional("") String state) {
+	public void pas527_UpdatedVinRenewal(@Optional("CA") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
 		updatedVinRenewal(vinMethods.getSpecificUploadFile(VinUploadFileType.REFRESHABLE_VIN.get()), REFRESHABLE_VIN);
 
@@ -145,11 +145,11 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-2716")
-	public void pas2716_AutomatedRenewal_ExpirationDate(@Optional("") String state) {
+	public void pas2716_AutomatedRenewal_ExpirationDate(@Optional("CA") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
 		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),NEW_VIN4);
 
-		String policyNumber = createPreconds(testData);
+		String policyNumber = openAppAndCreatePolicy(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		adminApp().open();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
@@ -176,11 +176,11 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-2716")
-	public void pas2716_AutomatedRenewal_ExpirationDateMinus45(@Optional("") String state) {
+	public void pas2716_AutomatedRenewal_ExpirationDateMinus45(@Optional("CA") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
 		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),NEW_VIN5);
 
-		String policyNumber = createPreconds(testData);
+		String policyNumber = openAppAndCreatePolicy(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		adminApp().open();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
@@ -207,11 +207,11 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-2716")
-	public void pas2716_AutomatedRenewal_ExpirationDateMinus35(@Optional("") String state) {
+	public void pas2716_AutomatedRenewal_ExpirationDateMinus35(@Optional("CA") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
 		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),NEW_VIN6);
 
-		String policyNumber = createPreconds(testData);
+		String policyNumber = openAppAndCreatePolicy(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		adminApp().open();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
@@ -225,7 +225,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
-	public void test(@Optional("") String state) {
+	public void test(@Optional("CA") String state) {
 		String methodName = "pas730_VehicleTypeRegular";
 		StackTraceElement result = Arrays.stream(Thread.currentThread().getStackTrace()).filter(s -> s.getClassName().startsWith("aaa.modules")).reduce((a, b) -> b).orElse(null);
 		if (result != null) {
@@ -262,7 +262,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		TestData testData = getNonExistingVehicleTestData(getPolicyTD(), NEW_VIN7).resolveLinks();
 
 		// 1. Create Auto policy with 2 vehicles
-		String policyNumber = createPreconds(testData);
+		String policyNumber = openAppAndCreatePolicy(testData);
 
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
@@ -280,8 +280,8 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		// Make sure refresh occurs
-		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE.getLabel()).getValue()).isEqualTo("BACKDATED_SS_MAKE");
-		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("Gt");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE)).hasValue("BACKDATED_SS_MAKE");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL)).hasValue("Gt");
 		// Add Vehicle to new renewal version
 		TestData renewalVersionVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
 				.adjust(AutoCaMetaData.VehicleTab.TYPE.getLabel(), "Private Passenger Auto")

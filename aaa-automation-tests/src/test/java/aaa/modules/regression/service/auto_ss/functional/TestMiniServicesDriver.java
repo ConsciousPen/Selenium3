@@ -1,6 +1,6 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.text.ParseException;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -337,7 +337,9 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
 	public void pas14475_NameInsuredMaritalStatus(@Optional("AZ") String state) {
-		pas14475_NameInsuredMaritalStatusBody();
+		assertSoftly(softly ->
+				pas14475_NameInsuredMaritalStatusBodyT(softly, true, "SSS")
+		);
 	}
 
 	/**
@@ -356,8 +358,10 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
-	public void pas14475_NameInsuredMaritalStatusDSS(@Optional("") String state) {
-		pas14475_NameInsuredMaritalStatusFNIIsDSSBody();
+	public void pas14475_NameInsuredMaritalStatusDSS(@Optional("AZ") String state) {
+		assertSoftly(softly ->
+				pas14475_NameInsuredMaritalStatusBodyT(softly, true, "DSS")
+		);
 	}
 
 	/**
@@ -376,8 +380,10 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
-	public void pas14475_NameInsuredMaritalStatusWSS(@Optional("") String state) {
-		pas14475_NameInsuredMaritalStatusFNIIsWSSBody();
+	public void pas14475_NameInsuredMaritalStatusWSS(@Optional("AZ") String state) {
+		assertSoftly(softly ->
+				pas14475_NameInsuredMaritalStatusBodyT(softly, true, "WSS")
+		);
 	}
 
 	/**
@@ -396,9 +402,9 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
-	public void pas14475_NameInsuredMaritalStatusPSS(@Optional("") String state) {
+	public void pas14475_NameInsuredMaritalStatusPSS(@Optional("AZ") String state) {
 		assertSoftly(softly ->
-				pas14475_NameInsuredMaritalStatusFNIIsPSSBody(softly)
+				pas14475_NameInsuredMaritalStatusBodyT(softly, true, "PSS")
 		);
 	}
 
@@ -489,7 +495,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14640"})
-	public void pas14640_NotNamedInsuredAvailableForRatingHappyPath(@Optional("VA") String state){
+	public void pas14640_NotNamedInsuredAvailableForRatingHappyPath(@Optional("VA") String state) {
 		pas14640_NotNamedInsuredAvailableForRatingHappyPathBody();
 	}
 
@@ -511,7 +517,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14642"})
-	public void pas14642_NotNamedInsuredAvailableForRatingHardStop(@Optional("VA") String state){
+	public void pas14642_NotNamedInsuredAvailableForRatingHardStop(@Optional("VA") String state) {
 		pas14642_NotNamedInsuredAvailableForRatingHardStopBody();
 	}
 
@@ -533,7 +539,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14641"})
-	public void pas14641_NotNamedInsuredUpdateToNotAvailableForRating(@Optional("VA") String state){
+	public void pas14641_NotNamedInsuredUpdateToNotAvailableForRating(@Optional("VA") String state) {
 		pas14641_NotNamedInsuredUpdateToNotAvailableForRatingBody();
 	}
 
@@ -551,8 +557,146 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14963"})
-	public void pas14963_remove_driver_transaction_history(@Optional("VA") String state){
+	public void pas14963_remove_driver_transaction_history(@Optional("VA") String state) {
 		pas14963_remove_driver_transaction_historyBody(getPolicyType());
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Relationship to FNI and the hard stop
+	 * @scenario
+	 * 1. Create a policy in PAS.
+	 * 2. Create endorsement through service
+	 * 3. Add driver through service
+	 * 4. update driver Relationship to FNI Employee and verify error message.
+	 * 5. rate the policy through service and verify error message.
+	 * 6. Go to Pas Rate the policy from Pas
+	 * 7. Run Bind service And verify message.
+	 * 8. Repeat steps 4 to 7 For Relationship to FNI Other Resident Relative
+	 * 9.Repeat steps 4 to 7 For Relationship to FNI Other.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16551"})
+	public void pas16551_relation_to_fni_hard_stop(@Optional("VA") String state) {
+		pas16551_relation_to_fni_hard_stopBody(getPolicyType());
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 	Note: Expected values for deathAndSpecificDisabilityInd and totalDisabilityIn:
+	 *  null - coverage not available
+	 * 	true - coverage available and selected
+	 * 	false - coverage available but not selected
+	 *
+	 * 1) Create a policy in PAS
+	 * 2) Create an endorsement through service
+	 * 3) Add 1 driver and validate that "Death and Specific Disability Coverage" is defaulted to false and "Total Disability Coverage" is
+	 *    defaulted to null in add driver and view driver responses
+	 * 4) Rate endorsement and get total premium (this will be premium without "Death and Specific Disability Coverage" and "Total Disability Coverage")
+	 * 5) Check in PAS Drivers tab that "Death and Specific Disability Coverage" is selected as NO
+	 * 6) Check in PAS in Forms tab that "Death and Specific Disability Coverage" is not selected for the driver
+	 * 7) Check in PAS in P&C tab that premium is the same as it was in DXP response (Step 4)
+	 *
+	 * 8) Update "Death and Specific Disability Coverage" coverage to Yes for the driver through service and
+	 *    validate that coverage is applied in update driver and view driver responses. "Total Disability Coverage" is false
+	 * 9) Calculate premium through service
+	 * 10) Validate that "Death and Specific Disability Coverage" is updated in PAS Drivers tab and Forms tab and
+	 *     that premium is increased because of the premium in P&C tab. "Total Disability Coverage" is No
+	 *
+	 * 11) Update "Total Disability Coverage" coverage to Yes for the driver through service and validate that coverage  "Death and Specific Disability Coverage"
+	 *     and "Total Disability Coverage" is applied in update driver and view driver responses.
+	 * 12) Calculate premium through service
+	 * 13) validate that "Total Disability Coverage" is updated in PAS Drivers tab and Forms tab and that premium is increased because of "Total Disability Coverage" in P&C tab
+	 *
+	 * 14) Update "Death and Specific Disability Coverage" to No for Driver which has also "Total Disability Coverage" ---> "Total Disability Coverage" should be defaulted to null in responses
+	 *
+	 * Note: test also validates that "Death and Specific Disability Coverage" is available for Available for Rating drivers and
+	 *       "Total Disability Coverage" is available only if "Death and Specific Disability Coverage" is selected
+	 * */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050"})
+	public void pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC01(@Optional("VA") String state) {
+		pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC01Body();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 *  Note: Expected values for deathAndSpecificDisabilityInd and totalDisabilityIn:
+	 *        null - coverage not available
+	 *  	  true - coverage available and selected
+	 *  	  false - coverage available but not selected
+	 *
+	 * 1) Create a policy in PAS with one
+	 *    AFR Driver (with "Death and Specific Disability Coverage"),
+	 *    one AFR Driver (without "Death and Specific Disability Coverage")
+	 *    and one NAFR driver
+	 * 2) Create an endorsement through service
+	 * 3) Validate that "Death and Specific Disability Coverage" in viewDrivers response is the same as when policy was created (Step 1)
+	 * 4) Validate that for NAFR driver coverages are no selected and are not available in responses
+	 * 5) Change "Death and Specific Disability Coverage" to opposite value for all AFR drivers (YES to No, No to Yes) through service
+	 * 6) Rate endorsement through service
+	 * 7) Validate in PAS that coverages has been changed in Drivers tab and in Forms tab
+	 * 8) Validate that premium in P&C tab is the same as it was in rate through service (Step 6)
+	 * 9) Validate that premium has not changed if compered with policy when it was created (Step 1). (Because there still is one driver
+	 *    without the coverage and one driver with coverage)
+	 *
+	 * 10) Add one driver through service and change it to NAFR in PAS (because not possible to change to NAFR through service)
+	 * 11) Validate that "Death and Specific Disability Coverage" and "Total Disability Coverage" is not
+	 *     available for the driver and it and they are not selected
+	 *
+	 * Note: test also validates that "Death and Specific Disability Coverage" is available for Available for Rating drivers and
+	 *      "Total Disability Coverage" is available only if "Death and Specific Disability Coverage" is selected
+	 *
+	 * Note: test also validates metadata for fields "Death and Specific Disability Coverage" and "Total Disability Coverage" (PAS-16913)
+	 * */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050", "PAS-16913"})
+	public void pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC02(@Optional("VA") String state) {
+		pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC02Body();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 *  Note: Expected values for deathAndSpecificDisabilityInd and totalDisabilityIn:
+	 *        null - coverage not available
+	 *  	  true - coverage available and selected
+	 *  	  false - coverage available but not selected
+	 *
+	 * 1) Create a policy in PAS with one
+	 *    AFR Driver (with "Total Disability Coverage"),
+	 *    one AFR Driver (without "Total Disability Coverage")
+	 *    and one NAFR driver
+	 * 2) Create an endorsement through service
+	 * 3) Validate that "Total Disability Coverage" in viewDrivers response is the same as when policy was created (Step 1)
+	 * 4) Validate that for NAFR driver both coverages are no selected and are not available in responses
+	 * 5) Change "Total Disability Coverage" to opposite value for all AFR drivers (YES to No, No to Yes) through service
+	 * 6) Rate endorsement through service
+	 * 7) validate in PAS that coverages has been changed in Drivers tab and in Forms tab
+	 * 8) validate that premium in P&C tab is the same as it was in rate through service (Step 6)
+	 * 9) validate that premium has not changed if compered with policy when it was created (Step 1). (Because there still is one driver
+	 *    without the coverage and one driver with coverage)
+	 *
+	 * 10) Add one driver through service and change it to NAFR in PAS (because not possible to change to NAFR through service)
+	 * 11) Validate that "Death and Specific Disability Coverage" and "Total Disability Coverage" is not
+	 *     available for the driver and it and they are not selected
+	 *
+	 * Note: test also validates that "Death and Specific Disability Coverage" is available for Available for Rating drivers and
+	 *      "Total Disability Coverage" is available only if "Death and Specific Disability Coverage" is selected
+	 * */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050"})
+	public void pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03(@Optional("VA") String state) {
+		pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03Body();
 	}
 }
 

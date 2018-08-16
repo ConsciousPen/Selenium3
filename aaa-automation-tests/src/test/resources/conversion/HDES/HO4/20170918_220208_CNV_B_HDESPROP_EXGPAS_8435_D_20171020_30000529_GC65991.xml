@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005301</agencyLocation>
+		<agentCd>70683577</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<CaliforniaVeterans>false</CaliforniaVeterans>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2017-12-11T00:00:00</effective>
+		<expiration>2018-12-11T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>HDES</importedFrom>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>HO4</policyFormCd>
+		<preConversionPolicyNumber>GC65991</preConversionPolicyNumber>
+		<preConversionPolicyPremium>120</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>GC65991</sourcePolicyNum>
+		<subProducerCd>70683577</subProducerCd>
+		<tollNumberCd>xxx</tollNumberCd>
+		<underwriterCd>CSAAIB</underwriterCd>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+			<policyType>BASIC</policyType>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>CAMPBELL</dwellAddressCity>
+			<dwellAddressLine1>585 W HACIENDA AVE</dwellAddressLine1>
+			<dwellAddressLine2>APT 304</dwellAddressLine2>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95008</dwellAddressZip>
+			<expirationDate>2018-01-18T00:00:00</expirationDate>
+			<orderDate>2017-10-20T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<preferredContact>workPhone</preferredContact>
+			<workPhone>4087714934</workPhone>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>Yes</insurerCd>
+			<insurerName>LOBOS</insurerName>
+			<policyNumber>4290051226923617</policyNumber>
+		</AAAHOMembership>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1980-03-24T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>IRENE</firstName>
+			<lastName>LOBOS</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>585 W HACIENDA AVE</addressLine1>
+				<addressLine2>APT 304</addressLine2>
+				<city>CAMPBELL</city>
+				<dateOfBirth>1980-03-24T00:00:00</dateOfBirth>
+				<expirationDt>2017-12-19T00:00:00</expirationDt>
+				<firstName>IRENE</firstName>
+				<lastName>LOBOS</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-10-20T00:00:00</orderDate>
+				<postalCode>95008</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>585 W HACIENDA AVE</addressLine1>
+				<addressLine2>APT 304</addressLine2>
+				<city>CAMPBELL</city>
+				<countryCd>US</countryCd>
+				<postalCode>95008</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1998-01-01T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>VIRGINIA</firstName>
+			<lastName>LOBOS</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>585 W HACIENDA AVE</addressLine1>
+				<addressLine2>APT 304</addressLine2>
+				<city>CAMPBELL</city>
+				<dateOfBirth>1998-01-01T00:00:00</dateOfBirth>
+				<expirationDt>2017-12-19T00:00:00</expirationDt>
+				<firstName>VIRGINIA</firstName>
+				<lastName>LOBOS</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-10-20T00:00:00</orderDate>
+				<postalCode>95008</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>585 W HACIENDA AVE</addressLine1>
+				<addressLine2>APT 304</addressLine2>
+				<city>CAMPBELL</city>
+				<countryCd>US</countryCd>
+				<postalCode>95008</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1981-07-03T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>SACHIN</firstName>
+			<lastName>DAGA</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>585 W HACIENDA AVE</addressLine1>
+				<addressLine2>APT 304</addressLine2>
+				<city>CAMPBELL</city>
+				<dateOfBirth>1981-07-03T00:00:00</dateOfBirth>
+				<expirationDt>2017-12-19T00:00:00</expirationDt>
+				<firstName>SACHIN</firstName>
+				<lastName>DAGA</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-10-20T00:00:00</orderDate>
+				<postalCode>95008</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>585 W HACIENDA AVE</addressLine1>
+				<addressLine2>APT 304</addressLine2>
+				<city>CAMPBELL</city>
+				<countryCd>US</countryCd>
+				<postalCode>95008</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1998-01-01T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>MORALES</firstName>
+			<lastName>ANA</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>585 W HACIENDA AVE</addressLine1>
+				<addressLine2>APT 304</addressLine2>
+				<city>CAMPBELL</city>
+				<dateOfBirth>1998-01-01T00:00:00</dateOfBirth>
+				<expirationDt>2017-12-19T00:00:00</expirationDt>
+				<firstName>MORALES</firstName>
+				<lastName>ANA</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-10-20T00:00:00</orderDate>
+				<postalCode>95008</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>585 W HACIENDA AVE</addressLine1>
+				<addressLine2>APT 304</addressLine2>
+				<city>CAMPBELL</city>
+				<countryCd>US</countryCd>
+				<postalCode>95008</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Insured</billToAtRenewal>
+			<paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>standardHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2014-01-01T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>3</noOfYearsWithHO>
+			<policyType>HO4</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAMembershipOrder state="Created">
+			<lastName>LOBOS</lastName>
+			<membershipNumber>4290051226923617</membershipNumber>
+			<orderDate>2017-10-20T00:00:00</orderDate>
+			<receiptDate>2017-10-20T00:00:00</receiptDate>
+			<status>Active</status>
+		</AAAMembershipOrder>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>CAMPBELL</dwellAddressCity>
+			<dwellAddressLine1>585 W HACIENDA AVE</dwellAddressLine1>
+			<dwellAddressLine2>APT 304</dwellAddressLine2>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95008</dwellAddressZip>
+			<expirationDate>2017-12-19T00:00:00</expirationDate>
+			<orderDate>2017-10-20T00:00:00</orderDate>
+			<ppcValue>2</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<PremisesEndrosInd>false</PremisesEndrosInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>1</aaaDwellingUsage>
+			<aaaFirelineScore>0</aaaFirelineScore>
+			<aaanumberofResidents>9999</aaanumberofResidents>
+			<addressLine1>585 W HACIENDA AVE</addressLine1>
+			<addressLine2>APT 304</addressLine2>
+			<city>CAMPBELL</city>
+			<numberOfFamilies>4</numberOfFamilies>
+			<postalCode>95008</postalCode>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<woodStoveInd>false</woodStoveInd>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>16700</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>3500</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>100000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOConstructionInfo state="Created">
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<livingArea>9999</livingArea>
+				<numberOfStories>3+</numberOfStories>
+				<personalPropertyValue>16700</personalPropertyValue>
+				<roofType>Other</roofType>
+				<yearBuilt>1979</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>SANTA CLARA CO CENTRAL FD</fireDistrict>
+				<oldPpcValue>2</oldPpcValue>
+				<ppcValue>2</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>500</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>585 W HACIENDA AVE</addressLine1>
+					<addressLine2>APT 304</addressLine2>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>CAMPBELL</city>
+					<county>Santa Clara</county>
+					<postalCode>95008</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<HO29EndorsementForm state="Created"/>
+		<HO59EndorsementForm state="Created"/>
+		<HO90EndorsementForm state="Created"/>
+	</AAAHOPolicy>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Conversion: Named insureds not converted</title>
+		<updatedOn>2017-10-20T00:00:00</updatedOn>
+		<userText>PAS allows up to 4 named insureds.  The following named insureds were not mapped from HDES to PAS because there were more than 4 named insureds in HDES:LEONOR  ANA</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Conversion: Mailing address validated and standardized</title>
+		<updatedOn>2017-10-20T00:00:00</updatedOn>
+		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 585 W HACIENDA AVE #304  CAMPBELL CA 95008 to 585 W HACIENDA AVE APT 304 CAMPBELL CA 95008</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Conversion: Date of birth defaulted</title>
+		<updatedOn>2017-10-20T00:00:00</updatedOn>
+		<userText>Date of birth defaults were applied to this policy according to the following logic:-  If no date of birth existing in HDES and senior/mature discount applied, DOB was defaulted to 01/01/1901.  If senior/mature discount did not apply, DOB was defaulted to 01/01/1998.If only one DOB existed in HDES, all other DOBs were defaulted to match.</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Conversion: Date of birth defaulted</title>
+		<updatedOn>2017-10-20T00:00:00</updatedOn>
+		<userText>Date of birth defaults were applied to this policy according to the following logic:-  If no date of birth existing in HDES and senior/mature discount applied, DOB was defaulted to 01/01/1901.  If senior/mature discount did not apply, DOB was defaulted to 01/01/1998.If only one DOB existed in HDES, all other DOBs were defaulted to match.</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Conversion: Date of birth defaulted</title>
+		<updatedOn>2017-10-20T00:00:00</updatedOn>
+		<userText>Date of birth defaults were applied to this policy according to the following logic:-  If no date of birth existing in HDES and senior/mature discount applied, DOB was defaulted to 01/01/1901.  If senior/mature discount did not apply, DOB was defaulted to 01/01/1998.If only one DOB existed in HDES, all other DOBs were defaulted to match.</userText>
+	</userNote>
+</Policy>

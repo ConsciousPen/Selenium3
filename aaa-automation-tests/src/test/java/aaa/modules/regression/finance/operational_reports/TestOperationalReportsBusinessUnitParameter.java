@@ -29,7 +29,7 @@ public class TestOperationalReportsBusinessUnitParameter extends BaseTest {
      * 4. check that “Business Unit” values are displayed and selectable
      */
 
-    @Test(groups = {Groups.FUNCTIONAL})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-15535")
     public void pas15535_testOperationalReportsBusinessUnitParameter() {
 

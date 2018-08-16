@@ -126,6 +126,7 @@
                     <include name="pas15076_MetadataServiceDriver"/>
                     <include name="pas13301_validateDriverLicenseAndAgeFirstLicensed"/>
                     <include name="pas15373_uniqueDriverLicenses"/>
+                    <include name="pas16551_relation_to_fni_hard_stop"/>
                 </methods>
             </class>
         </classes>
@@ -184,7 +185,7 @@
                     <include name="pas14536_TransportationExpensePart1Body"/>
                     <include name="pas14536_TransportationExpensePart2Body"/>
                     <include name="pas14536_TransportationExpensePart3Body"/>
-                </methods>
+                   </methods>
             </class>
         </classes>
     </test>
@@ -332,7 +333,7 @@
             </class>
         </classes>
     </test>
-  <test name="pas15540_RemoveDriverAssignedToTrailer">
+    <test name="pas15540_RemoveDriverAssignedToTrailer">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments">
@@ -420,6 +421,16 @@
             </class>
         </classes>
     </test>
+    <test name="pas14730_UpdateCoverageUMPDAndPD">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas14730_UpdateCoverageUMPDAndPD"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="pas15325_UmpdNotExist">
         <parameter name="state" value="AZ, CT, KS, KY, MT, NY, OK, PA, SD, WY, ID"/>
         <classes>
@@ -436,6 +447,16 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas15254_14733_UpdateCoveragesBI_UM_UIM"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas14721_UpdateCoveragesServiceBIPD">
+        <parameter name="state" value="AZ, VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas14721_UpdateCoveragesServiceBIPD"/>
                 </methods>
             </class>
         </classes>
@@ -529,6 +550,18 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesUwRules">
                 <methods>
                     <include name="pas16577_DuplicateVinAddVehicleServicePendingRemove"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="-Death and Specific Disability Coverage- and -Total Disability Coverage- (VA only)">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC01"/>
+                    <include name="pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC02"/>
+                    <include name="pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03"/>
                 </methods>
             </class>
         </classes>

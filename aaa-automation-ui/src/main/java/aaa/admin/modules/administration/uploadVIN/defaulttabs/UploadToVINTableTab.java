@@ -2,7 +2,7 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.admin.modules.administration.uploadVIN.defaulttabs;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
@@ -71,7 +71,6 @@ public class UploadToVINTableTab extends DefaultTab {
 	public void uploadVinTable(String vinTableFileName) {
 		log.info("WARN Vin table {} upload started",vinTableFileName);
 		openUploadToVinTableTab();
-
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION).setValue(true);
 		uploadFile(vinTableFileName);
 		CacheManager cacheManager = new CacheManager();

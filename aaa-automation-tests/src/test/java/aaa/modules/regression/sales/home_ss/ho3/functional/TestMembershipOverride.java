@@ -171,7 +171,7 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
 
         // Here, I make sure the failure occurred at the anticipated location.
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
-        Assertions.assertThat(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel().contains("Membership Override"));
+        Assertions.assertThat(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel().contains("Membership Override")).isTrue();
     }
 
     /**
@@ -348,7 +348,7 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
 
         // Verify Membership is Retained
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA Member indicator").equalsIgnoreCase("Yes"));
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA Member indicator")).isEqualToIgnoringCase("Yes");
     }
 
     /**
@@ -417,8 +417,8 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
         // Verify Membership is Dropped
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
 
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA Member indicator").equalsIgnoreCase("No"));
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("AAA Membership Discount").equalsIgnoreCase("0.0"));
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA Member indicator")).isEqualToIgnoringCase("No");
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("AAA Membership Discount")).isEqualToIgnoringCase("0.0");
 
         // If we don't close VRD, the test will fail attempting to close using the default methods.
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
@@ -492,7 +492,7 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
         // Verify Membership is Dropped
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
 
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA Member indicator").equalsIgnoreCase("Yes"));
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA Member indicator")).isEqualToIgnoringCase("Yes");
 
         // If we don't close VRD, the test will fail attempting to close using the default methods.
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
@@ -570,7 +570,7 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
         // Verify Membership is Retained
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
 
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA Member indicator").equalsIgnoreCase("Yes"));
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA Member indicator")).isEqualToIgnoringCase("Yes");
 
         // If we don't close VRD, the test will fail attempting to close using the default methods.
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
@@ -581,7 +581,7 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
         in_policy.initiate();
         in_policy.getDefaultView().fillUpTo(in_policyData, PremiumsAndCoveragesQuoteTab.class, true);
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA Member indicator").equalsIgnoreCase("Yes"));
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA Member indicator")).isEqualToIgnoringCase("Yes");
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
         PremiumsAndCoveragesQuoteTab.btnContinue.click();
         in_policy.getDefaultView().fillFromTo(in_policyData, MortgageesTab.class, PurchaseTab.class, true);

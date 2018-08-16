@@ -2,11 +2,15 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.home_ss.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
+import aaa.utils.StateList;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -25,6 +29,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyCreation extends HomeSSHO3BaseTest {
 
 	@Parameters({"state"})
+	@StateList(statesExcept = { States.CA })
 	@Test(groups = {Groups.SMOKE, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testPolicyCreation(@Optional("") String state) {
@@ -33,6 +38,6 @@ public class TestPolicyCreation extends HomeSSHO3BaseTest {
 		createCustomerIndividual();
 		createPolicy();
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 }

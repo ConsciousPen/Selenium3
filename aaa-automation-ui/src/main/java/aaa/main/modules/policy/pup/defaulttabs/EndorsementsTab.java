@@ -37,7 +37,7 @@ public class EndorsementsTab extends PropertyEndorsementsTab {
 		return this;
 	}
 
-	public PupEndorsementsMultiAssetList getFormAssetList(AssetDescriptor endorsementAsset) {
-		return (PupEndorsementsMultiAssetList) getAssetList().getAsset(endorsementAsset);
+	public PupEndorsementsMultiAssetList getFormAssetList(AssetDescriptor<PupEndorsementsMultiAssetList> endorsementAsset) {
+		return getAssetList().getAsset(endorsementAsset);
 	}
 }

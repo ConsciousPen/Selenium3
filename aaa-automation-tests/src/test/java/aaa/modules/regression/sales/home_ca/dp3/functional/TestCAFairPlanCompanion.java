@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.dp3.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -20,8 +21,6 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
  * @author Tyrone C Jemison
@@ -67,7 +66,7 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
 
         // Verify Document Tab populates Endorsement
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
-        assertThat(new DocumentsTab().getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FPCECADP.getLabel()).isPresent()).isTrue();
+        assertThat(new DocumentsTab().getDocumentsToIssueAssetList().getAsset(HomeCaMetaData.DocumentsTab.DocumentsToIssue.FPCECADP)).isPresent();
         
     }
 

@@ -19,9 +19,8 @@ CustomerGeneralTabAgency: {
   Agency Name: QA Agency
 }
 
-#TODO: @Aperapecha - Change to: First Name: '$<rx:Tim-[A-Z]{5}>', when story with special symbols will be implemented
 GeneralTab: {
-  First Name: '$<rx:Tim\d{5}>',
+  First Name: '$<rx:Tim-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
@@ -41,7 +40,7 @@ TestData_AZ: {
 }
 
 GeneralTab_AZ: {
-  First Name: '$<rx:Fernando\d{5}>',
+  First Name: '$<rx:Fernando-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
@@ -59,7 +58,7 @@ TestData_CA: {
 }
 
 GeneralTab_CA: {
-  First Name: '$<rx:Nicolas\d{5}>',
+  First Name: '$<rx:Nicolas-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 09/05/1972,
   Gender: Male,
@@ -78,7 +77,7 @@ TestData_CO: {
 }
 
 GeneralTab_CO: {
-  First Name: '$<rx:Zinaida\d{5}>',
+  First Name: '$<rx:Zinaida-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
@@ -96,7 +95,7 @@ TestData_CT: {
 }
 
 GeneralTab_CT: {
-  First Name: '$<rx:Cristiano\d{5}>',
+  First Name: '$<rx:Cristiano-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
@@ -114,7 +113,7 @@ TestData_DC: {
 }
 
 GeneralTab_DC: {
-  First Name: '$<rx:Robert\d{5}>',
+  First Name: '$<rx:Robert-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
@@ -132,7 +131,7 @@ TestData_DE: {
 }
 
 GeneralTab_DE: {
-  First Name: '$<rx:Paul\d{5}>',
+  First Name: '$<rx:Paul-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
@@ -150,7 +149,7 @@ TestData_ID: {
 }
 
 GeneralTab_ID: {
-  First Name: '$<rx:Juan\d{5}>',
+  First Name: '$<rx:Juan-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
@@ -168,7 +167,7 @@ TestData_IN: {
 }
 
 GeneralTab_IN: {
-  First Name: '$<rx:Harry\d{5}>',
+  First Name: '$<rx:Harry-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
@@ -186,7 +185,7 @@ TestData_KS: {
 }
 
 GeneralTab_KS: {
-  First Name: '$<rx:Paul\d{5}>',
+  First Name: '$<rx:Paul-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
@@ -204,7 +203,7 @@ TestData_KY: {
 }
 
 GeneralTab_KY: {
-  First Name: '$<rx:Alvaro\d{5}>',
+  First Name: '$<rx:Alvaro-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
@@ -222,7 +221,7 @@ TestData_MD: {
 }
 
 GeneralTab_MD: {
-  First Name: '$<rx:Lady\d{5}>',
+  First Name: '$<rx:Lady-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
@@ -240,7 +239,7 @@ TestData_MT: {
 }
 
 GeneralTab_MT: {
-  First Name: '$<rx:Andrey\d{5}>',
+  First Name: '$<rx:Andrey-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
@@ -258,7 +257,7 @@ TestData_NJ: {
 }
 
 GeneralTab_NJ: {
-  First Name: '$<rx:Robin\d{5}>',
+  First Name: '$<rx:Robin-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
@@ -276,7 +275,7 @@ TestData_NV: {
 }
 
 GeneralTab_NV: {
-  First Name: '$<rx:Paul\d{5}>',
+  First Name: '$<rx:Paul-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
@@ -294,7 +293,7 @@ TestData_NY: {
 }
 
 GeneralTab_NY: {
-  First Name: '$<rx:Fernando\d{5}>',
+  First Name: '$<rx:Fernando-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
@@ -312,7 +311,7 @@ TestData_OH: {
 }
 
 GeneralTab_OH: {
-  First Name: '$<rx:Leo\d{5}>',
+  First Name: '$<rx:Leo-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
@@ -330,7 +329,7 @@ TestData_OK: {
 # ---------- Test Data for OK ---------------
 
 GeneralTab_OK: {
-  First Name: '$<rx:Phil\d{5}>',
+  First Name: '$<rx:Phil-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
@@ -348,7 +347,7 @@ TestData_OR: {
 # ---------- Test Data for OR ---------------
 
 GeneralTab_OR: {
-  First Name: '$<rx:Tomas\d{5}>',
+  First Name: '$<rx:Tomas-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
@@ -365,7 +364,7 @@ TestData_PA: {
 }
 
 GeneralTab_PA: {
-  First Name: '$<rx:Steve\d{5}>',
+  First Name: '$<rx:Steve-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
@@ -383,7 +382,7 @@ TestData_SD: {
 }
 
 GeneralTab_SD: {
-  First Name: '$<rx:Arcadiy\d{5}>',
+  First Name: '$<rx:Arcadiy-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
@@ -400,7 +399,7 @@ TestData_VA: {
 }
 
 GeneralTab_VA: {
-  First Name: '$<rx:Ben\d{5}>',
+  First Name: '$<rx:Ben-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
@@ -417,7 +416,7 @@ TestData_WV: {
 }
 
 GeneralTab_WV: {
-  First Name: '$<rx:Nadezhda\d{5}>',
+  First Name: '$<rx:Nadezhda-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
@@ -434,7 +433,7 @@ TestData_WY: {
 }
 
 GeneralTab_WY: {
-  First Name: '$<rx:Paulo\d{5}>',
+  First Name: '$<rx:Paulo-[A-Z]{5}>',
   Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,

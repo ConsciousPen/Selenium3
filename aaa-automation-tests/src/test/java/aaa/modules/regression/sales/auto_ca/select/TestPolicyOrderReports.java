@@ -2,10 +2,12 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ca.select;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -14,7 +16,7 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
 import aaa.modules.policy.AutoCaSelectBaseTest;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
-import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -28,6 +30,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyOrderReports extends AutoCaSelectBaseTest {
 
 	@Parameters({"state"})
+	@StateList(states = { States.CA })
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
 	public void testPolicyOrderReports(@Optional("CA") String state) {
@@ -45,8 +48,8 @@ public class TestPolicyOrderReports extends AutoCaSelectBaseTest {
 		policy.getDefaultView().fillUpTo(class_td, DriverActivityReportsTab.class, true);
 			
 		
-		DriverActivityReportsTab.tableCLUEReports.getRow(1).getCell("Response").verify.value("processing complete, with results information");
-		DriverActivityReportsTab.tableMVRReports.getRow(1).getCell("Response").verify.value("Hit - Activity Found");
+		assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(1).getCell("Response")).hasValue("processing complete, with results information");
+		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(1).getCell("Response")).hasValue("Hit - Activity Found");
 		
 
 		
@@ -54,46 +57,46 @@ public class TestPolicyOrderReports extends AutoCaSelectBaseTest {
 		//workaround for PAS-10786
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
-		 DriverTab.tableActivityInformationList.verify.rowsCount(5);
+		 assertThat(DriverTab.tableActivityInformationList).hasRows(5);
 		
 		//check 1 incident
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE).verify.value("CLUE");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.TYPE).verify.value("Accident");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT).verify.value("5000");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACCIDENT_POINTS).verify.value("0");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("CLUE");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.TYPE)).hasValue("Accident");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("5000");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACCIDENT_POINTS)).hasValue("0");
 		
 		//check 2 incident
 		DriverTab.tableActivityInformationList.selectRow(2);
 		
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE).verify.value("CLUE");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.TYPE).verify.value("Accident");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT).verify.value("649");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACCIDENT_POINTS).verify.value("0");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("CLUE");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.TYPE)).hasValue("Accident");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("649");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACCIDENT_POINTS)).hasValue("0");
 		
 		//check 3 incident
 		DriverTab.tableActivityInformationList.selectRow(3);
 		
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE).verify.value("CLUE");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.TYPE).verify.value("Accident");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT).verify.value("419");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACCIDENT_POINTS).verify.value("0");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("CLUE");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.TYPE)).hasValue("Accident");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("419");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACCIDENT_POINTS)).hasValue("0");
 		
 		//check 4 incident
 		DriverTab.tableActivityInformationList.selectRow(4);
 		
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE).verify.value("CLUE");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.TYPE).verify.value("Accident");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT).verify.value("650");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACCIDENT_POINTS).verify.value("0");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("CLUE");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.TYPE)).hasValue("Accident");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("650");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACCIDENT_POINTS)).hasValue("0");
 		
 		DriverTab.tableActivityInformationList.selectRow(5);
 			
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE).verify.value("MVR");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.TYPE).verify.value("Minor Violation");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.DESCRIPTION).verify.value("Speeding");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE).verify.value("09/10/2009");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.SVC_DESCRIPTION).verify.value("SPEEDING, GENERALLY");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CONVICTION_POINTS).verify.value("1");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("MVR");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.TYPE)).hasValue("Minor Violation");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.DESCRIPTION)).hasValue("Speeding");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE)).hasValue("09/10/2009");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.SVC_DESCRIPTION)).hasValue("SPEEDING, GENERALLY");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CONVICTION_POINTS)).hasValue("1");
 		
 		
 	}

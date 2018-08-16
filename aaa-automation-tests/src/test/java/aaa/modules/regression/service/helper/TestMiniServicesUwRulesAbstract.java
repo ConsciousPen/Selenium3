@@ -3,7 +3,7 @@ package aaa.modules.regression.service.helper;
 import static aaa.main.metadata.policy.AutoSSMetaData.UpdateRulesOverrideActionTab.RuleRow.RULE_NAME;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.USAGE;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.VIN;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;

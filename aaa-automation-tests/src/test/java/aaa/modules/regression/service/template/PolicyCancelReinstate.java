@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.template;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -23,18 +24,18 @@ public class PolicyCancelReinstate extends PolicyBaseTest {
 
 		getCopiedPolicy();
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
 
 		log.info("TEST: Reinstate Policy #" + policyNumber);
 
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 
 	}

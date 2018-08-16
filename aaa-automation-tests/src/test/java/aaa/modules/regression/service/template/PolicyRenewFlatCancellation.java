@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.template;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -30,9 +31,9 @@ public class PolicyRenewFlatCancellation extends PolicyBaseTest {
 		log.info("TEST: Cancellation Policy Renewal #" + policyNumber);
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus3Days"));
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
 		PolicySummaryPage.buttonTransactionHistory.click();
-		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(2).verify.value(ProductConstants.TransactionHistoryType.CANCELLATION);
-		PolicySummaryPage.tableTransactionHistory.getRow(2).getCell(2).verify.value(ProductConstants.TransactionHistoryType.ISSUE);
+		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(2)).hasValue(ProductConstants.TransactionHistoryType.CANCELLATION);
+		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(2).getCell(2)).hasValue(ProductConstants.TransactionHistoryType.ISSUE);
 	}
 }

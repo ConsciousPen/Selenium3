@@ -22,16 +22,16 @@ public abstract class Efolder {
 		return linkCloseEfolder.isPresent() && linkCloseEfolder.isVisible();
 	}
 
-	public static void isDocumentExist(String path, String documentName) {
+	public static boolean isDocumentExist(String path, String documentName) {
 		if (!isTreeExpanded(path)) {
 			expandFolder(path);
 		}
-		new StaticElement(By.xpath(String.format("//form[@id='efForm']//span[@class='rf-trn-lbl'][contains(.,'%s')]", documentName))).verify.present();
+		return new StaticElement(By.xpath(String.format("//form[@id='efForm']//span[@class='rf-trn-lbl'][contains(.,'%s')]", documentName))).isPresent();
 	}
 
-	public static void isDocumentExist(String pathWithDocumentName) {
+	public static boolean isDocumentExist(String pathWithDocumentName) {
 		expandFolder(FilenameUtils.getPath(pathWithDocumentName));
-		new StaticElement(By.xpath(String.format("//form[@id='efForm']//span[@class='rf-trn-lbl'][contains(.,'%s')]", FilenameUtils.getName(pathWithDocumentName)))).verify.present();
+		return new StaticElement(By.xpath(String.format("//form[@id='efForm']//span[@class='rf-trn-lbl'][contains(.,'%s')]", FilenameUtils.getName(pathWithDocumentName)))).isPresent();
 	}
 
 	public static void expandFolder(String path) {

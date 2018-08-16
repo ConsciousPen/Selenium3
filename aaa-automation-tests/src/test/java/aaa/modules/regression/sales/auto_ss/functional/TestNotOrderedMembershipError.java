@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -85,7 +86,7 @@ public class TestNotOrderedMembershipError extends AutoSSBaseTest {
     private void validateFirstError(String notOrderedMembershipFirstMessage){
         ratingDetailsReportsTab.buttonNext.click();
         //Changed verify to contains to confirm to AWS PROD mode for regression runs.
-        errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.contains(notOrderedMembershipFirstMessage);
+	    assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage)).exists();
         errorTab.cancel();
     }
 
@@ -95,7 +96,7 @@ public class TestNotOrderedMembershipError extends AutoSSBaseTest {
     private void validateSecondError(String notOrderedMembershipFirstMessage){
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
         //Changed verify to contains to confirm to AWS PROD mode for regression runs.
-        errorTab.tableErrors.getRow(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.contains(notOrderedMembershipFirstMessage);
+	    assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage)).exists();
         errorTab.cancel();
         ratingDetailsReportsTab.saveAndExit();
     }
