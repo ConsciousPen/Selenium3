@@ -15,8 +15,8 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 public class TestZeroClaimsDiscountTemplate extends PolicyBaseTest {
 
-	PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
-	PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
+	private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
+	private PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
 
 	protected void pas9088_testZeroClaimsDiscountQuote() {
 
