@@ -1,6 +1,6 @@
 package aaa.modules.regression.service.template;
 
-import toolkit.verification.CustomAssert;
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -23,9 +23,8 @@ public class PolicyRenewDeclineByCustomer extends PolicyBaseTest {
 
 		getCopiedPolicy();
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		CustomAssert.enableSoftMode();
 		log.info("TEST: Decline By Company Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
 
 		policy.renew().performAndExit();
@@ -35,10 +34,7 @@ public class PolicyRenewDeclineByCustomer extends PolicyBaseTest {
 		policy.declineByCustomerQuote().perform(getPolicyTD("DeclineByCustomer", "TestData_Plus1Year"));
 		PolicySummaryPage.buttonRenewals.click();
 
-		PolicySummaryPage.tableRenewals.getRow(1).getCell(4).verify.value(ProductConstants.PolicyStatus.CUSTOMER_DECLINED);
-
-		CustomAssert.assertAll();
-
+		assertThat(PolicySummaryPage.tableRenewals.getRow(1).getCell(4)).hasValue(ProductConstants.PolicyStatus.CUSTOMER_DECLINED);
 	}
 
 }

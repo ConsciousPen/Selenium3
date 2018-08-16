@@ -5,7 +5,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.EndorsementForms;
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.regression.sales.template.functional.TestEndorsementsTabAbstract;
+import aaa.modules.regression.sales.template.functional.TestEarthquakeEndorsementsTemplate;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.OK)
-public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
+public class TestEarthquakeEndorsements extends TestEarthquakeEndorsementsTemplate {
 
 	private String parentEndorsementFormId = EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId();
 	private String subEndorsementFormId = EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId();
@@ -40,13 +40,8 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17479")
-	public void testEarthquakeEndorsement_Privileged_NewBusiness(@Optional("OK") String state) {
-		initiateNewBusinessTx(true);
-		addEndorsementForm(parentEndorsementFormId);
-		//DS 04 68 should be only available then DS 04 69 is added
-		addEndorsementForm(subEndorsementFormId);
-
-		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
+	public void pas17479_Conversion_Privileged_NewBusiness(@Optional("OK") String state) {
+		pas17479_Conversion_Privileged_NewBusinessTemplate(parentEndorsementFormId, subEndorsementFormId);
 	}
 
 	/**
@@ -69,14 +64,8 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17479")
-	public void testEarthquakeEndorsement_Privileged_Endorsement(@Optional("OK") String state) {
-		createPolicy(true);
-		initiateEndorsementTx();
-		addEndorsementForm(parentEndorsementFormId);
-		//DS 04 68 should be only available then DS 04 69 is added
-		addEndorsementForm(subEndorsementFormId);
-
-		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
+	public void pas17479_Conversion_Privileged_Endorsement(@Optional("OK") String state) {
+		pas17479_Conversion_Privileged_EndorsementTemplate(parentEndorsementFormId, subEndorsementFormId);
 	}
 
 	/**
@@ -99,13 +88,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabAbstract {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17479")
-	public void testEarthquakeEndorsement_Privileged_Renewal(@Optional("OK") String state) {
-		createPolicy(true);
-		initiateRenewalTx();
-		addEndorsementForm(parentEndorsementFormId);
-		//DS 04 68 should be only available then DS 04 69 is added
-		addEndorsementForm(subEndorsementFormId);
-
-		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
+	public void pas17479_Conversion_Privileged_Renewal(@Optional("OK") String state) {
+		pas17479_Conversion_Privileged_RenewalTemplate(parentEndorsementFormId, subEndorsementFormId);
 	}
 }

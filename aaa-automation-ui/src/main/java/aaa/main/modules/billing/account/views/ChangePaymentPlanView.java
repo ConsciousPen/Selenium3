@@ -4,7 +4,6 @@ package aaa.main.modules.billing.account.views;
 
 import aaa.common.Workspace;
 import aaa.main.modules.billing.account.actiontabs.ChangePaymentPlanActionTab;
-import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
 
 public class ChangePaymentPlanView extends Workspace {
 

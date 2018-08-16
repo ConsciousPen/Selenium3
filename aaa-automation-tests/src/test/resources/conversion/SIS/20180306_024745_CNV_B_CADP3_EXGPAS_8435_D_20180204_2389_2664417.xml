@@ -1,0 +1,1464 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy name="AAA_HO_CA" version="1.0" rootEntityType="policy">
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005301</agencyLocation>
+		<agentCd>70683577</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<countryCd>US</countryCd>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2018-04-03T00:00:00</effective>
+		<expiration>2019-04-03T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>SIS</importedFrom>
+		<isAdditionalPolicy>true</isAdditionalPolicy>
+		<isAdditionalProppolicy>true</isAdditionalProppolicy>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>DP3</policyFormCd>
+		<preConversionPolicyNumber>DP3 2664417</preConversionPolicyNumber>
+		<preConversionPolicyPremium>784</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>DP3 2664417</sourcePolicyNum>
+		<subProducerCd>70683577</subProducerCd>
+		<tollNumberCd>1111111111</tollNumberCd>
+		<underwriterCd>ACAIC</underwriterCd>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>GRASS VALLEY</dwellAddressCity>
+			<dwellAddressLine1>265 BIGGS AVE E</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95945-6882</dwellAddressZip>
+			<expirationDate>2018-05-05T00:00:00</expirationDate>
+			<orderDate>2018-02-04T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>5302733015</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>Yes</insurerCd>
+			<insurerName>ST GERMAIN</insurerName>
+			<policyNumber>4290051139576411</policyNumber>
+		</AAAHOMembership>
+		<AAAHOMortgageeExists state="Created">
+			<yesNoAnswer>true</yesNoAnswer>
+		</AAAHOMortgageeExists>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1956-06-13T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>ROBERT</firstName>
+			<lastName>ST GERMAIN</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>265 BIGGS AVE E</addressLine1>
+				<city>GRASS VALLEY</city>
+				<dateOfBirth>1956-06-13T00:00:00</dateOfBirth>
+				<expirationDt>2018-04-05T00:00:00</expirationDt>
+				<firstName>ROBERT</firstName>
+				<lastName>ST GERMAIN</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2018-02-04T00:00:00</orderDate>
+				<postalCode>95945-6882</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>265 BIGGS AVE E</addressLine1>
+				<city>GRASS VALLEY</city>
+				<countryCd>US</countryCd>
+				<postalCode>95945-6882</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1963-12-05T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>ELESA</firstName>
+			<lastName>ST GERMAIN</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<relationshipToPrimaryNamedInsured>Spouse</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>265 BIGGS AVE E</addressLine1>
+				<city>GRASS VALLEY</city>
+				<dateOfBirth>1963-12-05T00:00:00</dateOfBirth>
+				<expirationDt>2018-04-05T00:00:00</expirationDt>
+				<firstName>ELESA</firstName>
+				<lastName>ST GERMAIN</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2018-02-04T00:00:00</orderDate>
+				<postalCode>95945-6882</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>265 BIGGS AVE E</addressLine1>
+				<city>GRASS VALLEY</city>
+				<countryCd>US</countryCd>
+				<postalCode>95945-6882</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOOtherOrPriorDP3PolicyComponent state="Created">
+			<aaaPolicy>true</aaaPolicy>
+			<aaaPolicyActive>false</aaaPolicyActive>
+			<addressLine1>14836 STODDARD ESTATE LN</addressLine1>
+			<city>Grass Valley</city>
+			<effective>2010-04-02T00:00:00</effective>
+			<expiration>2011-04-02T00:00:00</expiration>
+			<policyNumber>DP32425988</policyNumber>
+			<postalCode>95949</postalCode>
+			<stateProvCd>CA</stateProvCd>
+			<yearFirstRented>2007</yearFirstRented>
+			<yearLastRented>2011</yearLastRented>
+		</AAAHOOtherOrPriorDP3PolicyComponent>
+		<AAAHOOtherOrPriorDP3PolicyComponent state="Created">
+			<aaaPolicy>true</aaaPolicy>
+			<aaaPolicyActive>false</aaaPolicyActive>
+			<addressLine1>11357 RAGAN WAY</addressLine1>
+			<city>Grass Valley</city>
+			<effective>2009-10-26T00:00:00</effective>
+			<expiration>2010-10-26T00:00:00</expiration>
+			<policyNumber>DP3306308</policyNumber>
+			<postalCode>95949</postalCode>
+			<stateProvCd>CA</stateProvCd>
+			<yearFirstRented>2005</yearFirstRented>
+			<yearLastRented>2010</yearLastRented>
+		</AAAHOOtherOrPriorDP3PolicyComponent>
+		<AAAHOOtherOrPriorDP3PolicyComponent state="Created">
+			<aaaPolicy>true</aaaPolicy>
+			<aaaPolicyActive>true</aaaPolicyActive>
+			<addressLine1>265 BIGGS AVE</addressLine1>
+			<city>Grass Valley</city>
+			<effective>2017-04-03T00:00:00</effective>
+			<expiration>2018-04-03T00:00:00</expiration>
+			<policyNumber>DP32664414</policyNumber>
+			<postalCode>95945</postalCode>
+			<stateProvCd>CA</stateProvCd>
+			<yearFirstRented>1990</yearFirstRented>
+		</AAAHOOtherOrPriorDP3PolicyComponent>
+		<AAAHOOtherOrPriorDP3PolicyComponent state="Created">
+			<aaaPolicy>true</aaaPolicy>
+			<aaaPolicyActive>true</aaaPolicyActive>
+			<addressLine1>265 BIGGS AVE</addressLine1>
+			<addressLine2>A</addressLine2>
+			<city>GRASS VALLEY</city>
+			<effective>2017-04-03T00:00:00</effective>
+			<expiration>2018-04-03T00:00:00</expiration>
+			<policyNumber>DP32664421</policyNumber>
+			<postalCode>95945-6882</postalCode>
+			<stateProvCd>CA</stateProvCd>
+			<yearFirstRented>2008</yearFirstRented>
+		</AAAHOOtherOrPriorDP3PolicyComponent>
+		<AAAHOOtherOrPriorPolicyComponent state="Created">
+			<coverageE>1000000</coverageE>
+			<deductible>1000</deductible>
+			<dwellingUsage>Primary</dwellingUsage>
+			<occupancyType>Tenant</occupancyType>
+			<policyEffectiveDate>2017-04-03T00:00:00</policyEffectiveDate>
+			<policyNumber>DP32664414</policyNumber>
+			<productCd>DP3</productCd>
+			<status>inForce</status>
+		</AAAHOOtherOrPriorPolicyComponent>
+		<AAAHOOtherOrPriorPolicyComponent state="Created">
+			<coverageE>1000000</coverageE>
+			<deductible>1000</deductible>
+			<dwellingUsage>Primary</dwellingUsage>
+			<occupancyType>Tenant</occupancyType>
+			<policyEffectiveDate>2017-04-03T00:00:00</policyEffectiveDate>
+			<policyNumber>DP32664421</policyNumber>
+			<productCd>DP3</productCd>
+			<status>inForce</status>
+		</AAAHOOtherOrPriorPolicyComponent>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Insured</billToAtRenewal>
+			<paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>standardHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>1998-04-03T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>20</noOfYearsWithHO>
+			<policyType>DP3</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAIso360ReportComponent state="Created">
+			<constructionTypeCd>Frame</constructionTypeCd>
+			<dwellAddressCity>GRASS VALLEY</dwellAddressCity>
+			<dwellAddressLine1>265 BIGGS AVE E</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95945-6882</dwellAddressZip>
+			<expirationDate>2018-05-05T00:00:00</expirationDate>
+			<isoReplacementCost>260453</isoReplacementCost>
+			<livingArea>1000</livingArea>
+			<numberOfFamilies>1</numberOfFamilies>
+			<numberOfStories>1</numberOfStories>
+			<orderDate>2018-02-04T00:00:00</orderDate>
+			<roofShape>Complex/Custom</roofShape>
+			<roofType>Asphalt / Fiberglass</roofType>
+			<status>Valid</status>
+			<yearBuilt>2008</yearBuilt>
+		</AAAIso360ReportComponent>
+		<AAAMembershipOrder state="Created">
+			<lastName>ST GERMAIN</lastName>
+			<membershipNumber>4290051139576411</membershipNumber>
+			<memberSince>1986-01-01T00:00:00</memberSince>
+			<orderDate>2018-02-04T00:00:00</orderDate>
+			<receiptDate>2018-02-04T00:00:00</receiptDate>
+			<status>Active</status>
+		</AAAMembershipOrder>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>GRASS VALLEY</dwellAddressCity>
+			<dwellAddressLine1>265 BIGGS AVE E</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95945-6882</dwellAddressZip>
+			<expirationDate>2018-04-05T00:00:00</expirationDate>
+			<orderDate>2018-02-04T00:00:00</orderDate>
+			<ppcValue>4</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>616530</documentCd>
+			<documentText>California Residential Property Insurance Disclosure</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<AlternativeWaterSrcAnsInd>true</AlternativeWaterSrcAnsInd>
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<DwellLocatedInd>false</DwellLocatedInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+			<GasWaterInGarageInd>false</GasWaterInGarageInd>
+			<LengthDrivewayAnsInd>true</LengthDrivewayAnsInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+			<RdToHomeNDrivewayPavedAnsInd>true</RdToHomeNDrivewayPavedAnsInd>
+			<WaterHeaterHeightInd>false</WaterHeaterHeightInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<DL0104EndorsementForm state="Created"/>
+		<DL2402EndorsementForm state="Created"/>
+		<DL2411EndorsementForm state="Created"/>
+		<DL2433EndorsementForm state="Created"/>
+		<DL2482EndorsementForm state="Created"/>
+		<DP0422EndorsementForm state="Created">
+			<coverageLimit>10000</coverageLimit>
+		</DP0422EndorsementForm>
+		<DW0420EndorsementForm state="Created">
+			<coverageLimit>50</coverageLimit>
+		</DW0420EndorsementForm>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>1</aaaDwellingUsage>
+			<aaaFirelineScore>2</aaaFirelineScore>
+			<aaanumberofResidents>2</aaanumberofResidents>
+			<aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
+			<addressLine1>265 BIGGS AVE E</addressLine1>
+			<city>GRASS VALLEY</city>
+			<countryCd>US</countryCd>
+			<county>NEVADA</county>
+			<crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
+			<dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
+			<dwellingCrippleWallInd>false</dwellingCrippleWallInd>
+			<dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
+			<dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
+			<firelineMatchType>Address</firelineMatchType>
+			<numberOfFamilies>1</numberOfFamilies>
+			<overrideInspectionInd>true</overrideInspectionInd>
+			<placementOrMatchType>Address</placementOrMatchType>
+			<postalCode>95945-6882</postalCode>
+			<propMgrOccupation>3</propMgrOccupation>
+			<protectionClassCd>4</protectionClassCd>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
+			<woodStoveInd>false</woodStoveInd>
+			<yearFirstRented>2008</yearFirstRented>
+			<AAACoverageA state="Created">
+				<coverageCd>CovA</coverageCd>
+				<limitAmount>260453</limitAmount>
+			</AAACoverageA>
+			<AAACoverageB state="Created">
+				<coverageCd>CovB</coverageCd>
+				<limitAmount>26045</limitAmount>
+			</AAACoverageB>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>13023</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>52091</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>1000000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOConstructionInfo state="Created">
+				<aaaFoundationType>Raised</aaaFoundationType>
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<isoReplacementCost>260453</isoReplacementCost>
+				<livingArea>1000</livingArea>
+				<masonryVeneer>false</masonryVeneer>
+				<numberOfStories>1</numberOfStories>
+				<replacementCost>260453</replacementCost>
+				<roofShape>Complex/Custom</roofShape>
+				<roofType>Asphalt / Fiberglass</roofType>
+				<yearBuilt>2008</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAHOLossInfo state="Created">
+				<aaaClaim>true</aaaClaim>
+				<aaaHoClaimNo>806516</aaaHoClaimNo>
+				<addressLine1>265 BIGGS AVE</addressLine1>
+				<addressLine2>A</addressLine2>
+				<catLoss>false</catLoss>
+				<city>GRASS VALLEY</city>
+				<claimCategory>1</claimCategory>
+				<incidentSource>Internal Claims</incidentSource>
+				<lossAmount>0</lossAmount>
+				<lossDate>2012-12-01T00:00:00</lossDate>
+				<lossTypeCd>7</lossTypeCd>
+				<policyNumber>2664421</policyNumber>
+				<postalCode>95945-6882</postalCode>
+				<rentalClaim>true</rentalClaim>
+				<state>CA</state>
+				<statusOfClaim>2</statusOfClaim>
+			</AAAHOLossInfo>
+			<AAAHOLossInfo state="Created">
+				<aaaClaim>true</aaaClaim>
+				<aaaHoClaimNo>806525</aaaHoClaimNo>
+				<addressLine1>265 BIGGS AVE E</addressLine1>
+				<catLoss>false</catLoss>
+				<city>GRASS VALLEY</city>
+				<claimCategory>3</claimCategory>
+				<incidentSource>Internal Claims</incidentSource>
+				<lossAmount>0</lossAmount>
+				<lossDate>2012-12-01T00:00:00</lossDate>
+				<lossTypeCd>7</lossTypeCd>
+				<policyNumber>2664417</policyNumber>
+				<postalCode>95945-6882</postalCode>
+				<rentalClaim>true</rentalClaim>
+				<state>CA</state>
+				<statusOfClaim>2</statusOfClaim>
+			</AAAHOLossInfo>
+			<AAAHOMortgageeInfo state="Created">
+				<accountNumber>7545-4385-3990-81</accountNumber>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>NAPA</city>
+				<countryCd>US</countryCd>
+				<mortagageeAddressLine1>PO BOX 4260</mortagageeAddressLine1>
+				<name>SUNCREST BANK</name>
+				<postalCode>94558-0000</postalCode>
+				<rank>1</rank>
+				<stateProvCd>CA</stateProvCd>
+				<useLegalMortgagee>false</useLegalMortgagee>
+			</AAAHOMortgageeInfo>
+			<AAAHOMortgageeInfo state="Created">
+				<accountNumber>793912643</accountNumber>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>COPPELL</city>
+				<countryCd>US</countryCd>
+				<mortagageeAddressLine1>PO BOX 9110</mortagageeAddressLine1>
+				<name>JP MORGAN CHASE BANK, NA ISAOA</name>
+				<postalCode>75019-0000</postalCode>
+				<rank>2</rank>
+				<stateProvCd>TX</stateProvCd>
+				<useLegalMortgagee>false</useLegalMortgagee>
+			</AAAHOMortgageeInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>On File Conversion</fireDistrict>
+				<fireStationDistRange>1</fireStationDistRange>
+				<ppcValue>4</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>265 BIGGS AVE E</addressLine1>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>GRASS VALLEY</city>
+					<countryCd>US</countryCd>
+					<county>Nevada</county>
+					<poBoxInd>false</poBoxInd>
+					<postalCode>95945-6882</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<HO438BFUNSEndorsementForm state="Created"/>
+		<PreconfigPersonInfo state="Created">
+			<AAAHOMailingAddressComponent state="Created">
+				<addressLine1>20376 RED DOG RD</addressLine1>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>GRASS VALLEY</city>
+				<countryCd>US</countryCd>
+				<county>Nevada</county>
+				<postalCode>95945</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAHOMailingAddressComponent>
+		</PreconfigPersonInfo>
+	</AAAHOPolicy>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>LP INQUIRY</title>
+		<updatedOn>2012-03-12T00:00:00</updatedOn>
+		<userText>MORTG CO NED TO CONTACT OI TO MAKE LIABILITY CHGN ON POL</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Conversion: Title/Header info is blank in Legacy system</title>
+		<updatedOn>2008-04-04T00:00:00</updatedOn>
+		<userText>*** Backyard Access *** If necessary, contact me at (530) 273-3015 No special instructions</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>TRANSFER FUNDS REQ</title>
+		<updatedOn>2015-07-22T00:00:00</updatedOn>
+		<userText>SENT REQ TO CPU TO TRANSFER PYMNT OF $236 FROM THIS POLICY TO 2664414</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>MTG CO POLICY INQ</title>
+		<updatedOn>2012-02-07T00:00:00</updatedOn>
+		<userText>MTG CO POLICY INQ</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>MTG CO INQ</title>
+		<updatedOn>2011-07-12T00:00:00</updatedOn>
+		<userText>MTG CO INQ</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>CHG MTG INFO PER AGENT...</title>
+		<updatedOn>2008-05-09T00:00:00</updatedOn>
+		<userText>OVER PHONE: WASHINGTON MUTUAL BANK IT'S SUCCESSORS AND/OR ASSIGNS PO BOX 391380 SOLON, OH 44139 NO ESCROW 793912643</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2011-06-08T00:00:00</updatedOn>
+		<userText>AMENDED POLICY- UPDATE FIRST MORTGAGE INFORMATION</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>PH EN UPDATE LP</title>
+		<updatedOn>2012-02-17T00:00:00</updatedOn>
+		<userText>JP MORGAN CHASE BANK TX1-1711 PO BOX 9005 COPPELL TX 75109</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>PER AGENT INC LIAB LIMIT....</title>
+		<updatedOn>2008-04-08T00:00:00</updatedOn>
+		<userText>TO 1M AND AMEND PROPERTY ADDRESS</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>UPD 1ST MTG - FAX EOI</title>
+		<updatedOn>2011-06-08T00:00:00</updatedOn>
+		<userText>JOHN MEYERS - GRASS VALLEY UPD 1ST MTG - FAX EOI 866.271-7330 INCL CV D ON EOI 3 POL FOR 1 LOAN. ADV TO CONTACT MTG TO MAKE SURE MTG IS SETUP FOR 3 POL FOR 1 LOAN DUE MTG WILL NOT REVIEW POLICY TO SEE LOAN HAS 3 POL- MTG ONLY ASSUMED 1 POL FOR 1 LOAN. AGENT WILL CONTACT MTG.</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>PAYMETN INQ</title>
+		<updatedOn>2015-07-06T00:00:00</updatedOn>
+		<userText>PER AGT JOHN CALLED TO SEE IF PAYMENT WAS REIC ADV YES JOHN.MEYER@GOAAA.COM</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2012-01-17T00:00:00</updatedOn>
+		<userText>AMENDED POLICY-UPDATED MEMBERSHIP INFORMATION</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2017-06-02T00:00:00</updatedOn>
+		<userText>AMENDED POLICY - ADDED OR CHANGED LOSS PAYEE</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>CHNG MRTGEE</title>
+		<updatedOn>2017-06-02T00:00:00</updatedOn>
+		<userText>PER AGENT JAN JP MORGAN CHASE BANK, NA ISAOA ATT: TX1-0013 PO BOX 9110 COPPELL, TX 75019</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2008-04-08T00:00:00</updatedOn>
+		<userText>AMENDED POLICY - INCREASE LIABILITY LIMIT AND AMEND PROPERTY ADDRESS</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>MGT NEEDS REINSTATE LTR</title>
+		<updatedOn>2011-06-02T00:00:00</updatedOn>
+		<userText>2664417</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>PH END LP</title>
+		<updatedOn>2016-06-09T00:00:00</updatedOn>
+		<userText>PER AGT KIMBERLY UPDATED 2ND MORT TO: SUNCREST BANK 438417 PO BOX 4260 NAPA, CA 94558 7545-4385-3990-81</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>DEC PAGE</title>
+		<updatedOn>2012-04-12T00:00:00</updatedOn>
+		<userText>PER JAMES CHASE BANK SENT DEC PAGE FROM EDOCS TO ROBERT@18662717330 (RightFax)</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>POLICY INQ</title>
+		<updatedOn>2014-07-10T00:00:00</updatedOn>
+		<userText>PER OI</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>**231-TRXF $236.00/DEBIT**</title>
+		<updatedOn>2015-07-22T00:00:00</updatedOn>
+		<userText>TO 2664414 PER DANIELLE GONZALEZ VIA PHONE CONVERSATION ON 7/22/15 AT 12:37PM</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2013-03-19T00:00:00</updatedOn>
+		<userText>AMENDED POLICY - COVERAGE CHANGE</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>360 VALUE UPDTY</title>
+		<updatedOn>2013-03-19T00:00:00</updatedOn>
+		<userText>PER AGENT UPDATED COVERAGE ACCORDING TO 360 VALUE</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>**TRF 30534596</title>
+		<updatedOn>2015-07-07T00:00:00</updatedOn>
+		<userText>from caas100358614 per Scott, Carolyn &lt;Carolyn.Scott@csaa.com&gt;</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>PAYMENT</title>
+		<updatedOn>2017-08-12T00:00:00</updatedOn>
+		<userText>2:18 08/12/2017 S/W INSURED TO MAKE A PAYMENT. CONFIRMATION IS 59510146</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>PAYMENT</title>
+		<updatedOn>2017-11-03T00:00:00</updatedOn>
+		<userText>11/03/2017 MICHELLE JOHNSON OI CALLED TO MAKE PAYMENT OF $60. EMAILED RECEIPT.</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2016-06-09T00:00:00</updatedOn>
+		<userText>AMENDED POLICY - ADDED OR CHANGED LOSS PAYEE</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2008-04-07T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Interim Invoice</title>
+		<updatedOn>2008-04-08T00:00:00</updatedOn>
+		<userText>Interim Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Cancellation Notice</title>
+		<updatedOn>2008-05-04T00:00:00</updatedOn>
+		<userText>Policy Cancellation Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Reinstate Notice</title>
+		<updatedOn>2008-05-11T00:00:00</updatedOn>
+		<userText>Policy Reinstate Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Interim Invoice</title>
+		<updatedOn>2008-05-11T00:00:00</updatedOn>
+		<userText>Interim Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2009-02-08T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2009-04-06T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2010-02-12T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2010-04-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2010-05-16T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2010-06-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2010-07-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2010-08-15T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Cancellation Notice</title>
+		<updatedOn>2010-09-09T00:00:00</updatedOn>
+		<userText>Policy Cancellation Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Reinstate Notice</title>
+		<updatedOn>2010-09-13T00:00:00</updatedOn>
+		<userText>Policy Reinstate Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2010-09-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Cancellation Notice</title>
+		<updatedOn>2010-10-08T00:00:00</updatedOn>
+		<userText>Policy Cancellation Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Reinstate Notice</title>
+		<updatedOn>2010-10-11T00:00:00</updatedOn>
+		<userText>Policy Reinstate Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2010-10-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Cancellation Notice</title>
+		<updatedOn>2010-11-08T00:00:00</updatedOn>
+		<userText>Policy Cancellation Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Reinstate Notice</title>
+		<updatedOn>2010-11-09T00:00:00</updatedOn>
+		<userText>Policy Reinstate Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Free Form Underwriting Letter</title>
+		<updatedOn>2011-01-13T00:00:00</updatedOn>
+		<userText>Free Form Underwriting Letter</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-01-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Cancellation Notice</title>
+		<updatedOn>2011-02-08T00:00:00</updatedOn>
+		<userText>Policy Cancellation Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Reinstate Notice</title>
+		<updatedOn>2011-02-14T00:00:00</updatedOn>
+		<userText>Policy Reinstate Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2011-02-15T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-04-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Cancellation Notice</title>
+		<updatedOn>2011-05-08T00:00:00</updatedOn>
+		<userText>Policy Cancellation Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Reinstate Notice</title>
+		<updatedOn>2011-05-11T00:00:00</updatedOn>
+		<userText>Policy Reinstate Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-05-15T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2011-06-08T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Cancellation Notice</title>
+		<updatedOn>2011-06-09T00:00:00</updatedOn>
+		<userText>Policy Cancellation Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Reinstate Notice</title>
+		<updatedOn>2011-06-12T00:00:00</updatedOn>
+		<userText>Policy Reinstate Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-06-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Cancellation Notice</title>
+		<updatedOn>2011-07-10T00:00:00</updatedOn>
+		<userText>Policy Cancellation Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Reinstate Notice</title>
+		<updatedOn>2011-07-12T00:00:00</updatedOn>
+		<userText>Policy Reinstate Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-07-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-08-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-09-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-10-16T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-11-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-12-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Cancellation Notice</title>
+		<updatedOn>2012-01-08T00:00:00</updatedOn>
+		<userText>Policy Cancellation Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Reinstate Notice</title>
+		<updatedOn>2012-01-09T00:00:00</updatedOn>
+		<userText>Policy Reinstate Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2012-01-15T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Free Form Underwriting Letter</title>
+		<updatedOn>2012-01-16T00:00:00</updatedOn>
+		<userText>Free Form Underwriting Letter</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Cancellation Notice</title>
+		<updatedOn>2012-02-09T00:00:00</updatedOn>
+		<userText>Policy Cancellation Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Reinstate Notice</title>
+		<updatedOn>2012-02-29T00:00:00</updatedOn>
+		<userText>Policy Reinstate Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2012-03-01T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2012-03-01T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2012-04-15T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2012-05-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2012-06-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2012-07-15T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2012-08-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2012-09-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2012-10-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2012-11-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2012-12-16T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2013-01-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2013-02-12T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2013-02-12T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2013-03-19T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2013-03-20T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2013-03-20T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2013-08-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2013-09-15T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2014-02-12T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2014-02-12T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2014-04-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2014-05-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Cancellation Notice</title>
+		<updatedOn>2014-06-08T00:00:00</updatedOn>
+		<userText>Policy Cancellation Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Reinstate Notice</title>
+		<updatedOn>2014-06-09T00:00:00</updatedOn>
+		<userText>Policy Reinstate Notice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2014-06-15T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2014-07-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2014-08-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2014-09-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2014-10-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2014-11-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2014-12-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2015-01-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2015-02-12T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2015-02-12T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2015-04-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2015-05-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2015-06-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>**TRF 30534597</title>
+		<updatedOn>2015-07-07T00:00:00</updatedOn>
+		<userText>**TRF 30534597</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Interim Invoice</title>
+		<updatedOn>2015-07-22T00:00:00</updatedOn>
+		<userText>Interim Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2015-08-16T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2015-09-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2015-10-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2015-11-15T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2015-12-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2016-02-15T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2016-02-15T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2016-04-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2016-05-15T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2016-06-09T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2016-06-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2016-07-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2016-08-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2016-09-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2016-10-16T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2016-11-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>lesa_st@hotmail.com</title>
+		<updatedOn>2016-12-02T00:00:00</updatedOn>
+		<userText>lesa_st@hotmail.com</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2016-12-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2017-02-12T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2017-02-12T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2017-04-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2017-05-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2017-06-04T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2017-06-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2017-07-16T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Interim Invoice</title>
+		<updatedOn>2017-08-06T00:00:00</updatedOn>
+		<userText>Interim Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2017-08-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2017-09-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2017-10-15T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2017-11-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2017-12-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2018-01-15T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+</Policy>

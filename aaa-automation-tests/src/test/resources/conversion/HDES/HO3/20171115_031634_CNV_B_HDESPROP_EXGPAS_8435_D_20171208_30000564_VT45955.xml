@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005333</agencyLocation>
+		<agentCd>70685886</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2018-01-27T00:00:00</effective>
+		<expiration>2019-01-27T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>HDES</importedFrom>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>HO3</policyFormCd>
+		<preConversionPolicyNumber>VT45955</preConversionPolicyNumber>
+		<preConversionPolicyPremium>1035</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>VT45955</sourcePolicyNum>
+		<subProducerCd>70685886</subProducerCd>
+		<tollNumberCd>xxx</tollNumberCd>
+		<underwriterCd>CSAAIB</underwriterCd>
+		<HO438BFUNSEndorsementForm state="Created"/>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+			<policyType>BASIC</policyType>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>LINCOLN</dwellAddressCity>
+			<dwellAddressLine1>305 MOTT CT</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95648</dwellAddressZip>
+			<expirationDate>2018-03-08T00:00:00</expirationDate>
+			<orderDate>2017-12-08T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>9167690754</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>Yes</insurerCd>
+			<insurerName>SILHI</insurerName>
+			<policyNumber>4290051219882812</policyNumber>
+		</AAAHOMembership>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1977-11-11T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>JACOB</firstName>
+			<lastName>SILHI</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>305 MOTT CT</addressLine1>
+				<city>LINCOLN</city>
+				<dateOfBirth>1977-11-11T00:00:00</dateOfBirth>
+				<expirationDt>2018-02-06T00:00:00</expirationDt>
+				<firstName>JACOB</firstName>
+				<lastName>SILHI</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-12-08T00:00:00</orderDate>
+				<postalCode>95648</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>305 MOTT CT</addressLine1>
+				<city>LINCOLN</city>
+				<countryCd>US</countryCd>
+				<postalCode>95648</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1998-01-01T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>JACKIE</firstName>
+			<lastName>SILHI</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>305 MOTT CT</addressLine1>
+				<city>LINCOLN</city>
+				<dateOfBirth>1998-01-01T00:00:00</dateOfBirth>
+				<expirationDt>2018-02-06T00:00:00</expirationDt>
+				<firstName>JACKIE</firstName>
+				<lastName>SILHI</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-12-08T00:00:00</orderDate>
+				<postalCode>95648</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>305 MOTT CT</addressLine1>
+				<city>LINCOLN</city>
+				<countryCd>US</countryCd>
+				<postalCode>95648</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Mortgagee</billToAtRenewal>
+			<paymentPlanAtRenewal>mortgageeHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>mortgageeHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2010-01-01T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>8</noOfYearsWithHO>
+			<policyType>HO3</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAIso360ReportComponent state="Created">
+			<constructionTypeCd>Frame</constructionTypeCd>
+			<dwellAddressCity>LINCOLN</dwellAddressCity>
+			<dwellAddressLine1>305 MOTT CT</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95648</dwellAddressZip>
+			<expirationDate>2018-02-06T00:00:00</expirationDate>
+			<isoReplacementCost>492900</isoReplacementCost>
+			<livingArea>9999</livingArea>
+			<numberOfFamilies>1</numberOfFamilies>
+			<numberOfStories>1</numberOfStories>
+			<orderDate>2017-12-08T00:00:00</orderDate>
+			<roofShape>Complex/Custom</roofShape>
+			<roofType>Other</roofType>
+			<status>Valid</status>
+			<yearBuilt>2006</yearBuilt>
+		</AAAIso360ReportComponent>
+		<AAAMembershipOrder state="Created">
+			<lastName>SILHI</lastName>
+			<membershipNumber>4290051219882812</membershipNumber>
+			<orderDate>2017-12-08T00:00:00</orderDate>
+			<receiptDate>2017-12-08T00:00:00</receiptDate>
+			<status>Active</status>
+		</AAAMembershipOrder>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>LINCOLN</dwellAddressCity>
+			<dwellAddressLine1>305 MOTT CT</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95648</dwellAddressZip>
+			<expirationDate>2018-02-06T00:00:00</expirationDate>
+			<orderDate>2017-12-08T00:00:00</orderDate>
+			<ppcValue>4</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>true</docReceivedInd>
+			<documentCd>1POCFA</documentCd>
+			<documentText>Proof of central fire alarm</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>true</docReceivedInd>
+			<documentCd>2POCTA</documentCd>
+			<documentText>Proof of central theft alarm</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>616530</documentCd>
+			<documentText>California Residential Property Insurance Disclosure</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<DwellLocatedInd>false</DwellLocatedInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+			<GasWaterInGarageInd>false</GasWaterInGarageInd>
+			<PremisesEndrosInd>false</PremisesEndrosInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Owner occupied</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>1</aaaDwellingUsage>
+			<aaaFirelineScore>0</aaaFirelineScore>
+			<aaanumberofResidents>9999</aaanumberofResidents>
+			<aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
+			<addressLine1>305 MOTT CT</addressLine1>
+			<centralAlarmInd>true</centralAlarmInd>
+			<centralFireAlarmInd>true</centralFireAlarmInd>
+			<city>LINCOLN</city>
+			<crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
+			<dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
+			<dwellingCrippleWallInd>false</dwellingCrippleWallInd>
+			<dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
+			<dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
+			<firelineMatchType>Address</firelineMatchType>
+			<numberOfFamilies>1</numberOfFamilies>
+			<overrideInspectionInd>true</overrideInspectionInd>
+			<placementOrMatchType>Address</placementOrMatchType>
+			<postalCode>95648</postalCode>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
+			<woodStoveInd>false</woodStoveInd>
+			<AAACoverageA state="Created">
+				<coverageCd>CovA</coverageCd>
+				<limitAmount>492900</limitAmount>
+			</AAACoverageA>
+			<AAACoverageB state="Created">
+				<coverageCd>CovB</coverageCd>
+				<limitAmount>49290</limitAmount>
+			</AAACoverageB>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>369800</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>197200</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>500000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOConstructionInfo state="Created">
+				<aaaFoundationType>Slab</aaaFoundationType>
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<isoReplacementCost>492900</isoReplacementCost>
+				<livingArea>9999</livingArea>
+				<numberOfStories>1</numberOfStories>
+				<replacementCost>492900</replacementCost>
+				<roofShape>Complex/Custom</roofShape>
+				<roofType>Other</roofType>
+				<yearBuilt>2006</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAHOLossInfo state="Created">
+				<aaaClaim>true</aaaClaim>
+				<aaaHoClaimNo>01VT45955</aaaHoClaimNo>
+				<catLoss>false</catLoss>
+				<claimCategory>3</claimCategory>
+				<incidentSource>Internal Claims</incidentSource>
+				<includeToRatingInd>true</includeToRatingInd>
+				<lossAmount>25524</lossAmount>
+				<lossDate>2014-09-06T00:00:00</lossDate>
+				<lossTypeCd>2</lossTypeCd>
+				<statusOfClaim>2</statusOfClaim>
+			</AAAHOLossInfo>
+			<AAAHOMortgageeInfo state="Created">
+				<accountNumber>215265575</accountNumber>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>SAN ANTONIO</city>
+				<mortagageeAddressLine1>PO BOX 692408</mortagageeAddressLine1>
+				<name>CARRINGTON MTG SERV LLC, ISAOA ATIMA</name>
+				<postalCode>78269</postalCode>
+				<rank>1</rank>
+				<stateProvCd>TX</stateProvCd>
+				<useLegalMortgagee>false</useLegalMortgagee>
+			</AAAHOMortgageeInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>LINCOLN</fireDistrict>
+				<oldPpcValue>4</oldPpcValue>
+				<ppcValue>4</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>305 MOTT CT</addressLine1>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>LINCOLN</city>
+					<county>Placer</county>
+					<postalCode>95648</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<HO28EndorsementForm state="Created"/>
+		<HO29EndorsementForm state="Created"/>
+		<HO60EndorsementForm state="Created"/>
+		<HO90EndorsementForm state="Created"/>
+	</AAAHOPolicy>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Conversion: Mailing address validated and standardized</title>
+		<updatedOn>2017-12-08T00:00:00</updatedOn>
+		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 305 MOTT CT  LINCOLN CA 95648 to 305 MOTT CT  LINCOLN CA 95648</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Conversion: Date of birth defaulted</title>
+		<updatedOn>2017-12-08T00:00:00</updatedOn>
+		<userText>Date of birth defaults were applied to this policy according to the following logic:-  If no date of birth existing in HDES and senior/mature discount applied, DOB was defaulted to 01/01/1901.  If senior/mature discount did not apply, DOB was defaulted to 01/01/1998.If only one DOB existed in HDES, all other DOBs were defaulted to match.</userText>
+	</userNote>
+</Policy>

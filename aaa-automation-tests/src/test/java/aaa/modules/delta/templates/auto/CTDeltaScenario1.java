@@ -1,13 +1,12 @@
 package aaa.modules.delta.templates.auto;
 
-
 import aaa.common.pages.SearchPage;
+import aaa.helpers.delta.HssQuoteDataGatherHelper;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 
 import java.util.ArrayList;
 
@@ -39,14 +38,11 @@ public class CTDeltaScenario1 extends BaseTest {
 		mainApp().open(); 
 		SearchPage.openQuote("QCTSS926446444");
 		policy.dataGather().start();
-		
-		CustomAssert.enableSoftMode();
 
-		GeneralTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();
+		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrierThenSaveAndExit(immediatePriorCarrierLOVs);
 	}
 
-	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<String>();
+	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<>();
 	static {
 		immediatePriorCarrierLOVs.add("21st Century");
 		immediatePriorCarrierLOVs.add("AAA-Michigan (ACG)");

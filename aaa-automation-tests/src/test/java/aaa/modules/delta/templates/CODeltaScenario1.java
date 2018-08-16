@@ -1,7 +1,7 @@
 package aaa.modules.delta.templates;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import aaa.common.enums.NavigationEnum;
@@ -21,9 +21,8 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 import toolkit.verification.CustomAssertions;
-import toolkit.webdriver.controls.ComboBox;
+import toolkit.verification.CustomSoftAssertions;
 
 public class CODeltaScenario1 extends BaseTest {
 
@@ -54,11 +53,7 @@ public class CODeltaScenario1 extends BaseTest {
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
 		
-		CustomAssert.enableSoftMode();
-		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrier(immediatePriorCarrierLOVs);
-		
-		GeneralTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();
+		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrierThenSaveAndExit(immediatePriorCarrierLOVs);
 	}
 
 	public void verifyEndorsementsTab() {
@@ -85,8 +80,8 @@ public class CODeltaScenario1 extends BaseTest {
 				CustomAssertions.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_04_93)).isPresent();
 			endorsementTab.fillTab(td_add_Forms);
 				CustomAssertions.assertThat(endorsementTab.tblIncludedEndorsements.getRow(HS_03_12)).isPresent();
-				CustomAssertions.assertThat(endorsementTab.verifyLinkEditIsPresent("HS 03 12")).isEqualTo(true);
-				CustomAssertions.assertThat(endorsementTab.verifyLinkRemoveIsPresent("HS 03 12")).isEqualTo(true);
+				CustomAssertions.assertThat(endorsementTab.isLinkEditPresent("HS 03 12")).isEqualTo(true);
+				CustomAssertions.assertThat(endorsementTab.isLinkRemovePresent("HS 03 12")).isEqualTo(true);
 				break;
 			case "HomeSS_HO4":
 			case "HomeSS_HO6":
@@ -119,36 +114,36 @@ public class CODeltaScenario1 extends BaseTest {
 		mainApp().open();		
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
-		
-		CustomAssert.enableSoftMode();		
-		GeneralTab generalTab = new GeneralTab();
-		generalTab.verifyFieldHasValue("Adversely Impacted", "None"); 
-		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.ADVERSELY_IMPACTED.getLabel(), ComboBox.class).verify.optionsContain(
-				Arrays.asList("None", "Dissolution of marriage or Credit information of a former spouse", "Identity Theft", "Declined"));
 
-		generalTab.submitTab();
-		
-		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_Declined_with_Score700, "700");
-		
-		HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_Dissolution_with_Score700, "751", messageAdverselyImpacted); 
-		
-		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_IdentityTheft_with_Score800, "800"); 
-		
-		HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_IdentityTheft_with_Score999, "751", messageAdverselyImpacted);
+		CustomSoftAssertions.assertSoftly(softly -> {
+			GeneralTab generalTab = new GeneralTab();
+			softly.assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.ADVERSELY_IMPACTED)).hasValue("None");
+			softly.assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.ADVERSELY_IMPACTED))
+					.containsAllOptions("None", "Dissolution of marriage or Credit information of a former spouse", "Identity Theft", "Declined");
 
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-		new BindTab().btnPurchase.click();
-		
-		ErrorTab errorTab = new ErrorTab();
-		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS10060735);
-		errorTab.cancel();
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get()); 
-		generalTab.fillTab(td_AdverselyImpacted_None);
-		
-		GeneralTab.buttonSaveAndExit.click();		
-		CustomAssert.assertAll();
+			generalTab.submitTab();
+
+			HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_Declined_with_Score700, "700", softly);
+
+			HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_Dissolution_with_Score700, "751", messageAdverselyImpacted, softly);
+
+			HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_IdentityTheft_with_Score800, "800", softly);
+
+			HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_IdentityTheft_with_Score999, "751", messageAdverselyImpacted, softly);
+
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+			new BindTab().btnPurchase.click();
+
+			ErrorTab errorTab = new ErrorTab();
+			errorTab.verify.errorsPresent(softly, ErrorEnum.Errors.ERROR_AAA_HO_SS10060735);
+			errorTab.cancel();
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get());
+			generalTab.fillTab(td_AdverselyImpacted_None);
+
+			GeneralTab.buttonSaveAndExit.click();
+		});
 	}
 
 	public void verifyIneligibleRoofType() {
@@ -161,28 +156,26 @@ public class CODeltaScenario1 extends BaseTest {
 		
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
-		
-		CustomAssert.enableSoftMode();
-		
-		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)||getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
-			log.info("DELTA CO SC1: Roof Type 'Asphalt/Fiberglass' verification");
-			HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction1, ErrorEnum.Errors.ERROR_AAA_HO_SS624530_CO);
-			
-			log.info("DELTA CO SC1: Roof Type 'Wood shingle/shake' verification");
-			HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction2, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
-			
-			log.info("DELTA CO SC1: Roof Type 'Builtup Tar & Gravel' verification");
-			HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction3, ErrorEnum.Errors.ERROR_AAA_HO_SS624530_CO);
-		}
-		else if (getPolicyType().equals(PolicyType.HOME_SS_HO4)||getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
-			log.info("DELTA CO SC1: Roof Type 'Wood shingle/shake' verification");
-			HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction2, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
-		}
-		
-		HssQuoteDataGatherHelper.fillPropertyInfoTabWithCorrectData(td_eligibleData);
-		
-		PropertyInfoTab.buttonSaveAndExit.click();		
-		CustomAssert.assertAll();	
+
+		CustomSoftAssertions.assertSoftly(softly -> {
+			if (getPolicyType().equals(PolicyType.HOME_SS_HO3) || getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+				log.info("DELTA CO SC1: Roof Type 'Asphalt/Fiberglass' verification");
+				HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction1, ErrorEnum.Errors.ERROR_AAA_HO_SS624530_CO, softly);
+
+				log.info("DELTA CO SC1: Roof Type 'Wood shingle/shake' verification");
+				HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction2, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560, softly);
+
+				log.info("DELTA CO SC1: Roof Type 'Builtup Tar & Gravel' verification");
+				HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction3, ErrorEnum.Errors.ERROR_AAA_HO_SS624530_CO, softly);
+			} else if (getPolicyType().equals(PolicyType.HOME_SS_HO4) || getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
+				log.info("DELTA CO SC1: Roof Type 'Wood shingle/shake' verification");
+				HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction2, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560, softly);
+			}
+
+			HssQuoteDataGatherHelper.fillPropertyInfoTabWithCorrectData(td_eligibleData);
+
+			PropertyInfoTab.buttonSaveAndExit.click();
+		});
 	}
 
 	public void purchasePolicy(TestData td, String scenarioPolicyType) {
@@ -198,7 +191,7 @@ public class CODeltaScenario1 extends BaseTest {
 		policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
 
-		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         
         log.info("DELTA CO SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);		
@@ -250,7 +243,7 @@ public class CODeltaScenario1 extends BaseTest {
 
 	}
 	
-	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<String>();	
+	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<>();
 	static {
 		immediatePriorCarrierLOVs.add("AAA-Michigan (ACG)");
 		immediatePriorCarrierLOVs.add("AAA-NoCal (CSAA IG) Rewrite");

@@ -160,6 +160,7 @@
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestRenewalBillDiscardAndMessageOnPaymentPlanChange"/>
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestRenewalBillDiscardAndMessageOnPaymentPlanChange"/>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestRenewalBillDiscardAndMessageOnPaymentPlanChange"/>
+            <class name="aaa.modules.regression.sales.pup.functional.TestRenewalBillDiscardAndMessageOnPaymentPlanChange"/>
         </classes>
     </test>
     <test name="PAS-16526, PAS-16401 Test Renewal message on Bind page on Payment plan change" parallel="methods" thread-count="1024">
@@ -171,27 +172,27 @@
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestRenewalMessageOnBindPageOnPaymentPlanChange"/>
         </classes>
     </test>
-    <test name="PAS-17479 earthquake endorsement OK">
+    <test name="PAS-17479 earthquake endorsement OK" parallel="methods" thread-count="1024">
         <parameter name="state" value="OK"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestEarthquakeEndorsements">
                 <methods>
-                    <exclude name="testEarthquakeEndorsement_checkDocGenTrigger_Renewal"/>
+                    <include name="pas17498_checkDocGenTrigger_Renewal"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestEarthquakeEndorsements">
                 <methods>
-                    <exclude name="testEarthquakeEndorsement_checkDocGenTrigger_Renewal"/>
+                    <include name="pas17498_checkDocGenTrigger_Renewal"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestEarthquakeEndorsements">
                 <methods>
-                    <exclude name="testEarthquakeEndorsement_checkDocGenTrigger_Renewal"/>
+                    <include name="pas17498_checkDocGenTrigger_Renewal"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestEarthquakeEndorsements">
                 <methods>
-                    <exclude name="testEarthquakeEndorsement_checkDocGenTrigger_Renewal"/>
+                    <include name="pas17498_checkDocGenTrigger_Renewal"/>
                 </methods>
             </class>
         </classes>

@@ -5,6 +5,7 @@ import org.testng.ITestContext;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -14,8 +15,10 @@ import aaa.helpers.conversion.SisConversionData;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.ProductConstants;
 import aaa.modules.policy.HomeCaDP3BaseTest;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
+@StateList(states = {Constants.States.CA})
 public class SisImportSmokeTest extends HomeCaDP3BaseTest {
 
 	@Parameters({"state"})
@@ -24,7 +27,7 @@ public class SisImportSmokeTest extends HomeCaDP3BaseTest {
 	public void sisCADP3ImportTest(@Optional("CA") String state, ITestContext context) {
 
 		LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
-		ConversionPolicyData data = new SisConversionData("1.xml", effDate);
+		ConversionPolicyData data = new SisConversionData("20170525_012421_CNV_B_CADP3_EXGPAS_8435_D_20170523_30000471_3669264.xml", effDate);
 		String policyNum = ConversionUtils.importPolicy(data, context, false);
 
 		mainApp().open();

@@ -1,11 +1,14 @@
 package aaa.modules.e2e.auto_ca;
 
-import org.assertj.core.api.SoftAssertions;
+import toolkit.verification.CustomSoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import aaa.common.enums.Constants.States;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.e2e.templates.Scenario12;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 
 public class TestScenario12 extends Scenario12 {
@@ -16,6 +19,7 @@ public class TestScenario12 extends Scenario12 {
 	}
 
 	@Parameters({"state"})
+	@StateList(states = States.CA)
 	@Test
 	public void TC01_createPolicy(@Optional("CA") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
@@ -23,8 +27,8 @@ public class TestScenario12 extends Scenario12 {
 		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
 
 		createTestPolicy(policyCreationTD);
-		SoftAssertions.assertSoftly(softly -> {
-			generateFirstBill();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			generateFirstBill(softly);
 			//payFirstBill();		
 			generateCancelNotice();
 			generateCancellation();
@@ -35,24 +39,24 @@ public class TestScenario12 extends Scenario12 {
 			
 			renewalImageGeneration();
 			renewalPreviewGeneration();
-			renewalOfferGeneration();
+			renewalOfferGeneration(softly);
 			changePaymentPlanForCA();
 			enableAutoPay();
 			payRenewalBill();
 			updatePolicyStatus();
-			generateFirstBillOfFirstRenewal();
+			generateFirstBillOfFirstRenewal(softly);
 			payFirstBillOfFirstRenewal();
-			generateSecondBillOfFirstRenewal();
+			generateSecondBillOfFirstRenewal(softly);
 			paySecondBillOfFirstRenewal();
-			generateThirdBillOfFirstRenewal();
+			generateThirdBillOfFirstRenewal(softly);
 			payThirdBillOfFirstRenewal();
 			renewalImageGeneration_FirstRenewal();
 			renewalPreviewGeneration_FirstRenewal();
-			renewalOfferGeneration_FirstRenewal();
+			renewalOfferGeneration_FirstRenewal(softly);
 			changePaymentPlanForCA_FirstRenewal();
 			payRenewalBill_FirstRenewal();
 			updatePolicyStatus_FirstRenewal();
-			generateFirstBillOfSecondRenewal();
+			generateFirstBillOfSecondRenewal(softly);
 			payFirstBillOfSecondRenewal();
 		});
 	}

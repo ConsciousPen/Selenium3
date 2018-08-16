@@ -9,7 +9,6 @@ import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestCinAbstractHomeSS;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.Assert;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;

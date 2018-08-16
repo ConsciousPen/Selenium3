@@ -1,9 +1,7 @@
 package aaa.modules.regression.service.home_ca.ho3;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -11,6 +9,7 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
+import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -30,6 +29,8 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
+import aaa.utils.StateList;
+
 import com.exigen.ipb.etcsa.utils.Dollar;
 
 public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
@@ -58,6 +59,7 @@ public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
       */
 
     @Parameters({"state"})
+    @StateList(states =  States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
     public void testPolicyCancelReinstateUWReason(@Optional("CA") String state) {
@@ -89,27 +91,27 @@ public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
                 HomeCaMetaData.CancelActionTab.DESCRIPTION.getLabel());
 
         //  5.  Verify that default value in 'Cancellation effective date' field is today + 1 day
-        cancelActionTab.getAssetList().getAsset(HomeCaMetaData.CancelActionTab.CANCELLATION_EFFECTIVE_DATE).verify.contains(DateTimeUtils.getCurrentDateTime().plusDays(1)
+        assertThat(cancelActionTab.getAssetList().getAsset(HomeCaMetaData.CancelActionTab.CANCELLATION_EFFECTIVE_DATE)).valueContains(DateTimeUtils.getCurrentDateTime().plusDays(1)
                 .format(DateTimeUtils.MM_DD_YYYY));
 
         //  6.  Leave the cancellation date and cancellation reason fields empty and click Ok
         cancelActionTab.getAssetList().getAsset(HomeCaMetaData.CancelActionTab.CANCELLATION_EFFECTIVE_DATE).setValue("");
         CancelActionTab.buttonOk.click();
-        cancelActionTab.getAssetList().getWarning(HomeCaMetaData.CancelActionTab.CANCELLATION_EFFECTIVE_DATE).verify.contains(expectedWarningCancellationDateRequired);
-        cancelActionTab.getAssetList().getWarning(HomeCaMetaData.CancelActionTab.CANCELLATION_REASON).verify.contains(expectedWarningReason);
+        assertThat(cancelActionTab.getAssetList().getWarning(HomeCaMetaData.CancelActionTab.CANCELLATION_EFFECTIVE_DATE)).valueContains(expectedWarningCancellationDateRequired);
+        assertThat(cancelActionTab.getAssetList().getWarning(HomeCaMetaData.CancelActionTab.CANCELLATION_REASON)).valueContains(expectedWarningReason);
 
         //  7.  Change the cancellation date to other than policy effective date and verify that error message is appears
         cancelActionTab.fillTab(getPolicyTD("Cancellation", "TestData_Plus3Days").adjust(
                 TestData.makeKeyPath(HomeCaMetaData.CancelActionTab.class.getSimpleName(), HomeCaMetaData.CancelActionTab.CANCELLATION_REASON.getLabel()), cancellationReason));
         CancelActionTab.buttonOk.click();
-        cancelActionTab.getAssetList().getWarning(HomeCaMetaData.CancelActionTab.CANCELLATION_EFFECTIVE_DATE).verify.contains(expectedWarningDateEqual);
+        assertThat(cancelActionTab.getAssetList().getWarning(HomeCaMetaData.CancelActionTab.CANCELLATION_EFFECTIVE_DATE)).valueContains(expectedWarningDateEqual);
 
         //  8.  Change the cancellation date to policy effective date and verify that policy status is 'Policy Cancelled'
         cancelActionTab.getAssetList().getAsset(HomeCaMetaData.CancelActionTab.CANCELLATION_EFFECTIVE_DATE).setValue(policyEffectiveDate);
         CancelActionTab.buttonOk.click();
         Page.dialogConfirmation.confirm();
         PolicySummaryPage.labelPolicyStatus.getValue();
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
         //  9.  Click transaction history link and verify that cancellation transaction appears in transaction history
         PolicySummaryPage.buttonTransactionHistory.click();
@@ -121,7 +123,7 @@ public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
         query.put(PolicyTransactionHistoryTable.TRAN_PREMIUM, premium.negate().toString());
         query.put(PolicyTransactionHistoryTable.ENDING_PREMIUM, new Dollar(0).toString());
         query.put(PolicyTransactionHistoryTable.PERFORMER, performer);
-        PolicySummaryPage.tableTransactionHistory.getRowContains(query).verify.present();
+        assertThat(PolicySummaryPage.tableTransactionHistory.getRowContains(query)).exists();
 
         // 10. Navigate to Billing tab and verify that Transaction is created in Payments & Other Transactions section
         NavigationPage.toMainTab(AppMainTabs.BILLING.get());
@@ -132,40 +134,40 @@ public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
         query.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, cancellationReason);
         query.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, premium.negate().toString());
         query.put(BillingPaymentsAndOtherTransactionsTable.STATUS, PaymentsAndOtherTransactionStatus.APPLIED);
-        BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).verify.present();
+        assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query)).exists();
 
         // 11. Navigate to Policy Summary page and check that policy consolidated screen contains an alert with cancellation reason
         BillingSummaryPage.openPolicy(1);
-        if (NotesAndAlertsSummaryPage.alert2.isPresent()) 
-             assertThat(
-            		 ((NotesAndAlertsSummaryPage.alert.getValue()).contains(cancellationReason)) || 
-            		 ((NotesAndAlertsSummaryPage.alert2.getValue()).contains(cancellationReason))); 
-         else
-        	 assertThat(NotesAndAlertsSummaryPage.alert.getValue()).contains(cancellationReason);	 
-        
+        if (NotesAndAlertsSummaryPage.alert2.isPresent()) {
+            assertThat(NotesAndAlertsSummaryPage.alert).valueContains(cancellationReason);
+            assertThat(NotesAndAlertsSummaryPage.alert2).valueContains(cancellationReason);
+        } else {
+            assertThat(NotesAndAlertsSummaryPage.alert).valueContains(cancellationReason);
+        }
+
         // 12. Start policy Reinstatement process and verify fields 'Cancellation effective date' and 'Reinstate date'
         new HomeCaPolicyActions.Reinstate().start();
         verifyFieldsPresentAndEnabled(reinstatementActionTab.getAssetList(), false, HomeCaMetaData.ReinstatementActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel());
-        reinstatementActionTab.getAssetList().getAsset(HomeCaMetaData.ReinstatementActionTab.CANCELLATION_EFFECTIVE_DATE).verify.contains(policyEffectiveDate);
+        assertThat(reinstatementActionTab.getAssetList().getAsset(HomeCaMetaData.ReinstatementActionTab.CANCELLATION_EFFECTIVE_DATE)).valueContains(policyEffectiveDate);
         verifyFieldsPresentAndEnabled(reinstatementActionTab.getAssetList(), true, HomeCaMetaData.ReinstatementActionTab.REINSTATE_DATE.getLabel());
-        reinstatementActionTab.getAssetList().getAsset(HomeCaMetaData.ReinstatementActionTab.REINSTATE_DATE).verify.contains(DateTimeUtils.getCurrentDateTime().plusDays(1)
+        assertThat(reinstatementActionTab.getAssetList().getAsset(HomeCaMetaData.ReinstatementActionTab.REINSTATE_DATE)).valueContains(DateTimeUtils.getCurrentDateTime().plusDays(1)
                 .format(DateTimeUtils.MM_DD_YYYY));
 
         // 13. Leave the reinstate date field empty, click Ok and verify that error message is appears
         reinstatementActionTab.getAssetList().getAsset(HomeCaMetaData.ReinstatementActionTab.REINSTATE_DATE).setValue("");
         ReinstatementActionTab.buttonOk.click();
-        reinstatementActionTab.getAssetList().getWarning(HomeCaMetaData.ReinstatementActionTab.REINSTATE_DATE).verify.contains(expectedWarningReinstateDate);
+        assertThat(reinstatementActionTab.getAssetList().getWarning(HomeCaMetaData.ReinstatementActionTab.REINSTATE_DATE)).valueContains(expectedWarningReinstateDate);
 
         // 14. Fill in the 'Reinstate date' field with the date 30 days later than policy cancellation effective date and verify that error message is appears
         reinstatementActionTab.getAssetList().getAsset(HomeCaMetaData.ReinstatementActionTab.REINSTATE_DATE).setValue(DateTimeUtils.getCurrentDateTime().plusDays(31).format(DateTimeUtils.MM_DD_YYYY));
-        reinstatementActionTab.getAssetList().getWarning(HomeCaMetaData.ReinstatementActionTab.REINSTATE_DATE).verify.contains(expectedWarningReinstateDateIncorrect);
+        assertThat(reinstatementActionTab.getAssetList().getWarning(HomeCaMetaData.ReinstatementActionTab.REINSTATE_DATE)).valueContains(expectedWarningReinstateDateIncorrect);
 
         // 15. Change the reinstate date to policy cancellation effective date and verify that policy status is 'Policy Active' and policy effective date = policy cancellation date
         reinstatementActionTab.getAssetList().getAsset(HomeCaMetaData.ReinstatementActionTab.REINSTATE_DATE).setValue(policyEffectiveDate);
         ReinstatementActionTab.buttonOk.click();
         Page.dialogConfirmation.confirm();
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        PolicySummaryPage.labelPolicyEffectiveDate.verify.contains(policyEffectiveDate);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyEffectiveDate).valueContains(policyEffectiveDate);
 
         // 16. Click transaction history link and verify that reinstate transaction appears in transaction history
         PolicySummaryPage.buttonTransactionHistory.click();
@@ -176,7 +178,7 @@ public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
         query.put(PolicyTransactionHistoryTable.TRAN_PREMIUM, premium.toString());
         query.put(PolicyTransactionHistoryTable.ENDING_PREMIUM, premium.toString());
         query.put(PolicyTransactionHistoryTable.PERFORMER, performer);
-        PolicySummaryPage.tableTransactionHistory.getRowContains(query).verify.present();
+        assertThat(PolicySummaryPage.tableTransactionHistory.getRowContains(query)).exists();
 
         // 17. Navigate to Billing page and verify that no reinstatement fee is applied
         NavigationPage.toMainTab(AppMainTabs.BILLING.get());
@@ -187,12 +189,12 @@ public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
         query.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT);
         query.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, premium.toString());
         query.put(BillingPaymentsAndOtherTransactionsTable.STATUS, PaymentsAndOtherTransactionStatus.APPLIED);
-        BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).verify.present();
+        assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query)).exists();
     }
 
     private void verifyFieldsPresentAndEnabled(AbstractContainer<?, ?> assetList, boolean isEnabled, String... fields) {
         for (String field : fields) {
-            assetList.getAsset(field).verify.enabled(isEnabled);
+            assertThat(assetList.getAsset(field)).isEnabled(isEnabled);
         }
     }
 }

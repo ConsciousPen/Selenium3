@@ -1,5 +1,6 @@
 package aaa.modules.regression.billing_and_payments.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 import java.util.Map;
 import org.testng.annotations.Optional;
@@ -7,6 +8,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
@@ -15,6 +17,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 /**
@@ -35,6 +38,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyPayments extends HomeCaHO3BaseTest {
 
 	@Parameters({"state"})
+	@StateList(states =  States.CA)
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3) 
 	public void testPolicyPayments(@Optional("CA") String state) {
@@ -48,7 +52,7 @@ public class TestPolicyPayments extends HomeCaHO3BaseTest {
 
 		new PurchaseTab().fillTab(getTestSpecificTD("TestData")).submitTab();
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		log.info("TEST: Payments for HSS Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
 
@@ -69,7 +73,7 @@ public class TestPolicyPayments extends HomeCaHO3BaseTest {
 		query.put("Subtype/Reason", "Deposit Payment");
 		query.put("Amount", "(" + amount + ")");
 
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query)).exists();
 	}
 
 }

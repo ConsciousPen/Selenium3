@@ -1,10 +1,12 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -16,6 +18,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
+import aaa.utils.StateList;
 
 public class TestPolicyRemoveForm extends HomeCaHO3BaseTest {
 
@@ -35,6 +38,7 @@ public class TestPolicyRemoveForm extends HomeCaHO3BaseTest {
       */
 
 	@Parameters({"state"})
+	@StateList(states =  States.CA)
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)  
     public void testPolicyRemoveForm(@Optional("CA") String state) {
@@ -44,12 +48,12 @@ public class TestPolicyRemoveForm extends HomeCaHO3BaseTest {
         policy.initiate();
 
         policy.getDefaultView().fillUpTo(getPolicyTD().adjust(getTestSpecificTD("TestData_AddForm_HARI")).resolveLinks(), PremiumsAndCoveragesQuoteTab.class, false);
-        PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains(PolicyEndorsementFormsTable.DESCRIPTION, HomeCaMetaData.EndorsementTab.HARI.getLabel()).verify.present();
+        assertThat(PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains(PolicyEndorsementFormsTable.DESCRIPTION, HomeCaMetaData.EndorsementTab.HARI.getLabel())).isPresent();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_ENDORSEMENT.get());
         policy.getDefaultView().fill(getPolicyTD().ksam(EndorsementTab.class.getSimpleName()).adjust(getTestSpecificTD("TestData_RemoveForm_HARI")).resolveLinks());
-        PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains(PolicyEndorsementFormsTable.DESCRIPTION, HomeCaMetaData.EndorsementTab.HARI.getLabel()).verify.present(false);
+        assertThat(PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains(PolicyEndorsementFormsTable.DESCRIPTION, HomeCaMetaData.EndorsementTab.HARI.getLabel())).isPresent(false);
         policy.getDefaultView().fillFromTo(getPolicyTD(), PremiumsAndCoveragesQuoteTab.class, PurchaseTab.class);
         policy.getDefaultView().fill(getPolicyTD().ksam(PurchaseTab.class.getSimpleName()));
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 }
