@@ -7,11 +7,10 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.regression.sales.template.functional.CommonTemplateMethods;
+import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -31,12 +30,7 @@ import toolkit.utils.TestInfo;
  * @details
  */
 @StateList(states = { Constants.States.MT })
-public class TestMTRenewalVersionProposal extends CommonTemplateMethods {
-
-    @Override
-    protected PolicyType getPolicyType() {
-        return PolicyType.AUTO_SS;
-    }
+public class TestMTRenewalVersionProposal extends AutoSSBaseTest {
 
     @Parameters({"state"})
 	@Test(groups = { Groups.FUNCTIONAL, Groups.FUNCTIONAL, Groups.HIGH})
@@ -61,6 +55,5 @@ public class TestMTRenewalVersionProposal extends CommonTemplateMethods {
         // Check that Renewal Version is in Status Proposed
         PolicySummaryPage.buttonRenewals.click();
         new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
-
     }
 }
