@@ -75,7 +75,7 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12266"})
 	public void pas12266_endorsementsComparisonNamedInsuredInformation(@Optional("AZ") String state) {
-		endorsementsComparison(getTDNamedInsuredInformationVersion1(), getTDNamedInsuredInformationVersion2(), VersionsComparisonConstants.endorsementRenewalNamedInsuredInformation, "GeneralTab", "NamedInsuredInformation");
+		endorsementComparison(getTDNamedInsuredInformationVersion1(), getTDNamedInsuredInformationVersion2(), VersionsComparisonConstants.endorsementRenewalNamedInsuredInformation, "GeneralTab", "NamedInsuredInformation");
 	}
 
 	@Parameters({STATE_PARAM})
@@ -99,14 +99,14 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12883"})
 	public void pas12883_dataGatherComparisonAAAProductOwned(@Optional("AZ") String state) {
-		dataGatherComparison(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsComparisonConstants.aaaProductOwned, "GeneralTab", "AAAProductOwned");
+		dataGatherComparison(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsComparisonConstants.aaaProductOwned,"GeneralTab", "AAAProductOwned");
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12883"})
 	public void pas12883_endorsementsComparisonAAAProductOwned(@Optional("AZ") String state) {
-		endorsementsComparison(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsComparisonConstants.aaaProductOwned, "GeneralTab", "AAAProductOwned");
+		endorsementComparison(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsComparisonConstants.aaaProductOwned, "GeneralTab", "AAAProductOwned");
 	}
 
 	@Parameters({STATE_PARAM})
@@ -114,6 +114,125 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12883"})
 	public void pas12883_renewalComparisonAAAProductOwned(@Optional("AZ") String state) {
 		renewalComparison(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsComparisonConstants.aaaProductOwned, "GeneralTab", "AAAProductOwned");
+	}
+
+	//Contact Information section
+
+	private TestData getTDContactInformationVersion1() {
+		return getTestSpecificTD("TestData_ContactInformation_Version1");
+	}
+
+	private TestData getTDContactInformationVersion2() {
+		return getTestSpecificTD("TestData_ContactInformation_Version2");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12884"})
+	public void pas12884_dataGatherComparisonContactInformation(@Optional("AZ") String state) {
+		dataGatherComparison(getTDContactInformationVersion1(), getTDContactInformationVersion2(), VersionsComparisonConstants.contactInformation, "GeneralTab", "ContactInformation");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12884"})
+	public void pas12884_endorsementsComparisonContactInformation(@Optional("AZ") String state) {
+		endorsementComparison(getTDContactInformationVersion1(), getTDContactInformationVersion2(), VersionsComparisonConstants.contactInformation, "GeneralTab", "ContactInformation");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12884"})
+	public void pas12884_renewalComparisonContactInformation(@Optional("AZ") String state) {
+		renewalComparison(getTDContactInformationVersion1(), getTDContactInformationVersion2(), VersionsComparisonConstants.contactInformation, "GeneralTab", "ContactInformation");
+	}
+
+	//Current Carrier Information
+
+	private TestData getTDCurrentCarrierInformationVersion1() {
+		return getTestSpecificTD("TestData_CurrentCarrierInformation_Version1");
+	}
+
+	private TestData getTDCurrentCarrierInformationVersion2() {
+		return getTestSpecificTD("TestData_CurrentCarrierInformation_Version2");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12885"})
+	public void pas12885_dataGatherComparisonCurrentCarrierInformation(@Optional("AZ") String state) {
+		dataGatherComparison(getTDCurrentCarrierInformationVersion1(), getTDCurrentCarrierInformationVersion2(), VersionsComparisonConstants.currentCarrierInformation, "GeneralTab", "CurrentCarrierInformation");
+	}
+
+	//test for Endorsement comparison not needed, section can't be changed during Endorsement
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12885"})
+	public void pas12885_renewalComparisonCurrentCarrierInformation(@Optional("AZ") String state) {
+		renewalComparison(getTDCurrentCarrierInformationVersion1(), getTDCurrentCarrierInformationVersion2(), VersionsComparisonConstants.currentCarrierInformation, "GeneralTab", "CurrentCarrierInformation");
+	}
+
+	//Policy Information section
+
+	private TestData getTDPolicyInformationVersion1() {
+		return getTestSpecificTD("TestData_PolicyInformation_Version1");
+	}
+
+	private TestData getTDPolicyInformationVersion2() {
+		return getTestSpecificTD("TestData_PolicyInformation_Version2");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12886"})
+	public void pas12886_dataGatherComparisonPolicyInformation(@Optional("AZ") String state) {
+		dataGatherComparison(getTDPolicyInformationVersion1(), getTDPolicyInformationVersion2(), VersionsComparisonConstants.policyInformation, "GeneralTab", "PolicyInformation");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12886"})
+	public void pas12886_endorsementsComparisonPolicyInformation(@Optional("AZ") String state) {
+		endorsementComparison(getTDPolicyInformationVersion1(), getTDPolicyInformationVersion2(), VersionsComparisonConstants.policyInformation, "GeneralTab", "PolicyInformation");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12886"})
+	public void pas12886_renewalComparisonPolicyInformation(@Optional("AZ") String state) {
+		renewalComparison(getTDPolicyInformationVersion1(), getTDPolicyInformationVersion2(), VersionsComparisonConstants.policyInformation, "GeneralTab", "PolicyInformation");
+	}
+
+	//Driver Information section
+
+	private TestData getTDDriverInformationVersion1() {
+		return getTestSpecificTD("TestData_DriverInformation_Version1");
+	}
+
+	private TestData getTDDriverInformationVersion2() {
+		return getTestSpecificTD("TestData_DriverInformation_Version2");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12469"})
+	public void pas12469_dataGatherComparisonDriverInformation(@Optional("AZ") String state) {
+		dataGatherComparison(getTDDriverInformationVersion1(), getTDDriverInformationVersion2(), VersionsComparisonConstants.driverInformation, "DriverTab", "DriverInformation");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12469"})
+	public void pas12469_endorsementsComparisonDriverInformation(@Optional("AZ") String state) {
+		endorsementComparison(getTDDriverInformationVersion1(), getTDDriverInformationVersion2(), VersionsComparisonConstants.driverInformation, "DriverTab", "DriverInformation");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12469"})
+	public void pas12469_renewalComparisonDriverInformation(@Optional("AZ") String state) {
+		renewalComparison(getTDDriverInformationVersion1(), getTDDriverInformationVersion2(), VersionsComparisonConstants.driverInformation, "DriverTab", "DriverInformation");
 	}
 
 	//Vehicle Information section
@@ -130,21 +249,20 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12469"})
 	public void pas12469_dataGatherComparisonVehicleInformation(@Optional("AZ") String state) {
-		dataGatherComparison(getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsComparisonConstants.vehicleInformation, "VehicleTab", "VehicleInformation");
+		dataGatherComparison(getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsComparisonConstants.dataGatherVehicleInformation, "VehicleTab", "VehicleInformation");
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12469"})
 	public void pas12469_endorsementsComparisonVehicleInformation(@Optional("AZ") String state) {
-		endorsementsComparison(getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsComparisonConstants.vehicleInformation, "VehicleTab", "VehicleInformation");
+		endorsementComparison(getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsComparisonConstants.endorsementRenewalVehicleInformation, "VehicleTab", "VehicleInformation");
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12469"})
 	public void pas12469_renewalComparisonVehicleInformation(@Optional("AZ") String state) {
-		renewalComparison(getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsComparisonConstants.vehicleInformation, "VehicleTab", "VehicleInformation");
+		renewalComparison(getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsComparisonConstants.endorsementRenewalVehicleInformation, "VehicleTab", "VehicleInformation");
 	}
-
 }
