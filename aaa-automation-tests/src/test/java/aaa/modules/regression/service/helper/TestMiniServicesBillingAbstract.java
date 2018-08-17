@@ -1,7 +1,6 @@
 package aaa.modules.regression.service.helper;
 
 import static aaa.main.enums.BillingConstants.BillingInstallmentScheduleTable.*;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -10,7 +9,6 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import org.apache.commons.lang3.StringUtils;
-import org.assertj.core.api.SoftAssertions;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
@@ -21,7 +19,9 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomSoftAssertions;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 
@@ -61,7 +61,7 @@ public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 	 * 11. check Due Date, Min Due, Past Due (non-0) are returned same as are there in UI
 	 * @details
 	 */
-	protected void pas13663_CurrentBillServiceBody(SoftAssertions softly, String policyNumber) {
+	protected void pas13663_CurrentBillServiceBody(ETCSCoreSoftAssertions softly, String policyNumber) {
 		currentBillServiceCheck(softly, policyNumber);
 
 		SearchPage.openBilling(policyNumber);
@@ -94,7 +94,7 @@ public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 
 
 
-	protected void currentBillServiceCheck(SoftAssertions softly, String policyNumber) {
+	protected void currentBillServiceCheck(ETCSCoreSoftAssertions softly, String policyNumber) {
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 
@@ -118,7 +118,7 @@ public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 
 	protected void pas16982_ViewInstallmentScheduleServiceBody(String policyNumber) {
 
-		assertSoftly(softly -> {
+		CustomSoftAssertions.assertSoftly(softly -> {
 			String lastDueDate = installmentsServiceCheck(softly, policyNumber);
 			currentAccountInfoServiceCheck(softly, policyNumber, lastDueDate);
 		});
@@ -137,14 +137,14 @@ public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
-		assertSoftly(softly -> {
+		CustomSoftAssertions.assertSoftly(softly -> {
 			String lastDueDate2 = installmentsServiceCheck(softly, policyNumber);
 			currentAccountInfoServiceCheck(softly, policyNumber, lastDueDate2);
 		});
 	}
 
 
-	protected String installmentsServiceCheck(SoftAssertions softly, String policyNumber) {
+	protected String installmentsServiceCheck(ETCSCoreSoftAssertions softly, String policyNumber) {
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		int countInstallments = BillingSummaryPage.tableInstallmentSchedule.getRowsCount();
@@ -168,7 +168,7 @@ public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 		return getDateFromInstallmentSchedule(countInstallments, BILL_DUE_DATE);
 	}
 
-	protected void currentAccountInfoServiceCheck(SoftAssertions softly, String policyNumber, String latestBillDueDate) {
+	protected void currentAccountInfoServiceCheck(ETCSCoreSoftAssertions softly, String policyNumber, String latestBillDueDate) {
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 
