@@ -5,8 +5,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.enums.ErrorEnum;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import org.testng.annotations.Optional;
@@ -16,8 +15,6 @@ import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -45,7 +42,7 @@ public class TestAA52IDHardStopRule extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-17818")
-    public void pas17818_testDocHardStopAA52XXBehaviorNB(@Optional("ID") String state) {
+    public void pas17818_testDocHardStopAA52IDBehaviorNB(@Optional("ID") String state) {
 
         // Initiate Policy, calculate premium with UM/UIM coverages, Documents and Bind tab - UM and UIM coverage field
         createQuoteAndFillUpTo(DocumentsAndBindTab.class);
@@ -79,7 +76,7 @@ public class TestAA52IDHardStopRule extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-17818")
-    public void pas17818_testDocHardStopAA52XXBehaviorEndorsement(@Optional("ID") String state) {
+    public void pas17818_testDocHardStopAA52IDBehaviorEndorsement(@Optional("ID") String state) {
         checkRenewalAndEndorsement(false);
     }
 
@@ -92,19 +89,19 @@ public class TestAA52IDHardStopRule extends AutoSSBaseTest {
      * 4. Navigate to Documents&Bind tab to validate the UM and UIM Disclosure Statement and Rejection Of Coverage field
      * 5. default value for UM and UIM Disclosure Statement and Rejection Of Coverage = Not Signed
      * 7. Override Rule - with message " "A signed Uninsured motorist coverage Rejection form must be received prior to issuing this transaction" is displyed
-     * 8. POverride the rule and is able to Bind the policy
+     * 8. Override the rule and is able to Bind the policy
      * 9. Perform an Renewal in DataGather mode
      * 10. P&C Page - opt for UM/UIM coverages and Calculate the Premium
      * 11. Documents & Bind page - UM and UIM Coverage Rejection field with Not Signed option selected
      * 12. Save&Exit the policy - Hard Stop Rule is displayed "A signed Uninsured motorist coverage selection form must be received prior to issuing this transaction" "
-     * 13. Override the rule and is able to Bind the policy
+     * 13. Override the rule and is able to Save & Exit the policy
      * @details
      */
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-17818")
-    public void pas17818_testDocHardStopAA52XXBehaviorRenewal(@Optional("ID") String state) {
+    public void pas17818_testDocHardStopAA52IDBehaviorRenewal(@Optional("ID") String state) {
         checkRenewalAndEndorsement(true);
     }
 
@@ -119,7 +116,7 @@ public class TestAA52IDHardStopRule extends AutoSSBaseTest {
 
         if(isRenewal){
             //moveTimeAndRunRenewJobs(PolicySummaryPage.getExpirationDate());
-            policy.renew();
+            policy.renew().perform();
         }
         else {
             policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -130,6 +127,8 @@ public class TestAA52IDHardStopRule extends AutoSSBaseTest {
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY).setValueByIndex(1);
         premiumAndCoveragesTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        documentsAndBindTab.getRequiredToBindAssetList()
+                .getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_UNDERINSURED_DISCLOSURE_STATEMENT_AND_REJECTION_OF_COVERAGE).setValue("Not Signed");
         overrideErrorsAndSubmitTab();
         assertThat(PolicySummaryPage.labelPolicyStatus).isPresent();
     }
@@ -141,6 +140,43 @@ public class TestAA52IDHardStopRule extends AutoSSBaseTest {
         errorTab.override();
         documentsAndBindTab.submitTab();
 
+    }
+
+    /**
+     * @author Sreekanth Kopparapu
+     * @name ID Auto New Hard Stop Rule when AA52ID doc is not Signed after UM/UIM Coverage is opted for Renewal assuming @NB UM/UIM are not opted
+     * @scenario 1. Create Customer
+     * 2. Initiate Auto SS ID Conversion - Initiate Manual Conversion and fill all mandatory fileds in P&CPage
+     * 3. Navigate to P&C Page and ensure the UM/UIM coverages are selected
+     * 4. Navigate to Documents&Bind tab to validate the UM and UIM Disclosure Statement and Rejection Of Coverage field
+     * 5. default value for UM and UIM Disclosure Statement and Rejection Of Coverage = Not Signed
+     * 7. Override Rule - with message " "A signed Uninsured motorist coverage Rejection form must be received prior to issuing this transaction" is displyed
+     * 8. Override the rule and is able to Propose the policy
+     * @details
+     */
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-17818")
+    public void pas17818_testDocHardStopAA52IDBehaviorConversion(@Optional("ID") String state) {
+
+        TestData tdAutoConv = getConversionPolicyDefaultTD();
+
+        TestData td = getPolicyTD()
+                .adjust(TestData.makeKeyPath(PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel()), "index=0")
+                .adjust(TestData.makeKeyPath(PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel()), "index=0");
+
+        //Initiate manual conversion policy
+        mainApp().open();
+		createCustomerIndividual();
+		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
+		policy.getDefaultView().fillUpTo(getConversionPolicyDefaultTD(), DocumentsAndBindTab.class, true);
+
+        documentsAndBindTab.getRequiredToBindAssetList()
+                .getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_UNDERINSURED_DISCLOSURE_STATEMENT_AND_REJECTION_OF_COVERAGE).setValue("Not Signed");
+        overrideErrorsAndSubmitTab();
+        PolicySummaryPage.buttonBackFromRenewals.click();
+        assertThat(PolicySummaryPage.labelPolicyStatus).isPresent();
 
     }
 }
