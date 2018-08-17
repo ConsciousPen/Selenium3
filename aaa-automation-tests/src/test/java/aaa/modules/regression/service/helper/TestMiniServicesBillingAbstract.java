@@ -1,6 +1,7 @@
 package aaa.modules.regression.service.helper;
 
 import static aaa.main.enums.BillingConstants.BillingInstallmentScheduleTable.*;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -19,7 +20,6 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomSoftAssertions;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
@@ -92,8 +92,6 @@ public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 		currentBillServiceCheck(softly, policyNumber);
 	}
 
-
-
 	protected void currentBillServiceCheck(ETCSCoreSoftAssertions softly, String policyNumber) {
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
@@ -118,7 +116,7 @@ public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 
 	protected void pas16982_ViewInstallmentScheduleServiceBody(String policyNumber) {
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		assertSoftly(softly -> {
 			String lastDueDate = installmentsServiceCheck(softly, policyNumber);
 			currentAccountInfoServiceCheck(softly, policyNumber, lastDueDate);
 		});
@@ -137,7 +135,7 @@ public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		assertSoftly(softly -> {
 			String lastDueDate2 = installmentsServiceCheck(softly, policyNumber);
 			currentAccountInfoServiceCheck(softly, policyNumber, lastDueDate2);
 		});

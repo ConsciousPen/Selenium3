@@ -361,6 +361,7 @@
                     <include name="pas13663_CurrentBillServiceMonthly"/>
                     <include name="pas13663_CurrentBillServiceQuarterly"/>
                     <include name="pas13663_CurrentBillServiceAnnual"/>
+                    <include name="pas16982_ViewInstallmentScheduleServiceBody"/>
                 </methods>
             </class>
         </classes>
@@ -527,6 +528,7 @@
                     <include name="pas14475_NameInsuredMaritalStatusPSS"/>
                     <include name="pas16696_AddANameInsuredSameDayNotPolicyEffectiveDate"/>
                     <include name="pas14963_remove_driver_transaction_history"/>
+                    <include name="pas16578_removeDriverCheckIfTaskWasCreated"/>
                 </methods>
             </class>
         </classes>
