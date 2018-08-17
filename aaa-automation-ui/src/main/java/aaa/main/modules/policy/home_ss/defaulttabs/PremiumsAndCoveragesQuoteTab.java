@@ -4,9 +4,6 @@
  */
 package aaa.main.modules.policy.home_ss.defaulttabs;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.openqa.selenium.By;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -16,7 +13,6 @@ import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.toolkit.webdriver.customcontrols.RatingDetailsTable;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -73,11 +69,5 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 			btnCalculatePremium().click();
 			showHeader();
 		}
-	}
-
-	public boolean isDiscountApplied(String discount) {
-		Map<String, String> query = new HashMap<>();
-		query.put("Discounts Applied", discount);
-		return !tableDiscounts.getRowsThatContain(query).isEmpty();
 	}
 }

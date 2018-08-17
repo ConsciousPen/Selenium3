@@ -8,7 +8,7 @@ TestData: {
 NamedInsuredInformation: {
   Add: 'click',
   CustomerSearchDialog: {},
-  First name: 'First Name',
+  First name: 'First Name1',
   Last name: 'Last Name',
   Relationship to primary named insured: Spouse,
   Marital status: 'Single',

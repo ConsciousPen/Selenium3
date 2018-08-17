@@ -6,7 +6,6 @@ package aaa.main.modules.policy.home_ss.defaulttabs;
 
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 
 /**
@@ -86,8 +85,8 @@ public class PropertyInfoTab extends Tab {
 		return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RECREATIONAL_EQUIPMENT.getLabel(), AssetList.class);
 	}
 
-	public MultiInstanceAfterAssetList getClaimHistoryAssetList() {
-		return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel(), MultiInstanceAfterAssetList.class);
+	public AssetList getClaimHistoryAssetList() {
+		return getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel(), AssetList.class);
 	}
 
 	public AssetList getRentalInformationAssetList() {
