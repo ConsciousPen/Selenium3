@@ -7,6 +7,5 @@
     <suite-files>
         <suite-file path="./cio_membership_suite.xml"/>
         <suite-file path="./cio_suite.xml"/>
-        <suite-file path="./cio_timeshift.xml"/>
     </suite-files>
 </suite>
