@@ -321,7 +321,7 @@ public final class HomeCaMetaData {
 
 		public static final class AaaMembershipReportRow extends MetaData {
 			public static final AssetDescriptor<StaticElement> MEMBERSHIP_NO = declare("Membership No.", StaticElement.class);
-			public static final AssetDescriptor<StaticElement> MEMBER_SINCE_DATE = declare("Member Since Date", StaticElement.class);
+			//public static final AssetDescriptor<StaticElement> MEMBER_SINCE_DATE = declare("Member Since Date", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> ORDER_DATE = declare("Order Date", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> RECEIPT_DATE = declare("Receipt Date", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> STATUS = declare("Status", StaticElement.class);
