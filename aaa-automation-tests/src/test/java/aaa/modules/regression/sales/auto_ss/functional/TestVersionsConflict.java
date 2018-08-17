@@ -97,22 +97,22 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-13513"})
-	public void pas13513_ooseConflictManualAAAProductOwned(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-17141"})
+	public void pas17141_ooseConflictManualAAAProductOwned(@Optional("AZ") String state) {
 		ooseConflict(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsConflictConstants.aaaProductOwned,  VersionsConflictConstants.aaaProductOwnedVersion2, VersionsConflictConstants.aaaProductOwnedVersion1,  "GeneralTab", "AAAProductOwned", false);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-13513"})
-	public void pas13513_ooseConflictAutomaticAAAProductOwned(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-17141"})
+	public void pas17141_ooseConflictAutomaticAAAProductOwned(@Optional("AZ") String state) {
 		ooseConflict(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsConflictConstants.aaaProductOwned,  VersionsConflictConstants.aaaProductOwnedVersion2, VersionsConflictConstants.aaaProductOwnedVersion1,  "GeneralTab", "AAAProductOwned", true);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-13513"})
-	public void pas13513_renewalMergeAAAProductOwned(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-17141"})
+	public void pas17141_renewalMergeAAAProductOwned(@Optional("AZ") String state) {
 		renewalMerge(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsConflictConstants.aaaProductOwned,  VersionsConflictConstants.aaaProductOwnedVersion1,  "GeneralTab", "AAAProductOwned");
 	}
 
