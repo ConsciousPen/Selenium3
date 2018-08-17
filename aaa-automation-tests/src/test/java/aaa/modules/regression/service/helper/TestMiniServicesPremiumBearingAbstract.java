@@ -618,16 +618,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		softly.assertThat(vehicleRd2.garagingAddress.city).isEqualTo(city3);
 	}
 
-	protected void pas8273_CheckIfNanoPolicyNotReturningVehicle(PolicyType policyType, String state) {
-		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(testDataManager.getDefault(TestPolicyNano.class).getTestData("TestData_" + state));
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-
-		ViewVehicleResponse response = HelperCommon.viewPolicyVehicles(policyNumber);
-		assertThat(CollectionUtils.isEmpty(response.vehicleList)).isTrue();
-	}
-
 	protected void pas9337_CheckStartEndorsementInfoServerResponseErrorForEffectiveDate() {
 		mainApp().open();
 		createCustomerIndividual();

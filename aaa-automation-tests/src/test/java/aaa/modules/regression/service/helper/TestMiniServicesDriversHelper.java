@@ -657,7 +657,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Young", "Driver", "Jill", "birthDateError", "III");
+		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Young", "Driver", "Jill", birthDateError, "III");
 		ErrorResponseDto errorResponseDto = HelperCommon.executeEndorsementAddDriverError(policyNumber, addDriverRequest);
 		ViewDriversResponse responseViewDrivers1 = HelperCommon.viewEndorsementDrivers(policyNumber);
 
