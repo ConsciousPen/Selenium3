@@ -54,7 +54,7 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
     private PurchaseTab purchaseTab = new PurchaseTab();
 
     @Parameters({"state"})
-    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "30504: Membership Validation Critical Defect Stabilization")
+    @Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, description = "30504: Membership Validation Critical Defect Stabilization")
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-3786")
     public void pas3786_validateMembership(@Optional("AZ") String state) {
         //UW rule
