@@ -177,22 +177,22 @@
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestEarthquakeEndorsements">
                 <methods>
-                    <exclude name="testEarthquakeEndorsement_checkDocGenTrigger_Renewal"/>
+                    <include name="pas17498_checkDocGenTrigger_Renewal"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestEarthquakeEndorsements">
                 <methods>
-                    <exclude name="testEarthquakeEndorsement_checkDocGenTrigger_Renewal"/>
+                    <include name="pas17498_checkDocGenTrigger_Renewal"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestEarthquakeEndorsements">
                 <methods>
-                    <exclude name="testEarthquakeEndorsement_checkDocGenTrigger_Renewal"/>
+                    <include name="pas17498_checkDocGenTrigger_Renewal"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestEarthquakeEndorsements">
                 <methods>
-                    <exclude name="testEarthquakeEndorsement_checkDocGenTrigger_Renewal"/>
+                    <include name="pas17498_checkDocGenTrigger_Renewal"/>
                 </methods>
             </class>
         </classes>

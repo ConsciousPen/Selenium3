@@ -64,6 +64,12 @@ public interface EvalueInsertSetupPreConditions {
 			+ " values ('BaseProductLookupValue', 'currentBILimits', '50000/100000', 'AAA_SS', 'OR',(select SYSDATE-5 from dual), null ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeValueQualifications'))\n"
 			+ "Select * from dual";
 
+	String EVALUE_CONFIGURATION_PER_STATE_INSERT = "INSERT INTO LOOKUPVALUE\n"
+			+ " (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id)\n"
+			+ " values\n"
+			+ " ('AAARolloutEligibilityLookupValue', 'eValue', 'TRUE', 'AAA_SS', '%s', null, null, null,\n"
+			+ " (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
+
 	String EVALUE_TERRITORY_CHANNEL_FOR_VA_CONFIG_UPDATE = "update lookupvalue\n"
 			+ "set territorycd = '212'\n" //mid-Atlantic
 			+ ", channelCd = 'AZ Club Agent'\n" //AAA Agent
