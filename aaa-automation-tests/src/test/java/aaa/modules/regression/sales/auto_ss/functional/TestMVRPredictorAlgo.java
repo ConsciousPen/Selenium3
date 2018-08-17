@@ -527,7 +527,6 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	 */
 	private void assertMVRResponseAccidents(boolean isRenewal){
 		// Assert That drivers with manually added accidents (Clue report is successful and clear) has license status = Predicted Valid
-		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(1).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS)).hasValue("Predicted Valid");
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS)).hasValue("Predicted Valid");
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(3).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS)).hasValue("Predicted Valid");
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(4).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS)).hasValue("Predicted Valid");
