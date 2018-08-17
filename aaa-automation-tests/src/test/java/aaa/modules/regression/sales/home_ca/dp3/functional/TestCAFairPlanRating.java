@@ -12,6 +12,7 @@ import aaa.main.modules.policy.home_ca.HomeCaPolicyActions;
 import aaa.modules.policy.HomeCaDP3BaseTest;
 import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import org.assertj.core.api.Assertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -100,7 +101,7 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
         new PremiumsAndCoveragesQuoteTab().btnCalculatePremium().click();
         Dollar postEndoPremium = PremiumsAndCoveragesQuoteTab.getPolicyTermPremium();
 
-	    postEndoPremium.verify.lessThan(preEndoPremium);
+        Assertions.assertThat(postEndoPremium.lessThan(preEndoPremium)).isTrue();
     }
 
     public void validateAC2() {
@@ -122,8 +123,8 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         new PremiumsAndCoveragesQuoteTab().btnCalculatePremium().click();
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Protection class")).contains("1");
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Fireline score")).contains("0");
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Protection class")).isEqualTo("1");
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Fireline score")).isEqualTo("0");
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 
     }
