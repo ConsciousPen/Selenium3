@@ -3,13 +3,17 @@ package aaa.modules.regression.service.helper;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.MIDDLE_NAME;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+
 import java.math.BigDecimal;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.Response;
+
+import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import org.apache.commons.lang3.BooleanUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
@@ -38,6 +42,7 @@ import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 
 public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
+	private static final String MESSAGE_TASK_CREATED = "Task Created Customer Driver Removal";
 	private static final String DRIVER_TYPE_AVAILABLE_FOR_RATING = "afr";
 	private static final String DRIVER_TYPE_NOT_AVAILABLE_FOR_RATING = "nafr";
 	private static final String DRIVER_FIRST_NAME_INSURED = "FNI";
@@ -1607,7 +1612,51 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		// bind policy and check error
 		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode(), ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage(), "driverRelToApplicantCd");
+	}
 
+	protected void pas16578_removeDriverCheckIfTaskWasCreatedBody(){
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		// add update driver
+		AddDriverRequest addDriverRequest2 = DXPRequestFactory.createAddDriverRequest("Jovita", "Lara", "Puk", "1984-02-08", "I");
+		DriversDto addedDriverResponse2 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest2);
+		UpdateDriverRequest updateDriverRequest2 = DXPRequestFactory.createUpdateDriverRequest("female", "D32329555", 18, "VA", "CH", "MSS");
+		HelperCommon.updateDriver(policyNumber, addedDriverResponse2.oid, updateDriverRequest2);
+		HelperCommon.removeDriver(policyNumber, addedDriverResponse2.oid, removeDriverRequest);
+
+		//check Task
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_TASK_CREATED, false);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		// add update driver
+		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Jackie", "Ann", "Jones", "1964-02-08", "I");
+		DriversDto addedDriverResponse = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "D32329585", 16, "VA", "CH", "MSS");
+		HelperCommon.updateDriver(policyNumber, addedDriverResponse.oid, updateDriverRequest);
+
+		//Order reports through service
+		HelperCommon.orderReports(policyNumber, addedDriverResponse.oid, OrderReportsResponse.class, 200);
+
+		//Remove Driver
+		removeDriverRequest.removalReasonCode = "RD1001";
+		HelperCommon.removeDriver(policyNumber, addedDriverResponse.oid, removeDriverRequest);
+
+		//check Task
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_TASK_CREATED, true);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		policy.policyInquiry().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+		assertThat(DriverTab.tableDriverList.getAllRowsCount()).isEqualTo(1);
 	}
 
 	private void errorValidationRelationToFni(DriverWithRuleSets updateDriverResponse) {
