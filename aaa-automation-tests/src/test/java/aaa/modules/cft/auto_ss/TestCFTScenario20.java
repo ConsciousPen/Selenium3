@@ -26,6 +26,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
  *
  */
 public class TestCFTScenario20 extends ControlledFinancialBaseTest {
+
 	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})

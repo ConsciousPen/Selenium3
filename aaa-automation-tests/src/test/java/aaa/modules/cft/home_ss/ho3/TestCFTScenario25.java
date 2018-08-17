@@ -20,7 +20,8 @@ import aaa.modules.cft.ControlledFinancialBaseTest;
  * Cash Down payment
  */
 public class TestCFTScenario25 extends ControlledFinancialBaseTest {
-	@Test(groups = {Groups.CFT})
+
+	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario25(@Optional(StringUtils.EMPTY) String state) {

@@ -18,7 +18,8 @@ import aaa.modules.cft.ControlledFinancialBaseTest;
  * Suspense_Refund
  */
 public class TestCFTScenario16 extends ControlledFinancialBaseTest {
-	@Test(groups = {Groups.CFT})
+
+	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario16(@Optional(StringUtils.EMPTY) String state) {

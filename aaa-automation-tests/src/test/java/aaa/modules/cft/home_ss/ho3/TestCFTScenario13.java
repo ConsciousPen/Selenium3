@@ -23,7 +23,8 @@ import toolkit.utils.TestInfo;
  *
  */
 public class TestCFTScenario13 extends ControlledFinancialBaseTest {
-	@Test(groups = {Groups.CFT})
+
+	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario13(@Optional(StringUtils.EMPTY) String state) {

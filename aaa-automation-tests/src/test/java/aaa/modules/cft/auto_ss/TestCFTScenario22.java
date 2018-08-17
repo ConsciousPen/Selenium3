@@ -27,6 +27,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
  * Check Downpayment
  */
 public class TestCFTScenario22 extends ControlledFinancialBaseTest {
+
 	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})

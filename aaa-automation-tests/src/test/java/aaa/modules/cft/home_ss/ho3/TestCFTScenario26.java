@@ -21,6 +21,16 @@ import toolkit.utils.TestInfo;
  * Full payment (Cash) 
  */
 public class TestCFTScenario26 extends ControlledFinancialBaseTest {
+
+	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
+	@TestInfo(component = Groups.CFT)
+	@Parameters({STATE_PARAM})
+	public void cftTestScenario26(@Optional(StringUtils.EMPTY) String state) {
+		createPolicyForTest();
+		flatFutureCancellationOnDD1Minus20();
+		approveRefundTotalPremiumOnDD1();
+	}
+
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.HOME_SS_HO3;
@@ -35,14 +45,5 @@ public class TestCFTScenario26 extends ControlledFinancialBaseTest {
 		td.adjust(TestData.makeKeyPath(PremiumsAndCoveragesQuoteTab.class.getSimpleName(), HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), getTestSpecificTD(
 				"PremiumsAndCoveragesQuoteTab_DataGather").getValue(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()));
 		return td.resolveLinks();
-	}
-
-	@Test(groups = {Groups.CFT})
-	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void cftTestScenario26(@Optional(StringUtils.EMPTY) String state) {
-		createPolicyForTest();
-		flatFutureCancellationOnDD1Minus20();
-		approveRefundTotalPremiumOnDD1();
 	}
 }

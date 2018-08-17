@@ -27,7 +27,7 @@ import toolkit.utils.TestInfo;
  */
 public class TestCFTScenario9 extends ControlledFinancialBaseTest {
 
-	@Test(groups = {Groups.CFT})
+	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario9(@Optional(StringUtils.EMPTY) String state) {

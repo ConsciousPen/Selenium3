@@ -13,6 +13,15 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 public class TestCFTScenario34 extends ControlledFinancialBaseTest {
+
+	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
+	@TestInfo(component = Groups.CFT)
+	@Parameters({STATE_PARAM})
+	public void cftTestScenario34(@Optional(StringUtils.EMPTY) String state) {
+		createPolicyForTest();
+		endorsePolicyOnStartDatePlus2();
+	}
+
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.HOME_CA_HO3;
@@ -24,13 +33,5 @@ public class TestCFTScenario34 extends ControlledFinancialBaseTest {
 		td.adjust(TestData.makeKeyPath(PremiumsAndCoveragesQuoteTab.class.getSimpleName(), HomeCaMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), getTestSpecificTD(
 				"PremiumsAndCoveragesQuoteTab_DataGather").getValue(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()));
 		return td.resolveLinks();
-	}
-
-	@Test(groups = {Groups.CFT})
-	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void cftTestScenario34(@Optional(StringUtils.EMPTY) String state) {
-		createPolicyForTest();
-		endorsePolicyOnStartDatePlus2();
 	}
 }

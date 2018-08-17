@@ -23,6 +23,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
  * Check Down Payment
  */
 public class TestCFTScenario17 extends ControlledFinancialBaseTest {
+
 	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
@@ -45,7 +46,6 @@ public class TestCFTScenario17 extends ControlledFinancialBaseTest {
 			"PremiumsAndCoveragesQuoteTab_DataGather").getValue(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()));
 		td.adjust(PurchaseTab.class.getSimpleName(), getTestSpecificTD("PurchaseTab_DataGather"));
 		return td.resolveLinks();
-
 	}
 }
 

@@ -22,6 +22,21 @@ import toolkit.utils.TestInfo;
  */
 public class TestCFTScenario11 extends ControlledFinancialBaseTest {
 
+	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
+	@TestInfo(component = Groups.CFT)
+	@Parameters({STATE_PARAM})
+	public void cftTestScenario11(@Optional(StringUtils.EMPTY) String state) {
+		createPolicyForTest();
+		endorsePolicyOnStartDatePlus2();
+		generateInstallmentBill(1);
+		automaticCancellationNotice(1);
+		automaticCancellation(1);
+		generateFirstEarnedPremiumBill(1);
+		generateSecondEarnedPremiumBill(1);
+		generateThirdEarnedPremiumBill(1);
+		generateCollectionOnEPWriteOffDate();
+	}
+
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_SS;
@@ -36,18 +51,4 @@ public class TestCFTScenario11 extends ControlledFinancialBaseTest {
 		return td.resolveLinks();
 	}
 
-	@Test(groups = {Groups.CFT})
-	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void cftTestScenario11(@Optional(StringUtils.EMPTY) String state) {
-		createPolicyForTest();
-		endorsePolicyOnStartDatePlus2();
-		generateInstallmentBill(1);
-		automaticCancellationNotice(1);
-		automaticCancellation(1);
-		generateFirstEarnedPremiumBill(1);
-		generateSecondEarnedPremiumBill(1);
-		generateThirdEarnedPremiumBill(1);
-		generateCollectionOnEPWriteOffDate();
-	}
 }

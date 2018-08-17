@@ -21,6 +21,16 @@ import toolkit.utils.TestInfo;
  * Full payment (Cash) 
  */
 public class TestCFTScenario27 extends ControlledFinancialBaseTest {
+
+	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
+	@TestInfo(component = Groups.CFT)
+	@Parameters({STATE_PARAM})
+	public void cftTestScenario27(@Optional(StringUtils.EMPTY) String state) {
+		createPolicyForTest();
+		verifyPolicyActiveOnDD1Minus20();
+		verifyPolicyExpiredOnRenewCustomerDeclineDate();
+	}
+
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_SS;
@@ -36,14 +46,5 @@ public class TestCFTScenario27 extends ControlledFinancialBaseTest {
 		td.adjust(TestData.makeKeyPath(PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), getTestSpecificTD(
 				"PremiumAndCoveragesTab_DataGather").getValue(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()));
 		return td.resolveLinks();
-	}
-
-	@Test(groups = {Groups.CFT})
-	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void cftTestScenario27(@Optional(StringUtils.EMPTY) String state) {
-		createPolicyForTest();
-		verifyPolicyActiveOnDD1Minus20();
-		verifyPolicyExpiredOnRenewCustomerDeclineDate();
 	}
 }

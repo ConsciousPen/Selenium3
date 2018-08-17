@@ -10,12 +10,8 @@ import aaa.modules.cft.ControlledFinancialBaseTest;
 import toolkit.utils.TestInfo;
 
 public class TestCFTScenario35 extends ControlledFinancialBaseTest {
-	@Override
-	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_SS;
-	}
 
-	@Test(groups = {Groups.CFT})
+	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario35(@Optional(StringUtils.EMPTY) String state) {
@@ -24,5 +20,10 @@ public class TestCFTScenario35 extends ControlledFinancialBaseTest {
 		generateRenewalOfferBill();
 		acceptMinDuePaymentOnUpdatePolicyStatusDate();
 		verifyPolicyActiveOnUpdatePolicyStatusDate();
+	}
+
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_SS;
 	}
 }

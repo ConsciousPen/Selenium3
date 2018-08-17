@@ -27,6 +27,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
  * Check Downpayment
  */
 public class TestCFTScenario22 extends ControlledFinancialBaseTest {
+
 	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
@@ -41,6 +42,7 @@ public class TestCFTScenario22 extends ControlledFinancialBaseTest {
 	protected PolicyType getPolicyType() {
 		return PolicyType.HOME_SS_HO3;
 	}
+
 	@Override
 	protected TestData getPolicyTestData() {
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", DEFAULT_TEST_DATA_KEY);

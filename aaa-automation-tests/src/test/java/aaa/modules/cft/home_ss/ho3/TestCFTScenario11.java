@@ -21,21 +21,8 @@ import toolkit.utils.TestInfo;
  * Cash $ 10 as down payment
  */
 public class TestCFTScenario11 extends ControlledFinancialBaseTest {
-	@Override
-	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_HO3;
-	}
 
-	@Override
-	protected TestData getPolicyTestData() {
-		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", DEFAULT_TEST_DATA_KEY);
-		td.adjust(TestData.makeKeyPath(PremiumsAndCoveragesQuoteTab.class.getSimpleName(), HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), getTestSpecificTD(
-				"PremiumsAndCoveragesQuoteTab_DataGather").getValue(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()));
-		td.adjust(PurchaseTab.class.getSimpleName(), getTestSpecificTD("PurchaseTab_DataGather"));
-		return td.resolveLinks();
-	}
-
-	@Test(groups = {Groups.CFT})
+	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario11(@Optional(StringUtils.EMPTY) String state) {
@@ -48,5 +35,19 @@ public class TestCFTScenario11 extends ControlledFinancialBaseTest {
 		generateSecondEarnedPremiumBill(1);
 		generateThirdEarnedPremiumBill(1);
 		generateCollectionOnEPWriteOffDate();
+	}
+
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_SS_HO3;
+	}
+
+	@Override
+	protected TestData getPolicyTestData() {
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", DEFAULT_TEST_DATA_KEY);
+		td.adjust(TestData.makeKeyPath(PremiumsAndCoveragesQuoteTab.class.getSimpleName(), HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), getTestSpecificTD(
+				"PremiumsAndCoveragesQuoteTab_DataGather").getValue(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()));
+		td.adjust(PurchaseTab.class.getSimpleName(), getTestSpecificTD("PurchaseTab_DataGather"));
+		return td.resolveLinks();
 	}
 }

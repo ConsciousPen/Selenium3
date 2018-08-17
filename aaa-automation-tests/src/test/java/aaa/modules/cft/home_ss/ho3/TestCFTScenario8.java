@@ -20,7 +20,7 @@ import aaa.modules.cft.ControlledFinancialBaseTest;
  */
 public class TestCFTScenario8 extends ControlledFinancialBaseTest {
 
-	@Test(groups = {Groups.CFT})
+	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario8(@Optional(StringUtils.EMPTY) String state) {
