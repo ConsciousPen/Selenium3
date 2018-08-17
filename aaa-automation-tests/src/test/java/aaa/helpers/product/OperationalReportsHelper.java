@@ -1,19 +1,26 @@
 package aaa.helpers.product;
 
 import aaa.main.enums.OperationalReportsConstants;
+import aaa.modules.BaseTest;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
 import aaa.utils.excel.io.entity.area.table.ExcelTable;
 import aaa.utils.excel.io.entity.area.table.TableRow;
+import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import toolkit.db.DBService;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class OperationalReportsHelper {
 
+    public static final String EXCEL_FILE_EXTENSION = ".xlsx";
+    private static Logger log = LoggerFactory.getLogger(BaseTest.class);
     private static final String ORIGIN_OP_REPORTS_PATH = "src/test/resources/op_reports/";
 
     private static final String DELETE_EUW_OP_REPORTS_PRIVILEGES = "DELETE S_ROLE_PRIVILEGES\n"
@@ -65,8 +72,25 @@ public class OperationalReportsHelper {
         return totalsFromOpReport;
     }
 
+    public static void checkDirectory(File directory) throws IOException {
+        if (directory.mkdirs()) {
+            log.info("\"{}\" folder was created", directory.getAbsolutePath());
+        } else {
+            FileUtils.cleanDirectory(directory);
+        }
+    }
+
+    public static void checkFile(String dirPath, String fileName) {
+        File directory = new File(dirPath);
+        if (directory.mkdirs()) {
+            log.info("\"{}\" folder was created", directory.getAbsolutePath());
+        } else {
+            FileUtils.deleteQuietly(new File(dirPath + fileName + EXCEL_FILE_EXTENSION));
+        }
+    }
+
     private static ExcelSheet readOpReport(String originalFileName) {
-        File readFile = new File(ORIGIN_OP_REPORTS_PATH + originalFileName + ".xlsx");
+        File readFile = new File(ORIGIN_OP_REPORTS_PATH + originalFileName + EXCEL_FILE_EXTENSION);
         return new ExcelManager(readFile).getFirstSheet();
     }
 
