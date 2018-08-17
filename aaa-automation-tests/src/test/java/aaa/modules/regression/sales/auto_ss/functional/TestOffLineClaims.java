@@ -19,6 +19,7 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -44,12 +45,18 @@ public class TestOffLineClaims extends AutoSSBaseTest
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
     public void PAS14679_TestCase1(@Optional("AZ") String state) {
 
-	    TestData testData = getPolicyTD()
-			    .adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.FIRST_NAME.getLabel()), "Bruce")
-				    .adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LAST_NAME.getLabel()), "Banner")
-				    .adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1987")
-				    .adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "A12345222")
-				    .adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel()), "18");
+//	    TestData testData = getPolicyTD()
+//			    .adjust(AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getLabel(), "Bruce")
+//			    .adjust(AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getLabel(), "Banner")
+
+	    TestData td =  getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName()).get(1)
+			    .adjust(AutoSSMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click")
+			    .adjust(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), "Bruce")
+			    .adjust(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), "Banner")
+			    .adjust(AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel(), "A12345222")
+			    .mask(AutoSSMetaData.DriverTab.NAMED_INSURED.getLabel());
+	    TestData testData = getTestSpecificTD("td").adjust(DriverTab.class.getSimpleName(), td);
+
 
 	    //Policy Setup
         mainApp().open();
