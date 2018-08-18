@@ -3,6 +3,7 @@ package aaa.modules.bct.batch;
 import aaa.helpers.jobs.GroupJobs;
 import aaa.helpers.jobs.Job;
 import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import aaa.modules.bct.BctType;
 import org.testng.annotations.Optional;
@@ -250,7 +251,8 @@ public class BatchTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_BTCH_POLICY_STATUS_UPDATE(@Optional("") String state) {
-		Job job = GroupJobs.groupPolicyStatusUpdateJob;
+		Job job = Jobs.aaaBatchMarkerJob;
+		//Job job = GroupJobs.groupaaaBatchMarkerJob;
 		JobUtils.executeJob(job);
 	}
 

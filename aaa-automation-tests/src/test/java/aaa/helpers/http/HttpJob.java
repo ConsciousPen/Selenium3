@@ -18,16 +18,22 @@ public class HttpJob {
 	private static final String WAITING_REGEX = ".*Waiting:.*[^0-9]([0-9]+)<";
 	private static final String PROCESSING_REGEX = ".*Processing:.*[^0-9]([0-9]+)<";
 	private static final String FLOW_QUERY_STRING = "<form id=\"asyncTaskSummaryForm\" name=\"asyncTaskSummaryForm\" method=\"post\" action=\"([^\"]+)\"";
-	private static final String JOB_EXECUTE_BUTTON_REGEX = "<a [^\\>]*id=\"(jobs:jobsTable:\\d+:executeJob)\"";
 	private static final String JOB_PARAMS_REGEX = "\"parameters\"\\:(\\{[^\\}]+%s[^\\}]+\\})";
 	private static final String JOB_STATUS_REGEX = "State\\:<span[^>]+>(\\w+)<";
 	private static final String JOB_RESULT_REGEX = "Result\\:<span[^>]+>([/\\w]+)<";
-	private static final String JOB_EXECUTED_REGEX = "Executed\\:<span[^>]+>([/\\w]+)<";
-	private static final String JOB_ROW_SPLITTER_REGEX = "<tr id=\"jobs:jobsTable:\\d+\"";
+	private static final String JOB_EXECUTED_REGEX = "(\\d+\\sPassed[^>]+)\n";
+	private static final String JOB_EXECUTE_BUTTON_REGEX = "<a [^\\>]*id=\"(jobs:jobsTable:\\d+:start-job)\"";
+	private static final String JOB_ROW_SPLITTER_REGEX = "<tr data-ri=\"\\d+\"";
 	private static final int JOB_SLEEP_RERUN = 1500;
 	private static final String JOB_ADD_PARAMS_FILENAME = "job_run.txt";
 	private static final String STOP_ASYNC_PARAMS_FILENAME = "stop_async.txt";
 	private static final long ASYNC_TIMEOUT = 300000;
+
+	//	private static final String JOB_EXECUTED_REGEX = "Executed\\:<span[^>]+>([/\\w]+)<";
+	//	private static final String JOB_ROW_SPLITTER_REGEX = "<tr id=\"jobs:jobsTable:\\d+\"";
+	//  private static final String JOB_EXECUTE_BUTTON_REGEX = "<a [^\\>]*id=\"(jobs:jobsTable:\\d+:executeJob)\"";
+
+
 	private static Logger log = LoggerFactory.getLogger(HttpJob.class);
 	private static int JOB_TIMEOUT = Integer.parseInt(PropertyProvider.getProperty("test.batchjob.timeout", "1200000"));
 
@@ -122,7 +128,7 @@ public class HttpJob {
 	private static void runSingleJob(HttpAAARequestor httpRequestor, String jobName) throws Exception {
 		String request = "/aaa-admin/admin/flow?_flowId=scheduler-summary-flow";
 		httpRequestor.sendGetRequest(request);
-		if (httpRequestor.getResponse().contains(jobName + "<")) {
+		if (httpRequestor.getResponse().contains(String.format("title=\"%s\"",jobName))) {
 
 			String flowUrl = HtmlParser.getFlowUrl(httpRequestor.getResponse());
 			String params = processParams(httpRequestor.getResponse(), jobName);
@@ -152,17 +158,14 @@ public class HttpJob {
 	}
 
 	private static String processParams(String content, String jobName) throws Exception {
-		String buttonId = getExecuteButtonId(content, jobName);
-		String additionalParams = "jobs=jobs&jobs_SUBMIT=1&javax.faces.ViewState=" + HttpHelper.find(content, HttpConstants.REGEX_VIEW_STATE) + "&" + buttonId + "=" + buttonId;
+		String buttonId = getStartButtonId(content, jobName); // buttonId : jobs:jobsTable:120:executeJob
+		String params = "jobs_SUBMIT=1&javax.faces.ViewState=" + HttpHelper.find(content, HttpConstants.REGEX_VIEW_STATE) + "&" + buttonId + "=" + buttonId;
+		// Builded above
+		//jobs_SUBMIT=1&javax.faces.ViewState=d6bc0b94-b53e-4a58-8cef-0570eb6122a6&jobs:jobsTable:2:start-job=jobs:jobsTable:2:start-job
+		// Fiddler
+		//jobs_SUBMIT=1&javax.faces.ViewState=a01831e0-55c6-4d5a-a825-86f933c325f2&javax.faces.partial.ajax=true&javax.faces.source=jobs:jobsTable:2:start-job&javax.faces.partial.execute=@all&javax.faces.partial.render=jobs+statistics:schedulerTable&jobs:jobsTable:2:start-job=jobs:jobsTable:2:start-job&jobs:j_id_28_37_7w=Anytime&jobs:j_id_28_37_7z=Name
+	return params;
 
-		JSONParser parser = new JSONParser();
-		JSONObject json = (JSONObject) parser.parse(HttpHelper.find(StringEscapeUtils.unescapeHtml(content), String.format(JOB_PARAMS_REGEX, jobName)));
-
-		String params = "";
-		for (Object key : json.keySet()) {
-			params += key + "=" + json.get(key) + "&";
-		}
-		return params + "&" + additionalParams;
 	}
 
 	private static String getStatus(String content, String jobName) throws IOException {
@@ -191,20 +194,29 @@ public class HttpJob {
 
 	private static Integer getExecuteCount(String content, String jobName) throws IOException {
 		Integer result = 0;
+		/* Split rows */
 		String[] parts = content.split(JOB_ROW_SPLITTER_REGEX);
 		for (int i = 0; i < parts.length; i++) {
-			if (parts[i].contains(">" + jobName + "<") && parts[i].contains("Executed")) {
-				result = Integer.parseInt(HttpHelper.find(parts[i], JOB_EXECUTED_REGEX));
+			/* Find specified job html block */
+			if (parts[i].contains(jobName)) {
+				/* Get row with job statistics */
+				String jobRunStatistic = HttpHelper.find(parts[i], "(\\d+\\sPassed[^>]+Interrupted[^>])");
+				/* Sum Passed - Failed - Interrupted runs */
+				for(String jobRun : jobRunStatistic.split("/")){
+					jobRun = jobRun.replaceAll("\\D+",""); // delete everything except numbers
+					result += Integer.parseInt(jobRun);
+				}
 				break;
 			}
 		}
+		log.info("HTTP Job: Job executed {} times",result);
 		return result;
 	}
 
-	private static String getExecuteButtonId(String content, String jobName) throws IOException {
+	private static String getStartButtonId(String content, String jobName) throws IOException {
 		String[] parts = content.split(JOB_ROW_SPLITTER_REGEX);
 		for (int i = 0; i < parts.length; i++) {
-			if (parts[i].contains(jobName) && parts[i].contains("Execute")) {
+			if (parts[i].contains(jobName) && parts[i].contains("Start")) {
 				return HttpHelper.find(parts[i], JOB_EXECUTE_BUTTON_REGEX);
 			}
 		}
@@ -236,6 +248,5 @@ public class HttpJob {
 		}*/
 
 		log.info("HTTP Job: Waiting async task: " + waiting + ". Processing async task: " + processing);
-
 	}
 }
