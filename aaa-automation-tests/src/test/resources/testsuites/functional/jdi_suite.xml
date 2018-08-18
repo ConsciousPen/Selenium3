@@ -35,7 +35,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestEValueDiscountVA">
+    <test name="TestEValueDiscountVA - Part 1 -">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
@@ -44,22 +44,67 @@
                     <include name="eValuePriorBiConfigCheck"/>
                     <include name="eValueAcknowledgementConfigCheck"/>
                     <include name="eValueConfigCheck"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestEValueDiscountVA - Part 2 -">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
                     <include name="paperlessPreferencesConfigCheck"/>
                     <include name="precondJobAdding"/>
                     <include name="pas265_MinimumStateLimitsForBIPreBind"/>
                     <include name="pas278_eValueeSignedPledgeDocumentAHEVAXX"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestEValueDiscountVA - Part 3 -">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
                     <include name="pas300_eValueStatusConsViewPaperPrefPendingVa"/>
                     <include name="pas300_eValueStatusConsViewPaperPrefYes"/>
                     <include name="pas305_eValueDiscountApplied"/>
                     <include name="pas325_eValueCommissionRelatedFields"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestEValueDiscountVA - Part 4 -">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
                     <include name="pas436_eValueDiscountVariations"/>
                     <include name="pas436_eValuePriorBiCurrentBiConfigurationDependency"/>
                     <include name="pas3694_eValueBlueBoxAndStaticText"/>
                     <include name="pas333_eValueDiscountRemovedBySystem"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestEValueDiscountVA - Part 5 -">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
                     <include name="pas339_eValueDiscountRemovedBySystemFuturePolicy"/>
                     <include name="pas12294_PriorCarrierWithLapsePriorCarrierRequired"/>
                     <include name="pas12294_PriorCarrierLessThanSixMonthsPriorCarrierRequired"/>
                     <include name="pas12294_PriorCarrierNone"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestEValueDiscountVA - Part 6 -">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
                     <include name="pas297_MidTermOptInNotificationToAgentAboutPaperlessPreferences"/>
                     <include name="pas295_autopayKeepValueMessage"/>
                     <include name="pas281_eValueIssuedWithDebitCard"/>
@@ -69,7 +114,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestEValueDiscountOR">
+    <test name="TestEValueDiscountOR - Part 1 -">
         <parameter name="state" value="OR"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
@@ -78,14 +123,41 @@
                     <include name="eValueAcknowledgementConfigCheck"/>
                     <include name="eValueMembershipConfigCheck"/>
                     <include name="eValueTerritoryChannelForORConfigCheck"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestEValueDiscountOR - Part 2 -">
+        <parameter name="state" value="OR"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
                     <include name="pas232_eValuePriorBiConfigurationDependency"/>
                     <include name="pas3693_eValueConfiguration1"/>
                     <include name="pas3693_eValueConfiguration2"/>
                     <include name="pas3693_eValueConfiguration3"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestEValueDiscountOR - Part 3 -">
+        <parameter name="state" value="OR"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
                     <include name="pas3693_eValueConfiguration4"/>
                     <include name="pas3693_eValueConfiguration5"/>
                     <include name="pas3007_eValueMembershipConfiguration"/>
                     <include name="pas233_eValueTerritoryChannelDependency"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestEValueDiscountOR - Part 4 -">
+        <parameter name="state" value="OR"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
                     <include name="pas12294_PriorCarrierWithLapsePriorCarrierNotRequired"/>
                     <include name="pas12294_PriorCarrierLessThanSixMonthsPriorCarrierNotRequired"/>
                     <include name="pas358_documentGenerationDefaultToPreferredChannel"/>
@@ -155,7 +227,7 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestTriggersAH35XX"/>
         </classes>
     </test>
-    <test name="TestMessagingVerificationOR">
+    <test name="TestMessagingVerificationOR - Part 1 -">
         <parameter name="state" value="OR"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMessagingVerification">
@@ -164,10 +236,28 @@
                     <include name="pas7185_messagingConfigurablePayPlan1"/>
                     <include name="pas7185_messagingConfigurablePayPlan2"/>
                     <include name="pas7185_messagingConfigurablePayPlan3"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestMessagingVerificationOR - Part 2 -">
+        <parameter name="state" value="OR"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMessagingVerification">
+                <methods>
                     <include name="pas7185_messagingConfigurablePayPlan4"/>
                     <include name="pas7185_messagingConfigurablePayPlan5"/>
                     <include name="pas7185_messagingConfigurablePayPlan6"/>
                     <include name="pas7185_messagingConfigurablePayPlan7"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestMessagingVerificationOR - Part 3 -">
+        <parameter name="state" value="OR"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMessagingVerification">
+                <methods>
                     <include name="pas7185_messagingConfigurablePayPlan8"/>
                     <include name="pas7185_messagingConfigurablePayPlan9"/>
                 </methods>
