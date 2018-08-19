@@ -18,6 +18,7 @@ import aaa.common.Tab;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -564,8 +565,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	protected void renewalMerge(TestData tdVersion1, TestData tdVersion2, ArrayListMultimap<String, String> conflictLinks, Multimap<String, String> expectedSectionsAndUIFieldsRenewal, String tabName,
 			String sectionName) {
 		mainApp().open();
-		SearchPage.openPolicy("AZSS952918575");
-/*		createCustomerIndividual();
+		createCustomerIndividual();
 		createPolicy(getTestSpecificTD("TestData_NB_Policy"));
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
@@ -581,7 +581,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		}
 
 		resolveConflict(conflictLinks);
-		policy.rollOn().submit();*/
+		policy.rollOn().submit();
 
 		PolicySummaryPage.buttonRenewalQuoteVersion.click();
 		verifyTransactionHistoryType(1, RENEWAL);
