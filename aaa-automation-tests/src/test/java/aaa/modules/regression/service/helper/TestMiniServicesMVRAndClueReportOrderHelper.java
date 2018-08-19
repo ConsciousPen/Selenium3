@@ -1,6 +1,10 @@
 package aaa.modules.regression.service.helper;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
@@ -15,14 +19,15 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.service.helper.dtoDxp.*;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import toolkit.utils.datetime.DateTimeUtils;
 
 import javax.ws.rs.core.Response;
-import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Locale;
 
-import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.ZIP_CODE;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
 public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest {
 	private DriverTab driverTab = new DriverTab();
@@ -405,31 +410,44 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 
 	protected void pas15369_reportOrderAndDriverBody() {
 		mainApp().open();
-			String policyNumber = getCopiedPolicy();
+		//String policyNumber = getCopiedPolicy();
+		String policyNumber = "VASS952919018";
 
 		//Check driver with 4 incidents
-		String oidDriver1 = addAndUpdateDriver(policyNumber, "Karen", "Yifru", "2000-01-01", "A63341764", "CH");
+	//	String oidDriver1 = addAndUpdateDriver(policyNumber, "Karen", "Yifru", "2000-01-01", "A63341764", "CH");
 
 		//Order reports through service
 
-		OrderReportsResponse response = HelperCommon.orderReports(policyNumber, oidDriver1, OrderReportsResponse.class, 200);
-		assertSoftly(softly -> {
-			softly.assertThat(response.reports).isEmpty();
-			softly.assertThat(response.licenseStatusCd).isEqualTo("LICUS");
-		});
+	//	OrderReportsResponse response = HelperCommon.orderReports(policyNumber, oidDriver1, OrderReportsResponse.class, 200);
+	//	assertSoftly(softly -> {
+	//		softly.assertThat(response.reports).isEmpty();
+	//		softly.assertThat(response.licenseStatusCd).isEqualTo("LICUS");
+	//	});
 
-		pasDriverActivityReport(policyNumber);
+		//pasDriverActivityReport(policyNumber);
 
-		String oidDriver2 = addAndUpdateDriver(policyNumber, "One", "Minor", "1970-01-01", "B15384002", "CH");
+	/*	String oidDriver2 = addAndUpdateDriver(policyNumber, "One", "Minor", "1970-01-01", "B15384002", "CH");
 
 		OrderReportsResponse response1 = HelperCommon.orderReports(policyNumber, oidDriver2, OrderReportsResponse.class, 200);
 
-		pasDriverActivityReport1(policyNumber);
+		//String convictionDateUI= pasDriverActivityReport1(policyNumber);
 		assertSoftly(softly -> {
-			softly.assertThat(response1.reports.get(0).accidentViolationDt).isEqualTo("");
+
+			//softly.assertThat(response1.reports.get(0).convictionDt).isEqualTo(convictionDateUI);
+
 			softly.assertThat(response1.licenseStatusCd).isEqualTo("LICUS");
+		});*/
+
+		String oidDriver3 = addAndUpdateDriver(policyNumber, "One", "AutoTheft", "1970-01-01", "B15374001", "CH");
+
+		OrderReportsResponse response2 = HelperCommon.orderReports(policyNumber, oidDriver3, OrderReportsResponse.class, 200);
+		assertSoftly(softly -> {
+
 		});
+
 	}
+
+
 
 	private void countViolationsInPas(String policyNumber, Integer sumOfViolations) {
 		SearchPage.openPolicy(policyNumber);
@@ -460,7 +478,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		driverTab.saveAndExit();
 	}
 
-	private void pasDriverActivityReport1(String policyNumber) {
+	private String pasDriverActivityReport1(String policyNumber) {
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
@@ -468,12 +486,17 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		DriverTab.tableDriverList.selectRow(2);
         String convicDate= (driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION).getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE).getValue());
 
+		if (StringUtils.isNotEmpty(convicDate)) {
+			LocalDateTime localDate  = TimeSetterUtil.getInstance().parse(convicDate, DateTimeUtils.MM_DD_YYYY);
+			return localDate.format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
+		}
 
-
-
-		//generalTab.getInquiryAssetList().getStaticElement(ZIP_CODE.getLabel()).getValue();
         driverTab.saveAndExit();
+        return  convicDate;
 	}
+
+
+
 }
 
 
