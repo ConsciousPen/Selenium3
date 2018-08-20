@@ -5,6 +5,7 @@ import java.util.Arrays;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class HelperRfi {
 	public static final String UPDATE_DOCUMENT_STATUS = "UPDATE SUPPORTINGDOCENTITY " +
@@ -20,17 +21,17 @@ public class HelperRfi {
 			+ ") where rownum=1";
 	public static final String UPDATE_POLICY_VERSION = "update POLICYSUMMARY set version = %s where id = '%s'";
 
-	public static void policyServiceRfiValuesCheck(RfiDocumentResponse[] result, String rfiName, String documentType, String status) {
+	public static void policyServiceRfiValuesCheck(RfiDocumentResponse[] result, String rfiName, String documentType, String status, ETCSCoreSoftAssertions softly) {
 		RfiDocumentResponse allDocuments = Arrays.stream(result).filter(doc -> rfiName.equals(doc.documentName)).findFirst().orElse(null);
-		assertThat(allDocuments).as(rfiName + " rfiName not existent").isNotNull();
+		softly.assertThat(allDocuments).as(rfiName + " rfiName not existent").isNotNull();
 		if (allDocuments != null) {
-			assertThat(documentType).as(rfiName + " has incorrect documentType").isEqualTo(allDocuments.documentType);
-			assertThat(status).as(rfiName + " has incorrect status").isEqualTo(allDocuments.status);
+			softly.assertThat(documentType).as(rfiName + " has incorrect documentType").isEqualTo(allDocuments.documentType);
+			softly.assertThat(status).as(rfiName + " has incorrect status").isEqualTo(allDocuments.status);
 		}
 	}
 
-	public static void rfiTagCheck(String query, String tag, String tagValue) {
-		assertThat(DocGenHelper.getDocumentDataElemByName(tag, DocGenEnum.Documents.AARFIXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+	public static void rfiTagCheck(String query, String tag, String tagValue, ETCSCoreSoftAssertions softly) {
+		softly.assertThat(DocGenHelper.getDocumentDataElemByName(tag, DocGenEnum.Documents.AARFIXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
 				.getTextField()).as(tag + " has a problem.").isEqualTo(tagValue);
 	}
 }

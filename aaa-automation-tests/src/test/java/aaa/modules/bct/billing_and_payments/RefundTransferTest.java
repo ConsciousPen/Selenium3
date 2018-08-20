@@ -1,11 +1,13 @@
 package aaa.modules.bct.billing_and_payments;
 
+import static aaa.common.enums.Constants.States.CA;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -15,6 +17,7 @@ public class RefundTransferTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(statesExcept = CA)
 	public void BCT_ONL_037_RefundTransfer(@Optional("") String state) {
 		mainApp().open();
 
@@ -36,6 +39,7 @@ public class RefundTransferTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = CA)
 	public void BCT_ONL_038_RefundTransfer(@Optional("") String state) {
 		mainApp().open();
 

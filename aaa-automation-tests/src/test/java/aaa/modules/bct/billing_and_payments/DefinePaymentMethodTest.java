@@ -1,5 +1,6 @@
 package aaa.modules.bct.billing_and_payments;
 
+import static aaa.common.enums.Constants.States.CA;
 import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -12,12 +13,14 @@ import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import aaa.utils.StateList;
 import toolkit.webdriver.controls.ComboBox;
 
 public class DefinePaymentMethodTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = CA)
 	public void BCT_ONL_031_Define_Payment_Method(@Optional("") String state) {
 		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_031_PaymentMethod", "SelectPolicy").get(0);

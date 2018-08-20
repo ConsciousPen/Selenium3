@@ -112,10 +112,15 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		policy.policyInquiry().start();
-		String zipCodeDefault = generalTab.getInquiryAssetList().getStaticElement(ZIP_CODE).getValue();
-		String addressDefault = generalTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1).getValue();
-		String cityDefault = generalTab.getInquiryAssetList().getStaticElement(CITY).getValue();
-		String stateDefault = generalTab.getInquiryAssetList().getStaticElement(STATE).getValue();
+		String zipCodeDefault = generalTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION)
+				.getStaticElement(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ZIP_CODE).getValue();
+		String addressDefault = generalTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION)
+				.getStaticElement(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ADDRESS_LINE_1).getValue();
+		String cityDefault = generalTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION)
+				.getStaticElement(AutoSSMetaData.GeneralTab.NamedInsuredInformation.CITY).getValue();
+		String stateDefault = generalTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION)
+				.getStaticElement(AutoSSMetaData.GeneralTab.NamedInsuredInformation.STATE).getValue();
+
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		String vin1 = vehicleTab.getInquiryAssetList().getStaticElement(VIN).getValue();
@@ -581,10 +586,14 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 		//Get garage address from UI
 		policy.policyInquiry().start();
-		String zipCodeDefault = generalTab.getInquiryAssetList().getStaticElement(ZIP_CODE).getValue();
-		String addressDefault = generalTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1).getValue();
-		String cityDefault = generalTab.getInquiryAssetList().getStaticElement(CITY).getValue();
-		String stateDefault = generalTab.getInquiryAssetList().getStaticElement(STATE).getValue();
+		String zipCodeDefault = generalTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION)
+				.getStaticElement(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ZIP_CODE).getValue();
+		String addressDefault = generalTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION)
+				.getStaticElement(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ADDRESS_LINE_1).getValue();
+		String cityDefault = generalTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION)
+				.getStaticElement(AutoSSMetaData.GeneralTab.NamedInsuredInformation.CITY).getValue();
+		String stateDefault = generalTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION)
+				.getStaticElement(AutoSSMetaData.GeneralTab.NamedInsuredInformation.STATE).getValue();
 		GeneralTab.buttonCancel.click();
 
 		//Create pended endorsement

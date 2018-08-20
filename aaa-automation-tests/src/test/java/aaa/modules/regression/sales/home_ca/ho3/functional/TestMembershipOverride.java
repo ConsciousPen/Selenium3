@@ -140,7 +140,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
         catch(Exception ex){}
 
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
-        assertThat(new ApplicantTab().getAAAMembershipAssetList().getAsset(HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER)).doesNotContainOption("Membership Override");
+        assertThat(new ApplicantTab().getAssetList().getAsset(HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER).getValue().equals("Membership Override"));
     }
 
     /**

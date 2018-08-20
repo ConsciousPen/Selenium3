@@ -175,7 +175,7 @@ public abstract class PolicyBaseTest extends BaseTest {
 	}
 
 	protected void createConversionQuoteAndFillUpTo(Class<? extends Tab> tab) {
-		createConversionPolicy(getConversionPolicyDefaultTD());
+		createConversionQuoteAndFillUpTo(getConversionPolicyDefaultTD(), tab);
 	}
 
 	protected void moveTimeAndRunRenewJobs(LocalDateTime nextPhaseDate) {

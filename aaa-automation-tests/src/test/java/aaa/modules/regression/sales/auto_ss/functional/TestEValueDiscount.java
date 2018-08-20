@@ -995,7 +995,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			new PremiumAndCoveragesTab().calculatePremium();
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 			InquiryAssetList inquiryAssetDocumentTabGeneralInfoSection = new InquiryAssetList(By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER), AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.class);
-			softly.assertThat(inquiryAssetDocumentTabGeneralInfoSection.getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL)).isPresent();
+			softly.assertThat(inquiryAssetDocumentTabGeneralInfoSection.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL)).isPresent();
 			documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION.getLabel(), AssetList.class)
 					.getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL).setValue("");
 
