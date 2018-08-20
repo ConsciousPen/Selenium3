@@ -171,6 +171,8 @@ public class VersionsConflictConstants {
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
 	static final Multimap<String, String> aaaProductOwnedVersion2 = ImmutableListMultimap.<String, String>builder()
+			//Member Since Date is displayed because it wasn't cleaned up
+			.put("AAA Products Owned", "Member Since Date")
 			.put("AAA Products Owned", "Policy #")
 			.put("AAA Products Owned", "Policy #")
 			.put("AAA Products Owned", "Policy #")
@@ -181,7 +183,6 @@ public class VersionsConflictConstants {
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
 	static final Multimap<String, String> aaaProductOwnedVersion1 = ImmutableListMultimap.<String, String>builder()
-			.put("AAA Membership Order", "Last Name")
 			.put("AAA Products Owned", "Current AAA Member")
 			.put("AAA Products Owned", "Membership Number")
 			//TODO Should be return after implementation story - Clean up for AAA Product Owned

@@ -5,10 +5,7 @@ import static aaa.main.pages.summary.PolicySummaryPage.tableDifferences;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.InvalidArgumentException;
@@ -592,7 +589,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		selectTransactionType(2, true);
 		PolicySummaryPage.buttonCompare.click();
 
-		checkComparisonPage(tdVersion2, tdVersion1, expectedSectionsAndUIFieldsRenewal, tabName, sectionName);
+		checkComparisonPage(tdVersion1, tdVersion2, expectedSectionsAndUIFieldsRenewal, tabName, sectionName);
 		Tab.buttonCancel.click();
 	}
 
@@ -670,11 +667,14 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		int actualResolvedUIFieldsConflicts = 0;
 		int columnsCount = tableDifferences.getColumnsCount();
 
+		Set<String> resolvedFields = new HashSet<>();
 		for (int uiFieldNumber = 0; ; uiFieldNumber++) {
+			log.debug("Resolving section [%1s]", sectionName);
 			StaticElement uiFieldElement = PolicySummaryPage.TransactionHistory.provideAttributeExpandComparisonTree(sectionNumber, uiFieldNumber);
 			if (uiFieldElement.isPresent()) {
 				String uiFieldPath = buildUIFieldPath(sectionName, uiFieldElement.getValue());
-				if (uiFieldsPathList.contains(uiFieldPath)) {
+				if (uiFieldsPathList.contains(uiFieldPath) && !resolvedFields.contains(uiFieldPath)) {
+					resolvedFields.add(uiFieldPath);
 					//resolving conflict for each UI field
 					actualResolvedUIFieldsConflicts = findAndPressVersionLinksInSection(sectionName, conflictLinks, actualResolvedUIFieldsConflicts, columnsCount, uiFieldNumber, uiFieldPath);
 				}
@@ -707,6 +707,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			int uiFieldPosition = uiFieldNumber + uiFieldsWithSameNameNumber;
 			//press version link for UI Field (current or available)
 			if (pressVersionLink(uiFieldPosition, columnsCount, versionLinkValue, sectionName)) {
+				log.debug("Select [%1s] -> [%2s]", uiFieldPath, versionLinkValue);
 				actualResolvedUIFieldsConflicts++;
 			}
 		}
