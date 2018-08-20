@@ -30,7 +30,21 @@
     </test>
 
     <test name="MVR Predictor Algo">
-        <parameter name="state" value="IN,KY,MD,NJ,PA,VA,OK,CT"/>
+        <parameter name="state" value="IN,KY,MD,PA,VA,OK,CT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
+                <methods>
+                    <exclude name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
+                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
+                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
+                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="MVR Predictor Algo NJ">
+        <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
                 <methods>
