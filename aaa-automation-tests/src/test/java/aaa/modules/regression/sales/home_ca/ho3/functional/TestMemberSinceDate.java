@@ -1,15 +1,14 @@
 package aaa.modules.regression.sales.home_ca.ho3.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.queries.LookupQueries;
-import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.utils.StateList;
-import org.assertj.core.api.Assertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -40,7 +39,6 @@ public class TestMemberSinceDate extends HomeCaHO3BaseTest {
 
         // Pattern Definition
         DateTimeFormatter formatSQL = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        DateTimeFormatter formatUI = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 
         /*--Step 1--*/
         log.info("Step 1: Create Customer.");
@@ -62,7 +60,7 @@ public class TestMemberSinceDate extends HomeCaHO3BaseTest {
         // Click save to store the quote in the db so can be accessed.
         Tab.buttonTopSave.click();
 
-        Assertions.assertThat(LookupQueries.GetAAAMemberSinceDateFromSQL(quoteNumber)).isNotPresent();
+        assertThat(LookupQueries.GetAAAMemberSinceDateFromSQL(quoteNumber)).isNotPresent();
 
 
         /*--Step 4--*/
@@ -82,7 +80,7 @@ public class TestMemberSinceDate extends HomeCaHO3BaseTest {
 
         String sqlExpected = DateTime.format(formatSQL);
 
-        Assertions.assertThat(sqlExpected).isEqualTo("2010-07-27 00:00:00");
+        assertThat(sqlExpected).isEqualTo("2010-07-27 00:00:00");
 
     }
 }

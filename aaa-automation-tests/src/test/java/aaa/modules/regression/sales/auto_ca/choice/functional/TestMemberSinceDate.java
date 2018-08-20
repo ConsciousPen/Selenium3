@@ -1,12 +1,11 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.helpers.db.queries.LookupQueries;
-import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab;
 import aaa.utils.StateList;
-import org.assertj.core.api.Assertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -39,7 +38,6 @@ public class TestMemberSinceDate extends AutoCaChoiceBaseTest {
 
         // Pattern Definition
         DateTimeFormatter formatSQL = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        DateTimeFormatter formatUI = DateTimeFormatter.ofPattern("MM/yyyy");
 
 
         /*--Step 1--*/
@@ -63,7 +61,7 @@ public class TestMemberSinceDate extends AutoCaChoiceBaseTest {
         // Click save to store the quote in the db so can be accessed.
         Tab.buttonTopSave.click();
 
-        Assertions.assertThat(LookupQueries.GetAAAMemberSinceDateFromSQL(quoteNumber)).isNotPresent();
+        assertThat(LookupQueries.GetAAAMemberSinceDateFromSQL(quoteNumber)).isNotPresent();
 
 
         /*--Step 4--*/
@@ -83,7 +81,7 @@ public class TestMemberSinceDate extends AutoCaChoiceBaseTest {
 
         String sqlExpected = DateTime.format(formatSQL);
 
-        Assertions.assertThat(sqlExpected).isEqualTo("2010-07-27 00:00:00");
+        assertThat(sqlExpected).isEqualTo("2010-07-27 00:00:00");
 
     }
 }
