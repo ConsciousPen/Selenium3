@@ -19,10 +19,7 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.DialogsMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig;
@@ -38,20 +35,20 @@ public class TestOffLineClaims extends AutoSSBaseTest
      * * @author Chris Johns
      * @name Test Membership Renewal Consideration
      * @scenario
-     * Preconditions: 1.Open App, 2.Create Customer, 3.Create Policy, 4.Close App
      * Test Steps:
-     * 1.
-     * 2.
-     * 3.
-     * 4.
-     * 5.
+     * 1. Create a Policy with 3 drivers; 1 with no STUB data match, 2, and 3 with STUB data match
+     * 2. Move time to R-63
+     * 3. Run Renewal Part1 + "renewalClaimOrderAsyncJob"
+     * 4. Run Claims Offline Batch Job
+     * 5. Move Time to R-46
+     * 6. Run Renewal Part2 + "claimsRenewBatchRecieveJob"
      * @details Clean Path. Expected Result is
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
     public void PAS14679_TestCase1(@Optional("AZ") String state) {
-
+	    PurchaseTab purchaseTab = new PurchaseTab();
 	    TestData testData = getPolicyTD();
 	    TestData driverTab = getTestSpecificTD("TestData_DriverTab_OfflineClaim").resolveLinks();
 
@@ -63,8 +60,8 @@ public class TestOffLineClaims extends AutoSSBaseTest
 	    policy.getDefaultView().fill(driverTab);
 
 	    // fill remaining Policy
-	    policy.getDefaultView().fillFromTo(testData, RatingDetailReportsTab.class, DriverActivityReportsTab.class, true);
-
+	    policy.getDefaultView().fillFromTo(testData, RatingDetailReportsTab.class, PurchaseTab.class, true);
+	    purchaseTab.submitTab();
 
 	    //Gather Policy details
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
