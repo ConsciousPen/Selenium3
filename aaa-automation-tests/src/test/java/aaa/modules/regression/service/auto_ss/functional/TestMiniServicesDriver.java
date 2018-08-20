@@ -155,7 +155,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14591"})
-	public void pas14591_AddDriversUnhappyAge(@Optional("") String state) throws ParseException {
+	public void pas14591_AddDriversUnhappyAge(@Optional("AZ") String state) throws ParseException {
 		pas14591_AddDriversUnhappyAgeBody(getPolicyType());
 	}
 
@@ -273,8 +273,6 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 
 		pas15373_uniqueDriverLicensesBody(getPolicyType());
 	}
-
-
 
     /**
      * @author Bob Van
@@ -697,6 +695,30 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050"})
 	public void pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03(@Optional("VA") String state) {
 		pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03Body();
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Removing a driver - Create a Task?
+	 * @scenario 1. Create policy.
+	 * 2. Start do endorsement outside of PAS.
+	 * 3. Add new Driver. Update that driver.
+	 * 4. Order report.
+	 * 5. Delete Driver.
+	 * 6. Check if Task was created.
+	 * 7. Rate and Bind.
+	 * 8. Create new endorsement outside of PAS.
+	 * 9. Add new Driver. Update.
+	 * 10. Delete new Driver.
+	 * 11. Check if Task wasn't created.
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16578"})
+	public void pas16578_removeDriverCheckIfTaskWasCreated(@Optional("VA") String state) {
+
+		pas16578_removeDriverCheckIfTaskWasCreatedBody();
 	}
 }
 

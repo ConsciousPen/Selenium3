@@ -16,10 +16,7 @@ import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.datax.TestData;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 
 public class TestEndorsementsTabAbstract extends CommonTemplateMethods {
@@ -115,18 +112,32 @@ public class TestEndorsementsTabAbstract extends CommonTemplateMethods {
 	protected void addOptionalEndorsement(String endorsementFormId) {
 		endorsementTab.getAddEndorsementLink(endorsementFormId).click();
 
-		if (endorsementFormId == EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId()){
-			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_68)
-					.getAsset(HomeSSMetaData.EndorsementTab.EndorsementDS0468.LOCATION_TYPE).setValue("Described Location");
-			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_68)
-					.getAsset(HomeSSMetaData.EndorsementTab.EndorsementDS0468.CONSTRUCTION_TYPE).setValue("Frame");
-		} else if (endorsementFormId == EndorsementForms.HomeSSEndorsementForms.HS_04_36.getFormId()) {
-			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_36)
-					.getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS0436.COVERAGE_LIMIT).setValue("index=1");
-			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_36)
-					.getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS0436.DESCRIPTION_OF_STRUCTURE).setValue("Residence Premises");
-			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_36)
-					.getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS0436.CONSTRUCTION_TYPE).setValue("Frame");
+		EndorsementForms.HomeSSEndorsementForms formEnum = EndorsementForms.HomeSSEndorsementForms.getFormEnum(endorsementFormId);
+
+		switch (formEnum) {
+			case DS_04_63:
+				endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_63)
+						.getAsset(HomeSSMetaData.EndorsementTab.EndorsementDS0463.LOCATION_TYPE).setValue("Described Location");
+				endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_63)
+						.getAsset(HomeSSMetaData.EndorsementTab.EndorsementDS0463.COVERAGE_LIMIT).setValue("index=1");
+				break;
+			case DS_04_68:
+				endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_68)
+						.getAsset(HomeSSMetaData.EndorsementTab.EndorsementDS0468.LOCATION_TYPE).setValue("Described Location");
+				endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_68)
+						.getAsset(HomeSSMetaData.EndorsementTab.EndorsementDS0468.CONSTRUCTION_TYPE).setValue("Frame");
+				break;
+			case HS_04_36:
+				endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_36)
+						.getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS0436.COVERAGE_LIMIT).setValue("index=1");
+				endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_36)
+						.getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS0436.DESCRIPTION_OF_STRUCTURE).setValue("Residence Premises");
+				endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_36)
+						.getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS0436.CONSTRUCTION_TYPE).setValue("Frame");
+				break;
+			default:
+				log.error("No Such Form Configuration Found");
+				break;
 		}
 
 		endorsementTab.btnSaveForm.click();
@@ -139,29 +150,61 @@ public class TestEndorsementsTabAbstract extends CommonTemplateMethods {
 	protected void editEndorsementAndVerify(String endorsementFormId) {
 		endorsementTab.getEditEndorsementLink(endorsementFormId,1).click();
 
-		if (endorsementFormId == EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId()) {
-			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_69)
-					.getAsset(HomeSSMetaData.EndorsementTab.EndorsementDS0469.DEDUCTIBLE).setValue("10%");
-		} else if (endorsementFormId == EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId()){
-			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_68)
-					.getAsset(HomeSSMetaData.EndorsementTab.EndorsementDS0468.CONSTRUCTION_TYPE).setValue("Masonry");
-		} else if (endorsementFormId == EndorsementForms.HomeSSEndorsementForms.HS_04_36.getFormId()) {
-			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_36)
-					.getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS0436.CONSTRUCTION_TYPE).setValue("Masonry");
+		EndorsementForms.HomeSSEndorsementForms formEnum = EndorsementForms.HomeSSEndorsementForms.getFormEnum(endorsementFormId);
+
+		switch (formEnum) {
+			case DS_04_20:
+				endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_20)
+						.getAsset(HomeSSMetaData.EndorsementTab.EndorsementDS0420.COVERAGE_LIMIT).setValue("150%");
+				break;
+			case DS_04_63:
+				endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_63)
+						.getAsset(HomeSSMetaData.EndorsementTab.EndorsementDS0463.COVERAGE_LIMIT).setValue("$10000");
+				break;
+			case DS_04_68:
+				endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_68)
+						.getAsset(HomeSSMetaData.EndorsementTab.EndorsementDS0468.CONSTRUCTION_TYPE).setValue("Masonry");
+				break;
+			case DS_04_69:
+				endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_69)
+						.getAsset(HomeSSMetaData.EndorsementTab.EndorsementDS0469.DEDUCTIBLE).setValue("10%");
+				break;
+			case HS_04_36:
+				endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_36)
+						.getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS0436.CONSTRUCTION_TYPE).setValue("Masonry");
+				break;
+			default:
+				log.error("No Such Form Configuration Found");
+				break;
 		}
 
 		endorsementTab.btnSaveForm.click();
 		endorsementTab.getEditEndorsementLink(endorsementFormId,1).click();
 
-		if (endorsementFormId == EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId()) {
-			assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_69)
-					.getAsset(HomeSSMetaData.EndorsementTab.EndorsementDS0469.DEDUCTIBLE).getValue()).isEqualTo("10%");
-		} else if (endorsementFormId == EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId()){
-			assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_68)
-					.getAsset(HomeSSMetaData.EndorsementTab.EndorsementDS0468.CONSTRUCTION_TYPE).getValue()).isEqualTo("Masonry");
-		} else if (endorsementFormId == EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId()) {
-			assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_36)
-					.getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS0436.CONSTRUCTION_TYPE).getValue()).isEqualTo("Masonry");
+		switch (formEnum) {
+			case DS_04_20:
+				assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_20)
+						.getAsset(HomeSSMetaData.EndorsementTab.EndorsementDS0420.COVERAGE_LIMIT).getValue()).contains("150%");
+				break;
+			case DS_04_63:
+				assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_63)
+						.getAsset(HomeSSMetaData.EndorsementTab.EndorsementDS0463.COVERAGE_LIMIT).getValue()).contains("$10000");
+				break;
+			case DS_04_68:
+				assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_68)
+						.getAsset(HomeSSMetaData.EndorsementTab.EndorsementDS0468.CONSTRUCTION_TYPE).getValue()).contains("Masonry");
+				break;
+			case DS_04_69:
+				assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_69)
+						.getAsset(HomeSSMetaData.EndorsementTab.EndorsementDS0469.DEDUCTIBLE).getValue()).contains("10%");
+				break;
+			case HS_04_36:
+				assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_36)
+						.getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS0436.CONSTRUCTION_TYPE).getValue()).contains("Masonry");
+				break;
+			default:
+				log.error("No Such Form Configuration Found");
+				break;
 		}
 
 		endorsementTab.btnSaveForm.click();

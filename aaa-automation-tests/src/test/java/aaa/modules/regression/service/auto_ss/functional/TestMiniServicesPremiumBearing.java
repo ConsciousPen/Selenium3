@@ -322,20 +322,6 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 
 	/**
 	 * @author Jovita Pukenaite
-	 * @name Check dxp server if Nano policy not returning any information about vehicle.
-	 * @scenario 1. Create Nano policy.
-	 * 2. Check dxp server, any info should not be displayed about vehicle.
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8273"})
-	public void pas8273_NanoPolicyShouldNotReturnVehicleInfo(@Optional("AZ") String state) {
-
-		pas8273_CheckIfNanoPolicyNotReturningVehicle(getPolicyType(), state);
-	}
-
-	/**
-	 * @author Jovita Pukenaite
 	 * @name Check Start Endorsement info server response for Future policy
 	 * @scenario 1. Create Future Policy.
 	 * 2. Hit "start endorsement info" dxp server.
