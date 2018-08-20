@@ -38,6 +38,20 @@ TestData2: {
     PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 
 }
+TestData3: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab1',
+  DriverTab: ['@DriverTab2', '@DriverTab1', '@DriverTab7','@DriverTab5','@DriverTab4'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  AssignmentTab: '@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab2',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+
+}
 
 GeneralTab1: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2','@NamedInsuredInformation3'],
@@ -235,6 +249,26 @@ DriverTab6: {
          License Status: 'Licensed (US)',
 }
 
+DriverTab7: {
+    Add drivers: 'Yes',
+    DriverSearchDialog: {},
+    Driver Type: 'Not Available for Rating',
+    Reason: 'Other',
+    Rel. to First Named Insured: Child,
+    First Name: 'Laura',
+    Middle Name: 'Sara',
+    Last Name: 'Smith',
+    Suffix: 'III',
+    Date of Birth: '12/12/1991',
+    Gender: 'Female',
+    Marital Status: Divorced,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: '603557779',
+    License Status: 'Licensed (US)'
+}
+
 VehicleTab1: {
     Add Vehicle: Click,
     Usage: Pleasure,
@@ -271,6 +305,31 @@ AssignedDriver4: {
     Select Vehicle: 'index=2'
 }
 
+AssignmentTab: {
+  DriverVehicleRelationshipTable: ['@AssignedDriver5', '@AssignedDriver6', '@AssignedDriver7', '@AssignedDriver8']
+}
+
+AssignedDriver5: {
+    Driver: 'contains=Ben',
+    Select Vehicle: 'index=2'
+}
+
+AssignedDriver6: {
+    Driver: 'contains=Jenny',
+    Select Vehicle: 'index=2'
+}
+
+AssignedDriver7: {
+    Driver: 'contains=Jovita',
+    Select Vehicle: 'index=2'
+}
+
+AssignedDriver8: {
+    Driver: 'contains=Teena',
+    Select Vehicle: 'index=1'
+}
+
+
 PremiumAndCoveragesTab: {
   Payment Plan: Quarterly,
 
@@ -300,6 +359,18 @@ DocumentsAndBindTab1: {
    Proof of Current Insurance for: 'Yes',
    Proof of Prior Insurance: 'Yes'
    },
+    Agreement: I agree
+}
+
+DocumentsAndBindTab2: {
+ RequiredToBind: {
+
+ Auto Insurance Application: Physically Signed
+ },
+
+  RequiredToIssue: {
+   Proof of Prior Insurance: 'Yes'
+  },
     Agreement: I agree
 }
 
