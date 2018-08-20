@@ -1,6 +1,6 @@
 package aaa.modules.bct.billing_and_payments;
 
-import static aaa.common.enums.Constants.States.CA;
+import static aaa.common.enums.Constants.States.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -22,7 +22,7 @@ public class ModifyPaymentMethodTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	@StateList(states = CA)
+	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_032_Modify_Payment_Method(@Optional("") String state) {
 		mainApp().open();
 		IPolicy policy = PolicyType.AUTO_SS.get();
