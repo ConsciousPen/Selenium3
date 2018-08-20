@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.ADD_DRIVER;
+import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.DRIVER_SEARCH_DIALOG;
 import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -15,12 +17,17 @@ import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.DialogsMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig;
 import aaa.utils.StateList;
+import net.sf.saxon.functions.ConstantFunction;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -45,25 +52,21 @@ public class TestOffLineClaims extends AutoSSBaseTest
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
     public void PAS14679_TestCase1(@Optional("AZ") String state) {
 
-//	    TestData testData = getPolicyTD()
-//			    .adjust(AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getLabel(), "Bruce")
-//			    .adjust(AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getLabel(), "Banner")
+	    TestData testData = getPolicyTD();
+	    TestData driverTab = getTestSpecificTD("TestData_DriverTab_OfflineClaim").resolveLinks();
 
-	    TestData td =  getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName()).get(1)
-			    .adjust(AutoSSMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click")
-			    .adjust(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), "Bruce")
-			    .adjust(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), "Banner")
-			    .adjust(AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel(), "A12345222")
-			    .mask(AutoSSMetaData.DriverTab.NAMED_INSURED.getLabel());
-	    TestData testData = getTestSpecificTD("td").adjust(DriverTab.class.getSimpleName(), td);
+	    //Create Customer and Policy
+	    mainApp().open();
+	    createCustomerIndividual();
+	    policy.initiate();
+	    policy.getDefaultView().fillUpTo(testData, DriverTab.class, true);
+	    policy.getDefaultView().fill(driverTab);
+
+	    // fill remaining Policy
+	    policy.getDefaultView().fillFromTo(testData, RatingDetailReportsTab.class, DriverActivityReportsTab.class, true);
 
 
-	    //Policy Setup
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy(testData);
-
-        //Gather Policy details
+	    //Gather Policy details
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 	    LocalDateTime policyExpirationDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(360);
 	    mainApp().close();
