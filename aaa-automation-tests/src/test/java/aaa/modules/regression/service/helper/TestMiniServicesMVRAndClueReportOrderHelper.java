@@ -424,13 +424,16 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 	//		softly.assertThat(response.licenseStatusCd).isEqualTo("LICUS");
 	//	});
 
-		//pasDriverActivityReport(policyNumber);
+		//
+		// pasDriverActivityReport(policyNumber);
 
 	/*	String oidDriver2 = addAndUpdateDriver(policyNumber, "One", "Minor", "1970-01-01", "B15384002", "CH");
 
 		OrderReportsResponse response1 = HelperCommon.orderReports(policyNumber, oidDriver2, OrderReportsResponse.class, 200);
 
-		//String convictionDateUI= pasDriverActivityReport1(policyNumber);
+		//String convictionDateUI = pasDriverActivityReport1(policyNumber);
+		String convictionDateFromReport = convertDateToString(response1.reports.get(0).convictionDt);
+		StringUtils.equals(convictionDateUI, convictionDateFromReport);
 		assertSoftly(softly -> {
 
 			//softly.assertThat(response1.reports.get(0).convictionDt).isEqualTo(convictionDateUI);
@@ -495,8 +498,10 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
         return  convicDate;
 	}
 
-
-
+	private String convertDateToString(Date date, String pattern) {
+		SimpleDateFormat format = new SimpleDateFormat(pattern);
+		return format.format(date);
+	}
 }
 
 
