@@ -15,15 +15,19 @@ PAS-0001:
   summary: "Other element would receive the click"
   reason: PERF
   failures:
-  - tests: [aaa.modules.bct.batch]
+  - tests: [aaa.modules.bct.*]
     messages: ["Other element would receive the click"]
 
 PAS-0002:
   summary: "No policies found"
   reason: ENV
   failures:
-  - tests: [aaa.modules.bct.batch.BatchTest.*]
-    messages: ["No policies found by 'PostValidation' query expected [false] but found [true]","No policies found by 'PreValidation' query"]
+  - tests: [aaa.modules.bct.*]
+    messages: ["No policies found by 'PostValidation' query"]
+  - tests: [aaa.modules.bct.*]
+    messages: ["No policies found by 'PreValidation' query"]
+  - tests: [aaa.modules.bct.*]
+    messages: ["No policies found by 'SelectPolicy' query"]
 
 QC-E2ECOMMON:
   summary: "Common dummy ticket for all dependent e2e tests to mark them yellow if they are skipped due to failed 1st policy creation test"
