@@ -11,6 +11,20 @@ PAS-0000:
     - tests: aaa.*
       messages: 'is not applicable to this test'
 
+PAS-0001:
+  summary: "Other element would receive the click"
+  reason: PERF
+  failures:
+  - tests: [aaa.modules.bct.batch]
+    messages: ["Other element would receive the click"]
+
+PAS-0002:
+  summary: "No policies found"
+  reason: ENV
+  failures:
+  - tests: [aaa.modules.bct.batch.BatchTest.*]
+    messages: ["No policies found by 'PostValidation' query expected [false] but found [true]","No policies found by 'PreValidation' query"]
+
 QC-E2ECOMMON:
   summary: "Common dummy ticket for all dependent e2e tests to mark them yellow if they are skipped due to failed 1st policy creation test"
   reason: PROD
@@ -322,3 +336,9 @@ PAS-17689:
   failures:
     - tests: [aaa.modules.regression.conversions.home_ss.*]
       messages: ["ComboBox {Fire department type:"]
+PAS-5260:
+  summary: "Premium-reducing endorsement getting error message on bind for KY"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestReducedPremiumEndorsementKY.*]
+      messages: ['Cannot transfer payment', 'is not present as expected']

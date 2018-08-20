@@ -1,11 +1,13 @@
 package aaa.modules.bct.billing_and_payments;
 
+import static aaa.common.enums.Constants.States.CA;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -15,6 +17,7 @@ public class FeesTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(statesExcept = CA)
 	public void BCT_ONL_061_ManageFees(@Optional("") String state) {
 		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_061_ManageFees", "SelectPolicy").get(0);

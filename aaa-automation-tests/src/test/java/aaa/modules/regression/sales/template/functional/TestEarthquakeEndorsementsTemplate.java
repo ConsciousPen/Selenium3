@@ -1,0 +1,556 @@
+package aaa.modules.regression.sales.template.functional;
+
+import aaa.common.enums.Constants;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
+import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.utils.StateList;
+import toolkit.datax.TestData;
+
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.*;
+
+@StateList(states = Constants.States.OK)
+public class TestEarthquakeEndorsementsTemplate extends TestEndorsementsTabAbstract {
+
+	/**
+	 * @author Rokas Lazdauskas
+	 * @name test earthquake endorsement form for privileged user
+	 * @scenario
+	 * 1. Login app with user who has 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
+	 * 2. Create Customer
+	 * 3. Initiate Quote creation
+	 * 4. Fill everything up until 'Premium & Coverages' tab -> 'Endorsement' subtab
+	 * 5. Check that 'Earthquake' endorsement is available in 'Optional Endorsements' (HS 04 54)
+	 * 6. Add 'Earthquake' endorsement
+	 * 7. Check that Edit link is available
+	 * 8. Change something in endorsement and verify that it is saved
+	 * 9. Check that 'Loss Assessment Coverage For Earthquake' endorsement is available in 'Optional Endorsements' (HS 04 36)
+	 * 10. Add 'Loss Assessment Coverage For Earthquake' endorsement
+	 * 11. Check that Edit link is available
+	 * 12. Change something in endorsement and verify that it is saved
+	 * 13. Check that Remove link is available
+	 * 14. Remove endorsements and check that they are removed
+	 * @details
+	 */
+	protected void pas17479_pas17489_Privileged_NewBusinessTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
+		createQuoteAndFillUpTo(EndorsementTab.class);
+		addEndorsementForm(parentEndorsementFormId);
+		//HS 04 36 should be only available then HS 04 54 is added
+		addEndorsementForm(subEndorsementFormId);
+		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
+	}
+
+	/**
+	 * @author Rokas Lazdauskas
+	 * @name test earthquake endorsement form for privileged user
+	 * @scenario
+	 * 1. Login app with user who has 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
+	 * 2. Create Customer
+	 * 3. Create Policy
+	 * 4. Initiate Endorsement
+	 * 5. Fill everything up until 'Premium & Coverages' tab -> 'Endorsement' subtab
+	 * 6. Check that 'Earthquake' endorsement is available in 'Optional Endorsements' (HS 04 54)
+	 * 7. Add 'Earthquake' endorsement
+	 * 8. Check that Edit link is available
+	 * 9. Change something in endorsement and verify that it is saved
+	 * 10. Check that 'Loss Assessment Coverage For Earthquake' endorsement is available in 'Optional Endorsements' (HS 04 36)
+	 * 11. Add 'Loss Assessment Coverage For Earthquake'' endorsement
+	 * 12. Check that Edit link is available
+	 * 13. Change something in endorsement and verify that it is saved
+	 * 14. Check that Remove link is available
+	 * 15. Remove endorsements and check that they are removed
+	 * @details
+	 */
+	protected void pas17479_pas17489_Privileged_EndorsementTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
+		openAppAndCreatePolicy();
+		initiateEndorsementTx();
+		addEndorsementForm(parentEndorsementFormId);
+		//HS 04 36 should be only available then HS 04 54 is added
+		addEndorsementForm(subEndorsementFormId);
+		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
+	}
+
+	/**
+	 * @author Rokas Lazdauskas
+	 * @name test earthquake endorsement form for privileged user
+	 * @scenario
+	 * 1. Login app with user who has 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
+	 * 2. Create Customer
+	 * 3. Create Policy
+	 * 4. Initiate Renewal
+	 * 5. Fill everything up until 'Premium & Coverages' tab -> 'Endorsement' subtab
+	 * 6. Check that 'Earthquake' endorsement is available in 'Optional Endorsements' (HS 04 54)
+	 * 7. Add 'Earthquake' endorsement
+	 * 8. Check that Edit link is available
+	 * 9. Change something in endorsement and verify that it is saved
+	 * 10. Check that 'Loss Assessment Coverage For Earthquake' endorsement is available in 'Optional Endorsements' (HS 04 36)
+	 * 11. Add 'Earthquake' endorsement
+	 * 12. Check that Edit link is available
+	 * 13. Change something in endorsement and verify that it is saved
+	 * 14. Check that Remove link is available
+	 * 15. Remove endorsements and check that they are removed
+	 * @details
+	 */
+	protected void pas17479_pas17489_Privileged_RenewalTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
+		openAppAndCreatePolicy();
+		initiateRenewalTx();
+		addEndorsementForm(parentEndorsementFormId);
+		//HS 04 36 should be only available then HS 04 54 is added
+		addEndorsementForm(subEndorsementFormId);
+		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
+	}
+
+	/**
+	 * @author Rokas Lazdauskas
+	 * @name test earthquake endorsement form for NON privileged user
+	 * @scenario
+	 * 1. Login app with user who DOES NOT HAVE 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
+	 * 2. Create Customer
+	 * 3. Initiate Quote creation
+	 * 4. FIll everything up until 'Premium & Coverages' tab -> 'Endorsement' subtab
+	 * 5. Check that 'Earthquake' endorsement is NOT available in 'Optional Endorsements' (HS 04 54)
+	 * 6. Check that 'Earthquake' endorsement is NOT available in 'Included Endorsements' (HS 04 54)
+	 * @details
+	 */
+	public void pas17484_NonPrivileged_NewBusinessTxTemplate(String parentEndorsementFormId) {
+		initiateNewBusinessTx_NonPrivileged("F35");
+		checkEndorsementIsNotAvailableInOptionalEndorsements(parentEndorsementFormId);
+		checkEndorsementIsNotAvailableInIncludedEndorsements(parentEndorsementFormId);
+	}
+
+	/**
+	 * @author Rokas Lazdauskas
+	 * @name test earthquake endorsement form for NON privileged user
+	 * @scenario
+	 * 1. Login app with user who has 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
+	 * 2. Create Customer
+	 * 3. Initiate Quote creation
+	 * 4. FIll everything up until 'Premium & Coverages' tab -> 'Endorsement' subtab
+	 * 5. Add 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsements
+	 * 6. Save & Exit
+	 * 7. Login app with user who DOES NOT HAVE 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
+	 * 8. Navigate to 'Premium & Coverages' tab -> 'Endorsement' of created policy
+	 * 9. Check that 'Earthquake' endorsement is available in 'Included Endorsements' (HS 04 54)
+	 * 10. Check that 'Loss Assessment Coverage For Earthquake' endorsement is available in 'Included Endorsements' (HS 04 36)
+	 * 11. Check that Edit link is available for both endorsements
+	 * 12. Change something in endorsements and verify that it is saved
+	 * 13. Check that Remove link is available
+	 * 14. Remove endorsements and check that it is removed
+	 * 15. Check that 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsement is NOT available in 'Optional Endorsements'
+	 * 16. Bind Endorsement
+	 * 17. Initiate 2nd Endorsement
+	 * 18. Navigate to 'Premium & Coverages' tab -> 'Endorsement' of created policy
+	 * 19. Check that 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsement is NOT available in 'Optional Endorsements'
+	 * 20. Check that 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsement is NOT available in 'Included Endorsements'
+	 * @details
+	 */
+	protected void pas17484_NonPrivileged_NewBusinessTx_AlreadyHadEndorsementTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
+		initiateNewBusinessTx_NonPrivileged_AlreadyHadEndorsement("F35", parentEndorsementFormId, subEndorsementFormId);
+
+		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
+		checkEndorsementIsNotAvailableInOptionalEndorsements(parentEndorsementFormId, subEndorsementFormId);
+
+		finishNewBusinessTx();
+
+		//2nd Endorsement -> check that 'Earthquake' endorsement doesn't exist in Endorsement tab
+		initiateEndorsementTx();
+		checkEndorsementIsNotAvailableInIncludedEndorsements(parentEndorsementFormId);
+		checkEndorsementIsNotAvailableInOptionalEndorsements(parentEndorsementFormId);
+	}
+
+	/**
+	 * @author Rokas Lazdauskas
+	 * @name test earthquake endorsement form for NON privileged user
+	 * @scenario
+	 * 1. Login app with user who has 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
+	 * 2. Create Customer
+	 * 3. Create Policy
+	 * 4. Login app with user who DOES NOT HAVE 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
+	 * 5. Initiate Endorsement Transaction
+	 * 6. Navigate to 'Premium & Coverages' tab -> 'Endorsement' of created policy
+	 * 7. Check that 'Earthquake' endorsement is NOT available in 'Optional Endorsements'
+	 * 8. Check that 'Earthquake' endorsement is NOT available in 'Included Endorsements'
+	 * @details
+	 */
+	protected void pas17484_NonPrivileged_EndorsementTxTemplate(String parentEndorsementFormId) {
+		String policyNumber = openAppAndCreatePolicy();
+		mainApp().close();
+		openAppNonPrivilegedUser("F35");
+		SearchPage.openPolicy(policyNumber);
+		initiateEndorsementTx();
+		checkEndorsementIsNotAvailableInOptionalEndorsements(parentEndorsementFormId);
+		checkEndorsementIsNotAvailableInIncludedEndorsements(parentEndorsementFormId);
+	}
+
+	/**
+	 * @author Rokas Lazdauskas
+	 * @name test earthquake endorsement form for NON privileged user
+	 * @scenario
+	 * 1. Login app with user who has 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
+	 * 2. Create Customer
+	 * 3. Create Policy with 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsements added
+	 * 4. Login app with user who DOES NOT HAVE 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
+	 * 5. Initiate Endorsement Transactions
+	 * 6. Navigate to 'Premium & Coverages' tab -> 'Endorsement' of created policy
+	 * 7. Check that 'Earthquake' endorsement is available in 'Included Endorsements' (HS 04 54)
+	 * 8. Check that 'Loss Assessment Coverage For Earthquake' endorsement is available in 'Included Endorsements' (HS 04 36)
+	 * 9. Check that Edit link is available
+	 * 10. Change something in endorsements and verify that it is saved
+	 * 11. Check that Remove links is available
+	 * 12. Remove endorsements and check that they are removed
+	 * 13. Check that 'Earthquake' and Loss Assessment Coverage For Earthquake' endorsement is NOT available in 'Optional Endorsements'
+	 * 14. Bind Endorsement
+	 * 15. Initiate 2nd Endorsement
+	 * 16. Navigate to 'Premium & Coverages' tab -> 'Endorsement' of created policy
+	 * 17. Check that 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsement is NOT available in 'Optional Endorsements'
+	 * 18. Check that 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsement is NOT available in 'Included Endorsements'
+	 * @details
+	 */
+	protected void pas17484_pas17498_NonPrivileged_EndorsementTx_AlreadyHadEndorsementTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
+		String policyNumber = createPolicyWithEndorsement(parentEndorsementFormId, subEndorsementFormId);
+		mainApp().close();
+		openAppNonPrivilegedUser("F35");
+		SearchPage.openPolicy(policyNumber);
+		initiateEndorsementTx();
+
+		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
+		checkEndorsementIsNotAvailableInOptionalEndorsements(subEndorsementFormId, parentEndorsementFormId);
+
+		finishRenewalOrEndorsementTx(false);
+
+		//2nd Endorsement -> check that 'Earthquake' endorsement doesn't exist in Endorsement tab
+		initiateEndorsementTx();
+		checkEndorsementIsNotAvailableInIncludedEndorsements(parentEndorsementFormId, subEndorsementFormId);
+		checkEndorsementIsNotAvailableInOptionalEndorsements(parentEndorsementFormId, subEndorsementFormId);
+	}
+
+	/**
+	 * @author Rokas Lazdauskas
+	 * @name test earthquake endorsement form for NON privileged user
+	 * @scenario
+	 * 1. Login app with user who has 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
+	 * 2. Create Customer
+	 * 3. Create Policy
+	 * 4. Login app with user who DOES NOT HAVE 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
+	 * 5. Initiate Renewal Transactions
+	 * 6. Navigate to 'Premium & Coverages' tab -> 'Endorsement' of created policy
+	 * 7. Check that 'Earthquake' endorsement is NOT available in 'Optional Endorsements'
+	 * 8. Check that 'Earthquake' endorsement is NOT available in 'Included Endorsements'
+	 * @details
+	 */
+	public void pas17484_NonPrivileged_RenewalTxTemplate(String parentEndorsementFormId) {
+		String policyNumber = openAppAndCreatePolicy();
+		initiateRenewalTx();
+		new PremiumsAndCoveragesQuoteTab().saveAndExit();
+
+		mainApp().close();
+		openAppNonPrivilegedUser("F35");
+		SearchPage.openPolicy(policyNumber);
+		navigateToRenewalPremiumAndCoveragesTab();
+		checkEndorsementIsNotAvailableInOptionalEndorsements(parentEndorsementFormId);
+		checkEndorsementIsNotAvailableInIncludedEndorsements(parentEndorsementFormId);
+	}
+
+	/**
+	 * @author Rokas Lazdauskas
+	 * @name test earthquake endorsement form for NON privileged user
+	 * @scenario
+	 * 1. Login app with user who has 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
+	 * 2. Create Customer
+	 * 3. Create Policy with 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsement added
+	 * 4. Login app with user who DOES NOT HAVE 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
+	 * 5. Initiate Renewal Transactions
+	 * 6. Navigate to 'Premium & Coverages' tab -> 'Endorsement' of created policy
+	 * 7. Check that 'Earthquake' endorsement is available in 'Included Endorsements'
+	 * 8. Check that Edit link is available
+	 * 9. Change something in endorsement and verify that it is saved
+	 * 10. Check that Remove link is available
+	 * 11. Remove endorsement and check that it is removed
+	 * 12. Check that 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsement is NOT available in 'Optional Endorsements'
+	 * 13. Save & Exit
+	 * 14. Initiate new Renewal version
+	 * 15. Navigate to 'Premium & Coverages' tab -> 'Endorsement' of created policy
+	 * 16. Check that 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsement is NOT available in 'Optional Endorsements'
+	 * 17. Check that 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsement is NOT available in 'Included Endorsements'
+	 * @details
+	 */
+	protected void pas17484_NonPrivileged_RenewalTx_AlreadyHadEndorsementTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
+		String policyNumber = createPolicyWithEndorsement(parentEndorsementFormId, subEndorsementFormId);
+
+		initiateRenewalTx();
+		new PremiumsAndCoveragesQuoteTab().saveAndExit();
+
+		mainApp().close();
+		openAppNonPrivilegedUser("F35");
+		SearchPage.openPolicy(policyNumber);
+		navigateToRenewalPremiumAndCoveragesTab();
+
+		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
+		checkEndorsementIsNotAvailableInOptionalEndorsements(parentEndorsementFormId, subEndorsementFormId);
+
+		finishRenewalOrEndorsementTx(false);
+
+		//2nd Renewal tx -> check that 'X' endorsement doesn't exist in Endorsement tab
+		navigateToRenewalPremiumAndCoveragesTab();
+		checkEndorsementIsNotAvailableInIncludedEndorsements(parentEndorsementFormId, subEndorsementFormId);
+		checkEndorsementIsNotAvailableInOptionalEndorsements(parentEndorsementFormId, subEndorsementFormId);
+	}
+
+	/**
+	 * @author Rokas Lazdauskas
+	 * @name test earthquake endorsement form for NON privileged user
+	 * @scenario
+	 * 1. Login app with user who has 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
+	 * 2. Create Customer
+	 * 3. Create Policy with 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsement added
+	 * 4. Check that Document generation triggered after Policy Creation
+	 * @details
+	 */
+	protected void pas17494_checkDocGenTrigger_NewBusinessTemplate(String parentEndorsementFormId, String subEndorsementFormId, String parentEndorsementDocGenId, String childEndorsementDocGenId) {
+		String policyNumber = createPolicyWithEndorsement(parentEndorsementFormId, subEndorsementFormId);
+
+		//Check that Document generation triggered after Policy Creation
+		checkDocGenTriggered(policyNumber, POLICY_ISSUE, parentEndorsementDocGenId, childEndorsementDocGenId);
+	}
+
+	/**
+	 * @author Rokas Lazdauskas
+	 * @name test earthquake endorsement form for NON privileged user
+	 * @scenario
+	 * 1. Login app with user who has 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
+	 * 2. Create Customer
+	 * 3. Create Policy
+	 * 4. Initiate Endorsement
+	 * 5. Add 'Earthquake' and 'Loss Assessment Coverage For Earthquake'
+	 * 6. Bind Endorsement
+	 * 7. Check that Document generation triggered after Endorsement
+	 * @details
+	 */
+	protected void pas17498_checkDocGenTrigger_EndorsementTemplate(String parentEndorsementFormId, String subEndorsementFormId, String parentEndorsementDocGenId, String childEndorsementDocGenId) {
+		String policyNumber = openAppAndCreatePolicy();
+		initiateEndorsementTx();
+		addEndorsementForm(parentEndorsementFormId);
+		addEndorsementForm(subEndorsementFormId);
+
+		finishRenewalOrEndorsementTx(true);
+
+		//Check that Document generation triggered after Policy Endorsement
+		checkDocGenTriggered(policyNumber, ENDORSEMENT_ISSUE, parentEndorsementDocGenId, childEndorsementDocGenId);
+	}
+
+	/**
+	 * @author Rokas Lazdauskas
+	 * @name test earthquake endorsement form for NON privileged user
+	 * @scenario
+	 * 1. Login app with user who has 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
+	 * 2. Create Customer
+	 * 3. Create Policy
+	 * 4. Switch Time to R-35
+	 * 5. Create Renewal in 'Proposed' status via job
+	 * 6. Open Renewal
+	 * 7. Add 'Earthquake' and 'Loss Assessment Coverage For Earthquake'
+	 * 8. Purchase Renewal
+	 * 9. Check that Document generation triggered after Renewal
+	 * @details
+	 */
+	protected void pas17498_checkDocGenTrigger_RenewalTemplate(String parentEndorsementFormId, String subEndorsementFormId, String parentEndorsementDocGenId, String childEndorsementDocGenId) {
+		String policyNumber =  openAppAndCreatePolicy();
+		moveTimeAndRunRenewJobs(getTimePoints().getRenewOfferGenerationDate(PolicySummaryPage.getExpirationDate()));
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		navigateToRenewalPremiumAndCoveragesTab();
+		addEndorsementForm(parentEndorsementFormId);
+		addEndorsementForm(subEndorsementFormId);
+
+		finishRenewalOrEndorsementTx(true);
+
+		//Check that Document generation triggered after Policy Endorsement
+		checkDocGenTriggered(policyNumber, RENEWAL_OFFER, parentEndorsementDocGenId, childEndorsementDocGenId);
+	}
+
+	/**
+	 * @author Rokas Lazdauskas
+	 * @name test earthquake endorsement form for NON privileged user
+	 * @scenario
+	 * 1. Login app with user who has 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
+	 * 2. Create Customer
+	 * 3. Initiate Quote Creation
+	 * 4. Fill everything up until 'Premium & Coverages' tab -> 'Quote' subtab
+	 * 5. Calculate Premium
+	 * 6. Navigate to 'Premium & Coverages' tab -> 'Endorsement' subtab
+	 * 7. Add 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsements
+	 * 8. Navigate to 'Premium & Coverages' tab -> 'Quote' subtab
+	 * 9. Calculate Premium
+	 * 10. Check that Premium has increased
+	 * 11. Check that Endorsements are displayed in "Endorsement Forms" section
+	 * @details
+	 */
+	protected void pas17494_checkPremium_NewBusinessTxTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
+		createQuoteAndFillUpTo(EndorsementTab.class);
+		checkEndorsementsIncreasesPremium(parentEndorsementFormId, subEndorsementFormId);
+	}
+
+	/**
+	 * @author Rokas Lazdauskas
+	 * @name test earthquake endorsement form for NON privileged user
+	 * @scenario
+	 * 1. Login app with user who has 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
+	 * 2. Create Customer
+	 * 3. Create Policy
+	 * 4. Initiate Endorsement
+	 * 5. Fill everything up until 'Premium & Coverages' tab -> 'Quote' subtab
+	 * 6. Calculate Premium
+	 * 7. Navigate to 'Premium & Coverages' tab -> 'Endorsement' subtab
+	 * 8. Add 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsements
+	 * 9. Navigate to 'Premium & Coverages' tab -> 'Quote' subtab
+	 * 10. Calculate Premium
+	 * 11. Check that Premium has increased
+	 * 12. Check that Endorsements are displayed in "Endorsement Forms" section
+	 * @details
+	 */
+	protected void pas17494_checkPremium_EndorsementTxTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
+		openAppAndCreatePolicy();
+		initiateEndorsementTx();
+		checkEndorsementsIncreasesPremium(parentEndorsementFormId, subEndorsementFormId);
+	}
+
+	/**
+	 * @author Rokas Lazdauskas
+	 * @name test earthquake endorsement form for NON privileged user
+	 * @scenario
+	 * 1. Login app with user who has 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
+	 * 2. Create Customer
+	 * 3. Create Policy
+	 * 4. Initiate Renewal
+	 * 5. Fill everything up until 'Premium & Coverages' tab -> 'Quote' subtab
+	 * 6. Calculate Premium
+	 * 7. Navigate to 'Premium & Coverages' tab -> 'Endorsement' subtab
+	 * 8. Add 'Earthquake' and 'Loss Assessment Coverage For Earthquake' endorsements
+	 * 9. Navigate to 'Premium & Coverages' tab -> 'Quote' subtab
+	 * 10. Calculate Premium
+	 * 11. Check that Premium has increased
+	 * 12. Check that Endorsements are displayed in "Endorsement Forms" section
+	 * @details
+	 */
+	protected void pas17494_checkPremium_RenewalTxTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
+		openAppAndCreatePolicy();
+		initiateRenewalTx();
+		checkEndorsementsIncreasesPremium(parentEndorsementFormId, subEndorsementFormId);
+	}
+
+	/**
+	 * @author Rokas Lazdauskas
+	 * @name test earthquake endorsement form for privileged user
+	 * @scenario
+	 * 1. Login app with user who has 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
+	 * 2. Create Customer
+	 * 3. Do 'New Renewal Entry' action (initiate Conversion Policy)
+	 * 4. FIll everything up until 'Premium & Coverages' tab -> 'Endorsement' subtab
+	 * 5. Check that 'Earthquake' endorsement is available in 'Optional Endorsements'
+	 * 6. Add 'Earthquake' endorsement
+	 * 7. Check that Edit link is available
+	 * 8. Change something in endorsement and verify that it is saved
+	 * 9. Check that Remove link is available
+	 * 10. Remove endorsement and check that it is removed
+	 * @details
+	 */
+	public void pas17479_Conversion_Privileged_NewBusinessTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
+		createConversionQuoteAndFillUpTo(EndorsementTab.class);
+		addEndorsementForm(parentEndorsementFormId);
+		//SubEndorsement should be available only after parentEndorsement is added
+		addEndorsementForm(subEndorsementFormId);
+
+		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
+	}
+
+	/**
+	 * @author Rokas Lazdauskas
+	 * @name test earthquake endorsement form for privileged user
+	 * @scenario
+	 * 1. Login app with user who has 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
+	 * 2. Create Customer
+	 * 3. Create Conversion Policy
+	 * 4. Initiate Endorsement
+	 * 5. Navigate to 'Premium & Coverages' tab -> 'Endorsement' subtab
+	 * 6. Check that 'Earthquake' endorsement is available in 'Optional Endorsements'
+	 * 7. Add 'Earthquake' endorsement
+	 * 8. Check that Edit link is available
+	 * 9. Change something in endorsement and verify that it is saved
+	 * 10. Check that Remove link is available
+	 * 11. Remove endorsement and check that it is removed
+	 * @details
+	 */
+	public void pas17479_Conversion_Privileged_EndorsementTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
+		openAppAndCreateConversionPolicy();
+		initiateEndorsementTx();
+		addEndorsementForm(parentEndorsementFormId);
+		//SubEndorsement should be available only after parentEndorsement is added
+		addEndorsementForm(subEndorsementFormId);
+
+		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
+	}
+
+	/**
+	 * @author Rokas Lazdauskas
+	 * @name test earthquake endorsement form for privileged user
+	 * @scenario
+	 * 1. Login app with user who has 'Add/Remove OKEarthquake Endorsement' privilege (PAS-16030)
+	 * 2. Create Customer
+	 * 3. Create Conversion Policy
+	 * 4. Initiate Renewal
+	 * 5. Navigate to 'Premium & Coverages' tab -> 'Endorsement' subtab
+	 * 6. Check that 'Earthquake' endorsement is available in 'Optional Endorsements'
+	 * 7. Add 'Earthquake' endorsement
+	 * 8. Check that Edit link is available
+	 * 9. Change something in endorsement and verify that it is saved
+	 * 10. Check that Remove link is available
+	 * 11. Remove endorsement and check that it is removed
+	 * @details
+	 */
+	public void pas17479_Conversion_Privileged_RenewalTemplate(String parentEndorsementFormId, String subEndorsementFormId) {
+		openAppAndCreateConversionPolicy();
+		initiateRenewalTx();
+		addEndorsementForm(parentEndorsementFormId);
+		//SubEndorsement should be available only after parentEndorsement is added
+		addEndorsementForm(subEndorsementFormId);
+
+		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
+	}
+
+	private void initiateNewBusinessTx_NonPrivileged(String privilege) {
+		openAppNonPrivilegedUser(privilege);
+
+		createCustomerIndividual();
+
+		//field is disabled for F35 user
+		TestData quoteTd = getPolicyTD().mask(TestData.makeKeyPath(HomeSSMetaData.GeneralTab.class.getSimpleName(), HomeSSMetaData.GeneralTab.PROPERTY_INSURANCE_BASE_DATE_WITH_CSAA_IG.getLabel()));
+
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(quoteTd, EndorsementTab.class, false);
+	}
+
+	private void initiateNewBusinessTx_NonPrivileged_AlreadyHadEndorsement(String privilege, String... endorsementFormIds) {
+		createQuoteAndFillUpTo(EndorsementTab.class);
+
+		for (String endorsementFormId : endorsementFormIds) {
+			addOptionalEndorsement(endorsementFormId);
+		}
+
+		endorsementTab.saveAndExit();
+
+		String quoteNumber = PolicySummaryPage.getPolicyNumber();
+
+		mainApp().close();
+		openAppNonPrivilegedUser(privilege);
+
+		SearchPage.openQuote(quoteNumber);
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_ENDORSEMENT.get());
+	}
+}

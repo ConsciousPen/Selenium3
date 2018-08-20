@@ -100,8 +100,8 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         new PremiumsAndCoveragesQuoteTab().btnCalculatePremium().click();
         Dollar postEndoPremium = PremiumsAndCoveragesQuoteTab.getPolicyTermPremium();
-
         assertThat(postEndoPremium.lessThan(preEndoPremium)).isTrue();
+
     }
 
     public void validateAC2() {
@@ -123,8 +123,8 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         new PremiumsAndCoveragesQuoteTab().btnCalculatePremium().click();
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Protection class")).isEqualTo("1");
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Fireline score")).isEqualTo("0");
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Protection class")).contains("1");
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Fireline score")).contains("0");
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 
     }

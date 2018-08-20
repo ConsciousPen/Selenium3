@@ -1,5 +1,6 @@
 package aaa.modules.bct.billing_and_payments;
 
+import static aaa.common.enums.Constants.States.CA;
 import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -11,11 +12,13 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import aaa.utils.StateList;
 
 public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = CA)
 	public void BCT_ONL_086_ModifyPaymentPlan(@Optional("") String state) {
 		mainApp().open();
 
@@ -36,6 +39,7 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = CA)
 	public void BCT_ONL_185_Refund_Validation(@Optional("") String state) {
 		//TODO Test moved from Deloite's code as is, probably some additional steps should be added
 		mainApp().open();
@@ -53,6 +57,7 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = CA)
 	public void BCT_ONL_186_Refund_Validation(@Optional("") String state) {
 		//TODO Test moved from Deloite's code as is, probably some additional steps should be added
 		mainApp().open();
