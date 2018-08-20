@@ -285,7 +285,7 @@ AAAProductOwned: {
 AAAProductOwned_Version1: {
   Current AAA Member: 'Membership Override',
   Override Type: Term,
-  Member Since Date: $<today-1M>,
+  Member Since Date: $<today>,
   Motorcycle: 'Yes',
   "Motorcycle Policy #": 2222222221,
   Life: 'Yes',
@@ -386,7 +386,6 @@ TestData_CurrentCarrierInformation_Version1: {
 }
 
 TestData_CurrentCarrierInformation_Version2: {
-  #We are not updating during OOSE, because section can't be updated during endorsement transaction at all
   GeneralTab: {},
   DriverTab: {},
   RatingDetailReportsTab: {},
@@ -527,7 +526,11 @@ TestData_DriverInformation_Version1: {
   },
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {},
+  DocumentsAndBindTab: {
+    RequiredToIssue: {
+      Proof of Defensive Driver course completion: 'Yes'
+    }
+  },
 }
 
 TestData_DriverInformation_Version2: {
@@ -539,7 +542,13 @@ TestData_DriverInformation_Version2: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {},
+  DocumentsAndBindTab: {
+    RequiredToIssue: {
+      Proof of Smart Driver Course Completion: 'Yes',
+      Proof of Good Student Discount: 'Yes',
+      "Canadian MVR for (driver)": 'Yes'
+    }
+  },
 }
 
 DriverInformation: {

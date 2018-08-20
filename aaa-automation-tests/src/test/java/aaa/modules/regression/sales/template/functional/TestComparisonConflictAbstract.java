@@ -43,11 +43,13 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	private static final List<String> NOT_IMPLEMENTED_YET_FIELDS = ImmutableList.of(
 			"Current Carrier Information.Days Lapsed",
 			"Policy Information.Renewal Term Premium - Old Rater",
-			"Driver Information (V1FirstName V1 V1LastName).Date First Licensed",
+			"Driver Information (VIFirstName VI VILastName).Date First Licensed",
+			"Driver Information (VIFirstName VI VILastName).Smart Driver Course Completion Date",
+			"Activity Information (Hit and Run, 05/10/2020, Not included in Rating).Description",
 			"Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).AAA UBI Device Status Date",
 			"Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Safety Score Date",
 			"Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Garaging Address"
-			//"Driver Information (V1FirstName V1 V1LastName).Smart driver Course Completion Date"
+
 	);
 	private final ErrorTab errorTab = new ErrorTab();
 
@@ -321,13 +323,13 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			Multimap<String, String> actualSectionsAndUIFields, ArrayListMultimap<String, String> actualUIFieldsAndValues) {
 		expectedSectionsAndUIFields.keySet()
 				.removeIf(fieldPath -> NOT_IMPLEMENTED_YET_SECTIONS.stream()
-						.anyMatch(ignoredSection -> fieldPath.startsWith(ignoredSection)));
+						.anyMatch(fieldPath::startsWith));
 		actualSectionsAndUIFields.keySet()
 				.removeIf(fieldPath -> NOT_IMPLEMENTED_YET_SECTIONS.stream()
-						.anyMatch(ignoredSection -> fieldPath.startsWith(ignoredSection)));
+						.anyMatch(fieldPath::startsWith));
 		actualUIFieldsAndValues.keySet()
 				.removeIf(fieldPath -> NOT_IMPLEMENTED_YET_SECTIONS.stream()
-						.anyMatch(ignoredSection -> fieldPath.startsWith(ignoredSection)));
+						.anyMatch(fieldPath::startsWith));
 	}
 
 
@@ -343,8 +345,8 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		//getting value based on needed version (current or available)
 		String expectedValue = predefinedExpectedValues.get(comparisonVersion);
 		assertSoftly(softly -> {
-			softly.assertThat(predefinedExpectedValues).isNotEmpty().as("UI field path %1$s not found in TestData or predefined values.", uiFieldsPath);
-			softly.assertThat(expectedValue).isNotNull().as("Expected values for ui field path %1$s not found in TestData or predefined values.", uiFieldsPath);
+			softly.assertThat(predefinedExpectedValues).as("UI field path %1$s not found in TestData or predefined values.", uiFieldsPath).isNotEmpty();
+			softly.assertThat(expectedValue).as("Expected values for ui field path %1$s not found in TestData or predefined values.", uiFieldsPath).isNotNull();
 			if (!predefinedExpectedValues.isEmpty() && expectedValue != null) {
 				//comparison actual and expected value of UI field
 				softly.assertThat(actualUIFieldsAndValues.get(uiFieldsPath).get(0)).as("Problem in %1$s.", uiFieldsPath).isEqualTo(expectedValue);
@@ -397,7 +399,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 
 	private String searchByKeyInTDValues(ListMultimap<String, String> expectedUIFieldsAndValuesFromTD, String tdKey) {
 		List<String> foundExpectedValueInTD = expectedUIFieldsAndValuesFromTD.get(tdKey);
-		if (foundExpectedValueInTD.size()>0) {
+		if (!foundExpectedValueInTD.isEmpty()) {
 			return foundExpectedValueInTD.get(0);
 		}
 		return null;
@@ -639,12 +641,10 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	 */
 	private void allSectionsPresentedOnConflictPage(List<String> presentedSectionOnConflictPage, Set<String> uiFieldsPaths) {
 		for (String sectionName : presentedSectionOnConflictPage) {
-			assertSoftly(softly -> {
-				softly.assertThat(uiFieldsPaths.stream()
-						.anyMatch(uiFieldPath -> uiFieldPath.startsWith(buildUIFieldPath(sectionName, StringUtils.EMPTY))))
-						.as("Section %1$s not present in UI fields configuration.", sectionName)
-						.isTrue();
-			});
+			assertSoftly(softly -> softly.assertThat(uiFieldsPaths.stream()
+					.anyMatch(uiFieldPath -> uiFieldPath.startsWith(buildUIFieldPath(sectionName, StringUtils.EMPTY))))
+					.as("Section %1$s not present in UI fields configuration.", sectionName)
+					.isTrue());
 		}
 	}
 
