@@ -20,8 +20,8 @@ import toolkit.webdriver.controls.waiters.Waiters;
 
 public abstract class Purchase extends Tab {
 	public static Table tablePaymentPlan = new Table(By.id("purchaseForm:PaymentPlanTable"));
-	public static Button btnApplyPayment = new Button(By.id("purchaseForm:finishBtn_footer"));
-	public static Button buttonCancel = new Button(By.id("purchaseForm:noButton_footer"));
+	public static Button btnApplyPayment = new Button(By.id("purchaseForm:actionButton_aaaPurchaseIssueActionViewModel_footer"));
+	public static Button buttonCancel = new Button(By.id("purchaseForm:noButton_aaaPurchaseIssueActionViewModel_footer"));
 	public static Dialog confirmPurchase = new Dialog("//div[@id='purchaseForm:FinishConfirmationDialog_container']");
 	public static Dialog confirmVoiceSignature = new Dialog("//div[@id='purchaseForm:VoiceSignatureDialog_container']");
 	public static StaticElement totalRemainingTermPremium = new StaticElement(By.id("purchaseForm:downpaymentComponent_totalRemainingDueValue"));
