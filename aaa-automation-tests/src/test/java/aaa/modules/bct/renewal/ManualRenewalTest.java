@@ -1,5 +1,6 @@
 package aaa.modules.bct.renewal;
 
+import static aaa.common.enums.Constants.States.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -15,12 +16,14 @@ import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.utils.StateList;
 import toolkit.datax.impl.SimpleDataProvider;
 
 public class ManualRenewalTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = {AZ, IN, MD, NJ, NV, OH, OK, OR, PA, VA})
 	public void BCT_ONL_047_ManualRenewal(@Optional("") String state) {
 		IPolicy policy = findAndOpenPolicy("BCT_ONL_047_ManualRenewal", PolicyType.AUTO_SS);
 		policy.doNotRenew().start();
@@ -56,6 +59,7 @@ public class ManualRenewalTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = {AZ, IN, MD, NJ, NV, OH, OK, OR, PA, VA})
 	public void BCT_ONL_003_ManualRenewal(@Optional("") String state) {
 		IPolicy policy = findAndOpenPolicy("BCT_ONL_003_ManualRenewal", PolicyType.AUTO_SS);
 		deletePendingRenewals(policy);
@@ -67,6 +71,7 @@ public class ManualRenewalTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = {AZ, IN, MD, NJ, NV, OH, OK, OR, PA, VA})
 	public void BCT_ONL_004_ManualRenewal(@Optional("") String state) {
 		IPolicy policy = findAndOpenPolicy("BCT_ONL_004_ManualRenewal", PolicyType.AUTO_SS);
 		policy.removeDoNotRenew().perform(new SimpleDataProvider());
