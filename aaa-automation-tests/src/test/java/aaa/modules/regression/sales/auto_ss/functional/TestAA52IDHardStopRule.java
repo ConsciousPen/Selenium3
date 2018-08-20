@@ -104,6 +104,38 @@ public class TestAA52IDHardStopRule extends AutoSSBaseTest {
         checkRenewalAndEndorsement(true);
     }
 
+    /**
+     * @author Sreekanth Kopparapu
+     * @name ID Auto New Hard Stop Rule when AA52ID doc is not Signed after UM/UIM Coverage is opted for Renewal assuming @NB UM/UIM are not opted
+     * @scenario 1. Create Customer
+     * 2. Initiate Auto SS ID Conversion - Initiate Manual Conversion and fill all mandatory fileds in P&CPage
+     * 3. Navigate to P&C Page and ensure the UM/UIM coverages are selected
+     * 4. Navigate to Documents&Bind tab to validate the UM and UIM Disclosure Statement and Rejection Of Coverage field
+     * 5. default value for UM and UIM Disclosure Statement and Rejection Of Coverage = Not Signed
+     * 7. Override Rule - with message " "A signed Uninsured motorist coverage Rejection form must be received prior to issuing this transaction" is displyed
+     * 8. Override the rule and is able to Propose the policy
+     * @details
+     */
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-17818")
+    public void pas17818_testDocHardStopAA52IDBehaviorConversion(@Optional("ID") String state) {
+
+        //Initiate manual conversion policy
+        mainApp().open();
+        createCustomerIndividual();
+        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
+        policy.getDefaultView().fillUpTo(getConversionPolicyDefaultTD(), DocumentsAndBindTab.class, true);
+
+        documentsAndBindTab.getRequiredToBindAssetList()
+                .getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_UNDERINSURED_DISCLOSURE_STATEMENT_AND_REJECTION_OF_COVERAGE).setValue("Not Signed");
+        overrideErrorsAndSubmitTab();
+        PolicySummaryPage.buttonBackFromRenewals.click();
+        assertThat(PolicySummaryPage.labelPolicyStatus).isPresent();
+
+    }
+
     private void checkRenewalAndEndorsement(Boolean isRenewal){
         //Index 0 is nothing but the UM/UIM coverages are rejected [No Coverage]
         TestData td = getPolicyTD()
@@ -137,38 +169,6 @@ public class TestAA52IDHardStopRule extends AutoSSBaseTest {
         errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_200306);
         errorTab.override();
         documentsAndBindTab.submitTab();
-
-    }
-
-    /**
-     * @author Sreekanth Kopparapu
-     * @name ID Auto New Hard Stop Rule when AA52ID doc is not Signed after UM/UIM Coverage is opted for Renewal assuming @NB UM/UIM are not opted
-     * @scenario 1. Create Customer
-     * 2. Initiate Auto SS ID Conversion - Initiate Manual Conversion and fill all mandatory fileds in P&CPage
-     * 3. Navigate to P&C Page and ensure the UM/UIM coverages are selected
-     * 4. Navigate to Documents&Bind tab to validate the UM and UIM Disclosure Statement and Rejection Of Coverage field
-     * 5. default value for UM and UIM Disclosure Statement and Rejection Of Coverage = Not Signed
-     * 7. Override Rule - with message " "A signed Uninsured motorist coverage Rejection form must be received prior to issuing this transaction" is displyed
-     * 8. Override the rule and is able to Propose the policy
-     * @details
-     */
-
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-17818")
-    public void pas17818_testDocHardStopAA52IDBehaviorConversion(@Optional("ID") String state) {
-
-        //Initiate manual conversion policy
-        mainApp().open();
-		createCustomerIndividual();
-		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
-		policy.getDefaultView().fillUpTo(getConversionPolicyDefaultTD(), DocumentsAndBindTab.class, true);
-
-        documentsAndBindTab.getRequiredToBindAssetList()
-                .getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_UNDERINSURED_DISCLOSURE_STATEMENT_AND_REJECTION_OF_COVERAGE).setValue("Not Signed");
-        overrideErrorsAndSubmitTab();
-        PolicySummaryPage.buttonBackFromRenewals.click();
-        assertThat(PolicySummaryPage.labelPolicyStatus).isPresent();
 
     }
 }
