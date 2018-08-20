@@ -59,15 +59,20 @@ public class VersionsConflictConstants {
 			//AAA Products Owned section
 			.put("AAA Products Owned.Current AAA Member", "Current AAA Member")
 			.put("AAA Products Owned.Membership Number", "Membership Number")
-			//TODO Should be return after implementation story - Clean up for AAA Product Owned
-			/*.put("AAA Products Owned.Override Type", "Override Type")
-			.put("AAA Products Owned.Member Since Date", "Member Since Date")*/
+			.put("AAA Products Owned.Override Type", "Override Type")
+			.put("AAA Products Owned.Member Since Date", "Member Since Date")
 			.put("AAA Products Owned.Policy #", "Motorcycle Policy #")
 			.put("AAA Products Owned.Policy #", "Life Policy #")
 			.put("AAA Products Owned.Policy #", "Home Motorcycle Policy #")
 			.put("AAA Products Owned.Policy #", "Renters Policy #")
 			.put("AAA Products Owned.Policy #", "Condo Policy #")
 			.put("AAA Products Owned.Policy #", "PUP Motorcycle Policy #")
+			//Contact Information
+			.put("Contact Information.Home Phone Number", "Home Phone Number")
+			.put("Contact Information.Work Phone Number", "Work Phone Number")
+			.put("Contact Information.Mobile Phone Number", "Mobile Phone Number")
+			.put("Contact Information.Preferred Phone #", "Preferred Phone #")
+			.put("Contact Information.Email", "Email")
 			//Policy Information
 			.put("Policy Information.Source of Business","Source of Business")
 			.put("Policy Information.Source Policy #","Source Policy #")
@@ -151,15 +156,29 @@ public class VersionsConflictConstants {
 	/**
 	 *  Maps full attribute path on conflict page to version to select (Current, Available).
 	 */
-	protected static final ArrayListMultimap<String, String> aaaProductOwned = ArrayListMultimap.create(
+	protected static final ArrayListMultimap<String, String> aaaProductOwnedManual = ArrayListMultimap.create(
+					ImmutableListMultimap.<String, String>builder()
+							.put("AAA Membership Order.Last Name", CURRENT)
+							.put("AAA Membership Order.Membership Number", CURRENT)
+							.put("AAA Membership Order.Member Since", CURRENT)
+							.put("AAA Membership Order.Order Date", CURRENT)
+							.put("AAA Membership Order.Receipt Date", CURRENT)
+							.put("AAA Membership Order.Status", CURRENT)
+							.put("AAA Membership Order.Membership Total Years", CURRENT)
+							.put("AAA Products Owned.Current AAA Member", CURRENT)
+							.put("AAA Products Owned.Policy #", AVAILABLE)
+							.put("AAA Products Owned.Policy #", AVAILABLE)
+							.put("AAA Products Owned.Policy #", AVAILABLE)
+							.put("AAA Products Owned.Policy #", AVAILABLE)
+							.put("AAA Products Owned.Policy #", AVAILABLE)
+							.put("AAA Products Owned.Policy #", AVAILABLE)
+							.build());
+
+	/**
+	 *  Maps full attribute path on conflict page to version to select (Current, Available).
+	 */
+	protected static final ArrayListMultimap<String, String> aaaProductOwnedAutomatic = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("AAA Membership Order.Last Name", CURRENT)
-					.put("AAA Membership Order.Membership Number", CURRENT)
-					.put("AAA Membership Order.Member Since", CURRENT)
-					.put("AAA Membership Order.Order Date", CURRENT)
-					.put("AAA Membership Order.Receipt Date", CURRENT)
-					.put("AAA Membership Order.Status", CURRENT)
-					.put("AAA Membership Order.Membership Total Years", CURRENT)
 					.put("AAA Products Owned.Current AAA Member", CURRENT)
 					.put("AAA Products Owned.Policy #", AVAILABLE)
 					.put("AAA Products Owned.Policy #", AVAILABLE)
@@ -171,8 +190,6 @@ public class VersionsConflictConstants {
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
 	static final Multimap<String, String> aaaProductOwnedVersion2 = ImmutableListMultimap.<String, String>builder()
-			//Member Since Date is displayed because it wasn't cleaned up
-			.put("AAA Products Owned", "Member Since Date")
 			.put("AAA Products Owned", "Policy #")
 			.put("AAA Products Owned", "Policy #")
 			.put("AAA Products Owned", "Policy #")
@@ -188,6 +205,31 @@ public class VersionsConflictConstants {
 			//TODO Should be return after implementation story - Clean up for AAA Product Owned
 			/*.put("AAA Products Owned", "Override Type")
 			.put("AAA Products Owned", "Member Since Date")*/
+			.build();
+
+	/**
+	 *  Maps full attribute path on conflict page to version to select (Current, Available).
+	 */
+	protected static final ArrayListMultimap<String, String> contactInformation = ArrayListMultimap.create(
+			ImmutableListMultimap.<String, String>builder()
+					.put("AAAPolicy Issue Summary.Insured Email", AVAILABLE)
+					.put("Contact Information.Home Phone Number", CURRENT)
+					.put("Contact Information.Email", AVAILABLE)
+					.build());
+
+	//all components/attributes that should be on Comparison page  Rolled on/OOSE
+	static final Multimap<String, String> contactInformationVersion2 = ImmutableListMultimap.<String, String>builder()
+			.put("AAAPolicy Issue Summary", "Insured Email")
+			.put("Contact Information", "Email")
+			.build();
+
+	//all components/attributes that should be on Comparison page  Rolled on/OOSE
+	static final Multimap<String, String> contactInformationVersion1 = ImmutableListMultimap.<String, String>builder()
+			.put("Contact Information", "Home Phone Number")
+			.put("Contact Information", "Work Phone Number")
+			.put("Contact Information", "Mobile Phone Number")
+			.put("Contact Information", "Preferred Phone #")
+
 			.build();
 
 	protected static final ArrayListMultimap<String, String> policyInformationManual = ArrayListMultimap.create(

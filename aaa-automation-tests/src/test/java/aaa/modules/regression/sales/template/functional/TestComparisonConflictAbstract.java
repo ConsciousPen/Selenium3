@@ -577,8 +577,10 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			errorTab.submitTab();
 		}
 
-		resolveConflict(conflictLinks);
-		policy.rollOn().submit();
+		if (tableDifferences.isPresent()) {
+			resolveConflict(conflictLinks);
+			policy.rollOn().submit();
+		}
 
 		PolicySummaryPage.buttonRenewalQuoteVersion.click();
 		verifyTransactionHistoryType(1, RENEWAL);
@@ -707,7 +709,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			int uiFieldPosition = uiFieldNumber + uiFieldsWithSameNameNumber;
 			//press version link for UI Field (current or available)
 			if (pressVersionLink(uiFieldPosition, columnsCount, versionLinkValue, sectionName)) {
-				log.debug("Select [%1s] -> [%2s]", uiFieldPath, versionLinkValue);
+				log.debug("Select [%1$s] -> [%2$s]", uiFieldPath, versionLinkValue);
 				actualResolvedUIFieldsConflicts++;
 			}
 		}

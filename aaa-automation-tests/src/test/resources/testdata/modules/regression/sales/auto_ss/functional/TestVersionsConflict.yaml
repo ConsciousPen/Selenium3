@@ -386,9 +386,8 @@ TestData_CurrentCarrierInformation_Version1: {
 }
 
 TestData_CurrentCarrierInformation_Version2: {
-  GeneralTab: {
-    CurrentCarrierInformation: '@CurrentCarrierInformation_Version2'
-  },
+  #We are not updating during OOSE, because section can't be updated during endorsement transaction at all
+  GeneralTab: {},
   DriverTab: {},
   RatingDetailReportsTab: {},
   VehicleTab: {},

@@ -99,21 +99,21 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-17141"})
 	public void pas17141_ooseConflictManualAAAProductOwned(@Optional("AZ") String state) {
-		ooseConflict(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsConflictConstants.aaaProductOwned,  VersionsConflictConstants.aaaProductOwnedVersion2, VersionsConflictConstants.aaaProductOwnedVersion1,  "GeneralTab", "AAAProductOwned", false);
+		ooseConflict(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsConflictConstants.aaaProductOwnedManual,  VersionsConflictConstants.aaaProductOwnedVersion2, VersionsConflictConstants.aaaProductOwnedVersion1,  "GeneralTab", "AAAProductOwned", false);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-17141"})
 	public void pas17141_ooseConflictAutomaticAAAProductOwned(@Optional("AZ") String state) {
-		ooseConflict(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsConflictConstants.aaaProductOwned,  VersionsConflictConstants.aaaProductOwnedVersion2, VersionsConflictConstants.aaaProductOwnedVersion1,  "GeneralTab", "AAAProductOwned", true);
+		ooseConflict(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsConflictConstants.aaaProductOwnedAutomatic,  VersionsConflictConstants.aaaProductOwnedVersion2, VersionsConflictConstants.aaaProductOwnedVersion1,  "GeneralTab", "AAAProductOwned", true);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-17141"})
 	public void pas17141_renewalMergeAAAProductOwned(@Optional("AZ") String state) {
-		renewalMerge(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsConflictConstants.aaaProductOwned,  VersionsConflictConstants.aaaProductOwnedVersion1,  "GeneralTab", "AAAProductOwned");
+		renewalMerge(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsConflictConstants.aaaProductOwnedAutomatic,  VersionsConflictConstants.aaaProductOwnedVersion1,  "GeneralTab", "AAAProductOwned");
 	}
 
 	//Contact Information section
@@ -128,21 +128,21 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-13513"})
 	public void pas13513_ooseConflictManualContactInformation(@Optional("AZ") String state) {
-		ooseConflict(getTDContactInformationVersion1(), getTDContactInformationVersion2(), VersionsConflictConstants.namedInsuredInformation,  VersionsConflictConstants.namedInsuredInformationVersion2, VersionsConflictConstants.namedInsuredInformationVersion1,  "GeneralTab", "ContactInformation", false);
+		ooseConflict(getTDContactInformationVersion1(), getTDContactInformationVersion2(), VersionsConflictConstants.contactInformation,  VersionsConflictConstants.contactInformationVersion2, VersionsConflictConstants.contactInformationVersion1,  "GeneralTab", "ContactInformation", false);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-13513"})
 	public void pas13513_ooseConflictAutomaticContactInformation(@Optional("AZ") String state) {
-		ooseConflict(getTDContactInformationVersion1(), getTDContactInformationVersion2(), VersionsConflictConstants.namedInsuredInformation,  VersionsConflictConstants.namedInsuredInformationVersion2, VersionsConflictConstants.namedInsuredInformationVersion1,  "GeneralTab", "ContactInformation", true);
+		ooseConflict(getTDContactInformationVersion1(), getTDContactInformationVersion2(), VersionsConflictConstants.contactInformation,  VersionsConflictConstants.contactInformationVersion2, VersionsConflictConstants.contactInformationVersion1,  "GeneralTab", "ContactInformation", true);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-13513"})
 	public void pas13513_renewalMergeContactInformation(@Optional("AZ") String state) {
-		renewalMerge(getTDContactInformationVersion1(), getTDContactInformationVersion2(), VersionsConflictConstants.namedInsuredInformation,  VersionsConflictConstants.namedInsuredInformationVersion1,  "GeneralTab", "ContactInformation");
+		renewalMerge(getTDContactInformationVersion1(), getTDContactInformationVersion2(), VersionsConflictConstants.contactInformation,  VersionsConflictConstants.contactInformationVersion1,  "GeneralTab", "ContactInformation");
 	}
 
 	//Current Carrier section
