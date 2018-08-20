@@ -19,6 +19,7 @@ import toolkit.utils.TestInfo;
 import java.util.HashMap;
 import java.util.Map;
 
+
 @StateList(states = Constants.States.CA)
 public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
     Map<String, String> endorsement_FPCECADP = new HashMap<>();
@@ -82,7 +83,7 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
 
         //Verify the ENDo is not selected already
         aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab endorsementTab = new aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab();
-        assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_FPCECADP)).isPresent();
+        assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_FPCECADP).isPresent()).isTrue();
 
         //Scrape the total premium from the Prem summary asset list on PnC tab prior to Fair Plan Endo
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
@@ -93,14 +94,14 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
         endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECADP.getLabel()).click();
         endorsementTab.btnSaveEndo.click();
         //AC3 - This confirms an Informational note will display notifying the user that this endorsement has been added
-	    assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECADP)).isPresent();
+	    assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECADP).isPresent()).isTrue();
 
         //Verify premium is reduced after
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         new PremiumsAndCoveragesQuoteTab().btnCalculatePremium().click();
         Dollar postEndoPremium = PremiumsAndCoveragesQuoteTab.getPolicyTermPremium();
+        assertThat(postEndoPremium.lessThan(preEndoPremium)).isTrue();
 
-	    postEndoPremium.verify.lessThan(preEndoPremium);
     }
 
     public void validateAC2() {
@@ -117,7 +118,7 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
         endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECADP.getLabel()).click();
 
         endorsementTab.btnSaveEndo.click();
-	    assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECADP)).isPresent();
+	    assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECADP).isPresent());
 
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         new PremiumsAndCoveragesQuoteTab().btnCalculatePremium().click();
