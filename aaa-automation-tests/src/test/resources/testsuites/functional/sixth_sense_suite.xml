@@ -108,6 +108,13 @@
         </classes>
     </test>
 
+    <test name="Test UM And UIM Coverages opted in HardStop Rule">
+        <parameter name="state" value="ID"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAA52IDHardStopRule"/>
+        </classes>
+    </test>
+
     <!--Tests for Property-->
 
     <test name="Test Increased Insurance Limit And Supplemental Loss Endorsements">
