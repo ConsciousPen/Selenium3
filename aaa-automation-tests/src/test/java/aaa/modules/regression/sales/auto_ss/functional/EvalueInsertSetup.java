@@ -80,7 +80,8 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 	public static void eValueConfigInsert() {
 		List<String> configForStatesLimits = Arrays.asList(
 				"MD"
-				, "DC");
+				, "DC"
+				, "OR");
 		for (String configForStatesLimit : configForStatesLimits) {
 			insertConfigForLimitsRegularStates(configForStatesLimit);
 			insertConfigForRegularStates(configForStatesLimit);
