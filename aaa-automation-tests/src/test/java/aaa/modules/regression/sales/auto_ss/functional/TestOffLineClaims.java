@@ -48,23 +48,23 @@ public class TestOffLineClaims extends AutoSSBaseTest
 	    TestData testData = getPolicyTD();
 	    TestData driverTab = getTestSpecificTD("TestData_DriverTab_OfflineClaim").resolveLinks();
 
-	    //Create Customer and Policy
+	    //Create Customer and Policy with 3 drivers
 	    mainApp().open();
 	    createCustomerIndividual();
 	    policy.initiate();
 	    policy.getDefaultView().fillUpTo(testData, DriverTab.class, true);
 	    policy.getDefaultView().fill(driverTab);
 
-	    // fill remaining Policy
+	    //Fill remaining Policy info and bind
 	    policy.getDefaultView().fillFromTo(testData, RatingDetailReportsTab.class, PurchaseTab.class, true);
 	    purchaseTab.submitTab();
 
-	    //Gather Policy details
+	    //Gather Policy details: Policy Number and expiration date
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 	    LocalDateTime policyExpirationDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(360);
 	    mainApp().close();
 
-        //Move to R-63, run batch job part 1, and offline claims batch job
+        //Move to R-63, run batch job part 1 and offline claims batch job
 	    moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(63));
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
         HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_CLAIMS_BATCH);
