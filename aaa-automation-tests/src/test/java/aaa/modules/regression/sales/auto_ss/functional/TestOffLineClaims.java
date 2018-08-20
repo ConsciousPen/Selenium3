@@ -1,7 +1,5 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.ADD_DRIVER;
-import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.DRIVER_SEARCH_DIALOG;
 import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -17,14 +15,10 @@ import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.SearchEnum;
-import aaa.main.metadata.DialogsMetaData;
-import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig;
 import aaa.utils.StateList;
-import net.sf.saxon.functions.ConstantFunction;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -33,7 +27,7 @@ public class TestOffLineClaims extends AutoSSBaseTest
 {
     /**
      * * @author Chris Johns
-     * @name Test Membership Renewal Consideration
+     * @name Test Offline STUB/Mock Data Claims
      * @scenario
      * Test Steps:
      * 1. Create a Policy with 3 drivers; 1 with no STUB data match, 2, and 3 with STUB data match
@@ -42,7 +36,9 @@ public class TestOffLineClaims extends AutoSSBaseTest
      * 4. Run Claims Offline Batch Job
      * 5. Move Time to R-46
      * 6. Run Renewal Part2 + "claimsRenewBatchRecieveJob"
-     * @details Clean Path. Expected Result is
+     * 7. Retrieve policy and enter renewal image
+     * 8. Verify Claim Data is applied to the correct driver.
+     * @details Clean Path. Expected Result is that claims data is applied to the correct driver
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
