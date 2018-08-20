@@ -6,7 +6,7 @@
 
     <parameter name="timeshift-scenario-mode" value="method"/>
 
-    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO3)" parallel="methods" thread-count="1024">
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO3)" thread-count="1024">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPaymentPlanChangeOnEndorsement">
@@ -19,7 +19,7 @@
         </classes>
     </test>
 
-    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO4)" parallel="methods" thread-count="1024">
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO4)" thread-count="1024">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPaymentPlanChangeOnEndorsement">
@@ -32,7 +32,7 @@
         </classes>
     </test>
 
-    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO6)" parallel="methods" thread-count="1024">
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO6)" thread-count="1024">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPaymentPlanChangeOnEndorsement">
@@ -45,7 +45,7 @@
         </classes>
     </test>
 
-    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (DP3)" parallel="methods" thread-count="1024">
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (DP3)" thread-count="1024">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPaymentPlanChangeOnEndorsement">
@@ -58,7 +58,7 @@
         </classes>
     </test>
 
-    <test name="PAS-11785 - Do not force payment plan change on mid-term changes (PUP)" parallel="methods" thread-count="1024">
+    <test name="PAS-11785 - Do not force payment plan change on mid-term changes (PUP)" thread-count="1024">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.functional.TestPaymentPlanChangeOnEndorsement">
@@ -73,7 +73,7 @@
 
     <!--Functional FAIR Plan Tests-->
     <test name="PAS-13239 - AC1 - 18.5: CA FAIR Plan: Signature required to bind (CA DP3)"
-          parallel="methods" thread-count="1024">
+          thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanSignature">
@@ -81,7 +81,7 @@
         </classes>
     </test>
     <test name="PAS-13239 - AC1 - 18.5: CA FAIR Plan: Signature required to bind (CA HO3)"
-          parallel="methods" thread-count="1024">
+          thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCAFairPlanSignature">
@@ -90,7 +90,7 @@
     </test>
 
     <test name="PAS-13445 - 18.5: CA FAIR Plan: Mutually Exclusive Endorsements (CA DP3)"
-          parallel="methods" thread-count="1024">
+          thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanMutualExclusions">
@@ -103,7 +103,7 @@
     </test>
 
     <test name="PAS-13210 - 18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement (CA DP3)"
-          parallel="methods" thread-count="1024">
+          thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanCompanion">
@@ -114,7 +114,7 @@
         </classes>
     </test>
     <test name="PAS-13210 - 18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement (CA HO3)"
-          parallel="methods" thread-count="1024">
+          thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCAFairPlanCompanion">
@@ -126,7 +126,7 @@
     </test>
 
     <test name="PAS-13210 - 18.5: CA FAIR Plan: Update Fireline underwriting eligibility rules to enable Bind with FPCECA/FPCECADP Endorsement (CA DP3)"
-          parallel="methods" thread-count="1024">
+          thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanCanItBind">
@@ -134,7 +134,7 @@
         </classes>
     </test>
     <test name="PAS-13210 - 18.5: CA FAIR Plan: Update Fireline underwriting eligibility rules to enable Bind with FPCECA/FPCECADP Endorsement (CA HO3)"
-          parallel="methods" thread-count="1024">
+          thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCAFairPlanCanItBind">
@@ -142,7 +142,7 @@
         </classes>
     </test>
     <test name="PAS-13215 - AC1/2 - 18.5: CA FAIR Plan: Rating (CA DP3)"
-          parallel="methods" thread-count="1024">
+          thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanRating">
@@ -150,7 +150,7 @@
         </classes>
     </test>
     <test name="PAS-13215 - AC1/2 - 18.5: CA FAIR Plan: Rating (CA HO3)"
-          parallel="methods" thread-count="1024">
+          thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCAFairPlanRating">
