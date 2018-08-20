@@ -73,6 +73,18 @@ public class VersionsConflictConstants {
 			.put("Contact Information.Mobile Phone Number", "Mobile Phone Number")
 			.put("Contact Information.Preferred Phone #", "Preferred Phone #")
 			.put("Contact Information.Email", "Email")
+			//Current Carrier Information
+			//TODO Should be return after implementation story - Clean up for Current Carrier
+			//.put("Current Carrier Information.More than 6 months Total Insurance Experience","More than 6 months Total Insurance Experience")
+			.put("Current Carrier Information.Agent Entered Current/Prior Carrier","Agent Entered Current/Prior Carrier")
+			//TODO Should be return after implementation story - Clean up for Current Carrier
+			//.put("Current Carrier Information.Agent Entered Other Carrier","Agent Entered Other Carrier")
+			.put("Current Carrier Information.Agent Entered Inception Date","Agent Entered Inception Date")
+			.put("Current Carrier Information.Agent Entered Expiration Date","Agent Entered Expiration Date")
+			.put("Current Carrier Information.Agent Entered Policy Number","Agent Entered Policy Number")
+			.put("Current Carrier Information.Days Lapsed","Days Lapsed")
+			.put("Current Carrier Information.Months with Carrier","Months with Carrier")
+			.put("Current Carrier Information.Agent Entered BI Limits","Agent Entered BI Limits")
 			//Policy Information
 			.put("Policy Information.Source of Business","Source of Business")
 			.put("Policy Information.Source Policy #","Source Policy #")
@@ -229,8 +241,18 @@ public class VersionsConflictConstants {
 			.put("Contact Information", "Work Phone Number")
 			.put("Contact Information", "Mobile Phone Number")
 			.put("Contact Information", "Preferred Phone #")
-
 			.build();
+
+	/**
+	 *  Maps full attribute path on conflict page to version to select (Current, Available).
+	 */
+	protected static final ArrayListMultimap<String, String> currentCarrierInformation = ArrayListMultimap.create(
+			ImmutableListMultimap.<String, String>builder()
+					.build());
+
+	//all components/attributes that should be on Comparison page  Rolled on/OOSE
+	static final Multimap<String, String> currentCarrierInfrmationVersion1 = ImmutableListMultimap.<String, String>builder()
+					.build();
 
 	protected static final ArrayListMultimap<String, String> policyInformationManual = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()

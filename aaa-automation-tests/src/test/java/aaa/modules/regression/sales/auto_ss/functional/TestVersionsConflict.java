@@ -157,7 +157,7 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-13513"})
 	public void pas13513_renewalMergeCurrentCarrierInformation(@Optional("AZ") String state) {
-		renewalMerge(getTDCurrentCarrierInformationVersion1(), getTDCurrentCarrierInformationVersion2(), VersionsConflictConstants.namedInsuredInformation,  VersionsConflictConstants.namedInsuredInformationVersion1,  "GeneralTab", "CurrentCarrierInformation");
+		renewalMerge(getTDCurrentCarrierInformationVersion1(), getTDCurrentCarrierInformationVersion2(), VersionsConflictConstants.currentCarrierInformation,  VersionsConflictConstants.currentCarrierInfrmationVersion1,  "GeneralTab", "CurrentCarrierInformation");
 	}
 
 	//Policy Information section
