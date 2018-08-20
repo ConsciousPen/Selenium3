@@ -108,12 +108,12 @@
         </classes>
     </test>
 
-    <test name="Test UM And UIM Coverages opted in HardStop Rule">
-        <parameter name="state" value="ID"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAA52IDHardStopRule"/>
-        </classes>
-    </test>
+    <!--<test name="Test UM And UIM Coverages opted in HardStop Rule">-->
+        <!--<parameter name="state" value="ID"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.sales.auto_ss.functional.TestAA52IDHardStopRule"/>-->
+        <!--</classes>-->
+    <!--</test>-->
 
     <!--Tests for Property-->
 
@@ -155,17 +155,17 @@
         </classes>
     </test>
 
-    <!--<test name="Test Replacement Cost Value for Endorsed Renewal">-->
-        <!--<parameter name="state" value="UT"/>-->
-        <!--<classes>-->
-            <!--<class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestReplacementCostReasonEndorsement"/>-->
-            <!--<class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestReplacementCostReasonEndorsement"/>-->
-            <!--<class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestReplacementCostReasonEndorsement"/>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestReplacementCostReasonEndorsement"/>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestReplacementCostReasonEndorsement"/>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestReplacementCostReasonEndorsement"/>-->
-        <!--</classes>-->
-    <!--</test>-->
+    <test name="Test Replacement Cost Value for Endorsed Renewal">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestReplacementCostReasonEndorsement"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestReplacementCostReasonEndorsement"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestReplacementCostReasonEndorsement"/>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestReplacementCostReasonEndorsement"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestReplacementCostReasonEndorsement"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestReplacementCostReasonEndorsement"/>
+        </classes>
+    </test>
 
     <test name="Test Tier And UW Points Lock NY">
         <parameter name="state" value="NY"/>
