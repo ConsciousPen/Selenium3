@@ -50,7 +50,6 @@ public class TestAA52IDHardStopRule extends AutoSSBaseTest {
         documentsAndBindTab.getRequiredToBindAssetList()
                 .getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_UNDERINSURED_DISCLOSURE_STATEMENT_AND_REJECTION_OF_COVERAGE).setValue("Not Signed");
         overrideErrorsAndSubmitTab();
-        //getPolicyTD().getTestData(PurchaseTab.class.getSimpleName()). run the test and if doesn't replace with this and rerun
         new PurchaseTab().fillTab(getPolicyTD()).submitTab();
         assertThat(PolicySummaryPage.labelPolicyStatus).isPresent();
     }
@@ -115,7 +114,6 @@ public class TestAA52IDHardStopRule extends AutoSSBaseTest {
         openAppAndCreatePolicy(td);
 
         if(isRenewal){
-            //moveTimeAndRunRenewJobs(PolicySummaryPage.getExpirationDate());
             policy.renew().perform();
         }
         else {
@@ -159,12 +157,6 @@ public class TestAA52IDHardStopRule extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-17818")
     public void pas17818_testDocHardStopAA52IDBehaviorConversion(@Optional("ID") String state) {
-
-        TestData tdAutoConv = getConversionPolicyDefaultTD();
-
-        TestData td = getPolicyTD()
-                .adjust(TestData.makeKeyPath(PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel()), "index=0")
-                .adjust(TestData.makeKeyPath(PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel()), "index=0");
 
         //Initiate manual conversion policy
         mainApp().open();
