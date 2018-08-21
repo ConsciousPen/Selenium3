@@ -2148,7 +2148,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		assertThat(driverCoverages.driverCoverages.get(1).coverageDescription).isEqualTo("Total Disability");
 	}
 
-	private void validateSelectedCoverages(DriversDto driver, PolicyCoverageInfo policyCoverageInfo, Boolean specificDisabilityIndExpected, Boolean totalDisabilityIndExpected, ETCSCoreSoftAssertions softly) {
+	private void validateSelectedCoverages(DriversDto driver, Boolean specificDisabilityIndExpected, Boolean totalDisabilityIndExpected, ETCSCoreSoftAssertions softly) {
 		softly.assertThat(driver.specificDisabilityInd).isEqualTo(specificDisabilityIndExpected);
 		softly.assertThat(driver.totalDisabilityInd).isEqualTo(totalDisabilityIndExpected);
 
@@ -2192,7 +2192,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		validateAvailableCoverages_pas17968(driver, policyCoverageInfo, softly);
 		validateAvailableCoverages_pas14650_pas17050(driver, softly);
-		validateSelectedCoverages(driver, policyCoverageInfo, specificDisabilityIndExpected, totalDisabilityIndExpected, softly);
+		validateSelectedCoverages(driver, specificDisabilityIndExpected, totalDisabilityIndExpected, softly);
 		validateSelectedCoverages_pas17968(driver, policyCoverageInfo, specificDisabilityIndExpected, totalDisabilityIndExpected, softly);
 
 	}
