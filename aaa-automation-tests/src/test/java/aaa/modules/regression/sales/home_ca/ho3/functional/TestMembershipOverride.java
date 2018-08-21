@@ -136,7 +136,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
         policy.getDefaultView().fillUpTo(defaultPolicyData, ApplicantTab.class, true);
 
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
-        assertThat(new ApplicantTab().getAssetList().getAsset(HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER).getValue().equals("Membership Override"));
+        assertThat(new ApplicantTab().getAssetList().getAsset(HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER)).hasValue("Membership Override");
     }
 
     /**

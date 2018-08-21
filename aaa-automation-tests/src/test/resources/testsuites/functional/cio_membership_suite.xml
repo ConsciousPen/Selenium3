@@ -5,7 +5,7 @@
     </listeners>
 
     <parameter name="timeshift-scenario-mode" value="method"/>
-    <test name="PAS-3786, PAS-6668, PAS-6800 - Test Membership validation for Auto SS" parallel="methods" thread-count="1024">
+    <test name="PAS-3786, PAS-6668, PAS-6800 - Test Membership validation for Auto SS" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipValidation">
@@ -13,7 +13,7 @@
         </classes>
     </test>
 
-    <test name="TestMembershipValidationHomeSS" parallel="methods" thread-count="1024">
+    <test name="TestMembershipValidationHomeSS" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestMembershipValidation">
@@ -21,7 +21,7 @@
         </classes>
     </test>
 
-    <test name="Test Not Ordered Membership Errors_1" parallel="methods" thread-count="1024">
+    <test name="Test Not Ordered Membership Errors_1" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestNotOrderedMembershipError">
@@ -29,7 +29,7 @@
         </classes>
     </test>
 
-    <test name="Test Not Ordered Membership Errors_2" parallel="methods" thread-count="1024">
+    <test name="Test Not Ordered Membership Errors_2" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestNotOrderedMembershipError">
@@ -37,7 +37,7 @@
         </classes>
     </test>
 
-    <test name="Test Not Ordered Membership Errors_3" parallel="methods" thread-count="1024">
+    <test name="Test Not Ordered Membership Errors_3" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestNotOrderedMembershipError">
@@ -45,7 +45,7 @@
         </classes>
     </test>
 
-    <test name="Test Not Ordered Membership Errors_4" parallel="methods" thread-count="1024">
+    <test name="Test Not Ordered Membership Errors_4" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestNotOrderedMembershipError">
@@ -53,7 +53,7 @@
         </classes>
     </test>
 
-    <test name="TestMembershipValidation" parallel="methods" thread-count="1024">
+    <test name="TestMembershipValidation" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMembershipValidation">
@@ -69,7 +69,7 @@
         </classes>
     </test>
 
-    <test name="PAS-6311 PAS-9626 PAS-6313 PAS-6314 PAS-6316 - Test Membership Override(Auto SS)" parallel="methods" thread-count="1024">
+    <test name="PAS-6311 PAS-9626 PAS-6313 PAS-6314 PAS-6316 - Test Membership Override(Auto SS)" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipOverride">
@@ -82,7 +82,7 @@
         </classes>
     </test>
 
-    <test name="PAS-6311 PAS-9626 PAS-6313 PAS-6314 PAS-6316 - Test Membership Override(Auto CA Select)" parallel="methods" thread-count="1024">
+    <test name="PAS-6311 PAS-9626 PAS-6313 PAS-6314 PAS-6316 - Test Membership Override(Auto CA Select)" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMembershipOverride">
@@ -96,7 +96,7 @@
         </classes>
     </test>
 
-    <test name="PAS-9371 PAS-9635 PAS-9634 PAS-6370 PAS-10154 - Test Membership Override(Home CA HO3)" parallel="methods" thread-count="1024">
+    <test name="PAS-9371 PAS-9635 PAS-9634 PAS-6370 PAS-10154 - Test Membership Override(Home CA HO3)" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestMembershipOverride">
@@ -110,7 +110,7 @@
         </classes>
     </test>
 
-    <test name="PAS-9686 PAS-9370 PAS-9634 PAS-6370 PAS-10154 - Test Membership Override(Home SS HO3)" parallel="methods" thread-count="1024">
+    <test name="PAS-9686 PAS-9370 PAS-9634 PAS-6370 PAS-10154 - Test Membership Override(Home SS HO3)" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestMembershipOverride">

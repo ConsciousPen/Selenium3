@@ -153,7 +153,7 @@ public abstract class PolicyBaseTest extends BaseTest {
 	}
 
 	protected String openAppAndCreateConversionPolicy() {
-		return openAppAndCreatePolicy(getConversionPolicyDefaultTD());
+		return openAppAndCreateConversionPolicy(getConversionPolicyDefaultTD());
 	}
 
 	protected void createQuoteAndFillUpTo(TestData testData, Class<? extends Tab> tab) {

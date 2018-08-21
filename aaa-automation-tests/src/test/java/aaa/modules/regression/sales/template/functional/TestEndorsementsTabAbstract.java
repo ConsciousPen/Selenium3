@@ -1,13 +1,5 @@
 package aaa.modules.regression.sales.template.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.UnderwritingAndApprovalTab;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -15,8 +7,12 @@ import aaa.main.enums.EndorsementForms;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.datax.TestData;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 
 public class TestEndorsementsTabAbstract extends CommonTemplateMethods {
@@ -52,9 +48,11 @@ public class TestEndorsementsTabAbstract extends CommonTemplateMethods {
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_ENDORSEMENT.get());
 	}
 
-	protected void addEndorsementForm(String endorsementFormId) {
-		checkEndorsementIsAvailableInOptionalEndorsements(endorsementFormId);
-		addOptionalEndorsement(endorsementFormId);
+	protected void addEndorsementForm(String... endorsementFormIds) {
+		for(String endorsementFormId: endorsementFormIds) {
+			checkEndorsementIsAvailableInOptionalEndorsements(endorsementFormId);
+			addOptionalEndorsement(endorsementFormId);
+		}
 	}
 
 	protected void editEndorsementForm(String endorsementFormId) {
@@ -89,23 +87,23 @@ public class TestEndorsementsTabAbstract extends CommonTemplateMethods {
 	}
 
 	protected void checkEndorsementIsAvailableInOptionalEndorsements(String formId) {
-		assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId).isPresent());
-		assertThat(endorsementTab.getAddEndorsementLink(formId).isPresent());
+		assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId)).isPresent();
+		assertThat(endorsementTab.getAddEndorsementLink(formId)).isPresent();
 	}
 
 	protected void checkEndorsementIsNotAvailableInOptionalEndorsements(String... formIds) {
 		for (String formId : formIds) {
-			assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId).isPresent()).isFalse();
+			assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId)).isAbsent();
 		}
 	}
 
 	protected void checkEndorsementIsAvailableInIncludedEndorsements(String formId) {
-		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId).isPresent());
+		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId)).isPresent();
 	}
 
 	protected void checkEndorsementIsNotAvailableInIncludedEndorsements(String... formIds) {
 		for (String formId : formIds){
-			assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId).isPresent()).isFalse();
+			assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId)).isAbsent();
 		}
 	}
 
@@ -218,7 +216,7 @@ public class TestEndorsementsTabAbstract extends CommonTemplateMethods {
 		endorsementTab.getRemoveEndorsementLink(endorsementFormId,1).click();
 		Page.dialogConfirmation.confirm();
 
-		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, endorsementFormId).isPresent()).isFalse();
+		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, endorsementFormId)).isAbsent();
 	}
 
 	protected void navigateToRenewalPremiumAndCoveragesTab() {
@@ -253,14 +251,14 @@ public class TestEndorsementsTabAbstract extends CommonTemplateMethods {
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 
 		//Endorsements sum is added.
-		assertThat(new Dollar(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium()).moreThan(origPremiumValue));
+		assertThat(new Dollar(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium()).moreThan(origPremiumValue)).isTrue();
 
 		verifyEndorsementsPresent(PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, endorsementFormIds);
 	}
 
 	protected void verifyEndorsementsPresent(String columnName, String... endorsements) {
 		for (String endorsement : endorsements) {
-			PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains(columnName, endorsement).verify.present();
+			assertThat(PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains(columnName, endorsement)).exists();
 		}
 	}
 }

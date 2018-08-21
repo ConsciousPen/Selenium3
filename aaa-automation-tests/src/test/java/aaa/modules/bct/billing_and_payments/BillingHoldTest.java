@@ -16,7 +16,7 @@ public class BillingHoldTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	@StateList(statesExcept = CA)
+	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_059_BillingHold(@Optional("") String state) {
 		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_059_BillingHold", "SelectPolicy").get(0);
