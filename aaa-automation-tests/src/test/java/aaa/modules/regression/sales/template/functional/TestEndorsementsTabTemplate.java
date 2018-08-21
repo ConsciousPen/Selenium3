@@ -13,7 +13,7 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.*;
 
 public class TestEndorsementsTabTemplate extends TestEndorsementsTabAbstract {
 
-	protected void newBusinessTx_privileged(String... endorsementFormIds) {
+	protected void newBusinessTx_privileged(Boolean isDependentFromEachOther, String... endorsementFormIds) {
 		//Create Quote and fill up tp Endorsement tab
 		createQuoteAndFillUpTo(EndorsementTab.class);
 
@@ -21,10 +21,20 @@ public class TestEndorsementsTabTemplate extends TestEndorsementsTabAbstract {
 		addEndorsementForm(endorsementFormIds);
 
 		//Edit endorsements, Remove endorsements
-		checkEndorsementFunctionality(endorsementFormIds);
+		if (isDependentFromEachOther) {
+			//It is done this way because if you remove parent endorsement, child endorsement is also removed.
+			checkEndorsementFunctionality(endorsementFormIds[1]);
+			checkEndorsementFunctionality(endorsementFormIds[0]);
+		} else {
+			checkEndorsementFunctionality(endorsementFormIds);
+		}
 	}
 
-	protected void endorsementTx_privileged(String... endorsementFormIds) {
+	protected void newBusinessTx_privileged(String... endorsementFormIds) {
+		newBusinessTx_privileged(false, endorsementFormIds);
+	}
+
+	protected void endorsementTx_privileged(Boolean isDependentFromEachOther, String... endorsementFormIds) {
 		//Create Policy
 		openAppAndCreatePolicy();
 
@@ -35,10 +45,20 @@ public class TestEndorsementsTabTemplate extends TestEndorsementsTabAbstract {
 		addEndorsementForm(endorsementFormIds);
 
 		//Edit endorsements, Remove endorsements
-		checkEndorsementFunctionality(endorsementFormIds);
+		if (isDependentFromEachOther) {
+			//It is done this way because if you remove parent endorsement, child endorsement is also removed.
+			checkEndorsementFunctionality(endorsementFormIds[1]);
+			checkEndorsementFunctionality(endorsementFormIds[0]);
+		} else {
+			checkEndorsementFunctionality(endorsementFormIds);
+		}
 	}
 
-	protected void renewalTx_privileged(String... endorsementFormIds) {
+	protected void endorsementTx_privileged(String... endorsementFormIds) {
+		endorsementTx_privileged(false, endorsementFormIds);
+	}
+
+	protected void renewalTx_privileged(Boolean isDependentFromEachOther, String... endorsementFormIds) {
 		//Create Policy
 		openAppAndCreatePolicy();
 
@@ -49,7 +69,17 @@ public class TestEndorsementsTabTemplate extends TestEndorsementsTabAbstract {
 		addEndorsementForm(endorsementFormIds);
 
 		//Edit endorsements, Remove endorsements
-		checkEndorsementFunctionality(endorsementFormIds);
+		if (isDependentFromEachOther) {
+			//It is done this way because if you remove parent endorsement, child endorsement is also removed.
+			checkEndorsementFunctionality(endorsementFormIds[1]);
+			checkEndorsementFunctionality(endorsementFormIds[0]);
+		} else {
+			checkEndorsementFunctionality(endorsementFormIds);
+		}
+	}
+
+	protected void renewalTx_privileged(String... endorsementFormIds) {
+		renewalTx_privileged(false, endorsementFormIds);
 	}
 
 	protected void newBusinessTx_NonPrivileged(String parentEndorsementFormId) {
