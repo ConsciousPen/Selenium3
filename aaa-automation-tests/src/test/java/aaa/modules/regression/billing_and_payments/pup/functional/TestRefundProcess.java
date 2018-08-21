@@ -36,7 +36,6 @@ import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 
@@ -89,7 +88,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		billingAccount.refund().manualRefundPerform("Check", manualRefundAmount);
 
-		CustomAssert.enableSoftMode();
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 
 		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
@@ -105,9 +103,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
 		refundProcessHelper.refundRecordInFileCheck(policyNumber, "R", "CHCK", "PU", "4WUIC", "Y", "VA", automatedRefundAmount, "", "Y");
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	@Parameters({"state"})
@@ -122,7 +117,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		billingAccount.refund().manualRefundPerform("Check", manualRefundAmount);
 
-		CustomAssert.enableSoftMode();
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 
 		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
@@ -138,9 +132,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
 		refundProcessHelper.refundRecordInFileCheck(policyNumber, "R", "CHCK", "PU", "4WUIC", "N", "VA", automatedRefundAmount, "", "Y");
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	@Parameters({"state"})
@@ -154,12 +145,11 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, PENDING_REFUND_AMOUNT);
 		requestIdList.add(stubRequestCC);
 
-		CustomAssert.enableSoftMode();
-		refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
-
-		stubRequestCC.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		try {
+			refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+		} finally {
+			stubRequestCC.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -171,10 +161,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		preconditionPolicyCreationPup();
 
-		CustomAssert.enableSoftMode();
 		refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	@Parameters({"state"})
@@ -188,12 +175,11 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, PENDING_REFUND_AMOUNT);
 		requestIdList.add(stubRequestCC);
 
-		CustomAssert.enableSoftMode();
-		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
-
-		stubRequestCC.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		try {
+			refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
+		} finally {
+			stubRequestCC.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -205,10 +191,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		String policyNumber = preconditionPolicyCreationPup();
 
-		CustomAssert.enableSoftMode();
 		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	private String preconditionPolicyCreationPup() {

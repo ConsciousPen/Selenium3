@@ -2,19 +2,26 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.helpers.billing;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.helpers.TableVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
 import aaa.main.pages.summary.BillingSummaryPage;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 
 public class BillingBillsAndStatementsVerifier extends TableVerifier {
+
+	public BillingBillsAndStatementsVerifier() {};
+
+	public BillingBillsAndStatementsVerifier(ETCSCoreSoftAssertions softly) {
+		this.softly = softly;
+	};
 
 	@Override
 	protected Table getTable() {
@@ -65,9 +72,12 @@ public class BillingBillsAndStatementsVerifier extends TableVerifier {
 
 	public void verifyRowWithDueDate(LocalDateTime date) {
 		Row row = getTable().getRow(BillingBillsAndStatmentsTable.DUE_DATE, date.format(DateTimeUtils.MM_DD_YYYY));
-		for (Map.Entry<String, String> entry : values.entrySet()) {
-			String message = String.format("Table '%s', Due Date '%s', Column '%s'", getTableName(), date.format(DateTimeUtils.MM_DD_YYYY), entry.getKey());
-			row.getCell(entry.getKey()).verify.value(message, entry.getValue());
+		if (softly != null) {
+			values.forEach((key, value) -> softly.assertThat(row)
+					.as("Table '%s', Due Date '%s', Column '%s'", getTableName(), date.format(DateTimeUtils.MM_DD_YYYY), key).hasCellWithValue(key, value));
+		} else {
+			values.forEach((key, value) -> assertThat(row)
+					.as("Table '%s', Due Date '%s', Column '%s'", getTableName(), date.format(DateTimeUtils.MM_DD_YYYY), key).hasCellWithValue(key, value));
 		}
 	}
 

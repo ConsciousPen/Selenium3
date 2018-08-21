@@ -2,11 +2,13 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
@@ -15,7 +17,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.modules.regression.sales.template.functional.TestContactInformationAbstract;
-import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Button;
@@ -40,6 +42,7 @@ public class TestContactInformation extends TestContactInformationAbstract {
      * {@link aaa.modules.regression.sales.template.functional.TestContactInformationAbstract}
      */
     @Parameters({"state"})
+    @StateList(states =  States.CA)
     @Test(groups = { Groups.REGRESSION, Groups.MEDIUM })
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = {"PAS-270", "PAS-267"})
     public void pas270_contactInformation(@Optional("CA") String state)  {
@@ -73,11 +76,6 @@ public class TestContactInformation extends TestContactInformationAbstract {
     @Override
     protected String getDocumentsAndBind() {
         return NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get();
-    }
-
-    @Override
-    protected InquiryAssetList getInquiryAssetList() {
-        return new InquiryAssetList(new GeneralTab().getAssetList().getLocator(), AutoCaMetaData.GeneralTab.class);
     }
 
     @Override
@@ -138,7 +136,7 @@ public class TestContactInformation extends TestContactInformationAbstract {
     @Override
     protected void presenceOfContactInformationSection(int insuredNumber, boolean isPresent) {
         ((GeneralTab)getGeneralTabElement()).viewInsured(insuredNumber);
-        getInquiryAssetList().assetSectionPresence("Contact Information", isPresent);
+        assertThat(getGeneralTabElement().isSectionPresent("Contact Information")).as("'Contact Information' section should be present").isEqualTo(isPresent);
     }
 
     @Override

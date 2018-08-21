@@ -1,6 +1,6 @@
 package aaa.modules.regression.service.helper;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.modules.regression.service.helper.dtoRating.DiscountPercentageRuntimeContext;
 import aaa.modules.regression.service.helper.dtoRating.DiscountRetrieveFullRequest;
 import toolkit.db.DBService;

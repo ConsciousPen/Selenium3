@@ -1,10 +1,9 @@
 package aaa.modules.regression.billing_and_payments.template;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.TextBox;
 import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.pages.NavigationPage;
@@ -82,7 +81,7 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		OtherTransactionsActionTab.buttonOk.click();
 
 		// 4. Check fee transaction appears in "Payments&Other Transactions"
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingPaymentsAndOtherTransactionsTable.TYPE).verify.contains(PaymentsAndOtherTransactionType.FEE);
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingPaymentsAndOtherTransactionsTable.TYPE)).valueContains(PaymentsAndOtherTransactionType.FEE);
 
 		// 5. Check total amount due is increased on fee amount
 		BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue.add(feeAmount));
@@ -96,15 +95,15 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		Page.dialogConfirmation.confirm();
 
 		// 8. Check waive transaction appears in "Payments&Other Transactions"
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON).verify
-			.contains(ActionConstants.BillingPaymentsAndOtherTransactionAction.WAIVE + "d");
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON))
+			.valueContains(ActionConstants.BillingPaymentsAndOtherTransactionAction.WAIVE + "d");
 
 		// 9. Check waive link isn't present in the fee transaction row
 		HashMap<String, String> query = new HashMap<>();
 		query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.FEE);
 		query.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, feeAmount.toString());
-		CustomAssert.assertFalse("Waive link is presented in the fee transaction row: ", BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).getCell(
-			BillingPaymentsAndOtherTransactionsTable.ACTION).getValue().equals(ActionConstants.BillingPaymentsAndOtherTransactionAction.WAIVE));
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).getCell(BillingPaymentsAndOtherTransactionsTable.ACTION))
+				.doesNotHaveValue(ActionConstants.BillingPaymentsAndOtherTransactionAction.WAIVE);
 
 		// 10. Check total amount due is decreased by fee amount
 		BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue);
@@ -157,17 +156,17 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		new BillingAccount().refund().start();
 		refundActionTab.fillTab(refund.mask(keyPathRefundAmount));
 		RefundActionTab.buttonOk.click();
-		refundActionTab.getAssetList().getWarning(BillingAccountMetaData.RefundActionTab.AMOUNT.getLabel()).verify.contains("Amount is required");
+		assertThat(refundActionTab.getAssetList().getWarning(BillingAccountMetaData.RefundActionTab.AMOUNT.getLabel())).valueContains("Amount is required");
 
 		// 5. Check for an error message if Refund Amount > Total Paid Amount
 		refundActionTab.fillTab(refund.adjust(keyPathRefundAmount, totalPaid.add(1).toString()));
 		RefundActionTab.buttonOk.click();
-		refundActionTab.getAssetList().getWarning(BillingAccountMetaData.RefundActionTab.TOTAL_AMOUNT.getLabel()).verify.contains("Sum of subtotal amounts do not match total amount");
+		assertThat(refundActionTab.getAssetList().getWarning(BillingAccountMetaData.RefundActionTab.TOTAL_AMOUNT.getLabel())).valueContains("Sum of subtotal amounts do not match total amount");
 
 		// 6. Check for an error message if Refund Amount is "0"
 		refundActionTab.fillTab(refund.adjust(keyPathRefundAmount, "0"));
 		RefundActionTab.buttonOk.click();
-		refundActionTab.getAssetList().getWarning(BillingAccountMetaData.RefundActionTab.AMOUNT.getLabel()).verify.contains("Amount is required");
+		assertThat(refundActionTab.getAssetList().getWarning(BillingAccountMetaData.RefundActionTab.AMOUNT.getLabel())).valueContains("Amount is required");
 
 		// 7. Make a refund of 1000$
 		refundActionTab.fillTab(tdBilling.getTestData("Refund", "TestData_Check"));
@@ -184,7 +183,7 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		NavigationPage.toMainTab(AppMainTabs.MY_WORK.get());
 		new MyWork().filterTask().performByReferenceId(referenceID);
 		MyWorkSummaryPage.linkAllQueues.click();
-		MyWorkSummaryPage.tableTasks.getRow(1).getCell(MyWorkConstants.MyWorkTasksTable.REFERENCE_ID).verify.contains(referenceID);
+		assertThat(MyWorkSummaryPage.tableTasks.getRow(1).getCell(MyWorkConstants.MyWorkTasksTable.REFERENCE_ID)).valueContains(referenceID);
 		MyWorkSummaryPage.tableTasks.getRow(1).getCell(MyWorkConstants.MyWorkTasksTable.REFERENCE_ID).controls.links.getFirst().click();
 
 		// 10. Approve the refund transaction
@@ -194,7 +193,7 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().setType(PaymentsAndOtherTransactionType.REFUND).setAmount(paymentAmount).setStatus(PaymentsAndOtherTransactionStatus.APPROVED).verifyPresent();
 
 		// 12. Check Total Paid Amount value after refunding
-		BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_PAID).verify.contains(initiateTotalPaid.toString());
+		assertThat(BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_PAID)).valueContains(initiateTotalPaid.toString());
 	}
 
 	/**
@@ -251,7 +250,7 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.ADJUSTMENT);
 		query.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, writeoffAmount.toString());
 		query.put(BillingPaymentsAndOtherTransactionsTable.STATUS, PaymentsAndOtherTransactionStatus.APPLIED);
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query)).exists();
 
 		// 5. Reversal Write Off 100$
 		BillingSummaryPage.linkOtherTransactions.click();
@@ -264,7 +263,7 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.ADJUSTMENT);
 		query.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, writeoffAmount.toString());
 		query.put(BillingPaymentsAndOtherTransactionsTable.STATUS, PaymentsAndOtherTransactionStatus.APPLIED);
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query)).exists();
 
 		// 7. Check Total Due value after write-off/reversal write-off
 		BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue);
@@ -282,7 +281,7 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		AdvancedAllocationsActionTab.buttonOk.click();
 
 		// 9. Check error appears
-		advancedAllocationsActionTab.getBottomWarning().verify.contains(String.format(allocationError, policyNumber));
+		assertThat(advancedAllocationsActionTab.getBottomWarning()).valueContains(String.format(allocationError, policyNumber));
 		AdvancedAllocationsActionTab.buttonCancel.click();
 		OtherTransactionsActionTab.buttonCancel.click();
 
@@ -290,21 +289,19 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		BillingSummaryPage.linkOtherTransactions.click();
 		otherTransactionsActionTab.fillTab(writeoff.adjust(keyPathAmount, writeoffAmount.toString()));
 
-		// 11. Check that System defaults 'Total Amount' with the value entered by user in 'Amount' field on 'Other
-		// Transactions' tab
+		// 11. Check that System defaults 'Total Amount' with the value entered by user in 'Amount' field on 'Other Transactions' tab
 		OtherTransactionsActionTab.linkAdvancedAllocation.click();
-		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.TOTAL_AMOUNT).verify.present(writeoffAmount.toString());
+		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.TOTAL_AMOUNT)).hasValue(writeoffAmount.toString());
 
-		// 12. Check that System defaults 'Product Sub total' with the value entered by user in 'Amount' field on 'Other
-		// Transactions' tab
-		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.PRODUCT_SUB_TOTAL).verify.present(writeoffAmount.toString());
+		// 12. Check that System defaults 'Product Sub total' with the value entered by user in 'Amount' field on 'Other Transactions' tab
+		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.PRODUCT_SUB_TOTAL)).hasValue(writeoffAmount.toString());
 		AdvancedAllocationsActionTab.buttonOk.click();
 
 		// 13. Check positive adjustment transaction appears in "Payments and other transactions" section on billing tab
 		query = new HashMap<>();
 		query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.ADJUSTMENT);
 		query.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, writeoffAmount.toString());
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query)).exists();
 
 		// 14. Check Total Due value is increased
 		BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue.add(writeoffAmount));
@@ -323,7 +320,7 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		query = new HashMap<>();
 		query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.ADJUSTMENT);
 		query.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, writeoffAmount.toString());
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query)).exists();
 
 		// 18. Check Total Due value is decreased
 		BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue);
@@ -442,7 +439,7 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		BillingSummaryPage.getTotalDue().verify.equals(expectedTotalDue.negate());
 
 		// 29. Check that Prepaid is decreased.
-		BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingAccountPoliciesTable.PREPAID).verify.contains(new Dollar(0).toString());
+		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingAccountPoliciesTable.PREPAID)).valueContains(new Dollar(0).toString());
 	}
 
 	/*
@@ -467,13 +464,13 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).getCell(BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(PaymentsAndOtherTransactionAction.DECLINE)
 			.click();
 		if (!reason.isEmpty()) {
-			new DeclinePaymentActionTab().getAssetList().getAsset(BillingAccountMetaData.DeclinePaymentActionTab.DECLINE_REASON.getLabel(), ComboBox.class).setValue(reason); // new
+			new DeclinePaymentActionTab().getAssetList().getAsset(BillingAccountMetaData.DeclinePaymentActionTab.DECLINE_REASON).setValue(reason); // new
 																																												// DeclineActionTab().getAssetList().getAsset(assetName).fillTab(new
 																																												// SimpleDataProvider().adjust(HomeCaMetaData.DeclineActionTab.class.getSimpleName(),
 			DeclinePaymentActionTab.buttonOk.click();
 
 			if (reason.equals(PaymentsAndOtherTransactionReason.FEE_PLUS_RESTRICTION)) {
-				BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingPaymentsAndOtherTransactionsTable.TYPE).verify.contains(PaymentsAndOtherTransactionType.FEE);
+				assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingPaymentsAndOtherTransactionsTable.TYPE)).valueContains(PaymentsAndOtherTransactionType.FEE);
 
 				Dollar fee = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
 				feeAmount = feeAmount.add(fee);
@@ -485,17 +482,17 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		query.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.PAYMENT_DECLINED);
 		query.put(BillingPaymentsAndOtherTransactionsTable.REASON, reason);
 		query.put(BillingPendingTransactionsTable.AMOUNT, amount.toString());
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query)).exists();
 
 		query = new HashMap<>();
 		query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PAYMENT);
 		query.put(BillingPaymentsAndOtherTransactionsTable.REASON, reason);
 		query.put(BillingPendingTransactionsTable.AMOUNT, amount.negate().toString());
 		query.put(BillingPendingTransactionsTable.STATUS, PaymentsAndOtherTransactionStatus.DECLINED);
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query)).exists();
 
 		expectedTotalDue = expectedTotalDue.subtract(amount.add(feeAmount));
-		BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_DUE).verify.contains(expectedTotalDue.negate().toString());
+		assertThat(BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_DUE)).valueContains(expectedTotalDue.negate().toString());
 	}
 
 }

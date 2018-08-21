@@ -25,9 +25,9 @@ import org.w3c.dom.NodeList;
 
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.utils.logging.CustomLogger;
-import toolkit.verification.CustomAssert;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.ssh.RemoteHelper;
+import toolkit.verification.CustomAssertions;
 
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.mifmif.common.regex.Generex;
@@ -58,9 +58,8 @@ public class ConversionUtils {
 	}
 
 	protected static File prepareXML(ConversionPolicyData conversionData) {
-		String newName = String.format("%s_%s_%s-%s.xml", conversionData.getConversionType().name(),
-			conversionData.getFile().getName().substring(0, conversionData.getFile().getName().lastIndexOf(".")),
-			LocalDateTime.now().format(DateTimeUtils.TIME_STAMP), new Generex("\\d{4}").random());
+		String newName = String.format("%s_%s-%s.xml", conversionData.getConversionType().name(),
+			LocalDateTime.now().format(DateTimeUtils.TIME_STAMP), new Generex("\\d{5}").random());
 		File changedFile = new File(CustomLogger.getLogDirectory() + File.separator + "uploded_files", newName);
 		changedFile.getAbsoluteFile().getParentFile().mkdir();
 
@@ -142,8 +141,7 @@ public class ConversionUtils {
 			} catch (Exception e) {
 				log.info("Can't find reason of import failure. " + e.getMessage());
 			}
-			CustomAssert.assertFalse(String.format("Response file %1$s doesn't have Success status. Reason: %2$s.",
-				fileName, message.toString()), successNodes.getLength() < 1);
+			CustomAssertions.fail("Response file %1$s doesn't have Success status. Reason: %2$s.", fileName, message.toString());
 		}
 
 		try {

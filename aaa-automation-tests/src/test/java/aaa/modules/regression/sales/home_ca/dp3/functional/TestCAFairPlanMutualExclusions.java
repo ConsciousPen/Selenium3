@@ -1,6 +1,5 @@
 package aaa.modules.regression.sales.home_ca.dp3.functional;
 
-import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;

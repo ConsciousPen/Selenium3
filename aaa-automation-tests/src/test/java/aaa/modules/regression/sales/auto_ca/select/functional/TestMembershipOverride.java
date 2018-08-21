@@ -84,7 +84,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		policy.getDefaultView().fillFromTo(testData, PremiumAndCoveragesTab.class, DocumentsAndBindTab.class, true);
 		new DocumentsAndBindTab().submitTab();
 		new PurchaseTab().fillTab(testData).submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 	}
 
@@ -136,7 +136,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		checkMembershipInPCTab("Regular", "AAA Members");
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 	}
 
@@ -193,7 +193,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		checkMembershipInPCTab("AAA Members", "");
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 	}
 
@@ -252,7 +252,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		checkMembershipInPCTab("AAA Members", "");
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 	}
 
@@ -361,7 +361,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(testData);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
@@ -427,7 +427,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(testData);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		log.info(policyNumber);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -491,7 +491,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(testData);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		log.info(policyNumber);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -556,7 +556,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(testData);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
@@ -589,7 +589,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		policy.getDefaultView().fillUpTo(testData, DocumentsAndBindTab.class, true);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		LocalDateTime timePoint1 = policyExpirationDate.minusDays(TIME_POINT_1_CA);
 		LocalDateTime timePoint2 = policyExpirationDate.minusDays(TIME_POINT_2_CA);

@@ -1,5 +1,7 @@
 package aaa.modules.bct.sales;
 
+import static aaa.common.enums.Constants.States.*;
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -10,13 +12,14 @@ import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 
 public class CopyQuoteTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_023_CopyQuote(@Optional("") String state) {
 		mainApp().open();
 
@@ -31,11 +34,12 @@ public class CopyQuoteTest extends BackwardCompatibilityBaseTest {
 		Tab.buttonSaveAndExit.click();
 
 		String newQuoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		CustomAssert.assertTrue("Quote was copied", !newQuoteNumber.equals(quoteNumber));
+		assertThat(newQuoteNumber).as("Quote was copied").isNotEqualTo(quoteNumber);
 	}
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = {CA})
 	public void BCT_ONL_025_CopyQuote(@Optional("") String state) {
 		mainApp().open();
 
@@ -50,11 +54,12 @@ public class CopyQuoteTest extends BackwardCompatibilityBaseTest {
 		Tab.buttonSaveAndExit.click();
 
 		String newQuoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		CustomAssert.assertTrue("Quote was copied", !newQuoteNumber.equals(quoteNumber));
+		assertThat(newQuoteNumber).as("Quote was copied").isNotEqualTo(quoteNumber);
 	}
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = {AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_040_CopyQuote(@Optional("") String state) {
 		mainApp().open();
 
@@ -69,6 +74,6 @@ public class CopyQuoteTest extends BackwardCompatibilityBaseTest {
 		Tab.buttonSaveAndExit.click();
 
 		String newQuoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		CustomAssert.assertTrue("Quote was copied", !newQuoteNumber.equals(quoteNumber));
+		assertThat(newQuoteNumber).as("Quote was copied").isNotEqualTo(quoteNumber);
 	}
 }

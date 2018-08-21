@@ -2,43 +2,18 @@ package aaa.modules.regression.sales.home_ca.ho3.functional;
 
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.TimeSetterBctClient;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.http.HttpStub;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.helpers.product.ProductRenewalsVerifier;
-import aaa.helpers.ssh.RemoteHelper;
-import aaa.helpers.ssh.Ssh;
 import aaa.main.enums.ErrorEnum;
-import aaa.main.enums.ProductConstants;
-import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
-import aaa.main.modules.policy.home_ca.views.RenewView;
-import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.exigen.istf.timesetter.client.TimeSetter;
-import com.exigen.istf.timesetter.client.TimeSetterClient;
-import com.gargoylesoftware.htmlunit.javascript.host.intl.DateTimeFormat;
-import org.openqa.selenium.remote.server.handler.FindActiveElement;
-import org.openqa.selenium.remote.server.handler.FindElement;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import ru.yandex.qatools.ashot.Screenshot;
 import toolkit.datax.TestData;
-import toolkit.utils.SSHController;
 import toolkit.utils.TestInfo;
 import toolkit.utils.screenshots.ScreenshotManager;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import static org.apache.cxf.frontend.ClientProxy.getClient;
 
 /**
  * @author Tyrone Jemison

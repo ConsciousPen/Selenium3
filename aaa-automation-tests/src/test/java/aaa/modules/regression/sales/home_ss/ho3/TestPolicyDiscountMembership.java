@@ -7,6 +7,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -15,9 +16,10 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 /**
  * @author Olga Reva
@@ -61,6 +63,7 @@ public class TestPolicyDiscountMembership extends HomeSSHO3BaseTest {
 	private Dollar origPolicyTermPremium;
 	
 	@Parameters({"state"})
+	@StateList(statesExcept = { States.CA })
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
     public void testPolicyMembershipDiscount(@Optional("") String state) {
@@ -93,206 +96,182 @@ public class TestPolicyDiscountMembership extends HomeSSHO3BaseTest {
         Map<String, String> membershipAndLoyaltyDiscounts_dataRow = new HashMap<>();
         membershipAndLoyaltyDiscounts_dataRow.put("Discount Category", "Affinity");
         membershipAndLoyaltyDiscounts_dataRow.put("Discounts Applied", "AAA Membership, AAA Loyalty");
-        
-        CustomAssert.enableSoftMode();
-        
-        if (getState().equals("CO")|getState().equals("IN")|getState().equals("KS")|getState().equals("KY")|getState().equals("OH")|getState().equals("OK")) {
-        	PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipAndLoyaltyDiscounts_dataRow).verify.present();
-        } 
-        else {
-        	PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipDiscount_dataRow).verify.present();
-        }
-        
-        //Policy#1: Rating Details verification
-        PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-        CustomAssert.assertTrue("Policy#1 Creation: Membership discount is not applied", 
-        		!PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("AAA Membership Discount").equals("0.0"));
-        
-        if (getState().equals("CO")|getState().equals("IN")|getState().equals("KS")|getState().equals("KY")|getState().equals("OH")|getState().equals("OK")){
-        	CustomAssert.assertTrue("Policy#1 Creation: Loyalty discount is not applied", 
-        			!PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount").equals("0.0")); 
-        }
-        else {
-        	CustomAssert.assertTrue("Policy#1 creation: Loyalty discount is applied", 
-        			PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount").equals("0.0")); 
-        }           
-        PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
-        
-        new PremiumsAndCoveragesQuoteTab().submitTab();
-        
-        policy.getDefaultView().fillFromTo(td_MembershipPending, MortgageesTab.class, PurchaseTab.class, true);
-        new PurchaseTab().submitTab();
-        
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        policyNumber1 = PolicySummaryPage.labelPolicyNumber.getValue();
-        log.info("TEST: HSS Policy1 created with #" + policyNumber1);
-        
-        CustomAssert.assertTrue("Policy#1 creation: Term Premium is wrong on Cons view", origPolicyTermPremium.equals(PolicySummaryPage.getTotalPremiumSummaryForProperty()));
 
-        
-        policy.copyPolicy(td_CopyPolicy);
-        policyNumber2 = PolicySummaryPage.labelPolicyNumber.getValue();
-        
-        policy.copyPolicy(td_CopyPolicy);
-		policyNumber3 = PolicySummaryPage.labelPolicyNumber.getValue();
+		CustomSoftAssertions.assertSoftly(softly -> {
 
-		policy.copyPolicy(td_CopyPolicy);
-        policyNumber4 = PolicySummaryPage.labelPolicyNumber.getValue();
-        
-        //==============================Policy#1===================================
-        //Policy#1 endorsement with effective date is Today, set Membership to 'Yes'
-        SearchPage.openPolicy(policyNumber1); 
-        log.info("TEST: Endorsement for Policy# " + policyNumber1 + " started");
-        policy.endorse().perform(td_endorsement_today); 
-        
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
-        policy.getDefaultView().fillFromTo(td_MembershipYes, ApplicantTab.class, PremiumsAndCoveragesQuoteTab.class, true);
-        
-        origPolicyTermPremium = PremiumsAndCoveragesQuoteTab.getEndorsedPolicyTermPremium();
+			if (getState().equals("CO") | getState().equals("IN") | getState().equals("KS") | getState().equals("KY") | getState().equals("OH") | getState().equals("OK")) {
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipAndLoyaltyDiscounts_dataRow)).exists();
+			} else {
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipDiscount_dataRow)).exists();
+			}
 
-        if (getState().equals("NY")) {
-        	PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipDiscount_dataRow).verify.present();        
-            PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-           	CustomAssert.assertTrue("Policy#1 Endorsement: Membership discount is not applied", 
-            			!PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("AAA Membership Discount").equals("0.0"));
-           	CustomAssert.assertTrue("Policy#1 Endorsement: Loyalty discount is applied", 
-            			PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount").equals("0.0"));          
-            PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
-        }
-        else {
-        	PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipAndLoyaltyDiscounts_dataRow).verify.present();
-            
-            PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-           	CustomAssert.assertTrue("Policy#1 Endorsement: Membership discount is not applied", 
-            			!PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("AAA Membership Discount").equals("0.0"));
-           	CustomAssert.assertTrue("Policy#1 Endorsement: Loyalty discount is not applied", 
-            			!PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount").equals("0.0"));          
-            PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
-        }
- 
-        
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-        new BindTab().submitTab();
-        
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        
-        CustomAssert.assertTrue("Policy#1 endorsement: Term Premium is wrong on Cons view", origPolicyTermPremium.equals(PolicySummaryPage.getTotalPremiumSummaryForProperty()));
-        
-        //=================================Policy#2=================================
-        //Policy#2 endorsement with effective date is Today + 1 day, set Membership to 'Yes'
-        SearchPage.openPolicy(policyNumber2);
-        log.info("TEST: Endorsement for Policy# " + policyNumber2 + " started");
-        policy.endorse().perform(td_endorsement_todayPlus1Day); 
-        
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
-        policy.getDefaultView().fillFromTo(td_MembershipYes, ApplicantTab.class, PremiumsAndCoveragesQuoteTab.class, true);
-        
-        origPolicyTermPremium = PremiumsAndCoveragesQuoteTab.getEndorsedPolicyTermPremium();
-        
-        if (getState().equals("NY")) {
-        	PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipDiscount_dataRow).verify.present();        
-            PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-           	CustomAssert.assertTrue("Policy#1 Endorsement: Membership discount is not applied", 
-            			!PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("AAA Membership Discount").equals("0.0"));
-           	CustomAssert.assertTrue("Policy#1 Endorsement: Loyalty discount is applied", 
-            			PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount").equals("0.0"));          
-            PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
-        } 
-        else {
-        	PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipAndLoyaltyDiscounts_dataRow).verify.present();
-            
-            PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-            CustomAssert.assertTrue("Policy#1 Endorsement: Membership discount is not applied", 
-        			!PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("AAA Membership Discount").equals("0.0"));
-            CustomAssert.assertTrue("Policy#1 Endorsement: Loyalty discount is not applied", 
-        			!PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount").equals("0.0"));
-            PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
-        }
-       
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-        new BindTab().submitTab();
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        
-        CustomAssert.assertTrue("Policy#2 endorsement: Term Premium is wrong on Cons view", origPolicyTermPremium.equals(PolicySummaryPage.getTotalPremiumSummaryForProperty()));
-        
-        //===============================Policy#3===================================
-        //Policy#3 endorsement with effective date is Today, set Membership to 'No'
-        SearchPage.openPolicy(policyNumber3);
-        log.info("TEST: Endorsement for Policy# " + policyNumber3 + " started");
-        policy.endorse().perform(td_endorsement_today); 
-        
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
-        policy.getDefaultView().fillFromTo(td_MembershipNo, ApplicantTab.class, PremiumsAndCoveragesQuoteTab.class, true);
+			//Policy#1: Rating Details verification
+			PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+			softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("AAA Membership Discount")).as("Policy#1 Creation: Membership discount is not applied")
+					.isNotEqualTo("0.0");
 
-        origPolicyTermPremium = PremiumsAndCoveragesQuoteTab.getEndorsedPolicyTermPremium();
-        
-        if (getState().equals("CO")|getState().equals("IN")|getState().equals("KS")|getState().equals("KY")|getState().equals("OH")|getState().equals("OK")){
-        	 PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(loyaltyDiscount_dataRow).verify.present();
-        }
-        else {
-        	PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipDiscount_dataRow).verify.present(false);
-            PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipAndLoyaltyDiscounts_dataRow).verify.present(false);
-        }
-             
-        PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-        CustomAssert.assertTrue("Policy#3 Endorsement: Membership discount is applied", 
-       			PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("AAA Membership Discount").equals("0.0"));
-        if (getState().equals("CO")|getState().equals("IN")|getState().equals("KS")|getState().equals("KY")|getState().equals("OH")|getState().equals("OK")){
-            CustomAssert.assertTrue("Policy#3 Endorsement: Loyalty discount is not applied", 
-            		!PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount").equals("0.0"));
-        }
-        else {
-        	CustomAssert.assertTrue("Policy#3 Endorsement: Loyalty discount is applied", 
-               		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount").equals("0.0"));
-        }
-        PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
-        
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-        new BindTab().submitTab();
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        
-        CustomAssert.assertTrue("Policy#3 endorsement: Term Premium is wrong on Cons view", origPolicyTermPremium.equals(PolicySummaryPage.getTotalPremiumSummaryForProperty()));
-        
-        //===============================Policy#4==================================
-        //Policy#4 endorsement with effective date is Today + 1 day, set Membership to 'No'
-        SearchPage.openPolicy(policyNumber4);
-        log.info("TEST: Endorsement for Policy# " + policyNumber4 + " started");
-        policy.endorse().perform(td_endorsement_todayPlus1Day); 
-        
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
-        policy.getDefaultView().fillFromTo(td_MembershipNo, ApplicantTab.class, PremiumsAndCoveragesQuoteTab.class, true);
-        
-        origPolicyTermPremium = PremiumsAndCoveragesQuoteTab.getEndorsedPolicyTermPremium();
-        
-        if (getState().equals("CO")|getState().equals("IN")|getState().equals("KS")|getState().equals("KY")|getState().equals("OH")|getState().equals("OK")){
-       	 PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(loyaltyDiscount_dataRow).verify.present();
-        }
-        else {
-        	PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipDiscount_dataRow).verify.present(false);
-            PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipAndLoyaltyDiscounts_dataRow).verify.present(false);
-        }
-        
-        PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-        CustomAssert.assertTrue("Policy#4 Endorsement: Membership discount is applied", 
-       			PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("AAA Membership Discount").equals("0.0"));
-        if (getState().equals("CO")|getState().equals("IN")|getState().equals("KS")|getState().equals("KY")|getState().equals("OH")|getState().equals("OK")){
-            CustomAssert.assertTrue("Policy#4 Endorsement: Loyalty discount is not applied", 
-            		!PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount").equals("0.0"));
-        }
-        else {
-        	CustomAssert.assertTrue("Policy#4 Endorsement: Loyalty discount is applied", 
-               		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount").equals("0.0"));
-        }
-        PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
-        
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-        new BindTab().submitTab();
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        
-        CustomAssert.assertTrue("Policy#4 endorsement: Term Premium is wrong on Cons view", origPolicyTermPremium.equals(PolicySummaryPage.getTotalPremiumSummaryForProperty()));
-        
-        CustomAssert.assertAll();
-        
+			if (getState().equals("CO") | getState().equals("IN") | getState().equals("KS") | getState().equals("KY") | getState().equals("OH") | getState().equals("OK")) {
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount")).as("Policy#1 Creation: Loyalty discount is not applied").isNotEqualTo("0.0");
+			} else {
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount")).as("Policy#1 creation: Loyalty discount is applied").isEqualTo("0.0");
+			}
+			PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
+
+			new PremiumsAndCoveragesQuoteTab().submitTab();
+
+			policy.getDefaultView().fillFromTo(td_MembershipPending, MortgageesTab.class, PurchaseTab.class, true);
+			new PurchaseTab().submitTab();
+
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			policyNumber1 = PolicySummaryPage.labelPolicyNumber.getValue();
+			log.info("TEST: HSS Policy1 created with #" + policyNumber1);
+
+			softly.assertThat(origPolicyTermPremium).as("Policy#1 creation: Term Premium is wrong on Cons view").isEqualTo(PolicySummaryPage.getTotalPremiumSummaryForProperty());
+
+			policy.copyPolicy(td_CopyPolicy);
+			policyNumber2 = PolicySummaryPage.labelPolicyNumber.getValue();
+
+			policy.copyPolicy(td_CopyPolicy);
+			policyNumber3 = PolicySummaryPage.labelPolicyNumber.getValue();
+
+			policy.copyPolicy(td_CopyPolicy);
+			policyNumber4 = PolicySummaryPage.labelPolicyNumber.getValue();
+
+			//==============================Policy#1===================================
+			//Policy#1 endorsement with effective date is Today, set Membership to 'Yes'
+			SearchPage.openPolicy(policyNumber1);
+			log.info("TEST: Endorsement for Policy# " + policyNumber1 + " started");
+			policy.endorse().perform(td_endorsement_today);
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
+			policy.getDefaultView().fillFromTo(td_MembershipYes, ApplicantTab.class, PremiumsAndCoveragesQuoteTab.class, true);
+
+			origPolicyTermPremium = PremiumsAndCoveragesQuoteTab.getEndorsedPolicyTermPremium();
+
+			if (getState().equals("NY")) {
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipDiscount_dataRow)).exists();
+				PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("AAA Membership Discount")).as("Policy#1 Endorsement: Membership discount is not applied")
+						.isNotEqualTo("0.0");
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount")).as("Policy#1 Endorsement: Loyalty discount is applied").isEqualTo("0.0");
+				PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
+			} else {
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipAndLoyaltyDiscounts_dataRow)).exists();
+
+				PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("AAA Membership Discount")).as("Policy#1 Endorsement: Membership discount is not applied")
+						.isNotEqualTo("0.0");
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount")).as("Policy#1 Endorsement: Loyalty discount is not applied").isNotEqualTo("0.0");
+				PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
+			}
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+			new BindTab().submitTab();
+
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+			softly.assertThat(origPolicyTermPremium).as("Policy#1 endorsement: Term Premium is wrong on Cons view").isEqualTo(PolicySummaryPage.getTotalPremiumSummaryForProperty());
+
+			//=================================Policy#2=================================
+			//Policy#2 endorsement with effective date is Today + 1 day, set Membership to 'Yes'
+			SearchPage.openPolicy(policyNumber2);
+			log.info("TEST: Endorsement for Policy# " + policyNumber2 + " started");
+			policy.endorse().perform(td_endorsement_todayPlus1Day);
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
+			policy.getDefaultView().fillFromTo(td_MembershipYes, ApplicantTab.class, PremiumsAndCoveragesQuoteTab.class, true);
+
+			origPolicyTermPremium = PremiumsAndCoveragesQuoteTab.getEndorsedPolicyTermPremium();
+
+			if (getState().equals("NY")) {
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipDiscount_dataRow)).exists();
+				PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("AAA Membership Discount")).as("Policy#1 Endorsement: Membership discount is not applied")
+						.isNotEqualTo("0.0");
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount")).as("Policy#1 Endorsement: Loyalty discount is applied").isEqualTo("0.0");
+				PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
+			} else {
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipAndLoyaltyDiscounts_dataRow)).exists();
+
+				PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("AAA Membership Discount")).as("Policy#1 Endorsement: Membership discount is not applied")
+						.isNotEqualTo("0.0");
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount")).as("Policy#1 Endorsement: Loyalty discount is not applied").isNotEqualTo("0.0");
+				PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
+			}
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+			new BindTab().submitTab();
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+			softly.assertThat(origPolicyTermPremium).as("Policy#2 endorsement: Term Premium is wrong on Cons view").isEqualTo(PolicySummaryPage.getTotalPremiumSummaryForProperty());
+
+			//===============================Policy#3===================================
+			//Policy#3 endorsement with effective date is Today, set Membership to 'No'
+			SearchPage.openPolicy(policyNumber3);
+			log.info("TEST: Endorsement for Policy# " + policyNumber3 + " started");
+			policy.endorse().perform(td_endorsement_today);
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
+			policy.getDefaultView().fillFromTo(td_MembershipNo, ApplicantTab.class, PremiumsAndCoveragesQuoteTab.class, true);
+
+			origPolicyTermPremium = PremiumsAndCoveragesQuoteTab.getEndorsedPolicyTermPremium();
+
+			if (getState().equals("CO") | getState().equals("IN") | getState().equals("KS") | getState().equals("KY") | getState().equals("OH") | getState().equals("OK")) {
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(loyaltyDiscount_dataRow)).exists();
+			} else {
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipDiscount_dataRow)).isPresent(false);
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipAndLoyaltyDiscounts_dataRow)).isPresent(false);
+			}
+
+			PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+			softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("AAA Membership Discount")).as("Policy#3 Endorsement: Membership discount is applied").isEqualTo("0.0");
+			if (getState().equals("CO") | getState().equals("IN") | getState().equals("KS") | getState().equals("KY") | getState().equals("OH") | getState().equals("OK")) {
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount")).as("Policy#3 Endorsement: Loyalty discount is not applied").isNotEqualTo("0.0");
+			} else {
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount")).as("Policy#3 Endorsement: Loyalty discount is applied").isEqualTo("0.0");
+			}
+			PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+			new BindTab().submitTab();
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+			softly.assertThat(origPolicyTermPremium).as("Policy#3 endorsement: Term Premium is wrong on Cons view").isEqualTo(PolicySummaryPage.getTotalPremiumSummaryForProperty());
+
+			//===============================Policy#4==================================
+			//Policy#4 endorsement with effective date is Today + 1 day, set Membership to 'No'
+			SearchPage.openPolicy(policyNumber4);
+			log.info("TEST: Endorsement for Policy# " + policyNumber4 + " started");
+			policy.endorse().perform(td_endorsement_todayPlus1Day);
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
+			policy.getDefaultView().fillFromTo(td_MembershipNo, ApplicantTab.class, PremiumsAndCoveragesQuoteTab.class, true);
+
+			origPolicyTermPremium = PremiumsAndCoveragesQuoteTab.getEndorsedPolicyTermPremium();
+
+			if (getState().equals("CO") | getState().equals("IN") | getState().equals("KS") | getState().equals("KY") | getState().equals("OH") | getState().equals("OK")) {
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(loyaltyDiscount_dataRow)).exists();
+			} else {
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipDiscount_dataRow)).isPresent(false);
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipAndLoyaltyDiscounts_dataRow)).isPresent(false);
+			}
+
+			PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+			softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("AAA Membership Discount")).as("Policy#4 Endorsement: Membership discount is applied").isEqualTo("0.0");
+			if (getState().equals("CO") | getState().equals("IN") | getState().equals("KS") | getState().equals("KY") | getState().equals("OH") | getState().equals("OK")) {
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount")).as("Policy#4 Endorsement: Loyalty discount is not applied").isNotEqualTo("0.0");
+			} else {
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount")).as("Policy#4 Endorsement: Loyalty discount is applied").isEqualTo("0.0");
+			}
+			PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+			new BindTab().submitTab();
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+			softly.assertThat(origPolicyTermPremium).as("Policy#4 endorsement: Term Premium is wrong on Cons view").isEqualTo(PolicySummaryPage.getTotalPremiumSummaryForProperty());
+		});
 	}
 
 }

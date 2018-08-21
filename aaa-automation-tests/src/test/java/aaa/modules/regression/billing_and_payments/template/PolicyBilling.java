@@ -2,9 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.billing_and_payments.template;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
@@ -15,7 +13,8 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 /**
  * @author Jelena Dembovska
@@ -46,46 +45,43 @@ public abstract class PolicyBilling extends PolicyBaseTest {
     public void testBilling() {
     	
         mainApp().open();
-
         getCopiedPolicy();
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        
-        
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
         BillingSummaryPage.open();
-        
-        CustomAssert.enableSoftMode();
-        IBillingAccount billing = new BillingAccount();
-        
-        //cash payment
-        billing.acceptPayment().perform(cash_payment, new Dollar(200));
-        checkPaymentIsGenerated(new Dollar(200));
-			
-        //check payment
-        billing.acceptPayment().perform(check_payment, new Dollar(250));
-        checkPaymentIsGenerated(new Dollar(250));
-			
-		//credit card payment
-        billing.acceptPayment().perform(cc_payment, new Dollar(300));
-		checkPaymentIsGenerated(new Dollar(300));
-		 
-		//EFT payment
-		billing.acceptPayment().perform(eft_payment, new Dollar(350));
-        checkPaymentIsGenerated( new Dollar(350));
-        
-        //Refund
-		Dollar refundAmount = new Dollar(150);
-        billing.refund().perform(refund, refundAmount);
-        
-		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)
-				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_REFUND)
-				.setAmount(refundAmount).verifyPresent();
-		
-		CustomAssert.assertAll();
+
+	    CustomSoftAssertions.assertSoftly(softly -> {
+		    IBillingAccount billing = new BillingAccount();
+
+		    //cash payment
+		    billing.acceptPayment().perform(cash_payment, new Dollar(200));
+		    checkPaymentIsGenerated(new Dollar(200), softly);
+
+		    //check payment
+		    billing.acceptPayment().perform(check_payment, new Dollar(250));
+		    checkPaymentIsGenerated(new Dollar(250), softly);
+
+		    //credit card payment
+		    billing.acceptPayment().perform(cc_payment, new Dollar(300));
+		    checkPaymentIsGenerated(new Dollar(300), softly);
+
+		    //EFT payment
+		    billing.acceptPayment().perform(eft_payment, new Dollar(350));
+		    checkPaymentIsGenerated(new Dollar(350), softly);
+
+		    //Refund
+		    Dollar refundAmount = new Dollar(150);
+		    billing.refund().perform(refund, refundAmount);
+
+		    new BillingPaymentsAndTransactionsVerifier(softly).setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)
+				    .setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_REFUND)
+				    .setAmount(refundAmount).verifyPresent();
+	    });
     }
     
-    private void checkPaymentIsGenerated(Dollar amount){
-		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
+    private void checkPaymentIsGenerated(Dollar amount, ETCSCoreSoftAssertions softly){
+		new BillingPaymentsAndTransactionsVerifier(softly).setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
 				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
 				.setAmount(amount.negate()).verifyPresent();
     }

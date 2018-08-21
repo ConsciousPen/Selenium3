@@ -1,18 +1,18 @@
 package aaa.modules.regression.billing_and_payments.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT;
 import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE;
 import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.APP_STUB_URL;
 import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.EligibilityStatusEnum.NON_REFUNDABLE;
 import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.PaymentMethodEnum.EFT;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -43,7 +43,7 @@ import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
@@ -91,30 +91,23 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 	@Test(description = "Precondition for TestRefundProcess tests", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void refundDocumentGenerationConfigCheck() {
-		CustomAssert
-				.assertFalse("The configuration is missing, run refundDocumentGenerationConfigInsert and restart the env.", DBService.get().getValue(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL)
-						.get().isEmpty());
+		assertThat(DBService.get().getValue(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL))
+				.as("The configuration is missing, run refundDocumentGenerationConfigInsert and restart the env.").isNotEmpty();
 	}
 
 	@Test(description = "Precondition for TestRefundProcess tests", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void pendingRefundPaymentMethodConfigCheck() {
-		CustomAssert.assertEquals("The configuration is missing, run pendingRefundConfigurationUpdate and restart the env.", DBService.get().getValue(PENDING_REFUND_PAYMENT_METHOD_CONFIG_CHECK)
-				.get(), "pendingRefund");
+		assertThat(DBService.get().getValue(PENDING_REFUND_PAYMENT_METHOD_CONFIG_CHECK))
+				.as("The configuration is missing, run pendingRefundConfigurationUpdate and restart the env.").isEqualTo("pendingRefund");
 	}
 
 	@Test(description = "Precondition for refund last payment method", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void eRefundLastPaymentMethodConfigCheck() {
-		CustomAssert.enableSoftMode();
-		CustomAssert.assertTrue("eRefunds lookup value is not true, please run REFUND_CONFIG_INSERT", DBService.get().getValue(REFUND_CONFIG_CHECK).isPresent());
-
-		CustomAssert.assertTrue("eRefund stub point is set incorrect, please run LAST_PAYMENT_METHOD_STUB_POINT_UPDATE",
-				DBService.get().getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST)).get().contains(APP_HOST));
-
-		CustomAssert.assertTrue("Authentication stub point is set incorrect, please run AUTHENTICATION_STUB_POINT_UPDATE",
-				DBService.get().getValue(String.format(AUTHENTICATION_STUB_END_POINT_CHECK, APP_HOST, APP_STUB_URL)).get().toLowerCase().contains(APP_HOST));
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		assertThat(DBService.get().getValue(REFUND_CONFIG_CHECK)).as("eRefunds lookup value is not true, please run REFUND_CONFIG_INSERT").isPresent();
+		assertThat(DBService.get().getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST)).orElse(""))
+				.as("eRefund stub point is set incorrect, please run LAST_PAYMENT_METHOD_STUB_POINT_UPDATE").contains(APP_HOST);
+		assertThat(DBService.get().getValue(String.format(AUTHENTICATION_STUB_END_POINT_CHECK, APP_HOST, APP_STUB_URL)).orElse(""))
+				.as("Authentication stub point is set incorrect, please run AUTHENTICATION_STUB_POINT_UPDATE").contains(APP_HOST);
 	}
 
 	@Parameters({"state"})
@@ -127,7 +120,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
-		CustomAssert.enableSoftMode();
 
 		// PAS-2186, PAS-1940, PAS-7858, PAS-352
 		refundProcessHelper.unissuedManualRefundGeneration(Optional.empty(), billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0, false);
@@ -139,9 +131,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		refundProcessHelper.voidedRefundVerification(true, billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 1, false);
 		// PAS-7057
 		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "RefundPaymentVoided", null, true, false);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	@Parameters({"state"})
@@ -156,22 +145,21 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
 		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, AMOUNT_CREDIT_CARD);
-		CustomAssert.enableSoftMode();
 
-		// PAS-2719, PAS-1940, PAS-6210, PAS-7858, PAS-352, PAS-3619
-		refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_CREDIT_CARD), billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0, false);
-		refundProcessHelper.unissuedRefundVerification(billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0);
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
+		try {
+			// PAS-2719, PAS-1940, PAS-6210, PAS-7858, PAS-352, PAS-3619
+			refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_CREDIT_CARD), billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0, false);
+			refundProcessHelper.unissuedRefundVerification(billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0);
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
-		// PAS-1939
-		refundProcessHelper.voidedManualRefundGeneration(refund);
-		refundProcessHelper.voidedRefundVerification(true, billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 1, false);
-		// PAS-7057
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "RefundPaymentVoided", null, true, false);
-
-		stubRequestCC.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-1939
+			refundProcessHelper.voidedManualRefundGeneration(refund);
+			refundProcessHelper.voidedRefundVerification(true, billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 1, false);
+			// PAS-7057
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "RefundPaymentVoided", null, true, false);
+		} finally {
+			stubRequestCC.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -186,22 +174,21 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
 		HelperWireMockStub stubRequestDC = helperWireMockLastPaymentMethod.getHelperWireMockStubDC(policyNumber, AMOUNT_DEBIT_CARD);
-		CustomAssert.enableSoftMode();
 
-		// PAS-2719, PAS-1940, PAS-6210, PAS-7858, PAS-352, PAS-3619
-		refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_DEBIT_CARD), billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0, false);
-		refundProcessHelper.unissuedRefundVerification(billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0);
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_DEBIT_CARD, "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
+		try {
+			// PAS-2719, PAS-1940, PAS-6210, PAS-7858, PAS-352, PAS-3619
+			refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_DEBIT_CARD), billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0, false);
+			refundProcessHelper.unissuedRefundVerification(billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0);
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_DEBIT_CARD, "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
-		// PAS-1939
-		refundProcessHelper.voidedManualRefundGeneration(refund);
-		refundProcessHelper.voidedRefundVerification(true, billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 1, false);
-		// PAS-7057
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_DEBIT_CARD, "RefundPaymentVoided", null, true, false);
-
-		stubRequestDC.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-1939
+			refundProcessHelper.voidedManualRefundGeneration(refund);
+			refundProcessHelper.voidedRefundVerification(true, billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 1, false);
+			// PAS-7057
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_DEBIT_CARD, "RefundPaymentVoided", null, true, false);
+		} finally {
+			stubRequestDC.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -216,22 +203,21 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
 		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, AMOUNT_ACH);
-		CustomAssert.enableSoftMode();
 
-		// PAS-2719, PAS-1940, PAS-6210, PAS-7858, PAS-352, PAS-3619
-		refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_ACH), billingAccountNumber, MESSAGE_ACH, refund, false, 0, false);
-		refundProcessHelper.unissuedRefundVerification(billingAccountNumber, MESSAGE_ACH, refund, false, 0);
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_ACH, "ManualRefund", BILLING_PAYMENT_METHOD_ACH, false, false);
+		try {
+			// PAS-2719, PAS-1940, PAS-6210, PAS-7858, PAS-352, PAS-3619
+			refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_ACH), billingAccountNumber, MESSAGE_ACH, refund, false, 0, false);
+			refundProcessHelper.unissuedRefundVerification(billingAccountNumber, MESSAGE_ACH, refund, false, 0);
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_ACH, "ManualRefund", BILLING_PAYMENT_METHOD_ACH, false, false);
 
-		// PAS-1939
-		refundProcessHelper.voidedManualRefundGeneration(refund);
-		refundProcessHelper.voidedRefundVerification(true, billingAccountNumber, MESSAGE_ACH, refund, false, 1, false);
-		// PAS-7057
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_ACH, "RefundPaymentVoided", null, true, false);
-
-		stubRequestACH.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-1939
+			refundProcessHelper.voidedManualRefundGeneration(refund);
+			refundProcessHelper.voidedRefundVerification(true, billingAccountNumber, MESSAGE_ACH, refund, false, 1, false);
+			// PAS-7057
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_ACH, "RefundPaymentVoided", null, true, false);
+		} finally {
+			stubRequestACH.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -245,7 +231,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
-		CustomAssert.enableSoftMode();
 
 		// PAS-7063, PAS-7858, PAS-453
 		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
@@ -257,9 +242,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		refundProcessHelper.voidedRefundVerification(true, billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 1, false);
 		// PAS-7231
 		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "RefundPaymentVoided", null, true, false);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	@Parameters({"state"})
@@ -275,22 +257,21 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
 		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, AMOUNT_CREDIT_CARD);
-		CustomAssert.enableSoftMode();
 
-		// PAS-7063, PAS-7858, PAS-453
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
-		refundProcessHelper.unissuedRefundVerification(billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0);
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
+		try {
+			// PAS-7063, PAS-7858, PAS-453
+			refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
+			refundProcessHelper.unissuedRefundVerification(billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0);
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
-		// PAS-1939
-		refundProcessHelper.voidedManualRefundGeneration(refund);
-		refundProcessHelper.voidedRefundVerification(true, billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 1, false);
-		// PAS-7231
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "RefundPaymentVoided", null, true, false);
-
-		stubRequestCC.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-1939
+			refundProcessHelper.voidedManualRefundGeneration(refund);
+			refundProcessHelper.voidedRefundVerification(true, billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 1, false);
+			// PAS-7231
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "RefundPaymentVoided", null, true, false);
+		} finally {
+			stubRequestCC.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -306,22 +287,21 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
 		HelperWireMockStub stubRequestDC = helperWireMockLastPaymentMethod.getHelperWireMockStubDC(policyNumber, AMOUNT_DEBIT_CARD);
-		CustomAssert.enableSoftMode();
 
-		// PAS-7063, PAS-7858, PAS-453
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
-		refundProcessHelper.unissuedRefundVerification(billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0);
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
+		try {
+			// PAS-7063, PAS-7858, PAS-453
+			refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
+			refundProcessHelper.unissuedRefundVerification(billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0);
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
-		// PAS-1939
-		refundProcessHelper.voidedManualRefundGeneration(refund);
-		refundProcessHelper.voidedRefundVerification(true, billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 1, false);
-		// PAS-7231
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true, false);
-
-		stubRequestDC.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-1939
+			refundProcessHelper.voidedManualRefundGeneration(refund);
+			refundProcessHelper.voidedRefundVerification(true, billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 1, false);
+			// PAS-7231
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true, false);
+		} finally {
+			stubRequestDC.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -336,22 +316,21 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, AMOUNT_ACH);
-		CustomAssert.enableSoftMode();
 
-		// PAS-7063, PAS-7858, PAS-453
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
-		refundProcessHelper.unissuedRefundVerification(billingAccountNumber, MESSAGE_ACH, refund, false, 0);
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_ACH, false, false);
+		try {
+			// PAS-7063, PAS-7858, PAS-453
+			refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
+			refundProcessHelper.unissuedRefundVerification(billingAccountNumber, MESSAGE_ACH, refund, false, 0);
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_ACH, false, false);
 
-		// PAS-1939
-		refundProcessHelper.voidedManualRefundGeneration(refund);
-		refundProcessHelper.voidedRefundVerification(true, billingAccountNumber, MESSAGE_ACH, refund, false, 1, false);
-		// PAS-7231
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true, false);
-
-		stubRequestACH.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-1939
+			refundProcessHelper.voidedManualRefundGeneration(refund);
+			refundProcessHelper.voidedRefundVerification(true, billingAccountNumber, MESSAGE_ACH, refund, false, 1, false);
+			// PAS-7231
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true, false);
+		} finally {
+			stubRequestACH.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -364,7 +343,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
-		CustomAssert.enableSoftMode();
 
 		refundProcessHelper.unissuedManualRefundGeneration(Optional.empty(), billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0, false);
 
@@ -379,9 +357,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		// PAS-2732
 		refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_CHECK, billingAccountNumber, policyNumber);
 		refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0, false);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	@Parameters({"state"})
@@ -396,26 +371,25 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
 		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, AMOUNT_CREDIT_CARD);
-		CustomAssert.enableSoftMode();
 
-		refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_CREDIT_CARD), billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0, false);
+		try {
+			refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_CREDIT_CARD), billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0, false);
 
-		// PAS-1939
-		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
-		refundProcessHelper.issuedRefundVerification(billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0);
-		// PAS-6152
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
+			// PAS-1939
+			refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
+			refundProcessHelper.issuedRefundVerification(billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0);
+			// PAS-6152
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
-		refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "Card", "PA", "4WUIC", "N", "VA", refundAmount, "test@gmail.com", "Y");
+			refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "Card", "PA", "4WUIC", "N", "VA", refundAmount, "test@gmail.com", "Y");
 
-		// PAS-2732
-		refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_CREDIT_CARD, billingAccountNumber, policyNumber);
-		refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 2, false);
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "RefundPaymentVoided", null, true, true);
-
-		stubRequestCC.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-2732
+			refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_CREDIT_CARD, billingAccountNumber, policyNumber);
+			refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 2, false);
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "RefundPaymentVoided", null, true, true);
+		} finally {
+			stubRequestCC.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -430,26 +404,25 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
 		HelperWireMockStub stubRequestDC = helperWireMockLastPaymentMethod.getHelperWireMockStubDC(policyNumber, AMOUNT_DEBIT_CARD);
-		CustomAssert.enableSoftMode();
 
-		refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_DEBIT_CARD), billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0, false);
+		try {
+			refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_DEBIT_CARD), billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0, false);
 
-		// PAS-1939
-		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
-		refundProcessHelper.issuedRefundVerification(billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0);
-		// PAS-6152
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
+			// PAS-1939
+			refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
+			refundProcessHelper.issuedRefundVerification(billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0);
+			// PAS-6152
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
-		refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "Card", "PA", "4WUIC", "N", "AZ", refundAmount, "test@gmail.com", "Y");
+			refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "Card", "PA", "4WUIC", "N", "AZ", refundAmount, "test@gmail.com", "Y");
 
-		// PAS-2732
-		refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_DEBIT_CARD, billingAccountNumber, policyNumber);
-		refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 2, false);
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true, true);
-
-		stubRequestDC.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-2732
+			refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_DEBIT_CARD, billingAccountNumber, policyNumber);
+			refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 2, false);
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true, true);
+		} finally {
+			stubRequestDC.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -465,26 +438,25 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, AMOUNT_ACH);
 		requestIdList.add(stubRequestACH);
-		CustomAssert.enableSoftMode();
 
-		refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_ACH), billingAccountNumber, MESSAGE_ACH, refund, false, 0, false);
+		try {
+			refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_ACH), billingAccountNumber, MESSAGE_ACH, refund, false, 0, false);
 
-		// PAS-1939
-		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
-		refundProcessHelper.issuedRefundVerification(billingAccountNumber, MESSAGE_ACH, refund, false, 0);
-		// PAS-6152
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_ACH, false, false);
+			// PAS-1939
+			refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
+			refundProcessHelper.issuedRefundVerification(billingAccountNumber, MESSAGE_ACH, refund, false, 0);
+			// PAS-6152
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_ACH, false, false);
 
-		refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "ACH", "PA", "4WUIC", "N", "MD", refundAmount, "test@gmail.com", "Y");
+			refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "ACH", "PA", "4WUIC", "N", "MD", refundAmount, "test@gmail.com", "Y");
 
-		// PAS-2732
-		refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_ACH, billingAccountNumber, policyNumber);
-		refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_ACH, refund, false, 2, false);
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true, true);
-
-		stubRequestACH.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-2732
+			refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_ACH, billingAccountNumber, policyNumber);
+			refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_ACH, refund, false, 2, false);
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true, true);
+		} finally {
+			stubRequestACH.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -501,22 +473,21 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, AMOUNT_CREDIT_CARD);
 		requestIdList.add(stubRequestCC);
 
-		CustomAssert.enableSoftMode();
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
+		try {
+			refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
 
-		// PAS-453, PAS-6144
-		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
-		refundProcessHelper.issuedRefundVerification(billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0);
-		// PAS-7193
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "AutomatedRefund", BILLING_PAYMENT_METHOD_CHECK, false, false);
+			// PAS-453, PAS-6144
+			refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
+			refundProcessHelper.issuedRefundVerification(billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0);
+			// PAS-7193
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "AutomatedRefund", BILLING_PAYMENT_METHOD_CHECK, false, false);
 
-		// PAS-6415
-		refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_CHECK, billingAccountNumber, policyNumber);
-		refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0, false);
-
-		stubRequestCC.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-6415
+			refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_CHECK, billingAccountNumber, policyNumber);
+			refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0, false);
+		} finally {
+			stubRequestCC.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -533,23 +504,22 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, AMOUNT_CREDIT_CARD);
 
-		CustomAssert.enableSoftMode();
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
+		try {
+			refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
 
-		// PAS-453, PAS-6144
-		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
-		refundProcessHelper.issuedRefundVerification(billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0);
-		// PAS-7193
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false, true);
+			// PAS-453, PAS-6144
+			refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
+			refundProcessHelper.issuedRefundVerification(billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0);
+			// PAS-7193
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false, true);
 
-		// PAS-6415
-		refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_CREDIT_CARD, billingAccountNumber, policyNumber);
-		refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 2, false);
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "RefundPaymentVoided", null, true, true);
-
-		stubRequestCC.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-6415
+			refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_CREDIT_CARD, billingAccountNumber, policyNumber);
+			refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 2, false);
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "RefundPaymentVoided", null, true, true);
+		} finally {
+			stubRequestCC.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -566,23 +536,22 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		HelperWireMockStub stubRequestDC = helperWireMockLastPaymentMethod.getHelperWireMockStubDC(policyNumber, AMOUNT_DEBIT_CARD);
 
-		CustomAssert.enableSoftMode();
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
+		try {
+			refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
 
-		// PAS-453, PAS-6144
-		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
-		refundProcessHelper.issuedRefundVerification(billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0);
-		// PAS-7193
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
+			// PAS-453, PAS-6144
+			refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
+			refundProcessHelper.issuedRefundVerification(billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0);
+			// PAS-7193
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
-		// PAS-6415
-		refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_DEBIT_CARD, billingAccountNumber, policyNumber);
-		refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 2, false);
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true, true);
-
-		stubRequestDC.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-6415
+			refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_DEBIT_CARD, billingAccountNumber, policyNumber);
+			refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 2, false);
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true, true);
+		} finally {
+			stubRequestDC.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -598,24 +567,23 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
 		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, AMOUNT_ACH);
-		CustomAssert.enableSoftMode();
 
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
+		try {
+			refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
 
-		// PAS-453, PAS-6144
-		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
-		refundProcessHelper.issuedRefundVerification(billingAccountNumber, MESSAGE_ACH, refund, false, 0);
-		// PAS-7193
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_ACH, false, false);
+			// PAS-453, PAS-6144
+			refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
+			refundProcessHelper.issuedRefundVerification(billingAccountNumber, MESSAGE_ACH, refund, false, 0);
+			// PAS-7193
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_ACH, false, false);
 
-		// PAS-6415
-		refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_ACH, billingAccountNumber, policyNumber);
-		refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_ACH, refund, false, 2, false);
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true, true);
-
-		stubRequestACH.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-6415
+			refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_ACH, billingAccountNumber, policyNumber);
+			refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_ACH, refund, false, 2, false);
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true, true);
+		} finally {
+			stubRequestACH.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -628,7 +596,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
-		CustomAssert.enableSoftMode();
 
 		refundProcessHelper.unissuedManualRefundGeneration(Optional.empty(), billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0, false);
 
@@ -638,9 +605,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		refundProcessHelper.processedRefundGeneration(true, PAYMENT_METHOD_CHECK, billingAccountNumber, policyNumber);
 		refundProcessHelper.processedRefundVerification(billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0);
 		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "ManualRefund", BILLING_PAYMENT_METHOD_CHECK, false, false);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	@Parameters({"state"})
@@ -655,20 +619,19 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
 		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, AMOUNT_CREDIT_CARD);
-		CustomAssert.enableSoftMode();
 
-		refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_CREDIT_CARD), billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0, false);
+		try {
+			refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_CREDIT_CARD), billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0, false);
 
-		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
+			refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
 
-		// PAS-2728
-		refundProcessHelper.processedRefundGeneration(true, PAYMENT_METHOD_CREDIT_CARD, billingAccountNumber, policyNumber);
-		refundProcessHelper.processedRefundVerification(billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0);
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
-
-		stubRequestCC.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-2728
+			refundProcessHelper.processedRefundGeneration(true, PAYMENT_METHOD_CREDIT_CARD, billingAccountNumber, policyNumber);
+			refundProcessHelper.processedRefundVerification(billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0);
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
+		} finally {
+			stubRequestCC.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -683,20 +646,19 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
 		HelperWireMockStub stubRequestDC = helperWireMockLastPaymentMethod.getHelperWireMockStubDC(policyNumber, AMOUNT_DEBIT_CARD);
-		CustomAssert.enableSoftMode();
 
-		refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_DEBIT_CARD), billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0, false);
+		try {
+			refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_DEBIT_CARD), billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0, false);
 
-		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
+			refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
 
-		// PAS-2728
-		refundProcessHelper.processedRefundGeneration(true, PAYMENT_METHOD_DEBIT_CARD, billingAccountNumber, policyNumber);
-		refundProcessHelper.processedRefundVerification(billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0);
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
-
-		stubRequestDC.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-2728
+			refundProcessHelper.processedRefundGeneration(true, PAYMENT_METHOD_DEBIT_CARD, billingAccountNumber, policyNumber);
+			refundProcessHelper.processedRefundVerification(billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0);
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
+		} finally {
+			stubRequestDC.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -711,20 +673,19 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
 		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, AMOUNT_ACH);
-		CustomAssert.enableSoftMode();
 
-		refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_ACH), billingAccountNumber, MESSAGE_ACH, refund, false, 0, false);
+		try {
+			refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_ACH), billingAccountNumber, MESSAGE_ACH, refund, false, 0, false);
 
-		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
+			refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
 
-		// PAS-2728
-		refundProcessHelper.processedRefundGeneration(true, PAYMENT_METHOD_ACH, billingAccountNumber, policyNumber);
-		refundProcessHelper.processedRefundVerification(billingAccountNumber, MESSAGE_ACH, refund, false, 0);
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_ACH, false, false);
-
-		stubRequestACH.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-2728
+			refundProcessHelper.processedRefundGeneration(true, PAYMENT_METHOD_ACH, billingAccountNumber, policyNumber);
+			refundProcessHelper.processedRefundVerification(billingAccountNumber, MESSAGE_ACH, refund, false, 0);
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_ACH, false, false);
+		} finally {
+			stubRequestACH.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -738,7 +699,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
-		CustomAssert.enableSoftMode();
 
 		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
 
@@ -748,9 +708,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		refundProcessHelper.processedRefundGeneration(false, PAYMENT_METHOD_CHECK, billingAccountNumber, policyNumber);
 		refundProcessHelper.processedRefundVerification(billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0);
 		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "AutomatedRefund", BILLING_PAYMENT_METHOD_CHECK, false, false);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	@Parameters({"state"})
@@ -766,20 +723,19 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
 		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, AMOUNT_CREDIT_CARD);
-		CustomAssert.enableSoftMode();
 
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
+		try {
+			refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
 
-		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
+			refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
 
-		// PAS-6144, PAS-453
-		refundProcessHelper.processedRefundGeneration(false, PAYMENT_METHOD_CREDIT_CARD, billingAccountNumber, policyNumber);
-		refundProcessHelper.processedRefundVerification(billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0);
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
-
-		stubRequestCC.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-6144, PAS-453
+			refundProcessHelper.processedRefundGeneration(false, PAYMENT_METHOD_CREDIT_CARD, billingAccountNumber, policyNumber);
+			refundProcessHelper.processedRefundVerification(billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0);
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
+		} finally {
+			stubRequestCC.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -795,20 +751,19 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
 		HelperWireMockStub stubRequestDC = helperWireMockLastPaymentMethod.getHelperWireMockStubDC(policyNumber, AMOUNT_DEBIT_CARD);
-		CustomAssert.enableSoftMode();
 
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
+		try {
+			refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
 
-		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
+			refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
 
-		// PAS-6144, PAS-453
-		refundProcessHelper.processedRefundGeneration(false, PAYMENT_METHOD_DEBIT_CARD, billingAccountNumber, policyNumber);
-		refundProcessHelper.processedRefundVerification(billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0);
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
-
-		stubRequestDC.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-6144, PAS-453
+			refundProcessHelper.processedRefundGeneration(false, PAYMENT_METHOD_DEBIT_CARD, billingAccountNumber, policyNumber);
+			refundProcessHelper.processedRefundVerification(billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0);
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
+		} finally {
+			stubRequestDC.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -824,20 +779,19 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
 		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, AMOUNT_ACH);
-		CustomAssert.enableSoftMode();
 
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
+		try {
+			refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
 
-		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
+			refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
 
-		// PAS-6144, PAS-453
-		refundProcessHelper.processedRefundGeneration(false, PAYMENT_METHOD_ACH, billingAccountNumber, policyNumber);
-		refundProcessHelper.processedRefundVerification(billingAccountNumber, MESSAGE_ACH, refund, false, 0);
-		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_ACH, false, false);
-
-		stubRequestACH.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-6144, PAS-453
+			refundProcessHelper.processedRefundGeneration(false, PAYMENT_METHOD_ACH, billingAccountNumber, policyNumber);
+			refundProcessHelper.processedRefundVerification(billingAccountNumber, MESSAGE_ACH, refund, false, 0);
+			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_ACH, false, false);
+		} finally {
+			stubRequestACH.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -852,19 +806,18 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
 		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, AMOUNT_CREDIT_CARD);
-		CustomAssert.enableSoftMode();
 
-		refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_CREDIT_CARD), billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0, true);
+		try {
+			refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_CREDIT_CARD), billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0, true);
 
-		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
+			refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
 
-		// PAS-455, PAS-456
-		refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_CREDIT_CARD, billingAccountNumber, policyNumber);
-		refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 2, true);
-
-		stubRequestCC.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-455, PAS-456
+			refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_CREDIT_CARD, billingAccountNumber, policyNumber);
+			refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 2, true);
+		} finally {
+			stubRequestCC.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -892,7 +845,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		});
 	}
 
-	private void errorExceedingAmountCheck(String messagePaymentMethod, String amountPaymentMethod, SoftAssertions softly) throws IllegalAccessException {
+	private void errorExceedingAmountCheck(String messagePaymentMethod, String amountPaymentMethod, ETCSCoreSoftAssertions softly) {
 		billingAccount.refund().start();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).setValue(messagePaymentMethod);
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).setValue(new Dollar(amountPaymentMethod).add(0.01).toString());
@@ -916,19 +869,18 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
 		HelperWireMockStub stubRequestDC = helperWireMockLastPaymentMethod.getHelperWireMockStubDC(policyNumber, AMOUNT_DEBIT_CARD);
-		CustomAssert.enableSoftMode();
 
-		refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_DEBIT_CARD), billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0, true);
+		try {
+			refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_DEBIT_CARD), billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0, true);
 
-		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
+			refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
 
-		// PAS-455, PAS-456
-		refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_DEBIT_CARD, billingAccountNumber, policyNumber);
-		refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 2, true);
-
-		stubRequestDC.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-455, PAS-456
+			refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_DEBIT_CARD, billingAccountNumber, policyNumber);
+			refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 2, true);
+		} finally {
+			stubRequestDC.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -943,19 +895,18 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
 		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, AMOUNT_ACH);
-		CustomAssert.enableSoftMode();
 
-		refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_ACH), billingAccountNumber, MESSAGE_ACH, refund, false, 0, true);
+		try {
+			refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_ACH), billingAccountNumber, MESSAGE_ACH, refund, false, 0, true);
 
-		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
+			refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
 
-		// PAS-455, PAS-456
-		refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_ACH, billingAccountNumber, policyNumber);
-		refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_ACH, refund, false, 2, true);
-
-		stubRequestACH.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-455, PAS-456
+			refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_ACH, billingAccountNumber, policyNumber);
+			refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_ACH, refund, false, 2, true);
+		} finally {
+			stubRequestACH.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -971,19 +922,18 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
 		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, AMOUNT_CREDIT_CARD);
-		CustomAssert.enableSoftMode();
 
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, true);
+		try {
+			refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, true);
 
-		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
+			refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
 
-		// PAS-456
-		refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_CREDIT_CARD, billingAccountNumber, policyNumber);
-		refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 2, true);
-
-		stubRequestCC.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-456
+			refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_CREDIT_CARD, billingAccountNumber, policyNumber);
+			refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 2, true);
+		} finally {
+			stubRequestCC.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -1000,17 +950,16 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		HelperWireMockStub stubRequestDC = helperWireMockLastPaymentMethod.getHelperWireMockStubDC(policyNumber, AMOUNT_DEBIT_CARD);
 
-		CustomAssert.enableSoftMode();
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, true);
-		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
+		try {
+			refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, true);
+			refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
 
-		// PAS-456
-		refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_DEBIT_CARD, billingAccountNumber, policyNumber);
-		refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 2, true);
-
-		stubRequestDC.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-456
+			refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_DEBIT_CARD, billingAccountNumber, policyNumber);
+			refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 2, true);
+		} finally {
+			stubRequestDC.cleanUp();
+		}
 	}
 
 	@Parameters({"state"})
@@ -1027,18 +976,17 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, AMOUNT_ACH);
 
-		CustomAssert.enableSoftMode();
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, true);
+		try {
+			refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, true);
 
-		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
+			refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
 
-		// PAS-456
-		refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_ACH, billingAccountNumber, policyNumber);
-		refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_ACH, refund, false, 2, true);
-
-		stubRequestACH.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// PAS-456
+			refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_ACH, billingAccountNumber, policyNumber);
+			refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_ACH, refund, false, 2, true);
+		} finally {
+			stubRequestACH.cleanUp();
+		}
 	}
 
 	// *
@@ -1047,16 +995,13 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7298"})
-	public void pas7298_pendingManualRefundsCheck(@org.testng.annotations.Optional("VA") String state) throws IllegalAccessException {
+	public void pas7298_pendingManualRefundsCheck(@org.testng.annotations.Optional("VA") String state) {
 
 		String paymentMethod = "Check";
 
 		policyCreation();
 
-		CustomAssert.enableSoftMode();
 		refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	// *
@@ -1072,12 +1017,11 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String policyNumber = policyCreation();
 		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, PENDING_REFUND_AMOUNT);
 
-		CustomAssert.enableSoftMode();
-		refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
-
-		stubRequestCC.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		try {
+			refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+		} finally {
+			stubRequestCC.cleanUp();
+		}
 	}
 
 	// *
@@ -1093,12 +1037,11 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String policyNumber = policyCreation();
 		HelperWireMockStub stubRequestDC = helperWireMockLastPaymentMethod.getHelperWireMockStubDC(policyNumber, PENDING_REFUND_AMOUNT);
 
-		CustomAssert.enableSoftMode();
-		refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
-
-		stubRequestDC.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		try {
+			refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+		} finally {
+			stubRequestDC.cleanUp();
+		}
 	}
 
 	// *
@@ -1114,12 +1057,11 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String policyNumber = policyCreation();
 		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, PENDING_REFUND_AMOUNT);
 
-		CustomAssert.enableSoftMode();
-		refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
-
-		stubRequestACH.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		try {
+			refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+		} finally {
+			stubRequestACH.cleanUp();
+		}
 	}
 
 	/**
@@ -1134,10 +1076,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		String policyNumber = policyCreation();
 
-		CustomAssert.enableSoftMode();
 		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	// *
@@ -1154,11 +1093,11 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, PENDING_REFUND_AMOUNT);
 
-		CustomAssert.enableSoftMode();
-		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
-		stubRequestCC.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		try {
+			refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
+		} finally {
+			stubRequestCC.cleanUp();
+		}
 	}
 
 	// *
@@ -1176,12 +1115,11 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		HelperWireMockStub stubRequestDC = helperWireMockLastPaymentMethod.getHelperWireMockStubDC(policyNumber, PENDING_REFUND_AMOUNT);
 		requestIdList.add(stubRequestDC);
 
-		CustomAssert.enableSoftMode();
-		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
-
-		stubRequestDC.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		try {
+			refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
+		} finally {
+			stubRequestDC.cleanUp();
+		}
 	}
 
 	// *
@@ -1198,13 +1136,11 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, PENDING_REFUND_AMOUNT);
 		requestIdList.add(stubRequestACH);
 
-		CustomAssert.enableSoftMode();
-		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
-
-		stubRequestACH.cleanUp();
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		try {
+			refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
+		} finally {
+			stubRequestACH.cleanUp();
+		}
 	}
 
 	/** Not used, because wiremock stub currently doesn't support error response fro LastPaymentMethod
@@ -1226,19 +1162,16 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String policyNumber = createPolicy();
 		log.info("policyNumber: {}", policyNumber);
 
-		CustomAssert.enableSoftMode();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		billingAccount.refund().start();
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.MESSAGE_WHEN_ONLY_PAYMENT_METHOD_CHECK.getLabel(), StaticElement.class).verify
-				.value("Only check refund is currently available.");
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.MESSAGE_WHEN_ONLY_PAYMENT_METHOD_CHECK))
+				.hasValue("Only check refund is currently available.");
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eRefundLastPaymentMethodConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-1952")
-	public void pas1952_MessageWhenOnlyMethodIsCheckNoElectronicRefund(@org.testng.annotations.Optional("CT") String state) throws IllegalAccessException {
+	public void pas1952_MessageWhenOnlyMethodIsCheckNoElectronicRefund(@org.testng.annotations.Optional("CT") String state) {
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -1249,15 +1182,14 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		HelperWireMockStub stubRequestACH = HelperWireMockStub.create("last-payment-200", dataACH).mock();
 		requestIdList.add(stubRequestACH);
 
-		CustomAssert.enableSoftMode();
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		billingAccount.refund().start();
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.MESSAGE_WHEN_ONLY_PAYMENT_METHOD_CHECK.getLabel(), StaticElement.class).verify
-				.value("No payment method available for electronic refund.");
-
-		stubRequestACH.cleanUp();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		try {
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+			billingAccount.refund().start();
+			assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.MESSAGE_WHEN_ONLY_PAYMENT_METHOD_CHECK))
+					.hasValue("No payment method available for electronic refund.");
+		} finally {
+			stubRequestACH.cleanUp();
+		}
 	}
 
 	/**
@@ -1280,7 +1212,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		billingAccount.refund().manualRefundPerform("Check", refundAmount);
-		CustomAssert.assertTrue("Refund".equals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()));
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE)).hasValue("Refund");
 
 		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
 		mainApp().open();

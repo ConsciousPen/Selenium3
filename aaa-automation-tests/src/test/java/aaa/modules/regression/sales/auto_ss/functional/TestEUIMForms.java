@@ -33,7 +33,6 @@ import aaa.toolkit.webdriver.customcontrols.endorsements.AutoSSForms;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.CheckBox;
 
 @StateList(states = Constants.States.MD)
@@ -193,7 +192,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		createCustomerIndividual();
 
 		createPolicy(tdEUIM);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		validateDocumentIsGeneratedInPackage(policyNumber, POLICY_ISSUE);
@@ -208,7 +207,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		validateDocumentIsNotGeneratedInPackage(policyNumber, ENDORSEMENT_ISSUE, true);
 
@@ -238,7 +237,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		validateDocumentIsNotGeneratedInPackage(policyNumber, POLICY_ISSUE, false);
 
@@ -303,7 +302,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		validateDocumentIsNotGeneratedInPackage(policyNumber, POLICY_ISSUE, false);
@@ -357,7 +356,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		generateRenewalOfferAtOfferGenDate();
@@ -402,7 +401,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		generateRenewalOfferAtOfferGenDate();
 		validateDocumentIsNotGeneratedInPackage(policyNumber, RENEWAL_OFFER, false);
@@ -418,8 +417,6 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		//4. Switch UIM to EUIM coverage
 		switchToEUIMCoverageAndBind();
 		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
-
-		CustomAssert.enableSoftMode();
 
 		//6. Validate that form AAEUIMMD is included in Endorsement package
 		//8. Validate that form AAEUIMMD is included in Endorsement package only once
@@ -452,7 +449,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		createCustomerIndividual();
 
 		createPolicy(tdEUIM);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		validateDocumentIsGeneratedInPackage(policyNumber, POLICY_ISSUE);
 
@@ -474,7 +471,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		//PAS-11302 AC2
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
 		AutoSSForms.AutoSSPolicyFormsController policyForms = formsTab.getAssetList().getAsset(AutoSSMetaData.FormsTab.POLICY_FORMS);
-		assertThat(policyForms.tableSelectedForms.getRowContains("Name", formId).getCell(2).getValue()).isEqualTo(formDesc);
+		assertThat(policyForms.tableSelectedForms.getRowContains("Name", formId).getCell(2)).hasValue(formDesc);
 		assertThat(policyForms.getRemoveLink(formId)).isPresent(false);
 	}
 
@@ -496,7 +493,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		//Bind
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	private void switchAwayFromEUIMCoverageAndBind() {
@@ -504,7 +501,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		//Bind
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	private void generateRenewalOfferAtOfferGenDate() {
@@ -530,7 +527,6 @@ public class TestEUIMForms extends AutoSSBaseTest {
 
 		//Validate that form AAEUIMMD is included in Document Package only once
 		assertThat(docs.stream().filter(document -> document.getTemplateId().equals(DocGenEnum.Documents.AAEUIMMD.getIdInXml())).toArray().length).isEqualTo(1);
-
 	}
 
 	private void validateDocumentIsNotGeneratedInPackage(String policyNumber, AaaDocGenEntityQueries.EventNames eventName, boolean shouldBeListedInOtherDocs) {
@@ -546,7 +542,6 @@ public class TestEUIMForms extends AutoSSBaseTest {
 
 		} else {
 			assertThat(docsOther.stream().filter(document -> document.toString().contains(DocGenEnum.Documents.AAEUIMMD.getIdInXml())).toArray().length).isEqualTo(0);
-
 		}
 	}
 }

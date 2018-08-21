@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.template;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 
 import toolkit.utils.datetime.DateTimeUtils;
@@ -56,7 +57,7 @@ public class PolicyCancelNoticeWithCancellation extends PolicyBaseTest {
 			daysOfNotice = Integer.parseInt(policy.cancelNotice().getView().getTab(aaa.main.modules.policy.auto_ss.actiontabs.CancelNoticeActionTab.class).getAssetList().getAsset(AutoSSMetaData.CancelNoticeActionTab.DAYS_OF_NOTICE.getLabel(), TextBox.class).getValue());
 		}
 		policy.cancelNotice().submit();
-		PolicySummaryPage.labelCancelNotice.verify.present();
+		assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
 	}
 
 	protected void TC02_CancellationPolicy() {
@@ -69,7 +70,7 @@ public class PolicyCancelNoticeWithCancellation extends PolicyBaseTest {
 		mainApp().open();
 		SearchPage.search(SearchFor.POLICY, SearchBy.POLICY_QUOTE, policyNumber);
 
-		PolicySummaryPage.labelCancelNotice.verify.present(false);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		assertThat(PolicySummaryPage.labelCancelNotice).isPresent(false);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 	}
 }

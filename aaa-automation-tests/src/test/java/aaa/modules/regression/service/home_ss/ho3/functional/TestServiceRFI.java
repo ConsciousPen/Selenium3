@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.home_ss.ho3.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -32,7 +33,8 @@ import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class TestServiceRFI extends HomeSSHO3BaseTest {
 
@@ -72,62 +74,62 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 		policy.getDefaultView().fillUpTo(adjustedTd, DocumentsTab.class, true);
 
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.DOCUMENTS.get());
-		documentsTab.getRequiredToIssueAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION).verify.value("Not Signed");
-		documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES).verify.value("No");
-		documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM).verify.value("No");
-		documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM).verify.value("No");
-		documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_PLUMBING_AND_OTHER_RENOVATIONS).verify.value("No");
-		documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT).verify.value("No");
+		assertThat(documentsTab.getRequiredToIssueAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION)).hasValue("Not Signed");
+		assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES)).hasValue("No");
+		assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM)).hasValue("No");
+		assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM)).hasValue("No");
+		assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_PLUMBING_AND_OTHER_RENOVATIONS)).hasValue("No");
+		assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT)).hasValue("No");
 		documentsTab.saveAndExit();
 
-		CustomAssert.enableSoftMode();
-		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
 
-		//BUG PAS-10779 HSRFIXX is not generated on Issue anymore
-		policy.quoteDocGen().start();
-		goddTab.generateDocuments(DocGenEnum.Documents.HSRFIXX);
+			//BUG PAS-10779 HSRFIXX is not generated on Issue anymore
+			policy.quoteDocGen().start();
+			goddTab.generateDocuments(DocGenEnum.Documents.HSRFIXX);
 
-		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "HSRFIXX", "ADHOC_DOC_ON_DEMAND_GENERATE");
-		CustomAssert.assertTrue(DbAwaitHelper.waitForQueryResult(query, 10));//XML doesn't appear in DB at once
-		DocGenHelper.getDocumentDataSectionsByName("FormData", DocGenEnum.Documents.HSRFIXX, query).get(0).getDocumentDataElements();
-		rfiTagCheck(HSRFIXX, query, "AtBndFlg", "Y");
-		rfiTagCheck(HSRFIXX, query, "OldHoModrnDiscYN", "Y");
-		rfiTagCheck(HSRFIXX, query, "GrnHoDiscYN", "Y");
-		rfiTagCheck(HSRFIXX, query, "RtCntrlAlrmForThft", "Y");
-		rfiTagCheck(HSRFIXX, query, "RtCntrlAlrmForFire", "Y");
-		rfiTagCheck(HSRFIXX, query, "SubFireDepYN", "Y");
+			String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "HSRFIXX", "ADHOC_DOC_ON_DEMAND_GENERATE");
+			assertThat(DbAwaitHelper.waitForQueryResult(query, 10)).isTrue();//XML doesn't appear in DB at once
+			DocGenHelper.getDocumentDataSectionsByName("FormData", DocGenEnum.Documents.HSRFIXX, query).get(0).getDocumentDataElements();
+			rfiTagCheck(HSRFIXX, query, "AtBndFlg", "Y", softly);
+			rfiTagCheck(HSRFIXX, query, "OldHoModrnDiscYN", "Y", softly);
+			rfiTagCheck(HSRFIXX, query, "GrnHoDiscYN", "Y", softly);
+			rfiTagCheck(HSRFIXX, query, "RtCntrlAlrmForThft", "Y", softly);
+			rfiTagCheck(HSRFIXX, query, "RtCntrlAlrmForFire", "Y", softly);
+			rfiTagCheck(HSRFIXX, query, "SubFireDepYN", "Y", softly);
 
-		//PAS-341 Start
-		RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), "NBA", "NS");
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES.getLabel(), "DISC", "NS");
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "DISC", "NS");
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "DISC", "NS");
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_PLUMBING_AND_OTHER_RENOVATIONS.getLabel(), "MISC", "NS");
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT.getLabel(), "MISC", "NS");
-		//PAS-341 End
+			//PAS-341 Start
+			RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), "NBA", "NS", softly);
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES.getLabel(), "DISC", "NS", softly);
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "DISC", "NS", softly);
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "DISC", "NS", softly);
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_PLUMBING_AND_OTHER_RENOVATIONS.getLabel(), "MISC", "NS", softly);
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT.getLabel(), "MISC", "NS", softly);
+			//PAS-341 End
 
-		uploadDocuments(policyNumber);
+			uploadDocuments(policyNumber, softly);
 
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		endorseRateDocuments();
-		documentsTab.getRequiredToIssueAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION).verify.value("Pending Review (Uploaded " + today + ")");
-		documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM).verify.value("Pending Review (Uploaded " + today + ")");
-		documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM).verify.value("Pending Review (Uploaded " + today + ")");
+			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+			endorseRateDocuments();
+			softly.assertThat(documentsTab.getRequiredToIssueAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION)).hasValue("Pending Review (Uploaded " + today + ")");
+			softly.assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM)).hasValue("Pending Review (Uploaded " + today + ")");
+			softly.assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM))
+					.hasValue("Pending Review (Uploaded " + today + ")");
 
-		//check Upload Pending is present after value is changed
-		documentsTab.getRequiredToIssueAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION).setValue("Physically Signed");
-		documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM).setValue("Yes");
-		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.BIND.get());
-		bindTab.submitTab();
+			//check Upload Pending is present after value is changed
+			documentsTab.getRequiredToIssueAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION).setValue("Physically Signed");
+			documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM).setValue("Yes");
+			NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.BIND.get());
+			bindTab.submitTab();
 
-		endorseRateDocuments();
-		documentsTab.getRequiredToIssueAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION).verify.value("Physically Signed");
-		documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM).verify.value("Pending Review (Uploaded " + today + ")");
-		documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM).verify.value("Yes");
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			endorseRateDocuments();
+			softly.assertThat(documentsTab.getRequiredToIssueAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION)).hasValue("Physically Signed");
+			softly.assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM))
+					.hasValue("Pending Review (Uploaded " + today + ")");
+			softly.assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM)).hasValue("Yes");
+		});
 	}
 
 	/**
@@ -155,43 +157,41 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 		policy.getDefaultView().fillUpTo(adjustedTd, DocumentsTab.class, true);
 
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.DOCUMENTS.get());
-		documentsTab.getRequiredToIssueAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION).verify.value("Not Signed");
-		documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES).verify.value("No");
-		documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM).verify.value("No");
-		documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM).verify.value("No");
-		documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION).verify.value("No");
-		documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT).verify.value("No");
+		assertThat(documentsTab.getRequiredToIssueAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION)).hasValue("Not Signed");
+		assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES)).hasValue("No");
+		assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM)).hasValue("No");
+		assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM)).hasValue("No");
+		assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION)).hasValue("No");
+		assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT)).hasValue("No");
 		documentsTab.saveAndExit();
 
-		CustomAssert.enableSoftMode();
-		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
 
-		//BUG PAS-10779 /HSRFIXX is not generated on Issue anymore
-		policy.quoteDocGen().start();
-		goddTab.generateDocuments(DocGenEnum.Documents.HSRFIXX);
+			//BUG PAS-10779 /HSRFIXX is not generated on Issue anymore
+			policy.quoteDocGen().start();
+			goddTab.generateDocuments(DocGenEnum.Documents.HSRFIXX);
 
-		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "HSRFIXX", "ADHOC_DOC_ON_DEMAND_GENERATE");
-		CustomAssert.assertTrue(DbAwaitHelper.waitForQueryResult(query, 10));//XML doesn't appear in DB at once
-		DocGenHelper.getDocumentDataSectionsByName("FormData", DocGenEnum.Documents.HSRFIXX, query).get(0).getDocumentDataElements();
-		rfiTagCheck(HSRFIXX, query, "AtBndFlg", "Y");
-		rfiTagCheck(HSRFIXX, query, "NewHoModrnDiscYN", "Y");
-		rfiTagCheck(HSRFIXX, query, "GrnHoDiscYN", "Y");
-		rfiTagCheck(HSRFIXX, query, "RtCntrlAlrmForThft", "Y");
-		rfiTagCheck(HSRFIXX, query, "RtCntrlAlrmForFire", "Y");
-		rfiTagCheck(HSRFIXX, query, "SubFireDepYN", "Y");
+			String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "HSRFIXX", "ADHOC_DOC_ON_DEMAND_GENERATE");
+			assertThat(DbAwaitHelper.waitForQueryResult(query, 10)).isTrue();//XML doesn't appear in DB at once
+			DocGenHelper.getDocumentDataSectionsByName("FormData", DocGenEnum.Documents.HSRFIXX, query).get(0).getDocumentDataElements();
+			rfiTagCheck(HSRFIXX, query, "AtBndFlg", "Y", softly);
+			rfiTagCheck(HSRFIXX, query, "NewHoModrnDiscYN", "Y", softly);
+			rfiTagCheck(HSRFIXX, query, "GrnHoDiscYN", "Y", softly);
+			rfiTagCheck(HSRFIXX, query, "RtCntrlAlrmForThft", "Y", softly);
+			rfiTagCheck(HSRFIXX, query, "RtCntrlAlrmForFire", "Y", softly);
+			rfiTagCheck(HSRFIXX, query, "SubFireDepYN", "Y", softly);
 
-		//PAS-341 Start
-		RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), "NBA", "NS");
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES.getLabel(), "DISC", "NS");
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "DISC", "NS");
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "DISC", "NS");
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION.getLabel(), "DISC", "NS");
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT.getLabel(), "MISC", "NS");
-		//PAS-341 End
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			//PAS-341 Start
+			RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), "NBA", "NS", softly);
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES.getLabel(), "DISC", "NS", softly);
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "DISC", "NS", softly);
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "DISC", "NS", softly);
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION.getLabel(), "DISC", "NS", softly);
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT.getLabel(), "MISC", "NS", softly);
+			//PAS-341 End
+		});
 	}
 
 	private TestData rfiTestData(String state, String testSpecificTestDataName, String year) {
@@ -209,12 +209,12 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 		return adjustedTd;
 	}
 
-	private static void rfiTagCheck(DocGenEnum.Documents document, String query, String tag, String tagValue) {
-		CustomAssert.assertEquals(
-				tag + "has a problem.", DocGenHelper.getDocumentDataElemByName(tag, document, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField(), tagValue);
+	private static void rfiTagCheck(DocGenEnum.Documents document, String query, String tag, String tagValue, ETCSCoreSoftAssertions softly) {
+		softly.assertThat(DocGenHelper.getDocumentDataElemByName(tag, document, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField())
+				.as(tag + "has a problem.").isEqualTo(tagValue);
 	}
 
-	private void uploadDocuments(String policyNumber) {
+	private void uploadDocuments(String policyNumber, ETCSCoreSoftAssertions softly) {
 		LocalDateTime uploadDate = DateTimeUtils.getCurrentDateTime();
 		String formattedDate = uploadDate.format(DateTimeUtils.MM_DD_YYYY);
 		DBService.get().executeUpdate(String.format(HelperRfi.UPDATE_DOCUMENT_STATUS, formattedDate, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), policyNumber));
@@ -227,12 +227,12 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 		DBService.get().executeUpdate(String.format(HelperRfi.UPDATE_POLICY_VERSION, String.valueOf(Integer.valueOf(currentVersion) + 1), latestPolicySummaryId));
 
 		RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), "NBA", "PS");
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES.getLabel(), "DISC", "NS");
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "DISC", "PS");
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "DISC", "PS");
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_PLUMBING_AND_OTHER_RENOVATIONS.getLabel(), "MISC", "NS");
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT.getLabel(), "MISC", "NS");
+		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), "NBA", "PS", softly);
+		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES.getLabel(), "DISC", "NS", softly);
+		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "DISC", "PS", softly);
+		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "DISC", "PS", softly);
+		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_PLUMBING_AND_OTHER_RENOVATIONS.getLabel(), "MISC", "NS", softly);
+		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT.getLabel(), "MISC", "NS", softly);
 	}
 
 	private void endorseRateDocuments() {

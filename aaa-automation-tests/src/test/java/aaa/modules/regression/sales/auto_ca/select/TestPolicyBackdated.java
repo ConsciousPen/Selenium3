@@ -2,15 +2,18 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ca.select;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -28,6 +31,7 @@ import toolkit.utils.datetime.DateTimeUtils;
 public class TestPolicyBackdated extends AutoCaSelectBaseTest {
 
 	@Parameters({"state"})
+	@StateList(states = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
 	public void testPolicyBackdated(@Optional("CA") String state) {
@@ -44,9 +48,9 @@ public class TestPolicyBackdated extends AutoCaSelectBaseTest {
 		TestData td = getBackDatedPolicyTD(date);
 		getPolicyType().get().createPolicy(td);
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		PolicySummaryPage.labelPolicyEffectiveDate.verify.contains(date);
+		assertThat(PolicySummaryPage.labelPolicyEffectiveDate).valueContains(date);
 
 	}
 }

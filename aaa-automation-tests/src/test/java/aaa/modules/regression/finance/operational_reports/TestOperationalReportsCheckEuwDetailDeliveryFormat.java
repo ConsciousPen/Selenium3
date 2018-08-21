@@ -7,10 +7,8 @@ import aaa.helpers.constants.Groups;
 import aaa.modules.BaseTest;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.TextBox;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestOperationalReportsCheckEuwDetailDeliveryFormat extends BaseTest {
 

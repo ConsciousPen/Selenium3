@@ -1,6 +1,6 @@
 package aaa.modules.regression.service.template;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 
 import aaa.common.Tab;
@@ -38,7 +38,7 @@ public class PolicyRenewOose extends PolicyBaseTest {
 	        
 	        //check: new renewal version is created automatically
 	        PolicySummaryPage.buttonRenewalQuoteVersion.click();
-	        assertThat(PolicySummaryPage.tableTransactionHistory.getRowsCount()).isEqualTo(2);	        
+	        assertThat(PolicySummaryPage.tableTransactionHistory).hasRows(2);
 	        PolicySummaryPage.buttonQuoteOverview.click();
 	        
 	        
@@ -51,7 +51,7 @@ public class PolicyRenewOose extends PolicyBaseTest {
 	        
 	        //check: one more renewal version is created automatically
 	        PolicySummaryPage.buttonRenewalQuoteVersion.click();
-	        assertThat(PolicySummaryPage.tableTransactionHistory.getRowsCount()).isEqualTo(3);
+	        assertThat(PolicySummaryPage.tableTransactionHistory).hasRows(3);
 	        
 	        //product's specific checking will follow in test for concrete product
 	        

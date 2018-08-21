@@ -352,7 +352,7 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<RadioGroup> RESTORED_TO_ORGINAL_STOCK_CONDITION_WITH_NO_ALTERATIONS = declare("Restored to orginal stock condition with no alterations?", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> USED_SOLEY_IN_EXHIBITIONS_CLUB_ACTIVITY_PARADES_AND_OTHER_FUN_FUNCTIONS_OF_PUBLIC_INTEREST =
 				declare("Used soley in exhibitions, club activity parades and other fun functions of public interest?", RadioGroup.class);
-		public static final AssetDescriptor<TextBox> COBP_COLL_SYMBOL = declare("Comp/Coll Symbol", TextBox.class);
+		public static final AssetDescriptor<TextBox> COMP_COLL_SYMBOL = declare("Comp/Coll Symbol", TextBox.class);
 		public static final AssetDescriptor<ComboBox> AIR_BAGS = declare("Air Bags", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> ANTI_THEFT = declare("Anti-theft", ComboBox.class);
 		public static final AssetDescriptor<RadioGroup> ALTERNATIVE_FUEL_VEHICLE = declare("Alternative Fuel Vehicle", RadioGroup.class);

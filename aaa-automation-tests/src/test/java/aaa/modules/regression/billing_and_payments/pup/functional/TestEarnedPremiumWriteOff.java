@@ -76,6 +76,7 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
+	//@StateList("All")
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-11697"})
 	public void pas11697_testEarnedPremiumWriteOffLessDecline(@Optional("AZ") String state)  {
@@ -98,6 +99,7 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
+	//@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-11697"})
 	public void pas11697_testEarnedPremiumWriteOffEqualDecline(@Optional("AZ") String state)  {
@@ -120,6 +122,7 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
+	//@StateList("All")
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-11697"})
 	public void pas11697_testEarnedPremiumWriteOffMoreDecline(@Optional("AZ") String state)  {
@@ -143,6 +146,7 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
+	//@StateList("All")
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-11697"})
 	public void pas11697_testEarnedPremiumWriteOffLessProposed(@Optional("AZ") String state)  {
@@ -166,6 +170,7 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
+	//@StateList("All")
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-11697"})
 	public void pas11697_testEarnedPremiumWriteOffEqualProposed(@Optional("AZ") String state)  {
@@ -189,6 +194,7 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
+	//@StateList("All")
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-11697"})
 	public void pas11697_testEarnedPremiumWriteOffMoreProposed(@Optional("AZ") String state)  {
@@ -209,6 +215,7 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
+	//@StateList("All")
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-11697"})
 	public void pas11697_testEarnedPremiumWriteOffNoAP(@Optional("AZ") String state)  {

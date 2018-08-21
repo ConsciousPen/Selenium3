@@ -6,6 +6,8 @@ import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
@@ -14,6 +16,7 @@ import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestCinAbstractAutoSS;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -36,6 +39,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
      * @details
      */
     @Parameters({STATE_PARAM})
+    @StateList(statesExcept = States.CA)
     @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7515")
     public void testCinNewBusinessMVR(@Optional("AZ") String state) {
@@ -65,6 +69,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
      * @details
      */
     @Parameters({STATE_PARAM})
+    @StateList(statesExcept = States.CA)
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7515")
     public void testCinNewBusinessCLUE(@Optional("AZ") String state) {
@@ -99,6 +104,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
      * 2. Verify that CIN document is generated
      */
     @Parameters({STATE_PARAM})
+    @StateList(statesExcept = States.CA)
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     public void testInsuranceScoreNotInBestBand(@Optional("AZ") String state) {
@@ -128,6 +134,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
      * 2. Verify that CIN document is not generated
      */
     @Parameters({STATE_PARAM})
+    @StateList(statesExcept = States.CA)
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     public void testInsuranceScoreInBestBand(@Optional("AZ") String state) {
@@ -158,6 +165,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
      * 2. Verify that CIN document is generated
      */
     @Parameters({STATE_PARAM})
+    @StateList(statesExcept = States.CA)
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     public void testInsuranceScoreNoHit(@Optional("AZ") String state) {
@@ -187,6 +195,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
      * 2. Verify that CIN document is generated
      */
     @Parameters({STATE_PARAM})
+    @StateList(statesExcept = States.CA)
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     public void testInsuranceScoreNoScore(@Optional("AZ") String state) {
@@ -215,9 +224,10 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
      * 3. Bind the policy
      * 4. Verify that CIN document is not generated
      */
+    @Parameters({STATE_PARAM})
+    @StateList(statesExcept = States.CA)
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
-    @Parameters({STATE_PARAM})
     public void testInsuranceScoreOverrideUp(@Optional("AZ") String state) {
         TestData policyTD = getPolicyDefaultTD()
                 .adjust(INSURANCE_SCORE_OVERRIDE, getTestSpecificTD("InsuranceScoreOverride_651"))
@@ -245,9 +255,10 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
      * 3. Bind the policy
      * 4. Verify that CIN document is not generated
      */
+    @Parameters({STATE_PARAM})
+    @StateList(statesExcept = States.CA)
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
-    @Parameters({STATE_PARAM})
     public void testInsuranceScoreOverrideDown(@Optional("AZ") String state) {
         TestData policyTD = getPolicyDefaultTD()
                 .adjust(INSURANCE_SCORE_OVERRIDE, getTestSpecificTD("InsuranceScoreOverride_649"))
@@ -282,6 +293,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
      * 4. Verify that CIN document is generated
      */
     @Parameters({STATE_PARAM})
+    @StateList(statesExcept = States.CA)
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     public void testPriorBILimitNoPriorCarrier(@Optional("AZ") String state) {
@@ -312,6 +324,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
      * 4. Verify that CIN document is generated
      */
     @Parameters({STATE_PARAM})
+    @StateList(statesExcept = States.CA)
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     public void testPriorBILimitPrefillNone(@Optional("AZ") String state) {
@@ -344,6 +357,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
      * 5. Verify that CIN document is generated
      */
     @Parameters({STATE_PARAM})
+    @StateList(statesExcept = States.CA)
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     public void testPriorBILimitNone(@Optional("AZ") String state) {
@@ -376,6 +390,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
      * 4. Verify that CIN document is generated
      */
     @Parameters({STATE_PARAM})
+    @StateList(statesExcept = States.CA)
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     public void testPriorBILimitPrefillLessThan500k(@Optional("AZ") String state) {
@@ -408,6 +423,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
      * 5. Verify that CIN document is generated
      */
     @Parameters({STATE_PARAM})
+    @StateList(statesExcept = States.CA)
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     public void testPriorBILimitLessThan500k(@Optional("AZ") String state) {
@@ -440,6 +456,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
      * 4. Verify that CIN document is not generated
      */
     @Parameters({STATE_PARAM})
+    @StateList(statesExcept = States.CA)
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     public void testPriorBILimitPrefill500k(@Optional("AZ") String state) {
@@ -472,6 +489,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
      * 5. Verify that CIN document is not generated
      */
     @Parameters({STATE_PARAM})
+    @StateList(statesExcept = States.CA)
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     public void testPriorBILimit500k(@Optional("AZ") String state) {
@@ -506,6 +524,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     @Parameters({STATE_PARAM})
+    @StateList(statesExcept = States.CA)
     public void testPriorBILimitPrefillMoreThan500k(@Optional("AZ") String state) {
         TestData policyTD = adjustNameInsured(getPolicyDefaultTD(), "NameInsured_Prior_BI_1000")
                 .adjust(INSURANCE_SCORE_OVERRIDE, getTestSpecificTD("InsuranceScoreOverride_649"))
@@ -542,6 +561,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
      * 4. Verify document sequence
      */
     @Parameters({STATE_PARAM})
+    @StateList(states = States.VA)
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7515")
     public void testCinNotAtFaultCLUEVA(@Optional("VA") String state) {
@@ -579,10 +599,11 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
      * 6. Verify that CIN document hasn't been generated
      */
     @Parameters({STATE_PARAM})
+    @StateList(states = {States.DE, States.CO, States.CT, States.KS, States.KY, States.MT, States.NJ, States.NV})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     public void testInsuranceScoreELC(@Optional("MT") String state) {
-        Assertions.assertThat(asList("NJ", "DE", "CO", "CT", "KS", "KY", "NV", "MT").contains(state)).as("Test does not support this state: " + state).isTrue();
+        //Assertions.assertThat(asList("NJ", "DE", "CO", "CT", "KS", "KY", "NV", "MT").contains(state)).as("Test does not support this state: " + state).isTrue();
         TestData policyTD = getPolicyDefaultTD()
                 .adjust(ADJUST_ELC, getTestSpecificTD("GeneralTab_ELC").getValue("Extraordinary Life Circumstance"))
                 .adjust(ERROR_TAB_CALCULATE_PREMIUM, getTestSpecificTD("ErrorTab_ELC"))

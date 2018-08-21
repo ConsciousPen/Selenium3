@@ -11,11 +11,12 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 public class TestPolicyEndorsement extends PersonalUmbrellaBaseTest {
 
 	@Parameters({"state"})
+	//@StateList("All")
 	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.Service.PUP )
 	public void testPolicyEndorsement(@Optional("") String state) {
@@ -31,15 +32,14 @@ public class TestPolicyEndorsement extends PersonalUmbrellaBaseTest {
 		TestData endorsementTd = getTestSpecificTD("TestData");
 		policy.createEndorsement(endorsementTd.adjust(getPolicyTD("Endorsement", "TestData")));
 
-		CustomAssert.enableSoftMode();
+		CustomSoftAssertions.assertSoftly(softly -> {
 
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			softly.assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		//PolicySummaryPage.tableOtherUnderlyingRisks.verify.rowsCount(2);
+			//PolicySummaryPage.tableOtherUnderlyingRisks.verify.rowsCount(2);
 
-		CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			softly.assertThat(policyPremium).isNotEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());
+		});
 	}
 }
