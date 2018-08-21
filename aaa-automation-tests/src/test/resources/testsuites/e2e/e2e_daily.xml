@@ -21,9 +21,9 @@
     <test name="CA Home E2E" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario2"/>
-            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario4"/>
-            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario6"/>
+            <class name="aaa.modules.e2e.home_ca.ho3.TestScenario2"/>
+            <class name="aaa.modules.e2e.home_ca.ho3.TestScenario4"/>
+            <class name="aaa.modules.e2e.home_ca.ho3.TestScenario6"/>
             <class name="aaa.modules.e2e.home_ca.ho3.TestScenario9"/>
             <class name="aaa.modules.e2e.home_ca.ho3.TestScenario10"/>
             <class name="aaa.modules.e2e.home_ca.ho3.TestScenario11"/>
