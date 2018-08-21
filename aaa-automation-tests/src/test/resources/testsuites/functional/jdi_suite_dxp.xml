@@ -23,11 +23,9 @@
                     <include name="pas6562_endorsementValidateNotAllowedUBI"/>
                     <include name="pas7332_deletePendingAgentEndorsementStartNewEndorsementThroughService"/>
                     <include name="pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService"/>
-                    <include name="pas8273_NanoPolicyShouldNotReturnVehicleInfo"/>
                     <include name="pas8784_endorsementValidateStateSpecificConfigVersioning"/>
                     <include name="pas9337_StartEndorsementInfoServerResponseForCancelPolicy"/>
                     <include name="pas9337_StartEndorsementInfoServerResponseForFuturePolicy"/>
-                    <include name="pas9337_StartEndorsementInfoServerResponseForExpiredPolicy"/>
                     <include name="pas9456_9455_PolicyLockUnlockServices"/>
                     <include name="pas10227_ViewPremiumServicePolicy"/>
                     <include name="pas10227_ViewPremiumServicePendedEndorsement"/>
@@ -240,8 +238,6 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
-                    <include name="pas9716_policySummaryForActiveRenewal"/>
-                    <include name="pas9716_policySummaryForConversion"/>
                     <include name="pas15846_CheckTransactionDateForEndorsements"/>
                     <include name="pas16678_policySummaryForPolicyForPolicyTerm"/>
                 </methods>
@@ -530,7 +526,7 @@
             </class>
         </classes>
     </test>
-    <test name="Name Insured And Driver" parallel="methods" thread-count="1024">
+    <test name="Name Insured And Driver">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
@@ -542,7 +538,7 @@
             </class>
         </classes>
     </test>
-    <test name="Remove Driver" parallel="methods" thread-count="1024">
+    <test name="Remove Driver">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">

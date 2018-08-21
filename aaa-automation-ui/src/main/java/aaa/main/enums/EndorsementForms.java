@@ -2,6 +2,11 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.enums;
 
+import aaa.main.modules.policy.pup.PupPolicy;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public final class EndorsementForms {
 
 	public enum HomeSSEndorsementForms {
@@ -93,6 +98,25 @@ public final class EndorsementForms {
 
 		String formId;
 		String name;
+
+		private static Map<String, HomeSSEndorsementForms> formMap;
+
+		public static HomeSSEndorsementForms getFormEnum(String formId) {
+			if (formMap == null) {
+				initializeMapping();
+			}
+			if (formMap.containsKey(formId)) {
+				return formMap.get(formId);
+			}
+			return null;
+		}
+
+		private static void initializeMapping() {
+			formMap = new HashMap<>();
+			for (HomeSSEndorsementForms form : HomeSSEndorsementForms.values()) {
+				formMap.put(form.formId, form);
+			}
+		}
 
 		HomeSSEndorsementForms(String formId, String name) {
 			this.formId = formId;
@@ -197,6 +221,25 @@ public final class EndorsementForms {
 		String formId;
 		String name;
 
+		private static Map<String, HomeCAEndorsementForms> formsMap;
+
+		public static HomeCAEndorsementForms getFormEnum(String formId) {
+			if (formsMap == null) {
+				initializeMapping();
+			}
+			if (formsMap.containsKey(formId)) {
+				return formsMap.get(formId);
+			}
+			return null;
+		}
+
+		private static void initializeMapping() {
+			formsMap = new HashMap<>();
+			for (HomeCAEndorsementForms form : HomeCAEndorsementForms.values()) {
+				formsMap.put(form.formId, form);
+			}
+		}
+
 		HomeCAEndorsementForms(String formId, String name) {
 			this.formId = formId;
 			this.name = name;
@@ -227,6 +270,25 @@ public final class EndorsementForms {
 
 		String formId;
 		String name;
+
+		private static Map<String, PupEndorsementForms> formsMap;
+
+		public static PupEndorsementForms getFormEnum(String formId) {
+			if (formsMap == null) {
+				initializeMapping();
+			}
+			if (formsMap.containsKey(formId)) {
+				return formsMap.get(formId);
+			}
+			return null;
+		}
+
+		private static void initializeMapping() {
+			formsMap = new HashMap<>();
+			for (PupEndorsementForms form : PupEndorsementForms.values()) {
+				formsMap.put(form.formId, form);
+			}
+		}
 
 		PupEndorsementForms(String formId, String name) {
 			this.formId = formId;
