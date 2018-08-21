@@ -350,5 +350,5 @@ PAS-18111:
   summary: "Cannot save endorsement Form"
   reason: PROD
   failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestIncreasedInsuranceLimitAndSupplementalLossEndorsements]
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestIncreasedInsuranceLimitAndSupplementalLossEndorsements.*]
       messages: ['expected:<[tru]e> but was:<[fals]e>']
