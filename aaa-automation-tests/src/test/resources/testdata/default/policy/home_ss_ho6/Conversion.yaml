@@ -290,7 +290,7 @@ ApplicantTab_KY: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  OtherActiveAAAPolicies: {},
+  OtherActiveAAAPolicies: ['@<home_ss_ho3>@DataGather@OtherActiveAAAPolicies_KY'],
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_KY'
 }
 
@@ -479,7 +479,7 @@ ApplicantTab_OK: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  OtherActiveAAAPolicies: {},
+  OtherActiveAAAPolicies: ['@<home_ss_ho3>@DataGather@OtherActiveAAAPolicies_OK'],
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_OK'
 }
 
