@@ -3,17 +3,13 @@ package aaa.modules.regression.service.helper;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.MIDDLE_NAME;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-
 import java.math.BigDecimal;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.Response;
-
-import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import org.apache.commons.lang3.BooleanUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
@@ -31,6 +27,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
@@ -1680,19 +1677,22 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 			ViewDriversResponse viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
-			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), false, null, softly);
+			PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), viewEndorsementCoverages , false, null, softly);
 
 			DriversDto addDriverResponse = addDriverWithChecks(policyNumber, softly);
 
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
-			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), false, null, softly);//added driver
-			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), false, null, softly);
+			viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), viewEndorsementCoverages, false, null, softly);//added driver
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), viewEndorsementCoverages, false, null, softly);
 
 			updateDriverMissingInfoWithChecks(policyNumber, addDriverResponse, softly);
+			viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber);
 
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
-			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), false, null, softly);//added driver
-			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), false, null, softly);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), viewEndorsementCoverages, false, null, softly);//added driver
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), viewEndorsementCoverages, false, null, softly);
 
 			//get premium from DXP
 			BigDecimal premiumWithoutCoveragesDXP = new BigDecimal(HelperCommon.endorsementRate(policyNumber, 200)[0].termPremium);
@@ -1702,30 +1702,31 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			policy.dataGather().start();
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-
 			validateSelectedCoveragesUI(false, false, softly);
 			DriverTab.tableDriverList.selectRow(2);
 			validateSelectedCoveragesUI(false, false, softly);
 
-			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
-
-			validateFormsTab(viewEndorsementDriversResponse.driverList, softly);
-
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-
 			//get premium from UI
 			BigDecimal premiumWithoutCoveragesUI = new BigDecimal(PremiumAndCoveragesTab.getTotalTermPremium().toPlaingString());
 			softly.assertThat(premiumWithoutCoveragesDXP).isEqualByComparingTo(premiumWithoutCoveragesUI);
-			premiumAndCoveragesTab.saveAndExit();
+
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
+			validateFormsTab(viewEndorsementDriversResponse.driverList, softly);
+			formsTab.saveAndExit();
 
 			///////////////Change "Death Indemnity and Specific Disability" to yes ///////////////////////
-			UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(true, null);
-			DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
-			validateSelectedAndAvailableCoverages(true, updateDriverResponse.driver, true, false, softly);
-
+			//UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(true, null);
+			//DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
+			UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("DISD", "true", addDriverResponse.oid);
+			PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class,  Response.Status.OK.getStatusCode());
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
-			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), true, false, softly); //added driver
-			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), false, null, softly);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), updateCoverageResponse, true, false, softly);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), updateCoverageResponse, false, null, softly);
+
+			viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), viewEndorsementCoverages, true, false, softly); //added driver
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), viewEndorsementCoverages, false, null, softly);
 
 			BigDecimal premiumWithSpecDisabilityCovDXP = new BigDecimal(HelperCommon.endorsementRate(policyNumber, 200)[0].termPremium);
 			softly.assertThat(premiumWithSpecDisabilityCovDXP).isGreaterThan(premiumWithoutCoveragesDXP);
@@ -1734,28 +1735,30 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			PolicySummaryPage.buttonPendedEndorsement.click();
 			policy.dataGather().start();
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-
 			validateSelectedCoveragesUI(false, false, softly);
 			DriverTab.tableDriverList.selectRow(2);
 			validateSelectedCoveragesUI(true, false, softly);
-
-			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
-			validateFormsTab(viewEndorsementDriversResponse.driverList, softly);
 
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 			BigDecimal premiumWithSpecDisabilityCovUI = new BigDecimal(PremiumAndCoveragesTab.getTotalTermPremium().toPlaingString());
 			softly.assertThat(premiumWithSpecDisabilityCovDXP).isEqualByComparingTo(premiumWithSpecDisabilityCovUI).isGreaterThan(premiumWithoutCoveragesDXP);
 
-			premiumAndCoveragesTab.saveAndExit();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
+			validateFormsTab(viewEndorsementDriversResponse.driverList, softly);
+			formsTab.saveAndExit();
 
 			///////////////Change "Total Disability" to yes//////////////////////
-			updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(null, true);
-			updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
-			validateSelectedAndAvailableCoverages(true, updateDriverResponse.driver, true, true, softly);
-
+			//updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(null, true);
+			//updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
+			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TD", "true", addDriverResponse.oid);
+			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class,  Response.Status.OK.getStatusCode());
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
-			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), true, true, softly); //added driver
-			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), false, null, softly);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), updateCoverageResponse, true, true, softly); //added driver
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), updateCoverageResponse, false, null, softly);
+
+			viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), viewEndorsementCoverages, true, true, softly); //added driver
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), viewEndorsementCoverages, false, null, softly);
 
 			BigDecimal premiumWithTotalDisabilityCovDXP = new BigDecimal(HelperCommon.endorsementRate(policyNumber, 200)[0].termPremium);
 			softly.assertThat(premiumWithTotalDisabilityCovDXP).isGreaterThan(premiumWithoutCoveragesDXP);
@@ -1763,29 +1766,32 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			SearchPage.openPolicy(policyNumber);
 			PolicySummaryPage.buttonPendedEndorsement.click();
 			policy.dataGather().start();
-
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 			validateSelectedCoveragesUI(false, false, softly);
 			DriverTab.tableDriverList.selectRow(2);
 			validateSelectedCoveragesUI(true, true, softly);
 
-			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
-			validateFormsTab(viewEndorsementDriversResponse.driverList, softly);
-
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 			BigDecimal premiumWithTotalDisabilityCovUI = new BigDecimal(PremiumAndCoveragesTab.getTotalTermPremium().toPlaingString());
 			softly.assertThat(premiumWithTotalDisabilityCovDXP).isEqualByComparingTo(premiumWithTotalDisabilityCovUI).isGreaterThan(premiumWithoutCoveragesDXP);
 			softly.assertThat(premiumWithTotalDisabilityCovDXP).isGreaterThan(premiumWithSpecDisabilityCovDXP);
-			premiumAndCoveragesTab.saveAndExit();
+
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
+			validateFormsTab(viewEndorsementDriversResponse.driverList, softly);
+			formsTab.saveAndExit();
 
 			//////////////Change "Death Indemnity and Specific Disability" to No, when also "Total Disability" = yes ---> "Total Disability"  should be defaulted to null ///////////////////////
-			updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(false, null);
-			updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
-			validateSelectedAndAvailableCoverages(true, updateDriverResponse.driver, false, null, softly);
-
+			//updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(false, null);
+			//updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
+			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("DISD", "false", addDriverResponse.oid);
+			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class,  Response.Status.OK.getStatusCode());
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
-			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), false, null, softly); //added driver
-			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), false, null, softly);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), updateCoverageResponse, false, null, softly); //added driver
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), updateCoverageResponse, false, null, softly); //added driver
+
+			viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), viewEndorsementCoverages, false, null, softly); //added driver
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), viewEndorsementCoverages, false, null, softly);
 
 			//get premium from DXP
 			BigDecimal premiumWithoutCoveragesDXP2 = new BigDecimal(HelperCommon.endorsementRate(policyNumber, 200)[0].termPremium);
@@ -1798,14 +1804,15 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			DriverTab.tableDriverList.selectRow(2);
 			validateSelectedCoveragesUI(false, false, softly);
 
-			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
-			validateFormsTab(viewEndorsementDriversResponse.driverList, softly);
-
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 			//get premium from UI
 			BigDecimal premiumWithoutCoveragesUI2 = new BigDecimal(PremiumAndCoveragesTab.getTotalTermPremium().toPlaingString());
 			softly.assertThat(premiumWithoutCoveragesDXP2).isEqualByComparingTo(premiumWithoutCoveragesUI2).isEqualByComparingTo(premiumWithoutCoveragesDXP);
+
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
+			validateFormsTab(viewEndorsementDriversResponse.driverList, softly);
 			premiumAndCoveragesTab.saveAndExit();
+
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 
 		});
@@ -1830,32 +1837,42 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			BigDecimal premiumBeforeChangesDXP = new BigDecimal(HelperCommon.endorsementRate(policyNumber, 200)[0].termPremium);
 
 			ViewDriversResponse viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+			PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber);
 
-			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), false, null, softly);
-			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), true, false, softly);
-			validateSelectedAndAvailableCoverages(false, viewEndorsementDriversResponse.driverList.get(2), null, null, softly);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), viewEndorsementCoverages, false, null, softly);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), viewEndorsementCoverages, true, false, softly);
+			validateSelectedAndAvailableCoverages(false, viewEndorsementDriversResponse.driverList.get(2), viewEndorsementCoverages, null, null, softly);
 
 			validateMetadata_pas16913(softly, policyNumber, viewEndorsementDriversResponse.driverList.get(0), true, false); //Driver without specificDisability coverage
 			validateMetadata_pas16913(softly, policyNumber, viewEndorsementDriversResponse.driverList.get(1), true, true); //Driver with specificDisability coverage
 			validateMetadata_pas16913(softly, policyNumber, viewEndorsementDriversResponse.driverList.get(2), false, false); //Driver = NAFR
 
 			//update driver 1
-			UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(true, null);
-			DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, viewEndorsementDriversResponse.driverList.get(0).oid, updateDriverRequest);
-			validateSelectedAndAvailableCoverages(true, updateDriverResponse.driver, true, false, softly);
+			//UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(true, null);
+			//DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, viewEndorsementDriversResponse.driverList.get(0).oid, updateDriverRequest);
+			UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("DISD", "true", viewEndorsementDriversResponse.driverList.get(0).oid);
+			PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class,  Response.Status.OK.getStatusCode());
+			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), updateCoverageResponse, true, false, softly);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), updateCoverageResponse, true, false, softly);
+			validateSelectedAndAvailableCoverages(false, viewEndorsementDriversResponse.driverList.get(2), updateCoverageResponse, null, null, softly);
 
 			//Update driver 2
-			updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(false, null);
-			updateDriverResponse = HelperCommon.updateDriver(policyNumber, viewEndorsementDriversResponse.driverList.get(1).oid, updateDriverRequest);
-			validateSelectedAndAvailableCoverages(true, updateDriverResponse.driver, false, null, softly);
-
-			//Validate driver 3, still have the same coverages and options
-			validateSelectedAndAvailableCoverages(false, viewEndorsementDriversResponse.driverList.get(2), null, null, softly);
-
+			//updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(false, null);
+			//updateDriverResponse = HelperCommon.updateDriver(policyNumber, viewEndorsementDriversResponse.driverList.get(1).oid, updateDriverRequest);
+			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("DISD", "false", viewEndorsementDriversResponse.driverList.get(1).oid);
+			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class,  Response.Status.OK.getStatusCode());
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
-			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), true, false, softly);
-			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), false, null, softly);
-			validateSelectedAndAvailableCoverages(false, viewEndorsementDriversResponse.driverList.get(2), null, null, softly);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), updateCoverageResponse, true, false, softly);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), updateCoverageResponse,false, null, softly);
+			validateSelectedAndAvailableCoverages(false, viewEndorsementDriversResponse.driverList.get(2), updateCoverageResponse, null, null, softly);
+
+			//Validate also driver 3, still have the same coverages and options
+			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+			viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), viewEndorsementCoverages, true, false, softly);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), viewEndorsementCoverages, false, null, softly);
+			validateSelectedAndAvailableCoverages(false, viewEndorsementDriversResponse.driverList.get(2), viewEndorsementCoverages, null, null, softly);
 
 			BigDecimal premiumAfterChangesDXP = new BigDecimal(HelperCommon.endorsementRate(policyNumber, 200)[0].termPremium);
 
@@ -1871,27 +1888,33 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			DriverTab.tableDriverList.selectRow(3);
 			validateSelectedCoveragesUIforNAFR(softly);
 
-			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
-			validateFormsTab(viewEndorsementDriversResponse.driverList, softly);
-
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 			BigDecimal premiumAfterChangesUI = new BigDecimal(PremiumAndCoveragesTab.getTotalTermPremium().toPlaingString());
-			premiumAndCoveragesTab.saveAndExit();
 			softly.assertThat(premiumAfterChangesDXP).isEqualByComparingTo(premiumAfterChangesUI).isEqualByComparingTo(premiumBeforeChangesDXP).isEqualByComparingTo(premiumBeforeChangesUI);
+
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
+			validateFormsTab(viewEndorsementDriversResponse.driverList, softly);
+			formsTab.saveAndExit();
 
 			///////////////Nafr driver should not have option to select "Death Indemnity and Specific Disability" ////////////////
 			DriversDto addDriverResponse = addDriverWithChecks(policyNumber, softly);
 
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
-			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), false, null, softly);// added driver
+			viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), viewEndorsementCoverages, false, null, softly);// added driver
 
 			updateDriverMissingInfoWithChecks(policyNumber, addDriverResponse, softly);
 
-			updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(true, null);
-			updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
-			validateSelectedAndAvailableCoverages(true, updateDriverResponse.driver, true, false, softly);
+			//updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(true, null);
+			//updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
+			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("DISD", "true", viewEndorsementDriversResponse.driverList.get(0).oid);
+			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class,  Response.Status.OK.getStatusCode());
+			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+			viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), updateCoverageResponse, true, false, softly); //added driver
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), viewEndorsementCoverages, true, false, softly); //added driver
 
-			//doing change to nafr in pas as not possible with DXP
+			//doing change to nafr in PAS as not possible with DXP
 			SearchPage.openPolicy(policyNumber);
 			PolicySummaryPage.buttonPendedEndorsement.click();
 			policy.dataGather().start();
@@ -1901,7 +1924,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			driverTab.saveAndExit();
 
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
-			validateSelectedAndAvailableCoverages(false, viewEndorsementDriversResponse.driverList.get(0), null, null, softly); //should be added driver
+			viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber);
+			validateSelectedAndAvailableCoverages(false, viewEndorsementDriversResponse.driverList.get(0), viewEndorsementCoverages, null, null, softly); //should be added driver
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
 
@@ -1937,28 +1961,34 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			BigDecimal premiumBeforeChangesDXP = new BigDecimal(HelperCommon.endorsementRate(policyNumber, 200)[0].termPremium);
 
 			ViewDriversResponse viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+			PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber);
 
-			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), true, false, softly);
-			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), true, true, softly);
-			validateSelectedAndAvailableCoverages(false, viewEndorsementDriversResponse.driverList.get(2), null, null, softly);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), viewEndorsementCoverages, true, false, softly);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), viewEndorsementCoverages, true, true, softly);
+			validateSelectedAndAvailableCoverages(false, viewEndorsementDriversResponse.driverList.get(2), viewEndorsementCoverages, null, null, softly);
 
 			//update driver 1
-			UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(null, true);
-			DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, viewEndorsementDriversResponse.driverList.get(0).oid, updateDriverRequest);
-			validateSelectedAndAvailableCoverages(true, updateDriverResponse.driver, true, true, softly);
+			//UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(null, true);
+			//DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, viewEndorsementDriversResponse.driverList.get(0).oid, updateDriverRequest);
+			UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TD", "true", viewEndorsementDriversResponse.driverList.get(0).oid);
+			PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class,  Response.Status.OK.getStatusCode());
+			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), updateCoverageResponse, true, true, softly);
 
 			//Update driver 2
-			updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(null, false);
-			updateDriverResponse = HelperCommon.updateDriver(policyNumber, viewEndorsementDriversResponse.driverList.get(1).oid, updateDriverRequest);
-			validateSelectedAndAvailableCoverages(true, updateDriverResponse.driver, true, false, softly);
-
-			//Validate driver 3, still have the same coverages and options
-			validateSelectedAndAvailableCoverages(false, viewEndorsementDriversResponse.driverList.get(2), null, null, softly);
-
+			//updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(null, false);
+			//updateDriverResponse = HelperCommon.updateDriver(policyNumber, viewEndorsementDriversResponse.driverList.get(1).oid, updateDriverRequest);
+			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TD", "false", viewEndorsementDriversResponse.driverList.get(1).oid);
+			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class,  Response.Status.OK.getStatusCode());
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
-			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), true, true, softly);
-			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), true, false, softly);
-			validateSelectedAndAvailableCoverages(false, viewEndorsementDriversResponse.driverList.get(2), null, null, softly);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), updateCoverageResponse, true, false, softly);
+
+			//Validate also driver 3, still have the same coverages and options
+			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+			viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), viewEndorsementCoverages, true, true, softly);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), viewEndorsementCoverages, true, false, softly);
+			validateSelectedAndAvailableCoverages(false, viewEndorsementDriversResponse.driverList.get(2), viewEndorsementCoverages, null, null, softly);
 
 			BigDecimal premiumAfterChangesDXP = new BigDecimal(HelperCommon.endorsementRate(policyNumber, 200)[0].termPremium);
 
@@ -1974,27 +2004,39 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			DriverTab.tableDriverList.selectRow(3);
 			validateSelectedCoveragesUIforNAFR(softly);
 
-			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
-			validateFormsTab(viewEndorsementDriversResponse.driverList, softly);
-
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 			BigDecimal premiumAfterChangesUI = new BigDecimal(PremiumAndCoveragesTab.getTotalTermPremium().toPlaingString());
-			premiumAndCoveragesTab.saveAndExit();
 			assertThat(premiumAfterChangesDXP).isEqualByComparingTo(premiumAfterChangesUI).isEqualByComparingTo(premiumBeforeChangesDXP).isEqualByComparingTo(premiumBeforeChangesUI);
+
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
+			validateFormsTab(viewEndorsementDriversResponse.driverList, softly);
+			formsTab.saveAndExit();
 
 			///////////////Nafr driver should not have option to select "Death Indemnity and Specific Disability" and "Total Disability" ////////////////
 			DriversDto addDriverResponse = addDriverWithChecks(policyNumber, softly);
 
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
-			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), false, null, softly);// added driver
+			viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), viewEndorsementCoverages, false, null, softly);// added driver
 
 			updateDriverMissingInfoWithChecks(policyNumber, addDriverResponse, softly);
 
-			updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(true, true);
-			updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
-			validateSelectedAndAvailableCoverages(true, updateDriverResponse.driver, true, true, softly);
+			//updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(true, true);
+			//updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
+			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("DISD", "true", viewEndorsementDriversResponse.driverList.get(0).oid);
+			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class,  Response.Status.OK.getStatusCode());
+			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), updateCoverageResponse, true, true, softly);
 
-			//doing change to nafr in pas as not possible with DXP
+			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TD", "true", viewEndorsementDriversResponse.driverList.get(0).oid);
+			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class,  Response.Status.OK.getStatusCode());
+			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), updateCoverageResponse, true, true, softly);
+
+			viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber);
+			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), viewEndorsementCoverages, true, true, softly);
+
+			//doing change to nafr in PAS as not possible with DXP
 			SearchPage.openPolicy(policyNumber);
 			PolicySummaryPage.buttonPendedEndorsement.click();
 			policy.dataGather().start();
@@ -2004,7 +2046,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			driverTab.saveAndExit();
 
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
-			validateSelectedAndAvailableCoverages(false, viewEndorsementDriversResponse.driverList.get(0), null, null, softly); //should be added driver
+			viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber);
+			validateSelectedAndAvailableCoverages(false, viewEndorsementDriversResponse.driverList.get(0), viewEndorsementCoverages, null, null, softly); //should be added driver
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
 	}
@@ -2012,19 +2055,22 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	private DriversDto addDriverWithChecks(String policyNumber, ETCSCoreSoftAssertions softly) {
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Jarred", "", "Benjami", "1960-02-08", "I");
 		DriversDto addDriverResponse = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class, 201);
-		validateSelectedAndAvailableCoverages(true, addDriverResponse, false, null, softly);
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber);
+		validateSelectedAndAvailableCoverages(true, addDriverResponse, viewEndorsementCoverages, false, null, softly);
 		return addDriverResponse;
 	}
 
 	private void updateDriverMissingInfoWithChecks(String policyNumber, DriversDto addDriverResponse, ETCSCoreSoftAssertions softly) {
 		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "P95867586", 18, "VA", "CH", "MSS");
 		DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
-		validateSelectedAndAvailableCoverages(true, updateDriverResponse.driver, false, null, softly);
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber);
+		validateSelectedAndAvailableCoverages(true, updateDriverResponse.driver, viewEndorsementCoverages, false, null, softly);
 	}
 
 	private void validateSelectedCoveragesUI(boolean deathIndemnityAndSpecificDisabilityExpected, boolean totalDisabilityExpected, ETCSCoreSoftAssertions softly) {
-		//Make sure that there are no mistakes in test and we are not expecting totalDisability to be selected without deathIndemnityAndSpecificDisability ( if deathIndemnityAndSpecificDisability ="No",
-		// then totalDisabilityExpected is not displayed )
+		/*The first IF makes sure that there are no mistakes in test and we are not expecting totalDisability to be selected without
+		 deathIndemnityAndSpecificDisability (if deathIndemnityAndSpecificDisability ="No", then totalDisabilityExpected is not displayed)
+		*/
 		if (totalDisabilityExpected) {
 			softly.assertThat(deathIndemnityAndSpecificDisabilityExpected).isTrue();
 		}
@@ -2068,10 +2114,35 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		} else {
 			softly.assertThat(driver.availableCoverages).doesNotContain("totalDisability");
 		}
+	}
+
+	private void validateAvailableCoverages_pas17968(DriversDto driver, PolicyCoverageInfo driverCoverages, ETCSCoreSoftAssertions softly) {
+		//PAS-14650 deathAndSpecificDisability should be available for all afr drivers
+		if ("afr".equals(driver.driverType)) {
+			softly.assertThat(driverCoverages.driverCoverages.get(0).availableDrivers).contains(driver.oid); //coverages.get(0) should be deathAndSpecificDisability
+		} else {
+			softly.assertThat("nafr".equals(driver.driverType)).isTrue();
+			softly.assertThat(driverCoverages.driverCoverages.get(0).availableDrivers).doesNotContain(driver.oid); //coverages.get(0) should be deathAndSpecificDisability
+		}
+
+		//PAS-17050 totalDisability should be available only if deathAndSpecificDisability is selected
+		if (BooleanUtils.isTrue(driverCoverages.driverCoverages.get(0).currentlyAddedDrivers.contains(driver.oid))) { //coverages.get(0) should be deathAndSpecificDisability
+			softly.assertThat(driverCoverages.driverCoverages.get(1).availableDrivers).contains(driver.oid); //coverages.get(1) should be totalDisability
+		} else {
+			softly.assertThat(driverCoverages.driverCoverages.get(1).availableDrivers).doesNotContain(driver.oid); //coverages.get(1) should be totalDisability
+		}
 
 	}
 
-	private void validateSelectedCoverages(DriversDto driver, Boolean specificDisabilityIndExpected, Boolean totalDisabilityIndExpected, ETCSCoreSoftAssertions softly) {
+	private void validateCoverageDetails_pas17968(PolicyCoverageInfo driverCoverages) {
+		assertThat(driverCoverages.driverCoverages.get(0).coverageCd).isEqualTo("DISD");
+		assertThat(driverCoverages.driverCoverages.get(0).coverageDescription).isEqualTo("Death Indemnity and Specific Disability");
+
+		assertThat(driverCoverages.driverCoverages.get(1).coverageCd).isEqualTo("TD");
+		assertThat(driverCoverages.driverCoverages.get(1).coverageDescription).isEqualTo("Total Disability");
+	}
+
+	private void validateSelectedCoverages(DriversDto driver, PolicyCoverageInfo policyCoverageInfo, Boolean specificDisabilityIndExpected, Boolean totalDisabilityIndExpected, ETCSCoreSoftAssertions softly) {
 		softly.assertThat(driver.specificDisabilityInd).isEqualTo(specificDisabilityIndExpected);
 		softly.assertThat(driver.totalDisabilityInd).isEqualTo(totalDisabilityIndExpected);
 
@@ -2079,18 +2150,44 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		if (BooleanUtils.isTrue(driver.specificDisabilityInd)) {
 			softly.assertThat(totalDisabilityIndExpected).isNotNull();
 		}
+	}
+
+	private void validateSelectedCoverages_pas17968(DriversDto driver, PolicyCoverageInfo policyCoveragesInfo, Boolean specificDisabilityExpected, Boolean totalDisabilityExpected, ETCSCoreSoftAssertions softly) {
+
+		// specificDisability should never be false if  is totalDisability is selected. This makes sure that there are no mistake in test.
+		if (BooleanUtils.isTrue(totalDisabilityExpected)) {
+			softly.assertThat(specificDisabilityExpected).isTrue();
+		}
+
+		if (BooleanUtils.isTrue(specificDisabilityExpected)){
+			softly.assertThat(policyCoveragesInfo.driverCoverages.get(0).currentlyAddedDrivers).contains(driver.oid);
+		} else {
+			softly.assertThat(policyCoveragesInfo.driverCoverages.get(0).currentlyAddedDrivers).doesNotContain(driver.oid);
+		}
+
+		if (totalDisabilityExpected){
+			softly.assertThat(policyCoveragesInfo.driverCoverages.get(0).currentlyAddedDrivers).contains(driver.oid); // totalDisability can be selected only if specificDisability (coverages.get(0) is selected.
+			softly.assertThat(policyCoveragesInfo.driverCoverages.get(1).currentlyAddedDrivers).contains(driver.oid); //coverages.get(0) should be totalDisability
+		} else {
+			softly.assertThat(policyCoveragesInfo.driverCoverages.get(1).currentlyAddedDrivers).doesNotContain(driver.oid); //coverages.get(1) should be totalDisability
+		}
 
 	}
 
-	private void validateSelectedAndAvailableCoverages(boolean afrExpected, DriversDto driver, Boolean specificDisabilityIndExpected, Boolean totalDisabilityIndExpected, ETCSCoreSoftAssertions softly) {
+	private void validateSelectedAndAvailableCoverages(boolean afrExpected, DriversDto driver, PolicyCoverageInfo policyCoverageInfo, Boolean specificDisabilityIndExpected, Boolean totalDisabilityIndExpected, ETCSCoreSoftAssertions softly) {
 		if (afrExpected) {
 			softly.assertThat(driver.driverType).isEqualTo("afr");
 		} else {
 			softly.assertThat(driver.driverType).isEqualTo("nafr");
 		}
 
+		//validate that deathAndSpecificDisability and totalDisability details are correct and they are in correct order
+		validateCoverageDetails_pas17968(policyCoverageInfo);
+
+		validateAvailableCoverages_pas17968(driver, policyCoverageInfo, softly);
 		validateAvailableCoverages_pas14650_pas17050(driver, softly);
-		validateSelectedCoverages(driver, specificDisabilityIndExpected, totalDisabilityIndExpected, softly);
+		validateSelectedCoverages(driver, policyCoverageInfo, specificDisabilityIndExpected, totalDisabilityIndExpected, softly);
+		validateSelectedCoverages_pas17968(driver, policyCoverageInfo, specificDisabilityIndExpected, totalDisabilityIndExpected, softly);
 
 	}
 
@@ -2109,6 +2206,11 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			}
 		}
 
+	}
+
+	private void validateFormsInPAndCTab(){
+		BigDecimal formTotalPremiumUI = new BigDecimal(PremiumAndCoveragesTab.tableFormsSummary.getRowContains("Forms", "PP 13 54").getCell("Term Premium").getValue());//TODO-mstrazds:get names from metadata
+		//TODO-mstrazds: get expeced value and compair with actual formTotalPremiumUI
 	}
 
 	private void validateThatDriverIsUpdated_pas14641(ETCSCoreSoftAssertions softly) {

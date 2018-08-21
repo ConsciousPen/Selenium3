@@ -33,4 +33,10 @@ public class Coverage {
 
 	public List<CoverageLimit> availableLimits;
 
+	@ApiModelProperty(value = "todo", readOnly = true)
+	public List<String> availableDrivers;
+
+	@ApiModelProperty(value = "todo", readOnly = true)
+	public List<String> currentlyAddedDrivers;
+
 }

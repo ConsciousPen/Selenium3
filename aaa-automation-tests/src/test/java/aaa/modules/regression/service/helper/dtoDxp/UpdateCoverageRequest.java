@@ -9,4 +9,7 @@ public class UpdateCoverageRequest implements RestBodyRequest {
 
 	@ApiModelProperty(value = "Limit Amount", example  = "500")
 	public String limit;
+
+	@ApiModelProperty(value = "OID", example = "moNsX3IYP-LrcTxUBUpGjQ")
+	public String driverOids;
 }
