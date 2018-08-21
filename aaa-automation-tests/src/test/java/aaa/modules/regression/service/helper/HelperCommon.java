@@ -391,6 +391,18 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, PolicyCoverageInfo.class);
 	}
 
+	public static <T> T viewEndorsementCoveragesByVehicle(String policyNumber, String newVehicleOid, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLE_OID_COVERAGES, policyNumber, newVehicleOid));
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.GET);
+	}
+
+	/**
+	 * @deprecated use {@link #viewEndorsementCoveragesByVehicle(String, String, Class, int)}
+	 */
+	@Deprecated
 	static PolicyCoverageInfo viewEndorsementCoveragesByVehicle(String policyNumber, String newVehicleOid) {
 		log.info("Update endorsement coverages by vehicle: policyNumber: " + policyNumber + ", newVehicleOid: " + newVehicleOid);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLE_OID_COVERAGES, policyNumber, newVehicleOid));
