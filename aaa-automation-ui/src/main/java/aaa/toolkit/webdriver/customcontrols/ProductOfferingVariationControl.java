@@ -1,5 +1,6 @@
 package aaa.toolkit.webdriver.customcontrols;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.Arrays;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByChained;
@@ -76,7 +77,7 @@ public class ProductOfferingVariationControl extends AssetList {
 		while (!isPresent() && btnAddAdditionalVariation.isPresent() && btnAddAdditionalVariation.isEnabled()) {
 			btnAddAdditionalVariation.click();
 		}
-		this.verify.present(String.format("Unable to add %s product offering variation.", getName()));
+		assertThat(this).as("Unable to add %s product offering variation.", getName()).isPresent();
 	}
 
 	public void removeVariation() {
