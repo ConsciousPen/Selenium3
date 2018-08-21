@@ -346,3 +346,10 @@ PAS-5260:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestReducedPremiumEndorsementKY.*]
       messages: ['Cannot transfer payment', 'is not present as expected']
+PAS-18165:
+  summary: "Earthquake Endorsement can be seen by non-privileged user on new business transaction"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestEarthquakeEndorsements.*]
+      messages: ['DS 04 69"))]])[1]} is not absent as expected.']
+
