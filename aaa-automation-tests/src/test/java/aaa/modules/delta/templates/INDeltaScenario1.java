@@ -82,8 +82,8 @@ public class INDeltaScenario1 extends BaseTest {
 				endorsementTab.fillTab(td_add_Forms);
 
 				softly.assertThat(endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312)).exists();
-				softly.assertThat(endorsementTab.isLinkEditPresent("HS 03 12")).isTrue();
-				softly.assertThat(endorsementTab.isLinkRemovePresent("HS 03 12")).isTrue();
+				softly.assertThat(endorsementTab.linkEdit("HS 03 12")).isPresent();
+				softly.assertThat(endorsementTab.linkRemove("HS 03 12")).isPresent();
 			} else if (getPolicyType().equals(PolicyType.HOME_SS_HO4) || getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
 				softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312)).isPresent(false);
 				softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493)).isPresent(false);
