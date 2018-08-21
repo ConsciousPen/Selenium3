@@ -18,7 +18,7 @@
             <class name="aaa.modules.e2e.home_ss.ho3.TestScenario8"/>
         </classes>
     </test>
-    <test name="CA Home E2E" parallel="none">
+    <test name="CA Home E2E" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.e2e.home_ss.ho3.TestScenario2"/>
@@ -31,7 +31,7 @@
             <class name="aaa.modules.e2e.home_ca.ho3.TestScenario13"/>
         </classes>
     </test>
-    <test name="UT Auto E2E" parallel="none">
+    <test name="UT Auto E2E" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.e2e.auto_ss.TestScenario2"/>
@@ -45,7 +45,7 @@
             <class name="aaa.modules.e2e.auto_ss.TestScenario15"/>
         </classes>
     </test>
-    <test name="CA Auto E2E" parallel="none">
+    <test name="CA Auto E2E" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.e2e.auto_ca.TestScenario1"/>
