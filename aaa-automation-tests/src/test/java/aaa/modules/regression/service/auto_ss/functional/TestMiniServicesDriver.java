@@ -616,7 +616,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050", "PAS-17968"})
 	public void pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC01(@Optional("VA") String state) {
 		pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC01Body();
 	}
@@ -655,7 +655,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050", "PAS-16913"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050", "PAS-16913", "PAS-17968"})
 	public void pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC02(@Optional("VA") String state) {
 		pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC02Body();
 	}
@@ -692,7 +692,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050", "PAS-17968"})
 	public void pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03(@Optional("VA") String state) {
 		pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03Body();
 	}
